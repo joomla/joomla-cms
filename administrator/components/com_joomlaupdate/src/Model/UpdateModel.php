@@ -1384,20 +1384,20 @@ ENDDATA;
         $query = $db->getQuery(true);
 
         $query->select(
-            $db->qn('ex.name') . ', ' .
-            $db->qn('ex.extension_id') . ', ' .
-            $db->qn('ex.manifest_cache') . ', ' .
-            $db->qn('ex.type') . ', ' .
-            $db->qn('ex.folder') . ', ' .
-            $db->qn('ex.element') . ', ' .
-            $db->qn('ex.client_id') . ', ' .
-            $db->qn('ex.package_id')
+            $db->quoteName('ex.name') . ', ' .
+            $db->quoteName('ex.extension_id') . ', ' .
+            $db->quoteName('ex.manifest_cache') . ', ' .
+            $db->quoteName('ex.type') . ', ' .
+            $db->quoteName('ex.folder') . ', ' .
+            $db->quoteName('ex.element') . ', ' .
+            $db->quoteName('ex.client_id') . ', ' .
+            $db->quoteName('ex.package_id')
         )->from(
-            $db->qn('#__extensions', 'ex')
+            $db->quoteName('#__extensions', 'ex')
         )->where(
-            $db->qn('ex.type') . ' = ' . $db->quote('plugin')
+            $db->quoteName('ex.type') . ' = ' . $db->quote('plugin')
         )->where(
-            $db->qn('ex.enabled') . ' = 1'
+            $db->quoteName('ex.enabled') . ' = 1'
         )->whereNotIn(
             $db->quoteName('ex.extension_id'),
             ExtensionHelper::getCoreExtensionIds()
@@ -1406,7 +1406,7 @@ ENDDATA;
         if (count($folderFilter) > 0) {
             $folderFilter = array_map(array($db, 'quote'), $folderFilter);
 
-            $query->where($db->qn('folder') . ' IN (' . implode(',', $folderFilter) . ')');
+            $query->where($db->quoteName('folder') . ' IN (' . implode(',', $folderFilter) . ')');
         }
 
         $db->setQuery($query);
@@ -1485,11 +1485,13 @@ ENDDATA;
         $query = $db->getQuery(true);
 
         $query->select(
-            $db->qn('us.type') . ', ' .
-            $db->qn('us.location') . ', ' .
-            $db->qn('e.element') . ' AS ' . $db->qn('ext_element') . ', ' .
-            $db->qn('e.type') . ' AS ' . $db->qn('ext_type') . ', ' .
-            $db->qn('e.folder') . ' AS ' . $db->qn('ext_folder')
+            [
+                $db->quoteName('us.type'),
+                $db->quoteName('us.location'),
+                $db->quoteName('e.element', 'ext_element'),
+                $db->quoteName('e.type', 'ext_type'),
+                $db->quoteName('e.folder', 'ext_folder')
+            ]
         )
             ->from($db->quoteName('#__update_sites', 'us'))
             ->join(
@@ -1668,16 +1670,16 @@ ENDDATA;
         $query = $db->getQuery(true);
 
         $query->select(
-            $db->qn(
+            $db->quoteName(
                 array(
                     'id',
                     'home'
                 )
             )
         )->from(
-            $db->qn('#__template_styles')
+            $db->quoteName('#__template_styles')
         )->where(
-            $db->qn('template') . ' = :template'
+            $db->quoteName('template') . ' = :template'
         )->bind(':template', $template, ParameterType::STRING);
 
         $templates = $db->setQuery($query)->loadObjectList();
@@ -1699,9 +1701,9 @@ ENDDATA;
             $query->select(
                 'COUNT(*)'
             )->from(
-                $db->qn('#__menu')
+                $db->quoteName('#__menu')
             )->whereIn(
-                $db->qn('template_style_id'),
+                $db->quoteName('template_style_id'),
                 $ids
             );
 

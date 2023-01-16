@@ -102,6 +102,7 @@
 			name="db_prefix"
 			type="installation.prefix"
 			label="INSTL_DATABASE_PREFIX_DESC"
+			description="INSTL_DATABASE_PREFIX_DUPLICATE_DESC"
 			class="form-control"
 			required="true"
 			validate="prefix"

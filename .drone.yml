@@ -373,8 +373,8 @@ steps:
       - name: reference
         path: /reference
     when:
-      branch:
-        - 4.3-dev
+      repo:
+        - joomla/joomla-cms
 
 ---
 kind: pipeline
@@ -389,7 +389,7 @@ steps:
       - mkdir -p transfer
       - date +%s > transfer/$MINORVERSION-time.txt
       - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
-      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --exclude-bzip2
+      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --exclude-bzip2 --disable-patch-packages
       - mv build/tmp/packages/* transfer/
 
   - name: upload
@@ -438,6 +438,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 2a769723f33fd72957407a2a37a28ec3d535be34ce6260765341ec4aed2ac8cf
+hmac: 01a0e22809d14e03a4fcd20ec19174350bee7571c7466d8a7acbfb8b7bf84ecf
 
 ...

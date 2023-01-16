@@ -28,7 +28,7 @@ use Joomla\CMS\Uri\Uri;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * View to edit a template style.
+ * View to edit a template.
  *
  * @since  1.6
  */

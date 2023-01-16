@@ -119,7 +119,7 @@ class BannersController extends AdminController
      *
      * @return  string  The JSON-encoded amount of published banners
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getQuickiconContent()
     {

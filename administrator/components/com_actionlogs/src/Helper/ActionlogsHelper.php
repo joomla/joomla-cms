@@ -287,11 +287,11 @@ class ActionlogsHelper
                     )
                 )
             )
-            ->from('#__extensions')
-            ->where('type = ' . $db->quote('plugin'))
-            ->where('folder = ' . $db->quote('actionlog'))
-            ->where('state IN (0,1)')
-            ->order('ordering');
+            ->from($db->quoteName('#__extensions'))
+            ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+            ->where($db->quoteName('folder') . ' = ' . $db->quote('actionlog'))
+            ->whereIn($db->quoteName('state'), [0, 1])
+            ->order($db->quoteName('ordering'));
         $db->setQuery($query);
 
         try {

@@ -144,10 +144,11 @@ class UserController extends BaseController
 
         // Check for a simple menu item id
         if (is_numeric($return)) {
-            $return = 'index.php?Itemid=' . $return;
+            $itemId = (int) $return;
+            $return = 'index.php?Itemid=' . $itemId;
 
             if (Multilanguage::isEnabled()) {
-                $language = $this->getModel('Login', 'Site')->getMenuLanguage($return);
+                $language = $this->getModel('Login', 'Site')->getMenuLanguage($itemId);
 
                 if ($language !== '*') {
                     $return .= '&lang=' . $language;
@@ -163,9 +164,7 @@ class UserController extends BaseController
         }
 
         // Show a message when a user is logged out.
-        if ($app->getIdentity()->guest) {
-            $app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGOUT_SUCCESS'), 'message');
-        }
+        $app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGOUT_SUCCESS'), 'message');
 
         // Redirect the user.
         $app->redirect(Route::_($return, false));

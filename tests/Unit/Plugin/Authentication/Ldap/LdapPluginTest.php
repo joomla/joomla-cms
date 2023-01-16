@@ -25,7 +25,7 @@ use Symfony\Component\Ldap\Ldap;
  *
  * @testdox     The Ldap plugin
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.3.0
  */
 class LdapPluginTest extends UnitTestCase
 {
@@ -88,7 +88,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function setUp(): void
     {
@@ -124,18 +124,18 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function tearDown(): void
     {
     }
 
     /**
-     * @testdox  can perform an authentication using anynomous search
+     * @testdox  can perform an authentication using anonymous search
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testOnUserAuthenticateAnonymousSearch()
     {
@@ -154,7 +154,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testOnUserAuthenticateDirect()
     {
@@ -172,7 +172,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testInvalidOnUserAuthenticateDirect()
     {
@@ -186,11 +186,11 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can perform an authentication using anynomous search
+     * @testdox  can perform an authentication using anonymous search
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testOnUserAuthenticateAnonymousSearchTLS()
     {
@@ -209,11 +209,11 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can perform an authentication using anynomous search
+     * @testdox  can perform an authentication using anonymous search
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testOnUserAuthenticateAnonymousSearchSSL()
     {
@@ -241,7 +241,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     /*
     public function testOnUserAuthenticateWithDebug()

@@ -49,6 +49,11 @@ class PlgContentLoadmodule extends CMSPlugin
             return;
         }
 
+        // Only execute if $article is an object and has a text property
+        if (!is_object($article) || !property_exists($article, 'text')) {
+            return;
+        }
+
         // Simple performance check to determine whether bot should process further
         if (strpos($article->text, 'loadposition') === false && strpos($article->text, 'loadmodule') === false) {
             return;

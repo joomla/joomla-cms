@@ -376,10 +376,10 @@ class ModulesModel extends ListModel
 
                 // Filter by modules assigned to the selected menu item.
                 $query->where('(
-					(' . $subQuery1 . ') = 0
-					OR ((' . $subQuery1 . ') > 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery2 . '))
-					OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' NOT IN (' . $subQuery3 . '))
-					)');
+                    (' . $subQuery1 . ') = 0
+                    OR ((' . $subQuery1 . ') > 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery2 . '))
+                    OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' NOT IN (' . $subQuery3 . '))
+                    )');
                 $query->bind(':menuitemid2', $menuItemId, ParameterType::INTEGER);
                 $query->bind(':menuitemid3', $minusMenuItemId, ParameterType::INTEGER);
             }

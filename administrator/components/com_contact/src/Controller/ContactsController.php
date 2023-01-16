@@ -128,7 +128,7 @@ class ContactsController extends AdminController
      *
      * @return  string  The JSON-encoded amount of published contacts
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getQuickiconContent()
     {

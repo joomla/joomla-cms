@@ -442,9 +442,9 @@ trait MultiFactorAuthenticationHandler
             $method = 'emergencycodes';
             $userId = $user->id;
             $query  = $db->getQuery(true)
-                ->delete($db->qn('#__user_mfa'))
-                ->where($db->qn('user_id') . ' = :user_id')
-                ->where($db->qn('method') . ' = :method')
+                ->delete($db->quoteName('#__user_mfa'))
+                ->where($db->quoteName('user_id') . ' = :user_id')
+                ->where($db->quoteName('method') . ' = :method')
                 ->bind(':user_id', $userId, ParameterType::INTEGER)
                 ->bind(':method', $method);
             $db->setQuery($query)->execute();
