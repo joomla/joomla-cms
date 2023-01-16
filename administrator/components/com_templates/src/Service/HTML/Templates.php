@@ -147,7 +147,7 @@ class Templates
 
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
-                $template->name . '-Modal',
+                $template->element . '-Modal',
                 array(
                     'title'  => Text::sprintf('COM_TEMPLATES_SCREENSHOT', ucfirst($template->name)),
                     'height' => '500px',
