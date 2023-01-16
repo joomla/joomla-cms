@@ -19,9 +19,3 @@ div.phpdebugbar-header, a.phpdebugbar-restore-btn {
   background-color: var(--alert-bg);
   border-color: var(--alert-border-color);
 }
-
-.phpdebugbar-widgets-languageFiles .alert-warning {
-  color: var(--alert-warning);
-  background-color: var(--warning-bg);
-  border-color: var(--alert-border-color);
-}
