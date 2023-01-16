@@ -323,7 +323,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($this->type === 'home') {
-            $toolbar->cancel('template.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('template.cancel');
         } else {
             $toolbar->cancel('template.close', 'COM_TEMPLATES_BUTTON_CLOSE_FILE');
         }
