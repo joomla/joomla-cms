@@ -11,8 +11,8 @@
 	<description>PLG_MODULE_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\EditorsXtd\Module</namespace>
 	<files>
-		<folder>services</folder>
-		<folder plugin="module">src</folder>
+		<folder plugin="module">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_editors-xtd_module.ini</language>

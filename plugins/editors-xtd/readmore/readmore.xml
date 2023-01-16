@@ -11,8 +11,8 @@
 	<description>PLG_READMORE_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\EditorsXtd\ReadMore</namespace>
 	<files>
-		<folder>services</folder>
-		<folder plugin="readmore">src</folder>
+		<folder plugin="readmore">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_editors-xtd_readmore.ini</language>

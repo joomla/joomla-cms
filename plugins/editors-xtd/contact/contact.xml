@@ -11,8 +11,8 @@
 	<description>PLG_EDITORS-XTD_CONTACT_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\EditorsXtd\Contact</namespace>
 	<files>
-		<folder>services</folder>
-		<folder plugin="contact">src</folder>
+		<folder plugin="contact">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_editors-xtd_contact.ini</language>

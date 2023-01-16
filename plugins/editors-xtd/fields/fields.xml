@@ -11,8 +11,8 @@
 	<description>PLG_EDITORS-XTD_FIELDS_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\EditorsXtd\Fields</namespace>
 	<files>
-		<folder>services</folder>
-		<folder plugin="fields">src</folder>
+		<folder plugin="fields">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_editors-xtd_fields.ini</language>

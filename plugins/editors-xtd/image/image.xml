@@ -11,8 +11,8 @@
 	<description>PLG_IMAGE_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\EditorsXtd\Image</namespace>
 	<files>
-		<folder>services</folder>
-		<folder plugin="image">src</folder>
+		<folder plugin="image">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_editors-xtd_image.ini</language>

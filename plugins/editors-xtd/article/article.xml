@@ -11,8 +11,8 @@
 	<description>PLG_ARTICLE_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\EditorsXtd\Article</namespace>
 	<files>
-		<folder>services</folder>
-		<folder plugin="article">src</folder>
+		<folder plugin="article">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_editors-xtd_article.ini</language>
