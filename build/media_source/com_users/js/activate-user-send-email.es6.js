@@ -4,14 +4,14 @@
  */
 
 if (!Joomla) {
-  throw new Error("Joomla API was not properly initialized");
+  throw new Error('Joomla API was not properly initialized');
 }
 
-const button = document.querySelector(".activate-send-mail");
+const button = document.querySelector('.activate-send-mail');
 
 if (button && Object.keys(button.dataset).length !== 0) {
-  button.addEventListener("click", () => {
-    button.querySelector("span").className = "icon-spinner";
+  button.addEventListener('click', () => {
+    button.querySelector('span').className = 'icon-spinner';
     button.disabled = true;
 
     const queryString = Object.keys(button.dataset)
@@ -19,23 +19,23 @@ if (button && Object.keys(button.dataset).length !== 0) {
         a.push(`${k}=${encodeURIComponent(button.dataset[k])}`);
         return a;
       }, [])
-      .join("&");
+      .join('&');
 
     const url = `index.php?${queryString}`;
 
     Joomla.request({
       url,
-      method: "GET",
+      method: 'GET',
 
       onSuccess: (resp) => {
         let response;
         try {
           response = JSON.parse(resp);
         } catch (error) {
-          button.classList.add("error");
+          button.classList.add('error');
         }
 
-        button.querySelector("span").className = "icon-mail";
+        button.querySelector('span').className = 'icon-mail';
         button.disabled = false;
 
         if (response.messages) {
@@ -43,8 +43,8 @@ if (button && Object.keys(button.dataset).length !== 0) {
         }
       },
       onError: (resp) => {
-        response = JSON.parse(resp);
-        button.classList.add("error");
+        const response = JSON.parse(resp);
+        button.classList.add('error');
         if (response.messages) {
           Joomla.renderMessages(response.messages);
         }
