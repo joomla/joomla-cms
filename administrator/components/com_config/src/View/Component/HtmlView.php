@@ -117,7 +117,7 @@ class HtmlView extends BaseHtmlView
         $toolbar->divider();
         $toolbar->save('component.save');
         $toolbar->divider();
-        $toolbar->cancel('component.cancel', 'JTOOLBAR_CLOSE');
+        $toolbar->cancel('component.cancel');
         $toolbar->divider();
 
         $inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false;
