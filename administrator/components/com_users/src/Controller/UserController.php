@@ -164,7 +164,7 @@ class UserController extends FormController
     }
 
     /**
-     * Get the XHR request for active a user
+     * Get the XHR request to activate a user
      *
      * @return void
      *
