@@ -467,7 +467,7 @@ class UserModel extends AdminModel
      *
      * @return  boolean  True on success.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   1.6
      * @throws  \Exception
      */
     public function activate(&$pks)
