@@ -483,8 +483,7 @@ class UserModel extends AdminModel
         $pks           = (array) $pks;
 
         // Compile the user activated notification mail values.
-        $sendMailTo    = function ($userMail) use ($app)
-        {
+        $sendMailTo    = function ($userMail) use ($app) {
             $mailData             = [];
             $mailData['fromname'] = $app->get('fromname');
             $mailData['mailfrom'] = $app->get('mailfrom');
