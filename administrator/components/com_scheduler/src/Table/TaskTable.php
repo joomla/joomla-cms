@@ -173,7 +173,7 @@ class TaskTable extends Table
      *
      * @since   4.1.0
      */
-    public function bind($src, $ignore = array()): bool
+    public function bind($src, $ignore = []): bool
     {
         $fields = ['next_execution'];
 
@@ -217,7 +217,7 @@ class TaskTable extends Table
         if (!empty($pks)) {
             foreach ($pks as $key => $pk) {
                 if (!\is_array($pk)) {
-                    $pks[$key] = array($this->_tbl_key => $pk);
+                    $pks[$key] = [$this->_tbl_key => $pk];
                 }
             }
         }

@@ -98,7 +98,7 @@ class Token
      * @var    array
      * @since  3.8.12
      */
-    public $matches = array();
+    public $matches = [];
 
     /**
      * Is derived token (from individual words)
@@ -137,7 +137,7 @@ class Token
         if (is_array($term)) {
             // Populate the token instance.
             $this->term = implode($spacer, $term);
-            $this->stem = implode($spacer, array_map(array(Helper::class, 'stem'), $term, array($lang)));
+            $this->stem = implode($spacer, array_map([Helper::class, 'stem'], $term, [$lang]));
             $this->numeric = false;
             $this->common = false;
             $this->phrase = true;

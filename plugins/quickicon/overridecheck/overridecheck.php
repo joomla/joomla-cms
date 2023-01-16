@@ -66,15 +66,15 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
     public function onGetIcons($context)
     {
         if ($context !== $this->params->get('context', 'update_quickicon') || !$this->app->getIdentity()->authorise('core.manage', 'com_templates')) {
-            return array();
+            return [];
         }
 
         $token    = Session::getFormToken() . '=1';
-        $options  = array(
+        $options  = [
             'url'      => Uri::base() . 'index.php?option=com_templates&view=templates',
             'ajaxUrl'  => Uri::base() . 'index.php?option=com_templates&view=templates&task=template.ajax&' . $token,
             'pluginId' => $this->getOverridePluginId(),
-        );
+        ];
 
         $this->app->getDocument()->addScriptOptions('js-override-check', $options);
 
@@ -86,16 +86,16 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
         $this->app->getDocument()->getWebAssetManager()
             ->registerAndUseScript('plg_quickicon_overridecheck', 'plg_quickicon_overridecheck/overridecheck.js', [], ['defer' => true], ['core']);
 
-        return array(
-            array(
+        return [
+            [
                 'link'  => 'index.php?option=com_templates&view=templates',
                 'image' => 'icon-file',
                 'icon'  => '',
                 'text'  => Text::_('PLG_QUICKICON_OVERRIDECHECK_CHECKING'),
                 'id'    => 'plg_quickicon_overridecheck',
                 'group' => 'MOD_QUICKICON_MAINTENANCE',
-            ),
-        );
+            ],
+        ];
     }
 
     /**

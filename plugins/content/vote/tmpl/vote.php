@@ -29,7 +29,7 @@ $uri = clone Uri::getInstance();
 $uri->setVar('hitcount', '0');
 
 // Create option list for voting select box
-$options = array();
+$options = [];
 
 for ($i = 1; $i < 6; $i++) {
     $options[] = HTMLHelper::_('select.option', $i, Text::sprintf('PLG_VOTE_VOTE', $i));
