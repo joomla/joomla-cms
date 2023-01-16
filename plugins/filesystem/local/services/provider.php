@@ -34,11 +34,10 @@ return new class implements ServiceProviderInterface
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
-
                 $plugin     = new Local(
-                    $dispatcher,
-                    (array) PluginHelper::getPlugin('filesystem', 'local')
+                    $container->get(DispatcherInterface::class),
+                    (array) PluginHelper::getPlugin('filesystem', 'local'),
+                    JPATH_ROOT
                 );
                 $plugin->setApplication(Factory::getApplication());
 

@@ -13,6 +13,7 @@ namespace Joomla\Plugin\Filesystem\Local\Extension;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -35,6 +36,29 @@ final class Local extends CMSPlugin implements ProviderInterface
      * @since  4.0.0
      */
     protected $autoloadLanguage = true;
+    /**
+     * The root directory path
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    private $rootDirectory;
+
+    /**
+     * Constructor.
+     *
+     * @param   DispatcherInterface  $dispatcher     The dispatcher
+     * @param   array                $config         An optional associative array of configuration settings
+     * @param   string               $rootDirectory  The root directory to look for images
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct(DispatcherInterface $dispatcher, array $config, string $rootDirectory)
+    {
+        parent::__construct($dispatcher, $config);
+
+        $this->rootDirectory = $rootDirectory;
+    }
 
     /**
      * Setup Providers for Local Adapter
@@ -94,7 +118,7 @@ final class Local extends CMSPlugin implements ProviderInterface
 
         foreach ($directories as $directoryEntity) {
             if ($directoryEntity->directory) {
-                $directoryPath = JPATH_ROOT . '/' . $directoryEntity->directory;
+                $directoryPath = $this->rootDirectory . '/' . $directoryEntity->directory;
                 $directoryPath = rtrim($directoryPath) . '/';
 
                 $adapter = new LocalAdapter($directoryPath, $directoryEntity->directory);

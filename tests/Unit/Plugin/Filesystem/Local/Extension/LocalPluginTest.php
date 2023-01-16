@@ -10,6 +10,7 @@
 
 namespace Joomla\Tests\Unit\Plugin\Filesystem\Local\Extension;
 
+use InvalidArgumentException;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Language\Language;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
@@ -41,7 +42,7 @@ class LocalPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
-        $plugin = new Local($dispatcher, ['name' => 'test']);
+        $plugin = new Local($dispatcher, ['name' => 'test'], __DIR__);
 
         $this->assertEquals('test', $plugin->getID());
     }
@@ -63,7 +64,7 @@ class LocalPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Local($dispatcher, []);
+        $plugin = new Local($dispatcher, [], __DIR__);
         $plugin->setApplication($app);
 
         $this->assertEquals('test', $plugin->getDisplayName());
@@ -85,7 +86,7 @@ class LocalPluginTest extends UnitTestCase
         $event = new MediaProviderEvent('test');
         $event->setProviderManager($manager);
 
-        $plugin = new Local($dispatcher, ['name' => 'test']);
+        $plugin = new Local($dispatcher, ['name' => 'test'], __DIR__);
         $plugin->onSetupProviders($event);
 
         $this->assertEquals(['test' => $plugin], $manager->getProviders());
@@ -103,10 +104,26 @@ class LocalPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
-        $plugin = new Local($dispatcher, ['params' => ['directories' => '[{"directory": "media"}]']]);
+        $plugin = new Local($dispatcher, ['params' => ['directories' => '[{"directory": "tests"}]']], JPATH_ROOT);
         $adapters = $plugin->getAdapters();
 
         $this->assertCount(1, $adapters);
-        $this->assertEquals('media', $adapters['media']->getAdapterName());
+        $this->assertEquals('tests', $adapters['tests']->getAdapterName());
+    }
+
+    /**
+     * @testdox  throws an Exception when an invalid directory
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function testAdaptersInvalidDirectoy()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $dispatcher = new Dispatcher();
+
+        $plugin = new Local($dispatcher, ['params' => ['directories' => '[{"directory": "invalid"}]']], __DIR__);
+        $plugin->getAdapters();
     }
 }
