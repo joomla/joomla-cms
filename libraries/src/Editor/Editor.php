@@ -94,12 +94,10 @@ class Editor implements DispatcherAwareInterface
         $this->getDispatcher()->addListener(
             'getButtons',
             function (AbstractEvent $event) {
-                $editor = $event->getArgument('editor', null);
-                $buttons = $event->getArgument('buttons', null);
-                $result = $event->getArgument('result', []);
-                $newResult = $this->getButtons($editor, $buttons);
-                $newResult = (array) $newResult;
-                $event['result'] = array_merge($result, $newResult);
+                $event['result'] = (array) $this->getButtons(
+                    $event->getArgument('editor', null),
+                    $event->getArgument('buttons', null)
+                );
             }
         );
     }
