@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Extension;
 
 use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -19,15 +20,21 @@ use Joomla\Event\DispatcherAwareInterface;
  * Access to plugin specific services.
  *
  * @since  4.0.0
+ *
+ * @todo  In 6.0 class will no longer extend DispatcherAwareInterface
  */
 interface PluginInterface extends DispatcherAwareInterface
 {
     /**
      * Registers its listeners.
      *
+     * @param   ?DispatcherInterface  Dispatcher instance to register listeners with
+     *
      * @return  void
      *
      * @since   4.0.0
+     *
+     * @todo  In 6.0 $dispatcher argument will no longer be nullable
      */
-    public function registerListeners();
+    public function registerListeners(?DispatcherInterface $dispatcher = null);
 }

@@ -139,16 +139,17 @@ abstract class PluginHelper
      * Loads all the plugin files for a particular type if no specific plugin is specified
      * otherwise only the specific plugin is loaded.
      *
-     * @param   string               $type        The plugin type, relates to the subdirectory in the plugins directory.
-     * @param   string               $plugin      The plugin name.
-     * @param   boolean              $autocreate  Autocreate the plugin.
-     * @param   DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+     * @param   string                $type        The plugin type, relates to the subdirectory in the plugins directory.
+     * @param   ?string               $plugin      The plugin name to import a specific plugin or null to import all plugins in group.
+     * @param   boolean               $autocreate  Whether to register listeners with the event dispatcher.
+     * @param   ?DispatcherInterface  $dispatcher  The event dispatcher. In 6.0 this will be required.
      *
      * @return  boolean  True on success.
      *
      * @since   1.5
+     * @todo    Arguments will not be optional in 6.0.
      */
-    public static function importPlugin($type, $plugin = null, $autocreate = true, DispatcherInterface $dispatcher = null)
+    public static function importPlugin($type, $plugin = null, $autocreate = true, ?DispatcherInterface $dispatcher = null)
     {
         static $loaded = [];
 
@@ -160,10 +161,21 @@ abstract class PluginHelper
         }
 
         // Ensure we have a dispatcher now so we can correctly track the loaded plugins
-        $dispatcher = $dispatcher ?: Factory::getApplication()->getDispatcher();
+        if ($dispatcher === null) {
+            @trigger_error(
+                sprintf('Passing an instance of %1$s to %2$s() will be required in 6.0', DispatcherInterface::class, __METHOD__),
+                \E_USER_DEPRECATED
+            );
+
+            try {
+                $dispatcher = Factory::getApplication()->getDispatcher();
+            } catch (\UnexpectedValueException) {
+                $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+            }
+        }
 
         // Get the dispatcher's hash to allow plugins to be registered to unique dispatchers
-        $dispatcherHash = spl_object_hash($dispatcher);
+        $dispatcherHash = spl_object_id($dispatcher);
 
         if (!isset($loaded[$dispatcherHash])) {
             $loaded[$dispatcherHash] = [];
@@ -197,20 +209,34 @@ abstract class PluginHelper
     /**
      * Loads the plugin file.
      *
-     * @param   object               $plugin      The plugin.
-     * @param   boolean              $autocreate  True to autocreate.
-     * @param   DispatcherInterface  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+     * @param   object                $plugin      The plugin.
+     * @param   boolean               $autocreate  Whether to register listeners with the event dispatcher.
+     * @param   ?DispatcherInterface  $dispatcher  The event dispatcher. In 6.0 this will be required.
      *
      * @return  void
      *
      * @since   3.2
+     * @todo    Arguments will not be optional in 6.0.
      */
-    protected static function import($plugin, $autocreate = true, DispatcherInterface $dispatcher = null)
+    protected static function import($plugin, $autocreate = true, ?DispatcherInterface $dispatcher = null)
     {
         static $plugins = [];
 
+        if ($dispatcher === null) {
+            @trigger_error(
+                sprintf('Passing an instance of %1$s to %2$s() will be required in 6.0', DispatcherInterface::class, __METHOD__),
+                \E_USER_DEPRECATED
+            );
+
+            try {
+                $dispatcher = Factory::getApplication()->getDispatcher();
+            } catch (\UnexpectedValueException) {
+                $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+            }
+        }
+
         // Get the dispatcher's hash to allow paths to be tracked against unique dispatchers
-        $hash = spl_object_hash($dispatcher) . $plugin->type . $plugin->name;
+        $hash = spl_object_id($dispatcher) . $plugin->type . $plugin->name;
 
         if (\array_key_exists($hash, $plugins)) {
             return;
@@ -220,7 +246,8 @@ abstract class PluginHelper
 
         $plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
-        if ($dispatcher && $plugin instanceof DispatcherAwareInterface) {
+        // @todo remove this in 6.0.
+        if ($plugin instanceof DispatcherAwareInterface) {
             $plugin->setDispatcher($dispatcher);
         }
 
@@ -228,7 +255,7 @@ abstract class PluginHelper
             return;
         }
 
-        $plugin->registerListeners();
+        $plugin->registerListeners($dispatcher);
     }
 
     /**
