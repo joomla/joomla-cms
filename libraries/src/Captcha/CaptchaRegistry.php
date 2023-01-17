@@ -92,15 +92,14 @@ class CaptchaRegistry implements DispatcherAwareInterface
     /**
      * Register element in registry, add new or override existing.
      *
-     * @param   string  $name
      * @param   CaptchaProviderInterface $instance
      *
      * @return  static
      * @since    __DEPLOY_VERSION__
      */
-    public function set(string $name, CaptchaProviderInterface $instance)
+    public function add(CaptchaProviderInterface $instance)
     {
-        $this->registry[$name] = $instance;
+        $this->registry[$instance->getName()] = $instance;
 
         return $this;
     }

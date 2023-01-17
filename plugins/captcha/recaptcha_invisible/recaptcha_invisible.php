@@ -68,8 +68,7 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin implements SubscriberInter
         /** @var CaptchaRegistry $subject */
         $subject = $event['subject'];
 
-        $captcha = new InvisibleCaptchaProvider($this->params, $this->app);
-        $subject->set($captcha->getName(), $captcha);
+        $subject->add(new InvisibleCaptchaProvider($this->params, $this->app));
     }
 
     /**
