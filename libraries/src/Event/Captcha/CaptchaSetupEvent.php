@@ -18,7 +18,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
  *
  * @since   __DEPLOY_VERSION__
  */
-class CaptchaSetupEvent  extends AbstractImmutableEvent
+class CaptchaSetupEvent extends AbstractImmutableEvent
 {
     /**
      * Constructor.

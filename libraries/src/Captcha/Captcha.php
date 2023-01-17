@@ -86,7 +86,6 @@ class Captcha implements DispatcherAwareInterface
         if ($registry->has($captcha)) {
             $this->provider = $registry->get($captcha);
         } else {
-
             @trigger_error(
                 'Use of legacy Captcha is deprecated. Use onCaptchaSetup event to register your Captcha provider.',
                 E_USER_DEPRECATED
