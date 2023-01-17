@@ -99,6 +99,8 @@ class CaptchaRegistry implements DispatcherAwareInterface
      */
     public function add(CaptchaProviderInterface $instance)
     {
+        $this->initRegistry();
+
         $this->registry[$instance->getName()] = $instance;
 
         return $this;
@@ -112,12 +114,12 @@ class CaptchaRegistry implements DispatcherAwareInterface
     private function initRegistry()
     {
         if (!$this->initialised) {
+            $this->initialised = true;
+
             PluginHelper::importPlugin('captcha');
 
             $event = new CaptchaSetupEvent('onCaptchaSetup', ['subject' => $this]);
             $this->getDispatcher()->dispatch($event->getName(), $event);
         }
-
-        $this->initialised = true;
     }
 }
