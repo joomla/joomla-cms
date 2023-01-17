@@ -51,7 +51,7 @@
         const fancySelect = document.getElementById('jform_parent_id').closest('joomla-field-fancy-select');
 
         fancySelect.choicesInstance.clearChoices();
-        fancySelect.choicesInstance.setChoices([{ id: '1', text: Joomla.Text._('JGLOBAL_ROOT_PARENT') }],'id', 'text',  false);
+        fancySelect.choicesInstance.setChoices([{ id: '1', text: Joomla.Text._('JGLOBAL_ROOT_PARENT') }], 'id', 'text', false);
 
         data.forEach((value) => {
           const option = {};
