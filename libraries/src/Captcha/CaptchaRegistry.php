@@ -53,7 +53,7 @@ class CaptchaRegistry implements DispatcherAwareInterface
     {
         $this->initRegistry();
 
-        return $this->registry;
+        return array_values($this->registry);
     }
 
     /**
