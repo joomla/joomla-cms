@@ -15,8 +15,8 @@ table.phpdebugbar-widgets-languageFiles th {
 }
 
 .phpdebugbar-widgets-languageFiles .alert-success,
- .phpdebugbar-widgets-languageFiles .alert-warning {
-   color: var(--alert-color);
-   background-color: var(--alert-bg);
-   border-color: var(--alert-border-color);
- }
+.phpdebugbar-widgets-languageFiles .alert-warning {
+  color: var(--alert-color);
+  background-color: var(--alert-bg);
+  border-color: var(--alert-border-color);
+}
