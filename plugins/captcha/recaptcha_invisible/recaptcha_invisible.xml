@@ -12,6 +12,7 @@
 	<namespace path="src">Joomla\Plugin\Captcha\CaptchaInvisible</namespace>
 	<files>
 		<filename plugin="recaptcha_invisible">recaptcha_invisible.php</filename>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_captcha_recaptcha_invisible.ini</language>
