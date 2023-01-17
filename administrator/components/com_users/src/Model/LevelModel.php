@@ -78,12 +78,15 @@ class LevelModel extends AdminModel
             $tables = $db->getTableList();
             $prefix = $db->getPrefix();
 
+            // Collect tabkle names for error message
+            $inTables = [];
+
             foreach ($tables as $table) {
                 // Get all of the columns in the table
                 $fields = $db->getTableColumns($table);
 
                 /**
-                 * We are looking for the access field.  If custom tables are using something other
+                 * We are looking for the access field. If custom tables are using something other
                  * than the 'access' field they are on their own unfortunately.
                  * Also make sure the table prefix matches the live db prefix (eg, it is not a "bak_" table)
                  */
@@ -103,8 +106,10 @@ class LevelModel extends AdminModel
 
                     $this->levelsInUse = array_merge($this->levelsInUse, $values);
 
-                    // @todo Could assemble an array of the tables used by each view level list those,
-                    // giving the user a clue in the error where to look.
+                    // Check if the table uses this access level
+                    if (in_array($record->id, $values)) {
+                        $inTables[] = $table;
+                    }
                 }
             }
 
@@ -115,7 +120,7 @@ class LevelModel extends AdminModel
         }
 
         if (in_array($record->id, $this->levelsInUse)) {
-            $this->setError(Text::sprintf('COM_USERS_ERROR_VIEW_LEVEL_IN_USE', $record->id, $record->title));
+            $this->setError(Text::sprintf('COM_USERS_ERROR_VIEW_LEVEL_IN_USE', $record->id, $record->title, implode(', ', $inTables)));
 
             return false;
         }
