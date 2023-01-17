@@ -26,9 +26,9 @@ use Joomla\CMS\Plugin\CMSPlugin;
  */
 class PlgContentLoadmodule extends CMSPlugin
 {
-    protected static $modules = array();
+    protected static $modules = [];
 
-    protected static $mods = array();
+    protected static $mods = [];
 
     /**
      * Plugin that loads module positions within content
@@ -46,6 +46,11 @@ class PlgContentLoadmodule extends CMSPlugin
     {
         // Don't run this plugin when the content is being indexed
         if ($context === 'com_finder.indexer') {
+            return;
+        }
+
+        // Only execute if $article is an object and has a text property
+        if (!is_object($article) || !property_exists($article, 'text') || is_null($article->text)) {
             return;
         }
 
@@ -162,7 +167,7 @@ class PlgContentLoadmodule extends CMSPlugin
         $document = Factory::getDocument();
         $renderer = $document->loadRenderer('module');
         $modules  = ModuleHelper::getModules($position);
-        $params   = array('style' => $style);
+        $params   = ['style' => $style];
         ob_start();
 
         foreach ($modules as $module) {
@@ -200,7 +205,7 @@ class PlgContentLoadmodule extends CMSPlugin
             $mod  = ModuleHelper::getModule($name, $title);
         }
 
-        $params = array('style' => $style);
+        $params = ['style' => $style];
         ob_start();
 
         if ($mod->id) {
@@ -227,7 +232,7 @@ class PlgContentLoadmodule extends CMSPlugin
         $document = Factory::getDocument();
         $renderer = $document->loadRenderer('module');
         $modules  = ModuleHelper::getModuleById($id);
-        $params   = array('style' => 'none');
+        $params   = ['style' => 'none'];
         ob_start();
 
         if ($modules->id > 0) {

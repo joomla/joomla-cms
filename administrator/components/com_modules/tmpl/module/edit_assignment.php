@@ -89,7 +89,7 @@ $this->document->getWebAssetManager()
                             <li>
                                 <div class="treeselect-item">
                                     <?php
-                                    $uselessMenuItem = in_array($link->type, array('separator', 'heading', 'alias', 'url'));
+                                    $uselessMenuItem = in_array($link->type, ['separator', 'heading', 'alias', 'url']);
                                     $id = 'jform_menuselect';
                                     ?>
                                     <input type="checkbox" class="novalidate form-check-input" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : '';
@@ -98,7 +98,7 @@ $this->document->getWebAssetManager()
                                         <?php echo $link->text; ?>
                                         <?php if (Multilanguage::isEnabled() && $link->language != '' && $link->language != '*') : ?>
                                             <?php if ($link->language_image) : ?>
-                                                <?php echo HTMLHelper::_('image', 'mod_languages/' . $link->language_image . '.gif', $link->language_title, array('title' => $link->language_title), true); ?>
+                                                <?php echo HTMLHelper::_('image', 'mod_languages/' . $link->language_image . '.gif', $link->language_title, ['title' => $link->language_title], true); ?>
                                             <?php else : ?>
                                                 <?php echo '<span class="badge bg-secondary" title="' . $link->language_title . '">' . $link->language_sef . '</span>'; ?>
                                             <?php endif; ?>

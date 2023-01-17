@@ -71,7 +71,7 @@ class Editor implements DispatcherAwareInterface
      * @var    Editor[]
      * @since  2.5
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Constructor
@@ -140,7 +140,7 @@ class Editor implements DispatcherAwareInterface
         }
 
         if (method_exists($this->_editor, 'onInit')) {
-            \call_user_func(array($this->_editor, 'onInit'));
+            \call_user_func([$this->_editor, 'onInit']);
         }
     }
 
@@ -163,7 +163,7 @@ class Editor implements DispatcherAwareInterface
      *
      * @since   1.5
      */
-    public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
+    public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = [])
     {
         $this->asset = $asset;
         $this->author = $author;
@@ -193,7 +193,7 @@ class Editor implements DispatcherAwareInterface
         $args['author'] = $author;
         $args['params'] = $params;
 
-        return \call_user_func_array(array($this->_editor, 'onDisplay'), $args);
+        return \call_user_func_array([$this->_editor, 'onDisplay'], $args);
     }
 
     /**
@@ -209,7 +209,7 @@ class Editor implements DispatcherAwareInterface
      */
     public function getButtons($editor, $buttons = true)
     {
-        $result = array();
+        $result = [];
 
         if (\is_bool($buttons) && !$buttons) {
             return $result;
@@ -251,6 +251,8 @@ class Editor implements DispatcherAwareInterface
                 continue;
             }
 
+            $button->editor = $editor;
+
             $result[] = $button;
         }
 
@@ -266,7 +268,7 @@ class Editor implements DispatcherAwareInterface
      *
      * @since   1.5
      */
-    protected function _loadEditor($config = array())
+    protected function _loadEditor($config = [])
     {
         // Check whether editor is already loaded
         if ($this->_editor !== null) {
