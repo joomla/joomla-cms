@@ -60,7 +60,7 @@ final class InvisibleCaptchaProvider implements CaptchaProviderInterface
     }
 
     /**
-     * Return Captcha name
+     * Return Captcha name, CMD string.
      *
      * @return string
      * @since   __DEPLOY_VERSION__
