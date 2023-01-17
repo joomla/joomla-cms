@@ -120,7 +120,7 @@ class LevelModel extends AdminModel
         }
 
         if (in_array($record->id, $this->levelsInUse)) {
-            $this->setError(Text::sprintf('COM_USERS_ERROR_VIEW_LEVEL_IN_USE', $record->id, $record->title, implode(', ', $inTables)));
+            $this->setError(Text::sprintf('COM_USERS_ERROR_VIEW_LEVEL_IN_USE', $record->title, implode(', ', $inTables)));
 
             return false;
         }
