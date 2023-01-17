@@ -26,7 +26,7 @@ abstract class UiTab
      * @var    array  Array containing information for loaded files
      * @since  4.0.0
      */
-    protected static $loaded = array();
+    protected static $loaded = [];
 
     /**
      * Creates a core UI tab pane
@@ -38,9 +38,9 @@ abstract class UiTab
      *
      * @since   4.0.0
      */
-    public static function startTabSet($selector = 'myTab', $params = array())
+    public static function startTabSet($selector = 'myTab', $params = [])
     {
-        $sig = md5(serialize(array($selector, $params)));
+        $sig = md5(serialize([$selector, $params]));
 
         if (!isset(static::$loaded[__METHOD__][$sig])) {
             // Include the custom element

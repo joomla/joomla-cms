@@ -207,10 +207,10 @@ class HtmlView extends BaseHtmlView
                 // Categories store the images differently so lets re-map it so the display is correct
                 if ($itemElement->type_alias === 'com_content.category') {
                     $itemElement->core_images = json_encode(
-                        array(
+                        [
                             'image_intro' => $itemElement->core_params->get('image', ''),
                             'image_intro_alt' => $itemElement->core_params->get('image_alt', '')
-                        )
+                        ]
                     );
                 }
             }
@@ -334,9 +334,9 @@ class HtmlView extends BaseHtmlView
 
         if ($this->params->get('show_feed_link', 1) == 1) {
             $link    = '&format=feed&limitstart=';
-            $attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+            $attribs = ['type' => 'application/rss+xml', 'title' => 'RSS 2.0'];
             $this->document->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
-            $attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+            $attribs = ['type' => 'application/atom+xml', 'title' => 'Atom 1.0'];
             $this->document->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
         }
     }
@@ -350,7 +350,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function getTagsTitle()
     {
-        $tags_title = array();
+        $tags_title = [];
 
         if (!empty($this->item)) {
             $user   = $this->getCurrentUser();
