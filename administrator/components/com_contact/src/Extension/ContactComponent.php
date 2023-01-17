@@ -59,12 +59,6 @@ class ContactComponent extends MVCComponent implements
         CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
     }
 
-    /** @var array Supported functionality */
-    protected $supportedFunctionality = [
-        'core.featured' => true,
-        'core.state' => true,
-    ];
-
     /**
      * Booting the extension. This is the function to set up the environment of the extension like
      * registering new class loaders, etc.
