@@ -31,13 +31,13 @@ use Symfony\Component\Ldap\LdapInterface;
  */
 final class Ldap extends CMSPlugin
 {
-	/**
-	 * The ldap factory
-	 *
-	 * @var	   LdapFactoryInterface
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private $factory;
+    /**
+     * The ldap factory
+     *
+     * @var    LdapFactoryInterface
+     * @since  __DEPLOY_VERSION__
+     */
+    private $factory;
 
     /**
      * Constructor

@@ -34,7 +34,8 @@ class LdapFactory implements LdapFactoryInterface
      *
      * @throws  \Exception
      */
-    public function createLdap(array $config): LdapInterface {
+    public function createLdap(array $config): LdapInterface
+    {
         return Ldap::create('ext_ldap', $config);
     }
 }
