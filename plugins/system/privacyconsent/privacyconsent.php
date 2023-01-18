@@ -139,7 +139,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
         $form   = $this->app->input->post->get('jform', [], 'array');
 
         if (
-            $option == 'com_users' && in_array($task, array('registration.register', 'profile.save'))
+            $option == 'com_users' && in_array($task, ['registration.register', 'profile.save'])
             && empty($form['privacyconsent']['privacy'])
         ) {
             throw new InvalidArgumentException(Text::_('PLG_SYSTEM_PRIVACYCONSENT_FIELD_ERROR'));

@@ -74,7 +74,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
      *
      * @since  4.0.0
      */
-    private $userGroups = array();
+    private $userGroups = [];
 
     /**
      * Command constructor.
