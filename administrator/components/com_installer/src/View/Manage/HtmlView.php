@@ -96,8 +96,7 @@ class HtmlView extends InstallerViewDefault
             $toolbar->divider();
         }
 
-        $toolbar->standardButton('refresh', 'JTOOLBAR_REFRESH_CACHE')
-            ->task('manage.refresh')
+        $toolbar->standardButton('refresh', 'JTOOLBAR_REFRESH_CACHE', 'manage.refresh')
             ->listCheck(true);
         $toolbar->divider();
 
