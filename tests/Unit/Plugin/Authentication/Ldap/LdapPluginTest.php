@@ -356,7 +356,7 @@ class LdapPluginTest extends UnitTestCase
 
                             public function execute()
                             {
-                                if (!$this->hasEntry){
+                                if (!$this->hasEntry) {
                                     return [];
                                 }
 
