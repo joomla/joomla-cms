@@ -165,7 +165,7 @@ class UserController extends FormController
 
     /**
      * Get the XHR request to activate a user
-     * js: media/com_users/js/active-user-send-mail
+     * js: media/com_users/js/activate-user-send-email
      *
      * @return void
      *
