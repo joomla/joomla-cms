@@ -199,9 +199,8 @@ class HtmlView extends BaseHtmlView
         }
 
         if (!$this->isEmptyState && (!$state->get('filter.state') == -2 && $canDo->get('core.delete'))) {
-            $toolbar->confirmButton('delete', 'COM_REDIRECT_TOOLBAR_PURGE')
-                ->message('COM_REDIRECT_CONFIRM_PURGE')
-                ->task('links.purge');
+            $toolbar->confirmButton('delete', 'COM_REDIRECT_TOOLBAR_PURGE', 'links.purge')
+                ->message('COM_REDIRECT_CONFIRM_PURGE');
         }
 
         if ($canDo->get('core.create')) {
