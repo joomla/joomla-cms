@@ -43,8 +43,6 @@ class MenuParentField extends ListField
      */
     protected function getOptions()
     {
-        Text::script('JGLOBAL_ROOT_PARENT');
-
         $options = array();
 
         $db = $this->getDatabase();
