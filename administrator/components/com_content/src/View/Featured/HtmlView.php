@@ -185,7 +185,7 @@ class HtmlView extends BaseHtmlView
                     ->listCheck(true);
 
                 $childBar->archive('articles.archive')->listCheck(true);
-                $childBar->checkin('articles.checkin')->listCheck(true);
+                $childBar->checkin('articles.checkin');
 
                 if (!$this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED) {
                     $childBar->trash('articles.trash')->listCheck(true);
