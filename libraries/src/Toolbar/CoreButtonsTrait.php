@@ -135,7 +135,7 @@ trait CoreButtonsTrait
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function inlinehelp(string $class = "hide-aware-inline-help"): InlinehelpButton
+    public function inlinehelp(string $class = 'hide-aware-inline-help'): InlinehelpButton
     {
         return $this->inlinehelpButton('inlinehelp')
             ->targetclass($class)
