@@ -182,9 +182,10 @@ class HtmlView extends BaseHtmlView
             ToolbarHelper::cancel('user.cancel', 'JTOOLBAR_CLOSE');
         }
 
-        $userIsActive = empty($this->item->activation);
+        // Check lastvisitDate for allow resend the activation email
+        $userIsActive = (empty($this->item->activation) || \is_null($this->item->lastvisitDate));
 
-        if (!$userIsActive || \is_null($this->item->lastvisitDate)) {
+        if ($this->item->id > 0 && $userIsActive) {
             $buttonText = !$userIsActive
                 ? Text::_('COM_USERS_USER_ACTIVATE_AND_MAIL')
                 : Text::_('COM_USERS_USER_ACTIVATION_REMINDER');
