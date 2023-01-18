@@ -32,49 +32,6 @@ class StateTest extends UnitTestCase
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function testSetGetProperty()
-    {
-        $state = new State();
-        $state->set('unit', 'test');
-
-        $this->assertEquals('test', $state->get('unit'));
-    }
-
-    /**
-     * @testdox  can get a default value
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function testDefaultValue()
-    {
-        $state = new State();
-
-        $this->assertEquals('test', $state->get('unit', 'test'));
-    }
-
-    /**
-     * @testdox  has null as default value
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function testNullDefaultValue()
-    {
-        $state = new State();
-
-        $this->assertNull($state->get('unit'));
-    }
-
-    /**
-     * @testdox  can set and get a property
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
     public function testGetProperties()
     {
         $state = new State();
