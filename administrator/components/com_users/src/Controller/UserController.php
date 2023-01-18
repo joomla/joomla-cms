@@ -165,6 +165,7 @@ class UserController extends FormController
 
     /**
      * Get the XHR request to activate a user
+     * js: media/com_users/js/active-user-send-mail
      *
      * @return void
      *
@@ -172,24 +173,23 @@ class UserController extends FormController
      */
     public function active(): void
     {
-        // Get the ID of the user to send through media/com_users/js/active-user-send-mail
+        // Get the ID of the user
         $userId          = $this->input->getString('userid', '');
 
         // Prepare the default response
         $responseError   = false;
-        $responseData    = [$userId];
         $responseMessage = null;
 
         // Set the model
         $model           = $this->getModel('User', 'Administrator', []);
 
         // Activate the user and send the email
-        $responseError   = $model->activate($userId);
-
-        if (!$responseError) {
-            $responseMessage = $model->getError();
+        if (!$model->activate($userId)) {
+            $responseError = true;
         }
 
-        echo new JsonResponse($responseData, $responseMessage, $responseError);
+        $responseMessage = \Joomla\CMS\Factory::getApplication()->getMessageQueue();
+
+        echo new JsonResponse(null, $responseMessage, $responseError);
     }
 }

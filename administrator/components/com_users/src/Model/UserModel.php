@@ -472,27 +472,33 @@ class UserModel extends AdminModel
      */
     public function activate(&$pks)
     {
-        $app           = Factory::getApplication();
-        $user          = $app->getIdentity();
+        $app                  = Factory::getApplication();
+        $user                 = $app->getIdentity();
 
         // Check if I am a super admin
-        $iAmSuperAdmin = $user->authorise('core.admin');
+        $iAmSuperAdmin        = $user->authorise('core.admin');
 
         // Load user table
-        $table         = $this->getTable();
-        $pks           = (array) $pks;
+        $table                = $this->getTable();
+        $pks                  = (array) $pks;
 
-        // Compile the user activated notification mail values.
-        $sendMailTo    = function ($userMail) use ($app) {
-            $mailData             = [];
-            $mailData['fromname'] = $app->get('fromname');
-            $mailData['mailfrom'] = $app->get('mailfrom');
-            $mailData['sitename'] = $app->get('sitename');
-            $mailData['siteurl'] = \Joomla\CMS\Uri\Uri::base();
+        // Compile the user activated notification mail default values.
+        $mailData             = [];
+        $mailData['siteurl']  = \Joomla\CMS\Uri\Uri::root();
+        $mailData['fromname'] = $app->get('fromname');
+        $mailData['mailfrom'] = $app->get('mailfrom');
+        $mailData['sitename'] = $app->get('sitename');
+
+        // Load com_users site language strings, the mail template use it
+        $app->getLanguage()->load('com_users', JPATH_SITE);
+
+        $sendMailTo = function ($userData) use ($app, $mailData) {
+            $mailData['name']     = $userData['name'];
+            $mailData['username'] = $userData['username'];
 
             $mailer = new \Joomla\CMS\Mail\MailTemplate('com_users.registration.user.admin_activated', $app->getLanguage()->getTag());
             $mailer->addTemplateData($mailData);
-            $mailer->addRecipient($userMail);
+            $mailer->addRecipient($userData['email']);
 
             try {
                 $return = $mailer->send();
@@ -502,7 +508,7 @@ class UserModel extends AdminModel
 
                     $return = false;
                 } catch (\RuntimeException $exception) {
-                    $app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                    $app->enqueueMessage(Text::_($exception->errorMessage()), $app::MSG_WARNING);
 
                     $return = false;
                 }
@@ -510,10 +516,13 @@ class UserModel extends AdminModel
 
             // Check for an error.
             if ($return !== true) {
-                $this->setError(Text::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+                $app->enqueueMessage(Text::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'), $app::MSG_WARNING);
 
                 return false;
             }
+
+            $app->enqueueMessage(Text::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_SUCCESS'), $app::MSG_INFO);
+            return true;
         };
 
         PluginHelper::importPlugin($this->events_map['save']);
@@ -531,7 +540,7 @@ class UserModel extends AdminModel
                 // resend the notification email
                 if (empty($table->activation)) {
                     if (\is_null($table->lastvisitDate)) {
-                        $sendMailTo($prevUserData['email']);
+                        $sendMailTo($prevUserData);
                     }
 
                     unset($pks[$i]);
@@ -566,7 +575,9 @@ class UserModel extends AdminModel
                         Factory::getApplication()->triggerEvent($this->event_after_save, [$table->getProperties(), false, true, null]);
 
                         // Send the email
-                        $sendMailTo($prevUserData['email']);
+                        if (!$sendMailTo($prevUserData)) {
+                            return false;
+                        }
                     } catch (\Exception $e) {
                         $this->setError($e->getMessage());
 
