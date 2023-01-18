@@ -39,7 +39,7 @@ class State
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function get($key, $default = null)
+    public function get(string $key, $default = null)
     {
         if (isset($this->data[$key])) {
             return $this->data[$key];
@@ -58,7 +58,7 @@ class State
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function set($key, $value = null)
+    public function set(string $key, $value = null)
     {
         $this->data[$key] = $value;
     }
