@@ -9,70 +9,34 @@
 
 namespace Joomla\CMS\MVC\Model;
 
+use Joomla\Registry\Registry;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * A simple state holder class.
+ * A simple state holder class. This class acts for transition from CMSObject to Registry
+ * and should not be used directly. Instead of, use the Registry class.
  *
  * @since  __DEPLOY_VERSION__
+ *
+ * @deprecated  7.0 Use the Registry directly
  */
-class State
+class State extends Registry
 {
-    /**
-     * The data array.
-     *
-     * @var    array
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    private $data = [];
-
-    /**
-     * Returns a value of the state or the default value if the key is not available.
-     *
-     * @param   string  $key  The name of the key
-     * @param   mixed   $default   The default value
-     *
-     * @return  mixed   The value of the key
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function get(string $key, $default = null)
-    {
-        if (isset($this->data[$key])) {
-            return $this->data[$key];
-        }
-
-        return $default;
-    }
-
-    /**
-     * Modifies a value of the internal data storage for the given key.
-     *
-     * @param   string  $key    The name of the key.
-     * @param   mixed   $value  The value of the key to set.
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function set(string $key, $value = null)
-    {
-        $this->data[$key] = $value;
-    }
-
-    /**
+   /**
      * Returns an associative array of object properties.
      *
      * @return  array  The data array
      *
      * @since   __DEPLOY_VERSION__
+     *
+     * @deprecated  7.0 Use toArray instead
      */
     public function getProperties()
     {
-        return $this->data;
+        return $this->toArray();
     }
 
     /**
@@ -130,6 +94,6 @@ class State
     {
         @trigger_error(sprintf('Direct property access will not be supported in 7.0 in %s::%s.', __METHOD__, __CLASS__), E_USER_DEPRECATED);
 
-        return array_key_exists($name, $this->data);
+        return $this->exists($name);
     }
 }
