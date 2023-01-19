@@ -38,7 +38,7 @@ final class User extends FieldsPlugin
      */
     public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
     {
-        if ($this->app->isClient('site')) {
+        if ($this->getApplication()->isClient('site')) {
             // The user field is not working on the front end
             return;
         }

@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Fields.calendar
+ * @subpackage  Fields.list
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -36,7 +36,7 @@ final class ListPlugin extends FieldsListPlugin
      */
     public function onCustomFieldsBeforePrepareField($context, $item, $field)
     {
-        if (!$this->app->isClient('api')) {
+        if (!$this->getApplication()->isClient('api')) {
             return;
         }
 

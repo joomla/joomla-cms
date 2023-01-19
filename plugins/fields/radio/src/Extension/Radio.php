@@ -36,7 +36,7 @@ final class Radio extends FieldsListPlugin
      */
     public function onCustomFieldsBeforePrepareField($context, $item, $field)
     {
-        if (!$this->app->isClient('api')) {
+        if (!$this->getApplication()->isClient('api')) {
             return;
         }
 

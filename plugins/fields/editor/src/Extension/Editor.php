@@ -19,7 +19,7 @@ use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Fields editor Plugin
+ * Fields Editor Plugin
  *
  * @since  3.7.0
  */

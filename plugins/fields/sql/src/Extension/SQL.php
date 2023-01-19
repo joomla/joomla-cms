@@ -71,7 +71,7 @@ final class SQL extends FieldsListPlugin
         }
 
         // If we are not a super admin, don't let the user create or update a SQL field
-        if (!Access::getAssetRules(1)->allow('core.admin', $this->app->getIdentity()->getAuthorisedGroups())) {
+        if (!Access::getAssetRules(1)->allow('core.admin', $this->getApplication()->getIdentity()->getAuthorisedGroups())) {
             $item->setError($this->getApplication()->getLanguage()->_('PLG_FIELDS_SQL_CREATE_NOT_POSSIBLE'));
 
             return false;
