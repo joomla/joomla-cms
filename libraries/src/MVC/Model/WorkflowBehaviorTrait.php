@@ -83,7 +83,7 @@ trait WorkflowBehaviorTrait
         if (method_exists($this, 'getDatabase')) {
             $db = $this->getDatabase();
         } else {
-            @trigger_error('In Joomla 5 will the getDatabase function be mandatory.', E_USER_DEPRECATED);
+            @trigger_error('In Joomla 6.0 will the getDatabase function be mandatory.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseDriver::class);
         }
 
