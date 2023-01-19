@@ -321,7 +321,7 @@ Joomla.getMedia = (data, editor, fieldClass) => new Promise((resolve, reject) =>
   const url = new URL(Joomla.getOptions('media-picker-api').apiBaseUrl ? Joomla.getOptions('media-picker-api').apiBaseUrl : `${Joomla.getOptions('system.paths').baseFull}index.php?option=com_media&format=json`);
   url.searchParams.append('task', 'api.files');
   url.searchParams.append('url', true);
-  url.searchParams.append('path', encodeURIComponent(data.path));
+  url.searchParams.append('path', data.path);
   url.searchParams.append('mediatypes', '0,1,2,3');
   url.searchParams.append(Joomla.getOptions('csrf.token'), 1);
 
