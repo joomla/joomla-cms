@@ -21,6 +21,7 @@ $this->useCoreUI = true;
 
 Text::script('ERROR');
 Text::script('JGLOBAL_VALIDATION_FORM_FAILED');
+Text::script('JGLOBAL_ROOT_PARENT');
 
 $this->document->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
 
