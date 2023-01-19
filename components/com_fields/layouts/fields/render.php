@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 // Check if we have all the data
@@ -46,13 +48,28 @@ if (empty($fields)) {
 
 $output = array();
 
+// Organize the fields according to their group
+
+$groupFields = array(
+    0 => [],
+);
+
+$groupTitles = array(
+    0 => '',
+);
+
 foreach ($fields as $field) {
     // If the value is empty do nothing
     if (!isset($field->value) || trim($field->value) === '') {
         continue;
     }
 
-    $class = $field->name . ' ' . $field->params->get('render_class');
+    $class = $field->name;
+
+    if ($field->params->get('render_class')) {
+        $class .= ' ' . $field->params->get('render_class');
+    }
+
     $layout = $field->params->get('layout', 'render');
     $content = FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
 
@@ -61,7 +78,40 @@ foreach ($fields as $field) {
         continue;
     }
 
-    $output[] = '<li class="field-entry ' . $class . '">' . $content . '</li>';
+    if (!array_key_exists($field->group_id, $groupFields)) {
+        $groupFields[$field->group_id] = [];
+
+        if (Factory::getLanguage()->hasKey($field->group_title)) {
+            $groupTitles[$field->group_id] = Text::_($field->group_title);
+        } else {
+            $groupTitles[$field->group_id] = htmlentities($field->group_title, ENT_QUOTES | ENT_IGNORE, 'UTF-8');
+        }
+    }
+
+    $groupFields[$field->group_id][] = '<li class="field-entry ' . $class . '">' . $content . '</li>';
+}
+
+// Loop through the groups
+
+foreach ($groupFields as $group_id => $group_fields) {
+    if (!$group_fields) {
+        continue;
+    }
+
+    if ($groupTitles[$group_id]) {
+        $output[] = '<li class="field-group group-' . $group_id . '">';
+        $output[] = '<span id="group-' . $group_id . '">' . $groupTitles[$group_id] . '</span>';
+        $output[] = '<ul aria-labelledby="group-' . $group_id . '">';
+    }
+
+    foreach ($group_fields as $field) {
+        $output[] = $field;
+    }
+
+    if ($groupTitles[$group_id]) {
+        $output[] = '</ul>';
+        $output[] = '</li>';
+    }
 }
 
 if (empty($output)) {
