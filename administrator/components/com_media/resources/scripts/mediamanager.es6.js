@@ -29,34 +29,33 @@ window.MediaManager = window.MediaManager || {};
 window.MediaManager.Event = new Event();
 
 // Create the Vue app instance
-const app = createApp(App);
-app.use(store);
-app.use(translate);
+createApp(App)
+  .use(store)
+  .use(translate)
 
-// Register the vue components
-app.component('MediaDrive', Drive);
-app.component('MediaDisk', Disk);
-app.component('MediaTree', Tree);
-app.component('MediaToolbar', Toolbar);
-app.component('MediaBreadcrumb', Breadcrumb);
-app.component('MediaBrowser', Browser);
-app.component('MediaBrowserItem', BrowserItem);
-app.component('MediaBrowserItemRow', BrowserItemRow);
-app.component('MediaModal', Modal);
-app.component('MediaCreateFolderModal', CreateFolderModal);
-app.component('MediaPreviewModal', PreviewModal);
-app.component('MediaRenameModal', RenameModal);
-app.component('MediaShareModal', ShareModal);
-app.component('MediaConfirmDeleteModal', ConfirmDeleteModal);
-app.component('MediaInfobar', Infobar);
-app.component('MediaUpload', Upload);
-app.component('MediaBrowserActionItemToggle', Toggle);
-app.component('MediaBrowserActionItemPreview', Preview);
-app.component('MediaBrowserActionItemDownload', Download);
-app.component('MediaBrowserActionItemRename', Rename);
-app.component('MediaBrowserActionItemShare', Share);
-app.component('MediaBrowserActionItemDelete', Delete);
-app.component('MediaBrowserActionItemEdit', Edit);
-app.component('MediaBrowserActionItemsContainer', Container);
-
-app.mount('#com-media');
+  // Register the vue components
+  .component('MediaDrive', Drive)
+  .component('MediaDisk', Disk)
+  .component('MediaTree', Tree)
+  .component('MediaToolbar', Toolbar)
+  .component('MediaBreadcrumb', Breadcrumb)
+  .component('MediaBrowser', Browser)
+  .component('MediaBrowserItem', BrowserItem)
+  .component('MediaBrowserItemRow', BrowserItemRow)
+  .component('MediaModal', Modal)
+  .component('MediaCreateFolderModal', CreateFolderModal)
+  .component('MediaPreviewModal', PreviewModal)
+  .component('MediaRenameModal', RenameModal)
+  .component('MediaShareModal', ShareModal)
+  .component('MediaConfirmDeleteModal', ConfirmDeleteModal)
+  .component('MediaInfobar', Infobar)
+  .component('MediaUpload', Upload)
+  .component('MediaBrowserActionItemToggle', Toggle)
+  .component('MediaBrowserActionItemPreview', Preview)
+  .component('MediaBrowserActionItemDownload', Download)
+  .component('MediaBrowserActionItemRename', Rename)
+  .component('MediaBrowserActionItemShare', Share)
+  .component('MediaBrowserActionItemDelete', Delete)
+  .component('MediaBrowserActionItemEdit', Edit)
+  .component('MediaBrowserActionItemsContainer', Container)
+  .mount('#com-media');
