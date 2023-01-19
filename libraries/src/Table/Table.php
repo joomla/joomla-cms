@@ -33,6 +33,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.7.0
  */
+#[\AllowDynamicProperties]
 abstract class Table extends CMSObject implements TableInterface, DispatcherAwareInterface
 {
     use DispatcherAwareTrait;
@@ -731,7 +732,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         // Initialise the query.
         $query = $this->_db->getQuery(true)
             ->select('*')
-            ->from($this->_tbl);
+            ->from($this->_db->quoteName($this->_tbl));
         $fields = array_keys($this->getProperties());
 
         foreach ($keys as $field => $value) {
@@ -1038,7 +1039,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
         // Delete the row by primary key.
         $query = $this->_db->getQuery(true)
-            ->delete($this->_tbl);
+            ->delete($this->_db->quoteName($this->_tbl));
         $this->appendPrimaryKeys($query, $pk);
 
         $this->_db->setQuery($query);
@@ -1119,7 +1120,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
         // Check the row out by primary key.
         $query = $this->_db->getQuery(true)
-            ->update($this->_tbl)
+            ->update($this->_db->quoteName($this->_tbl))
             ->set($this->_db->quoteName($checkedOutField) . ' = ' . (int) $userId)
             ->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $this->_db->quote($time));
         $this->appendPrimaryKeys($query, $pk);
@@ -1200,7 +1201,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
         // Check the row in by primary key.
         $query = $this->_db->getQuery(true)
-            ->update($this->_tbl)
+            ->update($this->_db->quoteName($this->_tbl))
             ->set($this->_db->quoteName($checkedOutField) . ' = ' . $nullID)
             ->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $nullDate);
         $this->appendPrimaryKeys($query, $pk);
@@ -1246,7 +1247,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         } else {
             $query = $this->_db->getQuery(true)
                 ->select('COUNT(*)')
-                ->from($this->_tbl);
+                ->from($this->_db->quoteName($this->_tbl));
             $this->appendPrimaryKeys($query);
 
             $this->_db->setQuery($query);
@@ -1312,7 +1313,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
         // Check the row in by primary key.
         $query = $this->_db->getQuery(true)
-            ->update($this->_tbl)
+            ->update($this->_db->quoteName($this->_tbl))
             ->set($this->_db->quoteName($hitsField) . ' = (' . $this->_db->quoteName($hitsField) . ' + 1)');
         $this->appendPrimaryKeys($query, $pk);
         $this->_db->setQuery($query);
@@ -1399,7 +1400,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         // Get the largest ordering value for a given where clause.
         $query = $this->_db->getQuery(true)
             ->select('MAX(' . $this->_db->quoteName($this->getColumnAlias('ordering')) . ')')
-            ->from($this->_tbl);
+            ->from($this->_db->quoteName($this->_tbl));
 
         if ($where) {
             $query->where($where);
@@ -1454,11 +1455,11 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $quotedOrderingField = $this->_db->quoteName($this->getColumnAlias('ordering'));
 
         $subquery = $this->_db->getQuery(true)
-            ->from($this->_tbl)
+            ->from($this->_db->quoteName($this->_tbl))
             ->selectRowNumber($quotedOrderingField, 'new_ordering');
 
         $query = $this->_db->getQuery(true)
-            ->update($this->_tbl)
+            ->update($this->_db->quoteName($this->_tbl))
             ->set($quotedOrderingField . ' = sq.new_ordering');
 
         $innerOn = array();
@@ -1543,7 +1544,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
         // Select the primary key and ordering values from the table.
         $query->select(implode(',', $this->_tbl_keys) . ', ' . $quotedOrderingField)
-            ->from($this->_tbl);
+            ->from($this->_db->quoteName($this->_tbl));
 
         // If the movement delta is negative move the row up.
         if ($delta < 0) {
@@ -1581,7 +1582,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         if (!empty($row)) {
             // Update the ordering field for this instance to the row's ordering value.
             $query->clear()
-                ->update($this->_tbl)
+                ->update($this->_db->quoteName($this->_tbl))
                 ->set($quotedOrderingField . ' = ' . (int) $row->$orderingField);
             $this->appendPrimaryKeys($query);
             $this->_db->setQuery($query);
@@ -1589,7 +1590,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
             // Update the ordering field for the row to this instance's ordering value.
             $query->clear()
-                ->update($this->_tbl)
+                ->update($this->_db->quoteName($this->_tbl))
                 ->set($quotedOrderingField . ' = ' . (int) $this->$orderingField);
             $this->appendPrimaryKeys($query, $row);
             $this->_db->setQuery($query);
@@ -1600,7 +1601,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         } else {
             // Update the ordering field for this instance.
             $query->clear()
-                ->update($this->_tbl)
+                ->update($this->_db->quoteName($this->_tbl))
                 ->set($quotedOrderingField . ' = ' . (int) $this->$orderingField);
             $this->appendPrimaryKeys($query);
             $this->_db->setQuery($query);
@@ -1689,7 +1690,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         foreach ($pks as $pk) {
             // Update the publishing state for rows with the given primary keys.
             $query = $this->_db->getQuery(true)
-                ->update($this->_tbl)
+                ->update($this->_db->quoteName($this->_tbl))
                 ->set($this->_db->quoteName($publishedField) . ' = ' . (int) $state);
 
             // If publishing, set published date/time if not previously set

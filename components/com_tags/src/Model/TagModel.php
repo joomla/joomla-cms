@@ -43,7 +43,7 @@ class TagModel extends ListModel
      * Array of tags
      *
      * @var    CMSObject[]
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $item = [];
 

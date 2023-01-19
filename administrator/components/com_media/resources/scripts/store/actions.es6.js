@@ -217,10 +217,12 @@ export const deleteSelectedItems = (context) => {
   }
   context.commit(types.SET_IS_LOADING, true);
   // Get the selected items from the store
-  const { selectedItems } = context.state;
+  const { selectedItems, search } = context.state;
   if (selectedItems.length > 0) {
     selectedItems.forEach((item) => {
-      if (typeof item.canDelete !== 'undefined' && item.canDelete === false) {
+      if (
+        (typeof item.canDelete !== 'undefined' && item.canDelete === false)
+        || (search && !item.name.toLowerCase().includes(search.toLowerCase()))) {
         return;
       }
       api.delete(item.path)
@@ -240,3 +242,10 @@ export const deleteSelectedItems = (context) => {
     // @todo notify the user that he has to select at least one item
   }
 };
+
+/**
+ * Update item properties
+ * @param context
+ * @param payload object: the item, the width and the height
+ */
+export const updateItemProperties = (context, payload) => context.commit(types.UPDATE_ITEM_PROPERTIES, payload);
