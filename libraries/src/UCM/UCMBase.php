@@ -52,7 +52,7 @@ class UCMBase implements UCM
     public function __construct($alias = null, UCMType $type = null)
     {
         // Setup dependencies.
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
         $this->alias = $alias ?: $input->get('option') . '.' . $input->get('view');
 
         $this->type = $type ?: $this->getType();

@@ -152,7 +152,7 @@ class SuggestionsModel extends ListModel
     {
         // Get the configuration options.
         $app = Factory::getApplication();
-        $input = $app->input;
+        $input = $app->getInput();
         $params = ComponentHelper::getParams('com_finder');
         $user = $this->getCurrentUser();
 

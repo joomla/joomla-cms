@@ -312,7 +312,7 @@ class Query
         }
 
         // Get the filters in the request.
-        $t = Factory::getApplication()->input->request->get('t', array(), 'array');
+        $t = Factory::getApplication()->getInput()->request->get('t', array(), 'array');
 
         // Add the dynamic taxonomy filters if present.
         if ((bool) $this->filters) {
@@ -1245,8 +1245,8 @@ class Query
 
             $searchTerm = $token->term;
             $searchStem = $token->stem;
-            $term = $query->quoteName('t.term');
-            $stem = $query->quoteName('t.stem');
+            $term = $db->quoteName('t.term');
+            $stem = $db->quoteName('t.stem');
 
             if ($this->wordmode === 'begin') {
                 $searchTerm .= '%';

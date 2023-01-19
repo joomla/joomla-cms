@@ -28,7 +28,7 @@ use Joomla\CMS\Uri\Uri;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * View to edit a template style.
+ * View to edit a template.
  *
  * @since  1.6
  */
@@ -160,7 +160,7 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         $app               = Factory::getApplication();
-        $this->file        = $app->input->get('file', '');
+        $this->file        = $app->getInput()->get('file', '');
         $this->fileName    = InputFilter::getInstance()->clean(base64_decode($this->file), 'string');
         $explodeArray      = explode('.', $this->fileName);
         $ext               = end($explodeArray);
@@ -233,7 +233,7 @@ class HtmlView extends BaseHtmlView
     {
         $app   = Factory::getApplication();
         $user  = $this->getCurrentUser();
-        $app->input->set('hidemainmenu', true);
+        $app->getInput()->set('hidemainmenu', true);
 
         // User is global SuperUser
         $isSuperUser = $user->authorise('core.admin');
@@ -262,7 +262,8 @@ class HtmlView extends BaseHtmlView
                 // Add a copy/child template button
                 if (isset($this->template->xmldata->inheritable) && (string) $this->template->xmldata->inheritable === '1') {
                     ToolbarHelper::modal('childModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_TEMPLATE_CHILD', false);
-                } elseif (!isset($this->template->xmldata->parent) || $this->template->xmldata->parent == '') {
+                } elseif (empty($this->template->xmldata->parent) && empty($this->template->xmldata->namespace)) {
+                    // We can't copy parent templates nor namespaced templates
                     ToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE', false);
                 }
             }
@@ -295,7 +296,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        if (count($this->updatedList) !== 0 && $this->pluginState) {
+        if (count($this->updatedList) !== 0 && $this->pluginState && $this->type === 'home') {
             $dropdown = $bar->dropdownButton('override-group')
                 ->text('COM_TEMPLATES_BUTTON_CHECK')
                 ->toggleSplit(false)

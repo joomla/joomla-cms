@@ -69,7 +69,7 @@ class WorkflowconditionField extends ListField
             if (\strlen($element['extension'])) {
                 $this->extension = (string) $element['extension'];
             } else {
-                $this->extension = Factory::getApplication()->input->getCmd('extension');
+                $this->extension = Factory::getApplication()->getInput()->getCmd('extension');
             }
 
             if (\strlen($element['hide_all'])) {

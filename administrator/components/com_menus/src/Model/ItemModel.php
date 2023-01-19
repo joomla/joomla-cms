@@ -930,7 +930,7 @@ class ItemModel extends AdminModel
         $app = Factory::getApplication();
 
         // Load the User state.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
         $this->setState('item.id', $pk);
 
         if (!$app->isClient('api')) {
@@ -938,11 +938,11 @@ class ItemModel extends AdminModel
             $menuType = $app->getUserStateFromRequest('com_menus.items.menutype', 'menutype', '', 'string');
         } else {
             $parentId = null;
-            $menuType = $app->input->get('com_menus.items.menutype');
+            $menuType = $app->getInput()->get('com_menus.items.menutype');
         }
 
         if (!$parentId) {
-            $parentId = $app->input->getInt('parent_id');
+            $parentId = $app->getInput()->getInt('parent_id');
         }
 
         $this->setState('item.parent_id', $parentId);
@@ -957,12 +957,12 @@ class ItemModel extends AdminModel
             $clientId   = (int) $menuTypeObj->client_id;
         } else {
             $menuTypeId = 0;
-            $clientId   = $app->isClient('api') ? $app->input->get('client_id') :
+            $clientId   = $app->isClient('api') ? $app->getInput()->get('client_id') :
                 $app->getUserState('com_menus.items.client_id', 0);
         }
 
         // Forced client id will override/clear menuType if conflicted
-        $forcedClientId = $app->input->get('client_id', null, 'string');
+        $forcedClientId = $app->getInput()->get('client_id', null, 'string');
 
         if (!$app->isClient('api')) {
             // Set the menu type and client id on the list view state, so we return to this menu after saving.
@@ -988,7 +988,7 @@ class ItemModel extends AdminModel
         $this->setState('item.menutypeid', $menuTypeId);
 
         if (!($type = $app->getUserState('com_menus.edit.item.type'))) {
-            $type = $app->input->get('type');
+            $type = $app->getInput()->get('type');
 
             /**
              * Note: a new menu item will have no field type.
@@ -998,7 +998,7 @@ class ItemModel extends AdminModel
 
         $this->setState('item.type', $type);
 
-        $link = $app->isClient('api') ? $app->input->get('link') :
+        $link = $app->isClient('api') ? $app->getInput()->get('link') :
             $app->getUserState('com_menus.edit.item.link');
 
         if ($link) {
@@ -1379,7 +1379,7 @@ class ItemModel extends AdminModel
         }
 
         // Alter the title & alias for save2copy when required. Also, unset the home record.
-        if (Factory::getApplication()->input->get('task') === 'save2copy' && $data['id'] === 0) {
+        if (Factory::getApplication()->getInput()->get('task') === 'save2copy' && $data['id'] === 0) {
             $origTable = $this->getTable();
             $origTable->load($this->getState('item.id'));
 
@@ -1419,6 +1419,13 @@ class ItemModel extends AdminModel
 
         // Rebuild the tree path.
         if (!$table->rebuildPath($table->id)) {
+            $this->setError($table->getError());
+
+            return false;
+        }
+
+        // Rebuild the paths of the menu item's children:
+        if (!$table->rebuild($table->id, $table->lft, $table->level, $table->path)) {
             $this->setError($table->getError());
 
             return false;
@@ -1569,7 +1576,7 @@ class ItemModel extends AdminModel
             parent::cleanCache($option);
         }
 
-        if (Factory::getApplication()->input->get('task') === 'editAssociations') {
+        if (Factory::getApplication()->getInput()->get('task') === 'editAssociations') {
             return $this->redirectToAssociations($data);
         }
 

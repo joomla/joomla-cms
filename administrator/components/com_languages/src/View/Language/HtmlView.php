@@ -91,7 +91,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', 1);
+        Factory::getApplication()->getInput()->set('hidemainmenu', 1);
         $isNew = empty($this->item->lang_id);
         $canDo = $this->canDo;
 

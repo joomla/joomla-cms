@@ -272,8 +272,10 @@
         <exclude-pattern type="relative">includes/defines\.php</exclude-pattern>
         <exclude-pattern type="relative">includes/framework\.php</exclude-pattern>
         <exclude-pattern type="relative">installation/includes/app\.php</exclude-pattern>
+        <exclude-pattern type="relative">installation/includes/cli\.php</exclude-pattern>
         <exclude-pattern type="relative">installation/includes/defines\.php</exclude-pattern>
         <exclude-pattern type="relative">installation/index\.php</exclude-pattern>
+        <exclude-pattern type="relative">installation/joomla\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/cms\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/bootstrap\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/import\.php</exclude-pattern>

@@ -69,7 +69,7 @@ class WorkflowstageField extends GroupedlistField
             if (\strlen($element['extension'])) {
                 $this->extension = (string) $element['extension'];
             } else {
-                $this->extension = Factory::getApplication()->input->getCmd('extension');
+                $this->extension = Factory::getApplication()->getInput()->getCmd('extension');
             }
 
             if ((string) $element['activeonly'] === '1' || (string) $element['activeonly'] === 'true') {

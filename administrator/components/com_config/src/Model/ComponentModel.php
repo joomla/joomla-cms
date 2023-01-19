@@ -43,7 +43,7 @@ class ComponentModel extends FormModel
      */
     protected function populateState()
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Set the component (option) we are dealing with.
         $component = $input->get('component');

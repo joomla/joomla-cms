@@ -97,7 +97,7 @@ class UCMType implements UCM
         $app      = $application ?: Factory::getApplication();
 
         // Make the best guess we can in the absence of information.
-        $this->alias = $alias ?: $app->input->get('option') . '.' . $app->input->get('view');
+        $this->alias = $alias ?: $app->getInput()->get('option') . '.' . $app->getInput()->get('view');
         $this->type  = $this->getTypeByAlias($this->alias);
     }
 

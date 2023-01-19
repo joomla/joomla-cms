@@ -25,7 +25,7 @@ use Joomla\Utilities\ArrayHelper;
  * @method self icon(string $value)
  * @method self buttonClass(string $value)
  * @method self attributes(array $value)
- * @method self onclick(array $value)
+ * @method self onclick(string $value)
  * @method self listCheck(bool $value)
  * @method self listCheckMessage(string $value)
  * @method self form(string $value)

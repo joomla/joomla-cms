@@ -577,7 +577,7 @@ class TemplateModel extends FormModel
         $app = Factory::getApplication();
 
         // Load the User state.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
         $this->setState('extension.id', $pk);
 
         // Load the parameters.
@@ -874,7 +874,7 @@ class TemplateModel extends FormModel
         }
 
         if ($this->template) {
-            $input    = Factory::getApplication()->input;
+            $input    = Factory::getApplication()->getInput();
             $fileName = base64_decode($input->get('file'));
             $fileName = str_replace('//', '/', $fileName);
             $isMedia  = $input->getInt('isMedia', 0);
@@ -929,8 +929,8 @@ class TemplateModel extends FormModel
         }
 
         $app      = Factory::getApplication();
-        $fileName = base64_decode($app->input->get('file'));
-        $isMedia  = $app->input->getInt('isMedia', 0);
+        $fileName = base64_decode($app->getInput()->get('file'));
+        $isMedia  = $app->getInput()->getInt('isMedia', 0);
         $fileName = $isMedia ? JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . $fileName  :
             JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element . $fileName;
 
@@ -1452,7 +1452,7 @@ class TemplateModel extends FormModel
     {
         if ($this->getTemplate()) {
             $app      = Factory::getApplication();
-            $fileName = base64_decode($app->input->get('file'));
+            $fileName = base64_decode($app->getInput()->get('file'));
             $path     = $this->getBasePath();
 
             $uri = Uri::root(false) . ltrim(str_replace(JPATH_ROOT, '', $this->getBasePath()), '/');
@@ -1610,10 +1610,10 @@ class TemplateModel extends FormModel
         if ($template = $this->getTemplate()) {
             $app          = Factory::getApplication();
             $client       = ApplicationHelper::getClientInfo($template->client_id);
-            $relPath      = base64_decode($app->input->get('file'));
+            $relPath      = base64_decode($app->getInput()->get('file'));
             $explodeArray = explode('/', $relPath);
             $fileName     = end($explodeArray);
-            $path         = $this->getBasePath() . base64_decode($app->input->get('file'));
+            $path         = $this->getBasePath() . base64_decode($app->getInput()->get('file'));
 
             if (stristr($client->path, 'administrator') == false) {
                 $folder = '/templates/';
@@ -1687,7 +1687,7 @@ class TemplateModel extends FormModel
     {
         if ($this->getTemplate()) {
             $app  = Factory::getApplication();
-            $path = $this->getBasePath() . base64_decode($app->input->get('file'));
+            $path = $this->getBasePath() . base64_decode($app->getInput()->get('file'));
 
             if (file_exists(Path::clean($path))) {
                 $files = array();
@@ -1831,7 +1831,7 @@ class TemplateModel extends FormModel
     private function getBasePath()
     {
         $app      = Factory::getApplication();
-        $isMedia  = $app->input->getInt('isMedia', 0);
+        $isMedia  = $app->getInput()->getInt('isMedia', 0);
 
         return $isMedia ? JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element :
             JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element;
@@ -1874,6 +1874,9 @@ class TemplateModel extends FormModel
                 return false;
             }
         }
+
+        // Create the html folder
+        Folder::create($toPath . '/html');
 
         // Copy the template definition from the parent template
         if (!File::copy($fromPath, $toPath . '/templateDetails.xml')) {
@@ -1932,6 +1935,7 @@ class TemplateModel extends FormModel
 
         $files = $xml->addChild('files');
         $files->addChild('filename', 'templateDetails.xml');
+        $files->addChild('folder', 'html');
 
         // Media folder
         $media = $xml->addChild('media');
@@ -1940,10 +1944,14 @@ class TemplateModel extends FormModel
         $media->addChild('folder', 'css');
         $media->addChild('folder', 'js');
         $media->addChild('folder', 'images');
-        $media->addChild('folder', 'html');
         $media->addChild('folder', 'scss');
 
         $xml->name = $template->element . '_' . $newName;
+
+        if (isset($xml->namespace)) {
+            $xml->namespace = $xml->namespace . '_' . ucfirst($newName);
+        }
+
         $xml->inheritable = 0;
         $files = $xml->addChild('parent', $template->element);
 
@@ -1966,7 +1974,6 @@ class TemplateModel extends FormModel
             || !Folder::create($toPath . '/media/css')
             || !Folder::create($toPath . '/media/js')
             || !Folder::create($toPath . '/media/images')
-            || !Folder::create($toPath . '/media/html/tinymce')
             || !Folder::create($toPath . '/media/scss')
         ) {
             return false;

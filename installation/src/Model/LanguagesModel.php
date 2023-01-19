@@ -514,7 +514,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
     public function getForm($view = null)
     {
         if (!$view) {
-            $view = Factory::getApplication()->input->getWord('view', 'defaultlanguage');
+            $view = Factory::getApplication()->getInput()->getWord('view', 'defaultlanguage');
         }
 
         // Get the form.

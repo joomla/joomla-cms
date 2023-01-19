@@ -87,7 +87,7 @@ class HtmlView extends BaseHtmlView
         $app = Factory::getApplication();
 
         if ($this->getLayout() == 'edit') {
-            $app->input->set('hidemainmenu', true);
+            $app->getInput()->set('hidemainmenu', true);
             ToolbarHelper::title(Text::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'envelope-open-text new-privatemessage');
             ToolbarHelper::custom('message.save', 'envelope', '', 'COM_MESSAGES_TOOLBAR_SEND', false);
             ToolbarHelper::cancel('message.cancel');

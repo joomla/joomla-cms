@@ -218,7 +218,7 @@ class GroupModel extends AdminModel
             }
         }
 
-        if (Factory::getApplication()->input->get('task') == 'save2copy') {
+        if (Factory::getApplication()->getInput()->get('task') == 'save2copy') {
             $data['title'] = $this->generateGroupTitle($data['parent_id'], $data['title']);
         }
 

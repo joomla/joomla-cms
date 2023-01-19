@@ -104,6 +104,10 @@ class UserController extends BaseController
         }
 
         $this->app->setUserState('users.login.form.data', array());
+
+        // Show a message when a user is logged in.
+        $this->app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGIN_SUCCESS'), 'message');
+
         $this->app->redirect(Route::_($this->app->getUserState('users.login.form.return'), false));
     }
 
@@ -127,7 +131,7 @@ class UserController extends BaseController
 
         // Perform the log out.
         $error = $app->logout(null, $options);
-        $input = $app->input->getInputForRequestMethod();
+        $input = $app->getInput()->getInputForRequestMethod();
 
         // Check if the log out succeeded.
         if ($error instanceof \Exception) {
@@ -140,10 +144,11 @@ class UserController extends BaseController
 
         // Check for a simple menu item id
         if (is_numeric($return)) {
-            $return = 'index.php?Itemid=' . $return;
+            $itemId = (int) $return;
+            $return = 'index.php?Itemid=' . $itemId;
 
             if (Multilanguage::isEnabled()) {
-                $language = $this->getModel('Login', 'Site')->getMenuLanguage($return);
+                $language = $this->getModel('Login', 'Site')->getMenuLanguage($itemId);
 
                 if ($language !== '*') {
                     $return .= '&lang=' . $language;
@@ -157,6 +162,9 @@ class UserController extends BaseController
         if (empty($return)) {
             $return = Uri::root();
         }
+
+        // Show a message when a user is logged out.
+        $app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGOUT_SUCCESS'), 'message');
 
         // Redirect the user.
         $app->redirect(Route::_($return, false));
@@ -185,7 +193,7 @@ class UserController extends BaseController
                 $url = 'index.php?Itemid=' . $itemid . ($language !== '*' ? '&lang=' . $language : '');
             } else {
                 // Logout is set to default. Get the home page ItemID
-                $lang_code = $app->input->cookie->getString(ApplicationHelper::getHash('language'));
+                $lang_code = $app->getInput()->cookie->getString(ApplicationHelper::getHash('language'));
                 $item      = $app->getMenu()->getDefault($lang_code);
                 $itemid    = $item->id;
 

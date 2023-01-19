@@ -155,7 +155,7 @@ class MenuItemByTypeField extends GroupedlistField
             if (!$menuType) {
                 $app = Factory::getApplication();
                 $currentMenuType = $app->getUserState('com_menus.items.menutype', '');
-                $menuType        = $app->input->getString('menutype', $currentMenuType);
+                $menuType        = $app->getInput()->getString('menutype', $currentMenuType);
             }
 
             $this->menuType  = $menuType;

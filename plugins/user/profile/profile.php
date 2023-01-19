@@ -330,8 +330,8 @@ class PlgUserProfile extends CMSPlugin
         }
 
         // Check that the tos is checked if required ie only in registration from frontend.
-        $task       = $this->app->input->getCmd('task');
-        $option     = $this->app->input->getCmd('option');
+        $task       = $this->app->getInput()->getCmd('task');
+        $option     = $this->app->getInput()->getCmd('option');
         $tosEnabled = ($this->params->get('register-require_tos', 0) == 2);
 
         // Check that the tos is checked.

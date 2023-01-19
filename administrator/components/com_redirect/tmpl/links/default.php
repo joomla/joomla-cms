@@ -120,7 +120,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                             <?php endif; ?>
                         </th>
                         <td class="small break-word">
-                            <?php echo $this->escape(rawurldecode($item->new_url)); ?>
+                            <?php echo $this->escape(rawurldecode($item->new_url ?? '')); ?>
                         </td>
                         <td class="small break-word d-none d-md-table-cell">
                             <?php echo $this->escape($item->referer); ?>

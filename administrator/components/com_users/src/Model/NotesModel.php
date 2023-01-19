@@ -222,7 +222,7 @@ class NotesModel extends ListModel
     protected function populateState($ordering = 'a.review_time', $direction = 'desc')
     {
         // Adjust the context to support modal layouts.
-        if ($layout = Factory::getApplication()->input->get('layout')) {
+        if ($layout = Factory::getApplication()->getInput()->get('layout')) {
             $this->context .= '.' . $layout;
         }
 

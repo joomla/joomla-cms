@@ -59,7 +59,7 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         $app = Factory::getApplication();
-        $dashboard = $app->input->getCmd('dashboard', '');
+        $dashboard = $app->getInput()->getCmd('dashboard', '');
 
         $position = OutputFilter::stringURLSafe($dashboard);
 

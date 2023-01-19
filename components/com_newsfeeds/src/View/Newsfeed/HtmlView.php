@@ -99,7 +99,7 @@ class HtmlView extends BaseHtmlView
         $user = $this->getCurrentUser();
 
         // Get view related request variables.
-        $print = $app->input->getBool('print');
+        $print = $app->getInput()->getBool('print');
 
         // Get model data.
         $state = $this->get('State');

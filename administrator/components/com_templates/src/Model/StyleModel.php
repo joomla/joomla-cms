@@ -102,7 +102,7 @@ class StyleModel extends AdminModel
         $app = Factory::getApplication();
 
         // Load the User state.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
         $this->setState('style.id', $pk);
 
         // Load the parameters.
@@ -474,7 +474,7 @@ class StyleModel extends AdminModel
             $isNew = false;
         }
 
-        if ($app->input->get('task') == 'save2copy') {
+        if ($app->getInput()->get('task') == 'save2copy') {
             $data['title']    = $this->generateNewTitle(null, null, $data['title']);
             $data['home']     = 0;
             $data['assigned'] = '';

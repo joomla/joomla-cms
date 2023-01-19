@@ -92,8 +92,8 @@ class HtmlView extends BaseHtmlView
         $this->components = ConfigHelper::getComponentsWithConfig();
 
         $this->userIsSuperAdmin = $user->authorise('core.admin');
-        $this->currentComponent = Factory::getApplication()->input->get('component');
-        $this->return = Factory::getApplication()->input->get('return', '', 'base64');
+        $this->currentComponent = Factory::getApplication()->getInput()->get('component');
+        $this->return = Factory::getApplication()->getInput()->get('return', '', 'base64');
 
         $this->addToolbar();
 

@@ -113,7 +113,7 @@ class DebuggroupModel extends ListModel
         $app = Factory::getApplication();
 
         // Adjust the context to support modal layouts.
-        $layout = $app->input->get('layout', 'default');
+        $layout = $app->getInput()->get('layout', 'default');
 
         if ($layout) {
             $this->context .= '.' . $layout;

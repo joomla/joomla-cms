@@ -28,8 +28,8 @@ if ($app->isClient('site')) {
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_menus.admin-items-modal');
 
-$function  = $app->input->get('function', 'jSelectMenuItem', 'cmd');
-$editor    = $app->input->getCmd('editor', '');
+$function  = $app->getInput()->get('function', 'jSelectMenuItem', 'cmd');
+$editor    = $app->getInput()->getCmd('editor', '');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $link      = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&' . Session::getFormToken() . '=1';
@@ -177,7 +177,7 @@ if (!empty($editor)) {
         <input type="hidden" name="task" value="">
         <input type="hidden" name="boxchecked" value="0">
         <input type="hidden" name="function" value="<?php echo $function; ?>">
-        <input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'cmd'); ?>">
+        <input type="hidden" name="forcedLanguage" value="<?php echo $app->getInput()->get('forcedLanguage', '', 'cmd'); ?>">
         <?php echo HTMLHelper::_('form.token'); ?>
 
     </form>

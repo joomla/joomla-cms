@@ -101,7 +101,7 @@ class MailModel extends AdminModel
     public function send()
     {
         $app      = Factory::getApplication();
-        $data     = $app->input->post->get('jform', array(), 'array');
+        $data     = $app->getInput()->post->get('jform', array(), 'array');
         $user     = $this->getCurrentUser();
         $access   = new Access();
         $db       = $this->getDatabase();

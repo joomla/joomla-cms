@@ -84,7 +84,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $isNew = ($this->item->id == 0);
         $canDo = ContentHelper::getActions('com_users');

@@ -347,7 +347,7 @@ class ArticleController extends FormController
         }
 
         $app       = $this->app;
-        $articleId = $app->input->getInt('a_id');
+        $articleId = $app->getInput()->getInt('a_id');
 
         // Load the parameters.
         $params   = $app->getParams();

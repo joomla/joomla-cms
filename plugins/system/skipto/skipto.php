@@ -56,7 +56,7 @@ class PlgSystemSkipto extends CMSPlugin
         }
 
         // Are we in a modal?
-        if ($this->app->input->get('tmpl', '', 'cmd') === 'component') {
+        if ($this->app->getInput()->get('tmpl', '', 'cmd') === 'component') {
             return;
         }
 

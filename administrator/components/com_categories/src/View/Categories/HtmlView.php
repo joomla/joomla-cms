@@ -127,7 +127,7 @@ class HtmlView extends BaseHtmlView
             }
         } else {
             // In article associations modal we need to remove language filter if forcing a language.
-            if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD')) {
+            if ($forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD')) {
                 // If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
                 $languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
                 $this->filterForm->setField($languageXml, 'filter', true);

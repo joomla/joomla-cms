@@ -67,7 +67,7 @@ class GroupparentField extends ListField
     protected function getOptions()
     {
         $options        = UserGroupsHelper::getInstance()->getAll();
-        $currentGroupId = (int) Factory::getApplication()->input->get('id', 0, 'int');
+        $currentGroupId = (int) Factory::getApplication()->getInput()->get('id', 0, 'int');
 
         // Prevent to set yourself as parent
         if ($currentGroupId) {

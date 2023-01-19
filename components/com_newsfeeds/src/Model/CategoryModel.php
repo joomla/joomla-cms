@@ -12,7 +12,6 @@ namespace Joomla\Component\Newsfeeds\Site\Model;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -243,20 +242,23 @@ class CategoryModel extends ListModel
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $app = Factory::getApplication();
-        $params = ComponentHelper::getParams('com_newsfeeds');
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
+
+        $params = $app->getParams();
+        $this->setState('params', $params);
 
         // List state information
         $limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
         $this->setState('list.limit', $limit);
 
-        $limitstart = $app->input->get('limitstart', 0, 'uint');
+        $limitstart = $input->get('limitstart', 0, 'uint');
         $this->setState('list.start', $limitstart);
 
         // Optional filter text
-        $this->setState('list.filter', $app->input->getString('filter-search'));
+        $this->setState('list.filter', $input->getString('filter-search'));
 
-        $orderCol = $app->input->get('filter_order', 'ordering');
+        $orderCol = $input->get('filter_order', 'ordering');
 
         if (!in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'ordering';
@@ -264,7 +266,7 @@ class CategoryModel extends ListModel
 
         $this->setState('list.ordering', $orderCol);
 
-        $listOrder = $app->input->get('filter_order_Dir', 'ASC');
+        $listOrder = $input->get('filter_order_Dir', 'ASC');
 
         if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
             $listOrder = 'ASC';
@@ -272,7 +274,7 @@ class CategoryModel extends ListModel
 
         $this->setState('list.direction', $listOrder);
 
-        $id = $app->input->get('id', 0, 'int');
+        $id = $input->get('id', 0, 'int');
         $this->setState('category.id', $id);
 
         $user = $this->getCurrentUser();
@@ -286,9 +288,6 @@ class CategoryModel extends ListModel
         }
 
         $this->setState('filter.language', Multilanguage::isEnabled());
-
-        // Load the parameters.
-        $this->setState('params', $params);
     }
 
     /**
@@ -400,7 +399,7 @@ class CategoryModel extends ListModel
      */
     public function hit($pk = 0)
     {
-        $input    = Factory::getApplication()->input;
+        $input    = Factory::getApplication()->getInput();
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {

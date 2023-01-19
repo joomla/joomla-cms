@@ -87,7 +87,7 @@ class StageModel extends AdminModel
         $context    = $this->option . '.' . $this->name;
         $app        = Factory::getApplication();
         $user       = $app->getIdentity();
-        $input      = $app->input;
+        $input      = $app->getInput();
         $workflowID = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 
         if (empty($data['workflow_id'])) {
@@ -359,7 +359,7 @@ class StageModel extends AdminModel
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
-        $extension = Factory::getApplication()->input->get('extension');
+        $extension = Factory::getApplication()->getInput()->get('extension');
 
         $parts = explode('.', $extension);
 

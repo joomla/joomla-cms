@@ -122,7 +122,7 @@ class ModuleModel extends AdminModel
         $app = Factory::getApplication();
 
         // Load the User state.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
 
         if (!$pk) {
             if ($extensionId = (int) $app->getUserState('com_modules.add.module.extension_id')) {
@@ -580,7 +580,8 @@ class ModuleModel extends AdminModel
      */
     protected function loadFormData()
     {
-        $app = Factory::getApplication();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
         // Check the session for previously entered form data.
         $data = $app->getUserState('com_modules.edit.module.data', array());
@@ -590,12 +591,12 @@ class ModuleModel extends AdminModel
 
             // Pre-select some filters (Status, Module Position, Language, Access Level) in edit form if those have been selected in Module Manager
             if (!$data->id) {
-                $clientId = $app->input->getInt('client_id', 0);
+                $clientId = $input->getInt('client_id', 0);
                 $filters  = (array) $app->getUserState('com_modules.modules.' . $clientId . '.filter');
-                $data->set('published', $app->input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
-                $data->set('position', $app->input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
-                $data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-                $data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access'))));
+                $data->set('published', $input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
+                $data->set('position', $input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
+                $data->set('language', $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+                $data->set('access', $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access'))));
             }
 
             // Avoid to delete params of a second module opened in a new browser tab while new one is not saved yet.
@@ -893,7 +894,7 @@ class ModuleModel extends AdminModel
      */
     public function save($data)
     {
-        $input      = Factory::getApplication()->input;
+        $input      = Factory::getApplication()->getInput();
         $table      = $this->getTable();
         $pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('module.id');
         $isNew      = true;

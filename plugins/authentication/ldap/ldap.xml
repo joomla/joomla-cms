@@ -23,6 +23,7 @@
 					name="host"
 					type="text"
 					label="PLG_LDAP_FIELD_HOST_LABEL"
+					required="true"
 				/>
 
 				<field
@@ -88,6 +89,7 @@
 					name="base_dn"
 					type="text"
 					label="PLG_LDAP_FIELD_BASEDN_LABEL"
+					required="true"
 				/>
 
 				<field
@@ -95,6 +97,7 @@
 					type="text"
 					label="PLG_LDAP_FIELD_SEARCHSTRING_LABEL"
 					description="PLG_LDAP_FIELD_SEARCHSTRING_DESC"
+					required="true"
 				/>
 
 				<field

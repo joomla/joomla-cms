@@ -20,6 +20,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 $loginActions = [];
 $actions = [];
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns');
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $this->state->get('user_id')); ?>" method="post" name="adminForm" id="adminForm">
     <div id="j-main-container" class="j-main-container">
@@ -34,7 +39,7 @@ $actions = [];
             // Split the actions table
             foreach ($this->actions as $action) :
                 $name = $action[0];
-                if (in_array($name, ['core.login.site', 'core.login.admin', 'core.login.offline', 'core.login.api', 'core.admin'])) :
+                if (in_array($name, ['core.login.site', 'core.login.admin', 'core.login.api', 'core.login.offline'])) :
                     $loginActions[] = $action;
                 else :
                     $actions[] = $action;

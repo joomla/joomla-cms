@@ -25,29 +25,29 @@ use Joomla\Tests\Unit\UnitTestCase;
  */
 class CacheControllerFactoryAwareTraitTest extends UnitTestCase
 {
-	/**
-	 * @testdox  can set a cache controller factory
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function testGetCacheControllerFactory()
-	{
-		$cacheControllerFactory = new CacheControllerFactory;
+    /**
+     * @testdox  can set a cache controller factory
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testGetCacheControllerFactory()
+    {
+        $cacheControllerFactory = new CacheControllerFactory;
 
-		$trait = new class
-		{
-			use CacheControllerFactoryAwareTrait;
+        $trait = new class
+        {
+            use CacheControllerFactoryAwareTrait;
 
-			public function getFactory(): CacheControllerFactory
-			{
-				return $this->getCacheControllerFactory();
-			}
-		};
+            public function getFactory(): CacheControllerFactory
+            {
+                return $this->getCacheControllerFactory();
+            }
+        };
 
-		$trait->setCacheControllerFactory($cacheControllerFactory);
+        $trait->setCacheControllerFactory($cacheControllerFactory);
 
-		$this->assertEquals($cacheControllerFactory, $trait->getFactory());
-	}
+        $this->assertEquals($cacheControllerFactory, $trait->getFactory());
+    }
 }

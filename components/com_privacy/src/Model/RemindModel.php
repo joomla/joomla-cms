@@ -145,7 +145,7 @@ class RemindModel extends AdminModel
             return false;
         }
 
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         if ($input->getMethod() === 'GET') {
             $form->setValue('remind_token', '', $input->get->getAlnum('remind_token'));

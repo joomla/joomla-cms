@@ -234,7 +234,7 @@ class BannerModel extends AdminModel
                 $filters     = (array) $app->getUserState('com_banners.banners.filter');
                 $filterCatId = $filters['category_id'] ?? null;
 
-                $data->set('catid', $app->input->getInt('catid', $filterCatId));
+                $data->set('catid', $app->getInput()->getInt('catid', $filterCatId));
             }
         }
 
@@ -374,7 +374,7 @@ class BannerModel extends AdminModel
      */
     public function save($data)
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Create new category, if needed.
         $createCategory = true;

@@ -120,7 +120,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         // Set the title and toolbar based on the layout
         if ($this->getLayout() === 'edit') {

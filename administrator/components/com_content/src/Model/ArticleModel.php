@@ -474,8 +474,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
         // Get ID of the article from input, for frontend, we use a_id while backend uses id
         $articleIdFromInput = $app->isClient('site')
-            ? $app->input->getInt('a_id', 0)
-            : $app->input->getInt('id', 0);
+            ? $app->getInput()->getInt('a_id', 0)
+            : $app->getInput()->getInt('id', 0);
 
         // On edit article, we get ID of article from article.id state, but on save, we use data from input
         $id = (int) $this->getState('article.id', $articleIdFromInput);
@@ -581,20 +581,20 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                 $filters = (array) $app->getUserState('com_content.articles.filter');
                 $data->set(
                     'state',
-                    $app->input->getInt(
+                    $app->getInput()->getInt(
                         'state',
                         ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
                     )
                 );
-                $data->set('catid', $app->input->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
+                $data->set('catid', $app->getInput()->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
 
                 if ($app->isClient('administrator')) {
-                    $data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+                    $data->set('language', $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
                 }
 
                 $data->set(
                     'access',
-                    $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
+                    $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
                 );
             }
         }
@@ -645,7 +645,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     public function save($data)
     {
         $app    = Factory::getApplication();
-        $input  = $app->input;
+        $input  = $app->getInput();
         $filter = InputFilter::getInstance();
 
         if (isset($data['metadata']) && isset($data['metadata']['author'])) {

@@ -57,7 +57,7 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         $app            = Factory::getApplication();
-        $this->recordId = $app->input->getInt('recordId');
+        $this->recordId = $app->getInput()->getInt('recordId');
 
         $types = $this->get('TypeOptions');
 

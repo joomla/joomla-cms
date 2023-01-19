@@ -530,7 +530,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             /** @var  \Joomla\CMS\Document\Renderer\Html\ModulesRenderer  $renderer */
             /** @var  \Joomla\CMS\Cache\Controller\OutputController  $cache */
             $cache  = $this->getCacheControllerFactory()->createCacheController('output', ['defaultgroup' => 'com_modules']);
-            $itemId = (int) CmsFactory::getApplication()->input->get('Itemid', 0, 'int');
+            $itemId = (int) CmsFactory::getApplication()->getInput()->get('Itemid', 0, 'int');
 
             $hash = md5(
                 serialize(

@@ -49,10 +49,10 @@ class NewsfeedModel extends ItemModel
         $app = Factory::getApplication();
 
         // Load state from the request.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
         $this->setState('newsfeed.id', $pk);
 
-        $offset = $app->input->get('limitstart', 0, 'uint');
+        $offset = $app->getInput()->get('limitstart', 0, 'uint');
         $this->setState('list.offset', $offset);
 
         // Load the parameters.
@@ -210,7 +210,7 @@ class NewsfeedModel extends ItemModel
      */
     public function hit($pk = 0)
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {

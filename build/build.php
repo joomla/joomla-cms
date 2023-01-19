@@ -35,12 +35,13 @@ function usage(string $command)
     echo PHP_EOL;
     echo 'Usage: php ' . $command . ' [options]' . PHP_EOL;
     echo PHP_TAB . '[options]:' . PHP_EOL;
-    echo PHP_TAB . PHP_TAB . '--remote=<remote>:' . PHP_TAB . 'The git remote reference to build from (ex: `tags/3.8.6`, `4.0-dev`), defaults to the most recent tag for the repository' . PHP_EOL;
-    echo PHP_TAB . PHP_TAB . '--exclude-zip:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .zip packages' . PHP_EOL;
-    echo PHP_TAB . PHP_TAB . '--exclude-gzip:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .tar.gz packages' . PHP_EOL;
-    echo PHP_TAB . PHP_TAB . '--exclude-bzip2:' . PHP_TAB . 'Exclude the generation of .tar.bz2 packages' . PHP_EOL;
-    echo PHP_TAB . PHP_TAB . '--include-zstd:' . PHP_TAB . 'Include the generation of .tar.zst packages' . PHP_EOL;
-    echo PHP_TAB . PHP_TAB . '--help:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Show this help output' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '--remote=<remote>:' . PHP_TAB . PHP_TAB . 'The git remote reference to build from (ex: `tags/3.8.6`, `4.0-dev`), defaults to the most recent tag for the repository' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '--exclude-zip:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Exclude the generation of .zip packages' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '--exclude-gzip:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Exclude the generation of .tar.gz packages' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '--exclude-bzip2:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .tar.bz2 packages' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '--include-zstd:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Include the generation of .tar.zst packages' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '--disable-patch-packages:' . PHP_TAB . 'Disable the generation of patch packages' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '--help:' . PHP_TAB . PHP_TAB . PHP_TAB . PHP_TAB . 'Show this help output' . PHP_EOL;
     echo PHP_EOL;
 }
 
@@ -61,6 +62,7 @@ function clean_checkout(string $dir)
     system('find . -name .github | xargs rm -rf -');
     system('find . -name .gitignore | xargs rm -rf -');
     system('find . -name .gitmodules | xargs rm -rf -');
+    system('find . -name .phan | xargs rm -rf -');
     system('find . -name .php-cs-fixer.dist.php | xargs rm -rf -');
     system('find . -name .scrutinizer.yml | xargs rm -rf -');
     system('find . -name .travis.yml | xargs rm -rf -');
@@ -386,6 +388,7 @@ $doNotPackage = array(
     '.editorconfig',
     '.github',
     '.gitignore',
+    '.phan',
     '.php-cs-fixer.dist.php',
     'acceptance.suite.yml',
     // Media Manager Node Assets
@@ -398,6 +401,7 @@ $doNotPackage = array(
     'composer.json',
     'composer.lock',
     'crowdin.yml',
+    'cypress.config.js',
     'package-lock.json',
     'package.json',
     'phpunit-pgsql.xml.dist',

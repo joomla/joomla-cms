@@ -1,13 +1,17 @@
 const { resolve } = require('path');
+const { writeFile, copyFile, rm } = require('fs').promises;
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
 const VuePlugin = require('rollup-plugin-vue');
 const commonjs = require('@rollup/plugin-commonjs');
-const { minifyJs } = require('./minify.es6.js');
+const { existsSync } = require('fs');
+const { minifyJsCode } = require('./minify.es6.js');
+require('dotenv').config();
 
 const inputJS = 'administrator/components/com_media/resources/scripts/mediamanager.es6.js';
+const isProduction = process.env.NODE_ENV !== 'DEVELOPMENT';
 
 const buildLegacy = async (file) => {
   // eslint-disable-next-line no-console
@@ -48,15 +52,20 @@ const buildLegacy = async (file) => {
     sourcemap: false,
     name: 'JoomlaMediaManager',
     file: 'media/com_media/js/media-manager-es5.js',
-  });
+  })
+    .then((value) => minifyJsCode(value.output[0].code))
+    .then((content) => {
+      // eslint-disable-next-line no-console
+      console.log('✅ Legacy Media Manager ready');
+      return writeFile(resolve('media/com_media/js/media-manager-es5.min.js'), content.code, { encoding: 'utf8', mode: 0o644 });
+    })
+    .catch((error) => {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    });
 
   // closes the bundle
   await bundle.close();
-
-  // eslint-disable-next-line no-console
-  console.log('Legacy Media Manager ready ✅');
-
-  minifyJs('media/com_media/js/media-manager-es5.js');
 };
 
 module.exports.mediaManager = async () => {
@@ -71,13 +80,16 @@ module.exports.mediaManager = async () => {
         css: false,
         compileTemplate: true,
         template: {
-          isProduction: true,
+          isProduction,
         },
       }),
       nodeResolve(),
+      commonjs(),
       replace({
+        'process.env.NODE_ENV': JSON.stringify((process.env.NODE_ENV && process.env.NODE_ENV.toLocaleLowerCase()) || 'production'),
+        __VUE_OPTIONS_API__: true,
+        __VUE_PROD_DEVTOOLS__: !isProduction,
         preventAssignment: true,
-        'process.env.NODE_ENV': JSON.stringify('production'),
       }),
       babel({
         exclude: 'node_modules/core-js/**',
@@ -104,19 +116,36 @@ module.exports.mediaManager = async () => {
     ],
   });
 
-  await bundle.write({
+  bundle.write({
     format: 'es',
-    sourcemap: false,
+    sourcemap: !isProduction ? 'inline' : false,
     file: 'media/com_media/js/media-manager.js',
-  });
+  })
+    .then((value) => (isProduction ? minifyJsCode(value.output[0].code) : value.output[0]))
+    .then((content) => {
+      if (isProduction) {
+        // eslint-disable-next-line no-console
+        console.log('✅ ES2017 Media Manager ready');
+        writeFile(resolve('media/com_media/js/media-manager.min.js'), content.code, { encoding: 'utf8', mode: 0o644 });
+        return buildLegacy(resolve('media/com_media/js/media-manager.js'));
+      }
+      // eslint-disable-next-line no-console
+      console.log('✅ ES2017 Media Manager ready');
+      if (existsSync(resolve('media/com_media/js/media-manager-es5.js'))) {
+        rm(resolve('media/com_media/js/media-manager-es5.js'));
+      }
+      if (existsSync(resolve('media/com_media/js/media-manager-es5.min.js'))) {
+        rm(resolve('media/com_media/js/media-manager-es5.min.js'));
+      }
+      return copyFile(resolve('media/com_media/js/media-manager.js'), resolve('media/com_media/js/media-manager.min.js'));
+    })
+    .catch((error) => {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    });
 
   // closes the bundle
   await bundle.close();
-
-  // eslint-disable-next-line no-console
-  console.log('✅ ES2017 Media Manager ready');
-  minifyJs('media/com_media/js/media-manager.js');
-  return buildLegacy(resolve('media/com_media/js/media-manager.js'));
 };
 
 module.exports.watchMediaManager = async () => {
@@ -138,8 +167,10 @@ module.exports.watchMediaManager = async () => {
       }),
       nodeResolve(),
       replace({
+        'process.env.NODE_ENV': JSON.stringify('development'),
+        __VUE_OPTIONS_API__: true,
+        __VUE_PROD_DEVTOOLS__: true,
         preventAssignment: true,
-        'process.env.NODE_ENV': JSON.stringify('production'),
       }),
       babel({
         exclude: 'node_modules/core-js/**',
@@ -167,12 +198,12 @@ module.exports.watchMediaManager = async () => {
     output: [
       {
         format: 'es',
-        sourcemap: false,
+        sourcemap: 'inline',
         file: 'media/com_media/js/media-manager.js',
       },
       {
         format: 'es',
-        sourcemap: false,
+        sourcemap: 'inline',
         file: 'media/com_media/js/media-manager.min.js',
       },
     ],
@@ -181,8 +212,8 @@ module.exports.watchMediaManager = async () => {
   watcher.on('event', (event) => {
     if (event.code === 'BUNDLE_END') {
       // eslint-disable-next-line no-console
-      console.log(`File ${event.output[0]} updated ✅
-File ${event.output[1]} updated ✅
+      console.log(`✅ File ${event.output[0]} updated
+✅ File ${event.output[1]} updated
 =========`);
     }
   });

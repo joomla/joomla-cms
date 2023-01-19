@@ -38,7 +38,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         $this->form = $this->get('Form');
 

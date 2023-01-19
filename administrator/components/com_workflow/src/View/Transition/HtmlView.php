@@ -105,7 +105,7 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         $this->app = Factory::getApplication();
-        $this->input = $this->app->input;
+        $this->input = $this->app->getInput();
 
         // Get the Data
         $this->state      = $this->get('State');
@@ -146,7 +146,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $user       = $this->getCurrentUser();
         $userId     = $user->id;

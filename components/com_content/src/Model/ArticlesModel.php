@@ -90,19 +90,20 @@ class ArticlesModel extends ListModel
      */
     protected function populateState($ordering = 'ordering', $direction = 'ASC')
     {
-        $app = Factory::getApplication();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
         // List state information
-        $value = $app->input->get('limit', $app->get('list_limit', 0), 'uint');
+        $value = $input->get('limit', $app->get('list_limit', 0), 'uint');
         $this->setState('list.limit', $value);
 
-        $value = $app->input->get('limitstart', 0, 'uint');
+        $value = $input->get('limitstart', 0, 'uint');
         $this->setState('list.start', $value);
 
-        $value = $app->input->get('filter_tag', 0, 'uint');
+        $value = $input->get('filter_tag', 0, 'uint');
         $this->setState('filter.tag', $value);
 
-        $orderCol = $app->input->get('filter_order', 'a.ordering');
+        $orderCol = $input->get('filter_order', 'a.ordering');
 
         if (!in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'a.ordering';
@@ -110,7 +111,7 @@ class ArticlesModel extends ListModel
 
         $this->setState('list.ordering', $orderCol);
 
-        $listOrder = $app->input->get('filter_order_Dir', 'ASC');
+        $listOrder = $input->get('filter_order_Dir', 'ASC');
 
         if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
             $listOrder = 'ASC';
@@ -137,7 +138,7 @@ class ArticlesModel extends ListModel
             $this->setState('filter.access', false);
         }
 
-        $this->setState('layout', $app->input->getString('layout'));
+        $this->setState('layout', $input->getString('layout'));
     }
 
     /**
@@ -347,7 +348,17 @@ class ArticlesModel extends ListModel
 
         switch ($featured) {
             case 'hide':
-                $query->where($db->quoteName('a.featured') . ' = 0');
+                $query->extendWhere(
+                    'AND',
+                    [
+                        $db->quoteName('a.featured') . ' = 0',
+                        '(' . $db->quoteName('fp.featured_up') . ' IS NOT NULL AND ' . $db->quoteName('fp.featured_up') . ' >= :featuredUp)',
+                        '(' . $db->quoteName('fp.featured_down') . ' IS NOT NULL AND ' . $db->quoteName('fp.featured_down') . ' <= :featuredDown)',
+                    ],
+                    'OR'
+                )
+                    ->bind(':featuredUp', $nowDate)
+                    ->bind(':featuredDown', $nowDate);
                 break;
 
             case 'only':
@@ -643,7 +654,7 @@ class ArticlesModel extends ListModel
         $userId = $user->get('id');
         $guest = $user->get('guest');
         $groups = $user->getAuthorisedViewLevels();
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Get the global params
         $globalParams = ComponentHelper::getParams('com_content', true);

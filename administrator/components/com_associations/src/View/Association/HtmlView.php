@@ -234,7 +234,7 @@ class HtmlView extends BaseHtmlView
         $this->app  = Factory::getApplication();
         $this->form = $model->getForm();
         /** @var Input $input */
-        $input             = $this->app->input;
+        $input             = $this->app->getInput();
         $this->referenceId = $input->get('id', 0, 'int');
 
         [$extensionName, $typeName] = explode('.', $input->get('itemtype', '', 'string'), 2);
@@ -339,7 +339,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar(): void
     {
         // Hide main menu.
-        $this->app->input->set('hidemainmenu', 1);
+        $this->app->getInput()->set('hidemainmenu', 1);
 
         $helper = AssociationsHelper::getExtensionHelper($this->extensionName);
         $title  = $helper->getTypeTitle($this->typeName);

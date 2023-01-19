@@ -28,7 +28,7 @@ if ($app->isClient('site')) {
 HTMLHelper::_('behavior.core');
 
 $extension = $this->escape($this->state->get('filter.extension'));
-$function  = $app->input->getCmd('function', 'jSelectCategory');
+$function  = $app->getInput()->getCmd('function', 'jSelectCategory');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
@@ -132,7 +132,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
         <input type="hidden" name="extension" value="<?php echo $extension; ?>">
         <input type="hidden" name="task" value="">
         <input type="hidden" name="boxchecked" value="0">
-        <input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'CMD'); ?>">
+        <input type="hidden" name="forcedLanguage" value="<?php echo $app->getInput()->get('forcedLanguage', '', 'CMD'); ?>">
         <?php echo HTMLHelper::_('form.token'); ?>
 
     </form>
