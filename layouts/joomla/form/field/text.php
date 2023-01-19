@@ -92,6 +92,22 @@ $addonAfterHtml  = '<span class="input-group-text">' . Text::_($addonAfter) . '<
         <?php echo $addonBeforeHtml; ?>
     <?php endif; ?>
 
+    <div class="input-group">
+                    <input 
+                    name="<?php echo $name; ?>" 
+                    id="<?php echo $id; ?>" 
+                    type="text"
+                    value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"  
+                    <?php echo $dirname; ?>
+                    <?php echo implode(' ', $attributes); ?>>
+                    <span class="input-group-text">
+                        <span class="icon-user icon-fw" aria-hidden="true"></span>
+                        <label for="mod-login-username" class="visually-hidden">
+                            <?php echo Text::_('JGLOBAL_USERNAME'); ?>
+                        </label>
+                    </span>
+    </div>
+    
     <input
         type="text"
         name="<?php echo $name; ?>"

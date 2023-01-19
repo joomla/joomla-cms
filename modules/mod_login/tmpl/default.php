@@ -35,6 +35,13 @@ Text::script('JHIDEPASSWORD');
     <div class="mod-login__userdata userdata">
         <div class="mod-login__username form-group">
             <?php if (!$params->get('usetext', 0)) : ?>
+
+                <div class="input-group">
+                <label id="modlgn-username-<?php echo $module->id; ?>" for="modlgn-username-<?php echo $module->id; ?>" class="required">
+                <?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>
+                <span class="star" aria-hidden="true">&#160;*</span></label>
+                </div>
+
                 <div class="input-group">
                     <input id="modlgn-username-<?php echo $module->id; ?>" type="text" name="username" class="form-control" autocomplete="username" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
                     <label for="modlgn-username-<?php echo $module->id; ?>" class="visually-hidden"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
@@ -50,6 +57,13 @@ Text::script('JHIDEPASSWORD');
 
         <div class="mod-login__password form-group">
             <?php if (!$params->get('usetext', 0)) : ?>
+
+                <div class="input-group">
+                <label id="modlgn-passwd-<?php echo $module->id; ?>" for="modlgn-passwd-<?php echo $module->id; ?>" class="required">
+                <?php echo Text::_('JGLOBAL_PASSWORD'); ?>
+                <span class="star" aria-hidden="true">&#160;*</span></label>
+                </div>
+
                 <div class="input-group">
                     <input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" autocomplete="current-password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
                     <label for="modlgn-passwd-<?php echo $module->id; ?>" class="visually-hidden"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>

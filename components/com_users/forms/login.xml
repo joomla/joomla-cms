@@ -12,6 +12,7 @@
 			validate="username"
 			autofocus="true"
 			autocomplete="username"
+			hint="JGLOBAL_USERNAME"
 		/>
 
 		<field
@@ -22,6 +23,8 @@
 			filter="raw"
 			size="25"
 			autocomplete="current-password"
+			hint="JGLOBAL_PASSWORD"
+
 		/>
 	</fieldset>
 

@@ -100,7 +100,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 
             <div class="com-users-login__submit control-group">
                 <div class="controls">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary w-100">
                         <?php echo Text::_('JLOGIN'); ?>
                     </button>
                 </div>
@@ -111,17 +111,28 @@ $usersConfig = ComponentHelper::getParams('com_users');
             <?php echo HTMLHelper::_('form.token'); ?>
         </fieldset>
     </form>
-    <div class="com-users-login__options list-group">
-        <a class="com-users-login__reset list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
-            <?php echo Text::_('COM_USERS_LOGIN_RESET'); ?>
-        </a>
-        <a class="com-users-login__remind list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
-            <?php echo Text::_('COM_USERS_LOGIN_REMIND'); ?>
-        </a>
-        <?php if ($usersConfig->get('allowUserRegistration')) : ?>
-            <a class="com-users-login__register list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=registration'); ?>">
-                <?php echo Text::_('COM_USERS_LOGIN_REGISTER'); ?>
-            </a>
-        <?php endif; ?>
-    </div>
+    
+    <?php
+            $usersConfig = ComponentHelper::getParams('com_users'); ?>
+            <ul class="mod-login__options list-unstyled">
+                <li>
+                    <a href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
+                    <?php echo Text::_('COM_USERS_LOGIN_RESET'); ?></a>
+                </li>
+                <li>
+                    <a href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
+                    <?php echo Text::_('COM_USERS_LOGIN_REMIND'); ?></a>
+                </li>
+                <?php if ($usersConfig->get('allowUserRegistration')) : ?>
+                <li>
+                    <a href="<?php echo Route::_($registerLink); ?>">
+                    <?php echo Text::_('COM_USERS_LOGIN_REGISTER'); ?> <span class="icon-register" aria-hidden="true"></span></a>
+                </li>
+                <?php endif; ?>
+            </ul>
+        <input type="hidden" name="option" value="com_users">
+        <input type="hidden" name="task" value="user.login">
+        <input type="hidden" name="return" value="<?php echo $return; ?>">
+        <?php echo HTMLHelper::_('form.token'); ?>
+    
 </div>
