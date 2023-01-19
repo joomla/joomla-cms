@@ -42,7 +42,7 @@ class Json extends Input
      * @since   3.0.1
      * @deprecated  5.0  Use Joomla\Input\Json instead
      */
-    public function __construct(array $source = null, array $options = array())
+    public function __construct(array $source = null, array $options = [])
     {
         if (isset($options['filter'])) {
             $this->filter = $options['filter'];
@@ -55,7 +55,7 @@ class Json extends Input
             $this->data = json_decode($this->_raw, true);
 
             if (!is_array($this->data)) {
-                $this->data = array();
+                $this->data = [];
             }
         } else {
             $this->data = &$source;
