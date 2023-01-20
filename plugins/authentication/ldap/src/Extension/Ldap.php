@@ -252,7 +252,7 @@ final class Ldap extends CMSPlugin
      *
      * @since   3.8.2
      */
-    private function searchByString($search, LdapInterface $ldap)
+    private function searchByString(string $search, LdapInterface $ldap)
     {
         $dn = $this->params->get('base_dn', '');
 
