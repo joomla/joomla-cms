@@ -12,9 +12,9 @@
 
 		<field
 			name="featured"
+			class="js-select-submit-on-change"
 			type="list"
 			label="JFEATURED"
-			onchange="this.form.submit();"
 			default=""
 			validate="options"
 			>
@@ -25,9 +25,9 @@
 
 		<field
 			name="stage"
+			class="js-select-submit-on-change"
 			type="workflowstage"
 			label="JOPTION_SELECT_STAGE"
-			onchange="this.form.submit();"
 			activeonly="true"
 			extension="com_content.article"
 			>
@@ -36,9 +36,9 @@
 
 		<field
 			name="published"
+			class="js-select-submit-on-change"
 			type="status"
 			label="JOPTION_SELECT_PUBLISHED"
-			onchange="this.form.submit();"
 			extension="com_content"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -46,34 +46,34 @@
 
 		<field
 			name="category_id"
+			class="js-select-submit-on-change"
 			type="category"
 			label="JCATEGORY"
 			multiple="true"
 			extension="com_content"
 			layout="joomla.form.field.list-fancy-select"
 			hint="JOPTION_SELECT_CATEGORY"
-			onchange="this.form.submit();"
 			published="0,1,2"
 		/>
 
 		<field
 			name="access"
+			class="js-select-submit-on-change"
 			type="accesslevel"
 			label="JGRID_HEADING_ACCESS"
 			multiple="true"
 			layout="joomla.form.field.list-fancy-select"
 			hint="JOPTION_SELECT_ACCESS"
-			onchange="this.form.submit();"
 		/>
 
 		<field
 			name="author_id"
+			class="js-select-submit-on-change"
 			type="author"
 			label="JOPTION_SELECT_AUTHOR"
 			multiple="true"
 			layout="joomla.form.field.list-fancy-select"
 			hint="JOPTION_SELECT_AUTHOR"
-			onchange="this.form.submit();"
 			>
 			<option value="0">JNONE</option>
 			<option value="by_me">COM_CONTENT_FILTER_AUTHORS_BY_ME</option>
@@ -81,9 +81,9 @@
 
 		<field
 			name="language"
+			class="js-select-submit-on-change"
 			type="contentlanguage"
 			label="JGRID_HEADING_LANGUAGE"
-			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
@@ -91,24 +91,24 @@
 
 		<field
 			name="tag"
+			class="js-select-submit-on-change"
 			type="tag"
 			multiple="true"
 			label="JTAG"
 			hint="JOPTION_SELECT_TAG"
 			mode="nested"
 			custom="false"
-			onchange="this.form.submit();"
 		/>
 
 		<field
 			name="level"
+			class="js-select-submit-on-change"
 			type="integer"
 			label="JGLOBAL_MAXLEVEL_LABEL"
 			first="1"
 			last="10"
 			step="1"
 			languages="*"
-			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
 		</field>
@@ -117,9 +117,9 @@
 	<fields name="list">
 		<field
 			name="fullordering"
+			class="js-select-submit-on-change"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			onchange="this.form.submit();"
 			default="a.id DESC"
 			validate="options"
 			>
@@ -162,10 +162,10 @@
 
 		<field
 			name="limit"
+			class="js-select-submit-on-change"
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			onchange="this.form.submit();"
 		/>
 	</fields>
 </form>

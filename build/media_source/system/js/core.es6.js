@@ -394,6 +394,8 @@ window.Joomla.Modal = window.Joomla.Modal || {
    * @param {string} stub     An alternative field name
    *
    * @return {boolean}
+   *
+   * @deprecated without replacement. List views could use list-view.js
    */
   Joomla.checkAll = (checkbox, stub) => {
     if (!checkbox.form) {
@@ -433,6 +435,8 @@ window.Joomla.Modal = window.Joomla.Modal || {
    * @param  {node}     form         The form
    *
    * @return  {void}
+   *
+   * @deprecated without replacement. List views could use list-view.js
    */
   Joomla.isChecked = (isitchecked, form) => {
     let newForm = form;
@@ -484,7 +488,9 @@ window.Joomla.Modal = window.Joomla.Modal || {
    * @param  {string}  task   The task
    * @param  {node}    form   The form
    *
-   * return  {void}
+   * @return  {void}
+   *
+   * @deprecated without replacement. List views could use list-view.js
    */
   Joomla.tableOrdering = (order, dir, task, form) => {
     let newForm = form;
@@ -507,6 +513,8 @@ window.Joomla.Modal = window.Joomla.Modal || {
    * @param  {string}  form  The optional form
    *
    * @return {boolean}
+   *
+   * @deprecated without replacement. List views could use list-view.js
    */
   Joomla.listItemTask = (id, task, form = null) => {
     let newForm = form;

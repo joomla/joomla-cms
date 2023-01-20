@@ -83,17 +83,27 @@ abstract class Grid
      * Method to check all checkboxes in a grid
      *
      * @param   string  $name    The name of the form element
-     * @param   string  $action  The action to perform on clicking the checkbox
+     * @param   string  $action  @deprecated The action to perform on clicking the checkbox
      *
      * @return  string
      *
      * @since   3.1.2
+     *
+     * The second param ($action) will be removed in v6 without a replacement, due to CSP strict rules. If you
+     * need custom functionality attach it to the class `js-checkbox-check-all`
      */
     public static function checkall($name = 'checkall-toggle', $action = 'Joomla.checkAll(this)')
     {
         HTMLHelper::_('behavior.core');
+        Factory::getDocument()->getWebAssetManager()->useScript('list-view');
 
-        return '<input class="form-check-input" autocomplete="off" type="checkbox" name="' . $name . '" value="" title="' . Text::_('JGLOBAL_CHECK_ALL') . '" onclick="' . $action . '">';
+        if ($action !== 'Joomla.checkAll(this)') {
+            $action = ' onclick="' . $action . '"';
+        } else {
+            $action = '';
+        }
+
+        return '<input class="js-checkbox-check-all form-check-input" autocomplete="off" type="checkbox" name="' . $name . '" value="" title="' . Text::_('JGLOBAL_CHECK_ALL') . '"' . $action . '>';
     }
 
     /**
@@ -113,17 +123,12 @@ abstract class Grid
      */
     public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid', $stub = 'cb', $title = '', $formId = null)
     {
-        if ($formId !== null) {
-            return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="visually-hidden">' . Text::_('JSELECT')
-                . ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
-                . '<input class="form-check-input" type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
-                . '" onclick="Joomla.isChecked(this.checked, \'' . $formId . '\');">';
-        }
+        Factory::getDocument()->getWebAssetManager()->useScript('list-view');
 
         return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="visually-hidden">' . Text::_('JSELECT')
             . ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
-            . '<input class="form-check-input" autocomplete="off" type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
-            . '" onclick="Joomla.isChecked(this.checked);">';
+            . '<input class="js-checkbox-is-checked form-check-input" autocomplete="off" type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
+            . '"' . ($formId !== null ? ' data-form-id="' . $formId . '"' : '') . '>';
     }
 
     /**
@@ -174,6 +179,8 @@ abstract class Grid
      */
     public static function published($value, $i, $img1 = 'tick.png', $img0 = 'publish_x.png', $prefix = '')
     {
+        Factory::getDocument()->getWebAssetManager()->useScript('list-view');
+
         if (is_object($value)) {
             $value = $value->published;
         }
@@ -183,7 +190,7 @@ abstract class Grid
         $alt = $value ? Text::_('JPUBLISHED') : Text::_('JUNPUBLISHED');
         $action = $value ? Text::_('JLIB_HTML_UNPUBLISH_ITEM') : Text::_('JLIB_HTML_PUBLISH_ITEM');
 
-        return '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $prefix . $task . '\')" title="' . $action . '">'
+        return '<a href="#" class="js-grid-item-action" data-item-id="cb' . $i . '" data-item-task="' . $prefix . $task . '" title="' . $action . '">'
             . HTMLHelper::_('image', 'admin/' . $img, $alt, null, true) . '</a>';
     }
 

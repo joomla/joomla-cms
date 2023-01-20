@@ -31,14 +31,14 @@ $taskPrefix = $options['task_prefix'];
 $checkboxName = $options['checkbox_name'];
 $id = $options['id'];
 $tipTitle = $options['tip_title'];
-
 ?>
-<button type="submit" class="tbody-icon data-state-<?php echo $this->escape($value ?? ''); ?>"
-        aria-labelledby="<?php echo $id; ?>"
-        <?php echo $disabled ? 'disabled' : ''; ?>
-        <?php if (!empty($task) && empty($disabled)) : ?>
-            onclick="return Joomla.listItemTask('<?php echo $checkboxName . $this->escape($row ?? ''); ?>', '<?php echo $this->escape(isset($task) ? $taskPrefix . $task : ''); ?>')"
-        <?php endif; ?>
+<button type="button" class="js-grid-item-action tbody-icon data-state-<?php echo $this->escape($value ?? ''); ?>"
+    aria-labelledby="<?php echo $id; ?>"
+    <?php echo $disabled ? 'disabled' : ''; ?>
+    <?php if (!empty($task) && empty($disabled)) : ?>
+        data-item-id="<?php echo $checkboxName . $this->escape($row ?? ''); ?>"
+        data-item-task="<?php echo $this->escape(isset($task) ? $taskPrefix . $task : ''); ?>"
+    <?php endif; ?>
 >
     <span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
 </button>
