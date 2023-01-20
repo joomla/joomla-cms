@@ -175,7 +175,7 @@ class HtmlView extends BaseHtmlView
                 $itemElement->event = new \stdClass();
 
                 // For some plugins.
-                !empty($itemElement->core_body) ? $itemElement->text = $itemElement->core_body : $itemElement->text = '';
+                $itemElement->text = !empty($itemElement->core_body) ? $itemElement->core_body : '';
 
                 $itemElement->core_params = new Registry($itemElement->core_params);
 
