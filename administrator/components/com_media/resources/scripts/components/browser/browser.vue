@@ -15,6 +15,7 @@
           aria-hidden="true"
         />
         <p>{{ translate('COM_MEDIA_DROP_FILE') }}</p>
+        <h3 v-if="show">{{ translate("COM_MEDIA_NO_MEDIA_FOUND") }}</h3>
       </div>
       <table
         v-if="listView === 'table'"
@@ -110,6 +111,19 @@ export default {
         .filter((file) => file.name.toLowerCase().includes(this.$store.state.search.toLowerCase()));
 
       return [...directories, ...files];
+    },
+    data() {
+      const directories = this.$store.getters.getSelectedDirectoryDirectories
+      const files = this.$store.getters.getSelectedDirectoryFiles
+      if (directories.length + files.length === 0) {
+        return{
+          show:true
+        }
+      } else {
+        return{
+          show:false
+        }
+      }
     },
     /* The styles for the media-browser element */
     mediaBrowserStyles() {

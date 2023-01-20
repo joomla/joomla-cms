@@ -72,3 +72,4 @@ Text::script('JCANCEL', true);
 Text::script('JGLOBAL_CONFIRM_DELETE', true);
 Text::script('JLIB_FORM_FIELD_REQUIRED_VALUE', true);
 Text::script('MESSAGE', true);
+Text::script('COM_MEDIA_NO_MEDIA_FOUND', true);
