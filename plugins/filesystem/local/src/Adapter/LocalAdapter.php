@@ -399,6 +399,11 @@ class LocalAdapter implements AdapterInterface
         $obj->modified_date           = $modifiedDate->format('c', true);
         $obj->modified_date_formatted = HTMLHelper::_('date', $modifiedDate, Text::_('DATE_FORMAT_LC5'));
 
+        if ($obj->mime_type === 'image/svg+xml' && $obj->extension === 'svg') {
+            $obj->thumb_path = $this->getUrl($obj->path);
+            return $obj;
+        }
+
         if (MediaHelper::isImage($obj->name)) {
             // Get the image properties
             try {

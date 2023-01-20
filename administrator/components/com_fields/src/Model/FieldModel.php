@@ -317,8 +317,17 @@ class FieldModel extends AdminModel
         }
 
         try {
+            $element = simplexml_import_dom($node->firstChild);
+            $value   = $data['default_value'];
+
+            if ($data['type'] === 'checkboxes') {
+                $value = explode(',', $value);
+            } elseif ($element['multiple'] && \is_string($value) && \is_array(json_decode($value, true))) {
+                $value = (array)json_decode($value);
+            }
+
             // Perform the check
-            $result = $rule->test(simplexml_import_dom($node->firstChild), $data['default_value']);
+            $result = $rule->test($element, $value);
 
             // Check if the test succeeded
             return $result === true ? : Text::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
@@ -896,6 +905,14 @@ class FieldModel extends AdminModel
                 $data->set('state', $input->getInt('state', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
                 $data->set('language', $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
                 $data->set('group_id', $input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
+                $data->set(
+                    'assigned_cat_ids',
+                    $input->get(
+                        'assigned_cat_ids',
+                        (!empty($filters['assigned_cat_ids']) ? (array)$filters['assigned_cat_ids'] : [0]),
+                        'array'
+                    )
+                );
                 $data->set(
                     'access',
                     $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))

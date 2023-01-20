@@ -475,8 +475,9 @@ class MessagesModel extends BaseDatabaseModel
     /**
      * Adds or updates a post-installation message (PIM) definition. You can use this in your post-installation script using this code:
      *
-     * require_once JPATH_LIBRARIES . '/fof/include.php';
-     * FOFModel::getTmpInstance('Messages', 'PostinstallModel')->addPostInstallationMessage($options);
+     * Factory::getApplication()->bootComponent('com_postinstall')
+     * ->getMVCFactory()->createModel('Messages', 'Administrator', ['ignore_request' => true])
+     * ->addPostInstallationMessage($options);
      *
      * The $options array contains the following mandatory keys:
      *
@@ -526,8 +527,8 @@ class MessagesModel extends BaseDatabaseModel
      *
      * When type=action the following additional keys are required:
      *
-     * action_file  The RAD path to a PHP file containing a PHP function which performs the action of this PIM. @see FOFTemplateUtils::parsePath()
-     *              for RAD path format. Joomla! will include this file before calling the function defined in the action key below.
+     * action_file  The RAD path to a PHP file containing a PHP function which performs the action of this PIM.
+     *              Joomla! will include this file before calling the function defined in the action key below.
      *              Example:   admin://components/com_foobar/helpers/postinstall.php
      *
      * action       The name of a PHP function which will be used to run the action of this PIM. This must be a simple PHP user function

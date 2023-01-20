@@ -1424,6 +1424,13 @@ class ItemModel extends AdminModel
             return false;
         }
 
+        // Rebuild the paths of the menu item's children:
+        if (!$table->rebuild($table->id, $table->lft, $table->level, $table->path)) {
+            $this->setError($table->getError());
+
+            return false;
+        }
+
         // Process the child rows
         if (!empty($children)) {
             // Remove any duplicates and sanitize ids.

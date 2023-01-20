@@ -10,10 +10,12 @@
 
 namespace Joomla\Tests\Unit\Plugin\Authentication\Ldap;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Authentication\AuthenticationResponse;
-use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Language;
 use Joomla\Event\Dispatcher;
+use Joomla\Plugin\Authentication\Ldap\Extension\Ldap as LdapPlugin;
 use Joomla\Tests\Unit\UnitTestCase;
 use Symfony\Component\Ldap\Ldap;
 
@@ -25,32 +27,50 @@ use Symfony\Component\Ldap\Ldap;
  *
  * @testdox     The Ldap plugin
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.3.0
  */
 class LdapPluginTest extends UnitTestCase
 {
     public const LDAPPORT = "1389";
     public const SSLPORT = "1636";
 
-    private function getPlugin($options): CMSPlugin
-    {
-        $type = "authentication";
-        $plugin = "ldap";
+    /**
+     * The default options
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    private $default_options;
 
-        // based on loadPluginFromFilesystem in ExtensionManagerTrait
-        $path = JPATH_PLUGINS . '/' . $type . '/' . $plugin . '/' . $plugin . '.php';
-        require_once $path;
+    /**
+     * The default credentials
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    private $default_credentials;
+
+    private function getPlugin($options): LdapPlugin
+    {
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
 
         $dispatcher = new Dispatcher();
 
         // plugin object: result from DB using PluginHelper::getPlugin
-        $pluginobject = [
-            'name' => $plugin,
+        $pluginObject = [
+            'name'   => 'ldap',
             'params' => json_encode($options),
-            'type' => $type
+            'type'   => 'authentication'
         ];
 
-        return new \PlgAuthenticationLdap($dispatcher, $pluginobject);
+        $plugin = new LdapPlugin($dispatcher, $pluginObject);
+        $plugin->setApplication($app);
+
+        return $plugin;
     }
 
     private function acceptCertificates(): void
@@ -88,7 +108,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function setUp(): void
     {
@@ -124,18 +144,18 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function tearDown(): void
     {
     }
 
     /**
-     * @testdox  can perform an authentication using anynomous search
+     * @testdox  can perform an authentication using anonymous search
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testOnUserAuthenticateAnonymousSearch()
     {
@@ -154,7 +174,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testOnUserAuthenticateDirect()
     {
@@ -172,7 +192,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testInvalidOnUserAuthenticateDirect()
     {
@@ -186,11 +206,11 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can perform an authentication using anynomous search
+     * @testdox  can perform an authentication using anonymous search
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testOnUserAuthenticateAnonymousSearchTLS()
     {
@@ -209,11 +229,11 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can perform an authentication using anynomous search
+     * @testdox  can perform an authentication using anonymous search
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testOnUserAuthenticateAnonymousSearchSSL()
     {
@@ -241,7 +261,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     /*
     public function testOnUserAuthenticateWithDebug()

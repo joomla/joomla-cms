@@ -66,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'dev';
+    public const EXTRA_VERSION = 'alpha3-dev';
 
     /**
      * Development status.
@@ -82,7 +82,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const CODENAME = 'Uaminifu';
+    public const CODENAME = 'Bora';
 
     /**
      * Release date.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '26-July-2022';
+    public const RELDATE = '27-December-2022';
 
     /**
      * Release time.
@@ -98,7 +98,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTIME = '16:34';
+    public const RELTIME = '16:01';
 
     /**
      * Release timezone.
@@ -310,8 +310,7 @@ final class Version
         $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
             ->createCacheController('callback', ['defaultgroup' => '_media_version', 'caching' => true]);
 
-        // Media version cache never expire
-        $cache->setLifeTime(INF);
+        $cache->setLifeTime(315576000);
 
         // Disable cache when Debug is enabled
         if (JDEBUG) {

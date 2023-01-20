@@ -231,7 +231,13 @@ abstract class BaseDatabaseModel extends BaseModel implements
             $config['dbo'] = $this->getDbo();
         }
 
-        return $this->getMVCFactory()->createTable($name, $prefix, $config);
+        $table = $this->getMVCFactory()->createTable($name, $prefix, $config);
+
+        if ($table instanceof CurrentUserInterface) {
+            $table->setCurrentUser($this->getCurrentUser());
+        }
+
+        return $table;
     }
 
     /**
