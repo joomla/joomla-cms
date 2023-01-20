@@ -6,12 +6,11 @@
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+namespace Joomla\Plugin\EditorsXtd\Fields\Extension;
+
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -26,7 +25,7 @@ use Joomla\CMS\Session\Session;
  *
  * @since  3.7.0
  */
-class PlgButtonFields extends CMSPlugin
+final class Fields extends CMSPlugin
 {
     /**
      * Load the language file on instantiation.
@@ -53,7 +52,7 @@ class PlgButtonFields extends CMSPlugin
         }
 
         // Guess the field context based on view.
-        $jinput = Factory::getApplication()->getInput();
+        $jinput = $this->getApplication()->getInput();
         $context = $jinput->get('option') . '.' . $jinput->get('view');
 
         // Special context for com_categories
