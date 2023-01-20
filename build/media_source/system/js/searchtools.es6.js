@@ -80,7 +80,7 @@ Joomla = window.Joomla || {};
         // Extra
         clearListOptions: false,
 
-        listSelectAutoSubmit: 'js-select-submit-on-change'
+        listSelectAutoSubmit: 'js-select-submit-on-change',
       };
 
       this.element = elem;

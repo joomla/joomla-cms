@@ -172,9 +172,9 @@ function gridItemAction(event) {
     return;
   }
 
-  const itemId = item.dataset.itemId;
-  const itemTask = item.dataset.itemTask;
-  const itemFormId = item.dataset.itemFormId;
+  const { itemId } = item.dataset;
+  const { itemTask } = item.dataset;
+  const { itemFormId } = item.dataset;
 
   if (itemFormId) {
     Joomla.listItemTask(itemId, itemTask);
@@ -186,15 +186,15 @@ function gridItemAction(event) {
 }
 
 function gridTransitionItemAction(event) {
-  let item = event.target;
+  const item = event.target;
 
   if (item.nodeName !== 'SELECT' || item.hasAttribute('disabled')) {
     return;
   }
 
-  const itemId = item.dataset.itemId;
-  const itemTask = item.dataset.itemTask;
-  const itemFormId = item.dataset.itemFormId;
+  const { itemId } = item.dataset;
+  const { itemTask } = item.dataset;
+  const { itemFormId } = item.dataset;
 
   item.form.transition_id.value = item.value;
 
@@ -218,22 +218,22 @@ function gridTransitionButtonAction(event) {
     return;
   }
 
-  Joomla.toggleAllNextElements(item, 'd-none')
+  Joomla.toggleAllNextElements(item, 'd-none');
 }
 
 function applyIsChecked(event) {
-  let item = event.target;
+  const item = event.target;
   const itemFormId = item.dataset.itemFormId || '';
 
   if (itemFormId) {
-    Joomla.isChecked(item.checked, itemTask);
+    Joomla.isChecked(item.checked, itemFormId);
   } else {
     Joomla.isChecked(item.checked);
   }
 }
 
-document.querySelectorAll('.js-checkbox-check-all').forEach((element) => element.addEventListener('click', (event) => Joomla.checkAll(event.target)))
-document.querySelectorAll('.js-checkbox-is-checked').forEach((element) => element.addEventListener('click', applyIsChecked))
-document.querySelectorAll('.js-grid-item-action').forEach((element) => element.addEventListener('click', gridItemAction))
-document.querySelectorAll('.js-grid-transition-item-action').forEach((element) => element.addEventListener('change', gridTransitionItemAction))
-document.querySelectorAll('.js-grid-transition-button-action').forEach((element) => element.addEventListener('click', gridTransitionButtonAction))
+document.querySelectorAll('.js-checkbox-check-all').forEach((element) => element.addEventListener('click', (event) => Joomla.checkAll(event.target)));
+document.querySelectorAll('.js-checkbox-is-checked').forEach((element) => element.addEventListener('click', applyIsChecked));
+document.querySelectorAll('.js-grid-item-action').forEach((element) => element.addEventListener('click', gridItemAction));
+document.querySelectorAll('.js-grid-transition-item-action').forEach((element) => element.addEventListener('change', gridTransitionItemAction));
+document.querySelectorAll('.js-grid-transition-button-action').forEach((element) => element.addEventListener('click', gridTransitionButtonAction));
