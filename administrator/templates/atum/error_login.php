@@ -118,7 +118,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
                     <div id="element-box" class="card">
                         <div class="card-body">
                             <div class="main-brand d-flex align-items-center justify-content-center">
-                                <img src="<?php echo $loginLogo; ?>" <?php echo $loginLogoAlt; ?>>
+                                <?php echo HTMLHelper::_('image', $loginLogo, $loginLogoAlt, ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                             </div>
                             <h1><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
                             <jdoc:include type="message" />
