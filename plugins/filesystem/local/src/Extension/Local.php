@@ -2,19 +2,18 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  FileSystem.local
+ * @subpackage  FileSystem.Local
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+
+ * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-namespace Joomla\Plugin\Filesystem\Local\Extension;
-
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
-use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -27,7 +26,7 @@ use Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter;
  *
  * @since  4.0.0
  */
-final class Local extends CMSPlugin implements ProviderInterface
+class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 {
     /**
      * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -36,29 +35,6 @@ final class Local extends CMSPlugin implements ProviderInterface
      * @since  4.0.0
      */
     protected $autoloadLanguage = true;
-    /**
-     * The root directory path
-     *
-     * @var    string
-     * @since  __DEPLOY_VERSION__
-     */
-    private $rootDirectory;
-
-    /**
-     * Constructor.
-     *
-     * @param   DispatcherInterface  $dispatcher     The dispatcher
-     * @param   array                $config         An optional associative array of configuration settings
-     * @param   string               $rootDirectory  The root directory to look for images
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function __construct(DispatcherInterface $dispatcher, array $config, string $rootDirectory)
-    {
-        parent::__construct($dispatcher, $config);
-
-        $this->rootDirectory = $rootDirectory;
-    }
 
     /**
      * Setup Providers for Local Adapter
@@ -95,7 +71,7 @@ final class Local extends CMSPlugin implements ProviderInterface
      */
     public function getDisplayName()
     {
-        return $this->getApplication()->getLanguage()->_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
+        return Text::_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
     }
 
     /**
@@ -118,10 +94,13 @@ final class Local extends CMSPlugin implements ProviderInterface
 
         foreach ($directories as $directoryEntity) {
             if ($directoryEntity->directory) {
-                $directoryPath = $this->rootDirectory . '/' . $directoryEntity->directory;
+                $directoryPath = JPATH_ROOT . '/' . $directoryEntity->directory;
                 $directoryPath = rtrim($directoryPath) . '/';
 
-                $adapter = new LocalAdapter($directoryPath, $directoryEntity->directory);
+                $adapter = new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter(
+                    $directoryPath,
+                    $directoryEntity->directory
+                );
 
                 $adapters[$adapter->getAdapterName()] = $adapter;
             }
