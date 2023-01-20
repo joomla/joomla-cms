@@ -19,7 +19,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Workflow\Workflow;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -145,11 +144,6 @@ class HtmlView extends BaseHtmlView
 
         if (!empty($parts)) {
             $this->section = array_shift($parts);
-        }
-
-        if (!empty($this->stages)) {
-            $extension = Factory::getApplication()->getInput()->getCmd('extension');
-            $workflow  = new Workflow($extension);
         }
 
         $this->addToolbar();
