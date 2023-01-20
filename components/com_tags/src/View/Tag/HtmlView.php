@@ -310,7 +310,17 @@ class HtmlView extends BaseHtmlView
         }
 
         $this->setDocumentTitle($title);
-        $pathway->addItem($title);
+
+        if (
+            $menu
+            && isset($menu->query['option'], $menu->query['view'])
+            && $menu->query['option'] === 'com_tags'
+            && $menu->query['view'] === 'tag'
+        ) {
+            // No need to alter pathway if the active menu item links directly to tag view
+        } else {
+            $pathway->addItem($title);
+        }
 
         foreach ($this->item as $itemElement) {
             if ($itemElement->metadesc) {

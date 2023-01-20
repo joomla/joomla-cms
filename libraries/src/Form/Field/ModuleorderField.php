@@ -40,6 +40,14 @@ class ModuleorderField extends FormField
     protected $layout = 'joomla.form.field.moduleorder';
 
     /**
+     * The linked property
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION_
+     */
+    protected $linked;
+
+    /**
      * Method to get certain otherwise inaccessible properties from the form field object.
      *
      * @param   string  $name  The property name for which to get the value.
