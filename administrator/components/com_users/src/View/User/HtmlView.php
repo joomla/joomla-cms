@@ -183,10 +183,10 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check lastvisitDate for allow resend the activation email
-        $userIsActive = (empty($this->item->activation) || \is_null($this->item->lastvisitDate));
+        $userIsNotActive = !empty($this->item->activation) || \is_null($this->item->lastvisitDate);
 
-        if ($this->item->id > 0 && $userIsActive) {
-            $buttonText = !$userIsActive
+        if ($this->item->id > 0 && $userIsNotActive) {
+            $buttonText = !empty($this->item->activation)
                 ? Text::_('COM_USERS_USER_ACTIVATE_AND_MAIL')
                 : Text::_('COM_USERS_USER_ACTIVATION_REMINDER');
 
