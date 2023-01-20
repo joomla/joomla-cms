@@ -9,6 +9,11 @@ Joomla = window.Joomla || {};
 
   Joomla.submitbutton = (task) => {
     if (task === 'module.cancel' || document.formvalidator.isValid(document.getElementById('module-form'))) {
+
+      /* Convert array to comma separated list for assigned menu ids */
+      var assignedCheckboxes = [].slice.call(document.querySelectorAll('input.jform-assigned'));
+      document.querySelector('input[name="jform[assigned]"]').value = assignedCheckboxes.filter(e => e.checked).map(e => e.value).join();
+
       Joomla.submitform(task, document.getElementById('module-form'));
 
       const options = Joomla.getOptions('module-edit');
@@ -24,9 +29,9 @@ Joomla = window.Joomla || {};
           const tmpRow = window.parent.document.getElementById(`tr-${options.itemId}`);
           const tmpStatus = window.parent.document.getElementById(`status-${options.itemId}`);
           window.parent.inMenus = [];
-          window.parent.numMenus = [].slice.call(document.querySelectorAll('input[name="jform[assigned][]"]')).length;
+          window.parent.numMenus = assignedCheckboxes.length;
 
-          [].slice.call(document.querySelectorAll('input[name="jform[assigned][]"]')).forEach((element) => {
+          assignedCheckboxes.forEach((element) => {
             if (updMenus > 0) {
               if (element.checked) {
                 window.parent.inMenus.push(parseInt(element.value, 10));

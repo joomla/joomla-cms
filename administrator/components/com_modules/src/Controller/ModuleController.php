@@ -214,6 +214,14 @@ class ModuleController extends FormController
     {
         $this->checkToken();
 
+        //Convert comma separated list to array
+        $data  = $this->input->post->get('jform', array(), 'array');
+        if (!empty($data['assigned'])) {
+            $data['assigned'] = explode(',', $data['assigned']);
+            $data['assigned'] = array_map('intval', $data['assigned']);
+            $this->input->post->set('jform', $data);
+        }
+
         if ($this->app->getDocument()->getType() == 'json') {
             $model = $this->getModel();
             $data  = $this->input->post->get('jform', [], 'array');

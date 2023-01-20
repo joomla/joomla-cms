@@ -36,6 +36,7 @@ $this->document->getWebAssetManager()
     <label id="jform_menuselect-lbl" class="control-label" for="jform_menuselect"><?php echo Text::_('JGLOBAL_MENU_SELECTION'); ?></label>
     <div id="jform_menuselect" class="controls">
         <?php if (!empty($menuTypes)) : ?>
+        <input type="hidden" name="jform[assigned]" value="" />
         <div class="card-header">
             <section class="d-flex align-items-center flex-wrap w-100" aria-label="<?php echo Text::_('COM_MODULES_GLOBAL'); ?>">
                 <div class="d-flex align-items-center flex-fill mb-1" role="group" aria-label="<?php echo Text::_('COM_MODULES_GLOBAL_ASSIGN'); ?>"><?php echo Text::_('COM_MODULES_GLOBAL_ASSIGN'); ?>
@@ -92,7 +93,7 @@ $this->document->getWebAssetManager()
                                     $uselessMenuItem = in_array($link->type, ['separator', 'heading', 'alias', 'url']);
                                     $id = 'jform_menuselect';
                                     ?>
-                                    <input type="checkbox" class="novalidate form-check-input" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : '';
+                                    <input type="checkbox" class="novalidate form-check-input jform-assigned" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : '';
                                     echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?>>
                                     <label for="<?php echo $id . $link->value; ?>" class="">
                                         <?php echo $link->text; ?>
