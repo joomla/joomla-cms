@@ -76,8 +76,8 @@ final class Ldap extends CMSPlugin
         }
 
         // For JLog
-        $logCategory = 'ldap';
-        $response->type = $logCategory;
+        $logcategory = 'ldap';
+        $response->type = $logcategory;
 
         // Strip null bytes from the password
         $credentials['password'] = str_replace(chr(0), '', $credentials['password']);
@@ -103,38 +103,38 @@ final class Ldap extends CMSPlugin
             'referrals'  => (bool) $this->params->get('no_referrals', '0'),
             'encryption' => $this->params->get('negotiate_tls', '0') == '1' ? 'tls' : 'none',
         ];
-        Log::add(sprintf('Creating LDAP session with options: %s', json_encode($options)), Log::DEBUG, $logCategory);
+        Log::add(sprintf('Creating LDAP session with options: %s', json_encode($options)), Log::DEBUG, $logcategory);
         $connection_string = sprintf('ldap%s://%s:%s', 'ssl' === $options['encryption'] ? 's' : '', $options['host'], $options['port']);
-        Log::add(sprintf('Creating LDAP session to connect to "%s" while binding', $connection_string), Log::DEBUG, $logCategory);
+        Log::add(sprintf('Creating LDAP session to connect to "%s" while binding', $connection_string), Log::DEBUG, $logcategory);
         $ldap = $this->factory->createLdap($options);
 
         switch ($auth_method) {
             case 'search':
                 try {
                     $dn = $this->params->get('username', '');
-                    Log::add(sprintf('Binding to LDAP server with administrative dn "%s" and given administrative password (anonymous if user dn is blank)', $dn), Log::DEBUG, $logCategory);
+                    Log::add(sprintf('Binding to LDAP server with administrative dn "%s" and given administrative password (anonymous if user dn is blank)', $dn), Log::DEBUG, $logcategory);
                     $ldap->bind($dn, $this->params->get('password', ''));
                 } catch (ConnectionException | LdapException $exception) {
                     $response->status = Authentication::STATUS_FAILURE;
                     $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_NOT_CONNECT');
-                    Log::add($exception->getMessage(), Log::ERROR, $logCategory);
+                    Log::add($exception->getMessage(), Log::ERROR, $logcategory);
 
                     return;
                 }
 
                 // Search for users DN
                 try {
-                    $searchString = str_replace(
+                    $searchstring = str_replace(
                         '[search]',
                         str_replace(';', '\3b', $ldap->escape($credentials['username'], '', LDAP_ESCAPE_FILTER)),
                         $this->params->get('search_string', '')
                     );
-                    Log::add(sprintf('Searching LDAP entry with filter: "%s"', $searchString), Log::DEBUG, $logCategory);
-                    $entry = $this->searchByString($searchString, $ldap);
+                    Log::add(sprintf('Searching LDAP entry with filter: "%s"', $searchstring), Log::DEBUG, $logcategory);
+                    $entry = $this->searchByString($searchstring, $ldap);
                 } catch (LdapException $exception) {
                     $response->status = Authentication::STATUS_FAILURE;
                     $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
-                    Log::add($exception->getMessage(), Log::ERROR, $logCategory);
+                    Log::add($exception->getMessage(), Log::ERROR, $logcategory);
 
                     return;
                 }
@@ -143,21 +143,21 @@ final class Ldap extends CMSPlugin
                     // we did not find the login in LDAP
                     $response->status = Authentication::STATUS_FAILURE;
                     $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_NO_USER');
-                    Log::add($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_USER_NOT_FOUND'), Log::ERROR, $logCategory);
+                    Log::add($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_USER_NOT_FOUND'), Log::ERROR, $logcategory);
 
                     return;
                 } else {
-                    Log::add(sprintf('LDAP entry found at "%s"', $entry->getDn()), Log::DEBUG, $logCategory);
+                    Log::add(sprintf('LDAP entry found at "%s"', $entry->getDn()), Log::DEBUG, $logcategory);
                 }
 
                 try {
                     // Verify Users Credentials
-                    Log::add(sprintf('Binding to LDAP server with found user dn "%s" and user entered password', $entry->getDn()), Log::DEBUG, $logCategory);
+                    Log::add(sprintf('Binding to LDAP server with found user dn "%s" and user entered password', $entry->getDn()), Log::DEBUG, $logcategory);
                     $ldap->bind($entry->getDn(), $credentials['password']);
                 } catch (ConnectionException $exception) {
                     $response->status = Authentication::STATUS_FAILURE;
                     $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_INVALID_PASS');
-                    Log::add($exception->getMessage(), Log::ERROR, $logCategory);
+                    Log::add($exception->getMessage(), Log::ERROR, $logcategory);
 
                     return;
                 }
@@ -177,28 +177,28 @@ final class Ldap extends CMSPlugin
                         );
                     }
 
-                    Log::add(sprintf('Direct binding to LDAP server with entered user dn "%s" and user entered password', $dn), Log::DEBUG, $logCategory);
+                    Log::add(sprintf('Direct binding to LDAP server with entered user dn "%s" and user entered password', $dn), Log::DEBUG, $logcategory);
                     $ldap->bind($dn, $credentials['password']);
                 } catch (ConnectionException | LdapException $exception) {
                     $response->status = Authentication::STATUS_FAILURE;
                     $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_INVALID_PASS');
-                    Log::add($exception->getMessage(), Log::ERROR, $logCategory);
+                    Log::add($exception->getMessage(), Log::ERROR, $logcategory);
 
                     return;
                 }
 
                 try {
-                    $searchString = str_replace(
+                    $searchstring = str_replace(
                         '[search]',
                         str_replace(';', '\3b', $ldap->escape($credentials['username'], '', LDAP_ESCAPE_FILTER)),
                         $this->params->get('search_string', '')
                     );
-                    Log::add(sprintf('Searching LDAP entry with filter: "%s"', $searchString), Log::DEBUG, $logCategory);
-                    $entry = $this->searchByString($searchString, $ldap);
+                    Log::add(sprintf('Searching LDAP entry with filter: "%s"', $searchstring), Log::DEBUG, $logcategory);
+                    $entry = $this->searchByString($searchstring, $ldap);
                 } catch (LdapException $exception) {
                     $response->status = Authentication::STATUS_FAILURE;
                     $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
-                    Log::add($exception->getMessage(), Log::ERROR, $logCategory);
+                    Log::add($exception->getMessage(), Log::ERROR, $logcategory);
 
                     return;
                 }
@@ -207,11 +207,11 @@ final class Ldap extends CMSPlugin
                     // we did not find the login in LDAP
                     $response->status = Authentication::STATUS_FAILURE;
                     $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_NO_USER');
-                    Log::add($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_USER_NOT_FOUND'), Log::ERROR, $logCategory);
+                    Log::add($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_USER_NOT_FOUND'), Log::ERROR, $logcategory);
 
                     return;
                 } else {
-                    Log::add(sprintf('LDAP entry found at "%s"', $entry->getDn()), Log::DEBUG, $logCategory);
+                    Log::add(sprintf('LDAP entry found at "%s"', $entry->getDn()), Log::DEBUG, $logcategory);
                 }
 
                 break;
@@ -220,7 +220,7 @@ final class Ldap extends CMSPlugin
                 // Unsupported configuration
                 $response->status = Authentication::STATUS_FAILURE;
                 $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
-                Log::add($response->error_message, Log::ERROR, $logCategory);
+                Log::add($response->error_message, Log::ERROR, $logcategory);
 
                 return;
         }
@@ -231,7 +231,7 @@ final class Ldap extends CMSPlugin
         $response->fullname = $entry->getAttribute($ldap_fullname)[0] ?? $credentials['username'];
 
         // Were good - So say so.
-        Log::add(sprintf('LDAP login succeeded; username: "%s", email: "%s", fullname: "%s"', $response->username, $response->email, $response->fullname), Log::DEBUG, $logCategory);
+        Log::add(sprintf('LDAP login succeeded; username: "%s", email: "%s", fullname: "%s"', $response->username, $response->email, $response->fullname), Log::DEBUG, $logcategory);
         $response->status        = Authentication::STATUS_SUCCESS;
         $response->error_message = '';
 

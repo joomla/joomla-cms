@@ -7,7 +7,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
- namespace Joomla\Plugin\Authentication\Ldap\Factory;
+namespace Joomla\Plugin\Authentication\Ldap\Factory;
 
 use Symfony\Component\Ldap\LdapInterface;
 
