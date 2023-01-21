@@ -307,7 +307,7 @@ class JNamespacePsr4Map
                     if (!is_file($file)) {
                         $file = $extensionPath . '/' . $extension . '.xml';
                     }
-                } else if ($type === 'template') {
+                } elseif ($type === 'template') {
                     // Template manifestfiles have a fix filename
                     $file = $extensionPath . '/templateDetails.xml';
                 } else {
