@@ -305,6 +305,31 @@ class Media extends Admin
     }
 
     /**
+     * Method to click on an element holding shift key.
+     *
+     * @param   string  $xpath  Xpath selector
+     *
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function clickHoldingCtrlkey($xpath)
+    {
+        $I = $this;
+        $I->executeInSelenium(
+            function (RemoteWebDriver $webdriver) use ($xpath) {
+                $element  = $webdriver->findElement(WebDriverBy::xpath($xpath));
+                $action   = new WebDriverActions($webdriver);
+                $ctrlKey  = WebDriverKeys::CONTROL;
+                $action->keyDown(null, $ctrlKey)
+                    ->click($element)
+                    ->keyUp(null, $ctrlKey)
+                    ->perform();
+            }
+        );
+    }
+
+    /**
      * Method to get the absolute path.
      *
      * @param   string  $path  Path
