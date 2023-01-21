@@ -63,10 +63,10 @@ class HtmlView extends BaseHtmlView
 
         $this->addCustomTypes($types);
 
-        $sortedTypes = array();
+        $sortedTypes = [];
 
         foreach ($types as $name => $list) {
-            $tmp = array();
+            $tmp = [];
 
             foreach ($list as $item) {
                 $tmp[Text::_($item->title)] = $item;
@@ -120,11 +120,11 @@ class HtmlView extends BaseHtmlView
     protected function addCustomTypes(&$types)
     {
         if (empty($types)) {
-            $types = array();
+            $types = [];
         }
 
         // Adding System Links
-        $list           = array();
+        $list           = [];
         $o              = new CMSObject();
         $o->title       = 'COM_MENUS_TYPE_EXTERNAL_URL';
         $o->type        = 'url';
