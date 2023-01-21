@@ -199,7 +199,7 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->click(MediaListPage::item('banners'));
-		$I->clickHoldingShiftkey(MediaListPage::item('powered_by.png'));
+		$I->clickHoldingCtrlkey(MediaListPage::item('powered_by.png'));
 		$I->seeNumberOfElements(MediaListPage::$itemSelected, 2);
 	}
 
