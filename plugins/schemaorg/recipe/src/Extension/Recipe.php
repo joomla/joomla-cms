@@ -24,7 +24,7 @@ use Joomla\Event\SubscriberInterface;
 /**
  * Schemaorg Plugin
  *
- * @since  4.0.0
+ * @since  _DEPLOY_VERSION__
  */
 final class Recipe extends CMSPlugin implements SubscriberInterface
 {
@@ -40,7 +40,7 @@ final class Recipe extends CMSPlugin implements SubscriberInterface
      * Load the language file on instantiation.
      *
      * @var    boolean
-     * @since  4.0.0
+     * @since  _DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
 
@@ -48,7 +48,7 @@ final class Recipe extends CMSPlugin implements SubscriberInterface
      * Loads the CMS Application for direct access
      *
      * @var   CMSApplicationInterface
-     * @since 4.0.0
+     * @since _DEPLOY_VERSION__
      */
     protected $app;
 
@@ -56,7 +56,7 @@ final class Recipe extends CMSPlugin implements SubscriberInterface
      * The name of the schema form
      *
      * @var   string
-     * @since 4.0.0
+     * @since _DEPLOY_VERSION__
      */
     protected $pluginName = 'Recipe';
 

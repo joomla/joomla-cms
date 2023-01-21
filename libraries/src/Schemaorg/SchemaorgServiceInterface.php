@@ -9,7 +9,7 @@ namespace Joomla\CMS\Schemaorg;
 /**
  * The schemaorg service.
  *
- * @since  4.0.0
+ * @since  _DEPLOY_VERSION__
  */
 interface SchemaorgServiceInterface
 {
@@ -18,7 +18,7 @@ interface SchemaorgServiceInterface
      *
      * @return  array
      *
-     * @since   4.0.0
+     * @since   _DEPLOY_VERSION__
      */
     public function getSchemaorgContexts(): array;
 }

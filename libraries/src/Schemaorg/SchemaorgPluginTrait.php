@@ -18,7 +18,7 @@ use Joomla\Registry\Registry;
 /**
  * Trait for component schemaorg plugins.
  *
- * @since  4.0.0
+ * @since _DEPLOY_VERSION__
  */
 trait SchemaorgPluginTrait
 {
@@ -27,7 +27,7 @@ trait SchemaorgPluginTrait
      *
      * @return  array
      *
-     * @since   4.0.0
+     * @since   _DEPLOY_VERSION__
      */
     public static function getSubscribedEvents(): array
     {
@@ -46,7 +46,7 @@ trait SchemaorgPluginTrait
      *
      * @return  boolean
      *
-     * @since   4.0.0
+     * @since   _DEPLOY_VERSION__
      */
     protected function addSchemaType(EventInterface $event)
     {
@@ -70,7 +70,7 @@ trait SchemaorgPluginTrait
      *
      * @return  boolean
      *
-     * @since   4.0.0
+     * @since   _DEPLOY_VERSION__
      */
     protected function storeSchemaToStandardLocation(EventInterface $event)
     {
@@ -134,7 +134,7 @@ trait SchemaorgPluginTrait
      *
      * @return  boolean
      *
-     * @since   4.0.0
+     * @since   _DEPLOY_VERSION__
      */
     public function updateSchemaForm(EventInterface $event)
     {
@@ -272,7 +272,7 @@ trait SchemaorgPluginTrait
      *
      * @return  boolean
      *
-     * @since   4.0.0
+     * @since   _DEPLOY_VERSION__
      */
     public function isSchemaSupported(EventInterface $event)
     {
@@ -319,7 +319,7 @@ trait SchemaorgPluginTrait
      *
      * @return  Registry
      *
-     * @since   4.0.0
+     * @since   _DEPLOY_VERSION__
      */
     protected function cleanupSchema(Registry $data)
     {
@@ -364,7 +364,7 @@ trait SchemaorgPluginTrait
      *
      * @return  boolean
      *
-     * @since   4.0.0
+     * @since   _DEPLOY_VERSION__
      */
     public function pushSchema()
     {
@@ -557,7 +557,7 @@ trait SchemaorgPluginTrait
      *
      * @return boolean
      *
-     * @since   4.0.0
+     * @since   _DEPLOY_VERSION__
      */
     protected function isSupported($context)
     {

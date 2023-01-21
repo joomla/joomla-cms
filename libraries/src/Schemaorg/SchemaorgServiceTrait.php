@@ -11,7 +11,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 /**
  * Trait for component schemaorg service.
  *
- * @since  4.0.0
+ * @since  _DEPLOY_VERSION__
  */
 trait SchemaorgServiceTrait
 {
@@ -20,7 +20,7 @@ trait SchemaorgServiceTrait
      *
      * @return  MVCFactoryInterface
      *
-     * @since   4.0.0
+     * @since   _DEPLOY_VERSION__
      */
     abstract public function getMVCFactory(): MVCFactoryInterface;
 }
