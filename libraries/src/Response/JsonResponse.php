@@ -78,7 +78,7 @@ class JsonResponse
         // Get the message queue if requested and available
         $app = Factory::getApplication();
 
-        if (!$ignoreMessages && $app !== null && \is_callable(array($app, 'getMessageQueue'))) {
+        if (!$ignoreMessages && $app !== null && \is_callable([$app, 'getMessageQueue'])) {
             $messages = $app->getMessageQueue();
 
             // Build the sorted messages list

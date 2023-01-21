@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -72,9 +73,8 @@ final class Image extends CMSPlugin
                 ->useScript('webcomponent.field-media')
                 ->useStyle('webcomponent.media-select');
 
-            $doc->addScriptOptions('xtdImageModal', [
-                $name . '_ImageModal',
-            ]);
+            $doc->addScriptOptions('xtdImageModal', [$name . '_ImageModal']);
+            $doc->addScriptOptions('media-picker-api', ['apiBaseUrl' => Uri::base() . 'index.php?option=com_media&format=json']);
 
             if (count($doc->getScriptOptions('media-picker')) === 0) {
                 $imagesExt = array_map(
