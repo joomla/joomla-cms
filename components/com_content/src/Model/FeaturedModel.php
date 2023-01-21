@@ -124,7 +124,7 @@ class FeaturedModel extends ArticlesModel
             return parent::getItems();
         }
 
-        return array();
+        return [];
     }
 
     /**

@@ -79,6 +79,7 @@
         "symfony/error-handler": "^5.2",
         "symfony/ldap": "~5.0",
         "symfony/options-resolver": "~5.0",
+        "symfony/polyfill-mbstring": "^1.27",
         "symfony/polyfill-php73": "^1.10",
         "symfony/web-link": "~5.0",
         "symfony/yaml": "~5.0",

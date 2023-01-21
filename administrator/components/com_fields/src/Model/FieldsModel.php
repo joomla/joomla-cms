@@ -40,10 +40,10 @@ class FieldsModel extends ListModel
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'type', 'a.type',
@@ -62,7 +62,7 @@ class FieldsModel extends ListModel
                 'category_id', 'a.category_id',
                 'group_id', 'a.group_id',
                 'assigned_cat_ids'
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -416,7 +416,7 @@ class FieldsModel extends ListModel
      *
      * @since   3.7.0
      */
-    public function getFilterForm($data = array(), $loadData = true)
+    public function getFilterForm($data = [], $loadData = true)
     {
         $form = parent::getFilterForm($data, $loadData);
 

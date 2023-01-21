@@ -93,7 +93,7 @@ class CacheStorage
      *
      * @since   1.7.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         $app = Factory::getApplication();
 
@@ -129,7 +129,7 @@ class CacheStorage
      * @throws  \UnexpectedValueException
      * @throws  UnsupportedCacheException
      */
-    public static function getInstance($handler = null, $options = array())
+    public static function getInstance($handler = null, $options = [])
     {
         static $now = null;
 
@@ -381,7 +381,7 @@ class CacheStorage
 
         if (!isset($paths))
         {
-            $paths = array();
+            $paths = [];
         }
 
         if (!empty($path) && !\in_array($path, $paths))
