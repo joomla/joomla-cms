@@ -927,19 +927,18 @@ CREATE TABLE IF NOT EXISTS `#__scheduler_tasks` (
 
 -- --------------------------------------------------------
 
-
 --
 -- Table structure for table `#__schemaorg`
 --
 
 CREATE TABLE IF NOT EXISTS `#__schemaorg` (
-	`id` int(10) NOT NULL AUTO_INCREMENT,
-	`itemId` int,
-	`context` varchar(100),
-	`schemaType` varchar(100),
-	`schemaForm` text,
-	`schema` text,
-	PRIMARY KEY (`id`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `itemId` int unsigned,
+  `context` varchar(100),
+  `schemaType` varchar(100),
+  `schemaForm` text,
+  `schema` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
