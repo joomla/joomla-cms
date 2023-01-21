@@ -35,7 +35,6 @@ Text::script('JHIDEPASSWORD');
     <div class="mod-login__userdata userdata">
         <div class="mod-login__username form-group">
             <?php if (!$params->get('usetext', 0)) : ?>
-
                 <div class="input-group">
                 <label id="modlgn-username-<?php echo $module->id; ?>" for="modlgn-username-<?php echo $module->id; ?>" class="required">
                 <?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>
@@ -57,7 +56,6 @@ Text::script('JHIDEPASSWORD');
 
         <div class="mod-login__password form-group">
             <?php if (!$params->get('usetext', 0)) : ?>
-
                 <div class="input-group">
                 <label id="modlgn-passwd-<?php echo $module->id; ?>" for="modlgn-passwd-<?php echo $module->id; ?>" class="required">
                 <?php echo Text::_('JGLOBAL_PASSWORD'); ?>
