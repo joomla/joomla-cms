@@ -32,7 +32,7 @@ class ChangeSet
      * @var    ChangeItem[]
      * @since  2.5
      */
-    protected $changeItems = array();
+    protected $changeItems = [];
 
     /**
      * DatabaseDriver object
@@ -122,7 +122,7 @@ class ChangeSet
                 // Set expected records from check query
                 $tmpSchemaChangeItem->checkQueryExpected = 1;
 
-                $tmpSchemaChangeItem->msgElements = array();
+                $tmpSchemaChangeItem->msgElements = [];
 
                 $this->changeItems[] = $tmpSchemaChangeItem;
             }
@@ -159,7 +159,7 @@ class ChangeSet
      */
     public function check()
     {
-        $errors = array();
+        $errors = [];
 
         foreach ($this->changeItems as $item) {
             if ($item->check() === -2) {
@@ -196,7 +196,7 @@ class ChangeSet
      */
     public function getStatus()
     {
-        $result = array('unchecked' => array(), 'ok' => array(), 'error' => array(), 'skipped' => array());
+        $result = ['unchecked' => [], 'ok' => [], 'error' => [], 'skipped' => []];
 
         foreach ($this->changeItems as $item) {
             switch ($item->checkStatus) {
@@ -275,8 +275,8 @@ class ChangeSet
             '\.sql$',
             1,
             true,
-            array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
-            array('^\..*', '.*~'),
+            ['.svn', 'CVS', '.DS_Store', '__MACOSX'],
+            ['^\..*', '.*~'],
             true
         );
     }
@@ -295,7 +295,7 @@ class ChangeSet
     private function getUpdateQueries(array $sqlfiles)
     {
         // Hold results as array of objects
-        $result = array();
+        $result = [];
 
         foreach ($sqlfiles as $file) {
             $buffer = file_get_contents($file);

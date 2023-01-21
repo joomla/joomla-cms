@@ -46,11 +46,11 @@ final class Cookie extends CMSPlugin
     {
         $this->loadLanguage();
 
-        return array(
-            $this->getApplication()->getLanguage()->_('PLG_AUTHENTICATION_COOKIE') => array(
+        return [
+            $this->getApplication()->getLanguage()->_('PLG_AUTHENTICATION_COOKIE') => [
                 $this->getApplication()->getLanguage()->_('PLG_AUTHENTICATION_COOKIE_PRIVACY_CAPABILITY_COOKIE'),
-            ),
-        );
+            ],
+        ];
     }
 
     /**
