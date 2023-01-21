@@ -320,7 +320,7 @@ class Media extends Admin
             function (RemoteWebDriver $webdriver) use ($xpath) {
                 $element  = $webdriver->findElement(WebDriverBy::xpath($xpath));
                 $action   = new WebDriverActions($webdriver);
-                $ctrlKey  = WebDriverKeys::CONTROL;
+                $ctrlKey  = WebDriverKeys::META;
                 $action->keyDown(null, $ctrlKey)
                     ->click($element)
                     ->keyUp(null, $ctrlKey)
