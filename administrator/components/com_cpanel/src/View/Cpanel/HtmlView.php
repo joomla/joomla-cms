@@ -15,6 +15,7 @@ use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -58,8 +59,9 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $app = Factory::getApplication();
+        $app       = Factory::getApplication();
         $dashboard = $app->getInput()->getCmd('dashboard', '');
+        $toolbar   = Toolbar::getInstance();
 
         $position = OutputFilter::stringURLSafe($dashboard);
 
@@ -144,7 +146,7 @@ class HtmlView extends BaseHtmlView
 
         // Set toolbar items for the page
         ToolbarHelper::title($title, $icon . ' cpanel');
-        ToolbarHelper::help('screen.cpanel');
+        $toolbar->help('screen.cpanel');
 
         // Display the cpanel modules
         $this->position = $position ? 'cpanel-' . $position : 'cpanel';
