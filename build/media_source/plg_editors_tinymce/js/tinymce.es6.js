@@ -166,14 +166,32 @@
 
       // Work around iframe behavior, when iframe element changes location in DOM and losing its content.
       // Re init editor when iframe is reloaded.
-      ed.on('PostRender', () => {
-        const $iframe = ed.getContentAreaContainer().querySelector('iframe');
-        if ($iframe) {
+      if (!ed.inline) {
+        let isReady = false;
+        let isRendered = false;
+        const listenIframeReload = () => {
+          const $iframe = ed.getContentAreaContainer().querySelector('iframe');
+
           $iframe.addEventListener('load', () => {
             debounceReInit(ed, element, pluginOptions);
           });
-        }
-      });
+        };
+
+        // Make sure iframe is fully loaded.
+        // This works differently in different browsers, so have to listen both "load" and "PostRender" events.
+        ed.on('load', () => {
+          isReady = true;
+          if (isRendered) {
+            listenIframeReload();
+          }
+        });
+        ed.on('PostRender', () => {
+          isRendered = true;
+          if (isReady) {
+            listenIframeReload();
+          }
+        });
+      }
 
       ed.render();
 
