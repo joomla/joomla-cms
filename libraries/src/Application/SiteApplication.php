@@ -56,6 +56,14 @@ final class SiteApplication extends CMSApplication
      * @since  4.0.0
      */
     protected $detect_browser = false;
+ 
+    /**
+     * The registered URL parameters.
+     *
+     * @var    object
+     * @since  __DEPLOY_VERSION__
+     */
+    public $registeredurlparams;
 
     /**
      * Class constructor.
