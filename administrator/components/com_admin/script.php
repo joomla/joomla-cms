@@ -600,7 +600,7 @@ class JoomlaInstallerScript
         ];
 
         $files = [
-            // From 3.10 to 4.1
+            // From 3.10 to 4.3
             '/administrator/components/com_actionlogs/actionlogs.php',
             '/administrator/components/com_actionlogs/controller.php',
             '/administrator/components/com_actionlogs/controllers/actionlogs.php',
@@ -6463,10 +6463,37 @@ class JoomlaInstallerScript
             '/media/vendor/hotkeys.js/LICENSE',
             // From 4.2.1 to 4.2.2
             '/administrator/cache/fido.jwt',
+            // From 4.2.5 to 4.3.0-alpha1
+            '/libraries/vendor/paragonie/sodium_compat/autoload-fast.php',
+            '/libraries/vendor/paragonie/sodium_compat/autoload-pedantic.php',
+            '/libraries/vendor/paragonie/sodium_compat/autoload-phpunit.php',
+            '/libraries/vendor/paragonie/sodium_compat/dist/Makefile',
+            '/libraries/vendor/paragonie/sodium_compat/dist/box.json',
+            '/libraries/vendor/paragonie/sodium_compat/psalm-above-3.xml',
+            '/libraries/vendor/paragonie/sodium_compat/psalm-below-3.xml',
+            '/libraries/vendor/paragonie/sodium_compat/src/Core/Base64/Common.php',
+            '/media/com_menus/css/admin-item-edit_modules.css',
+            '/media/com_menus/css/admin-item-edit_modules.min.css',
+            '/media/com_menus/css/admin-item-edit_modules.min.css.gz',
+            '/media/templates/administrator/atum/scss/vendor/bootstrap/_bootstrap-rtl.scss',
+            '/media/templates/site/cassiopeia/scss/vendor/bootstrap/_bootstrap-rtl.scss',
+            '/plugins/content/confirmconsent/confirmconsent.php',
+            '/plugins/content/contact/contact.php',
+            '/plugins/extension/finder/finder.php',
+            '/plugins/extension/joomla/joomla.php',
+            '/plugins/extension/namespacemap/namespacemap.php',
+            '/plugins/quickicon/downloadkey/downloadkey.php',
+            '/plugins/quickicon/extensionupdate/extensionupdate.php',
+            '/plugins/quickicon/overridecheck/overridecheck.php',
+            '/plugins/quickicon/phpversioncheck/phpversioncheck.php',
+            '/plugins/quickicon/privacycheck/privacycheck.php',
+            // From 4.3.0-alpha1 to 4.3.0-alpha2
+            '/plugins/content/emailcloak/emailcloak.php',
+            '/plugins/content/fields/fields.php',
         ];
 
         $folders = [
-            // From 3.10 to 4.1
+            // From 3.10 to 4.3
             '/templates/system/images',
             '/templates/system/html',
             '/templates/protostar/less',
@@ -7837,6 +7864,8 @@ class JoomlaInstallerScript
             '/media/vendor/hotkeys.js/js',
             '/media/vendor/hotkeys.js',
             '/libraries/vendor/symfony/string/Resources/bin',
+            // From 4.2.5 to 4.3.0-alpha1
+            '/libraries/vendor/paragonie/sodium_compat/dist',
         ];
 
         $status['files_checked'] = $files;

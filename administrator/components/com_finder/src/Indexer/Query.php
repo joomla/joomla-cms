@@ -190,6 +190,14 @@ class Query
     public $wordmode;
 
     /**
+     * The dates Registry.
+     *
+     * @var    Registry
+     * @since  __DEPLOY_VERSION__
+     */
+    public $dates;
+
+    /**
      * Method to instantiate the query object.
      *
      * @param   array  $options  An array of query options.
@@ -312,7 +320,7 @@ class Query
         }
 
         // Get the filters in the request.
-        $t = Factory::getApplication()->input->request->get('t', [], 'array');
+        $t = Factory::getApplication()->getInput()->request->get('t', [], 'array');
 
         // Add the dynamic taxonomy filters if present.
         if ((bool) $this->filters) {
@@ -1245,8 +1253,8 @@ class Query
 
             $searchTerm = $token->term;
             $searchStem = $token->stem;
-            $term = $query->quoteName('t.term');
-            $stem = $query->quoteName('t.stem');
+            $term = $db->quoteName('t.term');
+            $stem = $db->quoteName('t.stem');
 
             if ($this->wordmode === 'begin') {
                 $searchTerm .= '%';

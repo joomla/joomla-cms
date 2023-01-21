@@ -72,7 +72,7 @@ class HtmlView extends BaseHtmlView
             Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MEDIA_ERROR_NO_PROVIDERS', $link), CMSApplication::MSG_WARNING);
         }
 
-        $this->currentPath = Factory::getApplication()->input->getString('path');
+        $this->currentPath = Factory::getApplication()->getInput()->getString('path');
 
         parent::display($tpl);
     }
@@ -86,11 +86,9 @@ class HtmlView extends BaseHtmlView
      */
     protected function prepareToolbar()
     {
-        $tmpl = Factory::getApplication()->input->getCmd('tmpl');
-
-        // Get the toolbar object instance
-        $bar  = Toolbar::getInstance('toolbar');
-        $user = $this->getCurrentUser();
+        $tmpl    = Factory::getApplication()->getInput()->getCmd('tmpl');
+        $toolbar = Toolbar::getInstance();
+        $user    = $this->getCurrentUser();
 
         // Set the title
         ToolbarHelper::title(Text::_('COM_MEDIA'), 'images mediamanager');
@@ -100,14 +98,16 @@ class HtmlView extends BaseHtmlView
             // Add the upload button
             $layout = new FileLayout('toolbar.upload', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
 
-            $bar->appendButton('Custom', $layout->render([]), 'upload');
-            ToolbarHelper::divider();
+            $toolbar->customButton('upload')
+                ->html($layout->render([]));
+            $toolbar->divider();
 
             // Add the create folder button
             $layout = new FileLayout('toolbar.create-folder', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
 
-            $bar->appendButton('Custom', $layout->render([]), 'new');
-            ToolbarHelper::divider();
+            $toolbar->customButton('new')
+                ->html($layout->render([]));
+            $toolbar->divider();
         }
 
         // Add a delete button
@@ -115,18 +115,19 @@ class HtmlView extends BaseHtmlView
             // Instantiate a new FileLayout instance and render the layout
             $layout = new FileLayout('toolbar.delete', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
 
-            $bar->appendButton('Custom', $layout->render([]), 'delete');
-            ToolbarHelper::divider();
+            $toolbar->customButton('delete')
+                ->html($layout->render([]));
+            $toolbar->divider();
         }
 
         // Add the preferences button
         if (($user->authorise('core.admin', 'com_media') || $user->authorise('core.options', 'com_media')) && $tmpl !== 'component') {
-            ToolbarHelper::preferences('com_media');
-            ToolbarHelper::divider();
+            $toolbar->preferences('com_media');
+            $toolbar->divider();
         }
 
         if ($tmpl !== 'component') {
-            ToolbarHelper::help('Media');
+            $toolbar->help('Media');
         }
     }
 }

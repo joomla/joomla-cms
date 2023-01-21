@@ -43,7 +43,7 @@ class ComponentModel extends FormModel
      */
     protected function populateState()
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Set the component (option) we are dealing with.
         $component = $input->get('component');
@@ -161,7 +161,7 @@ class ComponentModel extends FormModel
         PluginHelper::importPlugin('extension');
 
         // Check super user group.
-        if (isset($data['params']) && !Factory::getUser()->authorise('core.admin')) {
+        if (isset($data['params']) && !$this->getCurrentUser()->authorise('core.admin')) {
             $form = $this->getForm([], false);
 
             foreach ($form->getFieldsets() as $fieldset) {
@@ -179,7 +179,7 @@ class ComponentModel extends FormModel
 
         // Save the rules.
         if (isset($data['params']) && isset($data['params']['rules'])) {
-            if (!Factory::getUser()->authorise('core.admin', $data['option'])) {
+            if (!$this->getCurrentUser()->authorise('core.admin', $data['option'])) {
                 throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
             }
 

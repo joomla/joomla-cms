@@ -62,6 +62,7 @@ function clean_checkout(string $dir)
     system('find . -name .github | xargs rm -rf -');
     system('find . -name .gitignore | xargs rm -rf -');
     system('find . -name .gitmodules | xargs rm -rf -');
+    system('find . -name .phan | xargs rm -rf -');
     system('find . -name .php-cs-fixer.dist.php | xargs rm -rf -');
     system('find . -name .scrutinizer.yml | xargs rm -rf -');
     system('find . -name .travis.yml | xargs rm -rf -');
@@ -181,6 +182,14 @@ function clean_checkout(string $dir)
 
     // willdurand/negotiation
     system('rm -rf libraries/vendor/willdurand/negotiation/tests');
+
+    // jfcherng
+    system('rm -rf libraries/vendor/jfcherng/php-color-output/demo.php');
+    system('rm -rf libraries/vendor/jfcherng/php-color-output/UPGRADING_v2.md');
+    system('rm -rf libraries/vendor/jfcherng/php-diff/CHANGELOG');
+    system('rm -rf libraries/vendor/jfcherng/php-diff/example');
+    system('rm -rf libraries/vendor/jfcherng/php-diff/UPGRADING');
+    system('rm -rf libraries/vendor/jfcherng/php-mb-string/CHANGELOG');
 
     echo "Cleanup complete.\n";
 
@@ -379,6 +388,7 @@ $doNotPackage = [
     '.editorconfig',
     '.github',
     '.gitignore',
+    '.phan',
     '.php-cs-fixer.dist.php',
     'acceptance.suite.yml',
     // Media Manager Node Assets
@@ -391,6 +401,7 @@ $doNotPackage = [
     'composer.json',
     'composer.lock',
     'crowdin.yml',
+    'cypress.config.js',
     'package-lock.json',
     'package.json',
     'phpunit-pgsql.xml.dist',

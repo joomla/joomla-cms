@@ -99,7 +99,7 @@ class ResetModel extends FormModel
         if (empty($form)) {
             return false;
         } else {
-            $form->setValue('token', '', Factory::getApplication()->input->get('token'));
+            $form->setValue('token', '', Factory::getApplication()->getInput()->get('token'));
         }
 
         return $form;

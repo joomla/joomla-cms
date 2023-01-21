@@ -436,8 +436,8 @@ class SysinfoModel extends BaseDatabaseModel
     public function getExtensions(): array
     {
         $installed = [];
-        $db = Factory::getContainer()->get('DatabaseDriver');
-        $query = $db->getQuery(true)
+        $db        = $this->getDatabase();
+        $query     = $db->getQuery(true)
             ->select('*')
             ->from($db->quoteName('#__extensions'));
         $db->setQuery($query);

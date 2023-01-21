@@ -140,7 +140,7 @@ class FieldsModel extends ListModel
         // Create a new query object.
         $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
         $app   = Factory::getApplication();
 
         // Select the required fields from the table.
@@ -281,8 +281,8 @@ class FieldsModel extends ListModel
 
         // Include group state only when not on on back end list
         $includeGroupState = !$app->isClient('administrator') ||
-            $app->input->get('option') != 'com_fields' ||
-            $app->input->get('view') != 'fields';
+            $app->getInput()->get('option') != 'com_fields' ||
+            $app->getInput()->get('view') != 'fields';
 
         if (is_numeric($state)) {
             $state = (int) $state;
@@ -438,7 +438,7 @@ class FieldsModel extends ListModel
      */
     public function getGroups()
     {
-        $user       = Factory::getUser();
+        $user       = $this->getCurrentUser();
         $viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
         $context    = $this->state->get('filter.context');
 

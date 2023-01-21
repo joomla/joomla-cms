@@ -113,7 +113,7 @@ class PlgSystemActionLogs extends CMSPlugin
         }
 
         // If we are on the save command, no data is passed to $data variable, we need to get it directly from request
-        $jformData = $this->app->input->get('jform', [], 'array');
+        $jformData = $this->app->getInput()->get('jform', [], 'array');
 
         if ($jformData && !$data) {
             $data = $jformData;

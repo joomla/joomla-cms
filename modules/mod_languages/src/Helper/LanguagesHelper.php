@@ -66,7 +66,7 @@ abstract class LanguagesHelper
                 $associations = MenusHelper::getAssociations($active->id);
             }
 
-            $option = $app->input->get('option');
+            $option = $app->getInput()->get('option');
             $component = $app->bootComponent($option);
 
             if ($component instanceof AssociationServiceInterface) {

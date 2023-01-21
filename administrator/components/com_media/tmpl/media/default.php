@@ -18,7 +18,7 @@ use Joomla\CMS\Uri\Uri;
 
 $app    = Factory::getApplication();
 $params = ComponentHelper::getParams('com_media');
-$input  = $app->input;
+$input  = $app->getInput();
 $user   = $app->getIdentity();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */

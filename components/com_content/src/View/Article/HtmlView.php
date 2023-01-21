@@ -108,7 +108,7 @@ class HtmlView extends BaseHtmlView
         $user = $this->getCurrentUser();
 
         $this->item  = $this->get('Item');
-        $this->print = $app->input->getBool('print', false);
+        $this->print = $app->getInput()->getBool('print', false);
         $this->state = $this->get('State');
         $this->user  = $user;
 
@@ -299,7 +299,12 @@ class HtmlView extends BaseHtmlView
         }
 
         if (empty($title)) {
-            $title = $this->item->title;
+            /**
+             * This happens when the current active menu item is linked to the article without browser
+             * page title set, so we use Browser Page Title in article and fallback to article title
+             * if that is not set
+             */
+            $title = $this->item->params->get('article_page_title', $this->item->title);
         }
 
         $this->setDocumentTitle($title);

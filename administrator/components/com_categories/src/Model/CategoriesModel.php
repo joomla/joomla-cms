@@ -92,10 +92,10 @@ class CategoriesModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        $forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
+        $forcedLanguage = $app->getInput()->get('forcedLanguage', '', 'cmd');
 
         // Adjust the context to support modal layouts.
-        if ($layout = $app->input->get('layout')) {
+        if ($layout = $app->getInput()->get('layout')) {
             $this->context .= '.' . $layout;
         }
 
@@ -163,7 +163,7 @@ class CategoriesModel extends ListModel
         // Create a new query object.
         $db = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Select the required fields from the table.
         $query->select(

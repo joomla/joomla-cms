@@ -77,7 +77,7 @@ class Query
         // Process the taxonomy filters.
         if (!empty($query->filters)) {
             // Get the filters in the request.
-            $t = Factory::getApplication()->input->request->get('t', [], 'array');
+            $t = Factory::getApplication()->getInput()->request->get('t', [], 'array');
 
             // Process the taxonomy branches.
             foreach ($query->filters as $branch => $nodes) {

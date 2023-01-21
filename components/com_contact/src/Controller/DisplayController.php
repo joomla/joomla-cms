@@ -39,7 +39,7 @@ class DisplayController extends BaseController
     public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         // Contact frontpage Editor contacts proxying.
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         if ($input->get('view') === 'contacts' && $input->get('layout') === 'modal') {
             $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;

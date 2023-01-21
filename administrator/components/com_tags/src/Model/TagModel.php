@@ -86,11 +86,11 @@ class TagModel extends AdminModel
     {
         $app = Factory::getApplication();
 
-        $parentId = $app->input->getInt('parent_id');
+        $parentId = $app->getInput()->getInt('parent_id');
         $this->setState('tag.parent_id', $parentId);
 
         // Load the User state.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
         $this->setState($this->getName() . '.id', $pk);
 
         // Load the parameters.
@@ -154,7 +154,7 @@ class TagModel extends AdminModel
      */
     public function getForm($data = [], $loadData = true)
     {
-        $jinput = Factory::getApplication()->input;
+        $jinput = Factory::getApplication()->getInput();
 
         // Get the form.
         $form = $this->loadForm('com_tags.tag', 'tag', ['control' => 'jform', 'load_data' => $loadData]);
@@ -163,7 +163,7 @@ class TagModel extends AdminModel
             return false;
         }
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if (!$user->authorise('core.edit.state', 'com_tags' . $jinput->get('id'))) {
             // Disable fields for display.
@@ -213,7 +213,7 @@ class TagModel extends AdminModel
     {
         /** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
         $table      = $this->getTable();
-        $input      = Factory::getApplication()->input;
+        $input      = Factory::getApplication()->getInput();
         $pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
         $isNew      = true;
         $context    = $this->option . '.' . $this->name;

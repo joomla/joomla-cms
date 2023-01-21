@@ -49,7 +49,7 @@ class CategoryField extends FormField
         if ($this->element['extension']) {
             $extension = (string) $this->element['extension'];
         } else {
-            $extension = (string) Factory::getApplication()->input->get('extension', 'com_content');
+            $extension = (string) Factory::getApplication()->getInput()->get('extension', 'com_content');
         }
 
         $allowNew       = ((string) $this->element['new'] == 'true');

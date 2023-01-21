@@ -74,7 +74,7 @@ class PlgContentPagebreak extends CMSPlugin
         // Expression to search for.
         $regex = '#<hr(.*)class="system-pagebreak"(.*)\/?>#iU';
 
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         $print = $input->getBool('print');
         $showall = $input->getBool('showall');
@@ -263,7 +263,7 @@ class PlgContentPagebreak extends CMSPlugin
     protected function _createToc(&$row, &$matches, &$page)
     {
         $heading     = $row->title ?? Text::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
-        $input       = Factory::getApplication()->input;
+        $input       = Factory::getApplication()->getInput();
         $limitstart  = $input->getUint('limitstart', 0);
         $showall     = $input->getInt('showall', 0);
         $headingtext = '';

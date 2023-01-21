@@ -67,7 +67,7 @@ class SuggestionsModel extends ListModel
      */
     protected function getListQuery()
     {
-        $user   = Factory::getUser();
+        $user   = $this->getCurrentUser();
         $groups = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
         $lang   = Helper::getPrimaryLanguage($this->getState('language'));
 
@@ -152,9 +152,9 @@ class SuggestionsModel extends ListModel
     {
         // Get the configuration options.
         $app = Factory::getApplication();
-        $input = $app->input;
+        $input = $app->getInput();
         $params = ComponentHelper::getParams('com_finder');
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Get the query input.
         $this->setState('input', $input->request->get('q', '', 'string'));

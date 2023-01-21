@@ -131,7 +131,7 @@ class StringsModel extends BaseDatabaseModel
     public function search()
     {
         $results = [];
-        $input   = Factory::getApplication()->input;
+        $input   = Factory::getApplication()->getInput();
         $filter  = InputFilter::getInstance();
         $db      = $this->getDatabase();
         $searchTerm = $input->getString('searchstring');

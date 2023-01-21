@@ -589,7 +589,8 @@ class RssParserTest extends UnitTestCase
 		<title>Test Channel</title>
 	</channel>
 </rss>';
-        $reader    = \XMLReader::XML($dummyXml);
+        $reader = new XMLReader();
+        $reader->xml($dummyXml);
         $rssParser = new RssParser($reader);
 
         // same logic as FeedFactory.php : skip head record

@@ -137,7 +137,7 @@ abstract class Dropdown
         static::start();
 
         if (!$customLink) {
-            $option = Factory::getApplication()->input->getCmd('option');
+            $option = Factory::getApplication()->getInput()->getCmd('option');
             $link = 'index.php?option=' . $option;
         } else {
             $link = $customLink;

@@ -42,7 +42,7 @@ class FeedView extends BaseHtmlView
         $app = Factory::getApplication();
 
         // Adjust the list limit to the feed limit.
-        $app->input->set('limit', $app->get('feed_limit'));
+        $app->getInput()->set('limit', $app->get('feed_limit'));
 
         // Get view data.
         $state = $this->get('State');

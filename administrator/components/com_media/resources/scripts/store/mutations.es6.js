@@ -442,4 +442,16 @@ export default {
   [types.HIDE_CONFIRM_DELETE_MODAL]: (state) => {
     state.showConfirmDeleteModal = false;
   },
+
+  /**
+   * Update item properties
+   * @param context
+   * @param payload object with the item, the width and the height
+   */
+  [types.UPDATE_ITEM_PROPERTIES]: (state, payload) => {
+    const { item, width, height } = payload;
+    const index = state.files.findIndex((file) => (file.path === item.path));
+    state.files[index].width = width;
+    state.files[index].height = height;
+  },
 };

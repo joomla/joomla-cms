@@ -48,7 +48,7 @@ class FeedView extends AbstractView
         $this->document->link = Route::_('index.php?option=com_content&view=featured');
 
         // Get some data from the model
-        $app->input->set('limit', $app->get('feed_limit'));
+        $app->getInput()->set('limit', $app->get('feed_limit'));
         $categories = Categories::getInstance('Content');
         $rows       = $this->get('Items');
 

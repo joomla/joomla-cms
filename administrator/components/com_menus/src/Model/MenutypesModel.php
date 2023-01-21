@@ -51,7 +51,7 @@ class MenutypesModel extends BaseDatabaseModel
     {
         parent::populateState();
 
-        $clientId = Factory::getApplication()->input->get('client_id', 0);
+        $clientId = Factory::getApplication()->getInput()->get('client_id', 0);
 
         $this->state->set('client_id', $clientId);
     }

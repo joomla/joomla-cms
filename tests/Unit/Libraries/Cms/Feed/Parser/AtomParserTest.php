@@ -330,7 +330,8 @@ class AtomParserTest extends UnitTestCase
     {
         $dummyXml   = '<?xml version="1.0" encoding="utf-8" ?>
 <feed xmlns="http://www.w3.org/2005/Atom" />';
-        $reader     = \XMLReader::XML($dummyXml);
+        $reader = new XMLReader();
+        $reader->xml($dummyXml);
         $atomParser = new AtomParser($reader);
         $atomParser->parse();
 
@@ -356,7 +357,8 @@ class AtomParserTest extends UnitTestCase
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title type="text">Joomla! Unit test</title>
 </feed>';
-        $reader     = \XMLReader::XML($dummyXml);
+        $reader   = new XMLReader();
+        $reader->xml($dummyXml);
         $atomParser = new AtomParser($reader);
 
         // same logic as FeedFactory.php : skip head record
@@ -395,7 +397,8 @@ class AtomParserTest extends UnitTestCase
 <feed  version="0.3" xmlns="http://www.w3.org/2005/Atom">
 <title type="text">Joomla! Unit test</title>
 </feed>';
-        $reader = \XMLReader::XML($dummyXml);
+        $reader   = new XMLReader();
+        $reader->xml($dummyXml);
         $atomParser = new AtomParser($reader);
 
         // same logic as FeedFactory.php : skip head record

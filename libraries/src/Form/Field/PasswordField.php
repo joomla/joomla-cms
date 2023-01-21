@@ -223,7 +223,7 @@ class PasswordField extends FormField
             $this->minUppercase = 0;
             $this->minLowercase = 0;
 
-            if (Factory::getApplication()->get('db') != '') {
+            if (Factory::getApplication()->get('db') != '' && !Factory::getApplication()->isClient('cli_installation')) {
                 $this->minLength    = (int) ComponentHelper::getParams('com_users')->get('minimum_length', 12);
                 $this->minIntegers  = (int) ComponentHelper::getParams('com_users')->get('minimum_integers', 0);
                 $this->minSymbols   = (int) ComponentHelper::getParams('com_users')->get('minimum_symbols', 0);

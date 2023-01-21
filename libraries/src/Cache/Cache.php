@@ -697,7 +697,7 @@ class Cache
         $safeuriaddon = new \stdClass();
 
         foreach ($registeredurlparams as $key => $value) {
-            $safeuriaddon->$key = $app->input->get($key, null, $value);
+            $safeuriaddon->$key = $app->getInput()->get($key, null, $value);
         }
 
         return md5(serialize($safeuriaddon));

@@ -59,7 +59,7 @@ class SuggestionsController extends BaseController
         $app = $this->app;
         $app->mimeType = 'application/json';
         $result = [];
-        $result[] = $app->input->request->get('q', '', 'string');
+        $result[] = $app->getInput()->request->get('q', '', 'string');
 
         $result[] = $this->getSuggestions();
 
