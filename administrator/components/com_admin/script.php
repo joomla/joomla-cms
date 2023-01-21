@@ -6494,6 +6494,20 @@ class JoomlaInstallerScript
             '/plugins/content/fields/fields.php',
             // From 4.3.0-alpha2 to 4.3.0-alpha3
             '/cypress.config.js',
+            '/media/templates/administrator/atum/scss/_root.scss',
+            '/media/templates/administrator/atum/scss/vendor/_bootstrap.scss',
+            '/modules/mod_articles_popular/mod_articles_popular.php',
+            '/plugins/authentication/cookie/cookie.php',
+            '/plugins/authentication/joomla/joomla.php',
+            '/plugins/authentication/ldap/ldap.php',
+            '/plugins/editors-xtd/article/article.php',
+            '/plugins/editors-xtd/contact/contact.php',
+            '/plugins/editors-xtd/fields/fields.php',
+            '/plugins/editors-xtd/image/image.php',
+            '/plugins/editors-xtd/menu/menu.php',
+            '/plugins/editors-xtd/module/module.php',
+            '/plugins/editors-xtd/readmore/readmore.php',
+            '/plugins/editors/tinymce/tinymce.php',
         ];
 
         $folders = [
