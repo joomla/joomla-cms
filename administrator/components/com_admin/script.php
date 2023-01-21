@@ -6465,7 +6465,7 @@ class JoomlaInstallerScript
             '/administrator/cache/fido.jwt',
             // From 4.2.6 to 4.2.7
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataFormatter/VarDumper/SeekingData.php',
-            // From 4.2.5 to 4.3.0-alpha1
+            // From 4.2.x to 4.3.0-alpha1
             '/libraries/vendor/paragonie/sodium_compat/autoload-fast.php',
             '/libraries/vendor/paragonie/sodium_compat/autoload-pedantic.php',
             '/libraries/vendor/paragonie/sodium_compat/autoload-phpunit.php',
@@ -7882,7 +7882,7 @@ class JoomlaInstallerScript
             '/media/vendor/hotkeys.js/js',
             '/media/vendor/hotkeys.js',
             '/libraries/vendor/symfony/string/Resources/bin',
-            // From 4.2.5 to 4.3.0-alpha1
+            // From 4.2.x to 4.3.0-alpha1
             '/libraries/vendor/paragonie/sodium_compat/dist',
         ];
 
