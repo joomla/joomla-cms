@@ -134,5 +134,4 @@ $usersConfig = ComponentHelper::getParams('com_users');
         <input type="hidden" name="task" value="user.login">
         <input type="hidden" name="return" value="<?php echo $return; ?>">
         <?php echo HTMLHelper::_('form.token'); ?>
-    
 </div>

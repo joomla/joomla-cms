@@ -24,7 +24,6 @@
 			size="25"
 			autocomplete="current-password"
 			hint="JGLOBAL_PASSWORD"
-
 		/>
 	</fieldset>
 
