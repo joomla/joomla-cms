@@ -35,7 +35,7 @@ return new class implements ServiceProviderInterface
             PluginInterface::class,
             function (Container $container) {
                 $dispatcher = $container->get(DispatcherInterface::class);
-                $plugin     = new Integer (
+                $plugin     = new Integer(
                     $dispatcher,
                     (array) PluginHelper::getPlugin('fields', 'integer')
                 );

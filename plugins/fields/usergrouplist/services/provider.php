@@ -35,7 +35,7 @@ return new class implements ServiceProviderInterface
             PluginInterface::class,
             function (Container $container) {
                 $dispatcher = $container->get(DispatcherInterface::class);
-                $plugin     = new UsergroupList (
+                $plugin     = new UsergroupList(
                     $dispatcher,
                     (array) PluginHelper::getPlugin('fields', 'usergrouplist')
                 );

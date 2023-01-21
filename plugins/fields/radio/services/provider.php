@@ -35,7 +35,7 @@ return new class implements ServiceProviderInterface
             PluginInterface::class,
             function (Container $container) {
                 $dispatcher = $container->get(DispatcherInterface::class);
-                $plugin     = new Radio (
+                $plugin     = new Radio(
                     $dispatcher,
                     (array) PluginHelper::getPlugin('fields', 'radio')
                 );
