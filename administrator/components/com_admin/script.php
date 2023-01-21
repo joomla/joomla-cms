@@ -6463,7 +6463,9 @@ class JoomlaInstallerScript
             '/media/vendor/hotkeys.js/LICENSE',
             // From 4.2.1 to 4.2.2
             '/administrator/cache/fido.jwt',
-            // From 4.2.5 to 4.3.0-alpha1
+            // From 4.2.6 to 4.2.7
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataFormatter/VarDumper/SeekingData.php',
+            // From 4.2.x to 4.3.0-alpha1
             '/libraries/vendor/paragonie/sodium_compat/autoload-fast.php',
             '/libraries/vendor/paragonie/sodium_compat/autoload-pedantic.php',
             '/libraries/vendor/paragonie/sodium_compat/autoload-phpunit.php',
@@ -6490,6 +6492,22 @@ class JoomlaInstallerScript
             // From 4.3.0-alpha1 to 4.3.0-alpha2
             '/plugins/content/emailcloak/emailcloak.php',
             '/plugins/content/fields/fields.php',
+            // From 4.3.0-alpha2 to 4.3.0-alpha3
+            '/cypress.config.js',
+            '/media/templates/administrator/atum/scss/_root.scss',
+            '/media/templates/administrator/atum/scss/vendor/_bootstrap.scss',
+            '/modules/mod_articles_popular/mod_articles_popular.php',
+            '/plugins/authentication/cookie/cookie.php',
+            '/plugins/authentication/joomla/joomla.php',
+            '/plugins/authentication/ldap/ldap.php',
+            '/plugins/editors-xtd/article/article.php',
+            '/plugins/editors-xtd/contact/contact.php',
+            '/plugins/editors-xtd/fields/fields.php',
+            '/plugins/editors-xtd/image/image.php',
+            '/plugins/editors-xtd/menu/menu.php',
+            '/plugins/editors-xtd/module/module.php',
+            '/plugins/editors-xtd/readmore/readmore.php',
+            '/plugins/editors/tinymce/tinymce.php',
         ];
 
         $folders = [
@@ -7864,7 +7882,7 @@ class JoomlaInstallerScript
             '/media/vendor/hotkeys.js/js',
             '/media/vendor/hotkeys.js',
             '/libraries/vendor/symfony/string/Resources/bin',
-            // From 4.2.5 to 4.3.0-alpha1
+            // From 4.2.x to 4.3.0-alpha1
             '/libraries/vendor/paragonie/sodium_compat/dist',
         ];
 
