@@ -1,5 +1,6 @@
 const { resolve } = require('path');
 const { copyFile } = require('fs').promises;
+const { existsSync, rm } = require('fs');
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
@@ -203,6 +204,6 @@ module.exports.watchMediaManager = async () => {
     // eslint-disable-next-line no-console
     if (error) console.log(error);
     // eslint-disable-next-line no-console
-    if (code === 'BUNDLE_END') console.log(`Files updated ✅`);
+    if (code === 'BUNDLE_END') console.log('Files updated ✅');
   });
 };
