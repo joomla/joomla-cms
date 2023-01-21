@@ -85,7 +85,7 @@ class JoomlaInstallerScript
         $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
         $options['text_file'] = 'joomla_update.php';
 
-        Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
+        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
 
         try {
             Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), Log::INFO, 'Update');
@@ -539,7 +539,7 @@ class JoomlaInstallerScript
 
         // If we have the search package around, it may not have a manifest cache entry after upgrades from 3.x, so add it to the list
         if (File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml')) {
-            $extensions[] = array('package', 'pkg_search', '', 0);
+            $extensions[] = ['package', 'pkg_search', '', 0];
         }
 
         // Attempt to refresh manifest caches
@@ -599,7 +599,7 @@ class JoomlaInstallerScript
             'files_checked'   => [],
         ];
 
-        $files = array(
+        $files = [
             // From 3.10 to 4.3
             '/administrator/components/com_actionlogs/actionlogs.php',
             '/administrator/components/com_actionlogs/controller.php',
@@ -6490,9 +6490,9 @@ class JoomlaInstallerScript
             // From 4.3.0-alpha1 to 4.3.0-alpha2
             '/plugins/content/emailcloak/emailcloak.php',
             '/plugins/content/fields/fields.php',
-        );
+        ];
 
-        $folders = array(
+        $folders = [
             // From 3.10 to 4.3
             '/templates/system/images',
             '/templates/system/html',
@@ -7866,7 +7866,7 @@ class JoomlaInstallerScript
             '/libraries/vendor/symfony/string/Resources/bin',
             // From 4.2.5 to 4.3.0-alpha1
             '/libraries/vendor/paragonie/sodium_compat/dist',
-        );
+        ];
 
         $status['files_checked'] = $files;
         $status['folders_checked'] = $folders;
@@ -7939,9 +7939,9 @@ class JoomlaInstallerScript
     public function updateAssets($installer)
     {
         // List all components added since 4.0
-        $newComponents = array(
+        $newComponents = [
             // Components to be added here
-        );
+        ];
 
         foreach ($newComponents as $component) {
             /** @var \Joomla\CMS\Table\Asset $asset */
@@ -8591,13 +8591,13 @@ class JoomlaInstallerScript
      */
     protected function fixFilenameCasing()
     {
-        $files = array(
+        $files = [
             // 3.10 changes
             '/libraries/src/Filesystem/Support/Stringcontroller.php' => '/libraries/src/Filesystem/Support/StringController.php',
             '/libraries/src/Form/Rule/SubFormRule.php' => '/libraries/src/Form/Rule/SubformRule.php',
             // 4.0.0
             '/media/vendor/skipto/js/skipTo.js' => '/media/vendor/skipto/js/skipto.js',
-        );
+        ];
 
         foreach ($files as $old => $expected) {
             $oldRealpath = realpath(JPATH_ROOT . $old);

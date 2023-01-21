@@ -103,8 +103,8 @@ class HtmlView extends BaseHtmlView
             } else {
                 $this->extensionName = $extensionName;
                 $this->typeName      = $typeName;
-                $this->typeSupports  = array();
-                $this->typeFields    = array();
+                $this->typeSupports  = [];
+                $this->typeFields    = [];
 
                 $details = $type->get('details');
 
@@ -164,11 +164,11 @@ class HtmlView extends BaseHtmlView
                 $this->items      = $this->get('Items');
                 $this->pagination = $this->get('Pagination');
 
-                $linkParameters = array(
+                $linkParameters = [
                     'layout'     => 'edit',
                     'itemtype'   => $extensionName . '.' . $typeName,
                     'task'       => 'association.edit',
-                );
+                ];
 
                 $this->editUri = 'index.php?option=com_associations&view=association&' . http_build_query($linkParameters);
             }
