@@ -6,11 +6,10 @@
  *
  * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Factory;
+namespace Joomla\Plugin\EditorsXtd\Menu\Extension;
+
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -25,7 +24,7 @@ use Joomla\CMS\Session\Session;
  *
  * @since  3.7.0
  */
-class PlgButtonMenu extends CMSPlugin
+final class Menu extends CMSPlugin
 {
     /**
      * Load the language file on instantiation.
@@ -49,7 +48,7 @@ class PlgButtonMenu extends CMSPlugin
          * Use the built-in element view to select the menu item.
          * Currently uses blank class.
          */
-        $user  = Factory::getUser();
+        $user  = $this->getApplication()->getIdentity();
 
         if (
             $user->authorise('core.create', 'com_menus')
