@@ -77,14 +77,14 @@ class DisplayController extends BaseController
         // Check for request forgeries
         $this->checkToken();
 
-        $cid = (array) $this->input->post->get('cid', array(), 'string');
+        $cid = (array) $this->input->post->get('cid', [], 'string');
 
         if (empty($cid)) {
             $this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'warning');
         } else {
             $result = $this->getModel('cache')->cleanlist($cid);
 
-            if ($result !== array()) {
+            if ($result !== []) {
                 $this->app->enqueueMessage(Text::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', implode(', ', $result)), 'error');
             } else {
                 $this->app->enqueueMessage(Text::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_DELETED'), 'message');
@@ -131,7 +131,7 @@ class DisplayController extends BaseController
             $this->app->enqueueMessage(Text::_('COM_CACHE_MSG_SOME_CACHE_GROUPS_CLEARED'), 'warning');
         }
 
-        $this->app->triggerEvent('onAfterPurge', array());
+        $this->app->triggerEvent('onAfterPurge', []);
         $this->setRedirect('index.php?option=com_cache&view=cache');
     }
 

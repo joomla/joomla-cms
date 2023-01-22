@@ -224,7 +224,7 @@ class BaseControllerTest extends UnitTestCase
             $this->createStub(CMSApplication::class)
         ) extends BaseController
         {
-            public function display($cachable = false, $urlparams = array())
+            public function display($cachable = false, $urlparams = [])
             {
                 return 'unit test';
             }

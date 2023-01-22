@@ -305,17 +305,18 @@ class Image
     /**
      * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing or cropping the original image.
      *
-     * @param   mixed    $thumbSizes      string or array of strings. Example: $thumbSizes = array('150x75','250x150');
-     * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create cropping
-     * @param   string   $thumbsFolder    destination thumbs folder. null generates a thumbs folder in the image folder
+     * @param   mixed    $thumbSizes       string or array of strings. Example: $thumbSizes = ['150x75','250x150'];
+     * @param   integer  $creationMethod   1-3 resize $scaleMethod | 4 create cropping
+     * @param   string   $thumbsFolder     destination thumbs folder. null generates a thumbs folder in the image folder
+     * @param   boolean  $useOriginalName  Shall we use the original image name? Defaults is false, {filename}_{width}x{height}.{ext}
      *
      * @return  array
      *
-     * @since   2.5.0
+     * @since   __DEPLOY_VERSION__
      * @throws  \LogicException
      * @throws  \InvalidArgumentException
      */
-    public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null)
+    public function createThumbnails($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null, $useOriginalName = false)
     {
         // Make sure the resource handle is valid.
         if (!$this->isLoaded()) {
@@ -349,8 +350,13 @@ class Image
                 $thumbWidth  = $thumb->getWidth();
                 $thumbHeight = $thumb->getHeight();
 
-                // Generate thumb name
-                $thumbFileName = $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
+                if ($useOriginalName) {
+                    // Generate thumb name
+                    $thumbFileName = $filename . '.' . $fileExtension;
+                } else {
+                    // Generate thumb name
+                    $thumbFileName = $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
+                }
 
                 // Save thumb file to disk
                 $thumbFileName = $thumbsFolder . '/' . $thumbFileName;
@@ -364,6 +370,26 @@ class Image
         }
 
         return $thumbsCreated;
+    }
+
+    /**
+     * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing or cropping the original image.
+     *
+     * @param   mixed    $thumbSizes       string or array of strings. Example: $thumbSizes = ['150x75','250x150'];
+     * @param   integer  $creationMethod   1-3 resize $scaleMethod | 4 create cropping
+     * @param   string   $thumbsFolder     destination thumbs folder. null generates a thumbs folder in the image folder
+     *
+     * @return  array
+     *
+     * @since   2.5.0
+     * @throws  \LogicException
+     * @throws  \InvalidArgumentException
+     *
+     * @deprecated 6.0 Use \Joomla\CMS\Image\createThumbnails instead
+     */
+    public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null)
+    {
+        return $this->createThumbnails($thumbSizes, $creationMethod, $thumbsFolder, false);
     }
 
     /**
