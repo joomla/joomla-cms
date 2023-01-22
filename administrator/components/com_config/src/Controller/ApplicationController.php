@@ -19,6 +19,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Input\Input;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Controller for global configuration
  *
@@ -38,7 +42,7 @@ class ApplicationController extends BaseController
      *
      * @since   3.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -82,7 +86,7 @@ class ApplicationController extends BaseController
         /** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
         $model = $this->getModel('Application', 'Administrator');
 
-        $data  = $this->input->post->get('jform', array(), 'array');
+        $data  = $this->input->post->get('jform', [], 'array');
 
         // Complete data array if needed
         $oldData = $model->getData();

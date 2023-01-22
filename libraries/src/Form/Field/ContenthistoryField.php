@@ -13,6 +13,10 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Field to select Content History from a modal list.
  *
@@ -51,11 +55,11 @@ class ContenthistoryField extends FormField
         $link = 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;field='
             . $this->id . '&amp;item_id=' . $itemId . '&amp;' . Session::getFormToken() . '=1';
 
-        $extraData = array(
+        $extraData = [
             'item' => $itemId,
             'label' => $label,
             'link' => $link,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

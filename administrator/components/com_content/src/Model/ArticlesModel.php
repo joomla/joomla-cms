@@ -22,6 +22,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of article records.
  *
@@ -37,10 +41,10 @@ class ArticlesModel extends ListModel
      * @since   1.6
      * @see     \Joomla\CMS\MVC\Controller\BaseController
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'alias', 'a.alias',
@@ -69,7 +73,7 @@ class ArticlesModel extends ListModel
                 'rating_count', 'rating',
                 'stage', 'wa.stage_id',
                 'ws.title'
-            );
+            ];
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
@@ -89,7 +93,7 @@ class ArticlesModel extends ListModel
      *
      * @since   3.2
      */
-    public function getFilterForm($data = array(), $loadData = true)
+    public function getFilterForm($data = [], $loadData = true)
     {
         $form = parent::getFilterForm($data, $loadData);
 
@@ -379,18 +383,18 @@ class ArticlesModel extends ListModel
         }
 
         // Filter by categories and by level
-        $categoryId = $this->getState('filter.category_id', array());
+        $categoryId = $this->getState('filter.category_id', []);
         $level      = (int) $this->getState('filter.level');
 
         if (!is_array($categoryId)) {
-            $categoryId = $categoryId ? array($categoryId) : array();
+            $categoryId = $categoryId ? [$categoryId] : [];
         }
 
         // Case: Using both categories filter and by level filter
         if (count($categoryId)) {
             $categoryId = ArrayHelper::toInteger($categoryId);
             $categoryTable = Table::getInstance('Category', 'JTable');
-            $subCatItemsWhere = array();
+            $subCatItemsWhere = [];
 
             foreach ($categoryId as $key => $filter_catid) {
                 $categoryTable->load($filter_catid);
@@ -565,7 +569,7 @@ class ArticlesModel extends ListModel
         $workflow_ids = ArrayHelper::toInteger($workflow_ids);
         $workflow_ids = array_values(array_unique(array_filter($workflow_ids)));
 
-        $this->cache[$store] = array();
+        $this->cache[$store] = [];
 
         try {
             if (count($stage_ids) || count($workflow_ids)) {

@@ -22,6 +22,10 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Reset model class for Users.
  *
@@ -42,10 +46,10 @@ class ResetModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.reset_request', 'reset_request', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_users.reset_request', 'reset_request', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -64,10 +68,10 @@ class ResetModel extends FormModel
      *
      * @since   1.6
      */
-    public function getResetCompleteForm($data = array(), $loadData = true)
+    public function getResetCompleteForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.reset_complete', 'reset_complete', $options = array('control' => 'jform'));
+        $form = $this->loadForm('com_users.reset_complete', 'reset_complete', $options = ['control' => 'jform']);
 
         if (empty($form)) {
             return false;
@@ -87,10 +91,10 @@ class ResetModel extends FormModel
      * @since   1.6
      * @throws  \Exception
      */
-    public function getResetConfirmForm($data = array(), $loadData = true)
+    public function getResetConfirmForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.reset_confirm', 'reset_confirm', $options = array('control' => 'jform'));
+        $form = $this->loadForm('com_users.reset_confirm', 'reset_confirm', $options = ['control' => 'jform']);
 
         if (empty($form)) {
             return false;

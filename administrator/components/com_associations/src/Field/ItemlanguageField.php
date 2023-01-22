@@ -16,6 +16,10 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Field listing item languages
  *
@@ -59,9 +63,9 @@ class ItemlanguageField extends ListField
         $canCreate = AssociationsHelper::allowAdd($extensionName, $typeName);
 
         // Gets existing languages.
-        $existingLanguages = LanguageHelper::getContentLanguages(array(0, 1), false);
+        $existingLanguages = LanguageHelper::getContentLanguages([0, 1], false);
 
-        $options = array();
+        $options = [];
 
         // Each option has the format "<lang>|<id>", example: "en-GB|1"
         foreach ($existingLanguages as $langCode => $language) {

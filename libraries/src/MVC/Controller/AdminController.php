@@ -19,6 +19,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class for a Joomla Administrator Controller
  *
@@ -65,7 +69,7 @@ class AdminController extends BaseController
      *
      * @since   3.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -99,7 +103,7 @@ class AdminController extends BaseController
         if (empty($this->view_list)) {
             $reflect = new \ReflectionClass($this);
 
-            $r = array(0 => '', 1 => '', 2 => $reflect->getShortName());
+            $r = [0 => '', 1 => '', 2 => $reflect->getShortName()];
 
             if ($reflect->getNamespaceName()) {
                 $r[2] = str_replace('Controller', '', $r[2]);
@@ -124,13 +128,13 @@ class AdminController extends BaseController
         $this->checkToken();
 
         // Get items to remove from the request.
-        $cid = (array) $this->input->get('cid', array(), 'int');
+        $cid = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
 
         if (empty($cid)) {
-            $this->app->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+            $this->app->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), ['category' => 'jerror']);
         } else {
             // Get the model.
             $model = $this->getModel();
@@ -183,8 +187,8 @@ class AdminController extends BaseController
         $this->checkToken();
 
         // Get items to publish from the request.
-        $cid   = (array) $this->input->get('cid', array(), 'int');
-        $data  = array('publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3);
+        $cid   = (array) $this->input->get('cid', [], 'int');
+        $data  = ['publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3];
         $task  = $this->getTask();
         $value = ArrayHelper::getValue($data, $task, 0, 'int');
 
@@ -192,7 +196,7 @@ class AdminController extends BaseController
         $cid = array_filter($cid);
 
         if (empty($cid)) {
-            $this->app->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+            $this->app->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), ['category' => 'jerror']);
         } else {
             // Get the model.
             $model = $this->getModel();
@@ -246,7 +250,7 @@ class AdminController extends BaseController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids = (array) $this->input->post->get('cid', array(), 'int');
+        $ids = (array) $this->input->post->get('cid', [], 'int');
         $inc = $this->getTask() === 'orderup' ? -1 : 1;
 
         // Remove zero values resulting from input filter
@@ -285,8 +289,8 @@ class AdminController extends BaseController
         $this->checkToken();
 
         // Get the input
-        $pks   = (array) $this->input->post->get('cid', array(), 'int');
-        $order = (array) $this->input->post->get('order', array(), 'int');
+        $pks   = (array) $this->input->post->get('cid', [], 'int');
+        $order = (array) $this->input->post->get('order', [], 'int');
 
         // Remove zero PKs and corresponding order values resulting from input filter for PK
         foreach ($pks as $i => $pk) {
@@ -331,7 +335,7 @@ class AdminController extends BaseController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids = (array) $this->input->post->get('cid', array(), 'int');
+        $ids = (array) $this->input->post->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
@@ -380,8 +384,8 @@ class AdminController extends BaseController
         $this->checkToken();
 
         // Get the input
-        $pks   = (array) $this->input->post->get('cid', array(), 'int');
-        $order = (array) $this->input->post->get('order', array(), 'int');
+        $pks   = (array) $this->input->post->get('cid', [], 'int');
+        $order = (array) $this->input->post->get('order', [], 'int');
 
         // Remove zero PKs and corresponding order values resulting from input filter for PK
         foreach ($pks as $i => $pk) {
@@ -418,7 +422,7 @@ class AdminController extends BaseController
         $this->checkToken();
 
         // Get the input
-        $pks = (array) $this->input->post->get('cid', array(), 'int');
+        $pks = (array) $this->input->post->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $pks = array_filter($pks);

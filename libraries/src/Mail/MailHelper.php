@@ -13,6 +13,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Email helper class, provides static methods to perform various tasks relevant
  * to the Joomla email routines.
@@ -214,7 +218,7 @@ abstract class MailHelper
 
         // Replace relative links, image sources with absolute Urls
         $protocols  = '[a-zA-Z0-9\-]+:';
-        $attributes = array('href=', 'src=', 'poster=');
+        $attributes = ['href=', 'src=', 'poster='];
 
         foreach ($attributes as $attribute) {
             if (strpos($content, $attribute) !== false) {

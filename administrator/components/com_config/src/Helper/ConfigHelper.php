@@ -15,6 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Components helper for com_config
  *
@@ -69,12 +73,12 @@ class ConfigHelper extends ContentHelper
      */
     public static function getComponentsWithConfig($authCheck = true)
     {
-        $result = array();
+        $result = [];
         $components = self::getAllComponents();
         $user = Factory::getUser();
 
         // Remove com_config from the array as that may have weird side effects
-        $components = array_diff($components, array('com_config'));
+        $components = array_diff($components, ['com_config']);
 
         foreach ($components as $component) {
             if (self::hasComponentConfig($component) && (!$authCheck || $user->authorise('core.manage', $component))) {

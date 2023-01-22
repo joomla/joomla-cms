@@ -358,6 +358,7 @@
 			name="tag_field_ajax_mode"
 			type="radio"
 			label="COM_TAGS_TAG_FIELD_MODE_LABEL"
+			description="COM_TAGS_TAG_FIELD_MODE_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>

@@ -18,6 +18,10 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Prototype adapter class for the Finder indexer package.
  *
@@ -384,7 +388,7 @@ abstract class Adapter extends CMSPlugin
 
         // Check the items.
         if (empty($items)) {
-            Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', array($id));
+            Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', [$id]);
 
             return true;
         }

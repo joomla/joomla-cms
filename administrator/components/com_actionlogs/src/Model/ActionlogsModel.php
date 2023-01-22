@@ -24,6 +24,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 use RuntimeException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of article records.
  *
@@ -40,10 +44,10 @@ class ActionlogsModel extends ListModel
      *
      * @throws  Exception
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'a.id', 'id',
                 'a.extension', 'extension',
                 'a.user_id', 'user',
@@ -51,7 +55,7 @@ class ActionlogsModel extends ListModel
                 'a.log_date', 'log_date',
                 'a.ip_address', 'ip_address',
                 'dateRange',
-            );
+            ];
         }
 
         parent::__construct($config);
@@ -213,7 +217,7 @@ class ActionlogsModel extends ListModel
                 break;
         }
 
-        return array('dNow' => $dNow, 'dStart' => $dStart);
+        return ['dNow' => $dNow, 'dStart' => $dStart];
     }
 
     /**
@@ -343,7 +347,7 @@ class ActionlogsModel extends ListModel
             return false;
         }
 
-        Factory::getApplication()->triggerEvent('onAfterLogPurge', array());
+        Factory::getApplication()->triggerEvent('onAfterLogPurge', []);
 
         return true;
     }
@@ -363,7 +367,7 @@ class ActionlogsModel extends ListModel
             return false;
         }
 
-        Factory::getApplication()->triggerEvent('onAfterLogPurge', array());
+        Factory::getApplication()->triggerEvent('onAfterLogPurge', []);
 
         return true;
     }
@@ -378,7 +382,7 @@ class ActionlogsModel extends ListModel
      *
      * @since   3.9.0
      */
-    public function getFilterForm($data = array(), $loadData = true)
+    public function getFilterForm($data = [], $loadData = true)
     {
         $form      = parent::getFilterForm($data, $loadData);
         $params    = ComponentHelper::getParams('com_actionlogs');
@@ -388,8 +392,8 @@ class ActionlogsModel extends ListModel
         if ($form && $ipLogging) {
             /* @var \Joomla\CMS\Form\Field\ListField $field */
             $field = $form->getField('fullordering', 'list');
-            $field->addOption(Text::_('COM_ACTIONLOGS_IP_ADDRESS_ASC'), array('value' => 'a.ip_address ASC'));
-            $field->addOption(Text::_('COM_ACTIONLOGS_IP_ADDRESS_DESC'), array('value' => 'a.ip_address DESC'));
+            $field->addOption(Text::_('COM_ACTIONLOGS_IP_ADDRESS_ASC'), ['value' => 'a.ip_address ASC']);
+            $field->addOption(Text::_('COM_ACTIONLOGS_IP_ADDRESS_DESC'), ['value' => 'a.ip_address DESC']);
         }
 
         return $form;

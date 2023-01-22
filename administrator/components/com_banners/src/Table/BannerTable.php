@@ -21,6 +21,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Banner table
  *
@@ -163,7 +167,7 @@ class BannerTable extends Table implements VersionableTableInterface
      *
      * @since   1.5
      */
-    public function bind($array, $ignore = array())
+    public function bind($array, $ignore = [])
     {
         if (isset($array['params']) && \is_array($array['params'])) {
             $registry = new Registry($array['params']);
@@ -249,7 +253,7 @@ class BannerTable extends Table implements VersionableTableInterface
         } else {
             // Get the old row
             /** @var BannerTable $oldrow */
-            $oldrow = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', array('dbo' => $db));
+            $oldrow = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', ['dbo' => $db]);
 
             if (!$oldrow->load($this->id) && $oldrow->getError()) {
                 $this->setError($oldrow->getError());
@@ -257,9 +261,9 @@ class BannerTable extends Table implements VersionableTableInterface
 
             // Verify that the alias is unique
             /** @var BannerTable $table */
-            $table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', array('dbo' => $db));
+            $table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', ['dbo' => $db]);
 
-            if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0)) {
+            if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
                 $this->setError(Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
 
                 return false;
@@ -303,7 +307,7 @@ class BannerTable extends Table implements VersionableTableInterface
         // If there are no primary keys set check to see if the instance key is set.
         if (empty($pks)) {
             if ($this->$k) {
-                $pks = array($this->$k);
+                $pks = [$this->$k];
             } else {
                 // Nothing to set publishing state on, return false.
                 $this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
@@ -314,7 +318,7 @@ class BannerTable extends Table implements VersionableTableInterface
 
         // Get an instance of the table
         /** @var BannerTable $table */
-        $table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', array('dbo' => $this->_db));
+        $table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', ['dbo' => $this->_db]);
 
         // For all keys
         foreach ($pks as $pk) {

@@ -15,6 +15,10 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * User note model.
  *
@@ -42,10 +46,10 @@ class NoteModel extends AdminModel
      *
      * @since   2.5
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.note', 'note', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_users.note', 'note', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -75,7 +79,7 @@ class NoteModel extends AdminModel
         PluginHelper::importPlugin('user');
 
         // Trigger the data preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.note', $result));
+        Factory::getApplication()->triggerEvent('onContentPrepareData', ['com_users.note', $result]);
 
         return $result;
     }
@@ -94,7 +98,7 @@ class NoteModel extends AdminModel
         $app = Factory::getApplication();
 
         // Check the session for previously entered form data.
-        $data = $app->getUserState('com_users.edit.note.data', array());
+        $data = $app->getUserState('com_users.edit.note.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();

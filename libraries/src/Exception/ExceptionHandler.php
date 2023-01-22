@@ -14,6 +14,10 @@ use Joomla\CMS\Error\AbstractRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Displays the custom error page when an uncaught exception occurs.
  *

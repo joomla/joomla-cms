@@ -15,6 +15,10 @@ use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content Component Archive Model
  *
@@ -87,8 +91,8 @@ class ArchiveModel extends ArticlesModel
     {
         $params           = $this->state->params;
         $app              = Factory::getApplication();
-        $catids           = $app->input->get('catid', array(), 'array');
-        $catids           = array_values(array_diff($catids, array('')));
+        $catids           = $app->input->get('catid', [], 'array');
+        $catids           = array_values(array_diff($catids, ['']));
 
         $articleOrderDate = $params->get('order_date');
 

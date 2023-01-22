@@ -20,6 +20,10 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The HTML Menus Menu Items View.
  *
@@ -105,7 +109,7 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        $this->ordering = array();
+        $this->ordering = [];
 
         // Preprocess the list of items to find ordering divisions.
         foreach ($this->items as $item) {
@@ -140,7 +144,7 @@ class HtmlView extends BaseHtmlView
                     || $lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->componentname);
 
                     if (!empty($item->componentname)) {
-                        $titleParts   = array();
+                        $titleParts   = [];
                         $titleParts[] = Text::_($item->componentname);
                         $vars         = null;
 
@@ -236,7 +240,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Levels filter.
-        $options   = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '1', Text::_('J1'));
         $options[] = HTMLHelper::_('select.option', '2', Text::_('J2'));
         $options[] = HTMLHelper::_('select.option', '3', Text::_('J3'));
@@ -272,7 +276,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Allow a system plugin to insert dynamic menu types to the list shown in menus:
-        Factory::getApplication()->triggerEvent('onBeforeRenderMenuItems', array($this));
+        Factory::getApplication()->triggerEvent('onBeforeRenderMenuItems', [$this]);
 
         parent::display($tpl);
     }

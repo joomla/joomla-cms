@@ -13,6 +13,10 @@ namespace Joomla\CMS\Installation\View\Remove;
 use Joomla\CMS\Installation\View\DefaultView;
 use Joomla\CMS\Version;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The HTML Joomla Core Install Remove View
  *

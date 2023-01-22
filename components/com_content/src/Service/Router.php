@@ -23,6 +23,10 @@ use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Routing class of com_content
  *
@@ -126,7 +130,7 @@ class Router extends RouterView
             return $path;
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -167,10 +171,10 @@ class Router extends RouterView
         if ($this->noIDs) {
             list($void, $segment) = explode(':', $id, 2);
 
-            return array($void => $segment);
+            return [$void => $segment];
         }
 
-        return array((int) $id => $id);
+        return [(int) $id => $id];
     }
 
     /**

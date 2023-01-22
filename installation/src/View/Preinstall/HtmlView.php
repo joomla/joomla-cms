@@ -12,6 +12,10 @@ namespace Joomla\CMS\Installation\View\Preinstall;
 
 use Joomla\CMS\Installation\View\DefaultView;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The HTML Joomla Core Install Preinstall View
  *

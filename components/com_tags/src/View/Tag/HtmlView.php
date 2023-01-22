@@ -18,6 +18,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML View class for the Tags component
  *
@@ -171,7 +175,7 @@ class HtmlView extends BaseHtmlView
                 $itemElement->event = new \stdClass();
 
                 // For some plugins.
-                !empty($itemElement->core_body) ? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
+                $itemElement->text = !empty($itemElement->core_body) ? $itemElement->core_body : '';
 
                 $itemElement->core_params = new Registry($itemElement->core_params);
 
@@ -203,10 +207,10 @@ class HtmlView extends BaseHtmlView
                 // Categories store the images differently so lets re-map it so the display is correct
                 if ($itemElement->type_alias === 'com_content.category') {
                     $itemElement->core_images = json_encode(
-                        array(
+                        [
                             'image_intro' => $itemElement->core_params->get('image', ''),
                             'image_intro_alt' => $itemElement->core_params->get('image_alt', '')
-                        )
+                        ]
                     );
                 }
             }
@@ -306,7 +310,17 @@ class HtmlView extends BaseHtmlView
         }
 
         $this->setDocumentTitle($title);
-        $pathway->addItem($title);
+
+        if (
+            $menu
+            && isset($menu->query['option'], $menu->query['view'])
+            && $menu->query['option'] === 'com_tags'
+            && $menu->query['view'] === 'tag'
+        ) {
+            // No need to alter pathway if the active menu item links directly to tag view
+        } else {
+            $pathway->addItem($title);
+        }
 
         foreach ($this->item as $itemElement) {
             if ($itemElement->metadesc) {
@@ -330,9 +344,9 @@ class HtmlView extends BaseHtmlView
 
         if ($this->params->get('show_feed_link', 1) == 1) {
             $link    = '&format=feed&limitstart=';
-            $attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+            $attribs = ['type' => 'application/rss+xml', 'title' => 'RSS 2.0'];
             $this->document->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
-            $attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+            $attribs = ['type' => 'application/atom+xml', 'title' => 'Atom 1.0'];
             $this->document->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
         }
     }
@@ -346,7 +360,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function getTagsTitle()
     {
-        $tags_title = array();
+        $tags_title = [];
 
         if (!empty($this->item)) {
             $user   = $this->getCurrentUser();

@@ -24,6 +24,10 @@ use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\ParameterType;
 use RuntimeException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Installer Update Sites Model
  *

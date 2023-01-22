@@ -17,6 +17,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of contact records.
  *
@@ -31,10 +35,10 @@ class ContactsModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
                 'alias', 'a.alias',
@@ -54,7 +58,7 @@ class ContactsModel extends ListModel
                 'ul.name', 'linked_user',
                 'tag',
                 'level', 'c.level',
-            );
+            ];
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
@@ -160,10 +164,10 @@ class ContactsModel extends ListModel
 
         // Join over the users for the linked user.
         $query->select(
-            array(
+            [
                 $db->quoteName('ul.name', 'linked_user'),
                 $db->quoteName('ul.email')
-            )
+            ]
         )
             ->join(
                 'LEFT',
@@ -309,18 +313,18 @@ class ContactsModel extends ListModel
         }
 
         // Filter by categories and by level
-        $categoryId = $this->getState('filter.category_id', array());
+        $categoryId = $this->getState('filter.category_id', []);
         $level = $this->getState('filter.level');
 
         if (!is_array($categoryId)) {
-            $categoryId = $categoryId ? array($categoryId) : array();
+            $categoryId = $categoryId ? [$categoryId] : [];
         }
 
         // Case: Using both categories filter and by level filter
         if (count($categoryId)) {
             $categoryId = ArrayHelper::toInteger($categoryId);
             $categoryTable = Table::getInstance('Category', 'JTable');
-            $subCatItemsWhere = array();
+            $subCatItemsWhere = [];
 
             // @todo: Convert to prepared statement
             foreach ($categoryId as $filter_catid) {

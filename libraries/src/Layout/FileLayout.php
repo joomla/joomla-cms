@@ -15,6 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Version;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class for rendering a display layout
  * loaded from from a layout file
@@ -30,7 +34,7 @@ class FileLayout extends BaseLayout
      * @var    array
      * @since  3.5
      */
-    protected static $cache = array();
+    protected static $cache = [];
 
     /**
      * Dot separated path to the layout file, relative to base path
@@ -62,7 +66,7 @@ class FileLayout extends BaseLayout
      * @var    array
      * @since  3.2
      */
-    protected $includePaths = array();
+    protected $includePaths = [];
 
     /**
      * Method to instantiate the file-based layout.
@@ -96,7 +100,7 @@ class FileLayout extends BaseLayout
      *
      * @since   3.0
      */
-    public function render($displayData = array())
+    public function render($displayData = [])
     {
         $this->clearDebugMessages();
 
@@ -157,10 +161,10 @@ class FileLayout extends BaseLayout
 
         $hash = md5(
             json_encode(
-                array(
+                [
                     'paths'    => $includePaths,
                     'suffixes' => $suffixes,
-                )
+                ]
             )
         );
 
@@ -262,7 +266,7 @@ class FileLayout extends BaseLayout
      */
     public function clearIncludePaths()
     {
-        $this->includePaths = array();
+        $this->includePaths = [];
 
         return $this;
     }
@@ -304,7 +308,7 @@ class FileLayout extends BaseLayout
      */
     public function getSuffixes()
     {
-        return $this->getOptions()->get('suffixes', array());
+        return $this->getOptions()->get('suffixes', []);
     }
 
     /**
@@ -322,7 +326,7 @@ class FileLayout extends BaseLayout
         $langTag = $lang->getTag();
         $langParts = explode('-', $langTag);
 
-        $suffixes = array($langTag, $langParts[0]);
+        $suffixes = [$langTag, $langParts[0]];
         $suffixes[] = $lang->isRtl() ? 'rtl' : 'ltr';
 
         $this->setSuffixes($suffixes);
@@ -346,11 +350,11 @@ class FileLayout extends BaseLayout
         $fullVersion = 'j' . str_replace('.', '', $cmsVersion->getShortVersion());
 
         // Create suffixes like array('j311', 'j31', 'j3')
-        $suffixes = array(
+        $suffixes = [
             $fullVersion,
             substr($fullVersion, 0, 3),
             substr($fullVersion, 0, 2),
-        );
+        ];
 
         $this->setSuffixes(array_unique($suffixes));
 
@@ -533,7 +537,7 @@ class FileLayout extends BaseLayout
         }
 
         // Reset includePaths
-        $paths = array();
+        $paths = [];
 
         // (1 - highest priority) Received a custom high priority path
         if ($this->basePath !== null) {

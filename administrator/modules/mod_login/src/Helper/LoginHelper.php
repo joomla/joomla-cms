@@ -16,6 +16,10 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_login
  *
@@ -63,7 +67,7 @@ abstract class LoginHelper
     public static function getReturnUri()
     {
         $uri    = Uri::getInstance();
-        $return = 'index.php' . $uri->toString(array('query'));
+        $return = 'index.php' . $uri->toString(['query']);
 
         if ($return != 'index.php?option=com_login') {
             return base64_encode($return);

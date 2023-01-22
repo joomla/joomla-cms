@@ -18,6 +18,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class for a Joomla Html View
  *
@@ -67,7 +71,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
      * @var    array
      * @since  3.0
      */
-    protected $_path = array('template' => array(), 'helper' => array());
+    protected $_path = ['template' => [], 'helper' => []];
 
     /**
      * The name of the default template source file.
@@ -107,7 +111,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
      *
      * @since   3.0
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         parent::__construct($config);
 
@@ -380,12 +384,12 @@ class HtmlView extends AbstractView implements CurrentUserInterface
         }
 
         // Load the template script
-        $filetofind = $this->_createFileName('template', array('name' => $file));
+        $filetofind = $this->_createFileName('template', ['name' => $file]);
         $this->_template = Path::find($this->_path['template'], $filetofind);
 
         // If alternate layout can't be found, fall back to default layout
         if ($this->_template == false) {
-            $filetofind = $this->_createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
+            $filetofind = $this->_createFileName('', ['name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)]);
             $this->_template = Path::find($this->_path['template'], $filetofind);
         }
 
@@ -431,7 +435,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
         $file = preg_replace('/[^A-Z0-9_\.-]/i', '', $hlp);
 
         // Load the template script
-        $helper = Path::find($this->_path['helper'], $this->_createFileName('helper', array('name' => $file)));
+        $helper = Path::find($this->_path['helper'], $this->_createFileName('helper', ['name' => $file]));
 
         if ($helper != false) {
             // Include the requested template filename in the local scope
@@ -460,7 +464,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
         $app = Factory::getApplication();
 
         // Clear out the prior search dirs
-        $this->_path[$type] = array();
+        $this->_path[$type] = [];
 
         // Actually add the user-specified directories
         $this->_addPath($type, $path);
@@ -533,7 +537,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
      *
      * @since   3.0
      */
-    protected function _createFileName($type, $parts = array())
+    protected function _createFileName($type, $parts = [])
     {
         switch ($type) {
             case 'template':

@@ -16,6 +16,10 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of redirect links.
  *
@@ -31,10 +35,10 @@ class LinksModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'state', 'a.state',
                 'old_url', 'a.old_url',
@@ -44,7 +48,7 @@ class LinksModel extends ListModel
                 'created_date', 'a.created_date',
                 'published', 'a.published',
                 'header', 'a.header', 'http_status',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);

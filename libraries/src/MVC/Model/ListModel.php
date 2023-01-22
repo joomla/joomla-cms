@@ -19,6 +19,10 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\Database\DatabaseQuery;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Model class for handling lists of items.
  *
@@ -35,7 +39,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      * @var    array
      * @since  1.6
      */
-    protected $cache = array();
+    protected $cache = [];
 
     /**
      * Context string for the model type.  This is used to handle uniqueness
@@ -52,7 +56,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      * @var    array
      * @since  1.6
      */
-    protected $filter_fields = array();
+    protected $filter_fields = [];
 
     /**
      * An internal cache for the last query used.
@@ -60,7 +64,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      * @var    DatabaseQuery[]
      * @since  1.6
      */
-    protected $query = array();
+    protected $query = [];
 
     /**
      * The cache ID used when last populating $this->query
@@ -93,7 +97,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      * @since      3.4.5
      * @deprecated 4.0.0 use $filterForbiddenList instead
      */
-    protected $filterBlacklist = array();
+    protected $filterBlacklist = [];
 
     /**
      * A list of forbidden filter variables to not merge into the model's state
@@ -101,7 +105,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      * @var    array
      * @since  4.0.0
      */
-    protected $filterForbiddenList = array();
+    protected $filterForbiddenList = [];
 
     /**
      * A list of forbidden variables to not merge into the model's state
@@ -110,7 +114,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      * @since      3.4.5
      * @deprecated 4.0.0 use $listForbiddenList instead
      */
-    protected $listBlacklist = array('select');
+    protected $listBlacklist = ['select'];
 
     /**
      * A list of forbidden variables to not merge into the model's state
@@ -118,7 +122,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      * @var    array
      * @since  4.0.0
      */
-    protected $listForbiddenList = array('select');
+    protected $listForbiddenList = ['select'];
 
     /**
      * Constructor
@@ -129,7 +133,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      * @since   1.6
      * @throws  Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         parent::__construct($config, $factory);
 
@@ -223,7 +227,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      */
     public function getActiveFilters()
     {
-        $activeFilters = array();
+        $activeFilters = [];
 
         if (!empty($this->filter_fields)) {
             foreach ($this->filter_fields as $filter) {
@@ -400,7 +404,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      *
      * @since   3.2
      */
-    public function getFilterForm($data = array(), $loadData = true)
+    public function getFilterForm($data = [], $loadData = true)
     {
         // Try to locate the filter form automatically. Example: ContentModelArticles => "filter_articles"
         if (empty($this->filterFormName)) {
@@ -417,7 +421,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 
         try {
             // Get the form.
-            return $this->loadForm($this->context . '.filter', $this->filterFormName, array('control' => '', 'load_data' => $loadData));
+            return $this->loadForm($this->context . '.filter', $this->filterFormName, ['control' => '', 'load_data' => $loadData]);
         } catch (\RuntimeException $e) {
         }
 
@@ -438,12 +442,12 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 
         // Pre-fill the list options
         if (!property_exists($data, 'list')) {
-            $data->list = array(
+            $data->list = [
                 'direction' => $this->getState('list.direction'),
                 'limit'     => $this->getState('list.limit'),
                 'ordering'  => $this->getState('list.ordering'),
                 'start'     => $this->getState('list.start'),
-            );
+            ];
         }
 
         return $data;
@@ -473,7 +477,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
             $inputFilter = InputFilter::getInstance();
 
             // Receive & set filters
-            if ($filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array')) {
+            if ($filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', [], 'array')) {
                 foreach ($filters as $name => $value) {
                     // Exclude if forbidden
                     if (!\in_array($name, $this->filterForbiddenList)) {
@@ -485,7 +489,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
             $limit = 0;
 
             // Receive & set list options
-            if ($list = $app->getUserStateFromRequest($this->context . '.list', 'list', array(), 'array')) {
+            if ($list = $app->getUserStateFromRequest($this->context . '.list', 'list', [], 'array')) {
                 foreach ($list as $name => $value) {
                     // Exclude if forbidden
                     if (!\in_array($name, $this->listForbiddenList)) {
@@ -498,7 +502,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
                                     // Latest part will be considered the direction
                                     $fullDirection = end($orderingParts);
 
-                                    if (\in_array(strtoupper($fullDirection), array('ASC', 'DESC', ''))) {
+                                    if (\in_array(strtoupper($fullDirection), ['ASC', 'DESC', ''])) {
                                         $this->setState('list.direction', $fullDirection);
                                     } else {
                                         $this->setState('list.direction', $direction);
@@ -536,7 +540,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
                                 break;
 
                             case 'direction':
-                                if (!\in_array(strtoupper($value), array('ASC', 'DESC', ''))) {
+                                if ($value && (!\in_array(strtoupper($value), ['ASC', 'DESC', '']))) {
                                     $value = $direction;
                                 }
                                 break;
@@ -579,7 +583,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
                 // Check if the ordering direction is valid, otherwise use the incoming value.
                 $value = $app->getUserStateFromRequest($this->context . '.orderdirn', 'filter_order_Dir', $direction);
 
-                if (!$value || !\in_array(strtoupper($value), array('ASC', 'DESC', ''))) {
+                if (!$value || !\in_array(strtoupper($value), ['ASC', 'DESC', ''])) {
                     $value = $direction;
                     $app->setUserState($this->context . '.orderdirn', $value);
                 }
@@ -597,7 +601,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
             // Support old direction field
             $oldDirection = $app->input->get('filter_order_Dir');
 
-            if (!empty($oldDirection) && \in_array(strtoupper($oldDirection), array('ASC', 'DESC', ''))) {
+            if (!empty($oldDirection) && \in_array(strtoupper($oldDirection), ['ASC', 'DESC', ''])) {
                 $this->setState('list.direction', $oldDirection);
             }
 
@@ -637,7 +641,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
         // BC for Search Tools which uses different naming
         if ($new_state === null && strpos($request, 'filter_') === 0) {
             $name    = substr($request, 7);
-            $filters = $app->input->get('filter', array(), 'array');
+            $filters = $app->input->get('filter', [], 'array');
 
             if (isset($filters[$name])) {
                 $new_state = $filters[$name];

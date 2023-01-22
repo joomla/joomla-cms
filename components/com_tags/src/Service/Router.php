@@ -17,6 +17,10 @@ use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Routing class from com_tags
  *
@@ -61,7 +65,7 @@ class Router extends RouterBase
      */
     public function build(&$query)
     {
-        $segments = array();
+        $segments = [];
 
         // Get a menu item based on Itemid or currently active
 
@@ -147,7 +151,7 @@ class Router extends RouterBase
     public function parse(&$segments)
     {
         $total = count($segments);
-        $vars = array();
+        $vars = [];
 
         for ($i = 0; $i < $total; $i++) {
             $segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);

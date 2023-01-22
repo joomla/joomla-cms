@@ -16,6 +16,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Users component debugging helper.
  *
@@ -74,7 +78,7 @@ class DebugHelper
      */
     public static function getDebugActions($component = null)
     {
-        $actions = array();
+        $actions = [];
 
         // Try to get actions for the component
         if (!empty($component)) {
@@ -88,7 +92,7 @@ class DebugHelper
                         $descr = (string) $action->description;
                     }
 
-                    $actions[$action->title] = array($action->name, $descr);
+                    $actions[$action->title] = [$action->name, $descr];
                 }
             }
         }
@@ -111,10 +115,10 @@ class DebugHelper
                                         $descr = (string) $action['description'];
                                     }
 
-                                    $actions[(string) $action['title']] = array(
+                                    $actions[(string) $action['title']] = [
                                         (string) $action['name'],
                                         $descr
-                                    );
+                                    ];
                                 }
 
                                 break;
@@ -146,7 +150,7 @@ class DebugHelper
     public static function getLevelsOptions()
     {
         // Build the filter options.
-        $options = array();
+        $options = [];
         $options[] = HTMLHelper::_('select.option', '1', Text::sprintf('COM_USERS_OPTION_LEVEL_COMPONENT', 1));
         $options[] = HTMLHelper::_('select.option', '2', Text::sprintf('COM_USERS_OPTION_LEVEL_CATEGORY', 2));
         $options[] = HTMLHelper::_('select.option', '3', Text::sprintf('COM_USERS_OPTION_LEVEL_DEEPER', 3));

@@ -16,6 +16,10 @@ use Joomla\CMS\Form\Rule\EmailRule;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * FormRule for com_contact to make sure the email address is not blocked.
  *

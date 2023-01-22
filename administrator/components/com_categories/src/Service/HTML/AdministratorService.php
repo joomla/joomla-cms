@@ -19,6 +19,10 @@ use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Administrator category HTML
  *
@@ -77,7 +81,7 @@ class AdministratorService
             }
 
             if ($items) {
-                $languages = LanguageHelper::getContentLanguages(array(0, 1));
+                $languages = LanguageHelper::getContentLanguages([0, 1]);
                 $content_languages = array_column($languages, 'lang_code');
 
                 foreach ($items as &$item) {

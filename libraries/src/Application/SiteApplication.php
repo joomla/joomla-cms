@@ -27,6 +27,10 @@ use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Site Application class
  *
@@ -100,7 +104,7 @@ final class SiteApplication extends CMSApplication
         if (!$menus->authorise($itemid)) {
             if ($user->get('id') == 0) {
                 // Set the data
-                $this->setUserState('users.login.form.data', array('return' => Uri::getInstance()->toString()));
+                $this->setUserState('users.login.form.data', ['return' => Uri::getInstance()->toString()]);
 
                 $url = Route::_('index.php?option=com_users&view=login', false);
 
@@ -275,7 +279,7 @@ final class SiteApplication extends CMSApplication
      */
     public function getParams($option = null)
     {
-        static $params = array();
+        static $params = [];
 
         $hash = '__default';
 
@@ -348,7 +352,7 @@ final class SiteApplication extends CMSApplication
      *
      * @since   3.2
      */
-    public function getPathway($name = 'site', $options = array())
+    public function getPathway($name = 'site', $options = [])
     {
         return parent::getPathway($name, $options);
     }
@@ -365,7 +369,7 @@ final class SiteApplication extends CMSApplication
      *
      * @deprecated 5.0 Inject the router or load it from the dependency injection container
      */
-    public static function getRouter($name = 'site', array $options = array())
+    public static function getRouter($name = 'site', array $options = [])
     {
         return parent::getRouter($name, $options);
     }
@@ -543,14 +547,14 @@ final class SiteApplication extends CMSApplication
      *
      * @since   3.2
      */
-    protected function initialiseApp($options = array())
+    protected function initialiseApp($options = [])
     {
         $user = Factory::getUser();
 
         // If the user is a guest we populate it with the guest user group.
         if ($user->guest) {
             $guestUsergroup = ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
-            $user->groups = array($guestUsergroup);
+            $user->groups = [$guestUsergroup];
         }
 
         if ($plugin = PluginHelper::getPlugin('system', 'languagefilter')) {
@@ -648,7 +652,7 @@ final class SiteApplication extends CMSApplication
      *
      * @since   3.2
      */
-    public function login($credentials, $options = array())
+    public function login($credentials, $options = [])
     {
         // Set the application login entry point
         if (!\array_key_exists('entry_url', $options)) {
@@ -687,7 +691,7 @@ final class SiteApplication extends CMSApplication
                 }
 
                 if ($this->get('offline') && !Factory::getUser()->authorise('core.login.offline')) {
-                    $this->setUserState('users.login.form.data', array('return' => Uri::getInstance()->toString()));
+                    $this->setUserState('users.login.form.data', ['return' => Uri::getInstance()->toString()]);
                     $this->set('themeFile', 'offline.php');
                     $this->setHeader('Status', '503 Service Temporarily Unavailable', 'true');
                 }

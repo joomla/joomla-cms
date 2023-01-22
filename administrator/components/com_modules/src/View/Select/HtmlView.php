@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML View class for the Modules component
  *
@@ -92,6 +96,6 @@ class HtmlView extends BaseHtmlView
         // Instantiate a new FileLayout instance and render the layout
         $layout = new FileLayout('toolbar.cancelselect');
 
-        $bar->appendButton('Custom', $layout->render(array('client_id' => $clientId)), 'new');
+        $bar->appendButton('Custom', $layout->render(['client_id' => $clientId]), 'new');
     }
 }

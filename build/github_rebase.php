@@ -32,7 +32,7 @@ if (empty($argv)) {
             Rebase all open pull requests on github to the target branch.
 
             --base:
-              The base branch of the pull request. Multiple branches can be seperated by comma.
+              The base branch of the pull request. Multiple branches can be separated by comma.
 
             --target:
               The target branch the pull request gets rebased to.

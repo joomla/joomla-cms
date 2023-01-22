@@ -16,6 +16,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Supports a one line text field.
@@ -243,7 +247,7 @@ class TextField extends FormField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         foreach ($this->element->children() as $option) {
             // Only add <option /> elements.
@@ -283,7 +287,7 @@ class TextField extends FormField
         // Get the field options for the datalist.
         $options  = (array) $this->getOptions();
 
-        $extraData = array(
+        $extraData = [
             'maxLength'   => $maxLength,
             'pattern'     => $this->pattern,
             'inputmode'   => $inputmode,
@@ -291,7 +295,7 @@ class TextField extends FormField
             'addonBefore' => $this->addonBefore,
             'addonAfter'  => $this->addonAfter,
             'options'     => $options,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

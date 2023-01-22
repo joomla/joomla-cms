@@ -17,6 +17,10 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base controller class for Finder.
  *
@@ -42,7 +46,7 @@ class DisplayController extends BaseController
      *
      * @since   2.5
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         $view   = $this->input->get('view', 'index', 'word');
         $layout = $this->input->get('layout', 'index', 'word');
@@ -67,7 +71,7 @@ class DisplayController extends BaseController
         if ($view === 'filter' && $layout === 'edit' && !$this->checkEditId('com_finder.edit.filter', $filterId)) {
             // Somehow the person just went to the form - we don't allow that.
             if (!\count($this->app->getMessageQueue())) {
-                $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $f_id), 'error');
+                $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $filterId), 'error');
             }
 
             $this->setRedirect(Route::_('index.php?option=com_finder&view=filters', false));

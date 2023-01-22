@@ -11,6 +11,10 @@ namespace Joomla\CMS\Installer;
 
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Package Manifest File
  *
@@ -80,7 +84,7 @@ abstract class Manifest
      * @var    array
      * @since  3.1
      */
-    public $filelist = array();
+    public $filelist = [];
 
     /**
      * Constructor

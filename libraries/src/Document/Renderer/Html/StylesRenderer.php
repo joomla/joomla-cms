@@ -12,6 +12,10 @@ namespace Joomla\CMS\Document\Renderer\Html;
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\WebAsset\WebAssetItemInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * JDocument styles renderer
  *
@@ -39,7 +43,7 @@ class StylesRenderer extends DocumentRenderer
      *
      * @since   4.0.0
      */
-    public function render($head, $params = array(), $content = null)
+    public function render($head, $params = [], $content = null)
     {
         $tab          = $this->_doc->_getTab();
         $buffer       = '';
@@ -268,7 +272,7 @@ class StylesRenderer extends DocumentRenderer
     {
         $buffer = '';
 
-        $defaultCssMimes = array('text/css');
+        $defaultCssMimes = ['text/css'];
 
         foreach ($attributes as $attrib => $value) {
             // Don't add the 'options' attribute. This attribute is for internal use (version, conditional, etc).
@@ -277,7 +281,7 @@ class StylesRenderer extends DocumentRenderer
             }
 
             // Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
-            if (\in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && \in_array($value, $defaultCssMimes)) {
+            if (\in_array($attrib, ['type', 'mime']) && $this->_doc->isHtml5() && \in_array($value, $defaultCssMimes)) {
                 continue;
             }
 

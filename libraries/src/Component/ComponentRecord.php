@@ -11,6 +11,10 @@ namespace Joomla\CMS\Component;
 
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Object representing a component extension record
  *
@@ -66,7 +70,7 @@ class ComponentRecord
      *
      * @since   3.7.0
      */
-    public function __construct($data = array())
+    public function __construct($data = [])
     {
         foreach ((array) $data as $key => $value) {
             $this->$key = $value;

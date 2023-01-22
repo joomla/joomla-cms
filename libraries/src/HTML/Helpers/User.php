@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class working with users
  *
@@ -42,7 +46,7 @@ abstract class User
 
         // Exclude super admin groups if requested
         if (!$includeSuperAdmin) {
-            $filteredGroups = array();
+            $filteredGroups = [];
 
             foreach ($groups as $group) {
                 if (!Access::checkGroup($group->value, 'core.admin')) {

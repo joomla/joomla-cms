@@ -17,6 +17,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Utilities\IpHelper;
 use ReCaptcha\ReCaptcha;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Recaptcha Plugin
  * Based on the official recaptcha library( https://packagist.org/packages/google/recaptcha )
@@ -52,11 +56,11 @@ class PlgCaptchaRecaptcha extends CMSPlugin
     {
         $this->loadLanguage();
 
-        return array(
-            Text::_('PLG_CAPTCHA_RECAPTCHA') => array(
+        return [
+            Text::_('PLG_CAPTCHA_RECAPTCHA') => [
                 Text::_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
-            ),
-        );
+            ],
+        ];
     }
 
     /**

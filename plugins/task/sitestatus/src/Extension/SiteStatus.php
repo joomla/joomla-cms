@@ -21,6 +21,10 @@ use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Task plugin with routines to change the offline status of the site. These routines can be used to control planned
  * maintenance periods and related operations.
@@ -166,7 +170,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
 
         try {
             // Attempt to write the configuration file as a PHP class named JConfig.
-            $configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+            $configuration = $config->toString('PHP', ['class' => 'JConfig', 'closingtag' => false]);
             File::write($file, $configuration);
         } catch (Exception $e) {
             $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_ERROR_WRITE_FAILED'), 'error');

@@ -11,6 +11,10 @@ namespace Joomla\CMS\Input;
 
 use Joomla\CMS\Filter\InputFilter;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Input Cookie Class
  *
@@ -28,7 +32,7 @@ class Cookie extends Input
      * @since   1.7.0
      * @deprecated  5.0  Use Joomla\Input\Cookie instead
      */
-    public function __construct(array $source = null, array $options = array())
+    public function __construct(array $source = null, array $options = [])
     {
         if (isset($options['filter'])) {
             $this->filter = $options['filter'];

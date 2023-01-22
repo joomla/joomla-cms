@@ -13,6 +13,10 @@ namespace Joomla\Component\Cpanel\Administrator\Controller;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Cpanel Controller
  *
@@ -41,7 +45,7 @@ class DisplayController extends BaseController
      *
      * @since   3.0
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         /*
          * Set the template - this will display cpanel.php
@@ -74,8 +78,11 @@ class DisplayController extends BaseController
             $position = 'cpanel';
         }
 
-        $this->app->setUserState('com_modules.modules.filter.position', $position);
-        $this->app->setUserState('com_modules.modules.client_id', '1');
+        // Administrator
+        $clientId = (\Joomla\CMS\Application\ApplicationHelper::getClientInfo('administrator', true))->id;
+
+        $this->app->setUserState('com_modules.modules.' . $clientId . '.filter.position', $position);
+        $this->app->setUserState('com_modules.modules.client_id', (string) $clientId);
 
         $this->setRedirect(Route::_('index.php?option=com_modules&view=select&tmpl=component&layout=modal' . $appendLink, false));
     }

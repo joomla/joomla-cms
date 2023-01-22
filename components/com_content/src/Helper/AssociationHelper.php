@@ -16,6 +16,10 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Component\Categories\Administrator\Helper\CategoryAssociationHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content Component Association Helper
  *
@@ -50,7 +54,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
                 $user      = Factory::getUser();
                 $groups    = implode(',', $user->getAuthorisedViewLevels());
                 $db        = Factory::getDbo();
-                $advClause = array();
+                $advClause = [];
 
                 // Filter by user groups
                 $advClause[] = 'c2.access IN (' . $groups . ')';
@@ -82,7 +86,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
                     $advClause
                 );
 
-                $return = array();
+                $return = [];
 
                 foreach ($associations as $tag => $item) {
                     $return[$tag] = RouteHelper::getArticleRoute($item->id, (int) $item->catid, $item->language, $layout);
@@ -96,7 +100,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
             return self::getCategoryAssociations($id, 'com_content', $layout);
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -110,7 +114,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
      */
     public static function displayAssociations($id)
     {
-        $return = array();
+        $return = [];
 
         if ($associations = self::getAssociations($id, 'article')) {
             $levels    = Factory::getUser()->getAuthorisedViewLevels();
@@ -137,7 +141,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
                     continue;
                 }
 
-                $return[$language->lang_code] = array('item' => $associations[$language->lang_code], 'language' => $language);
+                $return[$language->lang_code] = ['item' => $associations[$language->lang_code], 'language' => $language];
             }
         }
 

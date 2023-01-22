@@ -18,6 +18,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Shortcut plugin to add accessible keyboard shortcuts to the administrator templates.
  *
@@ -90,6 +94,7 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
         Text::script('PLG_SYSTEM_SHORTCUT_OVERVIEW_HINT');
         Text::script('PLG_SYSTEM_SHORTCUT_OVERVIEW_TITLE');
         Text::script('PLG_SYSTEM_SHORTCUT_OVERVIEW_DESC');
+        Text::script('PLG_SYSTEM_SHORTCUT_THEN');
         Text::script('JCLOSE');
 
         $document = $this->getApplication()->getDocument();
@@ -127,7 +132,7 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
                 'optionKey'  => (object) ['selector' => 'joomla-toolbar-button .button-options', 'shortcut' => 'O', 'title' => Text::_('JOPTIONS')],
                 'helpKey'    => (object) ['selector' => 'joomla-toolbar-button .button-help', 'shortcut' => 'H', 'title' => Text::_('JHELP')],
                 'toggleMenu' => (object) ['selector' => '#menu-collapse', 'shortcut' => 'M', 'title' => Text::_('JTOGGLE_SIDEBAR_MENU')],
-                'dashboard'  => (object) ['selector' => (string) new Uri(Route::_('index.php?')), 'shortcut' => 'D', 'title' => Text::_('COM_CPANEL_DASHBOARD_BASE_TITLE')],
+                'dashboard'  => (object) ['selector' => (string) new Uri(Route::_('index.php?')), 'shortcut' => 'D', 'title' => Text::_('JHOMEDASHBOARD')],
             ]
         );
 

@@ -14,6 +14,10 @@ use Joomla\CMS\Association\AssociationExtensionHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Menu associations helper.
  *
@@ -37,7 +41,7 @@ class AssociationsHelper extends AssociationExtensionHelper
      *
      * @since   3.7.0
      */
-    protected $itemTypes = array('item');
+    protected $itemTypes = ['item'];
 
     /**
      * Has the extension association support
@@ -138,8 +142,8 @@ class AssociationsHelper extends AssociationExtensionHelper
     public function getType($typeName = '')
     {
         $fields  = $this->getFieldsTemplate();
-        $tables  = array();
-        $joins   = array();
+        $tables  = [];
+        $joins   = [];
         $support = $this->getSupportTemplate();
         $title   = '';
 
@@ -158,21 +162,21 @@ class AssociationsHelper extends AssociationExtensionHelper
                     $support['checkout'] = true;
                     $support['level'] = true;
 
-                    $tables = array(
+                    $tables = [
                         'a' => '#__menu'
-                    );
+                    ];
 
                     $title = 'menu';
                     break;
             }
         }
 
-        return array(
+        return [
             'fields'  => $fields,
             'support' => $support,
             'tables'  => $tables,
             'joins'   => $joins,
             'title'   => $title
-        );
+        ];
     }
 }

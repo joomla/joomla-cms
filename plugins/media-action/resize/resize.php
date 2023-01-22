@@ -12,6 +12,10 @@
 
 use Joomla\CMS\Image\Image;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Media Manager Resize Action
  *
@@ -31,7 +35,7 @@ class PlgMediaActionResize extends \Joomla\Component\Media\Administrator\Plugin\
      *
      * @since   4.0.0
      */
-    public function onContentBeforeSave($context, $item, $isNew, $data = array())
+    public function onContentBeforeSave($context, $item, $isNew, $data = [])
     {
         if ($context != 'com_media.file') {
             return;

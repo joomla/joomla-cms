@@ -31,6 +31,10 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Field Model
  *
@@ -66,17 +70,17 @@ class FieldModel extends AdminModel
      *
      * @var array
      */
-    protected $batch_commands = array(
+    protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
         'language_id'   => 'batchLanguage'
-    );
+    ];
 
     /**
      * @var array
      *
      * @since   3.7.0
      */
-    private $valueCache = array();
+    private $valueCache = [];
 
     /**
      * Constructor
@@ -87,7 +91,7 @@ class FieldModel extends AdminModel
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         parent::__construct($config, $factory);
 
@@ -164,16 +168,16 @@ class FieldModel extends AdminModel
         if (!empty($data['only_use_in_subform'])) {
             $cats = [-1];
         } else {
-            $cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
+            $cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : [];
             $cats = ArrayHelper::toInteger($cats);
         }
 
-        $assignedCatIds = array();
+        $assignedCatIds = [];
 
         foreach ($cats as $cat) {
             // If we have found the 'JNONE' category, remove all other from the result and break.
             if ($cat == '-1') {
-                $assignedCatIds = array('-1');
+                $assignedCatIds = ['-1'];
                 break;
             }
 
@@ -192,12 +196,12 @@ class FieldModel extends AdminModel
         $db->execute();
 
         // Inset new assigned categories
-        $tupel = new \stdClass();
-        $tupel->field_id = $id;
+        $tuple = new \stdClass();
+        $tuple->field_id = $id;
 
         foreach ($assignedCatIds as $catId) {
-            $tupel->category_id = $catId;
-            $db->insertObject('#__fields_categories', $tupel);
+            $tuple->category_id = $catId;
+            $db->insertObject('#__fields_categories', $tuple);
         }
 
         /**
@@ -209,7 +213,7 @@ class FieldModel extends AdminModel
          * when the options of a subfields field are getting changed.
          */
         if (
-            $field && in_array($field->type, array('list', 'checkboxes', 'radio'), true)
+            $field && in_array($field->type, ['list', 'checkboxes', 'radio'], true)
             && isset($data['fieldparams']['options']) && isset($field->fieldparams['options'])
         ) {
             $oldParams = $this->getParams($field->fieldparams['options']);
@@ -276,7 +280,7 @@ class FieldModel extends AdminModel
         // Create the fields object
         $obj              = (object) $data;
         $obj->params      = new Registry($obj->params);
-        $obj->fieldparams = new Registry(!empty($obj->fieldparams) ? $obj->fieldparams : array());
+        $obj->fieldparams = new Registry(!empty($obj->fieldparams) ? $obj->fieldparams : []);
 
         // Prepare the dom
         $dom  = new \DOMDocument();
@@ -285,7 +289,7 @@ class FieldModel extends AdminModel
         // Trigger the event to create the field dom node
         $form = new Form($data['context']);
         $form->setDatabase($this->getDatabase());
-        Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($obj, $node, $form));
+        Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', [$obj, $node, $form]);
 
         // Check if a node is created
         if (!$node->firstChild) {
@@ -313,8 +317,17 @@ class FieldModel extends AdminModel
         }
 
         try {
+            $element = simplexml_import_dom($node->firstChild);
+            $value   = $data['default_value'];
+
+            if ($data['type'] === 'checkboxes') {
+                $value = explode(',', $value);
+            } elseif ($element['multiple'] && \is_string($value) && \is_array(json_decode($value, true))) {
+                $value = (array)json_decode($value);
+            }
+
             // Perform the check
-            $result = $rule->test(simplexml_import_dom($node->firstChild), $data['default_value']);
+            $result = $rule->test($element, $value);
 
             // Check if the test succeeded
             return $result === true ? : Text::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
@@ -383,7 +396,7 @@ class FieldModel extends AdminModel
                 ->bind(':fieldid', $fieldId, ParameterType::INTEGER);
 
             $db->setQuery($query);
-            $result->assigned_cat_ids = $db->loadColumn() ?: array(0);
+            $result->assigned_cat_ids = $db->loadColumn() ?: [0];
         }
 
         return $result;
@@ -401,7 +414,7 @@ class FieldModel extends AdminModel
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function getTable($name = 'Field', $prefix = 'Administrator', $options = array())
+    public function getTable($name = 'Field', $prefix = 'Administrator', $options = [])
     {
         // Default to text type
         $table       = parent::getTable($name, $prefix, $options);
@@ -426,15 +439,15 @@ class FieldModel extends AdminModel
         // Alter the title & name
         $table = $this->getTable();
 
-        while ($table->load(array('name' => $name))) {
+        while ($table->load(['name' => $name])) {
             $title = StringHelper::increment($title);
             $name = StringHelper::increment($name, 'dash');
         }
 
-        return array(
+        return [
             $title,
             $name,
-        );
+        ];
     }
 
     /**
@@ -487,7 +500,7 @@ class FieldModel extends AdminModel
      *
      * @since   3.7.0
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         $context = $this->getState('field.context');
         $jinput  = Factory::getApplication()->input;
@@ -517,10 +530,10 @@ class FieldModel extends AdminModel
         $form = $this->loadForm(
             'com_fields.field.' . $context,
             'field',
-            array(
+            [
                 'control'   => 'jform',
                 'load_data' => true,
-            )
+            ]
         );
 
         if (empty($form)) {
@@ -647,10 +660,10 @@ class FieldModel extends AdminModel
             $updateObj->item_id  = $itemId;
             $updateObj->value    = reset($value);
 
-            $this->getDatabase()->updateObject('#__fields_values', $updateObj, array('field_id', 'item_id'));
+            $this->getDatabase()->updateObject('#__fields_values', $updateObj, ['field_id', 'item_id']);
         }
 
-        $this->valueCache = array();
+        $this->valueCache = [];
         FieldsHelper::clearFieldsCache();
 
         return true;
@@ -668,7 +681,7 @@ class FieldModel extends AdminModel
      */
     public function getFieldValue($fieldId, $itemId)
     {
-        $values = $this->getFieldValues(array($fieldId), $itemId);
+        $values = $this->getFieldValues([$fieldId], $itemId);
 
         if (array_key_exists($fieldId, $values)) {
             return $values[$fieldId];
@@ -690,7 +703,7 @@ class FieldModel extends AdminModel
     public function getFieldValues(array $fieldIds, $itemId)
     {
         if (!$fieldIds) {
-            return array();
+            return [];
         }
 
         // Create a unique key for the cache
@@ -710,7 +723,7 @@ class FieldModel extends AdminModel
             // Fetch the row from the database
             $rows = $this->getDatabase()->setQuery($query)->loadObjectList();
 
-            $data = array();
+            $data = [];
 
             // Fill the data container from the database rows
             foreach ($rows as $row) {
@@ -718,7 +731,7 @@ class FieldModel extends AdminModel
                 if (array_key_exists($row->field_id, $data)) {
                     // Transform it to an array
                     if (!is_array($data[$row->field_id])) {
-                        $data[$row->field_id] = array($data[$row->field_id]);
+                        $data[$row->field_id] = [$data[$row->field_id]];
                     }
 
                     // Set the value in the array
@@ -871,7 +884,7 @@ class FieldModel extends AdminModel
     {
         // Check the session for previously entered form data.
         $app  = Factory::getApplication();
-        $data = $app->getUserState('com_fields.edit.field.data', array());
+        $data = $app->getUserState('com_fields.edit.field.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -1092,7 +1105,7 @@ class FieldModel extends AdminModel
         // Set the variables
         $user      = Factory::getUser();
         $table     = $this->getTable();
-        $newIds    = array();
+        $newIds    = [];
         $component = $this->state->get('filter.component');
         $value     = (int) $value;
 
@@ -1105,6 +1118,12 @@ class FieldModel extends AdminModel
 
                 // Reset the ID because we are making a copy
                 $table->id = 0;
+
+                // Alter the title if necessary
+                $data           = $this->generateNewTitle(0, $table->name, $table->title);
+                $table->title   = $data['0'];
+                $table->name    = $data['1'];
+                $table->label   = $data['0'];
 
                 // Unpublish the new field
                 $table->state = 0;

@@ -15,6 +15,10 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Messages Component Messages Model
  *
@@ -31,10 +35,10 @@ class MessagesModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'message_id', 'a.id',
                 'subject', 'a.subject',
                 'state', 'a.state',
@@ -42,7 +46,7 @@ class MessagesModel extends ListModel
                 'user_id_to', 'a.user_id_to',
                 'date_time', 'a.date_time',
                 'priority', 'a.priority',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);

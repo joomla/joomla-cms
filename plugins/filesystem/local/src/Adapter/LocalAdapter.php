@@ -26,6 +26,10 @@ use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Local file adapter.
  *
@@ -62,7 +66,7 @@ class LocalAdapter implements AdapterInterface
     public function __construct(string $rootPath, string $filePath)
     {
         if (!file_exists($rootPath)) {
-            throw new \InvalidArgumentException();
+            throw new \InvalidArgumentException(Text::_('COM_MEDIA_ERROR_MISSING_DIR'));
         }
 
         $this->rootPath = Path::clean(realpath($rootPath), '/');

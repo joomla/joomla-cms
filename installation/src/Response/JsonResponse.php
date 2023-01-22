@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * JSON Response class for the Joomla Installer.
  *
@@ -21,6 +25,62 @@ use Joomla\CMS\Session\Session;
  */
 class JsonResponse
 {
+    /**
+     * The security token.
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $token;
+
+    /**
+     * The language tag
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $lang;
+
+    /**
+     * The message
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $message;
+
+    /**
+     * The messages array
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    public $messages;
+
+    /**
+     * The error message
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $error;
+
+    /**
+     * The header
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $header;
+
+    /**
+     * The data
+     *
+     * @var    mixed
+     * @since  __DEPLOY_VERSION__
+     */
+    public $data;
+
     /**
      * Constructor for the JSON response
      *

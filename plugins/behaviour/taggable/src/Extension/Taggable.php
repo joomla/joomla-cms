@@ -25,6 +25,10 @@ use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\Event\SubscriberInterface;
 use RuntimeException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Implements the Taggable behaviour which allows extensions to automatically support tags for their content items.
  *
@@ -122,7 +126,7 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
         $tagsHelper            = $table->getTagsHelper();
         $tagsHelper->typeAlias = $table->getTypeAlias();
 
-        $newTags = $table->newTags ?? array();
+        $newTags = $table->newTags ?? [];
 
         if (empty($newTags)) {
             $tagsHelper->preStoreProcess($table);
@@ -165,7 +169,7 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
         $tagsHelper            = $table->getTagsHelper();
         $tagsHelper->typeAlias = $table->getTypeAlias();
 
-        $newTags = $table->newTags ?? array();
+        $newTags = $table->newTags ?? [];
 
         if (empty($newTags)) {
             $result = $tagsHelper->postStoreProcess($table);

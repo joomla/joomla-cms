@@ -15,6 +15,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class for creating HTML Grids
  *
@@ -196,12 +200,12 @@ abstract class JGrid
             $prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
         }
 
-        $states = array(
-            1 => array('unpublish', 'JPUBLISHED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JPUBLISHED', true, 'publish', 'publish'),
-            0 => array('publish', 'JUNPUBLISHED', 'JLIB_HTML_PUBLISH_ITEM', 'JUNPUBLISHED', true, 'unpublish', 'unpublish'),
-            2 => array('unpublish', 'JARCHIVED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JARCHIVED', true, 'archive', 'archive'),
-            -2 => array('publish', 'JTRASHED', 'JLIB_HTML_PUBLISH_ITEM', 'JTRASHED', true, 'trash', 'trash'),
-        );
+        $states = [
+            1 => ['unpublish', 'JPUBLISHED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JPUBLISHED', true, 'publish', 'publish'],
+            0 => ['publish', 'JUNPUBLISHED', 'JLIB_HTML_PUBLISH_ITEM', 'JUNPUBLISHED', true, 'unpublish', 'unpublish'],
+            2 => ['unpublish', 'JARCHIVED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JARCHIVED', true, 'archive', 'archive'],
+            -2 => ['publish', 'JTRASHED', 'JLIB_HTML_PUBLISH_ITEM', 'JTRASHED', true, 'trash', 'trash'],
+        ];
 
         // Special state for dates
         if ($publishUp || $publishDown) {
@@ -214,7 +218,7 @@ abstract class JGrid
             $publishDown = ($publishDown !== null && $publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimezone($tz) : false;
 
             // Create tip text, only we have publish up or down settings
-            $tips = array();
+            $tips = [];
 
             if ($publishUp) {
                 $tips[] = Text::sprintf('JLIB_HTML_PUBLISHED_START', HTMLHelper::_('date', $publishUp, Text::_('DATE_FORMAT_LC5'), 'UTC'));
@@ -252,7 +256,7 @@ abstract class JGrid
                 }
             }
 
-            return static::state($states, $value, $i, array('prefix' => $prefix, 'translate' => !$tip), $enabled, true, $checkbox, $formId);
+            return static::state($states, $value, $i, ['prefix' => $prefix, 'translate' => !$tip], $enabled, true, $checkbox, $formId);
         }
 
         return static::state($states, $value, $i, $prefix, $enabled, true, $checkbox, $formId);
@@ -284,10 +288,10 @@ abstract class JGrid
             $prefix   = array_key_exists('prefix', $options) ? $options['prefix'] : '';
         }
 
-        $states = array(
-            0 => array('setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', 1, $inactive_class, $inactive_class),
-            1 => array('unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', 1, $active_class, $active_class),
-        );
+        $states = [
+            0 => ['setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', 1, $inactive_class, $inactive_class],
+            1 => ['unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', 1, $active_class, $active_class],
+        ];
 
         return static::state($states, $value, $i, $prefix, $enabled, true, $checkbox, $formId);
     }
@@ -304,10 +308,10 @@ abstract class JGrid
      *
      * @since   1.6
      */
-    public static function publishedOptions($config = array())
+    public static function publishedOptions($config = [])
     {
         // Build the active state filter options.
-        $options = array();
+        $options = [];
 
         if (!array_key_exists('published', $config) || $config['published']) {
             $options[] = HTMLHelper::_('select.option', '1', 'JPUBLISHED');

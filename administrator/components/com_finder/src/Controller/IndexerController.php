@@ -20,6 +20,10 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Response\Response;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Indexer controller class for Finder.
  *
@@ -151,13 +155,13 @@ class IndexerController extends BaseController
         $lang = Factory::getLanguage();
 
         // Get the document properties.
-        $attributes = array (
+        $attributes = [
             'charset'   => 'utf-8',
             'lineend'   => 'unix',
             'tab'       => '  ',
             'language'  => $lang->getTag(),
             'direction' => $lang->isRtl() ? 'rtl' : 'ltr'
-        );
+        ];
 
         // Start the indexer.
         try {

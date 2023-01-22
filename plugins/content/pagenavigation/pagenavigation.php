@@ -18,6 +18,10 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Pagenavigation plugin class.
  *

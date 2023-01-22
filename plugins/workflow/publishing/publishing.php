@@ -29,6 +29,10 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 use Joomla\String\Inflector;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Workflow Publishing Plugin
  *

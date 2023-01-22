@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Form\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Provides radio button inputs using default styling
@@ -56,10 +60,10 @@ class RadiobasicField extends ListField
     {
         $data = parent::getLayoutData();
 
-        $extraData = array(
+        $extraData = [
             'options' => $this->getOptions(),
             'value'   => (string) $this->value
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

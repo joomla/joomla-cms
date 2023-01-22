@@ -11,6 +11,10 @@ namespace Joomla\CMS\Association;
 
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Association Extension Helper
  *
@@ -34,7 +38,7 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
      *
      * @since   3.7.0
      */
-    protected $itemTypes = array();
+    protected $itemTypes = [];
 
     /**
      * Has the extension association support
@@ -81,7 +85,7 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
      */
     public function getAssociationList($typeName, $itemId)
     {
-        $items = array();
+        $items = [];
 
         $associations = $this->getAssociations($typeName, $itemId);
 
@@ -104,18 +108,18 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
     public function getType($typeName = '')
     {
         $fields  = $this->getFieldsTemplate();
-        $tables  = array();
-        $joins   = array();
+        $tables  = [];
+        $joins   = [];
         $support = $this->getSupportTemplate();
         $title   = '';
 
-        return array(
+        return [
             'fields'  => $fields,
             'support' => $support,
             'tables'  => $tables,
             'joins'   => $joins,
             'title'   => $title
-        );
+        ];
     }
 
     /**
@@ -209,7 +213,7 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
         $type = $this->getType($typeName);
 
         if (!\array_key_exists($part, $type)) {
-            return array();
+            return [];
         }
 
         return $type[$part];
@@ -252,11 +256,11 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
      */
     protected function getSupportTemplate()
     {
-        return array(
+        return [
             'state'    => false,
             'acl'      => false,
             'checkout' => false
-        );
+        ];
     }
 
     /**
@@ -268,7 +272,7 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
      */
     protected function getFieldsTemplate()
     {
-        return array(
+        return [
             'id'                  => 'a.id',
             'title'               => 'a.title',
             'alias'               => 'a.alias',
@@ -282,6 +286,6 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
             'created_user_id'     => 'a.created_by',
             'checked_out'         => 'a.checked_out',
             'checked_out_time'    => 'a.checked_out_time'
-        );
+        ];
     }
 }

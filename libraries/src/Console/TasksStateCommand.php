@@ -22,6 +22,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command to change the state of tasks.
  *
@@ -126,14 +130,14 @@ class TasksStateCommand extends AbstractCommand
 
         // We couldn't fetch that task :(
         if (empty($task->id)) {
-            $this->ioStyle->error("Task ID '${id}' does not exist!");
+            $this->ioStyle->error("Task ID '{$id}' does not exist!");
 
             return 1;
         }
 
         // If the item is checked-out we need a check in (currently not possible through the CLI)
         if ($taskModel->isCheckedOut($task)) {
-            $this->ioStyle->error("Task ID '${id}' is checked out!");
+            $this->ioStyle->error("Task ID '{$id}' is checked out!");
 
             return 1;
         }
@@ -144,12 +148,12 @@ class TasksStateCommand extends AbstractCommand
         $action = Task::STATE_MAP[$state];
 
         if (!$table->publish($id, $state)) {
-            $this->ioStyle->error("Can't ${action} Task ID '${id}'");
+            $this->ioStyle->error("Can't {$action} Task ID '{$id}'");
 
             return 3;
         }
 
-        $this->ioStyle->success("Task ID ${id} ${action}.");
+        $this->ioStyle->success("Task ID {$id} {$action}.");
 
         return 0;
     }

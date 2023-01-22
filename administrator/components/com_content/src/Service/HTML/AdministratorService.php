@@ -18,6 +18,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content HTML helper
  *
@@ -74,7 +78,7 @@ class AdministratorService
             }
 
             if ($items) {
-                $languages = LanguageHelper::getContentLanguages(array(0, 1));
+                $languages = LanguageHelper::getContentLanguages([0, 1]);
                 $content_languages = array_column($languages, 'lang_code');
 
                 foreach ($items as &$item) {

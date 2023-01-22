@@ -20,6 +20,10 @@ use Joomla\CMS\Utility\Utility;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Page break plugin
  *
@@ -43,7 +47,7 @@ class PlgContentPagebreak extends CMSPlugin
      * @var    array
      * @since  4.0.0
      */
-    protected $list = array();
+    protected $list = [];
 
     /**
      * Plugin that adds a pagebreak into the text and truncates text at that point
@@ -111,7 +115,7 @@ class PlgContentPagebreak extends CMSPlugin
         $this->loadLanguage();
 
         // Find all instances of plugin and put in $matches.
-        $matches = array();
+        $matches = [];
         preg_match_all($regex, $row->text, $matches, PREG_SET_ORDER);
 
         if ($showall && $this->params->get('showall', 1)) {
@@ -200,7 +204,7 @@ class PlgContentPagebreak extends CMSPlugin
                 if ($style === 'tabs') {
                     $t[] = (string) HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'article' . $row->id . '-' . $style . '0', 'view' => 'tabs']);
                 } else {
-                    $t[] = (string) HTMLHelper::_('bootstrap.startAccordion', 'myAccordion', array('active' => 'article' . $row->id . '-' . $style . '0'));
+                    $t[] = (string) HTMLHelper::_('bootstrap.startAccordion', 'myAccordion', ['active' => 'article' . $row->id . '-' . $style . '0']);
                 }
 
                 foreach ($text as $key => $subtext) {
@@ -330,10 +334,10 @@ class PlgContentPagebreak extends CMSPlugin
      */
     protected function _createNavigation(&$row, $page, $n)
     {
-        $links = array(
+        $links = [
             'next' => '',
             'previous' => '',
-        );
+        ];
 
         if ($page < $n - 1) {
             $links['next'] = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($page + 1);

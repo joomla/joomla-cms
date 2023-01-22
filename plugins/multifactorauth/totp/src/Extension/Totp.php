@@ -30,6 +30,10 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
 use RuntimeException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Multi-factor Authentication using Google Authenticator TOTP Plugin
  *

@@ -16,6 +16,10 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Languages Installer Model
  *
@@ -40,13 +44,13 @@ class LanguagesModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\ListModel
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'name',
                 'element',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -150,7 +154,7 @@ class LanguagesModel extends ListModel
             return;
         }
 
-        $languages     = array();
+        $languages     = [];
         $search        = strtolower($this->getState('filter.search'));
 
         foreach ($updateSiteXML->extension as $extension) {
