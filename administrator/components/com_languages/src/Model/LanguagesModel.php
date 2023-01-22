@@ -36,10 +36,10 @@ class LanguagesModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'lang_id', 'a.lang_id',
                 'lang_code', 'a.lang_code',
                 'title', 'a.title',
@@ -50,7 +50,7 @@ class LanguagesModel extends ListModel
                 'ordering', 'a.ordering',
                 'access', 'a.access', 'access_level',
                 'home', 'l.home',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);

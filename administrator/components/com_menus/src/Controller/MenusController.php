@@ -51,7 +51,7 @@ class MenusController extends BaseController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Menu', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Menu', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -69,7 +69,7 @@ class MenusController extends BaseController
         $this->checkToken();
 
         $user = $this->app->getIdentity();
-        $cids = (array) $this->input->get('cid', array(), 'int');
+        $cids = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $cids = array_filter($cids);

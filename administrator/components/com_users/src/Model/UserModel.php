@@ -52,16 +52,16 @@ class UserModel extends AdminModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         $config = array_merge(
-            array(
+            [
                 'event_after_delete'  => 'onUserAfterDelete',
                 'event_after_save'    => 'onUserAfterSave',
                 'event_before_delete' => 'onUserBeforeDelete',
                 'event_before_save'   => 'onUserBeforeSave',
-                'events_map'          => array('save' => 'user', 'delete' => 'user', 'validate' => 'user')
-            ),
+                'events_map'          => ['save' => 'user', 'delete' => 'user', 'validate' => 'user']
+            ],
             $config
         );
 
@@ -79,7 +79,7 @@ class UserModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'User', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
+    public function getTable($type = 'User', $prefix = 'Joomla\\CMS\\Table\\', $config = [])
     {
         $table = Table::getInstance($type, $prefix, $config);
 
@@ -100,7 +100,7 @@ class UserModel extends AdminModel
         $pk = (!empty($pk)) ? $pk : (int) $this->getState('user.id');
 
         if ($this->_item === null) {
-            $this->_item = array();
+            $this->_item = [];
         }
 
         if (!isset($this->_item[$pk])) {
@@ -120,10 +120,10 @@ class UserModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.user', 'user', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_users.user', 'user', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -180,7 +180,7 @@ class UserModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_users.edit.user.data', array());
+        $data = Factory::getApplication()->getUserState('com_users.edit.user.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -330,7 +330,7 @@ class UserModel extends AdminModel
                     $user_to_delete = Factory::getUser($pk);
 
                     // Fire the before delete event.
-                    Factory::getApplication()->triggerEvent($this->event_before_delete, array($table->getProperties()));
+                    Factory::getApplication()->triggerEvent($this->event_before_delete, [$table->getProperties()]);
 
                     if (!$table->delete($pk)) {
                         $this->setError($table->getError());
@@ -338,7 +338,7 @@ class UserModel extends AdminModel
                         return false;
                     } else {
                         // Trigger the after delete event.
-                        Factory::getApplication()->triggerEvent($this->event_after_delete, array($user_to_delete->getProperties(), true, $this->getError()));
+                        Factory::getApplication()->triggerEvent($this->event_after_delete, [$user_to_delete->getProperties(), true, $this->getError()]);
                     }
                 } else {
                     // Prune items that you can't change.
@@ -379,9 +379,9 @@ class UserModel extends AdminModel
         PluginHelper::importPlugin($this->events_map['save']);
 
         // Prepare the logout options.
-        $options = array(
+        $options = [
             'clientid' => $app->get('shared_session', '0') ? null : 0,
-        );
+        ];
 
         // Access checks.
         foreach ($pks as $i => $pk) {
@@ -419,7 +419,7 @@ class UserModel extends AdminModel
                         }
 
                         // Trigger the before save event.
-                        $result = Factory::getApplication()->triggerEvent($this->event_before_save, array($old, false, $table->getProperties()));
+                        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$old, false, $table->getProperties()]);
 
                         if (in_array(false, $result, true)) {
                             // Plugin will have to raise its own error or throw an exception.
@@ -506,7 +506,7 @@ class UserModel extends AdminModel
                         }
 
                         // Trigger the before save event.
-                        $result = Factory::getApplication()->triggerEvent($this->event_before_save, array($old, false, $table->getProperties()));
+                        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$old, false, $table->getProperties()]);
 
                         if (in_array(false, $result, true)) {
                             // Plugin will have to raise it's own error or throw an exception.
@@ -630,7 +630,7 @@ class UserModel extends AdminModel
         }
 
         // Prune out the current user if they are in the supplied user ID array
-        $userIds = array_diff($userIds, array(Factory::getUser()->id));
+        $userIds = array_diff($userIds, [Factory::getUser()->id]);
 
         if (empty($userIds)) {
             $this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_REQUIRERESET_SELF'));
@@ -815,7 +815,7 @@ class UserModel extends AdminModel
             }
 
             $query->insert($db->quoteName('#__user_usergroup_map'))
-                ->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')));
+                ->columns([$db->quoteName('user_id'), $db->quoteName('group_id')]);
             $db->setQuery($query);
 
             try {
@@ -865,7 +865,7 @@ class UserModel extends AdminModel
         $userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
         if (empty($userId)) {
-            $result   = array();
+            $result   = [];
             $form     = $this->getForm();
 
             if ($form) {
@@ -909,11 +909,11 @@ class UserModel extends AdminModel
         );
 
         // Return the configuration object
-        return (object) array(
+        return (object) [
             'method' => 'none',
-            'config' => array(),
-            'otep'   => array()
-        );
+            'config' => [],
+            'otep'   => []
+        ];
     }
 
     /**
@@ -1024,7 +1024,7 @@ class UserModel extends AdminModel
      *
      * @deprecated 4.2.0 Will be removed in 5.0. MFA validation is done in the captive login.
      */
-    public function isValidSecretKey($userId, $secretKey, $options = array())
+    public function isValidSecretKey($userId, $secretKey, $options = [])
     {
         @trigger_error(
             sprintf(

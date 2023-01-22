@@ -47,7 +47,7 @@ abstract class Grid
         HTMLHelper::_('bootstrap.popover', '.hasPopover', ['trigger' => 'hover focus']);
 
         $direction = strtolower($direction);
-        $icon = array('arrow-up-3', 'arrow-down-3');
+        $icon = ['arrow-up-3', 'arrow-down-3'];
         $index = (int) ($direction === 'desc');
 
         if ($order != $selected) {
@@ -203,7 +203,7 @@ abstract class Grid
      */
     public static function state($filterState = '*', $published = 'JPUBLISHED', $unpublished = 'JUNPUBLISHED', $archived = null, $trashed = null)
     {
-        $state = array('' => '- ' . Text::_('JLIB_HTML_SELECT_STATE') . ' -', 'P' => Text::_($published), 'U' => Text::_($unpublished));
+        $state = ['' => '- ' . Text::_('JLIB_HTML_SELECT_STATE') . ' -', 'P' => Text::_($published), 'U' => Text::_($unpublished)];
 
         if ($archived) {
             $state['A'] = Text::_($archived);
@@ -217,11 +217,11 @@ abstract class Grid
             'select.genericlist',
             $state,
             'filter_state',
-            array(
+            [
                 'list.attr' => 'class="form-select" size="1" onchange="Joomla.submitform();"',
                 'list.select' => $filterState,
                 'option.key' => null,
-            )
+            ]
         );
     }
 
