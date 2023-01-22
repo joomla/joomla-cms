@@ -110,7 +110,7 @@ class MediaField extends FormField
      * The folder.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $folder;
 
