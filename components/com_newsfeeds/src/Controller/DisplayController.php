@@ -45,8 +45,8 @@ class DisplayController extends BaseController
             $cachable = false;
         }
 
-        $safeurlparams = array('id' => 'INT', 'limit' => 'UINT', 'limitstart' => 'UINT',
-                                'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'lang' => 'CMD');
+        $safeurlparams = ['id' => 'INT', 'limit' => 'UINT', 'limitstart' => 'UINT',
+                                'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'lang' => 'CMD'];
 
         return parent::display($cachable, $safeurlparams);
     }

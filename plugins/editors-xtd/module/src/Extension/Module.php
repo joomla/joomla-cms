@@ -6,11 +6,10 @@
  *
  * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Factory;
+namespace Joomla\Plugin\EditorsXtd\Module\Extension;
+
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -25,7 +24,7 @@ use Joomla\CMS\Session\Session;
  *
  * @since  3.5
  */
-class PlgButtonModule extends CMSPlugin
+final class Module extends CMSPlugin
 {
     /**
      * Load the language file on instantiation.
@@ -50,7 +49,7 @@ class PlgButtonModule extends CMSPlugin
          * Use the built-in element view to select the module.
          * Currently uses blank class.
          */
-        $user  = Factory::getUser();
+        $user  = $this->getApplication()->getIdentity();
 
         if (
             $user->authorise('core.create', 'com_modules')

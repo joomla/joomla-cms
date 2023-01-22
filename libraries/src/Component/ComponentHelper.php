@@ -39,7 +39,7 @@ class ComponentHelper
      * @var    ComponentRecord[]
      * @since  1.6
      */
-    protected static $components = array();
+    protected static $components = [];
 
     /**
      * Get the component information.
@@ -135,14 +135,14 @@ class ComponentHelper
 
         $filters = $config->get('filters');
 
-        $forbiddenListTags       = array();
-        $forbiddenListAttributes = array();
+        $forbiddenListTags       = [];
+        $forbiddenListAttributes = [];
 
-        $customListTags       = array();
-        $customListAttributes = array();
+        $customListTags       = [];
+        $customListAttributes = [];
 
-        $allowedListTags       = array();
-        $allowedListAttributes = array();
+        $allowedListTags       = [];
+        $allowedListAttributes = [];
 
         $allowedList    = false;
         $forbiddenList  = false;
@@ -171,8 +171,8 @@ class ComponentHelper
                 // Preprocess the tags and attributes.
                 $tags           = explode(',', $filterData->filter_tags);
                 $attributes     = explode(',', $filterData->filter_attributes);
-                $tempTags       = array();
-                $tempAttributes = array();
+                $tempTags       = [];
+                $tempAttributes = [];
 
                 foreach ($tags as $tag) {
                     $tag = trim($tag);
@@ -222,7 +222,7 @@ class ComponentHelper
         if (!$unfiltered) {
             // Custom Forbidden list precedes Default forbidden list.
             if ($customList) {
-                $filter = InputFilter::getInstance(array(), array(), 1, 1);
+                $filter = InputFilter::getInstance([], [], 1, 1);
 
                 // Override filter's default forbidden tags and attributes
                 if ($customListTags) {
@@ -280,7 +280,7 @@ class ComponentHelper
      * @since   1.5
      * @throws  MissingComponentException
      */
-    public static function renderComponent($option, $params = array())
+    public static function renderComponent($option, $params = [])
     {
         $app = Factory::getApplication();
         $lang = Factory::getLanguage();
@@ -401,7 +401,7 @@ class ComponentHelper
         $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', ['defaultgroup' => '_system']);
 
         try {
-            static::$components = $cache->get($loader, array(), __METHOD__);
+            static::$components = $cache->get($loader, [], __METHOD__);
         } catch (CacheExceptionInterface $e) {
             static::$components = $loader();
         }

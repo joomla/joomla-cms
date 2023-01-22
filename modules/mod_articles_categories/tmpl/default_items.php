@@ -16,7 +16,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 foreach ($categories as $category) : ?>
-    <li<?php if ($id == $category->id && in_array($view, array('category', 'categories')) && $option == 'com_content') {
+    <li<?php if ($id == $category->id && in_array($view, ['category', 'categories']) && $option == 'com_content') {
         echo ' class="active"';
        } ?>> <?php $levelup = $category->level - $startLevel - 1; ?>
         <a href="<?php echo Route::_(RouteHelper::getCategoryRoute($category->id, $category->language)); ?>">
