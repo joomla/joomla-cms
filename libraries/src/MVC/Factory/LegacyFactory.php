@@ -95,7 +95,7 @@ class LegacyFactory implements MVCFactoryInterface
         $viewClass = $classPrefix . $viewName;
 
         if (!class_exists($viewClass)) {
-            $path = Path::find($config['paths'], BaseController::createFileName('view', array('name' => $viewName, 'type' => $viewType)));
+            $path = Path::find($config['paths'], BaseController::createFileName('view', ['name' => $viewName, 'type' => $viewType]));
 
             if (!$path) {
                 return null;

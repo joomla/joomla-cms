@@ -317,7 +317,7 @@ Joomla.getMedia = (data, editor, fieldClass) => new Promise((resolve, reject) =>
     return;
   }
 
-  const url = `${Joomla.getOptions('system.paths').baseFull}index.php?option=com_media&task=api.files&url=true&path=${data.path}&mediatypes=0,1,2,3&${Joomla.getOptions('csrf.token')}=1&format=json`;
+  const url = `${Joomla.getOptions('system.paths').baseFull}index.php?option=com_media&task=api.files&url=true&path=${encodeURIComponent(data.path)}&mediatypes=0,1,2,3&${Joomla.getOptions('csrf.token')}=1&format=json`;
   fetch(
     url,
     {
