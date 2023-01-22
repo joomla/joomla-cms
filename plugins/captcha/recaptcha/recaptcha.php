@@ -56,11 +56,11 @@ class PlgCaptchaRecaptcha extends CMSPlugin
     {
         $this->loadLanguage();
 
-        return array(
-            Text::_('PLG_CAPTCHA_RECAPTCHA') => array(
+        return [
+            Text::_('PLG_CAPTCHA_RECAPTCHA') => [
                 Text::_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
-            ),
-        );
+            ],
+        ];
     }
 
     /**

@@ -61,7 +61,7 @@ class RelatedItemsHelper implements \Joomla\Database\DatabaseAwareInterface
     public function __construct($config = [])
     {
         $this->module = $config['module'];
-        $this->input =  $config['input'];
+        $this->input  = $config['input'];
     }
 
     /**
@@ -95,11 +95,11 @@ class RelatedItemsHelper implements \Joomla\Database\DatabaseAwareInterface
             $mvcContentFactory = $app->bootComponent('com_content')->getMVCFactory();
 
             /** @var \Joomla\Component\Content\Site\Model\ArticleModel $articleModel */
-            $articleModel = $mvcContentFactory->createModel('Article', 'Site', ['ignore_request' => true]);
+            $articleModel   = $mvcContentFactory->createModel('Article', 'Site', ['ignore_request' => true]);
 
-            $urlId = $this->input->getString('id');
+            $urlId          = $this->input->getString('id');
             $currentArticle = explode(':', $urlId)[0];
-            $appParams = $app->getParams();
+            $appParams      = $app->getParams();
 
             $articleModel->setState('params', $appParams);
             $articleModel->setState('filter.published', 1);
@@ -111,7 +111,7 @@ class RelatedItemsHelper implements \Joomla\Database\DatabaseAwareInterface
                 return [];
             }
 
-            $props = new \stdClass();
+            $props      = new \stdClass();
 
             $props->mainArticle = $mainArticle;
             $props->params      = $appParams->merge($moduleParams, true);
@@ -119,7 +119,7 @@ class RelatedItemsHelper implements \Joomla\Database\DatabaseAwareInterface
             $props->factory     = $mvcContentFactory;
 
             // We can now relate the articles by other modes
-            $items = $this->getRelatedArticlesByMetakeys($props);
+            $items      = $this->getRelatedArticlesByMetakeys($props);
 
             // Cache the output and return
             $cache->store($items, $cacheKey);
@@ -141,30 +141,30 @@ class RelatedItemsHelper implements \Joomla\Database\DatabaseAwareInterface
      */
     private function getRelatedArticlesByMetakeys($props): array
     {
-        $keys = explode(',', $props->mainArticle->metakey);
+        $keys       = explode(',', $props->mainArticle->metakey);
 
         // Clean the article metakeys and add wildcards for the SQL LIKE Operator
-        $metaKeys = array_map(function ($item) {
+        $metaKeys   = array_map(function ($item) {
             if ($key = \trim($item)) {
                 return '%' . $key . '%';
             }
         }, $keys);
 
         // Select other articles based on the metakey field 'like' the keys found
-        $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $db         = $this->getDatabase();
+        $query      = $db->getQuery(true);
 
         $user       = $props->app->getIdentity();
         $authorised = Access::getAuthorisedViewLevels($user->get('id'));
 
-        $id = (int) $props->mainArticle->id;
+        $id         = (int) $props->mainArticle->id;
 
         $query->select($db->quoteName('a.id'))
-        ->from($db->quoteName('#__content', 'a'))
-        ->where($db->quoteName('a.id') . ' != :id')
-        ->where($db->quoteName('a.state') . ' = ' . ContentComponent::CONDITION_PUBLISHED)
-        ->whereIn($db->quoteName('a.access'), $authorised)
-        ->bind(':id', $id, ParameterType::INTEGER);
+            ->from($db->quoteName('#__content', 'a'))
+            ->where($db->quoteName('a.id') . ' != :id')
+            ->where($db->quoteName('a.state') . ' = ' . ContentComponent::CONDITION_PUBLISHED)
+            ->whereIn($db->quoteName('a.access'), $authorised)
+            ->bind(':id', $id, ParameterType::INTEGER);
 
         $bindWords = $query->bindArray($metaKeys, ParameterType::STRING);
         $wheres    = [];
