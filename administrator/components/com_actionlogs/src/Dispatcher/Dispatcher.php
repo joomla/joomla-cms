@@ -20,7 +20,7 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
 /**
  * ComponentDispatcher class for com_admin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.7
  */
 class Dispatcher extends ComponentDispatcher
 {
@@ -29,7 +29,7 @@ class Dispatcher extends ComponentDispatcher
      *
      * @return  void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.7
      */
     protected function checkAccess()
     {
