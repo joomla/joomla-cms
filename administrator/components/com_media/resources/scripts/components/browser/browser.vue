@@ -121,9 +121,7 @@ export default {
       };
     },
     isEmpty() {
-      const directories = this.$store.getters.getSelectedDirectoryDirectories;
-      const files = this.$store.getters.getSelectedDirectoryFiles;
-      return [...directories, ...files].length ? false : true;
+      return ![...this.$store.getters.getSelectedDirectoryDirectories, ...this.$store.getters.getSelectedDirectoryFiles].length;
     },
     /* The styles for the media-browser element */
     listView() {
