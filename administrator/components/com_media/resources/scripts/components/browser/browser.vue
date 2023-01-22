@@ -9,13 +9,13 @@
       @dragover="onDragOver"
       @dragleave="onDragLeave"
     >
+      <h4 v-if="NoMedia===true">{{ translate("COM_MEDIA_NO_MEDIA_FOUND") }}</h4>
       <div class="media-dragoutline">
         <span
           class="icon-cloud-upload upload-icon"
           aria-hidden="true"
         />
         <p>{{ translate('COM_MEDIA_DROP_FILE') }}</p>
-        <h3 v-if="show">{{ translate("COM_MEDIA_NO_MEDIA_FOUND") }}</h3>
       </div>
       <table
         v-if="listView === 'table'"
@@ -112,24 +112,19 @@ export default {
 
       return [...directories, ...files];
     },
-    data() {
-      const directories = this.$store.getters.getSelectedDirectoryDirectories
-      const files = this.$store.getters.getSelectedDirectoryFiles
-      if (directories.length + files.length === 0) {
-        return{
-          show:true
-        }
-      } else {
-        return{
-          show:false
-        }
-      }
-    },
     /* The styles for the media-browser element */
     mediaBrowserStyles() {
       return {
         width: this.$store.state.showInfoBar ? '75%' : '100%',
       };
+    },
+    NoMedia() {
+      const directories = this.$store.getters.getSelectedDirectoryDirectories;
+      const files = this.$store.getters.getSelectedDirectoryFiles;
+      if (directories.length + files.length === 0) {
+        return true;
+      }
+      return false;
     },
     /* The styles for the media-browser element */
     listView() {
