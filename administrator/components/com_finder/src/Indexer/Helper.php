@@ -107,7 +107,7 @@ class Helper
             $cache[$lang] = [];
         }
 
-        $tokens = array();
+        $tokens = [];
         $terms = $language->tokenise($input);
 
         // @todo: array_filter removes any number 0's from the terms. Not sure this is entirely intended
@@ -137,7 +137,7 @@ class Helper
             // Create multi-word phrase tokens from the individual words.
             if ($tuplecount > 1) {
                 for ($i = 0, $n = count($tokens); $i < $n; $i++) {
-                    $temp = array($tokens[$i]->term);
+                    $temp = [$tokens[$i]->term];
 
                     // Create tokens for 2 to $tuplecount length phrases
                     for ($j = 1; $j < $tuplecount; $j++) {
@@ -249,7 +249,7 @@ class Helper
         // Add the type.
         $query->clear()
             ->insert($db->quoteName('#__finder_types'))
-            ->columns(array($db->quoteName('title'), $db->quoteName('mime')))
+            ->columns([$db->quoteName('title'), $db->quoteName('mime')])
             ->values($db->quote($title) . ', ' . $db->quote($mime));
         $db->setQuery($query);
         $db->execute();
@@ -358,7 +358,7 @@ class Helper
 
         // Only parse the identifier if necessary.
         if (!isset($data[$lang])) {
-            if (is_callable(array('Locale', 'getPrimaryLanguage'))) {
+            if (is_callable(['Locale', 'getPrimaryLanguage'])) {
                 // Get the language key using the Locale package.
                 $data[$lang] = \Locale::getPrimaryLanguage($lang);
             } else {
@@ -386,7 +386,7 @@ class Helper
         // Load the finder plugin group.
         PluginHelper::importPlugin('finder');
 
-        Factory::getApplication()->triggerEvent('onPrepareFinderContent', array(&$item));
+        Factory::getApplication()->triggerEvent('onPrepareFinderContent', [&$item]);
 
         return true;
     }
@@ -473,7 +473,7 @@ class Helper
         }
 
         // Fire the onContentPrepare event.
-        Factory::getApplication()->triggerEvent('onContentPrepare', array('com_finder.indexer', &$content, &$params, 0));
+        Factory::getApplication()->triggerEvent('onContentPrepare', ['com_finder.indexer', &$content, &$params, 0]);
 
         return $content->text;
     }
