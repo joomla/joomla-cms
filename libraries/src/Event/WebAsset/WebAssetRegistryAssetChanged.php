@@ -34,7 +34,7 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
      *
      * @since  4.0.0
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         parent::__construct($name, $arguments);
 
