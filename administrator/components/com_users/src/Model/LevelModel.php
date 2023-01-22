@@ -78,7 +78,7 @@ class LevelModel extends AdminModel
             $tables = $db->getTableList();
             $prefix = $db->getPrefix();
 
-            // Collect tabkle names for error message
+            // Collect table names for error message
             $inTables = [];
 
             foreach ($tables as $table) {
