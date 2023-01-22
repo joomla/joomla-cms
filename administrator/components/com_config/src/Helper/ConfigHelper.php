@@ -73,12 +73,12 @@ class ConfigHelper extends ContentHelper
      */
     public static function getComponentsWithConfig($authCheck = true)
     {
-        $result = array();
+        $result = [];
         $components = self::getAllComponents();
         $user = Factory::getUser();
 
         // Remove com_config from the array as that may have weird side effects
-        $components = array_diff($components, array('com_config'));
+        $components = array_diff($components, ['com_config']);
 
         foreach ($components as $component) {
             if (self::hasComponentConfig($component) && (!$authCheck || $user->authorise('core.manage', $component))) {

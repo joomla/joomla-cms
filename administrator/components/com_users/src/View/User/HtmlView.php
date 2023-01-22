@@ -160,28 +160,30 @@ class HtmlView extends BaseHtmlView
             'user ' . ($isNew ? 'user-add' : ($isProfile ? 'user-profile' : 'user-edit'))
         );
 
-        $toolbarButtons = [];
-
         if ($canDo->get('core.edit') || $canDo->get('core.create') || $isProfile) {
-            ToolbarHelper::apply('user.apply');
-            $toolbarButtons[] = ['save', 'user.save'];
+            $toolbar->apply('user.apply');
         }
 
-        if ($canDo->get('core.create') && $canDo->get('core.manage')) {
-            $toolbarButtons[] = ['save2new', 'user.save2new'];
-        }
+        $saveGroup = $toolbar->dropdownButton('save-group');
 
-        ToolbarHelper::saveGroup(
-            $toolbarButtons,
-            'btn-success'
+        $saveGroup->configure(
+            function (Toolbar $childBar) use ($canDo, $isProfile) {
+                if ($canDo->get('core.edit') || $canDo->get('core.create') || $isProfile) {
+                    $childBar->save('user.save');
+                }
+
+                if ($canDo->get('core.create') && $canDo->get('core.manage')) {
+                    $childBar->save2new('user.save2new');
+                }
+            }
         );
 
         if (empty($this->item->id)) {
-            ToolbarHelper::cancel('user.cancel');
+            $toolbar->cancel('user.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            ToolbarHelper::cancel('user.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('user.cancel');
         }
-
+        
         // Check lastvisitDate for allow resend the activation email
         $userIsNotActive = !empty($this->item->activation) || \is_null($this->item->lastvisitDate);
 
@@ -202,7 +204,7 @@ class HtmlView extends BaseHtmlView
                 ->onclick('');
         }
 
-        ToolbarHelper::divider();
-        ToolbarHelper::help('Users:_Edit_Profile');
+        $toolbar->divider();
+        $toolbar->help('Users:_Edit_Profile');
     }
 }

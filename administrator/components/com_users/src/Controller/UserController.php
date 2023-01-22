@@ -47,7 +47,7 @@ class UserController extends FormController
      *
      * @since   1.6
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         // Check if this person is a Super Admin
         if (Access::check($data[$key], 'core.admin')) {
@@ -141,7 +141,7 @@ class UserController extends FormController
         $this->checkToken();
 
         // Set the model
-        $model = $this->getModel('User', 'Administrator', array());
+        $model = $this->getModel('User', 'Administrator', []);
 
         // Preset the redirect
         $this->setRedirect(Route::_('index.php?option=com_users&view=users' . $this->getRedirectToListAppend(), false));
@@ -159,7 +159,7 @@ class UserController extends FormController
      *
      * @since   3.1
      */
-    protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
+    protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
     {
     }
 

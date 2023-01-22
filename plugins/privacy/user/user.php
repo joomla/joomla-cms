@@ -88,18 +88,18 @@ class PlgPrivacyUser extends PrivacyPlugin
     public function onPrivacyExportRequest(RequestTable $request, User $user = null)
     {
         if (!$user) {
-            return array();
+            return [];
         }
 
         /** @var TableUser $userTable */
         $userTable = User::getTable();
         $userTable->load($user->id);
 
-        $domains = array();
+        $domains = [];
         $domains[] = $this->createUserDomain($userTable);
         $domains[] = $this->createNotesDomain($userTable);
         $domains[] = $this->createProfileDomain($userTable);
-        $domains[] = $this->createCustomFieldsDomain('com_users.user', array($userTable));
+        $domains[] = $this->createCustomFieldsDomain('com_users.user', [$userTable]);
 
         return $domains;
     }
