@@ -81,7 +81,7 @@ class NewsfeedModel extends ItemModel
         $pk = (int) $pk ?: (int) $this->getState('newsfeed.id');
 
         if ($this->_item === null) {
-            $this->_item = array();
+            $this->_item = [];
         }
 
         if (!isset($this->_item[$pk])) {
