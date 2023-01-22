@@ -37,7 +37,7 @@ class FeedView extends BaseHtmlView
     public function display($tpl = null)
     {
         $app    = Factory::getApplication();
-        $ids    = (array) $app->input->get('id', array(), 'int');
+        $ids    = (array) $app->input->get('id', [], 'int');
         $i      = 0;
         $tagIds = '';
 
