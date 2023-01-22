@@ -9,7 +9,7 @@
       @dragover="onDragOver"
       @dragleave="onDragLeave"
     >
-      <h4 v-if="NoMedia===true">{{ translate("COM_MEDIA_NO_MEDIA_FOUND") }}</h4>
+      <h4 v-if="isEmpty">{{ translate("COM_MEDIA_NO_MEDIA_FOUND") }}</h4>
       <div class="media-dragoutline">
         <span
           class="icon-cloud-upload upload-icon"
@@ -118,13 +118,10 @@ export default {
         width: this.$store.state.showInfoBar ? '75%' : '100%',
       };
     },
-    NoMedia() {
+    isEmpty() {
       const directories = this.$store.getters.getSelectedDirectoryDirectories;
       const files = this.$store.getters.getSelectedDirectoryFiles;
-      if (directories.length + files.length === 0) {
-        return true;
-      }
-      return false;
+      return [...directories, ...files].length ? false : true;
     },
     /* The styles for the media-browser element */
     listView() {
