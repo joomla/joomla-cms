@@ -104,7 +104,7 @@ class HttpFactory
      */
     public static function getHttpTransports()
     {
-        $names = array();
+        $names = [];
         $iterator = new \DirectoryIterator(__DIR__ . '/Transport');
 
         /** @type  $file  \DirectoryIterator */
