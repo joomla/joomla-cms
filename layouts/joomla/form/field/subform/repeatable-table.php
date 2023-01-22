@@ -84,7 +84,7 @@ if (!empty($groupByFieldset)) {
         button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
         repeatable-element=".subform-repeatable-group"
         rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
-        <div class="table-responsive">
+        <div class="table-responsive" style="overflow: visible;">
             <table class="table" id="subfieldList_<?php echo $fieldId; ?>">
                 <caption class="visually-hidden">
                     <?php echo Text::_('JGLOBAL_REPEATABLE_FIELDS_TABLE_CAPTION'); ?>
