@@ -110,8 +110,7 @@ final class Local extends CMSPlugin implements ProviderInterface
         $adapters = [];
         $directories = $this->params->get('directories', '[{"directory": "images", "thumbs": 0}]');
 
-        // Do a check if default settings are not saved by user
-        // If not initialize them manually
+        // Do a check if default settings are not saved by user, if not initialize them manually
         if (is_string($directories)) {
             $directories = json_decode($directories);
         }
