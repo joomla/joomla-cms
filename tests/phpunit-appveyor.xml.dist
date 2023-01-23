@@ -29,7 +29,7 @@
 		<const name="JTEST_LDAP_FULLNAME" value="cn" />
 		<const name="JTEST_LDAP_EMAIL" value="mail" />
 		<const name="JTEST_LDAP_UID" value="uid" />
-		<const name="JTEST_LDAP_SEARCH_DN" value="customuser" />
+		<const name="JTEST_LDAP_SEARCH_DN" value="cn=customuser,ou=users,dc=example,dc=org" />
 		<const name="JTEST_LDAP_SEARCH_PASSWORD" value="custompassword" />
 		<const name="JTEST_LDAP_TESTUSER" value="customuser" />
 		<const name="JTEST_LDAP_TESTPASSWORD" value="custompassword" />
