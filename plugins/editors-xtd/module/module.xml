@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.5.0</version>
 	<description>PLG_MODULE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\EditorsXtd\Module</namespace>
 	<files>
-		<filename plugin="module">module.php</filename>
+		<folder plugin="module">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_editors-xtd_module.ini</language>

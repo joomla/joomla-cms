@@ -53,7 +53,7 @@ final class None extends CMSPlugin
         $id = null,
         $asset = null,
         $author = null,
-        $params = array()
+        $params = []
     ) {
         if (empty($id)) {
             $id = $name;

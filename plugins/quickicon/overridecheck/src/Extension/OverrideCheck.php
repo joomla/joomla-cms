@@ -76,11 +76,11 @@ final class OverrideCheck extends CMSPlugin implements SubscriberInterface
         }
 
         $token    = Session::getFormToken() . '=1';
-        $options  = array(
+        $options  = [
             'url'      => Uri::base() . 'index.php?option=com_templates&view=templates',
             'ajaxUrl'  => Uri::base() . 'index.php?option=com_templates&view=templates&task=template.ajax&' . $token,
             'pluginId' => $this->getOverridePluginId(),
-        );
+        ];
 
         $this->getApplication()->getDocument()->addScriptOptions('js-override-check', $options);
 
