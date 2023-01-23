@@ -117,23 +117,25 @@ final class Local extends CMSPlugin implements ProviderInterface
         }
 
         foreach ($directories as $directoryEntity) {
-            if ($directoryEntity->directory) {
-                $directoryPath = $this->rootDirectory . '/' . $directoryEntity->directory;
-                $directoryPath = rtrim($directoryPath) . '/';
-
-          if (!isset($directoryEntity->thumbs)) {
-               $directoryEntity->thumbs = 0;
-           }
-
-           $adapter = new LocalAdapter(
-               $directoryPath,
-               $directoryEntity->directory,
-               $directoryEntity->thumbs,
-               [200, 200]
-           );
-
-                $adapters[$adapter->getAdapterName()] = $adapter;
+            if (!$directoryEntity->directory) {
+                continue;
             }
+
+            $directoryPath = $this->rootDirectory . '/' . $directoryEntity->directory;
+            $directoryPath = rtrim($directoryPath) . '/';
+
+            if (!isset($directoryEntity->thumbs)) {
+                $directoryEntity->thumbs = 0;
+            }
+
+            $adapter = new LocalAdapter(
+                $directoryPath,
+                $directoryEntity->directory,
+                $directoryEntity->thumbs,
+                [200, 200]
+            );
+
+            $adapters[$adapter->getAdapterName()] = $adapter;
         }
 
         return $adapters;
