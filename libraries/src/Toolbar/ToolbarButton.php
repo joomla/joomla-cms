@@ -25,7 +25,7 @@ use Joomla\Utilities\ArrayHelper;
  * @method self icon(string $value)
  * @method self buttonClass(string $value)
  * @method self attributes(array $value)
- * @method self onclick(array $value)
+ * @method self onclick(string $value)
  * @method self listCheck(bool $value)
  * @method self listCheckMessage(string $value)
  * @method self form(string $value)
@@ -237,7 +237,7 @@ abstract class ToolbarButton
         // It's an ugly hack, but this allows templates to define the icon classes for the toolbar
         $layout = new FileLayout('joomla.toolbar.iconclass');
 
-        return $layout->render(array('icon' => $identifier));
+        return $layout->render(['icon' => $identifier]);
     }
 
     /**

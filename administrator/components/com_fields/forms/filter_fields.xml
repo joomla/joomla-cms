@@ -74,8 +74,8 @@
 			validate="options"
 			>
 			<option value="">COM_FIELDS_ONLY_USE_IN_SUBFORM</option>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option value="0">COM_FIELDS_ONLY_USE_IN_SUBFORM_ANY</option>
+			<option value="1">COM_FIELDS_ONLY_USE_IN_SUBFORM_SUBFORM</option>
 		</field>
 	</fields>
 

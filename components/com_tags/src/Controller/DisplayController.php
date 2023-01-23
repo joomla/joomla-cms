@@ -47,7 +47,7 @@ class DisplayController extends BaseController
             $cachable = false;
         }
 
-        $safeurlparams = array(
+        $safeurlparams = [
             'id'               => 'ARRAY',
             'type'             => 'ARRAY',
             'limit'            => 'UINT',
@@ -55,7 +55,7 @@ class DisplayController extends BaseController
             'filter_order'     => 'CMD',
             'filter_order_Dir' => 'CMD',
             'lang'             => 'CMD'
-        );
+        ];
 
         if (
             $vName === 'tag'

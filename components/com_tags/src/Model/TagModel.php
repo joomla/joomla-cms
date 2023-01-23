@@ -43,7 +43,7 @@ class TagModel extends ListModel
      * Array of tags
      *
      * @var    CMSObject[]
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $item = [];
 
@@ -55,10 +55,10 @@ class TagModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'core_content_id', 'c.core_content_id',
                 'core_title', 'c.core_title',
                 'core_type_alias', 'c.core_type_alias',
@@ -79,7 +79,7 @@ class TagModel extends ListModel
                 'core_images', 'c.core_images',
                 'core_urls', 'c.core_urls',
                 'match_count',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -182,7 +182,7 @@ class TagModel extends ListModel
         $this->setState('params', $params);
 
         // Load state from the request.
-        $ids = (array) $app->getInput()->get('id', array(), 'string');
+        $ids = (array) $app->getInput()->get('id', [], 'string');
 
         if (count($ids) == 1) {
             $ids = explode(',', $ids[0]);
@@ -198,7 +198,7 @@ class TagModel extends ListModel
         $this->setState('tag.id', $pkString);
 
         // Get the selected list of types from the request. If none are specified all are used.
-        $typesr = $app->getInput()->get('types', array(), 'array');
+        $typesr = $app->getInput()->get('types', [], 'array');
 
         if ($typesr) {
             // Implode is needed because the array can contain a string with a coma separated list of ids
@@ -242,7 +242,7 @@ class TagModel extends ListModel
         $listOrder = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order_direction', 'filter_order_Dir', '', 'string');
         $listOrder = !$listOrder ? $this->state->params->get('tag_list_orderby_direction', 'ASC') : $listOrder;
 
-        if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+        if (!in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 

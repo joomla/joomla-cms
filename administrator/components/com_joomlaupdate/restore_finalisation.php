@@ -35,4 +35,56 @@
 
 define('_JOOMLA_UPDATE', 1);
 
-require_once __DIR__ . '/finalisation.php';
+include_once __DIR__ . '/finalisation.php';
+
+if (!function_exists('clearFileInOPCache')) {
+    /**
+     * Invalidate a file in OPcache. We need to define the function here because finalizeUpdate
+     * function called by finalizeRestore function depends on this method
+     *
+     * Only applies if the file has a .php extension.
+     *
+     * @param   string  $file  The filepath to clear from OPcache
+     *
+     * @return  boolean
+     * @since   4.2.6
+     */
+    function clearFileInOPCache(string $file): bool
+    {
+        static $hasOpCache = null;
+
+        if (is_null($hasOpCache)) {
+            $hasOpCache = ini_get('opcache.enable')
+                && function_exists('opcache_invalidate')
+                && (!ini_get('opcache.restrict_api') || stripos(realpath($_SERVER['SCRIPT_FILENAME']), ini_get('opcache.restrict_api')) === 0);
+        }
+
+        if ($hasOpCache && (strtolower(substr($file, -4)) === '.php')) {
+            return opcache_invalidate($file, true);
+        }
+
+        return false;
+    }
+}
+
+if (!function_exists('finalizeRestore')) {
+    /**
+     * Run part of the Joomla! finalisation script, namely the part that cleans up unused files/folders.
+     * We need to define this function here because it is called by restore.php when users update from Joomla older
+     * than 4.0.4 to latest version
+     *
+     *
+     * @param   string  $siteRoot     The root to the Joomla! site
+     * @param   string  $restorePath  The base path to extract.php
+     *
+     * @return  void
+     *
+     * @since   4.2.6
+     */
+    function finalizeRestore(string $siteRoot, string $restorePath): void
+    {
+        if (function_exists('finalizeUpdate')) {
+            finalizeUpdate($siteRoot, $restorePath);
+        }
+    }
+}
