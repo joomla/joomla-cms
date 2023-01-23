@@ -189,8 +189,6 @@ class LdapPluginTest extends UnitTestCase
      */
     public function testOnUserAuthenticateDirect()
     {
-        $this->markTestSkipped("Fix provided in PR #37959");
-
         $options = $this->default_options;
         $options["auth_method"] = "bind";
         $this->skipIfAskedFor($options);
