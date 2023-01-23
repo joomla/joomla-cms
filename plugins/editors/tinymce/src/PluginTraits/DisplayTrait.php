@@ -387,7 +387,7 @@ trait DisplayTrait
             foreach (json_decode(json_encode($extraOptions->content_languages), true) as $content_language) {
                 // if we have a language name and a language code then add to the menu
                 if ($content_language['content_language_name'] != '' && $content_language['content_language_code'] != '') {
-                    $ctemp[] = array('title' => $content_language['content_language_name'], 'code' => $content_language['content_language_code']);
+                    $ctemp[] = ['title' => $content_language['content_language_name'], 'code' => $content_language['content_language_code']];
                 }
             }
             $scriptOptions['content_langs'] = array_merge($ctemp);
