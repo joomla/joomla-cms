@@ -145,8 +145,8 @@ class CategoryeditField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
-        $published = $this->element['published'] ? explode(',', (string) $this->element['published']) : array(0, 1);
+        $options = [];
+        $published = $this->element['published'] ? explode(',', (string) $this->element['published']) : [0, 1];
         $name = (string) $this->element['name'];
 
         // Let's get the id for the current item, either category or content item.
