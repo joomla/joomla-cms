@@ -11,7 +11,7 @@
     "config": {
         "optimize-autoloader": true,
         "platform": {
-            "php": "7.2.5"
+            "php": "8.1.0"
         },
         "vendor-dir": "libraries/vendor",
         "github-protocols": ["https"],
@@ -43,7 +43,7 @@
         }
     },
     "require": {
-        "php": "^7.2.5",
+        "php": "^8.1.0",
         "joomla/application": "~2.0",
         "joomla/archive": "~2.0",
         "joomla/authentication": "~2.0",
@@ -57,7 +57,6 @@
         "joomla/filesystem": "~2.0",
         "joomla/http": "~2.0",
         "joomla/input": "~2.0",
-        "joomla/ldap": "~2.0",
         "joomla/oauth1": "~2.0",
         "joomla/oauth2": "~2.0",
         "joomla/registry": "~2.0",
@@ -79,7 +78,6 @@
         "symfony/error-handler": "^5.2",
         "symfony/ldap": "~5.0",
         "symfony/options-resolver": "~5.0",
-        "symfony/polyfill-php73": "^1.10",
         "symfony/web-link": "~5.0",
         "symfony/yaml": "~5.0",
         "typo3/phar-stream-wrapper": "~3.1",
@@ -89,14 +87,15 @@
         "willdurand/negotiation": "^3.0",
         "ext-json": "*",
         "ext-simplexml": "*",
-        "psr/log": "~1.0",
+        "psr/log": "~3.0",
         "ext-gd": "*",
-        "web-auth/webauthn-lib": "2.1.*",
+        "web-auth/webauthn-lib": "4.3.0",
+        "ext-dom": "*",
         "composer/ca-bundle": "^1.2",
         "dragonmantank/cron-expression": "^3.1",
         "enshrined/svg-sanitize": "^0.15.4",
-        "lcobucci/jwt": "^3.4.6",
-        "web-token/signature-pack": "^2.2.11",
+        "lcobucci/jwt": "^4.2.1",
+        "web-token/signature-pack": "^3.1.2",
         "phpseclib/bcmath_compat": "^2.0",
         "jfcherng/php-diff": "^6.10"
     },
@@ -107,7 +106,7 @@
         "joomla-projects/joomla-browser": "~4.0",
         "codeception/codeception": "~4.0",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
-        "joomla/mediawiki": "^1.0",
+        "joomla/mediawiki": "^2.0",
         "joomla/test": "~2.0",
         "codeception/module-asserts": "^1.0",
         "codeception/module-db": "^1.0",

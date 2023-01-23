@@ -1,6 +1,6 @@
 {
   "name": "joomla",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "repository": {
@@ -60,10 +60,9 @@
     "punycode": "^2.1.1",
     "qrcode-generator": "^1.4.4",
     "roboto-fontface": "^0.10.0",
-    "rtlcss": "^3.5.0",
     "short-and-sweet": "^1.0.4",
     "skipto": "^4.1.6",
-    "tinymce": "^5.10.2",
+    "tinymce": "^6.1.2",
     "vue": "3.2.41",
     "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.1.0"
@@ -97,6 +96,7 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.61.1",
     "rollup-plugin-vue": "^6.0.0",
+    "rtlcss": "^3.5.0",
     "sass-embedded": "^1.54.4",
     "selenium-standalone": "^8.0.8",
     "stylelint": "^14.1.0",
