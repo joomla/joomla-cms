@@ -131,7 +131,7 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can perform an authentication using anynomous search
+     * @testdox  can perform an authentication using anonymous search
      *
      * @return  void
      *
@@ -186,7 +186,7 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can perform an authentication using anynomous search
+     * @testdox  can perform an authentication using anonymous search
      *
      * @return  void
      *
@@ -209,7 +209,7 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can perform an authentication using anynomous search
+     * @testdox  can perform an authentication using anonymous search
      *
      * @return  void
      *

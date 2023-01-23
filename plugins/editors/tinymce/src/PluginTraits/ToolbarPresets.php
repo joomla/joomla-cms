@@ -64,7 +64,7 @@ trait ToolbarPresets
                     'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
                     'lineheight', '|',
                     'styleselect', '|',
-                    'formatselect', 'fontselect', 'fontsizeselect', '|',
+                    'formatselect', 'fontfamily', 'fontsizeselect', '|',
                     'searchreplace', '|',
                     'bullist', 'numlist', '|',
                     'outdent', 'indent', '|',

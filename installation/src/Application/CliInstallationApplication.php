@@ -257,7 +257,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
     public function getMVCFactory()
     {
         if (!$this->mvcFactory) {
-            $this->mvcFactory = new MVCFactory('Joomla\\CMS', $this);
+            $this->mvcFactory = new MVCFactory('Joomla\\CMS');
         }
 
         return $this->mvcFactory;
