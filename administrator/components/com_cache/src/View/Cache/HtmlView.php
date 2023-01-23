@@ -11,7 +11,6 @@ namespace Joomla\Component\Cache\Administrator\View\Cache;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -131,18 +130,27 @@ class HtmlView extends BaseHtmlView
 
         if (\count($this->data))
         {
-            ToolbarHelper::custom('delete', 'delete', '', 'JTOOLBAR_DELETE', true);
-            ToolbarHelper::custom('deleteAll', 'remove', '', 'JTOOLBAR_DELETE_ALL', false);
-            $toolbar->appendButton('Confirm', 'COM_CACHE_RESOURCE_INTENSIVE_WARNING', 'delete', 'COM_CACHE_PURGE_EXPIRED', 'purge', false);
-            ToolbarHelper::divider();
+            $toolbar->delete('delete')
+                ->listCheck(true);
+
+            $toolbar->confirmButton('delete', 'JTOOLBAR_DELETE_ALL', 'deleteAll')
+                ->icon('icon-remove')
+                ->listCheck(false)
+                ->buttonClass('button-remove btn btn-primary');
+
+            $toolbar->confirmButton('delete', 'COM_CACHE_PURGE_EXPIRED', 'purge')
+                ->name('delete')
+                ->message('COM_CACHE_RESOURCE_INTENSIVE_WARNING');
+
+            $toolbar->divider();
         }
 
         if ($this->getCurrentUser()->authorise('core.admin', 'com_cache'))
         {
-            ToolbarHelper::preferences('com_cache');
-            ToolbarHelper::divider();
+            $toolbar->preferences('com_cache');
+            $toolbar->divider();
         }
 
-        ToolbarHelper::help('Maintenance:_Clear_Cache');
+        $toolbar->help('Maintenance:_Clear_Cache');
     }
 }

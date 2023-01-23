@@ -40,7 +40,7 @@ final class Codemirror extends CMSPlugin
      *
      * @var array
      */
-    protected $modeAlias = array();
+    protected $modeAlias = [];
 
     /**
      * Base path for editor assets.
@@ -83,9 +83,9 @@ final class Codemirror extends CMSPlugin
         PluginHelper::importPlugin('editors_codemirror');
 
         // At this point, params can be modified by a plugin before going to the layout renderer.
-        $this->getApplication()->triggerEvent('onCodeMirrorBeforeInit', array(&$this->params, &$this->basePath, &$this->modePath));
+        $this->getApplication()->triggerEvent('onCodeMirrorBeforeInit', [&$this->params, &$this->basePath, &$this->modePath]);
 
-        $displayData = (object) array('params' => $this->params);
+        $displayData = (object) ['params' => $this->params];
         $font = $this->params->get('fontFamily', '0');
         $fontInfo = $this->getFontInfo($font);
 
@@ -104,7 +104,7 @@ final class Codemirror extends CMSPlugin
         LayoutHelper::render('editors.codemirror.styles', $displayData, JPATH_PLUGINS . '/editors/codemirror/layouts');
         ob_end_clean();
 
-        $this->getApplication()->triggerEvent('onCodeMirrorAfterInit', array(&$this->params, &$this->basePath, &$this->modePath));
+        $this->getApplication()->triggerEvent('onCodeMirrorAfterInit', [&$this->params, &$this->basePath, &$this->modePath]);
     }
 
     /**
@@ -135,7 +135,7 @@ final class Codemirror extends CMSPlugin
         $id = null,
         $asset = null,
         $author = null,
-        $params = array()
+        $params = []
     ) {
         // True if a CodeMirror already has autofocus. Prevent multiple autofocuses.
         static $autofocused;
@@ -173,10 +173,10 @@ final class Codemirror extends CMSPlugin
 
         // Do we highlight selection matches?
         if ($this->params->get('selectionMatches', 1)) {
-            $options->highlightSelectionMatches = array(
+            $options->highlightSelectionMatches = [
                     'showToken' => true,
                     'annotateScrollbar' => true,
-                );
+                ];
         }
 
         // Do we use line numbering?
@@ -209,7 +209,7 @@ final class Codemirror extends CMSPlugin
         }
 
         // Special options for tagged modes (xml/html).
-        if (in_array($options->mode, array('xml', 'html', 'php'))) {
+        if (in_array($options->mode, ['xml', 'html', 'php'])) {
             // Autogenerate closing tags (html/xml only).
             $options->autoCloseTags = (bool) $this->params->get('autoCloseTags', 1);
 
@@ -218,7 +218,7 @@ final class Codemirror extends CMSPlugin
         }
 
         // Special options for non-tagged modes.
-        if (!in_array($options->mode, array('xml', 'html'))) {
+        if (!in_array($options->mode, ['xml', 'html'])) {
             // Autogenerate closing brackets.
             $options->autoCloseBrackets = (bool) $this->params->get('autoCloseBrackets', 1);
 
@@ -242,7 +242,7 @@ final class Codemirror extends CMSPlugin
 
         $options->keyMapUrl = $keyMapUrl;
 
-        $displayData = (object) array(
+        $displayData = (object) [
             'options'  => $options,
             'params'   => $this->params,
             'name'     => $name,
@@ -253,14 +253,14 @@ final class Codemirror extends CMSPlugin
             'buttons'  => $buttons,
             'basePath' => $this->basePath,
             'modePath' => $this->modePath,
-        );
+        ];
 
         // At this point, displayData can be modified by a plugin before going to the layout renderer.
-        $results = $this->getApplication()->triggerEvent('onCodeMirrorBeforeDisplay', array(&$displayData));
+        $results = $this->getApplication()->triggerEvent('onCodeMirrorBeforeDisplay', [&$displayData]);
 
         $results[] = LayoutHelper::render('editors.codemirror.element', $displayData, JPATH_PLUGINS . '/editors/codemirror/layouts');
 
-        foreach ($this->getApplication()->triggerEvent('onCodeMirrorAfterDisplay', array(&$displayData)) as $result) {
+        foreach ($this->getApplication()->triggerEvent('onCodeMirrorAfterDisplay', [&$displayData]) as $result) {
             $results[] = $result;
         }
 

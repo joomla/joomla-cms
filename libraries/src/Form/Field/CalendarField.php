@@ -351,7 +351,7 @@ class CalendarField extends FormField
             $helperPath = 'system/fields/calendar-locales/date/' . strtolower($calendar) . '/date-helper.min.js';
         }
 
-        $extraData = array(
+        $extraData = [
             'value'        => $this->value,
             'maxLength'    => $this->maxlength,
             'format'       => $this->format,
@@ -369,7 +369,7 @@ class CalendarField extends FormField
             'calendar'     => $calendar,
             'firstday'     => $lang->getFirstDay(),
             'weekend'      => explode(',', $lang->getWeekEnd()),
-        );
+        ];
 
         return array_merge($data, $extraData);
     }
