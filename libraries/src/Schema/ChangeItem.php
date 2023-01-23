@@ -97,7 +97,7 @@ abstract class ChangeItem
      * @var    array
      * @since  2.5
      */
-    public $msgElements = array();
+    public $msgElements = [];
 
     /**
      * Checked status
