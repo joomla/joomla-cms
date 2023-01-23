@@ -99,17 +99,15 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo = ContentHelper::getActions('com_plugins');
+        $canDo   = ContentHelper::getActions('com_plugins');
+        $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_PLUGINS_MANAGER_PLUGINS'), 'plug plugin');
-
-        // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
 
         if ($canDo->get('core.edit.state')) {
             $toolbar->publish('plugins.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
             $toolbar->unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
-            $toolbar->checkin('plugins.checkin')->listCheck(true);
+            $toolbar->checkin('plugins.checkin');
         }
 
         if ($canDo->get('core.admin')) {

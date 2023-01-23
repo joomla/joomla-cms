@@ -39,11 +39,11 @@ const PHP_TAB = "\t";
 // File paths.
 $versionFile = '/libraries/src/Version.php';
 
-$coreXmlFiles = array(
+$coreXmlFiles = [
     '/administrator/manifests/files/joomla.xml',
-);
+];
 
-$languageXmlFiles = array(
+$languageXmlFiles = [
     '/language/en-GB/langmetadata.xml',
     '/language/en-GB/install.xml',
     '/administrator/language/en-GB/langmetadata.xml',
@@ -51,16 +51,16 @@ $languageXmlFiles = array(
     '/installation/language/en-GB/langmetadata.xml',
     '/api/language/en-GB/langmetadata.xml',
     '/api/language/en-GB/install.xml',
-);
+];
 
 $languagePackXmlFile = '/administrator/manifests/packages/pkg_en-GB.xml';
 
 $antJobFile = '/build.xml';
 
-$readMeFiles = array(
+$readMeFiles = [
     '/README.md',
     '/README.txt',
-);
+];
 
 /*
  * Change copyright date exclusions.
@@ -68,7 +68,7 @@ $readMeFiles = array(
  * Also exclude build resources such as the packaging space or the API documentation build
  * as well as external libraries.
  */
-$directoryLoopExcludeDirectories = array(
+$directoryLoopExcludeDirectories = [
     '/.git',
     '/build/api/',
     '/build/coverage/',
@@ -76,9 +76,9 @@ $directoryLoopExcludeDirectories = array(
     '/libraries/vendor/',
     '/libraries/php-encryption/',
     '/libraries/phpass/',
-);
+];
 
-$directoryLoopExcludeFiles = array();
+$directoryLoopExcludeFiles = [];
 
 // Check arguments (exit if incorrect cli arguments).
 $opts = getopt("v:c:");
@@ -139,7 +139,7 @@ if (!isset($versionParts[2])) {
 // Set version properties.
 $versionSubParts = explode('.', $versionParts[0]);
 
-$version = array(
+$version = [
     'main'       => $versionSubParts[0] . '.' . $versionSubParts[1],
     'major'      => $versionSubParts[0],
     'minor'      => $versionSubParts[1],
@@ -153,7 +153,7 @@ $version = array(
     'reltime'    => date('H:i'),
     'reltz'      => 'GMT',
     'credate'    => date('Y-m'),
-);
+];
 
 // Version Codename.
 if (!empty($opts['c'])) {

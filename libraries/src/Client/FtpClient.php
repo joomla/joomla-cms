@@ -124,7 +124,7 @@ class FtpClient
      * @var    array  Array to hold ascii format file extensions
      * @since  1.5
      */
-    protected $_autoAscii = array(
+    protected $_autoAscii = [
         'asp',
         'bat',
         'c',
@@ -146,7 +146,7 @@ class FtpClient
         'txt',
         'xhtml',
         'xml',
-    );
+    ];
 
     /**
      * Array to hold native line ending characters
@@ -154,13 +154,13 @@ class FtpClient
      * @var    array
      * @since  1.5
      */
-    protected $_lineEndings = array('UNIX' => "\n", 'WIN' => "\r\n");
+    protected $_lineEndings = ['UNIX' => "\n", 'WIN' => "\r\n"];
 
     /**
      * @var    array  FtpClient instances container.
      * @since  2.5
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * FtpClient object constructor
@@ -169,7 +169,7 @@ class FtpClient
      *
      * @since   1.5
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         // If default transfer type is not set, set it to autoascii detect
         if (!isset($options['type'])) {
@@ -216,7 +216,7 @@ class FtpClient
      *
      * @since   1.5
      */
-    public static function getInstance($host = '127.0.0.1', $port = '21', array $options = array(), $user = null, $pass = null)
+    public static function getInstance($host = '127.0.0.1', $port = '21', array $options = [], $user = null, $pass = null)
     {
         $signature = $user . ':' . $pass . '@' . $host . ':' . $port;
 
@@ -355,7 +355,7 @@ class FtpClient
         }
 
         // Send the username
-        if (!$this->_putCmd('USER ' . $user, array(331, 503))) {
+        if (!$this->_putCmd('USER ' . $user, [331, 503])) {
             Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_BAD_USERNAME', __METHOD__, $this->_response, $user), Log::WARNING, 'jerror');
 
             return false;
@@ -419,7 +419,7 @@ class FtpClient
             return $ret;
         }
 
-        $match = array(null);
+        $match = [null];
 
         // Send print working directory command and verify success
         if (!$this->_putCmd('PWD', 257)) {
@@ -615,7 +615,7 @@ class FtpClient
         }
 
         // Send change mode command and verify success [must convert mode from octal]
-        if (!$this->_putCmd('SITE CHMOD ' . $mode . ' ' . $path, array(200, 250))) {
+        if (!$this->_putCmd('SITE CHMOD ' . $mode . ' ' . $path, [200, 250])) {
             if (!IS_WIN) {
                 Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_CHMOD_BAD_RESPONSE', __METHOD__, $this->_response, $path, $mode), Log::WARNING, 'jerror');
             }
@@ -767,7 +767,7 @@ class FtpClient
             return false;
         }
 
-        if (!$this->_putCmd('STOR ' . $path, array(150, 125))) {
+        if (!$this->_putCmd('STOR ' . $path, [150, 125])) {
             @ fclose($this->_dataconn);
             Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_NOT_EXPECTED_RESPONSE_150_125', __METHOD__, $this->_response, $path), Log::WARNING, 'jerror');
 
@@ -841,7 +841,7 @@ class FtpClient
             return false;
         }
 
-        if (!$this->_putCmd('RETR ' . $remote, array(150, 125))) {
+        if (!$this->_putCmd('RETR ' . $remote, [150, 125])) {
             @ fclose($this->_dataconn);
             Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_NOT_EXPECTED_RESPONSE_150_125', __METHOD__, $this->_response, $remote), Log::WARNING, 'jerror');
 
@@ -929,7 +929,7 @@ class FtpClient
             return false;
         }
 
-        if (!$this->_putCmd('RETR ' . $remote, array(150, 125))) {
+        if (!$this->_putCmd('RETR ' . $remote, [150, 125])) {
             @ fclose($this->_dataconn);
             Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_NOT_EXPECTED_RESPONSE_150_125', __METHOD__, $this->_response, $remote), Log::WARNING, 'jerror');
 
@@ -1020,7 +1020,7 @@ class FtpClient
         }
 
         // Send store command to the FTP server
-        if (!$this->_putCmd('STOR ' . $remote, array(150, 125))) {
+        if (!$this->_putCmd('STOR ' . $remote, [150, 125])) {
             @ fclose($fp);
             @ fclose($this->_dataconn);
             Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_NOT_EXPECTED_RESPONSE_150_125', __METHOD__, $this->_response, $remote), Log::WARNING, 'jerror');
@@ -1106,7 +1106,7 @@ class FtpClient
         }
 
         // Send store command to the FTP server
-        if (!$this->_putCmd('STOR ' . $remote, array(150, 125))) {
+        if (!$this->_putCmd('STOR ' . $remote, [150, 125])) {
             Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_NOT_EXPECTED_RESPONSE_150_125', __METHOD__, $this->_response, $remote), Log::WARNING, 'jerror');
             @ fclose($this->_dataconn);
 
@@ -1188,7 +1188,7 @@ class FtpClient
         }
 
         // Send store command to the FTP server
-        if (!$this->_putCmd('APPE ' . $remote, array(150, 125))) {
+        if (!$this->_putCmd('APPE ' . $remote, [150, 125])) {
             @fclose($this->_dataconn);
 
             throw new \RuntimeException(Text::sprintf('JLIB_CLIENT_ERROR_FTP_NOT_EXPECTED_RESPONSE_150_125', __METHOD__, $this->_response, $remote), 35);
@@ -1250,7 +1250,7 @@ class FtpClient
         }
 
         // Send size command to the FTP server
-        if (!$this->_putCmd('SIZE ' . $remote, array(213))) {
+        if (!$this->_putCmd('SIZE ' . $remote, [213])) {
             @fclose($this->_dataconn);
 
             throw new \RuntimeException(Text::sprintf('JLIB_CLIENT_ERROR_FTP_NOT_EXPECTED_RESPONSE_PATH_SENT', __METHOD__, $this->_response, 213, $remote), 35);
@@ -1286,8 +1286,8 @@ class FtpClient
 
             if (($list = @ftp_nlist($this->_conn, $path)) === false) {
                 // Workaround for empty directories on some servers
-                if ($this->listDetails($path, 'files') === array()) {
-                    return array();
+                if ($this->listDetails($path, 'files') === []) {
+                    return [];
                 }
 
                 Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_BAD_RESPONSE', __METHOD__), Log::WARNING, 'jerror');
@@ -1318,12 +1318,12 @@ class FtpClient
             return false;
         }
 
-        if (!$this->_putCmd('NLST' . $path, array(150, 125))) {
+        if (!$this->_putCmd('NLST' . $path, [150, 125])) {
             @ fclose($this->_dataconn);
 
             // Workaround for empty directories on some servers
-            if ($this->listDetails($path, 'files') === array()) {
-                return array();
+            if ($this->listDetails($path, 'files') === []) {
+                return [];
             }
 
             Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_NOT_EXPECTED_RESPONSE_150_125', __METHOD__, $this->_response, $path), Log::WARNING, 'jerror');
@@ -1369,7 +1369,7 @@ class FtpClient
      */
     public function listDetails($path = null, $type = 'all')
     {
-        $dir_list = array();
+        $dir_list = [];
         $data = null;
         $regs = null;
 
@@ -1407,7 +1407,7 @@ class FtpClient
             }
 
             // Request the file listing
-            if (!$this->_putCmd(($recurse == true) ? 'LIST -R' : 'LIST' . $path, array(150, 125))) {
+            if (!$this->_putCmd(($recurse == true) ? 'LIST -R' : 'LIST' . $path, [150, 125])) {
                 Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_NOT_EXPECTED_RESPONSE_150_125', __METHOD__, $this->_response, $path), Log::WARNING, 'jerror');
                 @ fclose($this->_dataconn);
 
@@ -1451,13 +1451,13 @@ class FtpClient
         }
 
         // Regular expressions for the directory listing parsing.
-        $regexps = array(
+        $regexps = [
             'UNIX' => '#([-dl][rwxstST-]+).* ([0-9]*) ([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*)'
                 . ' ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{1,2}:[0-9]{2})|[0-9]{4}) (.+)#',
             'MAC' => '#([-dl][rwxstST-]+).* ?([0-9 ]*)?([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*)'
                 . ' ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)#',
             'WIN' => '#([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)#',
-        );
+        ];
 
         // Find out the format of the directory listing by matching one of the regexps
         $osType = null;
@@ -1637,8 +1637,8 @@ class FtpClient
      */
     protected function _passive()
     {
-        $match = array();
-        $parts = array();
+        $match = [];
+        $parts = [];
         $errno = null;
         $err = null;
 
@@ -1686,7 +1686,7 @@ class FtpClient
         }
 
         // This is pretty simple - store it for later use ;).
-        $this->_pasv = array('ip' => $match[1] . '.' . $match[2] . '.' . $match[3] . '.' . $match[4], 'port' => $match[5] * 256 + $match[6]);
+        $this->_pasv = ['ip' => $match[1] . '.' . $match[2] . '.' . $match[3] . '.' . $match[4], 'port' => $match[5] * 256 + $match[6]];
 
         // Connect, assuming we've got a connection.
         $this->_dataconn = @fsockopen($this->_pasv['ip'], $this->_pasv['port'], $errno, $err, $this->_timeout);

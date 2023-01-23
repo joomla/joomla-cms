@@ -43,7 +43,7 @@ class Router extends RouterBase
      * Lookup array of the menu items
      *
      * @var   array
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected $lookup = [];
 
@@ -74,7 +74,7 @@ class Router extends RouterBase
      *
      * @return  array  The URL arguments to use to assemble the subsequent URL.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function preprocess($query)
     {
@@ -150,7 +150,7 @@ class Router extends RouterBase
      */
     public function build(&$query)
     {
-        $segments = array();
+        $segments = [];
 
         $menuItem = $this->menu->getItem($query['Itemid']);
 
@@ -255,7 +255,7 @@ class Router extends RouterBase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected function buildLookup()
     {
