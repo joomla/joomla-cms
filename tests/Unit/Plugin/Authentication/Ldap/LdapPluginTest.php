@@ -237,8 +237,6 @@ class LdapPluginTest extends UnitTestCase
      */
     public function testOnUserAuthenticateAnonymousSearchSSL()
     {
-        $this->markTestSkipped("Fix provided in PR #37962");
-
         $options = $this->default_options;
         $options["auth_method"] = "search";
         $options["users_dn"] = "";
