@@ -78,20 +78,20 @@ class FilterBackgroundfillTest extends UnitTestCase
         imagefilledrectangle($imageHandle, 0, 0, 50, 99, $dark);
         imagefilledrectangle($imageHandle, 51, 0, 99, 99, $light);
         $filter = new FilterBackgroundfill($imageHandle);
-        $filter->execute(array('color' => '#ff0000'));
+        $filter->execute(['color' => '#ff0000']);
 
         // Compare left part
         $color = imagecolorat($imageHandle, 25, 25);
         $this->assertEquals(
-            array(171, 45, 45),
-            array($color >> 16 & 0xFF, $color >> 8 & 0xFF, $color & 0xFF)
+            [171, 45, 45],
+            [$color >> 16 & 0xFF, $color >> 8 & 0xFF, $color & 0xFF]
         );
 
         // Compare right part
         $color = imagecolorat($imageHandle, 51, 25);
         $this->assertEquals(
-            array(186, 60, 60), // GD
-            array($color >> 16 & 0xFF, $color >> 8 & 0xFF, $color & 0xFF)
+            [186, 60, 60], // GD
+            [$color >> 16 & 0xFF, $color >> 8 & 0xFF, $color & 0xFF]
         );
     }
 
@@ -120,7 +120,7 @@ class FilterBackgroundfillTest extends UnitTestCase
 
         $filter = new FilterBackgroundfill($imageHandle);
 
-        $filter->execute(array());
+        $filter->execute([]);
     }
 
     /**
@@ -132,27 +132,27 @@ class FilterBackgroundfillTest extends UnitTestCase
      */
     public function dataSanitizeColor()
     {
-        return array(
-            array(0, 0, 0, 0, 0),
-            array("#000000", 0, 0, 0, 0),
-            array("#FF0000", 255, 0, 0, 0),
-            array("#FFFF00", 255, 255, 0, 0),
-            array("#FFFFFF", 255, 255, 255, 0),
-            array("#FFFFFFFF", 255, 255, 255, 0),
-            array("#000000FF", 0, 0, 0, 0),
-            array("#00000000", 0, 0, 0, 127),
-            array("#000000AA", 0, 0, 0, 42),
-            array("#000000AA", 0, 0, 0, 42),
-            array(
-                array(
+        return [
+            [0, 0, 0, 0, 0],
+            ["#000000", 0, 0, 0, 0],
+            ["#FF0000", 255, 0, 0, 0],
+            ["#FFFF00", 255, 255, 0, 0],
+            ["#FFFFFF", 255, 255, 255, 0],
+            ["#FFFFFFFF", 255, 255, 255, 0],
+            ["#000000FF", 0, 0, 0, 0],
+            ["#00000000", 0, 0, 0, 127],
+            ["#000000AA", 0, 0, 0, 42],
+            ["#000000AA", 0, 0, 0, 42],
+            [
+                [
                     'red' => -5,
                     'green' => 0,
                     'blue' => 300,
                     'alpha' => 300
-                ),
+                ],
                 0, 0, 255, 127
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -176,12 +176,12 @@ class FilterBackgroundfillTest extends UnitTestCase
         $filter = new FilterBackgroundfill($imageHandle);
 
         $this->assertEquals(
-            array(
+            [
                 'red'   => $red,
                 'green' => $green,
                 'blue'  => $blue,
                 'alpha' => $alpha
-            ),
+            ],
             TestHelper::invoke($filter, 'sanitizeColor', $color)
         );
     }

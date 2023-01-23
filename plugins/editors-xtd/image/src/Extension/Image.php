@@ -6,15 +6,15 @@
  *
  * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+namespace Joomla\Plugin\EditorsXtd\Image\Extension;
+
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -25,7 +25,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
  *
  * @since  1.5
  */
-class PlgButtonImage extends CMSPlugin
+final class Image extends CMSPlugin
 {
     /**
      * Load the language file on instantiation.
@@ -48,14 +48,13 @@ class PlgButtonImage extends CMSPlugin
      */
     public function onDisplay($name, $asset, $author)
     {
-        $app       = Factory::getApplication();
-        $doc       = $app->getDocument();
-        $user      = Factory::getUser();
-        $extension = $app->getInput()->get('option');
+        $doc       = $this->getApplication()->getDocument();
+        $user      = $this->getApplication()->getIdentity();
+        $extension = $this->getApplication()->getInput()->get('option');
 
         // For categories we check the extension (ex: component.section)
         if ($extension === 'com_categories') {
-            $parts     = explode('.', $app->getInput()->get('extension', 'com_content'));
+            $parts     = explode('.', $this->getApplication()->getInput()->get('extension', 'com_content'));
             $extension = $parts[0];
         }
 
@@ -74,9 +73,8 @@ class PlgButtonImage extends CMSPlugin
                 ->useScript('webcomponent.field-media')
                 ->useStyle('webcomponent.media-select');
 
-            $doc->addScriptOptions('xtdImageModal', [
-                $name . '_ImageModal',
-            ]);
+            $doc->addScriptOptions('xtdImageModal', [$name . '_ImageModal']);
+            $doc->addScriptOptions('media-picker-api', ['apiBaseUrl' => Uri::base() . 'index.php?option=com_media&format=json']);
 
             if (count($doc->getScriptOptions('media-picker')) === 0) {
                 $imagesExt = array_map(

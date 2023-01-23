@@ -6,18 +6,18 @@
  *
  * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+namespace Joomla\Plugin\Authentication\Ldap\Extension;
+
 use Joomla\CMS\Authentication\Authentication;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Database\DatabaseAwareTrait;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\ConnectionException;
 use Symfony\Component\Ldap\Exception\LdapException;
-use Symfony\Component\Ldap\Ldap;
+use Symfony\Component\Ldap\Ldap as LdapProvider;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -28,8 +28,10 @@ use Symfony\Component\Ldap\Ldap;
  *
  * @since  1.5
  */
-class PlgAuthenticationLdap extends CMSPlugin
+final class Ldap extends CMSPlugin
 {
+    use DatabaseAwareTrait;
+
     /**
      * This method should handle any authentication and report back to the subject
      *
@@ -58,7 +60,7 @@ class PlgAuthenticationLdap extends CMSPlugin
         // LDAP does not like Blank passwords (tries to Anon Bind which is bad)
         if (empty($credentials['password'])) {
             $response->status = Authentication::STATUS_FAILURE;
-            $response->error_message = Text::_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
+            $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
 
             return false;
         }
@@ -80,10 +82,7 @@ class PlgAuthenticationLdap extends CMSPlugin
         Log::add(sprintf('Creating LDAP session with options: %s', json_encode($options)), Log::DEBUG, $logcategory);
         $connection_string = sprintf('ldap%s://%s:%s', 'ssl' === $options['encryption'] ? 's' : '', $options['host'], $options['port']);
         Log::add(sprintf('Creating LDAP session to connect to "%s" while binding', $connection_string), Log::DEBUG, $logcategory);
-        $ldap = Ldap::create(
-            'ext_ldap',
-            $options
-        );
+        $ldap = LdapProvider::create('ext_ldap', $options);
 
         switch ($auth_method) {
             case 'search':
@@ -93,7 +92,7 @@ class PlgAuthenticationLdap extends CMSPlugin
                     $ldap->bind($dn, $this->params->get('password', ''));
                 } catch (ConnectionException | LdapException $exception) {
                     $response->status = Authentication::STATUS_FAILURE;
-                    $response->error_message = Text::_('JGLOBAL_AUTH_NOT_CONNECT');
+                    $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_NOT_CONNECT');
                     Log::add($exception->getMessage(), Log::ERROR, $logcategory);
 
                     return;
@@ -113,7 +112,7 @@ class PlgAuthenticationLdap extends CMSPlugin
                     );
                 } catch (LdapException $exception) {
                     $response->status = Authentication::STATUS_FAILURE;
-                    $response->error_message = Text::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
+                    $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
                     Log::add($exception->getMessage(), Log::ERROR, $logcategory);
 
                     return;
@@ -122,8 +121,8 @@ class PlgAuthenticationLdap extends CMSPlugin
                 if (!$entry) {
                     // we did not find the login in LDAP
                     $response->status = Authentication::STATUS_FAILURE;
-                    $response->error_message = Text::_('JGLOBAL_AUTH_NO_USER');
-                    Log::add(Text::_('JGLOBAL_AUTH_USER_NOT_FOUND'), Log::ERROR, $logcategory);
+                    $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_NO_USER');
+                    Log::add($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_USER_NOT_FOUND'), Log::ERROR, $logcategory);
 
                     return;
                 } else {
@@ -136,7 +135,7 @@ class PlgAuthenticationLdap extends CMSPlugin
                     $ldap->bind($entry->getDn(), $credentials['password']);
                 } catch (ConnectionException $exception) {
                     $response->status = Authentication::STATUS_FAILURE;
-                    $response->error_message = Text::_('JGLOBAL_AUTH_INVALID_PASS');
+                    $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_INVALID_PASS');
                     Log::add($exception->getMessage(), Log::ERROR, $logcategory);
 
                     return;
@@ -161,7 +160,7 @@ class PlgAuthenticationLdap extends CMSPlugin
                     $ldap->bind($dn, $credentials['password']);
                 } catch (ConnectionException | LdapException $exception) {
                     $response->status = Authentication::STATUS_FAILURE;
-                    $response->error_message = Text::_('JGLOBAL_AUTH_INVALID_PASS');
+                    $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_INVALID_PASS');
                     Log::add($exception->getMessage(), Log::ERROR, $logcategory);
 
                     return;
@@ -180,7 +179,7 @@ class PlgAuthenticationLdap extends CMSPlugin
                     );
                 } catch (LdapException $exception) {
                     $response->status = Authentication::STATUS_FAILURE;
-                    $response->error_message = Text::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
+                    $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
                     Log::add($exception->getMessage(), Log::ERROR, $logcategory);
 
                     return;
@@ -191,7 +190,7 @@ class PlgAuthenticationLdap extends CMSPlugin
             default:
                 // Unsupported configuration
                 $response->status = Authentication::STATUS_FAILURE;
-                $response->error_message = Text::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
+                $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
                 Log::add($response->error_message, Log::ERROR, $logcategory);
 
                 return;
@@ -217,14 +216,14 @@ class PlgAuthenticationLdap extends CMSPlugin
      * Note that this method requires that semicolons which should be part of the search term to be escaped
      * to correctly split the search string into separate lookups
      *
-     * @param   string  $search  search string of search values
-     * @param   Ldap    $ldap    The LDAP client
+     * @param   string        $search  search string of search values
+     * @param   LdapProvider  $ldap    The LDAP client
      *
      * @return  Entry|null The search result entry if a matching record was found
      *
      * @since   3.8.2
      */
-    private function searchByString($search, Ldap $ldap)
+    private function searchByString($search, LdapProvider $ldap)
     {
         $dn = $this->params->get('base_dn');
 

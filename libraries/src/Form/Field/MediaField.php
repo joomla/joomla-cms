@@ -108,6 +108,14 @@ class MediaField extends FormField
     protected $previewHeight;
 
     /**
+     * The folder.
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $folder;
+
+    /**
      * Comma separated types of files for Media Manager
      * Possible values: images,audios,videos,documents
      *
@@ -153,6 +161,7 @@ class MediaField extends FormField
             case 'directory':
             case 'previewWidth':
             case 'previewHeight':
+            case 'folder':
             case 'types':
                 return $this->$name;
         }
@@ -180,6 +189,7 @@ class MediaField extends FormField
             case 'height':
             case 'preview':
             case 'directory':
+            case 'folder':
             case 'types':
                 $this->$name = (string) $value;
                 break;
@@ -397,7 +407,7 @@ class MediaField extends FormField
 
         sort($types);
 
-        $extraData = array(
+        $extraData = [
             'asset'               => $asset,
             'authorField'         => $this->authorField,
             'authorId'            => $this->form->getValue($this->authorField),
@@ -415,7 +425,7 @@ class MediaField extends FormField
             'audiosAllowedExt'    => $audiosAllowedExt,
             'videosAllowedExt'    => $videosAllowedExt,
             'documentsAllowedExt' => $documentsAllowedExt,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }
