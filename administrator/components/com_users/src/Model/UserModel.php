@@ -242,7 +242,7 @@ class UserModel extends AdminModel
         }
 
         // Make sure user groups is selected when add/edit an account
-        if ((empty($data['groups']) && ((int) $user->id != (int) $my->id || $iAmSuperAdmin)) && (!Factory::getApplication()->isClient('api'))) {
+        if (empty($data['groups']) && ((int) $user->id != (int) $my->id || $iAmSuperAdmin) && !Factory::getApplication()->isClient('api')) {
             $this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_SAVE_ACCOUNT_WITHOUT_GROUPS'));
 
             return false;
