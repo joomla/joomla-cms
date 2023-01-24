@@ -67,7 +67,7 @@ if ($charcounter) {
     $counterlabel = 'data-counter-label="' . $this->escape(Text::_('JFIELD_META_DESCRIPTION_COUNTER')) . '"';
 }
 
-$attributes = array(
+$attributes = [
     $columns ? (is_numeric($columns) ? 'cols="' . $columns . '"' : $columns) : '',
     $rows ? (is_numeric($rows) ? 'rows="' . $rows . '"' : $rows) : '',
     !empty($class) ? 'class="form-control ' . $class . $charcounter . '"' : 'class="form-control' . $charcounter . '"',
@@ -84,7 +84,7 @@ $attributes = array(
     $maxlength ? (is_numeric($maxlength) ? 'maxlength="' . $maxlength . '"' : $maxlength) : '',
     !empty($counterlabel) ? $counterlabel : '',
     $dataAttribute,
-);
+];
 ?>
 <textarea name="<?php
 echo $name; ?>" id="<?php
