@@ -326,18 +326,25 @@
 }
 
 .media-browser-table {
+  .name {
+    cursor: pointer;
+  }
   .size {
     width: 10%;
     text-align: right;
+    cursor: pointer;
   }
   .dimension {
     width: 15%;
+    cursor: pointer;
   }
   .created {
     width: 15%;
+    cursor: pointer;
   }
   .modified {
     width: 15%;
+    cursor: pointer;
   }
   .type {
     position: relative;
