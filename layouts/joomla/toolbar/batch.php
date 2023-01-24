@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 // @todo: Deprecate this file since we can use popup button to raise batch modal.
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = \Joomla\CMS\Factory\Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa = \Joomla\CMS\Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->useScript('core');
 
 $id    = isset($displayData['id']) ? $displayData['id'] : '';
