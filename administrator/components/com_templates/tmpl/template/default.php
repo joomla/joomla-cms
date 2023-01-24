@@ -117,7 +117,7 @@ if ($this->type == 'font') {
                         <?php echo HTMLHelper::_('form.token'); ?>
                         <p><?php echo Text::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
                         <p>
-                            <a href="https://docs.joomla.org/Special:MyLanguage/J3.x:How_to_use_the_Template_Manager" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
+                            <a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Template_Overrides" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
                                 <?php echo Text::_('COM_TEMPLATES_HOME_BUTTON'); ?>
                             </a>
                         </p>
@@ -376,14 +376,14 @@ if ($this->type == 'font') {
 
     <?php // Collapse Modal
     $taskName = isset($this->template->xmldata->inheritable) && (string) $this->template->xmldata->inheritable === '1' ? 'child' : 'copy';
-    $copyModalData = array(
+    $copyModalData = [
         'selector' => $taskName . 'Modal',
-        'params'   => array(
+        'params'   => [
             'title'  => Text::_('COM_TEMPLATES_TEMPLATE_' . strtoupper($taskName)),
             'footer' => $this->loadTemplate('modal_' . $taskName . '_footer')
-        ),
+        ],
         'body' => $this->loadTemplate('modal_' . $taskName . '_body')
-    );
+    ];
     ?>
     <form action="<?php echo Route::_('index.php?option=com_templates&task=template.' . $taskName . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post">
         <?php echo LayoutHelper::render('libraries.html.bootstrap.modal.main', $copyModalData); ?>
@@ -391,14 +391,14 @@ if ($this->type == 'font') {
     </form>
     <?php if ($this->type != 'home') : ?>
         <?php // Rename Modal
-        $renameModalData = array(
+        $renameModalData = [
             'selector' => 'renameModal',
-            'params'   => array(
+            'params'   => [
                 'title'  => Text::sprintf('COM_TEMPLATES_RENAME_FILE', str_replace('//', '/', $this->fileName)),
                 'footer' => $this->loadTemplate('modal_rename_footer')
-            ),
+            ],
             'body' => $this->loadTemplate('modal_rename_body')
-        );
+        ];
         ?>
         <form action="<?php echo Route::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0)); ?>" method="post">
             <?php echo LayoutHelper::render('libraries.html.bootstrap.modal.main', $renameModalData); ?>
@@ -407,57 +407,57 @@ if ($this->type == 'font') {
     <?php endif; ?>
     <?php if ($this->type != 'home') : ?>
         <?php // Delete Modal
-        $deleteModalData = array(
+        $deleteModalData = [
             'selector' => 'deleteModal',
-            'params'   => array(
+            'params'   => [
                 'title'  => Text::_('COM_TEMPLATES_ARE_YOU_SURE'),
                 'footer' => $this->loadTemplate('modal_delete_footer')
-            ),
+            ],
             'body' => $this->loadTemplate('modal_delete_body')
-        );
+        ];
         ?>
         <?php echo LayoutHelper::render('libraries.html.bootstrap.modal.main', $deleteModalData); ?>
     <?php endif; ?>
     <?php // File Modal
-    $fileModalData = array(
+    $fileModalData = [
         'selector' => 'fileModal',
-        'params'   => array(
+        'params'   => [
             'title'      => Text::_('COM_TEMPLATES_NEW_FILE_HEADER'),
             'footer'     => $this->loadTemplate('modal_file_footer'),
             'height'     => '400px',
             'width'      => '800px',
             'bodyHeight' => 70,
             'modalWidth' => 80,
-        ),
+        ],
         'body' => $this->loadTemplate('modal_file_body')
-    );
+    ];
     ?>
     <?php echo LayoutHelper::render('libraries.html.bootstrap.modal.main', $fileModalData); ?>
     <?php // Folder Modal
-    $folderModalData = array(
+    $folderModalData = [
         'selector' => 'folderModal',
-        'params'   => array(
+        'params'   => [
             'title'      => Text::_('COM_TEMPLATES_MANAGE_FOLDERS'),
             'footer'     => $this->loadTemplate('modal_folder_footer'),
             'height'     => '400px',
             'width'      => '800px',
             'bodyHeight' => 70,
             'modalWidth' => 80,
-        ),
+        ],
         'body' => $this->loadTemplate('modal_folder_body')
-    );
+    ];
     ?>
     <?php echo LayoutHelper::render('libraries.html.bootstrap.modal.main', $folderModalData); ?>
     <?php if ($this->type == 'image') : ?>
         <?php // Resize Modal
-        $resizeModalData = array(
+        $resizeModalData = [
             'selector' => 'resizeModal',
-            'params'   => array(
+            'params'   => [
                 'title'  => Text::_('COM_TEMPLATES_RESIZE_IMAGE'),
                 'footer' => $this->loadTemplate('modal_resize_footer')
-            ),
+            ],
             'body' => $this->loadTemplate('modal_resize_body')
-        );
+        ];
         ?>
         <form action="<?php echo Route::_('index.php?option=com_templates&task=template.resizeImage&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0)); ?>" method="post">
             <?php echo LayoutHelper::render('libraries.html.bootstrap.modal.main', $resizeModalData); ?>

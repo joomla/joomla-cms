@@ -10,6 +10,11 @@
     border-color: $focuscolor;
     box-shadow: $focusshadow;
   }
+
+  &::placeholder {
+    font-size: .8rem;
+    font-style: italic;
+  }
 }
 
 .control-group {

@@ -45,7 +45,7 @@ final class OnGetApiRelation extends AbstractImmutableEvent
      * @since   4.0.0
      * @throws  \BadMethodCallException
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('model', $arguments)) {
             throw new \BadMethodCallException("Argument 'model' is required for event $name");
