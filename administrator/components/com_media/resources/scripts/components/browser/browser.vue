@@ -32,30 +32,35 @@
             <th
               class="name"
               scope="col"
+              @click="sort('name')"
             >
               {{ translate('COM_MEDIA_MEDIA_NAME') }}
             </th>
             <th
               class="size"
               scope="col"
+              @click="sort('size')"
             >
               {{ translate('COM_MEDIA_MEDIA_SIZE') }}
             </th>
             <th
               class="dimension"
               scope="col"
+              @click="sort('dimension')"
             >
               {{ translate('COM_MEDIA_MEDIA_DIMENSION') }}
             </th>
             <th
               class="created"
               scope="col"
+              @click="sort('created')"
             >
               {{ translate('COM_MEDIA_MEDIA_DATE_CREATED') }}
             </th>
             <th
               class="modified"
               scope="col"
+              @click="sort('modified')"
             >
               {{ translate('COM_MEDIA_MEDIA_DATE_MODIFIED') }}
             </th>
@@ -94,19 +99,27 @@ import * as types from '../../store/mutation-types.es6';
 
 export default {
   name: 'MediaBrowser',
+  data() {
+    return {
+      currentSort: 'name',
+      currentSortDir: 'asc',
+    };
+  },
   computed: {
     /* Get the contents of the currently selected directory */
     items() {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      let modifier = 1;
+      if (this.currentSortDir === 'desc') modifier = -1;
       const directories = this.$store.getters.getSelectedDirectoryDirectories
         // Sort by type and alphabetically
-        .sort((a, b) => ((a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1))
+        .sort((a, b) => (a[this.currentSort] < b[this.currentSort] ? -1 : 1) * modifier)
         .filter((dir) => dir.name.toLowerCase().includes(this.$store.state.search.toLowerCase()));
 
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       const files = this.$store.getters.getSelectedDirectoryFiles
         // Sort by type and alphabetically
-        .sort((a, b) => ((a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1))
+        .sort((a, b) => (a[this.currentSort] < b[this.currentSort] ? -1 : 1) * modifier)
         .filter((file) => file.name.toLowerCase().includes(this.$store.state.search.toLowerCase()));
 
       return [...directories, ...files];
@@ -158,6 +171,12 @@ export default {
     document.body.removeEventListener('click', this.unselectAllBrowserItems, false);
   },
   methods: {
+    sort(s) {
+      if (s === this.currentSort) {
+        this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc';
+      }
+      this.currentSort = s;
+    },
     /* Unselect all browser items */
     unselectAllBrowserItems(event) {
       const clickedDelete = !!((event.target.id !== undefined && event.target.id === 'mediaDelete'));
