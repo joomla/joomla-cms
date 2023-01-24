@@ -193,7 +193,7 @@ class Query
      * The dates Registry.
      *
      * @var    Registry
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     public $dates;
 
