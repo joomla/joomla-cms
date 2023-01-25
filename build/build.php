@@ -78,8 +78,8 @@ function clean_checkout(string $dir)
     system('find . -name phpunit.xml.dist | xargs rm -rf -');
     system('find . -name README.md | xargs rm -rf -');
     system('find . -name SECURITY.md | xargs rm -rf -');
-    system('find . -name eslint.config.js | xargs rm -rf -');
-    system('find . -name stylelint.config.js | xargs rm -rf -');
+    system('find . -name eslint.config.json | xargs rm -rf -');
+    system('find . -name stylelint.config.json | xargs rm -rf -');
 
     echo "Cleaning vendors.\n";
 
