@@ -70,8 +70,8 @@ Once you get your code doing what it is meant to do, make sure that you check yo
 ## IDE tools
 IDEs like PHPStorm and VSCode have tools also for compiling/linting. At the moment Joomla exposes the following configurations:
 
-- stylelint: in the root folder of the project with a file `stylelint.config.js`
-- eslint: in the root folder of the project with a file `eslint.config.js`
+- stylelint: in the root folder of the project with a file `stylelint.config.json`
+- eslint: in the root folder of the project with a file `eslint.config.json`
 
 
 Happy coding
