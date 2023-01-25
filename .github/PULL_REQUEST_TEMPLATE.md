@@ -17,7 +17,7 @@ Pull Request for Issue # .
 
 
 ### Codestyle conformance
-Please make sure that proir to creating a Pull Request you have ran locally the following commands:
+Please make sure that prior to creating a Pull Request you have ran locally the following commands:
 
 - PHP:      `./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .`
 - JS:       `npm run lint:js` or for autofixing minor problems `npm run lint:js -- --fix`
