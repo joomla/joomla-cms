@@ -146,7 +146,7 @@
 
 <script>
 import * as types from '../../../store/mutation-types.es6';
-import { api } from '../../../app/Api.es6';
+import api from '../../../app/Api.es6';
 
 export default {
   name: 'MediaBrowserActionItemsContainer',
@@ -175,8 +175,8 @@ export default {
     },
   },
   watch: {
-    // eslint-disable-next-line
-    "$store.state.showRenameModal"(show) {
+    // eslint-disable-next-line func-names
+    '$store.state.showRenameModal': function (show) {
       if (
         !show
         && this.$refs.actionToggle

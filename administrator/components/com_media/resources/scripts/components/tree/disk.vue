@@ -20,8 +20,16 @@
 <script>
 export default {
   name: 'MediaDisk',
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['disk', 'uid'],
+  props: {
+    disk: {
+      type: Object,
+      default: () => {},
+    },
+    uid: {
+      type: String,
+      default: '',
+    },
+  },
   computed: {
     diskId() {
       return `disk-${this.uid + 1}`;

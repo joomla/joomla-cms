@@ -37,8 +37,12 @@ import navigable from '../../../mixins/navigable.es6';
 export default {
   name: 'MediaBrowserItemRow',
   mixins: [navigable],
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['item'],
+  props: {
+    item: {
+      type: Object,
+      default: () => {},
+    },
+  },
   computed: {
     /* The dimension of a file */
     dimension() {
