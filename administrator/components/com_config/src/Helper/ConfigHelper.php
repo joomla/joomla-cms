@@ -35,7 +35,7 @@ class ConfigHelper extends ContentHelper
      */
     public static function getAllComponents()
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select('element')
             ->from('#__extensions')
@@ -73,15 +73,15 @@ class ConfigHelper extends ContentHelper
      */
     public static function getComponentsWithConfig($authCheck = true)
     {
-        $result = [];
+        $result     = [];
         $components = self::getAllComponents();
-        $user = Factory::getUser();
+        $user       = Factory::getUser();
 
         // Remove com_config from the array as that may have weird side effects
         $components = array_diff($components, ['com_config']);
 
         foreach ($components as $component) {
-            if (self::hasComponentConfig($component) && (!$authCheck || $user->authorise('core.manage', $component))) {
+            if (self::hasComponentConfig($component) && (!$authCheck || $user->authorise('core.options', $component))) {
                 self::loadLanguageForComponent($component);
                 $result[$component] = ApplicationHelper::stringURLSafe(Text::_($component)) . '_' . $component;
             }
@@ -128,6 +128,6 @@ class ConfigHelper extends ContentHelper
         // Load the core file then
         // Load extension-local file.
         $lang->load($component . '.sys', JPATH_BASE)
-        || $lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component);
+            || $lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component);
     }
 }
