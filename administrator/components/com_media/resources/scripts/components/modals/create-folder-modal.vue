@@ -67,7 +67,6 @@ export default {
     };
   },
   watch: {
-    // eslint-disable-next-line func-names
     '$store.state.showCreateFolderModal': function (show) {
       this.$nextTick(() => {
         if (show && this.$refs.input) {

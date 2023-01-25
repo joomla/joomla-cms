@@ -175,7 +175,6 @@ export default {
     },
   },
   watch: {
-    // eslint-disable-next-line func-names
     '$store.state.showRenameModal': function (show) {
       if (
         !show

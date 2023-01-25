@@ -116,7 +116,6 @@ export default {
     },
   },
   watch: {
-    // eslint-disable-next-line func-names
     '$store.state.selectedItems': function () {
       if (!this.allItemsSelected) {
         this.$refs.mediaToolbarSelectAll.checked = false;
