@@ -22,7 +22,7 @@ const updateSettings = async (options) => {
     .filter((x) => !['.DS_Store', 'templates', 'vendor', 'cache'].includes(x.name) && x.isDirectory())
     .map((x) => x.name);
 
-  options.settings.cleanUpFolders = [...extensions, ...knownDirs];
+  options.joomlaSettings.cleanUpFolders = [...extensions, ...knownDirs];
 };
 
 /**
@@ -34,7 +34,7 @@ const updateSettings = async (options) => {
  */
 module.exports.recreateMediaFolder = async (options) => {
   await updateSettings(options);
-  const installedVendors = Object.keys(options.settings.vendors).map((vendor) => {
+  const installedVendors = Object.keys(options.joomlaSettings.vendors).map((vendor) => {
     if (vendor === 'choices.js') {
       return 'vendor/choicesjs';
     }
@@ -54,7 +54,7 @@ module.exports.recreateMediaFolder = async (options) => {
   });
 
   // Clean up existing folders
-  [...options.settings.cleanUpFolders, ...installedVendors].forEach((folder) => {
+  [...options.joomlaSettings.cleanUpFolders, ...installedVendors].forEach((folder) => {
     const folderPath = join(`${RootPath}/media`, folder);
     if (existsSync(folderPath)) {
       emptyDirSync(folderPath);

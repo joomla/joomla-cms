@@ -67,4 +67,11 @@ Assuming that you are working on the Web Authentication JavaScript, you can run 
 
 Once you get your code doing what it is meant to do, make sure that you check you are not breaking any of the Code Style rules by running `npm run lint:css -- --fix` and `npm run lint:js -- --fix` (the `-- --fix` will try to fix anything that's not trivial).
 
+## IDE tools
+IDEs like PHPStorm and VSCode have tools also for compiling/linting. At the moment Joomla exposes the following configurations:
+
+- stylelint: in the root folder of the project with a file `stylelint.config.js`
+- eslint: in the root folder of the project with a file `eslint.config.js`
+
+
 Happy coding

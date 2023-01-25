@@ -1,4 +1,4 @@
-{
+module.exports = {
   "extends": [
     // Extend the airbnb eslint config
     "airbnb-base",

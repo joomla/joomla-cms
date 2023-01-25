@@ -14,14 +14,14 @@ const dir = `${RootPath}/installation/language`;
 const srcPath = `${RootPath}/build/warning_page`;
 
 /**
- * Will produce as many .html files as defined in settings.json
+ * Will produce as many .html files as defined in package.json [joomlaSettings.errorPages]
  * Expects three files:
  *     build/warning_page/template.css
  *     build/warning_page/template.html
  *     build/warning_page/template.js
  *
  * And also specific strings in the languages in the installation folder!
- * Also the base strings are held in build/build-modules-js/settings.json
+ * Also the base strings are held in package.json [joomlaSettings]
  */
 module.exports.createErrorPages = async (options) => {
   const iniFilesProcess = [];
@@ -121,11 +121,11 @@ module.exports.createErrorPages = async (options) => {
     let template = initTemplate;
 
     template = template.replace('{{jsonContents}}', jsonContent);
-    template = template.replace('{{Title}}', options.settings.errorPages[name].title);
-    template = template.replace('{{Header}}', options.settings.errorPages[name].header);
-    template = template.replace('{{Description}}', options.settings.errorPages[name].text);
-    template = template.replace('{{Link}}', options.settings.errorPages[name].link);
-    template = template.replace('{{LinkText}}', options.settings.errorPages[name].linkText);
+    template = template.replace('{{Title}}', options.joomlaSettings.errorPages[name].title);
+    template = template.replace('{{Header}}', options.joomlaSettings.errorPages[name].header);
+    template = template.replace('{{Description}}', options.joomlaSettings.errorPages[name].text);
+    template = template.replace('{{Link}}', options.joomlaSettings.errorPages[name].link);
+    template = template.replace('{{LinkText}}', options.joomlaSettings.errorPages[name].linkText);
 
     if (cssContent) {
       template = template.replace('{{cssContents}}', cssContent);
@@ -137,27 +137,27 @@ module.exports.createErrorPages = async (options) => {
 
     let mediaExists = false;
     try {
-      await access(dirname(`${RootPath}${options.settings.errorPages[name].destFile}`));
+      await access(dirname(`${RootPath}${options.joomlaSettings.errorPages[name].destFile}`));
       mediaExists = true;
     } catch (err) {
       // Do nothing
     }
 
     if (!mediaExists) {
-      await mkdir(dirname(`${RootPath}${options.settings.errorPages[name].destFile}`), { recursive: true, mode: 0o755 });
+      await mkdir(dirname(`${RootPath}${options.joomlaSettings.errorPages[name].destFile}`), { recursive: true, mode: 0o755 });
     }
 
     await writeFile(
-      `${RootPath}${options.settings.errorPages[name].destFile}`,
+      `${RootPath}${options.joomlaSettings.errorPages[name].destFile}`,
       template,
       { encoding: 'utf8', mode: 0o644 },
     );
 
     // eslint-disable-next-line no-console
-    console.error(`✅ Created the file: ${options.settings.errorPages[name].destFile}`);
+    console.error(`✅ Created the file: ${options.joomlaSettings.errorPages[name].destFile}`);
   };
 
-  Object.keys(options.settings.errorPages).forEach((name) => processPages.push(processPage(name)));
+  Object.keys(options.joomlaSettings.errorPages).forEach((name) => processPages.push(processPage(name)));
 
   return Promise.all(processPages).catch((err) => {
     // eslint-disable-next-line no-console

@@ -63,13 +63,13 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
   }
 
   // Copy the license if existsSync
-  if (options.settings.vendors[packageName].licenseFilename
-  && await existsSync(`${join(RootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`)
+  if (options.joomlaSettings.vendors[packageName].licenseFilename
+  && await existsSync(`${join(RootPath, `node_modules/${packageName}`)}/${options.joomlaSettings.vendors[packageName].licenseFilename}`)
   ) {
     const dest = join(mediaVendorPath, vendorName);
     await copy(
-      `${join(RootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`,
-      `${dest}/${options.settings.vendors[packageName].licenseFilename}`,
+      `${join(RootPath, `node_modules/${packageName}`)}/${options.joomlaSettings.vendors[packageName].licenseFilename}`,
+      `${dest}/${options.joomlaSettings.vendors[packageName].licenseFilename}`,
       { preserveTimestamps: true },
     );
   }
@@ -133,8 +133,8 @@ module.exports.localisePackages = async (options) => {
 
   // Loop to get some text for the package.json
   // eslint-disable-next-line guard-for-in, no-restricted-syntax
-  for (const packageName in options.settings.vendors) {
-    const vendor = options.settings.vendors[packageName];
+  for (const packageName in options.joomlaSettings.vendors) {
+    const vendor = options.joomlaSettings.vendors[packageName];
 
     promises.push(resolvePackage(vendor, packageName, mediaVendorPath, options, registry));
   }

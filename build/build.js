@@ -37,15 +37,9 @@ const { Timer } = require('./build-modules-js/utils/timer.es6.js');
 
 // The settings
 const options = require('../package.json');
-const settings = require('./build-modules-js/settings.json');
 
 // The command line
 const Program = new Command();
-
-// Merge Joomla's specific settings to the main package.json object
-if ('settings' in settings) {
-  options.settings = settings.settings;
-}
 
 const handleError = (err, terminateCode) => {
   // eslint-disable-next-line no-console
