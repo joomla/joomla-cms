@@ -224,7 +224,7 @@ class User extends CMSObject
      * The access level id
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public $aid = null;
 
