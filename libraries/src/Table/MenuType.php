@@ -110,7 +110,7 @@ class MenuType extends Table
             $notIn  = [0, $userId];
 
             // Get the old value of the table
-            $table = Table::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));
+            $table = Table::getInstance('Menutype', 'JTable', ['dbo' => $this->getDbo()]);
             $table->load($this->id);
 
             // Verify that no items are checked out
@@ -202,7 +202,7 @@ class MenuType extends Table
             $star   = '*';
 
             // Get the old value of the table
-            $table = Table::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));
+            $table = Table::getInstance('Menutype', 'JTable', ['dbo' => $this->getDbo()]);
             $table->load($pk);
 
             // Verify that no items are checked out

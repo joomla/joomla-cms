@@ -90,8 +90,7 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
             {
                 return (array) json_decode($value, true);
             }
-
-            return array('imagefile' => $value, 'alt_text' => '');
+            return ['imagefile' => $value, 'alt_text' => ''];
         }
     }
 }

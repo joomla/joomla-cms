@@ -56,11 +56,11 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
     {
         $this->loadLanguage();
 
-        return array(
-            Text::_('PLG_CAPTCHA_RECAPTCHA_INVISIBLE') => array(
+        return [
+            Text::_('PLG_CAPTCHA_RECAPTCHA_INVISIBLE') => [
                 Text::_('PLG_RECAPTCHA_INVISIBLE_PRIVACY_CAPABILITY_IP_ADDRESS'),
-            ),
-        );
+            ],
+        ];
     }
 
     /**

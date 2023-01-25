@@ -52,7 +52,7 @@ class ExtensionField extends ListField
         $db->setQuery($query);
         $context = $db->loadColumn();
 
-        $options = array();
+        $options = [];
 
         if (\count($context) > 0) {
             foreach ($context as $item) {
