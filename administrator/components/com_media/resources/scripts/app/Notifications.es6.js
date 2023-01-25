@@ -1,4 +1,9 @@
-/* Send a notification */
+/**
+ * Send a notification
+ * @param {String} message
+ * @param {{}} options
+ *
+ */
 function notify(message, options) {
   let timer;
   if (options.type === 'message') {
