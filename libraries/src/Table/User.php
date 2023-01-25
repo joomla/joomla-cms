@@ -307,6 +307,10 @@ class User extends Table
             }
         }
 
+        // Set an empty string value to the legacy otpKey and otep columns if empty
+        $this->otpKey = $this->otpKey ?: '';
+        $this->otep   = $this->otep ?: '';
+
         return true;
     }
 

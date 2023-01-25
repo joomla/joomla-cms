@@ -10,10 +10,12 @@
 
 namespace Joomla\Tests\Unit\Plugin\Authentication\Ldap;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Authentication\AuthenticationResponse;
-use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Language;
 use Joomla\Event\Dispatcher;
+use Joomla\Plugin\Authentication\Ldap\Extension\Ldap as LdapPlugin;
 use Joomla\Tests\Unit\UnitTestCase;
 use Symfony\Component\Ldap\Ldap;
 
@@ -32,25 +34,43 @@ class LdapPluginTest extends UnitTestCase
     public const LDAPPORT = "1389";
     public const SSLPORT = "1636";
 
-    private function getPlugin($options): CMSPlugin
-    {
-        $type = "authentication";
-        $plugin = "ldap";
+    /**
+     * The default options
+     *
+     * @var    array
+     * @since  4.3.0
+     */
+    private $default_options;
 
-        // based on loadPluginFromFilesystem in ExtensionManagerTrait
-        $path = JPATH_PLUGINS . '/' . $type . '/' . $plugin . '/' . $plugin . '.php';
-        require_once $path;
+    /**
+     * The default credentials
+     *
+     * @var    array
+     * @since  4.3.0
+     */
+    private $default_credentials;
+
+    private function getPlugin($options): LdapPlugin
+    {
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
 
         $dispatcher = new Dispatcher();
 
         // plugin object: result from DB using PluginHelper::getPlugin
-        $pluginobject = [
-            'name' => $plugin,
+        $pluginObject = [
+            'name'   => 'ldap',
             'params' => json_encode($options),
-            'type' => $type
+            'type'   => 'authentication'
         ];
 
-        return new \PlgAuthenticationLdap($dispatcher, $pluginobject);
+        $plugin = new LdapPlugin($dispatcher, $pluginObject);
+        $plugin->setApplication($app);
+
+        return $plugin;
     }
 
     private function acceptCertificates(): void
