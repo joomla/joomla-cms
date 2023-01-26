@@ -188,6 +188,7 @@ steps:
         path: /root/.cache/Cypress
     commands:
       - sed -i 's/tests\\/Codeception\\/_output/\\/drone\\/src\\/tests\\/cypress\\/output/' codeception.yml
+      - mv cypress.config.dist.js cypress.config.js
       - php libraries/vendor/bin/codecept build
       - npx cypress install
       - npx cypress verify
