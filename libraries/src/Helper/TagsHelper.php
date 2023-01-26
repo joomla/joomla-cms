@@ -68,7 +68,7 @@ class TagsHelper extends CMSHelper
      * The tags as comma separated string or array.
      *
      * @var    mixed
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public $tags;
 
@@ -76,7 +76,7 @@ class TagsHelper extends CMSHelper
      * The new tags as comma separated string or array.
      *
      * @var    mixed
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public $newTags;
 
@@ -84,7 +84,7 @@ class TagsHelper extends CMSHelper
      * The old tags as comma separated string or array.
      *
      * @var    mixed
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public $oldTags;
 

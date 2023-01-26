@@ -312,7 +312,7 @@ class Image
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      * @throws  \LogicException
      * @throws  \InvalidArgumentException
      */

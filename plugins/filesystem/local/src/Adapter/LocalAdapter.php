@@ -60,7 +60,7 @@ class LocalAdapter implements AdapterInterface
      *
      * @var boolean
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     private $thumbnails = false;
 
@@ -69,7 +69,7 @@ class LocalAdapter implements AdapterInterface
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     private $thumbnailSize = [200, 200];
 
@@ -888,7 +888,7 @@ class LocalAdapter implements AdapterInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      * @throws  InvalidPathException
      */
     private function getLocalThumbnailPaths(string $path): array
@@ -917,7 +917,7 @@ class LocalAdapter implements AdapterInterface
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     private function getThumbnail(string $path): string
     {
@@ -949,7 +949,7 @@ class LocalAdapter implements AdapterInterface
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     private function createThumbnail(string $path, string $thumbnailPath): bool
     {
