@@ -7,9 +7,9 @@
 		label="JGLOBAL_FIELD_ID_LABEL"
 		default="0"
 	/>
-		
+
 	<field
-		name="step-no"
+		name="step_no"
 		type="hidden"
 		default="1"
 	/>
@@ -34,7 +34,7 @@
 		label="COM_GUIDEDTOURS_TARGET_LABEL"
 		description="COM_GUIDEDTOURS_TARGET_DESC"
 	/>
-	
+
 	<field
 		name="tour_id"
 		type="hidden"
@@ -83,7 +83,7 @@
 		type="list"
 		label="COM_GUIDEDTOURS_TYPE_LABEL"
 		default="0"
-		description="COM_GUIDEDTOURS_TYPE_DESC"		
+		description="COM_GUIDEDTOURS_TYPE_DESC"
 		validate="options"
 		>
 		<option value="0">COM_GUIDEDTOURS_FIELD_VALUE_NEXT_STEP</option>
@@ -101,7 +101,7 @@
 	/>
 
 	<field
-		name="interactivetour"
+		name="interactive_type"
 		type="list"
 		label="COM_GUIDEDTOURS_TYPE_INTERACTIVE_TOUR_LABEL"
 		description="COM_GUIDEDTOURS_INTERACTIVE_TOUR_DESC"
@@ -148,7 +148,7 @@
 		label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
 		validate="UserId"
 	/>
-	
+
 	<field
 		name="modified_time"
 		type="calendar"
@@ -181,7 +181,7 @@
 			name="asset_id"
 			type="hidden"
 			filter="unset"
-		/>		
+		/>
 	</fieldset>
-	
+
 </form>

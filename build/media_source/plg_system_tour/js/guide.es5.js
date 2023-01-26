@@ -39,7 +39,7 @@ function addStepToTourButton(tour, obj, tourId, index, buttons, uri) {
       on: obj[tourId].steps[index].position,
       url: obj[tourId].steps[index].url,
       type: obj[tourId].steps[index].type,
-      interactivetour: obj[tourId].steps[index].interactivetour,
+      interactive_type: obj[tourId].steps[index].interactive_type,
     },
 
     buttons: buttons,
@@ -157,14 +157,14 @@ Joomla = window.Joomla || {};
               if (ele) {
                 if (
                   obj[tourId] &&
-                  obj[tourId].steps[index].interactivetour === 2
+                  obj[tourId].steps[index].interactive_type === 2
                 ) {
                   ele.step_id = index;
                   ele.addEventListener("input", enableButton, enableButton);
                 }
                 if (
                   obj[tourId] &&
-                  obj[tourId].steps[index].interactivetour === 1
+                  obj[tourId].steps[index].interactive_type === 1
                 )
                   ele.addEventListener("click", tour.next, tour.next);
               }
@@ -173,13 +173,13 @@ Joomla = window.Joomla || {};
             pushBackButton(buttons, tour, prev_step);
             if (index != len - 1) {
               let disabled = false;
-              if (obj[tourId] && obj[tourId].steps[index].interactivetour == 2)
+              if (obj[tourId] && obj[tourId].steps[index].interactive_type == 2)
                 disabled = true;
               if (
                 (obj[tourId] && obj[tourId].steps[index].type !== 2) ||
                 (obj[tourId] &&
-                  obj[tourId].steps[index].interactivetour == 2) ||
-                (obj[tourId] && obj[tourId].steps[index].interactivetour == 3)
+                  obj[tourId].steps[index].interactive_type == 2) ||
+                (obj[tourId] && obj[tourId].steps[index].interactive_type == 3)
               )
                 pushNextButton(buttons, tour, index, disabled);
             } else {
@@ -223,23 +223,23 @@ Joomla = window.Joomla || {};
         ) {
           const ele = document.querySelector(obj[tourId].steps[index].target);
           if (ele) {
-            if (obj[tourId] && obj[tourId].steps[index].interactivetour === 2) {
+            if (obj[tourId] && obj[tourId].steps[index].interactive_type === 2) {
               ele.step_id = index;
               ele.addEventListener("input", enableButton, enableButton);
             }
-            if (obj[tourId] && obj[tourId].steps[index].interactivetour === 1)
+            if (obj[tourId] && obj[tourId].steps[index].interactive_type === 1)
               ele.addEventListener("click", tour.next, tour.next);
           }
         }
 
         if (index != len - 1) {
           let disabled = false;
-          if (obj[tourId] && obj[tourId].steps[index].interactivetour == 2)
+          if (obj[tourId] && obj[tourId].steps[index].interactive_type == 2)
             disabled = true;
           if (
             (obj[tourId] && obj[tourId].steps[index].type !== 2) ||
-            (obj[tourId] && obj[tourId].steps[index].interactivetour == 2) ||
-            (obj[tourId] && obj[tourId].steps[index].interactivetour == 3)
+            (obj[tourId] && obj[tourId].steps[index].interactive_type == 2) ||
+            (obj[tourId] && obj[tourId].steps[index].interactive_type == 3)
           )
             pushNextButton(buttons, tour, index, disabled);
         } else {
