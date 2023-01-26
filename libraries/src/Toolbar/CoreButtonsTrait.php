@@ -133,7 +133,7 @@ trait CoreButtonsTrait
      *
      * @return  InlinehelpButton
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function inlinehelp(string $class = 'hide-aware-inline-help'): InlinehelpButton
     {
