@@ -486,7 +486,7 @@ class MediaHelper
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     private static function isValidSvg($file, $shouldLogErrors = true): bool
     {
