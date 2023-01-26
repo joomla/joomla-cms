@@ -31,46 +31,46 @@
 
 // Only index the files in /libraries and no deeper, to prevent /libraries/vendor being indexed
 $topFilesFinder = PhpCsFixer\Finder::create()
-	->in(
-		[
-			__DIR__ . '/libraries'
-		]
-	)
-	->files()
-	->depth(0);
+    ->in(
+        [
+            __DIR__ . '/libraries'
+        ]
+    )
+    ->files()
+    ->depth(0);
 
 // Add all the core Joomla folders and append to this list the files indexed above from /libraries
 $mainFinder = PhpCsFixer\Finder::create()
-	->in(
-		[
-			__DIR__ . '/administrator',
-			__DIR__ . '/api',
-			__DIR__ . '/build',
-			__DIR__ . '/cache',
-			__DIR__ . '/cli',
-			__DIR__ . '/components',
-			__DIR__ . '/includes',
-			__DIR__ . '/installation',
-			__DIR__ . '/language',
-			__DIR__ . '/libraries/src',
-			__DIR__ . '/modules',
-			__DIR__ . '/plugins',
-			__DIR__ . '/templates',
-			__DIR__ . '/tests',
-			__DIR__ . '/layouts',
-		]
-	)
-	->append($topFilesFinder);
+    ->in(
+        [
+            __DIR__ . '/administrator',
+            __DIR__ . '/api',
+            __DIR__ . '/build',
+            __DIR__ . '/cache',
+            __DIR__ . '/cli',
+            __DIR__ . '/components',
+            __DIR__ . '/includes',
+            __DIR__ . '/installation',
+            __DIR__ . '/language',
+            __DIR__ . '/libraries/src',
+            __DIR__ . '/modules',
+            __DIR__ . '/plugins',
+            __DIR__ . '/templates',
+            __DIR__ . '/tests',
+            __DIR__ . '/layouts',
+        ]
+    )
+    ->append($topFilesFinder);
 
 $config = new PhpCsFixer\Config();
 $config
-	->setRiskyAllowed(true)
-	->setRules(
-		[
+    ->setRiskyAllowed(true)
+    ->setRules(
+        [
             '@PSR12' => true,
             'array_syntax' => ['syntax' => 'short'],
-		]
-	)
-	->setFinder($mainFinder);
+        ]
+    )
+    ->setFinder($mainFinder);
 
 return $config;
