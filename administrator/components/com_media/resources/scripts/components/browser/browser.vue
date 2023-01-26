@@ -9,12 +9,6 @@
       @dragover="onDragOver"
       @dragleave="onDragLeave"
     >
-      <h4
-        v-if="isEmpty"
-        class="pt-4 text-center"
-      >
-        {{ translate("COM_MEDIA_NO_MEDIA_FOUND") }}
-      </h4>
       <div class="media-dragoutline">
         <span
           class="icon-cloud-upload upload-icon"
@@ -120,10 +114,6 @@ export default {
       return {
         width: this.$store.state.showInfoBar ? '75%' : '100%',
       };
-    },
-    isEmpty() {
-      return ![...this.$store.getters.getSelectedDirectoryDirectories, ...this.$store.getters.getSelectedDirectoryFiles].length
-      && !this.$store.state.isLoading;
     },
     /* The styles for the media-browser element */
     listView() {
