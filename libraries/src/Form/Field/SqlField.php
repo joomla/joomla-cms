@@ -62,7 +62,7 @@ class SqlField extends ListField
      * The header.
      *
      * @var    mixed
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $header;
 
