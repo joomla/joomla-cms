@@ -82,7 +82,7 @@ class CacheStorage
      * The threshold
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public $_threshold;
 

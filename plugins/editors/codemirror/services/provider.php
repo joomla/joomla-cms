@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Editors-xtd.article
+ * @subpackage  Editors.codemirror
  *
  * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -16,7 +16,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\EditorsXtd\Article\Extension\Article;
+use Joomla\Plugin\Editors\CodeMirror\Extension\Codemirror;
 
 return new class implements ServiceProviderInterface
 {
@@ -27,7 +27,7 @@ return new class implements ServiceProviderInterface
      *
      * @return  void
      *
-     * @since   4.3.0
+     * @since   __DEPLOY_VERSION__
      */
     public function register(Container $container)
     {
@@ -36,9 +36,9 @@ return new class implements ServiceProviderInterface
             function (Container $container) {
                 $dispatcher = $container->get(DispatcherInterface::class);
 
-                $plugin     = new Article(
+                $plugin     = new Codemirror(
                     $dispatcher,
-                    (array) PluginHelper::getPlugin('editors-xtd', 'article')
+                    (array) PluginHelper::getPlugin('editors', 'codemirror')
                 );
                 $plugin->setApplication(Factory::getApplication());
 

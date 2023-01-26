@@ -71,7 +71,7 @@ class RulesField extends FormField
      * The flag which indicates if it is the global config
      *
      * @var    bool
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $isGlobalConfig;
 
@@ -79,7 +79,7 @@ class RulesField extends FormField
      * The asset rules
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $assetRules;
 
@@ -87,7 +87,7 @@ class RulesField extends FormField
      * The actions
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $actions;
 
@@ -95,7 +95,7 @@ class RulesField extends FormField
      * The groups
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $groups;
 
@@ -103,7 +103,7 @@ class RulesField extends FormField
      * The asset Id
      *
      * @var    int
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $assetId;
 
@@ -111,7 +111,7 @@ class RulesField extends FormField
      * The parent asset Id
      *
      * @var    int
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $parentAssetId;
 
@@ -119,7 +119,7 @@ class RulesField extends FormField
      * The flag to indicate that it is a new item
      *
      * @var    bool
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $newItem;
 
