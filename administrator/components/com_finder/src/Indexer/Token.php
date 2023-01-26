@@ -120,7 +120,7 @@ class Token
      * The token required flag
      *
      * @var    boolean
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public $required;
 

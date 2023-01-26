@@ -53,7 +53,7 @@ class SearchModel extends ListModel
      *
      * @var string[]
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected $sortOrderFieldsLabels = [
         'relevance.asc' => 'COM_FINDER_SORT_BY_RELEVANCE_ASC',
@@ -326,7 +326,7 @@ class SearchModel extends ListModel
      *
      * @throws  \Exception
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getSortOrderFields()
     {
@@ -377,7 +377,7 @@ class SearchModel extends ListModel
      *
      * @throws  \Exception
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected function getSortField(string $value, string $direction, Uri $queryUri)
     {
