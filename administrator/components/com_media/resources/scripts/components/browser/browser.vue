@@ -9,11 +9,11 @@
       @dragover="onDragOver"
       @dragleave="onDragLeave"
     >
-      <div class="mt-4">
-        <h4
-          v-if="isEmpty"
-          class="text-center"
-        >
+      <div
+        v-if="isEmpty"
+        class="mt-4"
+      >
+        <h4 class="text-center">
           {{ translate("COM_MEDIA_NO_MEDIA_FOUND") }}
         </h4>
       </div>
@@ -124,7 +124,8 @@ export default {
       };
     },
     isEmpty() {
-      return ![...this.$store.getters.getSelectedDirectoryDirectories, ...this.$store.getters.getSelectedDirectoryFiles].length && !this.$store.state.isLoading;
+      return ![...this.$store.getters.getSelectedDirectoryDirectories, ...this.$store.getters.getSelectedDirectoryFiles].length
+      && !this.$store.state.isLoading;
     },
     /* The styles for the media-browser element */
     listView() {
