@@ -9,7 +9,7 @@
       @dragover="onDragOver"
       @dragleave="onDragLeave"
     >
-      <div class="mb-4 mt-4">
+      <div class="mt-4">
         <h4
           v-if="isEmpty"
           class="text-center"
