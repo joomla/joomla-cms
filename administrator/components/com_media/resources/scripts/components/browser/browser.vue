@@ -9,14 +9,12 @@
       @dragover="onDragOver"
       @dragleave="onDragLeave"
     >
-      <div
+      <h4
         v-if="isEmpty"
-        class="mt-4"
+        class="pt-4 text-center"
       >
-        <h4 class="text-center">
-          {{ translate("COM_MEDIA_NO_MEDIA_FOUND") }}
-        </h4>
-      </div>
+        {{ translate("COM_MEDIA_NO_MEDIA_FOUND") }}
+      </h4>
       <div class="media-dragoutline">
         <span
           class="icon-cloud-upload upload-icon"
