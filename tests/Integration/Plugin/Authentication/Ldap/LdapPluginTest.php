@@ -38,7 +38,7 @@ class LdapPluginTest extends UnitTestCase
      * The default options
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     private $default_options;
 
@@ -46,7 +46,7 @@ class LdapPluginTest extends UnitTestCase
      * The default credentials
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     private $default_credentials;
 

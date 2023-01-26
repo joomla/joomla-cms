@@ -35,7 +35,7 @@ class PluginAdapter extends InstallerAdapter
      * Group of the plugin
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $group;
 
