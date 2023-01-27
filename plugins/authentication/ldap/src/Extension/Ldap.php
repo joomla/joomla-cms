@@ -70,14 +70,42 @@ final class Ldap extends CMSPlugin
         $ldap_fullname = $this->params->get('ldap_fullname');
         $ldap_uid      = $this->params->get('ldap_uid');
         $auth_method   = $this->params->get('auth_method');
+        // Load certificate info
+        $ignore_reqcert_tls = (bool) $this->params->get('ignore_reqcert_tls', '1');
+        $cacert             = $this->params->get('cacert', '');
+
+        // getting certificate file and certificate directory options (both need to be set)
+        if (!$ignore_reqcert_tls && !empty($cacert)) {
+            if (is_dir($cacert)) {
+                $cacertdir = $cacert;
+                $cacertfile = "";
+            } elseif (is_file($cacert)) {
+                $cacertfile = $cacert;
+                $cacertdir = dirname($cacert);
+            } else {
+                $cacertfile = $cacert;
+                $cacertdir = $cacert;
+                Log::add(sprintf('Certificate path for LDAP client is neither an existing file nor directory: "%s"', $cacert), Log::ERROR, $logcategory);
+            }
+        } else {
+            Log::add(sprintf('Not setting any LDAP TLS CA certificate options because %s, system wide settings are used', $ignore_reqcert_tls ? "certificate is ignored" : "no certificate location is configured"), Log::DEBUG, $logcategory);
+        }
 
         $options = [
                 'host'       => $this->params->get('host'),
                 'port'       => (int) $this->params->get('port'),
-                'version'    => $this->params->get('use_ldapV3', '0') == '1' ? 3 : 2,
+                'version'    => $this->params->get('use_ldapV3', '1') == '1' ? 3 : 2,
                 'referrals'  => (bool) $this->params->get('no_referrals', '0'),
                 'encryption' => $this->params->get('encryption', 'none'),
+                'options'    => [
+                                'x_tls_require_cert' => $ignore_reqcert_tls ? LDAP_OPT_X_TLS_NEVER : LDAP_OPT_X_TLS_DEMAND,
+                            ],
             ];
+        // if these are not set, the system defaults are used
+        if (isset($cacertdir) && isset($cacertfile)) {
+            $options['options']['x_tls_cacertdir'] = $cacertdir;
+            $options['options']['x_tls_cacertfile'] = $cacertfile;
+        }
         Log::add(sprintf('Creating LDAP session with options: %s', json_encode($options)), Log::DEBUG, $logcategory);
         $connection_string = sprintf('ldap%s://%s:%s', 'ssl' === $options['encryption'] ? 's' : '', $options['host'], $options['port']);
         Log::add(sprintf('Creating LDAP session to connect to "%s" while binding', $connection_string), Log::DEBUG, $logcategory);

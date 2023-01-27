@@ -22,6 +22,12 @@ use Symfony\Component\Ldap\Ldap;
 /**
  * Test class for Ldap plugin
  *
+ * Not testing for:
+ * * different certificate options
+ *   these can't be properly automically tested as the LDAP_OPT_X_ settings can only be set once in a running process
+ * * working ldap debug option.
+ *   this can only be tested if phpunit stderr is redirected/duplicated/configured to a file
+ *
  * @package     Joomla.UnitTest
  * @subpackage  Ldap
  *
@@ -73,38 +79,6 @@ class LdapPluginTest extends UnitTestCase
         return $plugin;
     }
 
-    private function acceptCertificates(): void
-    {
-        //TODO make this (and LDAP_OPT_X_CERTFILE and LDAP_OPT_X_TLS_REQUIRE_CERT) Joomla ldap setting
-        $cert = JPATH_ROOT . '/' . JTEST_LDAP_CACERTFILE;
-        ldap_set_option(null, LDAP_OPT_X_TLS_CACERTDIR, dirname($cert));
-        ldap_set_option(null, LDAP_OPT_X_TLS_CACERTFILE, $cert);
-    }
-
-    private function getAdminConnection(array $options): Ldap
-    {
-        $admin_options = [
-            'host' => $options['host'],
-            'port' => (int) $options['port'],
-            'version' => $options['use_ldapV3'] == '1' ? 3 : 2,
-            'referrals'  => (bool) $options['no_referrals'],
-            'encryption' => $options['encryption'],
-            'debug' => (bool) $options['ldap_debug'],
-        ];
-        $ldap = Ldap::create(
-            'ext_ldap',
-            $admin_options
-        );
-        $ldap->bind("cn=admin,cn=config", "configpassword");
-        return $ldap;
-    }
-
-    private function requireEncryption($encryption, $options): void
-    {
-        //$ldap = $this->getAdminConnection($options);
-        //TODO configure openldap (only if given permission in phpunit.xml, so people can use their own ldap server) to require the requested encryption to be sure encryption is used
-    }
-
     private function skipIfAskedFor($options): void
     {
         if (empty($options["host"])) {
@@ -137,6 +111,9 @@ class LdapPluginTest extends UnitTestCase
             'ldap_email' => JTEST_LDAP_EMAIL,
             'ldap_uid' => JTEST_LDAP_UID,
             'ldap_debug' => 0,
+            /* the security options can only be set once, these are the best practice settings */
+            'ignore_reqcert_tls' => 0,
+            'cacert' => JPATH_ROOT . '/' . JTEST_LDAP_CACERTFILE,
             /* changing options to test all code */
             'port' => self::LDAPPORT,
             'encryption' => "none",
@@ -236,9 +213,6 @@ class LdapPluginTest extends UnitTestCase
         $this->skipIfAskedFor($options);
         $plugin = $this->getPlugin($options);
 
-        $this->acceptCertificates();
-        $this->requireEncryption("tls", $options);
-
         $response = new AuthenticationResponse();
         $plugin->onUserAuthenticate($this->default_credentials, [], $response);
         $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
@@ -260,33 +234,8 @@ class LdapPluginTest extends UnitTestCase
         $this->skipIfAskedFor($options);
         $plugin = $this->getPlugin($options);
 
-        $this->acceptCertificates();
-        $this->requireEncryption("ssl", $options);
-
         $response = new AuthenticationResponse();
         $plugin->onUserAuthenticate($this->default_credentials, [], $response);
         $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
     }
-
-    /**
-     * @testdox  does log ldap client calls and errors
-     * can only be tested if phpunit stderr is redirected/duplicated/configured to a file
-     * then, we can check if ldap_ calls are present in that file
-     *
-     * @return  void
-     *
-     * @since   4.3.0
-     */
-    /*
-    public function testOnUserAuthenticateWithDebug()
-    {
-        $options = $this->default_options;
-        $options["ldap_debug"] = 1;
-        $plugin = $this->getPlugin($options);
-
-        $response = new AuthenticationResponse();
-        $plugin->onUserAuthenticate($this->default_credentials, [], $response);
-        $this->assertEquals(Authentication::STATUS_SUCCESS, $response->status);
-    }
-    */
 }
