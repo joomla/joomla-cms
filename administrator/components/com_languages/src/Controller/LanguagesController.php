@@ -36,7 +36,7 @@ class LanguagesController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Language', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Language', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -46,7 +46,7 @@ class LanguagesController extends AdminController
      *
      * @return  string  The JSON-encoded amount of published languages
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getQuickiconContent()
     {

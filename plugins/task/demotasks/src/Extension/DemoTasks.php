@@ -131,8 +131,8 @@ final class DemoTasks extends CMSPlugin implements SubscriberInterface
      *
      * @return integer  The routine exit code.
      *
-     * @since 4.1.0
-     * @throws Exception
+     * @since  4.1.0
+     * @throws \Exception
      */
     private function sleep(ExecuteTaskEvent $event): int
     {
@@ -152,8 +152,8 @@ final class DemoTasks extends CMSPlugin implements SubscriberInterface
      *
      * @return integer  The routine exit code.
      *
-     * @since 4.1.0
-     * @throws Exception
+     * @since  4.1.0
+     * @throws \Exception
      */
     private function stressMemory(ExecuteTaskEvent $event): int
     {
@@ -179,8 +179,8 @@ final class DemoTasks extends CMSPlugin implements SubscriberInterface
      *
      * @return integer  The routine exit code.
      *
-     * @since 4.1.0
-     * @throws Exception
+     * @since  4.1.0
+     * @throws \Exception
      */
     private function stressMemoryRemoveLimit(ExecuteTaskEvent $event): int
     {

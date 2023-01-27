@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Cache;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface to be implemented by classes depending on a cache controller factory.
@@ -17,14 +20,14 @@ namespace Joomla\CMS\Cache;
  */
 interface CacheControllerFactoryAwareInterface
 {
-	/**
-	 * Set the cache controller factory to use.
-	 *
-	 * @param   CacheControllerFactoryInterface  $factory  The cache controller factory to use.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function setCacheControllerFactory(CacheControllerFactoryInterface $factory): void;
+    /**
+     * Set the cache controller factory to use.
+     *
+     * @param   CacheControllerFactoryInterface  $factory  The cache controller factory to use.
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function setCacheControllerFactory(CacheControllerFactoryInterface $factory): void;
 }

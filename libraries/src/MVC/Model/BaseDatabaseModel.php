@@ -84,7 +84,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         parent::__construct($config);
 
@@ -224,14 +224,20 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @see     \JTable::getInstance()
      */
-    protected function _createTable($name, $prefix = 'Table', $config = array())
+    protected function _createTable($name, $prefix = 'Table', $config = [])
     {
         // Make sure we are returning a DBO object
         if (!\array_key_exists('dbo', $config)) {
             $config['dbo'] = $this->getDbo();
         }
 
-        return $this->getMVCFactory()->createTable($name, $prefix, $config);
+        $table = $this->getMVCFactory()->createTable($name, $prefix, $config);
+
+        if ($table instanceof CurrentUserInterface) {
+            $table->setCurrentUser($this->getCurrentUser());
+        }
+
+        return $table;
     }
 
     /**
@@ -246,7 +252,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @throws  \Exception
      */
-    public function getTable($name = '', $prefix = '', $options = array())
+    public function getTable($name = '', $prefix = '', $options = [])
     {
         if (empty($name)) {
             $name = $this->getName();
