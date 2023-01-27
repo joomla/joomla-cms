@@ -50,9 +50,9 @@ export default {
       default: true,
     },
     /* The size of the modal */
-    // eslint-disable-next-line vue/require-default-prop
     size: {
       type: String,
+      default: '',
     },
     labelElement: {
       type: String,
