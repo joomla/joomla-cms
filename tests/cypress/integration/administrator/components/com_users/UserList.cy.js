@@ -12,7 +12,7 @@ describe('Test com_users features', () => {
     }
   })
 
-  it('disable sending mails', function () {
+  it('disables sending mails', function () {
     cy.visit('administrator/index.php?option=com_config')
     cy.contains('button', 'Server').click()
 
