@@ -68,7 +68,7 @@ class PlgUserJoomla extends CMSPlugin
             // In case there is a validation error (like duplicated user), $data is an empty array on save.
             // After returning from error, $data is an array but populated
             if (!$data) {
-                $data = Factory::getApplication()->getInput()->get('jform', array(), 'array');
+                $data = Factory::getApplication()->getInput()->get('jform', [], 'array');
             }
 
             if (is_array($data)) {
@@ -139,7 +139,7 @@ class PlgUserJoomla extends CMSPlugin
 
         // Delete Multi-factor Authentication records
         $query = $this->db->getQuery(true)
-            ->delete($this->db->qn('#__user_mfa'))
+            ->delete($this->db->quoteName('#__user_mfa'))
             ->where($this->db->quoteName('user_id') . ' = :userId')
             ->bind(':userId', $userId, ParameterType::INTEGER);
 

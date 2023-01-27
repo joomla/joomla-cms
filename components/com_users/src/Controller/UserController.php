@@ -43,7 +43,7 @@ class UserController extends BaseController
         $input = $this->input->getInputForRequestMethod();
 
         // Populate the data array:
-        $data = array();
+        $data = [];
 
         $data['return']    = base64_decode($input->get('return', '', 'BASE64'));
         $data['username']  = $input->get('username', '', 'USERNAME');
@@ -76,12 +76,12 @@ class UserController extends BaseController
         $this->app->setUserState('users.login.form.return', $data['return']);
 
         // Get the log in options.
-        $options = array();
+        $options = [];
         $options['remember'] = $this->input->getBool('remember', false);
         $options['return']   = $data['return'];
 
         // Get the log in credentials.
-        $credentials = array();
+        $credentials = [];
         $credentials['username']  = $data['username'];
         $credentials['password']  = $data['password'];
         $credentials['secretkey'] = $data['secretkey'];
@@ -103,7 +103,7 @@ class UserController extends BaseController
             $this->app->setUserState('rememberLogin', true);
         }
 
-        $this->app->setUserState('users.login.form.data', array());
+        $this->app->setUserState('users.login.form.data', []);
 
         // Show a message when a user is logged in.
         $this->app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGIN_SUCCESS'), 'message');
@@ -125,9 +125,9 @@ class UserController extends BaseController
         $app = $this->app;
 
         // Prepare the logout options.
-        $options = array(
+        $options = [
             'clientid' => $app->get('shared_session', '0') ? null : 0,
-        );
+        ];
 
         // Perform the log out.
         $error = $app->logout(null, $options);
@@ -144,10 +144,11 @@ class UserController extends BaseController
 
         // Check for a simple menu item id
         if (is_numeric($return)) {
-            $return = 'index.php?Itemid=' . $return;
+            $itemId = (int) $return;
+            $return = 'index.php?Itemid=' . $itemId;
 
             if (Multilanguage::isEnabled()) {
-                $language = $this->getModel('Login', 'Site')->getMenuLanguage($return);
+                $language = $this->getModel('Login', 'Site')->getMenuLanguage($itemId);
 
                 if ($language !== '*') {
                     $return .= '&lang=' . $language;
@@ -163,9 +164,7 @@ class UserController extends BaseController
         }
 
         // Show a message when a user is logged out.
-        if ($app->getIdentity()->guest) {
-            $app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGOUT_SUCCESS'), 'message');
-        }
+        $app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGOUT_SUCCESS'), 'message');
 
         // Redirect the user.
         $app->redirect(Route::_($return, false));
@@ -226,7 +225,7 @@ class UserController extends BaseController
 
         /** @var \Joomla\Component\Users\Site\Model\RemindModel $model */
         $model = $this->getModel('Remind', 'Site');
-        $data  = $this->input->post->get('jform', array(), 'array');
+        $data  = $this->input->post->get('jform', [], 'array');
 
         // Submit the username remind request.
         $return = $model->processRemindRequest($data);

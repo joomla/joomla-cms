@@ -258,7 +258,7 @@ class CategoryNode extends CMSObject implements NodeInterface
      * @var    array
      * @since  1.6
      */
-    protected $_path = array();
+    protected $_path = [];
 
     /**
      * Flag if all children have been loaded
@@ -357,7 +357,7 @@ class CategoryNode extends CMSObject implements NodeInterface
         }
 
         if ($recursive) {
-            $items = array();
+            $items = [];
 
             foreach ($this->_children as $child) {
                 $items[] = $child;

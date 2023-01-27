@@ -48,8 +48,7 @@ class ApiController extends BaseController
     {
         $method = $this->input->getMethod();
 
-        $this->task   = $task;
-        $this->method = $method;
+        $this->task = $task;
 
         try {
             // Check token for requests which do modify files (all except get requests)

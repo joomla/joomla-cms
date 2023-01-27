@@ -145,7 +145,7 @@ class BannersHelper extends ContentHelper
      */
     public static function getClientOptions()
     {
-        $options = array();
+        $options = [];
 
         $db = Factory::getDbo();
         $query = $db->getQuery(true)

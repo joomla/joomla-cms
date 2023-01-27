@@ -152,7 +152,7 @@ class UpdateModel extends BaseDatabaseModel
         $minimumStability      = Updater::STABILITY_STABLE;
         $comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
 
-        if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), array('testing', 'custom'))) {
+        if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), ['testing', 'custom'])) {
             $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
         }
 
@@ -238,13 +238,13 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Initialise the return array.
-        $this->updateInformation = array(
+        $this->updateInformation = [
             'installed' => \JVERSION,
             'latest'    => null,
             'object'    => null,
             'hasUpdate' => false,
             'current'   => JVERSION // This is deprecated please use 'installed' or JVERSION directly
-        );
+        ];
 
         // Fetch the update information from the database.
         $id = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
@@ -275,7 +275,7 @@ class UpdateModel extends BaseDatabaseModel
         $minimumStability      = Updater::STABILITY_STABLE;
         $comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
 
-        if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), array('testing', 'custom'))) {
+        if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), ['testing', 'custom'])) {
             $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
         }
 
@@ -340,7 +340,7 @@ class UpdateModel extends BaseDatabaseModel
     {
         $updateInfo = $this->getUpdateInformation();
         $packageURL = trim($updateInfo['object']->downloadurl->_data);
-        $sources    = $updateInfo['object']->get('downloadSources', array());
+        $sources    = $updateInfo['object']->get('downloadSources', []);
 
         // We have to manually follow the redirects here so we set the option to false.
         $httpOptions = new Registry();
@@ -441,7 +441,7 @@ class UpdateModel extends BaseDatabaseModel
      */
     private function isChecksumValid($packagefile, $updateObject)
     {
-        $hashes = array('sha256', 'sha384', 'sha512');
+        $hashes = ['sha256', 'sha384', 'sha512'];
 
         foreach ($hashes as $hash) {
             if ($updateObject->get($hash, false)) {
@@ -746,7 +746,7 @@ ENDDATA;
 
             // Since we have created a module item, we add it to the installation step stack
             // so that if we have to rollback the changes we can undo it.
-            $installer->pushStep(array('type' => 'extension', 'extension_id' => $row->extension_id));
+            $installer->pushStep(['type' => 'extension', 'extension_id' => $row->extension_id]);
         }
 
         $result = $installer->parseSchemaUpdates($manifest->update->schemas, $row->extension_id);
@@ -786,7 +786,7 @@ ENDDATA;
         // Clobber any possible pending updates.
         $update = new \Joomla\CMS\Table\Update($db);
         $uid = $update->find(
-            array('element' => 'joomla', 'type' => 'file', 'client_id' => '0', 'folder' => '')
+            ['element' => 'joomla', 'type' => 'file', 'client_id' => '0', 'folder' => '']
         );
 
         if ($uid) {
@@ -869,7 +869,7 @@ ENDDATA;
         $oldVersion = $app->getUserState('com_joomlaupdate.oldversion');
 
         // Trigger event after joomla update.
-        $app->triggerEvent('onJoomlaAfterUpdate', array($oldVersion));
+        $app->triggerEvent('onJoomlaAfterUpdate', [$oldVersion]);
         $app->setUserState('com_joomlaupdate.oldversion', null);
     }
 
@@ -1001,10 +1001,10 @@ ENDDATA;
      */
     public function removePackageFiles()
     {
-        $files = array(
+        $files = [
             Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null),
             Factory::getApplication()->getUserState('com_joomlaupdate.file', null),
-        );
+        ];
 
         foreach ($files as $file) {
             if ($file !== null && File::exists($file)) {
@@ -1023,7 +1023,7 @@ ENDDATA;
      */
     public function getPhpOptions()
     {
-        $options = array();
+        $options = [];
 
         /*
          * Check the PHP Version. It is already checked in Update.
@@ -1113,7 +1113,7 @@ ENDDATA;
      */
     public function getPhpSettings()
     {
-        $settings = array();
+        $settings = [];
 
         // Check for display errors.
         $setting = new \stdClass();
@@ -1201,7 +1201,7 @@ ENDDATA;
 
         // Check if configured database is compatible with Joomla 4
         if (version_compare($updateInformation['latest'], (string) $nextMajorVersion, '>=')) {
-            $unsupportedDatabaseTypes = array('sqlsrv', 'sqlazure');
+            $unsupportedDatabaseTypes = ['sqlsrv', 'sqlazure'];
             $currentDatabaseType = $this->getConfiguredDatabaseType();
 
             return !in_array($currentDatabaseType, $unsupportedDatabaseTypes);
@@ -1384,29 +1384,29 @@ ENDDATA;
         $query = $db->getQuery(true);
 
         $query->select(
-            $db->qn('ex.name') . ', ' .
-            $db->qn('ex.extension_id') . ', ' .
-            $db->qn('ex.manifest_cache') . ', ' .
-            $db->qn('ex.type') . ', ' .
-            $db->qn('ex.folder') . ', ' .
-            $db->qn('ex.element') . ', ' .
-            $db->qn('ex.client_id') . ', ' .
-            $db->qn('ex.package_id')
+            $db->quoteName('ex.name') . ', ' .
+            $db->quoteName('ex.extension_id') . ', ' .
+            $db->quoteName('ex.manifest_cache') . ', ' .
+            $db->quoteName('ex.type') . ', ' .
+            $db->quoteName('ex.folder') . ', ' .
+            $db->quoteName('ex.element') . ', ' .
+            $db->quoteName('ex.client_id') . ', ' .
+            $db->quoteName('ex.package_id')
         )->from(
-            $db->qn('#__extensions', 'ex')
+            $db->quoteName('#__extensions', 'ex')
         )->where(
-            $db->qn('ex.type') . ' = ' . $db->quote('plugin')
+            $db->quoteName('ex.type') . ' = ' . $db->quote('plugin')
         )->where(
-            $db->qn('ex.enabled') . ' = 1'
+            $db->quoteName('ex.enabled') . ' = 1'
         )->whereNotIn(
             $db->quoteName('ex.extension_id'),
             ExtensionHelper::getCoreExtensionIds()
         );
 
         if (count($folderFilter) > 0) {
-            $folderFilter = array_map(array($db, 'quote'), $folderFilter);
+            $folderFilter = array_map([$db, 'quote'], $folderFilter);
 
-            $query->where($db->qn('folder') . ' IN (' . implode(',', $folderFilter) . ')');
+            $query->where($db->quoteName('folder') . ' IN (' . implode(',', $folderFilter) . ')');
         }
 
         $db->setQuery($query);
@@ -1444,7 +1444,7 @@ ENDDATA;
         $updateSites = $this->getUpdateSitesInfo($extensionID);
 
         if (empty($updateSites)) {
-            return (object) array('state' => 2);
+            return (object) ['state' => 2];
         }
 
         foreach ($updateSites as $updateSite) {
@@ -1455,18 +1455,18 @@ ENDDATA;
                     $compatibleVersions = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
 
                     // Return the compatible versions
-                    return (object) array('state' => 1, 'compatibleVersions' => $compatibleVersions);
+                    return (object) ['state' => 1, 'compatibleVersions' => $compatibleVersions];
                 }
             } else {
                 $compatibleVersions = $this->checkCompatibility($updateSite['location'], $joomlaTargetVersion);
 
                 // Return the compatible versions
-                return (object) array('state' => 1, 'compatibleVersions' => $compatibleVersions);
+                return (object) ['state' => 1, 'compatibleVersions' => $compatibleVersions];
             }
         }
 
         // In any other case we mark this extension as not compatible
-        return (object) array('state' => 0);
+        return (object) ['state' => 0];
     }
 
     /**
@@ -1485,11 +1485,13 @@ ENDDATA;
         $query = $db->getQuery(true);
 
         $query->select(
-            $db->qn('us.type') . ', ' .
-            $db->qn('us.location') . ', ' .
-            $db->qn('e.element') . ' AS ' . $db->qn('ext_element') . ', ' .
-            $db->qn('e.type') . ' AS ' . $db->qn('ext_type') . ', ' .
-            $db->qn('e.folder') . ' AS ' . $db->qn('ext_folder')
+            [
+                $db->quoteName('us.type'),
+                $db->quoteName('us.location'),
+                $db->quoteName('e.element', 'ext_element'),
+                $db->quoteName('e.type', 'ext_type'),
+                $db->quoteName('e.folder', 'ext_folder')
+            ]
         )
             ->from($db->quoteName('#__update_sites', 'us'))
             ->join(
@@ -1510,7 +1512,7 @@ ENDDATA;
         $result = $db->loadAssocList();
 
         if (!is_array($result)) {
-            return array();
+            return [];
         }
 
         return $result;
@@ -1528,7 +1530,7 @@ ENDDATA;
      */
     private function getCollectionDetailsUrls($updateSiteInfo, $joomlaTargetVersion)
     {
-        $return = array();
+        $return = [];
 
         $http = new Http();
 
@@ -1594,7 +1596,7 @@ ENDDATA;
             $downloadUrl = $update->get('downloadurl');
             $updateVersion = $update->get('version');
 
-            return empty($downloadUrl) || empty($downloadUrl->_data) || empty($updateVersion) ? array() : array($updateVersion->_data);
+            return empty($downloadUrl) || empty($downloadUrl->_data) || empty($updateVersion) ? [] : [$updateVersion->_data];
         }
 
         usort($compatibleVersions, 'version_compare');
@@ -1668,16 +1670,16 @@ ENDDATA;
         $query = $db->getQuery(true);
 
         $query->select(
-            $db->qn(
-                array(
+            $db->quoteName(
+                [
                     'id',
                     'home'
-                )
+                ]
             )
         )->from(
-            $db->qn('#__template_styles')
+            $db->quoteName('#__template_styles')
         )->where(
-            $db->qn('template') . ' = :template'
+            $db->quoteName('template') . ' = :template'
         )->bind(':template', $template, ParameterType::STRING);
 
         $templates = $db->setQuery($query)->loadObjectList();
@@ -1699,9 +1701,9 @@ ENDDATA;
             $query->select(
                 'COUNT(*)'
             )->from(
-                $db->qn('#__menu')
+                $db->quoteName('#__menu')
             )->whereIn(
-                $db->qn('template_style_id'),
+                $db->quoteName('template_style_id'),
                 $ids
             );
 

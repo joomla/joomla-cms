@@ -106,10 +106,10 @@ class NewsfeedModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_newsfeeds.newsfeed', 'newsfeed', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_newsfeeds.newsfeed', 'newsfeed', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -149,7 +149,7 @@ class NewsfeedModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_newsfeeds.edit.newsfeed.data', array());
+        $data = Factory::getApplication()->getUserState('com_newsfeeds.edit.newsfeed.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -259,7 +259,7 @@ class NewsfeedModel extends AdminModel
         $assoc = Associations::isEnabled();
 
         if ($assoc) {
-            $item->associations = array();
+            $item->associations = [];
 
             if ($item->id != null) {
                 $associations = Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $item->id);

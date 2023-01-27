@@ -93,10 +93,10 @@ class CategoryModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'alias', 'a.alias',
@@ -116,7 +116,7 @@ class CategoryModel extends ListModel
                 'publish_down', 'a.publish_down',
                 'author', 'a.author',
                 'filter_tag'
-            );
+            ];
         }
 
         parent::__construct($config);
@@ -145,8 +145,7 @@ class CategoryModel extends ListModel
         $params = $app->getParams();
         $this->setState('params', $params);
 
-        $user  = Factory::getUser();
-
+        $user  = $this->getCurrentUser();
         $asset = 'com_content';
 
         if ($pk) {
@@ -187,7 +186,7 @@ class CategoryModel extends ListModel
 
         $listOrder = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
 
-        if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+        if (!in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
@@ -260,7 +259,7 @@ class CategoryModel extends ListModel
                     $this->setError($model->getError());
                 }
             } else {
-                $this->_articles = array();
+                $this->_articles = [];
             }
 
             $this->_pagination = $model->getPagination();
@@ -290,7 +289,7 @@ class CategoryModel extends ListModel
             $orderCol = null;
         }
 
-        if (!in_array(strtoupper($orderDirn), array('ASC', 'DESC', ''))) {
+        if (!in_array(strtoupper($orderDirn), ['ASC', 'DESC', ''])) {
             $orderDirn = 'ASC';
         }
 
@@ -337,7 +336,7 @@ class CategoryModel extends ListModel
         if (!is_object($this->_item)) {
             if (isset($this->state->params)) {
                 $params = $this->state->params;
-                $options = array();
+                $options = [];
                 $options['countItems'] = $params->get('show_cat_num_articles', 1) || !$params->get('show_empty_categories_cat', 0);
                 $options['access']     = $params->get('check_access_rights', 1);
             } else {
