@@ -2,21 +2,22 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Captcha
+ * @subpackage  Captcha.invisible_recaptcha
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable Squiz.Classes.ValidClassName.NotCamelCaps
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+namespace Joomla\Plugin\Captcha\InvisibleReCaptcha\Extension;
+
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Form\Field\CaptchaField;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Utilities\IpHelper;
+use ReCaptcha\ReCaptcha;
+use ReCaptcha\RequestMethod;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -27,7 +28,7 @@ use Joomla\Utilities\IpHelper;
  *
  * @since  3.9.0
  */
-class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
+final class InvisibleReCaptcha extends CMSPlugin
 {
     /**
      * Load the language file on instantiation.
@@ -38,12 +39,28 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
     protected $autoloadLanguage = true;
 
     /**
-     * Application object.
+     * The http request method
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
-     * @since  4.0.0
+     * @var    RequestMethod
+     * @since  __DEPLOY_VERSION__
      */
-    protected $app;
+    private $requestMethod;
+
+    /**
+     * Constructor.
+     *
+     * @param   DispatcherInterface  $dispatcher     The dispatcher
+     * @param   array                $config         An optional associative array of configuration settings
+     * @param   RequestMethod        $requestMethod  The http request method
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct(DispatcherInterface $dispatcher, array $config, RequestMethod $requestMethod)
+    {
+        parent::__construct($dispatcher, $config);
+
+        $this->requestMethod = $requestMethod;
+    }
 
     /**
      * Reports the privacy related capabilities for this plugin to site administrators.
@@ -57,14 +74,14 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
         $this->loadLanguage();
 
         return [
-            Text::_('PLG_CAPTCHA_RECAPTCHA_INVISIBLE') => [
-                Text::_('PLG_RECAPTCHA_INVISIBLE_PRIVACY_CAPABILITY_IP_ADDRESS'),
+            $this->getApplication()->getLanguage()->_('PLG_CAPTCHA_RECAPTCHA_INVISIBLE') => [
+                $this->getApplication()->getLanguage()->_('PLG_RECAPTCHA_INVISIBLE_PRIVACY_CAPABILITY_IP_ADDRESS'),
             ],
         ];
     }
 
     /**
-     * Initialise the captcha
+     * Initializes the captcha
      *
      * @param   string  $id  The id of the field.
      *
@@ -75,17 +92,23 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
      */
     public function onInit($id = 'dynamic_recaptcha_invisible_1')
     {
+        $app = $this->getApplication();
+
+        if (!$app instanceof CMSWebApplicationInterface) {
+            return false;
+        }
+
         $pubkey = $this->params->get('public_key', '');
 
         if ($pubkey === '') {
-            throw new \RuntimeException(Text::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_PUBLIC_KEY'));
+            throw new \RuntimeException($app->getLanguage()->_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_PUBLIC_KEY'));
         }
 
         $apiSrc = 'https://www.google.com/recaptcha/api.js?onload=JoomlainitReCaptchaInvisible&render=explicit&hl='
-            . Factory::getLanguage()->getTag();
+            . $app->getLanguage()->getTag();
 
         // Load assets, the callback should be first
-        $this->app->getDocument()->getWebAssetManager()
+        $app->getDocument()->getWebAssetManager()
             ->registerAndUseScript('plg_captcha_recaptchainvisible', 'plg_captcha_recaptcha_invisible/recaptcha.min.js', [], ['defer' => true])
             ->registerAndUseScript('plg_captcha_recaptchainvisible.api', $apiSrc, [], ['defer' => true], ['plg_captcha_recaptchainvisible'])
             ->registerAndUseStyle('plg_captcha_recaptchainvisible', 'plg_captcha_recaptcha_invisible/recaptcha_invisible.css');
@@ -134,7 +157,7 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
      */
     public function onCheckAnswer($code = null)
     {
-        $input      = Factory::getApplication()->getInput();
+        $input      = $this->getApplication()->getInput();
         $privatekey = $this->params->get('private_key');
         $remoteip   = IpHelper::getIp();
 
@@ -142,17 +165,17 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
 
         // Check for Private Key
         if (empty($privatekey)) {
-            throw new \RuntimeException(Text::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_PRIVATE_KEY'));
+            throw new \RuntimeException($this->getApplication()->getLanguage()->_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_PRIVATE_KEY'));
         }
 
         // Check for IP
         if (empty($remoteip)) {
-            throw new \RuntimeException(Text::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_IP'));
+            throw new \RuntimeException($this->getApplication()->getLanguage()->_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_IP'));
         }
 
         // Discard spam submissions
         if (trim($response) == '') {
-            throw new \RuntimeException(Text::_('PLG_RECAPTCHA_INVISIBLE_ERROR_EMPTY_SOLUTION'));
+            throw new \RuntimeException($this->getApplication()->getLanguage()->_('PLG_RECAPTCHA_INVISIBLE_ERROR_EMPTY_SOLUTION'));
         }
 
         return $this->getResponse($privatekey, $remoteip, $response);
@@ -162,14 +185,14 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
      * Method to react on the setup of a captcha field. Gives the possibility
      * to change the field and/or the XML element for the field.
      *
-     * @param   \Joomla\CMS\Form\Field\CaptchaField  $field    Captcha field instance
-     * @param   \SimpleXMLElement                    $element  XML form definition
+     * @param   CaptchaField       $field    Captcha field instance
+     * @param   \SimpleXMLElement  $element  XML form definition
      *
      * @return void
      *
      * @since 3.9.0
      */
-    public function onSetupField(\Joomla\CMS\Form\Field\CaptchaField $field, \SimpleXMLElement $element)
+    public function onSetupField(CaptchaField $field, \SimpleXMLElement $element)
     {
         // Hide the label for the invisible recaptcha type
         $element['hiddenLabel'] = 'true';
@@ -189,7 +212,7 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
      */
     private function getResponse($privatekey, $remoteip, $response)
     {
-        $reCaptcha = new \ReCaptcha\ReCaptcha($privatekey, new HttpBridgePostRequestMethod());
+        $reCaptcha = new ReCaptcha($privatekey, $this->requestMethod);
         $response = $reCaptcha->verify($response, $remoteip);
 
         if (!$response->isSuccess()) {
