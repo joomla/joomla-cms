@@ -1,7 +1,7 @@
-import { api } from '../app/Api.es6';
+import api from '../app/Api.es6';
 import * as types from './mutation-types.es6';
 import translate from '../plugins/translate.es6';
-import { notifications } from '../app/Notifications.es6';
+import notifications from '../app/Notifications.es6';
 
 const updateUrlPath = (path) => {
   const currentPath = path === null ? '' : path;
@@ -40,8 +40,7 @@ export const getContents = (context, payload) => {
     .catch((error) => {
       // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
-      // eslint-disable-next-line no-console
-      console.log('error', error);
+      throw new Error(error);
     });
 };
 
@@ -60,8 +59,7 @@ export const getFullContents = (context, payload) => {
     .catch((error) => {
       // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
-      // eslint-disable-next-line no-console
-      console.log('error', error);
+      throw new Error(error);
     });
 };
 
@@ -83,8 +81,8 @@ export const download = (context, payload) => {
         const slice = byteCharacters.slice(offset, offset + 512);
 
         const byteNumbers = new Array(slice.length);
-        // eslint-disable-next-line no-plusplus
-        for (let i = 0; i < slice.length; i++) {
+
+        for (let i = 0; i < slice.length; i + 1) {
           byteNumbers[i] = slice.charCodeAt(i);
         }
 
@@ -103,8 +101,7 @@ export const download = (context, payload) => {
       document.body.removeChild(a);
     })
     .catch((error) => {
-      // eslint-disable-next-line no-console
-      console.log('error', error);
+      throw new Error(error);
     });
 };
 
@@ -142,8 +139,7 @@ export const createDirectory = (context, payload) => {
     .catch((error) => {
       // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
-      // eslint-disable-next-line no-console
-      console.log('error', error);
+      throw new Error(error);
     });
 };
 
@@ -202,8 +198,7 @@ export const renameItem = (context, payload) => {
     .catch((error) => {
       // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
-      // eslint-disable-next-line no-console
-      console.log('error', error);
+      throw new Error(error);
     });
 };
 
@@ -234,8 +229,7 @@ export const deleteSelectedItems = (context) => {
         .catch((error) => {
           // @todo error handling
           context.commit(types.SET_IS_LOADING, false);
-          // eslint-disable-next-line no-console
-          console.log('error', error);
+          throw new Error(error);
         });
     });
   } else {

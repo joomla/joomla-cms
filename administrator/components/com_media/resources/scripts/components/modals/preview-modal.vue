@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { api } from '../../app/Api.es6';
+import api from '../../app/Api.es6';
 import * as types from '../../store/mutation-types.es6';
 
 export default {
