@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { api } from '../../../app/Api.es6';
+import api from '../../../app/Api.es6';
 
 export default {
   name: 'MediaBrowserItemImage',
@@ -96,7 +96,9 @@ export default {
     },
     /* Hide actions dropdown */
     hideActions() {
-      this.$refs.container.hideActions();
+      if (this.$refs.container) {
+        this.$refs.container.hideActions();
+      }
     },
     /* Preview an item */
     openPreview() {

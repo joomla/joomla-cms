@@ -75,6 +75,7 @@
 
 <script>
 import * as types from '../../store/mutation-types.es6';
+import translate from '../../plugins/translate.es6';
 
 export default {
   name: 'MediaShareModal',
@@ -108,8 +109,7 @@ export default {
         document.execCommand('copy');
       } catch (err) {
         // @todo Error handling in joomla way
-        // eslint-disable-next-line no-undef
-        alert(translate('COM_MEDIA_SHARE_COPY_FAILED_ERROR'));
+        window.alert(translate('COM_MEDIA_SHARE_COPY_FAILED_ERROR'));
       }
     },
   },
