@@ -100,4 +100,8 @@ export default {
   previewItem: null,
   // The Search Query
   search: '',
+  // The sorting by
+  sortBy: 'name',
+  // The sort direction
+  sortDirection: 'asc',
 };

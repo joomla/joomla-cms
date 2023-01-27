@@ -16,15 +16,19 @@
       {{ item.name }}
     </th>
     <td class="size">
-      {{ size }}
+      {{ size }} KB
     </td>
     <td class="dimension">
       {{ dimension }}
     </td>
     <td class="created">
+      {{ item.create_date }}
+      <br>
       {{ item.create_date_formatted }}
     </td>
     <td class="modified">
+      {{ item.modified_date }}
+      <br>
       {{ item.modified_date_formatted }}
     </td>
   </tr>
@@ -59,7 +63,7 @@ export default {
       if (!this.item.size) {
         return '';
       }
-      return `${(this.item.size / 1024).toFixed(2)} KB`;
+      return `${(this.item.size / 1024).toFixed(2)}`;
     },
     selected() {
       return !!this.isSelected();

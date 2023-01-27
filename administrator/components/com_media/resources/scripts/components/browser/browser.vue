@@ -33,31 +33,95 @@
               class="name"
               scope="col"
             >
-              {{ translate('COM_MEDIA_MEDIA_NAME') }}
+              <button
+                class="btn btn-link"
+                @click="changeOrder('name')"
+              >
+                {{ translate('COM_MEDIA_MEDIA_NAME') }}
+                <span
+                  v-if="$store.state.sortBy === 'name' && $store.state.sortDirection === 'asc'"
+                  class="fa fa-arrow-down"
+                  aria-hidden="true"
+                />
+                <span
+                  v-if="$store.state.sortBy === 'name' && $store.state.sortDirection === 'desc'"
+                  class="fa fa-arrow-up"
+                  aria-hidden="true"
+                />
+              </button>
             </th>
             <th
               class="size"
               scope="col"
             >
-              {{ translate('COM_MEDIA_MEDIA_SIZE') }}
+              <button
+                class="btn btn-link"
+                @click="changeOrder('size')"
+              >
+                {{ translate('COM_MEDIA_MEDIA_SIZE') }}
+                <span
+                  v-if="$store.state.sortBy === 'size' && $store.state.sortDirection === 'asc'"
+                  class="fa fa-arrow-down"
+                  aria-hidden="true"
+                />
+                <span
+                  v-if="$store.state.sortBy === 'size' && $store.state.sortDirection === 'desc'"
+                  class="fa fa-arrow-up"
+                  aria-hidden="true"
+                />
+              </button>
             </th>
             <th
               class="dimension"
               scope="col"
             >
-              {{ translate('COM_MEDIA_MEDIA_DIMENSION') }}
+              <button
+                class="btn btn-link"
+              >
+                {{ translate('COM_MEDIA_MEDIA_DIMENSION') }}
+              </button>
             </th>
             <th
               class="created"
               scope="col"
             >
-              {{ translate('COM_MEDIA_MEDIA_DATE_CREATED') }}
+              <button
+                class="btn btn-link"
+                @click="changeOrder('date_created')"
+              >
+                {{ translate('COM_MEDIA_MEDIA_DATE_CREATED') }}
+                <span
+                  v-if="$store.state.sortBy === 'date_created' && $store.state.sortDirection === 'asc'"
+                  class="fa fa-arrow-down"
+                  aria-hidden="true"
+                />
+                <span
+                  v-if="$store.state.sortBy === 'date_created' && $store.state.sortDirection === 'desc'"
+                  class="fa fa-arrow-up"
+                  aria-hidden="true"
+                />
+              </button>
             </th>
             <th
               class="modified"
               scope="col"
             >
-              {{ translate('COM_MEDIA_MEDIA_DATE_MODIFIED') }}
+              <button
+                class="btn btn-link"
+                @click="changeOrder('date_modified')"
+              >
+                {{ translate('COM_MEDIA_MEDIA_DATE_MODIFIED') }}
+                <span
+                  v-if="$store.state.sortBy === 'date_modified' && $store.state.sortDirection === 'asc'"
+                  class="fa fa-arrow-down"
+                  aria-hidden="true"
+                />
+                <span
+                  v-if="$store.state.sortBy === 'date_modified' && $store.state.sortDirection === 'desc'"
+                  class="fa fa-arrow-up"
+                  aria-hidden="true"
+                />
+              </button>
             </th>
           </tr>
         </thead>
@@ -92,22 +156,53 @@
 <script>
 import * as types from '../../store/mutation-types.es6';
 
+function sortArray(array, by, direction) {
+  return array.sort((a, b) => {
+    // By name
+    if (by === 'name') {
+      if (direction === 'asc') {
+        return a.name.toUpperCase().localeCompare(b.name.toUpperCase(), 'en', { sensitivity: 'base' });
+      }
+      return b.name.toUpperCase().localeCompare(a.name.toUpperCase(), 'en', { sensitivity: 'base' });
+    }
+    // By size
+    if (by === 'size') {
+      if (direction === 'asc') {
+        return a.size - b.size;
+      }
+      return b.size - a.size;
+    }
+    // By date created
+    if (by === 'date_created') {
+      if (direction === 'asc') {
+        return new Date(a.create_date) - new Date(b.create_date);
+      }
+      return new Date(b.create_date) - new Date(a.create_date);
+    }
+    // By date modified
+    if (by === 'date_modified') {
+      if (direction === 'asc') {
+        return new Date(a.modified_date) - new Date(b.modified_date);
+      }
+      return new Date(b.modified_date) - new Date(a.modified_date);
+    }
+
+    return array;
+  });
+}
+
 export default {
   name: 'MediaBrowser',
   computed: {
     /* Get the contents of the currently selected directory */
     localItems() {
-      const directories = this.$store.getters.getSelectedDirectoryDirectories.slice(0)
-        // Sort by type and alphabetically
-        .sort((a, b) => ((a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1))
-        .filter((dir) => dir.name.toLowerCase().includes(this.$store.state.search.toLowerCase()));
+      const dirs = sortArray(this.$store.getters.getSelectedDirectoryDirectories.slice(0), this.$store.state.sortBy, this.$store.state.sortDirection);
+      const files = sortArray(this.$store.getters.getSelectedDirectoryFiles.slice(0), this.$store.state.sortBy, this.$store.state.sortDirection);
 
-      const files = this.$store.getters.getSelectedDirectoryFiles.slice(0)
-        // Sort by type and alphabetically
-        .sort((a, b) => ((a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1))
-        .filter((file) => file.name.toLowerCase().includes(this.$store.state.search.toLowerCase()));
-
-      return [...directories, ...files];
+      return [
+        ...dirs.filter((dir) => dir.name.toLowerCase().includes(this.$store.state.search.toLowerCase())),
+        ...files.filter((file) => file.name.toLowerCase().includes(this.$store.state.search.toLowerCase())),
+      ];
     },
     /* The styles for the media-browser element */
     mediaBrowserStyles() {
@@ -244,6 +339,11 @@ export default {
       e.preventDefault();
       document.querySelector('.media-dragoutline').classList.remove('active');
       return false;
+    },
+
+    changeOrder(name) {
+      this.$store.commit(types.UPDATE_SORT_BY, name);
+      this.$store.commit(types.UPDATE_SORT_DIRECTION, this.$store.state.sortDirection === 'asc' ? 'desc' : 'asc');
     },
   },
 };
