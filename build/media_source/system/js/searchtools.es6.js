@@ -79,6 +79,8 @@ Joomla = window.Joomla || {};
 
         // Extra
         clearListOptions: false,
+
+        listSelectAutoSubmit: 'js-select-submit-on-change',
       };
 
       this.element = elem;
@@ -178,6 +180,9 @@ Joomla = window.Joomla || {};
         self.checkFilter(i);
         i.addEventListener('change', () => {
           self.checkFilter(i);
+          if (i.classList.contains(this.options.listSelectAutoSubmit)) {
+            i.form.submit();
+          }
         });
       });
 
