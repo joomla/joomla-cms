@@ -225,25 +225,25 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
       *
       * @since   __DEPLOY_VERSION__
       */
-     public function testFailedResponse()
-     {
-         $language   = $this->createStub(Language::class);
-         $language->method('_')->willReturn('test');
+    public function testFailedResponse()
+    {
+        $language   = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
 
-         $app = $this->createStub(CMSWebApplicationInterface::class);
-         $app->method('getLanguage')->willReturn($language);
-         $app->method('getInput')->willReturn(new Input(['g-recaptcha-response' => 'test']));
+        $app = $this->createStub(CMSWebApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+        $app->method('getInput')->willReturn(new Input(['g-recaptcha-response' => 'test']));
 
-         $method = $this->createStub(RequestMethod::class);
-         $method->method('submit')->willReturn(json_encode(['success' => false]));
+        $method = $this->createStub(RequestMethod::class);
+        $method->method('submit')->willReturn(json_encode(['success' => false]));
 
-         $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => ['private_key' => 'test']], $method);
-         $plugin->setApplication($app);
+        $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => ['private_key' => 'test']], $method);
+        $plugin->setApplication($app);
 
-         $this->expectException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
 
-         $plugin->onCheckAnswer();
-     }
+        $plugin->onCheckAnswer();
+    }
 
     /**
       * @testdox  can setup field
@@ -252,13 +252,13 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
       *
       * @since   __DEPLOY_VERSION__
       */
-     public function testSetupField()
-     {
-         $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => ['private_key' => 'test']], $this->createStub(RequestMethod::class));
-         $plugin->setApplication($this->createStub(CMSWebApplicationInterface::class));
+    public function testSetupField()
+    {
+        $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => ['private_key' => 'test']], $this->createStub(RequestMethod::class));
+        $plugin->setApplication($this->createStub(CMSWebApplicationInterface::class));
 
-         $this->assertNull($plugin->onSetupField(new CaptchaField(), new SimpleXMLElement('<test/>')));
-     }
+        $this->assertNull($plugin->onSetupField(new CaptchaField(), new SimpleXMLElement('<test/>')));
+    }
 
     /**
       * @testdox  can return admin capabilities
@@ -267,19 +267,19 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
       *
       * @since   __DEPLOY_VERSION__
       */
-     public function testPrivacy()
-     {
-         $language   = $this->createStub(Language::class);
-         $language->method('_')->willReturn('test');
+    public function testPrivacy()
+    {
+        $language   = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
 
-         $app = $this->createStub(CMSWebApplicationInterface::class);
-         $app->method('getLanguage')->willReturn($language);
+        $app = $this->createStub(CMSWebApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
 
-         $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => ['private_key' => 'test']], $this->createStub(RequestMethod::class));
-         $plugin->setApplication($app);
+        $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => ['private_key' => 'test']], $this->createStub(RequestMethod::class));
+        $plugin->setApplication($app);
 
-         $caps = $plugin->onPrivacyCollectAdminCapabilities();
+        $caps = $plugin->onPrivacyCollectAdminCapabilities();
 
-         $this->assertNotEmpty($caps);
-     }
+        $this->assertNotEmpty($caps);
+    }
 }
