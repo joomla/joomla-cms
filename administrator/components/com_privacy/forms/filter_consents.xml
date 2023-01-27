@@ -69,7 +69,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			class="js-select-submit-on-change"
+			class="input-mini js-select-submit-on-change"
 		/>
 	</fields>
 </form>
