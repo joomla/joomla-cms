@@ -68,7 +68,6 @@
 			name="limit"
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
-			class="input-mini"
 			default="25"
 			class="js-select-submit-on-change"
 		/>
