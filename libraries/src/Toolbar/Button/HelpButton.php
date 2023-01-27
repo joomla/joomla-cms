@@ -113,7 +113,6 @@ class HelpButton extends BasicButton
                 'useComponent',
                 'component',
                 'url',
-                'attributes',
             ]
         );
     }
