@@ -22,13 +22,9 @@
       {{ dimension }}
     </td>
     <td class="created">
-      {{ item.create_date }}
-      <br>
       {{ item.create_date_formatted }}
     </td>
     <td class="modified">
-      {{ item.modified_date }}
-      <br>
       {{ item.modified_date_formatted }}
     </td>
   </tr>
