@@ -1,6 +1,5 @@
 // The options for persisting state
-// eslint-disable-next-line import/prefer-default-export
-export const persistedStateOptions = {
+const persistedStateOptions = {
   storage: window.sessionStorage,
   key: 'joomla.mediamanager',
   reducer: (state) => ({
@@ -11,3 +10,4 @@ export const persistedStateOptions = {
     search: state.search,
   }),
 };
+export default persistedStateOptions;
