@@ -78,7 +78,7 @@ describe('Test com_users features', () => {
     cy.checkForPhpNoticesOrWarnings()
   })
 
-  it('delets a user', function () {
+  it('deletes a user', function () {
     cy.visit('administrator/index.php?option=com_users&view=users')
     cy.get('h1.page-title').should('contain.text', 'Users')
 
