@@ -47,14 +47,8 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
 
-$html       = [];
-$attr       = '';
-$innerClass = '';
-
-if (!empty($class) && strpos($class, 'js-select-submit-on-change') !== false) {
-    $innerClass = 'js-select-submit-on-change';
-    $class = str_replace('js-select-submit-on-change', '', $class);
-}
+$html = [];
+$attr = '';
 
 // Initialize the field attributes.
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
@@ -62,7 +56,6 @@ $attr .= $multiple ? ' multiple' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
 $attr .= $dataAttribute;
-$attr .= !empty($innerClass) ? ' class="' . $innerClass . '"' : '';
 
 // To avoid user's confusion, readonly="readonly" should imply disabled="disabled".
 if ($readonly || $disabled) {

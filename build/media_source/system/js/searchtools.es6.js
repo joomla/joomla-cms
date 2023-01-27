@@ -177,10 +177,13 @@ Joomla = window.Joomla || {};
 
       // Do we need to add to mark filter as enabled?
       this.getFilterFields().forEach((i) => {
+        const needsFormSubmit = !i.classList.contains('js-select-submit-on-change')
+        && i.closest('joomla-field-fancy-select.js-select-submit-on-change');
+
         self.checkFilter(i);
         i.addEventListener('change', () => {
           self.checkFilter(i);
-          if (i.classList.contains(this.options.listSelectAutoSubmit)) {
+          if (i.classList.contains(this.options.listSelectAutoSubmit) || needsFormSubmit) {
             i.form.submit();
           }
         });
