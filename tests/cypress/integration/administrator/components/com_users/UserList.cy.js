@@ -96,7 +96,7 @@ describe('Test com_users features', () => {
     cy.checkForPhpNoticesOrWarnings()
   })
 
-  it('enable sending mails', function () {
+  it('enables sending mails', function () {
     cy.visit('administrator/index.php?option=com_config')
     cy.contains('button', 'Server').click()
 
