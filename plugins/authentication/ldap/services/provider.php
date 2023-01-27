@@ -13,11 +13,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Authentication\Ldap\Extension\Ldap;
+use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactory;
 
 return new class implements ServiceProviderInterface
 {
@@ -38,11 +38,11 @@ return new class implements ServiceProviderInterface
                 $dispatcher = $container->get(DispatcherInterface::class);
 
                 $plugin = new Ldap(
+                    new LdapFactory(),
                     $dispatcher,
                     (array) PluginHelper::getPlugin('authentication', 'ldap')
                 );
                 $plugin->setApplication(Factory::getApplication());
-                $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 return $plugin;
             }
