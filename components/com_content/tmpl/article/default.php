@@ -34,8 +34,8 @@ $currentDate       = Factory::getDate()->format('Y-m-d H:i:s');
 $isNotPublishedYet = $this->item->publish_up > $currentDate;
 $isExpired         = !is_null($this->item->publish_down) && $this->item->publish_down < $currentDate;
 ?>
-<div class="com-content-article item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Article">
-    <meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? Factory::getApplication()->get('language') : $this->item->language; ?>">
+<div class="com-content-article item-page<?php echo $this->pageclass_sfx; ?>">
+    <meta content="<?php echo ($this->item->language === '*') ? Factory::getApplication()->get('language') : $this->item->language; ?>">
     <?php if ($this->params->get('show_page_heading')) : ?>
     <div class="page-header">
         <h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -51,7 +51,7 @@ $isExpired         = !is_null($this->item->publish_down) && $this->item->publish
 
     <?php if ($params->get('show_title')) : ?>
     <div class="page-header">
-        <<?php echo $htag; ?> itemprop="headline">
+        <<?php echo $htag; ?>>
             <?php echo $this->escape($this->item->title); ?>
         </<?php echo $htag; ?>>
         <?php if ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
@@ -98,7 +98,7 @@ $isExpired         = !is_null($this->item->publish_down) && $this->item->publish
         <?php if (isset($this->item->toc)) :
             echo $this->item->toc;
         endif; ?>
-    <div itemprop="articleBody" class="com-content-article__body">
+    <div class="com-content-article__body">
         <?php echo $this->item->text; ?>
     </div>
 

@@ -41,9 +41,9 @@ $isUnpublished     = $this->item->state == ContentComponent::CONDITION_UNPUBLISH
     <?php endif; ?>
 
     <?php if ($params->get('show_title')) : ?>
-        <h2 class="item-title" itemprop="headline">
+        <h2 class="item-title">
         <?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
-            <a href="<?php echo Route::_(RouteHelper::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)); ?>" itemprop="url">
+            <a href="<?php echo Route::_(RouteHelper::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)); ?>">
                 <?php echo $this->escape($this->item->title); ?>
             </a>
         <?php else : ?>
