@@ -9,18 +9,21 @@
       @dragover="onDragOver"
       @dragleave="onDragLeave"
     >
-      <h4 v-if="isEmpty">
-        {{ translate("COM_MEDIA_NO_MEDIA_FOUND") }}
-      </h4>
-      <div class="media-dragoutline">
+      <div
+        v-if="isEmpty"
+        class="px-4 py-5 my-5 text-center"
+      >
         <span
-          class="icon-cloud-upload upload-icon"
+          class="fa-8x icon-cloud-upload upload-icon"
           aria-hidden="true"
         />
-        <p>{{ translate('COM_MEDIA_DROP_FILE') }}</p>
+        <p class="fa-2x">
+          {{ translate("COM_MEDIA_DROP_FILE") }}
+        </p>
       </div>
+      <div class="media-dragoutline" />
       <table
-        v-if="listView === 'table'"
+        v-if="listView === 'table' && !isEmpty"
         class="table media-browser-table"
       >
         <caption class="visually-hidden">
@@ -73,7 +76,7 @@
         </tbody>
       </table>
       <div
-        v-else-if="listView === 'grid'"
+        v-else-if="listView === 'grid'  && !isEmpty"
         class="media-browser-grid"
       >
         <div
