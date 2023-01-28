@@ -190,6 +190,14 @@ class Query
     public $wordmode;
 
     /**
+     * The dates Registry.
+     *
+     * @var    Registry
+     * @since  4.2.7
+     */
+    public $dates;
+
+    /**
      * Method to instantiate the query object.
      *
      * @param   array  $options  An array of query options.

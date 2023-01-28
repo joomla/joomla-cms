@@ -117,6 +117,14 @@ class Token
     public $suggestion;
 
     /**
+     * The token required flag
+     *
+     * @var    boolean
+     * @since  4.2.7
+     */
+    public $required;
+
+    /**
      * Method to construct the token object.
      *
      * @param   mixed   $term    The term as a string for words or an array for phrases.
