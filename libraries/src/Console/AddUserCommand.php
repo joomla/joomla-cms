@@ -145,11 +145,13 @@ class AddUserCommand extends AbstractCommand
         // Get filter to remove invalid characters
         $filter = new InputFilter();
 
-        $user['username'] = $filter->clean($this->user, 'USERNAME');
-        $user['password'] = $this->password;
-        $user['name'] = $filter->clean($this->name, 'STRING');
-        $user['email'] = $this->email;
-        $user['groups'] = $this->userGroups;
+        $user = [
+            'username' => $filter->clean($this->user, 'USERNAME'),
+            'password' => $this->password,
+            'name' => $filter->clean($this->name, 'STRING'),
+            'email' => $this->email,
+            'groups' => $this->userGroups
+        ];
 
         $userObj = User::getInstance();
         $userObj->bind($user);
