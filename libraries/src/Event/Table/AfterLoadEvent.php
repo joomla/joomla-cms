@@ -35,7 +35,7 @@ class AfterLoadEvent extends AbstractEvent
      *
      * @throws  BadMethodCallException
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('result', $arguments)) {
             throw new BadMethodCallException("Argument 'result' is required for event $name");

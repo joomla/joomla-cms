@@ -109,7 +109,6 @@ export default {
       return (this.$store.state.listView === 'grid');
     },
     allItemsSelected() {
-      // eslint-disable-next-line max-len
       return (this.$store.getters.getSelectedDirectoryContents.length === this.$store.state.selectedItems.length);
     },
     search() {
@@ -117,8 +116,7 @@ export default {
     },
   },
   watch: {
-    // eslint-disable-next-line
-    '$store.state.selectedItems'() {
+    '$store.state.selectedItems': function () {
       if (!this.allItemsSelected) {
         this.$refs.mediaToolbarSelectAll.checked = false;
       }
@@ -153,7 +151,6 @@ export default {
       if (this.allItemsSelected) {
         this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
       } else {
-        // eslint-disable-next-line max-len
         this.$store.commit(types.SELECT_BROWSER_ITEMS, this.$store.getters.getSelectedDirectoryContents);
         window.parent.document.dispatchEvent(
           new CustomEvent(

@@ -53,7 +53,7 @@ class SearchModel extends ListModel
      *
      * @var string[]
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected $sortOrderFieldsLabels = [
         'relevance.asc' => 'COM_FINDER_SORT_BY_RELEVANCE_ASC',
@@ -74,7 +74,7 @@ class SearchModel extends ListModel
      * @var    array
      * @since  2.5
      */
-    protected $excludedTerms = array();
+    protected $excludedTerms = [];
 
     /**
      * An array of all included terms ids.
@@ -82,7 +82,7 @@ class SearchModel extends ListModel
      * @var    array
      * @since  2.5
      */
-    protected $includedTerms = array();
+    protected $includedTerms = [];
 
     /**
      * An array of all required terms ids.
@@ -90,7 +90,7 @@ class SearchModel extends ListModel
      * @var    array
      * @since  2.5
      */
-    protected $requiredTerms = array();
+    protected $requiredTerms = [];
 
     /**
      * Method to get the results of the query.
@@ -109,7 +109,7 @@ class SearchModel extends ListModel
             return null;
         }
 
-        $results = array();
+        $results = [];
 
         // Convert the rows to result objects.
         foreach ($items as $rk => $row) {
@@ -326,7 +326,7 @@ class SearchModel extends ListModel
      *
      * @throws  \Exception
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getSortOrderFields()
     {
@@ -377,7 +377,7 @@ class SearchModel extends ListModel
      *
      * @throws  \Exception
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected function getSortField(string $value, string $direction, Uri $queryUri)
     {
@@ -474,7 +474,7 @@ class SearchModel extends ListModel
         $this->setState('filter.language', Multilanguage::isEnabled());
 
         $request = $input->request;
-        $options = array();
+        $options = [];
 
         // Get the empty query setting.
         $options['empty'] = $params->get('allow_empty_query', 0);
@@ -483,7 +483,7 @@ class SearchModel extends ListModel
         $options['filter'] = $request->getInt('f', $params->get('f', ''));
 
         // Get the dynamic taxonomy filters.
-        $options['filters'] = $request->get('t', $params->get('t', array()), 'array');
+        $options['filters'] = $request->get('t', $params->get('t', []), 'array');
 
         // Get the query string.
         $options['input'] = $request->getString('q', $params->get('q', ''));

@@ -30,8 +30,16 @@
 <script>
 export default {
   name: 'MediaBrowserItemAudio',
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['item', 'focused'],
+  props: {
+    item: {
+      type: Object,
+      default: () => {},
+    },
+    focused: {
+      type: Boolean,
+      default: false,
+    },
+  },
   emits: ['toggle-settings'],
   data() {
     return {
@@ -41,7 +49,9 @@ export default {
   methods: {
     /* Hide actions dropdown */
     hideActions() {
-      this.$refs.container.hideActions();
+      if (this.$refs.container) {
+        this.$refs.container.hideActions();
+      }
     },
     /* Preview an item */
     openPreview() {

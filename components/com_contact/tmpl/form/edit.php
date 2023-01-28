@@ -22,7 +22,7 @@ $wa->useScript('keepalive')
     ->useScript('form.validate');
 
 $this->tab_name         = 'com-contact-form';
-$this->ignore_fieldsets = array('details', 'item_associations', 'language');
+$this->ignore_fieldsets = ['details', 'item_associations', 'language'];
 $this->useCoreUI        = true;
 ?>
 <div class="edit item-page<?php echo $this->pageclass_sfx; ?>">

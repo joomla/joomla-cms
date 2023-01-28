@@ -38,7 +38,7 @@ class UsersModel extends ListModel
      * @var    array
      * @since  4.0.0
      */
-    protected $filterForbiddenList = array('groups', 'excluded');
+    protected $filterForbiddenList = ['groups', 'excluded'];
 
     /**
      * Override parent constructor.
@@ -49,10 +49,10 @@ class UsersModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
                 'username', 'a.username',
@@ -68,7 +68,7 @@ class UsersModel extends ListModel
                 'lastvisitrange',
                 'state',
                 'mfa'
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -168,7 +168,7 @@ class UsersModel extends ListModel
             $groupId = $this->getState('filter.group_id');
 
             if (isset($groups) && (empty($groups) || $groupId && !in_array($groupId, $groups))) {
-                $items = array();
+                $items = [];
             } else {
                 $items = parent::getItems();
             }
@@ -184,7 +184,7 @@ class UsersModel extends ListModel
             // Find the information only on the result set.
 
             // First pass: get list of the user ids and reset the counts.
-            $userIds = array();
+            $userIds = [];
 
             foreach ($items as $item) {
                 $userIds[] = (int) $item->id;
@@ -368,7 +368,7 @@ class UsersModel extends ListModel
             $query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id')
                 ->group(
                     $db->quoteName(
-                        array(
+                        [
                             'a.id',
                             'a.name',
                             'a.username',
@@ -385,7 +385,7 @@ class UsersModel extends ListModel
                             'a.otpKey',
                             'a.otep',
                             'a.requireReset'
-                        )
+                        ]
                     )
                 );
 
@@ -574,7 +574,7 @@ class UsersModel extends ListModel
                 break;
         }
 
-        return array('dNow' => $dNow, 'dStart' => $dStart);
+        return ['dNow' => $dNow, 'dStart' => $dStart];
     }
 
     /**
@@ -597,7 +597,7 @@ class UsersModel extends ListModel
         try {
             $result = $db->setQuery($query)->loadColumn();
         } catch (\RuntimeException $e) {
-            $result = array();
+            $result = [];
         }
 
         return implode("\n", $result);
