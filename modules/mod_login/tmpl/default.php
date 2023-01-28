@@ -67,8 +67,8 @@ Text::script('JHIDEPASSWORD');
         <?php if (PluginHelper::isEnabled('system', 'remember')) : ?>
             <div class="mod-login__remember form-group">
                 <div id="form-login-remember-<?php echo $module->id; ?>" class="form-check">
-                    <input type="checkbox" name="remember" class="form-check-input" value="yes" id="form-login-remember-<?php echo $module->id; ?>">
-                    <label class="form-check-label" for="form-login-remember-<?php echo $module->id; ?>">
+                    <input type="checkbox" name="remember" class="form-check-input" value="yes" id="form-login-input-remember-<?php echo $module->id; ?>">
+                    <label class="form-check-label" for="form-login-input-remember-<?php echo $module->id; ?>">
                         <?php echo Text::_('MOD_LOGIN_REMEMBER_ME'); ?>
                     </label>
                 </div>
