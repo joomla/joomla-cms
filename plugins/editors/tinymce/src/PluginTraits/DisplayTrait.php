@@ -476,8 +476,9 @@ trait DisplayTrait
                 // Drag and drop specific
                 'dndEnabled' => $dragdrop,
 
-                // Disable TinyMCE Branding
+                // Disable TinyMCE Branding & Promotion
                 'branding'   => false,
+                'promotion'  => false,
             ]
         );
 
