@@ -16,10 +16,7 @@
       {{ item.name }}
     </th>
     <td class="size">
-      {{ size }}
-      <span v-if="size !== ''">
-        KB
-      </span>
+      {{ size }}<span v-if="size !== ''">KB</span>
     </td>
     <td class="dimension">
       {{ dimension }}

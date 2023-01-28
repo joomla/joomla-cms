@@ -17,7 +17,7 @@
         @click.stop="toggleSelectAll"
       >
     </div>
-    <media-breadcrumb />
+    <MediaBreadcrumb />
     <div
       class="media-view-search-input"
       role="search"
@@ -92,9 +92,13 @@
 
 <script>
 import * as types from '../../store/mutation-types.es6';
+import MediaBreadcrumb from '../breadcrumb/breadcrumb.vue';
 
 export default {
   name: 'MediaToolbar',
+  components: {
+    MediaBreadcrumb,
+  },
   computed: {
     toggleListViewBtnIcon() {
       return (this.isGridView) ? 'icon-list' : 'icon-th';

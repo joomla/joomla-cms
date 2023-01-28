@@ -1,160 +1,49 @@
 <template>
-  <div>
+  <div
+    ref="browserItems"
+    class="media-browser"
+    :style="mediaBrowserStyles"
+    @dragenter="onDragEnter"
+    @drop="onDrop"
+    @dragover="onDragOver"
+    @dragleave="onDragLeave"
+  >
+    <div class="media-dragoutline">
+      <span
+        class="icon-cloud-upload upload-icon"
+        aria-hidden="true"
+      />
+      <p>{{ translate('COM_MEDIA_DROP_FILE') }}</p>
+    </div>
+    <MediaBrowserTable
+      v-if="listView === 'table'"
+      :local-items="localItems"
+      :current-directory="currentDirectory"
+    />
     <div
-      ref="browserItems"
-      class="media-browser"
-      :style="mediaBrowserStyles"
-      @dragenter="onDragEnter"
-      @drop="onDrop"
-      @dragover="onDragOver"
-      @dragleave="onDragLeave"
+      v-else-if="listView === 'grid'"
+      class="media-browser-grid"
     >
-      <div class="media-dragoutline">
-        <span
-          class="icon-cloud-upload upload-icon"
-          aria-hidden="true"
-        />
-        <p>{{ translate('COM_MEDIA_DROP_FILE') }}</p>
-      </div>
-      <table
-        v-if="listView === 'table'"
-        class="table media-browser-table"
-      >
-        <caption class="visually-hidden">
-          {{ sprintf('COM_MEDIA_BROWSER_TABLE_CAPTION', currentDirectory) }}
-        </caption>
-        <thead class="media-browser-table-head">
-          <tr>
-            <th
-              class="type"
-              scope="col"
-            />
-            <th
-              class="name"
-              scope="col"
-            >
-              <button
-                class="btn btn-link"
-                @click="changeOrder('name')"
-              >
-                {{ translate('COM_MEDIA_MEDIA_NAME') }}
-                <span
-                  v-if="$store.state.sortBy === 'name' && $store.state.sortDirection === 'asc'"
-                  class="fa fa-arrow-down"
-                  aria-hidden="true"
-                />
-                <span
-                  v-if="$store.state.sortBy === 'name' && $store.state.sortDirection === 'desc'"
-                  class="fa fa-arrow-up"
-                  aria-hidden="true"
-                />
-              </button>
-            </th>
-            <th
-              class="size"
-              scope="col"
-            >
-              <button
-                class="btn btn-link"
-                @click="changeOrder('size')"
-              >
-                {{ translate('COM_MEDIA_MEDIA_SIZE') }}
-                <span
-                  v-if="$store.state.sortBy === 'size' && $store.state.sortDirection === 'asc'"
-                  class="fa fa-arrow-down"
-                  aria-hidden="true"
-                />
-                <span
-                  v-if="$store.state.sortBy === 'size' && $store.state.sortDirection === 'desc'"
-                  class="fa fa-arrow-up"
-                  aria-hidden="true"
-                />
-              </button>
-            </th>
-            <th
-              class="dimension"
-              scope="col"
-            >
-              <button
-                class="btn btn-link"
-              >
-                {{ translate('COM_MEDIA_MEDIA_DIMENSION') }}
-              </button>
-            </th>
-            <th
-              class="created"
-              scope="col"
-            >
-              <button
-                class="btn btn-link"
-                @click="changeOrder('date_created')"
-              >
-                {{ translate('COM_MEDIA_MEDIA_DATE_CREATED') }}
-                <span
-                  v-if="$store.state.sortBy === 'date_created' && $store.state.sortDirection === 'asc'"
-                  class="fa fa-arrow-down"
-                  aria-hidden="true"
-                />
-                <span
-                  v-if="$store.state.sortBy === 'date_created' && $store.state.sortDirection === 'desc'"
-                  class="fa fa-arrow-up"
-                  aria-hidden="true"
-                />
-              </button>
-            </th>
-            <th
-              class="modified"
-              scope="col"
-            >
-              <button
-                class="btn btn-link"
-                @click="changeOrder('date_modified')"
-              >
-                {{ translate('COM_MEDIA_MEDIA_DATE_MODIFIED') }}
-                <span
-                  v-if="$store.state.sortBy === 'date_modified' && $store.state.sortDirection === 'asc'"
-                  class="fa fa-arrow-down"
-                  aria-hidden="true"
-                />
-                <span
-                  v-if="$store.state.sortBy === 'date_modified' && $store.state.sortDirection === 'desc'"
-                  class="fa fa-arrow-up"
-                  aria-hidden="true"
-                />
-              </button>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <media-browser-item-row
-            v-for="item in localItems"
-            :key="item.path"
-            :item="item"
-          />
-        </tbody>
-      </table>
       <div
-        v-else-if="listView === 'grid'"
-        class="media-browser-grid"
+        class="media-browser-items"
+        :class="mediaBrowserGridItemsClass"
       >
-        <div
-          class="media-browser-items"
-          :class="mediaBrowserGridItemsClass"
-        >
-          <media-browser-item
-            v-for="item in localItems"
-            :key="item.path"
-            :item="item"
-          />
-        </div>
+        <MediaBrowserItem
+          v-for="item in localItems"
+          :key="item.path"
+          :item="item"
+        />
       </div>
     </div>
-    <media-infobar ref="infobar" />
   </div>
+  <MediaInfobar ref="infobar" />
 </template>
 
 <script>
 import * as types from '../../store/mutation-types.es6';
+import MediaBrowserTable from './table/table.vue';
+import MediaBrowserItem from './items/item.es6';
+import MediaInfobar from '../infobar/infobar.vue';
 
 function sortArray(array, by, direction) {
   return array.sort((a, b) => {
@@ -168,9 +57,16 @@ function sortArray(array, by, direction) {
     // By size
     if (by === 'size') {
       if (direction === 'asc') {
-        return a.size - b.size;
+        return parseInt(a.size, 10) - parseInt(b.size, 10);
       }
-      return b.size - a.size;
+      return parseInt(b.size, 10) - parseInt(a.size, 10);
+    }
+    // By dimension
+    if (by === 'dimension') {
+      if (direction === 'asc') {
+        return (parseInt(a.width, 10) * parseInt(a.height, 10)) - (parseInt(b.width, 10) * parseInt(b.height, 10));
+      }
+      return (parseInt(b.width, 10) * parseInt(b.height, 10)) - (parseInt(a.width, 10) * parseInt(a.height, 10));
     }
     // By date created
     if (by === 'date_created') {
@@ -193,6 +89,11 @@ function sortArray(array, by, direction) {
 
 export default {
   name: 'MediaBrowser',
+  components: {
+    MediaBrowserTable,
+    MediaInfobar,
+    MediaBrowserItem,
+  },
   computed: {
     /* Get the contents of the currently selected directory */
     localItems() {
@@ -339,11 +240,6 @@ export default {
       e.preventDefault();
       document.querySelector('.media-dragoutline').classList.remove('active');
       return false;
-    },
-
-    changeOrder(name) {
-      this.$store.commit(types.UPDATE_SORT_BY, name);
-      this.$store.commit(types.UPDATE_SORT_DIRECTION, this.$store.state.sortDirection === 'asc' ? 'desc' : 'asc');
     },
   },
 };
