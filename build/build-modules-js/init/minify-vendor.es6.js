@@ -19,11 +19,11 @@ const folders = [
 let allFiles = [];
 
 const noMinified = [
-  'accessibility.min.js',
   'short-and-sweet.min.js',
 ];
 
 const alreadyMinified = [
+  'media/vendor/accessibility/js/main.bundle.js',
   'media/vendor/webcomponentsjs/js/webcomponents-bundle.js',
   'media/vendor/debugbar/vendor/highlightjs/highlight.pack.js',
 ];

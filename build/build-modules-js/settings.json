@@ -667,13 +667,14 @@
         "name": "accessibility",
         "licenseFilename": "LICENSE",
         "js": {
-          "dist/accessibility.min.js": "js/accessibility.min.js"
+          "dist/main.bundle.js": "js/main.bundle.js",
+          "dist/main.bundle.js.map": "js/main.bundle.js.map"
         },
         "provideAssets": [
           {
             "name": "accessibility",
             "type": "script",
-            "uri": "accessibility.min.js",
+            "uri": "main.bundle.js",
             "attributes": {
               "defer": true
             }

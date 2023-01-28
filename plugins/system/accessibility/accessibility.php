@@ -68,6 +68,9 @@ class PlgSystemAccessibility extends CMSPlugin
         // Detect the current active language
         $lang = Factory::getLanguage()->getTag();
 
+        //detect the position
+        $position = $this->params->get('position', 'bottom_left');
+
         /**
         * Add strings for translations in Javascript.
         * Reference  https://ranbuch.github.io/accessibility/
@@ -90,10 +93,17 @@ class PlgSystemAccessibility extends CMSPlugin
                     'speechToText'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_STT'),
                     'resetTitle'          => Text::_('PLG_SYSTEM_ACCESSIBILITY_RESET'),
                     'closeTitle'          => Text::_('PLG_SYSTEM_ACCESSIBILITY_CLOSE'),
+                    'disableAnimations'   => Text::_('PLG_SYSTEM_ACCESSIBILITY_DISABLE_ANIMATIONS'),
+                    'increaseLineHeight'  => Text::_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_LINE_HEIGHT'),
+                    'decreaseLineHeight'  => Text::_('PLG_SYSTEM_ACCESSIBILITY_DECREASE_LINE_HEIGHT')
                 ],
                 'icon' => [
                     'position' => [
-                        $direction => [
+                        (($position == 'top_right') || ($position == 'top_left')) ? 'top' : 'bottom' => [
+                            'size' => '50',
+                            'units' => 'px',
+                        ],
+                        (($position == 'top_right') || ($position == 'bottom_right')) ? 'right' : 'left' => [
                             'size' => '0',
                             'units' => 'px',
                         ],
@@ -104,8 +114,10 @@ class PlgSystemAccessibility extends CMSPlugin
                     'enabled' => true,
                     'helpTitles' => true,
                 ],
-                'textToSpeechLang' => [$lang],
-                'speechToTextLang' => [$lang],
+                'language' => [
+                    'textToSpeechLang' => $lang,
+                    'speechToTextLang' => $lang
+                ]
             ]
         );
 
