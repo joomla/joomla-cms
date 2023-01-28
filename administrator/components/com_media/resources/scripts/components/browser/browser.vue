@@ -63,7 +63,7 @@
         </thead>
         <tbody>
           <media-browser-item-row
-            v-for="item in items"
+            v-for="item in localItems"
             :key="item.path"
             :item="item"
           />
@@ -78,7 +78,7 @@
           :class="mediaBrowserGridItemsClass"
         >
           <media-browser-item
-            v-for="item in items"
+            v-for="item in localItems"
             :key="item.path"
             :item="item"
           />
@@ -96,15 +96,13 @@ export default {
   name: 'MediaBrowser',
   computed: {
     /* Get the contents of the currently selected directory */
-    items() {
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      const directories = this.$store.getters.getSelectedDirectoryDirectories
+    localItems() {
+      const directories = this.$store.getters.getSelectedDirectoryDirectories.slice(0)
         // Sort by type and alphabetically
         .sort((a, b) => ((a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1))
         .filter((dir) => dir.name.toLowerCase().includes(this.$store.state.search.toLowerCase()));
 
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      const files = this.$store.getters.getSelectedDirectoryFiles
+      const files = this.$store.getters.getSelectedDirectoryFiles.slice(0)
         // Sort by type and alphabetically
         .sort((a, b) => ((a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1))
         .filter((file) => file.name.toLowerCase().includes(this.$store.state.search.toLowerCase()));
@@ -232,11 +230,10 @@ export default {
 
       // Loop through array of files and upload each file
       if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-        // eslint-disable-next-line no-plusplus,no-cond-assign
-        for (let i = 0, f; f = e.dataTransfer.files[i]; i++) {
+        Array.from(e.dataTransfer.files).forEach((file) => {
           document.querySelector('.media-dragoutline').classList.remove('active');
-          this.upload(f);
-        }
+          this.upload(file);
+        });
       }
       document.querySelector('.media-dragoutline').classList.remove('active');
     },

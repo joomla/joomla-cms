@@ -31,8 +31,12 @@ import navigable from '../../../mixins/navigable.es6';
 export default {
   name: 'MediaBrowserItemDirectory',
   mixins: [navigable],
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['item'],
+  props: {
+    item: {
+      type: Object,
+      default: () => {},
+    },
+  },
   emits: ['toggle-settings'],
   data() {
     return {
@@ -46,7 +50,9 @@ export default {
     },
     /* Hide actions dropdown */
     hideActions() {
-      this.$refs.container.hideActions();
+      if (this.$refs.container) {
+        this.$refs.container.hideActions();
+      }
     },
     toggleSettings(bool) {
       this.$emit('toggle-settings', bool);

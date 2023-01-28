@@ -1,16 +1,21 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Fields.Media
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
 
-defined('_JEXEC') or die;
+ * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+ */
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Fields Media Plugin
@@ -34,15 +39,13 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
     {
         $fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 
-        if (!$fieldNode)
-        {
+        if (!$fieldNode) {
             return $fieldNode;
         }
 
         $fieldNode->setAttribute('type', 'accessiblemedia');
 
-        if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_media'))
-        {
+        if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_media')) {
             $fieldNode->setAttribute('disabled', 'false');
         }
 
@@ -63,8 +66,7 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
     public function onCustomFieldsBeforePrepareField($context, $item, $field)
     {
         // Check if the field should be processed by us
-        if (!$this->isTypeSupported($field->type))
-        {
+        if (!$this->isTypeSupported($field->type)) {
             return;
         }
 
@@ -85,8 +87,7 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
     {
         json_decode($value);
 
-        if (json_last_error() === JSON_ERROR_NONE)
-        {
+        if (json_last_error() === JSON_ERROR_NONE) {
             return (array) json_decode($value, true);
         }
 
