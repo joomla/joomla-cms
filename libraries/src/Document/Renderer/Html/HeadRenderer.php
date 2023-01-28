@@ -33,7 +33,7 @@ class HeadRenderer extends DocumentRenderer
      *
      * @since   3.5
      */
-    public function render($head, $params = array(), $content = null)
+    public function render($head, $params = [], $content = null)
     {
         $buffer  = '';
         $buffer .= $this->_doc->loadRenderer('metas')->render($head, $params, $content);

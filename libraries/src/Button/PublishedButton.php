@@ -71,7 +71,7 @@ class PublishedButton extends ActionButton
             // Create special titles for published items
             if ($value === 1) {
                 // Create tip text, only we have publish up or down settings
-                $tips = array();
+                $tips = [];
 
                 if ($publishUp) {
                     $tips[] = Text::sprintf('JLIB_HTML_PUBLISHED_START', HTMLHelper::_('date', $publishUp, Text::_('DATE_FORMAT_LC5'), 'UTC'));

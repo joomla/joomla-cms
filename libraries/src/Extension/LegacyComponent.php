@@ -143,7 +143,7 @@ class LegacyComponent implements
     {
         $helper = $this->loadHelper();
 
-        if (!$helper || !\is_callable(array($helper, 'countItems'))) {
+        if (!$helper || !\is_callable([$helper, 'countItems'])) {
             return;
         }
 
@@ -165,7 +165,7 @@ class LegacyComponent implements
     {
         $helper = $this->loadHelper();
 
-        if (!$helper || !\is_callable(array($helper, 'countTagItems'))) {
+        if (!$helper || !\is_callable([$helper, 'countTagItems'])) {
             return;
         }
 
@@ -187,7 +187,7 @@ class LegacyComponent implements
     {
         $helper = $this->loadHelper();
 
-        if (!$helper || !\is_callable(array($helper, 'validateSection'))) {
+        if (!$helper || !\is_callable([$helper, 'validateSection'])) {
             return $section;
         }
 
@@ -205,7 +205,7 @@ class LegacyComponent implements
     {
         $helper = $this->loadHelper();
 
-        if (!$helper || !\is_callable(array($helper, 'getContexts'))) {
+        if (!$helper || !\is_callable([$helper, 'getContexts'])) {
             return [];
         }
 

@@ -34,7 +34,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
      *
      * @since   3.7.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         // Frontpage Editor Fields Button proxying.
         if ($input->get('view') === 'fields' && $input->get('layout') === 'modal') {

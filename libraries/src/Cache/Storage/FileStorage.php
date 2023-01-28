@@ -38,7 +38,7 @@ class FileStorage extends CacheStorage
      * @since  3.7.0
      *
      */
-    protected $_locked_files = array();
+    protected $_locked_files = [];
 
     /**
      * Constructor
@@ -47,7 +47,7 @@ class FileStorage extends CacheStorage
      *
      * @since   1.7.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         parent::__construct($options);
         $this->_root = $options['cachebase'];
@@ -160,7 +160,7 @@ class FileStorage extends CacheStorage
     {
         $path    = $this->_root;
         $folders = $this->_folders($path);
-        $data    = array();
+        $data    = [];
 
         foreach ($folders as $folder)
         {
@@ -314,7 +314,7 @@ class FileStorage extends CacheStorage
         $result = true;
 
         // Files older than lifeTime get deleted from cache
-        $files = $this->_filesInFolder($this->_root, '', true, true, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'index.html'));
+        $files = $this->_filesInFolder($this->_root, '', true, true, ['.svn', 'CVS', '.DS_Store', '__MACOSX', 'index.html']);
 
         foreach ($files as $file)
         {
@@ -524,7 +524,7 @@ class FileStorage extends CacheStorage
         }
 
         // Remove all the files in folder if they exist; disable all filtering
-        $files = $this->_filesInFolder($path, '.', false, true, array(), array());
+        $files = $this->_filesInFolder($path, '.', false, true, [], []);
 
         if (!empty($files) && !\is_array($files))
         {
@@ -553,7 +553,7 @@ class FileStorage extends CacheStorage
         }
 
         // Remove sub-folders of folder; disable all filtering
-        $folders = $this->_folders($path, '.', false, true, array(), array());
+        $folders = $this->_folders($path, '.', false, true, [], []);
 
         foreach ($folders as $folder)
         {
@@ -622,9 +622,9 @@ class FileStorage extends CacheStorage
      * @since   1.7.0
      */
     protected function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false,
-        $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*', '.*~'))
+        $exclude = ['.svn', 'CVS', '.DS_Store', '__MACOSX'], $excludefilter = ['^\..*', '.*~'])
     {
-        $arr = array();
+        $arr = [];
 
         // Check to make sure the path valid and clean
         $path = $this->_cleanPath($path);
@@ -711,10 +711,10 @@ class FileStorage extends CacheStorage
      *
      * @since   1.7.0
      */
-    protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
-        $excludefilter = array('^\..*'))
+    protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = ['.svn', 'CVS', '.DS_Store', '__MACOSX'],
+        $excludefilter = ['^\..*'])
     {
-        $arr = array();
+        $arr = [];
 
         // Check to make sure the path valid and clean
         $path = $this->_cleanPath($path);
