@@ -1,14 +1,14 @@
 <?php
 
 /**
- * @package     Joomla.UnitTest
+ * @package     Joomla.IntegrationTest
  * @subpackage  Authentication
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Plugin\Authentication\Ldap;
+namespace Joomla\Tests\Integration\Plugin\Authentication\Ldap;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Authentication\Authentication;
@@ -16,7 +16,8 @@ use Joomla\CMS\Authentication\AuthenticationResponse;
 use Joomla\CMS\Language\Language;
 use Joomla\Event\Dispatcher;
 use Joomla\Plugin\Authentication\Ldap\Extension\Ldap as LdapPlugin;
-use Joomla\Tests\Unit\UnitTestCase;
+use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactory;
+use Joomla\Tests\Integration\IntegrationTestCase;
 use Symfony\Component\Ldap\Ldap;
 
 /**
@@ -28,17 +29,17 @@ use Symfony\Component\Ldap\Ldap;
  * * working ldap debug option.
  *   this can only be tested if phpunit stderr is redirected/duplicated/configured to a file
  *
- * @package     Joomla.UnitTest
+ * @package     Joomla.IntegrationTest
  * @subpackage  Ldap
  *
  * @testdox     The Ldap plugin
  *
  * @since       4.3.0
  */
-class LdapPluginTest extends UnitTestCase
+class LdapPluginTest extends IntegrationTestCase
 {
     public const LDAPPORT = JTEST_LDAP_PORT;
-    public const SSLPORT = JTEST_LDAP_PORT_SSL;
+    public const SSLPORT  = JTEST_LDAP_PORT_SSL;
 
     /**
      * The default options
@@ -64,8 +65,6 @@ class LdapPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $dispatcher = new Dispatcher();
-
         // plugin object: result from DB using PluginHelper::getPlugin
         $pluginObject = [
             'name'   => 'ldap',
@@ -73,7 +72,7 @@ class LdapPluginTest extends UnitTestCase
             'type'   => 'authentication'
         ];
 
-        $plugin = new LdapPlugin($dispatcher, $pluginObject);
+        $plugin = new LdapPlugin(new LdapFactory(), new Dispatcher(), $pluginObject);
         $plugin->setApplication($app);
 
         return $plugin;
