@@ -13,11 +13,12 @@ namespace Joomla\Plugin\Authentication\Ldap\Extension;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Event\Dispatcher;
+use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactoryInterface;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\ConnectionException;
 use Symfony\Component\Ldap\Exception\LdapException;
-use Symfony\Component\Ldap\Ldap as LdapProvider;
+use Symfony\Component\Ldap\LdapInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,7 +31,31 @@ use Symfony\Component\Ldap\Ldap as LdapProvider;
  */
 final class Ldap extends CMSPlugin
 {
-    use DatabaseAwareTrait;
+    /**
+     * The ldap factory
+     *
+     * @var    LdapFactoryInterface
+     * @since  __DEPLOY_VERSION__
+     */
+    private $factory;
+
+    /**
+     * Constructor
+     *
+     * @param   LdapFactoryInterface  $factory     The Ldap factory
+     * @param   DispatcherInterface   $dispatcher  The object to observe
+     * @param   array                 $config      An optional associative array of configuration settings.
+     *                                             Recognized key values include 'name', 'group', 'params', 'language'
+     *                                             (this list is not meant to be comprehensive).
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct(LdapFactoryInterface $factory, Dispatcher $dispatcher, $config = [])
+    {
+        parent::__construct($dispatcher, $config);
+
+        $this->factory = $factory;
+    }
 
     /**
      * This method should handle any authentication and report back to the subject
@@ -46,12 +71,12 @@ final class Ldap extends CMSPlugin
     public function onUserAuthenticate($credentials, $options, &$response)
     {
         // If LDAP not correctly configured then bail early.
-        if (!$this->params->get('host')) {
+        if (!$this->params->get('host', '')) {
             return false;
         }
 
         // For JLog
-        $logcategory = "ldap";
+        $logcategory = 'ldap';
         $response->type = $logcategory;
 
         // Strip null bytes from the password
@@ -66,23 +91,23 @@ final class Ldap extends CMSPlugin
         }
 
         // Load plugin params info
-        $ldap_email    = $this->params->get('ldap_email');
-        $ldap_fullname = $this->params->get('ldap_fullname');
-        $ldap_uid      = $this->params->get('ldap_uid');
-        $auth_method   = $this->params->get('auth_method');
+        $ldap_email    = $this->params->get('ldap_email', '');
+        $ldap_fullname = $this->params->get('ldap_fullname', '');
+        $ldap_uid      = $this->params->get('ldap_uid', '');
+        $auth_method   = $this->params->get('auth_method', '');
 
         $options = [
-                'host'       => $this->params->get('host'),
-                'port'       => (int) $this->params->get('port'),
-                'version'    => $this->params->get('use_ldapV3', '0') == '1' ? 3 : 2,
-                'referrals'  => (bool) $this->params->get('no_referrals', '0'),
-                'encryption' => $this->params->get('negotiate_tls', '0') == '1' ? 'tls' : 'none',
-                'debug'      => (bool) $this->params->get('ldap_debug', '0'),
-            ];
+            'host'       => $this->params->get('host', ''),
+            'port'       => (int) $this->params->get('port', ''),
+            'version'    => $this->params->get('use_ldapV3', '0') == '1' ? 3 : 2,
+            'referrals'  => (bool) $this->params->get('no_referrals', '0'),
+            'encryption' => $this->params->get('negotiate_tls', '0') == '1' ? 'tls' : 'none',
+            'debug'      => (bool) $this->params->get('ldap_debug', '0'),
+        ];
         Log::add(sprintf('Creating LDAP session with options: %s', json_encode($options)), Log::DEBUG, $logcategory);
         $connection_string = sprintf('ldap%s://%s:%s', 'ssl' === $options['encryption'] ? 's' : '', $options['host'], $options['port']);
         Log::add(sprintf('Creating LDAP session to connect to "%s" while binding', $connection_string), Log::DEBUG, $logcategory);
-        $ldap = LdapProvider::create('ext_ldap', $options);
+        $ldap = $this->factory->createLdap($options);
 
         switch ($auth_method) {
             case 'search':
@@ -103,13 +128,10 @@ final class Ldap extends CMSPlugin
                     $searchstring = str_replace(
                         '[search]',
                         str_replace(';', '\3b', $ldap->escape($credentials['username'], '', LDAP_ESCAPE_FILTER)),
-                        $this->params->get('search_string')
+                        $this->params->get('search_string', '')
                     );
                     Log::add(sprintf('Searching LDAP entry with filter: "%s"', $searchstring), Log::DEBUG, $logcategory);
-                    $entry = $this->searchByString(
-                        $searchstring,
-                        $ldap
-                    );
+                    $entry = $this->searchByString($searchstring, $ldap);
                 } catch (LdapException $exception) {
                     $response->status = Authentication::STATUS_FAILURE;
                     $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
@@ -170,13 +192,10 @@ final class Ldap extends CMSPlugin
                     $searchstring = str_replace(
                         '[search]',
                         str_replace(';', '\3b', $ldap->escape($credentials['username'], '', LDAP_ESCAPE_FILTER)),
-                        $this->params->get('search_string')
+                        $this->params->get('search_string', '')
                     );
                     Log::add(sprintf('Searching LDAP entry with filter: "%s"', $searchstring), Log::DEBUG, $logcategory);
-                    $entry = $this->searchByString(
-                        $searchstring,
-                        $ldap
-                    );
+                    $entry = $this->searchByString($searchstring, $ldap);
                 } catch (LdapException $exception) {
                     $response->status = Authentication::STATUS_FAILURE;
                     $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
@@ -184,6 +203,17 @@ final class Ldap extends CMSPlugin
 
                     return;
                 }
+
+                if (!$entry) {
+                    // we did not find the login in LDAP
+                    $response->status = Authentication::STATUS_FAILURE;
+                    $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_NO_USER');
+                    Log::add($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_USER_NOT_FOUND'), Log::ERROR, $logcategory);
+
+                    return;
+                }
+
+                Log::add(sprintf('LDAP entry found at "%s"', $entry->getDn()), Log::DEBUG, $logcategory);
 
                 break;
 
@@ -199,7 +229,7 @@ final class Ldap extends CMSPlugin
         // Grab some details from LDAP and return them
         $response->username = $entry->getAttribute($ldap_uid)[0] ?? false;
         $response->email    = $entry->getAttribute($ldap_email)[0] ?? false;
-        $response->fullname = $entry->getAttribute($ldap_fullname)[0] ?? trim($entry->getAttribute($ldap_fullname)[0]) ?: $credentials['username'];
+        $response->fullname = $entry->getAttribute($ldap_fullname)[0] ?? $credentials['username'];
 
         // Were good - So say so.
         Log::add(sprintf('LDAP login succeeded; username: "%s", email: "%s", fullname: "%s"', $response->username, $response->email, $response->fullname), Log::DEBUG, $logcategory);
@@ -216,16 +246,16 @@ final class Ldap extends CMSPlugin
      * Note that this method requires that semicolons which should be part of the search term to be escaped
      * to correctly split the search string into separate lookups
      *
-     * @param   string        $search  search string of search values
-     * @param   LdapProvider  $ldap    The LDAP client
+     * @param   string         $search  search string of search values
+     * @param   LdapInterface  $ldap    The LDAP client
      *
      * @return  Entry|null The search result entry if a matching record was found
      *
      * @since   3.8.2
      */
-    private function searchByString($search, LdapProvider $ldap)
+    private function searchByString(string $search, LdapInterface $ldap)
     {
-        $dn = $this->params->get('base_dn');
+        $dn = $this->params->get('base_dn', '');
 
         // We return the first entry from the first search result which contains data
         foreach (explode(';', $search) as $key => $result) {
