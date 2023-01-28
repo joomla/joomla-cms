@@ -218,7 +218,7 @@ abstract class MailHelper
 
         // Replace relative links, image sources with absolute Urls
         $protocols  = '[a-zA-Z0-9\-]+:';
-        $attributes = array('href=', 'src=', 'poster=');
+        $attributes = ['href=', 'src=', 'poster='];
 
         foreach ($attributes as $attribute) {
             if (strpos($content, $attribute) !== false) {

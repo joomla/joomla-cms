@@ -26,9 +26,9 @@ use Joomla\CMS\Plugin\CMSPlugin;
  */
 class PlgContentLoadmodule extends CMSPlugin
 {
-    protected static $modules = array();
+    protected static $modules = [];
 
-    protected static $mods = array();
+    protected static $mods = [];
 
     /**
      * Plugin that loads module positions within content
@@ -44,6 +44,11 @@ class PlgContentLoadmodule extends CMSPlugin
      */
     public function onContentPrepare($context, &$article, &$params, $page = 0)
     {
+        // Only execute if $article is an object and has a text property
+        if (!is_object($article) || !property_exists($article, 'text') || is_null($article->text)) {
+            return;
+        }
+
         // Simple performance check to determine whether bot should process further
         if (strpos($article->text, 'loadposition') === false && strpos($article->text, 'loadmodule') === false) {
             return;
@@ -60,7 +65,7 @@ class PlgContentLoadmodule extends CMSPlugin
         // Expression to search for(id)
         $regexmodid = '/{loadmoduleid\s([1-9][0-9]*)}/i';
 
-        // Don't run this plugin when the content is being indexed
+        // Remove macros and don't run this plugin when the content is being indexed 
         if ($context === 'com_finder.indexer') {
             //Remove macros if any
             if (strpos($article->text, 'loadposition')) {
@@ -174,7 +179,7 @@ class PlgContentLoadmodule extends CMSPlugin
         $document = Factory::getDocument();
         $renderer = $document->loadRenderer('module');
         $modules  = ModuleHelper::getModules($position);
-        $params   = array('style' => $style);
+        $params   = ['style' => $style];
         ob_start();
 
         foreach ($modules as $module) {
@@ -212,7 +217,7 @@ class PlgContentLoadmodule extends CMSPlugin
             $mod  = ModuleHelper::getModule($name, $title);
         }
 
-        $params = array('style' => $style);
+        $params = ['style' => $style];
         ob_start();
 
         if ($mod->id) {
@@ -239,7 +244,7 @@ class PlgContentLoadmodule extends CMSPlugin
         $document = Factory::getDocument();
         $renderer = $document->loadRenderer('module');
         $modules  = ModuleHelper::getModuleById($id);
-        $params   = array('style' => 'none');
+        $params   = ['style' => 'none'];
         ob_start();
 
         if ($modules->id > 0) {

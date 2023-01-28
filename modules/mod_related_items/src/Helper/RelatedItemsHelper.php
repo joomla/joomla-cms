@@ -80,7 +80,7 @@ abstract class RelatedItemsHelper
             } catch (\RuntimeException $e) {
                 $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-                return array();
+                return [];
             }
 
             // Explode the meta keys on a comma

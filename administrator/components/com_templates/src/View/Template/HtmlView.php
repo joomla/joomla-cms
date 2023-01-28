@@ -28,7 +28,7 @@ use Joomla\CMS\Uri\Uri;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * View to edit a template style.
+ * View to edit a template.
  *
  * @since  1.6
  */
@@ -295,7 +295,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        if (count($this->updatedList) !== 0 && $this->pluginState) {
+        if (count($this->updatedList) !== 0 && $this->pluginState && $this->type === 'home') {
             $dropdown = $bar->dropdownButton('override-group')
                 ->text('COM_TEMPLATES_BUTTON_CHECK')
                 ->toggleSplit(false)
