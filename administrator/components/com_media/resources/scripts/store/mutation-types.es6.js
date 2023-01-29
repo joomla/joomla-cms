@@ -55,8 +55,8 @@ export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
 // Update item properties
 export const UPDATE_ITEM_PROPERTIES = 'UPDATE_ITEM_PROPERTIES';
 
-// Update srting by
+// Update string by
 export const UPDATE_SORT_BY = 'UPDATE_SORT_BY';
 
-// Update srting direction
+// Update string direction
 export const UPDATE_SORT_DIRECTION = 'UPDATE_SORT_DIRECTION';
