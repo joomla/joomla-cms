@@ -76,7 +76,7 @@
         </tbody>
       </table>
       <div
-        v-else-if="listView === 'grid'  && !isEmpty"
+        v-else-if="listView === 'grid' && !isEmpty"
         class="media-browser-grid"
       >
         <div
