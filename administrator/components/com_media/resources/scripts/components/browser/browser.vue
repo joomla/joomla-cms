@@ -49,7 +49,7 @@ function sortArray(array, by, direction) {
   return array.sort((a, b) => {
     // By name
     if (by === 'name') {
-      if (direction === 'asc') {
+      if (direction === 'desc') {
         return a.name.toUpperCase().localeCompare(b.name.toUpperCase(), 'en', { sensitivity: 'base' });
       }
       return b.name.toUpperCase().localeCompare(a.name.toUpperCase(), 'en', { sensitivity: 'base' });

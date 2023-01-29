@@ -101,7 +101,7 @@ export default {
   // The Search Query
   search: '',
   // The sorting by
-  sortBy: 'name',
-  // The sort direction
-  sortDirection: 'asc',
+  sortBy: storedState && storedState.sortBy ? storedState.sortBy : 'name',
+  // The sorting direction
+  sortDirection: storedState && storedState.sortDirection ? storedState.sortDirection : 'desc',
 };

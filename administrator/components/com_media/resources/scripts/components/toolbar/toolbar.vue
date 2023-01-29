@@ -39,6 +39,19 @@
       <button
         v-if="isGridView"
         type="button"
+        class="media-toolbar-icon"
+        :class="{ active: sortingOptions }"
+        :aria-label="translate('COM_MEDIA_CHANGE_ORDERING')"
+        @click="showSortOptions()"
+      >
+        <span
+          class="fas fa-sort-amount-down-alt"
+          aria-hidden="true"
+        />
+      </button>
+      <button
+        v-if="isGridView"
+        type="button"
         class="media-toolbar-icon media-toolbar-decrease-grid-size"
         :class="{disabled: isGridSize('sm')}"
         :aria-label="translate('COM_MEDIA_DECREASE_GRID')"
@@ -64,7 +77,6 @@
       </button>
       <button
         type="button"
-        href="#"
         class="media-toolbar-icon media-toolbar-list-view"
         :aria-label="translate('COM_MEDIA_TOGGLE_LIST_VIEW')"
         @click.stop.prevent="changeListView()"
@@ -76,7 +88,6 @@
       </button>
       <button
         type="button"
-        href="#"
         class="media-toolbar-icon media-toolbar-info"
         :aria-label="translate('COM_MEDIA_TOGGLE_INFO')"
         @click.stop.prevent="toggleInfoBar"
@@ -86,6 +97,52 @@
           aria-hidden="true"
         />
       </button>
+    </div>
+  </div>
+  <div
+    v-if="isGridView && sortingOptions"
+    class="row g-3 pt-2 pb-2 pe-3 justify-content-end"
+  >
+    <div class="col-4">
+      <select
+        ref="orderby"
+        class="form-select"
+        :aria-label="translate('COM_MEDIA_ORDER_BY')"
+        :value="$store.state.sortBy"
+        @change="changeOrderBy()"
+      >
+        <option value="name">
+          {{ translate('COM_MEDIA_MEDIA_NAME') }}
+        </option>
+        <option value="size">
+          {{ translate('COM_MEDIA_MEDIA_SIZE') }}
+        </option>
+        <option value="dimension">
+          {{ translate('COM_MEDIA_MEDIA_DIMENSION') }}
+        </option>
+        <option value="date_created">
+          {{ translate('COM_MEDIA_MEDIA_DATE_CREATED') }}
+        </option>
+        <option value="date_modified">
+          {{ translate('COM_MEDIA_MEDIA_DATE_MODIFIED') }}
+        </option>
+      </select>
+    </div>
+    <div class="col-2">
+      <select
+        ref="orderdirection"
+        class="form-select"
+        :aria-label="translate('COM_MEDIA_ORDER_DIRECTION')"
+        :value="$store.state.sortDirection"
+        @change="changeOrderDirection()"
+      >
+        <option value="asc">
+          {{ translate('JGRID_HEADING_ORDERING_ASC') }}
+        </option>
+        <option value="desc">
+          {{ translate('JGRID_HEADING_ORDERING_DESC') }}
+        </option>
+      </select>
     </div>
   </div>
 </template>
@@ -98,6 +155,11 @@ export default {
   name: 'MediaToolbar',
   components: {
     MediaBreadcrumb,
+  },
+  data() {
+    return {
+      sortingOptions: false,
+    };
   },
   computed: {
     toggleListViewBtnIcon() {
@@ -173,6 +235,15 @@ export default {
     },
     changeSearch(query) {
       this.$store.commit(types.SET_SEARCH_QUERY, query.target.value);
+    },
+    showSortOptions() {
+      this.sortingOptions = !this.sortingOptions;
+    },
+    changeOrderDirection() {
+      this.$store.commit(types.UPDATE_SORT_DIRECTION, this.$refs.orderdirection.value);
+    },
+    changeOrderBy() {
+      this.$store.commit(types.UPDATE_SORT_BY, this.$refs.orderby.value);
     },
   },
 };
