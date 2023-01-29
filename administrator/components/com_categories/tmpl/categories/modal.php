@@ -25,7 +25,9 @@ if ($app->isClient('site')) {
     Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-HTMLHelper::_('behavior.core');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('core');
 
 $extension = $this->escape($this->state->get('filter.extension'));
 $function  = $app->getInput()->getCmd('function', 'jSelectCategory');
