@@ -2,7 +2,6 @@
   <div
     ref="browserItems"
     class="media-browser"
-    :style="mediaBrowserStyles"
     @dragenter="onDragEnter"
     @drop="onDrop"
     @dragover="onDragOver"
@@ -19,6 +18,7 @@
       v-if="listView === 'table'"
       :local-items="localItems"
       :current-directory="currentDirectory"
+      :style="mediaBrowserStyles"
     />
     <div
       v-else-if="listView === 'grid'"
@@ -27,6 +27,7 @@
       <div
         class="media-browser-items"
         :class="mediaBrowserGridItemsClass"
+        :style="mediaBrowserStyles"
       >
         <MediaBrowserItem
           v-for="item in localItems"
@@ -35,8 +36,8 @@
         />
       </div>
     </div>
+    <MediaInfobar ref="infobar" />
   </div>
-  <MediaInfobar ref="infobar" />
 </template>
 
 <script>
