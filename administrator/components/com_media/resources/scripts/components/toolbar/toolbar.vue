@@ -103,7 +103,7 @@
     v-if="isGridView && sortingOptions"
     class="row g-3 pt-2 pb-2 pe-3 justify-content-end"
   >
-    <div class="col-4">
+    <div class="col-3">
       <select
         ref="orderby"
         class="form-select"
@@ -128,7 +128,7 @@
         </option>
       </select>
     </div>
-    <div class="col-2">
+    <div class="col-3">
       <select
         ref="orderdirection"
         class="form-select"
@@ -137,10 +137,10 @@
         @change="changeOrderDirection()"
       >
         <option value="asc">
-          {{ translate('JGRID_HEADING_ORDERING_ASC') }}
+          {{ translate('COM_MEDIA_ORDER_ASC') }}
         </option>
         <option value="desc">
-          {{ translate('JGRID_HEADING_ORDERING_DESC') }}
+          {{ translate('COM_MEDIA_ORDER_DESC') }}
         </option>
       </select>
     </div>
