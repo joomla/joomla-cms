@@ -12,14 +12,17 @@ namespace Joomla\Component\Media\Administrator\Controller;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\MediaHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
+
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -349,14 +352,16 @@ class ApiController extends BaseController
         $uploadMaxFilesize   = $helper->toBytes(ini_get('upload_max_filesize'));
         $postMaxSize         = $helper->toBytes(ini_get('post_max_size'));
         $memoryLimit         = $helper->toBytes(ini_get('memory_limit'));
-
+        $link                = 'index.php?option=com_config&view=component&component=com_media';
+        $output              = HTMLHelper::_('link', Route::_($link), Text::_('JOPTIONS'));
         if (
             ($paramsUploadMaxsize > 0 && $contentLength > $paramsUploadMaxsize)
             || ($uploadMaxFilesize > 0 && $contentLength > $uploadMaxFilesize)
             || ($postMaxSize > 0 && $contentLength > $postMaxSize)
             || ($memoryLimit > -1 && $contentLength > $memoryLimit)
-        ) {
-            throw new \Exception(Text::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 403);
+        )
+        {
+            throw new \Exception(Text::sprintf('COM_MEDIA_ERROR_WARNFILETOOLARGE', $output), 403);
         }
     }
 
