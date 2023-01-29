@@ -27,6 +27,7 @@ import notifications from '../app/Notifications.es6';
 import MediaBrowser from './browser/browser.vue';
 import MediaDisk from './tree/disk.vue';
 import MediaToolbar from './toolbar/toolbar.vue';
+import MediaUpload from './upload/upload.vue';
 import MediaCreateFolderModal from './modals/create-folder-modal.vue';
 import MediaPreviewModal from './modals/preview-modal.vue';
 import MediaRenameModal from './modals/rename-modal.vue';
@@ -39,6 +40,7 @@ export default {
     MediaBrowser,
     MediaDisk,
     MediaToolbar,
+    MediaUpload,
     MediaCreateFolderModal,
     MediaPreviewModal,
     MediaRenameModal,
