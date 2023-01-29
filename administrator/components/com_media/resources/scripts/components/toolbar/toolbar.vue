@@ -102,6 +102,7 @@
   <div
     v-if="isGridView && sortingOptions"
     class="row g-3 pt-2 pb-2 pe-3 justify-content-end"
+    style="border-inline-start: 1px solid var(--template-bg-dark-7); margin-left: 0;"
   >
     <div class="col-3">
       <select
