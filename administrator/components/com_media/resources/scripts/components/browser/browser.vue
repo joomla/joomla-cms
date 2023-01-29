@@ -12,12 +12,11 @@
       <div
         v-if="isEmpty"
         class="text-center"
-        style="color: var(--gray-200);"
+        style="display: grid; justify-content: center; align-content: center; height: 100%; margin-top: -1rem; color: var(--gray-200);"
       >
         <span
           class="fa-8x icon-cloud-upload upload-icon"
           aria-hidden="true"
-          style="margin-top: 7rem;"
         />
         <p>{{ translate("COM_MEDIA_DROP_FILE") }}</p>
       </div>
@@ -125,6 +124,7 @@ export default {
     mediaBrowserStyles() {
       return {
         width: this.$store.state.showInfoBar ? '75%' : '100%',
+        height: '100%',
       };
     },
     isEmpty() {
