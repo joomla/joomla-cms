@@ -22,8 +22,8 @@
               class="ms-1"
               :class="{
                 'icon-sort': $store.state.sortBy !== 'name',
-                'icon-caret-down': $store.state.sortBy === 'name' && $store.state.sortDirection === 'asc',
-                'icon-caret-up': $store.state.sortBy === 'name' && $store.state.sortDirection === 'desc'
+                'icon-caret-up': $store.state.sortBy === 'name' && $store.state.sortDirection === 'asc',
+                'icon-caret-down': $store.state.sortBy === 'name' && $store.state.sortDirection === 'desc'
               }"
               aria-hidden="true"
             />
@@ -42,8 +42,8 @@
               class="ms-1"
               :class="{
                 'icon-sort': $store.state.sortBy !== 'size',
-                'icon-caret-down': $store.state.sortBy === 'size' && $store.state.sortDirection === 'asc',
-                'icon-caret-up': $store.state.sortBy === 'size' && $store.state.sortDirection === 'desc'
+                'icon-caret-up': $store.state.sortBy === 'size' && $store.state.sortDirection === 'asc',
+                'icon-caret-down': $store.state.sortBy === 'size' && $store.state.sortDirection === 'desc'
               }"
               aria-hidden="true"
             />
@@ -62,8 +62,8 @@
               class="ms-1"
               :class="{
                 'icon-sort': $store.state.sortBy !== 'dimension',
-                'icon-caret-down': $store.state.sortBy === 'dimension' && $store.state.sortDirection === 'asc',
-                'icon-caret-up': $store.state.sortBy === 'dimension' && $store.state.sortDirection === 'desc'
+                'icon-caret-up': $store.state.sortBy === 'dimension' && $store.state.sortDirection === 'asc',
+                'icon-caret-down': $store.state.sortBy === 'dimension' && $store.state.sortDirection === 'desc'
               }"
               aria-hidden="true"
             />
@@ -82,8 +82,8 @@
               class="ms-1"
               :class="{
                 'icon-sort': $store.state.sortBy !== 'date_created',
-                'icon-caret-down': $store.state.sortBy === 'date_created' && $store.state.sortDirection === 'asc',
-                'icon-caret-up': $store.state.sortBy === 'date_created' && $store.state.sortDirection === 'desc'
+                'icon-caret-up': $store.state.sortBy === 'date_created' && $store.state.sortDirection === 'asc',
+                'icon-caret-down': $store.state.sortBy === 'date_created' && $store.state.sortDirection === 'desc'
               }"
               aria-hidden="true"
             />
@@ -102,8 +102,8 @@
               class="ms-1"
               :class="{
                 'icon-sort': $store.state.sortBy !== 'date_modified',
-                'icon-caret-down': $store.state.sortBy === 'date_modified' && $store.state.sortDirection === 'asc',
-                'icon-caret-up': $store.state.sortBy === 'date_modified' && $store.state.sortDirection === 'desc'
+                'icon-caret-up': $store.state.sortBy === 'date_modified' && $store.state.sortDirection === 'asc',
+                'icon-caret-down': $store.state.sortBy === 'date_modified' && $store.state.sortDirection === 'desc'
               }"
               aria-hidden="true"
             />
