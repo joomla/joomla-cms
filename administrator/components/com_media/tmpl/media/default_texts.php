@@ -82,6 +82,6 @@ $translationStrings = [
     'MESSAGE',
 ];
 
-foreach($translationStrings as $string) {
+foreach ($translationStrings as $string) {
     Text::script($string);
 }
