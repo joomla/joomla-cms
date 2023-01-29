@@ -103,5 +103,5 @@ export default {
   // The sorting by
   sortBy: storedState && storedState.sortBy ? storedState.sortBy : 'name',
   // The sorting direction
-  sortDirection: storedState && storedState.sortDirection ? storedState.sortDirection : 'desc',
+  sortDirection: storedState && storedState.sortDirection ? storedState.sortDirection : 'asc',
 };
