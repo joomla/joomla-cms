@@ -11,17 +11,23 @@
     >
       <div
         v-if="isEmpty"
-        class="px-4 py-5 my-5 text-center"
+        class="text-center"
+        style="color: var(--gray-200);"
       >
         <span
           class="fa-8x icon-cloud-upload upload-icon"
           aria-hidden="true"
+          style="margin-top: 7rem;"
         />
-        <p class="fa-2x">
-          {{ translate("COM_MEDIA_DROP_FILE") }}
-        </p>
+        <p>{{ translate("COM_MEDIA_DROP_FILE") }}</p>
       </div>
-      <div class="media-dragoutline" />
+      <div class="media-dragoutline">
+        <span
+          class="icon-cloud-upload upload-icon"
+          aria-hidden="true"
+        />
+        <p>{{ translate('COM_MEDIA_DROP_FILE') }}</p>
+      </div>
       <table
         v-if="listView === 'table' && !isEmpty"
         class="table media-browser-table"
