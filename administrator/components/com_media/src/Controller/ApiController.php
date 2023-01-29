@@ -23,7 +23,6 @@ use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -359,8 +358,7 @@ class ApiController extends BaseController
             || ($uploadMaxFilesize > 0 && $contentLength > $uploadMaxFilesize)
             || ($postMaxSize > 0 && $contentLength > $postMaxSize)
             || ($memoryLimit > -1 && $contentLength > $memoryLimit)
-        )
-        {
+        ) {
             throw new \Exception(Text::sprintf('COM_MEDIA_ERROR_WARNFILETOOLARGE', $output), 403);
         }
     }
