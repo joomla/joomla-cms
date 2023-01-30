@@ -56,7 +56,8 @@ $finder = PhpCsFixer\Finder::create()
     ->notPath('/cassiopeia/')
     ->notPath('/atum/')
     // Ignore psr12 scripts because they contain invalid syntax
-    ->notPath('/psr12/');
+    ->notPath('/psr12/')
+    ->notName('github_rebase.php');
 
 $config = new PhpCsFixer\Config();
 $config
