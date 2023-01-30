@@ -324,13 +324,13 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         // Trigger the onBeforeRespond event.
-        $this->getDispatcher()->dispatch('onBeforeRespond');
+        $this->triggerEvent('onBeforeRespond');
 
         // Send the application response.
         $this->respond();
 
         // Trigger the onAfterRespond event.
-        $this->getDispatcher()->dispatch('onAfterRespond');
+        $this->triggerEvent('onAfterRespond');
     }
 
     /**
