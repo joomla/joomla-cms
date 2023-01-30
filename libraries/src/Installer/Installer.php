@@ -1548,6 +1548,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             // already exists.
 
             if ((string) $file->attributes()->tag !== '') {
+                $path = [];
                 $path['src'] = $source . '/' . $file;
 
                 if ((string) $file->attributes()->client !== '') {
@@ -1564,6 +1565,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                     continue;
                 }
             } else {
+                $path = [];
                 $path['src'] = $source . '/' . $file;
                 $path['dest'] = $destination . '/' . $file;
             }
@@ -1644,6 +1646,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
         // Process each file in the $files array (children of $tagName).
         foreach ($element->children() as $file) {
+            $path = [];
             $path['src'] = $source . '/' . $file;
             $path['dest'] = $destination . '/' . $file;
 
@@ -1966,7 +1969,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         // Get the client info
         $client = ApplicationHelper::getClientInfo($cid);
 
-        $path['src'] = $this->getPath('manifest');
+        $path = ['src' => $this->getPath('manifest')];
 
         if ($client) {
             $pathname = 'extension_' . $client->name;
@@ -2337,6 +2340,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
     public function getAdapters($options = [], array $custom = [])
     {
         $files = new \DirectoryIterator($this->_basepath . '/' . $this->_adapterfolder);
+        $adapters = [];
 
         // Process the core adapters
         foreach ($files as $file) {

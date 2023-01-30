@@ -186,6 +186,7 @@ abstract class InstallerHelper
          * Let's set the extraction directory and package file in the result array so we can
          * cleanup everything properly later on.
          */
+        $retval = [];
         $retval['extractdir'] = $extractdir;
         $retval['packagefile'] = $archivename;
 

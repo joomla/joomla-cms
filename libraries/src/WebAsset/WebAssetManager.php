@@ -598,9 +598,6 @@ class WebAssetManager implements WebAssetManagerInterface
                 continue;
             }
 
-            // Add to list of inline assets
-            $inlineAssets[$asset->getName()] = $asset;
-
             // Check whether position are requested with dependencies
             $position = $asset->getOption('position');
             $position = $position === 'before' || $position === 'after' ? $position : null;
