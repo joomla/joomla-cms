@@ -272,6 +272,7 @@ class PackageAdapter extends InstallerAdapter
                 );
             }
 
+            $path = [];
             $path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
