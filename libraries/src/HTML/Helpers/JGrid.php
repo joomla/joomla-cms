@@ -60,6 +60,8 @@ abstract class JGrid
         $checkbox = 'cb',
         $formId = null
     ) {
+        $html = [];
+
         if (is_array($prefix)) {
             $options = $prefix;
             $activeTitle = array_key_exists('active_title', $options) ? $options['active_title'] : $activeTitle;

@@ -178,17 +178,19 @@ class Editor implements DispatcherAwareInterface
         $width = str_replace(';', '', $width);
         $height = str_replace(';', '', $height);
 
-        $args['name'] = $name;
-        $args['content'] = $html;
-        $args['width'] = $width;
-        $args['height'] = $height;
-        $args['col'] = $col;
-        $args['row'] = $row;
-        $args['buttons'] = $buttons;
-        $args['id'] = $id ?: $name;
-        $args['asset'] = $asset;
-        $args['author'] = $author;
-        $args['params'] = $params;
+        $args = [
+            'name' => $name,
+            'content' => $html,
+            'width' => $width,
+            'height' => $height,
+            'col' => $col,
+            'row' => $row,
+            'buttons' => $buttons,
+            'id' => ($id ?: $name),
+            'asset' => $asset,
+            'author' => $author,
+            'params' => $params,
+        ];
 
         return \call_user_func_array([$this->_editor, 'onDisplay'], $args);
     }

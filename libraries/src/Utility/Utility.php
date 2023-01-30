@@ -61,6 +61,8 @@ class Utility
      */
     public static function getMaxUploadSize($custom = null)
     {
+        $sizes = [];
+
         if ($custom) {
             $custom = HTMLHelper::_('number.bytes', $custom, '');
 
