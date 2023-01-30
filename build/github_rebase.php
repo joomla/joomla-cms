@@ -133,7 +133,7 @@ $list = json_decode($json, true);
 echo "\nFound " . count($list) . " pull request(s).\n";
 
 foreach ($list as $pr) {
-    echo "Rebase #" . $pr['number'] . "\n";
+    echo "Rebase pr " . $pr['number'] . "\n";
 
     $cmd    = $gh . ' pr edit ' . $pr['url'] . ' --base ' . $targetBranch;
     $output = [];
