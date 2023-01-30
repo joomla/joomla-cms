@@ -57,7 +57,7 @@ final class Menu extends CMSPlugin
             $link = 'index.php?option=com_menus&amp;view=items&amp;layout=modal&amp;tmpl=component&amp;'
             . Session::getFormToken() . '=1&amp;editor=' . $name;
 
-            $button = new CMSObject();
+            $button          = new CMSObject();
             $button->modal   = true;
             $button->link    = $link;
             $button->text    = Text::_('PLG_EDITORS-XTD_MENU_BUTTON_MENU');
@@ -71,10 +71,10 @@ final class Menu extends CMSPlugin
                             . 'h320a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16z"></path></svg>';
 
             $button->options = [
-            'height'      => '300px',
-            'width'       => '800px',
-            'bodyHeight'  => '70',
-            'modalWidth'  => '80',
+            'height'     => '300px',
+            'width'      => '800px',
+            'bodyHeight' => '70',
+            'modalWidth' => '80',
             ];
 
             return $button;

@@ -929,7 +929,7 @@ class ImageTest extends UnitTestCase
     {
         $this->instance->loadFile($this->testFile);
 
-        $thumbs = $this->instance->createThumbs('50x38', Image::CROP);
+        $thumbs     = $this->instance->createThumbs('50x38', Image::CROP);
         $outFileGif = TestHelper::getValue($thumbs[0], 'path');
 
         $a = Image::getImageFileProperties($this->testFile);
@@ -1068,7 +1068,7 @@ class ImageTest extends UnitTestCase
         }
 
         // Define red and white.
-        $red = imagecolorallocate($imageHandle, 255, 0, 0);
+        $red   = imagecolorallocate($imageHandle, 255, 0, 0);
         $white = imagecolorallocate($imageHandle, 255, 255, 255);
 
         $actualCropTop = $cropTop;
@@ -1182,7 +1182,7 @@ class ImageTest extends UnitTestCase
         $imageHandle = imagecreatetruecolor(101, 101);
 
         // Define red and white.
-        $red = imagecolorallocate($imageHandle, 255, 0, 0);
+        $red   = imagecolorallocate($imageHandle, 255, 0, 0);
         $white = imagecolorallocate($imageHandle, 255, 255, 255);
 
         // Draw a red horizontal line in the middle of the image.

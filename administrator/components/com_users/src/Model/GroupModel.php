@@ -199,7 +199,7 @@ class GroupModel extends AdminModel
 
             if (in_array($data['id'], $myGroups)) {
                 // Now, would we have super admin permissions without the current group?
-                $otherGroups = array_diff($myGroups, [$data['id']]);
+                $otherGroups     = array_diff($myGroups, [$data['id']]);
                 $otherSuperAdmin = false;
 
                 foreach ($otherGroups as $otherGroup) {

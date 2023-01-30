@@ -181,7 +181,7 @@ class FormModelTest extends UnitTestCase
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn($table);
 
-        $user = $this->createStub(User::class);
+        $user     = $this->createStub(User::class);
         $user->id = 2;
         $user->method('authorise')->willReturn(false);
 
@@ -215,7 +215,7 @@ class FormModelTest extends UnitTestCase
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn($table);
 
-        $user = $this->createStub(User::class);
+        $user     = $this->createStub(User::class);
         $user->id = 2;
         $user->method('authorise')->willReturn(true);
 
@@ -425,7 +425,7 @@ class FormModelTest extends UnitTestCase
             }
         };
 
-        $user = new User();
+        $user     = new User();
         $user->id = 2;
         $model->setCurrentUser($user);
 

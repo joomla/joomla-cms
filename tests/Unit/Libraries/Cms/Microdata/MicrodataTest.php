@@ -371,7 +371,7 @@ class MicrodataTest extends UnitTestCase
                         ],
                     ],
                 ],
-                'Person'  => [
+                'Person' => [
                     'properties' => [
                         'name' => [
                             'expectedTypes' => ['Text'],
@@ -414,7 +414,7 @@ class MicrodataTest extends UnitTestCase
                         ],
                     ],
                 ],
-                'Person'  => [
+                'Person' => [
                     'properties' => [
                         'name' => [
                             'expectedTypes' => ['Text'],
@@ -700,7 +700,7 @@ class MicrodataTest extends UnitTestCase
                     'extends'    => 'Thing',
                     'properties' => [],
                 ],
-                'Thing'   => [
+                'Thing' => [
                     'extends'    => '',
                     'properties' => [
                         'datePublished' => [
@@ -735,7 +735,7 @@ class MicrodataTest extends UnitTestCase
                     'extends'    => 'Thing',
                     'properties' => [],
                 ],
-                'Thing'   => [
+                'Thing' => [
                     'extends'    => '',
                     'properties' => [
                         'datePublished' => [
@@ -913,10 +913,10 @@ class MicrodataTest extends UnitTestCase
                 'Article' => [
                     'extends'    => '',
                     'properties' => [
-                        'articleBody'   => [
+                        'articleBody' => [
                             'expectedTypes' => ['Text'],
                         ],
-                        'about'         => [
+                        'about' => [
                             'expectedTypes' => ['Thing'],
                         ],
                         'datePublished' => [
@@ -989,10 +989,10 @@ class MicrodataTest extends UnitTestCase
                 'Article' => [
                     'extends'    => '',
                     'properties' => [
-                        'articleBody'   => [
+                        'articleBody' => [
                             'expectedTypes' => ['Text'],
                         ],
-                        'about'         => [
+                        'about' => [
                             'expectedTypes' => ['Thing'],
                         ],
                         'datePublished' => [

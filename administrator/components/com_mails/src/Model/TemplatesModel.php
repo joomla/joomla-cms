@@ -88,7 +88,7 @@ class TemplatesModel extends ListModel
         $items = parent::getItems();
         $id    = '';
 
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName('language'))
             ->from($db->quoteName('#__mail_templates'))
@@ -116,7 +116,7 @@ class TemplatesModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.

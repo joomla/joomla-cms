@@ -77,10 +77,10 @@ class ArticleController extends FormController
             $link = 'index.php?option=com_content&view=article';
             $type = 'component';
 
-            $editState['id'] = $id;
-            $editState['link']  = $link;
-            $editState['title'] = $model->getItem($id)->title;
-            $editState['type']  = $type;
+            $editState['id']            = $id;
+            $editState['link']          = $link;
+            $editState['title']         = $model->getItem($id)->title;
+            $editState['type']          = $type;
             $editState['request']['id'] = $id;
 
             $this->app->setUserState('com_menus.edit.item', [
@@ -127,7 +127,7 @@ class ArticleController extends FormController
     protected function allowEdit($data = [], $key = 'id')
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-        $user = $this->app->getIdentity();
+        $user     = $this->app->getIdentity();
 
         // Zero record (id:0), return component edit permission by calling parent controller method
         if (!$recordId) {

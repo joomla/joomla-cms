@@ -177,7 +177,7 @@ class CMSPluginTest extends UnitTestCase
     public function testLoadLanguage()
     {
         $dispatcher = new Dispatcher();
-        $language = $this->createMock(Language::class);
+        $language   = $this->createMock(Language::class);
         $language->expects($this->once())->method('load')->with($this->equalTo('plg__'), JPATH_ADMINISTRATOR)->willReturn(true);
 
         $app = $this->createStub(CMSApplicationInterface::class);
@@ -199,7 +199,7 @@ class CMSPluginTest extends UnitTestCase
     public function testLoadLanguageWithExtensionAndPath()
     {
         $dispatcher = new Dispatcher();
-        $language = $this->createMock(Language::class);
+        $language   = $this->createMock(Language::class);
         $language->expects($this->once())->method('load')->with($this->equalTo('test'), __DIR__)->willReturn(true);
 
         $app = $this->createStub(CMSApplicationInterface::class);
@@ -221,7 +221,7 @@ class CMSPluginTest extends UnitTestCase
     public function testNotLoadLanguageWhenExists()
     {
         $dispatcher = new Dispatcher();
-        $language = $this->createMock(Language::class);
+        $language   = $this->createMock(Language::class);
         $language->method('getPaths')->willReturn(true);
         $language->expects($this->never())->method('load');
 
@@ -313,7 +313,7 @@ class CMSPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
-        $plugin = new class ($dispatcher, []) extends CMSPlugin {
+        $plugin                             = new class ($dispatcher, []) extends CMSPlugin {
             protected $allowLegacyListeners = false;
 
             public function onTest(EventInterface $event)

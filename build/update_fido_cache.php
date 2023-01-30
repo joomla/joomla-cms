@@ -32,9 +32,9 @@ echo "Fetching FIDO metadata statements...\n";
 
 $context = stream_context_create([
     'http' => [
-        'method' => 'GET',
+        'method'          => 'GET',
         'follow_location' => 1,
-        'timeout' => 5.0,
+        'timeout'         => 5.0,
     ],
 ]);
 

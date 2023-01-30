@@ -221,7 +221,7 @@ class ClientsModel extends ListModel
         // Faster to do three queries for very large banner trees.
 
         // Get the clients in the list.
-        $db = $this->getDatabase();
+        $db        = $this->getDatabase();
         $clientIds = array_column($items, 'id');
 
         $query = $db->getQuery(true)
@@ -241,7 +241,7 @@ class ClientsModel extends ListModel
 
         // Get the published banners count.
         try {
-            $state = 1;
+            $state          = 1;
             $countPublished = $db->loadAssocList('cid', 'count_published');
         } catch (\RuntimeException $e) {
             $this->setError($e->getMessage());
@@ -251,7 +251,7 @@ class ClientsModel extends ListModel
 
         // Get the unpublished banners count.
         try {
-            $state = 0;
+            $state            = 0;
             $countUnpublished = $db->loadAssocList('cid', 'count_published');
         } catch (\RuntimeException $e) {
             $this->setError($e->getMessage());
@@ -261,7 +261,7 @@ class ClientsModel extends ListModel
 
         // Get the trashed banners count.
         try {
-            $state = -2;
+            $state        = -2;
             $countTrashed = $db->loadAssocList('cid', 'count_published');
         } catch (\RuntimeException $e) {
             $this->setError($e->getMessage());
@@ -271,7 +271,7 @@ class ClientsModel extends ListModel
 
         // Get the archived banners count.
         try {
-            $state = 2;
+            $state         = 2;
             $countArchived = $db->loadAssocList('cid', 'count_published');
         } catch (\RuntimeException $e) {
             $this->setError($e->getMessage());

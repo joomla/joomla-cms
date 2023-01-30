@@ -54,11 +54,11 @@ class ContentCest
         $I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
         $testarticle = [
-            'title' => 'Just for you',
-            'catid' => 2,
+            'title'       => 'Just for you',
+            'catid'       => 2,
             'articletext' => 'A dummy article to save to the database',
-            'language' => '*',
-            'alias' => 'tobias',
+            'language'    => '*',
+            'alias'       => 'tobias',
         ];
 
         $I->sendPOST('/content/articles', $testarticle);
@@ -101,9 +101,9 @@ class ContentCest
         $I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
         $testarticle = [
-            'title' => 'A test category',
+            'title'     => 'A test category',
             'parent_id' => 2,
-            'params' => [
+            'params'    => [
                 'workflow_id' => 'inherit',
             ],
         ];

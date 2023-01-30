@@ -35,7 +35,7 @@ class MediaListCest
      * @since   4.0.0
      */
     private $contents = [
-        'root'     => [
+        'root' => [
             'banners',
             'headers',
             'sampledata',

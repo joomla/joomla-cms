@@ -69,9 +69,9 @@ class TemplatesModel extends ListModel
         $items = parent::getItems();
 
         foreach ($items as &$item) {
-            $client = ApplicationHelper::getClientInfo($item->client_id);
+            $client        = ApplicationHelper::getClientInfo($item->client_id);
             $item->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $item->element);
-            $num = $this->updated($item->extension_id);
+            $num           = $this->updated($item->extension_id);
 
             if ($num) {
                 $item->updated = $num;
@@ -125,7 +125,7 @@ class TemplatesModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.

@@ -250,7 +250,7 @@ class DatabaseModelTest extends UnitTestCase
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel {
         };
 
-        $user = new User();
+        $user     = new User();
         $user->id = 1;
         $model->setCurrentUser($user);
 
@@ -275,7 +275,7 @@ class DatabaseModelTest extends UnitTestCase
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel {
         };
 
-        $user = new User();
+        $user     = new User();
         $user->id = 2;
         $model->setCurrentUser($user);
 

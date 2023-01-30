@@ -392,7 +392,7 @@ class MediaCest
         $I->haveHttpHeader('Accept', 'application/vnd.api+json');
         $I->sendPatch(
             '/media/files/' . $this->testDirectory . '/override',
-            ['path'    => $this->testDirectory . '/override-new']
+            ['path' => $this->testDirectory . '/override-new']
         );
 
         $I->seeResponseCodeIs(HttpCode::OK);

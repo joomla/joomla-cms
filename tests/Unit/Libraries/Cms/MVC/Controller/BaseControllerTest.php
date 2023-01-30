@@ -310,7 +310,7 @@ class BaseControllerTest extends UnitTestCase
         $mvcFactory->method('createModel')->willReturn($model);
 
         $user = new User();
-        $app = $this->createStub(CMSApplication::class);
+        $app  = $this->createStub(CMSApplication::class);
         $app->method('getIdentity')->willReturn($user);
 
         $controller = new class (['base_path' => __DIR__], $mvcFactory, $app, new Input()) extends BaseController {
@@ -404,7 +404,7 @@ class BaseControllerTest extends UnitTestCase
         $mvcFactory->method('createView')->willReturn($view);
 
         $user = new User();
-        $app = $this->createStub(CMSApplication::class);
+        $app  = $this->createStub(CMSApplication::class);
         $app->method('getIdentity')->willReturn($user);
 
         $controller = new class (['base_path' => __DIR__], $mvcFactory, $app, new Input()) extends BaseController {
@@ -468,7 +468,7 @@ class BaseControllerTest extends UnitTestCase
         $app = $this->createStub(CMSApplication::class);
         $app->method('getDocument')->willReturn(new Document());
 
-        $view = new class (['name' => 'test']) extends AbstractView {
+        $view             = new class (['name' => 'test']) extends AbstractView {
             public $value = null;
 
             public function display($tpl = null)
@@ -740,7 +740,7 @@ class BaseControllerTest extends UnitTestCase
             public function redirect()
             {
                 $this->redirect = 'unit/test';
-                $this->message = 'unit test';
+                $this->message  = 'unit test';
 
                 return parent::redirect();
             }

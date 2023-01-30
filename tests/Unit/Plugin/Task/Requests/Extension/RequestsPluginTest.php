@@ -102,7 +102,7 @@ class RequestsPluginTest extends UnitTestCase
             }
         };
 
-        $http = new Http([], $transport);
+        $http    = new Http([], $transport);
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
@@ -122,7 +122,7 @@ class RequestsPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
+                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
             ]
         );
         $plugin->standardRoutineHandler($event);
@@ -158,7 +158,7 @@ class RequestsPluginTest extends UnitTestCase
             }
         };
 
-        $http = new Http([], $transport);
+        $http    = new Http([], $transport);
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
@@ -178,7 +178,7 @@ class RequestsPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
+                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
             ]
         );
         $plugin->standardRoutineHandler($event);
@@ -214,7 +214,7 @@ class RequestsPluginTest extends UnitTestCase
             }
         };
 
-        $http = new Http([], $transport);
+        $http    = new Http([], $transport);
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
@@ -234,7 +234,7 @@ class RequestsPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 1, 'authType' => 'basic', 'authKey' => '123'],
+                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 1, 'authType' => 'basic', 'authKey' => '123'],
             ]
         );
         $plugin->standardRoutineHandler($event);
@@ -263,7 +263,7 @@ class RequestsPluginTest extends UnitTestCase
             }
         };
 
-        $http = new Http([], $transport);
+        $http    = new Http([], $transport);
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
@@ -283,7 +283,7 @@ class RequestsPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
+                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
             ]
         );
         $plugin->standardRoutineHandler($event);
@@ -311,7 +311,7 @@ class RequestsPluginTest extends UnitTestCase
             }
         };
 
-        $http = new Http([], $transport);
+        $http    = new Http([], $transport);
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
@@ -331,7 +331,7 @@ class RequestsPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
+                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
             ]
         );
         $plugin->standardRoutineHandler($event);

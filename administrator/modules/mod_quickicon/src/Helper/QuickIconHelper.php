@@ -214,11 +214,11 @@ class QuickIconHelper
 
             if ($params->get('show_checkin')) {
                 $tmp = [
-                    'image'   => 'icon-unlock-alt',
-                    'link'    => Route::_('index.php?option=com_checkin'),
-                    'name'    => 'MOD_QUICKICON_CHECKINS',
-                    'access'  => ['core.admin', 'com_checkin'],
-                    'group'   => 'MOD_QUICKICON_SYSTEM',
+                    'image'  => 'icon-unlock-alt',
+                    'link'   => Route::_('index.php?option=com_checkin'),
+                    'name'   => 'MOD_QUICKICON_CHECKINS',
+                    'access' => ['core.admin', 'com_checkin'],
+                    'group'  => 'MOD_QUICKICON_SYSTEM',
                 ];
 
                 if ($params->get('show_checkin') == 2) {
@@ -230,11 +230,11 @@ class QuickIconHelper
 
             if ($params->get('show_cache')) {
                 $tmp = [
-                    'image'   => 'icon-cloud',
-                    'link'    => Route::_('index.php?option=com_cache'),
-                    'name'    => 'MOD_QUICKICON_CACHE',
-                    'access'  => ['core.admin', 'com_cache'],
-                    'group'   => 'MOD_QUICKICON_SYSTEM',
+                    'image'  => 'icon-cloud',
+                    'link'   => Route::_('index.php?option=com_cache'),
+                    'name'   => 'MOD_QUICKICON_CACHE',
+                    'access' => ['core.admin', 'com_cache'],
+                    'group'  => 'MOD_QUICKICON_SYSTEM',
                 ];
 
                 if ($params->get('show_cache') == 2) {
@@ -256,11 +256,11 @@ class QuickIconHelper
 
             if ($params->get('show_featured')) {
                 $tmp = [
-                    'image'   => 'icon-star featured',
-                    'link'    => Route::_('index.php?option=com_content&view=featured'),
-                    'name'    => 'MOD_QUICKICON_FEATURED_MANAGER',
-                    'access'  => ['core.manage', 'com_content'],
-                    'group'   => 'MOD_QUICKICON_SITE',
+                    'image'  => 'icon-star featured',
+                    'link'   => Route::_('index.php?option=com_content&view=featured'),
+                    'name'   => 'MOD_QUICKICON_FEATURED_MANAGER',
+                    'access' => ['core.manage', 'com_content'],
+                    'group'  => 'MOD_QUICKICON_SITE',
                 ];
 
                 if ($params->get('show_featured') == 2) {
@@ -345,21 +345,21 @@ class QuickIconHelper
 
             if ($params->get('show_associations')) {
                 $this->buttons[$key][] = [
-                    'image'   => 'icon-language',
-                    'link'    => Route::_('index.php?option=com_associations&view=associations'),
-                    'name'    => 'MOD_QUICKICON_ASSOCIATIONS_MANAGER',
-                    'access'  => ['core.manage', 'com_associations'],
-                    'group'   => 'MOD_QUICKICON_SITE',
+                    'image'  => 'icon-language',
+                    'link'   => Route::_('index.php?option=com_associations&view=associations'),
+                    'name'   => 'MOD_QUICKICON_ASSOCIATIONS_MANAGER',
+                    'access' => ['core.manage', 'com_associations'],
+                    'group'  => 'MOD_QUICKICON_SITE',
                 ];
             }
 
             if ($params->get('show_finder')) {
                 $this->buttons[$key][] = [
-                    'image'   => 'icon-search-plus finder',
-                    'link'    => Route::_('index.php?option=com_finder&view=index'),
-                    'name'    => 'MOD_QUICKICON_FINDER_MANAGER',
-                    'access'  => ['core.manage', 'com_finder'],
-                    'group'   => 'MOD_QUICKICON_SITE',
+                    'image'  => 'icon-search-plus finder',
+                    'link'   => Route::_('index.php?option=com_finder&view=index'),
+                    'name'   => 'MOD_QUICKICON_FINDER_MANAGER',
+                    'access' => ['core.manage', 'com_finder'],
+                    'group'  => 'MOD_QUICKICON_SITE',
                 ];
             }
 

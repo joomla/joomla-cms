@@ -73,7 +73,7 @@ abstract class StringHelper
             if ($noSplit) {
                 // Find the position of the last space within the allowed length.
                 $offset = FrameworkStringHelper::strrpos($tmp, ' ');
-                $tmp = FrameworkStringHelper::substr($tmp, 0, $offset + 1);
+                $tmp    = FrameworkStringHelper::substr($tmp, 0, $offset + 1);
 
                 // If there are no spaces and the string is longer than the maximum
                 // we need to just use the ellipsis. In that case we are done.
@@ -119,7 +119,7 @@ abstract class StringHelper
                 // Check if we are within a tag
                 if (FrameworkStringHelper::strrpos($tmp, '<') > FrameworkStringHelper::strrpos($tmp, '>')) {
                     $offset = FrameworkStringHelper::strrpos($tmp, '<');
-                    $tmp = FrameworkStringHelper::trim(FrameworkStringHelper::substr($tmp, 0, $offset));
+                    $tmp    = FrameworkStringHelper::trim(FrameworkStringHelper::substr($tmp, 0, $offset));
                 }
             }
 
@@ -172,7 +172,7 @@ abstract class StringHelper
         // Deal with maximum length of 1 where the string starts with a tag.
         if ($maxLength === 1 && $html[0] === '<') {
             $endTagPos = strlen(strstr($html, '>', true));
-            $tag = substr($html, 1, $endTagPos);
+            $tag       = substr($html, 1, $endTagPos);
 
             $l = $endTagPos + 1;
 

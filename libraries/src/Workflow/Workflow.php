@@ -321,7 +321,7 @@ class Workflow
 
         $transition = $this->db->setQuery($query)->loadObject();
 
-        $parts = explode('.', $this->extension);
+        $parts  = explode('.', $this->extension);
         $option = reset($parts);
 
         if (!empty($transition->id) && $user->authorise('core.execute.transition', $option . '.transition.' . (int) $transition->id)) {

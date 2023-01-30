@@ -42,7 +42,7 @@ class Users
      */
     public function image($src)
     {
-        $src = preg_replace('#[^A-Z0-9\-_\./]#i', '', $src);
+        $src  = preg_replace('#[^A-Z0-9\-_\./]#i', '', $src);
         $file = JPATH_SITE . '/' . $src;
 
         Path::check($file);
@@ -132,7 +132,7 @@ class Users
             return '';
         }
 
-        $title = Text::plural('COM_USERS_N_USER_NOTES', $count);
+        $title  = Text::plural('COM_USERS_N_USER_NOTES', $count);
         $footer = '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
             . Text::_('JTOOLBAR_CLOSE') . '</button>';
 
@@ -295,7 +295,7 @@ class Users
         if (empty($value)) {
             return static::value($value);
         } else {
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select($db->quoteName('title'))
                 ->from($db->quoteName('#__template_styles'))
@@ -398,8 +398,8 @@ class Users
         if (empty($value)) {
             return static::value($value);
         } else {
-            $db = Factory::getDbo();
-            $lang = Factory::getLanguage();
+            $db    = Factory::getDbo();
+            $lang  = Factory::getLanguage();
             $query = $db->getQuery(true)
                 ->select($db->quoteName('name'))
                 ->from($db->quoteName('#__extensions'))

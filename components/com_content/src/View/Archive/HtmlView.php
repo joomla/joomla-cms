@@ -152,13 +152,13 @@ class HtmlView extends BaseHtmlView
             // Old plugins: Use processed text as introtext
             $item->introtext = $item->text;
 
-            $results = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_content.archive', &$item, &$item->params, 0]);
+            $results                        = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_content.archive', &$item, &$item->params, 0]);
             $item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-            $results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_content.archive', &$item, &$item->params, 0]);
+            $results                           = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_content.archive', &$item, &$item->params, 0]);
             $item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-            $results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_content.archive', &$item, &$item->params, 0]);
+            $results                          = Factory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_content.archive', &$item, &$item->params, 0]);
             $item->event->afterDisplayContent = trim(implode("\n", $results));
         }
 
@@ -185,16 +185,16 @@ class HtmlView extends BaseHtmlView
             $months,
             'month',
             [
-                'list.attr' => 'class="form-select"',
+                'list.attr'   => 'class="form-select"',
                 'list.select' => $state->get('filter.month'),
-                'option.key' => null,
+                'option.key'  => null,
             ]
         );
 
         // Year Field
         $this->years = $this->getModel()->getYears();
-        $years = [];
-        $years[] = HTMLHelper::_('select.option', null, Text::_('JYEAR'));
+        $years       = [];
+        $years[]     = HTMLHelper::_('select.option', null, Text::_('JYEAR'));
 
         for ($i = 0, $iMax = count($this->years); $i < $iMax; $i++) {
             $years[] = HTMLHelper::_('select.option', $this->years[$i], $this->years[$i]);

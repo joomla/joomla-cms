@@ -97,8 +97,8 @@ class TransitionField extends GroupedlistField
         $jinput = Factory::getApplication()->getInput();
 
         // Initialise variable.
-        $db = $this->getDatabase();
-        $extension = $this->extension;
+        $db            = $this->getDatabase();
+        $extension     = $this->extension;
         $workflowStage = (int) $this->workflowStage;
 
         $query = $db->getQuery(true)

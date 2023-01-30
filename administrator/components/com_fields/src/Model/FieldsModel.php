@@ -193,7 +193,7 @@ class FieldsModel extends ListModel
         if (($categories = $this->getState('filter.assigned_cat_ids')) && $context) {
             $categories = (array) $categories;
             $categories = ArrayHelper::toInteger($categories);
-            $parts = FieldsHelper::extract($context);
+            $parts      = FieldsHelper::extract($context);
 
             if ($parts) {
                 // Get the categories for this component (and optionally this section, if available)
@@ -237,7 +237,7 @@ class FieldsModel extends ListModel
 
                             // Traverse the tree up to get all the fields which are attached to a parent
                             while ($parent->getParent() && $parent->getParent()->id != 'root') {
-                                $parent = $parent->getParent();
+                                $parent       = $parent->getParent();
                                 $categories[] = (int) $parent->id;
                             }
                         }
@@ -399,7 +399,7 @@ class FieldsModel extends ListModel
         if (is_array($result)) {
             foreach ($result as $field) {
                 $field->fieldparams = new Registry($field->fieldparams);
-                $field->params = new Registry($field->params);
+                $field->params      = new Registry($field->params);
             }
         }
 

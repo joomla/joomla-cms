@@ -114,7 +114,7 @@ class MenusController extends BaseController
      */
     public function resync()
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true);
         $parts = null;
 

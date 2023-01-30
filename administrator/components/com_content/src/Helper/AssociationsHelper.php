@@ -161,10 +161,10 @@ class AssociationsHelper extends AssociationExtensionHelper
         if (in_array($typeName, $this->itemTypes)) {
             switch ($typeName) {
                 case 'article':
-                    $support['state'] = true;
-                    $support['acl'] = true;
-                    $support['checkout'] = true;
-                    $support['category'] = true;
+                    $support['state']     = true;
+                    $support['acl']       = true;
+                    $support['checkout']  = true;
+                    $support['category']  = true;
                     $support['save2copy'] = true;
 
                     $tables = [
@@ -176,15 +176,15 @@ class AssociationsHelper extends AssociationExtensionHelper
 
                 case 'category':
                     $fields['created_user_id'] = 'a.created_user_id';
-                    $fields['ordering'] = 'a.lft';
-                    $fields['level'] = 'a.level';
-                    $fields['catid'] = '';
-                    $fields['state'] = 'a.published';
+                    $fields['ordering']        = 'a.lft';
+                    $fields['level']           = 'a.level';
+                    $fields['catid']           = '';
+                    $fields['state']           = 'a.published';
 
-                    $support['state'] = true;
-                    $support['acl'] = true;
+                    $support['state']    = true;
+                    $support['acl']      = true;
                     $support['checkout'] = true;
-                    $support['level'] = true;
+                    $support['level']    = true;
 
                     $tables = [
                         'a' => '#__categories',

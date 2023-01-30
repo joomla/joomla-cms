@@ -95,7 +95,7 @@ class DiscoverModel extends InstallerModel
      */
     protected function getListQuery()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->quoteName('#__extensions'))
@@ -155,7 +155,7 @@ class DiscoverModel extends InstallerModel
         $results = Installer::getInstance()->discover();
 
         // Get all templates, including discovered ones
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName(['extension_id', 'element', 'folder', 'client_id', 'type']))
             ->from($db->quoteName('#__extensions'));
@@ -220,7 +220,7 @@ class DiscoverModel extends InstallerModel
                 $eid = [$eid];
             }
 
-            $eid = ArrayHelper::toInteger($eid);
+            $eid    = ArrayHelper::toInteger($eid);
             $failed = false;
 
             foreach ($eid as $id) {
@@ -258,7 +258,7 @@ class DiscoverModel extends InstallerModel
      */
     public function purge()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__extensions'))
             ->where($db->quoteName('state') . ' = -1');

@@ -110,13 +110,13 @@ class WorkflowModel extends AdminModel
 
             // Alter the title for save as copy
             if ($origTable->load(['title' => $data['title']])) {
-                list($title) = $this->generateNewTitle(0, '', $data['title']);
+                list($title)   = $this->generateNewTitle(0, '', $data['title']);
                 $data['title'] = $title;
             }
 
             // Unpublish new copy
             $data['published'] = 0;
-            $data['default'] = 0;
+            $data['default']   = 0;
         }
 
         $result = parent::save($data);
@@ -127,12 +127,12 @@ class WorkflowModel extends AdminModel
 
             $table = $this->getTable('Stage');
 
-            $table->id = 0;
-            $table->title = 'COM_WORKFLOW_BASIC_STAGE';
+            $table->id          = 0;
+            $table->title       = 'COM_WORKFLOW_BASIC_STAGE';
             $table->description = '';
             $table->workflow_id = $workflow_id;
-            $table->published = 1;
-            $table->default = 1;
+            $table->published   = 1;
+            $table->default     = 1;
 
             $table->store();
         }
@@ -296,7 +296,7 @@ class WorkflowModel extends AdminModel
                     ]
                 )
             ) {
-                $table->default = 0;
+                $table->default  = 0;
                 $table->modified = $date;
                 $table->store();
             }

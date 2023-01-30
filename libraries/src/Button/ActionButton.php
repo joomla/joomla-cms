@@ -48,11 +48,11 @@ class ActionButton
         'icon'    => 'question',
         'title'   => 'Unknown state',
         'options' => [
-            'disabled'  => false,
-            'only_icon' => false,
-            'tip' => true,
-            'tip_title' => '',
-            'task_prefix' => '',
+            'disabled'      => false,
+            'only_icon'     => false,
+            'tip'           => true,
+            'tip_title'     => '',
+            'task_prefix'   => '',
             'checkbox_name' => 'cb',
         ],
     ];
@@ -191,7 +191,7 @@ class ActionButton
             ]
         );
 
-        $data['row'] = $row;
+        $data['row']  = $row;
         $data['icon'] = $this->fetchIconClass($data['icon']);
 
         return LayoutHelper::render($this->layout, $data);

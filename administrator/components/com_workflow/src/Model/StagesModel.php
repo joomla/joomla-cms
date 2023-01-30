@@ -69,7 +69,7 @@ class StagesModel extends ListModel
         $app = Factory::getApplication();
 
         $workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 1, 'int');
-        $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
+        $extension  = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
         if ($workflowID) {
             $table = $this->getTable('Workflow', 'Administrator');

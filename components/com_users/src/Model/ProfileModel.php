@@ -127,7 +127,7 @@ class ProfileModel extends FormModel
 
         // Check for username compliance and parameter set
         $isUsernameCompliant = true;
-        $username = $loadData ? $form->getValue('username') : $this->loadFormData()->username;
+        $username            = $loadData ? $form->getValue('username') : $this->loadFormData()->username;
 
         if ($username) {
             $isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username)

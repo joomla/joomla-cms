@@ -55,7 +55,7 @@ class GetConfigurationCommand extends AbstractCommand
      * @since 4.0.0
      */
     public const DB_GROUP = [
-        'name' => 'db',
+        'name'    => 'db',
         'options' => [
             'dbtype',
             'host',
@@ -78,7 +78,7 @@ class GetConfigurationCommand extends AbstractCommand
      * @since 4.0.0
      */
     public const SESSION_GROUP = [
-        'name' => 'session',
+        'name'    => 'session',
         'options' => [
             'session_handler',
             'shared_session',
@@ -92,7 +92,7 @@ class GetConfigurationCommand extends AbstractCommand
      * @since 4.0.0
      */
     public const MAIL_GROUP = [
-        'name' => 'mail',
+        'name'    => 'mail',
         'options' => [
             'mailonline',
             'mailer',
@@ -146,7 +146,7 @@ class GetConfigurationCommand extends AbstractCommand
     private function configureIO(InputInterface $input, OutputInterface $output)
     {
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
+        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 
 
@@ -171,7 +171,7 @@ class GetConfigurationCommand extends AbstractCommand
         foreach ($groups as $key => $value) {
             if ($value['name'] === $group) {
                 $foundGroup = true;
-                $options = [];
+                $options    = [];
 
                 foreach ($value['options'] as $option) {
                     $options[] = [$option, $configs[$option]];

@@ -76,7 +76,7 @@ class MenutypeField extends ListField
                 break;
 
             default:
-                $link = $this->form->getValue('link');
+                $link  = $this->form->getValue('link');
                 $value = '';
 
                 if ($link !== null) {
@@ -92,7 +92,7 @@ class MenutypeField extends ListField
                 break;
         }
 
-        $link = Route::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
+        $link   = Route::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
         $html[] = '<span class="input-group"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
             . '" value="' . $value . '"' . $size . $class . '>';
         $html[] = '<button type="button" data-bs-target="#menuTypeModal" class="btn btn-primary" data-bs-toggle="modal">'

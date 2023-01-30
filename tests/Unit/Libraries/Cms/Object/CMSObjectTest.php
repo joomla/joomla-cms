@@ -220,8 +220,8 @@ class CMSObjectTest extends UnitTestCase
     public function testSetProperties()
     {
         $object = new CMSObject();
-        $a = ["foo" => "ghost", "knife" => "stewie"];
-        $f = "foo";
+        $a      = ["foo" => "ghost", "knife" => "stewie"];
+        $f      = "foo";
 
         $this->assertEquals(true, $object->setProperties($a));
         $this->assertEquals(false, $object->setProperties($f));

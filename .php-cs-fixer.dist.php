@@ -46,7 +46,7 @@ $finder = PhpCsFixer\Finder::create()
             __DIR__ . '/modules',
             __DIR__ . '/plugins',
             __DIR__ . '/templates',
-            __DIR__ . '/tests'
+            __DIR__ . '/tests',
         ]
     )
     // Ignore template files as PHP CS fixer can't handle them properly
@@ -70,6 +70,7 @@ $config
             'array_syntax'                   => ['syntax' => 'short'],
             'no_trailing_comma_in_list_call' => true,
             'trailing_comma_in_multiline'    => ['elements' => ['arrays']],
+            'binary_operator_spaces'         => ['operators' => ['=>' => 'align_single_space_minimal', '=' => 'align']]
         ]
     )
     ->setFinder($finder);

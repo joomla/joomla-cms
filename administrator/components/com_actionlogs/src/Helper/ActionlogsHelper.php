@@ -95,7 +95,7 @@ class ActionlogsHelper
     public static function loadTranslationFiles($extension)
     {
         static $cache = [];
-        $extension = strtolower($extension);
+        $extension    = strtolower($extension);
 
         if (isset($cache[$extension])) {
             return;

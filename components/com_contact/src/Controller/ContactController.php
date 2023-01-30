@@ -102,7 +102,7 @@ class ContactController extends FormController
         }
 
         // Get item params, take menu parameters into account if necessary
-        $active = $app->getMenu()->getActive();
+        $active      = $app->getMenu()->getActive();
         $stateParams = clone $model->getState()->get('params');
 
         // If the current view is the active item and a contact view for this contact, then the menu item params take priority
@@ -228,13 +228,13 @@ class ContactController extends FormController
         }
 
         $templateData = [
-            'sitename' => $app->get('sitename'),
-            'name'     => $data['contact_name'],
-            'contactname' => $contact->name,
-            'email'    => PunycodeHelper::emailToPunycode($data['contact_email']),
-            'subject'  => $data['contact_subject'],
-            'body'     => stripslashes($data['contact_message']),
-            'url'      => Uri::base(),
+            'sitename'     => $app->get('sitename'),
+            'name'         => $data['contact_name'],
+            'contactname'  => $contact->name,
+            'email'        => PunycodeHelper::emailToPunycode($data['contact_email']),
+            'subject'      => $data['contact_subject'],
+            'body'         => stripslashes($data['contact_message']),
+            'url'          => Uri::base(),
             'customfields' => '',
         ];
 

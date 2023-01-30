@@ -130,10 +130,10 @@ class AddUserCommand extends AbstractCommand
     {
         $this->configureIO($input, $output);
         $this->ioStyle->title('Add User');
-        $this->user = $this->getStringFromOption('username', 'Please enter a username');
-        $this->name = $this->getStringFromOption('name', 'Please enter a name (full name of user)');
-        $this->email = $this->getStringFromOption('email', 'Please enter an email address');
-        $this->password = $this->getStringFromOption('password', 'Please enter a password');
+        $this->user       = $this->getStringFromOption('username', 'Please enter a username');
+        $this->name       = $this->getStringFromOption('name', 'Please enter a name (full name of user)');
+        $this->email      = $this->getStringFromOption('email', 'Please enter an email address');
+        $this->password   = $this->getStringFromOption('password', 'Please enter a password');
         $this->userGroups = $this->getUserGroups();
 
         if (\in_array("error", $this->userGroups)) {
@@ -148,9 +148,9 @@ class AddUserCommand extends AbstractCommand
         $user = [
             'username' => $filter->clean($this->user, 'USERNAME'),
             'password' => $this->password,
-            'name' => $filter->clean($this->name, 'STRING'),
-            'email' => $this->email,
-            'groups' => $this->userGroups,
+            'name'     => $filter->clean($this->name, 'STRING'),
+            'email'    => $this->email,
+            'groups'   => $this->userGroups,
         ];
 
         $userObj = User::getInstance();
@@ -293,7 +293,7 @@ class AddUserCommand extends AbstractCommand
     private function configureIO(InputInterface $input, OutputInterface $output)
     {
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
+        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 
     /**

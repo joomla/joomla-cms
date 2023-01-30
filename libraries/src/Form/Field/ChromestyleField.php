@@ -109,7 +109,7 @@ class ChromestyleField extends GroupedlistField
                 $clientName = $this->element['client'];
 
                 if (isset($clientName)) {
-                    $client = ApplicationHelper::getClientInfo($clientName, true);
+                    $client   = ApplicationHelper::getClientInfo($clientName, true);
                     $clientId = $client->id;
                 }
             }
@@ -138,18 +138,18 @@ class ChromestyleField extends GroupedlistField
         $groups = [];
 
         // Add Module Style Field
-        $tmp = '---' . Text::_('JLIB_FORM_VALUE_FROM_TEMPLATE') . '---';
+        $tmp            = '---' . Text::_('JLIB_FORM_VALUE_FROM_TEMPLATE') . '---';
         $groups[$tmp][] = HTMLHelper::_('select.option', '0', Text::_('JLIB_FORM_VALUE_INHERITED'));
 
         $templateStyles = $this->getTemplateModuleStyles();
 
         // Create one new option object for each available style, grouped by templates
         foreach ($templateStyles as $template => $styles) {
-            $template = ucfirst($template);
+            $template          = ucfirst($template);
             $groups[$template] = [];
 
             foreach ($styles as $style) {
-                $tmp = HTMLHelper::_('select.option', $template . '-' . $style, $style);
+                $tmp                 = HTMLHelper::_('select.option', $template . '-' . $style, $style);
                 $groups[$template][] = $tmp;
             }
         }

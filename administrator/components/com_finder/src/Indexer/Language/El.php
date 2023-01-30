@@ -771,7 +771,7 @@ class El extends Language
      */
     protected function toUpperCase($token, &$wCase)
     {
-        $wCase      = array_fill(0, mb_strlen($token, 'UTF-8'), 0);
+        $wCase       = array_fill(0, mb_strlen($token, 'UTF-8'), 0);
         $caseConvert = [
             "α" => 'Α',
             "β" => 'Β',
@@ -823,7 +823,7 @@ class El extends Language
             }
 
             $upperCase = $caseConvert[$char];
-            $newToken  .= $upperCase;
+            $newToken .= $upperCase;
 
             $wCase[$i] = 1;
 

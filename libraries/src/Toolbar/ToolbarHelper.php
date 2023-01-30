@@ -44,9 +44,9 @@ abstract class ToolbarHelper
         $layout = new FileLayout('joomla.toolbar.title');
         $html   = $layout->render(['title' => $title, 'icon' => $icon]);
 
-        $app = Factory::getApplication();
+        $app                  = Factory::getApplication();
         $app->JComponentTitle = $html;
-        $title = strip_tags($title) . ' - ' . $app->get('sitename');
+        $title                = strip_tags($title) . ' - ' . $app->get('sitename');
 
         if ($app->isClient('administrator')) {
             $title .= ' - ' . Text::_('JADMINISTRATION');
@@ -641,10 +641,10 @@ abstract class ToolbarHelper
     public static function preferences($component, $height = 550, $width = 875, $alt = 'JTOOLBAR_OPTIONS', $path = '')
     {
         $component = urlencode($component);
-        $path = urlencode($path);
-        $bar = Toolbar::getInstance('toolbar');
+        $path      = urlencode($path);
+        $bar       = Toolbar::getInstance('toolbar');
 
-        $uri = (string) Uri::getInstance();
+        $uri    = (string) Uri::getInstance();
         $return = urlencode(base64_encode($uri));
 
         // Add a button linking to config for component.

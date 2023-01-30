@@ -68,9 +68,9 @@ class TransitionsModel extends ListModel
      */
     protected function populateState($ordering = 't.ordering', $direction = 'ASC')
     {
-        $app = Factory::getApplication();
+        $app        = Factory::getApplication();
         $workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 1, 'int');
-        $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
+        $extension  = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
         if ($workflowID) {
             $table = $this->getTable('Workflow', 'Administrator');

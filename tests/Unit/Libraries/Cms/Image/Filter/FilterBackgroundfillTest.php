@@ -72,7 +72,7 @@ class FilterBackgroundfillTest extends UnitTestCase
         imagesavealpha($imageHandle, true);
 
         // Define semi-transparent gray areas.
-        $dark = imagecolorallocatealpha($imageHandle, 90, 90, 90, 63);
+        $dark  = imagecolorallocatealpha($imageHandle, 90, 90, 90, 63);
         $light = imagecolorallocatealpha($imageHandle, 120, 120, 120, 63);
 
         imagefilledrectangle($imageHandle, 0, 0, 50, 99, $dark);
@@ -145,9 +145,9 @@ class FilterBackgroundfillTest extends UnitTestCase
             ["#000000AA", 0, 0, 0, 42],
             [
                 [
-                    'red' => -5,
+                    'red'   => -5,
                     'green' => 0,
-                    'blue' => 300,
+                    'blue'  => 300,
                     'alpha' => 300,
                 ],
                 0, 0, 255, 127,
@@ -173,7 +173,7 @@ class FilterBackgroundfillTest extends UnitTestCase
     public function testSanitizeColor($color, $red, $green, $blue, $alpha)
     {
         $imageHandle = imagecreatetruecolor(100, 100);
-        $filter = new FilterBackgroundfill($imageHandle);
+        $filter      = new FilterBackgroundfill($imageHandle);
 
         $this->assertEquals(
             [

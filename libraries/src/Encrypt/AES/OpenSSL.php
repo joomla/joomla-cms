@@ -64,7 +64,7 @@ class OpenSSL extends AbstractAES implements AesInterface
     public function setEncryptionMode($mode = 'cbc', $strength = 128)
     {
         static $availableAlgorithms = null;
-        static $defaultAlgo = 'aes-128-cbc';
+        static $defaultAlgo         = 'aes-128-cbc';
 
         if (!\is_array($availableAlgorithms)) {
             $availableAlgorithms = openssl_get_cipher_methods();

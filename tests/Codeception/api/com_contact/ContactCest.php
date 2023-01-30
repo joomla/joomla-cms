@@ -54,10 +54,10 @@ class ContactCest
         $I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
         $testarticle = [
-            'alias' => 'contact-the-ceo',
-            'catid' => 4,
+            'alias'    => 'contact-the-ceo',
+            'catid'    => 4,
             'language' => '*',
-            'name' => 'Francine Blogs',
+            'name'     => 'Francine Blogs',
         ];
 
         $I->sendPOST('/contacts', $testarticle);
@@ -102,9 +102,9 @@ class ContactCest
         $I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
         $testContact = [
-            'title' => 'A test category',
+            'title'     => 'A test category',
             'parent_id' => 4,
-            'params' => [
+            'params'    => [
                 'workflow_id' => 'inherit',
             ],
         ];

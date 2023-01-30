@@ -86,22 +86,22 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
         }
 
         $safeurlparams = [
-            'catid' => 'INT',
-            'id' => 'INT',
-            'cid' => 'ARRAY',
-            'year' => 'INT',
-            'month' => 'INT',
-            'limit' => 'UINT',
-            'limitstart' => 'UINT',
-            'showall' => 'INT',
-            'return' => 'BASE64',
-            'filter' => 'STRING',
-            'filter_order' => 'CMD',
+            'catid'            => 'INT',
+            'id'               => 'INT',
+            'cid'              => 'ARRAY',
+            'year'             => 'INT',
+            'month'            => 'INT',
+            'limit'            => 'UINT',
+            'limitstart'       => 'UINT',
+            'showall'          => 'INT',
+            'return'           => 'BASE64',
+            'filter'           => 'STRING',
+            'filter_order'     => 'CMD',
             'filter_order_Dir' => 'CMD',
-            'filter-search' => 'STRING',
-            'print' => 'BOOLEAN',
-            'lang' => 'CMD',
-            'Itemid' => 'INT', ];
+            'filter-search'    => 'STRING',
+            'print'            => 'BOOLEAN',
+            'lang'             => 'CMD',
+            'Itemid'           => 'INT', ];
 
         // Check for edit form.
         if ($vName === 'form' && !$this->checkEditId('com_content.edit.article', $id)) {
