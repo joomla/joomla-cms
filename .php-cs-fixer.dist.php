@@ -54,7 +54,9 @@ $finder = PhpCsFixer\Finder::create()
     ->notPath('/tmpl/')
     ->notPath('/layouts/')
     ->notPath('/cassiopeia/')
-    ->notPath('/atum/');
+    ->notPath('/atum/')
+    // Ignore psr12 scripts because they contain invalid syntax
+    ->notPath('/psr12/');
 
 $config = new PhpCsFixer\Config();
 $config
