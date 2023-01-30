@@ -50,8 +50,6 @@ abstract class WebApplication extends AbstractWebApplication
      *
      * @var    integer
      * @since  __DEPLOY_VERSION__
-     *
-     * @deprecated
      */
     public $item_associations;
 
