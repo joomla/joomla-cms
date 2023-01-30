@@ -122,6 +122,7 @@ final class Ldap extends CMSPlugin
             'version'    => $this->params->get('use_ldapV3', '1') == '1' ? 3 : 2,
             'referrals'  => (bool) $this->params->get('no_referrals', '0'),
             'encryption' => $this->params->get('encryption', 'none'),
+            'debug'      => (bool) $this->params->get('ldap_debug', '0'),
             'options'    => [
                 'x_tls_require_cert' => $ignore_reqcert_tls ? LDAP_OPT_X_TLS_NEVER : LDAP_OPT_X_TLS_DEMAND,
             ],
