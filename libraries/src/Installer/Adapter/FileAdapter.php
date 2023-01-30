@@ -128,6 +128,7 @@ class FileAdapter extends InstallerAdapter
                 Folder::create($this->parent->getPath('extension_root'));
             }
 
+            $path = [];
             $path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
@@ -514,6 +515,7 @@ class FileAdapter extends InstallerAdapter
             if (\count($eFiles->children())) {
                 // Loop through all filenames elements
                 foreach ($eFiles->children() as $eFileName) {
+                    $path = [];
                     $path['src'] = $sourceFolder . '/' . $eFileName;
                     $path['dest'] = $targetFolder . '/' . $eFileName;
                     $path['type'] = 'file';
@@ -530,6 +532,7 @@ class FileAdapter extends InstallerAdapter
                 $files = Folder::files($sourceFolder);
 
                 foreach ($files as $file) {
+                    $path = [];
                     $path['src'] = $sourceFolder . '/' . $file;
                     $path['dest'] = $targetFolder . '/' . $file;
 
