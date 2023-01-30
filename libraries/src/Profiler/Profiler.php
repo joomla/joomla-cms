@@ -180,7 +180,7 @@ class Profiler
      */
     public function setStart($startTime = 0.0, $startMem = 0)
     {
-        $this->start       = (double) $startTime;
+        $this->start       = (float) $startTime;
         $this->previousMem = (int) $startMem / 1048576;
 
         return $this;

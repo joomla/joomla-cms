@@ -44,7 +44,7 @@ class GroupModel extends AdminModel
      */
     protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
-        'language_id'   => 'batchLanguage'
+        'language_id'   => 'batchLanguage',
     ];
 
     /**

@@ -166,7 +166,7 @@ class HtmlView extends BaseHtmlView
                             'canDisable' => false,
                             'active'     => [$backupCodesRecord],
                         ]
-                    )
+                    ),
                 ],
                 $this->methods
             );

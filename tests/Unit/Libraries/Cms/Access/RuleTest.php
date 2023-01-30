@@ -32,7 +32,7 @@ class RuleTest extends UnitTestCase
         $ruleData = [
             -42 => 1,
             2 => 1,
-            3 => 0
+            3 => 0,
         ];
 
         // Test constructor with array.
@@ -53,7 +53,7 @@ class RuleTest extends UnitTestCase
         $ruleData = [
             -42 => 1,
             2 => 1,
-            3 => 0
+            3 => 0,
         ];
 
         // Test constructor with array.
@@ -99,7 +99,7 @@ class RuleTest extends UnitTestCase
         $ruleData = [
             -42 => 1,
             2 => 1,
-            3 => 0
+            3 => 0,
         ];
 
         // Construct a rule with no identities.
@@ -119,7 +119,7 @@ class RuleTest extends UnitTestCase
             -42 => 0,
             2 => 1,
             3 => 1,
-            4 => 1
+            4 => 1,
         ];
 
         // Ident 3 should remain false, 4 should be added.
@@ -127,7 +127,7 @@ class RuleTest extends UnitTestCase
             -42 => 0,
             2 => 1,
             3 => 0,
-            4 => 1
+            4 => 1,
         ];
         $rule->mergeIdentities($ruleData2);
         $this->assertEquals(json_encode($expectedResult), (string) $rule);
@@ -145,7 +145,7 @@ class RuleTest extends UnitTestCase
         // Simple allow and deny test.
         $ruleData = [
             -42 => 0,
-            2 => 1
+            2 => 1,
         ];
         $rule = new Rule($ruleData);
 
@@ -165,7 +165,7 @@ class RuleTest extends UnitTestCase
     {
         $ruleData = [
             -42 => 0,
-            2 => 1
+            2 => 1,
         ];
 
         $rule = new Rule($ruleData);

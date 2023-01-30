@@ -156,14 +156,13 @@ class Cli extends Input
                     $out[$key] = $value;
                 }
             } elseif (substr($arg, 0, 1) === '-') {
-            // -k=value -abc
-            // -k=value
+                // -k=value -abc
+                // -k=value
                 if (substr($arg, 2, 1) === '=') {
                     $key = substr($arg, 1, 1);
                     $value = substr($arg, 3);
                     $out[$key] = $value;
-                } else // -abc
-                {
+                } else { // -abc
                     $chars = str_split(substr($arg, 1));
 
                     foreach ($chars as $char) {

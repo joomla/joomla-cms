@@ -93,7 +93,7 @@ class ItemModel extends AdminModel
      */
     protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
-        'language_id'   => 'batchLanguage'
+        'language_id'   => 'batchLanguage',
     ];
 
     /**
@@ -1128,7 +1128,7 @@ class ItemModel extends AdminModel
                 if (isset($view)) {
                     $metadataFolders = [
                         $base . '/view/' . $view,
-                        $base . '/views/' . $view
+                        $base . '/views/' . $view,
                     ];
                     $metaPath = Path::find($metadataFolders, 'metadata.xml');
 

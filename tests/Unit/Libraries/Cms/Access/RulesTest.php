@@ -32,11 +32,11 @@ class RulesTest extends UnitTestCase
         $ruleIdentities = [
             -42 => 1,
             2 => 1,
-            3 => 0
+            3 => 0,
         ];
 
         $input = [
-            'edit' => $ruleIdentities
+            'edit' => $ruleIdentities,
         ];
 
         // Test input as string.
@@ -57,11 +57,11 @@ class RulesTest extends UnitTestCase
         $ruleIdentities = [
             -42 => 1,
             2 => 1,
-            3 => 0
+            3 => 0,
         ];
 
         $input = [
-            'edit' => $ruleIdentities
+            'edit' => $ruleIdentities,
         ];
 
         $rules = new Rules($input);
@@ -83,11 +83,11 @@ class RulesTest extends UnitTestCase
         $ruleIdentities = [
             -42 => 1,
             2 => 1,
-            3 => 0
+            3 => 0,
         ];
 
         $input = [
-            'edit' => $ruleIdentities
+            'edit' => $ruleIdentities,
         ];
 
         $rules = new Rules((object) $input);
@@ -109,7 +109,7 @@ class RulesTest extends UnitTestCase
         $ruleIdentities = [
             -42 => 1,
             2 => 1,
-            3 => 0
+            3 => 0,
         ];
 
         // Construct and empty \Joomla\CMS\Access\Rules.
@@ -126,7 +126,7 @@ class RulesTest extends UnitTestCase
             -42 => 0,
             2 => 1,
             3 => 1,
-            4 => 1
+            4 => 1,
         ];
         $rules->mergeAction('edit', $newRuleIdentities);
 
@@ -136,7 +136,7 @@ class RulesTest extends UnitTestCase
                 -42 => 0,
                 2 => 1,
                 3 => 0,
-                4 => 1
+                4 => 1,
             ],
             $editRule->getData()
         );
@@ -153,32 +153,32 @@ class RulesTest extends UnitTestCase
     {
         $ruleData1 = [
             'edit' => [
-                -42 => 1
+                -42 => 1,
             ],
             'delete' => [
-                -42 => 0
-            ]
+                -42 => 0,
+            ],
         ];
 
         $ruleData2 = [
             'create' => [
-                2 => 1
+                2 => 1,
             ],
             'delete' => [
-                2 => 0
-            ]
+                2 => 0,
+            ],
         ];
 
         $expectedResult = [
             'edit' => [
-                -42 => 1
+                -42 => 1,
             ],
             'delete' => [
                 -42 => 0,
-                2 => 0
+                2 => 0,
             ],
             'create' => [
-                2 => 1
+                2 => 1,
             ],
         ];
 
@@ -209,11 +209,11 @@ class RulesTest extends UnitTestCase
     {
         $ruleData = [
             'edit' => [
-                -42 => 1
+                -42 => 1,
             ],
             'delete' => [
-                -42 => 0
-            ]
+                -42 => 0,
+            ],
         ];
 
         $rules1 = new Rules($ruleData);
@@ -240,32 +240,32 @@ class RulesTest extends UnitTestCase
     {
         $ruleData1 = [
             'edit' => [
-                -42 => 1
+                -42 => 1,
             ],
             'delete' => [
-                -42 => 0
-            ]
+                -42 => 0,
+            ],
         ];
 
         $ruleData2 = [
             'create' => [
-                2 => 1
+                2 => 1,
             ],
             'delete' => [
-                2 => 0
-            ]
+                2 => 0,
+            ],
         ];
 
         $expectedResult = [
             'edit' => [
-                -42 => 1
+                -42 => 1,
             ],
             'delete' => [
                 -42 => 0,
-                2 => 0
+                2 => 0,
             ],
             'create' => [
-                2 => 1
+                2 => 1,
             ],
         ];
 
@@ -295,12 +295,12 @@ class RulesTest extends UnitTestCase
     {
         $ruleData = [
             'edit' => [
-                -42 => 1
+                -42 => 1,
             ],
             'delete' => [
                 -42 => 0,
-                2 => 1
-            ]
+                2 => 1,
+            ],
         ];
 
         $rules = new Rules($ruleData);
@@ -326,15 +326,15 @@ class RulesTest extends UnitTestCase
     {
         $ruleData = [
             'create' => [
-                -42 => 1
+                -42 => 1,
             ],
             'edit' => [
-                -42 => 1
+                -42 => 1,
             ],
             'delete' => [
                 -42 => 0,
-                2 => 1
-            ]
+                2 => 1,
+            ],
         ];
 
         $rules = new Rules($ruleData);
@@ -355,15 +355,15 @@ class RulesTest extends UnitTestCase
     {
         $ruleData = [
             'create' => [
-                -42 => 1
+                -42 => 1,
             ],
             'edit' => [
-                -42 => 1
+                -42 => 1,
             ],
             'delete' => [
                 -42 => 0,
-                2 => 1
-            ]
+                2 => 1,
+            ],
         ];
 
         $rules = new Rules($ruleData);

@@ -111,7 +111,7 @@ class ConfigurationModel extends BaseInstallationModel
             ->columns(
                 [
                     $db->quoteName('extension_id'),
-                    $db->quoteName('version_id')
+                    $db->quoteName('version_id'),
                 ]
             )
             ->values($eid . ', ' . $db->quote($version));
@@ -538,7 +538,7 @@ class ConfigurationModel extends BaseInstallationModel
                 $db->quoteName('registerDate'),
                 $db->quoteName('lastvisitDate'),
                 $db->quoteName('activation'),
-                $db->quoteName('params')
+                $db->quoteName('params'),
             ];
             $query->clear()
                 ->insert('#__users', true)

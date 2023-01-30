@@ -224,7 +224,7 @@ class HtmlView extends BaseHtmlView
                 $itemElement->core_images = json_encode(
                     [
                         'image_intro' => $itemElement->core_params->get('image', ''),
-                        'image_intro_alt' => $itemElement->core_params->get('image_alt', '')
+                        'image_intro_alt' => $itemElement->core_params->get('image_alt', ''),
                     ]
                 );
             }

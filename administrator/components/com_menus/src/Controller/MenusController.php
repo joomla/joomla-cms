@@ -146,7 +146,7 @@ class MenusController extends BaseController
         )
             ->from($db->quoteName('#__menu'))
             ->where($db->quoteName('type') . ' = ' . $db->quote('component.item'));
-            $db->setQuery($query);
+        $db->setQuery($query);
 
         try {
             $items = $db->loadObjectList();

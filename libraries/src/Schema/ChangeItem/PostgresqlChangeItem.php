@@ -103,7 +103,7 @@ class PostgresqlChangeItem extends ChangeItem
                 $this->queryType = 'ADD_COLUMN';
                 $this->msgElements = [
                     $this->fixQuote($wordArray[2]),
-                    $this->fixQuote($wordArray[5])
+                    $this->fixQuote($wordArray[5]),
                 ];
             } elseif ($alterCommand === 'DROP COLUMN') {
                 $result = 'SELECT column_name'
@@ -116,7 +116,7 @@ class PostgresqlChangeItem extends ChangeItem
                 $this->checkQueryExpected = 0;
                 $this->msgElements = [
                     $this->fixQuote($wordArray[2]),
-                    $this->fixQuote($wordArray[5])
+                    $this->fixQuote($wordArray[5]),
                 ];
             } elseif ($alterCommand === 'ALTER COLUMN') {
                 $alterAction = strtoupper($wordArray[6]);
@@ -152,7 +152,7 @@ class PostgresqlChangeItem extends ChangeItem
                     $this->msgElements = [
                         $this->fixQuote($wordArray[2]),
                         $this->fixQuote($wordArray[5]),
-                        $type
+                        $type,
                     ];
                 } elseif ($alterAction === 'SET') {
                     $alterType = strtoupper($wordArray[7]);
@@ -168,7 +168,7 @@ class PostgresqlChangeItem extends ChangeItem
                         $this->msgElements = [
                             $this->fixQuote($wordArray[2]),
                             $this->fixQuote($wordArray[5]),
-                            'NOT NULL'
+                            'NOT NULL',
                         ];
                     } elseif ($alterType === 'DEFAULT') {
                         $result = 'SELECT column_name, data_type, is_nullable'
@@ -187,7 +187,7 @@ class PostgresqlChangeItem extends ChangeItem
                         $this->msgElements = [
                             $this->fixQuote($wordArray[2]),
                             $this->fixQuote($wordArray[5]),
-                            'DEFAULT ' . $wordArray[8]
+                            'DEFAULT ' . $wordArray[8],
                         ];
                     }
                 } elseif ($alterAction === 'DROP') {
@@ -205,7 +205,7 @@ class PostgresqlChangeItem extends ChangeItem
                         $this->msgElements = [
                             $this->fixQuote($wordArray[2]),
                             $this->fixQuote($wordArray[5]),
-                            'NOT DEFAULT'
+                            'NOT DEFAULT',
                         ];
                     } elseif ($alterType === 'NOT' && strtoupper($wordArray[8]) === 'NULL') {
                         $result = 'SELECT column_name, data_type, is_nullable , column_default'
@@ -219,7 +219,7 @@ class PostgresqlChangeItem extends ChangeItem
                         $this->msgElements = [
                             $this->fixQuote($wordArray[2]),
                             $this->fixQuote($wordArray[5]),
-                            'NULL'
+                            'NULL',
                         ];
                     }
                 }

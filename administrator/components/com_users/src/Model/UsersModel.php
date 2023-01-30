@@ -67,7 +67,7 @@ class UsersModel extends ListModel
                 'range',
                 'lastvisitrange',
                 'state',
-                'mfa'
+                'mfa',
             ];
         }
 
@@ -307,7 +307,7 @@ class UsersModel extends ListModel
                 ->select(
                     [
                         'MIN(' . $db->quoteName('user_id') . ') AS ' . $db->quoteName('uid'),
-                        'COUNT(*) AS ' . $db->quoteName('mfaRecords')
+                        'COUNT(*) AS ' . $db->quoteName('mfaRecords'),
                     ]
                 )
                 ->from($db->quoteName('#__user_mfa'))
@@ -384,7 +384,7 @@ class UsersModel extends ListModel
                             'a.resetCount',
                             'a.otpKey',
                             'a.otep',
-                            'a.requireReset'
+                            'a.requireReset',
                         ]
                     )
                 );
@@ -549,7 +549,7 @@ class UsersModel extends ListModel
             case 'post_year':
                 $dNow = false;
 
-                // No break
+                // no break
 
             case 'past_year':
                 $dStart->modify('-1 year');

@@ -1045,8 +1045,7 @@ class Image
         // If we were given a percentage, calculate the integer value.
         if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $height)) {
             $height = (int) round($this->getHeight() * (float) str_replace('%', '', $height) / 100);
-        } else // Else do some rounding so we come out with a sane integer value.
-        {
+        } else { // Else do some rounding so we come out with a sane integer value.
             $height = (int) round((float) $height);
         }
 
@@ -1085,8 +1084,7 @@ class Image
         // If we were given a percentage, calculate the integer value.
         if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $width)) {
             $width = (int) round($this->getWidth() * (float) str_replace('%', '', $width) / 100);
-        } else // Else do some rounding so we come out with a sane integer value.
-        {
+        } else { // Else do some rounding so we come out with a sane integer value.
             $width = (int) round((float) $width);
         }
 

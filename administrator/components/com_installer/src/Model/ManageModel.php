@@ -405,7 +405,7 @@ class ManageModel extends InstallerModel
                         'extensions.folder',
                         'extensions.changelogurl',
                         'extensions.manifest_cache',
-                        'extensions.client_id'
+                        'extensions.client_id',
                     ]
                 )
             )
@@ -440,7 +440,7 @@ class ManageModel extends InstallerModel
             'change'   => [],
             'remove'   => [],
             'language' => [],
-            'note'     => []
+            'note'     => [],
         ];
 
         array_walk(

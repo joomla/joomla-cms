@@ -80,7 +80,7 @@ class DatabaseModel extends InstallerModel
                 'status',
                 'type', 'type_translated',
                 'folder', 'folder_translated',
-                'extension_id'
+                'extension_id',
             ];
         }
 
@@ -237,7 +237,7 @@ class DatabaseModel extends InstallerModel
                 'errorsCount'   => $errorCount,
                 'results'       => $changeSet->getStatus(),
                 'schema'        => $schema,
-                'extension'     => $result
+                'extension'     => $result,
             ];
         }
     }
@@ -348,7 +348,7 @@ class DatabaseModel extends InstallerModel
                         'extensions.manifest_cache',
                         'extensions.name',
                         'extensions.type',
-                        'schemas.version_id'
+                        'schemas.version_id',
                     ]
                 )
             )

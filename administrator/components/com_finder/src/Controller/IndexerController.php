@@ -160,7 +160,7 @@ class IndexerController extends BaseController
             'lineend'   => 'unix',
             'tab'       => '  ',
             'language'  => $lang->getTag(),
-            'direction' => $lang->isRtl() ? 'rtl' : 'ltr'
+            'direction' => $lang->isRtl() ? 'rtl' : 'ltr',
         ];
 
         // Start the indexer.

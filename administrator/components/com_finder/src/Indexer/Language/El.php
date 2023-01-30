@@ -893,7 +893,7 @@ class El extends Language
                     'Ο' => 'ό',
                     'Υ' => 'ύ',
                     'Ω' => 'ώ',
-                    'Σ' => 'ς'
+                    'Σ' => 'ς',
                 ];
 
                 $newToken .= $charMap[$char];
@@ -905,7 +905,7 @@ class El extends Language
             if ($wCase[$i] == 3) {
                 $charMap = [
                     'Ι' => 'ϊ',
-                    'Υ' => 'ϋ'
+                    'Υ' => 'ϋ',
                 ];
 
                 $newToken .= $charMap[$char];
@@ -917,7 +917,7 @@ class El extends Language
             if ($wCase[$i] == 4) {
                 $charMap = [
                     'Ι' => 'ΐ',
-                    'Υ' => 'ΰ'
+                    'Υ' => 'ΰ',
                 ];
 
                 $newToken .= $charMap[$char];

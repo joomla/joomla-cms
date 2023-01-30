@@ -63,7 +63,7 @@ class BannerCest
                 'imageurl' => '',
                 'width' => '',
                 'height' => '',
-                'alt' => ''
+                'alt' => '',
             ],
         ];
 
@@ -110,7 +110,7 @@ class BannerCest
 
         $testarticle = [
             'title' => 'A test category',
-            'parent_id' => 3
+            'parent_id' => 3,
         ];
 
         $I->sendPOST('/banners/categories', $testarticle);

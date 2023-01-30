@@ -166,7 +166,7 @@ class ContactsModel extends ListModel
         $query->select(
             [
                 $db->quoteName('ul.name', 'linked_user'),
-                $db->quoteName('ul.email')
+                $db->quoteName('ul.email'),
             ]
         )
             ->join(

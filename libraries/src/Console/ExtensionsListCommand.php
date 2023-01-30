@@ -100,7 +100,6 @@ class ExtensionsListCommand extends AbstractCommand
      */
     protected function configure(): void
     {
-
         $this->addOption('type', null, InputOption::VALUE_REQUIRED, 'Type of the extension');
 
         $help = "<info>%command.name%</info> lists all installed extensions

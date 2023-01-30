@@ -99,8 +99,8 @@ class ModuleModel extends AdminModel
                 'event_before_save'   => 'onExtensionBeforeSave',
                 'events_map'          => [
                     'save'   => 'extension',
-                    'delete' => 'extension'
-                ]
+                    'delete' => 'extension',
+                ],
             ],
             $config
         );

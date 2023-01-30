@@ -48,8 +48,7 @@ class FormModelTest extends UnitTestCase
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn($table);
 
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel {
             public function getForm($data = [], $loadData = true)
             {
                 return null;
@@ -69,8 +68,7 @@ class FormModelTest extends UnitTestCase
      */
     public function testSuccessfulCheckinWithEmptyRecord()
     {
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends FormModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends FormModel {
             public function getForm($data = [], $loadData = true)
             {
                 return null;
@@ -99,8 +97,7 @@ class FormModelTest extends UnitTestCase
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn($table);
 
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel {
             public function getForm($data = [], $loadData = true)
             {
                 return null;
@@ -127,8 +124,7 @@ class FormModelTest extends UnitTestCase
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn($table);
 
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel {
             public function getForm($data = [], $loadData = true)
             {
                 return null;
@@ -156,8 +152,7 @@ class FormModelTest extends UnitTestCase
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn($table);
 
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel {
             public function getForm($data = [], $loadData = true)
             {
                 return null;
@@ -190,8 +185,7 @@ class FormModelTest extends UnitTestCase
         $user->id = 2;
         $user->method('authorise')->willReturn(false);
 
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel {
             public function getForm($data = [], $loadData = true)
             {
                 return null;
@@ -225,8 +219,7 @@ class FormModelTest extends UnitTestCase
         $user->id = 2;
         $user->method('authorise')->willReturn(true);
 
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel {
             public function getForm($data = [], $loadData = true)
             {
                 return null;
@@ -256,8 +249,7 @@ class FormModelTest extends UnitTestCase
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn($table);
 
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel {
             public function getForm($data = [], $loadData = true)
             {
                 return null;
@@ -281,8 +273,7 @@ class FormModelTest extends UnitTestCase
      */
     public function testSuccessfulCheckoutWithEmptyRecord()
     {
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends FormModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends FormModel {
             public function getForm($data = [], $loadData = true)
             {
                 return null;
@@ -311,8 +302,7 @@ class FormModelTest extends UnitTestCase
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn($table);
 
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel {
             public function getForm($data = [], $loadData = true)
             {
                 return null;
@@ -346,8 +336,7 @@ class FormModelTest extends UnitTestCase
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn($table);
 
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel {
             public function getForm($data = [], $loadData = true)
             {
                 return null;
@@ -374,8 +363,7 @@ class FormModelTest extends UnitTestCase
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn($table);
 
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel {
             public function getForm($data = [], $loadData = true)
             {
                 return null;
@@ -402,8 +390,7 @@ class FormModelTest extends UnitTestCase
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn($table);
 
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel {
             public function getForm($data = [], $loadData = true)
             {
                 return null;
@@ -431,8 +418,7 @@ class FormModelTest extends UnitTestCase
         $mvcFactory = $this->createStub(MVCFactoryInterface::class);
         $mvcFactory->method('createTable')->willReturn($table);
 
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
-        {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel {
             public function getForm($data = [], $loadData = true)
             {
                 return null;

@@ -158,7 +158,7 @@ class WorkflowModel extends AdminModel
             'workflow',
             [
                 'control'   => 'jform',
-                'load_data' => $loadData
+                'load_data' => $loadData,
             ]
         );
 
@@ -292,7 +292,7 @@ class WorkflowModel extends AdminModel
                 $table->load(
                     [
                     'default' => '1',
-                    'extension' => $table->get('extension')
+                    'extension' => $table->get('extension'),
                     ]
                 )
             ) {

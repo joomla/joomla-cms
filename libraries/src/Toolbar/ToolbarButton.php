@@ -172,7 +172,7 @@ abstract class ToolbarButton
         return $layout->render(
             [
                 'action' => $action,
-                'options' => $this->options
+                'options' => $this->options,
             ]
         );
     }

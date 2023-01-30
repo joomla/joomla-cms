@@ -222,7 +222,7 @@ class TransitionModel extends AdminModel
             'transition',
             [
                 'control' => 'jform',
-                'load_data' => $loadData
+                'load_data' => $loadData,
             ]
         );
 

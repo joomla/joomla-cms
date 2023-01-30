@@ -151,7 +151,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
                 $this->introtext = $array['articletext'];
                 $this->fulltext = '';
             } else {
-                list ($this->introtext, $this->fulltext) = preg_split($pattern, $array['articletext'], 2);
+                list($this->introtext, $this->fulltext) = preg_split($pattern, $array['articletext'], 2);
             }
         }
 

@@ -168,7 +168,7 @@ class AssociationsHelper extends AssociationExtensionHelper
                     $support['save2copy'] = true;
 
                     $tables = [
-                        'a' => '#__content'
+                        'a' => '#__content',
                     ];
 
                     $title = 'article';
@@ -187,7 +187,7 @@ class AssociationsHelper extends AssociationExtensionHelper
                     $support['level'] = true;
 
                     $tables = [
-                        'a' => '#__categories'
+                        'a' => '#__categories',
                     ];
 
                     $title = 'category';
@@ -200,7 +200,7 @@ class AssociationsHelper extends AssociationExtensionHelper
             'support' => $support,
             'tables'  => $tables,
             'joins'   => $joins,
-            'title'   => $title
+            'title'   => $title,
         ];
     }
 }

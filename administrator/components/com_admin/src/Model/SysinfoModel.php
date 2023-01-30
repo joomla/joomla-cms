@@ -140,7 +140,7 @@ class SysinfoModel extends BaseDatabaseModel
             'smtphost',
             'tmp_path',
             'open_basedir',
-        ]
+        ],
     ];
 
     /**
@@ -284,7 +284,7 @@ class SysinfoModel extends BaseDatabaseModel
         $hidden = [
             'host', 'user', 'password', 'ftp_user', 'ftp_pass',
             'smtpuser', 'smtppass', 'redis_server_auth', 'session_redis_server_auth',
-            'proxy_user', 'proxy_pass', 'secret'
+            'proxy_user', 'proxy_pass', 'secret',
         ];
 
         foreach ($hidden as $key) {
@@ -482,7 +482,7 @@ class SysinfoModel extends BaseDatabaseModel
                 'author'       => $manifest->get('author', ''),
                 'version'      => $manifest->get('version', ''),
                 'creationDate' => $manifest->get('creationDate', ''),
-                'authorUrl'    => $manifest->get('authorUrl', '')
+                'authorUrl'    => $manifest->get('authorUrl', ''),
             ];
 
             $installed[$extension->name] = array_merge($installed[$extension->name], $extraData);

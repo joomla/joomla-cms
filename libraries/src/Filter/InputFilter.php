@@ -34,7 +34,7 @@ class InputFilter extends BaseInputFilter
      */
     public const FORBIDDEN_FILE_EXTENSIONS = [
         'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7', 'asp',
-        'php8', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py', 'aspx'
+        'php8', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py', 'aspx',
     ];
 
     /**

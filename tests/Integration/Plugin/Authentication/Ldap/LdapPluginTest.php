@@ -63,7 +63,7 @@ class LdapPluginTest extends IntegrationTestCase
         $pluginObject = [
             'name'   => 'ldap',
             'params' => json_encode($options),
-            'type'   => 'authentication'
+            'type'   => 'authentication',
         ];
 
         $plugin = new LdapPlugin(new LdapFactory(), new Dispatcher(), $pluginObject);
@@ -145,7 +145,7 @@ class LdapPluginTest extends IntegrationTestCase
         $this->default_credentials = [
             'username' => JTEST_LDAP_TESTUSER,
             'password' => JTEST_LDAP_TESTPASSWORD,
-            'secretkey' => null
+            'secretkey' => null,
         ];
     }
 

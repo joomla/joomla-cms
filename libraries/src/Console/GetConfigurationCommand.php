@@ -68,8 +68,8 @@ class GetConfigurationCommand extends AbstractCommand
             'dbsslkey',
             'dbsslcert',
             'dbsslca',
-            'dbsslcipher'
-        ]
+            'dbsslcipher',
+        ],
     ];
 
     /**
@@ -82,8 +82,8 @@ class GetConfigurationCommand extends AbstractCommand
         'options' => [
             'session_handler',
             'shared_session',
-            'session_metadata'
-        ]
+            'session_metadata',
+        ],
     ];
 
     /**
@@ -104,8 +104,8 @@ class GetConfigurationCommand extends AbstractCommand
             'smtppass',
             'smtphost',
             'smtpsecure',
-            'smtpport'
-        ]
+            'smtpport',
+        ],
     ];
 
     /**
@@ -202,7 +202,7 @@ class GetConfigurationCommand extends AbstractCommand
         return [
             self::DB_GROUP,
             self::MAIL_GROUP,
-            self::SESSION_GROUP
+            self::SESSION_GROUP,
         ];
     }
 

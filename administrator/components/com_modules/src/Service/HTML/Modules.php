@@ -208,7 +208,7 @@ class Modules
         // Create the copy/move options.
         $options = [
             HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
-            HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
+            HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE')),
         ];
 
         echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm');

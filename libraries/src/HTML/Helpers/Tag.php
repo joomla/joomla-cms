@@ -194,7 +194,7 @@ abstract class Tag
                 'dataType'       => 'json',
                 'jsonTermKey'    => 'like',
                 'afterTypeDelay' => 500,
-                'minTermLength'  => $minTermLength
+                'minTermLength'  => $minTermLength,
             ]
         );
 

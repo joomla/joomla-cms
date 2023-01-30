@@ -117,7 +117,7 @@ class DebugHelper
 
                                     $actions[(string) $action['title']] = [
                                         (string) $action['name'],
-                                        $descr
+                                        $descr,
                                     ];
                                 }
 

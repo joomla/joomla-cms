@@ -856,7 +856,7 @@ class ApplicationModel extends FormModel
                 'action'    => $input->json->get('action'),
                 'rule'      => $input->json->get('rule'),
                 'value'     => $input->json->get('value'),
-                'title'     => $input->json->get('title', '', 'RAW')
+                'title'     => $input->json->get('title', '', 'RAW'),
             ];
         }
 
@@ -1200,7 +1200,7 @@ class ApplicationModel extends FormModel
         $mailer->addTemplateData(
             [
                 'sitename' => $app->get('sitename'),
-                'method' => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer))
+                'method' => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)),
             ]
         );
         $mailer->addRecipient($app->get('mailfrom'), $app->get('fromname'));

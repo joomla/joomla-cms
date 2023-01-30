@@ -637,7 +637,6 @@ abstract class Select
         $idtag = false,
         $translate = false
     ) {
-
         if (is_array($attribs)) {
             $attribs = ArrayHelper::toString($attribs);
         }

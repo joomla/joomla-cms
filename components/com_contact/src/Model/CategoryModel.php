@@ -104,7 +104,7 @@ class CategoryModel extends ListModel
                 'sortname1', 'a.sortname1',
                 'sortname2', 'a.sortname2',
                 'sortname3', 'a.sortname3',
-                'featuredordering', 'a.featured'
+                'featuredordering', 'a.featured',
             ];
         }
 

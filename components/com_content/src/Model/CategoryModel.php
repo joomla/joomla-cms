@@ -115,7 +115,7 @@ class CategoryModel extends ListModel
                 'publish_up', 'a.publish_up',
                 'publish_down', 'a.publish_down',
                 'author', 'a.author',
-                'filter_tag'
+                'filter_tag',
             ];
         }
 

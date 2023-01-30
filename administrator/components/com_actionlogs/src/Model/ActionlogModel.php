@@ -154,7 +154,7 @@ class ActionlogModel extends BaseDatabaseModel
         }
 
         $templateData = [
-            'messages'     => $temp
+            'messages'     => $temp,
         ];
 
         $mailer = new MailTemplate('com_actionlogs.notification', $app->getLanguage()->getTag());

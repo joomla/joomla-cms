@@ -50,7 +50,7 @@ class GroupModel extends AdminModel
                 'event_after_save'    => 'onUserAfterSaveGroup',
                 'event_before_delete' => 'onUserBeforeDeleteGroup',
                 'event_before_save'   => 'onUserBeforeSaveGroup',
-                'events_map'          => ['delete' => 'user', 'save' => 'user']
+                'events_map'          => ['delete' => 'user', 'save' => 'user'],
             ],
             $config
         );

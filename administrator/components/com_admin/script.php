@@ -8351,7 +8351,7 @@ class JoomlaInstallerScript
                 'client_id'         => 1,
                 'publish_up'        => null,
                 'publish_down'      => null,
-            ]
+            ],
         ];
 
         return $menuItems;
@@ -8510,7 +8510,7 @@ class JoomlaInstallerScript
                 'client_id'         => 1,
                 'publish_up'        => null,
                 'publish_down'      => null,
-            ]
+            ],
         ];
 
         return $menuItems;

@@ -72,7 +72,7 @@ class FieldModel extends AdminModel
      */
     protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
-        'language_id'   => 'batchLanguage'
+        'language_id'   => 'batchLanguage',
     ];
 
     /**
@@ -297,7 +297,7 @@ class FieldModel extends AdminModel
         }
 
         // Define the type either from the field or from the data
-        $type = $node->firstChild->getAttribute('validate') ? : $data['type'];
+        $type = $node->firstChild->getAttribute('validate') ?: $data['type'];
 
         // Load the rule
         $rule = FormHelper::loadRuleType($type);
@@ -330,7 +330,7 @@ class FieldModel extends AdminModel
             $result = $rule->test($element, $value);
 
             // Check if the test succeeded
-            return $result === true ? : Text::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
+            return $result === true ?: Text::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
         } catch (\UnexpectedValueException $e) {
             return $e->getMessage();
         }

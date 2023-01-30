@@ -931,7 +931,7 @@ class TemplateModel extends FormModel
         $app      = Factory::getApplication();
         $fileName = base64_decode($app->getInput()->get('file'));
         $isMedia  = $app->getInput()->getInt('isMedia', 0);
-        $fileName = $isMedia ? JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . $fileName  :
+        $fileName = $isMedia ? JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . $fileName :
             JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element . $fileName;
 
         $filePath = Path::clean($fileName);

@@ -183,7 +183,7 @@ class MailModel extends AdminModel
                 'subject' => stripslashes($subject),
                 'body' => $message_body,
                 'subjectprefix' => $params->get('mailSubjectPrefix', ''),
-                'bodysuffix' => $params->get('mailBodySuffix', '')
+                'bodysuffix' => $params->get('mailBodySuffix', ''),
             ];
             $mailer->addTemplateData($data);
 

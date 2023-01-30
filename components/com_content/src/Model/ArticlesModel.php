@@ -824,7 +824,7 @@ class ArticlesModel extends ListModel
                         $query->year($db->quoteName('publish_up')),
                         $db->quote('-'),
                         $query->month($db->quoteName('publish_up')),
-                        $db->quote('-01')
+                        $db->quote('-01'),
                     ]
                 ) . ') AS ' . $db->quoteName('d')
             )

@@ -116,7 +116,7 @@ class Versioning
                 'onContentVersioningPrepareTable',
                 [
                     'subject'   => $historyTable,
-                    'extension' => $typeAlias
+                    'extension' => $typeAlias,
                 ]
             );
 

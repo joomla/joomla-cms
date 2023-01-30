@@ -49,7 +49,7 @@ class InlinehelpButton extends BasicButton
         $options['attributes'] = array_merge(
             $options['attributes'] ?? [],
             [
-                'data-class' => $options['targetclass'] ?? 'hide-aware-inline-help'
+                'data-class' => $options['targetclass'] ?? 'hide-aware-inline-help',
             ]
         );
 

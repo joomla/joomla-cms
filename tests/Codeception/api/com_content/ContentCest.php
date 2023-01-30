@@ -58,7 +58,7 @@ class ContentCest
             'catid' => 2,
             'articletext' => 'A dummy article to save to the database',
             'language' => '*',
-            'alias' => 'tobias'
+            'alias' => 'tobias',
         ];
 
         $I->sendPOST('/content/articles', $testarticle);
@@ -96,7 +96,6 @@ class ContentCest
      */
     public function testCrudOnCategory(ApiTester $I)
     {
-
         $I->amBearerAuthenticated($I->getBearerToken());
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->haveHttpHeader('Accept', 'application/vnd.api+json');
@@ -105,8 +104,8 @@ class ContentCest
             'title' => 'A test category',
             'parent_id' => 2,
             'params' => [
-                'workflow_id' => 'inherit'
-            ]
+                'workflow_id' => 'inherit',
+            ],
         ];
 
         $I->sendPOST('/content/categories', $testarticle);

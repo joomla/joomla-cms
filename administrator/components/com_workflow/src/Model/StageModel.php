@@ -215,7 +215,7 @@ class StageModel extends AdminModel
             'stage',
             [
                 'control' => 'jform',
-                'load_data' => $loadData
+                'load_data' => $loadData,
             ]
         );
 

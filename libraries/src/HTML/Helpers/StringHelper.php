@@ -191,13 +191,13 @@ abstract class StringHelper
 
         // It's all HTML, just return it.
         if ($ptString === '') {
-                return $html;
+            return $html;
         }
 
         // If the plain text is shorter than the max length the variable will not end in ...
         // In that case we use the whole string.
         if (substr($ptString, -3) !== '...') {
-                return $html;
+            return $html;
         }
 
         // Regular truncate gives us the ellipsis but we want to go back for text and tags.

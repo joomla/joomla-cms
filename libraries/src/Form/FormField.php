@@ -509,7 +509,7 @@ abstract class FormField implements DatabaseAwareInterface
                 // Removes spaces from left & right and extra spaces from middle
                 $value = preg_replace('/\s+/', ' ', trim((string) $value));
 
-                // No break
+                // no break
 
             case 'description':
             case 'hint':
@@ -547,7 +547,7 @@ abstract class FormField implements DatabaseAwareInterface
                 $value = (string) $value;
                 $value = $value === '' && isset($this->forceMultiple) ? (string) $this->forceMultiple : $value;
 
-                // No break
+                // no break
 
             case 'required':
             case 'disabled':
@@ -644,7 +644,7 @@ abstract class FormField implements DatabaseAwareInterface
         $attributes = [
             'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext',
             'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-            'translate_label', 'translateDescription', 'translate_description', 'size', 'showon'];
+            'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', ];
 
         $this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 

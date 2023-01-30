@@ -453,8 +453,8 @@ class TracksModel extends ListModel
                     'track' => [
                         'name' => $this->getBaseName() . '.csv',
                         'data' => $this->content,
-                        'time' => time()
-                    ]
+                        'time' => time(),
+                    ],
                 ];
                 $ziproot = $app->get('tmp_path') . '/' . uniqid('banners_tracks_') . '.zip';
 

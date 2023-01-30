@@ -364,7 +364,7 @@ class IndexModel extends ListModel
             'alias' => 'root',
             'state' => 1,
             'access' => 1,
-            'language' => '*'
+            'language' => '*',
         ];
         $db->insertObject('#__finder_taxonomy', $root);
 

@@ -41,7 +41,7 @@ class StagesModel extends ListModel
                 'id', 's.id',
                 'title', 's.title',
                 'ordering','s.ordering',
-                'published', 's.published'
+                'published', 's.published',
             ];
         }
 

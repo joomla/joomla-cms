@@ -139,7 +139,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
                     'input_type'       => 'text',
                     // The attributes for the HTML input box.
                     'input_attributes' => [
-                        'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric"
+                        'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric",
                     ],
                     // Placeholder text for the HTML input box. Leave empty if you don't need it.
                     'placeholder'      => '',
@@ -228,7 +228,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
                     ],
                     'input_type'       => $isConfigured ? 'hidden' : 'text',
                     'input_attributes' => [
-                        'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric"
+                        'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric",
                     ],
                     'input_value'      => '',
                     'placeholder'      => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_PLACEHOLDER'),

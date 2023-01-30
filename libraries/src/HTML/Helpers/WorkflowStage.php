@@ -71,7 +71,7 @@ abstract class WorkflowStage
         }
 
         $prefix[] = [
-            HTMLHelper::_('select.option', '', $options['title'])
+            HTMLHelper::_('select.option', '', $options['title']),
         ];
 
         return array_merge($prefix, $workflowStages);

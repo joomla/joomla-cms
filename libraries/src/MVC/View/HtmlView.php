@@ -195,7 +195,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
                 [
                     'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
                     'subject'    => $this,
-                    'extension'  => $context
+                    'extension'  => $context,
                 ]
             )
         );
@@ -210,7 +210,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
                     'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
                     'subject'    => $this,
                     'extension'  => $context,
-                    'source'     => $result
+                    'source'     => $result,
                 ]
             )
         );

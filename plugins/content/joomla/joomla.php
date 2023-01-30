@@ -534,8 +534,7 @@ class PlgContentJoomla extends CMSPlugin
             }
 
             return $count;
-        } else // If we didn't have any categories to check, return 0
-        {
+        } else { // If we didn't have any categories to check, return 0
             return 0;
         }
     }

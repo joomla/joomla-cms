@@ -162,7 +162,7 @@ class TransitionField extends GroupedlistField
         $workflowName = $db->setQuery($query)->loadResult();
 
         $default = [[
-            HTMLHelper::_('select.option', '', Text::_($workflowName))]];
+            HTMLHelper::_('select.option', '', Text::_($workflowName)), ]];
 
         $groups = parent::getGroups();
 

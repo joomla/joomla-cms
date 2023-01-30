@@ -174,7 +174,7 @@ abstract class ModulesHelper
             $extension = $module->value;
             $path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
             $source = $path . "/modules/$extension";
-                $lang->load("$extension.sys", $path)
+            $lang->load("$extension.sys", $path)
             ||  $lang->load("$extension.sys", $source);
             $modules[$i]->text = Text::_($module->text);
         }

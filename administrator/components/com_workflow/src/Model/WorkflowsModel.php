@@ -45,7 +45,7 @@ class WorkflowsModel extends ListModel
                 'created', 'w.created',
                 'ordering', 'w.ordering',
                 'modified', 'w.modified',
-                'description', 'w.description'
+                'description', 'w.description',
             ];
         }
 

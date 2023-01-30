@@ -503,11 +503,11 @@ class UpdateController extends BaseController
         $combinedCompatibilityStatus = [
             'upgradeCompatibilityStatus' => (object) [
                 'state' => $upgradeCompatibilityStatus->state,
-                'compatibleVersion' => $upgradeUpdateVersion
+                'compatibleVersion' => $upgradeUpdateVersion,
             ],
             'currentCompatibilityStatus' => (object) [
                 'state' => $currentCompatibilityStatus->state,
-                'compatibleVersion' => $currentUpdateVersion
+                'compatibleVersion' => $currentUpdateVersion,
             ],
             'resultGroup' => $resultGroup,
             'upgradeWarning' => $upgradeWarning,
@@ -617,11 +617,11 @@ class UpdateController extends BaseController
                 'id'                         => $extensionID,
                 'upgradeCompatibilityStatus' => (object) [
                     'state'             => $upgradeCompatibilityStatus->state,
-                    'compatibleVersion' => $upgradeUpdateVersion
+                    'compatibleVersion' => $upgradeUpdateVersion,
                 ],
                 'currentCompatibilityStatus' => (object) [
                     'state'             => $currentCompatibilityStatus->state,
-                    'compatibleVersion' => $currentUpdateVersion
+                    'compatibleVersion' => $currentUpdateVersion,
                 ],
                 'resultGroup'                => $resultGroup,
                 'upgradeWarning'             => $upgradeWarning,

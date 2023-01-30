@@ -163,7 +163,7 @@ class AssociationsHelper extends AssociationExtensionHelper
                     $support['level'] = true;
 
                     $tables = [
-                        'a' => '#__menu'
+                        'a' => '#__menu',
                     ];
 
                     $title = 'menu';
@@ -176,7 +176,7 @@ class AssociationsHelper extends AssociationExtensionHelper
             'support' => $support,
             'tables'  => $tables,
             'joins'   => $joins,
-            'title'   => $title
+            'title'   => $title,
         ];
     }
 }

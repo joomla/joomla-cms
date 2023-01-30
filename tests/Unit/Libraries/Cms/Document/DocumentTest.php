@@ -43,8 +43,8 @@ class DocumentTest extends UnitTestCase
                     'direction' => 'ltr',
                     'tab' => "\11",
                     'link' => '',
-                    'base' => ''
-                ]
+                    'base' => '',
+                ],
             ],
             [
                 ['charset' => "euc-jp", 'mediaversion' => '1a2b3c4d'],
@@ -56,14 +56,14 @@ class DocumentTest extends UnitTestCase
                     'tab' => "\11",
                     'link' => '',
                     'base' => '',
-                    'mediaversion' => '1a2b3c4d'
-                ]
+                    'mediaversion' => '1a2b3c4d',
+                ],
             ],
             [
                 [
                     'language' => "de-de", 'direction' => 'rtl',
                     'tab'      => 'Crazy Tab', 'link' => 'http://joomla.org',
-                    'base'     => 'http://base.joomla.org/dir'
+                    'base'     => 'http://base.joomla.org/dir',
                 ],
                 [
                     'lineend' => "\12",
@@ -72,9 +72,9 @@ class DocumentTest extends UnitTestCase
                     'direction' => 'rtl',
                     'tab' => "Crazy Tab",
                     'link' => 'http://joomla.org',
-                    'base' => 'http://base.joomla.org/dir'
-                ]
-            ]
+                    'base' => 'http://base.joomla.org/dir',
+                ],
+            ],
         ];
     }
 

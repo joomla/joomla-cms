@@ -281,11 +281,10 @@ if ($composerReturnCode !== 0) {
 }
 
 // Try to update the fido.jwt file
-if (!file_exists(rtrim($fullpath, '\\/') . '/plugins/system/webauthn/fido.jwt'))
-{
+if (!file_exists(rtrim($fullpath, '\\/') . '/plugins/system/webauthn/fido.jwt')) {
     echo "The file plugins/system/webauthn/fido.jwt was not created. Build failed.\n";
 
-    exit (1);
+    exit(1);
 }
 
 system('npm install --unsafe-perm', $npmReturnCode);
@@ -374,7 +373,7 @@ $filesArray = [
     "LICENSE.txt\n" => true,
     "README.txt\n" => true,
     "robots.txt.dist\n" => true,
-    "web.config.txt\n" => true
+    "web.config.txt\n" => true,
 ];
 
 /*

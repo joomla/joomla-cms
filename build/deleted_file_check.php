@@ -90,7 +90,7 @@ $previousReleaseFilter = function ($file, $key, $iterator) use ($previousRelease
 
 // Directories to skip for the check
 $newReleaseExclude = [
-    $options['to'] . '/installation'
+    $options['to'] . '/installation',
 ];
 
 /**

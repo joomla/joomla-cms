@@ -149,7 +149,7 @@ class LoginModel extends BaseDatabaseModel
                             'm.module',
                             'm.position',
                             'm.showtitle',
-                            'm.params'
+                            'm.params',
                         ]
                     )
                 )

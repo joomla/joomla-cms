@@ -360,7 +360,7 @@ class RssParserTest extends UnitTestCase
     {
         $editor = [
             'name' => 'The Editor',
-            'email' => 'editor@domain.com'
+            'email' => 'editor@domain.com',
         ];
 
         // It's currently not possible to mock simple xml element
@@ -552,7 +552,7 @@ class RssParserTest extends UnitTestCase
     {
         $webmaster = [
             'name' => 'The Webmaster',
-            'email' => 'webmaster@domain.com'
+            'email' => 'webmaster@domain.com',
         ];
 
         // It's currently not possible to mock simple xml element
@@ -673,7 +673,7 @@ class RssParserTest extends UnitTestCase
                             && $value->name === $entry['authorName']
                             && $value->email === $entry['authorEmail'];
                     }
-                )
+                ),
                 ]
             );
 

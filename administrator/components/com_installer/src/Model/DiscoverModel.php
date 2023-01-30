@@ -171,7 +171,7 @@ class DiscoverModel extends InstallerModel
                     $install->type,
                     str_replace('\\', '/', $install->element),
                     $install->folder,
-                    $install->client_id
+                    $install->client_id,
                 ]
             );
             $extensions[$key] = $install;
@@ -187,7 +187,7 @@ class DiscoverModel extends InstallerModel
                     $result->type,
                     str_replace('\\', '/', $result->element),
                     $result->folder,
-                    $result->client_id
+                    $result->client_id,
                 ]
             );
 

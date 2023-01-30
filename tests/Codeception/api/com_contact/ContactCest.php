@@ -57,7 +57,7 @@ class ContactCest
             'alias' => 'contact-the-ceo',
             'catid' => 4,
             'language' => '*',
-            'name' => 'Francine Blogs'
+            'name' => 'Francine Blogs',
         ];
 
         $I->sendPOST('/contacts', $testarticle);
@@ -105,8 +105,8 @@ class ContactCest
             'title' => 'A test category',
             'parent_id' => 4,
             'params' => [
-                'workflow_id' => 'inherit'
-            ]
+                'workflow_id' => 'inherit',
+            ],
         ];
 
         $I->sendPOST('/contacts/categories', $testContact);

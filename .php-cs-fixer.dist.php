@@ -52,6 +52,7 @@ $finder = PhpCsFixer\Finder::create()
     // Ignore template files as PHP CS fixer can't handle them properly
     // https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/3702#issuecomment-396717120
     ->notPath('/tmpl/')
+    ->notPath('/layouts/')
     ->notPath('/cassiopeia/')
     ->notPath('/atum/');
 

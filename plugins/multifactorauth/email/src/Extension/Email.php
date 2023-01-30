@@ -180,7 +180,7 @@ class Email extends CMSPlugin implements SubscriberInterface
                     'input_type'         => 'text',
                     // The attributes for the HTML input box.
                     'input_attributes'   => [
-                        'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric"
+                        'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric",
                     ],
                     // Placeholder text for the HTML input box. Leave empty if you don't need it.
                     'placeholder'        => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),
@@ -254,7 +254,7 @@ class Email extends CMSPlugin implements SubscriberInterface
                         'field_type'       => 'input',
                         'input_type'       => 'text',
                         'input_attributes' => [
-                            'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric"
+                            'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric",
                         ],
                         'input_value'      => '',
                         'placeholder'      => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),

@@ -138,7 +138,7 @@ class InstallationController extends JSONController
             'populate2' => 'supports',
             'populate3' => 'extensions',
             'custom1' => 'localise',
-            'custom2' => 'custom'
+            'custom2' => 'custom',
         ];
 
         $schema = $files[$step];
@@ -251,13 +251,13 @@ class InstallationController extends JSONController
                 'token' => Session::getFormToken(true),
                 'error' => true,
                 'data' => [
-                    'view' => 'remove'
+                    'view' => 'remove',
                 ],
                 'messages' => [
                     'warning' => [
-                        Text::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation')
-                    ]
-                ]
+                        Text::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation'),
+                    ],
+                ],
             ];
 
             echo json_encode($error);

@@ -533,7 +533,7 @@ class Result implements \Serializable
             $taxonomy,
             $this->title,
             $this->type_id,
-            $this->url
+            $this->url,
         ];
     }
 

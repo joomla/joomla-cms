@@ -243,7 +243,7 @@ class UpdateModel extends BaseDatabaseModel
             'latest'    => null,
             'object'    => null,
             'hasUpdate' => false,
-            'current'   => JVERSION // This is deprecated please use 'installed' or JVERSION directly
+            'current'   => JVERSION, // This is deprecated please use 'installed' or JVERSION directly
         ];
 
         // Fetch the update information from the database.
@@ -1490,7 +1490,7 @@ ENDDATA;
                 $db->quoteName('us.location'),
                 $db->quoteName('e.element', 'ext_element'),
                 $db->quoteName('e.type', 'ext_type'),
-                $db->quoteName('e.folder', 'ext_folder')
+                $db->quoteName('e.folder', 'ext_folder'),
             ]
         )
             ->from($db->quoteName('#__update_sites', 'us'))
@@ -1673,7 +1673,7 @@ ENDDATA;
             $db->quoteName(
                 [
                     'id',
-                    'home'
+                    'home',
                 ]
             )
         )->from(

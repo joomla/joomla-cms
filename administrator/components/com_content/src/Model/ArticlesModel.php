@@ -72,7 +72,7 @@ class ArticlesModel extends ListModel
                 'tag',
                 'rating_count', 'rating',
                 'stage', 'wa.stage_id',
-                'ws.title'
+                'ws.title',
             ];
 
             if (Associations::isEnabled()) {
@@ -437,7 +437,7 @@ class ArticlesModel extends ListModel
         } elseif (is_array($authorId)) {
             // Check to see if by_me is in the array
             if (\in_array('by_me', $authorId)) {
-            // Replace by_me with the current user id in the array
+                // Replace by_me with the current user id in the array
                 $authorId['by_me'] = $user->id;
             }
 

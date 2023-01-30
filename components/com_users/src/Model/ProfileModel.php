@@ -56,7 +56,7 @@ class ProfileModel extends FormModel
     {
         $config = array_merge(
             [
-                'events_map' => ['validate' => 'user']
+                'events_map' => ['validate' => 'user'],
             ],
             $config
         );

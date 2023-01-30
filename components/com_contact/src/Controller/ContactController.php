@@ -235,7 +235,7 @@ class ContactController extends FormController
             'subject'  => $data['contact_subject'],
             'body'     => stripslashes($data['contact_message']),
             'url'      => Uri::base(),
-            'customfields' => ''
+            'customfields' => '',
         ];
 
         // Load the custom fields

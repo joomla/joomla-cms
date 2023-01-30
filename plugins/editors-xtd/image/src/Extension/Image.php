@@ -122,7 +122,7 @@ final class Image extends CMSPlugin
                     'images'    => $imagesExt,
                     'audios'    => $audiosExt,
                     'videos'    => $videosExt,
-                    'documents' => $documentsExt
+                    'documents' => $documentsExt,
                 ]);
             }
 

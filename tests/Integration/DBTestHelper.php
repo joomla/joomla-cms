@@ -54,7 +54,7 @@ class DBTestHelper
                     'host' => JTEST_DB_HOST,
                     'user' => JTEST_DB_USER,
                     'password' => JTEST_DB_PASSWORD,
-                    'prefix' => 'jos' . PHP_MAJOR_VERSION . PHP_MINOR_VERSION . '_'
+                    'prefix' => 'jos' . PHP_MAJOR_VERSION . PHP_MINOR_VERSION . '_',
                 ]
             );
         }

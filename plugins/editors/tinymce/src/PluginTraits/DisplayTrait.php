@@ -426,8 +426,8 @@ trait DisplayTrait
                 'end_container_on_empty_block' => true,
 
                 // Toolbars
-                'menubar'  => empty($menubar)  ? false : implode(' ', array_unique($menubar)),
-                'toolbar' => empty($toolbar) ? null  : 'jxtdbuttons ' . implode(' ', $toolbar),
+                'menubar'  => empty($menubar) ? false : implode(' ', array_unique($menubar)),
+                'toolbar' => empty($toolbar) ? null : 'jxtdbuttons ' . implode(' ', $toolbar),
 
                 'plugins'  => implode(',', array_unique($plugins)),
 
@@ -463,7 +463,7 @@ trait DisplayTrait
                 'elementpath'        => (bool) $levelParams->get('element_path', true),
                 'resize'             => $resizing,
                 'templates'          => $templates,
-                'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
+                'external_plugins'   => empty($externalPlugins) ? null : $externalPlugins,
                 'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
                 'toolbar_sticky'     => true,
                 'toolbar_mode'       => $levelParams->get('toolbar_mode', 'sliding'),

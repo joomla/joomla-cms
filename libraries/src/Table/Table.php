@@ -627,7 +627,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
             [
                 'subject'   => $this,
                 'src'       => $src,
-                'ignore'    => $ignore
+                'ignore'    => $ignore,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeBind', $event);
@@ -661,7 +661,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
             [
                 'subject'   => $this,
                 'src'       => $src,
-                'ignore'    => $ignore
+                'ignore'    => $ignore,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterBind', $event);

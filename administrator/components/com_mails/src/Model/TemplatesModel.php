@@ -43,7 +43,7 @@ class TemplatesModel extends ListModel
                 'subject', 'a.subject',
                 'body', 'a.body',
                 'htmlbody', 'a.htmlbody',
-                'extension'
+                'extension',
             ];
         }
 

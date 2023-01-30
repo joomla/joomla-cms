@@ -67,8 +67,8 @@ class PluginModel extends AdminModel
                 'event_after_save'  => 'onExtensionAfterSave',
                 'event_before_save' => 'onExtensionBeforeSave',
                 'events_map'        => [
-                    'save' => 'extension'
-                ]
+                    'save' => 'extension',
+                ],
             ],
             $config
         );
@@ -280,7 +280,7 @@ class PluginModel extends AdminModel
         }
 
         // Load the core and/or local language file(s).
-            $lang->load('plg_' . $folder . '_' . $element, JPATH_ADMINISTRATOR)
+        $lang->load('plg_' . $folder . '_' . $element, JPATH_ADMINISTRATOR)
         ||  $lang->load('plg_' . $folder . '_' . $element, JPATH_PLUGINS . '/' . $folder . '/' . $element);
 
         if (file_exists($formFile)) {

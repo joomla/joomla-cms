@@ -160,8 +160,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                     ->bind(':featuredUp', $featured->featured_up, $featured->featured_up ? ParameterType::STRING : ParameterType::NULL)
                     ->bind(':featuredDown', $featured->featured_down, $featured->featured_down ? ParameterType::STRING : ParameterType::NULL);
 
-                    $db->setQuery($query);
-                    $db->execute();
+                $db->setQuery($query);
+                $db->execute();
             }
         }
 

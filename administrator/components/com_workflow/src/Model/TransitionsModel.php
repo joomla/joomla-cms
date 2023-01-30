@@ -43,7 +43,7 @@ class TransitionsModel extends ListModel
                 'ordering', 't.ordering',
                 'title', 't.title',
                 'from_stage', 't.from_stage_id',
-                'to_stage', 't.to_stage_id'
+                'to_stage', 't.to_stage_id',
             ];
         }
 

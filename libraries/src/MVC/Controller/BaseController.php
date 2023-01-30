@@ -286,7 +286,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
         // Check for a controller.task command.
         if (strpos($command, '.') !== false) {
             // Explode the controller.task command.
-            list ($type, $task) = explode('.', $command);
+            list($type, $task) = explode('.', $command);
 
             // Define the controller filename and path.
             $file = self::createFileName('controller', ['name' => $type, 'format' => $format]);
@@ -439,7 +439,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
             $this->default_view = $this->getName();
         }
 
-        $this->factory = $factory ? : new LegacyFactory();
+        $this->factory = $factory ?: new LegacyFactory();
     }
 
     /**

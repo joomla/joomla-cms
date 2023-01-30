@@ -135,7 +135,7 @@ class TagModel extends ListModel
      */
     protected function getListQuery()
     {
-        $tagId  = $this->getState('tag.id') ? : '';
+        $tagId  = $this->getState('tag.id') ?: '';
 
         $typesr = $this->getState('tag.typesr');
         $orderByOption = $this->getState('list.ordering', 'c.core_title');

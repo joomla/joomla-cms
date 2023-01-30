@@ -136,7 +136,7 @@ class ImageTest extends UnitTestCase
             [44, 80, Image::SCALE_OUTSIDE, 100, 50, 160, 80],
             [24, 80, Image::SCALE_OUTSIDE, 100, 50, 160, 80],
             [33, 50, Image::SCALE_INSIDE, 20, 100, 10, 50],
-            [12, 50, Image::SCALE_INSIDE, 20, 100, 10, 50]
+            [12, 50, Image::SCALE_INSIDE, 20, 100, 10, 50],
         ];
     }
 
@@ -156,7 +156,7 @@ class ImageTest extends UnitTestCase
             ['40%', 56.2, 10, 10, 4, 56],
             [42.5, '5%', 10, 10, 43, 1],
             ['33%', '25%', 10, 10, 3, 3],
-            ['40%', null, 10, 10, 4, 4]
+            ['40%', null, 10, 10, 4, 4],
         ];
     }
 
@@ -195,7 +195,7 @@ class ImageTest extends UnitTestCase
         return [
             // Note: input, expected
             [42.5, 43],
-            [56.2, 56]
+            [56.2, 56],
         ];
     }
 

@@ -61,7 +61,7 @@ class FieldsModel extends ListModel
                 'group_title', 'g.title',
                 'category_id', 'a.category_id',
                 'group_id', 'a.group_id',
-                'assigned_cat_ids'
+                'assigned_cat_ids',
             ];
         }
 
@@ -270,7 +270,7 @@ class FieldsModel extends ListModel
                 'AND',
                 [
                     $db->quoteName('a.group_id') . ' = 0',
-                    $db->quoteName('g.access') . ' IN (' . implode(',', $query->bindArray($groups, ParameterType::INTEGER)) . ')'
+                    $db->quoteName('g.access') . ' IN (' . implode(',', $query->bindArray($groups, ParameterType::INTEGER)) . ')',
                 ],
                 'OR'
             );
@@ -308,7 +308,7 @@ class FieldsModel extends ListModel
                     'AND',
                     [
                         $db->quoteName('a.group_id') . ' = 0',
-                        $db->quoteName('g.state') . ' IN (' . implode(',', $query->bindArray([0, 1], ParameterType::INTEGER)) . ')'
+                        $db->quoteName('g.state') . ' IN (' . implode(',', $query->bindArray([0, 1], ParameterType::INTEGER)) . ')',
                     ],
                     'OR'
                 );

@@ -42,7 +42,7 @@ class TransitionTable extends Table
      * @since  4.0.0
      */
     protected $_jsonEncode = [
-        'options'
+        'options',
     ];
 
     /**

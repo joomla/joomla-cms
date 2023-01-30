@@ -184,7 +184,7 @@ class Users
                     'tip'            => true,
                     'active_class'   => 'publish',
                     'inactive_class' => 'publish',
-                ]
+                ],
             ];
         } else {
             $states = [
@@ -205,7 +205,7 @@ class Users
                     'tip'            => true,
                     'active_class'   => 'publish',
                     'inactive_class' => 'publish',
-                ]
+                ],
             ];
         }
 
@@ -239,7 +239,7 @@ class Users
                 'tip'            => true,
                 'active_class'   => 'publish',
                 'inactive_class' => 'publish',
-            ]
+            ],
         ];
 
         return $states;

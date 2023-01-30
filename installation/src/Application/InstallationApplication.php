@@ -515,7 +515,7 @@ final class InstallationApplication extends CMSApplication
                 'file'             => $file . '.php',
                 'directory'        => JPATH_THEMES,
                 'params'           => '{}',
-                "templateInherits" => ''
+                "templateInherits" => '',
             ];
         }
 

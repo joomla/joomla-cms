@@ -128,7 +128,7 @@ final class Authentication
 
         $return[''] = (object) [
             'description' => Text::_('PLG_SYSTEM_WEBAUTHN_LBL_DEFAULT_AUTHENTICATOR'),
-            'icon' => 'data:image/png;base64,' . base64_encode($image)
+            'icon' => 'data:image/png;base64,' . base64_encode($image),
         ];
 
         return $return;

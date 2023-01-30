@@ -80,7 +80,7 @@ class StyleModel extends AdminModel
                 'event_after_delete'  => 'onExtensionAfterDelete',
                 'event_before_save'   => 'onExtensionBeforeSave',
                 'event_after_save'    => 'onExtensionAfterSave',
-                'events_map'          => ['delete' => 'extension', 'save' => 'extension']
+                'events_map'          => ['delete' => 'extension', 'save' => 'extension'],
             ],
             $config
         );

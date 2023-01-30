@@ -60,7 +60,7 @@ class UpdatesitesModel extends InstallerModel
                 'folder_translated',
                 'update_site_id',
                 'enabled',
-                'supported'
+                'supported',
             ];
         }
 
@@ -546,7 +546,7 @@ class UpdatesitesModel extends InstallerModel
                         'e.client_id',
                         'e.state',
                         'e.manifest_cache',
-                        'u.name'
+                        'u.name',
                     ],
                     [
                         'update_site_id',
@@ -565,7 +565,7 @@ class UpdatesitesModel extends InstallerModel
                         'client_id',
                         'state',
                         'manifest_cache',
-                        'editor'
+                        'editor',
                     ]
                 )
             )

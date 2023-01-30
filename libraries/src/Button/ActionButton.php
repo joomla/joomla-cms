@@ -125,7 +125,7 @@ class ActionButton
             'task'    => $task,
             'icon'    => $icon,
             'title'   => $title,
-            'options' => $options
+            'options' => $options,
         ];
 
         return $this;
@@ -184,10 +184,10 @@ class ActionButton
             $this->unknownState,
             $data,
             [
-                'options' => $this->options->toArray()
+                'options' => $this->options->toArray(),
             ],
             [
-                'options' => $options
+                'options' => $options,
             ]
         );
 

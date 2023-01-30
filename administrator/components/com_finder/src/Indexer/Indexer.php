@@ -139,7 +139,7 @@ class Indexer
                     $db->quoteName('phrase'),
                     $db->quoteName('weight'),
                     $db->quoteName('context'),
-                    $db->quoteName('language')
+                    $db->quoteName('language'),
                 ]
             );
     }
@@ -202,7 +202,7 @@ class Indexer
                 self::TEXT_CONTEXT  => round($data->options->get('text_multiplier', 0.7), 2),
                 self::META_CONTEXT  => round($data->options->get('meta_multiplier', 1.2), 2),
                 self::PATH_CONTEXT  => round($data->options->get('path_multiplier', 2.0), 2),
-                self::MISC_CONTEXT  => round($data->options->get('misc_multiplier', 0.3), 2)
+                self::MISC_CONTEXT  => round($data->options->get('misc_multiplier', 0.3), 2),
             ];
 
             // Set the current time as the start time.
@@ -362,8 +362,8 @@ class Indexer
         $entry->publish_end_date = $item->publish_end_date;
         $entry->start_date = $item->start_date;
         $entry->end_date = $item->end_date;
-        $entry->list_price = (double) ($item->list_price ?: 0);
-        $entry->sale_price = (double) ($item->sale_price ?: 0);
+        $entry->list_price = (float) ($item->list_price ?: 0);
+        $entry->sale_price = (float) ($item->sale_price ?: 0);
 
         if ($isNew) {
             // Insert the link and get its id.
@@ -755,7 +755,7 @@ class Indexer
             '#__finder_terms_common',
             '#__finder_types',
             '#__finder_taxonomy_map',
-            '#__finder_taxonomy'
+            '#__finder_taxonomy',
         ];
 
         foreach ($tables as $table) {
@@ -791,7 +791,7 @@ class Indexer
         $config = [
             $state->weights,
             $state->options->get('tuplecount', 1),
-            $state->options->get('language_default', '')
+            $state->options->get('language_default', ''),
         ];
 
         return md5(serialize([$item, $config]));

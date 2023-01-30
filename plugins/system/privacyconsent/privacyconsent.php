@@ -301,7 +301,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
              */
             $allowedUserTasks = [
                 'profile.save', 'profile.apply', 'user.logout', 'user.menulogout',
-                'method', 'methods', 'captive', 'callback'
+                'method', 'methods', 'captive', 'callback',
             ];
             $isAllowedUserTask = in_array($task, $allowedUserTasks)
                 || substr($task, 0, 8) === 'captive.'
