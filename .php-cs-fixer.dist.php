@@ -29,18 +29,8 @@
  *        ./libraries/vendor/bin/php-cs-fixer fix administrator/index.php
  */
 
-// Only index the files in /libraries and no deeper, to prevent /libraries/vendor being indexed
-$topFilesFinder = PhpCsFixer\Finder::create()
-    ->in(
-        [
-            __DIR__ . '/libraries'
-        ]
-    )
-    ->files()
-    ->depth(0);
-
-// Add all the core Joomla folders and append to this list the files indexed above from /libraries
-$mainFinder = PhpCsFixer\Finder::create()
+// Add all the core Joomla folders
+$finder = PhpCsFixer\Finder::create()
     ->in(
         [
             __DIR__ . '/administrator',
@@ -56,21 +46,28 @@ $mainFinder = PhpCsFixer\Finder::create()
             __DIR__ . '/modules',
             __DIR__ . '/plugins',
             __DIR__ . '/templates',
-            __DIR__ . '/tests',
-            __DIR__ . '/layouts',
+            __DIR__ . '/tests'
         ]
     )
-    ->append($topFilesFinder);
+    // Ignore template files as PHP CS fixer can't handle them properly
+    // https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/3702#issuecomment-396717120
+    ->notPath('/tmpl/')
+    ->notPath('/cassiopeia/')
+    ->notPath('/atum/');
 
 $config = new PhpCsFixer\Config();
 $config
     ->setRiskyAllowed(true)
+    ->setHideProgress(false)
+    ->setUsingCache(false)
     ->setRules(
         [
-            '@PSR12' => true,
-            'array_syntax' => ['syntax' => 'short'],
+            '@PSR12'                         => true,
+            'array_syntax'                   => ['syntax' => 'short'],
+            'no_trailing_comma_in_list_call' => true,
+            'trailing_comma_in_multiline'    => ['elements' => ['arrays']],
         ]
     )
-    ->setFinder($mainFinder);
+    ->setFinder($finder);
 
 return $config;

@@ -27,6 +27,7 @@ steps:
     depends_on: [ composer ]
     commands:
       - echo $(date)
+      - ./libraries/vendor/bin/php-cs-fixer fix -v --dry-run
       - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
       - echo $(date)
 
