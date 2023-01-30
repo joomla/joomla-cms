@@ -25,7 +25,7 @@ use Symfony\Component\Ldap\Ldap;
  *
  * Not testing for:
  * * different certificate options
- *   these can't be properly automically tested as the LDAP_OPT_X_ settings can only be set once in a running process
+ *   these can't be properly automatically tested as the LDAP_OPT_X_ settings can only be set once in a running process
  * * working ldap debug option.
  *   this can only be tested if phpunit stderr is redirected/duplicated/configured to a file
  *
