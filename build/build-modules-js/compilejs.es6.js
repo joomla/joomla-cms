@@ -59,7 +59,10 @@ module.exports.scripts = async (options, path) => {
 
   // Loop to get the files that should be compiled via parameter
   computedFilesFlat.forEach((file) => {
-    if (file.includes(`build${sep}media_source${sep}vendor${sep}bootstrap${sep}js`)) {
+    if (
+      file.includes(`build${sep}media_source${sep}vendor${sep}bootstrap${sep}js`)
+      || file.includes('__vue')
+    ) {
       return;
     }
 

@@ -31,6 +31,8 @@ There are three options here:
 - Javascript files with only an extension `.js`.
   These files will be ignored by the build tools.
 
+- Vue JS projects (eg com_media) have their own compiler scripts. the convention here is that these apps are stored in a folder `__vue`.
+
 ## SCSS
 - SCSS files starting with `_` will not become entry points for SCSS.
   SCSS files will be transformed to CSS, both normal and minified versions.

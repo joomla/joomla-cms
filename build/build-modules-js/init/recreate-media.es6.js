@@ -66,7 +66,10 @@ module.exports.recreateMediaFolder = async (options) => {
 
   const filterFunc = async (src) => {
     const fileStat = await stat(src);
-    if (fileStat.isFile() && (extname(src) === '.js' || extname(src) === '.css')) {
+    if (
+      (fileStat.isFile() && (extname(src) === '.js' || extname(src) === '.css'))
+      || (fileStat.isDirectory() && src.includes('__vue'))
+    ) {
       return false;
     }
 

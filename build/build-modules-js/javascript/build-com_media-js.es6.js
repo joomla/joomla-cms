@@ -10,7 +10,7 @@ const { existsSync } = require('fs');
 const { minifyJsCode } = require('./minify.es6.js');
 require('dotenv').config();
 
-const inputJS = 'administrator/components/com_media/resources/scripts/mediamanager.es6.js';
+const inputJS = 'build/media_source/com_media/__vue/mediamanager.es6.js';
 const isProduction = process.env.NODE_ENV !== 'DEVELOPMENT';
 
 const buildLegacy = async (file) => {
