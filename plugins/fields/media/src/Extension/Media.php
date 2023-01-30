@@ -40,15 +40,13 @@ final class Media extends FieldsPlugin
     {
         $fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 
-        if (!$fieldNode)
-        {
+        if (!$fieldNode) {
             return $fieldNode;
         }
 
         $fieldNode->setAttribute('type', 'accessiblemedia');
 
-        if ($this->app->getIdentity()->authorise('core.create', 'com_media'))
-        {
+        if ($this->getApplication()->getIdentity()->authorise('core.create', 'com_media')) {
             $fieldNode->setAttribute('disabled', 'false');
         }
 
@@ -69,8 +67,7 @@ final class Media extends FieldsPlugin
     public function onCustomFieldsBeforePrepareField($context, $item, $field)
     {
         // Check if the field should be processed by us
-        if (!$this->isTypeSupported($field->type))
-        {
+        if (!$this->isTypeSupported($field->type)) {
             return;
         }
 
@@ -91,8 +88,7 @@ final class Media extends FieldsPlugin
     {
         json_decode($value);
 
-        if (json_last_error() === JSON_ERROR_NONE)
-        {
+        if (json_last_error() === JSON_ERROR_NONE) {
             return (array) json_decode($value, true);
         }
 

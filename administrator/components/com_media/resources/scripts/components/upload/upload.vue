@@ -13,12 +13,12 @@
 export default {
   name: 'MediaUpload',
   props: {
-    // eslint-disable-next-line vue/require-default-prop
     accept: {
       type: String,
+      default: '',
     },
-    // eslint-disable-next-line vue/require-prop-types
     extensions: {
+      type: Function,
       default: () => [],
     },
     name: {
