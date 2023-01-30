@@ -1,5 +1,5 @@
 <template>
-  <media-modal
+  <MediaModal
     v-if="$store.state.showCreateFolderModal"
     :size="'md'"
     label-element="createFolderTitle"
@@ -53,14 +53,18 @@
         </button>
       </div>
     </template>
-  </media-modal>
+  </MediaModal>
 </template>
 
 <script>
 import * as types from '../../store/mutation-types.es6';
+import MediaModal from './modal.vue';
 
 export default {
   name: 'MediaCreateFolderModal',
+  components: {
+    MediaModal,
+  },
   data() {
     return {
       folder: '',

@@ -9,6 +9,7 @@
     @change="upload"
   >
 </template>
+
 <script>
 export default {
   name: 'MediaUpload',
