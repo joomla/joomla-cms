@@ -445,4 +445,22 @@ export default {
     state.files[index].width = width;
     state.files[index].height = height;
   },
+
+  /**
+   * Set the sorting by
+   * @param state
+   * @param payload
+   */
+  [types.UPDATE_SORT_BY]: (state, payload) => {
+    state.sortBy = payload;
+  },
+
+  /**
+   * Set the sorting direction
+   * @param state
+   * @param payload
+   */
+  [types.UPDATE_SORT_DIRECTION]: (state, payload) => {
+    state.sortDirection = payload === 'asc' ? 'asc' : 'desc';
+  },
 };

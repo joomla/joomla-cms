@@ -24,7 +24,7 @@
         >
           <span class="item-name">{{ drive.displayName }}</span>
         </a>
-        <media-tree
+        <MediaTree
           :ref="drive.root"
           :root="drive.root"
           :level="2"
@@ -38,9 +38,13 @@
 
 <script>
 import navigable from '../../mixins/navigable.es6';
+import MediaTree from './tree.vue';
 
 export default {
   name: 'MediaDrive',
+  components: {
+    MediaTree,
+  },
   mixins: [navigable],
   props: {
     drive: {
