@@ -102,14 +102,14 @@ final class Ldap extends CMSPlugin
         // getting certificate file and certificate directory options (both need to be set)
         if (!$ignore_reqcert_tls && !empty($cacert)) {
             if (is_dir($cacert)) {
-                $cacertdir = $cacert;
+                $cacertdir  = $cacert;
                 $cacertfile = "";
             } elseif (is_file($cacert)) {
                 $cacertfile = $cacert;
-                $cacertdir = dirname($cacert);
+                $cacertdir  = dirname($cacert);
             } else {
                 $cacertfile = $cacert;
-                $cacertdir = $cacert;
+                $cacertdir  = $cacert;
                 Log::add(sprintf('Certificate path for LDAP client is neither an existing file nor directory: "%s"', $cacert), Log::ERROR, $logcategory);
             }
         } else {
@@ -128,7 +128,7 @@ final class Ldap extends CMSPlugin
         ];
         // if these are not set, the system defaults are used
         if (isset($cacertdir) && isset($cacertfile)) {
-            $options['options']['x_tls_cacertdir'] = $cacertdir;
+            $options['options']['x_tls_cacertdir']  = $cacertdir;
             $options['options']['x_tls_cacertfile'] = $cacertfile;
         }
 

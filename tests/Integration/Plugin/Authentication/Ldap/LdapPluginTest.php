@@ -107,12 +107,12 @@ class LdapPluginTest extends IntegrationTestCase
             'username'      => JTEST_LDAP_SEARCH_DN,
             'password'      => JTEST_LDAP_SEARCH_PASSWORD,
             'ldap_fullname' => JTEST_LDAP_FULLNAME,
-            'ldap_email' => JTEST_LDAP_EMAIL,
-            'ldap_uid' => JTEST_LDAP_UID,
-            'ldap_debug' => 0,
+            'ldap_email'    => JTEST_LDAP_EMAIL,
+            'ldap_uid'      => JTEST_LDAP_UID,
+            'ldap_debug'    => 0,
             /* the security options can only be set once, these are the best practice settings */
             'ignore_reqcert_tls' => 0,
-            'cacert' => JPATH_ROOT . '/' . JTEST_LDAP_CACERTFILE,
+            'cacert'             => JPATH_ROOT . '/' . JTEST_LDAP_CACERTFILE,
             /* changing options to test all code */
             'port'        => self::LDAPPORT,
             'encryption'  => "none",
@@ -226,7 +226,7 @@ class LdapPluginTest extends IntegrationTestCase
      */
     public function testOnUserAuthenticateBindAndSearchSSL()
     {
-        $options = $this->default_options;
+        $options                = $this->default_options;
         $options["auth_method"] = "search";
         $options["encryption"]  = "ssl";
         $options["port"]        = self::SSLPORT;
