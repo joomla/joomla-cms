@@ -53,15 +53,14 @@
 				</field>
 				<field
 					name="image_circular"
-					type="radio"
+					type="list"
 					label="PLG_SYSTEM_ACCESSIBILITY_IMAGE_CIRCULAR"
-					layout="joomla.form.field.radio.switcher"
 					default="false"
 					validate="options"
 					showon="useEmojis:false"
 					>
-					<option value="false">JNO</option>
-					<option value="true">JYES</option>
+					<option value="false">PLG_SYSTEM_ACCESSIBILITY_IMAGE_CIRCULAR_FALSE</option>
+					<option value="true">PLG_SYSTEM_ACCESSIBILITY_IMAGE_CIRCULAR_TRUE</option>
 				</field>
 			</fieldset>
 		</fields>
