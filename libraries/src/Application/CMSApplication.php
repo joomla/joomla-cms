@@ -924,7 +924,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         // Build the credentials array.
         $parameters = [
             'username' => $user->get('username'),
-            'id' => $user->get('id')
+            'id' => $user->get('id'),
         ];
 
         // Set clientid in the options array if it hasn't been set already and shared sessions are not enabled.

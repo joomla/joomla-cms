@@ -147,7 +147,7 @@ abstract class Bootstrap
                 'pause'    => (isset($params['pause']) ? $params['pause'] : 'hover'),
                 'slide'    => (isset($params['slide']) ? (bool) $params['slide'] : false),
                 'wrap'     => (isset($params['wrap']) ? (bool) $params['wrap'] : true),
-                'touch'    => (isset($params['touch']) ? (bool) $params['touch'] : true)
+                'touch'    => (isset($params['touch']) ? (bool) $params['touch'] : true),
             ];
 
             Factory::getDocument()->addScriptOptions('bootstrap.carousel', [$selector => (object) array_filter((array) $opt)]);
@@ -276,7 +276,7 @@ abstract class Bootstrap
             $opt = [
                 'backdrop' => (isset($options['backdrop']) ? $options['backdrop'] : false),
                 'keyboard' => (isset($options['keyboard']) ? (bool) $options['keyboard'] : true),
-                'focus'    => (isset($options['focus']) ? (bool) $options['focus'] : true)
+                'focus'    => (isset($options['focus']) ? (bool) $options['focus'] : true),
             ];
 
             Factory::getDocument()->addScriptOptions('bootstrap.modal', [$selector => (object) array_filter((array) $opt)]);
@@ -318,7 +318,7 @@ abstract class Bootstrap
             $opt = [
                 'backdrop' => (isset($options['backdrop']) ? (bool) $options['backdrop'] : true),
                 'keyboard' => (isset($options['keyboard']) ? (bool) $options['keyboard'] : true),
-                'scroll'   => (isset($options['scroll']) ? (bool) $options['scroll'] : false)
+                'scroll'   => (isset($options['scroll']) ? (bool) $options['scroll'] : false),
             ];
 
             Factory::getDocument()->addScriptOptions('bootstrap.offcanvas', [$selector => (object) array_filter((array) $opt)]);
@@ -388,7 +388,7 @@ abstract class Bootstrap
                 'boundary'          => isset($options['boundary']) ? $options['boundary'] : 'scrollParent',
                 'customClass'       => isset($options['customClass']) ? $options['customClass'] : null,
                 'sanitize'          => isset($options['sanitize']) ? (bool) $options['sanitize'] : null,
-                'allowList'         => isset($options['allowList']) ? $options['allowList'] : null
+                'allowList'         => isset($options['allowList']) ? $options['allowList'] : null,
             ];
 
             Factory::getDocument()->addScriptOptions('bootstrap.popover', [$selector => (object) array_filter((array) $opt)]);
@@ -430,7 +430,7 @@ abstract class Bootstrap
             $opt = [
                 'offset'         => isset($options['offset']) ? (int) $options['offset'] : 10,
                 'method'         => isset($options['method']) ? $options['method'] : 'auto',
-                'target'         => isset($options['target']) ? $options['target'] : null
+                'target'         => isset($options['target']) ? $options['target'] : null,
             ];
 
             Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', [$selector => (object) array_filter((array) $opt)]);
@@ -530,7 +530,7 @@ abstract class Bootstrap
                 'boundary'          => isset($options['boundary']) ? $options['boundary'] : 'clippingParents',
                 'customClass'       => isset($options['customClass']) ? $options['customClass'] : null,
                 'sanitize'          => isset($options['sanitize']) ? (bool) $options['sanitize'] : true,
-                'allowList'         => isset($options['allowList']) ? $options['allowList'] : null
+                'allowList'         => isset($options['allowList']) ? $options['allowList'] : null,
             ];
 
             Factory::getDocument()->addScriptOptions('bootstrap.tooltip', [$selector => (object) array_filter((array) $opt)]);
@@ -570,7 +570,7 @@ abstract class Bootstrap
             $opt = [
                 'animation' => isset($options['animation']) ? (string) $options['animation'] : null,
                 'autohide'  => isset($options['autohide']) ? (bool) $options['autohide'] : true,
-                'delay'     => isset($options['delay']) ? (int) $options['delay'] : 5000
+                'delay'     => isset($options['delay']) ? (int) $options['delay'] : 5000,
             ];
 
             Factory::getDocument()->addScriptOptions('bootstrap.toast', [$selector => (object) array_filter((array) $opt)]);

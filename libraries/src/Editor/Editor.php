@@ -189,7 +189,7 @@ class Editor implements DispatcherAwareInterface
             'id' => ($id ?: $name),
             'asset' => $asset,
             'author' => $author,
-            'params' => $params
+            'params' => $params,
         ];
 
         return \call_user_func_array([$this->_editor, 'onDisplay'], $args);

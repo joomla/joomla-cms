@@ -150,7 +150,7 @@ class AddUserCommand extends AbstractCommand
             'password' => $this->password,
             'name' => $filter->clean($this->name, 'STRING'),
             'email' => $this->email,
-            'groups' => $this->userGroups
+            'groups' => $this->userGroups,
         ];
 
         $userObj = User::getInstance();
