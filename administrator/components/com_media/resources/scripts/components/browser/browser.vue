@@ -10,12 +10,11 @@
     <div
       v-if="isEmpty"
       class="text-center"
-      style="display: grid; justify-content: center; align-content: center; height: 100%; margin-top: -1rem; color: var(--gray-200);"
+      style="display: grid; justify-content: center; align-content: center; margin-top: -1rem; color: var(--gray-200);"
     >
       <span
         class="fa-8x icon-cloud-upload upload-icon"
         aria-hidden="true"
-        style="margin-top: 70%;"
       />
       <p>{{ translate("COM_MEDIA_DROP_FILE") }}</p>
     </div>
