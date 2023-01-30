@@ -9,7 +9,8 @@ export const dirname = (path) => {
   const hasRoot = code === 47;
   let end = -1;
   let matchedSlash = true;
-  for (let i = path.length - 1; i >= 1; i - 1) {
+  /* eslint-disable-next-line no-plusplus */
+  for (let i = path.length - 1; i >= 1; --i) {
     code = path.charCodeAt(i);
     if (code === 47) {
       if (!matchedSlash) {
