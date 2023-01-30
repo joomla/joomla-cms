@@ -18,7 +18,7 @@
     <div class="media-browser-item-info">
       {{ item.name }}
     </div>
-    <media-browser-action-items-container
+    <MediaBrowserActionItemsContainer
       ref="container"
       :item="item"
       @toggle-settings="toggleSettings"
@@ -27,9 +27,13 @@
 </template>
 <script>
 import navigable from '../../../mixins/navigable.es6';
+import MediaBrowserActionItemsContainer from '../actionItems/actionItemsContainer.vue';
 
 export default {
   name: 'MediaBrowserItemDirectory',
+  components: {
+    MediaBrowserActionItemsContainer,
+  },
   mixins: [navigable],
   props: {
     item: {
