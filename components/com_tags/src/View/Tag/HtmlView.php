@@ -150,10 +150,91 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
+<<<<<<< HEAD
         $this->params = $this->state->get('params');
         /** @var MenuItem $active */
         $active       = $app->getMenu()->getActive();
         $query        = $active->query;
+=======
+        // Check whether access level allows access.
+        // @TODO: Should already be computed in $item->params->get('access-view')
+        $user   = $this->getCurrentUser();
+        $groups = $user->getAuthorisedViewLevels();
+
+        foreach ($item as $itemElement) {
+            if (!in_array($itemElement->access, $groups)) {
+                unset($itemElement);
+            }
+
+            // Prepare the data.
+            if (!empty($itemElement)) {
+                $temp = new Registry($itemElement->params);
+                $itemElement->params   = clone $params;
+                $itemElement->params->merge($temp);
+                $itemElement->params   = (array) json_decode($itemElement->params);
+                $itemElement->metadata = new Registry($itemElement->metadata);
+            }
+        }
+
+        if ($items !== false) {
+            PluginHelper::importPlugin('content');
+
+            foreach ($items as $itemElement) {
+                $itemElement->event = new \stdClass();
+
+                // For some plugins.
+                $itemElement->text = !empty($itemElement->core_body) ? $itemElement->core_body : '';
+
+                $itemElement->core_params = new Registry($itemElement->core_params);
+
+                Factory::getApplication()->triggerEvent('onContentPrepare', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
+
+                $results = Factory::getApplication()->triggerEvent(
+                    'onContentAfterTitle',
+                    ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]
+                );
+                $itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
+
+                $results = Factory::getApplication()->triggerEvent(
+                    'onContentBeforeDisplay',
+                    ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]
+                );
+                $itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
+
+                $results = Factory::getApplication()->triggerEvent(
+                    'onContentAfterDisplay',
+                    ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]
+                );
+                $itemElement->event->afterDisplayContent = trim(implode("\n", $results));
+
+                // Write the results back into the body
+                if (!empty($itemElement->core_body)) {
+                    $itemElement->core_body = $itemElement->text;
+                }
+
+                // Categories store the images differently so lets re-map it so the display is correct
+                if ($itemElement->type_alias === 'com_content.category') {
+                    $itemElement->core_images = json_encode(
+                        [
+                            'image_intro' => $itemElement->core_params->get('image', ''),
+                            'image_intro_alt' => $itemElement->core_params->get('image_alt', '')
+                        ]
+                    );
+                }
+            }
+        }
+
+        $this->state      = $state;
+        $this->items      = $items;
+        $this->children   = $children;
+        $this->parent     = $parent;
+        $this->pagination = $pagination;
+        $this->user       = $user;
+        $this->item       = $item;
+
+        // Escape strings for HTML output
+        $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
 
         // Merge tag params. If this is single-tag view, menu params override tag params
         // Otherwise, article params override menu item params

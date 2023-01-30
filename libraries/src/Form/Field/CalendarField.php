@@ -89,7 +89,11 @@ class CalendarField extends FormField
      * The today button flag
      *
      * @var    string
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     protected $todaybutton;
 
@@ -97,7 +101,11 @@ class CalendarField extends FormField
      * The week numbers flag
      *
      * @var    string
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     protected $weeknumbers;
 
@@ -105,7 +113,11 @@ class CalendarField extends FormField
      * The show time flag
      *
      * @var    string
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     protected $showtime;
 
@@ -113,7 +125,11 @@ class CalendarField extends FormField
      * The fill table flag
      *
      * @var    string
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     protected $filltable;
 
@@ -121,7 +137,11 @@ class CalendarField extends FormField
      * The time format
      *
      * @var    integer
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     protected $timeformat;
 
@@ -129,7 +149,11 @@ class CalendarField extends FormField
      * The single header flag
      *
      * @var    string
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     protected $singleheader;
 

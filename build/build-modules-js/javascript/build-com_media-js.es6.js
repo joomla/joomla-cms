@@ -1,5 +1,10 @@
 const { resolve } = require('path');
+<<<<<<< HEAD
 const { writeFile, copyFile, rm } = require('fs').promises;
+=======
+const { copyFile } = require('fs').promises;
+const { existsSync, rm } = require('fs');
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
@@ -149,11 +154,16 @@ module.exports.mediaManager = async () => {
 };
 
 module.exports.watchMediaManager = async () => {
+  if (existsSync(resolve('media/com_media/js/media-manager-es5.js'))) {
+    rm(resolve('media/com_media/js/media-manager-es5.js'));
+  }
+  if (existsSync(resolve('media/com_media/js/media-manager-es5.min.js'))) {
+    rm(resolve('media/com_media/js/media-manager-es5.min.js'));
+  }
   // eslint-disable-next-line no-console
   console.log('Watching Media Manager js+vue files...');
   // eslint-disable-next-line no-console
   console.log('=========');
-
   const watcher = rollup.watch({
     input: resolve(inputJS),
     plugins: [
@@ -166,6 +176,7 @@ module.exports.watchMediaManager = async () => {
         },
       }),
       nodeResolve(),
+      commonjs(),
       replace({
         'process.env.NODE_ENV': JSON.stringify('development'),
         __VUE_OPTIONS_API__: true,
@@ -209,6 +220,7 @@ module.exports.watchMediaManager = async () => {
     ],
   });
 
+<<<<<<< HEAD
   watcher.on('event', (event) => {
     if (event.code === 'BUNDLE_END') {
       // eslint-disable-next-line no-console
@@ -216,5 +228,13 @@ module.exports.watchMediaManager = async () => {
 ✅ File ${event.output[1]} updated
 =========`);
     }
+=======
+  watcher.on('event', ({ code, result, error }) => {
+    if (result) result.close();
+    // eslint-disable-next-line no-console
+    if (error) console.log(error);
+    // eslint-disable-next-line no-console
+    if (code === 'BUNDLE_END') console.log('Files updated ✅');
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
   });
 };

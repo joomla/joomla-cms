@@ -71,7 +71,11 @@ class RulesField extends FormField
      * The flag which indicates if it is the global config
      *
      * @var    bool
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     protected $isGlobalConfig;
 
@@ -79,7 +83,11 @@ class RulesField extends FormField
      * The asset rules
      *
      * @var    array
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     protected $assetRules;
 
@@ -87,7 +95,11 @@ class RulesField extends FormField
      * The actions
      *
      * @var    array
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     protected $actions;
 
@@ -95,7 +107,11 @@ class RulesField extends FormField
      * The groups
      *
      * @var    array
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     protected $groups;
 
@@ -103,7 +119,11 @@ class RulesField extends FormField
      * The asset Id
      *
      * @var    int
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     protected $assetId;
 
@@ -111,7 +131,11 @@ class RulesField extends FormField
      * The parent asset Id
      *
      * @var    int
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     protected $parentAssetId;
 
@@ -119,7 +143,11 @@ class RulesField extends FormField
      * The flag to indicate that it is a new item
      *
      * @var    bool
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     protected $newItem;
 

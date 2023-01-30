@@ -6465,6 +6465,7 @@ class JoomlaInstallerScript
             '/administrator/cache/fido.jwt',
             // From 4.2.6 to 4.2.7
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataFormatter/VarDumper/SeekingData.php',
+<<<<<<< HEAD
             // From 4.2.x to 4.3.0-alpha1
             '/libraries/vendor/paragonie/sodium_compat/autoload-fast.php',
             '/libraries/vendor/paragonie/sodium_compat/autoload-pedantic.php',
@@ -6508,6 +6509,8 @@ class JoomlaInstallerScript
             '/plugins/editors-xtd/module/module.php',
             '/plugins/editors-xtd/readmore/readmore.php',
             '/plugins/editors/tinymce/tinymce.php',
+=======
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
         ];
 
         $folders = [

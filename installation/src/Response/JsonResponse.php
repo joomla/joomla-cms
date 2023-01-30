@@ -29,7 +29,11 @@ class JsonResponse
      * The security token.
      *
      * @var    string
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     public $token;
 
@@ -37,7 +41,11 @@ class JsonResponse
      * The language tag
      *
      * @var    string
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     public $lang;
 
@@ -45,7 +53,11 @@ class JsonResponse
      * The message
      *
      * @var    string
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     public $message;
 
@@ -53,7 +65,11 @@ class JsonResponse
      * The messages array
      *
      * @var    array
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     public $messages;
 
@@ -61,7 +77,11 @@ class JsonResponse
      * The error message
      *
      * @var    string
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     public $error;
 
@@ -69,7 +89,11 @@ class JsonResponse
      * The header
      *
      * @var    string
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     public $header;
 
@@ -77,7 +101,11 @@ class JsonResponse
      * The data
      *
      * @var    mixed
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     public $data;
 

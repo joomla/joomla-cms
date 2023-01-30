@@ -120,7 +120,11 @@ class Token
      * The token required flag
      *
      * @var    boolean
+<<<<<<< HEAD
      * @since  4.3.0
+=======
+     * @since  4.2.7
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
      */
     public $required;
 

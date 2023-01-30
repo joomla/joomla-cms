@@ -66,7 +66,11 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
+<<<<<<< HEAD
     public const EXTRA_VERSION = 'alpha4-dev';
+=======
+    public const EXTRA_VERSION = 'rc2-dev';
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
 
     /**
      * Development status.
@@ -90,7 +94,11 @@ final class Version
      * @var    string
      * @since  3.5
      */
+<<<<<<< HEAD
     public const RELDATE = '24-January-2023';
+=======
+    public const RELDATE = '22-January-2023';
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
 
     /**
      * Release time.
@@ -98,7 +106,11 @@ final class Version
      * @var    string
      * @since  3.5
      */
+<<<<<<< HEAD
     public const RELTIME = '16:01';
+=======
+    public const RELTIME = '13:27';
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
 
     /**
      * Release timezone.

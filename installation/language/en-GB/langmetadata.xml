@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="installation">
 	<name>English (United Kingdom)</name>
+<<<<<<< HEAD
 	<version>4.3.0</version>
+=======
+	<version>4.2.7</version>
+>>>>>>> 74b85b619c42bd8f1d0459b57f69349ab6dd6349
 	<creationDate>2023-01</creationDate>
 	<author>Joomla! Project</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
