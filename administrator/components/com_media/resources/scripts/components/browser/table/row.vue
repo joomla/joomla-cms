@@ -16,7 +16,7 @@
       {{ item.name }}
     </th>
     <td class="size">
-      {{ size }}
+      {{ size }}<span v-if="size !== ''">KB</span>
     </td>
     <td class="dimension">
       {{ dimension }}
@@ -37,8 +37,12 @@ import navigable from '../../../mixins/navigable.es6';
 export default {
   name: 'MediaBrowserItemRow',
   mixins: [navigable],
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['item'],
+  props: {
+    item: {
+      type: Object,
+      default: () => {},
+    },
+  },
   computed: {
     /* The dimension of a file */
     dimension() {
@@ -55,7 +59,7 @@ export default {
       if (!this.item.size) {
         return '';
       }
-      return `${(this.item.size / 1024).toFixed(2)} KB`;
+      return `${(this.item.size / 1024).toFixed(2)}`;
     },
     selected() {
       return !!this.isSelected();

@@ -6,14 +6,15 @@
  *
  * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
+
+namespace Joomla\Plugin\Editors\CodeMirror\Extension;
 
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\Event;
+use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -24,7 +25,7 @@ use Joomla\Event\Event;
  *
  * @since  1.6
  */
-class PlgEditorCodemirror extends CMSPlugin
+final class Codemirror extends CMSPlugin
 {
     /**
      * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -60,14 +61,6 @@ class PlgEditorCodemirror extends CMSPlugin
     protected $modePath = 'media/vendor/codemirror/mode/%N/%N';
 
     /**
-     * Application object.
-     *
-     * @var    \Joomla\CMS\Application\CMSApplication
-     * @since  4.0.0
-     */
-    protected $app;
-
-    /**
      * Initialises the Editor.
      *
      * @return  void
@@ -84,13 +77,13 @@ class PlgEditorCodemirror extends CMSPlugin
         $done = true;
 
         // Most likely need this later
-        $doc = $this->app->getDocument();
+        $doc = $this->getApplication()->getDocument();
 
         // Codemirror shall have its own group of plugins to modify and extend its behavior
         PluginHelper::importPlugin('editors_codemirror');
 
         // At this point, params can be modified by a plugin before going to the layout renderer.
-        $this->app->triggerEvent('onCodeMirrorBeforeInit', [&$this->params, &$this->basePath, &$this->modePath]);
+        $this->getApplication()->triggerEvent('onCodeMirrorBeforeInit', [&$this->params, &$this->basePath, &$this->modePath]);
 
         $displayData = (object) ['params' => $this->params];
         $font = $this->params->get('fontFamily', '0');
@@ -108,10 +101,10 @@ class PlgEditorCodemirror extends CMSPlugin
 
         // We need to do output buffering here because layouts may actually 'echo' things which we do not want.
         ob_start();
-        LayoutHelper::render('editors.codemirror.styles', $displayData, __DIR__ . '/layouts');
+        LayoutHelper::render('editors.codemirror.styles', $displayData, JPATH_PLUGINS . '/editors/codemirror/layouts');
         ob_end_clean();
 
-        $this->app->triggerEvent('onCodeMirrorAfterInit', [&$this->params, &$this->basePath, &$this->modePath]);
+        $this->getApplication()->triggerEvent('onCodeMirrorAfterInit', [&$this->params, &$this->basePath, &$this->modePath]);
     }
 
     /**
@@ -211,7 +204,7 @@ class PlgEditorCodemirror extends CMSPlugin
         if ($theme = $this->params->get('theme')) {
             $options->theme = $theme;
 
-            $this->app->getDocument()->getWebAssetManager()
+            $this->getApplication()->getDocument()->getWebAssetManager()
                 ->registerAndUseStyle('codemirror.theme', $this->basePath . 'theme/' . $theme . '.css');
         }
 
@@ -263,11 +256,11 @@ class PlgEditorCodemirror extends CMSPlugin
         ];
 
         // At this point, displayData can be modified by a plugin before going to the layout renderer.
-        $results = $this->app->triggerEvent('onCodeMirrorBeforeDisplay', [&$displayData]);
+        $results = $this->getApplication()->triggerEvent('onCodeMirrorBeforeDisplay', [&$displayData]);
 
-        $results[] = LayoutHelper::render('editors.codemirror.element', $displayData, __DIR__ . '/layouts');
+        $results[] = LayoutHelper::render('editors.codemirror.element', $displayData, JPATH_PLUGINS . '/editors/codemirror/layouts');
 
-        foreach ($this->app->triggerEvent('onCodeMirrorAfterDisplay', [&$displayData]) as $result) {
+        foreach ($this->getApplication()->triggerEvent('onCodeMirrorAfterDisplay', [&$displayData]) as $result) {
             $results[] = $result;
         }
 
@@ -314,7 +307,7 @@ class PlgEditorCodemirror extends CMSPlugin
         static $fonts;
 
         if (!$fonts) {
-            $fonts = json_decode(file_get_contents(__DIR__ . '/fonts.json'), true);
+            $fonts = json_decode(file_get_contents(JPATH_PLUGINS . '/editors/codemirror/fonts.json'), true);
         }
 
         return isset($fonts[$font]) ? (object) $fonts[$font] : null;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_cache
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Cache\Administrator\View\Cache;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -20,6 +19,10 @@ use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Cache\Administrator\Model\CacheModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML View class for the Cache component
@@ -99,13 +102,11 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters = $model->getActiveFilters();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors')))
-        {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        if (!\count($this->data))
-        {
+        if (!\count($this->data)) {
             $this->setLayout('emptystate');
         }
 
@@ -128,8 +129,7 @@ class HtmlView extends BaseHtmlView
         // Get the toolbar object instance
         $toolbar = Toolbar::getInstance('toolbar');
 
-        if (\count($this->data))
-        {
+        if (\count($this->data)) {
             $toolbar->delete('delete')
                 ->listCheck(true);
 
@@ -145,8 +145,7 @@ class HtmlView extends BaseHtmlView
             $toolbar->divider();
         }
 
-        if ($this->getCurrentUser()->authorise('core.admin', 'com_cache'))
-        {
+        if ($this->getCurrentUser()->authorise('core.admin', 'com_cache')) {
             $toolbar->preferences('com_cache');
             $toolbar->divider();
         }
