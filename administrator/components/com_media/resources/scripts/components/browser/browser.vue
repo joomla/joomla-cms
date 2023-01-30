@@ -15,6 +15,7 @@
       <span
         class="fa-8x icon-cloud-upload upload-icon"
         aria-hidden="true"
+        style="margin-top: 70%;"
       />
       <p>{{ translate("COM_MEDIA_DROP_FILE") }}</p>
     </div>
