@@ -73,28 +73,9 @@ export const download = (context, payload) => {
     .then((contents) => {
       const file = contents.files[0];
 
-      // Convert the base 64 encoded string to a blob
-      const byteCharacters = atob(file.content);
-      const byteArrays = [];
-
-      for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-        const slice = byteCharacters.slice(offset, offset + 512);
-
-        const byteNumbers = new Array(slice.length);
-
-        for (let i = 0; i < slice.length; i + 1) {
-          byteNumbers[i] = slice.charCodeAt(i);
-        }
-
-        const byteArray = new Uint8Array(byteNumbers);
-
-        byteArrays.push(byteArray);
-      }
-
       // Download file
-      const blobURL = URL.createObjectURL(new Blob(byteArrays, { type: file.mime_type }));
       const a = document.createElement('a');
-      a.href = blobURL;
+      a.href = `data:${file.mime_type};base64,${file.content}`;
       a.download = file.name;
       document.body.appendChild(a);
       a.click();
