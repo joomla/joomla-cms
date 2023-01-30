@@ -116,7 +116,7 @@ class TaskModel extends AdminModel
      * @since  4.1.0
      * @throws \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
     {
         $config['events_map'] = $config['events_map'] ?? [];
 
@@ -158,7 +158,7 @@ class TaskModel extends AdminModel
      * @since  4.1.0
      * @throws \Exception
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         Form::addFieldPath(JPATH_ADMINISTRATOR . 'components/com_scheduler/src/Field');
 
@@ -254,7 +254,7 @@ class TaskModel extends AdminModel
      * @since  4.1.0
      * @throws \Exception
      */
-    public function getTable($name = 'Task', $prefix = 'Table', $options = array()): Table
+    public function getTable($name = 'Task', $prefix = 'Table', $options = []): Table
     {
         return parent::getTable($name, $prefix, $options);
     }
@@ -269,7 +269,7 @@ class TaskModel extends AdminModel
      */
     protected function loadFormData()
     {
-        $data = $this->app->getUserState('com_scheduler.edit.task.data', array());
+        $data = $this->app->getUserState('com_scheduler.edit.task.data', []);
 
         // If the data from UserState is empty, we fetch it with getItem()
         if (empty($data)) {

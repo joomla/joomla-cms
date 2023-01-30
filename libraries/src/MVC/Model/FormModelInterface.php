@@ -34,5 +34,5 @@ interface FormModelInterface
      *
      * @throws \Exception
      */
-    public function getForm($data = array(), $loadData = true);
+    public function getForm($data = [], $loadData = true);
 }

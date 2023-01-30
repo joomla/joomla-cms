@@ -37,7 +37,7 @@ class ActionlogsHelper
      *
      * @since  3.9.7
      */
-    private static $characters = array('=', '+', '-', '@');
+    private static $characters = ['=', '+', '-', '@'];
 
     /**
      * Method to convert logs objects array to an iterable type for use with a CSV export
@@ -72,14 +72,14 @@ class ActionlogsHelper
 
             static::loadTranslationFiles($extension);
 
-            yield array(
+            yield [
                 'id'         => $log->id,
                 'message'    => self::escapeCsvFormula(strip_tags(static::getHumanReadableLogMessage($log, false))),
                 'extension'  => self::escapeCsvFormula(Text::_($extension)),
                 'date'       => (new Date($log->log_date, new \DateTimeZone('UTC')))->format('Y-m-d H:i:s T'),
                 'name'       => self::escapeCsvFormula($log->name),
                 'ip_address' => self::escapeCsvFormula($log->ip_address === 'COM_ACTIONLOGS_DISABLED' ? $disabledText : $log->ip_address)
-            );
+            ];
         }
     }
 
@@ -94,7 +94,7 @@ class ActionlogsHelper
      */
     public static function loadTranslationFiles($extension)
     {
-        static $cache = array();
+        static $cache = [];
         $extension = strtolower($extension);
 
         if (isset($cache[$extension])) {
@@ -175,7 +175,7 @@ class ActionlogsHelper
      */
     public static function getHumanReadableLogMessage($log, $generateLinks = true)
     {
-        static $links = array();
+        static $links = [];
 
         $message     = Text::_($log->message_language_key);
         $messageData = json_decode($log->message, true);
@@ -242,7 +242,7 @@ class ActionlogsHelper
 
             \JLoader::register($cName, $file);
 
-            if (class_exists($cName) && \is_callable(array($cName, 'getContentTypeLink'))) {
+            if (class_exists($cName) && \is_callable([$cName, 'getContentTypeLink'])) {
                 return $cName::getContentTypeLink($contentType, $id, $object);
             }
         }
@@ -273,18 +273,18 @@ class ActionlogsHelper
         $query = $db->getQuery(true)
             ->select(
                 $db->quoteName(
-                    array(
+                    [
                         'folder',
                         'element',
                         'params',
                         'extension_id'
-                    ),
-                    array(
+                    ],
+                    [
                         'type',
                         'name',
                         'params',
                         'id'
-                    )
+                    ]
                 )
             )
             ->from($db->quoteName('#__extensions'))
@@ -297,7 +297,7 @@ class ActionlogsHelper
         try {
             $rows = $db->loadObjectList();
         } catch (\RuntimeException $e) {
-            $rows = array();
+            $rows = [];
         }
 
         if (empty($rows)) {
