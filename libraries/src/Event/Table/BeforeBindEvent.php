@@ -35,7 +35,7 @@ class BeforeBindEvent extends AbstractEvent
      *
      * @throws  BadMethodCallException
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('src', $arguments)) {
             throw new BadMethodCallException("Argument 'src' is required for event $name");

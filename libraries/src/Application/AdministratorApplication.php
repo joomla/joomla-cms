@@ -159,7 +159,7 @@ class AdministratorApplication extends CMSApplication
     {
         // Get the language from the (login) form or user state
         $login_lang = ($this->input->get('option') === 'com_login') ? $this->input->get('lang') : '';
-        $options    = array('language' => $login_lang ?: $this->getUserState('application.lang'));
+        $options    = ['language' => $login_lang ?: $this->getUserState('application.lang')];
 
         // Initialise the application
         $this->initialiseApp($options);
@@ -200,7 +200,7 @@ class AdministratorApplication extends CMSApplication
      * @since      3.2
      * @deprecated 5.0 Inject the router or load it from the dependency injection container
      */
-    public static function getRouter($name = 'administrator', array $options = array())
+    public static function getRouter($name = 'administrator', array $options = [])
     {
         return parent::getRouter($name, $options);
     }
@@ -210,7 +210,7 @@ class AdministratorApplication extends CMSApplication
      *
      * @param   boolean  $params  True to return the template parameters
      *
-     * @return  string  The name of the template.
+     * @return  string|\stdClass  The name of the template if the params argument is false. The template object if the params argument is true.
      *
      * @since   3.2
      * @throws  \InvalidArgumentException
@@ -269,14 +269,14 @@ class AdministratorApplication extends CMSApplication
      *
      * @since   3.2
      */
-    protected function initialiseApp($options = array())
+    protected function initialiseApp($options = [])
     {
         $user = Factory::getUser();
 
         // If the user is a guest we populate it with the guest user group.
         if ($user->guest) {
             $guestUsergroup = ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
-            $user->groups = array($guestUsergroup);
+            $user->groups = [$guestUsergroup];
         }
 
         // If a language was specified it has priority, otherwise use user or default language settings
@@ -318,7 +318,7 @@ class AdministratorApplication extends CMSApplication
      *
      * @since   3.2
      */
-    public function login($credentials, $options = array())
+    public function login($credentials, $options = [])
     {
         // The minimum group
         $options['group'] = 'Public Backend';

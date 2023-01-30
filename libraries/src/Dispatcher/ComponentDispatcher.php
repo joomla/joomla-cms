@@ -131,7 +131,7 @@ class ComponentDispatcher extends Dispatcher
         }
 
         // Build controller config data
-        $config['option'] = $this->option;
+        $config = ['option' => $this->option];
 
         // Set name of controller if it is passed in the request
         if ($this->input->exists('controller')) {
@@ -155,7 +155,7 @@ class ComponentDispatcher extends Dispatcher
      *
      * @since   4.0.0
      */
-    public function getController(string $name, string $client = '', array $config = array()): BaseController
+    public function getController(string $name, string $client = '', array $config = []): BaseController
     {
         // Set up the client
         $client = $client ?: ucfirst($this->app->getName());

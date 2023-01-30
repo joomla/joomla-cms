@@ -49,7 +49,7 @@ class TextField extends FormField
      * Does this field support a character counter?
      *
      * @var    boolean
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $charcounter = false;
 
@@ -261,7 +261,7 @@ class TextField extends FormField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         foreach ($this->element->children() as $option) {
             // Only add <option /> elements.
@@ -301,7 +301,7 @@ class TextField extends FormField
         // Get the field options for the datalist.
         $options  = (array) $this->getOptions();
 
-        $extraData = array(
+        $extraData = [
             'maxLength'   => $maxLength,
             'pattern'     => $this->pattern,
             'inputmode'   => $inputmode,
@@ -310,7 +310,7 @@ class TextField extends FormField
             'addonAfter'  => $this->addonAfter,
             'options'     => $options,
             'charcounter' => $this->charcounter,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

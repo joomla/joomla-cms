@@ -37,14 +37,14 @@ $multilang = Multilanguage::isEnabled();
 
 if (!empty($editor)) {
     // This view is used also in com_menus. Load the xtd script only if the editor is set!
-    $this->document->addScriptOptions('xtd-menus', array('editor' => $editor));
+    $this->document->addScriptOptions('xtd-menus', ['editor' => $editor]);
     $onclick = "jSelectMenuItem";
     $link    = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&editor=' . $editor . '&' . Session::getFormToken() . '=1';
 }
 ?>
 <div class="container-popup">
     <form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm">
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['selectorFieldName' => 'menutype']]); ?>
 
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
@@ -102,7 +102,7 @@ if (!empty($editor)) {
                             <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'items.', false, 'cb', $item->publish_up, $item->publish_down); ?>
                         </td>
                         <th scope="row">
-                            <?php $prefix = LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+                            <?php $prefix = LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
                             <?php echo $prefix; ?>
                             <a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>" data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
                             <?php echo $this->escape($item->title); ?></a>
@@ -140,7 +140,7 @@ if (!empty($editor)) {
                                     <?php echo HTMLHelper::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && false && !$item->protected, 'cb', null, 'home', 'circle'); ?>
                                 <?php else : ?>
                                     <?php if ($item->language_image) : ?>
-                                        <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+                                        <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, ['title' => $item->language_title], true); ?>
                                     <?php else : ?>
                                         <span class="badge bg-secondary" title="<?php echo $item->language_title; ?>"><?php echo $item->language; ?></span>
                                     <?php endif; ?>
