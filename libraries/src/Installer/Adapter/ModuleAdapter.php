@@ -58,11 +58,11 @@ class ModuleAdapter extends InstallerAdapter
     {
         try {
             $this->currentExtensionId = $this->extension->find(
-                array(
+                [
                     'element'   => $this->element,
                     'type'      => $this->type,
                     'client_id' => $this->clientId,
-                )
+                ]
             );
         } catch (\RuntimeException $e) {
             // Install failed, roll back changes
@@ -95,11 +95,12 @@ class ModuleAdapter extends InstallerAdapter
 
         // If there is a manifest script, let's copy it.
         if ($this->manifest_script) {
+            $path = [];
             $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
             if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles(array($path))) {
+                if (!$this->parent->copyFiles([$path])) {
                     // Install failed, rollback changes
                     throw new \RuntimeException(
                         Text::sprintf(
@@ -121,7 +122,7 @@ class ModuleAdapter extends InstallerAdapter
      */
     public function discover()
     {
-        $results = array();
+        $results = [];
         $site_list = Folder::folders(JPATH_SITE . '/modules');
         $admin_list = Folder::folders(JPATH_ADMINISTRATOR . '/modules');
         $site_info = ApplicationHelper::getClientInfo('site', true);
@@ -175,11 +176,11 @@ class ModuleAdapter extends InstallerAdapter
         // Clobber any possible pending updates
         $update = Table::getInstance('update');
         $uid    = $update->find(
-            array(
+            [
                 'element'   => $this->element,
                 'type'      => 'module',
                 'client_id' => $this->clientId,
-            )
+            ]
         );
 
         if ($uid) {
@@ -623,10 +624,10 @@ class ModuleAdapter extends InstallerAdapter
             // Since we have created a module item, we add it to the installation step stack
             // so that if we have to rollback the changes we can undo it.
             $this->parent->pushStep(
-                array(
+                [
                     'type' => 'extension',
                     'extension_id' => $this->extension->extension_id,
-                )
+                ]
             );
 
             // Create unpublished module

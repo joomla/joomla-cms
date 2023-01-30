@@ -150,7 +150,7 @@ class Router extends RouterBase
      */
     public function build(&$query)
     {
-        $segments = array();
+        $segments = [];
 
         $menuItem = $this->menu->getItem($query['Itemid']);
 

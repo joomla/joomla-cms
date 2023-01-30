@@ -37,6 +37,7 @@ abstract class Telephone
      */
     public static function tel($number, $displayplan)
     {
+        $display = [];
         $number = explode('.', $number);
         $countrycode = $number[0];
         $number = $number[1];

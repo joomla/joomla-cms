@@ -47,10 +47,10 @@ class CategoriesModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'alias', 'a.alias',
@@ -66,7 +66,7 @@ class CategoriesModel extends ListModel
                 'level', 'a.level',
                 'path', 'a.path',
                 'tag',
-            );
+            ];
         }
 
         if (Associations::isEnabled()) {

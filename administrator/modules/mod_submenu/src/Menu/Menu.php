@@ -51,7 +51,7 @@ abstract class Menu
          * $children is an array of MenuItem objects. A plugin can traverse the whole tree,
          * but new nodes will only be run through this method if their parents have not been processed yet.
          */
-        $app->triggerEvent('onPreprocessMenuItems', array('administrator.module.mod_submenu', $children));
+        $app->triggerEvent('onPreprocessMenuItems', ['administrator.module.mod_submenu', $children]);
 
         foreach ($children as $item) {
             if (substr($item->link, 0, 8) === 'special:') {
@@ -103,7 +103,7 @@ abstract class Menu
 
             // Populate automatic children for container items
             if ($item->type === 'container') {
-                $exclude    = (array) $itemParams->get('hideitems') ?: array();
+                $exclude    = (array) $itemParams->get('hideitems') ?: [];
                 $components = MenusHelper::getMenuItems('main', false, $exclude);
 
                 // We are adding the nodes first to preprocess them, then sort them and add them again.
@@ -169,8 +169,8 @@ abstract class Menu
                     continue;
                 }
 
-                [$assetName] = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
-            } elseif (\in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin')) {
+                [$assetName] = isset($query['extension']) ? explode('.', $query['extension'], 2) : ['com_workflow'];
+            } elseif (\in_array($item->element, ['com_config', 'com_privacy', 'com_actionlogs'], true) && !$user->authorise('core.admin')) {
                 // Special case for components which only allow super user access
                 $parent->removeChild($item);
                 continue;

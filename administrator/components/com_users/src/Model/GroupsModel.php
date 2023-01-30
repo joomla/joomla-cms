@@ -37,16 +37,16 @@ class GroupsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'parent_id', 'a.parent_id',
                 'title', 'a.title',
                 'lft', 'a.lft',
                 'rgt', 'a.rgt',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -184,7 +184,7 @@ class GroupsModel extends ListModel
     private function populateExtraData(array $items)
     {
         // First pass: get list of the group ids and reset the counts.
-        $groupsByKey = array();
+        $groupsByKey = [];
 
         foreach ($items as $item) {
             $groupsByKey[(int) $item->id] = $item;
