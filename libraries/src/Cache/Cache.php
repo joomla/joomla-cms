@@ -600,7 +600,7 @@ class Cache
         }
 
         // View body data
-        $cached['body'] = $data;
+        $cached = ['body' => $data];
 
         // Document head data
         if ($loptions['nohead'] != 1 && method_exists($document, 'getHeadData')) {

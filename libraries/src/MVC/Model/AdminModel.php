@@ -1637,6 +1637,8 @@ abstract class AdminModel extends FormModel
          * otherwise select already the target language
          */
         if (count($languages) === 2) {
+            $lang_code = [];
+
             foreach ($languages as $language) {
                 $lang_code[] = $language->lang_code;
             }
