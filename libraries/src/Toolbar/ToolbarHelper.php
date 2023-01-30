@@ -720,7 +720,6 @@ abstract class ToolbarHelper
                         continue;
                     }
 
-                    $options['group'] = true;
                     $altText = $button[2] ?? $validOptions[$button[0]];
 
                     $childBar->{$button[0]}($button[1])
