@@ -305,6 +305,12 @@ final class Subform extends FieldsPlugin
             );
         }
 
+        // If the edit layout is set we override any automation
+        $editLayout = $field->params->get('form_layout');
+        if ($editLayout) {
+            $parent_field->setAttribute('layout', $editLayout);
+        }
+
         return $parent_field;
     }
 

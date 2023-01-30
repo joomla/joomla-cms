@@ -39,7 +39,7 @@
       :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
       :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
     />
-    <media-browser-action-items-container
+    <MediaBrowserActionItemsContainer
       ref="container"
       :item="item"
       :edit="editItem"
@@ -53,9 +53,13 @@
 
 <script>
 import api from '../../../app/Api.es6';
+import MediaBrowserActionItemsContainer from '../actionItems/actionItemsContainer.vue';
 
 export default {
   name: 'MediaBrowserItemImage',
+  components: {
+    MediaBrowserActionItemsContainer,
+  },
   props: {
     item: { type: Object, required: true },
     focused: { type: Boolean, required: true, default: false },

@@ -16,7 +16,7 @@
       {{ item.name }}
     </th>
     <td class="size">
-      {{ size }}
+      {{ size }}<span v-if="size !== ''">KB</span>
     </td>
     <td class="dimension">
       {{ dimension }}
@@ -59,7 +59,7 @@ export default {
       if (!this.item.size) {
         return '';
       }
-      return `${(this.item.size / 1024).toFixed(2)} KB`;
+      return `${(this.item.size / 1024).toFixed(2)}`;
     },
     selected() {
       return !!this.isSelected();
