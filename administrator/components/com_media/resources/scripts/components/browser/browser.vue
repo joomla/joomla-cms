@@ -7,6 +7,17 @@
     @dragover="onDragOver"
     @dragleave="onDragLeave"
   >
+    <div
+      v-if="isEmpty"
+      class="text-center"
+      style="display: grid; justify-content: center; align-content: center; height: 100%; margin-top: -1rem; color: var(--gray-200);"
+    >
+      <span
+        class="fa-8x icon-cloud-upload upload-icon"
+        aria-hidden="true"
+      />
+      <p>{{ translate("COM_MEDIA_DROP_FILE") }}</p>
+    </div>
     <div class="media-dragoutline">
       <span
         class="icon-cloud-upload upload-icon"
@@ -15,13 +26,13 @@
       <p>{{ translate('COM_MEDIA_DROP_FILE') }}</p>
     </div>
     <MediaBrowserTable
-      v-if="listView === 'table'"
+      v-if="listView === 'table' && !isEmpty"
       :local-items="localItems"
       :current-directory="currentDirectory"
       :style="mediaBrowserStyles"
     />
     <div
-      v-else-if="listView === 'grid'"
+      v-else-if="listView === 'grid' && !isEmpty"
       class="media-browser-grid"
     >
       <div
@@ -110,7 +121,12 @@ export default {
     mediaBrowserStyles() {
       return {
         width: this.$store.state.showInfoBar ? '75%' : '100%',
+        height: '100%',
       };
+    },
+    isEmpty() {
+      return ![...this.$store.getters.getSelectedDirectoryDirectories, ...this.$store.getters.getSelectedDirectoryFiles].length
+      && !this.$store.state.isLoading;
     },
     /* The styles for the media-browser element */
     listView() {
