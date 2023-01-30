@@ -15,6 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Model class for workflows
  *
@@ -30,10 +34,10 @@ class WorkflowsModel extends ListModel
      * @see     JController
      * @since  4.0.0
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'w.id',
                 'title', 'w.title',
                 'published', 'w.published',
@@ -42,7 +46,7 @@ class WorkflowsModel extends ListModel
                 'ordering', 'w.ordering',
                 'modified', 'w.modified',
                 'description', 'w.description'
-            );
+            ];
         }
 
         parent::__construct($config);
@@ -92,7 +96,7 @@ class WorkflowsModel extends ListModel
      *
      * @since  4.0.0
      */
-    public function getTable($type = 'Workflow', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Workflow', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -125,7 +129,7 @@ class WorkflowsModel extends ListModel
      *
      * @since   4.0.0
      */
-    public function getFilterForm($data = array(), $loadData = true)
+    public function getFilterForm($data = [], $loadData = true)
     {
         $form = parent::getFilterForm($data, $loadData);
 

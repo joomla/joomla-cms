@@ -15,6 +15,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseAwareTrait;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Banner HTML class.
  *
@@ -36,7 +40,7 @@ class Banner
         // Create the batch selector to change the client on a selection list.
         return implode(
             "\n",
-            array(
+            [
                 '<label id="batch-client-lbl" for="batch-client-id">',
                 Text::_('COM_BANNERS_BATCH_CLIENT_LABEL'),
                 '</label>',
@@ -45,7 +49,7 @@ class Banner
                 '<option value="0">' . Text::_('COM_BANNERS_NO_CLIENT') . '</option>',
                 HTMLHelper::_('select.options', static::clientlist(), 'value', 'text'),
                 '</select>'
-            )
+            ]
         );
     }
 
@@ -96,8 +100,8 @@ class Banner
      */
     public function pinned($value, $i, $enabled = true, $checkbox = 'cb')
     {
-        $states = array(
-            1 => array(
+        $states = [
+            1 => [
                 'sticky_unpublish',
                 'COM_BANNERS_BANNERS_PINNED',
                 'COM_BANNERS_BANNERS_HTML_PIN_BANNER',
@@ -105,8 +109,8 @@ class Banner
                 true,
                 'publish',
                 'publish'
-            ),
-            0 => array(
+            ],
+            0 => [
                 'sticky_publish',
                 'COM_BANNERS_BANNERS_UNPINNED',
                 'COM_BANNERS_BANNERS_HTML_UNPIN_BANNER',
@@ -114,8 +118,8 @@ class Banner
                 true,
                 'unpublish',
                 'unpublish'
-            ),
-        );
+            ],
+        ];
 
         return HTMLHelper::_('jgrid.state', $states, $value, $i, 'banners.', $enabled, true, $checkbox);
     }

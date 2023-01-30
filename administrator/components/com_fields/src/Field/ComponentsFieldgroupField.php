@@ -17,6 +17,10 @@ use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Components Fieldgroup field.
  *

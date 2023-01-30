@@ -37,18 +37,19 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], t
 
 // Template params
 $logoBrandLarge  = $this->params->get('logoBrandLarge')
-    ? Uri::root() . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
-    : Uri::root() . 'media/templates/administrator/atum/images/logos/brand-large.svg';
+    ? Uri::root(false) . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
+    : Uri::root(false) . 'media/templates/administrator/atum/images/logos/brand-large.svg';
 $logoBrandSmall = $this->params->get('logoBrandSmall')
-    ? Uri::root() . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
-    : Uri::root() . 'media/templates/administrator/atum/images/logos/brand-small.svg';
+    ? Uri::root(false) . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
+    : Uri::root(false) . 'media/templates/administrator/atum/images/logos/brand-small.svg';
 
 $logoBrandLargeAlt = empty($this->params->get('logoBrandLargeAlt')) && empty($this->params->get('emptyLogoBrandLargeAlt'))
-    ? 'alt=""'
-    : 'alt="' . htmlspecialchars($this->params->get('logoBrandLargeAlt'), ENT_COMPAT, 'UTF-8') . '"';
+    ? ''
+    : htmlspecialchars($this->params->get('logoBrandLargeAlt', ''), ENT_COMPAT, 'UTF-8');
 $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($this->params->get('emptyLogoBrandSmallAlt'))
-    ? 'alt=""'
-    : 'alt="' . htmlspecialchars($this->params->get('logoBrandSmallAlt'), ENT_COMPAT, 'UTF-8') . '"';
+    ? ''
+    : htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8');
+
 
     // Get the hue value
     preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
@@ -97,8 +98,8 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
         <div class="header-title d-flex">
             <div class="d-flex align-items-center">
                 <div class="logo">
-                    <img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
-                    <img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
+                    <?php echo HTMLHelper::_('image', $logoBrandLarge, $logoBrandLargeAlt, ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
+                    <?php echo HTMLHelper::_('image', $logoBrandSmall, $logoBrandSmallAlt, ['class' => 'logo-collapsed', 'loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                 </div>
             </div>
             <jdoc:include type="modules" name="title" />

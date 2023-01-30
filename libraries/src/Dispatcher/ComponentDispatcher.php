@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Input\Input;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class for a Joomla Component Dispatcher
  *
@@ -151,7 +155,7 @@ class ComponentDispatcher extends Dispatcher
      *
      * @since   4.0.0
      */
-    public function getController(string $name, string $client = '', array $config = array()): BaseController
+    public function getController(string $name, string $client = '', array $config = []): BaseController
     {
         // Set up the client
         $client = $client ?: ucfirst($this->app->getName());

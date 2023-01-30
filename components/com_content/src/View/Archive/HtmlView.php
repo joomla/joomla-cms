@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML View class for the Content component
  *
@@ -36,7 +40,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var   \stdClass[]
      */
-    protected $items = array();
+    protected $items = [];
 
     /**
      * The pagination object
@@ -52,7 +56,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since 3.6.0
      */
-    protected $years = array();
+    protected $years = [];
 
     /**
      * Object containing the year, month and limit field to be displayed
@@ -143,25 +147,25 @@ class HtmlView extends BaseHtmlView
                 $item->text = $item->introtext;
             }
 
-            Factory::getApplication()->triggerEvent('onContentPrepare', array('com_content.archive', &$item, &$item->params, 0));
+            Factory::getApplication()->triggerEvent('onContentPrepare', ['com_content.archive', &$item, &$item->params, 0]);
 
             // Old plugins: Use processed text as introtext
             $item->introtext = $item->text;
 
-            $results = Factory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.archive', &$item, &$item->params, 0));
+            $results = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_content.archive', &$item, &$item->params, 0]);
             $item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-            $results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.archive', &$item, &$item->params, 0));
+            $results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_content.archive', &$item, &$item->params, 0]);
             $item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-            $results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.archive', &$item, &$item->params, 0));
+            $results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_content.archive', &$item, &$item->params, 0]);
             $item->event->afterDisplayContent = trim(implode("\n", $results));
         }
 
         $form = new \stdClass();
 
         // Month Field
-        $months = array(
+        $months = [
             ''   => Text::_('COM_CONTENT_MONTH'),
             '1'  => Text::_('JANUARY_SHORT'),
             '2'  => Text::_('FEBRUARY_SHORT'),
@@ -175,21 +179,21 @@ class HtmlView extends BaseHtmlView
             '10' => Text::_('OCTOBER_SHORT'),
             '11' => Text::_('NOVEMBER_SHORT'),
             '12' => Text::_('DECEMBER_SHORT')
-        );
+        ];
         $form->monthField = HTMLHelper::_(
             'select.genericlist',
             $months,
             'month',
-            array(
+            [
                 'list.attr' => 'class="form-select"',
                 'list.select' => $state->get('filter.month'),
                 'option.key' => null
-            )
+            ]
         );
 
         // Year Field
         $this->years = $this->getModel()->getYears();
-        $years = array();
+        $years = [];
         $years[] = HTMLHelper::_('select.option', null, Text::_('JYEAR'));
 
         for ($i = 0, $iMax = count($this->years); $i < $iMax; $i++) {
@@ -200,7 +204,7 @@ class HtmlView extends BaseHtmlView
             'select.genericlist',
             $years,
             'year',
-            array('list.attr' => 'class="form-select"', 'list.select' => $state->get('filter.year'))
+            ['list.attr' => 'class="form-select"', 'list.select' => $state->get('filter.year')]
         );
         $form->limitField = $pagination->getLimitBox();
 

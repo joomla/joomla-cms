@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Banners list controller class.
  *
@@ -42,7 +46,7 @@ class BannersController extends AdminController
      *
      * @since   3.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -60,7 +64,7 @@ class BannersController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Banner', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Banner', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -77,8 +81,8 @@ class BannersController extends AdminController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids    = (array) $this->input->get('cid', array(), 'int');
-        $values = array('sticky_publish' => 1, 'sticky_unpublish' => 0);
+        $ids    = (array) $this->input->get('cid', [], 'int');
+        $values = ['sticky_publish' => 1, 'sticky_unpublish' => 0];
         $task   = $this->getTask();
         $value  = ArrayHelper::getValue($values, $task, 0, 'int');
 

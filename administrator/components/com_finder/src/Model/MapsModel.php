@@ -18,6 +18,10 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseQuery;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Maps model for the Finder package.
  *
@@ -34,17 +38,17 @@ class MapsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.7
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'state', 'a.state',
                 'title', 'a.title',
                 'branch',
                 'branch_title', 'd.branch_title',
                 'level', 'd.level',
                 'language', 'a.language',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -112,7 +116,7 @@ class MapsModel extends ListModel
                     $context = $this->option . '.' . $this->name;
 
                     // Trigger the onContentBeforeDelete event.
-                    $result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', array($context, $table));
+                    $result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', [$context, $table]);
 
                     if (in_array(false, $result, true)) {
                         $this->setError($table->getError());
@@ -127,7 +131,7 @@ class MapsModel extends ListModel
                     }
 
                     // Trigger the onContentAfterDelete event.
-                    Factory::getApplication()->triggerEvent('onContentAfterDelete', array($context, $table));
+                    Factory::getApplication()->triggerEvent('onContentAfterDelete', [$context, $table]);
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
@@ -267,7 +271,7 @@ class MapsModel extends ListModel
      *
      * @since   2.5
      */
-    public function getTable($type = 'Map', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Map', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -340,7 +344,7 @@ class MapsModel extends ListModel
         $context = $this->option . '.' . $this->name;
 
         // Trigger the onContentChangeState event.
-        $result = Factory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
+        $result = Factory::getApplication()->triggerEvent('onContentChangeState', [$context, $pks, $value]);
 
         if (in_array(false, $result, true)) {
             $this->setError($table->getError());

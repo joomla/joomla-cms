@@ -31,7 +31,7 @@ $wa->useScript('com_scheduler.admin-view-select-task-search');
 <!-- Tasks search box on below the toolbar begins -->
 <div class="d-none" id="comSchedulerSelectSearchContainer">
     <div class="d-flex mt-2">
-        <div class="ms-auto me-auto">
+        <div class="m-auto">
             <label class="visually-hidden" for="comSchedulerSelectSearch">
                 <?php echo Text::_('COM_SCHEDULER_TYPE_CHOOSE'); ?>
             </label>

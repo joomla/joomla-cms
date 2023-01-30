@@ -20,6 +20,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Remind model class for Users.
  *
@@ -37,10 +41,10 @@ class RemindModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.remind', 'remind', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_users.remind', 'remind', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -197,7 +201,7 @@ class RemindModel extends FormModel
             return false;
         }
 
-        Factory::getApplication()->triggerEvent('onUserAfterRemind', array($user));
+        Factory::getApplication()->triggerEvent('onUserAfterRemind', [$user]);
 
         return true;
     }

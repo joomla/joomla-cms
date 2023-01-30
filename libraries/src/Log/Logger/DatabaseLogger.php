@@ -14,6 +14,10 @@ use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! MySQL Database Log class
  *
@@ -150,14 +154,14 @@ class DatabaseLogger extends Logger
     protected function connect()
     {
         // Build the configuration object to use for DatabaseDriver.
-        $options = array(
+        $options = [
             'driver' => $this->driver,
             'host' => $this->host,
             'user' => $this->user,
             'password' => $this->password,
             'database' => $this->database,
             'prefix' => $this->prefix,
-        );
+        ];
 
         $this->db = DatabaseDriver::getInstance($options);
     }

@@ -13,6 +13,10 @@ use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Each object represents one query, which is one line from a DDL SQL query.
  * This class is used to check the site's database to see if the DDL query has been run.
@@ -93,7 +97,7 @@ abstract class ChangeItem
      * @var    array
      * @since  2.5
      */
-    public $msgElements = array();
+    public $msgElements = [];
 
     /**
      * Checked status

@@ -17,6 +17,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Privacy\Administrator\Model\ExportModel;
 use Tobscure\JsonApi\Resource;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The requests view
  *

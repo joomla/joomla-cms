@@ -15,6 +15,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Router\Route;
 use Joomla\Router\Router;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! API Router class
  *

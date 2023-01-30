@@ -18,6 +18,10 @@ use Joomla\Http\Exception\InvalidResponseCodeException;
 use Joomla\Uri\UriInterface;
 use Laminas\Diactoros\Stream as StreamResponse;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTTP transport class for using sockets directly.
  *
@@ -63,7 +67,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         }
 
         // Get the request path from the URI object.
-        $path = $uri->toString(array('path', 'query'));
+        $path = $uri->toString(['path', 'query']);
 
         // If we have data to send make sure our request is setup for it.
         if (!empty($data)) {
@@ -81,7 +85,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         }
 
         // Build the request payload.
-        $request = array();
+        $request = [];
         $request[] = strtoupper($method) . ' ' . ((empty($path)) ? '/' : $path) . ' HTTP/1.1';
         $request[] = 'Host: ' . $uri->getHost();
 
@@ -98,7 +102,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         }
 
         // Set any custom transport options
-        foreach ($this->getOption('transport.socket', array()) as $value) {
+        foreach ($this->getOption('transport.socket', []) as $value) {
             $request[] = $value;
         }
 

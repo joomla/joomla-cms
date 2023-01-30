@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Index model class for Finder.
  *
@@ -57,10 +61,10 @@ class IndexModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.7
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'state', 'published', 'l.published',
                 'title', 'l.title',
                 'type', 'type_id', 'l.type_id',
@@ -69,7 +73,7 @@ class IndexModel extends ListModel
                 'language', 'l.language',
                 'indexdate', 'l.indexdate',
                 'content_map',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -127,7 +131,7 @@ class IndexModel extends ListModel
                     $context = $this->option . '.' . $this->name;
 
                     // Trigger the onContentBeforeDelete event.
-                    $result = Factory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
+                    $result = Factory::getApplication()->triggerEvent($this->event_before_delete, [$context, $table]);
 
                     if (in_array(false, $result, true)) {
                         $this->setError($table->getError());
@@ -142,7 +146,7 @@ class IndexModel extends ListModel
                     }
 
                     // Trigger the onContentAfterDelete event.
-                    Factory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
+                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$context, $table]);
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
@@ -318,7 +322,7 @@ class IndexModel extends ListModel
      *
      * @since   2.5
      */
-    public function getTable($type = 'Link', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Link', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -349,7 +353,7 @@ class IndexModel extends ListModel
 
         // Truncate the taxonomy table and insert the root node.
         $db->truncateTable('#__finder_taxonomy');
-        $root = (object) array(
+        $root = (object) [
             'id' => 1,
             'parent_id' => 0,
             'lft' => 0,
@@ -361,7 +365,7 @@ class IndexModel extends ListModel
             'state' => 1,
             'access' => 1,
             'language' => '*'
-        );
+        ];
         $db->insertObject('#__finder_taxonomy', $root);
 
         // Truncate the tokens tables.
@@ -446,7 +450,7 @@ class IndexModel extends ListModel
         $context = $this->option . '.' . $this->name;
 
         // Trigger the onContentChangeState event.
-        $result = Factory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
+        $result = Factory::getApplication()->triggerEvent('onContentChangeState', [$context, $pks, $value]);
 
         if (in_array(false, $result, true)) {
             $this->setError($table->getError());

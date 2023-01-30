@@ -13,6 +13,10 @@ namespace Joomla\Component\Workflow\Administrator\Dispatcher;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * ComponentDispatcher class for com_workflow
  *

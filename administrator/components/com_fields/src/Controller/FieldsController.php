@@ -12,6 +12,10 @@ namespace Joomla\Component\Fields\Administrator\Controller;
 
 use Joomla\CMS\MVC\Controller\AdminController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Fields list controller class.
  *
@@ -39,7 +43,7 @@ class FieldsController extends AdminController
      *
      * @since   3.7.0
      */
-    public function getModel($name = 'Field', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Field', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

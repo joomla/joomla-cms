@@ -20,6 +20,10 @@ use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Categories Component Categories Model
  *
@@ -43,10 +47,10 @@ class CategoriesModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'alias', 'a.alias',
@@ -62,7 +66,7 @@ class CategoriesModel extends ListModel
                 'level', 'a.level',
                 'path', 'a.path',
                 'tag',
-            );
+            ];
         }
 
         if (Associations::isEnabled()) {
@@ -411,9 +415,7 @@ class CategoriesModel extends ListModel
         $hname = $cname . 'HelperAssociation';
         \JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
 
-		/* @codingStandardsIgnoreStart */
-		$this->hasAssociation = class_exists($hname) && !empty($hname::$category_association);
-		/* @codingStandardsIgnoreEnd */
+        $this->hasAssociation = class_exists($hname) && !empty($hname::$category_association);
 
         return $this->hasAssociation;
     }

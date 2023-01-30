@@ -18,6 +18,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Templates component helper.
  *
@@ -33,7 +37,7 @@ class TemplatesHelper
     public static function getClientOptions()
     {
         // Build the filter options.
-        $options = array();
+        $options = [];
         $options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
         $options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
 
@@ -112,7 +116,7 @@ class TemplatesHelper
      */
     public static function getPositions($clientId, $templateDir)
     {
-        $positions = array();
+        $positions = [];
 
         $templateBaseDir = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
         $filePath = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
@@ -140,7 +144,7 @@ class TemplatesHelper
             if (isset($positions['position'])) {
                 $positions = (array) $positions['position'];
             } else {
-                $positions = array();
+                $positions = [];
             }
         }
 

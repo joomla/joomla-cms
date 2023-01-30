@@ -24,6 +24,10 @@ use Negotiation\Accept;
 use Negotiation\Exception\InvalidArgument;
 use Negotiation\Negotiator;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! API Application class
  *
@@ -37,7 +41,7 @@ final class ApiApplication extends CMSApplication
      * @var    array
      * @since  4.0.0
      */
-    protected $formatMapper = array();
+    protected $formatMapper = [];
 
     /**
      * The authentication plugin type
@@ -80,7 +84,6 @@ final class ApiApplication extends CMSApplication
         // Set the root in the URI based on the application name
         Uri::root(null, str_ireplace('/' . $this->getName(), '', Uri::base(true)));
     }
-
 
     /**
      * Method to run the application routines.
@@ -155,7 +158,7 @@ final class ApiApplication extends CMSApplication
      *
      * @since   4.0.0
      */
-    protected function respond($options = array())
+    protected function respond($options = [])
     {
         // Set the Joomla! API signature
         $this->setHeader('X-Powered-By', 'JoomlaAPI/1.0', true);
@@ -225,7 +228,7 @@ final class ApiApplication extends CMSApplication
 
         // Trigger the onBeforeApiRoute event.
         PluginHelper::importPlugin('webservices');
-        $this->triggerEvent('onBeforeApiRoute', array(&$router, $this));
+        $this->triggerEvent('onBeforeApiRoute', [&$router, $this]);
         $caught404 = false;
         $method    = $this->input->getMethod();
 
@@ -241,7 +244,7 @@ final class ApiApplication extends CMSApplication
          * Now we have an API perform content negotiation to ensure we have a valid header. Assume if the route doesn't
          * tell us otherwise it uses the plain JSON API
          */
-        $priorities = array('application/vnd.api+json');
+        $priorities = ['application/vnd.api+json'];
 
         if (!$caught404 && \array_key_exists('format', $route['vars'])) {
             $priorities = $route['vars']['format'];
@@ -273,24 +276,33 @@ final class ApiApplication extends CMSApplication
             throw $e;
         }
 
-        $this->input->set('option', $route['vars']['component']);
         $this->input->set('controller', $route['controller']);
         $this->input->set('task', $route['task']);
 
         foreach ($route['vars'] as $key => $value) {
-            if ($key !== 'component') {
-                if ($this->input->getMethod() === 'POST') {
-                    $this->input->post->set($key, $value);
-                } else {
-                    $this->input->set($key, $value);
-                }
+            // We inject the format directly above based on the negotiated format. We do not want the array of possible
+            // formats provided by the plugin!
+            if ($key === 'format') {
+                continue;
+            }
+
+            // We inject the component key into the option parameter in global input for b/c with the other applications
+            if ($key === 'component') {
+                $this->input->set('option', $route['vars'][$key]);
+                continue;
+            }
+
+            if ($this->input->getMethod() === 'POST') {
+                $this->input->post->set($key, $value);
+            } else {
+                $this->input->set($key, $value);
             }
         }
 
-        $this->triggerEvent('onAfterApiRoute', array($this));
+        $this->triggerEvent('onAfterApiRoute', [$this]);
 
         if (!isset($route['vars']['public']) || $route['vars']['public'] === false) {
-            if (!$this->login(array('username' => ''), array('silent' => true, 'action' => 'core.login.api'))) {
+            if (!$this->login(['username' => ''], ['silent' => true, 'action' => 'core.login.api'])) {
                 throw new AuthenticationFailed();
             }
         }

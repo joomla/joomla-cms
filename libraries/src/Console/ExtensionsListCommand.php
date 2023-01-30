@@ -18,6 +18,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command for listing installed extensions
  *
@@ -238,8 +242,8 @@ class ExtensionsListCommand extends AbstractCommand
 
         $extensions = $this->getExtensionsNameAndId($extensions);
 
-        $this->ioStyle->title('Installed extensions.');
-        $this->ioStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Active'], $extensions);
+        $this->ioStyle->title('Installed Extensions');
+        $this->ioStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Enabled'], $extensions);
 
         return Command::SUCCESS;
     }

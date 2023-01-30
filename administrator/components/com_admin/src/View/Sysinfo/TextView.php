@@ -17,6 +17,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\Component\Admin\Administrator\Model\SysinfoModel;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Sysinfo View class for the Admin component
  *
@@ -29,7 +33,7 @@ class TextView extends AbstractView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  mixed  A string if successful, otherwise an Error object.
+     * @return  void
      *
      * @since   3.5
      *

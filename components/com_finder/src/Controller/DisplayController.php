@@ -13,6 +13,10 @@ namespace Joomla\Component\Finder\Site\Controller;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Finder Component Controller.
  *
@@ -31,7 +35,7 @@ class DisplayController extends BaseController
      *
      * @since   2.5
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         $input = $this->app->input;
         $cachable = true;
@@ -48,10 +52,10 @@ class DisplayController extends BaseController
             $cachable = false;
         }
 
-        $safeurlparams = array(
+        $safeurlparams = [
             'f'    => 'INT',
             'lang' => 'CMD'
-        );
+        ];
 
         return parent::display($cachable, $safeurlparams);
     }

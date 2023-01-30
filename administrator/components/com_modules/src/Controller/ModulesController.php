@@ -14,6 +14,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Response\JsonResponse;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Modules list controller class.
  *
@@ -33,7 +37,7 @@ class ModulesController extends AdminController
         // Check for request forgeries
         $this->checkToken();
 
-        $pks = (array) $this->input->post->get('cid', array(), 'int');
+        $pks = (array) $this->input->post->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $pks = array_filter($pks);
@@ -64,7 +68,7 @@ class ModulesController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Module', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Module', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

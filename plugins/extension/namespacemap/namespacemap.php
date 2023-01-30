@@ -14,6 +14,10 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! namespace map creator / updater.
  *
@@ -38,7 +42,7 @@ class PlgExtensionNamespacemap extends CMSPlugin
      *
      * @since   4.0.0
      */
-    public function __construct(&$subject, $config = array())
+    public function __construct(&$subject, $config = [])
     {
         $this->fileCreator = new JNamespacePsr4Map();
 

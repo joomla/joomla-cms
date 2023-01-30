@@ -18,6 +18,10 @@ use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of template extension records.
  *
@@ -34,10 +38,10 @@ class TemplatesModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
                 'folder', 'a.folder',
@@ -47,7 +51,7 @@ class TemplatesModel extends ListModel
                 'state', 'a.state',
                 'enabled', 'a.enabled',
                 'ordering', 'a.ordering',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -206,7 +210,7 @@ class TemplatesModel extends ListModel
 
         // Special case for the client id.
         $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-        $clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
+        $clientId = (!in_array($clientId, [0, 1])) ? 0 : $clientId;
         $this->setState('client_id', $clientId);
 
         // Load the parameters.

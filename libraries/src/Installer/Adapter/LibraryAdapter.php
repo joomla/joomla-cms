@@ -20,6 +20,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Library installer
  *
@@ -50,7 +54,7 @@ class LibraryAdapter extends InstallerAdapter
 
                 // Clear the cached data
                 $this->currentExtensionId = null;
-                $this->extension = Table::getInstance('Extension', 'JTable', array('dbo' => $this->getDatabase()));
+                $this->extension = Table::getInstance('Extension', 'JTable', ['dbo' => $this->getDatabase()]);
 
                 // From this point we'll consider this an update
                 $this->setRoute('update');
@@ -90,10 +94,10 @@ class LibraryAdapter extends InstallerAdapter
         /** @var Update $update */
         $update = Table::getInstance('update');
         $uid    = $update->find(
-            array(
+            [
                 'element' => $this->element,
                 'type'    => $this->type,
-            )
+            ]
         );
 
         if ($uid) {
@@ -102,7 +106,7 @@ class LibraryAdapter extends InstallerAdapter
 
         // Lastly, we will copy the manifest file to its appropriate place.
         if ($this->route !== 'discover_install') {
-            $manifest         = array();
+            $manifest         = [];
             $manifest['src']  = $this->parent->getPath('manifest');
             $manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . $this->element . '.xml';
 
@@ -118,7 +122,7 @@ class LibraryAdapter extends InstallerAdapter
                 );
             }
 
-            if (!$this->parent->copyFiles(array($manifest), true)) {
+            if (!$this->parent->copyFiles([$manifest], true)) {
                 // Install failed, rollback changes
                 throw new \RuntimeException(
                     Text::sprintf(
@@ -134,7 +138,7 @@ class LibraryAdapter extends InstallerAdapter
                 $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
                 if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                    if (!$this->parent->copyFiles(array($path))) {
+                    if (!$this->parent->copyFiles([$path])) {
                         // Install failed, rollback changes
                         throw new \RuntimeException(
                             Text::sprintf(
@@ -316,7 +320,7 @@ class LibraryAdapter extends InstallerAdapter
         }
 
         // Don't install libraries which would override core folders
-        $restrictedFolders = array('php-encryption', 'phpass', 'src', 'vendor');
+        $restrictedFolders = ['php-encryption', 'phpass', 'src', 'vendor'];
 
         if (in_array($group, $restrictedFolders)) {
             throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_CORE_FOLDER'));
@@ -426,7 +430,7 @@ class LibraryAdapter extends InstallerAdapter
 
         // Since we have created a library item, we add it to the installation step stack
         // so that if we have to rollback the changes we can undo it.
-        $this->parent->pushStep(array('type' => 'extension', 'id' => $this->extension->extension_id));
+        $this->parent->pushStep(['type' => 'extension', 'id' => $this->extension->extension_id]);
     }
 
     /**
@@ -438,7 +442,7 @@ class LibraryAdapter extends InstallerAdapter
      */
     public function discover()
     {
-        $results = array();
+        $results = [];
 
         $mainFolder = JPATH_MANIFESTS . '/libraries';
         $folder = new \RecursiveDirectoryIterator($mainFolder);
@@ -449,7 +453,7 @@ class LibraryAdapter extends InstallerAdapter
         );
 
         foreach ($iterator as $file => $pattern) {
-            $element       = str_replace(array($mainFolder . DIRECTORY_SEPARATOR, '.xml'), '', $file);
+            $element       = str_replace([$mainFolder . DIRECTORY_SEPARATOR, '.xml'], '', $file);
             $manifestCache = Installer::parseXMLInstallFile($file);
 
             $extension = Table::getInstance('extension');

@@ -23,6 +23,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command Purges and rebuilds the index (search filters are preserved)
  *
@@ -84,7 +88,7 @@ class FinderIndexCommand extends AbstractCommand
      * @var    array
      * @since  3.3
      */
-    private $filters = array();
+    private $filters = [];
 
     /**
      * Pausing type or defined pause time in seconds.
@@ -284,11 +288,11 @@ EOF;
 
             // Construct a temporary data structure to hold the filter information.
             foreach ($taxonomies as $taxonomy) {
-                $this->filters[$filter->filter_id][] = array(
+                $this->filters[$filter->filter_id][] = [
                     'filter' => $filter->title,
                     'title'  => $taxonomy->title,
                     'parent' => $taxonomy->parent,
-                );
+                ];
             }
         }
 
@@ -454,7 +458,7 @@ EOF;
 
         // Use the temporary filter information to update the filter taxonomy ids.
         foreach ($this->filters as $filter_id => $filter) {
-            $tids = array();
+            $tids = [];
 
             foreach ($filter as $element) {
                 // Look for the old taxonomy in the new taxonomy table.

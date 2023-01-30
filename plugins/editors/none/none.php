@@ -15,6 +15,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\Event;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plain Textarea Editor Plugin
  *
@@ -50,7 +54,7 @@ class PlgEditorNone extends CMSPlugin
         $id = null,
         $asset = null,
         $author = null,
-        $params = array()
+        $params = []
     ) {
         if (empty($id)) {
             $id = $name;

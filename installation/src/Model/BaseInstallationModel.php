@@ -13,6 +13,10 @@ namespace Joomla\CMS\Installation\Model;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base Model for the installation model classes
  *
@@ -29,7 +33,7 @@ class BaseInstallationModel extends BaseDatabaseModel
      * @since   3.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         // @TODO remove me when the base model is db free
         $config['dbo'] = null;

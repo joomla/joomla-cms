@@ -18,6 +18,10 @@ use Joomla\Component\Contact\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Contact Plugin
  *
@@ -44,7 +48,7 @@ class PlgContentContact extends CMSPlugin
      */
     public function onContentPrepare($context, &$row, $params, $page = 0)
     {
-        $allowed_contexts = array('com_content.category', 'com_content.article', 'com_content.featured');
+        $allowed_contexts = ['com_content.category', 'com_content.article', 'com_content.featured'];
 
         if (!in_array($context, $allowed_contexts)) {
             return;
@@ -96,7 +100,7 @@ class PlgContentContact extends CMSPlugin
      */
     protected function getContactData($userId)
     {
-        static $contacts = array();
+        static $contacts = [];
 
         // Note: don't use isset() because value could be null.
         if (array_key_exists($userId, $contacts)) {

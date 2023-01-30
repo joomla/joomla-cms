@@ -11,6 +11,10 @@ namespace Joomla\CMS\Input;
 
 use Joomla\CMS\Filter\InputFilter;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Input CLI Class
  *
@@ -36,7 +40,7 @@ class Cli extends Input
      * @since  1.7.0
      * @deprecated  5.0  Use the `joomla/console` package instead
      */
-    public $args = array();
+    public $args = [];
 
     /**
      * Constructor.
@@ -47,7 +51,7 @@ class Cli extends Input
      * @since   1.7.0
      * @deprecated  5.0  Use the `joomla/console` package instead
      */
-    public function __construct(array $source = null, array $options = array())
+    public function __construct(array $source = null, array $options = [])
     {
         if (isset($options['filter'])) {
             $this->filter = $options['filter'];
@@ -81,7 +85,7 @@ class Cli extends Input
         unset($inputs['server']);
 
         // Serialize the executable, args, options, data, and inputs.
-        return serialize(array($this->executable, $this->args, $this->options, $this->data, $inputs));
+        return serialize([$this->executable, $this->args, $this->options, $this->data, $inputs]);
     }
 
     /**
@@ -123,7 +127,7 @@ class Cli extends Input
 
         $this->executable = array_shift($argv);
 
-        $out = array();
+        $out = [];
 
         for ($i = 0, $j = \count($argv); $i < $j; $i++) {
             $arg = $argv[$i];

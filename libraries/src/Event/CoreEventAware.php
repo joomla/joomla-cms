@@ -49,6 +49,10 @@ use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\Event\Event;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Returns the most suitable event class for a Joomla core event name
  *

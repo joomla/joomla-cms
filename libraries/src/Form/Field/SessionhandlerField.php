@@ -13,6 +13,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Provides a select list of session handler options.
@@ -38,7 +42,7 @@ class SessionhandlerField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         // Get the options from the session object.
         foreach (Session::getHandlers() as $store) {

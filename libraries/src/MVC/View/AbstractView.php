@@ -19,6 +19,10 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\EventInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class for a Joomla View
  *
@@ -60,7 +64,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      * @var    array
      * @since  3.0
      */
-    protected $_models = array();
+    protected $_models = [];
 
     /**
      * The default model
@@ -84,7 +88,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      *
      * @since   3.0
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         // Set the view name
         if (empty($this->_name)) {

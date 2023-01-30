@@ -11,6 +11,10 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Form\FormField;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Supports a multi line area for entry of plain text
@@ -176,12 +180,12 @@ class TextareaField extends FormField
         $rows         = $this->rows ? ' rows="' . $this->rows . '"' : '';
         $maxlength    = $this->maxlength ? ' maxlength="' . $this->maxlength . '"' : '';
 
-        $extraData = array(
+        $extraData = [
             'maxlength'    => $maxlength,
             'rows'         => $rows,
             'columns'      => $columns,
             'charcounter'  => $this->charcounter
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

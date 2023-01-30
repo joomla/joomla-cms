@@ -35,6 +35,10 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class for a database aware Joomla Model
  *
@@ -46,7 +50,8 @@ abstract class BaseDatabaseModel extends BaseModel implements
     DatabaseModelInterface,
     DispatcherAwareInterface,
     CurrentUserInterface,
-    CacheControllerFactoryAwareInterface
+    CacheControllerFactoryAwareInterface,
+    DatabaseAwareInterface
 {
     use DatabaseAwareTrait;
     use MVCFactoryAwareTrait;
@@ -79,7 +84,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         parent::__construct($config);
 
@@ -151,13 +156,13 @@ abstract class BaseDatabaseModel extends BaseModel implements
     protected function _getList($query, $limitstart = 0, $limit = 0)
     {
         if (\is_string($query)) {
-            $query = $this->getDatabase()->getQuery(true)->setQuery($query);
+            $query = $this->getDbo()->getQuery(true)->setQuery($query);
         }
 
         $query->setLimit($limit, $limitstart);
-        $this->getDatabase()->setQuery($query);
+        $this->getDbo()->setQuery($query);
 
-        return $this->getDatabase()->loadObjectList();
+        return $this->getDbo()->loadObjectList();
     }
 
     /**
@@ -188,9 +193,9 @@ abstract class BaseDatabaseModel extends BaseModel implements
             $query = clone $query;
             $query->clear('select')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
 
-            $this->getDatabase()->setQuery($query);
+            $this->getDbo()->setQuery($query);
 
-            return (int) $this->getDatabase()->loadResult();
+            return (int) $this->getDbo()->loadResult();
         }
 
         // Otherwise fall back to inefficient way of counting all results.
@@ -201,10 +206,10 @@ abstract class BaseDatabaseModel extends BaseModel implements
             $query->clear('limit')->clear('offset')->clear('order');
         }
 
-        $this->getDatabase()->setQuery($query);
-        $this->getDatabase()->execute();
+        $this->getDbo()->setQuery($query);
+        $this->getDbo()->execute();
 
-        return (int) $this->getDatabase()->getNumRows();
+        return (int) $this->getDbo()->getNumRows();
     }
 
     /**
@@ -219,11 +224,11 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @see     \JTable::getInstance()
      */
-    protected function _createTable($name, $prefix = 'Table', $config = array())
+    protected function _createTable($name, $prefix = 'Table', $config = [])
     {
         // Make sure we are returning a DBO object
         if (!\array_key_exists('dbo', $config)) {
-            $config['dbo'] = $this->getDatabase();
+            $config['dbo'] = $this->getDbo();
         }
 
         return $this->getMVCFactory()->createTable($name, $prefix, $config);
@@ -241,7 +246,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @throws  \Exception
      */
-    public function getTable($name = '', $prefix = '', $options = array())
+    public function getTable($name = '', $prefix = '', $options = [])
     {
         if (empty($name)) {
             $name = $this->getName();
@@ -394,7 +399,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     public function __get($name)
     {
         if ($name === '_db') {
-            return $this->getDatabase();
+            return $this->getDbo();
         }
 
         // Default the variable

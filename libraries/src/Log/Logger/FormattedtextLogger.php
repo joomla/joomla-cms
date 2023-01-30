@@ -17,6 +17,10 @@ use Joomla\CMS\Log\Logger;
 use Joomla\CMS\Version;
 use Joomla\Utilities\IpHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Formatted Text File Log class
  *
@@ -43,7 +47,7 @@ class FormattedtextLogger extends Logger
      * @var    array
      * @since  1.7.0
      */
-    protected $fields = array();
+    protected $fields = [];
 
     /**
      * The full filesystem path for the log file.
@@ -68,7 +72,7 @@ class FormattedtextLogger extends Logger
      * @var    array
      * @since  3.9.0
      */
-    protected $deferredEntries = array();
+    protected $deferredEntries = [];
 
     /**
      * Constructor.
@@ -130,7 +134,7 @@ class FormattedtextLogger extends Logger
         $this->initFile();
 
         // Format all lines and write to file.
-        $lines = array_map(array($this, 'formatLine'), $this->deferredEntries);
+        $lines = array_map([$this, 'formatLine'], $this->deferredEntries);
 
         if (!File::append($this->path, implode("\n", $lines) . "\n")) {
             throw new \RuntimeException('Cannot write to log file.');
@@ -220,7 +224,7 @@ class FormattedtextLogger extends Logger
      */
     protected function generateFileHeader()
     {
-        $head = array();
+        $head = [];
 
         // Build the log file header.
 
@@ -279,8 +283,8 @@ class FormattedtextLogger extends Logger
      */
     protected function parseFields()
     {
-        $this->fields = array();
-        $matches = array();
+        $this->fields = [];
+        $matches = [];
 
         // Get all of the available fields in the format string.
         preg_match_all('/{(.*?)}/i', $this->format, $matches);

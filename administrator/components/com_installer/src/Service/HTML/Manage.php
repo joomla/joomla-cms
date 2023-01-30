@@ -12,6 +12,10 @@ namespace Joomla\Component\Installer\Administrator\Service\HTML;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Installer HTML class.
  *
@@ -35,8 +39,8 @@ class Manage
      */
     public function state($value, $i, $enabled = true, $checkbox = 'cb')
     {
-        $states = array(
-            2 => array(
+        $states = [
+            2 => [
                 '',
                 'COM_INSTALLER_EXTENSION_PROTECTED',
                 '',
@@ -44,8 +48,8 @@ class Manage
                 true,
                 'protected',
                 'protected',
-            ),
-            1 => array(
+            ],
+            1 => [
                 'unpublish',
                 'COM_INSTALLER_EXTENSION_ENABLED',
                 'COM_INSTALLER_EXTENSION_DISABLE',
@@ -53,8 +57,8 @@ class Manage
                 true,
                 'publish',
                 'publish',
-            ),
-            0 => array(
+            ],
+            0 => [
                 'publish',
                 'COM_INSTALLER_EXTENSION_DISABLED',
                 'COM_INSTALLER_EXTENSION_ENABLE',
@@ -62,8 +66,8 @@ class Manage
                 true,
                 'unpublish',
                 'unpublish',
-            ),
-        );
+            ],
+        ];
 
         return HTMLHelper::_('jgrid.state', $states, $value, $i, 'manage.', $enabled, true, $checkbox);
     }

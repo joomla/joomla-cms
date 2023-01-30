@@ -57,7 +57,7 @@ if (!$format) {
      */
     $module   = $input->get('module');
     $table    = Table::getInstance('extension');
-    $moduleId = $table->find(array('type' => 'module', 'element' => 'mod_' . $module));
+    $moduleId = $table->find(['type' => 'module', 'element' => 'mod_' . $module]);
 
     if ($moduleId && $table->load($moduleId) && $table->enabled) {
         $helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
@@ -145,7 +145,7 @@ if (!$format) {
      */
     $template   = $input->get('template');
     $table      = Table::getInstance('extension');
-    $templateId = $table->find(array('type' => 'template', 'element' => $template));
+    $templateId = $table->find(['type' => 'template', 'element' => $template]);
 
     if ($templateId && $table->load($templateId) && $table->enabled) {
         $basePath   = ($table->client_id) ? JPATH_ADMINISTRATOR : JPATH_SITE;

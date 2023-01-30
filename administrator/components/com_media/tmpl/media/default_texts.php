@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
+Text::script('COM_MEDIA_ACTIONS_TOOLBAR_LABEL', true);
 Text::script('COM_MEDIA_ACTION_DELETE', true);
 Text::script('COM_MEDIA_ACTION_DOWNLOAD', true);
 Text::script('COM_MEDIA_ACTION_EDIT', true);
@@ -37,6 +38,7 @@ Text::script('COM_MEDIA_FILE_EXISTS_AND_OVERRIDE', true);
 Text::script('COM_MEDIA_FOLDER', true);
 Text::script('COM_MEDIA_FOLDER_NAME', true);
 Text::script('COM_MEDIA_INCREASE_GRID', true);
+Text::script('COM_MEDIA_MANAGE_ITEM', true);
 Text::script('COM_MEDIA_MEDIA_DATE_CREATED', true);
 Text::script('COM_MEDIA_MEDIA_DATE_MODIFIED', true);
 Text::script('COM_MEDIA_MEDIA_DIMENSION', true);

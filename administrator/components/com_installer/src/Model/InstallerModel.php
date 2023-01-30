@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Extension Manager Abstract Extension Model.
  *
@@ -33,10 +37,10 @@ class InstallerModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\ListModel
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'name',
                 'client_id',
                 'client', 'client_translated',
@@ -45,7 +49,7 @@ class InstallerModel extends ListModel
                 'folder', 'folder_translated',
                 'extension_id',
                 'creationDate',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -71,7 +75,7 @@ class InstallerModel extends ListModel
         $db     = $this->getDatabase();
 
         // Define which fields have to be processed in a custom way because of translation.
-        $customOrderFields = array('name', 'client_translated', 'type_translated', 'folder_translated', 'creationDate');
+        $customOrderFields = ['name', 'client_translated', 'type_translated', 'folder_translated', 'creationDate'];
 
         // Process searching, ordering and pagination for fields that need to be translated.
         if (in_array($listOrder, $customOrderFields) || (!empty($search) && stripos($search, 'id:') !== 0)) {
@@ -85,7 +89,7 @@ class InstallerModel extends ListModel
                 $escapedSearchString = $this->refineSearchStringToRegex($search, '/');
 
                 // By default search only the extension name field.
-                $searchFields = array('name');
+                $searchFields = ['name'];
 
                 // If in update sites view search also in the update site name field.
                 if ($this instanceof UpdatesitesModel) {
@@ -211,7 +215,7 @@ class InstallerModel extends ListModel
 
             settype($item->description, 'string');
 
-            if (!in_array($item->type, array('language'))) {
+            if (!in_array($item->type, ['language'])) {
                 $item->description = Text::_($item->description);
             }
         }

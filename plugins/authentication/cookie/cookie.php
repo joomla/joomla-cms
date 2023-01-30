@@ -18,6 +18,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla Authentication plugin
  *
@@ -54,11 +58,11 @@ class PlgAuthenticationCookie extends CMSPlugin
     {
         $this->loadLanguage();
 
-        return array(
-            Text::_('PLG_AUTHENTICATION_COOKIE') => array(
+        return [
+            Text::_('PLG_AUTHENTICATION_COOKIE') => [
                 Text::_('PLG_AUTHENTICATION_COOKIE_PRIVACY_CAPABILITY_COOKIE'),
-            ),
-        );
+            ],
+        ];
     }
 
     /**

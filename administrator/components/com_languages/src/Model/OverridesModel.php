@@ -17,6 +17,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Languages Overrides Model
  *
@@ -33,13 +37,13 @@ class OverridesModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   2.5
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'key',
                 'text',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -71,7 +75,7 @@ class OverridesModel extends ListModel
         $strings  = LanguageHelper::parseIniFile($fileName);
 
         // Delete the override.ini file if empty.
-        if (file_exists($fileName) && $strings === array()) {
+        if (file_exists($fileName) && $strings === []) {
             File::delete($fileName);
         }
 

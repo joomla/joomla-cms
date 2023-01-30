@@ -11,6 +11,10 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Form\FormField;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Provides a meter to show value in a range.
@@ -180,14 +184,14 @@ class MeterField extends FormField
         $data = parent::getLayoutData();
 
         // Initialize some field attributes.
-        $extraData = array(
+        $extraData = [
             'width'    => $this->width,
             'color'    => $this->color,
             'animated' => $this->animated,
             'active'   => $this->active,
             'max'      => $this->max,
             'min'      => $this->min,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

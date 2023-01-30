@@ -14,6 +14,10 @@ use Joomla\CMS\Object\CMSObject;
 use Tobscure\JsonApi\AbstractSerializer;
 use Tobscure\JsonApi\Relationship;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This class does the messy job of sanitising all the classes Joomla has that contain data and converting them
  * into a standard array that can be consumed by the Tobscure library. It also throws appropriate plugin events

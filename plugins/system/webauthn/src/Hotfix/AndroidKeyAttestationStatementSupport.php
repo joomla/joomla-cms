@@ -30,6 +30,10 @@ use Webauthn\MetadataService\MetadataStatementRepository;
 use Webauthn\StringStream;
 use Webauthn\TrustPath\CertificateTrustPath;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * We had to fork the key attestation support object from the WebAuthn server package to address an
  * issue with PHP 8.
@@ -47,7 +51,7 @@ use Webauthn\TrustPath\CertificateTrustPath;
  * class to change the assertion. The assertion takes place through a third party library we cannot
  * (and should not!) modify.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   4.2.0
  *
  * @deprecated 5.0 We will upgrade the WebAuthn library to version 3 or later and this will go away.
  */
@@ -55,13 +59,13 @@ final class AndroidKeyAttestationStatementSupport implements AttestationStatemen
 {
     /**
      * @var   Decoder
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     private $decoder;
 
     /**
      * @var   MetadataStatementRepository|null
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     private $metadataStatementRepository;
 
@@ -69,7 +73,7 @@ final class AndroidKeyAttestationStatementSupport implements AttestationStatemen
      * @param   Decoder|null                      $decoder                      Obvious
      * @param   MetadataStatementRepository|null  $metadataStatementRepository  Obvious
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function __construct(
         ?Decoder $decoder = null,
@@ -92,7 +96,7 @@ final class AndroidKeyAttestationStatementSupport implements AttestationStatemen
 
     /**
      * @return  string
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function name(): string
     {
@@ -104,7 +108,7 @@ final class AndroidKeyAttestationStatementSupport implements AttestationStatemen
      *
      * @return  AttestationStatement
      * @throws  \Assert\AssertionFailedException
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function load(array $attestation): AttestationStatement
     {
@@ -132,7 +136,7 @@ final class AndroidKeyAttestationStatementSupport implements AttestationStatemen
      *
      * @return  boolean
      * @throws  \Assert\AssertionFailedException
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function isValid(
         string $clientDataJSONHash,
@@ -171,7 +175,7 @@ final class AndroidKeyAttestationStatementSupport implements AttestationStatemen
      * @return  void
      * @throws  \Assert\AssertionFailedException
      * @throws  \FG\ASN1\Exception\ParserException
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function checkCertificateAndGetPublicKey(
         string $certificate,
@@ -241,7 +245,7 @@ final class AndroidKeyAttestationStatementSupport implements AttestationStatemen
      *
      * @return  void
      * @throws  \Assert\AssertionFailedException
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function checkAbsenceOfAllApplicationsTag(Sequence $sequence): void
     {

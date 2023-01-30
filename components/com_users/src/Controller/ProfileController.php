@@ -15,6 +15,10 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Profile controller class for Users.
  *
@@ -87,7 +91,7 @@ class ProfileController extends BaseController
         $userId = (int) $user->get('id');
 
         // Get the user data.
-        $requestData = $app->input->post->get('jform', array(), 'array');
+        $requestData = $app->input->post->get('jform', [], 'array');
 
         // Force the ID to this user.
         $requestData['id'] = $userId;
@@ -103,7 +107,7 @@ class ProfileController extends BaseController
         $objData = (object) $requestData;
         $app->triggerEvent(
             'onContentNormaliseRequestData',
-            array('com_users.user', $objData, $form)
+            ['com_users.user', $objData, $form]
         );
         $requestData = (array) $objData;
 

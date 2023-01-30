@@ -11,6 +11,10 @@ namespace Joomla\CMS\Feed;
 
 use Joomla\CMS\Date\Date;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Class to encapsulate a feed entry for the Joomla Platform.
  *
@@ -34,15 +38,15 @@ class FeedEntry
      * @var    array  The entry properties.
      * @since  3.1.4
      */
-    protected $properties = array(
+    protected $properties = [
         'uri'  => '',
         'title' => '',
         'updatedDate' => '',
         'content' => '',
-        'categories' => array(),
-        'contributors' => array(),
-        'links' => array(),
-    );
+        'categories' => [],
+        'contributors' => [],
+        'links' => [],
+    ];
 
     /**
      * Magic method to return values for feed entry properties.
@@ -98,7 +102,7 @@ class FeedEntry
         }
 
         // Disallow setting categories, contributors, or links directly.
-        if (\in_array($name, array('categories', 'contributors', 'links'))) {
+        if (\in_array($name, ['categories', 'contributors', 'links'])) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'Cannot directly set %1$s property "%2$s".',

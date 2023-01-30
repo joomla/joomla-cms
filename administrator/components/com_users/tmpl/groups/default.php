@@ -34,7 +34,7 @@ $wa->useScript('com_users.admin-users-groups')
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['filterButton' => false]]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
                         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -89,7 +89,7 @@ $wa->useScript('com_users.admin-users-groups')
                                     <?php endif; ?>
                                 </td>
                                 <th scope="row">
-                                    <?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)); ?>
+                                    <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level + 1]); ?>
                                     <?php if ($canEdit) : ?>
                                     <a href="<?php echo Route::_('index.php?option=com_users&task=group.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
                                         <?php echo $this->escape($item->title); ?></a>

@@ -28,6 +28,10 @@ use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This plugin implements listeners to support a visitor-triggered lazy-scheduling pattern.
  * If `com_scheduler` is installed/enabled and its configuration allows unprotected lazy scheduling, this plugin

@@ -10,6 +10,10 @@
 
 namespace Joomla\CMS\Encrypt;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This class provides an RFC6238-compliant Time-based One Time Passwords,
  * compatible with Google Authenticator (with PassCodeLength = 6 and TimePeriod = 30).

@@ -31,7 +31,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'client_id'))); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['selectorFieldName' => 'client_id']]); ?>
                 <?php if ($this->total > 0) : ?>
                     <table class="table" id="styleList">
                         <caption class="visually-hidden">
@@ -101,14 +101,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     <?php elseif ($canChange) :?>
                                         <a href="<?php echo Route::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]=' . $item->id . '&' . Session::getFormToken() . '=1'); ?>">
                                             <?php if ($item->image) : ?>
-                                                <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
+                                                <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, ['title' => Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)], true); ?>
                                             <?php else : ?>
                                                 <span class="badge bg-secondary" title="<?php echo Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->home; ?></span>
                                             <?php endif; ?>
                                         </a>
                                     <?php else : ?>
                                         <?php if ($item->image) : ?>
-                                            <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+                                            <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, ['title' => $item->language_title], true); ?>
                                         <?php else : ?>
                                             <span class="badge bg-secondary" title="<?php echo $item->language_title; ?>"><?php echo $item->home; ?></span>
                                         <?php endif; ?>

@@ -14,6 +14,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class for creating HTML select lists
  *
@@ -27,8 +31,8 @@ abstract class Select
      * @var     array
      * @since   1.5
      */
-    protected static $optionDefaults = array(
-        'option' => array(
+    protected static $optionDefaults = [
+        'option' => [
             'option.attr' => null,
             'option.disable' => 'disable',
             'option.id' => null,
@@ -40,8 +44,8 @@ abstract class Select
             'option.text.toHtml' => true,
             'option.class' => 'class',
             'option.onclick' => 'onclick',
-        ),
-    );
+        ],
+    ];
 
     /**
      * Generates a yes/no radio list.
@@ -58,9 +62,9 @@ abstract class Select
      * @since   1.5
      * @see     \Joomla\CMS\Form\Field\RadioField
      */
-    public static function booleanlist($name, $attribs = array(), $selected = null, $yes = 'JYES', $no = 'JNO', $id = false)
+    public static function booleanlist($name, $attribs = [], $selected = null, $yes = 'JYES', $no = 'JNO', $id = false)
     {
-        $arr = array(HTMLHelper::_('select.option', '0', Text::_($no)), HTMLHelper::_('select.option', '1', Text::_($yes)));
+        $arr = [HTMLHelper::_('select.option', '0', Text::_($no)), HTMLHelper::_('select.option', '1', Text::_($yes))];
 
         return HTMLHelper::_('select.radiolist', $arr, $name, $attribs, 'value', 'text', (int) $selected, $id);
     }
@@ -103,7 +107,7 @@ abstract class Select
         $translate = false
     ) {
         // Set default options
-        $options = array_merge(HTMLHelper::$formatOptions, array('format.depth' => 0, 'id' => false));
+        $options = array_merge(HTMLHelper::$formatOptions, ['format.depth' => 0, 'id' => false]);
 
         if (is_array($attribs) && func_num_args() === 3) {
             // Assume we have an options array
@@ -133,7 +137,7 @@ abstract class Select
         }
 
         $id = $options['id'] !== false ? $options['id'] : $name;
-        $id = str_replace(array('[', ']', ' '), '', $id);
+        $id = str_replace(['[', ']', ' '], '', $id);
 
         // If the selectbox contains "form-select-color-state" then load the JS file
         if (strpos($attribs, 'form-select-color-state') !== false) {
@@ -190,12 +194,12 @@ abstract class Select
      * @since   1.5
      * @throws  \RuntimeException If a group has contents that cannot be processed.
      */
-    public static function groupedlist($data, $name, $options = array())
+    public static function groupedlist($data, $name, $options = [])
     {
         // Set default options and overwrite with anything passed in
         $options = array_merge(
             HTMLHelper::$formatOptions,
-            array('format.depth' => 0, 'group.items' => 'items', 'group.label' => 'text', 'group.label.toHtml' => true, 'id' => false),
+            ['format.depth' => 0, 'group.items' => 'items', 'group.label' => 'text', 'group.label.toHtml' => true, 'id' => false],
             $options
         );
 
@@ -219,7 +223,7 @@ abstract class Select
         }
 
         $id = $options['id'] !== false ? $options['id'] : $name;
-        $id = str_replace(array('[', ']', ' '), '', $id);
+        $id = str_replace(['[', ']', ' '], '', $id);
 
         // Disable groups in the options.
         $options['groups'] = false;
@@ -301,7 +305,7 @@ abstract class Select
     public static function integerlist($start, $end, $inc, $name, $attribs = null, $selected = null, $format = '')
     {
         // Set default options
-        $options = array_merge(HTMLHelper::$formatOptions, array('format.depth' => 0, 'option.format' => '', 'id' => false));
+        $options = array_merge(HTMLHelper::$formatOptions, ['format.depth' => 0, 'option.format' => '', 'id' => false]);
 
         if (is_array($attribs) && func_num_args() === 5) {
             // Assume we have an options array
@@ -320,7 +324,7 @@ abstract class Select
         $end   = (int) $end;
         $inc   = (int) $inc;
 
-        $data = array();
+        $data = [];
 
         for ($i = $start; $i <= $end; $i += $inc) {
             $data[$i] = $format ? sprintf($format, $i) : $i;
@@ -365,7 +369,7 @@ abstract class Select
      */
     public static function option($value, $text = '', $optKey = 'value', $optText = 'text', $disable = false)
     {
-        $options = array(
+        $options = [
             'attr' => null,
             'disable' => false,
             'option.attr' => null,
@@ -373,7 +377,7 @@ abstract class Select
             'option.key' => 'value',
             'option.label' => null,
             'option.text' => 'text',
-        );
+        ];
 
         if (is_array($optKey)) {
             // Merge in caller's options
@@ -463,7 +467,7 @@ abstract class Select
         $options = array_merge(
             HTMLHelper::$formatOptions,
             static::$optionDefaults['option'],
-            array('format.depth' => 0, 'groups' => true, 'list.select' => null, 'list.translate' => false)
+            ['format.depth' => 0, 'groups' => true, 'list.select' => null, 'list.translate' => false]
         );
 
         if (is_array($optKey)) {

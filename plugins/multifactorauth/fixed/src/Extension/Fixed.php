@@ -26,8 +26,12 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
 use RuntimeException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
- * TJoomla! Multi-factor Authentication using a fixed code.
+ * Joomla! Multi-factor Authentication using a fixed code.
  *
  * Requires a static string (password), different for each user. It effectively works as a second
  * password. The fixed code is stored hashed, like a regular password.
@@ -189,8 +193,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
                     'pre_message'   => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_SETUP_PREMESSAGE'),
                     'field_type'    => 'input',
                     'input_type'    => 'password',
-					// phpcs:ignore
-					'input_value'   => $options->fixed_code,
+                    'input_value'   => $options->fixed_code,
                     'placeholder'   => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_PLACEHOLDER'),
                     'label'         => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_LABEL'),
                     'post_message'  => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_SETUP_POSTMESSAGE'),
@@ -228,8 +231,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
         $options = $this->decodeRecordOptions($record);
 
         // Merge with the submitted form data
-		// phpcs:ignore
-		$code = $input->get('code', $options->fixed_code, 'raw');
+        $code = $input->get('code', $options->fixed_code, 'raw');
 
         // Make sure the code is not empty
         if (empty($code)) {
@@ -271,17 +273,14 @@ class Fixed extends CMSPlugin implements SubscriberInterface
         $options = $this->decodeRecordOptions($record);
 
         // Double check the MFA Method is for the correct user
-		// phpcs:ignore
-		if ($user->id != $record->user_id)
-        {
+        if ($user->id != $record->user_id) {
             $event->addResult(false);
 
             return;
         }
 
         // Check the MFA code for validity
-		// phpcs:ignore
-		$event->addResult(hash_equals($options->fixed_code, $code ?? ''));
+        $event->addResult(hash_equals($options->fixed_code, $code ?? ''));
     }
 
     /**
