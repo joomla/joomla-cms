@@ -49,7 +49,7 @@ abstract class UiTab
                 ->useScript('webcomponent.joomla-tab');
 
             // Setup options object
-            $opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
+            $opt = ['active' => (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : ''];
 
             // Set static array
             static::$loaded[__METHOD__][$sig] = true;
