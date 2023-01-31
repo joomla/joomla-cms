@@ -67,7 +67,7 @@ class Router extends RouterBase
     public function parse(&$segments)
     {
         $total = \count($segments);
-        $vars = [];
+        $vars  = [];
 
         for ($i = 0; $i < $total; $i++) {
             $segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);

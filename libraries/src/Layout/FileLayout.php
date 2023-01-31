@@ -323,10 +323,10 @@ class FileLayout extends BaseLayout
     {
         $lang = Factory::getLanguage();
 
-        $langTag = $lang->getTag();
+        $langTag   = $lang->getTag();
         $langParts = explode('-', $langTag);
 
-        $suffixes = [$langTag, $langParts[0]];
+        $suffixes   = [$langTag, $langParts[0]];
         $suffixes[] = $lang->isRtl() ? 'rtl' : 'ltr';
 
         $this->setSuffixes($suffixes);
@@ -612,7 +612,7 @@ class FileLayout extends BaseLayout
             $layoutId = $this->layoutId . '.' . $layoutId;
         }
 
-        $sublayout = new static($layoutId, $this->basePath, $this->options);
+        $sublayout               = new static($layoutId, $this->basePath, $this->options);
         $sublayout->includePaths = $this->includePaths;
 
         return $sublayout->render($displayData);

@@ -83,7 +83,7 @@ class FeaturedModel extends ListModel
      */
     protected function getListQuery()
     {
-        $user = $this->getCurrentUser();
+        $user   = $this->getCurrentUser();
         $groups = $user->getAuthorisedViewLevels();
 
         // Create a new query object.
@@ -160,8 +160,8 @@ class FeaturedModel extends ListModel
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $app   = Factory::getApplication();
-        $input = $app->getInput();
+        $app    = Factory::getApplication();
+        $input  = $app->getInput();
         $params = ComponentHelper::getParams('com_contact');
 
         // List state information

@@ -116,7 +116,7 @@ class File
     {
         // Prepend a base path if it exists
         if ($path) {
-            $src = Path::clean($path . '/' . $src);
+            $src  = Path::clean($path . '/' . $src);
             $dest = Path::clean($path . '/' . $dest);
         }
 
@@ -315,7 +315,7 @@ class File
     public static function move($src, $dest, $path = '', $useStreams = false)
     {
         if ($path) {
-            $src = Path::clean($path . '/' . $src);
+            $src  = Path::clean($path . '/' . $src);
             $dest = Path::clean($path . '/' . $dest);
         }
 
@@ -349,7 +349,7 @@ class File
                 $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
 
                 // Translate path for the FTP account
-                $src = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
+                $src  = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
                 $dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
                 // Use FTP rename to simulate move
@@ -418,10 +418,10 @@ class File
 
                 // Translate path for the FTP account and use FTP write buffer to file
                 $file = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
-                $ret = $ftp->write($file, $buffer);
+                $ret  = $ftp->write($file, $buffer);
             } else {
                 $file = Path::clean($file);
-                $ret = \is_int(file_put_contents($file, $buffer));
+                $ret  = \is_int(file_put_contents($file, $buffer));
             }
 
             self::invalidateFileCache($file);
@@ -475,10 +475,10 @@ class File
 
                 // Translate path for the FTP account and use FTP write buffer to file
                 $file = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
-                $ret = $ftp->append($file, $buffer);
+                $ret  = $ftp->append($file, $buffer);
             } else {
                 $file = Path::clean($file);
-                $ret = \is_int(file_put_contents($file, $buffer, FILE_APPEND));
+                $ret  = \is_int(file_put_contents($file, $buffer, FILE_APPEND));
             }
 
             self::invalidateFileCache($file);
@@ -542,7 +542,7 @@ class File
             return true;
         } else {
             $FTPOptions = ClientHelper::getCredentials('ftp');
-            $ret = false;
+            $ret        = false;
 
             if ($FTPOptions['enabled'] == 1) {
                 // Connect the FTP client

@@ -103,7 +103,7 @@ class HtmlView extends BaseHtmlView
         if (!empty($this->items)) {
             foreach ($this->items as $itemElement) {
                 // Prepare the data.
-                $temp = new Registry($itemElement->params);
+                $temp                = new Registry($itemElement->params);
                 $itemElement->params = clone $this->params;
                 $itemElement->params->merge($temp);
                 $itemElement->params = (array) json_decode($itemElement->params);

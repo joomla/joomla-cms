@@ -145,23 +145,23 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
         // Search for the {readmore} tag and split the text up accordingly.
         if (isset($array['articletext'])) {
             $pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
-            $tagPos = preg_match($pattern, $array['articletext']);
+            $tagPos  = preg_match($pattern, $array['articletext']);
 
             if ($tagPos == 0) {
                 $this->introtext = $array['articletext'];
-                $this->fulltext = '';
+                $this->fulltext  = '';
             } else {
-                list ($this->introtext, $this->fulltext) = preg_split($pattern, $array['articletext'], 2);
+                list($this->introtext, $this->fulltext) = preg_split($pattern, $array['articletext'], 2);
             }
         }
 
         if (isset($array['attribs']) && \is_array($array['attribs'])) {
-            $registry = new Registry($array['attribs']);
+            $registry         = new Registry($array['attribs']);
             $array['attribs'] = (string) $registry;
         }
 
         if (isset($array['metadata']) && \is_array($array['metadata'])) {
-            $registry = new Registry($array['metadata']);
+            $registry          = new Registry($array['metadata']);
             $array['metadata'] = (string) $registry;
         }
 
@@ -261,8 +261,8 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
         // Check the publish down date is not earlier than publish up.
         if (!is_null($this->publish_up) && !is_null($this->publish_down) && $this->publish_down < $this->publish_up) {
             // Swap the dates.
-            $temp = $this->publish_up;
-            $this->publish_up = $this->publish_down;
+            $temp               = $this->publish_up;
+            $this->publish_up   = $this->publish_down;
             $this->publish_down = $temp;
         }
 

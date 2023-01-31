@@ -40,7 +40,7 @@ class NewsfeedController extends FormController
     protected function allowAdd($data = [])
     {
         $categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
-        $allow = null;
+        $allow      = null;
 
         if ($categoryId) {
             // If the category has been passed in the URL check it.

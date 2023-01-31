@@ -151,7 +151,7 @@ class Filter
                 if (trim($nv->parent_title, '*') === 'Language') {
                     $title = LanguageHelper::branchLanguageTitle($nv->title);
                 } else {
-                    $key = LanguageHelper::branchPlural($nv->title);
+                    $key   = LanguageHelper::branchPlural($nv->title);
                     $title = $lang->hasKey($key) ? Text::_($key) : $nv->title;
                 }
 
@@ -323,7 +323,7 @@ class Filter
                     if (trim($node->parent_title, '*') === 'Language') {
                         $title = LanguageHelper::branchLanguageTitle($node->title);
                     } else {
-                        $key = LanguageHelper::branchPlural($node->title);
+                        $key   = LanguageHelper::branchPlural($node->title);
                         $title = $language->hasKey($key) ? Text::_($key) : $node->title;
                     }
 

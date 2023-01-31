@@ -19,8 +19,7 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Authentication\Ldap\Extension\Ldap;
 use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactory;
 
-return new class implements ServiceProviderInterface
-{
+return new class () implements ServiceProviderInterface {
     /**
      * Registers the service provider with a DI container.
      *

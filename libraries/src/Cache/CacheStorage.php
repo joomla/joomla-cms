@@ -111,7 +111,7 @@ class CacheStorage
         // _threshold is now available ONLY as a legacy (it's deprecated).  It's no longer used in the core.
         if (empty($this->_lifetime)) {
             $this->_threshold = $this->_now - 60;
-            $this->_lifetime = 60;
+            $this->_lifetime  = 60;
         } else {
             $this->_threshold = $this->_now - $this->_lifetime;
         }

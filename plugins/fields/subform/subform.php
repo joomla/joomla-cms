@@ -402,7 +402,7 @@ class PlgFieldsSubform extends FieldsPlugin
              * store it as `fieldname`.
              */
             $cur_field->fieldname = $cur_field->name;
-            $cur_field->name = 'field' . $cur_field->id;
+            $cur_field->name      = 'field' . $cur_field->id;
 
             // And add it to our result
             $result[] = $cur_field;

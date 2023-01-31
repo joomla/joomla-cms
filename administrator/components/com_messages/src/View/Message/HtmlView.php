@@ -85,7 +85,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $app = Factory::getApplication();
+        $app     = Factory::getApplication();
         $toolbar = Toolbar::getInstance();
 
         if ($this->getLayout() == 'edit') {

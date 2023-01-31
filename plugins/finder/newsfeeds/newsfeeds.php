@@ -284,7 +284,7 @@ class PlgFinderNewsfeeds extends Adapter
 
         // Add the category taxonomy data.
         $categories = Categories::getInstance('com_newsfeeds', ['published' => false, 'access' => false]);
-        $category = $categories->get($item->catid);
+        $category   = $categories->get($item->catid);
 
         // Category does not exist, stop here
         if (!$category) {

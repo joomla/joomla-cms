@@ -73,21 +73,21 @@ class OpensearchDocument extends Document
         $this->_mime = 'application/opensearchdescription+xml';
 
         // Add the URL for self updating
-        $update = new OpensearchUrl();
-        $update->type = 'application/opensearchdescription+xml';
-        $update->rel = 'self';
+        $update           = new OpensearchUrl();
+        $update->type     = 'application/opensearchdescription+xml';
+        $update->rel      = 'self';
         $update->template = Route::_(Uri::getInstance());
         $this->addUrl($update);
 
         // Add the favicon as the default image
         // Try to find a favicon by checking the template and root folder
-        $app = Factory::getApplication();
+        $app  = Factory::getApplication();
         $dirs = [JPATH_THEMES . '/' . $app->getTemplate(), JPATH_BASE];
 
         foreach ($dirs as $dir) {
             if (is_file($dir . '/favicon.ico')) {
-                $path = str_replace(JPATH_BASE, '', $dir);
-                $path = str_replace('\\', '/', $path);
+                $path    = str_replace(JPATH_BASE, '', $dir);
+                $path    = str_replace('\\', '/', $path);
                 $favicon = new OpensearchImage();
 
                 if ($path == '') {
@@ -101,8 +101,8 @@ class OpensearchDocument extends Document
                 }
 
                 $favicon->height = '16';
-                $favicon->width = '16';
-                $favicon->type = 'image/vnd.microsoft.icon';
+                $favicon->width  = '16';
+                $favicon->type   = 'image/vnd.microsoft.icon';
 
                 $this->addImage($favicon);
 

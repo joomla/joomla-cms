@@ -122,7 +122,7 @@ final class Image extends CMSPlugin
                     'images'    => $imagesExt,
                     'audios'    => $audiosExt,
                     'videos'    => $videosExt,
-                    'documents' => $documentsExt
+                    'documents' => $documentsExt,
                 ]);
             }
 
@@ -147,7 +147,7 @@ final class Image extends CMSPlugin
 
             $link = 'index.php?option=com_media&view=media&tmpl=component&e_name=' . $name . '&asset=' . $asset . '&mediatypes=0,1,2,3' . '&author=' . $author;
 
-            $button = new CMSObject();
+            $button          = new CMSObject();
             $button->modal   = true;
             $button->link    = $link;
             $button->text    = Text::_('PLG_IMAGE_BUTTON_IMAGE');
