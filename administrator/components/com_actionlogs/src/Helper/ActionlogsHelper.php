@@ -78,7 +78,7 @@ class ActionlogsHelper
                 'extension'  => self::escapeCsvFormula(Text::_($extension)),
                 'date'       => (new Date($log->log_date, new \DateTimeZone('UTC')))->format('Y-m-d H:i:s T'),
                 'name'       => self::escapeCsvFormula($log->name),
-                'ip_address' => self::escapeCsvFormula($log->ip_address === 'COM_ACTIONLOGS_DISABLED' ? $disabledText : $log->ip_address)
+                'ip_address' => self::escapeCsvFormula($log->ip_address === 'COM_ACTIONLOGS_DISABLED' ? $disabledText : $log->ip_address),
             ];
         }
     }
@@ -95,7 +95,7 @@ class ActionlogsHelper
     public static function loadTranslationFiles($extension)
     {
         static $cache = [];
-        $extension = strtolower($extension);
+        $extension    = strtolower($extension);
 
         if (isset($cache[$extension])) {
             return;
@@ -277,13 +277,13 @@ class ActionlogsHelper
                         'folder',
                         'element',
                         'params',
-                        'extension_id'
+                        'extension_id',
                     ],
                     [
                         'type',
                         'name',
                         'params',
-                        'id'
+                        'id',
                     ]
                 )
             )

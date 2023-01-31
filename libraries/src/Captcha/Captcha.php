@@ -172,7 +172,7 @@ class Captcha implements DispatcherAwareInterface
             return false;
         }
 
-        $arg = ['code'  => $code];
+        $arg = ['code' => $code];
 
         $result = $this->update('onCheckAnswer', $arg);
 

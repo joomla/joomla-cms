@@ -79,7 +79,7 @@ class MenusModel extends ListModel
         // Faster to do three queries for very large menu trees.
 
         // Get the menu types of menus in the list.
-        $db = $this->getDatabase();
+        $db        = $this->getDatabase();
         $menuTypes = array_column((array) $items, 'menutype');
 
         $query = $db->getQuery(true)

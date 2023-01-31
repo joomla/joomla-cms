@@ -214,7 +214,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
      */
     public function getLocaliseAdmin(DatabaseInterface $db = null)
     {
-        $langfiles = array();
+        $langfiles = [];
 
         // If db connection, fetch them from the database.
         if ($db) {

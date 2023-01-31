@@ -100,7 +100,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         }
 
         $properties = $table->getProperties(1);
-        $value = ArrayHelper::toObject($properties, CMSObject::class);
+        $value      = ArrayHelper::toObject($properties, CMSObject::class);
 
         // Convert attrib field to Registry.
         $value->params = new Registry($value->attribs);
@@ -144,7 +144,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         }
 
         // Convert the metadata field to an array.
-        $registry = new Registry($value->metadata);
+        $registry        = new Registry($value->metadata);
         $value->metadata = $registry->toArray();
 
         if ($itemId) {
@@ -157,7 +157,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 
             if ($value->featured) {
                 // Get featured dates.
-                $db = $this->getDatabase();
+                $db    = $this->getDatabase();
                 $query = $db->getQuery(true)
                     ->select(
                         [

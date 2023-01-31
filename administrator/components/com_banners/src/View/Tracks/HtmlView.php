@@ -125,7 +125,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar(): void
     {
-        $canDo = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
+        $canDo   = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
         $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_TRACKS'), 'bookmark banners-tracks');

@@ -46,15 +46,15 @@ class DBTestHelper
     public static function setupTest(IntegrationTestCase $test): void
     {
         if (!self::$driver) {
-            $factory = new DatabaseFactory();
+            $factory      = new DatabaseFactory();
             self::$driver = $factory->getDriver(
                 JTEST_DB_ENGINE,
                 [
                     'database' => JTEST_DB_NAME,
-                    'host' => JTEST_DB_HOST,
-                    'user' => JTEST_DB_USER,
+                    'host'     => JTEST_DB_HOST,
+                    'user'     => JTEST_DB_USER,
                     'password' => JTEST_DB_PASSWORD,
-                    'prefix' => 'jos' . PHP_MAJOR_VERSION . PHP_MINOR_VERSION . '_'
+                    'prefix'   => 'jos' . PHP_MAJOR_VERSION . PHP_MINOR_VERSION . '_',
                 ]
             );
         }
@@ -67,7 +67,7 @@ class DBTestHelper
                 continue;
             }
 
-            $sql = file_get_contents(JPATH_ROOT . '/tests/Integration/datasets/' . strtolower(JTEST_DB_ENGINE) . '/' . $file);
+            $sql     = file_get_contents(JPATH_ROOT . '/tests/Integration/datasets/' . strtolower(JTEST_DB_ENGINE) . '/' . $file);
             $queries = self::splitQueries($sql);
 
             if (!count($queries)) {

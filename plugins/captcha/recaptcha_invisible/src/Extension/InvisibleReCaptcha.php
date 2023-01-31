@@ -213,7 +213,7 @@ final class InvisibleReCaptcha extends CMSPlugin
     private function getResponse($privatekey, $remoteip, $response)
     {
         $reCaptcha = new ReCaptcha($privatekey, $this->requestMethod);
-        $response = $reCaptcha->verify($response, $remoteip);
+        $response  = $reCaptcha->verify($response, $remoteip);
 
         if (!$response->isSuccess()) {
             foreach ($response->getErrorCodes() as $error) {

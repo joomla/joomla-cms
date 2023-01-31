@@ -87,14 +87,14 @@ class HtmlView extends BaseHtmlView
             unset($this->fieldsets['permissions']);
         }
 
-        $this->form = &$form;
+        $this->form      = &$form;
         $this->component = &$component;
 
         $this->components = ConfigHelper::getComponentsWithConfig();
 
         $this->userIsSuperAdmin = $user->authorise('core.admin');
         $this->currentComponent = Factory::getApplication()->getInput()->get('component');
-        $this->return = Factory::getApplication()->getInput()->get('return', '', 'base64');
+        $this->return           = Factory::getApplication()->getInput()->get('return', '', 'base64');
 
         $this->addToolbar();
 

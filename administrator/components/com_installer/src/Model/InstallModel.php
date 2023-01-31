@@ -194,13 +194,13 @@ class InstallModel extends BaseDatabaseModel
         // Install the package.
         if (!$installer->install($package['dir'])) {
             // There was an error installing the package.
-            $msg = Text::sprintf('COM_INSTALLER_INSTALL_ERROR', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
-            $result = false;
+            $msg     = Text::sprintf('COM_INSTALLER_INSTALL_ERROR', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+            $result  = false;
             $msgType = 'error';
         } else {
             // Package installed successfully.
-            $msg = Text::sprintf('COM_INSTALLER_INSTALL_SUCCESS', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($installLang . $package['type'])));
-            $result = true;
+            $msg     = Text::sprintf('COM_INSTALLER_INSTALL_SUCCESS', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($installLang . $package['type'])));
+            $result  = true;
             $msgType = 'message';
         }
 
@@ -337,9 +337,9 @@ class InstallModel extends BaseDatabaseModel
         }
 
         $package['packagefile'] = null;
-        $package['extractdir'] = null;
-        $package['dir'] = $p_dir;
-        $package['type'] = $type;
+        $package['extractdir']  = null;
+        $package['dir']         = $p_dir;
+        $package['type']        = $type;
 
         return $package;
     }

@@ -194,12 +194,12 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
     public function bind($array, $ignore = '')
     {
         if (isset($array['params']) && \is_array($array['params'])) {
-            $registry = new Registry($array['params']);
+            $registry        = new Registry($array['params']);
             $array['params'] = (string) $registry;
         }
 
         if (isset($array['metadata']) && \is_array($array['metadata'])) {
-            $registry = new Registry($array['metadata']);
+            $registry          = new Registry($array['metadata']);
             $array['metadata'] = (string) $registry;
         }
 

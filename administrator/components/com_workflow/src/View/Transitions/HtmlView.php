@@ -170,7 +170,7 @@ class HtmlView extends BaseHtmlView
 
         $toolbar->link(
             'JTOOLBAR_BACK',
-            Route::_('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension)),
+            Route::_('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension))
         )
             ->icon('icon-' . $arrow);
 
