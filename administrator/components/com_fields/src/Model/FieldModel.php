@@ -72,7 +72,7 @@ class FieldModel extends AdminModel
      */
     protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
-        'language_id'   => 'batchLanguage'
+        'language_id'   => 'batchLanguage',
     ];
 
     /**
@@ -130,9 +130,9 @@ class FieldModel extends AdminModel
 
             if ($data['title'] == $origTable->title) {
                 list($title, $name) = $this->generateNewTitle($data['group_id'], $data['name'], $data['title']);
-                $data['title'] = $title;
-                $data['label'] = $title;
-                $data['name'] = $name;
+                $data['title']      = $title;
+                $data['label']      = $title;
+                $data['name']       = $name;
             } else {
                 if ($data['name'] == $origTable->name) {
                     $data['name'] = '';
@@ -196,7 +196,7 @@ class FieldModel extends AdminModel
         $db->execute();
 
         // Inset new assigned categories
-        $tuple = new \stdClass();
+        $tuple           = new \stdClass();
         $tuple->field_id = $id;
 
         foreach ($assignedCatIds as $catId) {
@@ -224,7 +224,7 @@ class FieldModel extends AdminModel
                 $names = array_column((array) $newParams, 'value');
 
                 $fieldId = (int) $field->id;
-                $query = $db->getQuery(true);
+                $query   = $db->getQuery(true);
                 $query->delete($db->quoteName('#__fields_values'))
                     ->where($db->quoteName('field_id') . ' = :fieldid')
                     ->bind(':fieldid', $fieldId, ParameterType::INTEGER);
@@ -297,7 +297,7 @@ class FieldModel extends AdminModel
         }
 
         // Define the type either from the field or from the data
-        $type = $node->firstChild->getAttribute('validate') ? : $data['type'];
+        $type = $node->firstChild->getAttribute('validate') ?: $data['type'];
 
         // Load the rule
         $rule = FormHelper::loadRuleType($type);
@@ -330,7 +330,7 @@ class FieldModel extends AdminModel
             $result = $rule->test($element, $value);
 
             // Check if the test succeeded
-            return $result === true ? : Text::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
+            return $result === true ?: Text::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
         } catch (\UnexpectedValueException $e) {
             return $e->getMessage();
         }
@@ -387,8 +387,8 @@ class FieldModel extends AdminModel
                 $result->fieldparams = $registry->toArray();
             }
 
-            $db = $this->getDatabase();
-            $query = $db->getQuery(true);
+            $db      = $this->getDatabase();
+            $query   = $db->getQuery(true);
             $fieldId = (int) $result->id;
             $query->select($db->quoteName('category_id'))
                 ->from($db->quoteName('#__fields_categories'))
@@ -441,7 +441,7 @@ class FieldModel extends AdminModel
 
         while ($table->load(['name' => $name])) {
             $title = StringHelper::increment($title);
-            $name = StringHelper::increment($name, 'dash');
+            $name  = StringHelper::increment($name, 'dash');
         }
 
         return [
@@ -631,7 +631,7 @@ class FieldModel extends AdminModel
             $fieldId = (int) $fieldId;
 
             // Deleting the existing record as it is a reset
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true);
 
             $query->delete($db->quoteName('#__fields_values'))
@@ -715,7 +715,7 @@ class FieldModel extends AdminModel
         // Fill the cache when it doesn't exist
         if (!array_key_exists($key, $this->valueCache)) {
             // Create the query
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true);
 
             $query->select($db->quoteName(['field_id', 'value']))
@@ -770,7 +770,7 @@ class FieldModel extends AdminModel
     public function cleanupValues($context, $itemId)
     {
         // Delete with inner join is not possible so we need to do a subquery
-        $db = $this->getDatabase();
+        $db          = $this->getDatabase();
         $fieldsQuery = $db->getQuery(true);
         $fieldsQuery->select($db->quoteName('id'))
             ->from($db->quoteName('#__fields'))

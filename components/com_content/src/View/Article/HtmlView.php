@@ -191,7 +191,7 @@ class HtmlView extends BaseHtmlView
          */
         if ($item->params->get('access-view') == false && !strlen($item->fulltext)) {
             if ($this->user->get('guest')) {
-                $return = base64_encode(Uri::getInstance());
+                $return                = base64_encode(Uri::getInstance());
                 $login_url_with_return = Route::_('index.php?option=com_users&view=login&return=' . $return);
                 $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'notice');
                 $app->redirect($login_url_with_return, 403);
@@ -226,14 +226,14 @@ class HtmlView extends BaseHtmlView
         PluginHelper::importPlugin('content');
         $this->dispatchEvent(new Event('onContentPrepare', ['com_content.article', &$item, &$item->params, $offset]));
 
-        $item->event = new \stdClass();
-        $results = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_content.article', &$item, &$item->params, $offset]);
+        $item->event                    = new \stdClass();
+        $results                        = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_content.article', &$item, &$item->params, $offset]);
         $item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-        $results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_content.article', &$item, &$item->params, $offset]);
+        $results                           = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_content.article', &$item, &$item->params, $offset]);
         $item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-        $results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_content.article', &$item, &$item->params, $offset]);
+        $results                          = Factory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_content.article', &$item, &$item->params, $offset]);
         $item->event->afterDisplayContent = trim(implode("\n", $results));
 
         // Escape strings for HTML output

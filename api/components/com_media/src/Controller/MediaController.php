@@ -50,15 +50,15 @@ class MediaController extends ApiController
      * @since  4.1.0
      */
     private static $listQueryModelStateMap = [
-        'path'    => [
+        'path' => [
             'name' => 'path',
             'type' => 'STRING',
         ],
-        'url'     => [
+        'url' => [
             'name' => 'url',
             'type' => 'BOOLEAN',
         ],
-        'temp'    => [
+        'temp' => [
             'name' => 'temp',
             'type' => 'BOOLEAN',
         ],
@@ -75,15 +75,15 @@ class MediaController extends ApiController
      * @since  4.1.0
      */
     private static $itemQueryModelStateMap = [
-        'path'    => [
+        'path' => [
             'name' => 'path',
             'type' => 'STRING',
         ],
-        'url'     => [
+        'url' => [
             'name' => 'url',
             'type' => 'BOOLEAN',
         ],
-        'temp'    => [
+        'temp' => [
             'name' => 'temp',
             'type' => 'BOOLEAN',
         ],
@@ -202,7 +202,7 @@ class MediaController extends ApiController
      */
     public function add(): void
     {
-        $path = $this->input->json->get('path', '', 'STRING');
+        $path    = $this->input->json->get('path', '', 'STRING');
         $content = $this->input->json->get('content', '', 'RAW');
 
         $missingParameters = [];
@@ -265,7 +265,7 @@ class MediaController extends ApiController
             throw new NotAllowed('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED', 403);
         }
 
-        $path = $this->input->json->get('path', '', 'STRING');
+        $path    = $this->input->json->get('path', '', 'STRING');
         $content = $this->input->json->get('content', '', 'RAW');
 
         if (empty($path) && empty($content)) {

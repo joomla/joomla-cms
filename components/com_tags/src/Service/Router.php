@@ -122,7 +122,7 @@ class Router extends RouterBase
         // Check if the active menuitem matches the requested language
         if (
             !isset($query['Itemid']) && ($active && $active->component === 'com_tags'
-            && ($language === '*' || \in_array($active->language, array('*', $language)) || !Multilanguage::isEnabled()))
+            && ($language === '*' || \in_array($active->language, ['*', $language]) || !Multilanguage::isEnabled()))
         ) {
             $query['Itemid'] = $active->id;
         }
@@ -236,12 +236,12 @@ class Router extends RouterBase
         }
 
         while (count($segments)) {
-            $id = array_shift($segments);
+            $id    = array_shift($segments);
             $ids[] = $this->fixSegment($id);
         }
 
         if (count($ids)) {
-            $vars['id'] = $ids;
+            $vars['id']   = $ids;
             $vars['view'] = 'tag';
         }
 
@@ -260,7 +260,7 @@ class Router extends RouterBase
     protected function buildLookup()
     {
         $component = ComponentHelper::getComponent('com_tags');
-        $items = $this->app->getMenu()->getItems(['component_id'], [$component->id]);
+        $items     = $this->app->getMenu()->getItems(['component_id'], [$component->id]);
 
         foreach ($items as $item) {
             if (!isset($this->lookup[$item->language])) {
@@ -274,7 +274,7 @@ class Router extends RouterBase
             }
 
             if ($item->query['view'] == 'tags') {
-                $id = (int) (isset($item->query['parent_id']) ? $item->query['parent_id'] : 0);
+                $id                                         = (int) (isset($item->query['parent_id']) ? $item->query['parent_id'] : 0);
                 $this->lookup[$item->language]['tags'][$id] = $item->id;
             }
         }

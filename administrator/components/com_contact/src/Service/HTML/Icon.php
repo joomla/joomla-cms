@@ -135,7 +135,7 @@ class Icon
             $text = LayoutHelper::render('joomla.content.icons.edit_lock', ['contact' => $contact, 'tooltip' => $tooltip, 'legacy' => $legacy]);
 
             $attribs['aria-describedby'] = 'editcontact-' . (int) $contact->id;
-            $output = HTMLHelper::_('link', '#', $text, $attribs);
+            $output                      = HTMLHelper::_('link', '#', $text, $attribs);
 
             return $output;
         }
@@ -166,7 +166,7 @@ class Icon
         $text .= '<div role="tooltip" id="' . $aria_described . '">' . $tooltip . '</div>';
 
         $attribs['aria-describedby'] = $aria_described;
-        $output = HTMLHelper::_('link', Route::_($url), $text, $attribs);
+        $output                      = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
         return $output;
     }

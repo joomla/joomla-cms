@@ -48,8 +48,8 @@ class LanguageModel extends AdminModel
                 'event_after_save'  => 'onExtensionAfterSave',
                 'event_before_save' => 'onExtensionBeforeSave',
                 'events_map'        => [
-                    'save' => 'extension'
-                ]
+                    'save' => 'extension',
+                ],
             ],
             $config
         );

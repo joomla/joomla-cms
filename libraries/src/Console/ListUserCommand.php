@@ -102,7 +102,7 @@ class ListUserCommand extends AbstractCommand
             );
 
             $user["groups"] = implode(", ", $user["groups"]);
-            $users[] = $user;
+            $users[]        = $user;
         }
 
         $this->ioStyle->table(['ID', 'Username', 'Name', 'Email', 'Blocked', 'Groups'], $users);

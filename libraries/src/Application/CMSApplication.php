@@ -718,7 +718,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $this->loadLibraryLanguage();
 
         // Set user specific editor.
-        $user = Factory::getUser();
+        $user   = Factory::getUser();
         $editor = $user->getParam('editor', $this->get('editor'));
 
         if (!PluginHelper::isEnabled('editors', $editor)) {
@@ -813,7 +813,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     {
         // Get the global Authentication object.
         $authenticate = Authentication::getInstance($this->authenticationPluginType);
-        $response = $authenticate->authenticate($credentials, $options);
+        $response     = $authenticate->authenticate($credentials, $options);
 
         // Import the user plugin group.
         PluginHelper::importPlugin('user');
@@ -824,7 +824,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
              * This permits authentication plugins blocking the user.
              */
             $authorisations = $authenticate->authorise($response, $options);
-            $denied_states = Authentication::STATUS_EXPIRED | Authentication::STATUS_DENIED;
+            $denied_states  = Authentication::STATUS_EXPIRED | Authentication::STATUS_DENIED;
 
             foreach ($authorisations as $authorisation) {
                 if ((int) $authorisation->status & $denied_states) {
@@ -873,7 +873,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             }
 
             if (\in_array(false, $results, true) == false) {
-                $options['user'] = $user;
+                $options['user']         = $user;
                 $options['responseType'] = $response->type;
 
                 // The user is successfully logged in. Run the after login events
@@ -924,7 +924,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         // Build the credentials array.
         $parameters = [
             'username' => $user->get('username'),
-            'id' => $user->get('id'),
+            'id'       => $user->get('id'),
         ];
 
         // Set clientid in the options array if it hasn't been set already and shared sessions are not enabled.
@@ -1067,8 +1067,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                     $oldUri->setVar('Itemid', $item->id);
                 }
 
-                $base = Uri::base(true);
-                $oldPath = StringHelper::strtolower(substr($oldUri->getPath(), \strlen($base) + 1));
+                $base             = Uri::base(true);
+                $oldPath          = StringHelper::strtolower(substr($oldUri->getPath(), \strlen($base) + 1));
                 $activePathPrefix = StringHelper::strtolower($active->route);
 
                 $position = strpos($oldPath, $activePathPrefix);
