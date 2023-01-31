@@ -23,7 +23,7 @@ steps:
       - composer install --no-progress --no-suggest
 
   - name: phpcs
-    image: joomlaprojects/docker-images:php8.2
+    image: joomlaprojects/docker-images:php8.1
     depends_on: [ composer ]
     commands:
       - echo $(date)
