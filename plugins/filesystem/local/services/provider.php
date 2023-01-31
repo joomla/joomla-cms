@@ -33,7 +33,7 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $plugin     = new Local(
+                $plugin = new Local(
                     $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('filesystem', 'local'),
                     JPATH_ROOT
