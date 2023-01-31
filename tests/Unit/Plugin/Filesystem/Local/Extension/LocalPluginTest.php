@@ -104,7 +104,7 @@ class LocalPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
-        $plugin = new Local($dispatcher, ['params' => ['directories' => '[{"directory": "tests"}]']], JPATH_ROOT);
+        $plugin   = new Local($dispatcher, ['params' => ['directories' => '[{"directory": "tests"}]']], JPATH_ROOT);
         $adapters = $plugin->getAdapters();
 
         $this->assertCount(1, $adapters);
