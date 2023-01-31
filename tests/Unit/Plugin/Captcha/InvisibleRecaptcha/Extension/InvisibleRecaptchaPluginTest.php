@@ -63,13 +63,13 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         }
     }
 
-   /**
-     * @testdox  can init the captcha
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
+    /**
+      * @testdox  can init the captcha
+      *
+      * @return  void
+      *
+      * @since   __DEPLOY_VERSION__
+      */
     public function testInit()
     {
         $document   = new HtmlDocument();
@@ -88,29 +88,28 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $this->assertNotEmpty($document->getWebAssetManager()->getAsset('script', 'plg_captcha_recaptchainvisible.api'));
     }
 
-   /**
-     * @testdox  can init the captcha with a wrong application
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
+    /**
+      * @testdox  can init the captcha with a wrong application
+      *
+      * @return  void
+      *
+      * @since   __DEPLOY_VERSION__
+      */
     public function testInitWrongApplication()
     {
-
         $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => ['public_key' => 'test']], $this->createStub(RequestMethod::class));
         $plugin->setApplication($this->createStub(CMSApplicationInterface::class));
 
         $this->assertFalse($plugin->onInit());
     }
 
-   /**
-     * @testdox  can init the captcha with an empty public key
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
+    /**
+      * @testdox  can init the captcha with an empty public key
+      *
+      * @return  void
+      *
+      * @since   __DEPLOY_VERSION__
+      */
     public function testInitEmptyPublicKey()
     {
         $language   = $this->createStub(Language::class);
@@ -127,16 +126,15 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $plugin->onInit();
     }
 
-   /**
-     * @testdox  can display the captcha
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
+    /**
+      * @testdox  can display the captcha
+      *
+      * @return  void
+      *
+      * @since   __DEPLOY_VERSION__
+      */
     public function testDisplay()
     {
-
         $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => []], $this->createStub(RequestMethod::class));
         $plugin->setApplication($this->createStub(CMSWebApplicationInterface::class));
 
@@ -146,13 +144,13 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $this->assertNotEquals($html, strip_tags($html));
     }
 
-   /**
-     * @testdox  can check successful answer
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
+    /**
+      * @testdox  can check successful answer
+      *
+      * @return  void
+      *
+      * @since   __DEPLOY_VERSION__
+      */
     public function testResponse()
     {
         $language   = $this->createStub(Language::class);
@@ -171,13 +169,13 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $this->assertTrue($plugin->onCheckAnswer());
     }
 
-   /**
-     * @testdox  can check answer with an empty private key
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
+    /**
+      * @testdox  can check answer with an empty private key
+      *
+      * @return  void
+      *
+      * @since   __DEPLOY_VERSION__
+      */
     public function testResponseEmptyPrivateKey()
     {
         $language   = $this->createStub(Language::class);
@@ -194,13 +192,13 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $plugin->onCheckAnswer();
     }
 
-   /**
-     * @testdox  can detect spam
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
+    /**
+      * @testdox  can detect spam
+      *
+      * @return  void
+      *
+      * @since   __DEPLOY_VERSION__
+      */
     public function testResponseSpam()
     {
         $language   = $this->createStub(Language::class);
