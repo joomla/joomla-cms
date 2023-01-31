@@ -103,8 +103,8 @@ class HtmlView extends BaseHtmlView
                 $prefix = strtoupper($component) . '_DASHBOARD';
 
                 $sectionkey = !empty($parts[1]) ? '_' . strtoupper($parts[1]) : '';
-                $key = $prefix . $sectionkey . '_TITLE';
-                $keyIcon = $prefix . $sectionkey . '_ICON';
+                $key        = $prefix . $sectionkey . '_TITLE';
+                $keyIcon    = $prefix . $sectionkey . '_ICON';
 
                 // Search for a component title
                 if ($lang->hasKey($key)) {
@@ -141,7 +141,7 @@ class HtmlView extends BaseHtmlView
         } else {
             // Home Dashboard
             $title = Text::_('COM_CPANEL_DASHBOARD_BASE_TITLE');
-            $icon = 'icon-home';
+            $icon  = 'icon-home';
         }
 
         // Set toolbar items for the page
@@ -150,9 +150,9 @@ class HtmlView extends BaseHtmlView
 
         // Display the cpanel modules
         $this->position = $position ? 'cpanel-' . $position : 'cpanel';
-        $this->modules = ModuleHelper::getModules($this->position);
+        $this->modules  = ModuleHelper::getModules($this->position);
 
-        $quickicons = $position ? 'icon-' . $position : 'icon';
+        $quickicons       = $position ? 'icon-' . $position : 'icon';
         $this->quickicons = ModuleHelper::getModules($quickicons);
 
         parent::display($tpl);

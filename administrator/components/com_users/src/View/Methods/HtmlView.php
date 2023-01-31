@@ -131,7 +131,7 @@ class HtmlView extends BaseHtmlView
                 continue;
             }
 
-            $activeRecords   += $methodActiveRecords;
+            $activeRecords += $methodActiveRecords;
             $this->mfaActive = true;
 
             foreach ($method['active'] as $record) {
@@ -166,7 +166,7 @@ class HtmlView extends BaseHtmlView
                             'canDisable' => false,
                             'active'     => [$backupCodesRecord],
                         ]
-                    )
+                    ),
                 ],
                 $this->methods
             );

@@ -119,7 +119,7 @@ class ContactComponent extends MVCComponent implements
         $contexts = [
             'com_contact.contact'    => Text::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
             'com_contact.mail'       => Text::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
-            'com_contact.categories' => Text::_('JCATEGORY')
+            'com_contact.categories' => Text::_('JCATEGORY'),
         ];
 
         return $contexts;

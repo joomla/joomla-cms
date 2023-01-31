@@ -60,7 +60,7 @@ class UserModel extends AdminModel
                 'event_after_save'    => 'onUserAfterSave',
                 'event_before_delete' => 'onUserBeforeDelete',
                 'event_before_save'   => 'onUserBeforeSave',
-                'events_map'          => ['save' => 'user', 'delete' => 'user', 'validate' => 'user']
+                'events_map'          => ['save' => 'user', 'delete' => 'user', 'validate' => 'user'],
             ],
             $config
         );
@@ -224,7 +224,7 @@ class UserModel extends AdminModel
         $pk   = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
         $user = User::getInstance($pk);
 
-        $my = $this->getCurrentUser();
+        $my            = $this->getCurrentUser();
         $iAmSuperAdmin = $my->authorise('core.admin');
 
         // User cannot modify own user groups
@@ -252,7 +252,7 @@ class UserModel extends AdminModel
         if ($iAmSuperAdmin && $my->get('id') == $pk) {
             // Check that at least one of our new groups is Super Admin
             $stillSuperAdmin = false;
-            $myNewGroups = $data['groups'];
+            $myNewGroups     = $data['groups'];
 
             foreach ($myNewGroups as $group) {
                 $stillSuperAdmin = $stillSuperAdmin ?: Access::checkGroup($group, 'core.admin');
@@ -912,7 +912,7 @@ class UserModel extends AdminModel
         return (object) [
             'method' => 'none',
             'config' => [],
-            'otep'   => []
+            'otep'   => [],
         ];
     }
 

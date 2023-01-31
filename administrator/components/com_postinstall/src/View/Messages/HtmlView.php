@@ -57,7 +57,7 @@ class HtmlView extends BaseHtmlView
 
         $this->toolbar();
 
-        $this->token = Factory::getSession()->getFormToken();
+        $this->token             = Factory::getSession()->getFormToken();
         $this->extension_options = $model->getComponentOptions();
 
         ToolbarHelper::title(Text::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)), 'bell');

@@ -50,7 +50,7 @@ class FieldLayoutField extends FormField
 
         if ($extension) {
             // Get the database object and a new query object.
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true);
 
             // Build the query.
@@ -79,14 +79,14 @@ class FieldLayoutField extends FormField
             // Add the layout options from the component path.
             if (is_dir($component_path) && ($component_layouts = Folder::files($component_path, '^[^_]*\.php$', false, true))) {
                 // Create the group for the component
-                $groups['_'] = [];
-                $groups['_']['id'] = $this->id . '__';
-                $groups['_']['text'] = Text::sprintf('JOPTION_FROM_COMPONENT');
+                $groups['_']          = [];
+                $groups['_']['id']    = $this->id . '__';
+                $groups['_']['text']  = Text::sprintf('JOPTION_FROM_COMPONENT');
                 $groups['_']['items'] = [];
 
                 foreach ($component_layouts as $i => $file) {
                     // Add an option to the component group
-                    $value = basename($file, '.php');
+                    $value                 = basename($file, '.php');
                     $component_layouts[$i] = $value;
 
                     if ($value === 'render') {
@@ -100,7 +100,7 @@ class FieldLayoutField extends FormField
             // Loop on all templates
             if ($templates) {
                 foreach ($templates as $template) {
-                    $files = [];
+                    $files          = [];
                     $template_paths = [
                         Path::clean(JPATH_SITE . '/templates/' . $template->element . '/html/layouts/' . $extension . '/field'),
                         Path::clean(JPATH_SITE . '/templates/' . $template->element . '/html/layouts/com_fields/field'),
@@ -125,14 +125,14 @@ class FieldLayoutField extends FormField
 
                     if (count($files)) {
                         // Create the group for the template
-                        $groups[$template->name] = [];
-                        $groups[$template->name]['id'] = $this->id . '_' . $template->element;
-                        $groups[$template->name]['text'] = Text::sprintf('JOPTION_FROM_TEMPLATE', $template->name);
+                        $groups[$template->name]          = [];
+                        $groups[$template->name]['id']    = $this->id . '_' . $template->element;
+                        $groups[$template->name]['text']  = Text::sprintf('JOPTION_FROM_TEMPLATE', $template->name);
                         $groups[$template->name]['items'] = [];
 
                         foreach ($files as $file) {
                             // Add an option to the template group
-                            $value = basename($file, '.php');
+                            $value                              = basename($file, '.php');
                             $groups[$template->name]['items'][] = HTMLHelper::_('select.option', $value, $value);
                         }
                     }

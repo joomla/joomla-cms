@@ -212,7 +212,7 @@ class PlgFinderTags extends Adapter
         $item->setLanguage();
 
         // Initialize the item parameters.
-        $registry = new Registry($item->params);
+        $registry     = new Registry($item->params);
         $item->params = clone ComponentHelper::getParams('com_tags', true);
         $item->params->merge($registry);
 

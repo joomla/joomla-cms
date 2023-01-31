@@ -305,7 +305,7 @@ class InstallCommand extends AbstractCommand
                 }
 
                 // Add in the underscore.
-                $prefix  .= '_';
+                $prefix .= '_';
                 $default = $prefix;
             }
 

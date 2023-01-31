@@ -303,6 +303,12 @@ class PlgFieldsSubform extends FieldsPlugin
             );
         }
 
+        // If the edit layout is set we override any automation
+        $editLayout = $field->params->get('form_layout');
+        if ($editLayout) {
+            $parent_field->setAttribute('layout', $editLayout);
+        }
+
         return $parent_field;
     }
 
@@ -396,7 +402,7 @@ class PlgFieldsSubform extends FieldsPlugin
              * store it as `fieldname`.
              */
             $cur_field->fieldname = $cur_field->name;
-            $cur_field->name = 'field' . $cur_field->id;
+            $cur_field->name      = 'field' . $cur_field->id;
 
             // And add it to our result
             $result[] = $cur_field;

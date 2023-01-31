@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Actionlogs\Administrator\View\Actionlogs;
-
-\defined('_JEXEC') or die;
 
 use Exception;
 use Joomla\CMS\Component\ComponentHelper;
@@ -22,6 +21,10 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of logs.
@@ -110,8 +113,7 @@ class HtmlView extends BaseHtmlView
         $this->showIpColumn  = (bool) $params->get('ip_logging', 0);
         $this->dateRelative  = (bool) $params->get('date_relative', 1);
 
-        if (\count($errors = $model->getErrors()))
-        {
+        if (\count($errors = $model->getErrors())) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

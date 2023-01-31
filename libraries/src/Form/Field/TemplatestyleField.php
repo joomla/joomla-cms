@@ -114,7 +114,7 @@ class TemplatestyleField extends GroupedlistField
         if ($result === true) {
             // Get the clientName template.
             $this->clientName = $this->element['client'] ? (string) $this->element['client'] : 'site';
-            $this->template = (string) $this->element['template'];
+            $this->template   = (string) $this->element['template'];
         }
 
         return $result;
@@ -132,7 +132,7 @@ class TemplatestyleField extends GroupedlistField
     protected function getGroups()
     {
         $groups = [];
-        $lang = Factory::getLanguage();
+        $lang   = Factory::getLanguage();
 
         // Get the client and client_id.
         $client = ApplicationHelper::getClientInfo($this->clientName, true);
@@ -141,7 +141,7 @@ class TemplatestyleField extends GroupedlistField
         $template = $this->template;
 
         // Get the database object and a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Build the query.
