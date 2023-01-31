@@ -236,8 +236,8 @@ class RulesField extends FormField
         foreach ($this->element->children() as $el) {
             if ($el->getName() === 'action') {
                 $this->actions[] = (object) [
-                    'name' => (string) $el['name'],
-                    'title' => (string) $el['title'],
+                    'name'        => (string) $el['name'],
+                    'title'       => (string) $el['title'],
                     'description' => (string) $el['description'],
                 ];
             }
@@ -251,7 +251,7 @@ class RulesField extends FormField
         // If the asset id is empty (component or new item).
         if (empty($this->assetId)) {
             // Get the component asset id as fallback.
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__assets'))

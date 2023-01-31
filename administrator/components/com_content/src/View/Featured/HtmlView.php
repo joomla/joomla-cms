@@ -160,10 +160,10 @@ class HtmlView extends BaseHtmlView
                 $childBar->separatorButton('transition-headline', 'COM_CONTENT_RUN_TRANSITIONS')
                     ->buttonClass('text-center py-2 h3');
 
-                $cmd = "Joomla.submitbutton('articles.runTransition');";
+                $cmd      = "Joomla.submitbutton('articles.runTransition');";
                 $messages = "{error: [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
-                $alert = 'Joomla.renderMessages(' . $messages . ')';
-                $cmd   = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
+                $alert    = 'Joomla.renderMessages(' . $messages . ')';
+                $cmd      = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
 
                 foreach ($this->transitions as $transition) {
                     $childBar->standardButton('transition', $transition['text'])

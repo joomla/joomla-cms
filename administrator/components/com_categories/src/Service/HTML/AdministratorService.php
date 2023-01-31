@@ -51,7 +51,7 @@ class AdministratorService
             $associations = ArrayHelper::toInteger($associations);
 
             // Get the associated categories
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select(
                     [
@@ -81,7 +81,7 @@ class AdministratorService
             }
 
             if ($items) {
-                $languages = LanguageHelper::getContentLanguages([0, 1]);
+                $languages         = LanguageHelper::getContentLanguages([0, 1]);
                 $content_languages = array_column($languages, 'lang_code');
 
                 foreach ($items as &$item) {

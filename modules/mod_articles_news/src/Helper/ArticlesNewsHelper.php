@@ -143,9 +143,9 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
 
             // Show the Intro/Full image field of the article
             if ($params->get('img_intro_full') !== 'none') {
-                $images = json_decode($item->images);
-                $item->imageSrc = '';
-                $item->imageAlt = '';
+                $images             = json_decode($item->images);
+                $item->imageSrc     = '';
+                $item->imageAlt     = '';
                 $item->imageCaption = '';
 
                 if ($params->get('img_intro_full') === 'intro' && !empty($images->image_intro)) {

@@ -52,7 +52,7 @@ class UserController extends BaseController
 
         // Check for a simple menu item id
         if (is_numeric($data['return'])) {
-            $itemId = (int) $data['return'];
+            $itemId         = (int) $data['return'];
             $data['return'] = 'index.php?Itemid=' . $itemId;
 
             if (Multilanguage::isEnabled()) {
@@ -76,12 +76,12 @@ class UserController extends BaseController
         $this->app->setUserState('users.login.form.return', $data['return']);
 
         // Get the log in options.
-        $options = [];
+        $options             = [];
         $options['remember'] = $this->input->getBool('remember', false);
         $options['return']   = $data['return'];
 
         // Get the log in credentials.
-        $credentials = [];
+        $credentials              = [];
         $credentials['username']  = $data['username'];
         $credentials['password']  = $data['password'];
         $credentials['secretkey'] = $data['secretkey'];
@@ -90,9 +90,9 @@ class UserController extends BaseController
         if (true !== $this->app->login($credentials, $options)) {
             // Login failed !
             // Clear user name, password and secret key before sending the login form back to the user.
-            $data['remember'] = (int) $options['remember'];
-            $data['username'] = '';
-            $data['password'] = '';
+            $data['remember']  = (int) $options['remember'];
+            $data['username']  = '';
+            $data['password']  = '';
             $data['secretkey'] = '';
             $this->app->setUserState('users.login.form.data', $data);
             $this->app->redirect(Route::_('index.php?option=com_users&view=login', false));

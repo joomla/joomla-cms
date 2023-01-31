@@ -169,7 +169,7 @@ class HtmlView extends BaseHtmlView
 
         if ($lang->hasKey($help->url)) {
             $debug = $lang->setDebug(false);
-            $url = Text::_($help->url);
+            $url   = Text::_($help->url);
             $lang->setDebug($debug);
         } else {
             $url = null;

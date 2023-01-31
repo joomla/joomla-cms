@@ -63,7 +63,7 @@ class FeedView extends BaseHtmlView
             $date        = $item->created_time ? date('r', strtotime($item->created_time)) : '';
 
             // Load individual item creator class
-            $feeditem = new FeedItem();
+            $feeditem              = new FeedItem();
             $feeditem->title       = $title;
             $feeditem->link        = '/index.php?option=com_tags&view=tag&id=' . (int) $item->id;
             $feeditem->description = $description;

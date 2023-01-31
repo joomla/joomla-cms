@@ -451,8 +451,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
         foreach ($staticHeaderConfiguration as $headerAndClient => $value) {
             $headerAndClient = explode('#', $headerAndClient);
-            $header = $headerAndClient[0];
-            $client = $headerAndClient[1] ?? 'both';
+            $header          = $headerAndClient[0];
+            $client          = $headerAndClient[1] ?? 'both';
 
             if (!$this->app->isClient($client) && $client != 'both') {
                 continue;

@@ -48,7 +48,7 @@ class LdapPluginTest extends UnitTestCase
         $plugin->setApplication($this->createStub(CMSApplicationInterface::class));
 
         $response = new AuthenticationResponse();
-        $result = $plugin->onUserAuthenticate([], [], $response);
+        $result   = $plugin->onUserAuthenticate([], [], $response);
 
         $this->assertFalse($result);
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
@@ -73,7 +73,7 @@ class LdapPluginTest extends UnitTestCase
         $plugin->setApplication($app);
 
         $response = new AuthenticationResponse();
-        $result = $plugin->onUserAuthenticate(['password' => ''], [], $response);
+        $result   = $plugin->onUserAuthenticate(['password' => ''], [], $response);
 
         $this->assertFalse($result);
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
@@ -310,13 +310,13 @@ class LdapPluginTest extends UnitTestCase
         return new class ($failBind, $failQuery, $hasEntry) implements LdapFactoryInterface {
             private $failBind  = false;
             private $failQuery = false;
-            private $hasEntry = false;
+            private $hasEntry  = false;
 
             public function __construct(bool $failBind, bool $failQuery, bool $hasEntry)
             {
                 $this->failBind  = $failBind;
                 $this->failQuery = $failQuery;
-                $this->hasEntry = $hasEntry;
+                $this->hasEntry  = $hasEntry;
             }
 
             public function createLdap(array $config): LdapInterface
@@ -324,13 +324,13 @@ class LdapPluginTest extends UnitTestCase
                 return new class ($this->failBind, $this->failQuery, $this->hasEntry) implements LdapInterface {
                     private $failBind  = false;
                     private $failQuery = false;
-                    private $hasEntry = false;
+                    private $hasEntry  = false;
 
                     public function __construct(bool $failBind, bool $failQuery, bool $hasEntry)
                     {
                         $this->failBind  = $failBind;
                         $this->failQuery = $failQuery;
-                        $this->hasEntry = $hasEntry;
+                        $this->hasEntry  = $hasEntry;
                     }
 
                     public function bind(string $dn = null, string $password = null)

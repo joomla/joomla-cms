@@ -93,8 +93,8 @@ class PlgSystemHighlight extends CMSPlugin
             $doc->addScriptOptions(
                 'highlight',
                 [[
-                    'class'      => 'js-highlight',
-                    'highLight'  => $cleanTerms,
+                    'class'     => 'js-highlight',
+                    'highLight' => $cleanTerms,
                 ]]
             );
         }

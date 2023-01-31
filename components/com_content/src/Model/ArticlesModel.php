@@ -650,11 +650,11 @@ class ArticlesModel extends ListModel
     {
         $items  = parent::getItems();
 
-        $user = $this->getCurrentUser();
+        $user   = $this->getCurrentUser();
         $userId = $user->get('id');
-        $guest = $user->get('guest');
+        $guest  = $user->get('guest');
         $groups = $user->getAuthorisedViewLevels();
-        $input = Factory::getApplication()->getInput();
+        $input  = Factory::getApplication()->getInput();
 
         // Get the global params
         $globalParams = ComponentHelper::getParams('com_content', true);
@@ -758,7 +758,7 @@ class ArticlesModel extends ListModel
 
             // Some contexts may not use tags data at all, so we allow callers to disable loading tag data
             if ($this->getState('load_tags', $item->params->get('show_tags', '1'))) {
-                $item->tags = new TagsHelper();
+                $item->tags             = new TagsHelper();
                 $taggedItems[$item->id] = $item;
             }
 
@@ -770,7 +770,7 @@ class ArticlesModel extends ListModel
         // Load tags of all items.
         if ($taggedItems) {
             $tagsHelper = new TagsHelper();
-            $itemIds = \array_keys($taggedItems);
+            $itemIds    = \array_keys($taggedItems);
 
             foreach ($tagsHelper->getMultipleItemTags('com_content.article', $itemIds) as $id => $tags) {
                 $taggedItems[$id]->tags->itemTags = $tags;
@@ -824,7 +824,7 @@ class ArticlesModel extends ListModel
                         $query->year($db->quoteName('publish_up')),
                         $db->quote('-'),
                         $query->month($db->quoteName('publish_up')),
-                        $db->quote('-01')
+                        $db->quote('-01'),
                     ]
                 ) . ') AS ' . $db->quoteName('d')
             )

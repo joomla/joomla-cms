@@ -258,7 +258,7 @@ class PlgFinderContent extends Adapter
         $item->context = 'com_content.article';
 
         // Initialise the item parameters.
-        $registry = new Registry($item->params);
+        $registry     = new Registry($item->params);
         $item->params = clone ComponentHelper::getParams('com_content', true);
         $item->params->merge($registry);
 
@@ -313,7 +313,7 @@ class PlgFinderContent extends Adapter
 
         // Add the category taxonomy data.
         $categories = Categories::getInstance('com_content', ['published' => false, 'access' => false]);
-        $category = $categories->get($item->catid);
+        $category   = $categories->get($item->catid);
 
         // Category does not exist, stop here
         if (!$category) {

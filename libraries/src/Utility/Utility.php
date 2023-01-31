@@ -33,7 +33,7 @@ class Utility
      */
     public static function parseAttributes($string)
     {
-        $attr = [];
+        $attr     = [];
         $retarray = [];
 
         // Let's grab all the key/value pairs using a regular expression

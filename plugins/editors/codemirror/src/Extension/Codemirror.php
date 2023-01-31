@@ -86,8 +86,8 @@ final class Codemirror extends CMSPlugin
         $this->getApplication()->triggerEvent('onCodeMirrorBeforeInit', [&$this->params, &$this->basePath, &$this->modePath]);
 
         $displayData = (object) ['params' => $this->params];
-        $font = $this->params->get('fontFamily', '0');
-        $fontInfo = $this->getFontInfo($font);
+        $font        = $this->params->get('fontFamily', '0');
+        $fontInfo    = $this->getFontInfo($font);
 
         if (isset($fontInfo)) {
             if (isset($fontInfo->url)) {
@@ -150,7 +150,7 @@ final class Codemirror extends CMSPlugin
         $height .= is_numeric($height) ? 'px' : '';
 
         // Options for the CodeMirror constructor.
-        $options  = new stdClass();
+        $options   = new stdClass();
         $keyMapUrl = '';
 
         // Is field readonly?
@@ -161,7 +161,7 @@ final class Codemirror extends CMSPlugin
         // Should we focus on the editor on load?
         if (!$autofocused) {
             $options->autofocus = isset($params['autofocus']) ? (bool) $params['autofocus'] : false;
-            $autofocused = $options->autofocus;
+            $autofocused        = $options->autofocus;
         }
         // Set autorefresh to true - fixes issue when editor is not loaded in a focused tab
         $options->autoRefresh = true;
@@ -174,7 +174,7 @@ final class Codemirror extends CMSPlugin
         // Do we highlight selection matches?
         if ($this->params->get('selectionMatches', 1)) {
             $options->highlightSelectionMatches = [
-                    'showToken' => true,
+                    'showToken'         => true,
                     'annotateScrollbar' => true,
                 ];
         }

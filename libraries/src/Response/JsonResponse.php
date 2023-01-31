@@ -80,7 +80,7 @@ class JsonResponse
 
         if (!$ignoreMessages && $app !== null && \is_callable([$app, 'getMessageQueue'])) {
             $messages = $app->getMessageQueue();
-            $lists = [];
+            $lists    = [];
 
             // Build the sorted messages list
             if (\is_array($messages) && \count($messages)) {

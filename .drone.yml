@@ -27,6 +27,7 @@ steps:
     depends_on: [ composer ]
     commands:
       - echo $(date)
+      - ./libraries/vendor/bin/php-cs-fixer fix -vvv --dry-run
       - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
       - echo $(date)
 
@@ -495,6 +496,6 @@ trigger:
 
 ---
 kind: signature
-hmac: ad1c54a8358c65f87cc6b550310613697f87b567066db3390c62fc5cd9da578b
+hmac: 40893a317d8211d136371732e87096bc8015d0aff3ff849863ebe2ce00772a3d
 
 ...
