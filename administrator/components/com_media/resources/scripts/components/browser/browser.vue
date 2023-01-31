@@ -122,7 +122,7 @@ export default {
     mediaBrowserStyles() {
       return {
         width: this.$store.state.showInfoBar ? '75%' : '100%',
-        height: '100%',
+        height: this.$store.state.listView === 'table' && !this.isEmpty ? 'unset' : '100%',
       };
     },
     isEmpty() {
