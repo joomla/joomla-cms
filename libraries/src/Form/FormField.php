@@ -509,7 +509,7 @@ abstract class FormField implements DatabaseAwareInterface
                 // Removes spaces from left & right and extra spaces from middle
                 $value = preg_replace('/\s+/', ' ', trim((string) $value));
 
-                // no break
+                // No break
 
             case 'description':
             case 'hint':
@@ -547,7 +547,7 @@ abstract class FormField implements DatabaseAwareInterface
                 $value = (string) $value;
                 $value = $value === '' && isset($this->forceMultiple) ? (string) $this->forceMultiple : $value;
 
-                // no break
+                // No break
 
             case 'required':
             case 'disabled':

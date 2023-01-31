@@ -66,11 +66,18 @@ $config
     ->setUsingCache(false)
     ->setRules(
         [
+            // Basic ruleset is PSR 12
             '@PSR12'                         => true,
+            // Short array syntax
             'array_syntax'                   => ['syntax' => 'short'],
+            // Lists should not have a trailing comma like list($foo, $bar,) = ...
             'no_trailing_comma_in_list_call' => true,
+            // Arrays on multiline should have a trailing comma
             'trailing_comma_in_multiline'    => ['elements' => ['arrays']],
-            'binary_operator_spaces'         => ['operators' => ['=>' => 'align_single_space_minimal', '=' => 'align']]
+            // Align elements in multiline array and variable declarations on new lines below each other
+            'binary_operator_spaces'         => ['operators' => ['=>' => 'align_single_space_minimal', '=' => 'align']],
+            // The "No break" comment in switch statements
+            'no_break_comment'               => ['comment_text' => 'No break'],
         ]
     )
     ->setFinder($finder);

@@ -549,7 +549,7 @@ class UsersModel extends ListModel
             case 'post_year':
                 $dNow = false;
 
-                // no break
+                // No break
 
             case 'past_year':
                 $dStart->modify('-1 year');
