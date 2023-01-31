@@ -94,7 +94,8 @@ class CMSObjectTest extends UnitTestCase
         $object = new CMSObject([
             '_privateproperty1' => 'valuep1',
             'property1'         => 'value1',
-            'property2'         => 5, ]);
+            'property2'         => 5,
+        ]);
 
         $this->assertEquals(
             [
