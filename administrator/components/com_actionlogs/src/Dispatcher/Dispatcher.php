@@ -36,7 +36,7 @@ class Dispatcher extends ComponentDispatcher
         $user = $this->app->getIdentity();
 
         // Access check
-        if (!$user->authorise('core.admin', )) {
+        if (!$user->authorise('core.admin')) {
             throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
     }
