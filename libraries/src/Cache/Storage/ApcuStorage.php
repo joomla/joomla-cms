@@ -243,7 +243,7 @@ class ApcuStorage extends CacheStorage
      */
     public function lock($id, $group, $locktime)
     {
-        $returning = new \stdClass();
+        $returning             = new \stdClass();
         $returning->locklooped = false;
 
         $looptime = $locktime * 10;
@@ -259,7 +259,7 @@ class ApcuStorage extends CacheStorage
             // That implies that data get from other thread has finished
             while ($data_lock === false) {
                 if ($lock_counter > $looptime) {
-                    $returning->locked = false;
+                    $returning->locked     = false;
                     $returning->locklooped = true;
                     break;
                 }

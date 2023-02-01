@@ -355,7 +355,7 @@ abstract class WebApplication extends AbstractWebApplication
         $siteUri = trim($this->get('site_uri', ''));
 
         if ($siteUri !== '') {
-            $uri = Uri::getInstance($siteUri);
+            $uri  = Uri::getInstance($siteUri);
             $path = $uri->toString(['path']);
         } else {
             // No explicit base URI was set so we need to detect it.

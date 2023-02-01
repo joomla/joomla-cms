@@ -166,7 +166,7 @@ class Pathway
 
         if (isset($this->pathway[$id])) {
             $this->pathway[$id]->name = $name;
-            $ret = true;
+            $ret                      = true;
         }
 
         return $ret;
@@ -184,7 +184,7 @@ class Pathway
      */
     protected function makeItem($name, $link)
     {
-        $item = new \stdClass();
+        $item       = new \stdClass();
         $item->name = html_entity_decode($name, ENT_COMPAT, 'UTF-8');
         $item->link = $link;
 

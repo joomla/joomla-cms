@@ -88,10 +88,10 @@ class HtmlView extends BaseHtmlView
     {
         // Load the view data.
         $this->filter = $this->get('Filter');
-        $this->item = $this->get('Item');
-        $this->form = $this->get('Form');
-        $this->state = $this->get('State');
-        $this->total = $this->get('Total');
+        $this->item   = $this->get('Item');
+        $this->form   = $this->get('Form');
+        $this->state  = $this->get('State');
+        $this->total  = $this->get('Total');
 
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {
@@ -115,10 +115,10 @@ class HtmlView extends BaseHtmlView
     {
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $isNew = ($this->item->filter_id == 0);
+        $isNew      = ($this->item->filter_id == 0);
         $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $this->getCurrentUser()->id);
-        $canDo = ContentHelper::getActions('com_finder');
-        $toolbar = Toolbar::getInstance();
+        $canDo      = ContentHelper::getActions('com_finder');
+        $toolbar    = Toolbar::getInstance();
 
         // Configure the toolbar.
         ToolbarHelper::title(

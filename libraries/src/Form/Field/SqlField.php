@@ -289,7 +289,7 @@ class SqlField extends ListField
         // Add header.
         if (!empty($header)) {
             $header_title = Text::_($header);
-            $options[] = HTMLHelper::_('select.option', '', $header_title);
+            $options[]    = HTMLHelper::_('select.option', '', $header_title);
         }
 
         // Build the field options.

@@ -115,7 +115,7 @@ class Icon
             $text = LayoutHelper::render('joomla.content.icons.edit_lock', ['article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy]);
 
             $attribs['aria-describedby'] = 'editarticle-' . (int) $article->id;
-            $output = HTMLHelper::_('link', '#', $text, $attribs);
+            $output                      = HTMLHelper::_('link', '#', $text, $attribs);
 
             return $output;
         }
@@ -132,7 +132,7 @@ class Icon
         $text = LayoutHelper::render('joomla.content.icons.edit', ['article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy]);
 
         $attribs['aria-describedby'] = 'editarticle-' . (int) $article->id;
-        $output = HTMLHelper::_('link', Route::_($url), $text, $attribs);
+        $output                      = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
         return $output;
     }

@@ -71,10 +71,10 @@ class RouteHelper
         $typeExploded = explode('.', $typealias);
 
         if (isset($typeExploded[1])) {
-            $this->view = $typeExploded[1];
+            $this->view      = $typeExploded[1];
             $this->extension = $typeExploded[0];
         } else {
-            $this->view = Factory::getApplication()->getInput()->getString('view');
+            $this->view      = Factory::getApplication()->getInput()->getString('view');
             $this->extension = Factory::getApplication()->getInput()->getCmd('option');
         }
 
@@ -98,7 +98,7 @@ class RouteHelper
                 $category = $categories->get((int) $catid);
 
                 if ($category) {
-                    $needles['category'] = array_reverse($category->getPath());
+                    $needles['category']   = array_reverse($category->getPath());
                     $needles['categories'] = $needles['category'];
                     $link .= '&catid=' . $catid;
                 }

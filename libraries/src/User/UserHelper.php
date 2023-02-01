@@ -127,14 +127,14 @@ abstract class UserHelper
      * @since  4.0.0
      */
     public const HASH_ALGORITHMS = [
-        self::HASH_ARGON2I => Argon2iHandler::class,
-        self::HASH_ARGON2I_BC => Argon2iHandler::class,
-        self::HASH_ARGON2ID => Argon2idHandler::class,
+        self::HASH_ARGON2I     => Argon2iHandler::class,
+        self::HASH_ARGON2I_BC  => Argon2iHandler::class,
+        self::HASH_ARGON2ID    => Argon2idHandler::class,
         self::HASH_ARGON2ID_BC => Argon2idHandler::class,
-        self::HASH_BCRYPT => BCryptHandler::class,
-        self::HASH_BCRYPT_BC => BCryptHandler::class,
-        self::HASH_MD5 => MD5Handler::class,
-        self::HASH_PHPASS => PHPassHandler::class
+        self::HASH_BCRYPT      => BCryptHandler::class,
+        self::HASH_BCRYPT_BC   => BCryptHandler::class,
+        self::HASH_MD5         => MD5Handler::class,
+        self::HASH_PHPASS      => PHPassHandler::class,
     ];
 
     /**
@@ -160,7 +160,7 @@ abstract class UserHelper
         // Add the user to the group if necessary.
         if (!\in_array($groupId, $user->groups)) {
             // Check whether the group exists.
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__usergroups'))
@@ -243,7 +243,7 @@ abstract class UserHelper
         }
 
         // Set the group data for any preloaded user objects.
-        $temp = Factory::getUser((int) $userId);
+        $temp         = Factory::getUser((int) $userId);
         $temp->groups = $user->groups;
 
         // Set the group data for the user object in the session.
@@ -272,11 +272,11 @@ abstract class UserHelper
         $user = User::getInstance((int) $userId);
 
         // Set the group ids.
-        $groups = ArrayHelper::toInteger($groups);
+        $groups       = ArrayHelper::toInteger($groups);
         $user->groups = $groups;
 
         // Get the titles for the user groups.
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select($db->quoteName(['id', 'title']))
             ->from($db->quoteName('#__usergroups'))
@@ -293,7 +293,7 @@ abstract class UserHelper
         $user->save();
 
         // Set the group data for any preloaded user objects.
-        $temp = Factory::getUser((int) $userId);
+        $temp         = Factory::getUser((int) $userId);
         $temp->groups = $user->groups;
 
         if (Factory::getSession()->getId()) {
@@ -327,7 +327,7 @@ abstract class UserHelper
         // Get the dispatcher and load the user's plugins.
         PluginHelper::importPlugin('user');
 
-        $data = new CMSObject();
+        $data     = new CMSObject();
         $data->id = $userId;
 
         // Trigger the data preparation event.
@@ -394,7 +394,7 @@ abstract class UserHelper
     public static function getUserId($username)
     {
         // Initialise some variables
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
@@ -484,7 +484,7 @@ abstract class UserHelper
 
         // If we have a match and rehash = true, rehash the password with the current algorithm.
         if ((int) $userId > 0 && $match && $rehash) {
-            $user = new User($userId);
+            $user           = new User($userId);
             $user->password = static::hashPassword($password, $passwordAlgorithm);
             $user->save();
         }
@@ -503,8 +503,8 @@ abstract class UserHelper
      */
     public static function genRandomPassword($length = 8)
     {
-        $salt = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        $base = \strlen($salt);
+        $salt     = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $base     = \strlen($salt);
         $makepass = '';
 
         /*
@@ -515,7 +515,7 @@ abstract class UserHelper
          * predictable.
          */
         $random = Crypt::genRandomBytes($length + 1);
-        $shift = \ord($random[0]);
+        $shift  = \ord($random[0]);
 
         for ($i = 1; $i <= $length; ++$i) {
             $makepass .= $salt[($shift + \ord($random[$i])) % $base];
@@ -535,8 +535,8 @@ abstract class UserHelper
      */
     public static function getShortHashedUserAgent()
     {
-        $ua = Factory::getApplication()->client;
-        $uaString = $ua->userAgent;
+        $ua             = Factory::getApplication()->client;
+        $uaString       = $ua->userAgent;
         $browserVersion = $ua->browserVersion;
 
         if ($browserVersion) {

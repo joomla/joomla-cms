@@ -450,7 +450,7 @@ class ExtensionHelper
         $key = $element . '.' . $type . '.' . $clientId . '.' . $folder;
 
         if (!\array_key_exists($key, self::$loadedExtensions)) {
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select('*')
                 ->from($db->quoteName('#__extensions'))

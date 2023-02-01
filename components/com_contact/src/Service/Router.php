@@ -81,9 +81,9 @@ class Router extends RouterView
         $this->categoryFactory = $categoryFactory;
         $this->db              = $db;
 
-        $params = ComponentHelper::getParams('com_contact');
+        $params      = ComponentHelper::getParams('com_contact');
         $this->noIDs = (bool) $params->get('sef_ids');
-        $categories = new RouterViewConfiguration('categories');
+        $categories  = new RouterViewConfiguration('categories');
         $categories->setKey('id');
         $this->registerView($categories);
         $category = new RouterViewConfiguration('category');
@@ -117,7 +117,7 @@ class Router extends RouterView
         $category = $this->getCategories()->get($id);
 
         if ($category) {
-            $path = array_reverse($category->getPath(), true);
+            $path    = array_reverse($category->getPath(), true);
             $path[0] = '1:root';
 
             if ($this->noIDs) {
@@ -156,7 +156,7 @@ class Router extends RouterView
     public function getContactSegment($id, $query)
     {
         if (!strpos($id, ':')) {
-            $id = (int) $id;
+            $id      = (int) $id;
             $dbquery = $this->db->getQuery(true);
             $dbquery->select($this->db->quoteName('alias'))
                 ->from($this->db->quoteName('#__contact_details'))

@@ -403,12 +403,12 @@ class Result implements \Serializable
         $branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
 
         // Create the taxonomy node.
-        $node = new \stdClass();
-        $node->title = $title;
-        $node->state = (int) $state;
-        $node->access = (int) $access;
+        $node           = new \stdClass();
+        $node->title    = $title;
+        $node->state    = (int) $state;
+        $node->access   = (int) $access;
         $node->language = $language;
-        $node->nested = false;
+        $node->nested   = false;
 
         // Add the node to the taxonomy branch.
         $this->taxonomy[$branch][] = $node;
@@ -438,13 +438,13 @@ class Result implements \Serializable
         $branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
 
         // Create the taxonomy node.
-        $node = new \stdClass();
-        $node->title = $contentNode->title;
-        $node->state = (int) $state;
-        $node->access = (int) $access;
+        $node           = new \stdClass();
+        $node->title    = $contentNode->title;
+        $node->state    = (int) $state;
+        $node->access   = (int) $access;
         $node->language = $language;
-        $node->nested = true;
-        $node->node = $contentNode;
+        $node->nested   = true;
+        $node->node     = $contentNode;
 
         // Add the node to the taxonomy branch.
         $this->taxonomy[$branch][] = $node;
@@ -533,7 +533,7 @@ class Result implements \Serializable
             $taxonomy,
             $this->title,
             $this->type_id,
-            $this->url
+            $this->url,
         ];
     }
 
@@ -573,8 +573,8 @@ class Result implements \Serializable
 
         foreach ($this->taxonomy as $nodes) {
             foreach ($nodes as $node) {
-                $curTaxonomy = Taxonomy::getTaxonomy($node->id);
-                $node->state = $curTaxonomy->state;
+                $curTaxonomy  = Taxonomy::getTaxonomy($node->id);
+                $node->state  = $curTaxonomy->state;
                 $node->access = $curTaxonomy->access;
             }
         }

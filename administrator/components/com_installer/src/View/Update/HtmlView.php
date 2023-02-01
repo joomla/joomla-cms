@@ -92,7 +92,7 @@ class HtmlView extends InstallerViewDefault
         }
 
         $mappingCallback = function ($item) {
-            $dlkeyInfo = CmsInstallerHelper::getDownloadKey(new CMSObject($item));
+            $dlkeyInfo                  = CmsInstallerHelper::getDownloadKey(new CMSObject($item));
             $item->isMissingDownloadKey = $dlkeyInfo['supported'] && !$dlkeyInfo['valid'];
 
             if ($item->isMissingDownloadKey) {

@@ -306,7 +306,7 @@ class ManageModel extends InstallerModel
      */
     protected function getListQuery()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('*')
             ->select('2*protected+(1-protected)*enabled AS status')
@@ -363,7 +363,7 @@ class ManageModel extends InstallerModel
         // Filter by core extensions.
         if ($core === '1' || $core === '0') {
             $coreExtensionIds = ExtensionHelper::getCoreExtensionIds();
-            $method = $core === '1' ? 'whereIn' : 'whereNotIn';
+            $method           = $core === '1' ? 'whereIn' : 'whereNotIn';
             $query->$method($db->quoteName('extension_id'), $coreExtensionIds);
         }
 
@@ -394,7 +394,7 @@ class ManageModel extends InstallerModel
     public function loadChangelog($eid, $source)
     {
         // Get the changelog URL
-        $eid = (int) $eid;
+        $eid   = (int) $eid;
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select(
@@ -405,7 +405,7 @@ class ManageModel extends InstallerModel
                         'extensions.folder',
                         'extensions.changelogurl',
                         'extensions.manifest_cache',
-                        'extensions.client_id'
+                        'extensions.client_id',
                     ]
                 )
             )
@@ -440,7 +440,7 @@ class ManageModel extends InstallerModel
             'change'   => [],
             'remove'   => [],
             'language' => [],
-            'note'     => []
+            'note'     => [],
         ];
 
         array_walk(

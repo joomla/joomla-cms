@@ -239,7 +239,7 @@ abstract class ActionsDropdown
                 [
                     'data-item-id'   => $id,
                     'data-item-task' => $task,
-                    'class'     => 'js-grid-item-action',
+                    'class'          => 'js-grid-item-action',
                 ]
             )
             . '</li>';
