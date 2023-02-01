@@ -85,7 +85,7 @@ class ContactModel extends FormModel
 
         $user = $this->getCurrentUser();
 
-        if ((!$user->authorise('core.edit.state', 'com_contact')) &&  (!$user->authorise('core.edit', 'com_contact'))) {
+        if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact'))) {
             $this->setState('filter.published', 1);
             $this->setState('filter.archived', 2);
         }
@@ -110,9 +110,9 @@ class ContactModel extends FormModel
             return false;
         }
 
-        $temp = clone $this->getState('params');
+        $temp    = clone $this->getState('params');
         $contact = $this->_item[$this->getState('contact.id')];
-        $active = Factory::getContainer()->get(SiteApplication::class)->getMenu()->getActive();
+        $active  = Factory::getContainer()->get(SiteApplication::class)->getMenu()->getActive();
 
         if ($active) {
             // If the current view is the active item and a contact view for this contact, then the menu item params take priority
@@ -206,7 +206,7 @@ class ContactModel extends FormModel
 
                 // Filter by published state.
                 $published = $this->getState('filter.published');
-                $archived = $this->getState('filter.archived');
+                $archived  = $this->getState('filter.archived');
 
                 if (is_numeric($published)) {
                     $queryString = $db->quoteName('a.published') . ' = :published';
@@ -246,7 +246,7 @@ class ContactModel extends FormModel
                 $data->params = clone $this->getState('params');
                 $data->params->merge($registry);
 
-                $registry = new Registry($data->metadata);
+                $registry       = new Registry($data->metadata);
                 $data->metadata = $registry;
 
                 // Some contexts may not use tags data at all, so we allow callers to disable loading tag data
@@ -261,7 +261,7 @@ class ContactModel extends FormModel
                     $data->params->set('access-view', true);
                 } else {
                     // If no access filter is set, the layout takes some responsibility for display of limited information.
-                    $user = $this->getCurrentUser();
+                    $user   = $this->getCurrentUser();
                     $groups = $user->getAuthorisedViewLevels();
 
                     if ($data->catid == 0 || $data->category_access === null) {
@@ -423,7 +423,7 @@ class ContactModel extends FormModel
      */
     public function hit($pk = 0)
     {
-        $input = Factory::getApplication()->getInput();
+        $input    = Factory::getApplication()->getInput();
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {

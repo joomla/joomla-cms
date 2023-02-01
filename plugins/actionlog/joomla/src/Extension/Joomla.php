@@ -275,11 +275,11 @@ final class Joomla extends ActionLogPlugin
 
         foreach ($pks as $pk) {
             $message = [
-                'action'      => $action,
-                'type'        => $params->text_prefix . '_TYPE_' . $params->type_title,
-                'id'          => $pk,
-                'title'       => $items[$pk]->{$params->title_holder},
-                'itemlink'    => ActionlogsHelper::getContentTypeLink($option, $contentType, $pk, $params->id_holder, null),
+                'action'   => $action,
+                'type'     => $params->text_prefix . '_TYPE_' . $params->type_title,
+                'id'       => $pk,
+                'title'    => $items[$pk]->{$params->title_holder},
+                'itemlink' => ActionlogsHelper::getContentTypeLink($option, $contentType, $pk, $params->id_holder, null),
             ];
 
             $messages[] = $message;
@@ -652,10 +652,10 @@ final class Joomla extends ActionLogPlugin
         $messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_DELETED';
 
         $message = [
-            'action'      => 'delete',
-            'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
-            'id'          => $user['id'],
-            'title'       => $user['name'],
+            'action' => 'delete',
+            'type'   => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+            'id'     => $user['id'],
+            'title'  => $user['name'],
         ];
 
         $this->addLog([$message], $messageLanguageKey, $context);
@@ -692,11 +692,11 @@ final class Joomla extends ActionLogPlugin
         }
 
         $message = [
-            'action'      => $action,
-            'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER_GROUP',
-            'id'          => $table->id,
-            'title'       => $table->title,
-            'itemlink'    => 'index.php?option=com_users&task=group.edit&id=' . $table->id,
+            'action'   => $action,
+            'type'     => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER_GROUP',
+            'id'       => $table->id,
+            'title'    => $table->title,
+            'itemlink' => 'index.php?option=com_users&task=group.edit&id=' . $table->id,
         ];
 
         $this->addLog([$message], $messageLanguageKey, $context);
@@ -726,10 +726,10 @@ final class Joomla extends ActionLogPlugin
         $messageLanguageKey = 'PLG_SYSTEM_ACTIONLOGS_CONTENT_DELETED';
 
         $message = [
-            'action'      => 'delete',
-            'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER_GROUP',
-            'id'          => $group['id'],
-            'title'       => $group['title'],
+            'action' => 'delete',
+            'type'   => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER_GROUP',
+            'id'     => $group['id'],
+            'title'  => $group['title'],
         ];
 
         $this->addLog([$message], $messageLanguageKey, $context);
@@ -1062,7 +1062,7 @@ final class Joomla extends ActionLogPlugin
             return;
         }
 
-        $user = $this->getApplication()->getIdentity();
+        $user    = $this->getApplication()->getIdentity();
         $message = [
             'action'      => 'API',
             'verb'        => $verb,

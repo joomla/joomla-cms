@@ -35,12 +35,12 @@ class MediaListCest
      * @since   4.0.0
      */
     private $contents = [
-        'root'     => [
+        'root' => [
             'banners',
             'headers',
             'sampledata',
             'joomla_black.png',
-            'powered_by.png'
+            'powered_by.png',
         ],
         '/banners' => [
             'banner.jpg',
@@ -48,8 +48,8 @@ class MediaListCest
             'osmbanner2.png',
             'shop-ad.jpg',
             'shop-ad-books.jpg',
-            'white.png'
-        ]
+            'white.png',
+        ],
     ];
 
     /**

@@ -59,7 +59,7 @@ class ComponentHelper
             return $components[$option];
         }
 
-        $result = new ComponentRecord();
+        $result          = new ComponentRecord();
         $result->enabled = $strict ? false : true;
         $result->setParams(new Registry());
 
@@ -282,7 +282,7 @@ class ComponentHelper
      */
     public static function renderComponent($option, $params = [])
     {
-        $app = Factory::getApplication();
+        $app  = Factory::getApplication();
         $lang = Factory::getLanguage();
 
         if (!$app->isClient('api')) {
@@ -375,7 +375,7 @@ class ComponentHelper
     protected static function load()
     {
         $loader = function () {
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
                 ->from($db->quoteName('#__extensions'))

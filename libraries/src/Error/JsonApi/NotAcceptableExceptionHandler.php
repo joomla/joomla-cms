@@ -52,7 +52,7 @@ class NotAcceptableExceptionHandler implements ExceptionHandlerInterface
     public function handle(Exception $e)
     {
         $status = 406;
-        $error = ['title' => 'Not Acceptable'];
+        $error  = ['title' => 'Not Acceptable'];
 
         $code = $e->getCode();
 

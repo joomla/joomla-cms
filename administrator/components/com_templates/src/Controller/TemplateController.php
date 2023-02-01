@@ -76,7 +76,7 @@ class TemplateController extends BaseController
     public function close()
     {
         $file = base64_encode('home');
-        $id = (int) $this->input->get('id', 0, 'int');
+        $id   = (int) $this->input->get('id', 0, 'int');
         $url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' .
             $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
         $this->setRedirect(Route::_($url, false));
@@ -353,7 +353,7 @@ class TemplateController extends BaseController
             default:
                 // Redirect to the list screen.
                 $file = base64_encode('home');
-                $id = (int) $this->input->get('id', 0, 'int');
+                $id   = (int) $this->input->get('id', 0, 'int');
                 $url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
                 $this->setRedirect(Route::_($url, false));
                 break;
@@ -433,7 +433,7 @@ class TemplateController extends BaseController
         } elseif ($model->deleteFile($file)) {
             $this->setMessage(Text::_('COM_TEMPLATES_FILE_DELETE_SUCCESS'));
             $file = base64_encode('home');
-            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
+            $url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
         } else {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_FILE_DELETE'), 'error');
@@ -486,7 +486,7 @@ class TemplateController extends BaseController
         } elseif ($model->createFile($name, $type, $location)) {
             $this->setMessage(Text::_('COM_TEMPLATES_FILE_CREATE_SUCCESS'));
             $file = urlencode(base64_encode($location . '/' . $name . '.' . $type));
-            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
+            $url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
         } else {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_FILE_CREATE'), 'error');
@@ -530,7 +530,7 @@ class TemplateController extends BaseController
         if ($return = $model->uploadFile($upload, $location)) {
             $this->setMessage(Text::sprintf('COM_TEMPLATES_FILE_UPLOAD_SUCCESS', $upload['name']));
             $redirect = base64_encode($return);
-            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $redirect . '&isMedia=' . $this->input->getInt('isMedia', 0);
+            $url      = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $redirect . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
         } else {
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_FILE_UPLOAD'), 'error');

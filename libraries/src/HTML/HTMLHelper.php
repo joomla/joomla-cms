@@ -373,7 +373,7 @@ abstract class HTMLHelper
 
                 if (\strlen($strip) > 4 && preg_match('#\.min$#', $strip)) {
                     $minExt    = '.min';
-                    $strip = preg_replace('#\.min$#', '', $strip);
+                    $strip     = preg_replace('#\.min$#', '', $strip);
                 }
 
                 // Try to include files named filename.ext, filename_browser.ext, filename_browser_major.ext, filename_browser_major_minor.ext
@@ -401,7 +401,7 @@ abstract class HTMLHelper
 
                 // For each potential files
                 foreach ($potential as $strip) {
-                    $files = [];
+                    $files   = [];
                     $files[] = $strip . '.' . $ext;
 
                     /**
@@ -933,7 +933,7 @@ abstract class HTMLHelper
         }
 
         if (!$text) {
-            $alt = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
+            $alt  = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
             $text = static::image($image, $alt, null, true);
         }
 
@@ -948,7 +948,7 @@ abstract class HTMLHelper
             $tooltip = htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8');
 
             if ($title) {
-                $title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
+                $title   = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
                 $tooltip = $title . '::' . $tooltip;
             }
         } else {
@@ -984,7 +984,7 @@ abstract class HTMLHelper
 
             // Pass texts through Text if required.
             if ($translate) {
-                $title = Text::_($title);
+                $title   = Text::_($title);
                 $content = Text::_($content);
             }
 

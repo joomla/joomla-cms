@@ -83,7 +83,7 @@ class MemcachedStorage extends CacheStorage
         // Create the memcached connection
         if ($app->get('memcached_persist', true)) {
             static::$_db = new \Memcached($this->_hash);
-            $servers = static::$_db->getServerList();
+            $servers     = static::$_db->getServerList();
 
             if ($servers && ($servers[0]['host'] != $host || $servers[0]['port'] != $port)) {
                 static::$_db->resetServerList();
@@ -366,7 +366,7 @@ class MemcachedStorage extends CacheStorage
      */
     public function lock($id, $group, $locktime)
     {
-        $returning = new \stdClass();
+        $returning             = new \stdClass();
         $returning->locklooped = false;
 
         $looptime = $locktime * 10;

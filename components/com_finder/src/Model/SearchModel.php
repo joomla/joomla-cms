@@ -56,15 +56,15 @@ class SearchModel extends ListModel
      * @since 4.3.0
      */
     protected $sortOrderFieldsLabels = [
-        'relevance.asc' => 'COM_FINDER_SORT_BY_RELEVANCE_ASC',
-        'relevance.desc' => 'COM_FINDER_SORT_BY_RELEVANCE_DESC',
-        'title.asc' => 'JGLOBAL_TITLE_ASC',
-        'title.desc' => 'JGLOBAL_TITLE_DESC',
-        'date.asc' => 'JDATE_ASC',
-        'date.desc' => 'JDATE_DESC',
-        'price.asc' => 'COM_FINDER_SORT_BY_PRICE_ASC',
-        'price.desc' => 'COM_FINDER_SORT_BY_PRICE_DESC',
-        'sale_price.asc' => 'COM_FINDER_SORT_BY_SALES_PRICE_ASC',
+        'relevance.asc'   => 'COM_FINDER_SORT_BY_RELEVANCE_ASC',
+        'relevance.desc'  => 'COM_FINDER_SORT_BY_RELEVANCE_DESC',
+        'title.asc'       => 'JGLOBAL_TITLE_ASC',
+        'title.desc'      => 'JGLOBAL_TITLE_DESC',
+        'date.asc'        => 'JDATE_ASC',
+        'date.desc'       => 'JDATE_DESC',
+        'price.asc'       => 'COM_FINDER_SORT_BY_PRICE_ASC',
+        'price.desc'      => 'COM_FINDER_SORT_BY_PRICE_DESC',
+        'sale_price.asc'  => 'COM_FINDER_SORT_BY_SALES_PRICE_ASC',
         'sale_price.desc' => 'COM_FINDER_SORT_BY_SALES_PRICE_DESC',
     ];
 
@@ -166,7 +166,7 @@ class SearchModel extends ListModel
 
         $query->from('#__finder_links AS l');
 
-        $user = $this->getCurrentUser();
+        $user   = $this->getCurrentUser();
         $groups = $this->getState('user.groups', $user->getAuthorisedViewLevels());
         $query->whereIn($db->quoteName('l.access'), $groups)
             ->where('l.state = 1')
@@ -190,7 +190,7 @@ class SearchModel extends ListModel
          */
         if (!empty($this->searchquery->filters)) {
             // Convert the associative array to a numerically indexed array.
-            $groups = array_values($this->searchquery->filters);
+            $groups     = array_values($this->searchquery->filters);
             $taxonomies = call_user_func_array('array_merge', array_values($this->searchquery->filters));
 
             $query->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t ON t.link_id = l.link_id')
@@ -238,7 +238,7 @@ class SearchModel extends ListModel
         }
 
         // Get the result ordering and direction.
-        $ordering = $this->getState('list.ordering', 'm.weight');
+        $ordering  = $this->getState('list.ordering', 'm.weight');
         $direction = $this->getState('list.direction', 'DESC');
 
         /*

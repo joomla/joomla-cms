@@ -63,12 +63,12 @@ class Taxonomy
      */
     public static function addBranch($title, $state = 1, $access = 1)
     {
-        $node = new \stdClass();
-        $node->title = $title;
-        $node->state = $state;
-        $node->access = $access;
+        $node            = new \stdClass();
+        $node->title     = $title;
+        $node->state     = $state;
+        $node->access    = $access;
         $node->parent_id = 1;
-        $node->language = '';
+        $node->language  = '';
 
         return self::storeNode($node, 1);
     }
@@ -92,12 +92,12 @@ class Taxonomy
         // Get the branch id, insert it if it does not exist.
         $branchId = static::addBranch($branch);
 
-        $node = new \stdClass();
-        $node->title = $title;
-        $node->state = $state;
-        $node->access = $access;
+        $node            = new \stdClass();
+        $node->title     = $title;
+        $node->state     = $state;
+        $node->access    = $access;
         $node->parent_id = $branchId;
-        $node->language = $language;
+        $node->language  = $language;
 
         return self::storeNode($node, $branchId);
     }
@@ -131,12 +131,12 @@ class Taxonomy
             $parentId = $branchId;
         }
 
-        $temp = new \stdClass();
-        $temp->title = $node->title;
-        $temp->state = $state;
-        $temp->access = $access;
+        $temp            = new \stdClass();
+        $temp->title     = $node->title;
+        $temp->state     = $state;
+        $temp->access    = $access;
         $temp->parent_id = $parentId;
-        $temp->language = $language;
+        $temp->language  = $language;
 
         return self::storeNode($temp, $parentId);
     }
@@ -160,7 +160,7 @@ class Taxonomy
         }
 
         // Check to see if the node is in the table.
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->quoteName('#__finder_taxonomy'))
@@ -191,17 +191,17 @@ class Taxonomy
 
         if (empty($result)) {
             // Prepare the node object.
-            $nodeTable->title = $node->title;
-            $nodeTable->state = (int) $node->state;
-            $nodeTable->access = (int) $node->access;
+            $nodeTable->title    = $node->title;
+            $nodeTable->state    = (int) $node->state;
+            $nodeTable->access   = (int) $node->access;
             $nodeTable->language = $node->language;
             $nodeTable->setLocation((int) $parentId, 'last-child');
         } else {
             // Prepare the node object.
-            $nodeTable->id = (int) $result->id;
-            $nodeTable->title = $result->title;
-            $nodeTable->state = (int) ($node->state > 0 ? $node->state : $result->state);
-            $nodeTable->access = (int) $result->access;
+            $nodeTable->id       = (int) $result->id;
+            $nodeTable->title    = $result->title;
+            $nodeTable->state    = (int) ($node->state > 0 ? $node->state : $result->state);
+            $nodeTable->access   = (int) $result->access;
             $nodeTable->language = $node->language;
             $nodeTable->setLocation($result->parent_id, 'last-child');
         }
@@ -276,7 +276,7 @@ class Taxonomy
         $id = (int) $db->loadResult();
 
         if (!$id) {
-            $map = new \stdClass();
+            $map          = new \stdClass();
             $map->link_id = (int) $linkId;
             $map->node_id = (int) $nodeId;
             $db->insertObject('#__finder_taxonomy_map', $map);
@@ -364,7 +364,7 @@ class Taxonomy
     public static function removeMaps($linkId)
     {
         // Delete the maps.
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__finder_taxonomy_map'))
             ->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
@@ -385,7 +385,7 @@ class Taxonomy
     public static function removeOrphanMaps()
     {
         // Delete all orphaned maps
-        $db = Factory::getDbo();
+        $db     = Factory::getDbo();
         $query2 = $db->getQuery(true)
             ->select($db->quoteName('link_id'))
             ->from($db->quoteName('#__finder_links'));

@@ -1,5 +1,5 @@
 <template>
-  <media-modal
+  <MediaModal
     v-if="$store.state.showPreviewModal && item"
     :size="'md'"
     class="media-preview-modal"
@@ -55,15 +55,19 @@
         <span class="icon-times" />
       </button>
     </template>
-  </media-modal>
+  </MediaModal>
 </template>
 
 <script>
 import api from '../../app/Api.es6';
 import * as types from '../../store/mutation-types.es6';
+import MediaModal from './modal.vue';
 
 export default {
   name: 'MediaPreviewModal',
+  components: {
+    MediaModal,
+  },
   computed: {
     /* Get the item to show in the modal */
     item() {
