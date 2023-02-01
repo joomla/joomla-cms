@@ -188,37 +188,29 @@ method="post" name="adminForm" id="adminForm">
                                 ); ?>
                             </td>
 
-                            <!-- Item name, edit link, and note (@todo: should it be moved?) -->
-                            <th scope="row">
-                                <?php if ($canEdit) :
-                                    ?>
-                                    <a href="<?php
-                                    echo Route::_('index.php?option=com_guidedtours&task=tour.edit&id=' . $item->id); ?>
-                                    " title="<?php echo Text::_('JACTION_EDIT'); ?>
-                                    <?php echo $this->escape($item->title); ?>">
-                                    <?php echo $this->escape($item->title); ?></a>
-                                <?php else :
-                                    ?>
-                                    <?php echo $this->escape($item->title); ?>
-
-                                <?php endif; ?>
-
-                                <span class="small">
-                                    <?php if (empty($item->note)) :
-                                        ?>
-                                        <?php echo Text::_('COM_GUIDEDTOURS_NO_NOTE'); ?>
-                                    <?php else :
-                                        ?>
-                                        <?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
+                            <th scope="row" class="has-context">
+                                <div class="break-word">
+                                    <?php if ($canEdit) : ?>
+                                        <a href="<?php echo Route::_('index.php?option=com_guidedtours&task=tour.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+                                            <?php echo $this->escape($item->title); ?>
+                                        </a>
+                                    <?php else : ?>
+                                        <?php echo $this->escape($item->title); ?>
                                     <?php endif; ?>
-                                </span>
+                                    <div class="small break-word">
+                                        <?php if ($item->note) : ?>
+                                            <?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
                             </th>
+
                             <td class="">
                                 <?php echo $item->description; ?>
                             </td>
 
                             <td class="text-center btns d-none d-md-table-cell itemnumber">
-                                <a class="btn btn-info " 
+                                <a class="btn btn-info "
                                 href="index.php?option=com_guidedtours&view=steps&tour_id=<?php echo $item->id; ?>">
                                     <?php echo $item->steps; ?>
                                 </a>

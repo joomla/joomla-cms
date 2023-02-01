@@ -110,6 +110,7 @@ class ExtensionHelper
         array('module', 'mod_custom', '', 1),
         array('module', 'mod_feed', '', 1),
         array('module', 'mod_frontend', '', 1),
+        array('module', 'mod_guidedtours', '', 1),
         array('module', 'mod_latest', '', 1),
         array('module', 'mod_latestactions', '', 1),
         array('module', 'mod_logged', '', 1),

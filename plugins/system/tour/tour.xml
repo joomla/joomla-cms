@@ -12,8 +12,8 @@
     <files>
         <filename plugin="tour">tour.php</filename>
     </files>
-    <languages folder="language/en-GB">
-        <language tag="en-GB">en-GB.plg_system_tour.ini</language>
-        <language tag="en-GB">en-GB.plg_system_tour.sys.ini</language>
-    </languages>  
+    <languages>
+        <language tag="en-GB">language/en-GB/plg_system_tour.ini</language>
+        <language tag="en-GB">language/en-GB/plg_system_tour.sys.ini</language>
+    </languages>
 </extension>

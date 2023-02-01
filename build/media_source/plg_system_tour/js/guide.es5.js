@@ -4,113 +4,123 @@
  */
 
 function checkAndRedirect(redirectUrl) {
-  var currentURL = window.location.href;
-  if (currentURL != redirectUrl) {
+  const currentURL = window.location.href;
+  if (currentURL !== redirectUrl) {
     window.location.href = redirectUrl;
   }
 }
-function createTour() {
+
+function instantiateTour() {
   return new Shepherd.Tour({
     defaultStepOptions: {
-      scrollTo: true,
-      classes: "shadow",
       cancelIcon: {
         enabled: true,
       },
-      classes: "class-1 class-2 shepherd-theme-arrows",
-      scrollTo: { behavior: "smooth", block: "center" },
+      classes: 'class-1 class-2 shepherd-theme-arrows',
+      scrollTo: {
+        behavior: 'smooth',
+        block: 'center',
+      },
     },
     useModalOverlay: true,
     keyboardNavigation: true,
   });
 }
-function addCancelTourButton(tour) {
-  tour.on("cancel", () => {
-    sessionStorage.clear();
-  });
-}
-function addStepToTourButton(tour, obj, tourId, index, buttons, uri) {
-  tour.addStep({
-    title: obj[tourId].steps[index].title,
-    text: obj[tourId].steps[index].description,
-    classes: "intro-step shepherd-theme-arrows",
-    attachTo: {
-      element: obj[tourId].steps[index].target,
-      on: obj[tourId].steps[index].position,
-      url: obj[tourId].steps[index].url,
-      type: obj[tourId].steps[index].type,
-      interactive_type: obj[tourId].steps[index].interactive_type,
-    },
 
+function addStepToTourButton(tour, obj, index, buttons) {
+  tour.addStep({
+    title: obj.steps[index].title,
+    text: obj.steps[index].description,
+    classes: 'intro-step shepherd-theme-arrows',
+    attachTo: {
+      element: obj.steps[index].target,
+      on: obj.steps[index].position,
+      url: obj.steps[index].url,
+      type: obj.steps[index].type,
+      interactive_type: obj.steps[index].interactive_type,
+    },
     buttons: buttons,
-    id: obj[tourId].steps[index].id,
+    id: obj.steps[index].id,
     arrow: true,
-    showOn: obj[tourId].steps[index].position,
+    showOn: obj.steps[index].position,
     when: {
       show() {
-        var currentstepIndex = `${tour.currentStep.id}` - "0";
-        sessionStorage.setItem("currentStepId", currentstepIndex);
-        if (obj[tourId].steps[index].type == 1) {
-          checkAndRedirect(uri + tour.currentStep.options.attachTo.url);
+        const currentStepIndex = `${tour.currentStep.id}`;
+        sessionStorage.setItem('currentStepId', String(currentStepIndex));
+        if (obj.steps[index].type === 1) {
+          checkAndRedirect(Joomla.getOptions('system.paths').rootFull + tour.currentStep.options.attachTo.url);
         }
       },
     },
   });
 }
-function addInitialStepToTourButton(tour, obj, tourId) {
+
+function addInitialStepToTourButton(tour, obj) {
   tour.addStep({
-    title: obj[tourId].title,
-    text: obj[tourId].description,
-    classes: "intro-step shepherd-theme-arrows",
+    title: obj.title,
+    text: obj.description,
+    classes: 'intro-step shepherd-theme-arrows',
     attachTo: {
-      on: "bottom",
+      on: 'bottom',
     },
     buttons: [
       {
         action() {
           return tour.next();
         },
-        text: "Start",
+        text: Joomla.Text._('PLG_SYSTEM_TOUR_START'),
       },
     ],
-    id: obj[tourId].id,
+    id: obj.id,
   });
 }
+
+function addCancelTourEvent(tour) {
+  tour.on('cancel', () => {
+    sessionStorage.removeItem('currentStepId');
+    sessionStorage.removeItem('tourId');
+    const url = `${Joomla.getOptions('system.paths').rootFull}administrator/index.php?option=com_ajax&plugin=tour&group=system&format=raw&method=post&tour_id=-1`;
+    fetch(
+      url,
+      {
+        method: 'GET',
+      },
+    )
+      .catch((error) => console.error(error));
+    tour.steps = [];
+  });
+}
+
 function pushCompleteButton(buttons, tour) {
   buttons.push({
-    text: "Complete",
-    classes: "shepherd-button-primary",
+    text: Joomla.Text._('PLG_SYSTEM_TOUR_COMPLETE'),
+    classes: 'shepherd-button-primary',
     action: function () {
       return tour.cancel();
     },
   });
 }
-function pushNextButton(buttons, tour, step_id, disabled = false) {
+
+function pushNextButton(buttons, tour, stepId, disabled = false) {
   buttons.push({
-    text: "Next",
-    classes: `shepherd-button-primary step-next-button-${step_id}`,
+    text: Joomla.Text._('PLG_SYSTEM_TOUR_NEXT'),
+    classes: `shepherd-button-primary step-next-button-${stepId}`,
     action: function () {
       return tour.next();
     },
     disabled: disabled,
   });
 }
-function enableButton(e) {
-  const ele = document.querySelector(
-    `.step-next-button-${e.currentTarget.step_id}`
-  );
-  ele.removeAttribute("disabled");
-}
-function pushBackButton(buttons, tour, prev_step) {
+
+function pushBackButton(buttons, tour, prevStep) {
   buttons.push({
-    text: "Back",
-    classes: "shepherd-button-secondary",
+    text: Joomla.Text._('PLG_SYSTEM_TOUR_BACK'),
+    classes: 'shepherd-button-secondary',
     action: function () {
-      if (prev_step) {
-        const paths = Joomla.getOptions("system.paths");
-        sessionStorage.setItem("currentStepId", prev_step.id);
-        if (prev_step.type == 1) {
-          checkAndRedirect(paths.rootFull + prev_step.url);
+      if (prevStep) {
+        sessionStorage.setItem('currentStepId', prevStep.id);
+        if (prevStep.type === 1) {
+          checkAndRedirect(Joomla.getOptions('system.paths').rootFull + prevStep.url);
         }
       }
       return tour.back();
@@ -118,139 +128,124 @@ function pushBackButton(buttons, tour, prev_step) {
   });
 }
 
-Joomla = window.Joomla || {};
-(function (Joomla, window) {
-  document.addEventListener("DOMContentLoaded", function () {
-    const paths = Joomla.getOptions("system.paths");
-    const uri = paths.rootFull;
+function enableButton(event) {
+  const element = document.querySelector(`.step-next-button-${event.currentTarget.step_id}`);
+  element.removeAttribute('disabled');
+}
 
-    let myTours = Joomla.getOptions("myTours");
-    let obj = JSON.parse(myTours);
-    let btnGoods = document.querySelectorAll(".button-tour");
-    for (var i = 0; i < btnGoods.length; i++) {
-      btnGoods[i].addEventListener("click", function () {
-        var dataID = this.getAttribute("data-id");
-        var tourId = obj.findIndex((x) => x.id == dataID);
-        sessionStorage.setItem("tourId", dataID);
-
-        checkAndRedirect(uri + obj[tourId].url);
-
-        const tour = createTour();
-
-        if (sessionStorage.getItem("tourId")) {
-          let prev_step = "";
-          addInitialStepToTourButton(tour, obj, tourId);
-          for (index = 0; index < obj[tourId].steps.length; index++) {
-            var buttons = [];
-            var len = obj[tourId].steps.length;
-
-            if (
-              obj[tourId] &&
-              obj[tourId].steps[index].target &&
-              obj[tourId] &&
-              obj[tourId].steps[index].type == 2
-            ) {
-              const ele = document.querySelector(
-                obj[tourId].steps[index].target
-              );
-
-              if (ele) {
-                if (
-                  obj[tourId] &&
-                  obj[tourId].steps[index].interactive_type === 2
-                ) {
-                  ele.step_id = index;
-                  ele.addEventListener("input", enableButton, enableButton);
-                }
-                if (
-                  obj[tourId] &&
-                  obj[tourId].steps[index].interactive_type === 1
-                )
-                  ele.addEventListener("click", tour.next, tour.next);
-              }
-            }
-
-            pushBackButton(buttons, tour, prev_step);
-            if (index != len - 1) {
-              let disabled = false;
-              if (obj[tourId] && obj[tourId].steps[index].interactive_type == 2)
-                disabled = true;
-              if (
-                (obj[tourId] && obj[tourId].steps[index].type !== 2) ||
-                (obj[tourId] &&
-                  obj[tourId].steps[index].interactive_type == 2) ||
-                (obj[tourId] && obj[tourId].steps[index].interactive_type == 3)
-              )
-                pushNextButton(buttons, tour, index, disabled);
-            } else {
-              pushCompleteButton(buttons, tour);
-            }
-            addStepToTourButton(tour, obj, tourId, index, buttons, uri);
-            prev_step = obj[tourId].steps[index];
-          }
-        }
-        tour.start();
-        addCancelTourButton(tour);
-      });
+function CreateAndStartTour(obj) {
+  const currentStepId = sessionStorage.getItem('currentStepId');
+  let prevStep = '';
+  const tour = instantiateTour();
+  let ind = 0;
+  if (currentStepId) {
+    ind = obj.steps.findIndex((x) => x.id === Number(currentStepId));
+    if (ind < 0) {
+      return;
     }
-    var tourId = sessionStorage.getItem("tourId");
-    var currentStepId = sessionStorage.getItem("currentStepId");
-    let prev_step = "";
+    if (ind > 0) {
+      prevStep = obj.steps[ind - 1];
+    }
+  } else {
+    addInitialStepToTourButton(tour, obj);
+  }
 
-    if (tourId) {
-      tourId = obj.findIndex((x) => x.id == tourId);
-      const tour = createTour();
-      var ind = 0;
-      if (currentStepId) {
-        ind = obj[tourId].steps.findIndex((x) => x.id == currentStepId);
-        if (ind > 0) {
-          prev_step = obj[tourId].steps[ind - 1];
+  const len = obj.steps.length;
+  let buttons;
+
+  // eslint-disable-next-line no-plusplus
+  for (let index = ind; index < len; index++) {
+    buttons = [];
+
+    pushBackButton(buttons, tour, prevStep);
+
+    if (
+      obj
+      && obj.steps[index].target
+      && obj.steps[index].type === 2
+    ) {
+      const ele = document.querySelector(obj.steps[index].target);
+      if (ele) {
+        if (obj && obj.steps[index].interactive_type === 2) {
+          ele.step_id = index;
+          ele.addEventListener('input', enableButton, enableButton);
         }
-      } else {
-        ind = 0;
+        if (obj && obj.steps[index].interactive_type === 1) {
+          ele.addEventListener('click', tour.next, tour.next);
+        }
       }
-      for (index = ind; index < obj[tourId].steps.length; index++) {
-        let buttons = [];
-        var len = obj[tourId].steps.length;
+    }
 
-        pushBackButton(buttons, tour, prev_step);
-
-        if (
-          obj[tourId] &&
-          obj[tourId].steps[index].target &&
-          obj[tourId] &&
-          obj[tourId].steps[index].type == 2
-        ) {
-          const ele = document.querySelector(obj[tourId].steps[index].target);
-          if (ele) {
-            if (obj[tourId] && obj[tourId].steps[index].interactive_type === 2) {
-              ele.step_id = index;
-              ele.addEventListener("input", enableButton, enableButton);
-            }
-            if (obj[tourId] && obj[tourId].steps[index].interactive_type === 1)
-              ele.addEventListener("click", tour.next, tour.next);
-          }
-        }
-
-        if (index != len - 1) {
-          let disabled = false;
-          if (obj[tourId] && obj[tourId].steps[index].interactive_type == 2)
-            disabled = true;
-          if (
-            (obj[tourId] && obj[tourId].steps[index].type !== 2) ||
-            (obj[tourId] && obj[tourId].steps[index].interactive_type == 2) ||
-            (obj[tourId] && obj[tourId].steps[index].interactive_type == 3)
-          )
-            pushNextButton(buttons, tour, index, disabled);
-        } else {
-          pushCompleteButton(buttons, tour);
-        }
-
-        addStepToTourButton(tour, obj, tourId, index, buttons, uri);
-        prev_step = obj[tourId].steps[index];
+    if (index !== len - 1) {
+      let disabled = false;
+      if (obj && obj.steps[index].interactive_type === 2) {
+        disabled = true;
       }
-      tour.start();
-      addCancelTourButton(tour);
+      if (
+        (obj && obj.steps[index].type !== 2)
+        || (obj && obj.steps[index].interactive_type === 2)
+        || (obj && obj.steps[index].interactive_type === 3)
+      ) {
+        pushNextButton(buttons, tour, index, disabled);
+      }
+    } else {
+      pushCompleteButton(buttons, tour);
+    }
+
+    addStepToTourButton(tour, obj, index, buttons);
+    prevStep = obj.steps[index];
+  }
+  addCancelTourEvent(tour);
+  tour.start();
+}
+
+function tourWasSelected(element) {
+  if (element.getAttribute('data-id') > 0) {
+    const url = `${Joomla.getOptions('system.paths').rootFull}administrator/index.php?option=com_ajax&plugin=tour&group=system&format=raw&method=post&tour_id=${element.getAttribute('data-id')}`;
+    fetch(
+      url,
+      {
+        method: 'GET',
+      },
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        if (Object.keys(json).length > 0) {
+          document.dispatchEvent(new CustomEvent('GuidedTourLoaded', { bubbles: true, detail: json }));
+        }
+      })
+      .catch((error) => console.error(error));
+  } else {
+    console.log('tour: no data-id');
+  }
+}
+
+Joomla = window.Joomla || {};
+
+((Joomla, document) => {
+  'use strict';
+
+  document.addEventListener('GuidedTourLoaded', (event) => {
+    sessionStorage.setItem('tourId', event.detail.id);
+    const uri = Joomla.getOptions('system.paths').rootFull;
+    const currentURL = window.location.href;
+    if (currentURL !== uri + event.detail.url) {
+      window.location.href = uri + event.detail.url;
+    } else {
+      CreateAndStartTour(event.detail);
     }
   });
-})(Joomla, window);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const tourId = sessionStorage.getItem('tourId');
+    if (tourId) {
+      const myTour = Joomla.getOptions('myTour');
+      if (myTour) {
+        CreateAndStartTour(JSON.parse(myTour));
+      } else {
+        sessionStorage.removeItem('currentStepId');
+        sessionStorage.removeItem('tourId');
+      }
+    }
+  });
+})(Joomla, document);

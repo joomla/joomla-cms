@@ -10,17 +10,9 @@
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
-use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericDataException;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * PlgSystemTour
@@ -60,10 +52,35 @@ class PlgSystemTour extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
+            'onAjaxTour' => 'onAjaxTour',
             'onBeforeRender' => 'onBeforeRender',
             'onBeforeCompileHead' => 'onBeforeCompileHead'
         ];
     }
+
+    /**
+     * Retrieve a tour and its steps through Ajax
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onAjaxTour()
+    {
+        $tour_id = $this->app->getInput()->getString('tour_id', -1);
+        if ($tour_id < 0) {
+            $this->app->setUserState('com_guidedtours.tour.id', -1);
+            echo json_encode(new stdClass());
+        } else {
+            $json_tour = $this->getJsonTour($tour_id);
+            if (!$json_tour) {
+                $this->app->setUserState('com_guidedtours.tour.id', -1);
+                echo json_encode(new stdClass());
+            } else {
+                $this->app->setUserState('com_guidedtours.tour.id', $tour_id);
+                echo $json_tour;
+            }
+        }
+    }
+
     /**
      * Listener for the `onBeforeRender` event
      *
@@ -73,71 +90,56 @@ class PlgSystemTour extends CMSPlugin implements SubscriberInterface
      */
     public function onBeforeRender()
     {
-        // Run in backend
         if ($this->app->isClient('administrator')) {
-            /**
-             * Booting of the Component to get the data in JSON Format
-             */
-            $myTours = $this->app->bootComponent('com_guidedtours')->getMVCFactory()->createModel(
-                'Tours',
-                'Administrator',
-                ['ignore_request' => true]
-            );
-            $mySteps = $this->app->bootComponent('com_guidedtours')->getMVCFactory()->createModel(
-                'Steps',
-                'Administrator',
-                ['ignore_request' => true]
-            );
-
-            $theCurrentExtension = $this->app->input->get('option');
-            $myTours->setState('list.extensions', $theCurrentExtension);
-
-            $myTours->setState('filter.published', 1);
-
-            $steps = $mySteps->getItems();
-            $tours = $myTours->getItems();
-
-            $document = Factory::getDocument();
-
-            $newsteps = [];
-
-            foreach ($steps as $step) {
-                if (!isset($newsteps[$step->tour_id])) {
-                    $newsteps[$step->tour_id] = [];
-                }
-
-                $newsteps[$step->tour_id][] = $step;
+            $tour_id = $this->app->getUserState('com_guidedtours.tour.id', -1);
+            if ($tour_id < 0) {
+                $this->app->setUserState('com_guidedtours.tour.id', -1);
+                $this->app->getDocument()->addScriptOptions('myTour', '');
+                return;
             }
 
-            foreach ($tours as $tour) {
-                $tour->steps = [];
-
-                if (isset($newsteps[$tour->id])) {
-                    $tour->steps = $newsteps[$tour->id];
-                }
+            $json_tour = $this->getJsonTour($tour_id);
+            if (!$json_tour) {
+                $this->app->setUserState('com_guidedtours.tour.id', -1);
+                $this->app->getDocument()->addScriptOptions('myTour', '');
+                return;
             }
 
-            $myTours = json_encode($tours);
-            $mySteps = json_encode($steps);
-            $document->addScriptOptions('myTours', $myTours);
-            $document->addScriptOptions('mySteps', $mySteps);
-
-            $toolbar = Toolbar::getInstance('toolbar');
-            $dropdown = $toolbar->dropdownButton()
-                ->text('Take the Tour')
-                ->toggleSplit(false)
-                ->icon('fa fa-map-signs')
-                ->buttonClass('btn btn-action');
-
-            $childBar = $dropdown->getChildToolbar();
-
-            foreach ($tours as $a) {
-                $childBar->BasicButton('tour')
-                    ->text($a->title)
-                    ->attributes(['data-id' => $a->id])
-                    ->buttonClass('btn btn-primary');
-            }
+            $this->app->setUserState('com_guidedtours.tour.id', $tour_id);
+            $this->app->getDocument()->addScriptOptions('myTour', $json_tour);
         }
+    }
+
+    /**
+     * Get a tour and its steps in Json format
+     *
+     * @return  false|string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getJsonTour($tour_id)
+    {
+        $factory = $this->app->bootComponent('com_guidedtours')->getMVCFactory();
+
+        $myTour = $factory->createModel(
+            'Tour',
+            'Administrator',
+            ['ignore_request' => true]
+        );
+
+        $tour = $myTour->getItem($tour_id);
+
+        $mySteps = $factory->createModel(
+            'Steps',
+            'Administrator',
+            ['ignore_request' => true]
+        );
+
+        $mySteps->setState('filter.tour_id', $tour_id);
+
+        $tour->steps = $mySteps->getItems();
+
+        return json_encode($tour);
     }
 
     /**
@@ -149,13 +151,15 @@ class PlgSystemTour extends CMSPlugin implements SubscriberInterface
      */
     public function onBeforeCompileHead()
     {
-
         if ($this->app->isClient('administrator')) {
-            $this->app->getDocument()->getWebAssetManager()
-                ->usePreset('shepherdjs');
+            Text::script('PLG_SYSTEM_TOUR_START');
+            Text::script('PLG_SYSTEM_TOUR_COMPLETE');
+            Text::script('PLG_SYSTEM_TOUR_NEXT');
+            Text::script('PLG_SYSTEM_TOUR_BACK');
 
             // Load required assets
             $assets = $this->app->getDocument()->getWebAssetManager();
+            $assets->usePreset('shepherdjs');
             $assets->registerAndUseScript(
                 'plg_system_tour.script',
                 'plg_system_tour/guide.min.js',
