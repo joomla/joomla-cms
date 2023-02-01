@@ -48,7 +48,7 @@ class Response
      * @var    bool
      * @since  __DEPLOY_VERSION__
      */
-    private $error;
+    public $error;
 
     /**
      * The header
@@ -56,7 +56,7 @@ class Response
      * @var    string
      * @since  __DEPLOY_VERSION__
      */
-    private $header;
+    public $header;
 
     /**
      * The message
@@ -64,7 +64,7 @@ class Response
      * @var    string
      * @since  __DEPLOY_VERSION__
      */
-    private $message;
+    public $message;
 
     /**
      * The batch size
@@ -72,7 +72,7 @@ class Response
      * @var    int
      * @since  __DEPLOY_VERSION__
      */
-    private $batchSize;
+    public $batchSize;
 
     /**
      * The batch offset
@@ -80,7 +80,7 @@ class Response
      * @var    int
      * @since  __DEPLOY_VERSION__
      */
-    private $batchOffset;
+    public $batchOffset;
 
     /**
      * The total items
@@ -88,7 +88,7 @@ class Response
      * @var    int
      * @since  __DEPLOY_VERSION__
      */
-    private $totalItems;
+    public $totalItems;
 
     /**
      * The plugin state
@@ -96,7 +96,7 @@ class Response
      * @var    string
      * @since  __DEPLOY_VERSION__
      */
-    private $pluginState;
+    public $pluginState;
 
     /**
      * The start time
@@ -104,7 +104,7 @@ class Response
      * @var    string
      * @since  __DEPLOY_VERSION__
      */
-    private $startTime;
+    public $startTime;
 
     /**
      * The end time
@@ -112,7 +112,7 @@ class Response
      * @var    string
      * @since  __DEPLOY_VERSION__
      */
-    private $endTime;
+    public $endTime;
 
     /**
      * The start
@@ -120,7 +120,7 @@ class Response
      * @var    int
      * @since  __DEPLOY_VERSION__
      */
-    private $start;
+    public $start;
 
     /**
      * The complete
@@ -128,7 +128,7 @@ class Response
      * @var    int
      * @since  __DEPLOY_VERSION__
      */
-    private $complete;
+    public $complete;
 
     /**
      * Class Constructor
