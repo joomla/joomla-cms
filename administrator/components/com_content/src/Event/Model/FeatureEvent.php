@@ -33,7 +33,7 @@ class FeatureEvent extends AbstractImmutableEvent
      *
      * @since   4.0.0
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!isset($arguments['extension'])) {
             throw new BadMethodCallException("Argument 'extension' of event $this->name is required but has not been provided");

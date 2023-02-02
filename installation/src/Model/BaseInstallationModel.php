@@ -33,7 +33,7 @@ class BaseInstallationModel extends BaseDatabaseModel
      * @since   3.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         // @TODO remove me when the base model is db free
         $config['dbo'] = null;

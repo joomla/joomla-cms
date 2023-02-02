@@ -79,13 +79,21 @@ class CacheStorage
     public $_hash;
 
     /**
+     * The threshold
+     *
+     * @var    integer
+     * @since  4.2.7
+     */
+    public $_threshold;
+
+    /**
      * Constructor
      *
      * @param   array  $options  Optional parameters
      *
      * @since   1.7.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         $app = Factory::getApplication();
 
@@ -121,7 +129,7 @@ class CacheStorage
      * @throws  \UnexpectedValueException
      * @throws  UnsupportedCacheException
      */
-    public static function getInstance($handler = null, $options = array())
+    public static function getInstance($handler = null, $options = [])
     {
         static $now = null;
 
@@ -373,7 +381,7 @@ class CacheStorage
 
         if (!isset($paths))
         {
-            $paths = array();
+            $paths = [];
         }
 
         if (!empty($path) && !\in_array($path, $paths))

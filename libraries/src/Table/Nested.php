@@ -90,7 +90,7 @@ class Nested extends Table
      * @var    array
      * @since  1.7.0
      */
-    protected $_cache = array();
+    protected $_cache = [];
 
     /**
      * Debug level
@@ -114,7 +114,7 @@ class Nested extends Table
      * @var    array
      * @since  3.7.0
      */
-    private $_validLocations = array('before', 'after', 'first-child', 'last-child');
+    private $_validLocations = ['before', 'after', 'first-child', 'last-child'];
 
     /**
      * Sets the debug level on or off
@@ -530,7 +530,7 @@ class Nested extends Table
             $name = $this->_getAssetName();
 
             /** @var Asset $asset */
-            $asset = Table::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+            $asset = Table::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
 
             if ($asset->loadByName($name)) {
                 // Delete the node in assets table.

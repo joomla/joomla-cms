@@ -37,16 +37,16 @@ class StylesModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'template', 'a.template',
                 'home', 'a.home',
                 'menuitem',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);

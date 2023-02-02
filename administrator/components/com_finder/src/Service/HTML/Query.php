@@ -37,7 +37,7 @@ class Query
      */
     public static function explained(IndexerQuery $query)
     {
-        $parts = array();
+        $parts = [];
 
         // Process the required tokens.
         foreach ($query->included as $token) {
@@ -77,7 +77,7 @@ class Query
         // Process the taxonomy filters.
         if (!empty($query->filters)) {
             // Get the filters in the request.
-            $t = Factory::getApplication()->input->request->get('t', array(), 'array');
+            $t = Factory::getApplication()->input->request->get('t', [], 'array');
 
             // Process the taxonomy branches.
             foreach ($query->filters as $branch => $nodes) {

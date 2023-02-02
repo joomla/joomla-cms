@@ -79,9 +79,9 @@ class ContentType extends Table
     public function store($updateNulls = false)
     {
         // Verify that the alias is unique
-        $table = Table::getInstance('Contenttype', 'JTable', array('dbo' => $this->getDbo()));
+        $table = Table::getInstance('Contenttype', 'JTable', ['dbo' => $this->getDbo()]);
 
-        if ($table->load(array('type_alias' => $this->type_alias)) && ($table->type_id != $this->type_id || $this->type_id == 0)) {
+        if ($table->load(['type_alias' => $this->type_alias]) && ($table->type_id != $this->type_id || $this->type_id == 0)) {
             $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
 
             return false;

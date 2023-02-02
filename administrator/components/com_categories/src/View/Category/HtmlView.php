@@ -98,7 +98,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check if we have a content type for this alias
-        if (!empty(TagsHelper::getTypes('objectList', array($this->state->get('category.extension') . '.category'), true))) {
+        if (!empty(TagsHelper::getTypes('objectList', [$this->state->get('category.extension') . '.category'], true))) {
             $this->checkTags = true;
         }
 
