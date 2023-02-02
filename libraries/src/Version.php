@@ -55,7 +55,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const PATCH_VERSION = 7;
+    public const PATCH_VERSION = 8;
 
     /**
      * Extra release version info.
@@ -66,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'rc2-dev';
+    public const EXTRA_VERSION = 'dev';
 
     /**
      * Development status.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '22-January-2023';
+    public const RELDATE = '31-January-2023';
 
     /**
      * Release time.
@@ -98,7 +98,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTIME = '13:27';
+    public const RELTIME = '15:15';
 
     /**
      * Release timezone.
