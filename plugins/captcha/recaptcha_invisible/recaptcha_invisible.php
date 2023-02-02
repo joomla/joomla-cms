@@ -56,11 +56,11 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
     {
         $this->loadLanguage();
 
-        return array(
-            Text::_('PLG_CAPTCHA_RECAPTCHA_INVISIBLE') => array(
+        return [
+            Text::_('PLG_CAPTCHA_RECAPTCHA_INVISIBLE') => [
                 Text::_('PLG_RECAPTCHA_INVISIBLE_PRIVACY_CAPABILITY_IP_ADDRESS'),
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -190,7 +190,7 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
     private function getResponse($privatekey, $remoteip, $response)
     {
         $reCaptcha = new \ReCaptcha\ReCaptcha($privatekey, new HttpBridgePostRequestMethod());
-        $response = $reCaptcha->verify($response, $remoteip);
+        $response  = $reCaptcha->verify($response, $remoteip);
 
         if (!$response->isSuccess()) {
             foreach ($response->getErrorCodes() as $error) {

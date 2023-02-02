@@ -75,7 +75,7 @@ class RequestController extends BaseController
         $this->userIsSuperAdmin = $user->authorise('core.admin');
 
         // Required data
-        $requiredData = array(
+        $requiredData = [
             'sitename'            => null,
             'offline'             => null,
             'access'              => null,
@@ -88,8 +88,8 @@ class RequestController extends BaseController
             'debug_lang'          => null,
             'error_reporting'     => null,
             'mailfrom'            => null,
-            'fromname'            => null
-        );
+            'fromname'            => null,
+        ];
 
         $data = array_intersect_key($data, $requiredData);
 

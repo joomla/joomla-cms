@@ -26,9 +26,9 @@ use Joomla\CMS\Plugin\CMSPlugin;
  */
 class PlgContentLoadmodule extends CMSPlugin
 {
-    protected static $modules = array();
+    protected static $modules = [];
 
-    protected static $mods = array();
+    protected static $mods = [];
 
     /**
      * Plugin that loads module positions within content
@@ -116,8 +116,8 @@ class PlgContentLoadmodule extends CMSPlugin
                     $matchesmodlist[2] = $stylemod;
                 }
 
-                $module = trim($matchesmodlist[0]);
-                $name   = htmlspecialchars_decode(trim($matchesmodlist[1]));
+                $module    = trim($matchesmodlist[0]);
+                $name      = htmlspecialchars_decode(trim($matchesmodlist[1]));
                 $stylemod  = trim($matchesmodlist[2]);
 
                 // $match[0] is full pattern match, $match[1] is the module,$match[2] is the title
@@ -164,10 +164,10 @@ class PlgContentLoadmodule extends CMSPlugin
     protected function _load($position, $style = 'none')
     {
         self::$modules[$position] = '';
-        $document = Factory::getDocument();
-        $renderer = $document->loadRenderer('module');
-        $modules  = ModuleHelper::getModules($position);
-        $params   = array('style' => $style);
+        $document                 = Factory::getDocument();
+        $renderer                 = $document->loadRenderer('module');
+        $modules                  = ModuleHelper::getModules($position);
+        $params                   = ['style' => $style];
         ob_start();
 
         foreach ($modules as $module) {
@@ -194,9 +194,9 @@ class PlgContentLoadmodule extends CMSPlugin
     protected function _loadmod($module, $title, $style = 'none')
     {
         self::$mods[$module] = '';
-        $document = Factory::getDocument();
-        $renderer = $document->loadRenderer('module');
-        $mod      = ModuleHelper::getModule($module, $title);
+        $document            = Factory::getDocument();
+        $renderer            = $document->loadRenderer('module');
+        $mod                 = ModuleHelper::getModule($module, $title);
 
         // If the module without the mod_ isn't found, try it with mod_.
         // This allows people to enter it either way in the content
@@ -205,7 +205,7 @@ class PlgContentLoadmodule extends CMSPlugin
             $mod  = ModuleHelper::getModule($name, $title);
         }
 
-        $params = array('style' => $style);
+        $params = ['style' => $style];
         ob_start();
 
         if ($mod->id) {
@@ -229,10 +229,10 @@ class PlgContentLoadmodule extends CMSPlugin
     protected function _loadid($id)
     {
         self::$modules[$id] = '';
-        $document = Factory::getDocument();
-        $renderer = $document->loadRenderer('module');
-        $modules  = ModuleHelper::getModuleById($id);
-        $params   = array('style' => 'none');
+        $document           = Factory::getDocument();
+        $renderer           = $document->loadRenderer('module');
+        $modules            = ModuleHelper::getModuleById($id);
+        $params             = ['style' => 'none'];
         ob_start();
 
         if ($modules->id > 0) {

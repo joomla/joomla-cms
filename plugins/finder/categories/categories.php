@@ -258,7 +258,7 @@ class PlgFinderCategories extends Adapter
         }
 
         // Extract the extension element
-        $parts = explode('.', $item->extension);
+        $parts             = explode('.', $item->extension);
         $extension_element = $parts[0];
 
         // Check if the extension that owns the category is also enabled.
