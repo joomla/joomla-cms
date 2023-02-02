@@ -11,6 +11,7 @@
 namespace Joomla\Component\Media\Administrator\Event;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
+use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -52,6 +53,11 @@ abstract class AbstractMediaItemValidationEvent extends AbstractImmutableEvent
      */
     protected function validate(\stdClass $item): void
     {
+        // Before any of the following checks we should first check that the php module fileinfo is installed
+        if (!\extension_loaded('fileinfo')) {
+            throw new \BadMethodCallException(TEXT::_('COM_MEDIA_ERROR_FILEINFO'));
+        }
+
         // Only "dir" or "file" is allowed
         if (!isset($item->type) || ($item->type !== 'dir' && $item->type !== 'file')) {
             throw new \BadMethodCallException("Property 'type' of argument 'item' of event {$this->name} has a wrong item. Valid: 'dir' or 'file'");
