@@ -96,7 +96,7 @@ class HtmlView extends BaseHtmlView
         // Get the toolbar object instance
         $toolbar = Toolbar::getInstance('toolbar');
 
-        ToolbarHelper::title(Text::_('Guided Tour - List of Tours'), 'tours');
+        ToolbarHelper::title(Text::_('COM_GUIDEDTOURS_TOURS_LIST'), 'map-signs');
 
         $canDo = ContentHelper::getActions('com_guidedtours');
 

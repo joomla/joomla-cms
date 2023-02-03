@@ -1,3 +1,23 @@
 .subhead .btn {
-    margin: 0px 0px;
+    margin: 0;
+}
+
+.shepherd-title {
+    flex: 1 1 auto;
+}
+
+.shepherd-enabled.shepherd-element[data-popper-placement="bottom"] {
+  margin-top: 12px!important
+}
+
+.shepherd-enabled.shepherd-element[data-popper-placement="left"] {
+  margin-right: 12px!important
+}
+
+.shepherd-enabled.shepherd-element[data-popper-placement="top"] {
+  margin-bottom: 12px!important
+}
+
+.shepherd-enabled.shepherd-element[data-popper-placement="right"] {
+  margin-left: 12px!important
 }

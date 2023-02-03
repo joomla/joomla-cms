@@ -103,22 +103,10 @@ method="post" name="adminForm" id="adminForm">
                             ); ?>
                         </th>
                         <th scope="col">
-                            <?php echo HTMLHelper::_(
-                                'searchtools.sort',
-                                'COM_GUIDEDTOURS_TOUR_TITLE',
-                                'a.title',
-                                $listDirn,
-                                $listOrder
-                            ); ?>
+                            <?php echo Text::_('COM_GUIDEDTOURS_TOUR_TITLE'); ?>
                         </th>
                         <th scope="col">
-                            <?php echo HTMLHelper::_(
-                                'searchtools.sort',
-                                'COM_GUIDEDTOURS_DESCRIPTION',
-                                'a.description',
-                                $listDirn,
-                                $listOrder
-                            ); ?>
+                            <?php echo Text::_('COM_GUIDEDTOURS_DESCRIPTION'); ?>
                         </th>
                         <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                             <?php echo Text::_('COM_GUIDEDTOURS_STEPS'); ?>

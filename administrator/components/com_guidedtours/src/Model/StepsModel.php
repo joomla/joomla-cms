@@ -13,6 +13,7 @@ namespace Joomla\Component\Guidedtours\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -49,6 +50,38 @@ class StepsModel extends ListModel
         }
 
         parent::__construct($config);
+    }
+
+    /**
+     * Provide a query to be used to evaluate if this is an Empty State, can be overridden in the model to provide granular control.
+    *
+    * @return DatabaseQuery
+    *
+    * @since 4.0.0
+    */
+    protected function getEmptyStateQuery()
+    {
+        $query = clone $this->_getListQuery();
+
+        if ($query instanceof DatabaseQuery) {
+            $query->clear('bounded')
+                ->clear('group')
+                ->clear('having')
+                ->clear('join')
+                ->clear('values')
+                ->clear('where');
+
+            // override of ListModel to keep the tour id filter
+            $db = $this->getDbo();
+            $tour_id = $this->getState('filter.tour_id');
+            if ($tour_id) {
+                $tour_id = (int) $tour_id;
+                $query->where($db->quoteName('a.tour_id') . ' = :tour_id')
+                    ->bind(':tour_id', $tour_id, ParameterType::INTEGER);
+            }
+        }
+
+        return $query;
     }
 
     /**
@@ -90,7 +123,7 @@ class StepsModel extends ListModel
             $tour_id = $app->getUserState('com_guidedtours.tour_id');
         }
 
-        $this->setState('tour_id', $tour_id);
+        $this->setState('filter.tour_id', $tour_id);
 
         // Keep the tour_id for adding new visits
         $app->setUserState('com_guidedtours.tour_id', $tour_id);
@@ -165,14 +198,7 @@ class StepsModel extends ListModel
         );
         $query->from('#__guidedtour_steps AS a');
 
-        /**
-         * The tour id should be passed in url or hidden form variables
-         */
-
-        /**
-         *  Filter Tour ID by levels
-         */
-        $tour_id     = $this->getState('filter.tour_id');
+        $tour_id = $this->getState('filter.tour_id');
 
         if (is_numeric($tour_id)) {
             $tour_id = (int) $tour_id;
@@ -239,7 +265,7 @@ class StepsModel extends ListModel
         $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
         if ($items != false) {
-            foreach($items as $item) {
+            foreach ($items as $item) {
                 $item->title = Text::_($item->title);
                 $item->description = Text::_($item->description);
             }
