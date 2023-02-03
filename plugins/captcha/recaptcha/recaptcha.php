@@ -56,11 +56,11 @@ class PlgCaptchaRecaptcha extends CMSPlugin
     {
         $this->loadLanguage();
 
-        return array(
-            Text::_('PLG_CAPTCHA_RECAPTCHA') => array(
+        return [
+            Text::_('PLG_CAPTCHA_RECAPTCHA') => [
                 Text::_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -135,7 +135,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
      */
     public function onCheckAnswer($code = null)
     {
-        $input      = Factory::getApplication()->input;
+        $input      = Factory::getApplication()->getInput();
         $privatekey = $this->params->get('private_key');
         $version    = $this->params->get('version', '2.0');
         $remoteip   = IpHelper::getIp();

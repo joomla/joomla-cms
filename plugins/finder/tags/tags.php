@@ -212,7 +212,7 @@ class PlgFinderTags extends Adapter
         $item->setLanguage();
 
         // Initialize the item parameters.
-        $registry = new Registry($item->params);
+        $registry     = new Registry($item->params);
         $item->params = clone ComponentHelper::getParams('com_tags', true);
         $item->params->merge($registry);
 
@@ -299,7 +299,7 @@ class PlgFinderTags extends Adapter
         $case_when_item_alias .= $query->charLength('a.alias', '!=', '0');
         $case_when_item_alias .= ' THEN ';
         $a_id = $query->castAsChar('a.id');
-        $case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
+        $case_when_item_alias .= $query->concatenate([$a_id, 'a.alias'], ':');
         $case_when_item_alias .= ' ELSE ';
         $case_when_item_alias .= $a_id . ' END as slug';
         $query->select($case_when_item_alias)
