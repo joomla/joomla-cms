@@ -182,14 +182,12 @@ $table-variants: (
 ) !default;
 
 // Forms
+$input-border-color:                  $gray-400 !default;
 $input-padding:                       .6rem 1rem !default;
-$input-border:                        solid 1px $gray-400 !default;
 $input-btn-padding-y:                 .6rem !default;
 $input-btn-padding-x:                 1rem !default;
 $input-max-width:                     100% !default;
 $input-focus-border-color:            tint-color($standard-color-primary, 50%) !default;
-
-$cassiopeia-input-focus-shadow:       0 0 0 .2rem hsla(0, 0%, 0%, .1) !default;
 
 $form-select-indicator-padding:     3rem !default;
 $form-select-bg:                    $gray-200 !default;
