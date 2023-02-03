@@ -20,13 +20,13 @@
 		label="COM_GUIDEDTOURS_POSITION_LABEL"
 		description="COM_GUIDEDTOURS_POSITION_DESC"
 		validate="options"
-		>
+	>
 		<option value="bottom">COM_GUIDEDTOURS_FIELD_OPTION_BOTTOM</option>
 		<option value="top">COM_GUIDEDTOURS_FIELD_OPTION_TOP</option>
 		<option value="right">COM_GUIDEDTOURS_FIELD_OPTION_RIGHT</option>
 		<option value="left">COM_GUIDEDTOURS_FIELD_OPTION_LEFT</option>
 		<option value="">COM_GUIDEDTOURS_FIELD_OPTION_CENTER</option>
-	</field>>
+	</field>
 
 	<field
 		name="target"
@@ -71,7 +71,7 @@
 		default="1"
 		class="form-select-color-state"
 		validate="options"
-		>
+	>
 		<option value="1">JPUBLISHED</option>
 		<option value="0">JUNPUBLISHED</option>
 		<option value="2">JARCHIVED</option>
@@ -85,10 +85,10 @@
 		default="0"
 		description="COM_GUIDEDTOURS_TYPE_DESC"
 		validate="options"
-		>
+	>
 		<option value="0">COM_GUIDEDTOURS_FIELD_VALUE_NEXT_STEP</option>
 		<option value="1">COM_GUIDEDTOURS_FIELD_VALUE_REDIRECT</option>
-		<option value="2">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVE_TOUR</option>
+		<option value="2">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVE_STEP</option>
 	</field>
 
 	<field
@@ -103,15 +103,15 @@
 	<field
 		name="interactive_type"
 		type="list"
-		label="COM_GUIDEDTOURS_TYPE_INTERACTIVE_TOUR_LABEL"
-		description="COM_GUIDEDTOURS_INTERACTIVE_TOUR_DESC"
+		label="COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_LABEL"
+		description="COM_GUIDEDTOURS_INTERACTIVE_STEP_DESC"
 		showon="type:2"
 		filter="string"
 		validate="options"
-		>
-		<option value="1">COM_GUIDEDTOURS_TYPE_INTERACTIVE_TOUR_BUTTON_LABEL</option>
-		<option value="2">COM_GUIDEDTOURS_TYPE_INTERACTIVE_TOUR_TEXT_FIELD_LABEL</option>
-		<option value="3">COM_GUIDEDTOURS_TYPE_INTERACTIVE_TOUR_OTHERS_LABEL</option>
+	>
+		<option value="1">COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_BUTTON_LABEL</option>
+		<option value="2">COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_TEXT_FIELD_LABEL</option>
+		<option value="3">COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_OTHERS_LABEL</option>
 	</field>
 
 	<field
@@ -161,7 +161,7 @@
 		name="language"
 		type="contentlanguage"
 		label="JFIELD_LANGUAGE_LABEL"
-		>
+	>
 		<option value="*">JALL</option>
 	</field>
 

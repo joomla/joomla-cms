@@ -24,7 +24,7 @@ HTMLHelper::_('behavior.keepalive');
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_guidedtours&view=tour&layout=edit&id=' .
-(int) $this->item->id); ?>"method="post" name="adminForm" id="guidedtours-form" class="form-validate">
+    (int) $this->item->id); ?>"method="post" name="adminForm" id="guidedtours-form" class="form-validate">
 
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
@@ -59,20 +59,21 @@ HTMLHelper::_('behavior.keepalive');
                     </div>
                 </fieldset>
             </div>
-            <?php echo HTMLHelper::_('uitab.endTab'); ?>
+        </div>
+        <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-
-            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_GUIDEDTOURS_RULES_TAB')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_GUIDEDTOURS_RULES_TAB')); ?>
+        <div class="row">
             <fieldset id="fieldset-rules" class="options-form">
                 <legend><?php echo Text::_('COM_GUIDEDTOURS_RULES_TAB'); ?></legend>
                 <?php echo $this->form->getInput('rules'); ?>
             </fieldset>
             <?php echo HTMLHelper::_('uitab.endTab'); ?>
-
-
-
             <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
         </div>
-        <input type="hidden" name="task" value="">
-        <?php echo HTMLHelper::_('form.token'); ?>
+
+    </div>
+
+    <input type="hidden" name="task" value="">
+    <?php echo HTMLHelper::_('form.token'); ?>
 </form>

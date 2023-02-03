@@ -38,6 +38,7 @@ class StepsModel extends ListModel
                 'id', 'a.id',
                 'tour_id', 'a.tour_id',
                 'title', 'a.title',
+                'type', 'a.type',
                 'description', 'a.description',
                 'published', 'a.published',
                 'ordering', 'a.ordering',
@@ -208,7 +209,7 @@ class StepsModel extends ListModel
                 $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->where(
                     '(' . $db->quoteName('a.title') . ' LIKE :search1 OR ' . $db->quoteName('a.id') . ' LIKE :search2'
-                        . ' OR ' . $db->quoteName('a.description') . ' LIKE :search3)'
+                    . ' OR ' . $db->quoteName('a.description') . ' LIKE :search3)'
                 )
                     ->bind([':search1', ':search2', ':search3'], $search);
             }

@@ -37,13 +37,13 @@ $tour_id = $this->state->get('tour_id');
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_guidedtours&step=steps.saveOrderAjax&tmpl=component&' .
-    Session::getFormToken() . '=1';
+        Session::getFormToken() . '=1';
     HTMLHelper::_('draggablelist.draggable');
 }
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_guidedtours&view=steps&tour_id=' . $tour_id); ?>"
- method="post" name="adminForm" id="adminForm">
+      method="post" name="adminForm" id="adminForm">
     <div id="j-main-container" class="j-main-container">
         <?php
         // Search tools bar
@@ -75,149 +75,167 @@ if ($saveOrder && !empty($this->items)) {
 
                 <!-- Steps table header -->
                 <thead>
-                    <tr>
-                        <td class="d-none d-md-table-cell text-center">
-                            <?php echo HTMLHelper::_('grid.checkall'); ?>
-                        </td>
-                        <!-- Ordering?-->
-                        <th scope="col" class="w-3 text-center d-none d-md-table-cell">
-                            <?php echo HTMLHelper::_(
-                                'searchtools.sort',
-                                '',
-                                'a.ordering',
-                                $listDirn,
-                                $listOrder,
-                                null,
-                                'asc',
-                                'JGRID_HEADING_ORDERING',
-                                'icon-sort'
-                            ); ?>
-                        </th>
-                        <th scope="col" class="w-3 text-center d-none d-md-table-cell">
-                            <?php echo HTMLHelper::_(
-                                'searchtools.sort',
-                                'COM_GUIDEDTOURS_STATUS',
-                                'a.published',
-                                $listDirn,
-                                $listOrder
-                            ); ?>
-                        </th>
-                        <th scope="col">
-                            <?php echo HTMLHelper::_(
-                                'searchtools.sort',
-                                'COM_GUIDEDTOURS_STEP_TITLE',
-                                'a.title',
-                                $listDirn,
-                                $listOrder
-                            ); ?>
-                        </th>
-                        <th scope="col">
-                            <?php echo HTMLHelper::_(
-                                'searchtools.sort',
-                                'COM_GUIDEDTOURS_DESCRIPTION',
-                                'a.description',
-                                $listDirn,
-                                $listOrder
-                            ); ?>
-                        </th>
-                        <th scope="col" class="w-10 text-center d-none d-md-table-cell">
-                            <?php echo HTMLHelper::_(
-                                'searchtools.sort',
-                                'COM_GUIDEDTOURS_STEP_ID',
-                                'a.id',
-                                $listDirn,
-                                $listOrder
-                            ); ?>
-                        </th>
-                    </tr>
+                <tr>
+                    <td class="d-none d-md-table-cell text-center">
+                        <?php echo HTMLHelper::_('grid.checkall'); ?>
+                    </td>
+                    <!-- Ordering?-->
+                    <th scope="col" class="w-3 text-center d-none d-md-table-cell">
+                        <?php echo HTMLHelper::_(
+                            'searchtools.sort',
+                            '',
+                            'a.ordering',
+                            $listDirn,
+                            $listOrder,
+                            null,
+                            'asc',
+                            'JGRID_HEADING_ORDERING',
+                            'icon-sort'
+                        ); ?>
+                    </th>
+                    <th scope="col" class="w-3 text-center d-none d-md-table-cell">
+                        <?php echo HTMLHelper::_(
+                            'searchtools.sort',
+                            'COM_GUIDEDTOURS_STATUS',
+                            'a.published',
+                            $listDirn,
+                            $listOrder
+                        ); ?>
+                    </th>
+                    <th scope="col">
+                        <?php echo HTMLHelper::_(
+                            'searchtools.sort',
+                            'COM_GUIDEDTOURS_STEP_TITLE',
+                            'a.title',
+                            $listDirn,
+                            $listOrder
+                        ); ?>
+                    </th>
+                    <th scope="col">
+                        <?php echo HTMLHelper::_(
+                            'searchtools.sort',
+                            'COM_GUIDEDTOURS_DESCRIPTION',
+                            'a.description',
+                            $listDirn,
+                            $listOrder
+                        ); ?>
+                    </th>
+                    <th scope="col">
+                        <?php echo HTMLHelper::_(
+                            'searchtools.sort',
+                            'COM_GUIDEDTOURS_STEP_TYPE',
+                            'a.type',
+                            $listDirn,
+                            $listOrder
+                        ); ?>
+                    </th>
+
+                    <th scope="col" class="w-10 text-center d-none d-md-table-cell">
+                        <?php echo HTMLHelper::_(
+                            'searchtools.sort',
+                            'COM_GUIDEDTOURS_STEP_ID',
+                            'a.id',
+                            $listDirn,
+                            $listOrder
+                        ); ?>
+                    </th>
+                </tr>
                 </thead>
 
                 <!-- Table body begins -->
                 <tbody <?php if ($saveOrder) :
-                    ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="
+                ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="
                     <?php echo strtolower($listDirn); ?>" data-nested="true" <?php
-                       endif; ?>>
-                    <?php
-                    foreach ($this->items as $i => $item) :
-                        $canCreate = $user->authorise('core.create', 'com_guidedtours');
-                        $canEdit = $user->authorise('core.edit', 'com_guidedtours');
-                        $canChange = $user->authorise('core.edit.state', 'com_guidedtours');
-                        ?>
+                endif; ?>
+                <?php foreach ($this->items as $i => $item) :
+                    $canCreate = $user->authorise('core.create', 'com_guidedtours');
+                    $canEdit = $user->authorise('core.edit', 'com_guidedtours');
+                    $canChange = $user->authorise('core.edit.state', 'com_guidedtours');
+                    ?>
 
-                        <!-- Row begins -->
-                        <tr class="row<?php echo $i % 2; ?>" data-draggable-group="none">
-                            <!-- Item Checkbox -->
-                            <td class="text-center">
-                                <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
-                            </td>
+                    <!-- Row begins -->
+                    <tr class="row<?php echo $i % 2; ?>" data-draggable-group="none">
+                        <!-- Item Checkbox -->
+                        <td class="text-center">
+                            <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
+                        </td>
 
-                            <!-- Draggable handle -->
-                            <td class="text-center d-none d-md-table-cell">
-                                <?php
-                                $iconClass = '';
+                        <!-- Draggable handle -->
+                        <td class="text-center d-none d-md-table-cell">
+                            <?php
+                            $iconClass = '';
 
-                                if (!$canChange) {
-                                    $iconClass = ' inactive';
-                                } elseif (!$saveOrder) {
-                                    $iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
-                                }
-                                ?>
+                            if (!$canChange) {
+                                $iconClass = ' inactive';
+                            } elseif (!$saveOrder) {
+                                $iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
+                            }
+                            ?>
 
-                                <span class="sortable-handler <?php echo $iconClass ?>">
+                            <span class="sortable-handler <?php echo $iconClass ?>">
                                     <span class="icon-ellipsis-v"></span>
                                 </span>
 
-                                <?php if ($canChange && $saveOrder) :
-                                    ?>
-                                    <input type="text" class="hidden text-area-order" name="order[]" size="5"
-                                    value="<?php echo $item->ordering; ?>">
-                                <?php endif; ?>
-                            </td>
+                            <?php if ($canChange && $saveOrder) :
+                                ?>
+                                <input type="text" class="hidden text-area-order" name="order[]" size="5"
+                                       value="<?php echo $item->ordering; ?>">
+                            <?php endif; ?>
+                        </td>
 
-                            <!-- Step State -->
-                            <td class="text-center">
-                                <?php echo HTMLHelper::_(
-                                    'jgrid.published',
-                                    $item->published,
-                                    $i,
-                                    'steps.',
-                                    $canChange
-                                ); ?>
-                            </td>
+                        <!-- Step State -->
+                        <td class="text-center">
+                            <?php echo HTMLHelper::_(
+                                'jgrid.published',
+                                $item->published,
+                                $i,
+                                'steps.',
+                                $canChange
+                            ); ?>
+                        </td>
 
-                            <!-- Step name, edit link, and note (@todo: should it be moved?) -->
-                            <th scope="row">
-                                <?php if ($canEdit) :
-                                    ?>
-                                    <a href="<?php echo Route::_('index.php?option=com_guidedtours&task=step.edit&id=' .
+                        <!-- Step name, edit link, and note (@todo: should it be moved?) -->
+                        <th scope="row">
+                            <?php if ($canEdit) :
+                                ?>
+                                <a href="<?php echo Route::_('index.php?option=com_guidedtours&task=step.edit&id=' .
                                     $item->id); ?> " title="<?php echo Text::_('JACTION_EDIT'); ?>
-                                    <?php echo $this->escape($item->title); ?>"> 
+                                    <?php echo $this->escape($item->title); ?>">
                                     <?php echo $this->escape($item->title); ?> </a>
-                                <?php else :
-                                    ?>
-                                    <?php echo $this->escape($item->title); ?>
+                            <?php else :
+                                ?>
+                                <?php echo $this->escape($item->title); ?>
+                            <?php endif; ?>
+
+                            <span class="small">
+                                <?php if ($item->note) : ?>
+                                    <?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
                                 <?php endif; ?>
+                            </span>
+                        </th>
+                        <td class="">
+                            <?php echo $item->description; ?>
+                        </td>
 
-                                <span class="small">
-                                    <?php if (empty($item->note)) :
-                                        ?>
-                                        <?php echo Text::_('COM_GUIDEDTOURS_NO_NOTE'); ?>
-                                    <?php else :
-                                        ?>
-                                        <?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
-                                    <?php endif; ?>
-                                </span>
-                            </th>
-                            <td class="">
-                                <?php echo $item->description; ?>
-                            </td>
+                        <!-- Step Type -->
+                        <td class="text-center">
+                            <?php
+                            if ($item->type == 0) {
+                                echo Text::_('COM_GUIDEDTOURS_STEP_TYPE_NEXT_STEP');
+                            } elseif ($item->type == 1) {
+                                echo Text::_('COM_GUIDEDTOURS_STEP_TYPE_REDIRECT');
+                            } else {
+                                echo Text::_('COM_GUIDEDTOURS_STEP_TYPE_INTERACTIVE_STEP');
+                            }
+                            ?>
+                        </td>
 
-                            <!-- Step ID -->
-                            <td class="d-none d-md-table-cell text-center">
-                                <?php echo (int) $item->id; ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
+                        <!-- Step ID -->
+                        <td class="d-none d-md-table-cell text-center">
+                            <?php echo (int) $item->id; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
                 </tbody>
             </table>
 

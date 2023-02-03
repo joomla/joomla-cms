@@ -13,7 +13,7 @@
 			type="status"
 			label="JOPTION_SELECT_PUBLISHED"
 			onchange="this.form.submit();"
-			>
+		>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 	</fields>
@@ -26,7 +26,7 @@
 			onchange="this.form.submit();"
 			default="a.title DESC"
 			validate="options"
-			>
+		>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
@@ -36,6 +36,8 @@
 			<option value="a.description DESC">JDESCRIPTION_DESC</option>
 			<option value="a.state ASC">JSTATUS_ASC</option>
 			<option value="a.state DESC">JSTATUS_DESC</option>
+			<option value="a.type ASC">JTYPE_ASC</option>
+			<option value="a.type DESC">JTYPE_DESC</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
 			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
 		</field>
