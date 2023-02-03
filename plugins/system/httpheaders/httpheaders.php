@@ -70,6 +70,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
         'cross-origin-opener-policy',
         'report-to',
         'permissions-policy',
+        'nel',
     ];
 
     /**
