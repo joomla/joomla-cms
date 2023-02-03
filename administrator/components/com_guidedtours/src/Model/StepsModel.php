@@ -11,6 +11,7 @@
 namespace Joomla\Component\Guidedtours\Administrator\Model;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -220,5 +221,29 @@ class StepsModel extends ListModel
         $query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 
         return $query;
+    }
+
+    /**
+     * Method to get an array of data items.
+     *
+     * @return  mixed  An array of data items on success, false on failure.
+     *
+     * @since   1.6
+     */
+    public function getItems()
+    {
+        $items = parent::getItems();
+
+        $lang = Factory::getLanguage();
+        $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
+
+        if ($items != false) {
+            foreach($items as $item) {
+                $item->title = Text::_($item->title);
+                $item->description = Text::_($item->description);
+            }
+        }
+
+        return $items;
     }
 }

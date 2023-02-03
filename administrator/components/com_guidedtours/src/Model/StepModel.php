@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 use Joomla\String\StringHelper;
 
@@ -385,5 +386,27 @@ class StepModel extends AdminModel
         }
 
         return $data;
+    }
+
+    /**
+     * Method to get a single record.
+     *
+     * @param   integer  $pk  The id of the primary key.
+     *
+     * @return  CMSObject|boolean  Object on success, false on failure.
+     *
+     * @since   1.6
+     */
+    public function getItem($pk = null)
+    {
+        $lang = Factory::getLanguage();
+        $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
+
+        if ($result = parent::getItem($pk)) {
+            $result->title = Text::_($result->title);
+            $result->description = Text::_($result->description);
+        }
+
+        return $result;
     }
 }
