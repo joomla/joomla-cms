@@ -5,7 +5,7 @@
 		type="itemtype"
 		label="COM_ASSOCIATIONS_FILTER_SELECT_ITEM"
 		filtermode="selector"
-		onchange="Joomla.resetFilters(this)"
+		class="js-select-reset-on-change"
 		>
 		<option value="">COM_ASSOCIATIONS_FILTER_SELECT_ITEM_TYPE</option>
 	</field>

@@ -5,7 +5,7 @@
 		type="list"
 		label="JSITEADMIN"
 		filtermode="selector"
-		onchange="Joomla.resetFilters(this)"
+		class="js-select-reset-on-change"
 		validate="options"
 		>
 		<option value="0">JSITE</option>
