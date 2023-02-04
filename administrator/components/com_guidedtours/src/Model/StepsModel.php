@@ -57,7 +57,7 @@ class StepsModel extends ListModel
     *
     * @return DatabaseQuery
     *
-    * @since 4.0.0
+    * @since __DEPLOY_VERSION__
     */
     protected function getEmptyStateQuery()
     {
