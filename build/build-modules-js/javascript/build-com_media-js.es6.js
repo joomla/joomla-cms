@@ -1,5 +1,5 @@
 const { resolve } = require('path');
-const { copyFile } = require('fs').promises;
+const { writeFile, copyFile, rm } = require('fs').promises;
 const { existsSync, rm } = require('fs');
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
