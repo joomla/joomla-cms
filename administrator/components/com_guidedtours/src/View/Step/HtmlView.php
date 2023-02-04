@@ -140,10 +140,10 @@ class HtmlView extends BaseHtmlView
                 'btn-success'
             );
 
-                    ToolbarHelper::cancel(
-                        'step.cancel',
-                        'JTOOLBAR_CLOSE'
-                    );
+            ToolbarHelper::cancel(
+                'step.cancel',
+                'JTOOLBAR_CLOSE'
+            );
         }
     }
 }
