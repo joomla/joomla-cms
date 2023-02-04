@@ -104,9 +104,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 </td>
                                 <th scope="row">
                                     <span tabindex="0"><?php echo $item->name; ?></span>
-                                    <div role="tooltip" id="tip<?php echo $i; ?>">
-                                        <?php echo $item->description; ?>
-                                    </div>
+                                    <?php if ($item->description) : ?>
+                                        <div role="tooltip" id="tip<?php echo $i; ?>">
+                                            <?php echo $item->description; ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </th>
                                 <td class="d-none d-md-table-cell">
                                     <?php echo $item->client_translated; ?>

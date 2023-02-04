@@ -97,7 +97,7 @@ class MethodModel extends BaseDatabaseModel
         $renderOptions = new SetupRenderOptions();
 
         $event    = new GetSetup($this->getRecord($user));
-        $results = Factory::getApplication()
+        $results  = Factory::getApplication()
             ->getDispatcher()
             ->dispatch($event->getName(), $event)
             ->getArgument('result', []);

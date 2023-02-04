@@ -167,7 +167,7 @@ class TagTable extends Nested implements VersionableTableInterface
         if ($this->id) {
             // Existing item
             $this->modified_user_id = $user->get('id');
-            $this->modified_time = $date->toSql();
+            $this->modified_time    = $date->toSql();
         } else {
             // New tag. A tag created and created_by field can be set by the user,
             // so we don't touch either of these if they are set.

@@ -114,7 +114,7 @@ class MenusController extends BaseController
      */
     public function resync()
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true);
         $parts = null;
 
@@ -146,7 +146,7 @@ class MenusController extends BaseController
         )
             ->from($db->quoteName('#__menu'))
             ->where($db->quoteName('type') . ' = ' . $db->quote('component.item'));
-            $db->setQuery($query);
+        $db->setQuery($query);
 
         try {
             $items = $db->loadObjectList();

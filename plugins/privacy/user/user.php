@@ -95,7 +95,7 @@ class PlgPrivacyUser extends PrivacyPlugin
         $userTable = User::getTable();
         $userTable->load($user->id);
 
-        $domains = [];
+        $domains   = [];
         $domains[] = $this->createUserDomain($userTable);
         $domains[] = $this->createNotesDomain($userTable);
         $domains[] = $this->createProfileDomain($userTable);
@@ -124,10 +124,10 @@ class PlgPrivacyUser extends PrivacyPlugin
         }
 
         $pseudoanonymisedData = [
-            'name'      => 'User ID ' . $user->id,
-            'username'  => bin2hex(random_bytes(12)),
-            'email'     => 'UserID' . $user->id . 'removed@email.invalid',
-            'block'     => true,
+            'name'     => 'User ID ' . $user->id,
+            'username' => bin2hex(random_bytes(12)),
+            'email'    => 'UserID' . $user->id . 'removed@email.invalid',
+            'block'    => true,
         ];
 
         $user->bind($pseudoanonymisedData);

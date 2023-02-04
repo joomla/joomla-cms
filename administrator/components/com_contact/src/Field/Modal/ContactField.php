@@ -100,8 +100,8 @@ class ContactField extends FormField
 
         if (isset($this->element['language'])) {
             $linkContacts .= '&amp;forcedLanguage=' . $this->element['language'];
-            $linkContact   .= '&amp;forcedLanguage=' . $this->element['language'];
-            $modalTitle     .= ' &#8212; ' . $this->element['label'];
+            $linkContact .= '&amp;forcedLanguage=' . $this->element['language'];
+            $modalTitle .= ' &#8212; ' . $this->element['label'];
         }
 
         $urlSelect = $linkContacts . '&amp;function=jSelectContact_' . $this->id;
@@ -185,7 +185,7 @@ class ContactField extends FormField
         // Propagate contact button
         if ($allowPropagate && count($languages) > 2) {
             // Strip off language tag at the end
-            $tagLength = (int) strlen($this->element['language']);
+            $tagLength            = (int) strlen($this->element['language']);
             $callbackFunctionStem = substr("jSelectContact_" . $this->id, 0, -$tagLength);
 
             $html .= '<button'
@@ -208,13 +208,13 @@ class ContactField extends FormField
                 'bootstrap.renderModal',
                 'ModalSelect' . $modalId,
                 [
-                    'title'       => $modalTitle,
-                    'url'         => $urlSelect,
-                    'height'      => '400px',
-                    'width'       => '800px',
-                    'bodyHeight'  => 70,
-                    'modalWidth'  => 80,
-                    'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+                    'title'      => $modalTitle,
+                    'url'        => $urlSelect,
+                    'height'     => '400px',
+                    'width'      => '800px',
+                    'bodyHeight' => 70,
+                    'modalWidth' => 80,
+                    'footer'     => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
                                         . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
                 ]
             );

@@ -173,7 +173,7 @@ class Captcha implements DispatcherAwareInterface
             return false;
         }
 
-        $arg = ['code'  => $code];
+        $arg = ['code' => $code];
 
         $result = $this->update('onCheckAnswer', $arg);
 
@@ -196,7 +196,7 @@ class Captcha implements DispatcherAwareInterface
         }
 
         $arg = [
-            'field' => $field,
+            'field'   => $field,
             'element' => $element,
         ];
 
@@ -256,13 +256,13 @@ class Captcha implements DispatcherAwareInterface
 
         // Check for already loaded params
         if (!($plugin->params instanceof Registry)) {
-            $params = new Registry($plugin->params);
+            $params         = new Registry($plugin->params);
             $plugin->params = $params;
         }
 
         // Build captcha plugin classname
-        $name = 'PlgCaptcha' . $this->name;
+        $name           = 'PlgCaptcha' . $this->name;
         $dispatcher     = $this->getDispatcher();
-        $this->captcha = new $name($dispatcher, (array) $plugin, $options);
+        $this->captcha  = new $name($dispatcher, (array) $plugin, $options);
     }
 }

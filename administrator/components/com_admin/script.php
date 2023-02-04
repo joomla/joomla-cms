@@ -307,10 +307,10 @@ class JoomlaInstallerScript
                          * for each of the sub fields of the `repeatable` instance.
                          */
                         $data = [
-                            'context'             => $row->context,
-                            'group_id'            => $row->group_id,
-                            'title'               => $oldField->fieldname,
-                            'name'                => (
+                            'context'  => $row->context,
+                            'group_id' => $row->group_id,
+                            'title'    => $oldField->fieldname,
+                            'name'     => (
                                 $fieldname_prefix
                                 . $oldField->fieldname
                                 . ($fieldname_suffix > 0 ? ('_' . $fieldname_suffix) : '')
@@ -6508,6 +6508,25 @@ class JoomlaInstallerScript
             '/plugins/editors-xtd/module/module.php',
             '/plugins/editors-xtd/readmore/readmore.php',
             '/plugins/editors/tinymce/tinymce.php',
+            // From 4.3.0-alpha3 to 4.3.0-beta1
+            '/plugins/editors/codemirror/codemirror.php',
+            '/plugins/editors/none/none.php',
+            '/plugins/fields/calendar/calendar.php',
+            '/plugins/fields/checkboxes/checkboxes.php',
+            '/plugins/fields/color/color.php',
+            '/plugins/fields/editor/editor.php',
+            '/plugins/fields/imagelist/imagelist.php',
+            '/plugins/fields/integer/integer.php',
+            '/plugins/fields/list/list.php',
+            '/plugins/fields/media/media.php',
+            '/plugins/fields/radio/radio.php',
+            '/plugins/fields/sql/sql.php',
+            '/plugins/fields/subform/subform.php',
+            '/plugins/fields/text/text.php',
+            '/plugins/fields/textarea/textarea.php',
+            '/plugins/fields/url/url.php',
+            '/plugins/fields/user/user.php',
+            '/plugins/fields/usergrouplist/usergrouplist.php',
         ];
 
         $folders = [
@@ -7886,7 +7905,7 @@ class JoomlaInstallerScript
             '/libraries/vendor/paragonie/sodium_compat/dist',
         ];
 
-        $status['files_checked'] = $files;
+        $status['files_checked']   = $files;
         $status['folders_checked'] = $folders;
 
         foreach ($files as $file) {
@@ -8351,7 +8370,7 @@ class JoomlaInstallerScript
                 'client_id'         => 1,
                 'publish_up'        => null,
                 'publish_down'      => null,
-            ]
+            ],
         ];
 
         return $menuItems;
@@ -8510,7 +8529,7 @@ class JoomlaInstallerScript
                 'client_id'         => 1,
                 'publish_up'        => null,
                 'publish_down'      => null,
-            ]
+            ],
         ];
 
         return $menuItems;
@@ -8543,7 +8562,7 @@ class JoomlaInstallerScript
         ];
 
         // Get table definitions.
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -8612,7 +8631,7 @@ class JoomlaInstallerScript
         $files = [
             // 3.10 changes
             '/libraries/src/Filesystem/Support/Stringcontroller.php' => '/libraries/src/Filesystem/Support/StringController.php',
-            '/libraries/src/Form/Rule/SubFormRule.php' => '/libraries/src/Form/Rule/SubformRule.php',
+            '/libraries/src/Form/Rule/SubFormRule.php'               => '/libraries/src/Form/Rule/SubformRule.php',
             // 4.0.0
             '/media/vendor/skipto/js/skipTo.js' => '/media/vendor/skipto/js/skipto.js',
         ];
@@ -8668,14 +8687,14 @@ class JoomlaInstallerScript
     protected function moveRemainingTemplateFiles()
     {
         $folders = [
-            '/administrator/templates/atum/css' => '/media/templates/administrator/atum/css',
+            '/administrator/templates/atum/css'    => '/media/templates/administrator/atum/css',
             '/administrator/templates/atum/images' => '/media/templates/administrator/atum/images',
-            '/administrator/templates/atum/js' => '/media/templates/administrator/atum/js',
-            '/administrator/templates/atum/scss' => '/media/templates/administrator/atum/scss',
-            '/templates/cassiopeia/css' => '/media/templates/site/cassiopeia/css',
-            '/templates/cassiopeia/images' => '/media/templates/site/cassiopeia/images',
-            '/templates/cassiopeia/js' => '/media/templates/site/cassiopeia/js',
-            '/templates/cassiopeia/scss' => '/media/templates/site/cassiopeia/scss',
+            '/administrator/templates/atum/js'     => '/media/templates/administrator/atum/js',
+            '/administrator/templates/atum/scss'   => '/media/templates/administrator/atum/scss',
+            '/templates/cassiopeia/css'            => '/media/templates/site/cassiopeia/css',
+            '/templates/cassiopeia/images'         => '/media/templates/site/cassiopeia/images',
+            '/templates/cassiopeia/js'             => '/media/templates/site/cassiopeia/js',
+            '/templates/cassiopeia/scss'           => '/media/templates/site/cassiopeia/scss',
         ];
 
         foreach ($folders as $oldFolder => $newFolder) {

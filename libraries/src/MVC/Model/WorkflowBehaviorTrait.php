@@ -177,7 +177,7 @@ trait WorkflowBehaviorTrait
     {
         // Regardless if workflow is active or not, we have to set the default stage
         // So we can work with the workflow, when the user activates it later
-        $id = $this->getState($this->getName() . '.id');
+        $id    = $this->getState($this->getName() . '.id');
         $isNew = $this->getState($this->getName() . '.new');
 
         // We save the first stage

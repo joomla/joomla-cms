@@ -113,12 +113,12 @@ class MeterField extends FormField
                 break;
 
             case 'active':
-                $value = (string) $value;
+                $value        = (string) $value;
                 $this->active = ($value === 'true' || $value === $name || $value === '1');
                 break;
 
             case 'animated':
-                $value = (string) $value;
+                $value          = (string) $value;
                 $this->animated = !($value === 'false' || $value === 'off' || $value === '0');
                 break;
 

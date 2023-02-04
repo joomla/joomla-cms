@@ -60,7 +60,7 @@ class UserModel extends AdminModel
                 'event_after_save'    => 'onUserAfterSave',
                 'event_before_delete' => 'onUserBeforeDelete',
                 'event_before_save'   => 'onUserBeforeSave',
-                'events_map'          => ['save' => 'user', 'delete' => 'user', 'validate' => 'user']
+                'events_map'          => ['save' => 'user', 'delete' => 'user', 'validate' => 'user'],
             ],
             $config
         );
@@ -968,7 +968,7 @@ class UserModel extends AdminModel
         return (object) [
             'method' => 'none',
             'config' => [],
-            'otep'   => []
+            'otep'   => [],
         ];
     }
 

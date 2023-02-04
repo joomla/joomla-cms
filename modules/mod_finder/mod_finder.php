@@ -24,7 +24,7 @@ $cparams = ComponentHelper::getParams('com_finder');
 // Check for OpenSearch
 if ($params->get('opensearch', $cparams->get('opensearch', 1))) {
     $defaultTitle = Text::_('MOD_FINDER_OPENSEARCH_NAME') . ' ' . $app->get('sitename');
-    $ostitle = $params->get('opensearch_name', $cparams->get('opensearch_name', $defaultTitle));
+    $ostitle      = $params->get('opensearch_name', $cparams->get('opensearch_name', $defaultTitle));
     $app->getDocument()->addHeadLink(
         Uri::getInstance()->toString(['scheme', 'host', 'port']) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
         'search',

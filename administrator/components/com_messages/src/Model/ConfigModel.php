@@ -63,7 +63,7 @@ class ConfigModel extends FormModel
         $item   = new CMSObject();
         $userid = (int) $this->getState('user.id');
 
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
         $query->select(
             [

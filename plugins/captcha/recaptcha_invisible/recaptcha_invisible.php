@@ -190,7 +190,7 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
     private function getResponse($privatekey, $remoteip, $response)
     {
         $reCaptcha = new \ReCaptcha\ReCaptcha($privatekey, new HttpBridgePostRequestMethod());
-        $response = $reCaptcha->verify($response, $remoteip);
+        $response  = $reCaptcha->verify($response, $remoteip);
 
         if (!$response->isSuccess()) {
             foreach ($response->getErrorCodes() as $error) {

@@ -50,13 +50,13 @@ class RouteHelper extends CMSRouteHelper
      */
     public static function getItemRoute($contentItemId, $contentItemAlias, $contentCatId, $language, $typeAlias, $routerName)
     {
-        $link = '';
-        $explodedAlias = explode('.', $typeAlias);
+        $link           = '';
+        $explodedAlias  = explode('.', $typeAlias);
         $explodedRouter = explode('::', $routerName);
 
         if (file_exists($routerFile = JPATH_BASE . '/components/' . $explodedAlias[0] . '/helpers/route.php')) {
             \JLoader::register($explodedRouter[0], $routerFile);
-            $routerClass = $explodedRouter[0];
+            $routerClass  = $explodedRouter[0];
             $routerMethod = $explodedRouter[1];
 
             if (class_exists($routerClass) && method_exists($routerClass, $routerMethod)) {
@@ -71,7 +71,7 @@ class RouteHelper extends CMSRouteHelper
         if ($link === '') {
             // Create a fallback link in case we can't find the component router
             $router = new CMSRouteHelper();
-            $link = $router->getRoute($contentItemId, $typeAlias, $link, $language, $contentCatId);
+            $link   = $router->getRoute($contentItemId, $typeAlias, $link, $language, $contentCatId);
         }
 
         return $link;

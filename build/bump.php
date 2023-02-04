@@ -288,7 +288,7 @@ foreach ($iterator as $file) {
             // Check if need to change the since version.
             if ($relativePath !== '/build/bump.php' && preg_match('#__DEPLOY_VERSION__#', $fileContents)) {
                 $changeSinceVersion = true;
-                $fileContents = preg_replace('#__DEPLOY_VERSION__#', $version['release'], $fileContents);
+                $fileContents       = preg_replace('#__DEPLOY_VERSION__#', $version['release'], $fileContents);
                 $changedFilesSinceVersion++;
             }
 

@@ -146,7 +146,7 @@ trait DisplayTrait
 
         // Get configuration depend from User group
         foreach ($extraOptionsAll as $set => $val) {
-            $val = (object) $val;
+            $val         = (object) $val;
             $val->access = empty($val->access) ? [] : $val->access;
 
             // Check whether User in one of allowed group
@@ -412,24 +412,24 @@ trait DisplayTrait
         $scriptOptions   = array_merge(
             $scriptOptions,
             [
-                'deprecation_warnings' => JDEBUG ? true : false,
-                'suffix'   => JDEBUG ? '' : '.min',
-                'baseURL'  => Uri::root(true) . '/media/vendor/tinymce',
-                'directionality' => $language->isRtl() ? 'rtl' : 'ltr',
-                'language' => $langPrefix,
+                'deprecation_warnings'        => JDEBUG ? true : false,
+                'suffix'                      => JDEBUG ? '' : '.min',
+                'baseURL'                     => Uri::root(true) . '/media/vendor/tinymce',
+                'directionality'              => $language->isRtl() ? 'rtl' : 'ltr',
+                'language'                    => $langPrefix,
                 'autosave_restore_when_empty' => false,
-                'skin'     => $skin,
-                'theme'    => $theme,
-                'schema'   => 'html5',
+                'skin'                        => $skin,
+                'theme'                       => $theme,
+                'schema'                      => 'html5',
 
                 // Prevent cursor from getting stuck in blocks when nested or at end of document.
                 'end_container_on_empty_block' => true,
 
                 // Toolbars
-                'menubar'  => empty($menubar)  ? false : implode(' ', array_unique($menubar)),
-                'toolbar' => empty($toolbar) ? null  : 'jxtdbuttons ' . implode(' ', $toolbar),
+                'menubar' => empty($menubar) ? false : implode(' ', array_unique($menubar)),
+                'toolbar' => empty($toolbar) ? null : 'jxtdbuttons ' . implode(' ', $toolbar),
 
-                'plugins'  => implode(',', array_unique($plugins)),
+                'plugins' => implode(',', array_unique($plugins)),
 
                 // Quickbars
                 'quickbars_image_toolbar'     => false,
@@ -451,22 +451,22 @@ trait DisplayTrait
                 'remove_script_host' => false,
 
                 // Drag and drop Images always FALSE, reverting this allows for inlining the images
-                'paste_data_images'  => false,
+                'paste_data_images' => false,
 
                 // Layout
-                'content_css'        => $content_css,
-                'document_base_url'  => Uri::root(true) . '/',
-                'image_caption'      => true,
-                'importcss_append'   => true,
-                'height'             => $this->params->get('html_height', '550px'),
-                'width'              => $this->params->get('html_width', ''),
-                'elementpath'        => (bool) $levelParams->get('element_path', true),
-                'resize'             => $resizing,
-                'templates'          => $templates,
-                'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
-                'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
-                'toolbar_sticky'     => true,
-                'toolbar_mode'       => $levelParams->get('toolbar_mode', 'sliding'),
+                'content_css'       => $content_css,
+                'document_base_url' => Uri::root(true) . '/',
+                'image_caption'     => true,
+                'importcss_append'  => true,
+                'height'            => $this->params->get('html_height', '550px'),
+                'width'             => $this->params->get('html_width', ''),
+                'elementpath'       => (bool) $levelParams->get('element_path', true),
+                'resize'            => $resizing,
+                'templates'         => $templates,
+                'external_plugins'  => empty($externalPlugins) ? null : $externalPlugins,
+                'contextmenu'       => (bool) $levelParams->get('contextmenu', true) ? null : false,
+                'toolbar_sticky'    => true,
+                'toolbar_mode'      => $levelParams->get('toolbar_mode', 'sliding'),
 
                 // Image plugin options
                 'a11y_advanced_options' => true,
@@ -477,7 +477,7 @@ trait DisplayTrait
                 'dndEnabled' => $dragdrop,
 
                 // Disable TinyMCE Branding
-                'branding'   => false,
+                'branding' => false,
             ]
         );
 

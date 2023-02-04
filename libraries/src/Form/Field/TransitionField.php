@@ -97,8 +97,8 @@ class TransitionField extends GroupedlistField
         $jinput = Factory::getApplication()->getInput();
 
         // Initialise variable.
-        $db = $this->getDatabase();
-        $extension = $this->extension;
+        $db            = $this->getDatabase();
+        $extension     = $this->extension;
         $workflowStage = (int) $this->workflowStage;
 
         $query = $db->getQuery(true)
@@ -161,8 +161,7 @@ class TransitionField extends GroupedlistField
 
         $workflowName = $db->setQuery($query)->loadResult();
 
-        $default = [[
-            HTMLHelper::_('select.option', '', Text::_($workflowName))]];
+        $default = [[HTMLHelper::_('select.option', '', Text::_($workflowName))]];
 
         $groups = parent::getGroups();
 
