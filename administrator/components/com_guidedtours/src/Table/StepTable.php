@@ -52,7 +52,6 @@ class StepTable extends Table
      *
      * @see   Table::store()
      * @since __DEPLOY_VERSION__
-     * @since __DEPLOY_VERSION__
      */
     public function store($updateNulls = true)
     {
