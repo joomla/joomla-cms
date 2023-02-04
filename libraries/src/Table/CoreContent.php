@@ -113,8 +113,8 @@ class CoreContent extends Table
             && $this->core_publish_down > $this->_db->getNullDate()
         ) {
             // Swap the dates.
-            $temp = $this->core_publish_up;
-            $this->core_publish_up = $this->core_publish_down;
+            $temp                    = $this->core_publish_up;
+            $this->core_publish_up   = $this->core_publish_down;
             $this->core_publish_down = $temp;
         }
 
@@ -124,7 +124,7 @@ class CoreContent extends Table
             // Only process if not empty
 
             // Array of characters to remove
-            $bad_characters = array("\n", "\r", "\"", '<', '>');
+            $bad_characters = ["\n", "\r", "\"", '<', '>'];
 
             // Remove bad characters
             $after_clean = StringHelper::str_ireplace($bad_characters, '', $this->core_metakey);
@@ -132,7 +132,7 @@ class CoreContent extends Table
             // Create array using commas as delimiter
             $keys = explode(',', $after_clean);
 
-            $clean_keys = array();
+            $clean_keys = [];
 
             foreach ($keys as $key) {
                 if (trim($key)) {
@@ -160,7 +160,7 @@ class CoreContent extends Table
      */
     public function delete($pk = null)
     {
-        $baseTable = Table::getInstance('Ucm', 'JTable', array('dbo' => $this->getDbo()));
+        $baseTable = Table::getInstance('Ucm', 'JTable', ['dbo' => $this->getDbo()]);
 
         return parent::delete($pk) && $baseTable->delete($pk);
     }
@@ -188,7 +188,7 @@ class CoreContent extends Table
             throw new \UnexpectedValueException('Null type alias not allowed.');
         }
 
-        $db = $this->getDbo();
+        $db    = $this->getDbo();
         $query = $db->getQuery(true);
         $query->select($db->quoteName('core_content_id'))
             ->from($db->quoteName('#__ucm_content'))
@@ -226,9 +226,9 @@ class CoreContent extends Table
 
         if ($this->core_content_id) {
             // Existing item
-            $this->core_modified_time = $date->toSql();
+            $this->core_modified_time    = $date->toSql();
             $this->core_modified_user_id = $user->get('id');
-            $isNew = false;
+            $isNew                       = false;
         } else {
             // New content item. A content item core_created_time and core_created_user_id field can be set by the user,
             // so we don't touch either of these if they are set.

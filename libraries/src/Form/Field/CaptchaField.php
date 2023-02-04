@@ -36,7 +36,7 @@ class CaptchaField extends FormField
      * The plugin of the captcha field.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $plugin;
 
@@ -44,7 +44,7 @@ class CaptchaField extends FormField
      * The namespace of the captcha field.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $namespace;
 
@@ -147,7 +147,7 @@ class CaptchaField extends FormField
 
         try {
             // Get an instance of the captcha class that we are using
-            $this->_captcha = Captcha::getInstance($this->plugin, array('namespace' => $this->namespace));
+            $this->_captcha = Captcha::getInstance($this->plugin, ['namespace' => $this->namespace]);
 
             /**
              * Give the captcha instance a possibility to react on the setup-process,

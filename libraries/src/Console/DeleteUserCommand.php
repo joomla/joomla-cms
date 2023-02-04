@@ -114,7 +114,7 @@ class DeleteUserCommand extends AbstractCommand
         }
 
         $groups = UserHelper::getUserGroups($userId);
-        $user = User::getInstance($userId);
+        $user   = User::getInstance($userId);
 
         if ($user->block == 0) {
             foreach ($groups as $groupId) {
@@ -191,7 +191,7 @@ class DeleteUserCommand extends AbstractCommand
     private function configureIO(InputInterface $input, OutputInterface $output)
     {
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
+        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 
     /**

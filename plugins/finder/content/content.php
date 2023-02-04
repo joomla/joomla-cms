@@ -258,7 +258,7 @@ class PlgFinderContent extends Adapter
         $item->context = 'com_content.article';
 
         // Initialise the item parameters.
-        $registry = new Registry($item->params);
+        $registry     = new Registry($item->params);
         $item->params = clone ComponentHelper::getParams('com_content', true);
         $item->params->merge($registry);
 
@@ -313,7 +313,7 @@ class PlgFinderContent extends Adapter
 
         // Add the category taxonomy data.
         $categories = Categories::getInstance('com_content', ['published' => false, 'access' => false]);
-        $category = $categories->get($item->catid);
+        $category   = $categories->get($item->catid);
 
         // Category does not exist, stop here
         if (!$category) {
@@ -360,7 +360,7 @@ class PlgFinderContent extends Adapter
         $case_when_item_alias .= $query->charLength('a.alias', '!=', '0');
         $case_when_item_alias .= ' THEN ';
         $a_id = $query->castAsChar('a.id');
-        $case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
+        $case_when_item_alias .= $query->concatenate([$a_id, 'a.alias'], ':');
         $case_when_item_alias .= ' ELSE ';
         $case_when_item_alias .= $a_id . ' END as slug';
         $query->select($case_when_item_alias);
@@ -369,7 +369,7 @@ class PlgFinderContent extends Adapter
         $case_when_category_alias .= $query->charLength('c.alias', '!=', '0');
         $case_when_category_alias .= ' THEN ';
         $c_id = $query->castAsChar('c.id');
-        $case_when_category_alias .= $query->concatenate(array($c_id, 'c.alias'), ':');
+        $case_when_category_alias .= $query->concatenate([$c_id, 'c.alias'], ':');
         $case_when_category_alias .= ' ELSE ';
         $case_when_category_alias .= $c_id . ' END as catslug';
         $query->select($case_when_category_alias)
