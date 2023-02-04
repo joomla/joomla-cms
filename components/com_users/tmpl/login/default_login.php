@@ -112,14 +112,14 @@ $usersConfig = ComponentHelper::getParams('com_users');
         </fieldset>
     </form>
     <div class="com-users-login__options list-group">
-        <a class="com-users-login__reset list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
+        <a class="com-users-login__reset list-unstyled" href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
             <?php echo Text::_('COM_USERS_LOGIN_RESET'); ?>
         </a>
-        <a class="com-users-login__remind list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
+        <a class="com-users-login__remind list-unstyled" href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
             <?php echo Text::_('COM_USERS_LOGIN_REMIND'); ?>
         </a>
         <?php if ($usersConfig->get('allowUserRegistration')) : ?>
-            <a class="com-users-login__register list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=registration'); ?>">
+            <a class="com-users-login__register list-unstyled" href="<?php echo Route::_('index.php?option=com_users&view=registration'); ?>">
                 <?php echo Text::_('COM_USERS_LOGIN_REGISTER'); ?>
             </a>
         <?php endif; ?>
