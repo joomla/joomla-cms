@@ -526,7 +526,7 @@ class FileLayout extends BaseLayout
             // Check template name in the options
             $template = (object) [
                 'template' => $templateName,
-                'parent' => '',
+                'parent'   => '',
             ];
         } elseif ($app->isClient('site') || $app->isClient('administrator')) {
             // Try to get a default template
