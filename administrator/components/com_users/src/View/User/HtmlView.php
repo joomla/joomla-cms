@@ -183,7 +183,7 @@ class HtmlView extends BaseHtmlView
         } else {
             $toolbar->cancel('user.cancel');
         }
-        
+
         // Check lastvisitDate for allow resend the activation email
         $userIsNotActive = !empty($this->item->activation) || \is_null($this->item->lastvisitDate);
 
