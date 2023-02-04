@@ -69,7 +69,7 @@ if ($saveOrder && !empty($this->items)) {
 
                 <caption class="visually-hidden">
                     <?php echo Text::_('COM_GUIDEDTOURS_TABLE_CAPTION'); ?>,
-                    <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+                    <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?></span>,
                     <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
 
