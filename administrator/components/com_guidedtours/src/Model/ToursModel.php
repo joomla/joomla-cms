@@ -205,7 +205,7 @@ class ToursModel extends ListModel
      *
      * @return  mixed  An array of data items on success, false on failure.
      *
-     * @since   1.6
+     * @since   __DEPLOY_VERSION__
      */
     public function getItems()
     {
