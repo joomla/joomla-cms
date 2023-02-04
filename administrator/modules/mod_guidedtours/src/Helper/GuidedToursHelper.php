@@ -45,7 +45,6 @@ abstract class GuidedToursHelper
         // Get an instance of the guided tour model
         $tours = $factory->createModel('Tours', 'Administrator', ['ignore_request' => true]);
 
-        //$tours->setState('list.extensions', $app->input->get('option'));
         $tours->setState('filter.published', 1);
 
         $items = $tours->getItems();
