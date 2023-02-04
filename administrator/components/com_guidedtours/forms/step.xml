@@ -85,7 +85,7 @@
 		default="0"
 		description="COM_GUIDEDTOURS_TYPE_DESC"
 		validate="options"
-	>
+		>
 		<option value="0">COM_GUIDEDTOURS_FIELD_VALUE_NEXT_STEP</option>
 		<option value="1">COM_GUIDEDTOURS_FIELD_VALUE_REDIRECT</option>
 		<option value="2">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVE_STEP</option>
