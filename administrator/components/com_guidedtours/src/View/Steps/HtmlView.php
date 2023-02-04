@@ -67,7 +67,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var   boolean
      *
-     * @since 4.0.0
+     * @since __DEPLOY_VERSION__
      */
     private $isEmptyState = false;
 
