@@ -104,7 +104,7 @@ class TourModel extends AdminModel
 
         $result = parent::save($data);
 
-        // Create default stage for new tour
+        // Create default step for new tour
         if ($result && $input->getCmd('task') !== 'save2copy' && $this->getState($this->getName() . '.new')) {
             $tour_id = (int) $this->getState($this->getName() . '.id');
 
