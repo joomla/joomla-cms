@@ -6508,6 +6508,25 @@ class JoomlaInstallerScript
             '/plugins/editors-xtd/module/module.php',
             '/plugins/editors-xtd/readmore/readmore.php',
             '/plugins/editors/tinymce/tinymce.php',
+            // From 4.3.0-alpha3 to 4.3.0-beta1
+            '/plugins/editors/codemirror/codemirror.php',
+            '/plugins/editors/none/none.php',
+            '/plugins/fields/calendar/calendar.php',
+            '/plugins/fields/checkboxes/checkboxes.php',
+            '/plugins/fields/color/color.php',
+            '/plugins/fields/editor/editor.php',
+            '/plugins/fields/imagelist/imagelist.php',
+            '/plugins/fields/integer/integer.php',
+            '/plugins/fields/list/list.php',
+            '/plugins/fields/media/media.php',
+            '/plugins/fields/radio/radio.php',
+            '/plugins/fields/sql/sql.php',
+            '/plugins/fields/subform/subform.php',
+            '/plugins/fields/text/text.php',
+            '/plugins/fields/textarea/textarea.php',
+            '/plugins/fields/url/url.php',
+            '/plugins/fields/user/user.php',
+            '/plugins/fields/usergrouplist/usergrouplist.php',
         ];
 
         $folders = [
