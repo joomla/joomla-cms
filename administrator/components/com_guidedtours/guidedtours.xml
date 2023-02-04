@@ -2,7 +2,7 @@
 <extension type="component" method="upgrade">
 	<name>COM_GUIDEDTOURS</name>
 	<author>Joomla! Project</author>
-	<creationDate>2022-06</creationDate>
+	<creationDate>2023-02</creationDate>
 	<copyright>(C) 2022 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
