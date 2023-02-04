@@ -162,7 +162,7 @@ if ($saveOrder && !empty($this->items)) {
 
                             <span class="sortable-handler <?php echo $iconClass ?>">
                                     <span class="icon-ellipsis-v"></span>
-                                </span>
+                            </span>
 
                             <?php if ($canChange && $saveOrder) :
                                 ?>
