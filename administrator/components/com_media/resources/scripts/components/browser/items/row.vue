@@ -122,11 +122,6 @@ export default {
 
       // Handle clicks when the item was not selected
       if (!this.isSelected()) {
-        // Unselect all other selected items,
-        // if the shift key was not pressed during the click event
-        if (!(event.shiftKey || event.keyCode === 13)) {
-          this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-        }
         this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
         return;
       }
