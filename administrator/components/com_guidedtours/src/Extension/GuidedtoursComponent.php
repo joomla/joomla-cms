@@ -46,8 +46,5 @@ class GuidedtoursComponent extends MVCComponent implements
      */
     public function boot(ContainerInterface $container)
     {
-        /**
-         * PASS
-         */
     }
 }
