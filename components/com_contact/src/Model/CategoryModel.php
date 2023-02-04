@@ -41,13 +41,6 @@ class CategoryModel extends ListModel
     protected $_item;
 
     /**
-     * Array of contacts in the category
-     *
-     * @var    \stdClass[]
-     */
-    protected $_articles;
-
-    /**
      * Category left and right of this one
      *
      * @var    CategoryNode[]|null
