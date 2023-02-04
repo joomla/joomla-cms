@@ -20,7 +20,7 @@
 		label="COM_GUIDEDTOURS_POSITION_LABEL"
 		description="COM_GUIDEDTOURS_POSITION_DESC"
 		validate="options"
-	>
+		>
 		<option value="bottom">COM_GUIDEDTOURS_FIELD_OPTION_BOTTOM</option>
 		<option value="top">COM_GUIDEDTOURS_FIELD_OPTION_TOP</option>
 		<option value="right">COM_GUIDEDTOURS_FIELD_OPTION_RIGHT</option>
