@@ -7,7 +7,6 @@ const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
 const VuePlugin = require('rollup-plugin-vue');
 const commonjs = require('@rollup/plugin-commonjs');
-const { existsSync } = require('fs');
 const { minifyJsCode } = require('./minify.es6.js');
 require('dotenv').config();
 
