@@ -9,9 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.7.0</version>
 	<description>PLG_FIELDS_SQL_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Fields\SQL</namespace>
 	<files>
-		<filename plugin="sql">sql.php</filename>
 		<folder>params</folder>
+		<folder plugin="sql">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
