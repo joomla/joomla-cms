@@ -173,7 +173,7 @@ class Cache
     /**
      * Set cache lifetime
      *
-     * @param   integer  $lt  Cache lifetime
+     * @param   integer  $lt  Cache lifetime in minutes
      *
      * @return  void
      *
