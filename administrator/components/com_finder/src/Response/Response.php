@@ -27,6 +27,110 @@ use Joomla\CMS\Log\Log;
 class Response
 {
     /**
+     * The buffer
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $buffer;
+
+    /**
+     * The memory
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $memory;
+
+    /**
+     * If it has an error
+     *
+     * @var    bool
+     * @since  __DEPLOY_VERSION__
+     */
+    public $error;
+
+    /**
+     * The header
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $header;
+
+    /**
+     * The message
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $message;
+
+    /**
+     * The batch size
+     *
+     * @var    int
+     * @since  __DEPLOY_VERSION__
+     */
+    public $batchSize;
+
+    /**
+     * The batch offset
+     *
+     * @var    int
+     * @since  __DEPLOY_VERSION__
+     */
+    public $batchOffset;
+
+    /**
+     * The total items
+     *
+     * @var    int
+     * @since  __DEPLOY_VERSION__
+     */
+    public $totalItems;
+
+    /**
+     * The plugin state
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $pluginState;
+
+    /**
+     * The start time
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $startTime;
+
+    /**
+     * The end time
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $endTime;
+
+    /**
+     * The start
+     *
+     * @var    int
+     * @since  __DEPLOY_VERSION__
+     */
+    public $start;
+
+    /**
+     * The complete
+     *
+     * @var    int
+     * @since  __DEPLOY_VERSION__
+     */
+    public $complete;
+
+    /**
      * Class Constructor
      *
      * @param   mixed  $state  The processing state for the indexer

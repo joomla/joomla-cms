@@ -310,7 +310,7 @@ final class Version
         $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
             ->createCacheController('callback', ['defaultgroup' => '_media_version', 'caching' => true]);
 
-        $cache->setLifeTime(315576000);
+        $cache->setLifeTime(5259600);
 
         // Disable cache when Debug is enabled
         if (JDEBUG) {
