@@ -3,11 +3,11 @@
     <name>plg_system_tour</name>
     <author>Joomla! Project</author>
     <creationDate>2023-02</creationDate>
-    <copyright>Joomla!</copyright>
+    <copyright>(C) 2023 Open Source Matters, Inc.</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
     <authorEmail>admin@joomla.org</authorEmail>
     <authorUrl>www.joomla.org</authorUrl>
-    <version>4.0.0</version>
+    <version>4.3.0</version>
     <description>PLG_SYSTEM_TOUR_DESCRIPTION</description>
     <files>
         <filename plugin="tour">tour.php</filename>
