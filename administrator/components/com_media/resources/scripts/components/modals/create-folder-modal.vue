@@ -90,6 +90,7 @@ export default {
         parent: this.$store.state.selectedDirectory,
       });
       this.reset();
+      this.$store.commit(types.HIDE_CREATE_FOLDER_MODAL);
     },
     /* Reset the form */
     reset() {
