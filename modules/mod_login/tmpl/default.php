@@ -69,6 +69,7 @@ Text::script('JHIDEPASSWORD');
                 <div id="form-login-remember-<?php echo $module->id; ?>" class="form-check">
                     <label class="form-check-label">
                          <input type="checkbox" name="remember" class="form-check-input" value="yes">
+                         <?php echo Text::_('MOD_LOGIN_REMEMBER_ME'); ?>
                     </label>
                 </div>
             </div>
