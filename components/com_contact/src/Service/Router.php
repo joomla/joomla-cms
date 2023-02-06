@@ -211,7 +211,7 @@ class Router extends RouterView
                             return $child->id;
                         }
                     } else {
-                        if ($child->id == (int) $segment) {
+                        if ($child->id . ':' . $child->alias == $segment) {
                             return $child->id;
                         }
                     }
