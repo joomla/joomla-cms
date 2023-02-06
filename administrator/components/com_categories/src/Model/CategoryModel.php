@@ -1123,6 +1123,8 @@ class CategoryModel extends AdminModel
         // We are going to store all the children and just move the category
         $children = [];
 
+        $table = $this->getTable();
+
         // Parent exists so let's proceed
         foreach ($pks as $pk) {
             // Check that the row actually exists
@@ -1171,7 +1173,7 @@ class CategoryModel extends AdminModel
                     'extension' => $extension,
                 ];
 
-                if ($this->table->load($conditions)) {
+                if ($table->load($conditions)) {
                     $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
 
                     return false;
