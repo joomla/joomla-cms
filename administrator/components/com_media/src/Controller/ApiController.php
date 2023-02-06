@@ -351,14 +351,15 @@ class ApiController extends BaseController
         $uploadMaxFilesize   = $helper->toBytes(ini_get('upload_max_filesize'));
         $postMaxSize         = $helper->toBytes(ini_get('post_max_size'));
         $memoryLimit         = $helper->toBytes(ini_get('memory_limit'));
-        $link                = 'index.php?option=com_config&view=component&component=com_media';
-        $output              = HTMLHelper::_('link', Route::_($link), Text::_('JOPTIONS'));
+
         if (
             ($paramsUploadMaxsize > 0 && $contentLength > $paramsUploadMaxsize)
             || ($uploadMaxFilesize > 0 && $contentLength > $uploadMaxFilesize)
             || ($postMaxSize > 0 && $contentLength > $postMaxSize)
             || ($memoryLimit > -1 && $contentLength > $memoryLimit)
         ) {
+            $link   = 'index.php?option=com_config&view=component&component=com_media';
+            $output = HTMLHelper::_('link', Route::_($link), Text::_('JOPTIONS'));
             throw new \Exception(Text::sprintf('COM_MEDIA_ERROR_WARNFILETOOLARGE', $output), 403);
         }
     }
