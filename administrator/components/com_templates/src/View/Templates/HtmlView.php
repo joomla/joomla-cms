@@ -23,7 +23,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * View class for a list of template styles.
+ * View class for a list of templates.
  *
  * @since  1.6
  */

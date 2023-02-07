@@ -87,12 +87,15 @@ if ($showPreview) {
 
     $width = $previewWidth;
     $height = $previewHeight;
-    $imgattr = array(
+    $style = '';
+    $style .= ($width > 0) ? 'max-width:' . $width . 'px;' : '';
+    $style .= ($height > 0) ? 'max-height:' . $height . 'px;' : '';
+
+    $imgattr = [
         'id' => $id . '_preview',
         'class' => 'media-preview',
-        'width' => $width,
-        'height' => $height,
-    );
+        'style' => $style,
+    ];
 
     $img = HTMLHelper::_('image', $src, Text::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
 

@@ -213,7 +213,7 @@ abstract class UserHelper
         // Get the user object.
         $user = User::getInstance((int) $userId);
 
-        return $user->groups ?? array();
+        return $user->groups ?? [];
     }
 
     /**
@@ -331,7 +331,7 @@ abstract class UserHelper
         $data->id = $userId;
 
         // Trigger the data preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', &$data));
+        Factory::getApplication()->triggerEvent('onContentPrepareData', ['com_users.profile', &$data]);
 
         return $data;
     }
@@ -418,7 +418,7 @@ abstract class UserHelper
      * @since   3.2.1
      * @throws  \InvalidArgumentException when the algorithm is not supported
      */
-    public static function hashPassword($password, $algorithm = self::HASH_BCRYPT, array $options = array())
+    public static function hashPassword($password, $algorithm = self::HASH_BCRYPT, array $options = [])
     {
         $container = Factory::getContainer();
 
@@ -620,7 +620,7 @@ abstract class UserHelper
 
         // If true, removes the current session id from the purge list
         if ($keepCurrent) {
-            $sessionIds = array_diff($sessionIds, array(Factory::getSession()->getId()));
+            $sessionIds = array_diff($sessionIds, [Factory::getSession()->getId()]);
         }
 
         // If there aren't any active sessions then there's nothing to do here
