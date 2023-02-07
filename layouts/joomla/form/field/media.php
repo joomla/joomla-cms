@@ -55,7 +55,7 @@ $attr = '';
 $attr .= !empty($class) ? ' class="form-control field-media-input ' . $class . '"' : ' class="form-control field-media-input"';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= $dataAttribute;
-$attr .= $disabled ? 'disabled="disabled"' : '';
+$attr .= $disabled ? ' disabled="disabled"' : '';
 
 // Initialize JavaScript field attributes.
 $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
