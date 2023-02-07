@@ -24,7 +24,9 @@
           {{ sprintf('COM_MEDIA_BROWSER_TABLE_CAPTION', currentDirectory) }}
         </caption>
         <thead class="media-browser-table-head">
-          <tr>
+          <tr
+          v-if="!isEmptySearch"
+          >
             <th
               class="type"
               scope="col"
@@ -70,6 +72,16 @@
         </tbody>
       </table>
       <div
+        v-if="isEmptySearch"
+        class="w-75 text-dark p-2 m-4"
+        style="background-color: #DBE4F0;border-radius: 3px;"
+        >
+        <span>
+          <i class="fa fa-info-circle m-2" aria-hidden="true" >
+          </i>{{ translate('COM_MEDIA_SEARCH') }}
+        </span>
+        </div>
+      <div
         v-else-if="listView === 'grid'"
         class="media-browser-grid"
       >
@@ -77,6 +89,16 @@
           class="media-browser-items"
           :class="mediaBrowserGridItemsClass"
         >
+        <div
+        v-if="isEmptySearch"
+        class="w-75 text-dark p-2 m-4"
+        style="background-color: #DBE4F0;border-radius: 3px;"
+        >
+        <span>
+          <i class="fa fa-info-circle m-2" aria-hidden="true" >
+          </i>{{ translate('COM_MEDIA_SEARCH') }}
+        </span>
+        </div>
           <media-browser-item
             v-for="item in items"
             :key="item.path"
@@ -110,6 +132,11 @@ export default {
         .filter((file) => file.name.toLowerCase().includes(this.$store.state.search.toLowerCase()));
 
       return [...directories, ...files];
+    },
+    isEmptySearch(){
+        if(this.$store.state.search!=='' && this.items.length===0){
+          return true;
+        }
     },
     /* The styles for the media-browser element */
     mediaBrowserStyles() {
