@@ -43,7 +43,7 @@ class ModuleorderField extends FormField
      * The linked property
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  __DEPLOY_VERSION_
      */
     protected $linked;
 
