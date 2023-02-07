@@ -134,7 +134,7 @@ export default {
       return [...directories, ...files];
     },
     isEmptySearch(){
-        if(this.$store.state.search!=='' && this.items.length===0){
+        if(this.$store.state.search !== '' && this.items.length === 0){
           return true;
         }
     },
