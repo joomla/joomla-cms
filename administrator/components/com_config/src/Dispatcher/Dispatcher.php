@@ -25,8 +25,12 @@ class Dispatcher extends \Joomla\CMS\Dispatcher\ComponentDispatcher
      * Check if the user have the right access to the component config
      *
      * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     *
+     * @throws  \Exception
      */
-    protected function checkAccess()
+    protected function checkAccess(): void
     {
         // sendtestmail expects json response, so we leave the method to handle the permission and send response itself
         if ($this->input->getCmd('task') === 'application.sendtestmail') {
