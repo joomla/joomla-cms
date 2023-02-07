@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Config\Administrator\Dispatcher;
 
+use Joomla\CMS\Access\Exception\NotAllowed;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -19,7 +22,7 @@ namespace Joomla\Component\Config\Administrator\Dispatcher;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Dispatcher extends \Joomla\CMS\Dispatcher\ComponentDispatcher
+class Dispatcher extends ComponentDispatcher
 {
     /**
      * Check if the user have the right access to the component config
@@ -47,7 +50,7 @@ class Dispatcher extends \Joomla\CMS\Dispatcher\ComponentDispatcher
         }
 
         if (!$canAccess) {
-            throw new \Joomla\CMS\Access\Exception\NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
     }
 }
