@@ -10,10 +10,6 @@
 
 namespace Joomla\Component\Config\Administrator\Dispatcher;
 
-use Joomla\CMS\Dispatcher\ComponentDispatcher;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -23,7 +19,7 @@ use Joomla\CMS\Router\Route;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Dispatcher extends ComponentDispatcher
+class Dispatcher extends \Joomla\CMS\Dispatcher\ComponentDispatcher
 {
     /**
      * Check if the user have the right access to the component config
@@ -32,15 +28,22 @@ class Dispatcher extends ComponentDispatcher
      */
     protected function checkAccess()
     {
-        $component = $this->input->get('component');
+        // sendtestmail expects json response, so we leave the method to handle the permission and send response itself
+        if ($this->input->getCmd('task') === 'application.sendtestmail') {
+            return;
+        }
 
-        // If not a SuperUser, check the permissions to the component config
-        if (
-            !$this->app->getIdentity()->authorise('core.admin', $component)
-            && !$this->app->getIdentity()->authorise('core.options', $component)
-        ) {
-            $controller = $this->getController('display', ucfirst($this->app->getName()));
-            $controller->setRedirect(Route::_('index.php?option=' . $component, false), Text::_('JERROR_ALERTNOAUTHOR'), 'error')->redirect();
+        $option = $this->input->getCmd('component');
+        $user   = $this->app->getIdentity();
+
+        if ($option && !in_array(strtolower($option), ['com_joomlaupdate', 'com_privacy'], true)) {
+            $canAccess = $user->authorise('core.admin', $option) || $user->authorise('core.options', $option);
+        } else {
+            $canAccess = $user->authorise('core.admin');
+        }
+
+        if (!$canAccess) {
+            throw new \Joomla\CMS\Access\Exception\NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
     }
 }
