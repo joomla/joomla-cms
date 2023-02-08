@@ -71,18 +71,18 @@
           />
         </tbody>
       </table>
-      <div
-        v-if="isEmptySearch"
-        class="w-75 text-dark p-2 m-4"
-        style="background-color: #DBE4F0;border-radius: 3px;"
-      >
-        <span>
-          <i
-            class="fa fa-info-circle m-2"
-            aria-hidden="true"
-          />
-            {{ translate('COM_MEDIA_SEARCH') }}
-      </span>
+       <div
+            v-if="isEmptySearch"
+            class="w-75 text-dark p-2 m-4"
+            style="background-color: #DBE4F0;border-radius: 3px;"
+          >
+            <span>
+              <i
+                class="fa fa-info-circle m-2"
+                aria-hidden="true"
+               />
+               {{ translate('COM_MEDIA_SEARCH') }}
+            </span>
         </div>
       <div
         v-else-if="listView === 'grid'"
@@ -92,19 +92,19 @@
           class="media-browser-items"
           :class="mediaBrowserGridItemsClass"
         >
-            <div
-              v-if="isEmptySearch"
-              class="w-75 text-dark p-2 m-4"
-              style="background-color: #DBE4F0;border-radius: 3px;"
-            >
-              <span>
-                <i
-                  class="fa fa-info-circle m-2" 
-                  aria-hidden="true"
-                 />
-                {{ translate('COM_MEDIA_SEARCH') }}
-              </span>
-        </div>
+          <div
+            v-if="isEmptySearch"
+            class="w-75 text-dark p-2 m-4"
+            style="background-color: #DBE4F0;border-radius: 3px;"
+          >
+            <span>
+              <i
+                class="fa fa-info-circle m-2"
+                aria-hidden="true"
+               />
+               {{ translate('COM_MEDIA_SEARCH') }}
+            </span>
+          </div>
           <media-browser-item
             v-for="item in items"
             :key="item.path"
@@ -140,7 +140,7 @@ export default {
       return [...directories, ...files];
     },
     isEmptySearch() {
-      return this.$store.state.search!=='' && this.items.length===0;
+      return this.$store.state.search !== '' && this.items.length === 0;
     },
     /* The styles for the media-browser element */
     mediaBrowserStyles() {
