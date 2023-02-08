@@ -42,8 +42,8 @@ class OpensearchView extends AbstractView
         $app = Factory::getApplication();
 
         $params = ComponentHelper::getParams('com_finder');
-        $this->document->setShortName($params->get('opensearch_name', $app->get('sitename')));
-        $this->document->setDescription($params->get('opensearch_description', $app->get('MetaDesc')));
+        $this->document->setShortName($params->get('opensearch_name', $app->get('sitename', '')));
+        $this->document->setDescription($params->get('opensearch_description', $app->get('MetaDesc', '')));
 
         // Prevent any output when OpenSearch Support is disabled
         if (!$params->get('opensearch', 1)) {
@@ -53,7 +53,7 @@ class OpensearchView extends AbstractView
         // Add the URL for the search
         $searchUri = 'index.php?option=com_finder&view=search&q={searchTerms}';
         $suggestionsUri = 'index.php?option=com_finder&task=suggestions.opensearchsuggest&format=json&q={searchTerms}';
-        $baseUrl = Uri::getInstance()->toString(array('host', 'port', 'scheme'));
+        $baseUrl = Uri::getInstance()->toString(['host', 'port', 'scheme']);
         $active = $app->getMenu()->getActive();
 
         if ($active->component == 'com_finder') {

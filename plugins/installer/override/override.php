@@ -135,7 +135,7 @@ class PlgInstallerOverride extends CMSPlugin
 
         $after  = $session->get('override.afterEventFiles');
         $before = $session->get('override.beforeEventFiles');
-        $result = array();
+        $result = [];
 
         if (!is_array($after) || !is_array($before)) {
             return $result;
@@ -186,10 +186,11 @@ class PlgInstallerOverride extends CMSPlugin
      */
     public function finalize($result)
     {
-        $num = count($result);
+        $num  = count($result);
+        $link = 'index.php?option=com_templates&view=templates';
 
         if ($num != 0) {
-            $this->app->enqueueMessage(Text::plural('PLG_INSTALLER_OVERRIDE_N_FILE_UPDATED', $num), 'notice');
+            $this->app->enqueueMessage(Text::plural('PLG_INSTALLER_OVERRIDE_N_FILE_UPDATED', $num, $link), 'notice');
             $this->saveOverrides($result);
         }
 

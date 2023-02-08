@@ -16,7 +16,8 @@
     "build:js": "node build/build.js --compile-js",
     "build:css": "node build/build.js --compile-css",
     "build:bs5": "node build/build.js --compile-bs",
-    "build:com_media": "node build/build.js --com-media",
+    "build:com_media": "NODE_ENV=PRODUCTION node build/build.js --com-media",
+    "build:com_media:dev": "NODE_ENV=DEVELOPMENT node build/build.js --com-media",
     "watch": "node build/build.js --watch",
     "watch:com_media": "node build/build.js --watch-com-media",
     "lint:js": "eslint --config build/.eslintrc --ignore-pattern '/media/' --ext .es6.js,.es6,.vue .",
@@ -25,10 +26,11 @@
     "install": "node build/build.js --prepare",
     "update": "node build/build.js --copy-assets && node build/build.js --build-pages && node build/build.js --compile-js && node build/build.js --compile-css && node build/build.js --compile-bs && node build/build.js --com-media",
     "gzip": "node build/build.js --gzip",
-    "versioning": "node build/build.js --versioning"
+    "versioning": "node build/build.js --versioning",
+    "browserlist:update": "npx browserslist@latest --update-db"
   },
   "browserslist": [
-    "last 1 version",
+    "last 2 major version",
     "not ie < 11"
   ],
   "dependencies": {
@@ -39,12 +41,13 @@
     "@webcomponents/webcomponentsjs": "^2.6.0",
     "accessibility": "^3.0.14",
     "awesomplete": "^1.1.5",
-    "bootstrap": "^5.1.3",
+    "bootstrap": "~5.1.3",
     "choices.js": "^9.0.1",
     "chosen-js": "^1.8.7",
     "codemirror": "^5.65.0",
     "cropperjs": "^1.5.12",
     "diff": "^5.0.0",
+    "dotenv": "^16.0.3",
     "dragula": "^3.7.3",
     "focus-visible": "^5.2.0",
     "hotkeys-js": "^3.9.3",
@@ -58,11 +61,11 @@
     "qrcode-generator": "^1.4.4",
     "roboto-fontface": "^0.10.0",
     "short-and-sweet": "^1.0.4",
-    "skipto": "^4.1.6",
+    "skipto": "^4.1.7",
     "tinymce": "^5.10.2",
-    "vue": "3.2.26",
+    "vue": "3.2.45",
     "vuex": "^4.0.2",
-    "vuex-persistedstate": "^4.1.0"
+    "vuex-persist": "^3.1.3"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

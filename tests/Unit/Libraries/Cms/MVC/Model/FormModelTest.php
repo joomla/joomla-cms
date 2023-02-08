@@ -50,7 +50,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -71,7 +71,7 @@ class FormModelTest extends UnitTestCase
     {
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -101,7 +101,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -129,7 +129,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -158,7 +158,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -192,7 +192,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -227,7 +227,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -244,7 +244,7 @@ class FormModelTest extends UnitTestCase
      *
      * @since   4.2.0
      */
-    public function testSucessfullCheckout()
+    public function testSuccessfulCheckout()
     {
         $table              = $this->createStub(Table::class);
         $table->checked_out = 0;
@@ -258,12 +258,16 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
         };
-        $model->setCurrentUser(new User());
+
+        // Must be a valid user
+        $user     = new User();
+        $user->id = 1;
+        $model->setCurrentUser($user);
 
         $this->assertTrue($model->checkout(1));
     }
@@ -275,11 +279,11 @@ class FormModelTest extends UnitTestCase
      *
      * @since   4.2.0
      */
-    public function testSucessfullCheckoutWithEmptyRecord()
+    public function testSuccessfulCheckoutWithEmptyRecord()
     {
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -309,7 +313,42 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
+            {
+                return null;
+            }
+        };
+
+        // Must be a valid user
+        $user     = new User();
+        $user->id = 1;
+        $model->setCurrentUser($user);
+
+        $this->assertFalse($model->checkout(1));
+    }
+
+    /**
+     * @testdox  can't checkout a record when the current user is a guest
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testFailedCheckoutAsGuest()
+    {
+        $table              = $this->createStub(Table::class);
+        $table->checked_out = 0;
+        $table->method('load')->willReturn(true);
+        $table->method('hasField')->willReturn(true);
+        $table->method('checkIn')->willReturn(false);
+        $table->method('getColumnAlias')->willReturn('checked_out');
+
+        $mvcFactory = $this->createStub(MVCFactoryInterface::class);
+        $mvcFactory->method('createTable')->willReturn($table);
+
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
+        {
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -337,7 +376,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -353,7 +392,7 @@ class FormModelTest extends UnitTestCase
      *
      * @since   4.2.0
      */
-    public function testSuccessfullCheckoutFieldNotAvailableCheck()
+    public function testSuccessfulCheckoutFieldNotAvailableCheck()
     {
         $table              = $this->createStub(Table::class);
         $table->checked_out = 0;
@@ -365,7 +404,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -381,7 +420,7 @@ class FormModelTest extends UnitTestCase
      *
      * @since   4.2.0
      */
-    public function testSuccessfullCheckoutWhenCurrentUserIsDifferent()
+    public function testSuccessfulCheckoutWhenCurrentUserIsDifferent()
     {
         $table              = $this->createStub(Table::class);
         $table->checked_out = 1;
@@ -394,7 +433,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }

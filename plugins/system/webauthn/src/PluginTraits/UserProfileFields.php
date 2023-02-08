@@ -102,11 +102,6 @@ trait UserProfileFields
          */
         [$form, $data] = $event->getArguments();
 
-        // This feature only applies to HTTPS sites.
-        if (!Uri::getInstance()->isSsl()) {
-            return;
-        }
-
         $name = $form->getName();
 
         $allowedForms = [
@@ -114,6 +109,19 @@ trait UserProfileFields
         ];
 
         if (!\in_array($name, $allowedForms)) {
+            return;
+        }
+
+        // This feature only applies in the site and administrator applications
+        if (
+            !$this->getApplication()->isClient('site')
+            && !$this->getApplication()->isClient('administrator')
+        ) {
+            return;
+        }
+
+        // This feature only applies to HTTPS sites.
+        if (!Uri::getInstance()->isSsl()) {
             return;
         }
 

@@ -35,12 +35,13 @@ function usage(string $command)
     echo PHP_EOL;
     echo 'Usage: php ' . $command . ' [options]' . PHP_EOL;
     echo PHP_TAB . '[options]:' . PHP_EOL;
-    echo PHP_TAB . PHP_TAB . '--remote=<remote>:' . PHP_TAB . 'The git remote reference to build from (ex: `tags/3.8.6`, `4.0-dev`), defaults to the most recent tag for the repository' . PHP_EOL;
-    echo PHP_TAB . PHP_TAB . '--exclude-zip:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .zip packages' . PHP_EOL;
-    echo PHP_TAB . PHP_TAB . '--exclude-gzip:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .tar.gz packages' . PHP_EOL;
-    echo PHP_TAB . PHP_TAB . '--exclude-bzip2:' . PHP_TAB . 'Exclude the generation of .tar.bz2 packages' . PHP_EOL;
-    echo PHP_TAB . PHP_TAB . '--include-zstd:' . PHP_TAB . 'Include the generation of .tar.zst packages' . PHP_EOL;
-    echo PHP_TAB . PHP_TAB . '--help:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Show this help output' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '--remote=<remote>:' . PHP_TAB . PHP_TAB . 'The git remote reference to build from (ex: `tags/3.8.6`, `4.0-dev`), defaults to the most recent tag for the repository' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '--exclude-zip:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Exclude the generation of .zip packages' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '--exclude-gzip:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Exclude the generation of .tar.gz packages' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '--exclude-bzip2:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .tar.bz2 packages' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '--include-zstd:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Include the generation of .tar.zst packages' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '--disable-patch-packages:' . PHP_TAB . 'Disable the generation of patch packages' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '--help:' . PHP_TAB . PHP_TAB . PHP_TAB . PHP_TAB . 'Show this help output' . PHP_EOL;
     echo PHP_EOL;
 }
 
@@ -260,7 +261,7 @@ mkdir($fullpath);
 echo "Copy the files from the git repository.\n";
 chdir($repo);
 system($systemGit . ' archive ' . $remote . ' | tar -x -C ' . $fullpath);
-
+system('cp build/fido.jwt ' . $fullpath . '/plugins/system/webauthn/fido.jwt');
 // Install PHP and NPM dependencies and compile required media assets, skip Composer autoloader until post-cleanup
 chdir($fullpath);
 system('composer install --no-dev --no-autoloader --ignore-platform-reqs', $composerReturnCode);
@@ -268,6 +269,14 @@ system('composer install --no-dev --no-autoloader --ignore-platform-reqs', $comp
 if ($composerReturnCode !== 0) {
     echo "`composer install` did not complete as expected.\n";
     exit(1);
+}
+
+// Try to update the fido.jwt file
+if (!file_exists(rtrim($fullpath, '\\/') . '/plugins/system/webauthn/fido.jwt'))
+{
+    echo "The file plugins/system/webauthn/fido.jwt was not created. Build failed.\n";
+
+    exit (1);
 }
 
 system('npm install --unsafe-perm', $npmReturnCode);
@@ -335,7 +344,7 @@ echo "Create list of changed files from git repository for version $fullVersion.
  * So we add the index file for each top-level directory.
  * Note: If we add new top-level directories or files, be sure to include them here.
  */
-$filesArray = array(
+$filesArray = [
     "administrator/index.php\n" => true,
     "api/index.php\n" => true,
     "cache/index.html\n" => true,
@@ -357,14 +366,14 @@ $filesArray = array(
     "README.txt\n" => true,
     "robots.txt.dist\n" => true,
     "web.config.txt\n" => true
-);
+];
 
 /*
  * Here we set the files/folders which should not be packaged at any time
  * These paths are from the repository root without the leading slash
  * Because this is a fresh copy from a git tag, local environment files may be ignored
  */
-$doNotPackage = array(
+$doNotPackage = [
     '.appveyor.yml',
     '.drone.yml',
     '.editorconfig',
@@ -395,18 +404,18 @@ $doNotPackage = array(
     'ruleset.xml',
     'selenium.log',
     'tests',
-);
+];
 
 /*
  * Here we set the files/folders which should not be packaged with patch packages only
  * These paths are from the repository root without the leading slash
  */
-$doNotPatch = array(
+$doNotPatch = [
     'administrator/cache',
     'administrator/logs',
     'images',
     'installation',
-);
+];
 
 /*
  * This array will contain the checksums for all files which are created by this script.
@@ -418,7 +427,7 @@ $doNotPatch = array(
  *   ),
  * )
  */
-$checksums = array();
+$checksums = [];
 
 // For the packages, replace spaces in stability (RC) with underscores
 $packageStability = str_replace(' ', '_', Version::DEV_STATUS);
@@ -446,7 +455,7 @@ for ($num = $release - 1; $num >= 0; $num--) {
     system($command);
 
     // $filesArray will hold the array of files to include in diff package
-    $deletedFiles = array();
+    $deletedFiles = [];
     $files        = file('diffdocs/' . $version . '.' . $num);
 
     // Loop through and add all files except: tests, installation, build, .git, .travis, travis, phpunit, .md, or images
@@ -526,7 +535,7 @@ for ($num = $release - 1; $num >= 0; $num--) {
         echo "Building " . $packageName . "... ";
         system('tar --create --bzip2 --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
         echo "done.\n";
-        $checksums[$packageName] = array();
+        $checksums[$packageName] = [];
     }
 
     if (!$excludeGzip) {
@@ -534,7 +543,7 @@ for ($num = $release - 1; $num >= 0; $num--) {
         echo "Building " . $packageName . "... ";
         system('tar --create --gzip  --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
         echo "done.\n";
-        $checksums[$packageName] = array();
+        $checksums[$packageName] = [];
     }
 
     if (!$excludeZip) {
@@ -544,7 +553,7 @@ for ($num = $release - 1; $num >= 0; $num--) {
         system('zip ../packages/' . $packageName . ' -@ < ../diffconvert/' . $version . '.' . $num . '> /dev/null');
         chdir('..');
         echo "done.\n";
-        $checksums[$packageName] = array();
+        $checksums[$packageName] = [];
     }
 
     if (!$excludeZstd) {
@@ -552,7 +561,7 @@ for ($num = $release - 1; $num >= 0; $num--) {
         echo "Building " . $packageName . "... ";
         system('tar --create --use-compress-program=zstd --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
         echo "done.\n";
-        $checksums[$packageName] = array();
+        $checksums[$packageName] = [];
     }
 }
 
@@ -571,7 +580,7 @@ if (!$excludeBzip2) {
     echo "Building " . $packageName . "... ";
     system('tar --create --bzip2 --file ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
-    $checksums[$packageName] = array();
+    $checksums[$packageName] = [];
 }
 
 if (!$excludeGzip) {
@@ -579,7 +588,7 @@ if (!$excludeGzip) {
     echo "Building " . $packageName . "... ";
     system('tar --create --gzip --file ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
-    $checksums[$packageName] = array();
+    $checksums[$packageName] = [];
 }
 
 if (!$excludeZip) {
@@ -587,7 +596,7 @@ if (!$excludeZip) {
     echo "Building " . $packageName . "... ";
     system('zip -r ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
-    $checksums[$packageName] = array();
+    $checksums[$packageName] = [];
 }
 
 if (!$excludeZstd) {
@@ -595,7 +604,7 @@ if (!$excludeZstd) {
     echo "Building " . $packageName . "... ";
     system('tar --create --use-compress-program=zstd --file ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
-    $checksums[$packageName] = array();
+    $checksums[$packageName] = [];
 }
 
 // Create full update file without the default logs directory, installation folder, or sample images.
@@ -619,7 +628,7 @@ if (!$excludeBzip2) {
     echo "Building " . $packageName . "... ";
     system('tar --create --bzip2 --file ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
-    $checksums[$packageName] = array();
+    $checksums[$packageName] = [];
 }
 
 if (!$excludeGzip) {
@@ -627,7 +636,7 @@ if (!$excludeGzip) {
     echo "Building " . $packageName . "... ";
     system('tar --create --gzip --file ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
-    $checksums[$packageName] = array();
+    $checksums[$packageName] = [];
 }
 
 if (!$excludeZip) {
@@ -635,7 +644,7 @@ if (!$excludeZip) {
     echo "Building " . $packageName . "... ";
     system('zip -r ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
-    $checksums[$packageName] = array();
+    $checksums[$packageName] = [];
 }
 
 if (!$excludeZstd) {
@@ -643,7 +652,7 @@ if (!$excludeZstd) {
     echo "Building " . $packageName . "... ";
     system('tar --create --use-compress-program=zstd --file ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
-    $checksums[$packageName] = array();
+    $checksums[$packageName] = [];
 }
 
 chdir('..');
@@ -653,7 +662,7 @@ if ($includeExtraTextfiles) {
     foreach (array_keys($checksums) as $packageName) {
         echo "Generating checksums for $packageName\n";
 
-        foreach (array('sha256', 'sha384', 'sha512') as $hash) {
+        foreach (['sha256', 'sha384', 'sha512'] as $hash) {
             if (file_exists('packages/' . $packageName)) {
                 $checksums[$packageName][$hash] = hash_file($hash, 'packages/' . $packageName);
             } else {
@@ -680,14 +689,14 @@ if ($includeExtraTextfiles) {
 
     echo "Generating github_release.txt file\n";
 
-    $githubContent = array();
+    $githubContent = [];
     $githubText    = '';
-    $releaseText   = array(
+    $releaseText   = [
         'FULL'    => 'New Joomla! Installations ',
         'POINT'   => 'Update from Joomla! ' . $version . '.' . $previousRelease . ' ',
         'MINOR'   => 'Update from Joomla! ' . $version . '.x ',
         'UPGRADE' => 'Update from Joomla! 3.10 ',
-    );
+    ];
 
     if (!$buildPatchPackages) {
         $releaseText['UPGRADE'] = 'Update from a previous version of Joomla! ';

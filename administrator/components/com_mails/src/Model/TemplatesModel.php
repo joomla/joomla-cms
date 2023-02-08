@@ -34,17 +34,17 @@ class TemplatesModel extends ListModel
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'template_id', 'a.template_id',
                 'language', 'a.language',
                 'subject', 'a.subject',
                 'body', 'a.body',
                 'htmlbody', 'a.htmlbody',
                 'extension'
-            );
+            ];
         }
 
         parent::__construct($config);
@@ -214,6 +214,6 @@ class TemplatesModel extends ListModel
      */
     public function getLanguages()
     {
-        return LanguageHelper::getContentLanguages(array(0,1));
+        return LanguageHelper::getContentLanguages([0, 1]);
     }
 }

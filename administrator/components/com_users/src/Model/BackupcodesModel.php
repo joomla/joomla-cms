@@ -131,7 +131,7 @@ class BackupcodesModel extends BaseDatabaseModel
 
             $newData = [
                 'user_id'    => $user->id,
-                'title'      => Text::_('COM_USERS_PROFILE_OTEPS'),
+                'title'      => Text::_('COM_USERS_USER_BACKUPCODES'),
                 'method'     => 'backupcodes',
                 'default'    => 0,
                 'created_on' => $jNow->toSql(),
