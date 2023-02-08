@@ -48,6 +48,7 @@ Text::script('COM_MEDIA_MEDIA_NAME', true);
 Text::script('COM_MEDIA_MEDIA_SIZE', true);
 Text::script('COM_MEDIA_MEDIA_TYPE', true);
 Text::script('COM_MEDIA_NAME', true);
+Text::script('COM_MEDIA_NO_SEARCH_RESULT',true);
 Text::script('COM_MEDIA_OPEN_ITEM_ACTIONS', true);
 Text::script('COM_MEDIA_PLEASE_SELECT_ITEM', true);
 Text::script('COM_MEDIA_RENAME', true);
