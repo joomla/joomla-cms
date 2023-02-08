@@ -82,7 +82,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                             <th scope="col">
                                 <?php echo Text::_('COM_CONTACT_CONTACT_DETAILS'); ?>
                             </th>
-                            <?php if ($canEdit || ($canDo->get('core.edit.own'))) : ?>
+                            <?php if ($canEdit || $canDo->get('core.edit.own')) : ?>
                                 <th scope="col">
                                     <?php echo Text::_('COM_CONTACT_EDIT_CONTACT'); ?>
                                 </th>
