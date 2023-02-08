@@ -77,8 +77,10 @@
         style="background-color: #DBE4F0;border-radius: 3px;"
       >
         <span>
-          <i class="fa fa-info-circle m-2" 
-            aria-hidden="true" />
+          <i
+            class="fa fa-info-circle m-2"
+            aria-hidden="true"
+          />
             {{ translate('COM_MEDIA_SEARCH') }}
       </span>
         </div>
@@ -96,9 +98,10 @@
               style="background-color: #DBE4F0;border-radius: 3px;"
             >
               <span>
-                <i 
+                <i
                   class="fa fa-info-circle m-2" 
-                  aria-hidden="true" />
+                  aria-hidden="true"
+                 />
                 {{ translate('COM_MEDIA_SEARCH') }}
               </span>
         </div>
@@ -136,10 +139,8 @@ export default {
 
       return [...directories, ...files];
     },
-    isEmptySearch(){
-        if (this.$store.state.search !== '' && this.items.length === 0){
-          return true;
-        }
+    isEmptySearch() {
+      return this.$store.state.search!=='' && this.items.length===0;
     },
     /* The styles for the media-browser element */
     mediaBrowserStyles() {
