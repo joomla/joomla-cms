@@ -81,7 +81,7 @@
                 class="fa fa-info-circle m-2"
                 aria-hidden="true"
                />
-               {{ translate('COM_MEDIA_SEARCH') }}
+               {{ translate('COM_MEDIA_NO_SEARCH_RESULT') }}
             </span>
         </div>
       <div
@@ -102,7 +102,7 @@
                 class="fa fa-info-circle m-2"
                 aria-hidden="true"
                />
-               {{ translate('COM_MEDIA_SEARCH') }}
+               {{ translate('COM_MEDIA_NO_SEARCH_RESULT') }}
             </span>
           </div>
           <media-browser-item
