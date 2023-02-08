@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" method="upgrade">
-	<name>COM_GUIDEDTOURS</name>
+	<name>com_guidedtours</name>
 	<author>Joomla! Project</author>
 	<creationDate>2023-02</creationDate>
 	<copyright>(C) 2023 Open Source Matters, Inc.</copyright>
@@ -8,7 +8,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.3.0</version>
-    <description>COM_GUIDEDTOURS_XML_DESCRIPTION</description>
+	<description>COM_GUIDEDTOURS_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Component\Guidedtours</namespace>
 	<administration>
 		<filename>access.xml</filename>
