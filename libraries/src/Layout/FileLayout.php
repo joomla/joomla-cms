@@ -323,10 +323,10 @@ class FileLayout extends BaseLayout
     {
         $lang = Factory::getLanguage();
 
-        $langTag = $lang->getTag();
+        $langTag   = $lang->getTag();
         $langParts = explode('-', $langTag);
 
-        $suffixes = [$langTag, $langParts[0]];
+        $suffixes   = [$langTag, $langParts[0]];
         $suffixes[] = $lang->isRtl() ? 'rtl' : 'ltr';
 
         $this->setSuffixes($suffixes);
@@ -526,7 +526,7 @@ class FileLayout extends BaseLayout
             // Check template name in the options
             $template = (object) [
                 'template' => $templateName,
-                'parent' => '',
+                'parent'   => '',
             ];
         } elseif ($app->isClient('site') || $app->isClient('administrator')) {
             // Try to get a default template
@@ -601,7 +601,7 @@ class FileLayout extends BaseLayout
     /**
      * Set suffixes to search layouts
      *
-     * @param   mixed  $suffixes  String with a single suffix or 'auto' | 'none' or array of suffixes
+     * @param   array  $suffixes  Array of suffixes to utilise
      *
      * @return  self
      *
@@ -631,7 +631,7 @@ class FileLayout extends BaseLayout
             $layoutId = $this->layoutId . '.' . $layoutId;
         }
 
-        $sublayout = new static($layoutId, $this->basePath, $this->options);
+        $sublayout               = new static($layoutId, $this->basePath, $this->options);
         $sublayout->includePaths = $this->includePaths;
 
         return $sublayout->render($displayData);

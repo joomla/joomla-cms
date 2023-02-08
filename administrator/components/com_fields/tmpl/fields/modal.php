@@ -27,7 +27,7 @@ $wa->useScript('com_fields.admin-fields-modal');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
+$editor    = Factory::getApplication()->getInput()->get('editor', '', 'cmd');
 ?>
 <div class="container-popup">
 

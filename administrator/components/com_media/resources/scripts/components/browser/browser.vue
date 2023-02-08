@@ -119,7 +119,6 @@
 
 <script>
 import * as types from '../../store/mutation-types.es6';
-
 export default {
   name: 'MediaBrowser',
   computed: {
@@ -130,13 +129,11 @@ export default {
         // Sort by type and alphabetically
         .sort((a, b) => ((a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1))
         .filter((dir) => dir.name.toLowerCase().includes(this.$store.state.search.toLowerCase()));
-
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       const files = this.$store.getters.getSelectedDirectoryFiles
         // Sort by type and alphabetically
         .sort((a, b) => ((a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1))
         .filter((file) => file.name.toLowerCase().includes(this.$store.state.search.toLowerCase()));
-
       return [...directories, ...files];
     },
     isEmptySearch() {
@@ -162,15 +159,12 @@ export default {
     },
     currentDirectory() {
       const parts = this.$store.state.selectedDirectory.split('/').filter((crumb) => crumb.length !== 0);
-
       // The first part is the name of the drive, so if we have a folder name display it. Else
       // find the filename
       if (parts.length !== 1) {
         return parts[parts.length - 1];
       }
-
       let diskName = '';
-
       this.$store.state.disks.forEach((disk) => {
         disk.drives.forEach((drive) => {
           if (drive.root === `${parts[0]}/`) {
@@ -178,7 +172,6 @@ export default {
           }
         });
       });
-
       return diskName;
     },
   },
@@ -195,14 +188,11 @@ export default {
       const notClickedBrowserItems = (this.$refs.browserItems
         && !this.$refs.browserItems.contains(event.target))
         || event.target === this.$refs.browserItems;
-
       const notClickedInfobar = this.$refs.infobar !== undefined
         && !this.$refs.infobar.$el.contains(event.target);
-
       const clickedOutside = notClickedBrowserItems && notClickedInfobar && !clickedDelete;
       if (clickedOutside) {
         this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-
         window.parent.document.dispatchEvent(
           new CustomEvent(
             'onMediaFileSelected',
@@ -220,32 +210,27 @@ export default {
         );
       }
     },
-
     // Listeners for drag and drop
     // Fix for Chrome
     onDragEnter(e) {
       e.stopPropagation();
       return false;
     },
-
     // Notify user when file is over the drop area
     onDragOver(e) {
       e.preventDefault();
       document.querySelector('.media-dragoutline').classList.add('active');
       return false;
     },
-
     /* Upload files */
     upload(file) {
       // Create a new file reader instance
       const reader = new FileReader();
-
       // Add the on load callback
       reader.onload = (progressEvent) => {
         const { result } = progressEvent.target;
         const splitIndex = result.indexOf('base64') + 7;
         const content = result.slice(splitIndex, result.length);
-
         // Upload the file
         this.$store.dispatch('uploadFile', {
           name: file.name,
@@ -253,14 +238,11 @@ export default {
           content,
         });
       };
-
       reader.readAsDataURL(file);
     },
-
     // Logic for the dropped file
     onDrop(e) {
       e.preventDefault();
-
       // Loop through array of files and upload each file
       if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
         // eslint-disable-next-line no-plusplus,no-cond-assign
@@ -271,7 +253,6 @@ export default {
       }
       document.querySelector('.media-dragoutline').classList.remove('active');
     },
-
     // Reset the drop area border
     onDragLeave(e) {
       e.stopPropagation();

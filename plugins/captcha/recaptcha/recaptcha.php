@@ -135,7 +135,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
      */
     public function onCheckAnswer($code = null)
     {
-        $input      = Factory::getApplication()->input;
+        $input      = Factory::getApplication()->getInput();
         $privatekey = $this->params->get('private_key');
         $version    = $this->params->get('version', '2.0');
         $remoteip   = IpHelper::getIp();

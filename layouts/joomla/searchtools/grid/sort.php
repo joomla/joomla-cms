@@ -29,7 +29,7 @@ if ($data->order === $data->selected) :
 endif;
 ?>
 
-<a href="" onclick="return false;" class="js-stools-column-order<?php echo $selected; ?> js-stools-button-sort"
+<a href="#" class="js-stools-column-order<?php echo $selected; ?> js-stools-button-sort"
     <?php echo $id; ?>
     data-order="<?php echo $data->order; ?>"
     data-direction="<?php echo strtoupper($data->direction); ?>"

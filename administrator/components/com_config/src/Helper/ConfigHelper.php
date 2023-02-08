@@ -35,7 +35,7 @@ class ConfigHelper extends ContentHelper
      */
     public static function getAllComponents()
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select('element')
             ->from('#__extensions')
@@ -73,9 +73,9 @@ class ConfigHelper extends ContentHelper
      */
     public static function getComponentsWithConfig($authCheck = true)
     {
-        $result = [];
+        $result     = [];
         $components = self::getAllComponents();
-        $user = Factory::getUser();
+        $user       = Factory::getUser();
 
         // Remove com_config from the array as that may have weird side effects
         $components = array_diff($components, ['com_config']);

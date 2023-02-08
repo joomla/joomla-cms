@@ -102,5 +102,12 @@ RoboFile.ini
 /media/com_media/js/mediamanager.min.js.map
 /media/com_media/css/mediamanager.min.css.map
 
+#cypress
+/tests/cypress/screenshots
+!/tests/cypress/screenshots/.gitkeep
+/tests/cypress/videos
+!/tests/cypress/videos/.gitkeep
+cypress.config.js
+
 # WebAuthn FIDO metadata cache
 /plugins/system/webauthn/fido.jwt

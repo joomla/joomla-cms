@@ -41,7 +41,7 @@ abstract class WebApplication extends AbstractWebApplication
      * The application component title.
      *
      * @var    string
-     * @since  4.2.7
+     * @since  4.3.0
      */
     public $JComponentTitle;
 
@@ -355,7 +355,7 @@ abstract class WebApplication extends AbstractWebApplication
         $siteUri = trim($this->get('site_uri', ''));
 
         if ($siteUri !== '') {
-            $uri = Uri::getInstance($siteUri);
+            $uri  = Uri::getInstance($siteUri);
             $path = $uri->toString(['path']);
         } else {
             // No explicit base URI was set so we need to detect it.
