@@ -268,7 +268,7 @@ class MenusModel extends ListModel
      *
      * @return  array
      *
-     * @since   4.2.0
+     * @since   _DEPLOY_VERSION__
      */
     public function getMissingModuleLanguages(): array
     {
