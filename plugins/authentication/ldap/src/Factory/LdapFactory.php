@@ -19,7 +19,7 @@ use Symfony\Component\Ldap\LdapInterface;
 /**
  * Factory to create Ldap clients.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.3.0
  */
 class LdapFactory implements LdapFactoryInterface
 {
@@ -30,7 +30,7 @@ class LdapFactory implements LdapFactoryInterface
      *
      * @return  LdapInterface
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      *
      * @throws  \Exception
      */
