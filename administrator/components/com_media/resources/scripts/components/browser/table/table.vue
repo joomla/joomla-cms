@@ -77,7 +77,7 @@
             class="btn btn-link"
             @click="changeOrder('date_created')"
           >
-            {{ translate('COM_MEDIA_MEDIA_DATE_CREATED') }}
+           {{ translate('COM_MEDIA_MEDIA_DATE_CREATED') }}
              <span
               class="ms-1"
               :class="{

@@ -71,19 +71,19 @@
           />
         </tbody>
       </table>
-       <div
-            v-if="isEmptySearch"
-            class="w-75 text-dark p-2 m-4"
-            style="background-color: #DBE4F0;border-radius: 3px;"
-          >
-            <span>
-              <i
-                class="fa fa-info-circle m-2"
-                aria-hidden="true"
-               />
-               {{ translate('COM_MEDIA_NO_SEARCH_RESULT') }}
-            </span>
-        </div>
+      <div
+        v-if="isEmptySearch"
+        class="w-75 text-dark p-2 m-4"
+        style="background-color: #DBE4F0;border-radius: 3px;"
+      >
+        <span>
+          <i
+           class="fa fa-info-circle m-2"
+           aria-hidden="true"
+          />
+          {{ translate('COM_MEDIA_NO_SEARCH_RESULT') }}
+        </span>
+      </div>
       <div
         v-else-if="listView === 'grid'"
         class="media-browser-grid"
@@ -101,8 +101,8 @@
               <i
                 class="fa fa-info-circle m-2"
                 aria-hidden="true"
-               />
-               {{ translate('COM_MEDIA_NO_SEARCH_RESULT') }}
+              />
+              {{ translate('COM_MEDIA_NO_SEARCH_RESULT') }}
             </span>
           </div>
           <media-browser-item
@@ -119,6 +119,7 @@
 
 <script>
 import * as types from '../../store/mutation-types.es6';
+
 export default {
   name: 'MediaBrowser',
   computed: {
