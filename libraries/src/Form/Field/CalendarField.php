@@ -89,7 +89,7 @@ class CalendarField extends FormField
      * The today button flag
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $todaybutton;
 
@@ -97,7 +97,7 @@ class CalendarField extends FormField
      * The week numbers flag
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $weeknumbers;
 
@@ -105,7 +105,7 @@ class CalendarField extends FormField
      * The show time flag
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $showtime;
 
@@ -113,7 +113,7 @@ class CalendarField extends FormField
      * The fill table flag
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $filltable;
 
@@ -121,7 +121,7 @@ class CalendarField extends FormField
      * The time format
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $timeformat;
 
@@ -129,7 +129,7 @@ class CalendarField extends FormField
      * The single header flag
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $singleheader;
 
@@ -351,7 +351,7 @@ class CalendarField extends FormField
             $helperPath = 'system/fields/calendar-locales/date/' . strtolower($calendar) . '/date-helper.min.js';
         }
 
-        $extraData = array(
+        $extraData = [
             'value'        => $this->value,
             'maxLength'    => $this->maxlength,
             'format'       => $this->format,
@@ -369,7 +369,7 @@ class CalendarField extends FormField
             'calendar'     => $calendar,
             'firstday'     => $lang->getFirstDay(),
             'weekend'      => explode(',', $lang->getWeekEnd()),
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

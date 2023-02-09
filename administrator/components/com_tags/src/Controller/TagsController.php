@@ -37,7 +37,7 @@ class TagsController extends AdminController
      *
      * @since   3.1
      */
-    public function getModel($name = 'Tag', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Tag', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
