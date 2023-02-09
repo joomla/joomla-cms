@@ -1,4 +1,4 @@
-template>
+<template>
   <div
     ref="browserItems"
     class="media-browser"
