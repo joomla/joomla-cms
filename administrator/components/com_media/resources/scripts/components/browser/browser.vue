@@ -56,21 +56,6 @@
         :class="mediaBrowserGridItemsClass"
         :style="mediaBrowserStyles"
       >
-        <div
-          v-if="isEmptySearch"
-          class="alert alert-info"
-        >
-          <span
-            class="fa fa-info-circle"
-            aria-hidden="true"
-          >
-          </span>
-          <p
-           class="ms-2"
-          >
-           {{ translate('COM_MEDIA_NO_SEARCH_RESULT') }}
-          </p>
-        </div>
         <MediaBrowserItem
           v-for="item in localItems"
           :key="item.path"
