@@ -148,18 +148,16 @@ export default {
       }
 
       // Handle clicks when the item was not selected
-      const startindex = this.$store.getters.getSelectedDirectoryContents.indexOf(this.$store.state.selectedItems[0]);
-      const endindex = this.$store.getters.getSelectedDirectoryContents.indexOf(this.item);
       if (!this.isSelected()) {
         if ((event.shiftKey || event.keyCode === 13)) {
-          if (startindex < endindex) {
-            for (let i = startindex; i <= endindex; i += 1) {
-              this.$store.commit(types.SELECT_BROWSER_ITEM, this.$store.getters.getSelectedDirectoryContents[i]);
-            }
+          const currentIndex = this.$store.getters.getSelectedDirectoryContents.indexOf(this.$store.state.selectedItems[0]);
+          const endindex = this.$store.getters.getSelectedDirectoryContents.indexOf(this.item);
+          if (currentIndex < endindex) {
+            this.$store.getters.getSelectedDirectoryContents.slice(currentIndex, endindex + 1)
+              .forEach((element) => this.$store.commit(types.SELECT_BROWSER_ITEM, element));
           } else {
-            for (let i = startindex; i >= endindex; i -= 1) {
-              this.$store.commit(types.SELECT_BROWSER_ITEM, this.$store.getters.getSelectedDirectoryContents[i]);
-            }
+            this.$store.getters.getSelectedDirectoryContents.slice(endindex, currentIndex)
+              .forEach((element) => this.$store.commit(types.SELECT_BROWSER_ITEM, element));
           }
         } else if ((event.ctrlKey || event.keyCode === 17)) {
           this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
