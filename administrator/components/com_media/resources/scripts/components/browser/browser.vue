@@ -1,150 +1,163 @@
-<template>
-  <div>
+template>
+  <div
+    ref="browserItems"
+    class="media-browser"
+    :style="getHeight"
+    @dragenter="onDragEnter"
+    @drop="onDrop"
+    @dragover="onDragOver"
+    @dragleave="onDragLeave"
+  >
     <div
-      ref="browserItems"
-      class="media-browser"
-      :style="mediaBrowserStyles"
-      @dragenter="onDragEnter"
-      @drop="onDrop"
-      @dragover="onDragOver"
-      @dragleave="onDragLeave"
+      v-if="isEmpty"
+      class="text-center"
+      style="display: grid; justify-content: center; align-content: center; margin-top: -1rem; color: var(--gray-200); height: 100%;"
     >
-      <div class="media-dragoutline">
-        <span
-          class="icon-cloud-upload upload-icon"
+      <span
+        class="fa-8x icon-cloud-upload upload-icon"
+        aria-hidden="true"
+      />
+      <p>{{ translate("COM_MEDIA_DROP_FILE") }}</p>
+    </div>
+    <div class="media-dragoutline">
+      <span
+        class="icon-cloud-upload upload-icon"
+        aria-hidden="true"
+      />
+      <p>{{ translate('COM_MEDIA_DROP_FILE') }}</p>
+    </div>
+    <MediaBrowserTable
+      v-if="(listView === 'table' && !isEmpty && !isEmptySearch)"
+      :local-items="localItems"
+      :current-directory="currentDirectory"
+      :style="mediaBrowserStyles"
+    />
+    <div
+      v-if="isEmptySearch"
+      class="w-75 text-dark p-2 m-4"
+      style="background-color: #DBE4F0;border-radius: 3px;"
+    >
+      <span>
+        <i
+          class="fa fa-info-circle m-2"
           aria-hidden="true"
         />
-        <p>{{ translate('COM_MEDIA_DROP_FILE') }}</p>
-      </div>
-      <table
-        v-if="listView === 'table'"
-        class="table media-browser-table"
-      >
-        <caption class="visually-hidden">
-          {{ sprintf('COM_MEDIA_BROWSER_TABLE_CAPTION', currentDirectory) }}
-        </caption>
-        <thead class="media-browser-table-head">
-          <tr
-            v-if="!isEmptySearch"
-          >
-            <th
-              class="type"
-              scope="col"
-            />
-            <th
-              class="name"
-              scope="col"
-            >
-              {{ translate('COM_MEDIA_MEDIA_NAME') }}
-            </th>
-            <th
-              class="size"
-              scope="col"
-            >
-              {{ translate('COM_MEDIA_MEDIA_SIZE') }}
-            </th>
-            <th
-              class="dimension"
-              scope="col"
-            >
-              {{ translate('COM_MEDIA_MEDIA_DIMENSION') }}
-            </th>
-            <th
-              class="created"
-              scope="col"
-            >
-              {{ translate('COM_MEDIA_MEDIA_DATE_CREATED') }}
-            </th>
-            <th
-              class="modified"
-              scope="col"
-            >
-              {{ translate('COM_MEDIA_MEDIA_DATE_MODIFIED') }}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <media-browser-item-row
-            v-for="item in items"
-            :key="item.path"
-            :item="item"
-          />
-        </tbody>
-      </table>
-      <div
-        v-if="isEmptySearch"
-        class="w-75 text-dark p-2 m-4"
-        style="background-color: #DBE4F0;border-radius: 3px;"
-      >
-        <span>
-          <i
-           class="fa fa-info-circle m-2"
-           aria-hidden="true"
-          />
           {{ translate('COM_MEDIA_NO_SEARCH_RESULT') }}
-        </span>
-      </div>
+      </span>
+    </div>
+    <div
+      v-if="(listView === 'grid' && !isEmpty && !isEmptySearch)"
+      class="media-browser-grid"
+    >
       <div
-        v-else-if="listView === 'grid'"
-        class="media-browser-grid"
+        class="media-browser-items"
+        :class="mediaBrowserGridItemsClass"
+        :style="mediaBrowserStyles"
       >
         <div
-          class="media-browser-items"
-          :class="mediaBrowserGridItemsClass"
+          v-if="isEmptySearch"
+          class="w-75 text-dark p-2 m-4"
+          style="background-color: #DBE4F0;border-radius: 3px;"
         >
-          <div
-            v-if="isEmptySearch"
-            class="w-75 text-dark p-2 m-4"
-            style="background-color: #DBE4F0;border-radius: 3px;"
-          >
-            <span>
-              <i
-                class="fa fa-info-circle m-2"
-                aria-hidden="true"
-              />
-              {{ translate('COM_MEDIA_NO_SEARCH_RESULT') }}
-            </span>
-          </div>
-          <media-browser-item
-            v-for="item in items"
-            :key="item.path"
-            :item="item"
-          />
+          <span>
+            <i
+              class="fa fa-info-circle m-2"
+              aria-hidden="true"
+            />
+             {{ translate('COM_MEDIA_NO_SEARCH_RESULT') }}
+          </span>
         </div>
+        <MediaBrowserItem
+          v-for="item in localItems"
+          :key="item.path"
+          :item="item"
+        />
       </div>
     </div>
-    <media-infobar ref="infobar" />
+    <MediaInfobar ref="infobar" />
   </div>
 </template>
 
 <script>
 import * as types from '../../store/mutation-types.es6';
-
+import MediaBrowserTable from './table/table.vue';
+import MediaBrowserItem from './items/item.es6';
+import MediaInfobar from '../infobar/infobar.vue';
+function sortArray(array, by, direction) {
+  return array.sort((a, b) => {
+    // By name
+    if (by === 'name') {
+      if (direction === 'asc') {
+        return a.name.toUpperCase().localeCompare(b.name.toUpperCase(), 'en', { sensitivity: 'base' });
+      }
+      return b.name.toUpperCase().localeCompare(a.name.toUpperCase(), 'en', { sensitivity: 'base' });
+    }
+    // By size
+    if (by === 'size') {
+      if (direction === 'asc') {
+        return parseInt(a.size, 10) - parseInt(b.size, 10);
+      }
+      return parseInt(b.size, 10) - parseInt(a.size, 10);
+    }
+    // By dimension
+    if (by === 'dimension') {
+      if (direction === 'asc') {
+        return (parseInt(a.width, 10) * parseInt(a.height, 10)) - (parseInt(b.width, 10) * parseInt(b.height, 10));
+      }
+      return (parseInt(b.width, 10) * parseInt(b.height, 10)) - (parseInt(a.width, 10) * parseInt(a.height, 10));
+    }
+    // By date created
+    if (by === 'date_created') {
+      if (direction === 'asc') {
+        return new Date(a.create_date) - new Date(b.create_date);
+      }
+      return new Date(b.create_date) - new Date(a.create_date);
+    }
+    // By date modified
+    if (by === 'date_modified') {
+      if (direction === 'asc') {
+        return new Date(a.modified_date) - new Date(b.modified_date);
+      }
+      return new Date(b.modified_date) - new Date(a.modified_date);
+    }
+    return array;
+  });
+}
 export default {
   name: 'MediaBrowser',
+  components: {
+    MediaBrowserTable,
+    MediaInfobar,
+    MediaBrowserItem,
+  },
   computed: {
     /* Get the contents of the currently selected directory */
-    items() {
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      const directories = this.$store.getters.getSelectedDirectoryDirectories
-        // Sort by type and alphabetically
-        .sort((a, b) => ((a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1))
-        .filter((dir) => dir.name.toLowerCase().includes(this.$store.state.search.toLowerCase()));
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      const files = this.$store.getters.getSelectedDirectoryFiles
-        // Sort by type and alphabetically
-        .sort((a, b) => ((a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1))
-        .filter((file) => file.name.toLowerCase().includes(this.$store.state.search.toLowerCase()));
-      return [...directories, ...files];
-    },
-    isEmptySearch() {
-      return this.$store.state.search !== '' && this.items.length === 0;
+    localItems() {
+      const dirs = sortArray(this.$store.getters.getSelectedDirectoryDirectories.slice(0), this.$store.state.sortBy, this.$store.state.sortDirection);
+      const files = sortArray(this.$store.getters.getSelectedDirectoryFiles.slice(0), this.$store.state.sortBy, this.$store.state.sortDirection);
+      return [
+        ...dirs.filter((dir) => dir.name.toLowerCase().includes(this.$store.state.search.toLowerCase())),
+        ...files.filter((file) => file.name.toLowerCase().includes(this.$store.state.search.toLowerCase())),
+      ];
     },
     /* The styles for the media-browser element */
+    getHeight() {
+      return {
+        height: this.$store.state.listView === 'table' && !this.isEmpty ? 'unset' : '100%',
+      };
+    },
     mediaBrowserStyles() {
       return {
         width: this.$store.state.showInfoBar ? '75%' : '100%',
+        height: this.$store.state.listView === 'table' && !this.isEmpty ? 'unset' : '100%',
       };
+    },
+    isEmptySearch() {
+        return this.$store.state.search !== '' && this.localItems.length === 0;
+    },
+    isEmpty() {
+      return ![...this.$store.getters.getSelectedDirectoryDirectories, ...this.$store.getters.getSelectedDirectoryFiles].length
+       && !this.$store.state.isLoading;
     },
     /* The styles for the media-browser element */
     listView() {
@@ -246,11 +259,10 @@ export default {
       e.preventDefault();
       // Loop through array of files and upload each file
       if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-        // eslint-disable-next-line no-plusplus,no-cond-assign
-        for (let i = 0, f; f = e.dataTransfer.files[i]; i++) {
+        Array.from(e.dataTransfer.files).forEach((file) => {
           document.querySelector('.media-dragoutline').classList.remove('active');
-          this.upload(f);
-        }
+          this.upload(file);
+        });
       }
       document.querySelector('.media-dragoutline').classList.remove('active');
     },
