@@ -34,19 +34,21 @@ template>
     />
     <div
       v-if="isEmptySearch"
-      class="w-75 text-dark p-2 m-4"
-      style="background-color: #DBE4F0;border-radius: 3px;"
+      class="alert alert-info"
     >
-      <span>
-        <i
-          class="fa fa-info-circle m-2"
+      <span
+          class="fa fa-info-circle"
           aria-hidden="true"
-        />
-          {{ translate('COM_MEDIA_NO_SEARCH_RESULT') }}
+      >
       </span>
+      <p
+        class="ms-2"
+      >
+        {{ translate('COM_MEDIA_NO_SEARCH_RESULT') }}
+      </p>
     </div>
     <div
-      v-if="(listView === 'grid' && !isEmpty && !isEmptySearch)"
+      v-if="(listView === 'grid' && !isEmpty)"
       class="media-browser-grid"
     >
       <div
@@ -56,16 +58,18 @@ template>
       >
         <div
           v-if="isEmptySearch"
-          class="w-75 text-dark p-2 m-4"
-          style="background-color: #DBE4F0;border-radius: 3px;"
+          class="alert alert-info"
         >
-          <span>
-            <i
-              class="fa fa-info-circle m-2"
-              aria-hidden="true"
-            />
-             {{ translate('COM_MEDIA_NO_SEARCH_RESULT') }}
+          <span
+            class="fa fa-info-circle"
+            aria-hidden="true"
+          >
           </span>
+          <p
+           class="ms-2"
+          >
+           {{ translate('COM_MEDIA_NO_SEARCH_RESULT') }}
+          </p>
         </div>
         <MediaBrowserItem
           v-for="item in localItems"
@@ -121,9 +125,11 @@ function sortArray(array, by, direction) {
       }
       return new Date(b.modified_date) - new Date(a.modified_date);
     }
+
     return array;
   });
 }
+
 export default {
   name: 'MediaBrowser',
   components: {
@@ -136,6 +142,7 @@ export default {
     localItems() {
       const dirs = sortArray(this.$store.getters.getSelectedDirectoryDirectories.slice(0), this.$store.state.sortBy, this.$store.state.sortDirection);
       const files = sortArray(this.$store.getters.getSelectedDirectoryFiles.slice(0), this.$store.state.sortBy, this.$store.state.sortDirection);
+
       return [
         ...dirs.filter((dir) => dir.name.toLowerCase().includes(this.$store.state.search.toLowerCase())),
         ...files.filter((file) => file.name.toLowerCase().includes(this.$store.state.search.toLowerCase())),
@@ -174,12 +181,15 @@ export default {
     },
     currentDirectory() {
       const parts = this.$store.state.selectedDirectory.split('/').filter((crumb) => crumb.length !== 0);
+
       // The first part is the name of the drive, so if we have a folder name display it. Else
       // find the filename
       if (parts.length !== 1) {
         return parts[parts.length - 1];
       }
+
       let diskName = '';
+
       this.$store.state.disks.forEach((disk) => {
         disk.drives.forEach((drive) => {
           if (drive.root === `${parts[0]}/`) {
@@ -187,6 +197,7 @@ export default {
           }
         });
       });
+
       return diskName;
     },
   },
@@ -203,11 +214,14 @@ export default {
       const notClickedBrowserItems = (this.$refs.browserItems
         && !this.$refs.browserItems.contains(event.target))
         || event.target === this.$refs.browserItems;
+
       const notClickedInfobar = this.$refs.infobar !== undefined
         && !this.$refs.infobar.$el.contains(event.target);
+
       const clickedOutside = notClickedBrowserItems && notClickedInfobar && !clickedDelete;
       if (clickedOutside) {
         this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+
         window.parent.document.dispatchEvent(
           new CustomEvent(
             'onMediaFileSelected',
@@ -225,27 +239,32 @@ export default {
         );
       }
     },
+
     // Listeners for drag and drop
     // Fix for Chrome
     onDragEnter(e) {
       e.stopPropagation();
       return false;
     },
+
     // Notify user when file is over the drop area
     onDragOver(e) {
       e.preventDefault();
       document.querySelector('.media-dragoutline').classList.add('active');
       return false;
     },
+
     /* Upload files */
     upload(file) {
       // Create a new file reader instance
       const reader = new FileReader();
+
       // Add the on load callback
       reader.onload = (progressEvent) => {
         const { result } = progressEvent.target;
         const splitIndex = result.indexOf('base64') + 7;
         const content = result.slice(splitIndex, result.length);
+
         // Upload the file
         this.$store.dispatch('uploadFile', {
           name: file.name,
@@ -253,11 +272,14 @@ export default {
           content,
         });
       };
+
       reader.readAsDataURL(file);
     },
+
     // Logic for the dropped file
     onDrop(e) {
       e.preventDefault();
+
       // Loop through array of files and upload each file
       if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
         Array.from(e.dataTransfer.files).forEach((file) => {
@@ -267,6 +289,7 @@ export default {
       }
       document.querySelector('.media-dragoutline').classList.remove('active');
     },
+
     // Reset the drop area border
     onDragLeave(e) {
       e.stopPropagation();
