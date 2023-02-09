@@ -136,7 +136,7 @@ export default {
             this.$store.getters.getSelectedDirectoryContents.slice(endindex, currentIndex)
               .forEach((element) => this.$store.commit(types.SELECT_BROWSER_ITEM, element));
           }
-        } else if ((event.ctrlKey || event.keyCode === 17)) {
+        } else if ((event[/Mac|Mac OS|MacIntel/gi.test(window.navigator.userAgent) ? 'metaKey ' : 'ctrlKey'] || event.keyCode === 17)) {
           this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
         } else {
           this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
