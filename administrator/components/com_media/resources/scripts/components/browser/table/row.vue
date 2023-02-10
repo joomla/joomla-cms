@@ -100,7 +100,7 @@ export default {
 
     /**
      * Handle the click event
-     * * @param ctx  the current context
+     * @param ctx  the current context
      */
     onClick(event, item) {
       return onItemClick(event, item);
