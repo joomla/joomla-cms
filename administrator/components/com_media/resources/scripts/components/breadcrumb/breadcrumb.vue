@@ -20,7 +20,7 @@
   </nav>
   <select
     v-if="crumbs.length > 1"
-    class="form-select media-breadcrumb"
+    class="form-select form-select-sm media-breadcrumb"
     :aria-label="translate('COM_MEDIA_BREADCRUMB_LABEL')"
     @change="onCrumbSelect"
   >
