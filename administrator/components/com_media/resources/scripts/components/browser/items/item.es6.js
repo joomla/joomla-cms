@@ -149,17 +149,21 @@ export default {
 
       // Handle clicks when the item was not selected
       if (!this.isSelected()) {
-        if ((event.shiftKey || event.keyCode === 13)) {
+        // Handle clicks when shift key was pressed
+        if (event.shiftKey || event.keyCode === 13) {
           const currentIndex = this.$store.getters.getSelectedDirectoryContents.indexOf(this.$store.state.selectedItems[0]);
           const endindex = this.$store.getters.getSelectedDirectoryContents.indexOf(this.item);
+          // Handle selections from up to down
           if (currentIndex < endindex) {
             this.$store.getters.getSelectedDirectoryContents.slice(currentIndex, endindex + 1)
               .forEach((element) => this.$store.commit(types.SELECT_BROWSER_ITEM, element));
+          // Handle selections from down to up
           } else {
             this.$store.getters.getSelectedDirectoryContents.slice(endindex, currentIndex)
               .forEach((element) => this.$store.commit(types.SELECT_BROWSER_ITEM, element));
           }
-        } else if ((event[/Mac|Mac OS|MacIntel/gi.test(window.navigator.userAgent) ? 'metaKey ' : 'ctrlKey'] || event.keyCode === 17)) {
+          // Handle clicks when shift key was pressed
+        } else if (event[/Mac|Mac OS|MacIntel/gi.test(window.navigator.userAgent) ? 'metaKey ' : 'ctrlKey'] || event.keyCode === 17) {
           this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
         } else {
           this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
