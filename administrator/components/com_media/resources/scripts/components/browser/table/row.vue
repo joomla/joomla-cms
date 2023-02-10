@@ -42,6 +42,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    localItems: {
+      type: Array,
+      default: () => [],
+    },
   },
   computed: {
     /* The dimension of a file */
@@ -128,15 +132,15 @@ export default {
       if (!this.isSelected()) {
         // Handle clicks when shift key was pressed
         if (event.shiftKey || event.keyCode === 13) {
-          const currentIndex = this.$store.getters.getSelectedDirectoryContents.indexOf(this.$store.state.selectedItems[0]);
-          const endindex = this.$store.getters.getSelectedDirectoryContents.indexOf(this.item);
+          const currentIndex = this.localItems.indexOf(this.$store.state.selectedItems[0]);
+          const endindex = this.localItems.indexOf(this.item);
           // Handle selections from up to down
           if (currentIndex < endindex) {
-            this.$store.getters.getSelectedDirectoryContents.slice(currentIndex, endindex + 1)
+            this.localItems.slice(currentIndex, endindex + 1)
               .forEach((element) => this.$store.commit(types.SELECT_BROWSER_ITEM, element));
           // Handle selections from down to up
           } else {
-            this.$store.getters.getSelectedDirectoryContents.slice(endindex, currentIndex)
+            this.localItems.slice(endindex, currentIndex)
               .forEach((element) => this.$store.commit(types.SELECT_BROWSER_ITEM, element));
           }
           // Handle clicks when ctrl key was pressed
