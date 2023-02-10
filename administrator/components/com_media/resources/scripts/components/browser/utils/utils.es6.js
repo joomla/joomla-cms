@@ -1,8 +1,9 @@
+import * as types from '../../../store/mutation-types.es6';
 export default {
   /**
    * Handle the click event
    * @param event
-   * @param ctx  the context
+   * @param ctx the context
    */
   onItemClick: (event, ctx) => {
     if (ctx.item.path && ctx.item.type === 'file') {
