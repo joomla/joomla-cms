@@ -7,6 +7,10 @@
   background: transparent;
   border-inline-start: 1px solid $border-color;
 
+  &.form-select {
+    width: initial;
+  }
+
   ol {
     display: flex;
     padding: 0;

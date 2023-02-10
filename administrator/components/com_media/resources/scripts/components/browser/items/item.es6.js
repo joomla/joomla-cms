@@ -199,6 +199,7 @@ export default {
       [
         h(this.itemType(), {
           item: this.item,
+          focused: false,
           onToggleSettings: this.toggleSettings,
         }),
       ],

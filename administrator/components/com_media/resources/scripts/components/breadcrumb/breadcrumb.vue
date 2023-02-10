@@ -1,5 +1,6 @@
 <template>
   <nav
+    v-if="crumbs.length === 1"
     class="media-breadcrumb"
     :aria-label="translate('COM_MEDIA_BREADCRUMB_LABEL')"
   >
@@ -17,6 +18,22 @@
       </li>
     </ol>
   </nav>
+  <select
+    v-if="crumbs.length > 1"
+    class="form-select media-breadcrumb"
+    :aria-label="translate('COM_MEDIA_BREADCRUMB_LABEL')"
+    @change="onCrumbSelect"
+  >
+    <option
+      v-for="(val, index) in crumbs"
+      :key="index"
+      class="media-breadcrumb-item"
+      :selected="isSelected(index)"
+      :value="index"
+    >
+      {{ val.name }}
+    </option>
+  </select>
 </template>
 
 <script>
@@ -73,6 +90,9 @@ export default {
         ),
       );
     },
+    onCrumbSelect(event) {
+      return this.onCrumbClick(this.crumbs[event.target.value]);
+    },
     findDrive(adapter) {
       let driveObject = null;
 
@@ -85,6 +105,9 @@ export default {
       });
 
       return driveObject;
+    },
+    isSelected(index) {
+      return index === this.crumbs.length - 1;
     },
   },
 };

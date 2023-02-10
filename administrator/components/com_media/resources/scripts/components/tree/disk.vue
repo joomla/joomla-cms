@@ -31,8 +31,8 @@ export default {
       default: () => {},
     },
     uid: {
-      type: String,
-      default: '',
+      type: Number,
+      default: NaN,
     },
   },
   computed: {
