@@ -139,7 +139,7 @@ export default {
             this.$store.getters.getSelectedDirectoryContents.slice(endindex, currentIndex)
               .forEach((element) => this.$store.commit(types.SELECT_BROWSER_ITEM, element));
           }
-          // Handle clicks when shift key was pressed
+          // Handle clicks when ctrl key was pressed
         } else if (event[/Mac|Mac OS|MacIntel/gi.test(window.navigator.userAgent) ? 'metaKey ' : 'ctrlKey'] || event.keyCode === 17) {
           this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
         } else {
