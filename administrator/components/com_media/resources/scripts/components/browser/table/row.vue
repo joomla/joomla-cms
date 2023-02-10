@@ -101,7 +101,6 @@ export default {
     /**
      * Handle the click event
      * @param event
-     * @param ctx the current context
      */
     onClick(event) {
       return onItemClick(event, this);
