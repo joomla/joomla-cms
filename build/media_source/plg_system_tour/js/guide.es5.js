@@ -42,11 +42,29 @@ function addStepToTourButton(tour, obj, index, buttons) {
     buttons: buttons,
     id: obj.steps[index].id,
     arrow: true,
-    showOn: obj.steps[index].position,
     when: {
       show() {
         const currentStepIndex = `${tour.currentStep.id}`;
         sessionStorage.setItem('currentStepId', String(currentStepIndex));
+        const theElement = this.getElement();
+        if (theElement) {
+          theElement.focus = () => {
+
+              const tabbed_elements = document.querySelectorAll('[tabindex]');
+              tabbed_elements.forEach(function(elt) {
+                  elt.setAttribute('tabindex', '-1');
+              });
+
+              tour.currentStep.getTarget().focus();
+              tour.currentStep.getTarget().tabIndex = 1;
+
+              const popup_buttons = tour.currentStep.getElement().querySelectorAll('.shepherd-content button');
+              popup_buttons.forEach(function(elt, index) {
+                  //elt.setAttribute('tabindex', popup_buttons.length + 1 - index); // loose tab on 'back'
+                  elt.setAttribute('tabindex', index + 2);
+              });
+          }
+      }
         if (obj.steps[index].type === 1) {
           checkAndRedirect(Joomla.getOptions('system.paths').rootFull + tour.currentStep.options.attachTo.url);
         }
