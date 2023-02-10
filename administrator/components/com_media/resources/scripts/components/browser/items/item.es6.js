@@ -7,7 +7,7 @@ import Audio from './audio.vue';
 import Doc from './document.vue';
 import * as types from '../../../store/mutation-types.es6';
 import api from '../../../app/Api.es6';
-import { onItemClick } from '../utils/utils.es6.js';
+import { onItemClick } from '../utils/utils.es6';
 
 export default {
   props: {
@@ -122,7 +122,7 @@ export default {
 
     /**
      * Handle the click event
-     * @param event
+     * @param ctx  the current context
      */
     handleClick(event, item) {
       return onItemClick(event, item);
