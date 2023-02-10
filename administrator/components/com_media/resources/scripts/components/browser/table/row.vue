@@ -33,6 +33,7 @@
 <script>
 import * as types from '../../../store/mutation-types.es6';
 import navigable from '../../../mixins/navigable.es6';
+import { onItemClick } from '../utils/utils.es6.js';
 
 export default {
   name: 'MediaBrowserItemRow',
@@ -101,64 +102,8 @@ export default {
      * Handle the click event
      * @param event
      */
-    onClick(event) {
-      const path = false;
-      const data = {
-        path,
-        thumb: false,
-        fileType: this.item.mime_type ? this.item.mime_type : false,
-        extension: this.item.extension ? this.item.extension : false,
-      };
-
-      if (this.item.type === 'file') {
-        data.path = this.item.path;
-        data.thumb = this.item.thumb ? this.item.thumb : false;
-        data.width = this.item.width ? this.item.width : 0;
-        data.height = this.item.height ? this.item.height : 0;
-
-        window.parent.document.dispatchEvent(
-          new CustomEvent(
-            'onMediaFileSelected',
-            {
-              bubbles: true,
-              cancelable: false,
-              detail: data,
-            },
-          ),
-        );
-      }
-
-      // Handle clicks when the item was not selected
-      if (!this.isSelected()) {
-        // Handle clicks when shift key was pressed
-        if (event.shiftKey || event.keyCode === 13) {
-          const currentIndex = this.localItems.indexOf(this.$store.state.selectedItems[0]);
-          const endindex = this.localItems.indexOf(this.item);
-          // Handle selections from up to down
-          if (currentIndex < endindex) {
-            this.localItems.slice(currentIndex, endindex + 1)
-              .forEach((element) => this.$store.commit(types.SELECT_BROWSER_ITEM, element));
-          // Handle selections from down to up
-          } else {
-            this.localItems.slice(endindex, currentIndex)
-              .forEach((element) => this.$store.commit(types.SELECT_BROWSER_ITEM, element));
-          }
-          // Handle clicks when ctrl key was pressed
-        } else if (event[/Mac|Mac OS|MacIntel/gi.test(window.navigator.userAgent) ? 'metaKey ' : 'ctrlKey'] || event.keyCode === 17) {
-          this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-        } else {
-          this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-          this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-        }
-        return;
-      }
-
-      // If more than one item was selected and the user clicks again on the selected item,
-      // he most probably wants to unselect all other items.
-      if (this.$store.state.selectedItems.length > 1) {
-        this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-        this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-      }
+    onClick(event, item) {
+      return onItemClick(event, item);
     },
 
   },

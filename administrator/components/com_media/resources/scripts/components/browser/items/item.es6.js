@@ -7,6 +7,7 @@ import Audio from './audio.vue';
 import Doc from './document.vue';
 import * as types from '../../../store/mutation-types.es6';
 import api from '../../../app/Api.es6';
+import { onItemClick } from '../utils/utils.es6.js';
 
 export default {
   props: {
@@ -123,73 +124,8 @@ export default {
      * Handle the click event
      * @param event
      */
-    handleClick(event) {
-      if (this.item.path && this.item.type === 'file') {
-        window.parent.document.dispatchEvent(
-          new CustomEvent('onMediaFileSelected', {
-            bubbles: true,
-            cancelable: false,
-            detail: {
-              path: this.item.path,
-              thumb: this.item.thumb,
-              fileType: this.item.mime_type ? this.item.mime_type : false,
-              extension: this.item.extension ? this.item.extension : false,
-              width: this.item.width ? this.item.width : 0,
-              height: this.item.height ? this.item.height : 0,
-            },
-          }),
-        );
-      }
-
-      if (this.item.type === 'dir') {
-        window.parent.document.dispatchEvent(
-          new CustomEvent('onMediaFileSelected', {
-            bubbles: true,
-            cancelable: false,
-            detail: {},
-          }),
-        );
-      }
-
-      // Handle clicks when the item was not selected
-      if (!this.isSelected()) {
-        // Handle clicks when shift key was pressed
-        if (event.shiftKey || event.keyCode === 13) {
-          const currentIndex = this.localItems.indexOf(this.$store.state.selectedItems[0]);
-          const endindex = this.localItems.indexOf(this.item);
-          // Handle selections from up to down
-          if (currentIndex < endindex) {
-            this.localItems.slice(currentIndex, endindex + 1)
-              .forEach((element) => this.$store.commit(types.SELECT_BROWSER_ITEM, element));
-          // Handle selections from down to up
-          } else {
-            this.localItems.slice(endindex, currentIndex)
-              .forEach((element) => this.$store.commit(types.SELECT_BROWSER_ITEM, element));
-          }
-          // Handle clicks when ctrl key was pressed
-        } else if (event[/Mac|Mac OS|MacIntel/gi.test(window.navigator.userAgent) ? 'metaKey ' : 'ctrlKey'] || event.keyCode === 17) {
-          this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-        } else {
-          this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-          this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-        }
-        return;
-      }
-      this.$store.dispatch('toggleBrowserItemSelect', this.item);
-      window.parent.document.dispatchEvent(
-        new CustomEvent('onMediaFileSelected', {
-          bubbles: true,
-          cancelable: false,
-          detail: {},
-        }),
-      );
-
-      // If more than one item was selected and the user clicks again on the selected item,
-      // he most probably wants to unselect all other items.
-      if (this.$store.state.selectedItems.length > 1) {
-        this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-        this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-      }
+    handleClick(event, item) {
+      return onItemClick(event, item);
     },
 
     /**
