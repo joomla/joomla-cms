@@ -30,7 +30,16 @@
               required
               autocomplete="off"
               @input="folder = $event.target.value"
+              v-bind:class = "(isValidName()===true)?'is-invalid':''"
+              aria-describedby="folderFeedback"
             >
+            <div 
+              id="folderFeedback"
+              class="invalid-feedback"
+              v-if="isValidName()"
+            >
+              {{ translate('COM_MEDIA_CREATE_NEW_FOLDER_RELATIVE_PATH_ERROR') }}
+            </div>
           </div>
         </form>
       </div>
@@ -70,6 +79,10 @@ export default {
     isValid() {
       return (this.folder);
     },
+    /* Check folder name contain relative path*/
+    isValidName() {
+      return this.folder.includes("..");
+    }
     /* Close the modal instance */
     close() {
       this.reset();
@@ -83,14 +96,14 @@ export default {
         // @todo mark the field as invalid
         return;
       }
-
+      if(!this.isValidName()){
       // Create the directory
       this.$store.dispatch('createDirectory', {
         name: this.folder,
         parent: this.$store.state.selectedDirectory,
       });
       this.reset();
-      this.$store.commit(types.HIDE_CREATE_FOLDER_MODAL);
+      }
     },
     /* Reset the form */
     reset() {
