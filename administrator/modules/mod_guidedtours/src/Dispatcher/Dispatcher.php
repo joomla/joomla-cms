@@ -37,6 +37,13 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
      */
     public function dispatch()
     {
+        // The guided tour will not show if no user is logged in.
+        $user = $this->getApplication()->getIdentity();
+        if ($user === null || $user->id === 0) {
+            return;
+        }
+
+        // The module can't show if the plugin is not enabled.
         if (!PluginHelper::isEnabled('system', 'tour')) {
             return;
         }

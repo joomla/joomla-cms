@@ -10,7 +10,9 @@
 
 namespace Joomla\Module\GuidedTours\Administrator\Helper;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -43,7 +45,31 @@ class GuidedToursHelper
 
         $tours->setState('filter.published', 1);
 
+        if (Multilanguage::isEnabled()) {
+            $tours->setState('filter.language', $app->getLanguage()->getTag());
+        }
+
+        $user = $app->getIdentity();
+        $authorised = Access::getAuthorisedViewLevels($user ? $user->id : 0);
+
         $items = $tours->getItems();
+
+        foreach ($items as $key => $item) {
+            // The user can only see the tours allowed for the access group.
+            if (!\in_array($item->access, $authorised)) {
+                unset($items[$key]);
+                continue;
+            }
+
+            // The user can only see the tours of extensions that are allowed.
+            parse_str(parse_url($item->url, PHP_URL_QUERY), $parts);
+            if (isset($parts['option'])) {
+                $extension = $parts['option'];
+                if (!$user->authorise('core.manage', $extension)) {
+                    unset($items[$key]);
+                }
+            }
+        }
 
         return $items;
     }
