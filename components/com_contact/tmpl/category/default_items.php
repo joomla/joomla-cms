@@ -30,15 +30,15 @@ $userId  = Factory::getUser()->id;
 
 $showEditColumn = false;
 if ($canEdit) {
-	$showEditColumn = true;
+    $showEditColumn = true;
 } elseif ($canDo->get('core.edit.own') && !empty($this->items)) {
-	foreach ($this->items as $item) {
-		if ($item->created_by == $userId) {
-			$showEditColumn = true;
-			break;
-		}
-	}
-}		
+    foreach ($this->items as $item) {
+        if ($item->created_by == $userId) {
+            $showEditColumn = true;
+            break;
+        }
+    }
+}
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
