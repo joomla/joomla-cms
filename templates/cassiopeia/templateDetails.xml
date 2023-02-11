@@ -24,6 +24,7 @@
 		<folder>images</folder>
 	</media>
 	<positions>
+		<position>above-header</position>
 		<position>topbar</position>
 		<position>below-top</position>
 		<position>menu</position>

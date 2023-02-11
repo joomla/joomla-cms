@@ -129,6 +129,12 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
     . $hasClass
     . ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
+    <?php if ($this->countModules('above-header', true)) : ?>
+        <div class="container-above-header grid-child above-header full-width">
+            <jdoc:include type="modules" name="above-header" style="none" />
+        </div>
+    <?php endif; ?>
+
     <header class="header container-header full-width<?php echo $stickyHeader ? ' ' . $stickyHeader : ''; ?>">
 
         <?php if ($this->countModules('topbar')) : ?>
