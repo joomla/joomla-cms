@@ -57,8 +57,7 @@ class PlgContentLoadmodule extends CMSPlugin
         $defaultStyle = $this->params->get('style', 'none');
 
         // Fallback xhtml (used in Joomla 3) to html5
-        if ($defaultStyle === 'xhtml')
-        {
+        if ($defaultStyle === 'xhtml') {
             $defaultStyle = 'html5';
         }
 
