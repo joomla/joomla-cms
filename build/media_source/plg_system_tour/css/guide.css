@@ -7,7 +7,12 @@
 }
 
 .shepherd-footer {
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.shepherd-button-primary {
+    grid-column-start: 3;
 }
 
 .shepherd-enabled.shepherd-element[data-popper-placement="bottom"] {
