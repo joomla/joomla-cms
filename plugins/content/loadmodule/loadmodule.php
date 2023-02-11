@@ -54,11 +54,6 @@ class PlgContentLoadmodule extends CMSPlugin
             return;
         }
 
-        // Simple performance check to determine whether bot should process further
-        if (strpos($article->text, 'loadposition') === false && strpos($article->text, 'loadmodule') === false) {
-            return;
-        }
-
         $defaultStyle = $this->params->get('style', 'none');
 
         // Fallback xhtml (used in Joomla 3) to html5
@@ -76,78 +71,84 @@ class PlgContentLoadmodule extends CMSPlugin
         // Expression to search for(id)
         $regexmodid = '/{loadmoduleid\s([1-9][0-9]*)}/i';
 
-        // Find all instances of plugin and put in $matches for loadposition
-        // $matches[0] is full pattern match, $matches[1] is the position
-        preg_match_all($regex, $article->text, $matches, PREG_SET_ORDER);
+        if (str_contains($article->text, '{loadposition ')) {
+            // Find all instances of plugin and put in $matches for loadposition
+            // $matches[0] is full pattern match, $matches[1] is the position
+            preg_match_all($regex, $article->text, $matches, PREG_SET_ORDER);
 
-        // No matches, skip this
-        if ($matches) {
-            foreach ($matches as $match) {
-                $matcheslist = explode(',', $match[1]);
+            // No matches, skip this
+            if ($matches) {
+                foreach ($matches as $match) {
+                    $matcheslist = explode(',', $match[1]);
 
-                // We may not have a module style so fall back to the plugin default.
-                if (!array_key_exists(1, $matcheslist)) {
-                    $matcheslist[1] = $defaultStyle;
-                }
+                    // We may not have a module style so fall back to the plugin default.
+                    if (!array_key_exists(1, $matcheslist)) {
+                        $matcheslist[1] = $defaultStyle;
+                    }
 
-                $position = trim($matcheslist[0]);
-                $style    = trim($matcheslist[1]);
+                    $position = trim($matcheslist[0]);
+                    $style = trim($matcheslist[1]);
 
-                $output = $this->_load($position, $style);
+                    $output = $this->_load($position, $style);
 
-                // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-                if (($start = strpos($article->text, $match[0])) !== false) {
-                    $article->text = substr_replace($article->text, $output, $start, strlen($match[0]));
-                }
-            }
-        }
-
-        // Find all instances of plugin and put in $matchesmod for loadmodule
-        preg_match_all($regexmod, $article->text, $matchesmod, PREG_SET_ORDER);
-
-        // If no matches, skip this
-        if ($matchesmod) {
-            foreach ($matchesmod as $matchmod) {
-                $matchesmodlist = explode(',', $matchmod[1]);
-
-                // First parameter is the module, will be prefixed with mod_ later
-                $module = trim($matchesmodlist[0]);
-
-                // Second parameter is the title
-                $title = '';
-
-                if (array_key_exists(1, $matchesmodlist)) {
-                    $title = htmlspecialchars_decode(trim($matchesmodlist[1]));
-                }
-
-                // Third parameter is the module style, (fallback is the plugin default set earlier).
-                $stylemod = $defaultStyle;
-
-                if (array_key_exists(2, $matchesmodlist)) {
-                    $stylemod = trim($matchesmodlist[2]);
-                }
-
-                $output = $this->_loadmod($module, $title, $stylemod);
-
-                // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-                if (($start = strpos($article->text, $matchmod[0])) !== false) {
-                    $article->text = substr_replace($article->text, $output, $start, strlen($matchmod[0]));
+                    // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
+                    if (($start = strpos($article->text, $match[0])) !== false) {
+                        $article->text = substr_replace($article->text, $output, $start, strlen($match[0]));
+                    }
                 }
             }
         }
 
-        // Find all instances of plugin and put in $matchesmodid for loadmoduleid
-        preg_match_all($regexmodid, $article->text, $matchesmodid, PREG_SET_ORDER);
+        if (str_contains($article->text, '{loadmodule ')) {
+            // Find all instances of plugin and put in $matchesmod for loadmodule
+            preg_match_all($regexmod, $article->text, $matchesmod, PREG_SET_ORDER);
 
-        // If no matches, skip this
-        if ($matchesmodid) {
-            foreach ($matchesmodid as $match) {
-                $id     = trim($match[1]);
-                $output = $this->_loadid($id);
+            // If no matches, skip this
+            if ($matchesmod) {
+                foreach ($matchesmod as $matchmod) {
+                    $matchesmodlist = explode(',', $matchmod[1]);
 
-                // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-                if (($start = strpos($article->text, $match[0])) !== false) {
-                    $article->text = substr_replace($article->text, $output, $start, strlen($match[0]));
+                    // First parameter is the module, will be prefixed with mod_ later
+                    $module = trim($matchesmodlist[0]);
+
+                    // Second parameter is the title
+                    $title = '';
+
+                    if (array_key_exists(1, $matchesmodlist)) {
+                        $title = htmlspecialchars_decode(trim($matchesmodlist[1]));
+                    }
+
+                    // Third parameter is the module style, (fallback is the plugin default set earlier).
+                    $stylemod = $defaultStyle;
+
+                    if (array_key_exists(2, $matchesmodlist)) {
+                        $stylemod = trim($matchesmodlist[2]);
+                    }
+
+                    $output = $this->_loadmod($module, $title, $stylemod);
+
+                    // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
+                    if (($start = strpos($article->text, $matchmod[0])) !== false) {
+                        $article->text = substr_replace($article->text, $output, $start, strlen($matchmod[0]));
+                    }
+                }
+            }
+        }
+
+        if (str_contains($article->text, '{loadmoduleid ')) {
+            // Find all instances of plugin and put in $matchesmodid for loadmoduleid
+            preg_match_all($regexmodid, $article->text, $matchesmodid, PREG_SET_ORDER);
+
+            // If no matches, skip this
+            if ($matchesmodid) {
+                foreach ($matchesmodid as $match) {
+                    $id = trim($match[1]);
+                    $output = $this->_loadid($id);
+
+                    // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
+                    if (($start = strpos($article->text, $match[0])) !== false) {
+                        $article->text = substr_replace($article->text, $output, $start, strlen($match[0]));
+                    }
                 }
             }
         }
