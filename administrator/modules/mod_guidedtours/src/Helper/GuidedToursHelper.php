@@ -10,36 +10,32 @@
 
 namespace Joomla\Module\GuidedTours\Administrator\Helper;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Helper for mod_login
+ * Helper for mod_guidedtours
  *
  * @since  __DEPLOY_VERSION__
  */
-abstract class GuidedToursHelper
+class GuidedToursHelper
 {
     /**
-     * Get a list of tours from a specific context
+     * Get a list of tours from a specific context.
      *
-     * @param   \Joomla\Registry\Registry  &$params  object holding the module parameters
+     * @param   Registry                  $params  Object holding the module parameters
+     * @param   AdministratorApplication  $app     The application
      *
      * @return  mixed
      *
-     * @since  __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
-    public static function getList(&$params)
+    public function getTours(Registry $params, AdministratorApplication $app)
     {
-        $app = Factory::getApplication();
-
         $factory = $app->bootComponent('com_guidedtours')->getMVCFactory();
 
         // Get an instance of the guided tour model

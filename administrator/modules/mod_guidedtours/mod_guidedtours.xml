@@ -11,7 +11,7 @@
 	<description>MOD_GUIDEDTOURS_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\GuidedTours</namespace>
 	<files>
-		<filename module="mod_guidedtours">mod_guidedtours.php</filename>
+		<folder module="mod_guidedtours">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
@@ -28,6 +28,7 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field

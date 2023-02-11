@@ -13,6 +13,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+if (!$tours) {
+    return;
+}
+
 // Load the Bootstrap Dropdown
 HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 ?>
@@ -28,10 +32,10 @@ HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
         <span class="icon-angle-down" aria-hidden="true"></span>
     </button>
     <div class="dropdown-menu dropdown-menu-end">
-        <?php foreach ($tours as $i => $tour) : ?>
+        <?php foreach ($tours as $tour) : ?>
         <a class="button-tour dropdown-item" onclick="tourWasSelected(this); return false" href="#" data-id="<?php echo $tour->id ?>">
             <span class="icon-map-signs" aria-hidden="true"></span>
-            <?php echo Text::_($tour->title); ?>
+            <?php echo $tour->title; ?>
         </a>
         <?php endforeach; ?>
     </div>
