@@ -166,7 +166,6 @@ class PlgContentLoadmodule extends CMSPlugin
      */
     protected function _load($position, $style = 'none')
     {
-        self::$modules[$position] = '';
         $document = Factory::getDocument();
         $renderer = $document->loadRenderer('module');
         $modules  = ModuleHelper::getModules($position);
@@ -177,9 +176,7 @@ class PlgContentLoadmodule extends CMSPlugin
             echo $renderer->render($module, $params);
         }
 
-        self::$modules[$position] = ob_get_clean();
-
-        return self::$modules[$position];
+        return ob_get_clean();
     }
 
     /**
@@ -196,7 +193,6 @@ class PlgContentLoadmodule extends CMSPlugin
      */
     protected function _loadmod($module, $title, $style = 'none')
     {
-        self::$mods[$module] = '';
         $document = Factory::getDocument();
         $renderer = $document->loadRenderer('module');
         $mod      = ModuleHelper::getModule($module, $title);
@@ -215,9 +211,7 @@ class PlgContentLoadmodule extends CMSPlugin
             echo $renderer->render($mod, $params);
         }
 
-        self::$mods[$module] = ob_get_clean();
-
-        return self::$mods[$module];
+        return ob_get_clean();
     }
 
     /**
@@ -231,7 +225,6 @@ class PlgContentLoadmodule extends CMSPlugin
      */
     protected function _loadid($id)
     {
-        self::$modules[$id] = '';
         $document = Factory::getDocument();
         $renderer = $document->loadRenderer('module');
         $modules  = ModuleHelper::getModuleById($id);
@@ -242,8 +235,6 @@ class PlgContentLoadmodule extends CMSPlugin
             echo $renderer->render($modules, $params);
         }
 
-        self::$modules[$id] = ob_get_clean();
-
-        return self::$modules[$id];
+        return ob_get_clean();
     }
 }
