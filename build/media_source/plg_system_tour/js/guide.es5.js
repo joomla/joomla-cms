@@ -83,6 +83,7 @@ function addInitialStepToTourButton(tour, obj) {
     },
     buttons: [
       {
+        classes: 'shepherd-button-primary',
         action() {
           return tour.next();
         },
