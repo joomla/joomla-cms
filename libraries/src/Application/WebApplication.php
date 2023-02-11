@@ -46,6 +46,14 @@ abstract class WebApplication extends AbstractWebApplication
     public $JComponentTitle;
 
     /**
+     * The item associations
+     *
+     * @var    integer
+     * @since  __DEPLOY_VERSION__
+     */
+    public $item_associations;
+
+    /**
      * The application document object.
      *
      * @var    Document
