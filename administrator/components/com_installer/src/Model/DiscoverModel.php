@@ -242,7 +242,7 @@ class DiscoverModel extends InstallerModel
             $app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
 
             if (!$failed) {
-                $app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DISCOVER_INSTALLSUCCESSFUL'));
+                $app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DISCOVER_INSTALLSUCCESSFUL'), 'success');
             }
         } else {
             $app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSIONSELECTED'));
