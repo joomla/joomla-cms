@@ -2,7 +2,7 @@
   <div
     ref="browserItems"
     class="media-browser"
-    :style="mediaBrowserStyles"
+    :style="getHeight"
     @dragenter="onDragEnter"
     @drop="onDrop"
     @dragover="onDragOver"
@@ -120,6 +120,11 @@ export default {
       ];
     },
     /* The styles for the media-browser element */
+    getHeight() {
+      return {
+        height: this.$store.state.listView === 'table' && !this.isEmpty ? 'unset' : '100%',
+      };
+    },
     mediaBrowserStyles() {
       return {
         width: this.$store.state.showInfoBar ? '75%' : '100%',
