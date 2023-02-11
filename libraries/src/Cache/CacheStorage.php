@@ -82,7 +82,7 @@ class CacheStorage
      * The threshold
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     public $_threshold;
 
@@ -97,7 +97,7 @@ class CacheStorage
     {
         $app = Factory::getApplication();
 
-        $this->_hash        = md5($app->get('secret'));
+        $this->_hash        = md5($app->get('secret', ''));
         $this->_application = $options['application'] ?? md5(JPATH_CONFIGURATION);
         $this->_language    = $options['language'] ?? 'en-GB';
         $this->_locking     = $options['locking'] ?? true;

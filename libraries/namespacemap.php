@@ -248,7 +248,7 @@ class JNamespacePsr4Map
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.7
      */
     private function getExtensions(string $type): array
     {

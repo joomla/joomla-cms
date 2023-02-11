@@ -106,22 +106,24 @@ class PlgContentLoadmodule extends CMSPlugin
             foreach ($matchesmod as $matchmod) {
                 $matchesmodlist = explode(',', $matchmod[1]);
 
-                // We may not have a specific module so set to null
-                if (!array_key_exists(1, $matchesmodlist)) {
-                    $matchesmodlist[1] = null;
-                }
-
-                // We may not have a module style so fall back to the plugin default.
-                if (!array_key_exists(2, $matchesmodlist)) {
-                    $matchesmodlist[2] = $stylemod;
-                }
-
+                // First parameter is the module, will be prefixed with mod_ later
                 $module = trim($matchesmodlist[0]);
-                $name   = htmlspecialchars_decode(trim($matchesmodlist[1]));
-                $stylemod  = trim($matchesmodlist[2]);
 
-                // $match[0] is full pattern match, $match[1] is the module,$match[2] is the title
-                $output = $this->_loadmod($module, $name, $stylemod);
+                // Second parameter is the title
+                $title = '';
+
+                if (array_key_exists(1, $matchesmodlist)) {
+                    $title = htmlspecialchars_decode(trim($matchesmodlist[1]));
+                }
+
+                // Third parameter is the module style, (fallback is the plugin default set earlier).
+                $stylemod = '';
+
+                if (array_key_exists(2, $matchesmodlist)) {
+                    $stylemod = trim($matchesmodlist[2]);
+                }
+
+                $output = $this->_loadmod($module, $title, $stylemod);
 
                 // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
                 if (($start = strpos($article->text, $matchmod[0])) !== false) {
