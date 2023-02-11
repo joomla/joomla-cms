@@ -60,6 +60,15 @@ class HtmlView extends BaseHtmlView
     public $activeFilters;
 
     /**
+     * Is this view an Empty State
+     *
+     * @var   boolean
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    private $isEmptyState = false;
+
+    /**
      * Display the view.
      *
      * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
@@ -73,6 +82,10 @@ class HtmlView extends BaseHtmlView
         $this->state         = $this->get('State');
         $this->filterForm    = $this->get('FilterForm');
         $this->activeFilters = $this->get('ActiveFilters');
+
+        if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+            $this->setLayout('emptystate');
+        }
 
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {
@@ -104,7 +117,7 @@ class HtmlView extends BaseHtmlView
             $toolbar->addNew('tour.add');
         }
 
-        if ($canDo->get('core.edit.state')) {
+        if (!$this->isEmptyState && $canDo->get('core.edit.state')) {
             $dropdown = $toolbar->dropdownButton('status-group')
                 ->text('JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
@@ -125,7 +138,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
+        if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
             $toolbar->delete('tours.delete')
                 ->text('JTOOLBAR_EMPTY_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
