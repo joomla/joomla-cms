@@ -303,7 +303,7 @@ class JFormValidator {
         // Attach validate method only to fields
         if (tagName !== 'fieldset') {
           // Delay blur event to allow focus of other fields first
-          element.addEventListener('blur', ({ target }) => setTimeout(() => {this.validate(target)}, 100));
+          element.addEventListener('blur', ({ target }) => setTimeout(() => { this.validate(target); }, 100));
           element.addEventListener('focus', ({ target }) => this.removeMarking(target));
           if (element.classList.contains('validate-email') && this.inputEmail) {
             element.setAttribute('type', 'email');
