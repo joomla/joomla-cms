@@ -59,13 +59,19 @@ class PlgContentLoadmodule extends CMSPlugin
             return;
         }
 
+        $defaultStyle = $this->params->get('style', 'none');
+
+        // Fallback xhtml (used in Joomla 3) to html5
+        if ($defaultStyle === 'xhtml')
+        {
+            $defaultStyle = 'html5';
+        }
+
         // Expression to search for (positions)
         $regex = '/{loadposition\s(.*?)}/i';
-        $style = $this->params->def('style', 'none');
 
         // Expression to search for(modules)
         $regexmod = '/{loadmodule\s(.*?)}/i';
-        $stylemod = $this->params->def('style', 'none');
 
         // Expression to search for(id)
         $regexmodid = '/{loadmoduleid\s([1-9][0-9]*)}/i';
@@ -81,7 +87,7 @@ class PlgContentLoadmodule extends CMSPlugin
 
                 // We may not have a module style so fall back to the plugin default.
                 if (!array_key_exists(1, $matcheslist)) {
-                    $matcheslist[1] = $style;
+                    $matcheslist[1] = $defaultStyle;
                 }
 
                 $position = trim($matcheslist[0]);
@@ -93,8 +99,6 @@ class PlgContentLoadmodule extends CMSPlugin
                 if (($start = strpos($article->text, $match[0])) !== false) {
                     $article->text = substr_replace($article->text, $output, $start, strlen($match[0]));
                 }
-
-                $style = $this->params->def('style', 'none');
             }
         }
 
@@ -117,7 +121,7 @@ class PlgContentLoadmodule extends CMSPlugin
                 }
 
                 // Third parameter is the module style, (fallback is the plugin default set earlier).
-                $stylemod = '';
+                $stylemod = $defaultStyle;
 
                 if (array_key_exists(2, $matchesmodlist)) {
                     $stylemod = trim($matchesmodlist[2]);
@@ -129,8 +133,6 @@ class PlgContentLoadmodule extends CMSPlugin
                 if (($start = strpos($article->text, $matchmod[0])) !== false) {
                     $article->text = substr_replace($article->text, $output, $start, strlen($matchmod[0]));
                 }
-
-                $stylemod = $this->params->def('style', 'none');
             }
         }
 
@@ -147,8 +149,6 @@ class PlgContentLoadmodule extends CMSPlugin
                 if (($start = strpos($article->text, $match[0])) !== false) {
                     $article->text = substr_replace($article->text, $output, $start, strlen($match[0]));
                 }
-
-                $style = $this->params->def('style', 'none');
             }
         }
     }
