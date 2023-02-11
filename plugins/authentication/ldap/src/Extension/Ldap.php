@@ -35,7 +35,7 @@ final class Ldap extends CMSPlugin
      * The ldap factory
      *
      * @var    LdapFactoryInterface
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     private $factory;
 
@@ -48,7 +48,7 @@ final class Ldap extends CMSPlugin
      *                                             Recognized key values include 'name', 'group', 'params', 'language'
      *                                             (this list is not meant to be comprehensive).
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function __construct(LdapFactoryInterface $factory, Dispatcher $dispatcher, $config = [])
     {
