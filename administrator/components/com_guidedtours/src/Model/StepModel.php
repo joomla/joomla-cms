@@ -298,27 +298,6 @@ class StepModel extends AdminModel
     }
 
     /**
-     * Method to preprocess the form.
-     *
-     * @param   \JForm  $form   A \JForm object.
-     * @param   mixed   $data   The data expected for the form.
-     * @param   string  $group  The name of the plugin group to import (defaults to "content").
-     *
-     * @return  void
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    protected function preprocessForm(Form $form, $data, $group = 'content')
-    {
-        $extension = Factory::getApplication()->input->get('extension');
-        $parts = explode('.', $extension);
-        $extension = array_shift($parts);
-        $form->setFieldAttribute('rules', 'component', $extension);
-
-        parent::preprocessForm($form, $data, $group);
-    }
-
-    /**
      * Abstract method for getting the form from the model.
      *
      * @param   array    $data      Data for the form.
