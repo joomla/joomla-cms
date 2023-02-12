@@ -121,7 +121,7 @@ class PlgFieldsSubform extends FieldsPlugin
             return;
         }
 
-        if (is_array($field->value)){
+        if (is_array($field->value)) {
             return;
         }
 
