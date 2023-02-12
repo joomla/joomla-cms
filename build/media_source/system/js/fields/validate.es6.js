@@ -105,29 +105,33 @@ class JFormValidator {
     element.parentNode.classList.add('has-danger');
     element.setAttribute('aria-invalid', 'true');
 
-    // Display custom message
-    let mesgCont;
-    const message = element.getAttribute('data-validation-text');
-
-    if (label) {
-      mesgCont = label.querySelector('span.form-control-feedback');
-    }
-
-    if (!mesgCont) {
-      const elMsg = document.createElement('span');
-      elMsg.classList.add('form-control-feedback');
-      if (empty && empty === 'checkbox') {
-        elMsg.innerHTML = message !== null ? Joomla.sanitizeHtml(message) : Joomla.sanitizeHtml(Joomla.Text._('JLIB_FORM_FIELD_REQUIRED_CHECK'));
-      } else if (empty && empty === 'value') {
-        elMsg.innerHTML = message !== null ? Joomla.sanitizeHtml(message) : Joomla.sanitizeHtml(Joomla.Text._('JLIB_FORM_FIELD_REQUIRED_VALUE'));
-      } else {
-        elMsg.innerHTML = message !== null ? Joomla.sanitizeHtml(message) : Joomla.sanitizeHtml(Joomla.Text._('JLIB_FORM_FIELD_INVALID_VALUE'));
-      }
+    function displayMessage() {
+      // Display custom message
+      let mesgCont;
+      const message = element.getAttribute('data-validation-text');
 
       if (label) {
-        label.appendChild(elMsg);
+        mesgCont = label.querySelector('span.form-control-feedback');
+      }
+
+      if (!mesgCont) {
+        const elMsg = document.createElement('span');
+        elMsg.classList.add('form-control-feedback');
+        if (empty && empty === 'checkbox') {
+          elMsg.innerHTML = message !== null ? Joomla.sanitizeHtml(message) : Joomla.sanitizeHtml(Joomla.Text._('JLIB_FORM_FIELD_REQUIRED_CHECK'));
+        } else if (empty && empty === 'value') {
+          elMsg.innerHTML = message !== null ? Joomla.sanitizeHtml(message) : Joomla.sanitizeHtml(Joomla.Text._('JLIB_FORM_FIELD_REQUIRED_VALUE'));
+        } else {
+          elMsg.innerHTML = message !== null ? Joomla.sanitizeHtml(message) : Joomla.sanitizeHtml(Joomla.Text._('JLIB_FORM_FIELD_INVALID_VALUE'));
+        }
+
+        if (label) {
+          label.appendChild(elMsg);
+        }
       }
     }
+
+    requestAnimationFrame(() => requestAnimationFrame(displayMessage));
 
     // Mark the Label as well
     if (label) {
