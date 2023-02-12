@@ -30,15 +30,22 @@
               required
               autocomplete="off"
               @input="folder = $event.target.value"
-              v-bind:class = "(isValidName()===true)?'is-invalid':''"
+              v-bind:class = "(isValidName()!==0)?'is-invalid':''"
               aria-describedby="folderFeedback"
             >
             <div 
               id="folderFeedback"
               class="invalid-feedback"
-              v-if="isValidName()"
+              v-if="isValidName()===1"
             >
               {{ translate('COM_MEDIA_CREATE_NEW_FOLDER_RELATIVE_PATH_ERROR') }}
+            </div>
+            <div 
+              id="folderFeedback"
+              class="invalid-feedback"
+              v-if="isValidName()===2 "
+            >
+              {{ translate('COM_MEDIA_CREATE_NEW_FOLDER_EXISTING_FOLDER_ERROR') }}
             </div>
           </div>
         </form>
@@ -54,7 +61,7 @@
         </button>
         <button
           class="btn btn-success"
-          :disabled="!isValid()"
+          :disabled="!isValid() || isValidName()!==0"
           @click="save()"
         >
           {{ translate('JACTION_CREATE') }}
@@ -74,15 +81,35 @@ export default {
       folder: '',
     };
   },
+  computed: {
+    /* Get the contents of the currently selected directory */
+    items() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      const directories = this.$store.getters.getSelectedDirectoryDirectories
+        .filter((dir) => dir.name.toLowerCase()===(this.folder.toLowerCase()));
+
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      const files = this.$store.getters.getSelectedDirectoryFiles
+        .filter((file) => file.name.toLowerCase()===(this.folder.toLowerCase()));
+
+      return [...directories, ...files];
+    },
+  },
   methods: {
     /* Check if the the form is valid */
     isValid() {
       return (this.folder);
     },
-    /* Check folder name contain relative path*/
-    isValidName() {
-      return this.folder.includes("..");
-    }
+    /* Check folder name is valid or not*/
+    isValidName(){
+      if(this.folder.includes("..")){
+        return 1;
+      }else if((this.items.length !== 0)){
+        return 2;
+      }else{
+        return 0;
+      }
+    },
     /* Close the modal instance */
     close() {
       this.reset();
@@ -96,14 +123,12 @@ export default {
         // @todo mark the field as invalid
         return;
       }
-      if(!this.isValidName()){
       // Create the directory
       this.$store.dispatch('createDirectory', {
         name: this.folder,
         parent: this.$store.state.selectedDirectory,
       });
       this.reset();
-      }
     },
     /* Reset the form */
     reset() {
