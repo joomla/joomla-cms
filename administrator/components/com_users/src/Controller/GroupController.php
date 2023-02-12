@@ -59,7 +59,7 @@ class GroupController extends FormController
      *
      * @since   1.6
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         // Check if this group is a Super Admin
         if (Access::checkGroup($data[$key], 'core.admin')) {

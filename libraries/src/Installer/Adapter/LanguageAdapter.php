@@ -390,7 +390,7 @@ class LanguageAdapter extends InstallerAdapter
          * step stack
          */
         if ($created) {
-            $this->parent->pushStep(array('type' => 'folder', 'path' => $this->parent->getPath('extension_site')));
+            $this->parent->pushStep(['type' => 'folder', 'path' => $this->parent->getPath('extension_site')]);
         }
 
         // Copy all the necessary files
@@ -443,7 +443,7 @@ class LanguageAdapter extends InstallerAdapter
         // Clobber any possible pending updates
         /** @var Update $update */
         $update = Table::getInstance('update');
-        $uid = $update->find(array('element' => $this->tag, 'type' => 'language', 'folder' => ''));
+        $uid = $update->find(['element' => $this->tag, 'type' => 'language', 'folder' => '']);
 
         if ($uid) {
             $update->delete($uid);
@@ -573,7 +573,7 @@ class LanguageAdapter extends InstallerAdapter
 
         // Clobber any possible pending updates
         $update = Table::getInstance('update');
-        $uid = $update->find(array('element' => $this->tag, 'type' => 'language', 'client_id' => $clientId));
+        $uid = $update->find(['element' => $this->tag, 'type' => 'language', 'client_id' => $clientId]);
 
         if ($uid) {
             $update->delete($uid);
@@ -581,7 +581,7 @@ class LanguageAdapter extends InstallerAdapter
 
         // Update an entry to the extension table
         $row = Table::getInstance('extension');
-        $eid = $row->find(array('element' => $this->tag, 'type' => 'language', 'client_id' => $clientId));
+        $eid = $row->find(['element' => $this->tag, 'type' => 'language', 'client_id' => $clientId]);
 
         if ($eid) {
             $row->load($eid);
@@ -820,7 +820,7 @@ class LanguageAdapter extends InstallerAdapter
         $tableLanguage = Table::getInstance('language');
 
         // Check if content language already exists.
-        if ($tableLanguage->load(array('lang_code' => $tag))) {
+        if ($tableLanguage->load(['lang_code' => $tag])) {
             return;
         }
 
@@ -872,7 +872,7 @@ class LanguageAdapter extends InstallerAdapter
         }
 
         // Prepare language data for store.
-        $languageData = array(
+        $languageData = [
             'lang_id'      => 0,
             'lang_code'    => $tag,
             'title'        => $contentLanguageTitle,
@@ -885,7 +885,7 @@ class LanguageAdapter extends InstallerAdapter
             'description'  => '',
             'metadesc'     => '',
             'sitename'     => '',
-        );
+        ];
 
         if (!$tableLanguage->bind($languageData) || !$tableLanguage->check() || !$tableLanguage->store() || !$tableLanguage->reorder()) {
             Log::add(
