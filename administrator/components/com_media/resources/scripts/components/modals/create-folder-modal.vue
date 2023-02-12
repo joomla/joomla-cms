@@ -29,21 +29,21 @@
               type="text"
               required
               autocomplete="off"
-              @input="folder = $event.target.value"
-              v-bind:class = "(isValidName()!==0)?'is-invalid':''"
+              v-bind:class="(isValidName()!==0)?'is-invalid':''"
               aria-describedby="folderFeedback"
+              @input="folder = $event.target.value"
             >
-            <div 
+            <div
               id="folderFeedback"
-              class="invalid-feedback"
               v-if="isValidName()===1"
+              class="invalid-feedback"
             >
               {{ translate('COM_MEDIA_CREATE_NEW_FOLDER_RELATIVE_PATH_ERROR') }}
             </div>
-            <div 
+            <div
               id="folderFeedback"
+              v-if="isValidName()===2"
               class="invalid-feedback"
-              v-if="isValidName()===2 "
             >
               {{ translate('COM_MEDIA_CREATE_NEW_FOLDER_EXISTING_FOLDER_ERROR') }}
             </div>
@@ -86,11 +86,11 @@ export default {
     items() {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       const directories = this.$store.getters.getSelectedDirectoryDirectories
-        .filter((dir) => dir.name.toLowerCase()===(this.folder.toLowerCase()));
+        .filter((dir) => dir.name.toLowerCase() === (this.folder.toLowerCase()));
 
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       const files = this.$store.getters.getSelectedDirectoryFiles
-        .filter((file) => file.name.toLowerCase()===(this.folder.toLowerCase()));
+        .filter((file) => file.name.toLowerCase() === (this.folder.toLowerCase()));
 
       return [...directories, ...files];
     },
@@ -100,13 +100,13 @@ export default {
     isValid() {
       return (this.folder);
     },
-    /* Check folder name is valid or not*/
-    isValidName(){
-      if(this.folder.includes("..")){
+    /* Check folder name is valid or not */
+    isValidName() {
+      if (this.folder.includes("..")) {
         return 1;
-      }else if((this.items.length !== 0)){
+      } else if((this.items.length !== 0)) {
         return 2;
-      }else{
+      } else {
         return 0;
       }
     },
