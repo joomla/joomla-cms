@@ -259,7 +259,7 @@ if ($saveOrder && !empty($this->items)) {
             </table>
 
             <?php
-            // Load the pagination. (@todo: testing)
+            // Load the pagination.
             echo $this->pagination->getListFooter();
             ?>
         <?php endif; ?>
