@@ -16,6 +16,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\String\StringHelper;
+use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -307,5 +308,146 @@ class TourModel extends AdminModel
         }
 
         return $result;
+    }
+
+    public function duplicate(&$pks)
+    {
+        $user = $this->getCurrentUser();
+        $db   = $this->getDatabase();
+
+        // Access checks.
+        if (!$user->authorise('core.create', 'com_tours') || !$user->authorise('core.create', '__guidedtour_steps')) {
+            throw new \Exception(Text::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
+        }
+
+        $table = $this->getTable();
+
+        foreach ($pks as $pk) {
+            if ($table->load($pk, true)) {
+                // Reset the id to create a new record.
+                $table->id = 0;
+
+                // Alter the title.
+                $m = null;
+
+                if (preg_match('#\((\d+)\)$#', $table->title, $m)) {
+                    $table->title = preg_replace('#\(\d+\)$#', '(' . ($m[1] + 1) . ')', $table->title);
+                }
+
+                $data = $this->generateNewTitle(0, Text::_($table->title),Text::_($table->title));
+                $table->title = $data[0];
+
+                // Unpublish duplicate module
+                $table->published = 0;
+
+                if (!$table->check() || !$table->store()) {
+                    throw new \Exception($table->getError());
+                }
+
+                $pk    = (int) $pk;
+                $query = $db->getQuery(true)
+                    ->select($db->quoteName('id'))
+                    ->from($db->quoteName('#__guidedtours'))
+                    ->where($db->quoteName('id') . ' = :id')
+                    ->bind(':id', $pk, ParameterType::INTEGER);
+
+                $db->setQuery($query);
+                $rows = $db->loadColumn();
+                $query = $db->getQuery(true)
+                    ->select($db->quoteName(array('title',
+                    'description',
+                    'ordering',
+                    'step_no',
+                    'position',
+                    'target',
+                    'type',
+                    'interactive_type',
+                    'url',
+                    'created',
+                    'modified',
+                    'checked_out_time',
+                    'checked_out',
+                    'language',
+                    'note')))
+                    ->from($db->quoteName('#__guidedtour_steps'))
+                    ->where($db->quoteName('tour_id') . ' = :id')
+                    ->bind(':id', $pk, ParameterType::INTEGER);
+
+                $db->setQuery($query);
+                $rows = $db->loadObjectList();
+                
+                $query = $db->getQuery(true)
+                ->insert($db->quoteName('#__guidedtour_steps'))
+                ->columns([$db->quoteName('tour_id'), $db->quoteName('title'),
+                $db->quoteName('description'),
+                $db->quoteName('ordering'),
+                $db->quoteName('step_no'),
+                $db->quoteName('position'),
+                $db->quoteName('target'),
+                $db->quoteName('type'),
+                $db->quoteName('interactive_type'),
+                $db->quoteName('url'),
+                $db->quoteName('created'),
+                $db->quoteName('modified'),
+                $db->quoteName('checked_out_time'),
+                $db->quoteName('checked_out'),
+                $db->quoteName('language'),
+                $db->quoteName('note')]);
+                foreach ($rows as $step) {
+                    $dataTypes = [
+                    ParameterType::INTEGER,
+                    ParameterType::STRING ,
+                    ParameterType::STRING ,
+                    ParameterType::INTEGER,
+                    ParameterType::INTEGER,
+                    ParameterType::STRING,
+                    ParameterType::STRING,
+                    ParameterType::INTEGER,
+                    ParameterType::INTEGER,
+                    ParameterType::STRING,
+                    ParameterType::STRING,
+                    ParameterType::STRING,
+                    ParameterType::STRING,
+                    ParameterType::INTEGER,
+                    ParameterType::STRING,
+                    ParameterType::STRING,
+                ];
+                    $query->values(implode(',', $query->bindArray([$table->id,
+                    $step->title,
+                    $step->description,
+                    $step->ordering,
+                    $step->step_no,
+                    $step->position,
+                    $step->target,
+                    $step->type,
+                    $step->interactive_type,
+                    $step->url,
+                    $step->created,
+                    $step->modified,
+                    $step->checked_out_time,
+                    $step->checked_out,
+                    $step->language,
+                    $step->note], $dataTypes)));
+                }
+
+                $db->setQuery($query);
+                
+                try {
+                    $db->execute();
+                } catch (\RuntimeException $e) {
+                    Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+                    return false;
+                }
+              
+            } else {
+                throw new \Exception($table->getError());
+            }
+        }
+
+        // Clear tours cache
+        $this->cleanCache();
+
+        return true;
     }
 }
