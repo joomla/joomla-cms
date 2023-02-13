@@ -13,6 +13,7 @@ namespace Joomla\Component\Guidedtours\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
@@ -37,8 +38,10 @@ class ToursModel extends ListModel
             $config['filter_fields'] = array(
                 'id', 'a.id',
                 'title', 'a.title',
+                'access', 'access_level', 'a.access',
                 'description', 'a.description',
                 'published', 'a.published',
+                'language', 'a.language',
                 'ordering', 'a.ordering',
                 'extensions', 'a.extensions',
                 'created_by', 'a.created_by',
@@ -171,6 +174,15 @@ class ToursModel extends ListModel
         );
         $query->from('#__guidedtours AS a');
 
+        // Join with language table
+        $query->select(
+            [
+                $db->quoteName('l.title', 'language_title'),
+                $db->quoteName('l.image', 'language_image'),
+            ]
+        )
+            ->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'));
+
         // Filter by extension
         if ($extension = $this->getState('filter.extension')) {
             $query->where($db->quoteName('extension') . ' = :extension')
@@ -186,6 +198,12 @@ class ToursModel extends ListModel
                 ->bind(':published', $status, ParameterType::INTEGER);
         } elseif ($status === '') {
             $query->where($db->quoteName('a.published') . ' IN (0, 1)');
+        }
+
+        // Filter by access level.
+        if ($access = (int) $this->getState('filter.access')) {
+            $query->where($db->quoteName('a.access') . ' = :access')
+                ->bind(':access', $access, ParameterType::INTEGER);
         }
 
         // Filter by search in title.

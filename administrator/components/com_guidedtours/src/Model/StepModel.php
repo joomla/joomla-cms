@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
+use Joomla\Component\Guidedtours\Administrator\Helper\StepHelper;
 use Joomla\String\StringHelper;
 
 /**
@@ -342,6 +344,9 @@ class StepModel extends AdminModel
             $form->setFieldAttribute('default', 'filter', 'unset');
         }
 
+        // Disables language field selection
+        $form->setFieldAttribute('language', 'readonly', 'true');
+
         return $form;
     }
 
@@ -384,6 +389,9 @@ class StepModel extends AdminModel
         if ($result = parent::getItem($pk)) {
             $result->title = Text::_($result->title);
             $result->description = Text::_($result->description);
+
+            // Sets step language to parent tour language
+            $result->language = StepHelper::getTourLanguage($result->tour_id);
         }
 
         return $result;
