@@ -382,7 +382,7 @@ class StepModel extends AdminModel
      *
      * @return  CMSObject|boolean  Object on success, false on failure.
      *
-     * @since   1.6
+     * @since   __DEPLOY_VERSION__
      */
     public function getItem($pk = null)
     {
