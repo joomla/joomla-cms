@@ -12,6 +12,7 @@ namespace Joomla\Component\Guidedtours\Administrator\View\Tour;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -58,6 +59,13 @@ class HtmlView extends BaseHtmlView
     protected $canDo;
 
     /**
+     * Determines if a tour can be edited in a multilingual environment
+     *
+     * @var boolean
+     */
+    protected $locked;
+
+    /**
      * Execute and display a template script.
      *
      * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
@@ -75,6 +83,12 @@ class HtmlView extends BaseHtmlView
 
         if (count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
+        }
+
+        $this->locked = $this->item->locked && Multilanguage::isEnabled();
+
+        if ($this->locked) {
+            Factory::getApplication()->enqueueMessage(Text::_('COM_GUIDEDTOURS_WARNING_TOURLOCKED'), 'warning');
         }
 
         $this->addToolbar();
@@ -123,10 +137,9 @@ class HtmlView extends BaseHtmlView
             );
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
-            $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own')
-            && $this->item->created_by == $userId);
+            $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
-            if ($itemEditable) {
+            if ($itemEditable && !$this->locked) {
                 ToolbarHelper::apply('tour.apply');
                 $toolbarButtons = [['save', 'tour.save']];
 
@@ -135,12 +148,12 @@ class HtmlView extends BaseHtmlView
                     $toolbarButtons[] = ['save2new', 'tour.save2new'];
                     $toolbarButtons[] = ['save2copy', 'tour.save2copy'];
                 }
-            }
 
-            ToolbarHelper::saveGroup(
-                $toolbarButtons,
-                'btn-success'
-            );
+                ToolbarHelper::saveGroup(
+                    $toolbarButtons,
+                    'btn-success'
+                );
+            }
 
             ToolbarHelper::cancel(
                 'tour.cancel',

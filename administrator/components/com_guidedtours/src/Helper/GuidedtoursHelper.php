@@ -11,30 +11,42 @@
 namespace Joomla\Component\Guidedtours\Administrator\Helper;
 
 use Joomla\CMS\Factory;
+use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * guidedtours component helper.
+ * Guided Tours component helper.
  *
  * @since __DEPLOY_VERSION__
  */
 class GuidedtoursHelper
 {
-    public static function getTourTitle($id)
+    /**
+     * Get a tour title
+     *
+     * @param   int  $id  Id of a tour
+     *
+     * @return  object
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getTourTitle(int $id): object
     {
         if (empty($id)) {
-            // Throw an error or ...
             return "";
         }
 
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true);
-        $query->select('title');
-        $query->from('#__guidedtours');
-        $query->where('id = ' . $id);
+
+        $query->select('title')
+            ->from($db->quoteName('#__guidedtours'))
+            ->where($db->quoteName('id') . ' = :id')
+            ->bind(':id', $id, ParameterType::INTEGER);
+
         $db->setQuery($query);
 
         return $db->loadObject();
