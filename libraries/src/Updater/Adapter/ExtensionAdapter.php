@@ -65,6 +65,8 @@ class ExtensionAdapter extends UpdateAdapter
                 break;
 
             default:
+                $this->currentUpdate = Table::getInstance('update');
+
                 if (\in_array($name, $this->updatecols)) {
                     $name = strtolower($name);
                     $this->currentUpdate->$name = '';
