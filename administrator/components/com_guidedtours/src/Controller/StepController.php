@@ -17,7 +17,7 @@ use Joomla\CMS\MVC\Controller\FormController;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Controller for a single tour
+ * Controller for a single step
  *
  * @since __DEPLOY_VERSION__
  */
