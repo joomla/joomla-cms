@@ -96,7 +96,7 @@ $addonAfterHtml  = '<span class="input-group-text">' . Text::_($addonAfter) . '<
         type="text"
         name="<?php echo $name; ?>"
         id="<?php echo $id; ?>"
-        value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+        value="<?php echo htmlspecialchars(is_string($value) ? $value : '', ENT_COMPAT, 'UTF-8'); ?>"
         <?php echo $dirname; ?>
         <?php echo implode(' ', $attributes); ?>>
 
