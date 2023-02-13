@@ -18,6 +18,10 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View to edit an Step
  *
@@ -28,7 +32,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The \JForm object
      *
-     * @var \JForm
+     * @var \Joomla\CMS\Form\Form
      */
     protected $form;
 
@@ -49,7 +53,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var \JObject
+     * @var \Joomla\CMS\Object\CMSObject
      */
     protected $canDo;
 
@@ -58,7 +62,7 @@ class HtmlView extends BaseHtmlView
      *
      * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return mixed  A string if successful, otherwise an Error object.
+     * @return  void
      *
      * @throws \Exception
      * @since  __DEPLOY_VERSION__
@@ -75,7 +79,7 @@ class HtmlView extends BaseHtmlView
 
         $this->addToolbar();
 
-        return parent::display($tpl);
+        parent::display($tpl);
     }
 
     /**
@@ -90,17 +94,13 @@ class HtmlView extends BaseHtmlView
     {
         Factory::getApplication()->input->set('hidemainmenu', true);
 
-        $user       = Factory::getUser();
+        $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = empty($this->item->id);
 
         $canDo = ContentHelper::getActions('com_guidedtours');
 
-        $toolbar = Toolbar::getInstance();
-
-        ToolbarHelper::title(
-            Text::_('COM_GUIDEDTOURS') . ' - ' . ($isNew ? 'Add Step' : 'Edit Step')
-        );
+        ToolbarHelper::title(Text::_('COM_GUIDEDTOURS') . ' - ' . ($isNew ? Text::_('COM_GUIDEDTOURS_MANAGER_STEP_NEW') : Text::_('COM_GUIDEDTOURS_MANAGER_STEP_EDIT')), 'map-signs');
 
         $toolbarButtons = [];
 

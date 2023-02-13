@@ -8,7 +8,10 @@
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\Helpers\StringHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -16,9 +19,12 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\View\Steps\HtmlView;
 
-/** @var  HtmlView  $this*/
+/** @var  HtmlView  $this */
 
-HTMLHelper::_('behavior.multiselect');
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns')
+    ->useScript('multiselect');
 
 try {
     $app = Factory::getApplication();
@@ -65,7 +71,7 @@ if ($saveOrder && !empty($this->items)) {
         <?php if (!empty($this->items)) :
             ?>
             <!-- Steps table starts here -->
-            <table class="table" id="categoryList">
+            <table class="table" id="stepsList">
 
                 <caption class="visually-hidden">
                     <?php echo Text::_('COM_GUIDEDTOURS_TABLE_CAPTION'); ?>,
@@ -186,10 +192,9 @@ if ($saveOrder && !empty($this->items)) {
                         <th scope="row">
                             <?php if ($canEdit) :
                                 ?>
-                                <a href="<?php echo Route::_('index.php?option=com_guidedtours&task=step.edit&id=' .
-                                    $item->id); ?> " title="<?php echo Text::_('JACTION_EDIT'); ?>
-                                    <?php echo $this->escape($item->title); ?>">
-                                    <?php echo $this->escape($item->title); ?> </a>
+                                <a href="<?php echo Route::_('index.php?option=com_guidedtours&task=step.edit&id=' . $item->id); ?> " title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+                                    <?php echo $this->escape($item->title); ?>
+                                </a>
                             <?php else :
                                 ?>
                                 <?php echo $this->escape($item->title); ?>
@@ -202,7 +207,7 @@ if ($saveOrder && !empty($this->items)) {
                             </span>
                         </th>
                         <td class="">
-                            <?php echo $item->description; ?>
+                            <?php echo StringHelper::truncate($item->description, 200, true, false); ?>
                         </td>
 
                         <!-- Step Type -->

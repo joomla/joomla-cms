@@ -11,12 +11,15 @@
 namespace Joomla\Component\Guidedtours\Administrator\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\String\StringHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Model class for tour
@@ -282,38 +285,6 @@ class TourModel extends AdminModel
 
         // Default to component settings if neither tour nor category known.
         return parent::canEditState($record);
-    }
-
-    /**
-     * Method to change the published state of one or more records.
-     *
-     * @param   array    &$pks   A list of the primary keys to change.
-     * @param   integer  $value  The value of the published state.
-     *
-     * @return  boolean  True on success.
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public function publish(&$pks, $value = 1)
-    {
-        $table = $this->getTable();
-        $pks   = (array) $pks;
-
-        $date = Factory::getDate()->toSql();
-
-        // Clean the cache.
-        $this->cleanCache();
-
-        // Ensure that previous checks don't empty the array.
-        if (empty($pks)) {
-            return true;
-        }
-
-        $table->load($pk);
-        $table->modified = $date;
-        $table->store();
-
-        return parent::publish($pks, $value);
     }
 
     /**

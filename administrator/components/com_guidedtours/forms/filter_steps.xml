@@ -4,14 +4,14 @@
 		<field
 			name="search"
 			type="text"
-			label="SEARCH"
+			label="COM_GUIDEDTOURS_STEP_FILTER_SEARCH_LABEL"
 			description="COM_GUIDEDTOURS_STEP_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 		<field
 			name="published"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>

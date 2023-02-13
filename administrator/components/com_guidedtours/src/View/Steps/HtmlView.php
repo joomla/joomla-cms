@@ -20,6 +20,10 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View class for a list of guidedtour_steps.
  *
@@ -37,21 +41,21 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var \JPagination
+     * @var \Joomla\CMS\Pagination\Pagination
      */
     protected $pagination;
 
     /**
      * The model state
      *
-     * @var \JObject
+     * @var \Joomla\CMS\Object\CMSObject
      */
     protected $state;
 
     /**
      * Form object for search filters
      *
-     * @var \JForm
+     * @var \Joomla\CMS\Form\Form
      */
     public $filterForm;
 
@@ -76,7 +80,7 @@ class HtmlView extends BaseHtmlView
      *
      * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return mixed  A string if successful, otherwise an Error object.
+     * @return  void
      */
     public function display($tpl = null)
     {
@@ -97,7 +101,7 @@ class HtmlView extends BaseHtmlView
 
         $this->addToolbar();
 
-        return parent::display($tpl);
+        parent::display($tpl);
     }
 
     /**
@@ -109,11 +113,14 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo = ContentHelper::getActions('com_guidedtours');
-        $user  = Factory::getUser();
-
+        // Get the toolbar object instance
         $toolbar = Toolbar::getInstance('toolbar');
+
+        $canDo = ContentHelper::getActions('com_guidedtours');
+        $user  = Factory::getApplication()->getIdentity();
+
         $tour_id = $this->state->get('tour_id');
+
         $title = GuidedtoursHelper::getTourTitle($this->state->get('filter.tour_id'))->title;
         ToolbarHelper::title(Text::sprintf('COM_GUIDEDTOURS_STEPS_LIST', Text::_($title)), 'map-signs');
         $arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
@@ -154,6 +161,10 @@ class HtmlView extends BaseHtmlView
                 ->text('JTOOLBAR_EMPTY_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
+        }
+
+        if ($user->authorise('core.admin', 'com_guidedtours') || $user->authorise('core.options', 'com_guidedtours')) {
+            $toolbar->preferences('com_guidedtours');
         }
     }
 

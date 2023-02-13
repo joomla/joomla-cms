@@ -17,22 +17,22 @@
 	<field
 		name="position"
 		type="list"
-		label="COM_GUIDEDTOURS_POSITION_LABEL"
-		description="COM_GUIDEDTOURS_POSITION_DESC"
+		label="COM_GUIDEDTOURS_STEP_POSITION_LABEL"
+		description="COM_GUIDEDTOURS_STEP_POSITION_DESC"
 		validate="options"
-	>
-		<option value="bottom">COM_GUIDEDTOURS_FIELD_OPTION_BOTTOM</option>
-		<option value="center">COM_GUIDEDTOURS_FIELD_OPTION_CENTER</option>
-		<option value="left">COM_GUIDEDTOURS_FIELD_OPTION_LEFT</option>
-		<option value="right">COM_GUIDEDTOURS_FIELD_OPTION_RIGHT</option>
-		<option value="top">COM_GUIDEDTOURS_FIELD_OPTION_TOP</option>
+        >
+		<option value="bottom">COM_GUIDEDTOURS_FIELD_VALUE_BOTTOM</option>
+		<option value="center">COM_GUIDEDTOURS_FIELD_VALUE_CENTER</option>
+		<option value="left">COM_GUIDEDTOURS_FIELD_VALUE_LEFT</option>
+		<option value="right">COM_GUIDEDTOURS_FIELD_VALUE_RIGHT</option>
+		<option value="top">COM_GUIDEDTOURS_FIELD_VALUE_TOP</option>
 	</field>
 
 	<field
 		name="target"
 		type="text"
-		label="COM_GUIDEDTOURS_TARGET_LABEL"
-		description="COM_GUIDEDTOURS_TARGET_DESC"
+		label="COM_GUIDEDTOURS_STEP_TARGET_LABEL"
+		description="COM_GUIDEDTOURS_STEP_TARGET_DESC"
 	/>
 
 	<field
@@ -61,7 +61,7 @@
 		label="JGLOBAL_DESCRIPTION"
 		filter="JComponentHelper::filterText"
 		buttons="true"
-		hide="readmore,pagebreak"
+		hide="readmore,pagebreak,module,menu,fields,contact,article"
 	/>
 
 	<field
@@ -81,9 +81,9 @@
 	<field
 		name="type"
 		type="list"
-		label="COM_GUIDEDTOURS_TYPE_LABEL"
+		label="COM_GUIDEDTOURS_STEP_TYPE_LABEL"
 		default="0"
-		description="COM_GUIDEDTOURS_TYPE_DESC"
+		description="COM_GUIDEDTOURS_STEP_TYPE_DESC"
 		validate="options"
 	>
 		<option value="0">COM_GUIDEDTOURS_FIELD_VALUE_NEXT_STEP</option>
@@ -111,7 +111,7 @@
 	>
 		<option value="1">COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_BUTTON_LABEL</option>
 		<option value="2">COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_TEXT_FIELD_LABEL</option>
-		<option value="3">COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_OTHERS_LABEL</option>
+		<option value="3">COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_OTHER_LABEL</option>
 	</field>
 
 	<field

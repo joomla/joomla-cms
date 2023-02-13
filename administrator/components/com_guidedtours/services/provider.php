@@ -20,6 +20,10 @@ use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The Guidedtours service provider.
  *

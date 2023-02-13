@@ -13,6 +13,10 @@ namespace Joomla\Component\Guidedtours\Administrator\Helper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * @since __DEPLOY_VERSION__
  */

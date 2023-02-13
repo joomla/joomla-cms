@@ -114,7 +114,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (88, 18, 126, 127, 2, 'com_modules.module.98', 'Logged-in Users', '{}'),
 (89, 18, 128, 129, 2, 'com_modules.module.90', 'Login Support', '{}'),
 (90, 1, 165, 166, 1, 'com_scheduler', 'com_scheduler', '{}'),
-(91, 1, 167, 168, 1, 'com_guidedtours.guidedtours.1', 'com_guidedtours', '{}'),
+(91, 1, 167, 168, 1, 'com_guidedtours', 'com_guidedtours', '{}'),
 (92, 18, 130, 131, 2, 'com_modules.module.109', 'Guided Tours', '{}');
 
 SELECT setval('#__assets_id_seq', 93, false);

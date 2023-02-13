@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Guidedtour_steps table
  *
@@ -28,7 +32,7 @@ class StepTable extends Table
      * @since  __DEPLOY_VERSION__
      */
 
-    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore 
+    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
     protected $_supportNullValue = true;
 
     /**
