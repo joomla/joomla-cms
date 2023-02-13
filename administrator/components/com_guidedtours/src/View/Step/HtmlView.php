@@ -12,11 +12,12 @@ namespace Joomla\Component\Guidedtours\Administrator\View\Step;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Guidedtours\Administrator\Helper\StepHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -58,6 +59,13 @@ class HtmlView extends BaseHtmlView
     protected $canDo;
 
     /**
+     * Determines if a step can be edited in a multilingual environment
+     *
+     * @var boolean
+     */
+    protected $locked;
+
+    /**
      * Execute and display a template script.
      *
      * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
@@ -75,6 +83,15 @@ class HtmlView extends BaseHtmlView
 
         if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
+        }
+
+        $this->locked = false;
+        if (Multilanguage::isEnabled()) {
+            $this->locked = StepHelper::getTourLocked($this->item->tour_id);
+        }
+
+        if ($this->locked) {
+            Factory::getApplication()->enqueueMessage(Text::_('COM_GUIDEDTOURS_WARNING_TOURLOCKED'), 'warning');
         }
 
         $this->addToolbar();
@@ -121,10 +138,9 @@ class HtmlView extends BaseHtmlView
             );
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
-            $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own')
-            && $this->item->created_by == $userId);
+            $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
-            if ($itemEditable) {
+            if ($itemEditable && !$this->locked) {
                 ToolbarHelper::apply('step.apply');
                 $toolbarButtons = [['save', 'step.save']];
 
@@ -133,12 +149,12 @@ class HtmlView extends BaseHtmlView
                     $toolbarButtons[] = ['save2new', 'step.save2new'];
                     $toolbarButtons[] = ['save2copy', 'step.save2copy'];
                 }
-            }
 
-            ToolbarHelper::saveGroup(
-                $toolbarButtons,
-                'btn-success'
-            );
+                ToolbarHelper::saveGroup(
+                    $toolbarButtons,
+                    'btn-success'
+                );
+            }
 
             ToolbarHelper::cancel(
                 'step.cancel',
