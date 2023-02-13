@@ -593,6 +593,17 @@
       "dependencies": [
         "webcomponent.toolbar-button-legacy"
       ]
+    },
+    {
+      "name": "list-view",
+      "type": "script",
+      "uri": "system/list-view.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "core"
+      ]
     }
   ]
 }
