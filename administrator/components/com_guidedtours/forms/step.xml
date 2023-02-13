@@ -108,7 +108,7 @@
 		showon="type:2"
 		filter="string"
 		validate="options"
-	>
+		>
 		<option value="1">COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_BUTTON_LABEL</option>
 		<option value="2">COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_TEXT_FIELD_LABEL</option>
 		<option value="3">COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_OTHER_LABEL</option>
