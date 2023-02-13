@@ -120,7 +120,6 @@ class StepsModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        // $tour_id = $app->input->get('tour_id', 0, 'int');
         $tour_id = $app->getUserStateFromRequest($this->context . '.filter.tour_id', 'tour_id', 0, 'int');
 
         if (empty($tour_id)) {
