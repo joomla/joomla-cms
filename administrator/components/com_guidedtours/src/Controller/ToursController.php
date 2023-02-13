@@ -10,8 +10,8 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Controller;
 
-use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
