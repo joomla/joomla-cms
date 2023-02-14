@@ -108,6 +108,9 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
+        // Unset the tour_id field from activeFilters as we don't filter by tour here.
+        unset($this->activeFilters['tour_id']);
+
         $tour_id = $this->state->get('filter.tour_id');
         $this->isLocked = Multilanguage::isEnabled() && StepHelper::getTourLocked($tour_id);
 
