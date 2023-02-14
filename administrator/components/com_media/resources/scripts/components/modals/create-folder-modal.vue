@@ -29,7 +29,7 @@
               type="text"
               required
               autocomplete="off"
-              v-bind:class="(isValidName()!==0)?'is-invalid':''"
+              v-bind:class="(isValidName()!==0 && isValid())?'is-invalid':''"
               aria-describedby="folderFeedback"
               @input="folder = $event.target.value"
             >
@@ -46,6 +46,13 @@
               class="invalid-feedback"
             >
               {{ translate('COM_MEDIA_CREATE_NEW_FOLDER_EXISTING_FOLDER_ERROR') }}
+            </div>
+            <div
+              id="folderFeedback"
+              v-if="isValidName()===3 && isValid()"
+              class="invalid-feedback"
+            >
+              {{ translate('COM_MEDIA_CREATE_NEW_FOLDER_UNEXPECTED_CHARACTER') }}
             </div>
           </div>
         </form>
@@ -106,6 +113,8 @@ export default {
         return 1;
       } else if((this.items.length !== 0)) {
         return 2;
+      } else if((!/^[\p{L}\p{N}\-_. ]+$/u.test(this.folder))){
+        return 3;
       } else {
         return 0;
       }
