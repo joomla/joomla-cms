@@ -182,7 +182,7 @@ if ($saveOrder && !empty($this->items)) {
                             ); ?>
                         </td>
 
-                        <!-- Step name, edit link, and note (@todo: should it be moved?) -->
+                        <!-- Step name, edit link, and note -->
                         <th scope="row">
                             <div>
                                 <?php if ($canEdit) : ?>
