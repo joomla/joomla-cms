@@ -63,7 +63,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var boolean
      */
-    protected $locked;
+    protected $isLocked;
 
     /**
      * Execute and display a template script.
@@ -85,9 +85,9 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        $this->locked = $this->item->locked && Multilanguage::isEnabled();
+        $this->isLocked = $this->item->locked && Multilanguage::isEnabled();
 
-        if ($this->locked) {
+        if ($this->isLocked) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_GUIDEDTOURS_WARNING_TOURLOCKED'), 'warning');
         }
 
@@ -139,7 +139,7 @@ class HtmlView extends BaseHtmlView
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
-            if ($itemEditable && !$this->locked) {
+            if ($itemEditable && !$this->isLocked) {
                 ToolbarHelper::apply('tour.apply');
                 $toolbarButtons = [['save', 'tour.save']];
 

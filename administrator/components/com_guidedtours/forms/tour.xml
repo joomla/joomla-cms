@@ -50,7 +50,6 @@
 		name="checked_out"
 		type="hidden"
 		filter="unset"
-		default="0"
 	/>
 
 	<field
@@ -68,14 +67,14 @@
 	/>
 
 	<field
-		name="created_user_id"
+		name="created_by"
 		type="user"
 		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
 		validate="UserId"
 	/>
 
 	<field
-		name="created_time"
+		name="created"
 		type="calendar"
 		label="JGLOBAL_CREATED_DATE"
 		translateformat="true"
@@ -84,17 +83,21 @@
 	/>
 
 	<field
-		name="modified_user_id"
+		name="modified_by"
 		type="user"
 		label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+		class="readonly"
+		readonly="true"
+		filter="unset"
 		validate="UserId"
 	/>
 
 	<field
-		name="modified_time"
+		name="modified"
 		type="calendar"
 		label="JGLOBAL_FIELD_MODIFIED_LABEL"
 		class="readonly"
+		readonly="true"
 		translateformat="true"
 		showtime="true"
 		filter="user_utc"
@@ -105,7 +108,7 @@
 		type="contentlanguage"
 		label="JFIELD_LANGUAGE_LABEL"
 		default="*"
-	>
+	    >
 		<option value="*">JALL</option>
 	</field>
 
@@ -143,16 +146,8 @@
 		multiple="multiple"
 		layout="joomla.form.field.list-fancy-select"
 		default="*"
-	>
+	    >
 		<option value="*">JALL</option>
 	</field>
-
-	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL">
-		<field
-			name="asset_id"
-			type="hidden"
-			filter="unset"
-		/>
-	</fieldset>
 
 </form>

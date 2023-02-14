@@ -26,24 +26,18 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
-try {
-    $app = Factory::getApplication();
-} catch (Exception $e) {
-    die('Failed to get app');
-}
-
-$user = $app->getIdentity();
-$userId = $user->get('id');
+$app       = Factory::getApplication();
+$user      = $app->getIdentity();
+$userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn = $this->escape($this->state->get('list.direction'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
-$section = null;
-$mode = false;
-$tour_id = $this->state->get('tour_id');
+$section   = null;
+$mode      = false;
+$tour_id   = $this->state->get('filter.tour_id');
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_guidedtours&step=steps.saveOrderAjax&tmpl=component&' .
-        Session::getFormToken() . '=1';
+    $saveOrderingUrl = 'index.php?option=com_guidedtours&step=steps.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
     HTMLHelper::_('draggablelist.draggable');
 }
 ?>
@@ -190,21 +184,20 @@ if ($saveOrder && !empty($this->items)) {
 
                         <!-- Step name, edit link, and note (@todo: should it be moved?) -->
                         <th scope="row">
-                            <?php if ($canEdit) :
-                                ?>
-                                <a href="<?php echo Route::_('index.php?option=com_guidedtours&task=step.edit&id=' . $item->id); ?> " title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+                            <div>
+                                <?php if ($canEdit) : ?>
+                                    <a href="<?php echo Route::_('index.php?option=com_guidedtours&task=step.edit&id=' . $item->id); ?> " title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+                                        <?php echo $this->escape($item->title); ?>
+                                    </a>
+                                <?php else : ?>
                                     <?php echo $this->escape($item->title); ?>
-                                </a>
-                            <?php else :
-                                ?>
-                                <?php echo $this->escape($item->title); ?>
-                            <?php endif; ?>
-
-                            <span class="small">
-                                <?php if ($item->note) : ?>
-                                    <?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
                                 <?php endif; ?>
-                            </span>
+                                <div class="small break-word">
+                                    <?php if ($item->note) : ?>
+                                        <?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
                         </th>
                         <td class="">
                             <?php echo StringHelper::truncate($item->description, 200, true, false); ?>

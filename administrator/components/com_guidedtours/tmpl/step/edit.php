@@ -28,10 +28,6 @@ $tour_id = $app->getUserState('com_guidedtours.tour_id');
 if (empty($tour_id)) {
     throw new GenericDataException("\nThe Tour id was not set!\n", 500);
 }
-
-// Fieldsets to not automatically render by /layouts/joomla/edit/params.php
-$this->ignore_fieldsets = array('details', 'item_associations', 'jmetadata');
-$this->useCoreUI = true;
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_guidedtours&view=step&layout=edit&id=' .
