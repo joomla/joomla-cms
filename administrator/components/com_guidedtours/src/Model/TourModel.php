@@ -310,10 +310,11 @@ class TourModel extends AdminModel
                     $table->title = preg_replace('#\(\d+\)$#', '(' . ($m[1] + 1) . ')', $table->title);
                 }
 
+
                 $data = $this->generateNewTitle(0, Text::_($table->title),Text::_($table->title));
                 $table->title = $data[0];
 
-                // Unpublish duplicate module
+                // Unpublish duplicate tour
                 $table->published = 0;
 
                 if (!$table->check() || !$table->store()) {
