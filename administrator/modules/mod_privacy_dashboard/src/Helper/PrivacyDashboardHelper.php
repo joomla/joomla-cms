@@ -11,6 +11,7 @@
 namespace Joomla\Module\PrivacyDashboard\Administrator\Helper;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\Database\Exception\ExecutionFailureException;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -53,5 +54,19 @@ class PrivacyDashboardHelper
         } catch (ExecutionFailureException $e) {
             return [];
         }
+    }
+
+    /**
+     * Get the alternate title for the module
+     *
+     * @param   Registry  $params  The module parameters.
+     *
+     * @return  string    The alternate title for the module.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getTitle($params)
+    {
+        return Text::plural('MOD_PRIVACY_DASHBOARD_TITLE', count(self::getData()));
     }
 }

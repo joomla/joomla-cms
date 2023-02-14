@@ -144,4 +144,18 @@ class StatsAdminHelper
 
         return $rows;
     }
+
+    /**
+     * Get the alternate title for the module
+     *
+     * @param   Registry  $params  The module parameters.
+     *
+     * @return  string    The alternate title for the module.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getTitle($params)
+    {
+        return Text::_('MOD_STATS_ADMIN_TITLE');
+    }
 }
