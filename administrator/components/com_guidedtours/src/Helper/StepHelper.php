@@ -11,7 +11,6 @@
 namespace Joomla\Component\Guidedtours\Administrator\Helper;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\ContentHelper;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -23,7 +22,7 @@ use Joomla\Database\ParameterType;
  *
  * @since __DEPLOY_VERSION__
  */
-class StepHelper extends ContentHelper
+class StepHelper
 {
     /**
      * Get a tour language

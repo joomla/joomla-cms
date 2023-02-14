@@ -80,29 +80,17 @@ class TourModel extends AdminModel
      */
     public function save($data)
     {
-        $table             = $this->getTable();
-        $app               = Factory::getApplication();
-        $user              = $app->getIdentity();
-        $input             = $app->input;
-        $context           = $this->option . '.' . $this->name;
-
-        $key = $table->getKeyName();
-        $pk  = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
-
-        if ($pk > 0) {
-            $table->load($pk);
-        }
+        $input = Factory::getApplication()->input;
 
         if ($input->get('task') == 'save2copy') {
             $origTable = clone $this->getTable();
+            $origTable->load($input->getInt('id'));
 
-            // Alter the title for save as copy
-            if ($origTable->load(['title' => $data['title']])) {
+            if ($data['title'] == $origTable->title) {
                 list($title) = $this->generateNewTitle(0, '', $data['title']);
                 $data['title'] = $title;
             }
 
-            // Unpublish new copy
             $data['published'] = 0;
         }
 
@@ -119,13 +107,49 @@ class TourModel extends AdminModel
             $table->description = '';
             $table->tour_id = $tour_id;
 
-            // ---changes
             $table->published = 1;
 
             $table->store();
         }
 
         return $result;
+    }
+
+    /**
+     * Prepare and sanitise the table prior to saving.
+     *
+     * @param   \Joomla\CMS\Table\Table  $table  The Table object
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function prepareTable($table)
+    {
+        $date = Factory::getDate()->toSql();
+
+        $table->title = htmlspecialchars_decode($table->title, ENT_QUOTES);
+
+        if (empty($table->id)) {
+            // Set the values
+            $table->created = $date;
+
+            // Set ordering to the last item if not set
+            if (empty($table->ordering)) {
+                $db = $this->getDatabase();
+                $query = $db->getQuery(true)
+                    ->select('MAX(ordering)')
+                    ->from($db->quoteName('#__guidedtours'));
+                $db->setQuery($query);
+                $max = $db->loadResult();
+
+                $table->ordering = $max + 1;
+            }
+        } else {
+            // Set the values
+            $table->modified = $date;
+            $table->modified_by = $this->getCurrentUser()->id;
+        }
     }
 
     /**
@@ -196,56 +220,6 @@ class TourModel extends AdminModel
 
         return $data;
     }
-    /**
-     * Method to change the default state of one item.
-     *
-     * @param   array    $pk     A list of the primary keys to change.
-     * @param   integer  $value  The value of the home state.
-     *
-     * @return  boolean  True on success.
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public function setDefault($pk, $value = 1)
-    {
-        $table = $this->getTable();
-
-        if ($table->load($pk)) {
-            if ($table->published !== 1) {
-                $this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
-
-                return false;
-            }
-        }
-
-        if (empty($table->id) || !$this->canEditState($table)) {
-            Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-
-            return false;
-        }
-
-        $date = Factory::getDate()->toSql();
-
-        if ($value) {
-            // Unset other default item
-            if ($table->load(array('default' => '1'))) {
-                $table->default = 0;
-                $table->modified = $date;
-                $table->store();
-            }
-        }
-
-        if ($table->load($pk)) {
-            $table->modified = $date;
-            $table->default  = $value;
-            $table->store();
-        }
-
-        // Clean the cache
-        $this->cleanCache();
-
-        return true;
-    }
 
     /**
      * Method to test whether a record can be deleted.
@@ -303,8 +277,10 @@ class TourModel extends AdminModel
         $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
         if ($result = parent::getItem($pk)) {
-            $result->title = Text::_($result->title);
-            $result->description = Text::_($result->description);
+            if (!empty($result->id)) {
+                $result->title = Text::_($result->title);
+                $result->description = Text::_($result->description);
+            }
         }
 
         return $result;

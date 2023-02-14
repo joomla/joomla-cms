@@ -19,7 +19,7 @@ use Joomla\Database\DatabaseDriver;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Guidedtour_steps table
+ * Step table class.
  *
  * @since __DEPLOY_VERSION__
  */
@@ -31,7 +31,6 @@ class StepTable extends Table
      * @var    boolean
      * @since  __DEPLOY_VERSION__
      */
-
     // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
     protected $_supportNullValue = true;
 
@@ -48,44 +47,41 @@ class StepTable extends Table
     }
 
     /**
-     * Overloaded store function
+     * Stores a step.
      *
      * @param   boolean $updateNulls True to update fields even if they are null.
      *
-     * @return mixed  False on failure, positive integer on success.
+     * @return  boolean True on success, false on failure.
      *
-     * @see   Table::store()
      * @since __DEPLOY_VERSION__
      */
     public function store($updateNulls = true)
     {
-        $date = Factory::getDate();
-        $user = Factory::getUser();
+        $date   = Factory::getDate()->toSql();
+        $userId = Factory::getUser()->id;
 
-        $table = new TourTable($this->getDbo());
+        // Set created date if not set.
+        if (!(int) $this->created) {
+            $this->created = $date;
+        }
 
         if ($this->id) {
             // Existing item
-            $this->modified_by = $user->id;
-            $this->modified = $date->toSql();
+            $this->modified_by = $userId;
+            $this->modified    = $date;
         } else {
-            $this->modified_by = 0;
-        }
+            // Field created_by field can be set by the user, so we don't touch it if it's set.
+            if (empty($this->created_by)) {
+                $this->created_by = $userId;
+            }
 
-        if (!(int) $this->created) {
-            $this->created = $date->toSql();
-        }
+            if (!(int) $this->modified) {
+                $this->modified = $date;
+            }
 
-        if (empty($this->created_by)) {
-            $this->created_by = $user->id;
-        }
-
-        if (!(int) $this->modified) {
-            $this->modified = $this->created;
-        }
-
-        if (empty($this->modified_by)) {
-            $this->modified_by = $this->created_by;
+            if (empty($this->modified_by)) {
+                $this->modified_by = $userId;
+            }
         }
 
         return parent::store($updateNulls);

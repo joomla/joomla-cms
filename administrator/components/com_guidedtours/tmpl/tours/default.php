@@ -239,7 +239,7 @@ if ($saveOrder && !empty($this->items)) {
                         <td class="text-center btns d-none d-md-table-cell itemnumber">
                             <a class="btn btn-info "
                                href="index.php?option=com_guidedtours&view=steps&tour_id=<?php echo $item->id; ?>">
-                                <?php echo $item->steps; ?>
+                                <?php echo $item->steps_count; ?>
                             </a>
                         </td>
 

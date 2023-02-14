@@ -12,6 +12,7 @@ namespace Joomla\Component\Guidedtours\Administrator\View\Steps;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -19,6 +20,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
+use Joomla\Component\Guidedtours\Administrator\Helper\StepHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -76,6 +78,13 @@ class HtmlView extends BaseHtmlView
     private $isEmptyState = false;
 
     /**
+     * Determines if a steps can be edited in a multilingual environment
+     *
+     * @var boolean
+     */
+    protected $isLocked;
+
+    /**
      * Display the view.
      *
      * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
@@ -99,6 +108,13 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
+        $tour_id = $this->state->get('filter.tour_id');
+        $this->isLocked = Multilanguage::isEnabled() && StepHelper::getTourLocked($tour_id);
+
+        if ($this->isLocked) {
+            Factory::getApplication()->enqueueMessage(Text::_('COM_GUIDEDTOURS_WARNING_TOURLOCKED'), 'warning');
+        }
+
         $this->addToolbar();
 
         parent::display($tpl);
@@ -119,8 +135,6 @@ class HtmlView extends BaseHtmlView
         $canDo = ContentHelper::getActions('com_guidedtours');
         $user  = Factory::getApplication()->getIdentity();
 
-        $tour_id = $this->state->get('tour_id');
-
         $title = GuidedtoursHelper::getTourTitle($this->state->get('filter.tour_id'))->title;
         ToolbarHelper::title(Text::sprintf('COM_GUIDEDTOURS_STEPS_LIST', Text::_($title)), 'map-signs');
         $arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
@@ -131,11 +145,11 @@ class HtmlView extends BaseHtmlView
             $arrow
         );
 
-        if ($canDo->get('core.create')) {
+        if ($canDo->get('core.create') && !$this->isLocked) {
             $toolbar->addNew('step.add');
         }
 
-        if (!$this->isEmptyState && $canDo->get('core.edit.state')) {
+        if (!$this->isEmptyState && !$this->isLocked && $canDo->get('core.edit.state')) {
             $dropdown = $toolbar->dropdownButton('status-group')
                 ->text('JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)

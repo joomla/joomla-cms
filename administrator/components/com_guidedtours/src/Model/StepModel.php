@@ -122,7 +122,7 @@ class StepModel extends AdminModel
         $app        = Factory::getApplication();
         $user       = $app->getIdentity();
         $input      = $app->input;
-        $tourID = $app->getUserStateFromRequest($context . '.filter.tour_id', 'tour_id', 0, 'int');
+        $tourID     = $app->getUserStateFromRequest($context . '.filter.tour_id', 'tour_id', 0, 'int');
 
         if (empty($data['tour_id'])) {
             $data['tour_id'] = $tourID;
@@ -152,69 +152,54 @@ class StepModel extends AdminModel
 
         if ($input->get('task') == 'save2copy') {
             $origTable = clone $this->getTable();
+            $origTable->load($input->getInt('id'));
 
-            // Alter the title for save as copy
-            if ($origTable->load(['title' => $data['title']])) {
+            if ($data['title'] == $origTable->title) {
                 list($title) = $this->generateNewTitle(0, '', $data['title']);
                 $data['title'] = $title;
             }
 
             $data['published'] = 0;
-            $data['default']   = 0;
         }
 
         return parent::save($data);
     }
 
     /**
-     * Method to change the default state of one item.
+     * Prepare and sanitise the table prior to saving.
      *
-     * @param   array    $pk     A list of the primary keys to change.
-     * @param   integer  $value  The value of the home state.
+     * @param   \Joomla\CMS\Table\Table  $table  The Table object
      *
-     * @return  boolean  True on success.
+     * @return  void
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function setDefault($pk, $value = 1)
+    protected function prepareTable($table)
     {
-        $table = $this->getTable();
-
-        if ($table->load($pk)) {
-            if ($table->published !== 1) {
-                $this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
-
-                return false;
-            }
-        }
-
-        if (empty($table->id) || !$this->canEditState($table)) {
-            Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-
-            return false;
-        }
-
         $date = Factory::getDate()->toSql();
 
-        if ($value) {
-            // Unset other default item
-            if ($table->load(array('default' => '1'))) {
-                $table->default = 0;
-                $table->modified = $date;
-                $table->store();
+        $table->title = htmlspecialchars_decode($table->title, ENT_QUOTES);
+
+        if (empty($table->id)) {
+            // Set the values
+            $table->created = $date;
+
+            // Set ordering to the last item if not set
+            if (empty($table->ordering)) {
+                $db = $this->getDatabase();
+                $query = $db->getQuery(true)
+                    ->select('MAX(ordering)')
+                    ->from($db->quoteName('#__guidedtours'));
+                $db->setQuery($query);
+                $max = $db->loadResult();
+
+                $table->ordering = $max + 1;
             }
-        }
-
-        if ($table->load($pk)) {
+        } else {
+            // Set the values
             $table->modified = $date;
-            $table->default  = $value;
-            $table->store();
+            $table->modified_by = $this->getCurrentUser()->id;
         }
-
-        // Clean the cache
-        $this->cleanCache();
-
-        return true;
     }
 
     /**
@@ -390,11 +375,13 @@ class StepModel extends AdminModel
         $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
         if ($result = parent::getItem($pk)) {
-            $result->title = Text::_($result->title);
-            $result->description = Text::_($result->description);
+            if (!empty($result->id)) {
+                $result->title = Text::_($result->title);
+                $result->description = Text::_($result->description);
 
-            // Sets step language to parent tour language
-            $result->language = StepHelper::getTourLanguage($result->tour_id);
+                // Sets step language to parent tour language
+                $result->language = StepHelper::getTourLanguage($result->tour_id);
+            }
         }
 
         return $result;

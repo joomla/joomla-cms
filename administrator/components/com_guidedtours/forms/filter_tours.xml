@@ -4,8 +4,9 @@
 		<field
 			name="search"
 			type="text"
-			label="SEARCH"
+			label="COM_GUIDEDTOURS_FILTER_SEARCH_LABEL"
 			description="COM_GUIDEDTOURS_FILTER_SEARCH_DESC"
+			inputmode="search"
 			hint="JSEARCH_FILTER"
 		/>
 		<field
