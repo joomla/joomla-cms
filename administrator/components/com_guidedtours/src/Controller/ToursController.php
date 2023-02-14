@@ -47,7 +47,7 @@ class ToursController extends AdminController
         $pks = array_filter($pks);
         try {
             if (empty($pks)) {
-                throw new \Exception(Text::_('COM_MODULES_ERROR_NO_MODULES_SELECTED'));
+                throw new \Exception(Text::_('COM_GUIDEDTOURS_ERROR_NO_GUIDEDTOURS_SELECTED'));
             }
             $model = $this->getModel();
             $model->duplicate($pks);
