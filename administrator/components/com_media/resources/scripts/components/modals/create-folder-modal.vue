@@ -34,22 +34,22 @@
               @input="folder = $event.target.value"
             >
             <div
-              id="folderFeedback"
               v-if="isValidName()===1"
+              id="folderFeedback"
               class="invalid-feedback"
             >
               {{ translate('COM_MEDIA_CREATE_NEW_FOLDER_RELATIVE_PATH_ERROR') }}
             </div>
             <div
-              id="folderFeedback"
               v-if="isValidName()===2"
+              id="folderFeedback"
               class="invalid-feedback"
             >
               {{ translate('COM_MEDIA_CREATE_NEW_FOLDER_EXISTING_FOLDER_ERROR') }}
             </div>
             <div
-              id="folderFeedback"
               v-if="isValidName()===3 && isValid()"
+              id="folderFeedback"
               class="invalid-feedback"
             >
               {{ translate('COM_MEDIA_CREATE_NEW_FOLDER_UNEXPECTED_CHARACTER') }}
@@ -109,11 +109,11 @@ export default {
     },
     /* Check folder name is valid or not */
     isValidName() {
-      if (this.folder.includes("..")) {
+      if (this.folder.includes('..')) {
         return 1;
-      } else if((this.items.length !== 0)) {
+      } else if ((this.items.length !== 0)) {
         return 2;
-      } else if((!/^[\p{L}\p{N}\-_. ]+$/u.test(this.folder))){
+      } else if ((!/^[\p{L}\p{N}\-_. ]+$/u.test(this.folder))) {
         return 3;
       } else {
         return 0;
