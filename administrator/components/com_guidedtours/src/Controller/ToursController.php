@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Controller;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -38,5 +39,22 @@ class ToursController extends AdminController
     public function getModel($name = 'Tour', $prefix = 'Administrator', $config = array('ignore_request' => true))
     {
         return parent::getModel($name, $prefix, $config);
+    }
+    public function duplicate()
+    {
+        $this->checkToken();
+        $pks = (array) $this->input->post->get('cid', array(), 'int');
+        $pks = array_filter($pks);
+        try {
+            if (empty($pks)) {
+                throw new \Exception(Text::_('COM_GUIDEDTOURS_ERROR_NO_GUIDEDTOURS_SELECTED'));
+            }
+            $model = $this->getModel();
+            $model->duplicate($pks);
+            $this->setMessage(Text::plural('COM_GUIDEDTOURS_TOURS_DUPLICATED', count($pks)));
+        } catch (\Exception $e) {
+            $this->app->enqueueMessage($e->getMessage(), 'warning');
+        }
+        $this->setRedirect('index.php?option=com_guidedtours&view=tours' . $this->getRedirectToListAppend());
     }
 }

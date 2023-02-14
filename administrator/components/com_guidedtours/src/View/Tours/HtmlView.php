@@ -142,6 +142,12 @@ class HtmlView extends BaseHtmlView
             if ($this->state->get('filter.published') != -2) {
                 $childBar->trash('tours.trash')->listCheck(true);
             }
+            if ($canDo->get('core.create')) {
+                $childBar->standardButton('copy')
+                    ->text('JTOOLBAR_DUPLICATE')
+                    ->task('tours.duplicate')
+                    ->listCheck(true);
+            }
         }
 
         if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
