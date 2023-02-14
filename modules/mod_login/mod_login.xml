@@ -127,7 +127,7 @@
 					default="0"
 					filter="integer"
 					>
-					<option value="0">MOD_LOGIN_VALUE_PLACEHOLDERS</option>
+					<option value="0">MOD_LOGIN_VALUE_ICONS</option>
 					<option value="1">MOD_LOGIN_VALUE_TEXT</option>
 				</field>
 			</fieldset>

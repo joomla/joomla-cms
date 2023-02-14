@@ -52,11 +52,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
     <form action="<?php echo Route::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="com-users-login__form form-validate form-horizontal well" id="com-users-login__form">
 
         <fieldset>
-            <?php if ($this->params->get('login_label') == 1) : ?>
-                <?php echo $this->form->renderFieldset('credentials_text', ['class' => 'com-users-login__input']); ?>
-            <?php elseif ($this->params->get('login_label') == 0) : ?>
-                <?php echo $this->form->renderFieldset('credentials_placeholders', ['class' => 'com-users-login__input']); ?>
-            <?php endif; ?>
+            <?php echo $this->form->renderFieldset('credentials', ['class' => 'com-users-login__input']); ?>
 
             <?php if (PluginHelper::isEnabled('system', 'remember')) : ?>
                 <div class="com-users-login__remember">
