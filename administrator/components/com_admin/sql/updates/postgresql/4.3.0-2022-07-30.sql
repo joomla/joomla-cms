@@ -5,7 +5,7 @@
 CREATE TABLE IF NOT EXISTS "#__guidedtours" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
-  "title" varchar(255) NOT NULL,
+  "title" varchar(255) DEFAULT '' NOT NULL,
   "description" text NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
   "extensions" text NOT NULL,
