@@ -91,7 +91,7 @@ if ($saveOrder && !empty($this->items)) {
                                 <?php endif; ?>
                                 <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
                                     <th scope="col" class="w-10 text-center d-none d-md-table-cell">
-                                        <span class="icon-times" aria-hidden="true""></span>
+                                        <span class="icon-times" aria-hidden="true"></span>
                                         <span class="d-none d-md-inline"><?php echo Text::_('COM_CATEGORIES_HEADING_UNPUBLISHED'); ?></span>
                                     </th>
                                 <?php endif; ?>
