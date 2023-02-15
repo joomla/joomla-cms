@@ -96,7 +96,7 @@ abstract class TemplateHelper
         $fontTypes    = explode(',', $params->get('font_formats'));
         $archiveTypes = explode(',', $params->get('compressed_formats'));
 
-        $allowable = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
+        $allowable = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes, ['ico']);
 
         if ($format == '' || $format == false || (!in_array($format, $allowable))) {
             $app = Factory::getApplication();

@@ -1779,7 +1779,7 @@ class TemplateModel extends FormModel
             $fontTypes    = explode(',', $params->get('font_formats'));
             $archiveTypes = explode(',', $params->get('compressed_formats'));
 
-            $this->allowedFormats = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
+            $this->allowedFormats = array_merge($imageTypes, $sourceTypes, $fontTypes,$archiveTypes, ['ico']);
             $this->allowedFormats = array_map('strtolower', $this->allowedFormats);
         }
 
