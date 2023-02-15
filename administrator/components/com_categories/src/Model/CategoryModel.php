@@ -87,7 +87,7 @@ class CategoryModel extends AdminModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         $extension = Factory::getApplication()->input->get('extension', 'com_content');
         $this->typeAlias = $extension . '.category';
@@ -154,7 +154,7 @@ class CategoryModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'Category', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Category', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -228,7 +228,7 @@ class CategoryModel extends AdminModel
             if ($result->id != null) {
                 $result->associations = ArrayHelper::toInteger(CategoriesHelper::getAssociations($result->id, $result->extension));
             } else {
-                $result->associations = array();
+                $result->associations = [];
             }
         }
 
@@ -245,7 +245,7 @@ class CategoryModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         $extension = $this->getState('category.extension');
         $jinput = Factory::getApplication()->input;
@@ -261,7 +261,7 @@ class CategoryModel extends AdminModel
         }
 
         // Get the form.
-        $form = $this->loadForm('com_categories.category' . $extension, 'category', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_categories.category' . $extension, 'category', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -325,7 +325,7 @@ class CategoryModel extends AdminModel
     {
         // Check the session for previously entered form data.
         $app = Factory::getApplication();
-        $data = $app->getUserState('com_categories.edit.' . $this->getName() . '.data', array());
+        $data = $app->getUserState('com_categories.edit.' . $this->getName() . '.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -441,12 +441,12 @@ class CategoryModel extends AdminModel
 
                 \JLoader::register($cName, $path);
 
-                if (class_exists($cName) && \is_callable(array($cName, 'onPrepareForm'))) {
+                if (class_exists($cName) && \is_callable([$cName, 'onPrepareForm'])) {
                     $lang->load($component, JPATH_BASE, null, false, false)
                         || $lang->load($component, JPATH_BASE . '/components/' . $component, null, false, false)
                         || $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
                         || $lang->load($component, JPATH_BASE . '/components/' . $component, $lang->getDefault(), false, false);
-                    \call_user_func_array(array($cName, 'onPrepareForm'), array(&$form));
+                    \call_user_func_array([$cName, 'onPrepareForm'], [&$form]);
 
                     // Check for an error.
                     if ($form instanceof \Exception) {
@@ -570,7 +570,7 @@ class CategoryModel extends AdminModel
         }
 
         // Trigger the before save event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew, $data));
+        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew, $data]);
 
         if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
@@ -589,7 +589,7 @@ class CategoryModel extends AdminModel
 
         if ($assoc) {
             // Adding self to the association
-            $associations = $data['associations'] ?? array();
+            $associations = $data['associations'] ?? [];
 
             // Unset any invalid associations
             $associations = ArrayHelper::toInteger($associations);
@@ -696,7 +696,7 @@ class CategoryModel extends AdminModel
         }
 
         // Trigger the after save event.
-        Factory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew, $data));
+        Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, $isNew, $data]);
 
         // Rebuild the path for the category:
         if (!$table->rebuildPath($table->id)) {
@@ -743,7 +743,7 @@ class CategoryModel extends AdminModel
             PluginHelper::importPlugin('content');
 
             // Trigger the onCategoryChangeState event.
-            Factory::getApplication()->triggerEvent('onCategoryChangeState', array($extension, $pks, $value));
+            Factory::getApplication()->triggerEvent('onCategoryChangeState', [$extension, $pks, $value]);
 
             return true;
         }
@@ -815,7 +815,7 @@ class CategoryModel extends AdminModel
      */
     protected function batchFlipordering($value, $pks, $contexts)
     {
-        $successful = array();
+        $successful = [];
 
         $db = $this->getDatabase();
         $query = $db->getQuery(true);
@@ -875,7 +875,7 @@ class CategoryModel extends AdminModel
 
         $db = $this->getDatabase();
         $extension = Factory::getApplication()->input->get('extension', '', 'word');
-        $newIds = array();
+        $newIds = [];
 
         // Check that the parent exists
         if ($parentId) {
@@ -922,7 +922,7 @@ class CategoryModel extends AdminModel
         }
 
         // We need to log the parent ID
-        $parents = array();
+        $parents = [];
 
         // Calculate the emergency stop count as a precaution against a runaway loop bug
         $query = $db->getQuery(true)
@@ -1121,7 +1121,9 @@ class CategoryModel extends AdminModel
         }
 
         // We are going to store all the children and just move the category
-        $children = array();
+        $children = [];
+
+        $table = $this->getTable();
 
         // Parent exists so let's proceed
         foreach ($pks as $pk) {
@@ -1171,7 +1173,7 @@ class CategoryModel extends AdminModel
                     'extension' => $extension,
                 ];
 
-                if ($this->table->load($conditions)) {
+                if ($table->load($conditions)) {
                     $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
 
                     return false;
@@ -1249,12 +1251,12 @@ class CategoryModel extends AdminModel
         // Alter the title & alias
         $table = $this->getTable();
 
-        while ($table->load(array('alias' => $alias, 'parent_id' => $parentId))) {
+        while ($table->load(['alias' => $alias, 'parent_id' => $parentId])) {
             $title = StringHelper::increment($title);
             $alias = StringHelper::increment($alias, 'dash');
         }
 
-        return array($title, $alias);
+        return [$title, $alias];
     }
 
     /**

@@ -58,14 +58,14 @@ class MailTemplate
      * @var    string[]
      * @since  4.0.0
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
      *
      * @var    string[]
      * @since  4.0.0
      */
-    protected $attachments = array();
+    protected $attachments = [];
 
     /**
      * List of recipients of the email
@@ -73,7 +73,7 @@ class MailTemplate
      * @var    \stdClass[]
      * @since  4.0.0
      */
-    protected $recipients = array();
+    protected $recipients = [];
 
     /**
      * Reply To of the email
@@ -222,7 +222,7 @@ class MailTemplate
             }
         }
 
-        $app->triggerEvent('onMailBeforeRendering', array($this->template_id, &$this));
+        $app->triggerEvent('onMailBeforeRendering', [$this->template_id, &$this]);
 
         $subject = $this->replaceTags(Text::_($mail->subject), $this->data);
         $this->mailer->setSubject($subject);
@@ -319,15 +319,17 @@ class MailTemplate
     {
         foreach ($tags as $key => $value) {
             if (is_array($value)) {
-                $matches = array();
+                $matches = [];
 
                 if (preg_match_all('/{' . strtoupper($key) . '}(.*?){\/' . strtoupper($key) . '}/s', $text, $matches)) {
                     foreach ($matches[0] as $i => $match) {
                         $replacement = '';
 
-                        foreach ($value as $subvalue) {
-                            if (is_array($subvalue)) {
-                                $replacement .= $this->replaceTags($matches[1][$i], $subvalue);
+                        foreach ($value as $name => $subvalue) {
+                            if (is_array($subvalue) && $name == $matches[1][$i]) {
+                                $replacement .= implode("\n", $subvalue);
+                            } elseif (is_string($subvalue) && $name == $matches[1][$i]) {
+                                $replacement .= $subvalue;
                             }
                         }
 
@@ -397,7 +399,7 @@ class MailTemplate
         $template->htmlbody = $htmlbody;
         $template->attachments = '';
         $params = new \stdClass();
-        $params->tags = array($tags);
+        $params->tags = [$tags];
         $template->params = json_encode($params);
 
         return $db->insertObject('#__mail_templates', $template);
@@ -427,7 +429,7 @@ class MailTemplate
         $template->body = $body;
         $template->htmlbody = $htmlbody;
         $params = new \stdClass();
-        $params->tags = array($tags);
+        $params->tags = [$tags];
         $template->params = json_encode($params);
 
         return $db->updateObject('#__mail_templates', $template, ['template_id', 'language']);

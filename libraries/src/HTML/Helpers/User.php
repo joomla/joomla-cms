@@ -46,7 +46,7 @@ abstract class User
 
         // Exclude super admin groups if requested
         if (!$includeSuperAdmin) {
-            $filteredGroups = array();
+            $filteredGroups = [];
 
             foreach ($groups as $group) {
                 if (!Access::checkGroup($group->value, 'core.admin')) {

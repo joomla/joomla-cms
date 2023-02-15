@@ -26,6 +26,62 @@ use Joomla\CMS\Session\Session;
 class JsonResponse
 {
     /**
+     * The security token.
+     *
+     * @var    string
+     * @since  4.2.7
+     */
+    public $token;
+
+    /**
+     * The language tag
+     *
+     * @var    string
+     * @since  4.2.7
+     */
+    public $lang;
+
+    /**
+     * The message
+     *
+     * @var    string
+     * @since  4.2.7
+     */
+    public $message;
+
+    /**
+     * The messages array
+     *
+     * @var    array
+     * @since  4.2.7
+     */
+    public $messages;
+
+    /**
+     * The error message
+     *
+     * @var    string
+     * @since  4.2.7
+     */
+    public $error;
+
+    /**
+     * The header
+     *
+     * @var    string
+     * @since  4.2.7
+     */
+    public $header;
+
+    /**
+     * The data
+     *
+     * @var    mixed
+     * @since  4.2.7
+     */
+    public $data;
+
+    /**
      * Constructor for the JSON response
      *
      * @param   mixed  $data  Exception if there is an error, otherwise, the session data
