@@ -139,6 +139,8 @@ class HtmlView extends BaseHtmlView
 
             $childBar->archive('tours.archive')->listCheck(true);
 
+            $childBar->checkin('tours.checkin')->listCheck(true);
+
             if ($this->state->get('filter.published') != -2) {
                 $childBar->trash('tours.trash')->listCheck(true);
             }

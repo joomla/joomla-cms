@@ -94,7 +94,7 @@ class TourTable extends Table
         }
 
         if (empty($this->extensions)) {
-            $this->extensions = "*";
+            $this->extensions = ["*"];
         }
 
         return parent::store($updateNulls);

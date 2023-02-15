@@ -51,32 +51,4 @@ class StepHelper
 
         return $db->loadResult();
     }
-
-    /**
-     * Check if a tour is locked
-     *
-     * @param   int  $id  Id of a tour
-     *
-     * @return  boolean
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public static function getTourLocked(int $id): bool
-    {
-        if (empty($id)) {
-            return false;
-        }
-
-        $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
-
-        $query->select('locked')
-            ->from('#__guidedtours')
-            ->where($db->quoteName('id') . ' = :id')
-            ->bind(':id', $id, ParameterType::INTEGER);
-
-        $db->setQuery($query);
-
-        return $db->loadResult();
-    }
 }

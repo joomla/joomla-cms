@@ -59,13 +59,6 @@ class HtmlView extends BaseHtmlView
     protected $canDo;
 
     /**
-     * Determines if a step can be edited in a multilingual environment
-     *
-     * @var boolean
-     */
-    protected $isLocked;
-
-    /**
      * Execute and display a template script.
      *
      * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
@@ -83,15 +76,6 @@ class HtmlView extends BaseHtmlView
 
         if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
-        }
-
-        $this->isLocked = false;
-        if ($this->item->tour_id && Multilanguage::isEnabled()) {
-            $this->isLocked = StepHelper::getTourLocked($this->item->tour_id);
-        }
-
-        if ($this->isLocked) {
-            Factory::getApplication()->enqueueMessage(Text::_('COM_GUIDEDTOURS_WARNING_TOURLOCKED'), 'warning');
         }
 
         $this->addToolbar();
@@ -140,7 +124,7 @@ class HtmlView extends BaseHtmlView
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
-            if ($itemEditable && !$this->isLocked) {
+            if ($itemEditable) {
                 ToolbarHelper::apply('step.apply');
                 $toolbarButtons = [['save', 'step.save']];
 

@@ -112,16 +112,16 @@ if ($saveOrder && !empty($this->items)) {
                     </th>
 
                     <th scope="col">
-                        <?php echo Text::_('COM_GUIDEDTOURS_TOUR_TITLE'); ?>
+                        <?php echo Text::_('COM_GUIDEDTOURS_TITLE'); ?>
                     </th>
                     <th scope="col">
                         <?php echo Text::_('COM_GUIDEDTOURS_DESCRIPTION'); ?>
                     </th>
-                    <th scope="col" class="text-center w-10 d-none d-md-table-cell">
-                        <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
-                    </th>
                     <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                         <?php echo Text::_('COM_GUIDEDTOURS_STEPS'); ?>
+                    </th>
+                    <th scope="col" class="text-center w-10 d-none d-md-table-cell">
+                        <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
                     </th>
 
                     <!-- Add language types if multi-language enabled -->
@@ -150,9 +150,9 @@ if ($saveOrder && !empty($this->items)) {
                        endif; ?>>
                 <?php
                 foreach ($this->items as $i => $item) :
-                    $canCreate = $user->authorise('core.create', 'com_guidedtours');
-                    $canEdit = $user->authorise('core.edit', 'com_guidedtours');
-                    $canChange = $user->authorise('core.edit.state', 'com_guidedtours');
+                    $canEdit = $user->authorise('core.edit', 'com_guidedtours' . '.tour.' . $item->id);
+                    $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
+                    $canChange = $user->authorise('core.edit.state', 'com_guidedtours' . '.tour.' . $item->id) && $canCheckin;
                     ?>
 
                     <!-- Row begins -->
@@ -198,6 +198,9 @@ if ($saveOrder && !empty($this->items)) {
 
                         <th scope="row" class="has-context">
                             <div>
+                                <?php if ($item->checked_out) : ?>
+                                    <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'tours.', $canCheckin); ?>
+                                <?php endif; ?>
                                 <?php if ($canEdit) : ?>
                                     <a href="<?php echo Route::_('index.php?option=com_guidedtours&task=tour.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
                                         <?php echo $this->escape($item->title); ?>
@@ -205,16 +208,23 @@ if ($saveOrder && !empty($this->items)) {
                                 <?php else : ?>
                                     <?php echo $this->escape($item->title); ?>
                                 <?php endif; ?>
-                                <div class="small break-word">
-                                    <?php if ($item->note) : ?>
+                                <?php if ($item->note) : ?>
+                                    <div class="small break-word">
                                         <?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
-                                    <?php endif; ?>
-                                </div>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </th>
 
                         <td class="">
                             <?php echo StringHelper::truncate($item->description, 200, true, false); ?>
+                        </td>
+
+                        <td class="text-center btns d-none d-md-table-cell itemnumber">
+                            <a class="btn btn-info "
+                               href="index.php?option=com_guidedtours&view=steps&tour_id=<?php echo $item->id; ?>">
+                                <?php echo $item->steps_count; ?>
+                            </a>
                         </td>
 
                         <!-- Adds access labels -->
@@ -234,13 +244,6 @@ if ($saveOrder && !empty($this->items)) {
                             }
 
                             ?>
-                        </td>
-
-                        <td class="text-center btns d-none d-md-table-cell itemnumber">
-                            <a class="btn btn-info "
-                               href="index.php?option=com_guidedtours&view=steps&tour_id=<?php echo $item->id; ?>">
-                                <?php echo $item->steps_count; ?>
-                            </a>
                         </td>
 
                         <?php if (Multilanguage::isEnabled()) : ?>

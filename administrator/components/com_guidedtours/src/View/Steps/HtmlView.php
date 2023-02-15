@@ -78,13 +78,6 @@ class HtmlView extends BaseHtmlView
     private $isEmptyState = false;
 
     /**
-     * Determines if a steps can be edited in a multilingual environment
-     *
-     * @var boolean
-     */
-    protected $isLocked;
-
-    /**
      * Display the view.
      *
      * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
@@ -110,13 +103,6 @@ class HtmlView extends BaseHtmlView
 
         // Unset the tour_id field from activeFilters as we don't filter by tour here.
         unset($this->activeFilters['tour_id']);
-
-        $tour_id = $this->state->get('filter.tour_id');
-        $this->isLocked = Multilanguage::isEnabled() && StepHelper::getTourLocked($tour_id);
-
-        if ($this->isLocked) {
-            Factory::getApplication()->enqueueMessage(Text::_('COM_GUIDEDTOURS_WARNING_TOURLOCKED'), 'warning');
-        }
 
         $this->addToolbar();
 
@@ -148,11 +134,11 @@ class HtmlView extends BaseHtmlView
             $arrow
         );
 
-        if ($canDo->get('core.create') && !$this->isLocked) {
+        if ($canDo->get('core.create')) {
             $toolbar->addNew('step.add');
         }
 
-        if (!$this->isEmptyState && !$this->isLocked && $canDo->get('core.edit.state')) {
+        if (!$this->isEmptyState && $canDo->get('core.edit.state')) {
             $dropdown = $toolbar->dropdownButton('status-group')
                 ->text('JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
@@ -167,6 +153,8 @@ class HtmlView extends BaseHtmlView
             $childBar->unpublish('steps.unpublish')->listCheck(true);
 
             $childBar->archive('steps.archive')->listCheck(true);
+
+            $childBar->checkin('steps.checkin')->listCheck(true);
 
             if ($this->state->get('filter.published') != -2) {
                 $childBar->trash('steps.trash')->listCheck(true);

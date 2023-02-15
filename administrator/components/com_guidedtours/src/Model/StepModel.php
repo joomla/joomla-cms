@@ -376,8 +376,8 @@ class StepModel extends AdminModel
 
         if ($result = parent::getItem($pk)) {
             if (!empty($result->id)) {
-                $result->title = Text::_($result->title);
-                $result->description = Text::_($result->description);
+                $result->title_translation = Text::_($result->title);
+                $result->description_translation = Text::_($result->description);
 
                 // Sets step language to parent tour language
                 $result->language = StepHelper::getTourLanguage($result->tour_id);
