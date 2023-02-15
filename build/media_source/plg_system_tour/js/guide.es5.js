@@ -40,7 +40,7 @@ function addStepToTourButton(tour, obj, index, buttons) {
       interactive_type: obj.steps[index].interactive_type,
     },
     buttons: buttons,
-    id: obj.steps[index].id,
+    id: obj.steps[index].ordering,
     arrow: true,
     when: {
       show() {
@@ -90,7 +90,7 @@ function addInitialStepToTourButton(tour, obj) {
         text: Joomla.Text._('PLG_SYSTEM_TOUR_START'),
       },
     ],
-    id: obj.id,
+    id: obj.ordering,
   });
 }
 
@@ -158,7 +158,7 @@ function CreateAndStartTour(obj) {
   const tour = instantiateTour();
   let ind = 0;
   if (currentStepId) {
-    ind = obj.steps.findIndex((x) => x.id === Number(currentStepId));
+    ind = obj.steps.findIndex((x) => x.ordering === Number(currentStepId));
     if (ind < 0) {
       return;
     }
