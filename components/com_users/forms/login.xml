@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset name="credentials-username" label="COM_USERS_LOGIN_DEFAULT_LABEL">
+	<fieldset name="credentials" label="COM_USERS_LOGIN_DEFAULT_LABEL">
 		<field
 			name="username"
 			type="text"
@@ -13,9 +13,7 @@
 			autofocus="true"
 			autocomplete="username"
 		/>
-	</fieldset>
-	
-	<fieldset name="credentials-password" label="COM_USERS_LOGIN_DEFAULT_LABEL">
+
 		<field
 			name="password"
 			type="password"
