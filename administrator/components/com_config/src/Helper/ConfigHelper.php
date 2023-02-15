@@ -62,28 +62,40 @@ class ConfigHelper extends ContentHelper
     }
 
     /**
-     * Returns an array of all components with configuration options.
-     * Optionally return only those components for which the current user has 'core.manage' rights.
-     *
-     * @param   boolean  $authCheck  True to restrict to components where current user has 'core.manage' rights.
+     * Returns an array of all components with configuration options that the user is authorized to access.
      *
      * @return  array
      *
      * @since   3.0
      */
-    public static function getComponentsWithConfig($authCheck = true)
+    public static function getComponentsWithConfig(): array
     {
+        $app = Factory::getApplication();
+
         $result     = [];
         $components = self::getAllComponents();
-        $user       = Factory::getUser();
+        $user       = $app->getIdentity();
 
         // Remove com_config from the array as that may have weird side effects
         $components = array_diff($components, ['com_config']);
 
         foreach ($components as $component) {
-            if (self::hasComponentConfig($component) && (!$authCheck || $user->authorise('core.options', $component))) {
-                self::loadLanguageForComponent($component);
-                $result[$component] = ApplicationHelper::stringURLSafe(Text::_($component)) . '_' . $component;
+            if (self::hasComponentConfig($component)) {
+                // Check if is a SuperUser
+                $canAccess = $user->authorise('core.admin', $component);
+
+                // If not a SuperUser then check if can edit the configuration options of the component
+                if (!$canAccess && !in_array($component, ['com_joomlaupdate', 'com_privacy'], true)) {
+                    $canAccess = $user->authorise('core.options', $component);
+                }
+
+                if ($canAccess) {
+                    // Load component language strings
+                    $app->getLanguage()->load($component);
+
+                    // Proccess the value for sort the array after
+                    $result[$component] = ApplicationHelper::stringURLSafe(Text::_($component)) . '_' . $component;
+                }
             }
         }
 
