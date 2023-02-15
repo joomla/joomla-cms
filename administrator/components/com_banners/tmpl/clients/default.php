@@ -80,13 +80,13 @@ $params     = $this->state->params ?? new CMSObject();
                                 <?php endif; ?>
                                 <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
                                     <th scope="col" class="w-10 text-center d-none d-md-table-cell">
-                                        <span class="icon-times" aria-hidden="true""></span>
+                                        <span class="icon-times" aria-hidden="true"></span>
                                         <span class="d-none d-md-inline"><?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
                                     </th>
                                 <?php endif; ?>
                                 <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
                                     <th scope="col" class="w-10 text-center d-none d-md-table-cell">
-                                        <span class="icon-folder icon-fw" aria-hidden="true""></span>
+                                        <span class="icon-folder icon-fw" aria-hidden="true"></span>
                                         <span class="d-none d-md-inline"><?php echo Text::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span>
                                     </th>
                                 <?php endif; ?>
