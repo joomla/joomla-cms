@@ -519,7 +519,7 @@ trait CoreButtonsTrait
         $lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 
         // Options array for Layout
-        $options              = array();
+        $options              = [];
         $options['title']     = Text::_($text);
         $options['height']    = $height;
         $options['width']     = $width;
