@@ -266,5 +266,14 @@ Joomla = window.Joomla || {};
         sessionStorage.removeItem('tourId');
       }
     }
+
+    // Opt-in Start buttons
+    const elements = document.querySelectorAll('.button-start-guidedtour');
+
+    elements.forEach(elem => {
+      elem.addEventListener('click', e => {
+        tourWasSelected(e.target);
+      });
+    });
   });
 })(Joomla, document);

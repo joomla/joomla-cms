@@ -10,19 +10,49 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 if (!$tours) {
     return;
 }
 
-// Load the Bootstrap Dropdown
-HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
+$app = Factory::getApplication();
+$lang = $app->getLanguage();
+
+$extension = $app->input->get('option');
+
+$listTours = [];
+$allTours = [];
+
+foreach ($tours as $tour) :
+    if (count(array_intersect(['*', $extension], $tour->extensions))) :
+        $listTours[] = $tour;
+    endif;
+
+    $uri = new Uri($tour->url);
+
+    // We assume the url is the starting point
+    $key = Text::_($uri->getVar('option') ?? 'MOD_GUIDEDTOURS_GENERIC_TOUR');
+
+    if (!isset($allTours[$key])) :
+        $lang->load("$key.sys", JPATH_ADMINISTRATOR)
+        || $lang->load("$key.sys", JPATH_ADMINISTRATOR . '/components/' . $key);
+
+        $allTours[$key] = [];
+    endif;
+
+    $allTours[$key][] = $tour;
+endforeach;
+
+ksort($allTours);
+
 ?>
 <div class="header-item-content dropdown header-profile">
-    <button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button"
-        title="<?php echo Text::_('MOD_GUIDEDTOURS_MENU'); ?>">
+    <button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button" title="<?php echo Text::_('MOD_GUIDEDTOURS_MENU'); ?>">
         <div class="header-item-icon">
             <span class="icon-map-signs" aria-hidden="true"></span>
         </div>
@@ -32,11 +62,49 @@ HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
         <span class="icon-angle-down" aria-hidden="true"></span>
     </button>
     <div class="dropdown-menu dropdown-menu-end">
-        <?php foreach ($tours as $tour) : ?>
-        <a class="button-tour dropdown-item" onclick="tourWasSelected(this); return false" href="#" data-id="<?php echo $tour->id ?>">
-            <span class="icon-map-signs" aria-hidden="true"></span>
-            <?php echo $tour->title; ?>
-        </a>
+        <?php foreach ($listTours as $tour) : ?>
+            <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
+                <span class="icon-map-signs" aria-hidden="true"></span>
+                <?php echo $tour->title; ?>
+            </button>
         <?php endforeach; ?>
+        <button type="button" class="dropdown-item text-center" data-bs-toggle="modal" data-bs-target="#modGuidedTours-modal">
+            <?php echo Text::_('MOD_GUIDEDTOUR_SHOW_ALL'); ?>
+        </button>
     </div>
 </div>
+<?php
+
+$modalParams = [
+    'title' => Text::_('MOD_GUIDEDTOURS_START_TOUR'),
+    'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+        . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
+];
+
+$modalHtml = [];
+$modalHtml[] = '<div class="p-3">';
+$modalHtml[] = '<div class="row">';
+foreach ($allTours as $extension => $tours) :
+    $modalHtml[] = '<div class="col-lg-6">';
+    $modalHtml[] = '<h4>' . htmlentities($extension) . '</h4>';
+    $modalHtml[] = '<ul class="list-unstyled">';
+    foreach ($tours as $tour) :
+        $modalHtml[] = '<li class="button-start-guidedtour text-info" role="button" data-id="' . (int) $tour->id . '">' . htmlentities($tour->title) . '</li>';
+    endforeach;
+    $modalHtml[] = '</ul>';
+    $modalHtml[] = '</div>';
+endforeach;
+$modalHtml[] = '</div>';
+$modalHtml[] = '</div>';
+
+$modalBody = implode($modalHtml);
+
+$modalCode = HTMLHelper::_('bootstrap.renderModal', 'modGuidedTours-modal', $modalParams, $modalBody);
+
+// We have to attach the modal to the body, otherwise we have problems with the backdrop
+$app->getDocument()->getWebAssetManager()->addInlineScript("
+document.addEventListener('DOMContentLoaded', function() {
+    document.body.insertAdjacentHTML('beforeend', " . json_encode($modalCode) . ");
+    var modal = document.getElementById('modGuidedTours-modal');
+});
+");

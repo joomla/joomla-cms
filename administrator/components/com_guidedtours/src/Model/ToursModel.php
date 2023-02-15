@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -192,8 +193,14 @@ class ToursModel extends ListModel
 
         // Filter by extension
         if ($extension = $this->getState('filter.extension')) {
-            $query->where($db->quoteName('extension') . ' = :extension')
-                ->bind(':extension', $extension);
+            $extension = '%' . $extension . '%';
+            $all = '%*%';
+            $query->where(
+                '(' . $db->quoteName('a.extensions') . ' LIKE :all  OR ' .
+                $db->quoteName('a.extensions') . ' LIKE :extensions)'
+            )
+                ->bind([':all'], $all)
+                ->bind([':extensions'], $extension);
         }
 
         $status = (string) $this->getState('filter.published');
@@ -235,20 +242,6 @@ class ToursModel extends ListModel
             }
         }
 
-        // Filter by extensions in Component
-        $extensions = $this->getState('list.extensions');
-
-        if (!empty($extensions)) {
-            $extensions = '%' . $extensions . '%';
-            $all = '%*%';
-            $query->where(
-                '(' . $db->quoteName('a.extensions') . ' LIKE :all  OR ' .
-                $db->quoteName('a.extensions') . ' LIKE :extensions)'
-            )
-                ->bind([':all'], $all)
-                ->bind([':extensions'], $extensions);
-        }
-
         // Add the list ordering clause.
         $orderCol  = $this->state->get('list.ordering', 'a.ordering');
         $orderDirn = strtoupper($this->state->get('list.direction', 'ASC'));
@@ -276,7 +269,7 @@ class ToursModel extends ListModel
             foreach ($items as $item) {
                 $item->title = Text::_($item->title);
                 $item->description = Text::_($item->description);
-                $item->extensions = json_decode($item->extensions, true);
+                $item->extensions = (new Registry($item->extensions))->toArray();
             }
         }
 
