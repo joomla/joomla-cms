@@ -56,7 +56,7 @@ class FieldsHelper
      */
     public static function extract($contextString, $item = null)
     {
-        if ($contextString === null){
+        if ($contextString === null) {
             return null;
         }
 
