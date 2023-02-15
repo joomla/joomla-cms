@@ -180,7 +180,7 @@ class PlgSystemFields extends CMSPlugin
         $task = Factory::getApplication()->input->getCmd('task');
 
         // Skip fields save when we activate a user, because we will lose the saved data
-        if (in_array($task, array('activate', 'block', 'unblock'))) {
+        if (in_array($task, ['activate', 'block', 'unblock'])) {
             return;
         }
 
@@ -276,7 +276,7 @@ class PlgSystemFields extends CMSPlugin
         $input = Factory::getApplication()->input;
 
         // If we are on the save command we need the actual data
-        $jformData = $input->get('jform', array(), 'array');
+        $jformData = $input->get('jform', [], 'array');
 
         if ($jformData && !$data) {
             $data = $jformData;
@@ -415,11 +415,11 @@ class PlgSystemFields extends CMSPlugin
             return FieldsHelper::render(
                 $context,
                 'fields.render',
-                array(
+                [
                     'item'            => $item,
                     'context'         => $context,
                     'fields'          => $fields,
-                )
+                ]
             );
         }
 
@@ -464,7 +464,7 @@ class PlgSystemFields extends CMSPlugin
         $fields = FieldsHelper::getFields($context, $item, true);
 
         // Adding the fields to the object
-        $item->jcfields = array();
+        $item->jcfields = [];
 
         foreach ($fields as $key => $field) {
             $item->jcfields[$field->id] = $field;
