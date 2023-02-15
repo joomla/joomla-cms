@@ -199,6 +199,8 @@ class HtmlView extends BaseHtmlView
         } elseif (in_array($ext, $archiveTypes)) {
             $this->archive = $this->get('Archive');
             $this->type    = 'archive';
+        } elseif (in_array($ext, ['ico'])) {
+            $this->type   = 'icon';
         } else {
             $this->type = 'home';
         }
