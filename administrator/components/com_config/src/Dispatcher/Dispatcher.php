@@ -46,7 +46,7 @@ class Dispatcher extends ComponentDispatcher
         if ($option && !in_array(strtolower($option), ['com_joomlaupdate', 'com_privacy'], true)) {
             $canAccess = $user->authorise('core.admin', $option) || $user->authorise('core.options', $option);
         } else {
-            $canAccess = $user->authorise('core.admin');
+            $canAccess = $user->authorise('core.admin', $option);
         }
 
         if (!$canAccess) {
