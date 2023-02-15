@@ -136,9 +136,9 @@ if ($saveOrder && !empty($this->items)) {
                     <?php echo strtolower($listDirn); ?>" data-nested="true" <?php
                        endif; ?>
                 <?php foreach ($this->items as $i => $item) :
-                    $canCreate = $user->authorise('core.create', 'com_guidedtours');
-                    $canEdit = $user->authorise('core.edit', 'com_guidedtours');
-                    $canChange = $user->authorise('core.edit.state', 'com_guidedtours');
+                    $canEdit = $user->authorise('core.edit', 'com_guidedtours' . '.step.' . $item->id);
+                    $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
+                    $canChange = $user->authorise('core.edit.state', 'com_guidedtours' . '.step.' . $item->id) && $canCheckin;
                     ?>
 
                     <!-- Row begins -->
@@ -185,6 +185,9 @@ if ($saveOrder && !empty($this->items)) {
                         <!-- Step name, edit link, and note -->
                         <th scope="row">
                             <div>
+                                <?php if ($item->checked_out) : ?>
+                                    <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'steps.', $canCheckin); ?>
+                                <?php endif; ?>
                                 <?php if ($canEdit) : ?>
                                     <a href="<?php echo Route::_('index.php?option=com_guidedtours&task=step.edit&id=' . $item->id); ?> " title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
                                         <?php echo $this->escape($item->title); ?>
@@ -192,11 +195,11 @@ if ($saveOrder && !empty($this->items)) {
                                 <?php else : ?>
                                     <?php echo $this->escape($item->title); ?>
                                 <?php endif; ?>
-                                <div class="small break-word">
-                                    <?php if ($item->note) : ?>
+                                <?php if ($item->note) : ?>
+                                    <div class="small break-word">
                                         <?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
-                                    <?php endif; ?>
-                                </div>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </th>
                         <td class="">

@@ -196,10 +196,11 @@ class StepsModel extends ListModel
         $query->select(
             $this->getState(
                 'list.select',
-                'a.*'
+                'a.*, ' . $db->quoteName('uc.name', 'editor')
             )
         );
-        $query->from('#__guidedtour_steps AS a');
+        $query->from('#__guidedtour_steps AS a')
+            ->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'));
 
         $tour_id = $this->getState('filter.tour_id');
 
