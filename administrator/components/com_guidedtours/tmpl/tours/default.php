@@ -112,16 +112,16 @@ if ($saveOrder && !empty($this->items)) {
                     </th>
 
                     <th scope="col">
-                        <?php echo Text::_('COM_GUIDEDTOURS_TOUR_TITLE'); ?>
+                        <?php echo Text::_('COM_GUIDEDTOURS_TITLE'); ?>
                     </th>
                     <th scope="col">
                         <?php echo Text::_('COM_GUIDEDTOURS_DESCRIPTION'); ?>
                     </th>
-                    <th scope="col" class="text-center w-10 d-none d-md-table-cell">
-                        <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
-                    </th>
                     <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                         <?php echo Text::_('COM_GUIDEDTOURS_STEPS'); ?>
+                    </th>
+                    <th scope="col" class="text-center w-10 d-none d-md-table-cell">
+                        <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
                     </th>
 
                     <!-- Add language types if multi-language enabled -->
@@ -217,6 +217,13 @@ if ($saveOrder && !empty($this->items)) {
                             <?php echo StringHelper::truncate($item->description, 200, true, false); ?>
                         </td>
 
+                        <td class="text-center btns d-none d-md-table-cell itemnumber">
+                            <a class="btn btn-info "
+                               href="index.php?option=com_guidedtours&view=steps&tour_id=<?php echo $item->id; ?>">
+                                <?php echo $item->steps_count; ?>
+                            </a>
+                        </td>
+
                         <!-- Adds access labels -->
                         <td class="small text-center d-none d-md-table-cell">
                             <?php
@@ -234,13 +241,6 @@ if ($saveOrder && !empty($this->items)) {
                             }
 
                             ?>
-                        </td>
-
-                        <td class="text-center btns d-none d-md-table-cell itemnumber">
-                            <a class="btn btn-info "
-                               href="index.php?option=com_guidedtours&view=steps&tour_id=<?php echo $item->id; ?>">
-                                <?php echo $item->steps_count; ?>
-                            </a>
                         </td>
 
                         <?php if (Multilanguage::isEnabled()) : ?>

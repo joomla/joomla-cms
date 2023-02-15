@@ -16,9 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-$app = Factory::getApplication();
-$user = $app->getIdentity();
+$app   = Factory::getApplication();
+$user  = $app->getIdentity();
 $input = $app->input;
+$lang  = Factory::getLanguage()->getTag();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
@@ -31,6 +32,15 @@ $wa->useScript('keepalive')
 
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
+    <?php if ($this->item->id != 0) : ?>
+        <div class="row title-alias form-vertical mb-3">
+            <div class="col-12">
+                <?php $this->form->setFieldAttribute('title_translation', 'label', Text::sprintf('COM_GUIDEDTOURS_TITLE_TRANSLATION', $lang)); ?>
+                <?php echo $this->form->renderField('title_translation'); ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <div>
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
@@ -39,6 +49,12 @@ $wa->useScript('keepalive')
             <div class="col-lg">
                 <?php echo $this->form->renderField('url'); ?>
                 <?php echo $this->form->renderField('description'); ?>
+
+                <?php if ($this->item->id != 0) : ?>
+                    <?php $this->form->setFieldAttribute('description_translation', 'label', Text::sprintf('COM_GUIDEDTOURS_DESCRIPTION_TRANSLATION', $lang)); ?>
+                    <?php echo $this->form->renderField('description_translation'); ?>
+                <?php endif; ?>
+
                 <?php echo $this->form->renderField('extensions'); ?>
             </div>
 

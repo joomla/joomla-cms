@@ -22,8 +22,9 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
-$app = Factory::getApplication();
+$app     = Factory::getApplication();
 $tour_id = $app->getUserState('com_guidedtours.tour_id');
+$lang    = Factory::getLanguage()->getTag();
 
 if (empty($tour_id)) {
     throw new GenericDataException("\nThe Tour id was not set!\n", 500);
@@ -34,6 +35,16 @@ if (empty($tour_id)) {
     (int) $this->item->id); ?>" method="post" name="adminForm" id="guidedtour-dates-form" class="form-validate">
 
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
+
+    <?php if ($this->item->id != 0) : ?>
+        <div class="row title-alias form-vertical mb-3">
+            <div class="col-12">
+                <?php $this->form->setFieldAttribute('title_translation', 'label', Text::sprintf('COM_GUIDEDTOURS_STEP_TITLE_TRANSLATION', $lang)); ?>
+                <?php echo $this->form->renderField('title_translation'); ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <div>
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
@@ -42,6 +53,12 @@ if (empty($tour_id)) {
             <div class="col-md-9">
 
                 <?php echo $this->form->renderField('description'); ?>
+
+                <?php if ($this->item->id != 0) : ?>
+                    <?php $this->form->setFieldAttribute('description_translation', 'label', Text::sprintf('COM_GUIDEDTOURS_STEP_DESCRIPTION_TRANSLATION', $lang)); ?>
+                    <?php echo $this->form->renderField('description_translation'); ?>
+                <?php endif; ?>
+
                 <?php echo $this->form->renderField('step_no'); ?>
                 <?php echo $this->form->renderField('position'); ?>
                 <?php echo $this->form->renderField('target'); ?>

@@ -133,6 +133,9 @@ class PlgSystemTour extends CMSPlugin implements SubscriberInterface
 
         $tour = $myTour->getItem($tour_id);
 
+        $tour->title = Text::_($tour->title);
+        $tour->description = Text::_($tour->description);
+
         // Replace 'images/' to '../images/' when using an image from /images in backend.
         $tour->description = preg_replace('*src\=\"(?!administrator\/)images/*', 'src="../images/', $tour->description);
 
@@ -148,6 +151,9 @@ class PlgSystemTour extends CMSPlugin implements SubscriberInterface
         $tour_steps = $mySteps->getItems();
 
         foreach ($tour_steps as $step) {
+            $step->title = Text::_($step->title);
+            $step->description = Text::_($step->description);
+
             // Replace 'images/' to '../images/' when using an image from /images in backend.
             $step->description = preg_replace('*src\=\"(?!administrator\/)images/*', 'src="../images/', $step->description);
         }
