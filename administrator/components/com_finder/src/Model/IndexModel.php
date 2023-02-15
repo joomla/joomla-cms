@@ -61,10 +61,10 @@ class IndexModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.7
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'state', 'published', 'l.published',
                 'title', 'l.title',
                 'type', 'type_id', 'l.type_id',
@@ -73,7 +73,7 @@ class IndexModel extends ListModel
                 'language', 'l.language',
                 'indexdate', 'l.indexdate',
                 'content_map',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -118,7 +118,7 @@ class IndexModel extends ListModel
      */
     public function delete(&$pks)
     {
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
         $table = $this->getTable();
 
         // Include the content plugins for the on delete events.
@@ -131,7 +131,7 @@ class IndexModel extends ListModel
                     $context = $this->option . '.' . $this->name;
 
                     // Trigger the onContentBeforeDelete event.
-                    $result = Factory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
+                    $result = Factory::getApplication()->triggerEvent($this->event_before_delete, [$context, $table]);
 
                     if (in_array(false, $result, true)) {
                         $this->setError($table->getError());
@@ -146,7 +146,7 @@ class IndexModel extends ListModel
                     }
 
                     // Trigger the onContentAfterDelete event.
-                    Factory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
+                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$context, $table]);
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
@@ -180,7 +180,7 @@ class IndexModel extends ListModel
      */
     protected function getListQuery()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('l.*')
             ->select($db->quoteName('t.title', 't_title'))
@@ -257,7 +257,7 @@ class IndexModel extends ListModel
      */
     public function getPluginState()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('name, enabled')
             ->from($db->quoteName('#__extensions'))
@@ -302,7 +302,7 @@ class IndexModel extends ListModel
      */
     public function getTotalIndexed()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('COUNT(link_id)')
             ->from($db->quoteName('#__finder_links'));
@@ -322,7 +322,7 @@ class IndexModel extends ListModel
      *
      * @since   2.5
      */
-    public function getTable($type = 'Link', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Link', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -353,19 +353,19 @@ class IndexModel extends ListModel
 
         // Truncate the taxonomy table and insert the root node.
         $db->truncateTable('#__finder_taxonomy');
-        $root = (object) array(
-            'id' => 1,
+        $root = (object) [
+            'id'        => 1,
             'parent_id' => 0,
-            'lft' => 0,
-            'rgt' => 1,
-            'level' => 0,
-            'path' => '',
-            'title' => 'ROOT',
-            'alias' => 'root',
-            'state' => 1,
-            'access' => 1,
-            'language' => '*'
-        );
+            'lft'       => 0,
+            'rgt'       => 1,
+            'level'     => 0,
+            'path'      => '',
+            'title'     => 'ROOT',
+            'alias'     => 'root',
+            'state'     => 1,
+            'access'    => 1,
+            'language'  => '*',
+        ];
         $db->insertObject('#__finder_taxonomy', $root);
 
         // Truncate the tokens tables.
@@ -420,9 +420,9 @@ class IndexModel extends ListModel
      */
     public function publish(&$pks, $value = 1)
     {
-        $user = $this->getCurrentUser();
+        $user  = $this->getCurrentUser();
         $table = $this->getTable();
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
 
         // Include the content plugins for the change of state event.
         PluginHelper::importPlugin('content');
@@ -450,7 +450,7 @@ class IndexModel extends ListModel
         $context = $this->option . '.' . $this->name;
 
         // Trigger the onContentChangeState event.
-        $result = Factory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
+        $result = Factory::getApplication()->triggerEvent('onContentChangeState', [$context, $pks, $value]);
 
         if (in_array(false, $result, true)) {
             $this->setError($table->getError());

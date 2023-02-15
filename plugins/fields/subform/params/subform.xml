@@ -59,5 +59,24 @@
 				</form>
 			</field>
 		</fieldset>
+
+	</fields>
+	<fields name="params">
+		<fieldset name="basic">
+			<fieldset name="formoptions">
+				<field
+					name="form_layout"
+					type="list"
+					label="COM_FIELDS_FIELD_FORM_LAYOUT_LABEL"
+					default=""
+					class="form-select"
+					showon="repeat:1"
+					>
+					<option value="">JDEFAULT</option>
+					<option value="joomla.form.field.subform.repeatable-table">PLG_FIELDS_SUBFORM_PARAMS_EDIT_LAYOUT_OPTION_REPEATABLE_TABLE_LABEL</option>
+					<option value="joomla.form.field.subform.repeatable">PLG_FIELDS_SUBFORM_PARAMS_EDIT_LAYOUT_OPTION_REPEATABLE_FORM_LABEL</option>
+				</field>
+			</fieldset>
+		</fieldset>
 	</fields>
 </form>

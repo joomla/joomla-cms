@@ -134,11 +134,11 @@ class UserField extends FormField
             $name = $this->value;
         }
 
-        $extraData = array(
-            'userName'  => $name,
-            'groups'    => $this->getGroups(),
-            'excluded'  => $this->getExcluded(),
-        );
+        $extraData = [
+            'userName' => $name,
+            'groups'   => $this->getGroups(),
+            'excluded' => $this->getExcluded(),
+        ];
 
         return array_merge($data, $extraData);
     }

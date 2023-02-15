@@ -40,13 +40,13 @@ abstract class User
 
         for ($i = 0, $n = count($options); $i < $n; $i++) {
             $options[$i]->value = $options[$i]->id;
-            $options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->title;
-            $groups[] = HTMLHelper::_('select.option', $options[$i]->value, $options[$i]->text);
+            $options[$i]->text  = str_repeat('- ', $options[$i]->level) . $options[$i]->title;
+            $groups[]           = HTMLHelper::_('select.option', $options[$i]->value, $options[$i]->text);
         }
 
         // Exclude super admin groups if requested
         if (!$includeSuperAdmin) {
-            $filteredGroups = array();
+            $filteredGroups = [];
 
             foreach ($groups as $group) {
                 if (!Access::checkGroup($group->value, 'core.admin')) {
