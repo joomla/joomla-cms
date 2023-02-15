@@ -58,7 +58,11 @@ Text::script('JHIDEPASSWORD');
                         <span class="visually-hidden"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
                     </button>
                 </div>
+<<<<<<< HEAD
             <?php else : ?>
+=======
+            <?php else : ?> 
+>>>>>>> 6219125d76bc066b7320ad3759ec22ca1b553861
                 <label for="modlgn-passwd-<?php echo $module->id; ?>"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
                 <input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" autocomplete="current-password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
             <?php endif; ?>
