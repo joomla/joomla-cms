@@ -20,7 +20,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
 /**
  * Guidedtours list controller class.
  *
- * @since _DEPLOY_VERSION_
+ * @since __DEPLOY_VERSION__
  */
 
 class ToursController extends AdminController
@@ -34,7 +34,7 @@ class ToursController extends AdminController
      *
      * @return \Joomla\CMS\MVC\Model\BaseDatabaseModel
      *
-     * @since _DEPLOY_VERSION_
+     * @since __DEPLOY_VERSION__
      */
     public function getModel($name = 'Tour', $prefix = 'Administrator', $config = array('ignore_request' => true))
     {
