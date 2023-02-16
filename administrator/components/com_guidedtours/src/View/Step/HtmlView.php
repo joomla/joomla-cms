@@ -144,6 +144,9 @@ class HtmlView extends BaseHtmlView
                 'step.cancel',
                 'JTOOLBAR_CLOSE'
             );
+
+            ToolbarHelper::divider();
+            ToolbarHelper::help('Guided_Tours:_New_or_Edit_Step');
         }
     }
 }

@@ -169,5 +169,7 @@ class HtmlView extends BaseHtmlView
         if ($user->authorise('core.admin', 'com_guidedtours') || $user->authorise('core.options', 'com_guidedtours')) {
             $toolbar->preferences('com_guidedtours');
         }
+
+        ToolbarHelper::help('Guided_Tours:_Tours');
     }
 }
