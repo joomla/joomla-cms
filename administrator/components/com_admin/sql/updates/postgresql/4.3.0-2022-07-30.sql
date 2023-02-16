@@ -76,9 +76,9 @@ CREATE TABLE IF NOT EXISTS "#__guidedtour_steps" (
   PRIMARY KEY ("id")
 );
 
-CREATE INDEX "#__guidedtours_steps_idx_tour_id" ON "#__guidedtour_steps" ("tour_id");
-CREATE INDEX "#__guidedtours_steps_idx_state" ON "#__guidedtour_steps" ("published");
-CREATE INDEX "#__guidedtours_steps_idx_language" ON "#__guidedtour_steps" ("language");
+CREATE INDEX "#__guidedtour_steps_idx_tour_id" ON "#__guidedtour_steps" ("tour_id");
+CREATE INDEX "#__guidedtour_steps_idx_state" ON "#__guidedtour_steps" ("published");
+CREATE INDEX "#__guidedtour_steps_idx_language" ON "#__guidedtour_steps" ("language");
 
 --
 -- Dumping data for table `#__guidedtour_steps`
