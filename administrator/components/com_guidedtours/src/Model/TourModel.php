@@ -15,10 +15,12 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Component\Guidedtours\Administrator\Helper\StepHelper;
 use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -31,6 +33,22 @@ use Joomla\String\StringHelper;
  */
 class TourModel extends AdminModel
 {
+    /**
+     * The prefix to use with controller messages.
+     *
+     * @var   string
+     * @since __DEPLOY_VERSION__
+     */
+    protected $text_prefix = 'COM_GUIDEDTOURS';
+
+    /**
+     * Type alias for content type
+     *
+     * @var string
+     * @since __DEPLOY_VERSION__
+     */
+    public $typeAlias = 'com_guidedtours.tour';
+
     /**
      * Auto-populate the model state.
      *
@@ -83,6 +101,11 @@ class TourModel extends AdminModel
     public function save($data)
     {
         $input = Factory::getApplication()->input;
+
+        // Language keys must include GUIDEDTOUR to prevent save issues
+        if (strpos($data['description'], 'GUIDEDTOUR') !== false) {
+            $data['description'] = strip_tags($data['description']);
+        }
 
         if ($input->get('task') == 'save2copy') {
             $origTable = clone $this->getTable();
@@ -277,7 +300,7 @@ class TourModel extends AdminModel
      *
      * @return  CMSObject|boolean  Object on success, false on failure.
      *
-     * @since   1.6
+     * @since   __DEPLOY_VERSION__
      */
     public function getItem($pk = null)
     {
@@ -294,6 +317,93 @@ class TourModel extends AdminModel
         return $result;
     }
 
+    /**
+     * Delete all steps if a tour is deleted
+     *
+     * @param   object  $pks  The primary key related to the tours.
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function delete(&$pks)
+    {
+        $pks   = ArrayHelper::toInteger((array) $pks);
+        $table = $this->getTable();
+
+        // Include the plugins for the delete events.
+        PluginHelper::importPlugin($this->events_map['delete']);
+
+        // Iterate the items to delete each one.
+        foreach ($pks as $i => $pk) {
+            if ($table->load($pk)) {
+                if ($this->canDelete($table)) {
+                    $context = $this->option . '.' . $this->name;
+
+                    // Trigger the before delete event.
+                    $result = Factory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
+
+                    if (\in_array(false, $result, true)) {
+                        $this->setError($table->getError());
+
+                        return false;
+                    }
+
+                    $tour_id = $table->id;
+
+                    if (!$table->delete($pk)) {
+                        $this->setError($table->getError());
+
+                        return false;
+                    }
+
+                    // Delete of the tour has been successful, now delete the steps
+                    $db = $this->getDatabase();
+                    $query = $db->getQuery(true)
+                        ->delete($db->quoteName('#__guidedtour_steps'))
+                        ->where($db->quoteName('tour_id') . '=' . $tour_id);
+                    $db->setQuery($query);
+                    $db->execute();
+
+                    // Trigger the after event.
+                    Factory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
+                } else {
+                    // Prune items that you can't change.
+                    unset($pks[$i]);
+                    $error = $this->getError();
+
+                    if ($error) {
+                        Log::add($error, Log::WARNING, 'jerror');
+
+                        return false;
+                    } else {
+                        Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+
+                        return false;
+                    }
+                }
+            } else {
+                $this->setError($table->getError());
+
+                return false;
+            }
+        }
+
+        // Clear the component's cache
+        $this->cleanCache();
+
+        return true;
+    }
+
+    /**
+     * Duplicate all steps if a tour is duplicated
+     *
+     * @param   object  $pks  The primary key related to the tours.
+     *
+     * @return  boolean
+     *
+     * @since   __DEPLOY_VERSION__
+     */
     public function duplicate(&$pks)
     {
         $user = $this->getCurrentUser();
@@ -319,6 +429,7 @@ class TourModel extends AdminModel
                 }
 
                 $data = $this->generateNewTitle(0, $table->title, $table->title);
+
                 $table->title = $data[0];
 
                 // Unpublish duplicate tour

@@ -44,7 +44,7 @@ $mode = false;
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl =
-        'index.php?option=com_guidedtours&tour=tours.saveOrderAjax&tmpl=component&'
+        'index.php?option=com_guidedtours&task=tours.saveOrderAjax&tmpl=component&'
         . Session::getFormToken() . '=1';
     HTMLHelper::_('draggablelist.draggable');
 }

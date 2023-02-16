@@ -45,12 +45,6 @@
 	/>
 
 	<field
-		name="asset_id"
-		type="hidden"
-		filter="unset"
-	/>
-
-	<field
 		name="title"
 		type="text"
 		label="COM_GUIDEDTOURS_STEP_TITLE"
@@ -197,15 +191,23 @@
 		maxlength="255"
 	/>
 
-	<field
-		name="rules"
-		type="rules"
-		label="JFIELD_RULES_LABEL"
-		translate_label="false"
-		filter="rules"
-		validate="rules"
-		component="com_guidedtours"
-		section="step"
-	/>
+	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL">
+		<field
+			name="asset_id"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field
+			name="rules"
+			type="rules"
+			label="JFIELD_RULES_LABEL"
+			translate_label="false"
+			filter="rules"
+			validate="rules"
+			component="com_guidedtours"
+			section="step"
+		/>
+	</fieldset>
 
 </form>

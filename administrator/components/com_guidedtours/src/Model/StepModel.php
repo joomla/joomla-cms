@@ -40,6 +40,14 @@ class StepModel extends AdminModel
     protected $text_prefix = 'COM_GUIDEDTOURS';
 
     /**
+     * Type alias for content type
+     *
+     * @var string
+     * @since __DEPLOY_VERSION__
+     */
+    public $typeAlias = 'com_guidedtours.step';
+
+    /**
      * Method to test whether a record can be deleted.
      *
      * @param   object  $record  A record object.
@@ -138,6 +146,11 @@ class StepModel extends AdminModel
             unset($data['rules']);
         }
 
+        // Language keys must include GUIDEDTOUR to prevent save issues
+        if (strpos($data['description'], 'GUIDEDTOUR') !== false) {
+            $data['description'] = strip_tags($data['description']);
+        }
+
         // Make sure we use the correct extension when editing an existing tour
         $key = $table->getKeyName();
         $pk  = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
@@ -189,7 +202,7 @@ class StepModel extends AdminModel
                 $db = $this->getDatabase();
                 $query = $db->getQuery(true)
                     ->select('MAX(ordering)')
-                    ->from($db->quoteName('#__guidedtours'));
+                    ->from($db->quoteName('#__guidedtours_steps'));
                 $db->setQuery($query);
                 $max = $db->loadResult();
 
@@ -272,7 +285,7 @@ class StepModel extends AdminModel
         $table = $this->getTable();
         $pks   = (array) $pks;
         $app = Factory::getApplication();
-        $extension = $app->getUserStateFromRequest('com_guidedtours.state.filter.extension', 'extension', null, 'cmd');
+        $extension = $app->getUserStateFromRequest('com_guidedtours.step.filter.extension', 'extension', null, 'cmd');
 
         // Default item existence checks.
         if ($value != 1) {
@@ -301,7 +314,7 @@ class StepModel extends AdminModel
     {
         // Get the form.
         $form = $this->loadForm(
-            'com_guidedtours.state',
+            'com_guidedtours.step',
             'step',
             array(
                 'control' => 'jform',
