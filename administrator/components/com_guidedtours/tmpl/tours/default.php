@@ -76,7 +76,7 @@ if ($saveOrder && !empty($this->items)) {
             <table class="table" id="toursList">
 
                 <caption class="visually-hidden">
-                    <?php echo Text::_('COM_GUIDEDTOURS_TABLE_CAPTION'); ?>,
+                    <?php echo Text::_('COM_GUIDEDTOURS_GUIDEDTOURS_TABLE_CAPTION'); ?>,
                     <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
                     <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
