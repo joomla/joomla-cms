@@ -130,7 +130,7 @@ class LinkTable extends Table
 
         if (!$this->id) {
             // New record.
-            $this->created_date = $date;
+            $this->created_date  = $date;
             $this->modified_date = $date;
         }
 

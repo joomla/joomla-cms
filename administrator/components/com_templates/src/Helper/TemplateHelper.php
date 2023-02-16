@@ -63,12 +63,12 @@ abstract class TemplateHelper
         }
 
         // Media file names should never have executable extensions buried in them.
-        $executable = array(
+        $executable = [
             'exe', 'phtml','java', 'perl', 'py', 'asp','dll', 'go', 'jar',
             'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
             'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
-            'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh'
-        );
+            'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh',
+        ];
         $explodedFileName = explode('.', $file['name']);
 
         if (count($explodedFileName) > 2) {
@@ -144,7 +144,7 @@ abstract class TemplateHelper
         }
 
         $xss_check = file_get_contents($file['tmp_name'], false, null, -1, 256);
-        $html_tags = array(
+        $html_tags = [
             'abbr', 'acronym', 'address', 'applet', 'area', 'audioscope', 'base', 'basefont', 'bdo', 'bgsound', 'big', 'blackface', 'blink', 'blockquote',
             'body', 'bq', 'br', 'button', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'comment', 'custom', 'dd', 'del', 'dfn', 'dir', 'div',
             'dl', 'dt', 'em', 'embed', 'fieldset', 'fn', 'font', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'hr', 'html',
@@ -152,8 +152,8 @@ abstract class TemplateHelper
             'map', 'marquee', 'menu', 'meta', 'multicol', 'nobr', 'noembed', 'noframes', 'noscript', 'nosmartquotes', 'object', 'ol', 'optgroup', 'option',
             'param', 'plaintext', 'pre', 'rt', 'ruby', 's', 'samp', 'script', 'select', 'server', 'shadow', 'sidebar', 'small', 'spacer', 'span', 'strike',
             'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'title', 'tr', 'tt', 'ul', 'var', 'wbr', 'xml',
-            'xmp', '!DOCTYPE', '!--'
-        );
+            'xmp', '!DOCTYPE', '!--',
+        ];
 
         foreach ($html_tags as $tag) {
             // A tag is '<tagname ', so we need to add < and a space or '<tagname>'

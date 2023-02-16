@@ -258,7 +258,7 @@ class CategoryNode extends CMSObject implements NodeInterface
      * @var    array
      * @since  1.6
      */
-    protected $_path = array();
+    protected $_path = [];
 
     /**
      * Flag if all children have been loaded
@@ -323,7 +323,7 @@ class CategoryNode extends CMSObject implements NodeInterface
 
         if (\count($this->_parent->_children) > 1) {
             end($this->_parent->_children);
-            $this->_leftSibling = prev($this->_parent->_children);
+            $this->_leftSibling                = prev($this->_parent->_children);
             $this->_leftSibling->_rightsibling = & $this;
         }
 
@@ -349,19 +349,19 @@ class CategoryNode extends CMSObject implements NodeInterface
             $temp = $this->_constructor->get($this->id, true);
 
             if ($temp) {
-                $this->_children = $temp->getChildren();
-                $this->_leftSibling = $temp->getSibling(false);
+                $this->_children     = $temp->getChildren();
+                $this->_leftSibling  = $temp->getSibling(false);
                 $this->_rightSibling = $temp->getSibling(true);
                 $this->setAllLoaded();
             }
         }
 
         if ($recursive) {
-            $items = array();
+            $items = [];
 
             foreach ($this->_children as $child) {
                 $items[] = $child;
-                $items = array_merge($items, $child->getChildren(true));
+                $items   = array_merge($items, $child->getChildren(true));
             }
 
             return $items;
@@ -382,9 +382,9 @@ class CategoryNode extends CMSObject implements NodeInterface
     public function getSibling($right = true)
     {
         if (!$this->_allChildrenloaded) {
-            $temp = $this->_constructor->get($this->id, true);
-            $this->_children = $temp->getChildren();
-            $this->_leftSibling = $temp->getSibling(false);
+            $temp                = $this->_constructor->get($this->id, true);
+            $this->_children     = $temp->getChildren();
+            $this->_leftSibling  = $temp->getSibling(false);
             $this->_rightSibling = $temp->getSibling(true);
             $this->setAllLoaded();
         }
