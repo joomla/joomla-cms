@@ -76,8 +76,8 @@ ksort($allTours);
 <?php
 
 $modalParams = [
-    'title' => Text::_('MOD_GUIDEDTOURS_START_TOUR'),
-    'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+    'title'  => Text::_('MOD_GUIDEDTOURS_START_TOUR'),
+    'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
         . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 ];
 
