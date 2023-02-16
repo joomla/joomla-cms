@@ -41,11 +41,11 @@
           aria-hidden="true"
       >
       </span>
-      <p
+      <span
         class="ms-2"
       >
         {{ translate('COM_MEDIA_NO_SEARCH_RESULT') }}
-      </p>
+      </span>
     </div>
     <div
       v-if="(listView === 'grid' && !isEmpty)"
