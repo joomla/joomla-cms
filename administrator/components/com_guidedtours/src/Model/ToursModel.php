@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -42,7 +43,7 @@ class ToursModel extends ListModel
             $config['filter_fields'] = array(
                 'id', 'a.id',
                 'title', 'a.title',
-                'access', 'access_level', 'a.access',
+                'access', 'a.access', 'access_level',
                 'description', 'a.description',
                 'published', 'a.published',
                 'language', 'a.language',
@@ -57,13 +58,13 @@ class ToursModel extends ListModel
         parent::__construct($config);
     }
 
-   /**
-    * Provide a query to be used to evaluate if this is an Empty State, can be overridden in the model to provide granular control.
-    *
-    * @return DatabaseQuery
-    *
-    * @since 4.0.0
-    */
+    /**
+     * Provide a query to be used to evaluate if this is an Empty State, can be overridden in the model to provide granular control.
+     *
+     * @return DatabaseQuery
+     *
+     * @since __DEPLOY_VERSION__
+     */
     protected function getEmptyStateQuery()
     {
         $query = clone $this->_getListQuery();
@@ -190,10 +191,24 @@ class ToursModel extends ListModel
         )
             ->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'));
 
+        // Join access table
+        $query->select(
+            [
+                $db->quoteName('ag.title', 'access_level'),
+            ]
+        )
+            ->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'));
+
         // Filter by extension
         if ($extension = $this->getState('filter.extension')) {
-            $query->where($db->quoteName('extension') . ' = :extension')
-                ->bind(':extension', $extension);
+            $extension = '%' . $extension . '%';
+            $all = '%*%';
+            $query->where(
+                '(' . $db->quoteName('a.extensions') . ' LIKE :all  OR ' .
+                $db->quoteName('a.extensions') . ' LIKE :extensions)'
+            )
+                ->bind([':all'], $all)
+                ->bind([':extensions'], $extension);
         }
 
         $status = (string) $this->getState('filter.published');
@@ -211,6 +226,12 @@ class ToursModel extends ListModel
         if ($access = (int) $this->getState('filter.access')) {
             $query->where($db->quoteName('a.access') . ' = :access')
                 ->bind(':access', $access, ParameterType::INTEGER);
+        }
+
+        // Filter on the language.
+        if ($language = $this->getState('filter.language')) {
+            $query->where($db->quoteName('a.language') . ' = :language')
+                ->bind(':language', $language);
         }
 
         // Filter by search in title.
@@ -233,20 +254,6 @@ class ToursModel extends ListModel
                 )
                     ->bind([':search1', ':search2', ':search3'], $search);
             }
-        }
-
-        // Filter by extensions in Component
-        $extensions = $this->getState('list.extensions');
-
-        if (!empty($extensions)) {
-            $extensions = '%' . $extensions . '%';
-            $all = '%*%';
-            $query->where(
-                '(' . $db->quoteName('a.extensions') . ' LIKE :all  OR ' .
-                $db->quoteName('a.extensions') . ' LIKE :extensions)'
-            )
-                ->bind([':all'], $all)
-                ->bind([':extensions'], $extensions);
         }
 
         // Add the list ordering clause.
@@ -276,7 +283,7 @@ class ToursModel extends ListModel
             foreach ($items as $item) {
                 $item->title = Text::_($item->title);
                 $item->description = Text::_($item->description);
-                $item->extensions = json_decode($item->extensions, true);
+                $item->extensions = (new Registry($item->extensions))->toArray();
             }
         }
 

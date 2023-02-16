@@ -86,4 +86,19 @@ class StepTable extends Table
 
         return parent::store($updateNulls);
     }
+
+    /**
+     * Returns the asset name of the entry as it appears in the {@see Asset} table.
+     *
+     * @return  string  The asset name.
+     *
+     * @since   4.1.0
+     */
+    // phpcs:ignore
+    protected function _getAssetName(): string
+    {
+        $k = $this->_tbl_key;
+
+        return 'com_guidedtours.step.' . (int) $this->$k;
+    }
 }

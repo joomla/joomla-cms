@@ -44,7 +44,7 @@ $mode = false;
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl =
-        'index.php?option=com_guidedtours&tour=tours.saveOrderAjax&tmpl=component&'
+        'index.php?option=com_guidedtours&task=tours.saveOrderAjax&tmpl=component&'
         . Session::getFormToken() . '=1';
     HTMLHelper::_('draggablelist.draggable');
 }
@@ -229,21 +229,7 @@ if ($saveOrder && !empty($this->items)) {
 
                         <!-- Adds access labels -->
                         <td class="small text-center d-none d-md-table-cell">
-                            <?php
-
-                            if ($this->escape($item->access) == "1") {
-                                echo Text::_('COM_GUIDEDTOURS_ACCESS_PUBLIC');
-                            } elseif ($this->escape($item->access) == "2") {
-                                echo Text::_('COM_GUIDEDTOURS_ACCESS_REGISTERED');
-                            } elseif ($this->escape($item->access) == "3") {
-                                echo Text::_('COM_GUIDEDTOURS_ACCESS_SPECIAL');
-                            } elseif ($this->escape($item->access) == "6") {
-                                echo Text::_('COM_GUIDEDTOURS_ACCESS_SUPER_USERS');
-                            } else {
-                                echo Text::_('COM_GUIDEDTOURS_ACCESS_GUEST');
-                            }
-
-                            ?>
+                            <?php echo $this->escape($item->access_level); ?>
                         </td>
 
                         <?php if (Multilanguage::isEnabled()) : ?>
