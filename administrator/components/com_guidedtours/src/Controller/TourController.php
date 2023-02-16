@@ -19,7 +19,7 @@ use Joomla\CMS\MVC\Controller\FormController;
 /**
  * Controller for a single Tour
  *
- * @since _DEPLOY_VERSION_
+ * @since __DEPLOY_VERSION__
  */
 class TourController extends FormController
 {

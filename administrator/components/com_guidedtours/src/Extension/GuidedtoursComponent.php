@@ -39,7 +39,7 @@ class GuidedtoursComponent extends MVCComponent implements BootableExtensionInte
      *
      * @return void
      *
-     * @since _DEPLOY_VERSION_
+     * @since __DEPLOY_VERSION__
      */
     public function boot(ContainerInterface $container)
     {
