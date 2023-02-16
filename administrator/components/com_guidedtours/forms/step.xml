@@ -11,12 +11,6 @@
 	/>
 
 	<field
-		name="step_no"
-		type="hidden"
-		default="1"
-	/>
-
-	<field
 		name="position"
 		type="list"
 		label="COM_GUIDEDTOURS_STEP_POSITION_LABEL"
