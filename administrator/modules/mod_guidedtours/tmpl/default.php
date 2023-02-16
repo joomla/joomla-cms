@@ -36,7 +36,7 @@ foreach ($tours as $tour) :
     $uri = new Uri($tour->url);
 
     // We assume the url is the starting point
-    $key = Text::_($uri->getVar('option') ?? 'MOD_GUIDEDTOURS_GENERIC_TOUR');
+    $key = $uri->getVar('option') ?? Text::_('MOD_GUIDEDTOURS_GENERIC_TOUR');
 
     if (!isset($allTours[$key])) :
         $lang->load("$key.sys", JPATH_ADMINISTRATOR)
@@ -86,7 +86,7 @@ $modalHtml[] = '<div class="p-3">';
 $modalHtml[] = '<div class="row">';
 foreach ($allTours as $extension => $tours) :
     $modalHtml[] = '<div class="col-lg-6">';
-    $modalHtml[] = '<h4>' . htmlentities($extension) . '</h4>';
+    $modalHtml[] = '<h4>' . Text::_($extension) . '</h4>';
     $modalHtml[] = '<ul class="list-unstyled">';
     foreach ($tours as $tour) :
         $modalHtml[] = '<li class="button-start-guidedtour text-info" role="button" data-id="' . (int) $tour->id . '">' . htmlentities($tour->title) . '</li>';
