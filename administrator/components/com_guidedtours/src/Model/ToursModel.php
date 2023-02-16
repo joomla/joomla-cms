@@ -43,7 +43,7 @@ class ToursModel extends ListModel
             $config['filter_fields'] = array(
                 'id', 'a.id',
                 'title', 'a.title',
-                'access', 'access_level', 'a.access',
+                'access', 'a.access', 'access_level',
                 'description', 'a.description',
                 'published', 'a.published',
                 'language', 'a.language',
@@ -58,13 +58,13 @@ class ToursModel extends ListModel
         parent::__construct($config);
     }
 
-   /**
-    * Provide a query to be used to evaluate if this is an Empty State, can be overridden in the model to provide granular control.
-    *
-    * @return DatabaseQuery
-    *
-    * @since 4.0.0
-    */
+    /**
+     * Provide a query to be used to evaluate if this is an Empty State, can be overridden in the model to provide granular control.
+     *
+     * @return DatabaseQuery
+     *
+     * @since __DEPLOY_VERSION__
+     */
     protected function getEmptyStateQuery()
     {
         $query = clone $this->_getListQuery();
@@ -191,6 +191,14 @@ class ToursModel extends ListModel
         )
             ->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'));
 
+        // Join access table
+        $query->select(
+            [
+                $db->quoteName('ag.title', 'access_level'),
+            ]
+        )
+            ->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'));
+
         // Filter by extension
         if ($extension = $this->getState('filter.extension')) {
             $extension = '%' . $extension . '%';
@@ -218,6 +226,12 @@ class ToursModel extends ListModel
         if ($access = (int) $this->getState('filter.access')) {
             $query->where($db->quoteName('a.access') . ' = :access')
                 ->bind(':access', $access, ParameterType::INTEGER);
+        }
+
+        // Filter on the language.
+        if ($language = $this->getState('filter.language')) {
+            $query->where($db->quoteName('a.language') . ' = :language')
+                ->bind(':language', $language);
         }
 
         // Filter by search in title.

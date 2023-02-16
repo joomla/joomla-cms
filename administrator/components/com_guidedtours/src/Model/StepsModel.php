@@ -13,6 +13,7 @@ namespace Joomla\Component\Guidedtours\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Component\Guidedtours\Administrator\Helper\StepHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -58,11 +59,11 @@ class StepsModel extends ListModel
 
     /**
      * Provide a query to be used to evaluate if this is an Empty State, can be overridden in the model to provide granular control.
-    *
-    * @return DatabaseQuery
-    *
-    * @since __DEPLOY_VERSION__
-    */
+     *
+     * @return DatabaseQuery
+     *
+     * @since __DEPLOY_VERSION__
+     */
     protected function getEmptyStateQuery()
     {
         $query = clone $this->_getListQuery();
@@ -272,6 +273,9 @@ class StepsModel extends ListModel
             foreach ($items as $item) {
                 $item->title = Text::_($item->title);
                 $item->description = Text::_($item->description);
+
+                // Sets step language to parent tour language
+                $item->language = StepHelper::getTourLanguage($item->tour_id);
             }
         }
 

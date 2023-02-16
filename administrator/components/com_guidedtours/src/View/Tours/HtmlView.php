@@ -12,6 +12,7 @@ namespace Joomla\Component\Guidedtours\Administrator\View\Tours;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -98,6 +99,12 @@ class HtmlView extends BaseHtmlView
         }
 
         $this->addToolbar();
+
+        // We do not need to filter by language when multilingual is disabled
+        if (!Multilanguage::isEnabled()) {
+            unset($this->activeFilters['language']);
+            $this->filterForm->removeField('language', 'filter');
+        }
 
         parent::display($tpl);
     }

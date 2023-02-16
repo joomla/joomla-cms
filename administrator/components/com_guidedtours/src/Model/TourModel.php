@@ -15,6 +15,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
+use Joomla\Component\Guidedtours\Administrator\Helper\StepHelper;
 use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 
@@ -93,6 +95,12 @@ class TourModel extends AdminModel
 
             $data['published'] = 0;
         }
+
+        // Set step language to parent tour language on save.
+        $id =   $data['id'];
+        $lang = $data['language'];
+
+        GuidedtoursHelper::setStepLanguage($id, $lang);
 
         $result = parent::save($data);
 
@@ -331,20 +339,20 @@ class TourModel extends AdminModel
                 $rows = $db->loadColumn();
                 $query = $db->getQuery(true)
                     ->select($db->quoteName(array('title',
-                    'description',
-                    'ordering',
-                    'step_no',
-                    'position',
-                    'target',
-                    'type',
-                    'interactive_type',
-                    'url',
-                    'created',
-                    'modified',
-                    'checked_out_time',
-                    'checked_out',
-                    'language',
-                    'note')))
+                        'description',
+                        'ordering',
+                        'step_no',
+                        'position',
+                        'target',
+                        'type',
+                        'interactive_type',
+                        'url',
+                        'created',
+                        'modified',
+                        'checked_out_time',
+                        'checked_out',
+                        'language',
+                        'note')))
                     ->from($db->quoteName('#__guidedtour_steps'))
                     ->where($db->quoteName('tour_id') . ' = :id')
                     ->bind(':id', $pk, ParameterType::INTEGER);
@@ -353,57 +361,57 @@ class TourModel extends AdminModel
                 $rows = $db->loadObjectList();
 
                 $query = $db->getQuery(true)
-                ->insert($db->quoteName('#__guidedtour_steps'))
-                ->columns([$db->quoteName('tour_id'), $db->quoteName('title'),
-                $db->quoteName('description'),
-                $db->quoteName('ordering'),
-                $db->quoteName('step_no'),
-                $db->quoteName('position'),
-                $db->quoteName('target'),
-                $db->quoteName('type'),
-                $db->quoteName('interactive_type'),
-                $db->quoteName('url'),
-                $db->quoteName('created'),
-                $db->quoteName('modified'),
-                $db->quoteName('checked_out_time'),
-                $db->quoteName('checked_out'),
-                $db->quoteName('language'),
-                $db->quoteName('note')]);
+                    ->insert($db->quoteName('#__guidedtour_steps'))
+                    ->columns([$db->quoteName('tour_id'), $db->quoteName('title'),
+                        $db->quoteName('description'),
+                        $db->quoteName('ordering'),
+                        $db->quoteName('step_no'),
+                        $db->quoteName('position'),
+                        $db->quoteName('target'),
+                        $db->quoteName('type'),
+                        $db->quoteName('interactive_type'),
+                        $db->quoteName('url'),
+                        $db->quoteName('created'),
+                        $db->quoteName('modified'),
+                        $db->quoteName('checked_out_time'),
+                        $db->quoteName('checked_out'),
+                        $db->quoteName('language'),
+                        $db->quoteName('note')]);
                 foreach ($rows as $step) {
                     $dataTypes = [
-                    ParameterType::INTEGER,
-                    ParameterType::STRING ,
-                    ParameterType::STRING ,
-                    ParameterType::INTEGER,
-                    ParameterType::INTEGER,
-                    ParameterType::STRING,
-                    ParameterType::STRING,
-                    ParameterType::INTEGER,
-                    ParameterType::INTEGER,
-                    ParameterType::STRING,
-                    ParameterType::STRING,
-                    ParameterType::STRING,
-                    ParameterType::STRING,
-                    ParameterType::INTEGER,
-                    ParameterType::STRING,
-                    ParameterType::STRING,
+                        ParameterType::INTEGER,
+                        ParameterType::STRING ,
+                        ParameterType::STRING ,
+                        ParameterType::INTEGER,
+                        ParameterType::INTEGER,
+                        ParameterType::STRING,
+                        ParameterType::STRING,
+                        ParameterType::INTEGER,
+                        ParameterType::INTEGER,
+                        ParameterType::STRING,
+                        ParameterType::STRING,
+                        ParameterType::STRING,
+                        ParameterType::STRING,
+                        ParameterType::INTEGER,
+                        ParameterType::STRING,
+                        ParameterType::STRING,
                     ];
                     $query->values(implode(',', $query->bindArray([$table->id,
-                    $step->title,
-                    $step->description,
-                    $step->ordering,
-                    $step->step_no,
-                    $step->position,
-                    $step->target,
-                    $step->type,
-                    $step->interactive_type,
-                    $step->url,
-                    $step->created,
-                    $step->modified,
-                    $step->checked_out_time,
-                    $step->checked_out,
-                    $step->language,
-                    $step->note], $dataTypes)));
+                        $step->title,
+                        $step->description,
+                        $step->ordering,
+                        $step->step_no,
+                        $step->position,
+                        $step->target,
+                        $step->type,
+                        $step->interactive_type,
+                        $step->url,
+                        $step->created,
+                        $step->modified,
+                        $step->checked_out_time,
+                        $step->checked_out,
+                        $step->language,
+                        $step->note], $dataTypes)));
                 }
 
                 $db->setQuery($query);
