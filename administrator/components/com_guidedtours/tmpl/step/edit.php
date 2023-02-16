@@ -45,7 +45,7 @@ if (empty($tour_id)) {
         </div>
     <?php endif; ?>
 
-    <div>
+    <div class="main-card">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', empty($this->item->id) ? Text::_('COM_GUIDEDTOURS_STEP_NEW_STEP') : Text::_('COM_GUIDEDTOURS_STEP_EDIT_STEP')); ?>
