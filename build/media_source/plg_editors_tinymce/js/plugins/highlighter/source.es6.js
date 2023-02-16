@@ -185,8 +185,7 @@ const start = () => {
     ${td2}${tinymce.translate('Replace all')}</td>
   </tr>
 </table>`;
-  div.style.left = '5px';
-  div.style.bottom = '5px';
+
   footer.insertAdjacentElement('afterbegin', div);
 
   // Set CodeMirror cursor and bookmark to same position as cursor was in TinyMCE:
