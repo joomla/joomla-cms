@@ -37,14 +37,14 @@
       class="alert alert-info"
     >
       <span
-          class="fa fa-info-circle"
-          aria-hidden="true"
+        class="fa fa-info-circle"
+        aria-hidden="true"
       >
       </span>
       <span
         class="ms-2"
       >
-        {{ translate('COM_MEDIA_NO_SEARCH_RESULT') }}
+        {{ translate('JGLOBAL_NO_MATCHING_RESULTS') }}
       </span>
     </div>
     <div
