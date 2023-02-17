@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\Registry\Registry;
+use Joomla\Database\DatabaseInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -110,7 +111,7 @@ class LibraryHelper
     {
         if (static::isEnabled($element)) {
             // Save params in DB
-            $db           = Factory::getContainer()->get('DatabaseDriver');
+            $db           = Factory::getContainer()->get(DatabaseInterface::class);
             $paramsString = $params->toString();
             $query        = $db->getQuery(true)
                 ->update($db->quoteName('#__extensions'))
@@ -146,7 +147,7 @@ class LibraryHelper
     protected static function loadLibrary($element)
     {
         $loader = function ($element) {
-            $db = Factory::getContainer()->get('DatabaseDriver');
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
             $query = $db->getQuery(true)
                 ->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
                 ->from($db->quoteName('#__extensions'))
