@@ -630,8 +630,12 @@ class Document
         if (empty($this->_style[$type])) {
             $this->_style[$type] = [];
         }
+        
+        if ($content === null) {
+            return $this;
+        }
 
-        $this->_style[$type][md5($content ?? ' ')] = $content;
+        $this->_style[$type][md5($content)] = $content;
 
         return $this;
     }
