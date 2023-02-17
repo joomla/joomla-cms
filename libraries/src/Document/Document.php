@@ -631,7 +631,7 @@ class Document
             $this->_style[$type] = [];
         }
 
-        $this->_style[$type][md5($content)] = $content;
+        $this->_style[$type][md5($content ?? ' ')] = $content;
 
         return $this;
     }
