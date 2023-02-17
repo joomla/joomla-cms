@@ -100,15 +100,15 @@
     "rollup": "^2.79.1",
     "rollup-plugin-vue": "^6.0.0",
     "rtlcss": "^3.5.0",
-    "sass-embedded": "^1.58.2",
+    "sass-embedded": "1.54.4",
     "selenium-standalone": "^8.3.0",
     "stylelint": "^14.16.1",
     "stylelint-config-standard": "^24.0.0",
     "stylelint-order": "^5.0.0",
     "stylelint-scss": "^4.4.0",
-    "terser": "^5.16.3"
+    "terser": "^5.16.4"
   },
   "optionalDependencies": {
-    "sass-embedded-linux-x64": "^1.57.1"
+    "sass-embedded-linux-x64": "1.54.4"
   }
 }
