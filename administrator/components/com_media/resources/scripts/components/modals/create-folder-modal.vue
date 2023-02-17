@@ -121,13 +121,14 @@ export default {
     isValidName() {
       if (this.folder.includes('..')) {
         return 1;
-      } else if ((this.items.filter((file) => file.name.toLowerCase() === (this.folder.toLowerCase())).length !== 0)) {
-        return 2;
-      } else if ((!/^[\p{L}\p{N}\-_. ]+$/u.test(this.folder))) {
-        return 3;
-      } else {
-        return 0;
       }
+      if ((this.items.filter((file) => file.name.toLowerCase() === (this.folder.toLowerCase())).length !== 0)) {
+        return 2;
+      }
+      if ((!/^[\p{L}\p{N}\-_. ]+$/u.test(this.folder))) {
+        return 3;
+      }
+      return 0;
     },
     /* Close the modal instance */
     close() {
