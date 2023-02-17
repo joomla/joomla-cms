@@ -6,7 +6,7 @@ clone:
 
 steps:
   - name: setup
-    image: joomlaprojects/docker-images:php7.4
+    image: joomlaprojects/docker-images:php8.2
     volumes:
       - name: certificates
         path: /certificates
@@ -14,7 +14,7 @@ steps:
       - cp -v tests/Codeception/_data/certs/* /certificates/
 
   - name: composer
-    image: joomlaprojects/docker-images:php7.4
+    image: joomlaprojects/docker-images:php8.2
     volumes:
       - name: composer-cache
         path: /tmp/composer-cache
@@ -23,7 +23,7 @@ steps:
       - composer install --no-progress --no-suggest
 
   - name: phpcs
-    image: joomlaprojects/docker-images:php7.2
+    image: joomlaprojects/docker-images:php8.1
     depends_on: [ composer ]
     commands:
       - echo $(date)
@@ -189,6 +189,7 @@ steps:
         path: /root/.cache/Cypress
     commands:
       - sed -i 's/tests\\/Codeception\\/_output/\\/drone\\/src\\/tests\\/cypress\\/output/' codeception.yml
+      - mv cypress.config.dist.js cypress.config.js
       - php libraries/vendor/bin/codecept build
       - npx cypress install
       - npx cypress verify
@@ -496,6 +497,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 40893a317d8211d136371732e87096bc8015d0aff3ff849863ebe2ce00772a3d
+hmac: e6f7b0d72067fe933f0321d4a98e153cc4b1d1982dd16c94de6cff2aa3f0aa14
 
 ...

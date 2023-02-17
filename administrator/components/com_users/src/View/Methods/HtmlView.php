@@ -14,7 +14,6 @@ use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
@@ -180,8 +179,9 @@ class HtmlView extends BaseHtmlView
 
             if (Factory::getApplication()->getIdentity()->authorise('core.manage', 'com_users')) {
                 $toolbar = Toolbar::getInstance();
-                $toolbar->link('back', 'JTOOLBAR_BACK')
-                    ->url(Route::_('index.php?option=com_users'));
+                $arrow   = Factory::getApplication()->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+                $toolbar->link('JTOOLBAR_BACK', 'index.php?option=com_users')
+                    ->icon('icon-' . $arrow);
             }
         }
 

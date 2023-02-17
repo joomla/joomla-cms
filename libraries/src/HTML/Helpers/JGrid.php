@@ -87,15 +87,10 @@ abstract class JGrid
         }
 
         if ($enabled) {
-            $html[] = '<a class="tbody-icon' . ($activeClass === 'publish' ? ' active' : '') . '"';
+            Factory::getDocument()->getWebAssetManager()->useScript('list-view');
 
-            if ($formId !== null) {
-                $html[] = ' href="javascript:void(0);" onclick="return Joomla.listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix .
-                    $task . '\',\'' . $formId . '\')"';
-            } else {
-                $html[] = ' href="javascript:void(0);" onclick="return Joomla.listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
-            }
-
+            $html[] = '<a href="#" class="js-grid-item-action tbody-icon' . ($activeClass === 'publish' ? ' active' : '') . '"';
+            $html[] = ' data-item-id="' . $checkbox . $i . '" data-item-task="' . $prefix . $task . '" data-item-form-id="' . $formId . '"';
             $html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
             $html[] = '>';
             $html[] = LayoutHelper::render('joomla.icon.iconclass', ['icon' => $activeClass]);
