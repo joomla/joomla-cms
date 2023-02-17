@@ -42,7 +42,7 @@ class StepModel extends AdminModel
     /**
      * Type alias for content type
      *
-     * @var string
+     * @var   string
      * @since __DEPLOY_VERSION__
      */
     public $typeAlias = 'com_guidedtours.step';
@@ -54,7 +54,7 @@ class StepModel extends AdminModel
      *
      * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     protected function canDelete($record)
     {
@@ -86,22 +86,16 @@ class StepModel extends AdminModel
     }
 
     /**
-     * Auto-populate the model state.
+     * Method to change the title
      *
-     * Note. Calling getState in this method will result in recursion.
+     * @param   integer  $categoryId  The id of the category.
+     * @param   string   $alias       The alias.
+     * @param   string   $title       The title.
      *
-     * @return  void
+     * @return  array  Contains the modified title and alias.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
-    public function populateState()
-    {
-        parent::populateState();
-
-        $app       = Factory::getApplication();
-        $context   = $this->option . '.' . $this->name;
-    }
-
     protected function generateNewTitle($categoryId, $alias, $title)
     {
         // Alter the title
@@ -119,9 +113,9 @@ class StepModel extends AdminModel
      *
      * @param   array  $data  The form data.
      *
-     * @return   boolean  True on success.
+     * @return  boolean  True on success.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function save($data)
     {
@@ -185,7 +179,7 @@ class StepModel extends AdminModel
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     protected function prepareTable($table)
     {
@@ -253,14 +247,14 @@ class StepModel extends AdminModel
      * @param   string $prefix  The class prefix. Optional.
      * @param   array  $options Configuration array for model. Optional.
      *
-     * @return Table  A Table object
+     * @return  Table  A Table object
      *
-     * @since  __DEPLOY_VERSION__
-     * @throws \Exception
+     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception
      */
     public function getTable($name = '', $prefix = '', $options = [])
     {
-        $name = 'step';
+        $name = 'Step';
         $prefix = 'Table';
 
         if ($table = $this->_createTable($name, $prefix, $options)) {
@@ -278,7 +272,7 @@ class StepModel extends AdminModel
      *
      * @return  boolean  True on success.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function publish(&$pks, $value = 1)
     {
@@ -306,9 +300,9 @@ class StepModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return \JForm|boolean  A JForm object on success, false on failure
+     * @return  \JForm|boolean  A JForm object on success, false on failure
      *
-     * @since  __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -339,10 +333,6 @@ class StepModel extends AdminModel
                 $form->setFieldAttribute('published', 'required', 'false');
                 $form->setFieldAttribute('published', 'filter', 'unset');
             }
-
-            $form->setFieldAttribute('default', 'disabled', 'true');
-            $form->setFieldAttribute('default', 'required', 'false');
-            $form->setFieldAttribute('default', 'filter', 'unset');
         }
 
         // Disables language field selection

@@ -46,7 +46,7 @@ class GuidedToursHelper
         $tours->setState('filter.published', 1);
 
         if (Multilanguage::isEnabled()) {
-            $tours->setState('filter.language', $app->getLanguage()->getTag());
+            $tours->setState('filter.language', array('*', $app->getLanguage()->getTag()));
         }
 
         $user = $app->getIdentity();

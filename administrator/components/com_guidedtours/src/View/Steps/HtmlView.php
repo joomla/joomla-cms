@@ -101,6 +101,10 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
+        if ($this->state->get('filter.tour_id', -1) < 0) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
+
         // Unset the tour_id field from activeFilters as we don't filter by tour here.
         unset($this->activeFilters['tour_id']);
 
@@ -124,7 +128,7 @@ class HtmlView extends BaseHtmlView
         $canDo = ContentHelper::getActions('com_guidedtours');
         $user  = Factory::getApplication()->getIdentity();
 
-        $title = GuidedtoursHelper::getTourTitle($this->state->get('filter.tour_id'))->title;
+        $title = GuidedtoursHelper::getTourTitle($this->state->get('filter.tour_id', -1));
         ToolbarHelper::title(Text::sprintf('COM_GUIDEDTOURS_STEPS_LIST', Text::_($title)), 'map-signs');
         $arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 

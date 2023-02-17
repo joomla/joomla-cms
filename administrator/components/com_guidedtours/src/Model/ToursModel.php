@@ -78,7 +78,7 @@ class ToursModel extends ListModel
                 ->clear('where');
 
             // override of ListModel to keep the tour id filter
-            $db = $this->getDbo();
+            $db = $this->getDatabase();
             $tour_id = $this->getState('filter.tour_id');
             if ($tour_id) {
                 $tour_id = (int) $tour_id;
@@ -106,7 +106,7 @@ class ToursModel extends ListModel
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected function populateState($ordering = 'a.ordering', $direction = 'asc')
+    protected function populateState($ordering = 'a.ordering', $direction = 'ASC')
     {
         $app = Factory::getApplication();
         $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
@@ -165,21 +165,36 @@ class ToursModel extends ListModel
     public function getListQuery()
     {
         // Create a new query object.
-        $db    = $this->getDbo();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.
         $query->select(
             $this->getState(
                 'list.select',
-                'a.*, (SELECT COUNT(' . $db->quoteName('description') . ') FROM '
-                . $db->quoteName('#__guidedtour_steps')
-                . ' WHERE ' . $db->quoteName('tour_id') . ' = ' . $db->quoteName('a.id')
-                . ' AND ' . $db->quoteName('published') . ' = 1'
-                . ') AS ' . $db->quoteName('steps_count') . ', ' . $db->quoteName('uc.name', 'editor')
+                'a.*'
             )
         );
-        $query->from('#__guidedtours AS a')
+
+        $subQuery = $db->getQuery(true)
+            ->select('COUNT(' . $db->quoteName('s.id') . ')')
+            ->from($db->quoteName('#__guidedtour_steps', 's'))
+            ->where(
+                [
+                    $db->quoteName('s.tour_id') . ' = ' . $db->quoteName('a.id'),
+                    $db->quoteName('s.published') . ' = 1',
+                ]
+            );
+
+        $query->select('(' . $subQuery . ') AS ' . $db->quoteName('steps_count'))
+            ->from($db->quoteName('#__guidedtours', 'a'));
+
+        // Join with user table
+        $query->select(
+            [
+                $db->quoteName('uc.name', 'editor'),
+            ]
+        )
             ->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'));
 
         // Join with language table
@@ -228,10 +243,11 @@ class ToursModel extends ListModel
                 ->bind(':access', $access, ParameterType::INTEGER);
         }
 
-        // Filter on the language.
+        // Filter on the language, or all.
         if ($language = $this->getState('filter.language')) {
-            $query->where($db->quoteName('a.language') . ' = :language')
-                ->bind(':language', $language);
+            $language = (array) $language;
+
+            $query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
         }
 
         // Filter by search in title.
@@ -249,10 +265,10 @@ class ToursModel extends ListModel
             } else {
                 $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->where(
-                    '(' . $db->quoteName('a.title') . ' LIKE :search1 OR ' . $db->quoteName('a.id') . ' LIKE :search2'
-                    . ' OR ' . $db->quoteName('a.description') . ' LIKE :search3)'
+                    '(' . $db->quoteName('a.title') . ' LIKE :search1'
+                    . ' OR ' . $db->quoteName('a.description') . ' LIKE :search2)'
                 )
-                    ->bind([':search1', ':search2', ':search3'], $search);
+                    ->bind([':search1', ':search2'], $search);
             }
         }
 
@@ -279,12 +295,10 @@ class ToursModel extends ListModel
         $lang = Factory::getLanguage();
         $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
-        if ($items != false) {
-            foreach ($items as $item) {
-                $item->title = Text::_($item->title);
-                $item->description = Text::_($item->description);
-                $item->extensions = (new Registry($item->extensions))->toArray();
-            }
+        foreach ($items as $item) {
+            $item->title = Text::_($item->title);
+            $item->description = Text::_($item->description);
+            $item->extensions = (new Registry($item->extensions))->toArray();
         }
 
         return $items;

@@ -33,9 +33,9 @@ class GuidedtoursHelper
      *
      * @since  __DEPLOY_VERSION__
      */
-    public static function getTourTitle(int $id): object
+    public static function getTourTitle(int $id): string
     {
-        if (empty($id)) {
+        if ($id < 0) {
             return "";
         }
 
@@ -49,7 +49,7 @@ class GuidedtoursHelper
 
         $db->setQuery($query);
 
-        return $db->loadObject();
+        return $db->loadResult();
     }
 
     public static function setStepLanguage(int $id, string $language): string

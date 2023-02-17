@@ -32,7 +32,7 @@ $wa->useScript('keepalive')
 
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-    <?php if ($this->item->id != 0) : ?>
+    <?php if ($this->item->id != 0 && strpos($this->item->title, 'GUIDEDTOUR') !== false) : ?>
         <div class="row title-alias form-vertical mb-3">
             <div class="col-12">
                 <?php $this->form->setFieldAttribute('title_translation', 'label', Text::sprintf('COM_GUIDEDTOURS_TITLE_TRANSLATION', $lang)); ?>
@@ -50,18 +50,17 @@ $wa->useScript('keepalive')
                 <?php echo $this->form->renderField('url'); ?>
                 <?php echo $this->form->renderField('description'); ?>
 
-                <?php if ($this->item->id != 0) : ?>
+                <?php if ($this->item->id != 0 && strpos($this->item->description, 'GUIDEDTOUR') !== false) : ?>
                     <?php $this->form->setFieldAttribute('description_translation', 'label', Text::sprintf('COM_GUIDEDTOURS_DESCRIPTION_TRANSLATION', $lang)); ?>
                     <?php echo $this->form->renderField('description_translation'); ?>
                 <?php endif; ?>
-
-                <?php echo $this->form->renderField('extensions'); ?>
             </div>
 
             <div class="col-md-3">
                 <div class="card card-light">
                     <div class="card-body">
                         <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+                        <?php echo $this->form->renderField('extensions'); ?>
                     </div>
                 </div>
             </div>

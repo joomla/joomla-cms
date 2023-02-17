@@ -48,7 +48,7 @@ class TourTable extends Table
      *
      * @param   DatabaseDriver $db Database connector object
      *
-     * @since __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function __construct(DatabaseDriver $db)
     {
@@ -105,7 +105,7 @@ class TourTable extends Table
      *
      * @return  string  The asset name.
      *
-     * @since   4.1.0
+     * @since   __DEPLOY_VERSION__
      */
     // phpcs:ignore
     protected function _getAssetName(): string
@@ -113,5 +113,18 @@ class TourTable extends Table
         $k = $this->_tbl_key;
 
         return 'com_guidedtours.tour.' . (int) $this->$k;
+    }
+
+    /**
+     * Method to return the title to use for the asset table.
+     *
+     * @return  string  The string to use as the title in the asset table.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    // phpcs:ignore
+    protected function _getAssetTitle()
+    {
+        return $this->title;
     }
 }

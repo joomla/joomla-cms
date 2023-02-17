@@ -144,12 +144,10 @@ if ($saveOrder && !empty($this->items)) {
                 </thead>
 
                 <!-- Table body begins -->
-                <tbody <?php if ($saveOrder) :
-                    ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>
-                    " data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php
+                <tbody <?php if ($saveOrder) : ?>
+                    class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php
                        endif; ?>>
-                <?php
-                foreach ($this->items as $i => $item) :
+                <?php foreach ($this->items as $i => $item) :
                     $canEdit = $user->authorise('core.edit', 'com_guidedtours' . '.tour.' . $item->id);
                     $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
                     $canChange = $user->authorise('core.edit.state', 'com_guidedtours' . '.tour.' . $item->id) && $canCheckin;

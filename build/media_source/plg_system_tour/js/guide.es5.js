@@ -90,7 +90,7 @@ function addInitialStepToTourButton(tour, obj) {
         text: Joomla.Text._('PLG_SYSTEM_TOUR_START'),
       },
     ],
-    id: obj.ordering,
+    id: 0,
   });
 }
 
@@ -158,7 +158,7 @@ function CreateAndStartTour(obj) {
   const tour = instantiateTour();
   let ind = 0;
   if (currentStepId) {
-    ind = obj.steps.findIndex((x) => x.ordering === Number(currentStepId));
+    ind = obj.steps.findIndex((x) => x.id === Number(currentStepId));
     if (ind < 0) {
       return;
     }

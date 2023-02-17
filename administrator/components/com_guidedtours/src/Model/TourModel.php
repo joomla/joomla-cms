@@ -50,23 +50,6 @@ class TourModel extends AdminModel
     public $typeAlias = 'com_guidedtours.tour';
 
     /**
-     * Auto-populate the model state.
-     *
-     * Note. Calling getState in this method will result in recursion.
-     *
-     * @return  void
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public function populateState()
-    {
-        parent::populateState();
-
-        $app       = Factory::getApplication();
-        $context   = $this->option . '.' . $this->name;
-    }
-
-    /**
      * Method to change the title
      *
      * @param   integer  $categoryId  The id of the category.
