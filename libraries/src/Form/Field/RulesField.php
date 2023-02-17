@@ -68,6 +68,62 @@ class RulesField extends FormField
     protected $assetField;
 
     /**
+     * The flag which indicates if it is the global config
+     *
+     * @var    bool
+     * @since  4.2.7
+     */
+    protected $isGlobalConfig;
+
+    /**
+     * The asset rules
+     *
+     * @var    array
+     * @since  4.2.7
+     */
+    protected $assetRules;
+
+    /**
+     * The actions
+     *
+     * @var    array
+     * @since  4.2.7
+     */
+    protected $actions;
+
+    /**
+     * The groups
+     *
+     * @var    array
+     * @since  4.2.7
+     */
+    protected $groups;
+
+    /**
+     * The asset Id
+     *
+     * @var    int
+     * @since  4.2.7
+     */
+    protected $assetId;
+
+    /**
+     * The parent asset Id
+     *
+     * @var    int
+     * @since  4.2.7
+     */
+    protected $parentAssetId;
+
+    /**
+     * The flag to indicate that it is a new item
+     *
+     * @var    bool
+     * @since  4.2.7
+     */
+    protected $newItem;
+
+    /**
      * The parent class of the field
      *
      * @var  string
@@ -179,11 +235,11 @@ class RulesField extends FormField
         // Iterate over the children and add to the actions.
         foreach ($this->element->children() as $el) {
             if ($el->getName() === 'action') {
-                $this->actions[] = (object) array(
+                $this->actions[] = (object) [
                     'name' => (string) $el['name'],
                     'title' => (string) $el['title'],
                     'description' => (string) $el['description'],
-                );
+                ];
             }
         }
 
@@ -251,7 +307,7 @@ class RulesField extends FormField
     {
         $data = parent::getLayoutData();
 
-        $extraData = array(
+        $extraData = [
             'groups'         => $this->groups,
             'section'        => $this->section,
             'actions'        => $this->actions,
@@ -261,7 +317,7 @@ class RulesField extends FormField
             'isGlobalConfig' => $this->isGlobalConfig,
             'parentAssetId'  => $this->parentAssetId,
             'component'      => $this->component,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }
