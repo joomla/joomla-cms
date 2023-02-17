@@ -37,14 +37,15 @@
       class="alert alert-info"
     >
       <span
-        class="fa fa-info-circle"
+        class="icon-info-circle"
         aria-hidden="true"
       />
       <span
-        class="ms-2"
+        class="visually-hidden"
       >
-        {{ translate('JGLOBAL_NO_MATCHING_RESULTS') }}
+        Info
       </span>
+      {{ translate('JGLOBAL_NO_MATCHING_RESULTS') }}
     </div>
     <div
       v-if="(listView === 'grid' && !isEmpty)"
