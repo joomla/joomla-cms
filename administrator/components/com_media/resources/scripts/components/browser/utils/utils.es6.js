@@ -34,7 +34,7 @@ export default function onItemClick(event, ctx) {
   }
 
   // Handle clicks when the item was not selected
-   if (!ctx.isSelected()) {
+  if (!ctx.isSelected()) {
     // Handle clicks when ctrl key was pressed
     if (event[/Mac|Mac OS|MacIntel/gi.test(window.navigator.userAgent) ? 'metaKey' : 'ctrlKey'] || event.keyCode === 17) {
       ctx.$store.commit(types.SELECT_BROWSER_ITEM, ctx.item);
