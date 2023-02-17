@@ -46,7 +46,7 @@ $wa->useScript('keepalive')
 
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', empty($this->item->id) ? Text::_('COM_GUIDEDTOURS_NEW_TOUR') : Text::_('COM_GUIDEDTOURS_EDIT_TOUR')); ?>
         <div class="row">
-            <div class="col-lg">
+            <div class="col-lg-9">
                 <?php echo $this->form->renderField('url'); ?>
                 <?php echo $this->form->renderField('description'); ?>
 
@@ -56,13 +56,9 @@ $wa->useScript('keepalive')
                 <?php endif; ?>
             </div>
 
-            <div class="col-md-3">
-                <div class="card card-light">
-                    <div class="card-body">
-                        <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-                        <?php echo $this->form->renderField('extensions'); ?>
-                    </div>
-                </div>
+            <div class="col-lg-3">
+                <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+                <?php echo $this->form->renderField('extensions'); ?>
             </div>
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
