@@ -4,7 +4,7 @@
 		name="client_id"
 		type="list"
 		label="JSITEADMIN"
-		onchange="Joomla.resetFilters(this)"
+		class="js-select-submit-on-change"
 		filtermode="selector"
 		validate="options"
 		>
