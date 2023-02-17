@@ -81,7 +81,6 @@ $translationStrings = [
     'JGLOBAL_NO_MATCHING_RESULTS',
     'JLIB_FORM_FIELD_REQUIRED_VALUE',
     'MESSAGE',
-    'NOTICE',
 ];
 
 foreach ($translationStrings as $string) {
