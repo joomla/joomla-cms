@@ -39,7 +39,8 @@
       <span
         class="icon-info-circle"
         aria-hidden="true"
-      />
+      >
+      </span>
       <span
         class="visually-hidden"
       >
