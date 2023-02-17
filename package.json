@@ -108,16 +108,6 @@
     "stylelint-scss": "^4.0.1",
     "terser": "^5.7.0"
   },
-  "optionalDependencies": {
-    "sass-embedded-darwin-arm64": "1.57.1",
-    "sass-embedded-darwin-x64": "1.57.1",
-    "sass-embedded-linux-arm": "1.57.1",
-    "sass-embedded-linux-arm64": "1.57.1",
-    "sass-embedded-linux-ia32": "1.57.1",
-    "sass-embedded-linux-x64": "1.57.1",
-    "sass-embedded-win32-ia32": "1.57.1",
-    "sass-embedded-win32-x64": "1.57.1"
-  },
   "joomlaSettings": {
     "vendors": {
       "awesomplete": {
