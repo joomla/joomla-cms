@@ -64,6 +64,7 @@ export default function onItemClick(event, ctx) {
 
     return;
   }
+
   ctx.$store.dispatch('toggleBrowserItemSelect', ctx.item);
   window.parent.document.dispatchEvent(
     new CustomEvent('onMediaFileSelected', {
