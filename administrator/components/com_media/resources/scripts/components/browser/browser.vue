@@ -39,12 +39,11 @@
       <span
         class="icon-info-circle"
         aria-hidden="true"
-      >
-      </span>
+      />
       <span
         class="visually-hidden"
       >
-        Info
+        {{ translate('NOTICE') }}
       </span>
       {{ translate('JGLOBAL_NO_MATCHING_RESULTS') }}
     </div>
