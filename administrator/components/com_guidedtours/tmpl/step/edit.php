@@ -50,7 +50,7 @@ if (empty($tour_id)) {
 
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', empty($this->item->id) ? Text::_('COM_GUIDEDTOURS_STEP_NEW_STEP') : Text::_('COM_GUIDEDTOURS_STEP_EDIT_STEP')); ?>
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-lg-9">
                 <?php echo $this->form->renderField('description'); ?>
 
                 <?php if ($this->item->id != 0 && strpos($this->item->description, 'GUIDEDTOUR') !== false) : ?>
