@@ -93,6 +93,15 @@ export default {
       folder: '',
     };
   },
+  computed: {
+    /* Get the contents of the currently selected directory */
+    items() {
+      const directories = this.$store.getters.getSelectedDirectoryDirectories;
+      const files = this.$store.getters.getSelectedDirectoryFiles;
+
+      return [...directories, ...files];
+    },
+  },
   watch: {
     '$store.state.showCreateFolderModal': function (show) {
       this.$nextTick(() => {
@@ -102,25 +111,17 @@ export default {
       });
     },
   },
-  computed: {
-    /* Get the contents of the currently selected directory */
-    items() {
-      const directories = this.$store.getters.getSelectedDirectoryDirectories
-      const files = this.$store.getters.getSelectedDirectoryFiles
 
-      return [...directories, ...files];
-    },
-  },
   methods: {
     /* Check if the the form is valid */
     isValid() {
       return (this.folder);
     },
-     /* Check folder name is valid or not */
-     isValidName() {
+    /* Check folder name is valid or not */
+    isValidName() {
       if (this.folder.includes('..')) {
         return 1;
-      } else if((this.items.filter((file) => file.name.toLowerCase() === (this.folder.toLowerCase())).length !== 0)) {
+      } else if ((this.items.filter((file) => file.name.toLowerCase() === (this.folder.toLowerCase())).length !== 0)) {
         return 2;
       } else if ((!/^[\p{L}\p{N}\-_. ]+$/u.test(this.folder))) {
         return 3;
