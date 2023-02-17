@@ -27,11 +27,25 @@
       <p>{{ translate('COM_MEDIA_DROP_FILE') }}</p>
     </div>
     <MediaBrowserTable
-      v-if="(listView === 'table' && !isEmpty)"
+      v-if="(listView === 'table' && !isEmpty && !isEmptySearch)"
       :local-items="localItems"
       :current-directory="currentDirectory"
       :style="mediaBrowserStyles"
     />
+    <div
+      v-if="isEmptySearch"
+      class="alert alert-info"
+    >
+      <span
+        class="fa fa-info-circle"
+        aria-hidden="true"
+      />
+      <span
+        class="ms-2"
+      >
+        {{ translate('JGLOBAL_NO_MATCHING_RESULTS') }}
+      </span>
+    </div>
     <div
       v-if="(listView === 'grid' && !isEmpty)"
       class="media-browser-grid"
@@ -129,6 +143,9 @@ export default {
         width: this.$store.state.showInfoBar ? '75%' : '100%',
         height: this.$store.state.listView === 'table' && !this.isEmpty ? 'unset' : '100%',
       };
+    },
+    isEmptySearch() {
+      return this.$store.state.search !== '' && this.localItems.length === 0;
     },
     isEmpty() {
       return ![...this.$store.getters.getSelectedDirectoryDirectories, ...this.$store.getters.getSelectedDirectoryFiles].length
