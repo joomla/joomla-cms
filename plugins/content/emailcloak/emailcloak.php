@@ -103,7 +103,7 @@ class PlgContentEmailcloak extends CMSPlugin
         $mode = $mode === 1;
 
         // Example: any@example.org
-        $searchEmail = '([\w\.\'\-\+]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-zA-Z0-9\-]{2,24}))';
+        $searchEmail = ('/^[a-zA-Z0-9_\.\-\'\+\p{L}]+@[a-zA-Z0-9\-\p{L}]+\.[a-zA-Z0-9\-\.\p{L}]{2,24}$/u');
 
         // Example: any@example.org?subject=anyText
         $searchEmailLink = $searchEmail . '([?&][\x20-\x7f][^"<>]+)';
@@ -471,7 +471,7 @@ class PlgContentEmailcloak extends CMSPlugin
         * The '<[^<]*>(*SKIP)(*F)|' trick is used to exclude this kind of occurrences
         */
 
-        $pattern = '~<[^<]*(?<!\/)>(*SKIP)(*F)|' . $searchEmail . '~i';
+        $pattern = '~<[^<]*(?<!\/)>(*SKIP)(*F)|' . $searchEmail . '~iu';
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[1][0];
