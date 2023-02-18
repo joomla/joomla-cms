@@ -247,7 +247,7 @@ class RecaptchaPluginTest extends UnitTestCase
       */
     public function testFailedResponse()
     {
-        $language   = $this->createStub(Language::class);
+        $language = $this->createStub(Language::class);
         $language->method('_')->willReturn('test');
 
         $app = $this->createStub(CMSWebApplicationInterface::class);
