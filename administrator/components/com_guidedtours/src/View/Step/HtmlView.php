@@ -146,6 +146,12 @@ class HtmlView extends BaseHtmlView
             );
 
             ToolbarHelper::divider();
+            $inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false;
+            $targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] ?: 'hide-aware-inline-help';
+
+            if ($inlinehelp) {
+                ToolbarHelper::inlinehelp($targetClass);
+            }
             ToolbarHelper::help('Guided_Tours:_New_or_Edit_Step');
         }
     }
