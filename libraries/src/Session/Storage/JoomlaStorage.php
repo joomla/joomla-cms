@@ -214,7 +214,13 @@ class JoomlaStorage extends NativeStorage
         $old = $this->data->get($name);
 
         $this->data->set($name, $value);
-
+        
+        $app = JFactory::getApplication();
+        
+        //if the session is expired user will be redirected to login
+        if (!$this->getId()) {
+             $app->redirect(JRoute::_('index.php?option=com_users&view=login&return=' . base64_encode(JUri::getInstance()->toString()), false));
+            }
         return $old;
     }
 
