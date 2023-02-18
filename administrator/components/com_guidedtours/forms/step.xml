@@ -17,11 +17,11 @@
 		description="COM_GUIDEDTOURS_STEP_POSITION_DESC"
 		validate="options"
         >
-		<option value="bottom">COM_GUIDEDTOURS_FIELD_VALUE_BOTTOM</option>
-		<option value="center">COM_GUIDEDTOURS_FIELD_VALUE_CENTER</option>
-		<option value="left">COM_GUIDEDTOURS_FIELD_VALUE_LEFT</option>
-		<option value="right">COM_GUIDEDTOURS_FIELD_VALUE_RIGHT</option>
-		<option value="top">COM_GUIDEDTOURS_FIELD_VALUE_TOP</option>
+		<option value="bottom">JGLOBAL_BOTTOM</option>
+		<option value="center">JGLOBAL_CENTER</option>
+		<option value="left">JGLOBAL_LEFT</option>
+		<option value="right">JGLOBAL_RIGHT</option>
+		<option value="top">JGLOBAL_TOP</option>
 	</field>
 
 	<field
