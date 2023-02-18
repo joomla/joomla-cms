@@ -6529,6 +6529,8 @@ class JoomlaInstallerScript
             '/plugins/fields/usergrouplist/usergrouplist.php',
             // From 4.3.0-beta2 to 4.3.0-beta3
             '/cypress.config.dist.js',
+            '/plugins/captcha/recaptcha/recaptcha.php',
+            '/plugins/captcha/recaptcha_invisible/recaptcha_invisible.php',
             '/plugins/filesystem/local/local.php',
             '/plugins/finder/categories/categories.php',
             '/plugins/finder/contacts/contacts.php',
