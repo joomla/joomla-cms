@@ -25,7 +25,7 @@
           {{ translate('NOTICE') }}
         </span>
         {{ translate('JGLOBAL_NO_MATCHING_RESULTS') }}
-      </div>            
+      </div>
     </div>
     <div
       v-if="isEmpty"
