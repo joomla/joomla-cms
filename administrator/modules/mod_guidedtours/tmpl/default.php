@@ -51,7 +51,7 @@ endforeach;
 ksort($allTours);
 
 ?>
-<div class="header-item-content dropdown header-profile">
+<div class="header-item-content dropdown header-tours">
     <button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button" title="<?php echo Text::_('MOD_GUIDEDTOURS_MENU'); ?>">
         <div class="header-item-icon">
             <span class="icon-map-signs" aria-hidden="true"></span>
@@ -62,14 +62,17 @@ ksort($allTours);
         <span class="icon-angle-down" aria-hidden="true"></span>
     </button>
     <div class="dropdown-menu dropdown-menu-end">
-        <?php foreach ($listTours as $tour) : ?>
+        <?php foreach ($listTours as $i => $tour) : ?>
+            <?php if ($i >= $params->get('tourscount', 7)) : ?>
+                <?php break; ?>
+            <?php endif; ?>
             <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
                 <span class="icon-map-signs" aria-hidden="true"></span>
                 <?php echo $tour->title; ?>
             </button>
         <?php endforeach; ?>
         <button type="button" class="dropdown-item text-center" data-bs-toggle="modal" data-bs-target="#modGuidedTours-modal">
-            <?php echo Text::_('MOD_GUIDEDTOUR_SHOW_ALL'); ?>
+            <?php echo Text::_('MOD_GUIDEDTOURS_SHOW_ALL'); ?>
         </button>
     </div>
 </div>
@@ -89,7 +92,9 @@ foreach ($allTours as $extension => $tours) :
     $modalHtml[] = '<h4>' . Text::_($extension) . '</h4>';
     $modalHtml[] = '<ul class="list-unstyled">';
     foreach ($tours as $tour) :
-        $modalHtml[] = '<li class="button-start-guidedtour text-info" role="button" data-id="' . (int) $tour->id . '">' . htmlentities($tour->title) . '</li>';
+        $modalHtml[] = '<li>';
+        $modalHtml[] = '<a href="#" role="button" class="button-start-guidedtour text-info" data-id="' . (int) $tour->id . '">' . htmlentities($tour->title) . '</a>';
+        $modalHtml[] = '</li>';
     endforeach;
     $modalHtml[] = '</ul>';
     $modalHtml[] = '</div>';

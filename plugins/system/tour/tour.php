@@ -152,7 +152,8 @@ class PlgSystemTour extends CMSPlugin implements SubscriberInterface
 
         $tour_steps = $mySteps->getItems();
 
-        foreach ($tour_steps as $step) {
+        foreach ($tour_steps as $i => $step) {
+            $step->id = $i + 1;
             $step->title = Text::_($step->title);
             $step->description = Text::_($step->description);
 

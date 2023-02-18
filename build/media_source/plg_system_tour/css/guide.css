@@ -1,18 +1,29 @@
-.subhead .btn {
-    margin: 0;
-}
+/**
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 .shepherd-title {
-    flex: 1 1 auto;
+  flex: 1 1 auto;
+  line-height: 1.5em;
+}
+
+.shepherd-progress {
+  margin: 0 15px;
+}
+
+.shepherd-text {
+  line-height: 1.5em;
+  padding: 1em;
 }
 
 .shepherd-footer {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .shepherd-button-primary {
-    grid-column-start: 3;
+  grid-column-start: 3;
 }
 
 .shepherd-enabled.shepherd-element[data-popper-placement="bottom"] {
