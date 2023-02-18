@@ -153,7 +153,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
       */
     public function testResponse()
     {
-        $language   = $this->createStub(Language::class);
+        $language = $this->createStub(Language::class);
         $language->method('_')->willReturn('test');
 
         $app = $this->createStub(CMSWebApplicationInterface::class);
