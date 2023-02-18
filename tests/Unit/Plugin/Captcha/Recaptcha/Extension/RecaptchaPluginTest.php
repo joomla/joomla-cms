@@ -29,7 +29,7 @@ use RuntimeException;
  *
  * @testdox     The ReCaptcha plugin
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.3.0
  */
 class RecaptchaPluginTest extends UnitTestCase
 {
@@ -38,7 +38,7 @@ class RecaptchaPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function setUp(): void
     {
@@ -52,7 +52,7 @@ class RecaptchaPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function tearDown(): void
     {
@@ -66,7 +66,7 @@ class RecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testInit()
     {
@@ -91,7 +91,7 @@ class RecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testInitWrongApplication()
     {
@@ -106,7 +106,7 @@ class RecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testInitEmptyPublicKey()
     {
@@ -129,7 +129,7 @@ class RecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testDisplay()
     {
@@ -147,7 +147,7 @@ class RecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testResponse()
     {
@@ -172,7 +172,7 @@ class RecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testResponseWithCode()
     {
@@ -196,7 +196,7 @@ class RecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testResponseEmptyPrivateKey()
     {
@@ -219,7 +219,7 @@ class RecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testResponseSpam()
     {
@@ -243,7 +243,7 @@ class RecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testFailedResponse()
     {
@@ -270,7 +270,7 @@ class RecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testPrivacy()
     {
