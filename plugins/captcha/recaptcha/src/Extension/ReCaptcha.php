@@ -2,20 +2,20 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Captcha
+ * @subpackage  Captcha.recaptcha
  *
  * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
+namespace Joomla\Plugin\Captcha\ReCaptcha\Extension;
+
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Utilities\IpHelper;
-use ReCaptcha\ReCaptcha;
+use ReCaptcha\ReCaptcha as Captcha;
+use ReCaptcha\RequestMethod;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -27,7 +27,7 @@ use ReCaptcha\ReCaptcha;
  *
  * @since  2.5
  */
-class PlgCaptchaRecaptcha extends CMSPlugin
+final class ReCaptcha extends CMSPlugin
 {
     /**
      * Load the language file on instantiation.
@@ -38,12 +38,28 @@ class PlgCaptchaRecaptcha extends CMSPlugin
     protected $autoloadLanguage = true;
 
     /**
-     * Application object.
+     * The http request method
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
-     * @since  4.0.0
+     * @var    RequestMethod
+     * @since  __DEPLOY_VERSION__
      */
-    protected $app;
+    private $requestMethod;
+
+    /**
+     * Constructor.
+     *
+     * @param   DispatcherInterface  $dispatcher     The dispatcher
+     * @param   array                $config         An optional associative array of configuration settings
+     * @param   RequestMethod        $requestMethod  The http request method
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct(DispatcherInterface $dispatcher, array $config, RequestMethod $requestMethod)
+    {
+        parent::__construct($dispatcher, $config);
+
+        $this->requestMethod = $requestMethod;
+    }
 
     /**
      * Reports the privacy related capabilities for this plugin to site administrators.
@@ -54,17 +70,15 @@ class PlgCaptchaRecaptcha extends CMSPlugin
      */
     public function onPrivacyCollectAdminCapabilities()
     {
-        $this->loadLanguage();
-
         return [
-            Text::_('PLG_CAPTCHA_RECAPTCHA') => [
-                Text::_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
+            $this->getApplication()->getLanguage()->_('PLG_CAPTCHA_RECAPTCHA') => [
+                $this->getApplication()->getLanguage()->_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
             ],
         ];
     }
 
     /**
-     * Initialise the captcha
+     * Initializes the captcha
      *
      * @param   string  $id  The id of the field.
      *
@@ -75,17 +89,23 @@ class PlgCaptchaRecaptcha extends CMSPlugin
      */
     public function onInit($id = 'dynamic_recaptcha_1')
     {
+        $app = $this->getApplication();
+
+        if (!$app instanceof CMSWebApplicationInterface) {
+            return false;
+        }
+
         $pubkey = $this->params->get('public_key', '');
 
         if ($pubkey === '') {
-            throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
+            throw new \RuntimeException($app->getLanguage()->_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
         }
 
         $apiSrc = 'https://www.google.com/recaptcha/api.js?onload=JoomlainitReCaptcha2&render=explicit&hl='
-            . Factory::getLanguage()->getTag();
+            . $app->getLanguage()->getTag();
 
         // Load assets, the callback should be first
-        $this->app->getDocument()->getWebAssetManager()
+        $app->getDocument()->getWebAssetManager()
             ->registerAndUseScript('plg_captcha_recaptcha', 'plg_captcha_recaptcha/recaptcha.min.js', [], ['defer' => true])
             ->registerAndUseScript('plg_captcha_recaptcha.api', $apiSrc, [], ['defer' => true], ['plg_captcha_recaptcha']);
 
@@ -135,7 +155,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
      */
     public function onCheckAnswer($code = null)
     {
-        $input      = Factory::getApplication()->getInput();
+        $input      = $this->getApplication()->getInput();
         $privatekey = $this->params->get('private_key');
         $version    = $this->params->get('version', '2.0');
         $remoteip   = IpHelper::getIp();
@@ -151,17 +171,17 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 
         // Check for Private Key
         if (empty($privatekey)) {
-            throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'), 500);
+            throw new \RuntimeException($this->getApplication()->getLanguage()->_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'), 500);
         }
 
         // Check for IP
         if (empty($remoteip)) {
-            throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_IP'), 500);
+            throw new \RuntimeException($this->getApplication()->getLanguage()->_('PLG_RECAPTCHA_ERROR_NO_IP'), 500);
         }
 
         // Discard spam submissions
         if ($spam) {
-            throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'), 500);
+            throw new \RuntimeException($this->getApplication()->getLanguage()->_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'), 500);
         }
 
         return $this->getResponse($privatekey, $remoteip, $response);
@@ -185,7 +205,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 
         switch ($version) {
             case '2.0':
-                $apiResponse = (new ReCaptcha($privatekey, new HttpBridgePostRequestMethod()))->verify($response, $remoteip);
+                $apiResponse = (new Captcha($privatekey, $this->requestMethod))->verify($response, $remoteip);
 
                 if (!$apiResponse->isSuccess()) {
                     foreach ($apiResponse->getErrorCodes() as $error) {

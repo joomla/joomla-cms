@@ -122,7 +122,7 @@ class File
 
         // Check src path
         if (!is_readable($src)) {
-            Log::add(Text::sprintf('LIB_FILESYSTEM_ERROR_JFILE_FIND_COPY', __METHOD__, $src), Log::WARNING, 'jerror');
+            Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_FILE_FIND_COPY', __METHOD__, $src), Log::WARNING, 'jerror');
 
             return false;
         }

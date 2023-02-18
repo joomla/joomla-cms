@@ -2,22 +2,22 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Finder.Content
+ * @subpackage  Finder.contacts
  *
  * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Categories\Categories;
+namespace Joomla\Plugin\Finder\Contacts\Extension;
+
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Component\Contact\Site\Helper\RouteHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Adapter;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Registry\Registry;
 
@@ -26,19 +26,21 @@ use Joomla\Registry\Registry;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Smart Search adapter for com_content.
+ * Finder adapter for Joomla Contacts.
  *
  * @since  2.5
  */
-class PlgFinderContent extends Adapter
+final class Contacts extends Adapter
 {
+    use DatabaseAwareTrait;
+
     /**
      * The plugin identifier.
      *
      * @var    string
      * @since  2.5
      */
-    protected $context = 'Content';
+    protected $context = 'Contacts';
 
     /**
      * The extension name.
@@ -46,7 +48,7 @@ class PlgFinderContent extends Adapter
      * @var    string
      * @since  2.5
      */
-    protected $extension = 'com_content';
+    protected $extension = 'com_contact';
 
     /**
      * The sublayout to use when rendering the results.
@@ -54,7 +56,7 @@ class PlgFinderContent extends Adapter
      * @var    string
      * @since  2.5
      */
-    protected $layout = 'article';
+    protected $layout = 'contact';
 
     /**
      * The type of content that the adapter indexes.
@@ -62,7 +64,7 @@ class PlgFinderContent extends Adapter
      * @var    string
      * @since  2.5
      */
-    protected $type_title = 'Article';
+    protected $type_title = 'Contact';
 
     /**
      * The table name.
@@ -70,7 +72,15 @@ class PlgFinderContent extends Adapter
      * @var    string
      * @since  2.5
      */
-    protected $table = '#__content';
+    protected $table = '#__contact_details';
+
+    /**
+     * The field the published state is stored in.
+     *
+     * @var    string
+     * @since  2.5
+     */
+    protected $state_field = 'published';
 
     /**
      * Load the language file on instantiation.
@@ -79,18 +89,6 @@ class PlgFinderContent extends Adapter
      * @since  3.1
      */
     protected $autoloadLanguage = true;
-
-    /**
-     * Method to setup the indexer to be run.
-     *
-     * @return  boolean  True on success.
-     *
-     * @since   2.5
-     */
-    protected function setup()
-    {
-        return true;
-    }
 
     /**
      * Method to update the item link information when the item category is
@@ -107,14 +105,16 @@ class PlgFinderContent extends Adapter
      */
     public function onFinderCategoryChangeState($extension, $pks, $value)
     {
-        // Make sure we're handling com_content categories.
-        if ($extension === 'com_content') {
+        // Make sure we're handling com_contact categories
+        if ($extension === 'com_contact') {
             $this->categoryStateChange($pks, $value);
         }
     }
 
     /**
      * Method to remove the link information for items that have been deleted.
+     *
+     * This event will fire when contacts are deleted and when an indexed item is deleted.
      *
      * @param   string  $context  The context of the action being performed.
      * @param   Table   $table    A Table object containing the record to be deleted
@@ -126,7 +126,7 @@ class PlgFinderContent extends Adapter
      */
     public function onFinderAfterDelete($context, $table): void
     {
-        if ($context === 'com_content.article') {
+        if ($context === 'com_contact.contact') {
             $id = $table->id;
         } elseif ($context === 'com_finder.index') {
             $id = $table->link_id;
@@ -134,19 +134,16 @@ class PlgFinderContent extends Adapter
             return;
         }
 
-        // Remove item from the index.
+        // Remove the items.
         $this->remove($id);
     }
 
     /**
-     * Smart Search after save content method.
-     * Reindexes the link information for an article that has been saved.
-     * It also makes adjustments if the access level of an item or the
-     * category to which it belongs has changed.
+     * Method to determine if the access level of an item changed.
      *
      * @param   string   $context  The context of the content passed to the plugin.
-     * @param   Table    $row      A Table object.
-     * @param   boolean  $isNew    True if the content has just been created.
+     * @param   Table    $row      A Table object
+     * @param   boolean  $isNew    If the content has just been created
      *
      * @return  void
      *
@@ -155,21 +152,21 @@ class PlgFinderContent extends Adapter
      */
     public function onFinderAfterSave($context, $row, $isNew): void
     {
-        // We only want to handle articles here.
-        if ($context === 'com_content.article' || $context === 'com_content.form') {
-            // Check if the access levels are different.
+        // We only want to handle contacts here
+        if ($context === 'com_contact.contact') {
+            // Check if the access levels are different
             if (!$isNew && $this->old_access != $row->access) {
                 // Process the change.
                 $this->itemAccessChange($row);
             }
 
-            // Reindex the item.
+            // Reindex the item
             $this->reindex($row->id);
         }
 
-        // Check for access changes in the category.
+        // Check for access changes in the category
         if ($context === 'com_categories.category') {
-            // Check if the access levels are different.
+            // Check if the access levels are different
             if (!$isNew && $this->old_cataccess != $row->access) {
                 $this->categoryAccessChange($row);
             }
@@ -177,12 +174,13 @@ class PlgFinderContent extends Adapter
     }
 
     /**
-     * Smart Search before content save method.
-     * This event is fired before the data is actually saved.
+     * Method to reindex the link information for an item that has been saved.
+     * This event is fired before the data is actually saved so we are going
+     * to queue the item to be indexed later.
      *
      * @param   string   $context  The context of the content passed to the plugin.
-     * @param   Table    $row      A Table object.
-     * @param   boolean  $isNew    If the content is just about to be created.
+     * @param   Table    $row      A Table object
+     * @param   boolean  $isNew    If the content is just about to be created
      *
      * @return  boolean  True on success.
      *
@@ -191,17 +189,17 @@ class PlgFinderContent extends Adapter
      */
     public function onFinderBeforeSave($context, $row, $isNew)
     {
-        // We only want to handle articles here.
-        if ($context === 'com_content.article' || $context === 'com_content.form') {
-            // Query the database for the old access level if the item isn't new.
+        // We only want to handle contacts here
+        if ($context === 'com_contact.contact') {
+            // Query the database for the old access level if the item isn't new
             if (!$isNew) {
                 $this->checkItemAccess($row);
             }
         }
 
-        // Check for access levels from the category.
+        // Check for access levels from the category
         if ($context === 'com_categories.category') {
-            // Query the database for the old access level if the item isn't new.
+            // Query the database for the old access level if the item isn't new
             if (!$isNew) {
                 $this->checkCategoryAccess($row);
             }
@@ -216,7 +214,7 @@ class PlgFinderContent extends Adapter
      * unpublished, archived, or unarchived from the list view.
      *
      * @param   string   $context  The context for the content passed to the plugin.
-     * @param   array    $pks      An array of primary key ids of the content that has changed state.
+     * @param   array    $pks      A list of primary key ids of the content that has changed state.
      * @param   integer  $value    The value of the state that the content has been changed to.
      *
      * @return  void
@@ -225,12 +223,12 @@ class PlgFinderContent extends Adapter
      */
     public function onFinderChangeState($context, $pks, $value)
     {
-        // We only want to handle articles here.
-        if ($context === 'com_content.article' || $context === 'com_content.form') {
+        // We only want to handle contacts here
+        if ($context === 'com_contact.contact') {
             $this->itemStateChange($pks, $value);
         }
 
-        // Handle when the plugin is disabled.
+        // Handle when the plugin is disabled
         if ($context === 'com_plugins.plugin' && $value === 0) {
             $this->pluginDisable($pks);
         }
@@ -248,31 +246,21 @@ class PlgFinderContent extends Adapter
      */
     protected function index(Result $item)
     {
-        $item->setLanguage();
-
-        // Check if the extension is enabled.
+        // Check if the extension is enabled
         if (ComponentHelper::isEnabled($this->extension) === false) {
             return;
         }
 
-        $item->context = 'com_content.article';
+        $item->setLanguage();
 
-        // Initialise the item parameters.
-        $registry     = new Registry($item->params);
-        $item->params = clone ComponentHelper::getParams('com_content', true);
-        $item->params->merge($registry);
-
-        $item->metadata = new Registry($item->metadata);
-
-        // Trigger the onContentPrepare event.
-        $item->summary = Helper::prepareContent($item->summary, $item->params, $item);
-        $item->body    = Helper::prepareContent($item->body, $item->params, $item);
+        // Initialize the item parameters.
+        $item->params = new Registry($item->params);
 
         // Create a URL as identifier to recognise items again.
         $item->url = $this->getUrl($item->id, $this->extension, $this->layout);
 
         // Build the necessary route and path information.
-        $item->route = RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language);
+        $item->route = RouteHelper::getContactRoute($item->slug, $item->catslug, $item->language);
 
         // Get the menu title if it exists.
         $title = $this->getItemMenuTitle($item->url);
@@ -282,37 +270,74 @@ class PlgFinderContent extends Adapter
             $item->title = $title;
         }
 
-        $images = $item->images ? json_decode($item->images) : false;
+        /*
+         * Add the metadata processing instructions based on the contact
+         * configuration parameters.
+         */
 
-        // Add the image.
-        if ($images && !empty($images->image_intro)) {
-            $item->imageUrl = $images->image_intro;
-            $item->imageAlt = $images->image_intro_alt ?? '';
+        // Handle the contact position.
+        if ($item->params->get('show_position', true)) {
+            $item->addInstruction(Indexer::META_CONTEXT, 'position');
         }
 
-        // Add the meta author.
-        $item->metaauthor = $item->metadata->get('author');
+        // Handle the contact street address.
+        if ($item->params->get('show_street_address', true)) {
+            $item->addInstruction(Indexer::META_CONTEXT, 'address');
+        }
 
-        // Add the metadata processing instructions.
-        $item->addInstruction(Indexer::META_CONTEXT, 'metakey');
-        $item->addInstruction(Indexer::META_CONTEXT, 'metadesc');
-        $item->addInstruction(Indexer::META_CONTEXT, 'metaauthor');
-        $item->addInstruction(Indexer::META_CONTEXT, 'author');
-        $item->addInstruction(Indexer::META_CONTEXT, 'created_by_alias');
+        // Handle the contact city.
+        if ($item->params->get('show_suburb', true)) {
+            $item->addInstruction(Indexer::META_CONTEXT, 'city');
+        }
 
-        // Translate the state. Articles should only be published if the category is published.
-        $item->state = $this->translateState($item->state, $item->cat_state);
+        // Handle the contact region.
+        if ($item->params->get('show_state', true)) {
+            $item->addInstruction(Indexer::META_CONTEXT, 'region');
+        }
+
+        // Handle the contact country.
+        if ($item->params->get('show_country', true)) {
+            $item->addInstruction(Indexer::META_CONTEXT, 'country');
+        }
+
+        // Handle the contact zip code.
+        if ($item->params->get('show_postcode', true)) {
+            $item->addInstruction(Indexer::META_CONTEXT, 'zip');
+        }
+
+        // Handle the contact telephone number.
+        if ($item->params->get('show_telephone', true)) {
+            $item->addInstruction(Indexer::META_CONTEXT, 'telephone');
+        }
+
+        // Handle the contact fax number.
+        if ($item->params->get('show_fax', true)) {
+            $item->addInstruction(Indexer::META_CONTEXT, 'fax');
+        }
+
+        // Handle the contact email address.
+        if ($item->params->get('show_email', true)) {
+            $item->addInstruction(Indexer::META_CONTEXT, 'email');
+        }
+
+        // Handle the contact mobile number.
+        if ($item->params->get('show_mobile', true)) {
+            $item->addInstruction(Indexer::META_CONTEXT, 'mobile');
+        }
+
+        // Handle the contact webpage.
+        if ($item->params->get('show_webpage', true)) {
+            $item->addInstruction(Indexer::META_CONTEXT, 'webpage');
+        }
+
+        // Handle the contact user name.
+        $item->addInstruction(Indexer::META_CONTEXT, 'user');
 
         // Add the type taxonomy data.
-        $item->addTaxonomy('Type', 'Article');
-
-        // Add the author taxonomy data.
-        if (!empty($item->author) || !empty($item->created_by_alias)) {
-            $item->addTaxonomy('Author', !empty($item->created_by_alias) ? $item->created_by_alias : $item->author, $item->state);
-        }
+        $item->addTaxonomy('Type', 'Contact');
 
         // Add the category taxonomy data.
-        $categories = Categories::getInstance('com_content', ['published' => false, 'access' => false]);
+        $categories = $this->getApplication()->bootComponent('com_contact')->getCategory(['published' => false, 'access' => false]);
         $category   = $categories->get($item->catid);
 
         // Category does not exist, stop here
@@ -325,11 +350,33 @@ class PlgFinderContent extends Adapter
         // Add the language taxonomy data.
         $item->addTaxonomy('Language', $item->language);
 
+        // Add the region taxonomy data.
+        if (!empty($item->region) && $this->params->get('tax_add_region', true)) {
+            $item->addTaxonomy('Region', $item->region);
+        }
+
+        // Add the country taxonomy data.
+        if (!empty($item->country) && $this->params->get('tax_add_country', true)) {
+            $item->addTaxonomy('Country', $item->country);
+        }
+
         // Get content extras.
         Helper::getContentExtras($item);
 
         // Index the item.
         $this->indexer->index($item);
+    }
+
+    /**
+     * Method to setup the indexer to be run.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   2.5
+     */
+    protected function setup()
+    {
+        return true;
     }
 
     /**
@@ -343,16 +390,18 @@ class PlgFinderContent extends Adapter
      */
     protected function getListQuery($query = null)
     {
-        $db = $this->db;
+        $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
         $query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
-            ->select('a.id, a.title, a.alias, a.introtext AS summary, a.fulltext AS body')
-            ->select('a.images')
-            ->select('a.state, a.catid, a.created AS start_date, a.created_by')
-            ->select('a.created_by_alias, a.modified, a.modified_by, a.attribs AS params')
-            ->select('a.metakey, a.metadesc, a.metadata, a.language, a.access, a.version, a.ordering')
+            ->select('a.id, a.name AS title, a.alias, a.con_position AS position, a.address, a.created AS start_date')
+            ->select('a.created_by_alias, a.modified, a.modified_by')
+            ->select('a.metakey, a.metadesc, a.metadata, a.language')
+            ->select('a.sortname1, a.sortname2, a.sortname3')
             ->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')
+            ->select('a.suburb AS city, a.state AS region, a.country, a.postcode AS zip')
+            ->select('a.telephone, a.fax, a.misc AS summary, a.email_to AS email, a.mobile')
+            ->select('a.webpage, a.access, a.published AS state, a.ordering, a.params, a.catid')
             ->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
 
         // Handle the alias CASE WHEN portion of the query
@@ -374,10 +423,10 @@ class PlgFinderContent extends Adapter
         $case_when_category_alias .= $c_id . ' END as catslug';
         $query->select($case_when_category_alias)
 
-            ->select('u.name AS author')
-            ->from('#__content AS a')
+            ->select('u.name')
+            ->from('#__contact_details AS a')
             ->join('LEFT', '#__categories AS c ON c.id = a.catid')
-            ->join('LEFT', '#__users AS u ON u.id = a.created_by');
+            ->join('LEFT', '#__users AS u ON u.id = a.user_id');
 
         return $query;
     }
