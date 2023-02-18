@@ -34,7 +34,7 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $plugin     = new ReCaptcha(
+                $plugin = new ReCaptcha(
                     $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('captcha', 'recaptcha'),
                     new HttpBridgePostRequestMethod()
