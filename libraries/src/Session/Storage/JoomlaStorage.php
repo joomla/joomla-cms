@@ -205,6 +205,7 @@ class JoomlaStorage extends NativeStorage
      *
      * @since   4.0.0
      */
+    //set function
     public function set(string $name, $value = null)
     {
         if (!$this->isStarted()) {
