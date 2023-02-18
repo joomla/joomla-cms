@@ -13,7 +13,7 @@
       class="pt-1"
     >
       <div
-        class="alert alert-info ms-3 me-3"
+        class="alert alert-info m-3"
       >
         <span
           class="icon-info-circle"
