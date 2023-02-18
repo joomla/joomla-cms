@@ -6530,6 +6530,11 @@ class JoomlaInstallerScript
             // From 4.3.0-beta2 to 4.3.0-beta3
             '/cypress.config.dist.js',
             '/plugins/filesystem/local/local.php',
+            '/plugins/finder/categories/categories.php',
+            '/plugins/finder/contacts/contacts.php',
+            '/plugins/finder/content/content.php',
+            '/plugins/finder/newsfeeds/newsfeeds.php',
+            '/plugins/finder/tags/tags.php',
         ];
 
         $folders = [
