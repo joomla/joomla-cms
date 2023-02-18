@@ -23,6 +23,14 @@ use Joomla\CMS\Language\Text;
 abstract class Manifest
 {
     /**
+     * The error messages
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    public $_errors;
+
+    /**
      * Path to the manifest file
      *
      * @var    string

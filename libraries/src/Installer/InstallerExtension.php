@@ -26,6 +26,14 @@ use Joomla\CMS\Object\CMSObject;
 class InstallerExtension extends CMSObject
 {
     /**
+     * Client ID of the extension
+     *
+     * @var    int
+     * @since  __DEPLOY_VERSION__
+     */
+    public $client_id;
+
+    /**
      * Filename of the extension
      *
      * @var    string
