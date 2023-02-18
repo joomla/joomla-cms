@@ -6527,6 +6527,9 @@ class JoomlaInstallerScript
             '/plugins/fields/url/url.php',
             '/plugins/fields/user/user.php',
             '/plugins/fields/usergrouplist/usergrouplist.php',
+            // From 4.3.0-beta2 to 4.3.0-beta3
+            '/cypress.config.dist.js',
+            '/plugins/filesystem/local/local.php',
         ];
 
         $folders = [
