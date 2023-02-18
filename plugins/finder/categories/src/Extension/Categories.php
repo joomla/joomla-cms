@@ -2,13 +2,13 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Finder.Categories
+ * @subpackage  Finder.categories
  *
  * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
+
+namespace Joomla\Plugin\Finder\Categories\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
@@ -16,6 +16,7 @@ use Joomla\Component\Finder\Administrator\Indexer\Adapter;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -29,8 +30,10 @@ use Joomla\Registry\Registry;
  *
  * @since  2.5
  */
-class PlgFinderCategories extends Adapter
+final class Categories extends Adapter
 {
+    use DatabaseAwareTrait;
+
     /**
      * The plugin identifier.
      *
@@ -211,11 +214,11 @@ class PlgFinderCategories extends Adapter
                 $pk    = (int) $pk;
                 $query = clone $this->getStateQuery();
 
-                $query->where($this->db->quoteName('a.id') . ' = :plgFinderCategoriesId')
+                $query->where($this->getDatabase()->quoteName('a.id') . ' = :plgFinderCategoriesId')
                     ->bind(':plgFinderCategoriesId', $pk, ParameterType::INTEGER);
 
-                $this->db->setQuery($query);
-                $item = $this->db->loadObject();
+                $this->getDatabase()->setQuery($query);
+                $item = $this->getDatabase()->loadObject();
 
                 // Translate the state.
                 $state = null;
@@ -306,7 +309,7 @@ class PlgFinderCategories extends Adapter
         $class = $extension . 'HelperRoute';
 
         // Need to import component route helpers dynamically, hence the reason it's handled here.
-        JLoader::register($class, JPATH_SITE . '/components/' . $extension_element . '/helpers/route.php');
+        \JLoader::register($class, JPATH_SITE . '/components/' . $extension_element . '/helpers/route.php');
 
         if (class_exists($class) && method_exists($class, 'getCategoryRoute')) {
             $item->route = $class::getCategoryRoute($item->id, $item->language);
@@ -356,7 +359,7 @@ class PlgFinderCategories extends Adapter
      */
     protected function getListQuery($query = null)
     {
-        $db = $this->db;
+        $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
         $query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true);
@@ -427,10 +430,10 @@ class PlgFinderCategories extends Adapter
      */
     protected function getStateQuery()
     {
-        $query = $this->db->getQuery(true);
+        $query = $this->getDatabase()->getQuery(true);
 
         $query->select(
-            $this->db->quoteName(
+            $this->getDatabase()->quoteName(
                 [
                     'a.id',
                     'a.parent_id',
@@ -439,7 +442,7 @@ class PlgFinderCategories extends Adapter
             )
         )
             ->select(
-                $this->db->quoteName(
+                $this->getDatabase()->quoteName(
                     [
                         'a.' . $this->state_field,
                         'c.published',
@@ -452,11 +455,11 @@ class PlgFinderCategories extends Adapter
                     ]
                 )
             )
-            ->from($this->db->quoteName('#__categories', 'a'))
+            ->from($this->getDatabase()->quoteName('#__categories', 'a'))
             ->join(
                 'INNER',
-                $this->db->quoteName('#__categories', 'c'),
-                $this->db->quoteName('c.id') . ' = ' . $this->db->quoteName('a.parent_id')
+                $this->getDatabase()->quoteName('#__categories', 'c'),
+                $this->getDatabase()->quoteName('c.id') . ' = ' . $this->getDatabase()->quoteName('a.parent_id')
             );
 
         return $query;
