@@ -7,25 +7,26 @@
     @drop="onDrop"
     @dragover="onDragOver"
     @dragleave="onDragLeave"
-  > 
-  <div
-    v-if="isEmptySearch"
-    class="pt-1">
-  <div
-    class="alert alert-info ms-3 me-3"
   >
-    <span
-      class="icon-info-circle"
-      aria-hidden="true"
-    />
-    <span
-      class="visually-hidden"
+    <div
+      v-if="isEmptySearch"
+      class="pt-1"
     >
-      {{ translate('NOTICE') }}
-    </span>
-    {{ translate('JGLOBAL_NO_MATCHING_RESULTS') }}
-  </div>
-  </div>
+      <div
+        class="alert alert-info ms-3 me-3"
+      >
+        <span
+          class="icon-info-circle"
+          aria-hidden="true"
+        />
+        <span
+          class="visually-hidden"
+        >
+          {{ translate('NOTICE') }}
+        </span>
+        {{ translate('JGLOBAL_NO_MATCHING_RESULTS') }}
+      </div>
+    </div>
     <div
       v-if="isEmpty"
       class="text-center"
@@ -50,7 +51,6 @@
       :current-directory="currentDirectory"
       :style="mediaBrowserStyles"
     />
-    
     <div
       v-if="(listView === 'grid' && !isEmpty)"
       class="media-browser-grid"
