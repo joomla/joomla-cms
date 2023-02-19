@@ -2,9 +2,9 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.shortcut
+ * @subpackage  System.guidedtours
  *
- * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ use Joomla\Event\SubscriberInterface;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Shortcut plugin to add accessible keyboard shortcuts to the administrator templates.
+ * Guided Tours plugin to add interactive tours to the administrator interface.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -105,18 +105,13 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Get a tour and its steps in Json format
-     *
-     * @return  object
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    /**
      * Get a tour and its steps or null if not found
      *
      * @param   integer  $tourId  The ID of the tour to load
      *
      * @return null|object
+     *
+     * @since   __DEPLOY_VERSION__
      */
     private function getTour(int $tourId)
     {
