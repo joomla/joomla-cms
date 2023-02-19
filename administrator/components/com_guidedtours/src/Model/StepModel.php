@@ -136,10 +136,6 @@ class StepModel extends AdminModel
 
         $parts = explode('.', $tour->extension);
 
-        if (isset($data['rules']) && !$user->authorise('core.admin', $parts[0])) {
-            unset($data['rules']);
-        }
-
         // Language keys must include GUIDEDTOUR to prevent save issues
         if (strpos($data['description'], 'GUIDEDTOUR') !== false) {
             $data['description'] = strip_tags($data['description']);

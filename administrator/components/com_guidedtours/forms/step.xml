@@ -117,8 +117,9 @@
 		filter="string"
 		validate="options"
 		>
-		<option value="1">COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_BUTTON_LABEL</option>
+		<option value="1">COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_FORM_SUBMIT_LABEL</option>
 		<option value="2">COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_TEXT_FIELD_LABEL</option>
+		<option value="4">COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_BUTTON_LABEL</option>
 		<option value="3">COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_OTHER_LABEL</option>
 	</field>
 
@@ -186,24 +187,5 @@
 		label="COM_GUIDEDTOURS_FIELD_NOTE_LABEL"
 		maxlength="255"
 	/>
-
-	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL">
-		<field
-			name="asset_id"
-			type="hidden"
-			filter="unset"
-		/>
-
-		<field
-			name="rules"
-			type="rules"
-			label="JFIELD_RULES_LABEL"
-			translate_label="false"
-			filter="rules"
-			validate="rules"
-			component="com_guidedtours"
-			section="step"
-		/>
-	</fieldset>
 
 </form>

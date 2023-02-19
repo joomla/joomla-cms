@@ -13,10 +13,10 @@ namespace Joomla\Component\Guidedtours\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -238,9 +238,15 @@ class ToursModel extends ListModel
         }
 
         // Filter by access level.
-        if ($access = (int) $this->getState('filter.access')) {
+        $access = $this->getState('filter.access');
+
+        if (is_numeric($access)) {
+            $access = (int) $access;
             $query->where($db->quoteName('a.access') . ' = :access')
                 ->bind(':access', $access, ParameterType::INTEGER);
+        } elseif (is_array($access)) {
+            $access = ArrayHelper::toInteger($access);
+            $query->whereIn($db->quoteName('a.access'), $access);
         }
 
         // Filter on the language, or all.

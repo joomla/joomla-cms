@@ -399,6 +399,8 @@ class TourModel extends AdminModel
 
         $table = $this->getTable();
 
+        $date = Factory::getDate()->toSql();
+
         foreach ($pks as $pk) {
             if ($table->load($pk, true)) {
                 // Reset the id to create a new record.
@@ -413,24 +415,15 @@ class TourModel extends AdminModel
 
                 $data = $this->generateNewTitle(0, $table->title, $table->title);
 
-                $table->title = $data[0];
-
-                // Unpublish duplicate tour
-                $table->published = 0;
+                $table->title       = $data[0];
+                $table->published   = 0;
 
                 if (!$table->check() || !$table->store()) {
                     throw new \Exception($table->getError());
                 }
 
-                $pk    = (int) $pk;
-                $query = $db->getQuery(true)
-                    ->select($db->quoteName('id'))
-                    ->from($db->quoteName('#__guidedtours'))
-                    ->where($db->quoteName('id') . ' = :id')
-                    ->bind(':id', $pk, ParameterType::INTEGER);
+                $pk = (int) $pk;
 
-                $db->setQuery($query);
-                $rows = $db->loadColumn();
                 $query = $db->getQuery(true)
                     ->select($db->quoteName(array('title',
                         'description',
@@ -455,7 +448,8 @@ class TourModel extends AdminModel
 
                 $query = $db->getQuery(true)
                     ->insert($db->quoteName('#__guidedtour_steps'))
-                    ->columns([$db->quoteName('tour_id'), $db->quoteName('title'),
+                    ->columns([$db->quoteName('tour_id'),
+                        $db->quoteName('title'),
                         $db->quoteName('description'),
                         $db->quoteName('ordering'),
                         $db->quoteName('position'),
@@ -464,25 +458,24 @@ class TourModel extends AdminModel
                         $db->quoteName('interactive_type'),
                         $db->quoteName('url'),
                         $db->quoteName('created'),
+                        $db->quoteName('created_by'),
                         $db->quoteName('modified'),
-                        $db->quoteName('checked_out_time'),
-                        $db->quoteName('checked_out'),
+                        $db->quoteName('modified_by'),
                         $db->quoteName('language'),
                         $db->quoteName('note')]);
                 foreach ($rows as $step) {
                     $dataTypes = [
                         ParameterType::INTEGER,
-                        ParameterType::STRING ,
-                        ParameterType::STRING ,
+                        ParameterType::STRING,
+                        ParameterType::STRING,
+                        ParameterType::INTEGER,
+                        ParameterType::STRING,
+                        ParameterType::STRING,
                         ParameterType::INTEGER,
                         ParameterType::INTEGER,
                         ParameterType::STRING,
                         ParameterType::STRING,
                         ParameterType::INTEGER,
-                        ParameterType::INTEGER,
-                        ParameterType::STRING,
-                        ParameterType::STRING,
-                        ParameterType::STRING,
                         ParameterType::STRING,
                         ParameterType::INTEGER,
                         ParameterType::STRING,
@@ -497,10 +490,10 @@ class TourModel extends AdminModel
                         $step->type,
                         $step->interactive_type,
                         $step->url,
-                        $step->created,
-                        $step->modified,
-                        $step->checked_out_time,
-                        $step->checked_out,
+                        $date,
+                        $user->id,
+                        $date,
+                        $user->id,
                         $step->language,
                         $step->note], $dataTypes)));
                 }

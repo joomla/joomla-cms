@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "plg_system_guidedtours",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "plg_system_guidedtours.guidedtour",
+      "type": "script",
+      "uri": "plg_system_guidedtours/guidedtour.min.js",
+      "dependencies": [
+        "core",
+        "shepherdjs"
+      ],
+      "attributes": {
+      }
+    },
+    {
+      "name": "plg_system_guidedtours.guidedtour",
+      "type": "style",
+      "uri": "plg_system_guidedtours/guidedtour.min.css",
+      "dependencies": [
+        "shepherdjs"
+      ]
+    },
+    {
+      "name": "plg_system_guidedtours.guidedtour",
+      "type": "preset",
+      "dependencies": [
+        "plg_system_guidedtours.guidedtour#style",
+        "plg_system_guidedtours.guidedtour#script"
+      ]
+    }
+  ]
+}

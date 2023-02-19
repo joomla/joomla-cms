@@ -10,10 +10,10 @@
 
 namespace Joomla\Module\GuidedTours\Administrator\Helper;
 
-use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Registry\Registry;
+use Joomla\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -40,31 +40,25 @@ class GuidedToursHelper
     {
         $factory = $app->bootComponent('com_guidedtours')->getMVCFactory();
 
+        $user = $app->getIdentity();
+
         // Get an instance of the guided tour model
         $tours = $factory->createModel('Tours', 'Administrator', ['ignore_request' => true]);
 
         $tours->setState('filter.published', 1);
+        $tours->setState('filter.access', $app->getIdentity()->getAuthorisedViewLevels());
 
         if (Multilanguage::isEnabled()) {
             $tours->setState('filter.language', array('*', $app->getLanguage()->getTag()));
         }
 
-        $user = $app->getIdentity();
-        $authorised = Access::getAuthorisedViewLevels($user ? $user->id : 0);
-
         $items = $tours->getItems();
 
         foreach ($items as $key => $item) {
-            // The user can only see the tours allowed for the access group.
-            if (!\in_array($item->access, $authorised)) {
-                unset($items[$key]);
-                continue;
-            }
-
             // The user can only see the tours of extensions that are allowed.
-            parse_str(parse_url($item->url, PHP_URL_QUERY), $parts);
-            if (isset($parts['option'])) {
-                $extension = $parts['option'];
+            $uri = new Uri($item->url);
+
+            if ($extension = $uri->getVar('option')) {
                 if (!$user->authorise('core.manage', $extension)) {
                     unset($items[$key]);
                 }

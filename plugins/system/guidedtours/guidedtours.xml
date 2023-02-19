@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="4.0" type="plugin" group="system" method="upgrade">
-    <name>plg_system_tour</name>
+    <name>plg_system_guidedtours</name>
     <author>Joomla! Project</author>
     <creationDate>2023-02</creationDate>
     <copyright>(C) 2023 Open Source Matters, Inc.</copyright>
@@ -8,12 +8,14 @@
     <authorEmail>admin@joomla.org</authorEmail>
     <authorUrl>www.joomla.org</authorUrl>
     <version>4.3.0</version>
-    <description>PLG_SYSTEM_TOUR_DESCRIPTION</description>
+    <description>PLG_SYSTEM_GUIDEDTOURS_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\GuidedTours</namespace>
     <files>
-        <filename plugin="tour">tour.php</filename>
+		<folder>services</folder>
+		<folder>src</folder>
     </files>
     <languages>
-        <language tag="en-GB">language/en-GB/plg_system_tour.ini</language>
-        <language tag="en-GB">language/en-GB/plg_system_tour.sys.ini</language>
+        <language tag="en-GB">language/en-GB/plg_system_guidedtours.ini</language>
+        <language tag="en-GB">language/en-GB/plg_system_guidedtours.sys.ini</language>
     </languages>
 </extension>

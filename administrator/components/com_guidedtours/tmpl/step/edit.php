@@ -71,6 +71,7 @@ if (empty($tour_id)) {
             </div>
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
+
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
         <div class="row">
             <div class="col-12 col-lg-8">
@@ -84,16 +85,7 @@ if (empty($tour_id)) {
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('JCONFIG_PERMISSIONS_LABEL')); ?>
-        <div class="row">
-            <fieldset id="fieldset-rules" class="options-form">
-                <legend><?php echo Text::_('JCONFIG_PERMISSIONS_LABEL'); ?></legend>
-                <?php echo $this->form->getInput('rules'); ?>
-            </fieldset>
-            <?php echo HTMLHelper::_('uitab.endTab'); ?>
-            <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
-        </div>
-
+        <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
     </div>
     <input type="hidden" name="task" value="">
     <input type="hidden" name="tour_id" value="<?php echo $tour_id; ?>">

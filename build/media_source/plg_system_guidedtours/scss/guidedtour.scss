@@ -13,8 +13,8 @@
 }
 
 .shepherd-text {
-  line-height: 1.5em;
   padding: 1em;
+  line-height: 1.5em;
 }
 
 .shepherd-footer {
@@ -27,17 +27,17 @@
 }
 
 .shepherd-enabled.shepherd-element[data-popper-placement="bottom"] {
-  margin-top: 12px!important
+  margin-top: 12px !important;
 }
 
 .shepherd-enabled.shepherd-element[data-popper-placement="left"] {
-  margin-right: 12px!important
+  margin-right: 12px !important;
 }
 
 .shepherd-enabled.shepherd-element[data-popper-placement="top"] {
-  margin-bottom: 12px!important
+  margin-bottom: 12px !important;
 }
 
 .shepherd-enabled.shepherd-element[data-popper-placement="right"] {
-  margin-left: 12px!important
+  margin-left: 12px !important;
 }

@@ -82,10 +82,10 @@ $wa->useScript('keepalive')
                 <legend><?php echo Text::_('JCONFIG_PERMISSIONS_LABEL'); ?></legend>
                 <?php echo $this->form->getInput('rules'); ?>
             </fieldset>
-            <?php echo HTMLHelper::_('uitab.endTab'); ?>
-            <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
         </div>
+        <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
+        <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
     </div>
 
     <input type="hidden" name="task" value="">
