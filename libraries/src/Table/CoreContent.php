@@ -122,7 +122,7 @@ class CoreContent extends Table
             // Only process if not empty
 
             // Array of characters to remove
-            $bad_characters = array("\n", "\r", "\"", '<', '>');
+            $bad_characters = ["\n", "\r", "\"", '<', '>'];
 
             // Remove bad characters
             $after_clean = StringHelper::str_ireplace($bad_characters, '', $this->core_metakey);
@@ -130,7 +130,7 @@ class CoreContent extends Table
             // Create array using commas as delimiter
             $keys = explode(',', $after_clean);
 
-            $clean_keys = array();
+            $clean_keys = [];
 
             foreach ($keys as $key) {
                 if (trim($key)) {
@@ -158,7 +158,7 @@ class CoreContent extends Table
      */
     public function delete($pk = null)
     {
-        $baseTable = Table::getInstance('Ucm', 'JTable', array('dbo' => $this->getDbo()));
+        $baseTable = Table::getInstance('Ucm', 'JTable', ['dbo' => $this->getDbo()]);
 
         return parent::delete($pk) && $baseTable->delete($pk);
     }
