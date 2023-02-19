@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_FINDER_NEWSFEEDS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Finder\Newsfeeds</namespace>
 	<files>
-		<filename plugin="newsfeeds">newsfeeds.php</filename>
+		<folder plugin="newsfeeds">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_finder_newsfeeds.ini</language>

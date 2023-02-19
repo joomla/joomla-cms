@@ -2,18 +2,19 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  FileSystem.Local
+ * @subpackage  FileSystem.local
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Language\Text;
+namespace Joomla\Plugin\Filesystem\Local\Extension;
+
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
+use Joomla\Event\DispatcherInterface;
+use Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -26,7 +27,7 @@ use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
  *
  * @since  4.0.0
  */
-class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
+final class Local extends CMSPlugin implements ProviderInterface
 {
     /**
      * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -35,6 +36,29 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
      * @since  4.0.0
      */
     protected $autoloadLanguage = true;
+    /**
+     * The root directory path
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    private $rootDirectory;
+
+    /**
+     * Constructor.
+     *
+     * @param   DispatcherInterface  $dispatcher     The dispatcher
+     * @param   array                $config         An optional associative array of configuration settings
+     * @param   string               $rootDirectory  The root directory to look for images
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct(DispatcherInterface $dispatcher, array $config, string $rootDirectory)
+    {
+        parent::__construct($dispatcher, $config);
+
+        $this->rootDirectory = $rootDirectory;
+    }
 
     /**
      * Setup Providers for Local Adapter
@@ -71,7 +95,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
      */
     public function getDisplayName()
     {
-        return Text::_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
+        return $this->getApplication()->getLanguage()->_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
     }
 
     /**
@@ -86,30 +110,31 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
         $adapters    = [];
         $directories = $this->params->get('directories', '[{"directory": "images", "thumbs": 0}]');
 
-        // Do a check if default settings are not saved by user
-        // If not initialize them manually
+        // Do a check if default settings are not saved by user, if not initialize them manually
         if (is_string($directories)) {
             $directories = json_decode($directories);
         }
 
         foreach ($directories as $directoryEntity) {
-            if ($directoryEntity->directory) {
-                $directoryPath = JPATH_ROOT . '/' . $directoryEntity->directory;
-                $directoryPath = rtrim($directoryPath) . '/';
-
-                if (!isset($directoryEntity->thumbs)) {
-                    $directoryEntity->thumbs = 0;
-                }
-
-                $adapter = new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter(
-                    $directoryPath,
-                    $directoryEntity->directory,
-                    $directoryEntity->thumbs,
-                    [200, 200]
-                );
-
-                $adapters[$adapter->getAdapterName()] = $adapter;
+            if (!$directoryEntity->directory) {
+                continue;
             }
+
+            $directoryPath = $this->rootDirectory . '/' . $directoryEntity->directory;
+            $directoryPath = rtrim($directoryPath) . '/';
+
+            if (!isset($directoryEntity->thumbs)) {
+                $directoryEntity->thumbs = 0;
+            }
+
+            $adapter = new LocalAdapter(
+                $directoryPath,
+                $directoryEntity->directory,
+                $directoryEntity->thumbs,
+                [200, 200]
+            );
+
+            $adapters[$adapter->getAdapterName()] = $adapter;
         }
 
         return $adapters;

@@ -101,6 +101,11 @@ class ApiRouter extends Router
 
         $query = Uri::getInstance()->getQuery(true);
 
+        // Remove the public key as it is only supported coming from the route definition
+        if (array_key_exists('public', $query)) {
+            unset($query['public']);
+        }
+
         // Iterate through all of the known routes looking for a match.
         foreach ($this->routes as $route) {
             if (\in_array($method, $route->getMethods())) {
@@ -113,6 +118,8 @@ class ApiRouter extends Router
                     }
 
                     $controller = preg_split("/[.]+/", $route->getController());
+
+                    /** @deprecated  4.3  Query parameters will not be merged into route variables from 5.0 */
                     $vars       = array_merge($vars, $query);
 
                     return [
