@@ -299,6 +299,20 @@ class ApplicationModel extends FormModel
             'prefix'   => $data['dbprefix'],
         ];
 
+        if (in_array($options['driver'], ['pgsql', 'postgresql']) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options['database']))
+        {
+            Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_FIELD_DATABASE_NAME_INVALID_MSG_POSTGRES'), 'warning');
+
+            return false;
+        }
+
+        if (in_array($options['driver'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/\.]#', $options['database']))
+        {
+            Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_FIELD_DATABASE_NAME_INVALID_MSG_MYSQL'), 'warning');
+
+            return false;
+        }
+
         if ((int) $data['dbencryption'] !== 0) {
             $options['ssl'] = [
                 'enable'             => true,
