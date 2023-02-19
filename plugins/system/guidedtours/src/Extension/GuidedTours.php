@@ -100,7 +100,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
 
             // Load required assets
             $app->getDocument()->getWebAssetManager()
-                ->usePreset('plg_system_guidedtours.guidedtour');
+                ->usePreset('plg_system_guidedtours.guidedtours');
         }
     }
 

@@ -4,8 +4,8 @@
  */
 
 function checkAndRedirect(redirectUrl) {
-  const currentURL = window.location.href;
-  if (currentURL !== redirectUrl) {
+  const currentUrl = window.location.href;
+  if (currentUrl !== redirectUrl) {
     window.location.href = redirectUrl;
   }
 }
@@ -200,9 +200,9 @@ function startTour(obj) {
 
     // First check for redirect
     const uri = Joomla.getOptions('system.paths').rootFull;
-    const currentURL = window.location.href;
+    const currentUrl = window.location.href;
 
-    if (currentURL !== uri + obj.url) {
+    if (currentUrl !== uri + obj.url) {
       window.location.href = uri + obj.url;
 
       return;

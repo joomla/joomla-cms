@@ -6,9 +6,9 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "plg_system_guidedtours.guidedtour",
+      "name": "plg_system_guidedtours.guidedtours",
       "type": "script",
-      "uri": "plg_system_guidedtours/guidedtour.min.js",
+      "uri": "plg_system_guidedtours/guidedtours.min.js",
       "dependencies": [
         "core",
         "shepherdjs"
@@ -17,19 +17,19 @@
       }
     },
     {
-      "name": "plg_system_guidedtours.guidedtour",
+      "name": "plg_system_guidedtours.guidedtours",
       "type": "style",
-      "uri": "plg_system_guidedtours/guidedtour.min.css",
+      "uri": "plg_system_guidedtours/guidedtours.min.css",
       "dependencies": [
         "shepherdjs"
       ]
     },
     {
-      "name": "plg_system_guidedtours.guidedtour",
+      "name": "plg_system_guidedtours.guidedtours",
       "type": "preset",
       "dependencies": [
-        "plg_system_guidedtours.guidedtour#style",
-        "plg_system_guidedtours.guidedtour#script"
+        "plg_system_guidedtours.guidedtours#style",
+        "plg_system_guidedtours.guidedtours#script"
       ]
     }
   ]
