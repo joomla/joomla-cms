@@ -44,7 +44,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
         }
 
         // The module can't show if the plugin is not enabled.
-        if (!PluginHelper::isEnabled('system', 'tour')) {
+        if (!PluginHelper::isEnabled('system', 'guidedtours')) {
             return;
         }
 

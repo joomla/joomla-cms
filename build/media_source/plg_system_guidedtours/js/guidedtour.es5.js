@@ -68,7 +68,7 @@ function addStepToTourButton(tour, obj, index, buttons) {
       show() {
         sessionStorage.setItem('currentStepId', index);
         const theElement = this.getElement();
-        addProgressIndicator(theElement, index + 1, sessionStorage.getItem('stepCount'));
+        addProgressIndicator(theElement, tour.currentStep.id + 1, sessionStorage.getItem('stepCount'));
 
         theElement.focus = () => {
 
@@ -99,9 +99,6 @@ function showTourInfo(tour, obj) {
     title: obj.title,
     text: obj.description,
     classes: 'shepherd-theme-arrows',
-    attachTo: {
-      on: 'bottom',
-    },
     buttons: [
       {
         classes: 'shepherd-button-primary',
@@ -109,6 +106,7 @@ function showTourInfo(tour, obj) {
           return tour.next();
         },
         text: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_START'),
+        label: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_START'),
       },
     ],
     id: 0,
@@ -128,6 +126,7 @@ function showTourInfo(tour, obj) {
 function pushCompleteButton(buttons, tour) {
   buttons.push({
     text: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_COMPLETE'),
+    label: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_COMPLETE'),
     classes: 'shepherd-button-primary',
     action: function () {
       return tour.cancel();
@@ -138,6 +137,7 @@ function pushCompleteButton(buttons, tour) {
 function pushNextButton(buttons, tour, stepId, disabled = false) {
   buttons.push({
     text: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_NEXT'),
+    label: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_NEXT'),
     classes: `shepherd-button-primary step-next-button-${stepId}`,
     action: function () {
       return tour.next();
@@ -149,6 +149,7 @@ function pushNextButton(buttons, tour, stepId, disabled = false) {
 function addBackButton(buttons, tour, prevStep) {
   buttons.push({
     text: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_BACK'),
+    label: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_BACK'),
     classes: 'shepherd-button-secondary',
     action: function () {
       if (prevStep) {
@@ -261,7 +262,7 @@ function startTour(obj) {
       }
     }
 
-    if (index < len) {
+    if (index < len - 1) {
       let disabled = false;
       if (obj && obj.steps[index].interactive_type === 2) {
         disabled = true;
