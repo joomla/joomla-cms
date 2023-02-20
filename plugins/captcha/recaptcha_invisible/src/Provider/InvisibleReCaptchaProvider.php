@@ -7,7 +7,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Plugin\Captcha\CaptchaInvisible;
+namespace Joomla\Plugin\Captcha\InvisibleReCaptcha\Provider;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Captcha\CaptchaProviderInterface;
@@ -17,6 +17,7 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\IpHelper;
+use ReCaptcha\RequestMethod;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -26,7 +27,7 @@ use Joomla\Utilities\IpHelper;
  * Provider for Invisible Captcha
  * @since   __DEPLOY_VERSION__
  */
-final class InvisibleCaptchaProvider implements CaptchaProviderInterface
+final class InvisibleReCaptchaProvider implements CaptchaProviderInterface
 {
     /**
      * A Registry object holding the parameters for the plugin
@@ -34,7 +35,7 @@ final class InvisibleCaptchaProvider implements CaptchaProviderInterface
      * @var    Registry
      * @since  __DEPLOY_VERSION__
      */
-    public $params;
+    protected $params;
 
     /**
      * The application object
@@ -43,20 +44,30 @@ final class InvisibleCaptchaProvider implements CaptchaProviderInterface
      *
      * @since  __DEPLOY_VERSION__
      */
-    private $application;
+    protected $application;
+
+    /**
+     * The http request method
+     *
+     * @var    RequestMethod
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $requestMethod;
 
     /**
      * Class constructor
      *
-     * @param Registry $params
-     * @param CMSApplicationInterface $application
+     * @param   Registry                 $params
+     * @param   CMSApplicationInterface  $application
+     * @param   RequestMethod|null       $requestMethod  The http request method
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function __construct(Registry $params, CMSApplicationInterface $application)
+    public function __construct(Registry $params, CMSApplicationInterface $application, RequestMethod $requestMethod = null)
     {
-        $this->params      = $params;
-        $this->application = $application;
+        $this->params        = $params;
+        $this->application   = $application;
+        $this->requestMethod = $requestMethod ?? new HttpBridgePostRequestMethod();
     }
 
     /**
@@ -202,7 +213,7 @@ final class InvisibleCaptchaProvider implements CaptchaProviderInterface
      */
     private function getResponse($privatekey, $remoteip, $response)
     {
-        $reCaptcha = new \ReCaptcha\ReCaptcha($privatekey, new HttpBridgePostRequestMethod());
+        $reCaptcha = new \ReCaptcha\ReCaptcha($privatekey, $this->requestMethod);
         $response = $reCaptcha->verify($response, $remoteip);
 
         if (!$response->isSuccess()) {

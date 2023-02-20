@@ -23,7 +23,7 @@ use Joomla\Event\DispatcherAwareTrait;
  * Captcha Registry class
  * @since   __DEPLOY_VERSION__
  */
-class CaptchaRegistry implements DispatcherAwareInterface
+final class CaptchaRegistry implements DispatcherAwareInterface
 {
     use DispatcherAwareTrait;
 
