@@ -10,7 +10,6 @@
 
 namespace Joomla\Tests\Unit\Plugin\Task\Checkfiles\Extension;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Captcha\CaptchaRegistry;
 use Joomla\CMS\Document\HtmlDocument;
@@ -79,7 +78,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $language = $this->createStub(Language::class);
         $language->method('_')->willReturn('test');
 
-        $app = $this->createStub(CMSApplicationInterface::class);
+        $app = $this->createStub(CMSWebApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
         $dispatcher = new Dispatcher();
@@ -276,7 +275,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $language = $this->createStub(Language::class);
         $language->method('_')->willReturn('test');
 
-        $app = $this->createStub(CMSApplicationInterface::class);
+        $app = $this->createStub(CMSWebApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
         $dispatcher = new Dispatcher();
