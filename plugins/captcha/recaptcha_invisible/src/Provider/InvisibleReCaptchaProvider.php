@@ -159,7 +159,7 @@ final class InvisibleReCaptchaProvider implements CaptchaProviderInterface
         if ($code) {
             $response = $code;
         } else {
-            $response = Factory::getApplication()->input->get('g-recaptcha-response', '', 'string');
+            $response = $this->application->getInput()->get('g-recaptcha-response', '', 'string');
         }
 
         // Check for Private Key
