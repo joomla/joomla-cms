@@ -94,9 +94,9 @@
 		description="COM_GUIDEDTOURS_STEP_TYPE_DESC"
 		validate="options"
 		>
-		<option value="0">COM_GUIDEDTOURS_FIELD_VALUE_NEXT_STEP</option>
-		<option value="1">COM_GUIDEDTOURS_FIELD_VALUE_REDIRECT</option>
-		<option value="2">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVE_STEP</option>
+		<option value="0">COM_GUIDEDTOURS_FIELD_VALUE_STEP_TYPE_NEXT</option>
+		<option value="1">COM_GUIDEDTOURS_FIELD_VALUE_STEP_TYPE_REDIRECT</option>
+		<option value="2">COM_GUIDEDTOURS_FIELD_VALUE_STEP_TYPE_INTERACTIVE</option>
 	</field>
 
 	<field
@@ -112,15 +112,15 @@
 		name="interactive_type"
 		type="list"
 		label="COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_LABEL"
-		description="COM_GUIDEDTOURS_INTERACTIVE_STEP_DESC"
+		description="COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_DESC"
 		showon="type:2"
 		filter="string"
 		validate="options"
 		>
-		<option value="1">COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_FORM_SUBMIT_LABEL</option>
-		<option value="2">COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_TEXT_FIELD_LABEL</option>
-		<option value="4">COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_BUTTON_LABEL</option>
-		<option value="3">COM_GUIDEDTOURS_TYPE_INTERACTIVE_STEP_OTHER_LABEL</option>
+		<option value="1">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_FORM_SUBMIT</option>
+		<option value="2">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_TEXT_FIELD</option>
+		<option value="4">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_BUTTON</option>
+		<option value="3">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_OTHER</option>
 	</field>
 
 	<field

@@ -736,7 +736,6 @@
             ]
           }
         ],
-        "dependencies": ["popperjs"],
         "licenseFilename": "LICENSE"
       },
       "short-and-sweet": {

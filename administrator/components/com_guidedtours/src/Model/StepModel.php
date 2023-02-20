@@ -16,7 +16,6 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
-use Joomla\Component\Guidedtours\Administrator\Helper\StepHelper;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -382,7 +381,7 @@ class StepModel extends AdminModel
                 $tourID = $app->getUserState('com_guidedtours.tour_id');
 
                 // Sets step language to parent tour language
-                $result->language = StepHelper::getTourLanguage($tourID);
+                $result->language = GuidedtoursHelper::getTourLanguage($tourID);
             }
         }
 

@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
 use Joomla\Component\Guidedtours\Administrator\View\Steps\HtmlView;
 
 /** @var  HtmlView  $this */
@@ -207,15 +208,7 @@ if ($saveOrder && !empty($this->items)) {
 
                         <!-- Step Type -->
                         <td>
-                            <?php
-                            if ($item->type == 0) {
-                                echo Text::_('COM_GUIDEDTOURS_STEP_TYPE_NEXT_STEP');
-                            } elseif ($item->type == 1) {
-                                echo Text::_('COM_GUIDEDTOURS_STEP_TYPE_REDIRECT');
-                            } else {
-                                echo Text::_('COM_GUIDEDTOURS_STEP_TYPE_INTERACTIVE_STEP');
-                            }
-                            ?>
+                            <?php echo Text::_(GuidedtoursComponent::STEP_TYPE_NAMES[$item->type]) ?>
                         </td>
 
                         <!-- Step ID -->

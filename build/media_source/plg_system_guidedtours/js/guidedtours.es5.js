@@ -61,7 +61,7 @@ function addStepToTourButton(tour, step_obj, buttons) {
     arrow: true,
     beforeShowPromise: function() {
       return new Promise(function(resolve) {
-        if (tour.currentStep.options.attachTo.type === 1) {
+        if (tour.currentStep.options.attachTo.type === 'redirect') {
           const stepUrl = Joomla.getOptions('system.paths').rootFull + tour.currentStep.options.attachTo.url;
           if (window.location.href !== stepUrl) {
             sessionStorage.setItem('currentStepId', tour.currentStep.id);
@@ -124,7 +124,7 @@ function addStepToTourButton(tour, step_obj, buttons) {
     });
   }
 
-  if (step_obj.type !== 0) {
+  if (step_obj.type !== 'next') {
     // Remove stored key to prevent pages to open in the wrong tab
     const storageKey = Joomla.getOptions('system.paths').root + '/' + step_obj.url;
     if (sessionStorage.getItem(storageKey)) {
@@ -185,7 +185,7 @@ function addBackButton(buttons, step) {
     text: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_BACK'),
     classes: 'shepherd-button-secondary',
     action: function () {
-      if (step.type === 1) {
+      if (step.type === 'redirect') {
         sessionStorage.setItem('currentStepId', step.id - 1);
         const previousStepUrl = sessionStorage.getItem('previousStepUrl');
         sessionStorage.removeItem('previousStepUrl');
@@ -257,26 +257,26 @@ function startTour(obj) {
     // - if after the start step
     // - if not the first step after a form redirect
     // - if after a simple redirect
-    if (prevStep === null || index > ind || obj.steps[index].type === 1) {
+    if (prevStep === null || index > ind || obj.steps[index].type === 'redirect') {
       addBackButton(buttons, obj.steps[index]);
     }
 
     if (
       obj
       && obj.steps[index].target
-      && obj.steps[index].type === 2
+      && obj.steps[index].type === 'interactive'
     ) {
       const ele = document.querySelector(obj.steps[index].target);
       if (ele) {
         if (obj && obj.steps && obj.steps[index] && obj.steps[index].interactive_type) {
           switch (obj.steps[index].interactive_type) {
-            case 1:
+            case 'submit':
               ele.addEventListener('click', () => {
                 sessionStorage.setItem('currentStepId', obj.steps[index].id + 1);
               });
               break;
 
-            case 2:
+            case 'text':
               ele.step_id = index;
               ele.addEventListener('input', event => {
                 if (event.target.value.trim().length) {
@@ -288,11 +288,11 @@ function startTour(obj) {
               });
               break;
 
-            case 3:
+            case 'button':
+              tour.next();
               break;
 
-            case 4:
-              tour.next();
+            case 'other':
               break;
           }
         }
@@ -301,13 +301,13 @@ function startTour(obj) {
 
     if (index < len - 1) {
       let disabled = false;
-      if (obj && obj.steps[index].interactive_type === 2) {
+      if (obj && obj.steps[index].interactive_type === 'text') {
         disabled = true;
       }
       if (
-        (obj && obj.steps[index].type !== 2)
-        || (obj && obj.steps[index].interactive_type === 2)
-        || (obj && obj.steps[index].interactive_type === 3)
+        (obj && obj.steps[index].type !== 'interactive')
+        || (obj && obj.steps[index].interactive_type === 'text')
+        || (obj && obj.steps[index].interactive_type === 'other')
       ) {
         pushNextButton(buttons, obj.steps[index], disabled);
       }

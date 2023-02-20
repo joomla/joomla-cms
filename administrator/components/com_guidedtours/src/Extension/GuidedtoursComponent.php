@@ -29,6 +29,78 @@ class GuidedtoursComponent extends MVCComponent implements BootableExtensionInte
     use HTMLRegistryAwareTrait;
 
     /**
+     * The step type
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public const STEP_TYPE_NAMES = [
+        self::STEP_NEXT        => 'COM_GUIDEDTOURS_FIELD_VALUE_STEP_TYPE_NEXT',
+        self::STEP_REDIRECT    => 'COM_GUIDEDTOURS_FIELD_VALUE_STEP_TYPE_REDIRECT',
+        self::STEP_INTERACTIVE => 'COM_GUIDEDTOURS_FIELD_VALUE_STEP_TYPE_INTERACTIVE',
+    ];
+
+    /**
+     * A regular step.
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public const STEP_NEXT = 0;
+
+    /**
+     * A step that redirects to another page.
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public const STEP_REDIRECT = 1;
+
+    /**
+     * A step that allows interactions from the user.
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public const STEP_INTERACTIVE = 2;
+
+    /**
+     * The step interactive type names
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public const STEP_INTERACTIVETYPE_NAMES = [
+        self::STEP_INTERACTIVETYPE_FORM_SUBMIT => 'COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_FORM_SUBMIT',
+        self::STEP_INTERACTIVETYPE_TEXT        => 'COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_TEXT_FIELD',
+        self::STEP_INTERACTIVETYPE_BUTTON      => 'COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_BUTTON',
+        self::STEP_INTERACTIVETYPE_OTHER       => 'COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_OTHER',
+    ];
+
+    /**
+     * An interactive step where a user clicks on a form button.
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public const STEP_INTERACTIVETYPE_FORM_SUBMIT = 1;
+
+    /**
+     * An interactive step where a user enters text.
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public const STEP_INTERACTIVETYPE_TEXT = 2;
+
+    /**
+     * An interactive step where a user clicks on a button.
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public const STEP_INTERACTIVETYPE_BUTTON = 4;
+
+    /**
+     * An interactive step for other fields.
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public const STEP_INTERACTIVETYPE_OTHER = 3;
+
+    /**
      * Booting the extension. This is the function to set up the environment of the extension like
      * registering new class loaders, etc.
      *

@@ -52,9 +52,47 @@ class GuidedtoursHelper
         return $db->loadResult();
     }
 
-    public static function setStepLanguage(int $id, string $language): string
+    /**
+     * Get a tour language
+     *
+     * @param   int  $id  Id of a tour
+     *
+     * @return  string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getTourLanguage(int $id): string
     {
-        if (empty($id)) {
+        if ($id < 0) {
+            return "*";
+        }
+
+        $db    = Factory::getDbo();
+        $query = $db->getQuery(true);
+
+        $query->select('language')
+            ->from($db->quoteName('#__guidedtours'))
+            ->where($db->quoteName('id') . ' = :id')
+            ->bind(':id', $id, ParameterType::INTEGER);
+
+        $db->setQuery($query);
+
+        return $db->loadResult();
+    }
+
+    /**
+     * Sets a step language
+     *
+     * @param   int     $id  Id of a step
+     * @param   string  $language  The language to apply to the step
+     *
+     * @return  boolean
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function setStepLanguage(int $id, string $language = '*'): string
+    {
+        if ($id < 0) {
             return false;
         }
 
