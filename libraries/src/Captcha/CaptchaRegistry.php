@@ -32,7 +32,7 @@ final class CaptchaRegistry implements DispatcherAwareInterface
      * @var    CaptchaProviderInterface[]
      * @since   __DEPLOY_VERSION__
      */
-    private array $registry = [];
+    private $registry = [];
 
     /**
      * Internal flag of initialisation
@@ -40,7 +40,7 @@ final class CaptchaRegistry implements DispatcherAwareInterface
      * @var    boolean
      * @since   __DEPLOY_VERSION__
      */
-    private bool $initialised = false;
+    private $initialised = false;
 
     /**
      * Return list of all registered elements
