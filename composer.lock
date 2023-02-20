@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
-            "version": "v3.0.5",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algo26-matthias/idna-convert.git",
-                "reference": "9cbcfa17ecfed54387ca2ed29acb2773f1870a5e"
+                "reference": "340a4dc65f6b0d9884853a3d32895d82f0c1502a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algo26-matthias/idna-convert/zipball/9cbcfa17ecfed54387ca2ed29acb2773f1870a5e",
-                "reference": "9cbcfa17ecfed54387ca2ed29acb2773f1870a5e",
+                "url": "https://api.github.com/repos/algo26-matthias/idna-convert/zipball/340a4dc65f6b0d9884853a3d32895d82f0c1502a",
+                "reference": "340a4dc65f6b0d9884853a3d32895d82f0c1502a",
                 "shasum": ""
             },
             "require": {
@@ -26,7 +26,7 @@
                 "php": ">=7.2.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.0 || ^9.0"
+                "phpunit/phpunit": "8.0"
             },
             "suggest": {
                 "ext-iconv": "Install ext/iconv for using input / output other than UTF-8 or ISO-8859-1",
@@ -58,9 +58,9 @@
             ],
             "support": {
                 "issues": "https://github.com/algo26-matthias/idna-convert/issues",
-                "source": "https://github.com/algo26-matthias/idna-convert/tree/v3.0.5"
+                "source": "https://github.com/algo26-matthias/idna-convert/tree/v3.1.0"
             },
-            "time": "2020-10-05T05:49:30+00:00"
+            "time": "2023-02-17T10:08:02+00:00"
         },
         {
             "name": "beberlei/assert",
@@ -2755,12 +2755,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "17dcf3f6ed112bb85a37cf13538fd8de49f5c274"
+                "reference": "ea5bfc41e54b8ea924e30dcac3d25e1b2c3b0f31"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/17dcf3f6ed112bb85a37cf13538fd8de49f5c274",
-                "reference": "17dcf3f6ed112bb85a37cf13538fd8de49f5c274",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/ea5bfc41e54b8ea924e30dcac3d25e1b2c3b0f31",
+                "reference": "ea5bfc41e54b8ea924e30dcac3d25e1b2c3b0f31",
                 "shasum": ""
             },
             "require": {
@@ -2812,9 +2812,9 @@
             ],
             "support": {
                 "issues": "https://github.com/maximebf/php-debugbar/issues",
-                "source": "https://github.com/maximebf/php-debugbar/tree/v1.18.2"
+                "source": "https://github.com/maximebf/php-debugbar/tree/master"
             },
-            "time": "2023-02-04T15:27:00+00:00"
+            "time": "2023-02-06T15:35:37+00:00"
         },
         {
             "name": "nyholm/psr7",
