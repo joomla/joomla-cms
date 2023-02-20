@@ -284,8 +284,10 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $plugin = new InvisibleReCaptcha($dispatcher, ['name' => 'test', 'params' => []]);
         $plugin->setApplication($app);
 
-        $caps = $plugin->onPrivacyCollectAdminCapabilities();
+        // @TODO: The event should be changed to what the Privacy component provide.
+        $event = new \Joomla\Event\Event('onPrivacyCollectAdminCapabilities', ['result' => []]);
+        $plugin->onPrivacyCollectAdminCapabilities($event);
 
-        $this->assertNotEmpty($caps);
+        $this->assertNotEmpty($event['result']);
     }
 }

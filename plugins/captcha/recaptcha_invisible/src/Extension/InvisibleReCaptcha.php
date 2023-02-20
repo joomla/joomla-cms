@@ -14,6 +14,7 @@ use Joomla\CMS\Captcha\CaptchaRegistry;
 use Joomla\CMS\Event\Captcha\CaptchaSetupEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\Captcha\InvisibleReCaptcha\Provider\InvisibleReCaptchaProvider;
 
@@ -64,18 +65,24 @@ final class InvisibleReCaptcha extends CMSPlugin implements SubscriberInterface
     /**
      * Reports the privacy related capabilities for this plugin to site administrators.
      *
-     * @return  array
+     * @TODO: The event should be changed to what the Privacy component provide.
+     *
+     * @param  Event $event
      *
      * @since   3.9.0
      */
-    public function onPrivacyCollectAdminCapabilities()
+    public function onPrivacyCollectAdminCapabilities(Event $event)
     {
         $this->loadLanguage();
 
-        return array(
+        $result = $event['result'] ?? [];
+
+        $result[] = array(
             Text::_('PLG_CAPTCHA_RECAPTCHA_INVISIBLE') => array(
                 Text::_('PLG_RECAPTCHA_INVISIBLE_PRIVACY_CAPABILITY_IP_ADDRESS'),
             ),
         );
+
+        $event['result'] = $result;
     }
 }
