@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Service\Provider;
 
 use Joomla\CMS\Captcha\CaptchaRegistry as Registry;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
@@ -40,8 +41,12 @@ class CaptchaRegistry implements ServiceProviderInterface
             ->share(
                 Registry::class,
                 function (Container $container) {
-                    $registry = new Registry();
-                    $registry->setDispatcher($container->get(DispatcherInterface::class));
+                    $dispatcher = $container->get(DispatcherInterface::class);
+                    $registry   = new Registry();
+                    $registry->setDispatcher($dispatcher);
+
+                    PluginHelper::importPlugin('captcha', null, true, $dispatcher);
+                    $registry->initRegistry();
 
                     return $registry;
                 }

@@ -11,7 +11,6 @@ namespace Joomla\CMS\Captcha;
 
 use Joomla\CMS\Captcha\Exception\CaptchaNotFoundException;
 use Joomla\CMS\Event\Captcha\CaptchaSetupEvent;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 
@@ -51,8 +50,6 @@ final class CaptchaRegistry implements DispatcherAwareInterface
      */
     public function getAll(): array
     {
-        $this->initRegistry();
-
         return array_values($this->registry);
     }
 
@@ -66,8 +63,6 @@ final class CaptchaRegistry implements DispatcherAwareInterface
      */
     public function has(string $name): bool
     {
-        $this->initRegistry();
-
         return !empty($this->registry[$name]);
     }
 
@@ -99,8 +94,6 @@ final class CaptchaRegistry implements DispatcherAwareInterface
      */
     public function add(CaptchaProviderInterface $instance)
     {
-        $this->initRegistry();
-
         $this->registry[$instance->getName()] = $instance;
 
         return $this;
@@ -109,17 +102,18 @@ final class CaptchaRegistry implements DispatcherAwareInterface
     /**
      * Trigger event to allow register the element through plugins.
      *
+     * @return  static
      * @since   __DEPLOY_VERSION__
      */
-    private function initRegistry()
+    public function initRegistry()
     {
         if (!$this->initialised) {
             $this->initialised = true;
 
-            PluginHelper::importPlugin('captcha');
-
             $event = new CaptchaSetupEvent('onCaptchaSetup', ['subject' => $this]);
             $this->getDispatcher()->dispatch($event->getName(), $event);
         }
+
+        return $this;
     }
 }

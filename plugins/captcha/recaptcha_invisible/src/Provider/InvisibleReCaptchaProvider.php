@@ -67,7 +67,7 @@ final class InvisibleReCaptchaProvider implements CaptchaProviderInterface
     {
         $this->params        = $params;
         $this->application   = $application;
-        $this->requestMethod = $requestMethod ?? new HttpBridgePostRequestMethod();
+        $this->requestMethod = $requestMethod;
     }
 
     /**
@@ -213,7 +213,7 @@ final class InvisibleReCaptchaProvider implements CaptchaProviderInterface
      */
     private function getResponse($privatekey, $remoteip, $response)
     {
-        $reCaptcha = new \ReCaptcha\ReCaptcha($privatekey, $this->requestMethod);
+        $reCaptcha = new \ReCaptcha\ReCaptcha($privatekey, $this->requestMethod ?? new HttpBridgePostRequestMethod());
         $response = $reCaptcha->verify($response, $remoteip);
 
         if (!$response->isSuccess()) {
