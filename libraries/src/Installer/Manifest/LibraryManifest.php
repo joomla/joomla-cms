@@ -26,7 +26,7 @@ class LibraryManifest extends Manifest
      * Creation date of the library
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.9
      */
     public $creationdate;
 
