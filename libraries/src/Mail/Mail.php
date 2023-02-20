@@ -33,7 +33,7 @@ class Mail extends PHPMailer
      * @var    Mail[]
      * @since  1.7.3
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Charset of the message.
@@ -275,7 +275,7 @@ class Mail extends PHPMailer
 
                 foreach ($combined as $recipientEmail => $recipientName) {
                     $recipientEmail = MailHelper::cleanLine($recipientEmail);
-                    $recipientName = MailHelper::cleanLine($recipientName);
+                    $recipientName  = MailHelper::cleanLine($recipientName);
 
                     // Check for boolean false return if exception handling is disabled
                     if (\call_user_func([parent::class, $method], $recipientEmail, $recipientName) === false) {
@@ -552,10 +552,10 @@ class Mail extends PHPMailer
     public function useSmtp($auth = null, $host = null, $user = null, $pass = null, $secure = null, $port = 25)
     {
         $this->SMTPAuth = $auth;
-        $this->Host = $host;
+        $this->Host     = $host;
         $this->Username = $user;
         $this->Password = $pass;
-        $this->Port = $port;
+        $this->Port     = $port;
 
         if ($secure === 'ssl' || $secure === 'tls') {
             $this->SMTPSecure = $secure;
@@ -659,7 +659,7 @@ class Mail extends PHPMailer
         // Add sender to replyTo only if no replyTo received
         $autoReplyTo = empty($this->ReplyTo);
 
-        if ($this->setSender(array($from, $fromName, $autoReplyTo)) === false) {
+        if ($this->setSender([$from, $fromName, $autoReplyTo]) === false) {
             return false;
         }
 

@@ -190,9 +190,9 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         $credentialId        = base64_encode($publicKeyCredentialSource->getPublicKeyCredentialId());
         $user                = Factory::getApplication()->getIdentity();
         $o                   = (object) [
-            'id'         => $credentialId,
-            'user_id'    => $this->getHandleFromUserId($user->id),
-            'label'      => Text::sprintf(
+            'id'      => $credentialId,
+            'user_id' => $this->getHandleFromUserId($user->id),
+            'label'   => Text::sprintf(
                 'PLG_SYSTEM_WEBAUTHN_LBL_DEFAULT_AUTHENTICATOR_LABEL',
                 $defaultName,
                 $this->formatDate('now')

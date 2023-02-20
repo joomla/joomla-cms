@@ -2,14 +2,6 @@
 
 .form-control {
   max-width: $input-max-width;
-  background-color: $white;
-  border: $input-border;
-  border-radius: $border-radius;
-
-  &:focus {
-    border-color: $focuscolor;
-    box-shadow: $focusshadow;
-  }
 
   &:disabled,
   &[readonly] {
@@ -166,8 +158,8 @@ div.subform-repeatable-group {
   position: relative;
   padding: 32px 32px 16px 28px;
   margin-top: 20px;
-  border: $input-border;
-  border-radius: $border-radius;
+  border: $input-border-width solid $input-border-color;
+  @include border-radius($border-radius);
 
   > .btn-toolbar {
 

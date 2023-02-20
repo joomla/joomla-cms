@@ -51,11 +51,11 @@ class Finder
         try {
             $rows = $db->loadObjectList();
         } catch (\RuntimeException $e) {
-            return array();
+            return [];
         }
 
         // Compile the options.
-        $options = array();
+        $options = [];
 
         $lang = Factory::getLanguage();
 
@@ -95,7 +95,7 @@ class Finder
         $lang = Factory::getLanguage();
 
         foreach ($branches as $branch) {
-            $key = LanguageHelper::branchPlural($branch->text);
+            $key                    = LanguageHelper::branchPlural($branch->text);
             $branch->translatedText = $lang->hasKey($key) ? Text::_($key) : $branch->text;
         }
 
@@ -103,7 +103,7 @@ class Finder
         $branches = ArrayHelper::sortObjects($branches, 'translatedText', 1, true, true);
 
         // Compile the options.
-        $options = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '', Text::_('COM_FINDER_MAPS_SELECT_BRANCH'));
 
         // Convert the values to options.
@@ -123,9 +123,9 @@ class Finder
      */
     public static function statelist()
     {
-        return array(
+        return [
             HTMLHelper::_('select.option', '1', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JPUBLISHED'))),
-            HTMLHelper::_('select.option', '0', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JUNPUBLISHED')))
-        );
+            HTMLHelper::_('select.option', '0', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JUNPUBLISHED'))),
+        ];
     }
 }

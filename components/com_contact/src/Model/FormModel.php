@@ -59,7 +59,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
      *
      * @since   4.0.0
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         $form = parent::getForm($data, $loadData);
 
@@ -231,7 +231,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 
      * @throws  Exception
      */
-    public function getTable($name = 'Contact', $prefix = 'Administrator', $options = array())
+    public function getTable($name = 'Contact', $prefix = 'Administrator', $options = [])
     {
         return parent::getTable($name, $prefix, $options);
     }

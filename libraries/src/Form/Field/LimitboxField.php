@@ -36,14 +36,14 @@ class LimitboxField extends ListField
      * @var    array
      * @since  3.2
      */
-    protected static $options = array();
+    protected static $options = [];
 
     /**
      * Default options
      *
      * @var  array
      */
-    protected $defaultLimits = array(5, 10, 15, 20, 25, 30, 50, 100, 200, 500);
+    protected $defaultLimits = [5, 10, 15, 20, 25, 30, 50, 100, 200, 500];
 
     /**
      * Method to get the options to populate to populate list
@@ -60,8 +60,8 @@ class LimitboxField extends ListField
         if (!isset(static::$options[$hash])) {
             static::$options[$hash] = parent::getOptions();
 
-            $options = array();
-            $limits = $this->defaultLimits;
+            $options = [];
+            $limits  = $this->defaultLimits;
 
             // Limits manually specified
             if (isset($this->element['limits'])) {
@@ -90,10 +90,10 @@ class LimitboxField extends ListField
 
             if (!empty($limits)) {
                 foreach ($limits as $value) {
-                    $options[] = (object) array(
+                    $options[] = (object) [
                         'value' => $value,
-                        'text' => ($value != 0) ? Text::_('J' . $value) : Text::_('JALL'),
-                    );
+                        'text'  => ($value != 0) ? Text::_('J' . $value) : Text::_('JALL'),
+                    ];
                 }
 
                 static::$options[$hash] = array_merge(static::$options[$hash], $options);
