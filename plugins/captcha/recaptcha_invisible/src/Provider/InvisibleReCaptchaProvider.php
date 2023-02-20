@@ -213,7 +213,7 @@ final class InvisibleReCaptchaProvider implements CaptchaProviderInterface
     private function getResponse($privatekey, $remoteip, $response)
     {
         $reCaptcha = new \ReCaptcha\ReCaptcha($privatekey, $this->requestMethod ?? new HttpBridgePostRequestMethod());
-        $response = $reCaptcha->verify($response, $remoteip);
+        $response  = $reCaptcha->verify($response, $remoteip);
 
         if (!$response->isSuccess()) {
             foreach ($response->getErrorCodes() as $error) {

@@ -39,7 +39,7 @@ final class InvisibleReCaptcha extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onCaptchaSetup' => 'onCaptchaSetup',
+            'onCaptchaSetup'                    => 'onCaptchaSetup',
             'onPrivacyCollectAdminCapabilities' => 'onPrivacyCollectAdminCapabilities',
         ];
     }
