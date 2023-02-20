@@ -77,11 +77,11 @@ final class InvisibleReCaptcha extends CMSPlugin implements SubscriberInterface
 
         $result = $event['result'] ?? [];
 
-        $result[] = array(
-            Text::_('PLG_CAPTCHA_RECAPTCHA_INVISIBLE') => array(
+        $result[] = [
+            Text::_('PLG_CAPTCHA_RECAPTCHA_INVISIBLE') => [
                 Text::_('PLG_RECAPTCHA_INVISIBLE_PRIVACY_CAPABILITY_IP_ADDRESS'),
-            ),
-        );
+            ],
+        ];
 
         $event['result'] = $result;
     }
