@@ -37,10 +37,10 @@ class UseractiveField extends PredefinedlistField
      * @var  array
      * @since  3.2
      */
-    protected $predefinedOptions = array(
-        '0'  => 'COM_USERS_ACTIVATED',
-        '1'  => 'COM_USERS_UNACTIVATED',
-    );
+    protected $predefinedOptions = [
+        '0' => 'COM_USERS_ACTIVATED',
+        '1' => 'COM_USERS_UNACTIVATED',
+    ];
 
     /**
      * Method to instantiate the form field object.

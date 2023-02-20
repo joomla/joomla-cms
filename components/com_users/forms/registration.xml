@@ -73,7 +73,9 @@
 			validDomains="com_users.domains"
 			autocomplete="email"
 		/>
+	</fieldset>
 
+	<fieldset name="captcha">
 		<field
 			name="captcha"
 			type="captcha"

@@ -1,7 +1,7 @@
-import { api } from '../app/Api.es6';
+import api from '../app/Api.es6';
 import * as types from './mutation-types.es6';
 import translate from '../plugins/translate.es6';
-import { notifications } from '../app/Notifications.es6';
+import notifications from '../app/Notifications.es6';
 
 const updateUrlPath = (path) => {
   const currentPath = path === null ? '' : path;
@@ -40,8 +40,7 @@ export const getContents = (context, payload) => {
     .catch((error) => {
       // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
-      // eslint-disable-next-line no-console
-      console.log('error', error);
+      throw new Error(error);
     });
 };
 
@@ -60,8 +59,7 @@ export const getFullContents = (context, payload) => {
     .catch((error) => {
       // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
-      // eslint-disable-next-line no-console
-      console.log('error', error);
+      throw new Error(error);
     });
 };
 
@@ -75,36 +73,16 @@ export const download = (context, payload) => {
     .then((contents) => {
       const file = contents.files[0];
 
-      // Convert the base 64 encoded string to a blob
-      const byteCharacters = atob(file.content);
-      const byteArrays = [];
-
-      for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-        const slice = byteCharacters.slice(offset, offset + 512);
-
-        const byteNumbers = new Array(slice.length);
-        // eslint-disable-next-line no-plusplus
-        for (let i = 0; i < slice.length; i++) {
-          byteNumbers[i] = slice.charCodeAt(i);
-        }
-
-        const byteArray = new Uint8Array(byteNumbers);
-
-        byteArrays.push(byteArray);
-      }
-
       // Download file
-      const blobURL = URL.createObjectURL(new Blob(byteArrays, { type: file.mime_type }));
       const a = document.createElement('a');
-      a.href = blobURL;
+      a.href = `data:${file.mime_type};base64,${file.content}`;
       a.download = file.name;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
     })
     .catch((error) => {
-      // eslint-disable-next-line no-console
-      console.log('error', error);
+      throw new Error(error);
     });
 };
 
@@ -142,8 +120,7 @@ export const createDirectory = (context, payload) => {
     .catch((error) => {
       // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
-      // eslint-disable-next-line no-console
-      console.log('error', error);
+      throw new Error(error);
     });
 };
 
@@ -202,8 +179,7 @@ export const renameItem = (context, payload) => {
     .catch((error) => {
       // @todo error handling
       context.commit(types.SET_IS_LOADING, false);
-      // eslint-disable-next-line no-console
-      console.log('error', error);
+      throw new Error(error);
     });
 };
 
@@ -217,10 +193,12 @@ export const deleteSelectedItems = (context) => {
   }
   context.commit(types.SET_IS_LOADING, true);
   // Get the selected items from the store
-  const { selectedItems } = context.state;
+  const { selectedItems, search } = context.state;
   if (selectedItems.length > 0) {
     selectedItems.forEach((item) => {
-      if (typeof item.canDelete !== 'undefined' && item.canDelete === false) {
+      if (
+        (typeof item.canDelete !== 'undefined' && item.canDelete === false)
+        || (search && !item.name.toLowerCase().includes(search.toLowerCase()))) {
         return;
       }
       api.delete(item.path)
@@ -232,11 +210,17 @@ export const deleteSelectedItems = (context) => {
         .catch((error) => {
           // @todo error handling
           context.commit(types.SET_IS_LOADING, false);
-          // eslint-disable-next-line no-console
-          console.log('error', error);
+          throw new Error(error);
         });
     });
   } else {
     // @todo notify the user that he has to select at least one item
   }
 };
+
+/**
+ * Update item properties
+ * @param context
+ * @param payload object: the item, the width and the height
+ */
+export const updateItemProperties = (context, payload) => context.commit(types.UPDATE_ITEM_PROPERTIES, payload);
