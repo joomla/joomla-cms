@@ -447,21 +447,26 @@ class TourModel extends AdminModel
 
                 $query = $db->getQuery(true)
                     ->insert($db->quoteName('#__guidedtour_steps'))
-                    ->columns([$db->quoteName('tour_id'),
-                        $db->quoteName('title'),
-                        $db->quoteName('description'),
-                        $db->quoteName('ordering'),
-                        $db->quoteName('position'),
-                        $db->quoteName('target'),
-                        $db->quoteName('type'),
-                        $db->quoteName('interactive_type'),
-                        $db->quoteName('url'),
-                        $db->quoteName('created'),
-                        $db->quoteName('created_by'),
-                        $db->quoteName('modified'),
-                        $db->quoteName('modified_by'),
-                        $db->quoteName('language'),
-                        $db->quoteName('note')]);
+                    ->columns(
+                        [
+                            $db->quoteName('tour_id'),
+                            $db->quoteName('title'),
+                            $db->quoteName('description'),
+                            $db->quoteName('ordering'),
+                            $db->quoteName('position'),
+                            $db->quoteName('target'),
+                            $db->quoteName('type'),
+                            $db->quoteName('interactive_type'),
+                            $db->quoteName('url'),
+                            $db->quoteName('created'),
+                            $db->quoteName('created_by'),
+                            $db->quoteName('modified'),
+                            $db->quoteName('modified_by'),
+                            $db->quoteName('language'),
+                            $db->quoteName('note'),
+                        ]
+                    );
+
                 foreach ($rows as $step) {
                     $dataTypes = [
                         ParameterType::INTEGER,
@@ -480,21 +485,31 @@ class TourModel extends AdminModel
                         ParameterType::STRING,
                         ParameterType::STRING,
                     ];
-                    $query->values(implode(',', $query->bindArray([$table->id,
-                        $step->title,
-                        $step->description,
-                        $step->ordering,
-                        $step->position,
-                        $step->target,
-                        $step->type,
-                        $step->interactive_type,
-                        $step->url,
-                        $date,
-                        $user->id,
-                        $date,
-                        $user->id,
-                        $step->language,
-                        $step->note], $dataTypes)));
+
+                    $query->values(
+                        implode(
+                            ',',
+                            $query->bindArray(
+                                [
+                                    $table->id,
+                                    $step->title,
+                                    $step->description,
+                                    $step->ordering,
+                                    $step->position,
+                                    $step->target,
+                                    $step->type,
+                                    $step->interactive_type,
+                                    $step->url,
+                                    $date,
+                                    $user->id,
+                                    $date,
+                                    $user->id,
+                                    $step->language,
+                                    $step->note,
+                                ], $dataTypes
+                            )
+                        )
+                    );
                 }
 
                 $db->setQuery($query);
