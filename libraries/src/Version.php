@@ -156,7 +156,7 @@ final class Version
      */
     public function isCompatible(string $minimum): bool
     {
-        return version_compare(JVERSION, $minimum,'ge');
+        return version_compare(JVERSION, $minimum, 'ge');
     }
 
     /**
