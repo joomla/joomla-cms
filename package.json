@@ -107,8 +107,5 @@
     "stylelint-order": "^5.0.0",
     "stylelint-scss": "^4.4.0",
     "terser": "^5.16.4"
-  },
-  "optionalDependencies": {
-    "sass-embedded-linux-x64": "^1.58.3"
   }
 }
