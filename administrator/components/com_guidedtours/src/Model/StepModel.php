@@ -65,7 +65,7 @@ class StepModel extends AdminModel
             return false;
         }
 
-        $app = Factory::getApplication();
+        $app       = Factory::getApplication();
         $extension = $app->getUserStateFromRequest('com_guidedtours.step.filter.extension', 'extension', null, 'cmd');
 
         $parts = explode('.', $extension);
@@ -104,7 +104,7 @@ class StepModel extends AdminModel
             $title = StringHelper::increment($title);
         }
 
-        return array($title, $alias);
+        return [$title, $alias];
     }
 
     /**
@@ -188,7 +188,7 @@ class StepModel extends AdminModel
 
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
-                $db = $this->getDatabase();
+                $db    = $this->getDatabase();
                 $query = $db->getQuery(true)
                     ->select('MAX(ordering)')
                     ->from($db->quoteName('#__guidedtour_steps'));
@@ -199,7 +199,7 @@ class StepModel extends AdminModel
             }
         } else {
             // Set the values
-            $table->modified = $date;
+            $table->modified    = $date;
             $table->modified_by = $this->getCurrentUser()->id;
         }
     }
@@ -374,7 +374,7 @@ class StepModel extends AdminModel
 
         if ($result = parent::getItem($pk)) {
             if (!empty($result->id)) {
-                $result->title_translation = Text::_($result->title);
+                $result->title_translation       = Text::_($result->title);
                 $result->description_translation = Text::_($result->description);
             } else {
                 $app    = Factory::getApplication();
