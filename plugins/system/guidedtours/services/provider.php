@@ -36,10 +36,9 @@ return new class implements ServiceProviderInterface
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-
                 $dispatcher = $container->get(DispatcherInterface::class);
 
-                $plugin = new GuidedTours(
+                $plugin= new GuidedTours(
                     $dispatcher,
                     (array) PluginHelper::getPlugin('system', 'guidedtours')
                 );
