@@ -891,7 +891,7 @@ class MenusHelper extends ContentHelper
             $item->link    = str_replace("{sql:$var}", $val, $item->link);
             $item->class   = str_replace("{sql:$var}", $val, $item->class);
             $item->icon    = str_replace("{sql:$var}", $val, $item->icon);
-            $params->set('menu-quicktask', str_replace("{sql:$var}", $val, $params->get('menu-quicktask')));
+            $params->set('menu-quicktask', str_replace("{sql:$var}", $val, $params->get('menu-quicktask', '')));
         }
 
         $item->setParams($params);
