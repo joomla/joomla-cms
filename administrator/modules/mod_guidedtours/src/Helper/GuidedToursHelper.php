@@ -49,7 +49,7 @@ class GuidedToursHelper
         $tours->setState('filter.access', $app->getIdentity()->getAuthorisedViewLevels());
 
         if (Multilanguage::isEnabled()) {
-            $tours->setState('filter.language', array('*', $app->getLanguage()->getTag()));
+            $tours->setState('filter.language', ['*', $app->getLanguage()->getTag()]);
         }
 
         $items = $tours->getItems();
