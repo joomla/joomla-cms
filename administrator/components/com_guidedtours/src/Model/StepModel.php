@@ -260,36 +260,6 @@ class StepModel extends AdminModel
     }
 
     /**
-     * Method to change the published state of one or more records.
-     *
-     * @param   array    &$pks   A list of the primary keys to change.
-     * @param   integer  $value  The value of the published state.
-     *
-     * @return  boolean  True on success.
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function publish(&$pks, $value = 1)
-    {
-        $table     = $this->getTable();
-        $pks       = (array) $pks;
-        $app       = Factory::getApplication();
-        $extension = $app->getUserStateFromRequest('com_guidedtours.step.filter.extension', 'extension', null, 'cmd');
-
-        // Default item existence checks.
-        if ($value != 1) {
-            foreach ($pks as $i => $pk) {
-                if ($table->load($pk) && $table->default) {
-                    $app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DISABLE_DEFAULT'), 'error');
-                    unset($pks[$i]);
-                }
-            }
-        }
-
-        return parent::publish($pks, $value);
-    }
-
-    /**
      * Abstract method for getting the form from the model.
      *
      * @param   array    $data      Data for the form.
