@@ -12,6 +12,7 @@ namespace Joomla\Component\Guidedtours\Administrator\Controller;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Router\Route;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -56,6 +57,6 @@ class ToursController extends AdminController
         } catch (\Exception $e) {
             $this->app->enqueueMessage($e->getMessage(), 'warning');
         }
-        $this->setRedirect('index.php?option=com_guidedtours&view=tours' . $this->getRedirectToListAppend());
+        $this->setRedirect(Route::_('index.php?option=com_guidedtours&view=tours' . $this->getRedirectToListAppend(), false));
     }
 }
