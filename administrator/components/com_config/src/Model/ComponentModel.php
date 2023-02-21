@@ -68,7 +68,7 @@ class ComponentModel extends FormModel
      *
      * @since   3.2
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         $state = $this->getState();
         $option = $state->get('component.option');
@@ -85,7 +85,7 @@ class ComponentModel extends FormModel
         $form = $this->loadForm(
             'com_config.component',
             'config',
-            array('control' => 'jform', 'load_data' => $loadData),
+            ['control' => 'jform', 'load_data' => $loadData],
             false,
             '/config'
         );
@@ -162,7 +162,7 @@ class ComponentModel extends FormModel
 
         // Check super user group.
         if (isset($data['params']) && !Factory::getUser()->authorise('core.admin')) {
-            $form = $this->getForm(array(), false);
+            $form = $this->getForm([], false);
 
             foreach ($form->getFieldsets() as $fieldset) {
                 foreach ($form->getFieldset($fieldset->name) as $field) {
@@ -222,14 +222,14 @@ class ComponentModel extends FormModel
             throw new \RuntimeException($table->getError());
         }
 
-        $result = Factory::getApplication()->triggerEvent('onExtensionBeforeSave', array($context, $table, false));
+        $result = Factory::getApplication()->triggerEvent('onExtensionBeforeSave', [$context, $table, false]);
 
         // Store the data.
         if (in_array(false, $result, true) || !$table->store()) {
             throw new \RuntimeException($table->getError());
         }
 
-        Factory::getApplication()->triggerEvent('onExtensionAfterSave', array($context, $table, false));
+        Factory::getApplication()->triggerEvent('onExtensionAfterSave', [$context, $table, false]);
 
         // Clean the component cache.
         $this->cleanCache('_system');

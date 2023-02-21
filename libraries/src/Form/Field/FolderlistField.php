@@ -183,7 +183,7 @@ class FolderlistField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         $path = $this->directory;
 

@@ -94,6 +94,7 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
         Text::script('PLG_SYSTEM_SHORTCUT_OVERVIEW_HINT');
         Text::script('PLG_SYSTEM_SHORTCUT_OVERVIEW_TITLE');
         Text::script('PLG_SYSTEM_SHORTCUT_OVERVIEW_DESC');
+        Text::script('PLG_SYSTEM_SHORTCUT_THEN');
         Text::script('JCLOSE');
 
         $document = $this->getApplication()->getDocument();
