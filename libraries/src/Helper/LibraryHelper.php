@@ -17,6 +17,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Library helper class
  *
@@ -30,7 +34,7 @@ class LibraryHelper
      * @var    array
      * @since  3.2
      */
-    protected static $libraries = array();
+    protected static $libraries = [];
 
     /**
      * Get the library information.
@@ -53,9 +57,9 @@ class LibraryHelper
                 $result->params = new Registry($result->params);
             }
         } else {
-            $result = new \stdClass();
+            $result          = new \stdClass();
             $result->enabled = $strict ? false : true;
-            $result->params = new Registry();
+            $result->params  = new Registry();
         }
 
         return $result;
@@ -142,7 +146,7 @@ class LibraryHelper
     protected static function loadLibrary($element)
     {
         $loader = function ($element) {
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
                 ->from($db->quoteName('#__extensions'))
@@ -158,7 +162,7 @@ class LibraryHelper
         $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', ['defaultgroup' => '_system']);
 
         try {
-            static::$libraries[$element] = $cache->get($loader, array($element), __METHOD__ . $element);
+            static::$libraries[$element] = $cache->get($loader, [$element], __METHOD__ . $element);
         } catch (CacheExceptionInterface $e) {
             static::$libraries[$element] = $loader($element);
         }

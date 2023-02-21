@@ -17,6 +17,10 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_breadcrumbs
  *
@@ -37,20 +41,10 @@ class BreadcrumbsHelper
         // Get the PathWay object from the application
         $pathway = $app->getPathway();
         $items   = $pathway->getPathway();
-        $lang    = $app->getLanguage();
-        $menu    = $app->getMenu();
-
-        // Look for the home menu
-        if (Multilanguage::isEnabled()) {
-            $home = $menu->getDefault($lang->getTag());
-        } else {
-            $home  = $menu->getDefault();
-        }
-
-        $count = \count($items);
+        $count   = \count($items);
 
         // Don't use $items here as it references JPathway properties directly
-        $crumbs = array();
+        $crumbs = [];
 
         for ($i = 0; $i < $count; $i++) {
             $crumbs[$i]       = new \stdClass();
@@ -59,13 +53,37 @@ class BreadcrumbsHelper
         }
 
         if ($params->get('showHome', 1)) {
-            $item       = new \stdClass();
-            $item->name = htmlspecialchars($params->get('homeText', Text::_('MOD_BREADCRUMBS_HOME')), ENT_COMPAT, 'UTF-8');
-            $item->link = 'index.php?Itemid=' . $home->id;
-            array_unshift($crumbs, $item);
+            array_unshift($crumbs, self::getHome($params, $app));
         }
 
         return $crumbs;
+    }
+
+    /**
+     * Retrieve home item (start page)
+     *
+     * @param   Registry        $params  The module parameters
+     * @param   CMSApplication  $app     The application
+     *
+     * @return  object
+     *
+     * @since  4.2.0
+     */
+    public static function getHome(Registry $params, CMSApplication $app)
+    {
+        $menu = $app->getMenu();
+
+        if (Multilanguage::isEnabled()) {
+            $home = $menu->getDefault($app->getLanguage()->getTag());
+        } else {
+            $home = $menu->getDefault();
+        }
+
+        $item       = new \stdClass();
+        $item->name = htmlspecialchars($params->get('homeText', Text::_('MOD_BREADCRUMBS_HOME')), ENT_COMPAT, 'UTF-8');
+        $item->link = 'index.php?Itemid=' . $home->id;
+
+        return $item;
     }
 
     /**

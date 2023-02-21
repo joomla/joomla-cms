@@ -11,6 +11,10 @@ namespace Joomla\CMS\Installer\Manifest;
 
 use Joomla\CMS\Installer\Manifest;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Library Manifest File
  *
@@ -18,6 +22,14 @@ use Joomla\CMS\Installer\Manifest;
  */
 class LibraryManifest extends Manifest
 {
+    /**
+     * Creation date of the library
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $creationdate;
+
     /**
      * File system name of the library
      *

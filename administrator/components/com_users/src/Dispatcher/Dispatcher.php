@@ -12,6 +12,10 @@ namespace Joomla\Component\Users\Administrator\Dispatcher;
 
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * ComponentDispatcher class for com_users
  *

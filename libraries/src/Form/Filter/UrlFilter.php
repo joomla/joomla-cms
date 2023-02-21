@@ -16,6 +16,10 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Filter class for URLs
  *
@@ -49,7 +53,7 @@ class UrlFilter implements FormFilterInterface
         $value = trim($value);
 
         // <>" are never valid in a uri see https://www.ietf.org/rfc/rfc1738.txt
-        $value = str_replace(array('<', '>', '"'), '', $value);
+        $value = str_replace(['<', '>', '"'], '', $value);
 
         // Check for a protocol
         $protocol = parse_url($value, PHP_URL_SCHEME);

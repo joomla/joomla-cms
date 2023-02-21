@@ -18,6 +18,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command to list existing users
  *
@@ -98,7 +102,7 @@ class ListUserCommand extends AbstractCommand
             );
 
             $user["groups"] = implode(", ", $user["groups"]);
-            $users[] = $user;
+            $users[]        = $user;
         }
 
         $this->ioStyle->table(['ID', 'Username', 'Name', 'Email', 'Blocked', 'Groups'], $users);

@@ -12,6 +12,10 @@ namespace Joomla\Component\Banners\Site\Service;
 
 use Joomla\CMS\Categories\Categories;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Banners Component Category Tree
  *
@@ -26,7 +30,7 @@ class Category extends Categories
      *
      * @since   1.6
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         $options['table']     = '#__banners';
         $options['extension'] = 'com_banners';

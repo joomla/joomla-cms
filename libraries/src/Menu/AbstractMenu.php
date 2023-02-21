@@ -14,6 +14,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Menu class
  *
@@ -28,7 +32,7 @@ abstract class AbstractMenu
      *
      * @since  4.0.0
      */
-    protected $items = array();
+    protected $items = [];
 
     /**
      * Identifier of the default menu item. Key of the array is the language.
@@ -37,7 +41,7 @@ abstract class AbstractMenu
      *
      * @since  4.0.0
      */
-    protected $default = array();
+    protected $default = [];
 
     /**
      * Identifier of the active menu item
@@ -57,7 +61,7 @@ abstract class AbstractMenu
      *
      * @deprecated 5.0 Use the MenuFactoryInterface from the container instead
      */
-    public static $instances = array();
+    public static $instances = [];
 
     /**
      * User object to check access levels for
@@ -84,7 +88,7 @@ abstract class AbstractMenu
      *
      * @since   1.5
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         /**
          * It is preferred NOT to inject and store the user when constructing the menu object,
@@ -113,7 +117,7 @@ abstract class AbstractMenu
      *
      * @deprecated  5.0 Use the MenuFactoryInterface from the container instead
      */
-    public static function getInstance($client, $options = array())
+    public static function getInstance($client, $options = [])
     {
         if (!$client) {
             throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
@@ -250,7 +254,7 @@ abstract class AbstractMenu
      */
     public function getItems($attributes, $values, $firstonly = false)
     {
-        $items      = array();
+        $items      = [];
         $attributes = (array) $attributes;
         $values     = (array) $values;
         $count      = \count($attributes);

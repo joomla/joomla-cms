@@ -19,6 +19,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content article class.
  *
@@ -89,7 +93,7 @@ class ArticleController extends FormController
      *
      * @since   1.6
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         $user       = $this->app->getIdentity();
         $categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
@@ -118,10 +122,10 @@ class ArticleController extends FormController
      *
      * @since   1.6
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-        $user = $this->app->getIdentity();
+        $user     = $this->app->getIdentity();
 
         // Zero record (id:0), return component edit permission by calling parent controller method
         if (!$recordId) {
@@ -244,7 +248,7 @@ class ArticleController extends FormController
      *
      * @since   1.5
      */
-    public function getModel($name = 'Form', $prefix = 'Site', $config = array('ignore_request' => true))
+    public function getModel($name = 'Form', $prefix = 'Site', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -343,7 +347,7 @@ class ArticleController extends FormController
         }
 
         $app       = $this->app;
-        $articleId = $app->input->getInt('a_id');
+        $articleId = $app->getInput()->getInt('a_id');
 
         // Load the parameters.
         $params   = $app->getParams();
@@ -404,10 +408,10 @@ class ArticleController extends FormController
         $user_rating = $this->input->getInt('user_rating', -1);
 
         if ($user_rating > -1) {
-            $url = $this->input->getString('url', '');
-            $id = $this->input->getInt('id', 0);
+            $url      = $this->input->getString('url', '');
+            $id       = $this->input->getInt('id', 0);
             $viewName = $this->input->getString('view', $this->default_view);
-            $model = $this->getModel($viewName);
+            $model    = $this->getModel($viewName);
 
             // Don't redirect to an external URL.
             if (!Uri::isInternal($url)) {

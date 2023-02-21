@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugin helper class
  *
@@ -49,9 +53,9 @@ abstract class PluginHelper
 
         if (strpos($layout, ':') !== false) {
             // Get the template and file name from the string
-            $temp = explode(':', $layout);
-            $template = $temp[0] === '_' ? $templateObj->template : $temp[0];
-            $layout = $temp[1];
+            $temp          = explode(':', $layout);
+            $template      = $temp[0] === '_' ? $templateObj->template : $temp[0];
+            $layout        = $temp[1];
             $defaultLayout = $temp[1] ?: 'default';
         }
 
@@ -90,7 +94,7 @@ abstract class PluginHelper
      */
     public static function getPlugin($type, $plugin = null)
     {
-        $result = [];
+        $result  = [];
         $plugins = static::load();
 
         // Find the correct plugin(s) to return.
@@ -246,7 +250,7 @@ abstract class PluginHelper
         $cache = Factory::getCache('com_plugins', 'callback');
 
         $loader = function () use ($levels) {
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select(
                     $db->quoteName(

@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Helper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Defines the trait for a HelperFactory Aware Class.
  *
@@ -23,7 +27,7 @@ trait HelperFactoryAwareTrait
      *
      * @since  4.2.0
      */
-    private $helperFactory;
+    private $helper;
 
     /**
      * Get the HelperFactory.

@@ -34,10 +34,14 @@ use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper class to aid in credentials creation (link an authenticator to a user account)
  *
- * @since   __DEPLOY_VERSION__
+ * @since   4.2.0
  * @internal
  */
 final class Authentication
@@ -46,7 +50,7 @@ final class Authentication
      * The credentials repository
      *
      * @var   CredentialRepository
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     private $credentialsRepository;
 
@@ -54,7 +58,7 @@ final class Authentication
      * The application we are running in.
      *
      * @var   CMSApplication
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     private $app;
 
@@ -62,7 +66,7 @@ final class Authentication
      * The application session
      *
      * @var   SessionInterface
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     private $session;
 
@@ -70,7 +74,7 @@ final class Authentication
      * A simple metadata statement repository
      *
      * @var   MetadataStatementRepository
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     private $metadataRepository;
 
@@ -79,7 +83,7 @@ final class Authentication
      * non-empty?
      *
      * @var   boolean
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     private $attestationSupport = true;
 
@@ -91,7 +95,7 @@ final class Authentication
      * @param   PublicKeyCredentialSourceRepository|null  $credRepo  Credentials repo
      * @param   MetadataStatementRepository|null          $mdsRepo   Authenticator metadata repo
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function __construct(
         ApplicationInterface $app = null,
@@ -109,7 +113,7 @@ final class Authentication
      * Get the known FIDO authenticators and their metadata
      *
      * @return  object[]
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function getKnownAuthenticators(): array
     {
@@ -124,7 +128,7 @@ final class Authentication
 
         $return[''] = (object) [
             'description' => Text::_('PLG_SYSTEM_WEBAUTHN_LBL_DEFAULT_AUTHENTICATOR'),
-            'icon' => 'data:image/png;base64,' . base64_encode($image)
+            'icon'        => 'data:image/png;base64,' . base64_encode($image),
         ];
 
         return $return;
@@ -135,7 +139,7 @@ final class Authentication
      *
      * @return  PublicKeyCredentialSourceRepository|null
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function getCredentialsRepository(): ?PublicKeyCredentialSourceRepository
     {
@@ -147,7 +151,7 @@ final class Authentication
      *
      * @return  MetadataStatementRepository|null
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function getMetadataRepository(): ?MetadataStatementRepository
     {
@@ -166,7 +170,7 @@ final class Authentication
      * @return  PublicKeyCredentialCreationOptions
      *
      * @throws  Exception
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function getPubKeyCreationOptions(User $user): PublicKeyCredentialCreationOptions
     {
@@ -214,7 +218,7 @@ final class Authentication
      * @return  PublicKeyCredentialRequestOptions
      *
      * @throws  Exception
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function getPubkeyRequestOptions(User $user): ?PublicKeyCredentialRequestOptions
     {
@@ -242,7 +246,7 @@ final class Authentication
      * @return  PublicKeyCredentialSource
      *
      * @throws Exception
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function validateAssertionResponse(string $data, User $user): PublicKeyCredentialSource
     {
@@ -291,7 +295,7 @@ final class Authentication
      * @return  PublicKeyCredentialSource|null
      *
      * @throws  Exception
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function validateAttestationResponse(string $data): PublicKeyCredentialSource
     {
@@ -340,7 +344,7 @@ final class Authentication
      * Get the authentiactor attestation support.
      *
      * @return  boolean
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function hasAttestationSupport(): bool
     {
@@ -355,7 +359,7 @@ final class Authentication
      * @param   bool  $attestationSupport  The desired setting
      *
      * @return  void
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function setAttestationSupport(bool $attestationSupport): void
     {
@@ -368,7 +372,7 @@ final class Authentication
      *
      * @return  string|null
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function getSiteIcon(): ?string
     {
@@ -422,7 +426,7 @@ final class Authentication
      *
      * @return  PublicKeyCredentialUserEntity
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function getUserEntity(User $user): PublicKeyCredentialUserEntity
     {
@@ -444,7 +448,7 @@ final class Authentication
      *
      * @return  string  The URL to the user's avatar
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function getAvatar(User $user, int $size = 64)
     {
@@ -462,7 +466,7 @@ final class Authentication
      *
      * @return  PublicKeyCredentialDescriptor[]
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function getPubKeyDescriptorsForUser(User $user): array
     {
@@ -487,7 +491,7 @@ final class Authentication
      * @return  PublicKeyCredentialRequestOptions
      *
      * @throws  Exception
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function getPKCredentialRequestOptions(): PublicKeyCredentialRequestOptions
     {
@@ -519,7 +523,7 @@ final class Authentication
      *
      * @return  Server
      * @throws  Exception
-     * @since    __DEPLOY_VERSION__
+     * @since    4.2.0
      */
     private function getWebauthnServer(): \Webauthn\Server
     {

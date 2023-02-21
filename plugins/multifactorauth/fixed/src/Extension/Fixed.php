@@ -26,8 +26,12 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
 use RuntimeException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
- * TJoomla! Multi-factor Authentication using a fixed code.
+ * Joomla! Multi-factor Authentication using a fixed code.
  *
  * Requires a static string (password), different for each user. It effectively works as a second
  * password. The fixed code is stored hashed, like a regular password.
@@ -130,17 +134,17 @@ class Fixed extends CMSPlugin implements SubscriberInterface
             new CaptiveRenderOptions(
                 [
                     // Custom HTML to display above the MFA form
-                    'pre_message'  => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_PREMESSAGE'),
+                    'pre_message' => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_PREMESSAGE'),
                     // How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
-                    'field_type'   => 'input',
+                    'field_type' => 'input',
                     // The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
-                    'input_type'   => 'password',
+                    'input_type' => 'password',
                     // Placeholder text for the HTML input box. Leave empty if you don't need it.
-                    'placeholder'  => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_PLACEHOLDER'),
+                    'placeholder' => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_PLACEHOLDER'),
                     // Label to show above the HTML input box. Leave empty if you don't need it.
-                    'label'        => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_LABEL'),
+                    'label' => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_LABEL'),
                     // Custom HTML. Only used when field_type = custom.
-                    'html'         => '',
+                    'html' => '',
                     // Custom HTML to display below the MFA form
                     'post_message' => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_POSTMESSAGE'),
                 ]

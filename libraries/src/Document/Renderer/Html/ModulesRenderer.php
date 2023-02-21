@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML document renderer for a module position
  *
@@ -32,7 +36,7 @@ class ModulesRenderer extends DocumentRenderer
      *
      * @since   3.5
      */
-    public function render($position, $params = array(), $content = null)
+    public function render($position, $params = [], $content = null)
     {
         $renderer = $this->_doc->loadRenderer('module');
         $buffer   = '';
@@ -46,14 +50,14 @@ class ModulesRenderer extends DocumentRenderer
             $moduleHtml = $renderer->render($mod, $params, $content);
 
             if ($frontediting && trim($moduleHtml) != '' && $user->authorise('module.edit.frontend', 'com_modules.module.' . $mod->id)) {
-                $displayData = array('moduleHtml' => &$moduleHtml, 'module' => $mod, 'position' => $position, 'menusediting' => $menusEditing);
+                $displayData = ['moduleHtml' => &$moduleHtml, 'module' => $mod, 'position' => $position, 'menusediting' => $menusEditing];
                 LayoutHelper::render('joomla.edit.frontediting_modules', $displayData);
             }
 
             $buffer .= $moduleHtml;
         }
 
-        $app->triggerEvent('onAfterRenderModules', array(&$buffer, &$params));
+        $app->triggerEvent('onAfterRenderModules', [&$buffer, &$params]);
 
         return $buffer;
     }

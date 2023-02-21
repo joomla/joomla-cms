@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_FINDER_CONTACTS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Finder\Contacts</namespace>
 	<files>
-		<filename plugin="contacts">contacts.php</filename>
+		<folder plugin="contacts">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_finder_contacts.ini</language>

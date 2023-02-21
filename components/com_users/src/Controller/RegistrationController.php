@@ -16,6 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Registration controller class for Users.
  *
@@ -151,7 +155,7 @@ class RegistrationController extends BaseController
         $model = $this->getModel('Registration', 'Site');
 
         // Get the user data.
-        $requestData = $this->input->post->get('jform', array(), 'array');
+        $requestData = $this->input->post->get('jform', [], 'array');
 
         // Validate the posted data.
         $form = $model->getForm();

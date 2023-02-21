@@ -20,6 +20,10 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The MVC View for the routine selection page (SelectView).
  * This view lets the user choose from a list of plugin defined task routines.
@@ -114,14 +118,8 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar(): void
     {
-        /*
-        * Get the global Toolbar instance
-        * @todo : Replace usage with ToolbarFactoryInterface. but how?
-        *       Probably some changes in the core, since mod_menu calls and renders the getInstance() toolbar
-        */
         $toolbar = Toolbar::getInstance();
 
-        // Add page title
         ToolbarHelper::title(Text::_('COM_SCHEDULER_MANAGER_TASKS'), 'clock');
 
         $toolbar->linkButton('cancel')

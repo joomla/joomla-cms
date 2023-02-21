@@ -15,6 +15,10 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View to edit a module.
  *
@@ -56,7 +60,7 @@ class HtmlView extends BaseHtmlView
         $lang->load('com_modules', JPATH_ADMINISTRATOR, $lang->getTag());
 
         // @todo Move and clean up
-        $module = (new \Joomla\Component\Modules\Administrator\Model\ModuleModel())->getItem(Factory::getApplication()->input->getInt('id'));
+        $module = (new \Joomla\Component\Modules\Administrator\Model\ModuleModel())->getItem(Factory::getApplication()->getInput()->getInt('id'));
 
         $moduleData = $module->getProperties();
         unset($moduleData['xml']);

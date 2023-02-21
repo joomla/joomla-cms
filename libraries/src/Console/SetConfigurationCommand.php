@@ -20,6 +20,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command Setting Configuration options
  *
@@ -106,7 +110,7 @@ class SetConfigurationCommand extends AbstractCommand
         $language->load('com_config', JPATH_ADMINISTRATOR, null, false, false) ||
         $language->load('com_config', JPATH_ADMINISTRATOR, null, true);
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
+        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 
     /**

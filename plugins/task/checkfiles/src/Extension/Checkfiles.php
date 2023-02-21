@@ -21,6 +21,10 @@ use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use LogicException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Task plugin with routines that offer checks on files.
  * At the moment, offers a single routine to check and resize image files in a directory.
@@ -70,7 +74,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
      * The root directory path
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.0
      */
     private $rootDirectory;
 
@@ -81,7 +85,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
      * @param   array                $config         An optional associative array of configuration settings
      * @param   string               $rootDirectory  The root directory to look for images
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function __construct(DispatcherInterface $dispatcher, array $config, string $rootDirectory)
     {
@@ -96,7 +100,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
      * @return integer  The exit code
      *
      * @since 4.1.0
-     * @throws RuntimeException
+     * @throws \RuntimeException
      * @throws LogicException
      */
     protected function checkImages(ExecuteTaskEvent $event): int
