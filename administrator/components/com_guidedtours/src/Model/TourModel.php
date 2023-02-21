@@ -65,11 +65,11 @@ class TourModel extends AdminModel
         // Alter the title
         $table = $this->getTable();
 
-        while ($table->load(array('title' => $title))) {
+        while ($table->load(['title' => $title])) {
             $title = StringHelper::increment($title);
         }
 
-        return array($title, $alias);
+        return [$title, $alias];
     }
 
     /**
@@ -95,7 +95,7 @@ class TourModel extends AdminModel
             $origTable->load($input->getInt('id'));
 
             if ($data['title'] == $origTable->title) {
-                list($title) = $this->generateNewTitle(0, '', $data['title']);
+                list($title)   = $this->generateNewTitle(0, '', $data['title']);
                 $data['title'] = $title;
             }
 
@@ -103,7 +103,7 @@ class TourModel extends AdminModel
         }
 
         // Set step language to parent tour language on save.
-        $id =   $data['id'];
+        $id   = $data['id'];
         $lang = $data['language'];
 
         GuidedtoursHelper::setStepLanguage($id, $lang);
@@ -116,12 +116,11 @@ class TourModel extends AdminModel
 
             $table = $this->getTable('Step');
 
-            $table->id = 0;
-            $table->title = 'COM_GUIDEDTOURS_BASIC_STEP';
+            $table->id          = 0;
+            $table->title       = 'COM_GUIDEDTOURS_BASIC_STEP';
             $table->description = '';
-            $table->tour_id = $tour_id;
-
-            $table->published = 1;
+            $table->tour_id     = $tour_id;
+            $table->published   = 1;
 
             $table->store();
         }
@@ -161,7 +160,7 @@ class TourModel extends AdminModel
             }
         } else {
             // Set the values
-            $table->modified = $date;
+            $table->modified    = $date;
             $table->modified_by = $this->getCurrentUser()->id;
         }
     }
@@ -182,10 +181,10 @@ class TourModel extends AdminModel
         $form = $this->loadForm(
             'com_guidedtours.tour',
             'tour',
-            array(
+            [
                 'control'   => 'jform',
                 'load_data' => $loadData
-            )
+            ]
         );
 
         if (empty($form)) {
@@ -292,7 +291,7 @@ class TourModel extends AdminModel
 
         if ($result = parent::getItem($pk)) {
             if (!empty($result->id)) {
-                $result->title_translation = Text::_($result->title);
+                $result->title_translation       = Text::_($result->title);
                 $result->description_translation = Text::_($result->description);
             }
         }
@@ -341,7 +340,7 @@ class TourModel extends AdminModel
                     }
 
                     // Delete of the tour has been successful, now delete the steps
-                    $db = $this->getDatabase();
+                    $db    = $this->getDatabase();
                     $query = $db->getQuery(true)
                         ->delete($db->quoteName('#__guidedtour_steps'))
                         ->where($db->quoteName('tour_id') . '=' . $tour_id);
@@ -349,7 +348,7 @@ class TourModel extends AdminModel
                     $db->execute();
 
                     // Trigger the after event.
-                    Factory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
+                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$context, $table]);
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
