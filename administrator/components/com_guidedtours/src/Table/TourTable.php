@@ -41,7 +41,7 @@ class TourTable extends Table
      * @since  __DEPLOY_VERSION__
      */
     // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
-    protected $_jsonEncode = array('extensions');
+    protected $_jsonEncode = ['extensions'];
 
     /**
      * Constructor
