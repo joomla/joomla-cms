@@ -19,7 +19,7 @@
  *
  * @since  1.6
  *
- * @deprecated  5.0  Use \Joomla\Component\Plugins\Administrator\Helper\PluginsHelper instead
+ * @deprecated  6.0  Use \Joomla\Component\Plugins\Administrator\Helper\PluginsHelper instead
  */
 class PluginsHelper extends \Joomla\Component\Plugins\Administrator\Helper\PluginsHelper
 {

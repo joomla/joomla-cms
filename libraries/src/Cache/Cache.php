@@ -86,7 +86,7 @@ class Cache
      * @return  CacheController
      *
      * @since       1.7.0
-     * @deprecated  5.0 Use the cache controller factory instead
+     * @deprecated  6.0 Use the cache controller factory instead
      */
     public static function getInstance($type = 'output', $options = [])
     {

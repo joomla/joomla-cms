@@ -19,7 +19,7 @@ use Joomla\CMS\Filter\InputFilter;
  * Joomla! Input Files Class
  *
  * @since       1.7.0
- * @deprecated  5.0  Use Joomla\Input\Files instead
+ * @deprecated  6.0  Use Joomla\Input\Files instead
  */
 class Files extends Input
 {
@@ -28,7 +28,7 @@ class Files extends Input
      *
      * @var    array
      * @since  1.7.0
-     * @deprecated  5.0  Use Joomla\Input\Files instead
+     * @deprecated  6.0  Use Joomla\Input\Files instead
      */
     protected $decodedData = [];
 
@@ -40,7 +40,7 @@ class Files extends Input
      *                           filter : a custom InputFilter object.
      *
      * @since   3.0.0
-     * @deprecated  5.0  Use Joomla\Input\Files instead
+     * @deprecated  6.0  Use Joomla\Input\Files instead
      */
     public function __construct(array $source = null, array $options = [])
     {
@@ -68,7 +68,7 @@ class Files extends Input
      *
      * @see     InputFilter::clean()
      * @since   1.7.0
-     * @deprecated  5.0  Use Joomla\Input\Files instead
+     * @deprecated  6.0  Use Joomla\Input\Files instead
      */
     public function get($name, $default = null, $filter = 'cmd')
     {
@@ -106,7 +106,7 @@ class Files extends Input
      * @return  array
      *
      * @since   1.7.0
-     * @deprecated  5.0  Use Joomla\Input\Files instead
+     * @deprecated  6.0  Use Joomla\Input\Files instead
      */
     protected function decodeData(array $data)
     {
@@ -132,7 +132,7 @@ class Files extends Input
      * @return  void
      *
      * @since   1.7.0
-     * @deprecated  5.0  Use Joomla\Input\Files instead
+     * @deprecated  6.0  Use Joomla\Input\Files instead
      */
     public function set($name, $value)
     {

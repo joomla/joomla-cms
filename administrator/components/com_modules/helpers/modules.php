@@ -19,7 +19,7 @@
  *
  * @since       1.6
  *
- * @deprecated  5.0  Use \Joomla\Component\Modules\Administrator\Helper\ModulesHelper instead
+ * @deprecated  6.0  Use \Joomla\Component\Modules\Administrator\Helper\ModulesHelper instead
  */
 abstract class ModulesHelper extends \Joomla\Component\Modules\Administrator\Helper\ModulesHelper
 {

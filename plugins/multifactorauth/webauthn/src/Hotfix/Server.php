@@ -78,7 +78,7 @@ use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
  *
  * @since   4.2.0
  *
- * @deprecated 5.0 We will upgrade the WebAuthn library to version 3 or later and this will go away.
+ * @deprecated 6.0 We will upgrade the WebAuthn library to version 3 or later and this will go away.
  */
 class Server extends \Webauthn\Server
 {

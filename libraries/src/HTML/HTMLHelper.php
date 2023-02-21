@@ -47,7 +47,7 @@ abstract class HTMLHelper
      *
      * @var    string[]
      * @since  1.5
-     * @deprecated  5.0
+     * @deprecated  6.0
      */
     protected static $includePaths = [];
 
@@ -56,7 +56,7 @@ abstract class HTMLHelper
      *
      * @var    callable[]
      * @since  1.6
-     * @deprecated  5.0
+     * @deprecated  6.0
      */
     protected static $registry = [];
 
@@ -77,7 +77,7 @@ abstract class HTMLHelper
      * @return  array  Contains lowercase key, prefix, file, function.
      *
      * @since       1.6
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  6.0 Use the service registry instead
      */
     protected static function extract($key)
     {
@@ -187,7 +187,7 @@ abstract class HTMLHelper
      * @return  boolean  True if the function is callable
      *
      * @since       1.6
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  6.0 Use the service registry instead
      */
     public static function register($key, callable $function)
     {
@@ -211,7 +211,7 @@ abstract class HTMLHelper
      * @return  boolean  True if a set key is unset
      *
      * @since       1.6
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  6.0 Use the service registry instead
      */
     public static function unregister($key)
     {
@@ -1123,7 +1123,7 @@ abstract class HTMLHelper
      * @return  array  An array with directory elements
      *
      * @since       1.5
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  6.0 Use the service registry instead
      */
     public static function addIncludePath($path = '')
     {

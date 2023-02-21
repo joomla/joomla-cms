@@ -129,7 +129,7 @@ class Toolbar
      * @return  Toolbar  The Toolbar object.
      *
      * @since       1.5
-     * @deprecated  5.0 Use the ToolbarFactoryInterface instead
+     * @deprecated  6.0 Use the ToolbarFactoryInterface instead
      *
      * @throws \Joomla\DI\Exception\KeyNotFoundException
      */
@@ -384,7 +384,7 @@ class Toolbar
      * @return  void
      *
      * @since       1.5
-     * @deprecated  5.0  ToolbarButton classes should be autoloaded
+     * @deprecated  6.0  ToolbarButton classes should be autoloaded
      */
     public function addButtonPath($path)
     {
@@ -420,7 +420,7 @@ class Toolbar
      * @return  array
      *
      * @since   4.0.0
-     * @deprecated  5.0  ToolbarButton classes should be autoloaded
+     * @deprecated  6.0  ToolbarButton classes should be autoloaded
      */
     public function getButtonPath(): array
     {

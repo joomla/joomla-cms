@@ -18,7 +18,7 @@
  * Menus component helper.
  *
  * @since       1.6
- * @deprecated  5.0 Use \Joomla\Component\Menus\Administrator\Helper\MenusHelper instead
+ * @deprecated  6.0 Use \Joomla\Component\Menus\Administrator\Helper\MenusHelper instead
  */
 class MenusHelper extends \Joomla\Component\Menus\Administrator\Helper\MenusHelper
 {

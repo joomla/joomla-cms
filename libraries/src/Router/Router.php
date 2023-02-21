@@ -101,7 +101,7 @@ class Router
      *
      * @throws     \RuntimeException
      *
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     * @deprecated 6.0 Inject the router or load it from the dependency injection container
      */
     public static function getInstance($client, $options = [])
     {

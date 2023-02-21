@@ -162,7 +162,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      * @return  mixed   A value if the property name is valid, null otherwise.
      *
      * @since       4.0.0
-     * @deprecated  5.0  This is a B/C proxy for deprecated read accesses
+     * @deprecated  6.0  This is a B/C proxy for deprecated read accesses
      */
     public function __get($name)
     {
@@ -393,7 +393,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      * @return  boolean
      *
      * @since       4.0.0
-     * @deprecated  5.0  Will be removed without replacements
+     * @deprecated  6.0  Will be removed without replacements
      */
     public function isCli()
     {
@@ -470,7 +470,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      *
      * @throws     \InvalidArgumentException
      *
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     * @deprecated 6.0 Inject the router or load it from the dependency injection container
      */
     public static function getRouter($name = null, array $options = [])
     {

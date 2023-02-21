@@ -282,7 +282,7 @@ class Language
      * @return  Language  The Language object.
      *
      * @since       1.7.0
-     * @deprecated  5.0 Use the language factory instead
+     * @deprecated  6.0 Use the language factory instead
      */
     public static function getInstance($lang, $debug = false)
     {

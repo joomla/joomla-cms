@@ -44,7 +44,7 @@ abstract class Jquery
      *
      * @since   3.0
      *
-     * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::useAsset();
+     * @deprecated 6.0  Use Joomla\CMS\WebAsset\WebAssetManager::useAsset();
      */
     public static function framework($noConflict = true, $debug = null, $migrate = false)
     {

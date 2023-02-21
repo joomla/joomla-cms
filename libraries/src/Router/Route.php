@@ -72,7 +72,7 @@ class Route
     public static function _($url, $xhtml = true, $tls = self::TLS_IGNORE, $absolute = false)
     {
         try {
-            // @deprecated  4.0 Before 3.9.7 this method silently converted $tls to integer
+            // 6.0 Before 3.9.7 this method silently converted $tls to integer
             if (!is_int($tls)) {
                 @trigger_error(
                     __METHOD__ . '() called with incompatible variable type on parameter $tls.',
@@ -92,7 +92,7 @@ class Route
 
             return static::link($client, $url, $xhtml, $tls, $absolute);
         } catch (\RuntimeException $e) {
-            // @deprecated  4.0 Before 3.9.0 this method failed silently on router error. This B/C will be removed in Joomla 4.0.
+            // @deprecated  6.0 Before 3.9.0 this method failed silently on router error. This B/C will be removed in Joomla 6.0.
             return null;
         }
     }

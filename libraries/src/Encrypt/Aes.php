@@ -51,7 +51,7 @@ class Aes
      * @param   string          $mode     Encryption mode. Can be ebc or cbc. We recommend using cbc.
      * @param   string          $priority Priority which adapter we should try first
      *
-     * @deprecated 5.0 $strength will be removed
+     * @deprecated 6.0 $strength will be removed
      */
     public function __construct($key, $strength = 128, $mode = 'cbc', $priority = 'openssl')
     {

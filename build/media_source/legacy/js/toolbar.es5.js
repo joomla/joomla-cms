@@ -21,7 +21,7 @@ Joomla = window.Joomla || {};
    *
    * @since 4.0.0
    *
-   * @deprecated 5.0.0 Without replacement
+   * @deprecated 6.0.0 Without replacement
    */
   Joomla.popupWindow = function (mypage, myname, w, h, scroll) {
     const winl = (screen.width - w) / 2;

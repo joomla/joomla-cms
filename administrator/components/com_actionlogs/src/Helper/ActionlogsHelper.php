@@ -155,7 +155,7 @@ class ActionlogsHelper
      *
      * @since   3.9.0
      *
-     * @deprecated  5.0 Use the action log config model instead
+     * @deprecated  6.0 Use the action log config model instead
      */
     public static function getLogContentTypeParams($context)
     {

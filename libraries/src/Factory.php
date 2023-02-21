@@ -62,7 +62,7 @@ abstract class Factory
      *
      * @var         \JConfig
      * @since       1.7.0
-     * @deprecated  5.0  Use the configuration object within the application
+     * @deprecated  6.0  Use the configuration object within the application
      */
     public static $config = null;
 
@@ -87,7 +87,7 @@ abstract class Factory
      *
      * @var         Session
      * @since       1.7.0
-     * @deprecated  5.0  Use the session service in the DI container
+     * @deprecated  6.0  Use the session service in the DI container
      */
     public static $session = null;
 
@@ -96,7 +96,7 @@ abstract class Factory
      *
      * @var         Language
      * @since       1.7.0
-     * @deprecated  5.0  Use the language service in the DI container
+     * @deprecated  6.0  Use the language service in the DI container
      */
     public static $language = null;
 
@@ -105,7 +105,7 @@ abstract class Factory
      *
      * @var         Document
      * @since       1.7.0
-     * @deprecated  5.0  Use the document service in the DI container
+     * @deprecated  6.0  Use the document service in the DI container
      */
     public static $document = null;
 
@@ -114,7 +114,7 @@ abstract class Factory
      *
      * @var         DatabaseDriver
      * @since       1.7.0
-     * @deprecated  5.0  Use the database service in the DI container
+     * @deprecated  6.0  Use the database service in the DI container
      */
     public static $database = null;
 
@@ -156,7 +156,7 @@ abstract class Factory
      *
      * @see         Registry
      * @since       1.7.0
-     * @deprecated  5.0  Use the configuration object within the application.
+     * @deprecated  6.0  Use the configuration object within the application.
      */
     public static function getConfig($file = null, $type = 'PHP', $namespace = '')
     {
@@ -233,7 +233,7 @@ abstract class Factory
      *
      * @see         Session
      * @since       1.7.0
-     * @deprecated  5.0  Load the session service from the dependency injection container or via $app->getSession()
+     * @deprecated  6.0  Load the session service from the dependency injection container or via $app->getSession()
      */
     public static function getSession(array $options = [])
     {
@@ -258,7 +258,7 @@ abstract class Factory
      *
      * @see         Language
      * @since       1.7.0
-     * @deprecated  5.0  Load the language service from the dependency injection container or via $app->getLanguage()
+     * @deprecated  6.0  Load the language service from the dependency injection container or via $app->getLanguage()
      */
     public static function getLanguage()
     {
@@ -287,7 +287,7 @@ abstract class Factory
      *
      * @see         Document
      * @since       1.7.0
-     * @deprecated  5.0  Load the document service from the dependency injection container or via $app->getDocument()
+     * @deprecated  6.0  Load the document service from the dependency injection container or via $app->getDocument()
      */
     public static function getDocument()
     {
@@ -318,7 +318,7 @@ abstract class Factory
      *
      * @see         User
      * @since       1.7.0
-     * @deprecated  5.0  Load the user service from the dependency injection container or via $app->getIdentity()
+     * @deprecated  6.0  Load the user service from the dependency injection container or via $app->getIdentity()
      */
     public static function getUser($id = null)
     {
@@ -358,7 +358,7 @@ abstract class Factory
      *
      * @see         Cache
      * @since       1.7.0
-     * @deprecated  5.0 Use the cache controller factory instead
+     * @deprecated  6.0 Use the cache controller factory instead
      */
     public static function getCache($group = '', $handler = 'callback', $storage = null)
     {
@@ -400,7 +400,7 @@ abstract class Factory
      *
      * @see         DatabaseDriver
      * @since       1.7.0
-     * @deprecated  5.0  Load the database service from the dependency injection container
+     * @deprecated  6.0  Load the database service from the dependency injection container
      */
     public static function getDbo()
     {
@@ -502,7 +502,7 @@ abstract class Factory
      *
      * @see         Registry
      * @since       1.7.0
-     * @deprecated  5.0  Use the configuration object within the application.
+     * @deprecated  6.0  Use the configuration object within the application.
      */
     protected static function createConfig($file, $type = 'PHP', $namespace = '')
     {
@@ -579,7 +579,7 @@ abstract class Factory
      *
      * @see         DatabaseDriver
      * @since       1.7.0
-     * @deprecated  5.0  Use the database service in the DI container
+     * @deprecated  6.0  Use the database service in the DI container
      */
     protected static function createDbo()
     {
@@ -697,7 +697,7 @@ abstract class Factory
      *
      * @see         Language
      * @since       1.7.0
-     * @deprecated  5.0  Load the language service from the dependency injection container or via $app->getLanguage()
+     * @deprecated  6.0  Load the language service from the dependency injection container or via $app->getLanguage()
      */
     protected static function createLanguage()
     {
@@ -725,7 +725,7 @@ abstract class Factory
      *
      * @see         Document
      * @since       1.7.0
-     * @deprecated  5.0  Load the document service from the dependency injection container or via $app->getDocument()
+     * @deprecated  6.0  Load the document service from the dependency injection container or via $app->getDocument()
      */
     protected static function createDocument()
     {

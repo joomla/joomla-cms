@@ -595,7 +595,7 @@ abstract class Bootstrap
      * @return  void
      *
      * @since   3.0
-     * @deprecated 5.0
+     * @deprecated 6.0
      */
     public static function framework($debug = null): void
     {

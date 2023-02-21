@@ -59,7 +59,7 @@ abstract class AbstractMenu
      *
      * @since  1.7
      *
-     * @deprecated 5.0 Use the MenuFactoryInterface from the container instead
+     * @deprecated 6.0 Use the MenuFactoryInterface from the container instead
      */
     public static $instances = [];
 
@@ -115,7 +115,7 @@ abstract class AbstractMenu
      *
      * @throws      \Exception
      *
-     * @deprecated  5.0 Use the MenuFactoryInterface from the container instead
+     * @deprecated  6.0 Use the MenuFactoryInterface from the container instead
      */
     public static function getInstance($client, $options = [])
     {

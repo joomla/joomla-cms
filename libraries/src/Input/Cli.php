@@ -19,7 +19,7 @@ use Joomla\CMS\Filter\InputFilter;
  * Joomla! Input CLI Class
  *
  * @since       1.7.0
- * @deprecated  5.0  Use the `joomla/console` package instead
+ * @deprecated  6.0  Use the `joomla/console` package instead
  */
 class Cli extends Input
 {
@@ -28,7 +28,7 @@ class Cli extends Input
      *
      * @var    string
      * @since  1.7.0
-     * @deprecated  5.0  Use the `joomla/console` package instead
+     * @deprecated  6.0  Use the `joomla/console` package instead
      */
     public $executable;
 
@@ -38,7 +38,7 @@ class Cli extends Input
      *
      * @var    array
      * @since  1.7.0
-     * @deprecated  5.0  Use the `joomla/console` package instead
+     * @deprecated  6.0  Use the `joomla/console` package instead
      */
     public $args = [];
 
@@ -49,7 +49,7 @@ class Cli extends Input
      * @param   array  $options  Array of configuration parameters (Optional)
      *
      * @since   1.7.0
-     * @deprecated  5.0  Use the `joomla/console` package instead
+     * @deprecated  6.0  Use the `joomla/console` package instead
      */
     public function __construct(array $source = null, array $options = [])
     {
@@ -72,7 +72,7 @@ class Cli extends Input
      * @return  string  The serialized input.
      *
      * @since   3.0.0
-     * @deprecated  5.0  Use the `joomla/console` package instead
+     * @deprecated  6.0  Use the `joomla/console` package instead
      */
     public function serialize()
     {
@@ -96,7 +96,7 @@ class Cli extends Input
      * @return  Input  The input object.
      *
      * @since   3.0.0
-     * @deprecated  5.0  Use the `joomla/console` package instead
+     * @deprecated  6.0  Use the `joomla/console` package instead
      */
     public function unserialize($input)
     {
@@ -119,7 +119,7 @@ class Cli extends Input
      * @return  void
      *
      * @since   1.7.0
-     * @deprecated  5.0  Use the `joomla/console` package instead
+     * @deprecated  6.0  Use the `joomla/console` package instead
      */
     protected function parseArguments()
     {

@@ -378,7 +378,7 @@ final class ApiApplication extends CMSApplication
      * @return  ApiRouter
      *
      * @since      4.0.0
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     * @deprecated 6.0 Inject the router or load it from the dependency injection container
      */
     public function getApiRouter()
     {

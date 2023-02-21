@@ -19,7 +19,7 @@
  *
  * @since  1.6
  *
- * @deprecated  5.0  Use \Joomla\Component\Installer\Administrator\Helper\InstallerHelper instead
+ * @deprecated  6.0  Use \Joomla\Component\Installer\Administrator\Helper\InstallerHelper instead
  */
 class InstallerHelper extends \Joomla\Component\Installer\Administrator\Helper\InstallerHelper
 {

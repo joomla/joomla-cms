@@ -83,7 +83,7 @@ trait EventAware
      *
      * @since       4.0.0
      * @throws      \InvalidArgumentException
-     * @deprecated  5.0
+     * @deprecated  6.0
      */
     public function triggerEvent($eventName, $args = [])
     {

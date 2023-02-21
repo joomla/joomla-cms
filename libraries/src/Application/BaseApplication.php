@@ -25,7 +25,7 @@ use Joomla\Registry\Registry;
  * @property-read  Input  $input  The application input object
  *
  * @since       3.0.0
- * @deprecated  5.0  Application classes should be based on \Joomla\Application\AbstractApplication
+ * @deprecated  6.0  Application classes should be based on \Joomla\Application\AbstractApplication
  */
 abstract class BaseApplication extends AbstractApplication implements DispatcherAwareInterface
 {

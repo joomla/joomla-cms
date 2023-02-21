@@ -19,7 +19,7 @@
  *
  * @since       3.2
  *
- * @deprecated  5.0 Use \Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper instead
+ * @deprecated  6.0 Use \Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper instead
  */
 class ContenthistoryHelper extends \Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper
 {

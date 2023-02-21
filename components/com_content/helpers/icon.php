@@ -21,7 +21,7 @@ use Joomla\Registry\Registry;
  * Content Component HTML Helper
  *
  * @since       1.5
- * @deprecated  5.0 Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
+ * @deprecated  6.0 Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
  */
 abstract class JHtmlIcon
 {
@@ -35,7 +35,7 @@ abstract class JHtmlIcon
      *
      * @return  string  The HTML markup for the create item link
      *
-     * @deprecated 5.0 Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
+     * @deprecated 6.0 Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
      */
     public static function create($category, $params, $attribs = [], $legacy = false)
     {
@@ -57,7 +57,7 @@ abstract class JHtmlIcon
      *
      * @since   1.6
      *
-     * @deprecated 5.0 Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
+     * @deprecated 6.0 Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
      */
     public static function edit($article, $params, $attribs = [], $legacy = false)
     {
@@ -74,7 +74,7 @@ abstract class JHtmlIcon
      *
      * @return  string  The HTML markup for the popup link
      *
-     * @deprecated 5.0 Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
+     * @deprecated 6.0 Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
      */
     public static function print_popup($article, $params, $attribs = [], $legacy = false)
     {
@@ -91,7 +91,7 @@ abstract class JHtmlIcon
      *
      * @return  string  The HTML markup for the popup link
      *
-     * @deprecated 5.0 Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
+     * @deprecated 6.0 Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
      */
     public static function print_screen($article, $params, $attribs = [], $legacy = false)
     {

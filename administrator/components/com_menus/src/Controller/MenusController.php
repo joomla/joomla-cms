@@ -110,7 +110,7 @@ class MenusController extends BaseController
      *
      * @since   1.6
      *
-     * @deprecated  5.0 Will be removed without replacement as it was only used for the 1.5 to 1.6 upgrade
+     * @deprecated  6.0 Will be removed without replacement as it was only used for the 1.5 to 1.6 upgrade
      */
     public function resync()
     {

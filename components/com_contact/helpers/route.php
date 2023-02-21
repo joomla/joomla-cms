@@ -24,7 +24,7 @@ use Joomla\Component\Contact\Site\Helper\RouteHelper;
  * @subpackage  com_contact
  * @since       1.5
  *
- * @deprecated  5.0  Use \Joomla\Component\Contact\Site\Helper\RouteHelper instead
+ * @deprecated  6.0  Use \Joomla\Component\Contact\Site\Helper\RouteHelper instead
  */
 abstract class ContactHelperRoute extends RouteHelper
 {

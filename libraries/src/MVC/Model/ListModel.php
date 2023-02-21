@@ -95,7 +95,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      *
      * @var        array
      * @since      3.4.5
-     * @deprecated 4.0.0 use $filterForbiddenList instead
+     * @deprecated 6.0 use $filterForbiddenList instead
      */
     protected $filterBlacklist = [];
 
@@ -112,7 +112,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      *
      * @var        array
      * @since      3.4.5
-     * @deprecated 4.0.0 use $listForbiddenList instead
+     * @deprecated 6.0 use $listForbiddenList instead
      */
     protected $listBlacklist = ['select'];
 

@@ -19,7 +19,7 @@ use Joomla\CMS\Application\CLI\Output\Processor\ProcessorInterface;
  * Base class defining a command line output handler
  *
  * @since       4.0.0
- * @deprecated  5.0  Use the `joomla/console` package instead
+ * @deprecated  6.0  Use the `joomla/console` package instead
  */
 abstract class CliOutput
 {

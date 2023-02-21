@@ -1264,7 +1264,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      *
      * @since   4.2.0
      *
-     * @deprecated  5.0 Use getDatabase() instead of directly accessing db
+     * @deprecated  6.0 Use getDatabase() instead of directly accessing db
      */
     public function __get($name)
     {

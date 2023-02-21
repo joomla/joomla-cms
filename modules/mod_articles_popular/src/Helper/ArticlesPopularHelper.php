@@ -173,7 +173,7 @@ class ArticlesPopularHelper
      *
      * @since  4.3.0
      *
-     * @deprecated 5.0 Use the none static function getArticles
+     * @deprecated 6.0 Use the none static function getArticles
      */
     public static function getList(&$params)
     {

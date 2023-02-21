@@ -21,7 +21,7 @@ use Joomla\Component\Users\Administrator\Helper\DebugHelper;
  *
  * @since       1.6
  *
- * @deprecated  5.0 Use \Joomla\Component\Users\Administrator\Helper\DebugHelper instead
+ * @deprecated  6.0 Use \Joomla\Component\Users\Administrator\Helper\DebugHelper instead
  */
 class UsersHelperDebug extends DebugHelper
 {

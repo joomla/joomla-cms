@@ -269,7 +269,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * @return  Table|boolean   A Table object if found or boolean false on failure.
      *
      * @since       1.7.0
-     * @deprecated  5.0 Use the MvcFactory instead
+     * @deprecated  6.0 Use the MvcFactory instead
      */
     public static function getInstance($type, $prefix = 'JTable', $config = [])
     {
@@ -322,7 +322,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * @return  array  An array of filesystem paths to find Table classes in.
      *
      * @since       1.7.0
-     * @deprecated  5.0 Should not be used anymore as tables are loaded through the MvcFactory
+     * @deprecated  6.0 Should not be used anymore as tables are loaded through the MvcFactory
      */
     public static function addIncludePath($path = null)
     {

@@ -23,7 +23,7 @@ use Joomla\Registry\Registry;
  *
  * @since       3.0
  *
- * @deprecated  5.0  Without replacement
+ * @deprecated  6.0  Without replacement
  */
 abstract class FormBehavior
 {

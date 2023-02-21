@@ -101,7 +101,7 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
     {
         $buttonClasses = [
             'Joomla\\CMS\\Toolbar\\Button\\' . $type . 'Button',
-            // @deprecated 5.0
+            // @deprecated 6.0
             'JToolbarButton' . $type,
         ];
 

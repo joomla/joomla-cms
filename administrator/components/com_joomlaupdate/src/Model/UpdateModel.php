@@ -504,7 +504,7 @@ class UpdateModel extends BaseDatabaseModel
      *
      * @return  boolean
      * @since   2.5.1
-     * @deprecated 5.0
+     * @deprecated 6.0
      */
     public function createRestorationFile($basename = null): bool
     {

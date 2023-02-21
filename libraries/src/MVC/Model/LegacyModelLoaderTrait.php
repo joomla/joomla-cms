@@ -25,7 +25,7 @@ use Joomla\CMS\Table\Table;
  * Trait which contains the legacy getInstance functionality
  *
  * @since       4.0.0
- * @deprecated  5.0 Will be removed without replacement
+ * @deprecated  6.0 Will be removed without replacement
  */
 trait LegacyModelLoaderTrait
 {
@@ -38,7 +38,7 @@ trait LegacyModelLoaderTrait
      * @return  string  The filename
      *
      * @since       3.0
-     * @deprecated  5.0 See getInstance
+     * @deprecated  6.0 See getInstance
      */
     protected static function _createFileName($type, $parts = [])
     {
@@ -55,7 +55,7 @@ trait LegacyModelLoaderTrait
      * @return  self|boolean   A \JModelLegacy instance or false on failure
      *
      * @since       3.0
-     * @deprecated  5.0 Get the model through the MVCFactory instead
+     * @deprecated  6.0 Get the model through the MVCFactory instead
      */
     public static function getInstance($type, $prefix = '', $config = [])
     {
@@ -106,7 +106,7 @@ trait LegacyModelLoaderTrait
      * @return  void
      *
      * @since       3.0
-     * @deprecated  5.0 See getInstance
+     * @deprecated  6.0 See getInstance
      */
     public static function addTablePath($path)
     {
@@ -123,7 +123,7 @@ trait LegacyModelLoaderTrait
      * @return  ModelInterface|null   A ModelInterface instance or null on failure
      *
      * @since       4.0.0
-     * @deprecated  5.0 See getInstance
+     * @deprecated  6.0 See getInstance
      */
     private static function createModelFromComponent($type, $prefix = '', $config = []): ?ModelInterface
     {

@@ -1664,7 +1664,7 @@ class Form
      * @return  Form  Form instance.
      *
      * @since   1.7.0
-     * @deprecated  5.0 Use the FormFactory service from the container
+     * @deprecated  6.0 Use the FormFactory service from the container
      * @throws  \InvalidArgumentException if no data provided.
      * @throws  \RuntimeException if the form could not be loaded.
      */

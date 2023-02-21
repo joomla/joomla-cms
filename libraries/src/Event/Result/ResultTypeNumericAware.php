@@ -39,7 +39,7 @@ trait ResultTypeNumericAware
      * @var    boolean
      * @since  4.2.0
      *
-     * @deprecated 5.0 You should use nullable values or exceptions instead of returning boolean false results.
+     * @deprecated 6.0 You should use nullable values or exceptions instead of returning boolean false results.
      */
     protected $resultIsFalseable = false;
 

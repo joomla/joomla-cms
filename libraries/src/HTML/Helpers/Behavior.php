@@ -40,7 +40,7 @@ abstract class Behavior
      *
      * @since   3.3
      *
-     * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enable();
+     * @deprecated 6.0  Use Joomla\CMS\WebAsset\WebAssetManager::enable();
      */
     public static function core()
     {
@@ -58,7 +58,7 @@ abstract class Behavior
      * @return  void
      *
      * @since   3.4
-     * @deprecated 5.0 Use the script directly
+     * @deprecated 6.0 Use the script directly
      */
     public static function formvalidator()
     {
@@ -81,7 +81,7 @@ abstract class Behavior
      * @return  void
      *
      * @since   1.5
-     * @deprecated 5.0 Use the script directly
+     * @deprecated 6.0 Use the script directly
      */
     public static function combobox()
     {
@@ -96,7 +96,7 @@ abstract class Behavior
      * @return  void
      *
      * @since   1.7
-     * @deprecated 5.0 Use the script directly
+     * @deprecated 6.0 Use the script directly
      */
     public static function multiselect($id = 'adminForm')
     {
@@ -121,7 +121,7 @@ abstract class Behavior
      *
      * @since   1.5
      *
-     * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enable();
+     * @deprecated 6.0  Use Joomla\CMS\WebAsset\WebAssetManager::enable();
      */
     public static function keepalive()
     {
@@ -143,7 +143,7 @@ abstract class Behavior
      *
      * @since   2.5
      *
-     * @deprecated 5.0 Use the script directly
+     * @deprecated 6.0 Use the script directly
      */
     public static function highlighter(array $terms, $start = 'highlighter-start', $end = 'highlighter-end', $className = 'highlight', $tag = 'span')
     {

@@ -21,7 +21,7 @@ use Joomla\Event\Event;
  * Interface defining application that can trigger Joomla 3.x style events
  *
  * @since       4.0.0
- * @deprecated  5.0   This interface will be removed as the Joomla 3.x compatibility layer will be removed
+ * @deprecated  6.0   This interface will be removed as the Joomla 3.x compatibility layer will be removed
  */
 interface EventAwareInterface extends DispatcherAwareInterface
 {
@@ -51,7 +51,7 @@ interface EventAwareInterface extends DispatcherAwareInterface
      *
      * @since       4.0.0
      * @throws      \InvalidArgumentException
-     * @deprecated  5.0
+     * @deprecated  6.0
      */
     public function triggerEvent($eventName, $args = []);
 }

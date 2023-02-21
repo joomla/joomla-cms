@@ -311,7 +311,7 @@ class DatabaseModelTest extends UnitTestCase
      *
      * @since   4.2.1
      *
-     * @deprecated  5.0 Must be removed when database calls are changed to getDatabase in libraries models
+     * @deprecated  6.0 Must be removed when database calls are changed to getDatabase in libraries models
      */
     public function testOverrideOldDboFunction()
     {
@@ -352,7 +352,7 @@ class DatabaseModelTest extends UnitTestCase
      *
      * @since   4.2.0
      *
-     * @deprecated  5.0 Must be removed when trait gets deleted
+     * @deprecated  6.0 Must be removed when trait gets deleted
      */
     public function testUseOldMVCTrait()
     {
@@ -372,7 +372,7 @@ class DatabaseModelTest extends UnitTestCase
      *
      * @since   4.2.0
      *
-     * @deprecated  5.0 This has to be removed when we do not support the MVC Trait anymore
+     * @deprecated  6.0 This has to be removed when we do not support the MVC Trait anymore
      */
     public function testNotDeclaredVariable()
     {

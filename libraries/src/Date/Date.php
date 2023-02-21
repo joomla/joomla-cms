@@ -62,7 +62,7 @@ class Date extends \DateTime
      * @var    object
      * @since  1.7.0
      *
-     * @deprecated  5.0 Without replacement
+     * @deprecated  6.0 Without replacement
      */
     protected static $gmt;
 
@@ -73,7 +73,7 @@ class Date extends \DateTime
      * @var    object
      * @since  1.7.0
      *
-     * @deprecated  5.0 Without replacement
+     * @deprecated  6.0 Without replacement
      */
     protected static $stz;
 

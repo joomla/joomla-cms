@@ -20,7 +20,7 @@ use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
  * Finder language helper class.
  *
  * @since       2.5
- * @deprecated  5.0 Use \Joomla\Component\Finder\Administrator\Helper\LanguageHelper instead
+ * @deprecated  6.0 Use \Joomla\Component\Finder\Administrator\Helper\LanguageHelper instead
  */
 class FinderHelperLanguage extends LanguageHelper
 {

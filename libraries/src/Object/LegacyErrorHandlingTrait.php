@@ -19,7 +19,7 @@ namespace Joomla\CMS\Object;
  *
  * @since       4.3.0
  *
- * @deprecated  4.3 will be removed in 6.0
+ * @deprecated 6.0 Will be removed without replacement
  *              Throw an Exception instead of setError
  */
 trait LegacyErrorHandlingTrait

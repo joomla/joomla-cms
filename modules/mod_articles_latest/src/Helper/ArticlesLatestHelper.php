@@ -156,7 +156,7 @@ class ArticlesLatestHelper implements DatabaseAwareInterface
      *
      * @since   1.6
      *
-     * @deprecated 5.0 Use the none static function getArticles
+     * @deprecated 6.0 Use the none static function getArticles
      */
     public static function getList(Registry $params, ArticlesModel $model)
     {

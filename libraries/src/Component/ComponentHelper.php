@@ -319,7 +319,7 @@ class ComponentHelper
              *
              * @var    string
              * @since  1.5
-             * @deprecated 5.0 without replacement
+             * @deprecated 6.0 without replacement
              */
             \define('JPATH_COMPONENT', JPATH_BASE . '/components/' . $option);
         }
@@ -330,7 +330,7 @@ class ComponentHelper
              *
              * @var    string
              * @since  1.5
-             * @deprecated 5.0 without replacement
+             * @deprecated 6.0 without replacement
              */
             \define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
         }
@@ -341,7 +341,7 @@ class ComponentHelper
              *
              * @var    string
              * @since  1.5
-             * @deprecated 5.0 without replacement
+             * @deprecated 6.0 without replacement
              */
             \define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
         }

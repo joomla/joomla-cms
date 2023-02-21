@@ -149,7 +149,7 @@ class Session extends BaseSession
      * @return  static  The Session object.
      *
      * @since   1.5
-     * @deprecated  5.0  Load the session service from the dependency injection container or via $app->getSession()
+     * @deprecated  6.0  Load the session service from the dependency injection container or via $app->getSession()
      */
     public static function getInstance()
     {

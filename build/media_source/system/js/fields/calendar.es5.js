@@ -1145,12 +1145,12 @@
 	document.addEventListener("joomla:updated", _initCalendars);
 
 		/** B/C related code
-		 *  @deprecated 4.0.0
+		 *  @deprecated 6.0
 		 */
 		window.Calendar = {};
 
 		/** B/C related code
-		 *  @deprecated 4.0.0
+		 *  @deprecated 6.0
 		 */
 		Calendar.setup = function(obj) {
 

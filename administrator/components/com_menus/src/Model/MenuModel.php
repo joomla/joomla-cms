@@ -403,7 +403,7 @@ class MenuModel extends FormModel
      * Custom clean the cache
      *
      * @param   string   $group     Cache group name.
-     * @param   integer  $clientId  @deprecated  5.0  No Longer used.
+     * @param   integer  $clientId  @deprecated  6.0  No Longer used.
      *
      * @return  void
      *

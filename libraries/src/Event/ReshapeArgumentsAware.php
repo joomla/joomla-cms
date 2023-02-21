@@ -54,7 +54,7 @@ use DomainException;
  *
  * @since  4.2.0
  *
- * @deprecated 5.0
+ * @deprecated 6.0
  */
 trait ReshapeArgumentsAware
 {

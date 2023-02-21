@@ -896,7 +896,7 @@ class UserModel extends AdminModel
      * @return  \stdClass
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0
+     * @deprecated 6.0 Will be removed without replacement
      */
     public function getOtpConfig($userId = null)
     {
@@ -925,7 +925,7 @@ class UserModel extends AdminModel
      * @return  boolean  True on success
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0
+     * @deprecated 6.0 Will be removed without replacement
      */
     public function setOtpConfig($userId, $otpConfig)
     {
@@ -946,7 +946,7 @@ class UserModel extends AdminModel
      * @return  string
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0
+     * @deprecated 6.0 Will be removed without replacement
      */
     public function getOtpConfigEncryptionKey()
     {
@@ -971,7 +971,7 @@ class UserModel extends AdminModel
      * @since   3.2
      * @throws  \Exception
      *
-     * @deprecated 4.2.0 Will be removed in 5.0.
+     * @deprecated 6.0 Will be removed without replacement.
      */
     public function getTwofactorform($userId = null)
     {
@@ -995,7 +995,7 @@ class UserModel extends AdminModel
      * @return  array  Empty array
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0.
+     * @deprecated 6.0 Will be removed without replacement.
      */
     public function generateOteps($userId, $count = 10)
     {
@@ -1022,7 +1022,7 @@ class UserModel extends AdminModel
      * @since   3.2
      * @throws  \Exception
      *
-     * @deprecated 4.2.0 Will be removed in 5.0. MFA validation is done in the captive login.
+     * @deprecated 6.0 Will be removed without replacement. MFA validation is done in the captive login.
      */
     public function isValidSecretKey($userId, $secretKey, $options = [])
     {
@@ -1047,7 +1047,7 @@ class UserModel extends AdminModel
      * @return  boolean  Always true
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0
+     * @deprecated 6.0 Will be removed without replacement
      */
     public function isValidOtep($userId, $otep, $otpConfig = null)
     {

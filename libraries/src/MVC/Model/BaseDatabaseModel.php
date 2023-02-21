@@ -100,7 +100,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
         }
 
         /**
-         * @deprecated 5.0 Database instance is injected through the setter function,
+         * @deprecated 6.0 Database instance is injected through the setter function,
          *                 subclasses should not use the db instance in constructor anymore
          */
         $db = \array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo();
@@ -360,7 +360,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   4.2.0
      * @throws  \UnexpectedValueException
      *
-     * @deprecated  5.0 Use getDatabase() instead
+     * @deprecated  6.0 Use getDatabase() instead
      */
     public function getDbo()
     {
@@ -380,7 +380,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      *
      * @since   4.2.0
      *
-     * @deprecated  5.0 Use setDatabase() instead
+     * @deprecated  6.0 Use setDatabase() instead
      */
     public function setDbo(DatabaseInterface $db = null)
     {
@@ -400,7 +400,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      *
      * @since   4.2.0
      *
-     * @deprecated  5.0 Use getDatabase() instead of directly accessing _db
+     * @deprecated  6.0 Use getDatabase() instead of directly accessing _db
      */
     public function __get($name)
     {

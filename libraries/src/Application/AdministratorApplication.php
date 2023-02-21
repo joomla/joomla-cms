@@ -198,7 +198,7 @@ class AdministratorApplication extends CMSApplication
      * @return  Router
      *
      * @since      3.2
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     * @deprecated 6.0 Inject the router or load it from the dependency injection container
      */
     public static function getRouter($name = 'administrator', array $options = [])
     {
@@ -358,7 +358,7 @@ class AdministratorApplication extends CMSApplication
      *
      * @since   3.2
      *
-     * @deprecated  5.0 Purge the messages through the model
+     * @deprecated  6.0 Purge the messages through the model
      */
     public static function purgeMessages()
     {

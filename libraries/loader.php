@@ -93,7 +93,7 @@ abstract class JLoader
      * @return  void
      *
      * @since       1.7.0
-     * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
+     * @deprecated  6.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
      *                    your files.
      */
     public static function discover($classPrefix, $parentPath, $force = true, $recurse = false)
@@ -173,7 +173,7 @@ abstract class JLoader
      * @return  boolean  True on success.
      *
      * @since       1.7.0
-     * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
+     * @deprecated  6.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
      *                    your files.
      */
     public static function import($key, $base = null)
@@ -277,7 +277,7 @@ abstract class JLoader
      * @return  void
      *
      * @since       1.7.0
-     * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
+     * @deprecated  6.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
      *                    your files.
      */
     public static function register($class, $path, $force = true)
@@ -459,7 +459,7 @@ abstract class JLoader
      * @return  boolean  True on success, false otherwise.
      *
      * @since       3.7.0
-     * @deprecated  5.0 Use JLoader::loadByPsr instead
+     * @deprecated  6.0 Use JLoader::loadByPsr instead
      */
     public static function loadByPsr4($class)
     {
@@ -711,7 +711,7 @@ if (!function_exists('jexit')) {
  * @return  boolean  True on success.
  *
  * @since       1.7.0
- * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
+ * @deprecated  6.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
  *                    your files.
  */
 function jimport($path, $base = null)

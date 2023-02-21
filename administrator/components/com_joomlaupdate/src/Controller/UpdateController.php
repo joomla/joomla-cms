@@ -436,7 +436,7 @@ class UpdateController extends BaseController
      * Called from JS.
      *
      * @since       3.10.0
-     * @deprecated  5.0  Use batchextensioncompatibility instead.
+     * @deprecated  6.0  Use batchextensioncompatibility instead.
      *
      * @return void
      */

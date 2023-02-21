@@ -313,7 +313,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
      * @return  boolean
      *
      * @since       4.3.0
-     * @deprecated  5.0  Will be removed without replacements
+     * @deprecated  6.0  Will be removed without replacements
      */
     public function isCli()
     {

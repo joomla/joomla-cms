@@ -122,7 +122,7 @@ abstract class WebApplication extends AbstractWebApplication
      *
      * @since       1.7.3
      * @throws      \RuntimeException
-     * @deprecated  5.0 Use \Joomla\CMS\Factory::getContainer()->get($name) instead
+     * @deprecated  6.0 Use \Joomla\CMS\Factory::getContainer()->get($name) instead
      */
     public static function getInstance($name = null)
     {
@@ -307,7 +307,7 @@ abstract class WebApplication extends AbstractWebApplication
      * @return  WebApplication This method is chainable.
      *
      * @since   1.7.3
-     * @deprecated  5.0  The session should be injected as a service.
+     * @deprecated  6.0  The session should be injected as a service.
      */
     public function loadSession(Session $session = null)
     {

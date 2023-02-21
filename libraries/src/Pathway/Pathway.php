@@ -58,7 +58,7 @@ class Pathway
      *
      * @since       1.5
      * @throws      \RuntimeException
-     * @deprecated  5.0 Get the instance from the application, eg. $application->getPathway()
+     * @deprecated  6.0 Get the instance from the application, eg. $application->getPathway()
      */
     public static function getInstance($client)
     {

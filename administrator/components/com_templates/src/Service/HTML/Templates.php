@@ -37,7 +37,7 @@ class Templates
      *
      * @since   1.6
      *
-     * @deprecated  5.0  The argument $template should be object and $clientId will be removed
+     * @deprecated  6.0  The argument $template should be object and $clientId will be removed
      */
     public function thumb($template, $clientId = 0)
     {
@@ -94,7 +94,7 @@ class Templates
      *
      * @since   3.4
      *
-     * @deprecated  5.0  The argument $template should be object and $clientId will be removed
+     * @deprecated  6.0  The argument $template should be object and $clientId will be removed
      */
     public function thumbModal($template, $clientId = 0)
     {
