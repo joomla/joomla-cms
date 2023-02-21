@@ -323,7 +323,7 @@ class TourModel extends AdminModel
                     $context = $this->option . '.' . $this->name;
 
                     // Trigger the before delete event.
-                    $result = Factory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
+                    $result = Factory::getApplication()->triggerEvent($this->event_before_delete, [$context, $table]);
 
                     if (\in_array(false, $result, true)) {
                         $this->setError($table->getError());
@@ -424,7 +424,7 @@ class TourModel extends AdminModel
                 $pk = (int) $pk;
 
                 $query = $db->getQuery(true)
-                    ->select($db->quoteName(array('title',
+                    ->select($db->quoteName(['title',
                         'description',
                         'ordering',
                         'position',
@@ -437,7 +437,7 @@ class TourModel extends AdminModel
                         'checked_out_time',
                         'checked_out',
                         'language',
-                        'note')))
+                        'note']))
                     ->from($db->quoteName('#__guidedtour_steps'))
                     ->where($db->quoteName('tour_id') . ' = :id')
                     ->bind(':id', $pk, ParameterType::INTEGER);
