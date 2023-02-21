@@ -32,7 +32,7 @@ class CMSObject
      * @since  1.7.0
      * @deprecated  3.1.4  JError has been deprecated
      */
-    protected $_errors = array();
+    protected $_errors = [];
 
     /**
      * Class constructor, overridden in descendant classes.

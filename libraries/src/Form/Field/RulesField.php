@@ -71,7 +71,7 @@ class RulesField extends FormField
      * The flag which indicates if it is the global config
      *
      * @var    bool
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $isGlobalConfig;
 
@@ -79,7 +79,7 @@ class RulesField extends FormField
      * The asset rules
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $assetRules;
 
@@ -87,7 +87,7 @@ class RulesField extends FormField
      * The actions
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $actions;
 
@@ -95,7 +95,7 @@ class RulesField extends FormField
      * The groups
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $groups;
 
@@ -103,7 +103,7 @@ class RulesField extends FormField
      * The asset Id
      *
      * @var    int
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $assetId;
 
@@ -111,7 +111,7 @@ class RulesField extends FormField
      * The parent asset Id
      *
      * @var    int
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $parentAssetId;
 
@@ -119,7 +119,7 @@ class RulesField extends FormField
      * The flag to indicate that it is a new item
      *
      * @var    bool
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $newItem;
 
@@ -235,11 +235,11 @@ class RulesField extends FormField
         // Iterate over the children and add to the actions.
         foreach ($this->element->children() as $el) {
             if ($el->getName() === 'action') {
-                $this->actions[] = (object) array(
+                $this->actions[] = (object) [
                     'name' => (string) $el['name'],
                     'title' => (string) $el['title'],
                     'description' => (string) $el['description'],
-                );
+                ];
             }
         }
 
@@ -307,7 +307,7 @@ class RulesField extends FormField
     {
         $data = parent::getLayoutData();
 
-        $extraData = array(
+        $extraData = [
             'groups'         => $this->groups,
             'section'        => $this->section,
             'actions'        => $this->actions,
@@ -317,7 +317,7 @@ class RulesField extends FormField
             'isGlobalConfig' => $this->isGlobalConfig,
             'parentAssetId'  => $this->parentAssetId,
             'component'      => $this->component,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

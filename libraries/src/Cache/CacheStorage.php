@@ -82,7 +82,7 @@ class CacheStorage
      * The threshold
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     public $_threshold;
 
@@ -93,11 +93,11 @@ class CacheStorage
      *
      * @since   1.7.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         $app = Factory::getApplication();
 
-        $this->_hash        = md5($app->get('secret'));
+        $this->_hash        = md5($app->get('secret', ''));
         $this->_application = $options['application'] ?? md5(JPATH_CONFIGURATION);
         $this->_language    = $options['language'] ?? 'en-GB';
         $this->_locking     = $options['locking'] ?? true;
@@ -129,7 +129,7 @@ class CacheStorage
      * @throws  \UnexpectedValueException
      * @throws  UnsupportedCacheException
      */
-    public static function getInstance($handler = null, $options = array())
+    public static function getInstance($handler = null, $options = [])
     {
         static $now = null;
 
@@ -381,7 +381,7 @@ class CacheStorage
 
         if (!isset($paths))
         {
-            $paths = array();
+            $paths = [];
         }
 
         if (!empty($path) && !\in_array($path, $paths))

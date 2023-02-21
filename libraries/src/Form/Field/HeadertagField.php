@@ -40,7 +40,7 @@ class HeadertagField extends ListField
     protected function getOptions()
     {
         $options = parent::getOptions();
-        $tags = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div');
+        $tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div'];
 
         // Create one new option object for each tag
         foreach ($tags as $tag) {
