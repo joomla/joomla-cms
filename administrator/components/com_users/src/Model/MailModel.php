@@ -136,7 +136,7 @@ class MailModel extends AdminModel
             $rows = [];
         } else {
             // Get all users email and group except for senders
-            $uid = (int) $user->id;
+            $uid   = (int) $user->id;
             $query = $db->getQuery(true)
                 ->select(
                     [
@@ -180,10 +180,10 @@ class MailModel extends AdminModel
         try {
             // Build email message format.
             $data = [
-                'subject' => stripslashes($subject),
-                'body' => $message_body,
+                'subject'       => stripslashes($subject),
+                'body'          => $message_body,
                 'subjectprefix' => $params->get('mailSubjectPrefix', ''),
-                'bodysuffix' => $params->get('mailBodySuffix', '')
+                'bodysuffix'    => $params->get('mailBodySuffix', ''),
             ];
             $mailer->addTemplateData($data);
 

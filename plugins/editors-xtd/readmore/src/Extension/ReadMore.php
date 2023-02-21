@@ -56,7 +56,7 @@ final class ReadMore extends CMSPlugin
             ]
         );
 
-        $button = new CMSObject();
+        $button          = new CMSObject();
         $button->modal   = false;
         $button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
         $button->text    = Text::_('PLG_READMORE_BUTTON_READMORE');

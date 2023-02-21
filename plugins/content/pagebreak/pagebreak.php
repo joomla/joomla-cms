@@ -76,7 +76,7 @@ class PlgContentPagebreak extends CMSPlugin
 
         $input = Factory::getApplication()->getInput();
 
-        $print = $input->getBool('print');
+        $print   = $input->getBool('print');
         $showall = $input->getBool('showall');
 
         if (!$this->params->get('enabled', 1)) {
@@ -335,7 +335,7 @@ class PlgContentPagebreak extends CMSPlugin
     protected function _createNavigation(&$row, $page, $n)
     {
         $links = [
-            'next' => '',
+            'next'     => '',
             'previous' => '',
         ];
 

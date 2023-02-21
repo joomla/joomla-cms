@@ -149,7 +149,7 @@ final class Joomla extends CMSPlugin
     {
         if ($eid) {
             $this->installer = $installer;
-            $this->eid = (int) $eid;
+            $this->eid       = (int) $eid;
 
             // After an install we only need to do update sites
             $this->processUpdateSites();
@@ -251,7 +251,7 @@ final class Joomla extends CMSPlugin
     {
         if ($eid) {
             $this->installer = $installer;
-            $this->eid = (int) $eid;
+            $this->eid       = (int) $eid;
 
             // Handle any update sites
             $this->processUpdateSites();

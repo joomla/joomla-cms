@@ -57,9 +57,9 @@ class LibraryHelper
                 $result->params = new Registry($result->params);
             }
         } else {
-            $result = new \stdClass();
+            $result          = new \stdClass();
             $result->enabled = $strict ? false : true;
-            $result->params = new Registry();
+            $result->params  = new Registry();
         }
 
         return $result;
@@ -146,7 +146,7 @@ class LibraryHelper
     protected static function loadLibrary($element)
     {
         $loader = function ($element) {
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
                 ->from($db->quoteName('#__extensions'))

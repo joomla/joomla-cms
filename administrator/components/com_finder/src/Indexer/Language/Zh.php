@@ -66,7 +66,7 @@ class Zh extends Language
         // Iterate through the terms and test if they contain Chinese.
         for ($i = 0, $n = count($terms); $i < $n; $i++) {
             $charMatches = [];
-            $charCount = preg_match_all('#[\p{Han}]#mui', $terms[$i], $charMatches);
+            $charCount   = preg_match_all('#[\p{Han}]#mui', $terms[$i], $charMatches);
 
             // Split apart any groups of Chinese characters.
             for ($j = 0; $j < $charCount; $j++) {
