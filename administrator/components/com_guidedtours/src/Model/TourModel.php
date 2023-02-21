@@ -424,20 +424,26 @@ class TourModel extends AdminModel
                 $pk = (int) $pk;
 
                 $query = $db->getQuery(true)
-                    ->select($db->quoteName(['title',
-                        'description',
-                        'ordering',
-                        'position',
-                        'target',
-                        'type',
-                        'interactive_type',
-                        'url',
-                        'created',
-                        'modified',
-                        'checked_out_time',
-                        'checked_out',
-                        'language',
-                        'note']))
+                    ->select(
+                        $db->quoteName(
+                            [
+                                'title',
+                                'description',
+                                'ordering',
+                                'position',
+                                'target',
+                                'type',
+                                'interactive_type',
+                                'url',
+                                'created',
+                                'modified',
+                                'checked_out_time',
+                                'checked_out',
+                                'language',
+                                'note',
+                            ]
+                        )
+                    )
                     ->from($db->quoteName('#__guidedtour_steps'))
                     ->where($db->quoteName('tour_id') . ' = :id')
                     ->bind(':id', $pk, ParameterType::INTEGER);
@@ -506,7 +512,8 @@ class TourModel extends AdminModel
                                     $user->id,
                                     $step->language,
                                     $step->note,
-                                ], $dataTypes
+                                ],
+                                $dataTypes
                             )
                         )
                     );
