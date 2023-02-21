@@ -71,7 +71,7 @@ class StepsModel extends ListModel
         $tourId = $this->getState('filter.tour_id');
 
         if ($tourId) {
-            $db = $this->getDatabase();
+            $db     = $this->getDatabase();
             $tourId = (int)$tourId;
             $query->where($db->quoteName('a.tour_id') . ' = :tour_id')
                 ->bind(':tour_id', $tourId, ParameterType::INTEGER);
