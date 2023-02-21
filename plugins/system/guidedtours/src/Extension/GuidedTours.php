@@ -69,7 +69,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     {
         return [
             'onAjaxGuidedtours'   => 'startTour',
-            'onBeforeCompileHead' => 'onBeforeCompileHead'
+            'onBeforeCompileHead' => 'onBeforeCompileHead',
         ];
     }
 
@@ -91,7 +91,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $tourId = (int) $app->getInput()->getInt('id');
 
         $activeTourId = null;
-        $tour = null;
+        $tour         = null;
 
         if ($tourId > 0) {
             $tour = $this->getTour($tourId);
@@ -182,10 +182,10 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
 
         $temp = new \stdClass();
 
-        $temp->id = 0;
-        $temp->title = Text::_($item->title);
+        $temp->id          = 0;
+        $temp->title       = Text::_($item->title);
         $temp->description = Text::_($item->description);
-        $temp->url = $item->url;
+        $temp->url         = $item->url;
 
         // Replace 'images/' to '../images/' when using an image from /images in backend.
         $temp->description = preg_replace('*src\=\"(?!administrator\/)images/*', 'src="../images/', $temp->description);
@@ -195,14 +195,14 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         foreach ($steps as $i => $step) {
             $temp = new \stdClass();
 
-            $temp->id = $i + 1;
-            $temp->title = Text::_($step->title);
-            $temp->description = Text::_($step->description);
-            $temp->position = $step->position;
-            $temp->target = $step->target;
-            $temp->type = $this->stepType[$step->type];
+            $temp->id               = $i + 1;
+            $temp->title            = Text::_($step->title);
+            $temp->description      = Text::_($step->description);
+            $temp->position         = $step->position;
+            $temp->target           = $step->target;
+            $temp->type             = $this->stepType[$step->type];
             $temp->interactive_type = $this->stepInteractiveType[$step->interactive_type];
-            $temp->url = $step->url;
+            $temp->url              = $step->url;
 
             // Replace 'images/' to '../images/' when using an image from /images in backend.
             $temp->description = preg_replace('*src\=\"(?!administrator\/)images/*', 'src="../images/', $temp->description);
