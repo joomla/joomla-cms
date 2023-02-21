@@ -96,16 +96,16 @@ class GuidedtoursHelper
             return false;
         }
 
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true);
 
-        $fields = array(
+        $fields = [
             $db->quoteName('language') . ' = ' . $db->quote($language),
-        );
+        ];
 
-        $conditions = array(
-            $db->quoteName('tour_id') . ' = ' . $db->quote($id)
-        );
+        $conditions = [
+            $db->quoteName('tour_id') . ' = ' . $db->quote($id),
+        ];
 
         $query->update($db->quoteName('#__guidedtour_steps'))->set($fields)->where($conditions);
 
