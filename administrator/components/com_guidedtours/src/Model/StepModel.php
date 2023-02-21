@@ -100,7 +100,7 @@ class StepModel extends AdminModel
         // Alter the title
         $table = $this->getTable();
 
-        while ($table->load(array('title' => $title))) {
+        while ($table->load(['title' => $title])) {
             $title = StringHelper::increment($title);
         }
 
@@ -305,10 +305,10 @@ class StepModel extends AdminModel
         $form = $this->loadForm(
             'com_guidedtours.step',
             'step',
-            array(
+            [
                 'control' => 'jform',
-                'load_data' => $loadData
-            )
+                'load_data' => $loadData,
+            ]
         );
 
         if (empty($form)) {
