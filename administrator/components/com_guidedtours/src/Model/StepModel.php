@@ -72,10 +72,7 @@ class StepModel extends AdminModel
 
         $component = reset($parts);
 
-        if (
-            !Factory::getUser()->authorise('core.delete', $component . '.state.' . (int) $record->id)
-            || $record->default
-        ) {
+        if (!$this->getCurrentUser()->authorise('core.delete', $component . '.state.' . (int) $record->id)) {
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
             return false;
@@ -121,7 +118,6 @@ class StepModel extends AdminModel
         $table      = $this->getTable();
         $context    = $this->option . '.' . $this->name;
         $app        = Factory::getApplication();
-        $user       = $app->getIdentity();
         $input      = $app->input;
         $tourID     = $app->getUserStateFromRequest($context . '.filter.tour_id', 'tour_id', 0, 'int');
 
@@ -216,7 +212,7 @@ class StepModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $user      = Factory::getUser();
+        $user      = $this->getCurrentUser();
         $app       = Factory::getApplication();
         $context   = $this->option . '.' . $this->name;
         $extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
@@ -285,12 +281,10 @@ class StepModel extends AdminModel
         $canEditState = $this->canEditState((object) $item);
 
         // Modify the form based on access controls.
-        if (!$canEditState || !empty($item->default)) {
-            if (!$canEditState) {
-                $form->setFieldAttribute('published', 'disabled', 'true');
-                $form->setFieldAttribute('published', 'required', 'false');
-                $form->setFieldAttribute('published', 'filter', 'unset');
-            }
+        if (!$canEditState) {
+            $form->setFieldAttribute('published', 'disabled', 'true');
+            $form->setFieldAttribute('published', 'required', 'false');
+            $form->setFieldAttribute('published', 'filter', 'unset');
         }
 
         // Disables language field selection
