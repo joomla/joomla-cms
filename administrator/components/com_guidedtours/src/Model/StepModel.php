@@ -157,7 +157,7 @@ class StepModel extends AdminModel
             $origTable->load($input->getInt('id'));
 
             if ($data['title'] == $origTable->title) {
-                list($title) = $this->generateNewTitle(0, '', $data['title']);
+                list($title)   = $this->generateNewTitle(0, '', $data['title']);
                 $data['title'] = $title;
             }
 
@@ -216,9 +216,9 @@ class StepModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $user = Factory::getUser();
-        $app = Factory::getApplication();
-        $context = $this->option . '.' . $this->name;
+        $user      = Factory::getUser();
+        $app       = Factory::getApplication();
+        $context   = $this->option . '.' . $this->name;
         $extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
 
         if (!\property_exists($record, 'tour_id')) {
@@ -249,7 +249,7 @@ class StepModel extends AdminModel
      */
     public function getTable($name = '', $prefix = '', $options = [])
     {
-        $name = 'Step';
+        $name   = 'Step';
         $prefix = 'Table';
 
         if ($table = $this->_createTable($name, $prefix, $options)) {
@@ -271,9 +271,9 @@ class StepModel extends AdminModel
      */
     public function publish(&$pks, $value = 1)
     {
-        $table = $this->getTable();
-        $pks   = (array) $pks;
-        $app = Factory::getApplication();
+        $table     = $this->getTable();
+        $pks       = (array) $pks;
+        $app       = Factory::getApplication();
         $extension = $app->getUserStateFromRequest('com_guidedtours.step.filter.extension', 'extension', null, 'cmd');
 
         // Default item existence checks.
@@ -377,7 +377,7 @@ class StepModel extends AdminModel
                 $result->title_translation = Text::_($result->title);
                 $result->description_translation = Text::_($result->description);
             } else {
-                $app = Factory::getApplication();
+                $app    = Factory::getApplication();
                 $tourID = $app->getUserState('com_guidedtours.tour_id');
 
                 // Sets step language to parent tour language
