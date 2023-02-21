@@ -16,6 +16,7 @@
 		name="position"
 		type="list"
 		label="COM_GUIDEDTOURS_STEP_POSITION_LABEL"
+		default="center"
 		description="COM_GUIDEDTOURS_STEP_POSITION_DESC"
 		validate="options"
         >
