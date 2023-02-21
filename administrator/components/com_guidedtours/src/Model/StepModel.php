@@ -129,8 +129,6 @@ class StepModel extends AdminModel
 
         $tour->load($data['tour_id']);
 
-        $parts = explode('.', $tour->extension);
-
         // Language keys must include GUIDEDTOUR to prevent save issues
         if (strpos($data['description'], 'GUIDEDTOUR') !== false) {
             $data['description'] = strip_tags($data['description']);
