@@ -183,7 +183,7 @@ class TourModel extends AdminModel
             'tour',
             [
                 'control'   => 'jform',
-                'load_data' => $loadData
+                'load_data' => $loadData,
             ]
         );
 
