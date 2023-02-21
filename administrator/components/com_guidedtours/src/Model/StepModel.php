@@ -238,25 +238,18 @@ class StepModel extends AdminModel
     /**
      * Method to get a table object, load it if necessary.
      *
-     * @param   string $name    The table name. Optional.
+     * @param   string $type    The table name. Optional.
      * @param   string $prefix  The class prefix. Optional.
-     * @param   array  $options Configuration array for model. Optional.
+     * @param   array  $config  Configuration array for model. Optional.
      *
      * @return  Table  A Table object
      *
      * @since   __DEPLOY_VERSION__
      * @throws  \Exception
      */
-    public function getTable($name = '', $prefix = '', $options = [])
+    public function getTable($type = 'Step', $prefix = 'Administrator', $config = [])
     {
-        $name   = 'Step';
-        $prefix = 'Table';
-
-        if ($table = $this->_createTable($name, $prefix, $options)) {
-            return $table;
-        }
-
-        throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
+        return parent::getTable($type, $prefix, $config);
     }
 
     /**
