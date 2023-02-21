@@ -289,7 +289,8 @@ final class Newsfeeds extends Adapter
             $item->addTaxonomy('Type', 'News Feed');
         }
 
-        $categories = Categories::getInstance('com_newsfeeds', ['published' => false, 'access' => false]);
+        // Add the category taxonomy data.
+        $categories = $this->getApplication()->bootComponent('com_newsfeeds')->getCategory(['published' => false, 'access' => false]);
         $category   = $categories->get($item->catid);
 
         if (!$category) {

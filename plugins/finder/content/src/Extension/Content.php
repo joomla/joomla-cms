@@ -318,7 +318,8 @@ final class Content extends Adapter
             $item->addTaxonomy('Author', !empty($item->created_by_alias) ? $item->created_by_alias : $item->author, $item->state);
         }
 
-        $categories = Categories::getInstance('com_content', ['published' => false, 'access' => false]);
+        // Add the category taxonomy data.
+        $categories = $this->getApplication()->bootComponent('com_content')->getCategory(['published' => false, 'access' => false]);
         $category   = $categories->get($item->catid);
 
         if (!$category) {

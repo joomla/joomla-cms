@@ -341,7 +341,8 @@ final class Contacts extends Adapter
             $item->addTaxonomy('Type', 'Contact');
         }
 
-        $category = $categories->get($item->catid);
+        // Add the category taxonomy data.
+        $categories = $this->getApplication()->bootComponent('com_contact')->getCategory(['published' => false, 'access' => false]);
         $category   = $categories->get($item->catid);
 
         if (!$category) {
