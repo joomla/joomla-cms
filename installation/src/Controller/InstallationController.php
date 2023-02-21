@@ -71,7 +71,7 @@ class InstallationController extends JSONController
         if ($model->checkForm('setup') === false) {
             $this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
             $r->validated = false;
-            $r->error = true;
+            $r->error     = true;
             $this->sendJsonResponse($r);
 
             return;
@@ -79,7 +79,7 @@ class InstallationController extends JSONController
 
         if (!$model->validateDbConnection()) {
             $r->validated = false;
-            $r->error = true;
+            $r->error     = true;
         } else {
             $r->validated = true;
         }
@@ -113,11 +113,11 @@ class InstallationController extends JSONController
         }
 
         if (!$dbCreated) {
-            $r->view = 'setup';
+            $r->view  = 'setup';
             $r->error = true;
         } else {
             if (!$databaseModel->handleOldDatabase()) {
-                $r->view = 'setup';
+                $r->view  = 'setup';
                 $r->error = true;
             }
         }
@@ -167,7 +167,7 @@ class InstallationController extends JSONController
 
         // Attempt to populate the database with the given file.
         if (!$model->createTables($schema)) {
-            $r->view = 'setup';
+            $r->view  = 'setup';
             $r->error = true;
         }
 
@@ -199,7 +199,7 @@ class InstallationController extends JSONController
 
         // Attempt to setup the configuration.
         if (!$configurationModel->setup($options)) {
-            $r->view = 'setup';
+            $r->view  = 'setup';
             $r->error = true;
         }
 
