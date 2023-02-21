@@ -40,7 +40,7 @@ abstract class RelatedItemsHelper
     {
         $db        = Factory::getDbo();
         $app       = Factory::getApplication();
-        $input     = $app->input;
+        $input     = $app->getInput();
         $groups    = Factory::getUser()->getAuthorisedViewLevels();
         $maximum   = (int) $params->get('maximum', 5);
         $factory   = $app->bootComponent('com_content')->getMVCFactory();
@@ -80,7 +80,7 @@ abstract class RelatedItemsHelper
             } catch (\RuntimeException $e) {
                 $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-                return array();
+                return [];
             }
 
             // Explode the meta keys on a comma
@@ -125,7 +125,7 @@ abstract class RelatedItemsHelper
                         'AND',
                         [
                             $db->quoteName('a.publish_down') . ' IS NULL',
-                            $db->quoteName('a.publish_down') . ' >= :nowDate2'
+                            $db->quoteName('a.publish_down') . ' >= :nowDate2',
                         ],
                         'OR'
                     )

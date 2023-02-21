@@ -89,7 +89,7 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
         $this->ioStyle->title('Discovered Extensions');
 
         $extensions = $this->getExtensions();
-        $state = -1;
+        $state      = -1;
 
         $discovered_extensions = $this->filterExtensionsBasedOnState($extensions, $state);
 

@@ -20,6 +20,7 @@
 				mode="nested"
 				required="true"
 				multiple="true"
+				custom="false"
 			/>
 
 			<field
