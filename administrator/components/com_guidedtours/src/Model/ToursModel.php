@@ -217,7 +217,7 @@ class ToursModel extends ListModel
         // Filter by extension
         if ($extension = $this->getState('filter.extension')) {
             $extension = '%' . $extension . '%';
-            $all = '%*%';
+            $all       = '%*%';
             $query->where(
                 '(' . $db->quoteName('a.extensions') . ' LIKE :all  OR ' .
                 $db->quoteName('a.extensions') . ' LIKE :extensions)'
