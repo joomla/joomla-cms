@@ -42,7 +42,7 @@ class TaxonomytypesField extends CheckboxesField
         $html = parent::getInput();
 
         $data = $this->getLayoutData();
-        $data['id']   .= '_hidden';
+        $data['id'] .= '_hidden';
         $data['value'] = 'none';
 
         return $html . $this->getRenderer('joomla.form.field.hidden')->render($data);
