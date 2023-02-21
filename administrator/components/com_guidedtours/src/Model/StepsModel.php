@@ -40,7 +40,7 @@ class StepsModel extends ListModel
     public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'tour_id', 'a.tour_id',
                 'title', 'a.title',
@@ -51,7 +51,7 @@ class StepsModel extends ListModel
                 'created_by', 'a.created_by',
                 'modified', 'a.modified',
                 'modified_by', 'a.modified_by',
-            );
+            ];
         }
 
         parent::__construct($config);
@@ -77,7 +77,7 @@ class StepsModel extends ListModel
                 ->clear('where');
 
             // override of ListModel to keep the tour id filter
-            $db = $this->getDatabase();
+            $db      = $this->getDatabase();
             $tour_id = $this->getState('filter.tour_id');
             if ($tour_id) {
                 $tour_id = (int) $tour_id;
@@ -278,7 +278,7 @@ class StepsModel extends ListModel
         $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
         foreach ($items as $item) {
-            $item->title = Text::_($item->title);
+            $item->title       = Text::_($item->title);
             $item->description = Text::_($item->description);
         }
 
