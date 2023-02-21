@@ -40,7 +40,7 @@ class ToursModel extends ListModel
     public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'access', 'a.access', 'access_level',
@@ -52,7 +52,7 @@ class ToursModel extends ListModel
                 'created_by', 'a.created_by',
                 'modified', 'a.modified',
                 'modified_by', 'a.modified_by',
-            );
+            ];
         }
 
         parent::__construct($config);
@@ -78,7 +78,7 @@ class ToursModel extends ListModel
                 ->clear('where');
 
             // override of ListModel to keep the tour id filter
-            $db = $this->getDatabase();
+            $db      = $this->getDatabase();
             $tour_id = $this->getState('filter.tour_id');
             if ($tour_id) {
                 $tour_id = (int) $tour_id;
@@ -108,7 +108,7 @@ class ToursModel extends ListModel
      */
     protected function populateState($ordering = 'a.ordering', $direction = 'ASC')
     {
-        $app = Factory::getApplication();
+        $app       = Factory::getApplication();
         $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
         $this->setState('filter.extension', $extension);
@@ -302,9 +302,9 @@ class ToursModel extends ListModel
         $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
         foreach ($items as $item) {
-            $item->title = Text::_($item->title);
+            $item->title       = Text::_($item->title);
             $item->description = Text::_($item->description);
-            $item->extensions = (new Registry($item->extensions))->toArray();
+            $item->extensions  = (new Registry($item->extensions))->toArray();
         }
 
         return $items;
