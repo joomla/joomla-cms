@@ -407,7 +407,10 @@ class SiteRouter extends Router
         ) {
             // Get the active menu item
             $item = $this->menu->getItem($query['Itemid']);
-            $query = array_merge($item->query, $query);
+
+            if ($item !== null) {
+                $query = array_merge($item->query, $query);
+            }
         }
 
         $uri->setQuery($query);
