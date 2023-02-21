@@ -14,7 +14,7 @@
 			type="status"
 			label="JOPTION_SELECT_PUBLISHED"
 			class="js-select-submit-on-change"
-		>
+			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 		<field
