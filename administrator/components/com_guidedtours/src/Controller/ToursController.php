@@ -36,14 +36,15 @@ class ToursController extends AdminController
      *
      * @since __DEPLOY_VERSION__
      */
-    public function getModel($name = 'Tour', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Tour', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
+
     public function duplicate()
     {
         $this->checkToken();
-        $pks = (array) $this->input->post->get('cid', array(), 'int');
+        $pks = (array) $this->input->post->get('cid', [], 'int');
         $pks = array_filter($pks);
         try {
             if (empty($pks)) {
