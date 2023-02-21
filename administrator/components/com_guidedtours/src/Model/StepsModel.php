@@ -66,24 +66,15 @@ class StepsModel extends ListModel
      */
     protected function getEmptyStateQuery()
     {
-        $query = clone $this->_getListQuery();
+        $query = parent::getEmptyStateQuery();
 
-        if ($query instanceof DatabaseQuery) {
-            $query->clear('bounded')
-                ->clear('group')
-                ->clear('having')
-                ->clear('join')
-                ->clear('values')
-                ->clear('where');
+        $tourId = $this->getState('filter.tour_id');
 
-            // override of ListModel to keep the tour id filter
-            $db      = $this->getDatabase();
-            $tour_id = $this->getState('filter.tour_id');
-            if ($tour_id) {
-                $tour_id = (int) $tour_id;
-                $query->where($db->quoteName('a.tour_id') . ' = :tour_id')
-                    ->bind(':tour_id', $tour_id, ParameterType::INTEGER);
-            }
+        if ($tourId) {
+            $db = $this->getDatabase();
+            $tourId = (int)$tourId;
+            $query->where($db->quoteName('a.tour_id') . ' = :tour_id')
+                ->bind(':tour_id', $tourId, ParameterType::INTEGER);
         }
 
         return $query;
