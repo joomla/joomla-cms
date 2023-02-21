@@ -306,7 +306,7 @@ class StepModel extends AdminModel
             'com_guidedtours.step',
             'step',
             [
-                'control' => 'jform',
+                'control'   => 'jform',
                 'load_data' => $loadData,
             ]
         );
