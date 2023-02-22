@@ -85,6 +85,22 @@ if (!\defined('FTP_NATIVE')) {
 class FtpClient
 {
     /**
+     * The response code
+     *
+     * @var    string
+     * @since  4.2.9
+     */
+    public $_responseCode;
+
+    /**
+     * The response message
+     *
+     * @var    string
+     * @since  4.2.9
+     */
+    public $_responseMsg;
+
+    /**
      * @var    resource  Socket resource
      * @since  1.5
      */
