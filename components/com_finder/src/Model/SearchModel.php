@@ -53,18 +53,18 @@ class SearchModel extends ListModel
      *
      * @var string[]
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected $sortOrderFieldsLabels = [
-        'relevance.asc' => 'COM_FINDER_SORT_BY_RELEVANCE_ASC',
-        'relevance.desc' => 'COM_FINDER_SORT_BY_RELEVANCE_DESC',
-        'title.asc' => 'JGLOBAL_TITLE_ASC',
-        'title.desc' => 'JGLOBAL_TITLE_DESC',
-        'date.asc' => 'JDATE_ASC',
-        'date.desc' => 'JDATE_DESC',
-        'price.asc' => 'COM_FINDER_SORT_BY_PRICE_ASC',
-        'price.desc' => 'COM_FINDER_SORT_BY_PRICE_DESC',
-        'sale_price.asc' => 'COM_FINDER_SORT_BY_SALES_PRICE_ASC',
+        'relevance.asc'   => 'COM_FINDER_SORT_BY_RELEVANCE_ASC',
+        'relevance.desc'  => 'COM_FINDER_SORT_BY_RELEVANCE_DESC',
+        'title.asc'       => 'JGLOBAL_TITLE_ASC',
+        'title.desc'      => 'JGLOBAL_TITLE_DESC',
+        'date.asc'        => 'JDATE_ASC',
+        'date.desc'       => 'JDATE_DESC',
+        'price.asc'       => 'COM_FINDER_SORT_BY_PRICE_ASC',
+        'price.desc'      => 'COM_FINDER_SORT_BY_PRICE_DESC',
+        'sale_price.asc'  => 'COM_FINDER_SORT_BY_SALES_PRICE_ASC',
         'sale_price.desc' => 'COM_FINDER_SORT_BY_SALES_PRICE_DESC',
     ];
 
@@ -74,7 +74,7 @@ class SearchModel extends ListModel
      * @var    array
      * @since  2.5
      */
-    protected $excludedTerms = array();
+    protected $excludedTerms = [];
 
     /**
      * An array of all included terms ids.
@@ -82,7 +82,7 @@ class SearchModel extends ListModel
      * @var    array
      * @since  2.5
      */
-    protected $includedTerms = array();
+    protected $includedTerms = [];
 
     /**
      * An array of all required terms ids.
@@ -90,7 +90,7 @@ class SearchModel extends ListModel
      * @var    array
      * @since  2.5
      */
-    protected $requiredTerms = array();
+    protected $requiredTerms = [];
 
     /**
      * Method to get the results of the query.
@@ -109,7 +109,7 @@ class SearchModel extends ListModel
             return null;
         }
 
-        $results = array();
+        $results = [];
 
         // Convert the rows to result objects.
         foreach ($items as $rk => $row) {
@@ -166,7 +166,7 @@ class SearchModel extends ListModel
 
         $query->from('#__finder_links AS l');
 
-        $user = $this->getCurrentUser();
+        $user   = $this->getCurrentUser();
         $groups = $this->getState('user.groups', $user->getAuthorisedViewLevels());
         $query->whereIn($db->quoteName('l.access'), $groups)
             ->where('l.state = 1')
@@ -190,7 +190,7 @@ class SearchModel extends ListModel
          */
         if (!empty($this->searchquery->filters)) {
             // Convert the associative array to a numerically indexed array.
-            $groups = array_values($this->searchquery->filters);
+            $groups     = array_values($this->searchquery->filters);
             $taxonomies = call_user_func_array('array_merge', array_values($this->searchquery->filters));
 
             $query->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t ON t.link_id = l.link_id')
@@ -238,7 +238,7 @@ class SearchModel extends ListModel
         }
 
         // Get the result ordering and direction.
-        $ordering = $this->getState('list.ordering', 'm.weight');
+        $ordering  = $this->getState('list.ordering', 'm.weight');
         $direction = $this->getState('list.direction', 'DESC');
 
         /*
@@ -326,7 +326,7 @@ class SearchModel extends ListModel
      *
      * @throws  \Exception
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getSortOrderFields()
     {
@@ -377,7 +377,7 @@ class SearchModel extends ListModel
      *
      * @throws  \Exception
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected function getSortField(string $value, string $direction, Uri $queryUri)
     {
@@ -474,7 +474,7 @@ class SearchModel extends ListModel
         $this->setState('filter.language', Multilanguage::isEnabled());
 
         $request = $input->request;
-        $options = array();
+        $options = [];
 
         // Get the empty query setting.
         $options['empty'] = $params->get('allow_empty_query', 0);
@@ -483,7 +483,7 @@ class SearchModel extends ListModel
         $options['filter'] = $request->getInt('f', $params->get('f', ''));
 
         // Get the dynamic taxonomy filters.
-        $options['filters'] = $request->get('t', $params->get('t', array()), 'array');
+        $options['filters'] = $request->get('t', $params->get('t', []), 'array');
 
         // Get the query string.
         $options['input'] = $request->getString('q', $params->get('q', ''));

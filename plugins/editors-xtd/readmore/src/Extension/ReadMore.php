@@ -51,12 +51,12 @@ final class ReadMore extends CMSPlugin
         // Pass some data to javascript
         $doc->addScriptOptions(
             'xtd-readmore',
-            array(
+            [
                 'exists' => Text::_('PLG_READMORE_ALREADY_EXISTS', true),
-            )
+            ]
         );
 
-        $button = new CMSObject();
+        $button          = new CMSObject();
         $button->modal   = false;
         $button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
         $button->text    = Text::_('PLG_READMORE_BUTTON_READMORE');

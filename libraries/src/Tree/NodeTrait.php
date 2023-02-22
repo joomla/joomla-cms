@@ -46,7 +46,7 @@ trait NodeTrait
 
         if (\count($this->_parent->_children) > 1) {
             end($this->_parent->_children);
-            $this->_leftSibling = prev($this->_parent->_children);
+            $this->_leftSibling                = prev($this->_parent->_children);
             $this->_leftSibling->_rightSibling = $this;
         }
     }

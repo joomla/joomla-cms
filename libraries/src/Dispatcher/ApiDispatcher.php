@@ -48,7 +48,7 @@ final class ApiDispatcher extends ComponentDispatcher
         $task = $this->input->getCmd('task', 'display');
 
         // Build controller config data
-        $config['option'] = $this->option;
+        $config = ['option' => $this->option];
 
         // Set name of controller if it is passed in the request
         if ($this->input->exists('controller')) {

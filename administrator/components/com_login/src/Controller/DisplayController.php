@@ -75,11 +75,11 @@ class DisplayController extends BaseController
 
         $app = $this->app;
 
-        $model = $this->getModel('login');
+        $model       = $this->getModel('login');
         $credentials = $model->getState('credentials');
-        $return = $model->getState('return');
+        $return      = $model->getState('return');
 
-        $app->login($credentials, array('action' => 'core.login.admin'));
+        $app->login($credentials, ['action' => 'core.login.admin']);
 
         if (Uri::isInternal($return) && strpos($return, 'tmpl=component') === false) {
             $app->redirect($return);
@@ -107,9 +107,9 @@ class DisplayController extends BaseController
             $clientid = $userid ? 0 : 1;
         }
 
-        $options = array(
+        $options = [
             'clientid' => $clientid,
-        );
+        ];
 
         $result = $app->logout($userid, $options);
 

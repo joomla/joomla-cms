@@ -23,7 +23,7 @@ $wa->useScript('keepalive')
     ->useScript('com_content.form-edit');
 
 $this->tab_name = 'com-content-form';
-$this->ignore_fieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associations');
+$this->ignore_fieldsets = ['image-intro', 'image-full', 'jmetadata', 'item_associations'];
 $this->useCoreUI = true;
 
 // Create shortcut to parameters.

@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -72,9 +73,8 @@ final class Image extends CMSPlugin
                 ->useScript('webcomponent.field-media')
                 ->useStyle('webcomponent.media-select');
 
-            $doc->addScriptOptions('xtdImageModal', [
-                $name . '_ImageModal',
-            ]);
+            $doc->addScriptOptions('xtdImageModal', [$name . '_ImageModal']);
+            $doc->addScriptOptions('media-picker-api', ['apiBaseUrl' => Uri::base() . 'index.php?option=com_media&format=json']);
 
             if (count($doc->getScriptOptions('media-picker')) === 0) {
                 $imagesExt = array_map(
@@ -122,7 +122,7 @@ final class Image extends CMSPlugin
                     'images'    => $imagesExt,
                     'audios'    => $audiosExt,
                     'videos'    => $videosExt,
-                    'documents' => $documentsExt
+                    'documents' => $documentsExt,
                 ]);
             }
 
@@ -147,7 +147,7 @@ final class Image extends CMSPlugin
 
             $link = 'index.php?option=com_media&view=media&tmpl=component&e_name=' . $name . '&asset=' . $asset . '&mediatypes=0,1,2,3' . '&author=' . $author;
 
-            $button = new CMSObject();
+            $button          = new CMSObject();
             $button->modal   = true;
             $button->link    = $link;
             $button->text    = Text::_('PLG_IMAGE_BUTTON_IMAGE');

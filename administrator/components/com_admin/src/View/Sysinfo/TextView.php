@@ -85,28 +85,28 @@ class TextView extends AbstractView
         return [
             'info' => [
                 'title' => Text::_('COM_ADMIN_SYSTEM_INFORMATION', true),
-                'data'  => $model->getSafeData('info')
+                'data'  => $model->getSafeData('info'),
             ],
             'phpSettings' => [
                 'title' => Text::_('COM_ADMIN_PHP_SETTINGS', true),
-                'data'  => $model->getSafeData('phpSettings')
+                'data'  => $model->getSafeData('phpSettings'),
             ],
             'config' => [
                 'title' => Text::_('COM_ADMIN_CONFIGURATION_FILE', true),
-                'data'  => $model->getSafeData('config')
+                'data'  => $model->getSafeData('config'),
             ],
             'directories' => [
                 'title' => Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS', true),
-                'data'  => $model->getSafeData('directory', true)
+                'data'  => $model->getSafeData('directory', true),
             ],
             'phpInfo' => [
                 'title' => Text::_('COM_ADMIN_PHP_INFORMATION', true),
-                'data'  => $model->getSafeData('phpInfoArray')
+                'data'  => $model->getSafeData('phpInfoArray'),
             ],
             'extensions' => [
                 'title' => Text::_('COM_ADMIN_EXTENSIONS', true),
-                'data'  => $model->getSafeData('extensions')
-            ]
+                'data'  => $model->getSafeData('extensions'),
+            ],
         ];
     }
 
