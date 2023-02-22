@@ -22,6 +22,7 @@ namespace Joomla\CMS\Object;
  * @since       1.7.0
  * @deprecated  4.0.0  Use \stdClass or \Joomla\Registry\Registry instead.
  */
+#[\AllowDynamicProperties]
 class CMSObject
 {
     /**
@@ -31,7 +32,7 @@ class CMSObject
      * @since  1.7.0
      * @deprecated  3.1.4  JError has been deprecated
      */
-    protected $_errors = array();
+    protected $_errors = [];
 
     /**
      * Class constructor, overridden in descendant classes.

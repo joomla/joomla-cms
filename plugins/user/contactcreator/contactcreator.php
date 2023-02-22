@@ -99,7 +99,7 @@ class PlgUserContactCreator extends CMSPlugin
              * Try to pre-load a contact for this user. Apparently only possible if other plugin creates it
              * Note: $user_id is cleaned above
              */
-            if (!$contact->load(array('user_id' => (int) $user_id))) {
+            if (!$contact->load(['user_id' => (int) $user_id])) {
                 $contact->published = $this->params->get('autopublish', 0);
             }
 
@@ -123,10 +123,10 @@ class PlgUserContactCreator extends CMSPlugin
 
             if (!empty($autowebpage)) {
                 // Search terms
-                $search_array = array('[name]', '[username]', '[userid]', '[email]');
+                $search_array = ['[name]', '[username]', '[userid]', '[email]'];
 
                 // Replacement terms, urlencoded
-                $replace_array = array_map('urlencode', array($user['name'], $user['username'], $user['id'], $user['email']));
+                $replace_array = array_map('urlencode', [$user['name'], $user['username'], $user['id'], $user['email']]);
 
                 // Now replace it in together
                 $contact->webpage = str_replace($search_array, $replace_array, $autowebpage);
@@ -155,7 +155,7 @@ class PlgUserContactCreator extends CMSPlugin
     {
         $table = $this->getContactTable();
 
-        while ($table->load(array('alias' => $alias, 'catid' => $categoryId))) {
+        while ($table->load(['alias' => $alias, 'catid' => $categoryId])) {
             if ($name === $table->name) {
                 $name = StringHelper::increment($name);
             }
@@ -163,7 +163,7 @@ class PlgUserContactCreator extends CMSPlugin
             $alias = StringHelper::increment($alias, 'dash');
         }
 
-        return array($name, $alias);
+        return [$name, $alias];
     }
 
     /**
