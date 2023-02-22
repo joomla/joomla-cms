@@ -100,7 +100,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 
             <div class="com-users-login__submit control-group">
                 <div class="controls">
-                    <button type="submit" class="btn btn-primary w-100">
+                    <button type="submit" class="btn btn-primary">
                         <?php echo Text::_('JLOGIN'); ?>
                     </button>
                 </div>
