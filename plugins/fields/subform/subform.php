@@ -117,8 +117,11 @@ class PlgFieldsSubform extends FieldsPlugin
      */
     public function onCustomFieldsBeforePrepareField($context, $item, $field)
     {
-        // Check if the field should be processed by us
         if (!$this->isTypeSupported($field->type)) {
+            return;
+        }
+
+        if (is_array($field->value)) {
             return;
         }
 

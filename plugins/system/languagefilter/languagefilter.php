@@ -153,8 +153,6 @@ class PlgSystemLanguageFilter extends CMSPlugin
      */
     public function onAfterInitialise()
     {
-        $this->app->item_associations = $this->params->get('item_associations', 0);
-
         // We need to make sure we are always using the site router, even if the language plugin is executed in admin app.
         // Router can be injected when turned into a DI built plugin
         $router = Factory::getContainer()->get(SiteRouter::class);

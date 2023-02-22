@@ -24,6 +24,30 @@ use Joomla\CMS\Installer\Manifest;
 class PackageManifest extends Manifest
 {
     /**
+     * Author url of the package
+     *
+     * @var    string
+     * @since  4.2.9
+     */
+    public $authorurl;
+
+    /**
+     * Author of the package
+     *
+     * @var    string
+     * @since  4.2.9
+     */
+    public $author;
+
+    /**
+     * Author email of the package
+     *
+     * @var    string
+     * @since  4.2.9
+     */
+    public $authoremail;
+
+    /**
      * Unique name of the package
      *
      * @var    string
