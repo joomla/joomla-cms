@@ -31,7 +31,7 @@ use SimpleXMLElement;
  *
  * @testdox     The InvisibleReCaptcha plugin
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.3.0
  */
 class InvisibleRecaptchaPluginTest extends UnitTestCase
 {
@@ -40,7 +40,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function setUp(): void
     {
@@ -54,7 +54,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function tearDown(): void
     {
@@ -68,7 +68,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testInit()
     {
@@ -93,7 +93,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testInitWrongApplication()
     {
@@ -108,7 +108,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testInitEmptyPublicKey()
     {
@@ -131,7 +131,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testDisplay()
     {
@@ -149,7 +149,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testResponse()
     {
@@ -174,7 +174,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testResponseEmptyPrivateKey()
     {
@@ -197,7 +197,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testResponseSpam()
     {
@@ -221,7 +221,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testFailedResponse()
     {
@@ -248,7 +248,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testSetupField()
     {
@@ -263,7 +263,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
       *
       * @return  void
       *
-      * @since   __DEPLOY_VERSION__
+      * @since   4.3.0
       */
     public function testPrivacy()
     {
