@@ -134,19 +134,19 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
             new CaptiveRenderOptions(
                 [
                     // Custom HTML to display above the MFA form
-                    'pre_message'        => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_CAPTIVE_PROMPT'),
+                    'pre_message' => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_CAPTIVE_PROMPT'),
                     // How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
-                    'field_type'         => 'input',
+                    'field_type' => 'input',
                     // The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
-                    'input_type'         => 'text',
+                    'input_type' => 'text',
                     // Placeholder text for the HTML input box. Leave empty if you don't need it.
-                    'placeholder'        => '',
+                    'placeholder' => '',
                     // Label to show above the HTML input box. Leave empty if you don't need it.
-                    'label'              => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_CODE_LABEL'),
+                    'label' => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_CODE_LABEL'),
                     // Custom HTML. Only used when field_type = custom.
-                    'html'               => '',
+                    'html' => '',
                     // Custom HTML to display below the MFA form
-                    'post_message'       => '',
+                    'post_message' => '',
                     // Allow authentication against all entries of this MFA Method.
                     'allowEntryBatching' => 1,
                 ]

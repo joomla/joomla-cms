@@ -36,7 +36,7 @@ class BeforePublishEvent extends AbstractEvent
      *
      * @throws  BadMethodCallException
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('pks', $arguments)) {
             throw new BadMethodCallException("Argument 'pks' is required for event $name");
