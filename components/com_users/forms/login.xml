@@ -12,6 +12,7 @@
 			validate="username"
 			autofocus="true"
 			autocomplete="username"
+			hint="COM_USERS_LOGIN_USERNAME_LABEL"
 		/>
 	</fieldset>
 	
@@ -24,6 +25,7 @@
 			filter="raw"
 			size="25"
 			autocomplete="current-password"
+			hint="JGLOBAL_PASSWORD"
 		/>
 	</fieldset>
 
