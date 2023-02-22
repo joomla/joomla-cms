@@ -2,21 +2,22 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Fields.media
+ * @subpackage  Captcha.invisible_recaptcha
  *
- * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\Fields\Media\Extension\Media;
+use Joomla\Plugin\Captcha\InvisibleReCaptcha\Extension\InvisibleReCaptcha;
 
 return new class () implements ServiceProviderInterface {
     /**
@@ -33,10 +34,10 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
-                $plugin     = new Media(
-                    $dispatcher,
-                    (array) PluginHelper::getPlugin('fields', 'media')
+                $plugin = new InvisibleReCaptcha(
+                    $container->get(DispatcherInterface::class),
+                    (array) PluginHelper::getPlugin('captcha', 'recaptcha_invisible'),
+                    new HttpBridgePostRequestMethod()
                 );
                 $plugin->setApplication(Factory::getApplication());
 
