@@ -37,7 +37,7 @@ function usage($command)
  * This is where the magic happens
  */
 
-$options = getopt('', array('from:', 'to::'));
+$options = getopt('', ['from:', 'to::']);
 
 // We need the from reference, otherwise we're doomed to fail
 if (empty($options['from'])) {

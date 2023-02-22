@@ -149,15 +149,15 @@ class UriTest extends UnitTestCase
      */
     public function testBuildQuery(): void
     {
-        $params = array(
-            'field' => array(
-                'price' => array(
+        $params = [
+            'field' => [
+                'price' => [
                     'from' => 5,
                     'to' => 10,
-                ),
+                ],
                 'name' => 'foo'
-            ),
-            'v' => 45);
+            ],
+            'v' => 45];
 
         $expected = 'field[price][from]=5&field[price][to]=10&field[name]=foo&v=45';
         $this->assertEquals($expected, Uri::buildQuery($params), 'The query string was not built correctly.');
