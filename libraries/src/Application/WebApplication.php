@@ -49,7 +49,7 @@ abstract class WebApplication extends AbstractWebApplication
      * The item associations
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.9
      */
     public $item_associations;
 
