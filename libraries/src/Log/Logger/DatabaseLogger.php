@@ -73,7 +73,7 @@ class DatabaseLogger extends Logger
      * The database table prefix of the database store logging entries.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.9
      */
     protected $prefix;
 
