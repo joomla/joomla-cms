@@ -16,11 +16,13 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.formvalidator');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+    ->useScript('form.validate');
 
 $this->tab_name         = 'com-contact-form';
-$this->ignore_fieldsets = array('details', 'item_associations', 'language');
+$this->ignore_fieldsets = ['details', 'item_associations', 'language'];
 $this->useCoreUI        = true;
 ?>
 <div class="edit item-page<?php echo $this->pageclass_sfx; ?>">

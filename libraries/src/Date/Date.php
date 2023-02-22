@@ -43,8 +43,8 @@ use Joomla\Database\DatabaseDriver;
  */
 class Date extends \DateTime
 {
-    public const DAY_ABBR = "\x021\x03";
-    public const DAY_NAME = "\x022\x03";
+    public const DAY_ABBR   = "\x021\x03";
+    public const DAY_NAME   = "\x022\x03";
     public const MONTH_ABBR = "\x023\x03";
     public const MONTH_NAME = "\x024\x03";
 
