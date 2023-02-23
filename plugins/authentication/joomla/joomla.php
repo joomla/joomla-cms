@@ -1,14 +1,13 @@
 <?php
 
 /**
- * @package     Joomla.Plugin
- * @subpackage  Authentication.joomla
- *
- * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
- */
+* @package     Joomla.Plugin
+* @subpackage  Authentication.joomla
+*
+* @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
+* @license     GNU General Public License version 2 or later; see LICENSE.txt
+* @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+*/
 
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Helper\AuthenticationHelper;
@@ -83,7 +82,7 @@ class PlgAuthenticationJoomla extends CMSPlugin
 
             if ($match === true) {
                 // Bring this in line with the rest of the system
-                $user               = User::getInstance($result->id);
+                $user    = User::getInstance($result->id);
                 $response->email    = $user->email;
                 $response->fullname = $user->name;
 
@@ -96,7 +95,7 @@ class PlgAuthenticationJoomla extends CMSPlugin
                 } else {
                     $response->language = $user->getParam('language');
 
-                    if ($this->app->get('offline') == 1 && !$user->authorise('core.login.offline')) {
+                    if ($this->app->get('offline') && !$user->authorise('core.login.offline')) {
                         // User do not have access in offline mode
                         $_status       = Authentication::STATUS_FAILURE;
                         $_errorMessage = Text::_('JLIB_LOGIN_DENIED');
