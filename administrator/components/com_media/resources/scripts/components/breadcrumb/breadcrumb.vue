@@ -32,7 +32,7 @@ export default {
       const adapter = this.$store.state.selectedDirectory.split(':/');
 
       // Add the drive as first element
-      if (adapter) {
+      if (adapter.length) {
         const drive = this.findDrive(adapter[0]);
 
         if (!drive) {
