@@ -91,8 +91,8 @@ function addStepToTourButton(tour, stepObj, buttons) {
           if (target) {
             // Give focus to the target and make it tabbable
             target.focus();
-            target.tabIndex = 1;
-            tabIndex++;
+            tabIndex += 1;
+            target.tabIndex = tabIndex;
           }
 
           const popupButtons = tour.currentStep.getElement().querySelectorAll('.shepherd-content button');
