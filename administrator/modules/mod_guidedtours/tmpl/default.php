@@ -19,10 +19,13 @@ if (!$tours) {
     return;
 }
 
-// Load the Bootstrap Dropdown
-HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
-
 $app = Factory::getApplication();
+
+// Load the Bootstrap Dropdown
+$app->getDocument()
+    ->getWebAssetManager()
+    ->useScript('bootstrap.dropdown');
+
 $lang = $app->getLanguage();
 
 $extension = $app->input->get('option');
