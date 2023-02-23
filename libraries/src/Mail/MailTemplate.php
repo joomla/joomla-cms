@@ -198,8 +198,8 @@ class MailTemplate
         /** @var Registry $params */
         $params      = $mail->params;
         $app         = Factory::getApplication();
-        $replyto     = $app->get('replyto', '');
-        $replytoname = $app->get('replytoname', '');
+        $replyTo     = $app->get('replyto', '');
+        $replyToName = $app->get('replytoname', '');
 
         if ((int) $config->get('alternative_mailconfig', 0) === 1 && (int) $params->get('alternative_mailconfig', 0) === 1) {
             if ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp') {
@@ -223,8 +223,8 @@ class MailTemplate
                 $this->mailer->setFrom(MailHelper::cleanLine($mailfrom), MailHelper::cleanLine($fromname), false);
             }
 
-            $replyto     = $params->get('replyto', $replyto);
-            $replytoname = $params->get('replytoname', $replytoname);
+            $replyTo     = $params->get('replyto', $replyTo);
+            $replyToName = $params->get('replytoname', $replyToName);
         }
 
         $app->triggerEvent('onMailBeforeRendering', [$this->template_id, &$this]);
@@ -283,8 +283,8 @@ class MailTemplate
 
         if ($this->replyto) {
             $this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
-        } elseif ($replyto) {
-            $this->mailer->addReplyTo($replyto, $replytoname);
+        } elseif ($replyTo) {
+            $this->mailer->addReplyTo($replyTo, $replyToName);
         }
 
         if (trim($config->get('attachment_folder', ''))) {
