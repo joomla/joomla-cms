@@ -9,14 +9,6 @@ if (!Joomla) {
   throw new Error('Joomla API is not properly initialised');
 }
 
-// eslint-disable-next-line no-unused-vars
-function checkAndRedirect(redirectUrl) {
-  const currentUrl = window.location.href;
-  if (currentUrl !== redirectUrl) {
-    window.location.href = redirectUrl;
-  }
-}
-
 function emptyStorage() {
   sessionStorage.removeItem('currentStepId');
   sessionStorage.removeItem('stepCount');
@@ -93,12 +85,14 @@ function addStepToTourButton(tour, stepObj, buttons) {
             elt.setAttribute('tabindex', '-1');
           });
 
-          const tabIndex = 0;
+          let tabIndex = 0;
           const target = tour.currentStep.getTarget();
 
           if (target) {
+            // Give focus to the target and make it tabbable
             target.focus();
-            target.tabIndex += 1;
+            target.tabIndex = 1;
+            tabIndex++;
           }
 
           const popupButtons = tour.currentStep.getElement().querySelectorAll('.shepherd-content button');
