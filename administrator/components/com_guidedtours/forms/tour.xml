@@ -147,7 +147,7 @@
 		multiple="multiple"
 		layout="joomla.form.field.list-fancy-select"
 		default="*"
-	    >
+		>
 		<option value="*">JALL</option>
 	</field>
 
