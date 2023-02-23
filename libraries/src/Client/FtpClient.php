@@ -88,7 +88,7 @@ class FtpClient
      * The response code
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.9
      */
     public $_responseCode;
 
@@ -96,7 +96,7 @@ class FtpClient
      * The response message
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.9
      */
     public $_responseMsg;
 

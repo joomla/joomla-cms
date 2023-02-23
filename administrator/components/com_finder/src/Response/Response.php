@@ -30,7 +30,7 @@ class Response
      * The buffer
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.9
      */
     public $buffer;
 
@@ -38,7 +38,7 @@ class Response
      * The memory
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.9
      */
     public $memory;
 
@@ -46,7 +46,7 @@ class Response
      * If it has an error
      *
      * @var    bool
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.9
      */
     public $error;
 
@@ -54,7 +54,7 @@ class Response
      * The header
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.9
      */
     public $header;
 
@@ -62,7 +62,7 @@ class Response
      * The message
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.9
      */
     public $message;
 
@@ -70,7 +70,7 @@ class Response
      * The batch size
      *
      * @var    int
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.9
      */
     public $batchSize;
 
@@ -78,7 +78,7 @@ class Response
      * The batch offset
      *
      * @var    int
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.9
      */
     public $batchOffset;
 
@@ -86,7 +86,7 @@ class Response
      * The total items
      *
      * @var    int
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.9
      */
     public $totalItems;
 
@@ -94,7 +94,7 @@ class Response
      * The plugin state
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.9
      */
     public $pluginState;
 
@@ -102,7 +102,7 @@ class Response
      * The start time
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.9
      */
     public $startTime;
 
@@ -110,7 +110,7 @@ class Response
      * The end time
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.9
      */
     public $endTime;
 
@@ -118,7 +118,7 @@ class Response
      * The start
      *
      * @var    int
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.9
      */
     public $start;
 
@@ -126,7 +126,7 @@ class Response
      * The complete
      *
      * @var    int
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.9
      */
     public $complete;
 
