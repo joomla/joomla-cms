@@ -82,7 +82,7 @@ class PlgAuthenticationJoomla extends CMSPlugin
 
             if ($match === true) {
                 // Bring this in line with the rest of the system
-                $user    = User::getInstance($result->id);
+                $user               = User::getInstance($result->id);
                 $response->email    = $user->email;
                 $response->fullname = $user->name;
 
