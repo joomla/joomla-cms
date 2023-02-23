@@ -400,7 +400,7 @@ $doNotPackage = [
     'composer.json',
     'composer.lock',
     'crowdin.yml',
-    'cypress.config.js',
+    'cypress.config.dist.js',
     'package-lock.json',
     'package.json',
     'phpunit-pgsql.xml.dist',

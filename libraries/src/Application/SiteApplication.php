@@ -58,6 +58,14 @@ final class SiteApplication extends CMSApplication
     protected $detect_browser = false;
 
     /**
+     * The registered URL parameters.
+     *
+     * @var    object
+     * @since  4.3.0
+     */
+    public $registeredurlparams;
+
+    /**
      * Class constructor.
      *
      * @param   Input      $input      An optional argument to provide dependency injection for the application's input

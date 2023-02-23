@@ -406,8 +406,11 @@ class SiteRouter extends Router
             && (\count($query) === 2 || (\count($query) === 3 && isset($query['lang'])))
         ) {
             // Get the active menu item
-            $item  = $this->menu->getItem($query['Itemid']);
-            $query = array_merge($item->query, $query);
+            $item = $this->menu->getItem($query['Itemid']);
+
+            if ($item !== null) {
+                $query = array_merge($item->query, $query);
+            }
         }
 
         $uri->setQuery($query);
