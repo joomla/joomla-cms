@@ -196,8 +196,10 @@ class MailTemplate
         }
 
         /** @var Registry $params */
-        $params = $mail->params;
-        $app    = Factory::getApplication();
+        $params      = $mail->params;
+        $app         = Factory::getApplication();
+        $replyTo     = $app->get('replyto', '');
+        $replyToName = $app->get('replytoname', '');
 
         if ((int) $config->get('alternative_mailconfig', 0) === 1 && (int) $params->get('alternative_mailconfig', 0) === 1) {
             if ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp') {
@@ -220,6 +222,9 @@ class MailTemplate
             if (MailHelper::isEmailAddress($mailfrom)) {
                 $this->mailer->setFrom(MailHelper::cleanLine($mailfrom), MailHelper::cleanLine($fromname), false);
             }
+
+            $replyTo     = $params->get('replyto', $replyTo);
+            $replyToName = $params->get('replytoname', $replyToName);
         }
 
         $app->triggerEvent('onMailBeforeRendering', [$this->template_id, &$this]);
@@ -278,6 +283,8 @@ class MailTemplate
 
         if ($this->replyto) {
             $this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
+        } elseif ($replyTo) {
+            $this->mailer->addReplyTo($replyTo, $replyToName);
         }
 
         if (trim($config->get('attachment_folder', ''))) {
@@ -325,9 +332,13 @@ class MailTemplate
                     foreach ($matches[0] as $i => $match) {
                         $replacement = '';
 
-                        foreach ($value as $subvalue) {
-                            if (is_array($subvalue)) {
+                        foreach ($value as $name => $subvalue) {
+                            if (is_array($subvalue) && $name == $matches[1][$i]) {
+                                $replacement .= implode("\n", $subvalue);
+                            } elseif (is_array($subvalue)) {
                                 $replacement .= $this->replaceTags($matches[1][$i], $subvalue);
+                            } elseif (is_string($subvalue) && $name == $matches[1][$i]) {
+                                $replacement .= $subvalue;
                             }
                         }
 
