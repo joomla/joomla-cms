@@ -120,7 +120,7 @@
 		type="contentlanguage"
 		label="JFIELD_LANGUAGE_LABEL"
 		default="*"
-	    >
+		>
 		<option value="*">JALL</option>
 	</field>
 
@@ -147,7 +147,7 @@
 		multiple="multiple"
 		layout="joomla.form.field.list-fancy-select"
 		default="*"
-	    >
+		>
 		<option value="*">JALL</option>
 	</field>
 
