@@ -479,6 +479,7 @@ trait DisplayTrait
 
                 // Disable TinyMCE Branding
                 'branding'   => false,
+                'promotion'  => false,
             ]
         );
 
