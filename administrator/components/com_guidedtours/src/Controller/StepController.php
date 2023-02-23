@@ -23,10 +23,4 @@ use Joomla\CMS\MVC\Controller\FormController;
  */
 class StepController extends FormController
 {
-    public function cancel($key = null)
-    {
-        parent::cancel($key);
-
-        $this->setRedirect('index.php?option=com_guidedtours&view=steps');
-    }
 }
