@@ -49,7 +49,7 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
-$attributes = array(
+$attributes = [
     !empty($size) ? ' size="' . $size . '"' : '',
     !empty($description) ? ' aria-describedby="' . ($id ?: $name) . '-desc"' : '',
     $disabled ? ' disabled' : '',
@@ -62,7 +62,7 @@ $attributes = array(
     !empty($maxLength) ? $maxLength : '',
     $required ? ' required' : '',
     $dataAttribute,
-);
+];
 
 /**
  * #deprecated  4.3 will be removed in 6.0

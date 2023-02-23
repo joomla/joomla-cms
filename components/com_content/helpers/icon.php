@@ -44,7 +44,7 @@ abstract class JHtmlIcon
      *              Factory::getContainer()->get(Registry::class)->register('icon', new Icon());
      *              echo HTMLHelper::_('icon.create', ...);
      */
-    public static function create($category, $params, $attribs = array(), $legacy = false)
+    public static function create($category, $params, $attribs = [], $legacy = false)
     {
         return self::getIcon()->create($category, $params, $attribs, $legacy);
     }
@@ -71,7 +71,7 @@ abstract class JHtmlIcon
      *              Factory::getContainer()->get(Registry::class)->register('icon', new Icon());
      *              echo HTMLHelper::_('icon.edit', ...);
      */
-    public static function edit($article, $params, $attribs = array(), $legacy = false)
+    public static function edit($article, $params, $attribs = [], $legacy = false)
     {
         return self::getIcon()->edit($article, $params, $attribs, $legacy);
     }
@@ -89,7 +89,7 @@ abstract class JHtmlIcon
      * #deprecated  4.3 will be removed in 6.0
      *              No longer used, will be removed without replacement
      */
-    public static function print_popup($article, $params, $attribs = array(), $legacy = false)
+    public static function print_popup($article, $params, $attribs = [], $legacy = false)
     {
         throw new \Exception(Text::_('COM_CONTENT_ERROR_PRINT_POPUP'));
     }
@@ -111,7 +111,7 @@ abstract class JHtmlIcon
      *              Factory::getContainer()->get(Registry::class)->register('icon', new Icon());
      *              echo HTMLHelper::_('icon.print_screen', ...);
      */
-    public static function print_screen($article, $params, $attribs = array(), $legacy = false)
+    public static function print_screen($article, $params, $attribs = [], $legacy = false)
     {
         return self::getIcon()->print_screen($params, $legacy);
     }

@@ -40,7 +40,7 @@ $multilang = Multilanguage::isEnabled();
 
 if (!empty($editor)) {
     // This view is used also in com_menus. Load the xtd script only if the editor is set!
-    $this->document->addScriptOptions('xtd-articles', array('editor' => $editor));
+    $this->document->addScriptOptions('xtd-articles', ['editor' => $editor]);
     $onclick = "jSelectArticle";
 }
 ?>
@@ -48,7 +48,7 @@ if (!empty($editor)) {
 
     <form action="<?php echo Route::_('index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=' . $function . '&' . Session::getFormToken() . '=1&editor=' . $editor); ?>" method="post" name="adminForm" id="adminForm">
 
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
 
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
@@ -88,11 +88,11 @@ if (!empty($editor)) {
                 </thead>
                 <tbody>
                 <?php
-                $iconStates = array(
+                $iconStates = [
                     -2 => 'icon-trash',
                     0  => 'icon-times',
                     1  => 'icon-check',
-                );
+                ];
                 ?>
                 <?php foreach ($this->items as $i => $item) : ?>
                     <?php if ($item->language && $multilang) {

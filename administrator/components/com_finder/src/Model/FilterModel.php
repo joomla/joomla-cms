@@ -86,7 +86,7 @@ class FilterModel extends AdminModel
         if (!empty($filter->data)) {
             $filter->data = explode(',', $filter->data);
         } elseif (empty($filter->data)) {
-            $filter->data = array();
+            $filter->data = [];
         }
 
         return $filter;
@@ -102,10 +102,10 @@ class FilterModel extends AdminModel
      *
      * @since   2.5
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_finder.filter', 'filter', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_finder.filter', 'filter', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -124,7 +124,7 @@ class FilterModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_finder.edit.filter.data', array());
+        $data = Factory::getApplication()->getUserState('com_finder.edit.filter.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
