@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -19,6 +18,9 @@ use Joomla\CMS\Uri\Uri;
 if (!$tours) {
     return;
 }
+
+// Load the Bootstrap Dropdown
+HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 
 $app = Factory::getApplication();
 $lang = $app->getLanguage();
