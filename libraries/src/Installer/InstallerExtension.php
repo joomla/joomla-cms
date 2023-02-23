@@ -29,7 +29,7 @@ class InstallerExtension extends CMSObject
      * Client ID of the extension
      *
      * @var    int
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public $client_id;
 
