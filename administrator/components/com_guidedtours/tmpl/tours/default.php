@@ -214,7 +214,7 @@ if ($saveOrder && !empty($this->items)) {
                             </div>
                         </th>
 
-                        <td class="">
+                        <td class="d-none d-md-table-cell">
                             <?php echo StringHelper::truncate($item->description, 200, true, false); ?>
                         </td>
 
