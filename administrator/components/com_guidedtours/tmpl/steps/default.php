@@ -202,12 +202,12 @@ if ($saveOrder && !empty($this->items)) {
                                 <?php endif; ?>
                             </div>
                         </th>
-                        <td class="">
+                        <td class="d-none d-md-table-cell">
                             <?php echo StringHelper::truncate($item->description, 200, true, false); ?>
                         </td>
 
                         <!-- Step Type -->
-                        <td>
+                        <td class="d-none d-md-table-cell">
                             <?php echo Text::_(GuidedtoursComponent::STEP_TYPE_NAMES[$item->type]) ?>
                         </td>
 
