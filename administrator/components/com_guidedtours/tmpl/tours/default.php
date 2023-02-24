@@ -84,7 +84,7 @@ if ($saveOrder && !empty($this->items)) {
                 <!-- Tours table header -->
                 <thead>
                 <tr>
-                    <td class="w-1 text-center d-none d-md-table-cell">
+                    <td class="w-1 text-center">
                         <?php echo HTMLHelper::_('grid.checkall'); ?>
                     </td>
                     <!-- Ordering?-->

@@ -77,7 +77,7 @@ if ($saveOrder && !empty($this->items)) {
                 <!-- Steps table header -->
                 <thead>
                 <tr>
-                    <td class="w-1 d-none d-md-table-cell text-center">
+                    <td class="w-1 text-center">
                         <?php echo HTMLHelper::_('grid.checkall'); ?>
                     </td>
                     <!-- Ordering?-->
