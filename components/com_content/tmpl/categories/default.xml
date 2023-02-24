@@ -101,7 +101,17 @@
 	</fieldset>
 
 	<fieldset name="category" label="JGLOBAL_CATEGORY_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
-
+			<field
+				name="category_layout"
+				type="componentlayout"
+				label="JGLOBAL_FIELD_LAYOUT_LABEL"
+				description="JGLOBAL_FIELD_LAYOUT_DESC"
+				class="form-select"
+				menuitems="true"
+				extension="com_content"
+				view="category"
+				useglobal="true"
+			/>
 			<field
 				name="show_category_title"
 				type="list"
@@ -245,6 +255,25 @@
 			/>
 
 			<field
+				name="num_columns"
+				type="number"
+				label="JGLOBAL_NUM_COLUMNS_LABEL"
+				filter="integer"
+				useglobal="true"
+			/>
+
+			<field
+				name="multi_column_order"
+				type="list"
+				label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
+				useglobal="true"
+				validate="options"
+				>
+				<option value="0">JGLOBAL_BLOG_DOWN_OPTION</option>
+				<option value="1">JGLOBAL_BLOG_ACROSS_OPTION</option>
+			</field>
+
+			<field
 				name="show_subcategory_content"
 				type="list"
 				label="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_LABEL"
@@ -258,6 +287,17 @@
 				<option value="3">J3</option>
 				<option value="4">J4</option>
 				<option value="5">J5</option>
+			</field>
+
+			<field
+				name="link_intro_image"
+				type="list"
+				label="JGLOBAL_LINKED_INTRO_IMAGE_LABEL"
+				useglobal="true"
+				validate="options"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 			<field
