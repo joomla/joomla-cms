@@ -56,7 +56,7 @@ class GroupsController extends AdminController
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function getRedirectToListAppend(): string
+    protected function getRedirectToListAppend()
     {
         $append = parent::getRedirectToListAppend();
 
