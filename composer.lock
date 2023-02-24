@@ -1963,16 +1963,16 @@
         },
         {
             "name": "joomla/registry",
-            "version": "2.0.2",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/registry.git",
-                "reference": "a3932a478dab2d7c38e65d91d185c6a86b32cc66"
+                "reference": "70d0fecd186f0ef1253fb3f7d27583a2b97da309"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/a3932a478dab2d7c38e65d91d185c6a86b32cc66",
-                "reference": "a3932a478dab2d7c38e65d91d185c6a86b32cc66",
+                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/70d0fecd186f0ef1253fb3f7d27583a2b97da309",
+                "reference": "70d0fecd186f0ef1253fb3f7d27583a2b97da309",
                 "shasum": ""
             },
             "require": {
@@ -2016,7 +2016,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/registry/issues",
-                "source": "https://github.com/joomla-framework/registry/tree/2.0.2"
+                "source": "https://github.com/joomla-framework/registry/tree/2.0.3"
             },
             "funding": [
                 {
@@ -2028,7 +2028,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-08-15T13:44:22+00:00"
+            "time": "2023-02-23T19:32:06+00:00"
         },
         {
             "name": "joomla/router",
