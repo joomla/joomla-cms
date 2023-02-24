@@ -16,7 +16,9 @@ Cypress.Commands.add('createContentCategory', (title) => {
 })
 
 Cypress.Commands.add('createDBArticle', (title) => {
-    return cy.task('queryDb',"INSERT INTO #__content (title, alias, catid, state,access, language, featured) VALUES ('"+title+"','test',2,1,1,'*',1)");
+    return cy.task('queryDb',"INSERT INTO #__content (title, alias, catid, state,access, language, featured) VALUES ('"+title+"','test',2,1,1,'*',1)").then((info)=>{
+        cy.task('queryDb',"INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('"+info.insertId+"', '1');")
+    });
 })
 
 Cypress.Commands.add('createField', (type, title) => {
