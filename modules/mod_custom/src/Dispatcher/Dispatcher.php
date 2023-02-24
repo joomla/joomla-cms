@@ -15,7 +15,6 @@ namespace Joomla\Module\Custom\Site\Dispatcher;
 
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Dispatcher class for mod_custom
