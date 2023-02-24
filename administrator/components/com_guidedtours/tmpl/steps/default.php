@@ -106,10 +106,10 @@ if ($saveOrder && !empty($this->items)) {
                     <th scope="col">
                         <?php echo Text::_('COM_GUIDEDTOURS_STEP_TITLE'); ?>
                     </th>
-                    <th scope="col">
+                    <th scope="col" class="d-none d-md-table-cell">
                         <?php echo Text::_('COM_GUIDEDTOURS_DESCRIPTION'); ?>
                     </th>
-                    <th scope="col">
+                    <th scope="col" class="d-none d-md-table-cell">
                         <?php echo HTMLHelper::_(
                             'searchtools.sort',
                             'COM_GUIDEDTOURS_STEP_TYPE',
