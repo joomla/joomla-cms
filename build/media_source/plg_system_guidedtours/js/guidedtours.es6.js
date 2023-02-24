@@ -169,10 +169,10 @@ function pushCompleteButton(buttons) {
   });
 }
 
-function pushNextButton(buttons, step, disabled = false) {
+function pushNextButton(buttons, step, disabled = false, disabledClass = '') {
   buttons.push({
     text: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_NEXT'),
-    classes: `shepherd-button-primary step-next-button-${step.id}`,
+    classes: `shepherd-button-primary step-next-button-${step.id} ${disabledClass}`,
     action() {
       return this.next();
     },
@@ -199,10 +199,12 @@ function addBackButton(buttons, step) {
 function enableButton(event) {
   const element = document.querySelector(`.step-next-button-${event.currentTarget.step_id}`);
   element.removeAttribute('disabled');
+  element.classList.remove('disabled');
 }
 function disableButton(event) {
   const element = document.querySelector(`.step-next-button-${event.currentTarget.step_id}`);
   element.setAttribute('disabled', 'disabled');
+  element.classList.add('disabled');
 }
 
 function startTour(obj) {
@@ -308,7 +310,7 @@ function startTour(obj) {
         || (obj && obj.steps[index].interactive_type === 'text')
         || (obj && obj.steps[index].interactive_type === 'other')
       ) {
-        pushNextButton(buttons, obj.steps[index], disabled);
+        pushNextButton(buttons, obj.steps[index], disabled, disabled ? 'disabled' : '');
       }
     } else {
       pushCompleteButton(buttons);
