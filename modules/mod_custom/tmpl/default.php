@@ -12,10 +12,7 @@
 \defined('JPATH_PLATFORM') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
-use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
-use Joomla\Input\Input;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
 /**
