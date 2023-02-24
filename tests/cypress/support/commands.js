@@ -15,6 +15,10 @@ Cypress.Commands.add('createContentCategory', (title) => {
 
 })
 
+Cypress.Commands.add('createDBArticle', (title) => {
+    return cy.task('queryDb',"INSERT INTO #__content (title, alias, catid, state,access, language, featured) VALUES ('"+title+"','test',2,1,1,'*',1)");
+})
+
 Cypress.Commands.add('createField', (type, title) => {
   cy.visit('administrator/index.php?option=com_fields&view=fields&context=com_content.article')
   cy.clickToolbarButton('New')
