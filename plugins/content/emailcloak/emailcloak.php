@@ -471,7 +471,7 @@ class PlgContentEmailcloak extends CMSPlugin
         * The '<[^<]*>(*SKIP)(*F)|' trick is used to exclude this kind of occurrences
         */
 
-        $pattern = '~<[^<]*(?<!\/(?:src))>(*SKIP)(*F)|' . $searchEmail . '~i';
+        $pattern = '~<[^<]*(?<!\/)>(*SKIP)(*F)|' . $searchEmail . '~i';
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[1][0];
