@@ -35,7 +35,6 @@ class Dispatcher extends AbstractModuleDispatcher
         $data = parent::getLayoutData();
 
         if (($data['params'])->get('prepare_content', 1)) {
-            PluginHelper::importPlugin('content');
             ($data['module'])->content = HTMLHelper::_('content.prepare', ($data['module'])->content, '', 'mod_custom.content');
         }
 
