@@ -56,12 +56,16 @@ class FieldsController extends AdminController
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function getRedirectToListAppend()
+    protected function getRedirectToListAppend(): string
     {
+        $append = parent::getRedirectToListAppend();
+
         $context = $this->input->getString('context');
 
         if ($context) {
-            return '&context=' . $context;
+            $append .= '&context=' . $context;
         }
+
+        return $append;
     }
 }
