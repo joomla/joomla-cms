@@ -60,14 +60,26 @@ if (empty($tour_id)) {
             </div>
 
             <div class="col-lg-3">
-                <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-                <?php echo $this->form->renderField('position'); ?>
-                <?php echo $this->form->renderField('target'); ?>
-                <?php echo $this->form->renderField('type'); ?>
-                <?php echo $this->form->renderField('url'); ?>
-                <?php echo $this->form->renderField('interactive_type'); ?>
-                <?php $this->form->setValue('tour_id', null, $tour_id); ?>
-                <?php echo $this->form->renderField('tour_id'); ?>
+                <?php
+                $this->form->setValue('tour_id', null, $tour_id);
+
+                // Set main fields.
+                $this->fields = [
+                    'published',
+                    'language',
+                    'position',
+                    'target',
+                    'type',
+                    'url',
+                    'interactive_type',
+                    'note',
+                ];
+
+                $this->hidden_fields = [
+                    'tour_id',
+                ];
+
+                echo LayoutHelper::render('joomla.edit.global', $this); ?>
             </div>
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
@@ -78,7 +90,10 @@ if (empty($tour_id)) {
                 <fieldset id="fieldset-publishingdata" class="options-form">
                     <legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
                     <div>
-                        <?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+                        <?php
+                            $this->fields = [];
+                            $this->hidden_fields = [];
+                            echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
                     </div>
                 </fieldset>
             </div>

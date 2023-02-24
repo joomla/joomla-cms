@@ -57,8 +57,17 @@ $wa->useScript('keepalive')
             </div>
 
             <div class="col-lg-3">
-                <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-                <?php echo $this->form->renderField('extensions'); ?>
+                <?php
+                    // Set main fields.
+                    $this->fields = [
+                        'published',
+                        'access',
+                        'language',
+                        'extensions',
+                        'note',
+                    ];
+
+                    echo LayoutHelper::render('joomla.edit.global', $this); ?>
             </div>
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
@@ -69,7 +78,9 @@ $wa->useScript('keepalive')
                 <fieldset id="fieldset-publishingdata" class="options-form">
                     <legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
                     <div>
-                        <?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+                        <?php
+                        $this->fields = [];
+                        echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
                     </div>
                 </fieldset>
             </div>
