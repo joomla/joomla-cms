@@ -48,8 +48,7 @@ class ApiController extends BaseController
     {
         $method = $this->input->getMethod();
 
-        $this->task   = $task;
-        $this->method = $method;
+        $this->task = $task;
 
         try {
             // Check token for requests which do modify files (all except get requests)
@@ -203,7 +202,7 @@ class ApiController extends BaseController
             // A file needs to be created
             $name = $this->getModel()->createFile($adapter, $name, $path, $mediaContent, $override);
         } else {
-            // A file needs to be created
+            // A folder needs to be created
             $name = $this->getModel()->createFolder($adapter, $name, $path, $override);
         }
 

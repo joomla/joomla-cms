@@ -21,7 +21,7 @@ $result = '';
 // Iterate over each row that we have
 foreach ($field->subform_rows as $subform_row) {
     // Placeholder array to generate this rows output
-    $row_output = array();
+    $row_output = [];
 
     // Iterate over each sub field inside of that row
     foreach ($subform_row as $subfield) {
@@ -31,7 +31,7 @@ foreach ($field->subform_rows as $subform_row) {
             FieldsHelper::render(
                 $context,
                 'field.' . $layout, // normally just 'field.render'
-                array('field' => $subfield)
+                ['field' => $subfield]
             )
         );
 

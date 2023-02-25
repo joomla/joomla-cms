@@ -137,5 +137,5 @@ interface WorkflowModelInterface
      * @since   3.0
      * @throws  \Exception
      */
-    public function getTable($name = '', $prefix = '', $options = array());
+    public function getTable($name = '', $prefix = '', $options = []);
 }
