@@ -101,7 +101,7 @@ $wa->useScript('table.columns');
                                 <?php echo $this->escape(Text::_($item->title)); ?>
                             </th>
                             <td>
-                                <?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $this->escape($item->name); ?>
+                                <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level + 1]) . $this->escape($item->name); ?>
                             </td>
                             <?php foreach ($actions as $action) : ?>
                                 <?php
