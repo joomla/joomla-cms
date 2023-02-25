@@ -195,6 +195,14 @@ class ResetModel extends FormModel
         // Get the user object.
         $user = User::getInstance($userId);
 
+        $event = AbstractEvent::create(
+            'onUserBeforeResetComplete',
+            [
+                'subject' => $user,
+            ]
+        );
+        $app->getDispatcher()->dispatch($event->getName(), $event);
+
         // Check for a user and that the tokens match.
         if (empty($user) || $user->activation !== $token) {
             $this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
@@ -439,6 +447,14 @@ class ResetModel extends FormModel
 
         $user->activation = $hashedToken;
 
+        $event = AbstractEvent::create(
+            'onUserBeforeResetRequest',
+            [
+                'subject' => $user,
+            ]
+        );
+        $app->getDispatcher()->dispatch($event->getName(), $event);
+
         // Save the user to the database.
         if (!$user->save(true)) {
             return new \Exception(Text::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
@@ -468,7 +484,7 @@ class ResetModel extends FormModel
 
                 $return = false;
             } catch (\RuntimeException $exception) {
-                Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                $app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
 
                 $return = false;
             }
@@ -485,7 +501,7 @@ class ResetModel extends FormModel
                 'subject' => $user,
             ]
         );
-        Factory::getApplication()->getDispatcher()->dispatch($event->getName(), $event);
+        $app->getDispatcher()->dispatch($event->getName(), $event);
 
         return true;
     }
