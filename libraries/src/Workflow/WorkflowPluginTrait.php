@@ -30,7 +30,7 @@ trait WorkflowPluginTrait
      * @param   Form      $form The form
      * @param   \stdClass $data The data
      *
-     * @return  boolean
+     * @return  boolean|\stdClass
      *
      * @since   4.0.0
      */

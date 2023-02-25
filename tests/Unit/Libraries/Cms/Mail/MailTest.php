@@ -315,7 +315,7 @@ class MailTest extends UnitTestCase
      */
     public function testUseSmtp($auth, $host, $user, $pass, $secure, $port, $expected)
     {
-        // Build an partial mock object.
+        // Build a partial mock object.
         $mailMock = $this->getMockBuilder(Mail::class)
             ->setMethods(['SetLanguage', 'IsSMTP', 'IsMail'])
             ->getMock();

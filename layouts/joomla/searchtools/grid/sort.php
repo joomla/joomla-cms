@@ -23,7 +23,7 @@ if ($data->order === $data->selected) :
     $icon = $data->orderIcon;
     $sort = $data->direction === 'asc' ? 'descending' : 'ascending';
     $heading = !empty($data->title) ? Text::_($data->title) : Text::_('JGRID_HEADING_ORDERING');
-    $caption = Text::sprintf('JGRID_HEADING_CAPTION_' . $data->direction, $heading);
+    $caption = Text::sprintf('JGRID_HEADING_CAPTION_' . ($data->direction === 'asc' ? 'desc' : 'asc'), $heading);
     $selected = ' selected';
     $id = 'id="sorted"';
 endif;
