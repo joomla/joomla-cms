@@ -43,12 +43,12 @@ abstract class Email
      */
     public static function cloak($mail, $mailto = true, $text = '', $email = true, $attribsBefore = '', $attribsAfter = '')
     {
-        // Handle IDN addresses: punycode for href but utf-8 for text displayed.
+        // Handle IDN addresses: punycode for href but UTF-8 for text displayed.
         if ($mailto && (empty($text) || $email)) {
             // Use dedicated $text whereas $mail is used as href and must be punycoded.
             $text = PunycodeHelper::emailToUTF8($text ?: $mail);
         } elseif (!$mailto) {
-            // In that case we don't use link - so convert $mail back to utf-8.
+            // In that case we don't use link - so convert $mail back to UTF-8.
             $mail = PunycodeHelper::emailToUTF8($mail);
         }
 

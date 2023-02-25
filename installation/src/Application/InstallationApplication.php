@@ -475,7 +475,7 @@ final class InstallationApplication extends CMSApplication
             $date = new Date('now');
 
             $attributes = array(
-                'charset'      => 'utf-8',
+                'charset'      => 'UTF-8',
                 'lineend'      => 'unix',
                 'tab'          => "\t",
                 'language'     => $lang->getTag(),

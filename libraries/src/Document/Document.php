@@ -112,7 +112,7 @@ class Document
      * @var    string
      * @since  1.7.0
      */
-    public $_charset = 'utf-8';
+    public $_charset = 'UTF-8';
 
     /**
      * Document mime type
@@ -645,7 +645,7 @@ class Document
      *
      * @since   1.7.0
      */
-    public function setCharset($type = 'utf-8')
+    public function setCharset($type = 'UTF-8')
     {
         $this->_charset = $type;
 

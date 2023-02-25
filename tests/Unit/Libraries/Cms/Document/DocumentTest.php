@@ -38,7 +38,7 @@ class DocumentTest extends UnitTestCase
                 ['lineend' => "\12"],
                 [
                     'lineend' => "\12",
-                    'charset' => 'utf-8',
+                    'charset' => 'UTF-8',
                     'language' => 'en-gb',
                     'direction' => 'ltr',
                     'tab' => "\11",
@@ -67,7 +67,7 @@ class DocumentTest extends UnitTestCase
                 ],
                 [
                     'lineend' => "\12",
-                    'charset' => 'utf-8',
+                    'charset' => 'UTF-8',
                     'language' => 'de-de',
                     'direction' => 'rtl',
                     'tab' => "Crazy Tab",
@@ -393,7 +393,7 @@ class DocumentTest extends UnitTestCase
     {
         $document = $this->createDocument();
 
-        $this->assertSame($document, $document->setCharset('utf-8'));
+        $this->assertSame($document, $document->setCharset('UTF-8'));
     }
 
     /**
@@ -404,7 +404,7 @@ class DocumentTest extends UnitTestCase
      */
     public function testTheDefaultReturnForGetCharset()
     {
-        $this->assertSame('utf-8', $this->createDocument()->getCharset());
+        $this->assertSame('UTF-8', $this->createDocument()->getCharset());
     }
 
     /**
