@@ -2,15 +2,14 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Finder.Newsfeeds
+ * @subpackage  Finder.newsfeeds
  *
  * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Categories\Categories;
+namespace Joomla\Plugin\Finder\Newsfeeds\Extension;
+
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Finder\Administrator\Indexer\Adapter;
@@ -18,6 +17,7 @@ use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Registry\Registry;
 
@@ -30,8 +30,10 @@ use Joomla\Registry\Registry;
  *
  * @since  2.5
  */
-class PlgFinderNewsfeeds extends Adapter
+final class Newsfeeds extends Adapter
 {
+    use DatabaseAwareTrait;
+
     /**
      * The plugin identifier.
      *
@@ -283,7 +285,7 @@ class PlgFinderNewsfeeds extends Adapter
         $item->addTaxonomy('Type', 'News Feed');
 
         // Add the category taxonomy data.
-        $categories = Categories::getInstance('com_newsfeeds', ['published' => false, 'access' => false]);
+        $categories = $this->getApplication()->bootComponent('com_newsfeeds')->getCategory(['published' => false, 'access' => false]);
         $category   = $categories->get($item->catid);
 
         // Category does not exist, stop here
@@ -326,7 +328,7 @@ class PlgFinderNewsfeeds extends Adapter
      */
     protected function getListQuery($query = null)
     {
-        $db = $this->db;
+        $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
         $query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)

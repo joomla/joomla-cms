@@ -2,13 +2,13 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Finder.Tags
+ * @subpackage  Finder.tags
  *
  * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
+
+namespace Joomla\Plugin\Finder\Tags\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
@@ -17,6 +17,7 @@ use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Registry\Registry;
 
@@ -29,8 +30,10 @@ use Joomla\Registry\Registry;
  *
  * @since  3.1
  */
-class PlgFinderTags extends Adapter
+final class Tags extends Adapter
 {
+    use DatabaseAwareTrait;
+
     /**
      * The plugin identifier.
      *
@@ -284,7 +287,7 @@ class PlgFinderTags extends Adapter
      */
     protected function getListQuery($query = null)
     {
-        $db = $this->db;
+        $db = $this->getDatabase();
 
         // Check if we can use the supplied SQL query.
         $query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
@@ -324,11 +327,11 @@ class PlgFinderTags extends Adapter
      */
     protected function getStateQuery()
     {
-        $query = $this->db->getQuery(true);
-        $query->select($this->db->quoteName('a.id'))
-            ->select($this->db->quoteName('a.' . $this->state_field, 'state') . ', ' . $this->db->quoteName('a.access'))
+        $query = $this->getDatabase()->getQuery(true);
+        $query->select($this->getDatabase()->quoteName('a.id'))
+            ->select($this->getDatabase()->quoteName('a.' . $this->state_field, 'state') . ', ' . $this->getDatabase()->quoteName('a.access'))
             ->select('NULL AS cat_state, NULL AS cat_access')
-            ->from($this->db->quoteName($this->table, 'a'));
+            ->from($this->getDatabase()->quoteName($this->table, 'a'));
 
         return $query;
     }
@@ -345,8 +348,8 @@ class PlgFinderTags extends Adapter
     protected function getUpdateQueryByTime($time)
     {
         // Build an SQL query based on the modified time.
-        $query = $this->db->getQuery(true)
-            ->where('a.date >= ' . $this->db->quote($time));
+        $query = $this->getDatabase()->getQuery(true)
+            ->where('a.date >= ' . $this->getDatabase()->quote($time));
 
         return $query;
     }
