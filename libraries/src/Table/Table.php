@@ -1111,7 +1111,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         }
 
         // Get column names.
-        $checkedOutField     = $this->getColumnAlias('checked_out');
+        $checkedOUTField     = $this->getColumnAlias('checked_out');
         $checkedOutTimeField = $this->getColumnAlias('checked_out_time');
 
         // Get the current time in the database format.
@@ -1120,14 +1120,14 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         // Check the row out by primary key.
         $query = $this->_db->getQuery(true)
             ->update($this->_db->quoteName($this->_tbl))
-            ->set($this->_db->quoteName($checkedOutField) . ' = ' . (int) $userId)
+            ->set($this->_db->quoteName($checkedOUTField) . ' = ' . (int) $userId)
             ->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $this->_db->quote($time));
         $this->appendPrimaryKeys($query, $pk);
         $this->_db->setQuery($query);
         $this->_db->execute();
 
         // Set table values in the object.
-        $this->$checkedOutField      = (int) $userId;
+        $this->$checkedOUTField      = (int) $userId;
         $this->$checkedOutTimeField = $time;
 
         // Post-processing by observers
@@ -1192,7 +1192,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         }
 
         // Get column names.
-        $checkedOutField     = $this->getColumnAlias('checked_out');
+        $checkedOUTField     = $this->getColumnAlias('checked_out');
         $checkedOutTimeField = $this->getColumnAlias('checked_out_time');
 
         $nullDate = $this->_supportNullValue ? 'NULL' : $this->_db->quote($this->_db->getNullDate());
@@ -1201,7 +1201,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         // Check the row in by primary key.
         $query = $this->_db->getQuery(true)
             ->update($this->_db->quoteName($this->_tbl))
-            ->set($this->_db->quoteName($checkedOutField) . ' = ' . $nullID)
+            ->set($this->_db->quoteName($checkedOUTField) . ' = ' . $nullID)
             ->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $nullDate);
         $this->appendPrimaryKeys($query, $pk);
         $this->_db->setQuery($query);
@@ -1210,7 +1210,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $this->_db->execute();
 
         // Set table values in the object.
-        $this->$checkedOutField     = $this->_supportNullValue ? null : 0;
+        $this->$checkedOUTField     = $this->_supportNullValue ? null : 0;
         $this->$checkedOutTimeField = $this->_supportNullValue ? null : '';
 
         // Post-processing by observers
@@ -1350,8 +1350,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     {
         // Handle the non-static case.
         if (isset($this) && ($this instanceof Table) && \is_null($against)) {
-            $checkedOutField = $this->getColumnAlias('checked_out');
-            $against = $this->get($checkedOutField);
+            $checkedOUTField = $this->getColumnAlias('checked_out');
+            $against = $this->get($checkedOUTField);
         }
 
         // The item is not checked out or is checked out by the same user.
@@ -1684,7 +1684,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         }
 
         $publishedField = $this->getColumnAlias('published');
-        $checkedOutField = $this->getColumnAlias('checked_out');
+        $checkedOUTField = $this->getColumnAlias('checked_out');
 
         foreach ($pks as $pk) {
             // Update the publishing state for rows with the given primary keys.
@@ -1702,9 +1702,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
             if ($this->hasField('checked_out') || $this->hasField('checked_out_time')) {
                 $query->where(
                     '('
-                        . $this->_db->quoteName($checkedOutField) . ' = 0'
-                        . ' OR ' . $this->_db->quoteName($checkedOutField) . ' = ' . (int) $userId
-                        . ' OR ' . $this->_db->quoteName($checkedOutField) . ' IS NULL'
+                        . $this->_db->quoteName($checkedOUTField) . ' = 0'
+                        . ' OR ' . $this->_db->quoteName($checkedOUTField) . ' = ' . (int) $userId
+                        . ' OR ' . $this->_db->quoteName($checkedOUTField) . ' IS NULL'
                     . ')'
                 );
                 $checkin = true;

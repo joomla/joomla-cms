@@ -88,8 +88,8 @@ class Media extends Admin
     public function uploadFile($fileName)
     {
         $I = $this;
-        $I->seeElementInDOM(MediaListPage::$fileInputField);
-        $I->attachFile(MediaListPage::$fileInputField, $fileName);
+        $I->seeElementInDOM(MediaListPage::$fileInpUTField);
+        $I->attachFile(MediaListPage::$fileInpUTField, $fileName);
     }
 
     /**

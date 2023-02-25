@@ -11,7 +11,7 @@
 namespace Joomla\Module\Finder\Site\Helper;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
@@ -66,7 +66,7 @@ class FinderHelper
     public static function getQuery($params)
     {
         $request = Factory::getApplication()->input->request;
-        $filter  = InputFilter::getInstance();
+        $filter  = InpUTFilter::getInstance();
 
         // Get the static taxonomy filters.
         $options = array();

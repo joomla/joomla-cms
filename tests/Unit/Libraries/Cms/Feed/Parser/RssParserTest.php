@@ -582,7 +582,7 @@ class RssParserTest extends UnitTestCase
      */
     public function testParseSetsVersion()
     {
-        $dummyXml  = '<?xml version="1.0" encoding="utf-8"?>
+        $dummyXml  = '<?xml version="1.0" encoding="UTF-8"?>
 <!-- generator="Joomla! Unit Test" -->
 <rss version="2.0">
 	<channel>

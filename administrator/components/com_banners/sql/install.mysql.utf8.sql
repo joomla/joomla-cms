@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `#__banners` (
   `cid` int NOT NULL DEFAULT 0,
   `type` int NOT NULL DEFAULT 0,
   `name` varchar(255) NOT NULL DEFAULT '',
-  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `alias` varchar(400) CHARACTER SET UTF8mb4 COLLATE UTF8mb4_bin NOT NULL DEFAULT '',
   `imptotal` int NOT NULL DEFAULT 0,
   `impmade` int NOT NULL DEFAULT 0,
   `clicks` int NOT NULL DEFAULT 0,
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `#__banners` (
   KEY `idx_metakey_prefix` (`metakey_prefix`(100)),
   KEY `idx_banner_catid` (`catid`),
   KEY `idx_language` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 --
 -- Table structure for table `#__banner_clients`
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `#__banner_clients` (
   PRIMARY KEY (`id`),
   KEY `idx_own_prefix` (`own_prefix`),
   KEY `idx_metakey_prefix` (`metakey_prefix`(100))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 --
 -- Table structure for table `#__banner_tracks`
@@ -82,4 +82,4 @@ CREATE TABLE IF NOT EXISTS `#__banner_tracks` (
   KEY `idx_track_date` (`track_date`),
   KEY `idx_track_type` (`track_type`),
   KEY `idx_banner_id` (`banner_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;

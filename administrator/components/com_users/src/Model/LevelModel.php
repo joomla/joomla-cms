@@ -12,7 +12,7 @@ namespace Joomla\Component\Users\Administrator\Model;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\Language\Text;
@@ -237,7 +237,7 @@ class LevelModel extends AdminModel
             $data['rules'] = [];
         }
 
-        $data['title'] = InputFilter::getInstance()->clean($data['title'], 'TRIM');
+        $data['title'] = InpUTFilter::getInstance()->clean($data['title'], 'TRIM');
 
         return parent::save($data);
     }

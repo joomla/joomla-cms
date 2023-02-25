@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `#__user_mfa` (
   `last_used` datetime,
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Multi-factor Authentication settings';
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci COMMENT='Multi-factor Authentication settings';
 
 --
 -- Remove obsolete postinstallation message

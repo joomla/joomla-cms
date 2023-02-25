@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\Filter\OutpUTFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
@@ -103,7 +103,7 @@ if (!empty($feed) && is_string($feed)) {
                         <div class="feed-item-description">
                         <?php
                             // Strip the images.
-                            $text = OutputFilter::stripImages($text);
+                            $text = OutpUTFilter::stripImages($text);
                             $text = HTMLHelper::_('string.truncate', $text, $params->get('word_count', 0), true, false);
                             echo str_replace('&apos;', "'", $text);
                         ?>

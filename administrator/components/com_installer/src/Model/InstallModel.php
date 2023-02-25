@@ -241,7 +241,7 @@ class InstallModel extends BaseDatabaseModel
         // Get the uploaded file information.
         $input    = Factory::getApplication()->input;
 
-        // Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See \JInputFiles::get.
+        // Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See \JInpUTFiles::get.
         $userfile = $input->files->get('install_package', null, 'raw');
 
         // Make sure that file uploads are enabled in php.

@@ -68,9 +68,9 @@ class WebauthnField extends FormField
         $app->getDocument()->getWebAssetManager()
             ->registerAndUseScript('plg_system_webauthn.management', 'plg_system_webauthn/management.js', [], ['defer' => true], ['core']);
 
-        $layoutFile  = new FileLayout('plugins.system.webauthn.manage');
+        $layoUTFile  = new FileLayout('plugins.system.webauthn.manage');
 
-        return $layoutFile->render([
+        return $layoUTFile->render([
                 'user'                => Factory::getContainer()
                     ->get(UserFactoryInterface::class)
                     ->loadUserById($userId),

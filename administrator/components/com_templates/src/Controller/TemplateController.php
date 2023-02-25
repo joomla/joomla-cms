@@ -12,7 +12,7 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -375,11 +375,11 @@ class TemplateController extends BaseController
         /* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
         $model    = $this->getModel();
         $file     = (string) $this->input->getCmd('file', '');
-        $override = (string) InputFilter::getInstance(
+        $override = (string) InpUTFilter::getInstance(
             [],
             [],
-            InputFilter::ONLY_BLOCK_DEFINED_TAGS,
-            InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
+            InpUTFilter::ONLY_BLOCK_DEFINED_TAGS,
+            InpUTFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
         )
             ->clean(base64_decode($this->input->getBase64('folder', '')), 'path');
         $id       = (int) $this->input->get('id', 0, 'int');
@@ -459,11 +459,11 @@ class TemplateController extends BaseController
         $id       = (int) $this->input->get('id', 0, 'int');
         $file     = (string) $this->input->get('file', '', 'cmd');
         $name     = (string) $this->input->get('name', '', 'cmd');
-        $location = (string) InputFilter::getInstance(
+        $location = (string) InpUTFilter::getInstance(
             [],
             [],
-            InputFilter::ONLY_BLOCK_DEFINED_TAGS,
-            InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
+            InpUTFilter::ONLY_BLOCK_DEFINED_TAGS,
+            InpUTFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
         )
             ->clean(base64_decode($this->input->getBase64('address', '')), 'path');
         $type     = (string) $this->input->get('type', '', 'cmd');
@@ -512,11 +512,11 @@ class TemplateController extends BaseController
         $id       = (int) $this->input->get('id', 0, 'int');
         $file     = (string) $this->input->getCmd('file', '');
         $upload   = $this->input->files->get('files');
-        $location = (string) InputFilter::getInstance(
+        $location = (string) InpUTFilter::getInstance(
             [],
             [],
-            InputFilter::ONLY_BLOCK_DEFINED_TAGS,
-            InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
+            InpUTFilter::ONLY_BLOCK_DEFINED_TAGS,
+            InpUTFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
         )
             ->clean(base64_decode($this->input->getBase64('address', '')), 'path');
 
@@ -556,11 +556,11 @@ class TemplateController extends BaseController
         $id       = (int) $this->input->get('id', 0, 'int');
         $file     = (string) $this->input->getCmd('file', '');
         $name     = $this->input->get('name');
-        $location = (string) InputFilter::getInstance(
+        $location = (string) InpUTFilter::getInstance(
             [],
             [],
-            InputFilter::ONLY_BLOCK_DEFINED_TAGS,
-            InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
+            InpUTFilter::ONLY_BLOCK_DEFINED_TAGS,
+            InpUTFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
         )
             ->clean(base64_decode($this->input->getBase64('address', '')), 'path');
 
@@ -603,11 +603,11 @@ class TemplateController extends BaseController
         $id       = (int) $this->input->get('id', 0, 'int');
         $isMedia  = (int) $this->input->get('isMedia', 0, 'int');
         $file     = (string) $this->input->getCmd('file', '');
-        $location = (string) InputFilter::getInstance(
+        $location = (string) InpUTFilter::getInstance(
             [],
             [],
-            InputFilter::ONLY_BLOCK_DEFINED_TAGS,
-            InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
+            InpUTFilter::ONLY_BLOCK_DEFINED_TAGS,
+            InpUTFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
         )
             ->clean(base64_decode($this->input->getBase64('address', '')), 'path');
 
@@ -784,11 +784,11 @@ class TemplateController extends BaseController
         $id       = (int) $this->input->get('id', 0, 'int');
         $file     = (string) $this->input->getCmd('file', '');
         $newName  = $this->input->get('new_name');
-        $location = (string) InputFilter::getInstance(
+        $location = (string) InpUTFilter::getInstance(
             [],
             [],
-            InputFilter::ONLY_BLOCK_DEFINED_TAGS,
-            InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
+            InpUTFilter::ONLY_BLOCK_DEFINED_TAGS,
+            InpUTFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
         )
             ->clean(base64_decode($this->input->getBase64('address', '')), 'path');
 

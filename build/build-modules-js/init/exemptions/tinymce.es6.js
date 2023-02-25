@@ -60,21 +60,21 @@ module.exports.tinyMCE = async (packageName, version) => {
   await copyArrayFiles('', ['tinymce.js', 'tinymce.min.js', 'changelog.txt', 'license.txt'], 'tinymce', '');
 
   // Update the XML file for tinyMCE
-  let tinyXml = await readFile(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, { encoding: 'utf8' });
+  let tinyXml = await readFile(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, { encoding: 'UTF8' });
   tinyXml = tinyXml.replace(xmlVersionStr, `$1${version}$3`);
-  await writeFile(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, tinyXml, { encoding: 'utf8', mode: 0o644 });
+  await writeFile(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, tinyXml, { encoding: 'UTF8', mode: 0o644 });
 
   // Remove that sourcemap...
-  let tinyWrongMap = await readFile(`${RootPath}/media/vendor/tinymce/skins/ui/oxide/skin.min.css`, { encoding: 'utf8' });
+  let tinyWrongMap = await readFile(`${RootPath}/media/vendor/tinymce/skins/ui/oxide/skin.min.css`, { encoding: 'UTF8' });
   tinyWrongMap = tinyWrongMap.replace('/*# sourceMappingURL=skin.min.css.map */', '');
-  await writeFile(`${RootPath}/media/vendor/tinymce/skins/ui/oxide/skin.min.css`, tinyWrongMap, { encoding: 'utf8', mode: 0o644 });
+  await writeFile(`${RootPath}/media/vendor/tinymce/skins/ui/oxide/skin.min.css`, tinyWrongMap, { encoding: 'UTF8', mode: 0o644 });
 
   /* Create the Highlighter plugin */
   // Get the css
-  let cssContent = await readFile('build/media_source/plg_editors_tinymce/js/plugins/highlighter/source.css', { encoding: 'utf8' });
+  let cssContent = await readFile('build/media_source/plg_editors_tinymce/js/plugins/highlighter/source.css', { encoding: 'UTF8' });
   cssContent = await Postcss([CssNano()]).process(cssContent, { from: undefined });
   // Get the JS
-  let jsContent = await readFile('build/media_source/plg_editors_tinymce/js/plugins/highlighter/source.es6.js', { encoding: 'utf8' });
+  let jsContent = await readFile('build/media_source/plg_editors_tinymce/js/plugins/highlighter/source.es6.js', { encoding: 'UTF8' });
   jsContent = await minify(jsContent, { sourceMap: false, format: { comments: false } });
   // Write the HTML file
   const htmlContent = `<!DOCTYPE html>
@@ -88,7 +88,7 @@ module.exports.tinyMCE = async (packageName, version) => {
 </html>
 `;
 
-  await writeFile('media/plg_editors_tinymce/js/plugins/highlighter/source.html', htmlContent, { encoding: 'utf8', mode: 0o644 });
+  await writeFile('media/plg_editors_tinymce/js/plugins/highlighter/source.html', htmlContent, { encoding: 'UTF8', mode: 0o644 });
 
   // Restore our code on the vendor folders
   await copy(join(RootPath, 'build/media_source/vendor/tinymce/templates'), join(RootPath, 'media/vendor/tinymce/templates'), { preserveTimestamps: true });

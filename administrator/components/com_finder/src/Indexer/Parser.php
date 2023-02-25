@@ -10,7 +10,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -44,7 +44,7 @@ abstract class Parser
      */
     public static function getInstance($format)
     {
-        $format = InputFilter::getInstance()->clean($format, 'cmd');
+        $format = InpUTFilter::getInstance()->clean($format, 'cmd');
 
         // Only create one parser for each format.
         if (isset(self::$instances[$format])) {

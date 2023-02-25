@@ -11,7 +11,7 @@
 namespace Joomla\Component\Cpanel\Administrator\View\Cpanel;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\Filter\OutpUTFilter;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -61,7 +61,7 @@ class HtmlView extends BaseHtmlView
         $app = Factory::getApplication();
         $dashboard = $app->input->getCmd('dashboard', '');
 
-        $position = OutputFilter::stringURLSafe($dashboard);
+        $position = OutpUTFilter::stringURLSafe($dashboard);
 
         // Generate a title for the view cpanel
         if (!empty($dashboard)) {

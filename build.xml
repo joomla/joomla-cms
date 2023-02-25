@@ -37,7 +37,7 @@
 		<exec executable="phpcs">
 			<arg value="--report=checkstyle" />
 			<arg value="--extensions=php" />
-			<arg value="--encoding=utf-8" />
+			<arg value="--encoding=UTF-8" />
 			<arg value="-p" />
 			<arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
 			<arg value="--standard=${basedir}/libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS" />
@@ -75,7 +75,7 @@
 	<target name="phpdoc" description="Generate API documentation using phpDocumentor">
 		<exec executable="phpdoc">
 			<arg value="-i" />
-			<arg path="${basedir}/libraries/vendor/joomla/*/Tests/,${basedir}/libraries/vendor/joomla/string/src/phputf8/,${basedir}/libraries/vendor/composer/,${basedir}/libraries/vendor/joomla/event/vendor/,${basedir}/libraries/vendor/joomla/session/Joomla/Session/_Tests/,${basedir}/libraries/vendor/joomla/session/Joomla/Session/Tests/,${basedir}/libraries/idna_convert/" />
+			<arg path="${basedir}/libraries/vendor/joomla/*/Tests/,${basedir}/libraries/vendor/joomla/string/src/phpUTF8/,${basedir}/libraries/vendor/composer/,${basedir}/libraries/vendor/joomla/event/vendor/,${basedir}/libraries/vendor/joomla/session/Joomla/Session/_Tests/,${basedir}/libraries/vendor/joomla/session/Joomla/Session/Tests/,${basedir}/libraries/idna_convert/" />
 			<arg value="-d" />
 			<arg path="${basedir}/libraries/src/,${basedir}/libraries/vendor/joomla/" />
 			<arg value="-f" />

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="component" method="upgrade">
 	<name>com_banners</name>
 	<author>Joomla! Project</author>
@@ -12,12 +12,12 @@
 	<namespace path="src">Joomla\Component\Banners</namespace>
 	<install> <!-- Runs on install -->
 		<sql>
-			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+			<file driver="mysql" charset="UTF8">sql/install.mysql.UTF8.sql</file>
 		</sql>
 	</install>
 	<uninstall> <!-- Runs on uninstall -->
 		<sql>
-			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+			<file driver="mysql" charset="UTF8">sql/uninstall.mysql.UTF8.sql</file>
 		</sql>
 	</uninstall>
 	<files folder="site">

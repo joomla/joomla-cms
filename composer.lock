@@ -1480,7 +1480,7 @@
                 "phpunit/phpunit": "^8.5|^9.0"
             },
             "suggest": {
-                "joomla/language": "Required only if you want to use `OutputFilter::stringURLSafe`."
+                "joomla/language": "Required only if you want to use `OutpUTFilter::stringURLSafe`."
             },
             "type": "joomla-package",
             "extra": {
@@ -2098,21 +2098,21 @@
             },
             "autoload": {
                 "files": [
-                    "src/phputf8/utf8.php",
-                    "src/phputf8/ord.php",
-                    "src/phputf8/str_ireplace.php",
-                    "src/phputf8/str_pad.php",
-                    "src/phputf8/str_split.php",
-                    "src/phputf8/strcasecmp.php",
-                    "src/phputf8/strcspn.php",
-                    "src/phputf8/stristr.php",
-                    "src/phputf8/strrev.php",
-                    "src/phputf8/strspn.php",
-                    "src/phputf8/trim.php",
-                    "src/phputf8/ucfirst.php",
-                    "src/phputf8/ucwords.php",
-                    "src/phputf8/utils/ascii.php",
-                    "src/phputf8/utils/validation.php"
+                    "src/phpUTF8/UTF8.php",
+                    "src/phpUTF8/ord.php",
+                    "src/phpUTF8/str_ireplace.php",
+                    "src/phpUTF8/str_pad.php",
+                    "src/phpUTF8/str_split.php",
+                    "src/phpUTF8/strcasecmp.php",
+                    "src/phpUTF8/strcspn.php",
+                    "src/phpUTF8/stristr.php",
+                    "src/phpUTF8/strrev.php",
+                    "src/phpUTF8/strspn.php",
+                    "src/phpUTF8/trim.php",
+                    "src/phpUTF8/ucfirst.php",
+                    "src/phpUTF8/ucwords.php",
+                    "src/phpUTF8/utils/ascii.php",
+                    "src/phpUTF8/utils/validation.php"
                 ],
                 "psr-4": {
                     "Joomla\\String\\": "src/"
@@ -4830,8 +4830,8 @@
                 "i18n",
                 "string",
                 "unicode",
-                "utf-8",
-                "utf8"
+                "UTF-8",
+                "UTF8"
             ],
             "support": {
                 "source": "https://github.com/symfony/string/tree/v5.4.3"
@@ -5288,16 +5288,16 @@
             "time": "2020-11-12T00:07:28+00:00"
         },
         {
-            "name": "voku/portable-utf8",
+            "name": "voku/portable-UTF8",
             "version": "5.4.51",
             "source": {
                 "type": "git",
-                "url": "https://github.com/voku/portable-utf8.git",
+                "url": "https://github.com/voku/portable-UTF8.git",
                 "reference": "578f5266725dc9880483d24ad0cfb39f8ce170f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/portable-utf8/zipball/578f5266725dc9880483d24ad0cfb39f8ce170f7",
+                "url": "https://api.github.com/repos/voku/portable-UTF8/zipball/578f5266725dc9880483d24ad0cfb39f8ce170f7",
                 "reference": "578f5266725dc9880483d24ad0cfb39f8ce170f7",
                 "shasum": ""
             },
@@ -5349,18 +5349,18 @@
                 }
             ],
             "description": "Portable UTF-8 library - performance optimized (unicode) string functions for php.",
-            "homepage": "https://github.com/voku/portable-utf8",
+            "homepage": "https://github.com/voku/portable-UTF8",
             "keywords": [
                 "UTF",
                 "clean",
                 "php",
                 "unicode",
-                "utf-8",
-                "utf8"
+                "UTF-8",
+                "UTF8"
             ],
             "support": {
-                "issues": "https://github.com/voku/portable-utf8/issues",
-                "source": "https://github.com/voku/portable-utf8/tree/5.4.51"
+                "issues": "https://github.com/voku/portable-UTF8/issues",
+                "source": "https://github.com/voku/portable-UTF8/tree/5.4.51"
             },
             "funding": [
                 {
@@ -5372,7 +5372,7 @@
                     "type": "github"
                 },
                 {
-                    "url": "https://opencollective.com/portable-utf8",
+                    "url": "https://opencollective.com/portable-UTF8",
                     "type": "open_collective"
                 },
                 {
@@ -5380,7 +5380,7 @@
                     "type": "patreon"
                 },
                 {
-                    "url": "https://tidelift.com/funding/github/packagist/voku/portable-utf8",
+                    "url": "https://tidelift.com/funding/github/packagist/voku/portable-UTF8",
                     "type": "tidelift"
                 }
             ],
@@ -5402,7 +5402,7 @@
             },
             "require": {
                 "php": ">=7.0",
-                "voku/portable-utf8": "^5.4"
+                "voku/portable-UTF8": "^5.4"
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.8"

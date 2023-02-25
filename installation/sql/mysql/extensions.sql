@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `#__banners` (
   `cid` int NOT NULL DEFAULT 0,
   `type` int NOT NULL DEFAULT 0,
   `name` varchar(255) NOT NULL DEFAULT '',
-  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `alias` varchar(400) CHARACTER SET UTF8mb4 COLLATE UTF8mb4_bin NOT NULL DEFAULT '',
   `imptotal` int NOT NULL DEFAULT 0,
   `impmade` int NOT NULL DEFAULT 0,
   `clicks` int NOT NULL DEFAULT 0,
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `#__banners` (
   KEY `idx_metakey_prefix` (`metakey_prefix`(100)),
   KEY `idx_banner_catid` (`catid`),
   KEY `idx_language` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `#__banner_clients` (
   PRIMARY KEY (`id`),
   KEY `idx_own_prefix` (`own_prefix`),
   KEY `idx_metakey_prefix` (`metakey_prefix`(100))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `#__banner_tracks` (
   KEY `idx_track_date` (`track_date`),
   KEY `idx_track_type` (`track_type`),
   KEY `idx_banner_id` (`banner_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `#__banner_tracks` (
 CREATE TABLE IF NOT EXISTS `#__contact_details` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `alias` varchar(400) CHARACTER SET UTF8mb4 COLLATE UTF8mb4_bin NOT NULL,
   `con_position` varchar(255),
   `address` text,
   `suburb` varchar(100),
@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `#__contact_details` (
   KEY `idx_createdby` (`created_by`),
   KEY `idx_featured_catid` (`featured`,`catid`),
   KEY `idx_language` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -160,7 +160,7 @@ CREATE TABLE IF NOT EXISTS `#__content` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `asset_id` int unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
   `title` varchar(255) NOT NULL DEFAULT '',
-  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `alias` varchar(400) CHARACTER SET UTF8mb4 COLLATE UTF8mb4_bin NOT NULL DEFAULT '',
   `introtext` mediumtext NOT NULL,
   `fulltext` mediumtext NOT NULL,
   `state` tinyint NOT NULL DEFAULT 0,
@@ -196,7 +196,7 @@ CREATE TABLE IF NOT EXISTS `#__content` (
   KEY `idx_featured_catid` (`featured`,`catid`),
   KEY `idx_language` (`language`),
   KEY `idx_alias` (`alias`(191))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -210,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `#__content_frontpage` (
   `featured_up` datetime,
   `featured_down` datetime,
   PRIMARY KEY (`content_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -224,7 +224,7 @@ CREATE TABLE IF NOT EXISTS `#__content_rating` (
   `rating_count` int unsigned NOT NULL DEFAULT 0,
   `lastip` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`content_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -248,7 +248,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_filters` (
   `data` text,
   `params` mediumtext,
   PRIMARY KEY (`filter_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -284,7 +284,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links` (
   KEY `idx_language` (`language`),
   KEY `idx_published_list` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`list_price`),
   KEY `idx_published_sale` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`sale_price`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -299,7 +299,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms` (
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -315,7 +315,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_logging` (
   `results` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`md5sum`),
   INDEX `searchterm` (`searchterm`(191))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -344,7 +344,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_taxonomy` (
   INDEX `idx_alias` (`alias`(100)),
   INDEX `idx_language` (`language`),
   INDEX `idx_parent_published` (`parent_id`, `state`, `access`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__finder_taxonomy`
@@ -365,7 +365,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_taxonomy_map` (
   PRIMARY KEY (`link_id`,`node_id`),
   KEY `link_id` (`link_id`),
   KEY `node_id` (`node_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -375,12 +375,12 @@ CREATE TABLE IF NOT EXISTS `#__finder_taxonomy_map` (
 
 CREATE TABLE IF NOT EXISTS `#__finder_terms` (
   `term_id` int unsigned NOT NULL AUTO_INCREMENT,
-  `term` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `stem` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `term` varchar(75) CHARACTER SET UTF8mb4 COLLATE UTF8mb4_bin NOT NULL,
+  `stem` varchar(75) CHARACTER SET UTF8mb4 COLLATE UTF8mb4_bin NOT NULL DEFAULT '',
   `common` tinyint unsigned NOT NULL DEFAULT 0,
   `phrase` tinyint unsigned NOT NULL DEFAULT 0,
   `weight` float unsigned NOT NULL DEFAULT 0,
-  `soundex` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `soundex` varchar(75) CHARACTER SET UTF8mb4 COLLATE UTF8mb4_bin NOT NULL DEFAULT '',
   `links` int NOT NULL DEFAULT 0,
   `language` char(7) NOT NULL DEFAULT '',
   PRIMARY KEY (`term_id`),
@@ -390,7 +390,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms` (
   KEY `idx_stem_phrase` (`stem`,`phrase`),
   KEY `idx_soundex_phrase` (`soundex`,`phrase`),
   KEY `idx_language` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -399,12 +399,12 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_terms_common` (
-  `term` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `term` varchar(75) CHARACTER SET UTF8mb4 COLLATE UTF8mb4_bin NOT NULL DEFAULT '',
   `language` char(7) NOT NULL DEFAULT '',
   `custom` int NOT NULL DEFAULT '0',
   UNIQUE KEY `idx_term_language` (`term`,`language`),
   KEY `idx_lang` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__finder_terms_common`
@@ -593,8 +593,8 @@ INSERT INTO `#__finder_terms_common` (`term`, `language`, `custom`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_tokens` (
-  `term` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `stem` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `term` varchar(75) CHARACTER SET UTF8mb4 COLLATE UTF8mb4_bin NOT NULL,
+  `stem` varchar(75) CHARACTER SET UTF8mb4 COLLATE UTF8mb4_bin NOT NULL DEFAULT '',
   `common` tinyint unsigned NOT NULL DEFAULT 0,
   `phrase` tinyint unsigned NOT NULL DEFAULT 0,
   `weight` float unsigned NOT NULL DEFAULT 1,
@@ -604,7 +604,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_tokens` (
   KEY `idx_stem` (`stem`),
   KEY `idx_context` (`context`),
   KEY `idx_language` (`language`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MEMORY DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -614,8 +614,8 @@ CREATE TABLE IF NOT EXISTS `#__finder_tokens` (
 
 CREATE TABLE IF NOT EXISTS `#__finder_tokens_aggregate` (
   `term_id` int unsigned NOT NULL,
-  `term` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `stem` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `term` varchar(75) CHARACTER SET UTF8mb4 COLLATE UTF8mb4_bin NOT NULL,
+  `stem` varchar(75) CHARACTER SET UTF8mb4 COLLATE UTF8mb4_bin NOT NULL DEFAULT '',
   `common` tinyint unsigned NOT NULL DEFAULT 0,
   `phrase` tinyint unsigned NOT NULL DEFAULT 0,
   `term_weight` float unsigned NOT NULL DEFAULT 0,
@@ -625,7 +625,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_tokens_aggregate` (
   `language` char(7) NOT NULL DEFAULT '',
   KEY `token` (`term`),
   KEY `keyword_id` (`term_id`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MEMORY DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -639,7 +639,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_types` (
   `mime` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `title` (`title`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -659,7 +659,7 @@ CREATE TABLE IF NOT EXISTS `#__messages` (
   `message` text NOT NULL,
   PRIMARY KEY (`message_id`),
   KEY `useridto_state` (`user_id_to`,`state`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -672,7 +672,7 @@ CREATE TABLE IF NOT EXISTS `#__messages_cfg` (
   `cfg_name` varchar(100) NOT NULL DEFAULT '',
   `cfg_value` varchar(255) NOT NULL DEFAULT '',
   UNIQUE KEY `idx_user_var_name` (`user_id`,`cfg_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -684,7 +684,7 @@ CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
   `catid` int NOT NULL DEFAULT 0,
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '',
-  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `alias` varchar(400) CHARACTER SET UTF8mb4 COLLATE UTF8mb4_bin NOT NULL DEFAULT '',
   `link` varchar(2048) NOT NULL DEFAULT '',
   `published` tinyint NOT NULL DEFAULT 0,
   `numarticles` int unsigned NOT NULL DEFAULT 1,
@@ -717,7 +717,7 @@ CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
   KEY `idx_catid` (`catid`),
   KEY `idx_createdby` (`created_by`),
   KEY `idx_language` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -734,7 +734,7 @@ CREATE TABLE IF NOT EXISTS `#__privacy_requests` (
   `confirm_token` varchar(100) NOT NULL DEFAULT '',
   `confirm_token_created_at` datetime,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -753,7 +753,7 @@ CREATE TABLE IF NOT EXISTS `#__privacy_consents` (
   `token` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -775,7 +775,7 @@ CREATE TABLE IF NOT EXISTS `#__redirect_links` (
   PRIMARY KEY (`id`),
   KEY `idx_old_url` (`old_url`(100)),
   KEY `idx_link_modified` (`modified_date`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -797,7 +797,7 @@ CREATE TABLE IF NOT EXISTS `#__action_logs` (
   KEY `idx_user_id_logdate` (`user_id`, `log_date`),
   KEY `idx_user_id_extension` (`user_id`, `extension`),
   KEY `idx_extension_item_id` (`extension`, `item_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -809,7 +809,7 @@ CREATE TABLE IF NOT EXISTS `#__action_logs_extensions` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `extension` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 INSERT INTO `#__action_logs_extensions` (`id`, `extension`) VALUES
 (1, 'com_banners'),
@@ -847,7 +847,7 @@ CREATE TABLE IF NOT EXISTS `#__action_log_config` (
   `table_name` varchar(255),
   `text_prefix` varchar(255),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 INSERT INTO `#__action_log_config` (`id`, `type_title`, `type_alias`, `id_holder`, `title_holder`, `table_name`, `text_prefix`) VALUES
 (1, 'article', 'com_content.article', 'id' ,'title' , '#__content', 'PLG_ACTIONLOG_JOOMLA'),
@@ -883,7 +883,7 @@ CREATE TABLE IF NOT EXISTS `#__action_logs_users` (
   `extensions` text NOT NULL,
   PRIMARY KEY (`user_id`),
   KEY `idx_notify` (`notify`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -923,6 +923,6 @@ CREATE TABLE IF NOT EXISTS `#__scheduler_tasks` (
   KEY `idx_priority` (`priority`),
   KEY `idx_cli_exclusive` (`cli_exclusive`),
   KEY `idx_checked_out` (`checked_out`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8mb4 DEFAULT COLLATE = UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------

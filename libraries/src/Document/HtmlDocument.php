@@ -14,7 +14,7 @@ use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Factory as CmsFactory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
@@ -754,7 +754,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     {
         // Check
         $directory = $params['directory'] ?? 'templates';
-        $filter = InputFilter::getInstance();
+        $filter = InpUTFilter::getInstance();
         $template = $filter->clean($params['template'], 'cmd');
         $file = $filter->clean($params['file'], 'cmd');
         $inherits = $params['templateInherits'] ?? '';

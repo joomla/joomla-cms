@@ -18,7 +18,7 @@ use Joomla\Component\Plugins\Administrator\Model\PluginModel;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Filter\InputFilter;
+use Joomla\Filter\InpUTFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -60,7 +60,7 @@ final class Token extends CMSPlugin
     /**
      * The input filter
      *
-     * @var    InputFilter
+     * @var    InpUTFilter
      * @since  4.2.0
      */
     private $filter;
@@ -71,11 +71,11 @@ final class Token extends CMSPlugin
      * @param   DispatcherInterface   $dispatcher   The dispatcher
      * @param   array                 $config       An optional associative array of configuration settings
      * @param   UserFactoryInterface  $userFactory  The user factory
-     * @param   InputFilter           $filter       The input filter
+     * @param   InpUTFilter           $filter       The input filter
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory, InputFilter $filter)
+    public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory, InpUTFilter $filter)
     {
         parent::__construct($dispatcher, $config);
 

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Filter\OutputFilter;
+use Joomla\Filter\OutpUTFilter;
 
 HTMLHelper::_('behavior.core');
 ?>
@@ -36,7 +36,7 @@ HTMLHelper::_('behavior.core');
                     <a class="nolink"><?php echo $item[0]; ?></a>
                     <?php else :
                         if ($item[1] !== '') : ?>
-                        <a href="<?php echo OutputFilter::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a>
+                        <a href="<?php echo OutpUTFilter::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a>
                         <?php else : ?>
                             <?php echo $item[0]; ?>
                         <?php endif;

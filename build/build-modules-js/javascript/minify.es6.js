@@ -8,9 +8,9 @@ const { basename } = require('path');
  * @returns {Promise<void>}
  */
 const minifyFile = async (file) => {
-  const fileContent = await readFile(file, { encoding: 'utf8' });
+  const fileContent = await readFile(file, { encoding: 'UTF8' });
   const content = await minify(fileContent, { sourceMap: false, format: { comments: false } });
-  await writeFile(file.replace('.js', '.min.js'), content.code, { encoding: 'utf8', mode: 0o644 });
+  await writeFile(file.replace('.js', '.min.js'), content.code, { encoding: 'UTF8', mode: 0o644 });
   // eslint-disable-next-line no-console
   console.log(`Legacy js file: ${basename(file)}: ✅ minified`);
 };

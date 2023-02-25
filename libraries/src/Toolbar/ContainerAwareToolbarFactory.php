@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Toolbar;
 
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\DI\ContainerAwareInterface;
@@ -48,7 +48,7 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
         if (!$buttonClass) {
             $dirs = $toolbar->getButtonPath();
 
-            $file = InputFilter::getInstance()->clean(str_replace('_', DIRECTORY_SEPARATOR, strtolower($type)) . '.php', 'path');
+            $file = InpUTFilter::getInstance()->clean(str_replace('_', DIRECTORY_SEPARATOR, strtolower($type)) . '.php', 'path');
 
             if ($buttonFile = Path::find($dirs, $file)) {
                 include_once $buttonFile;

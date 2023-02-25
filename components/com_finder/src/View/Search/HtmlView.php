@@ -251,7 +251,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
      *
      * @since   2.5
      */
-    protected function getLayoutFile($layout = null)
+    protected function getLayoUTFile($layout = null)
     {
         // Create and sanitize the file name.
         $file = $this->_layout . '_' . preg_replace('/[^A-Z0-9_\.-]/i', '', $layout);

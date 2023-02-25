@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Captcha;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -237,7 +237,7 @@ class Captcha implements DispatcherAwareInterface
     private function _load(array $options = array())
     {
         // Build the path to the needed captcha plugin
-        $name = InputFilter::getInstance()->clean($this->name, 'cmd');
+        $name = InpUTFilter::getInstance()->clean($this->name, 'cmd');
         $path = JPATH_PLUGINS . '/captcha/' . $name . '/' . $name . '.php';
 
         if (!is_file($path)) {

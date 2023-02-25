@@ -10,7 +10,7 @@
 
 namespace Joomla\Component\Languages\Administrator\Helper;
 
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -35,7 +35,7 @@ class LanguagesHelper
      */
     public static function filterKey($value)
     {
-        $filter = InputFilter::getInstance([], [], InputFilter::ONLY_BLOCK_DEFINED_TAGS, InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES);
+        $filter = InpUTFilter::getInstance([], [], InpUTFilter::ONLY_BLOCK_DEFINED_TAGS, InpUTFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES);
 
         return strtoupper($filter->clean($value, 'cmd'));
     }
@@ -52,7 +52,7 @@ class LanguagesHelper
      */
     public static function filterText($value)
     {
-        $filter = InputFilter::getInstance([], [], InputFilter::ONLY_BLOCK_DEFINED_TAGS, InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES);
+        $filter = InpUTFilter::getInstance([], [], InpUTFilter::ONLY_BLOCK_DEFINED_TAGS, InpUTFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES);
 
         return $filter->clean($value);
     }

@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Input;
 
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -63,7 +63,7 @@ class Input extends \Joomla\Input\Input
     public function __construct($source = null, array $options = array())
     {
         if (!isset($options['filter'])) {
-            $this->filter = InputFilter::getInstance();
+            $this->filter = InpUTFilter::getInstance();
         }
 
         parent::__construct($source, $options);
@@ -111,11 +111,11 @@ class Input extends \Joomla\Input\Input
      * @param   array   $vars           Associative array of keys and filter types to apply.
      *                                  If empty and datasource is null, all the input data will be returned
      *                                  but filtered using the filter given by the parameter defaultFilter in
-     *                                  InputFilter::clean.
+     *                                  InpUTFilter::clean.
      * @param   mixed   $datasource     Array to retrieve data from, or null.
-     * @param   string  $defaultFilter  Default filter used in InputFilter::clean if vars is empty and
+     * @param   string  $defaultFilter  Default filter used in InpUTFilter::clean if vars is empty and
      *                                  datasource is null. If 'unknown', the default case is used in
-     *                                  InputFilter::clean.
+     *                                  InpUTFilter::clean.
      *
      * @return  mixed  The filtered input data.
      *
@@ -133,11 +133,11 @@ class Input extends \Joomla\Input\Input
      * @param   array   $vars           Associative array of keys and filter types to apply.
      *                                  If empty and datasource is null, all the input data will be returned
      *                                  but filtered using the filter given by the parameter defaultFilter in
-     *                                  InputFilter::clean.
+     *                                  InpUTFilter::clean.
      * @param   mixed   $datasource     Array to retrieve data from, or null.
-     * @param   string  $defaultFilter  Default filter used in InputFilter::clean if vars is empty and
+     * @param   string  $defaultFilter  Default filter used in InpUTFilter::clean if vars is empty and
      *                                  datasource is null. If 'unknown', the default case is used in
-     *                                  InputFilter::clean.
+     *                                  InpUTFilter::clean.
      * @param   bool    $recursion      Flag to indicate a recursive function call.
      *
      * @return  mixed  The filtered input data.
@@ -199,7 +199,7 @@ class Input extends \Joomla\Input\Input
         if (isset($this->options['filter'])) {
             $this->filter = $this->options['filter'];
         } else {
-            $this->filter = InputFilter::getInstance();
+            $this->filter = InpUTFilter::getInstance();
         }
     }
 }

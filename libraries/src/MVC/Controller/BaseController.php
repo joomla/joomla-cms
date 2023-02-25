@@ -13,7 +13,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
@@ -274,7 +274,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
         $command  = $input->get('task', 'display');
 
         // Check for array format.
-        $filter = InputFilter::getInstance();
+        $filter = InpUTFilter::getInstance();
 
         if (\is_array($command)) {
             $keys = array_keys($command);
@@ -585,7 +585,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      * you will need to override it in your own controllers.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link InputFilter::clean()}.
+     * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link InpUTFilter::clean()}.
      *
      * @return  static  A \JControllerLegacy object to support chaining.
      *
@@ -621,7 +621,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
                 }
 
                 foreach ($urlparams as $key => $value) {
-                    // Add your safe URL parameters with variable type as value {@see InputFilter::clean()}.
+                    // Add your safe URL parameters with variable type as value {@see InpUTFilter::clean()}.
                     $registeredurlparams->$key = $value;
                 }
 

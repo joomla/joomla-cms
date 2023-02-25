@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `#__scheduler_tasks` (
   KEY `idx_priority` (`priority`),
   KEY `idx_cli_exclusive` (`cli_exclusive`),
   KEY `idx_checked_out` (`checked_out`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8mb4 DEFAULT COLLATE = UTF8mb4_unicode_ci;
 
 -- Add `com_scheduler` to `#__extensions`
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`) VALUES

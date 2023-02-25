@@ -10,21 +10,21 @@
 namespace Joomla\CMS\Filter;
 
 use Joomla\CMS\String\PunycodeHelper;
-use Joomla\Filter\InputFilter as BaseInputFilter;
+use Joomla\Filter\InpUTFilter as BaseInpUTFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * InputFilter is a class for filtering input from any data source
+ * InpUTFilter is a class for filtering input from any data source
  *
  * Forked from the php input filter library by: Daniel Morris <dan@rootcube.com>
  * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, Chris Tobin and Andrew Eddie.
  *
  * @since  1.7.0
  */
-class InputFilter extends BaseInputFilter
+class InpUTFilter extends BaseInpUTFilter
 {
     /**
      * An array containing a list of extensions for files that are typically
@@ -46,14 +46,14 @@ class InputFilter extends BaseInputFilter
     private $stripUSC = 0;
 
     /**
-     * A container for InputFilter instances.
+     * A container for InpUTFilter instances.
      *
-     * @var    InputFilter[]
+     * @var    InpUTFilter[]
      * @since  4.0.0
      */
     protected static $instances = array();
     /**
-     * Constructor for inputFilter class. Only first parameter is required.
+     * Constructor for inpUTFilter class. Only first parameter is required.
      *
      * @param   array    $tagsArray   List of user-defined tags
      * @param   array    $attrArray   List of user-defined attributes
@@ -82,7 +82,7 @@ class InputFilter extends BaseInputFilter
      * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blocked tags/attributes = 1
      * @param   integer  $stripUSC    Strip 4-byte unicode characters = 1, no strip = 0
      *
-     * @return  InputFilter  The InputFilter object.
+     * @return  InpUTFilter  The InpUTFilter object.
      *
      * @since   1.7.0
      */
@@ -91,7 +91,7 @@ class InputFilter extends BaseInputFilter
         $sig = md5(serialize(array($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto)));
 
         if (empty(self::$instances[$sig])) {
-            self::$instances[$sig] = new InputFilter($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto, $stripUSC);
+            self::$instances[$sig] = new InpUTFilter($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto, $stripUSC);
         }
 
         return self::$instances[$sig];
@@ -137,7 +137,7 @@ class InputFilter extends BaseInputFilter
     }
 
     /**
-     * Function to punyencode utf8 mail when saving content
+     * Function to punyencode UTF8 mail when saving content
      *
      * @param   string  $text  The strings to encode
      *
@@ -435,7 +435,7 @@ class InputFilter extends BaseInputFilter
             $trans_tbl = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT, 'ISO-8859-1');
 
             foreach ($trans_tbl as $k => $v) {
-                $ttr[$v] = utf8_encode($k);
+                $ttr[$v] = UTF8_encode($k);
             }
         }
 
@@ -445,7 +445,7 @@ class InputFilter extends BaseInputFilter
         $source = preg_replace_callback(
             '/&#(\d+);/m',
             function ($m) {
-                return utf8_encode(\chr($m[1]));
+                return UTF8_encode(\chr($m[1]));
             },
             $source
         );
@@ -454,7 +454,7 @@ class InputFilter extends BaseInputFilter
         $source = preg_replace_callback(
             '/&#x([a-f0-9]+);/mi',
             function ($m) {
-                return utf8_encode(\chr('0x' . $m[1]));
+                return UTF8_encode(\chr('0x' . $m[1]));
             },
             $source
         );

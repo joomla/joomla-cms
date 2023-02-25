@@ -388,7 +388,7 @@ class Language
 
         // Run our transliterator for common symbols,
         // This need to be executed before native php transliterator, because it may not have all required transliterators
-        $string = Transliterate::utf8_latin_to_ascii($string);
+        $string = Transliterate::UTF8_latin_to_ascii($string);
 
         // Check if all symbols were transliterated (contains only ASCII),
         // Otherwise try to use native php function if available

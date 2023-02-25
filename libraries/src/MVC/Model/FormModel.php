@@ -10,7 +10,7 @@
 namespace Joomla\CMS\MVC\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
@@ -98,10 +98,10 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
                 return true;
             }
 
-            $checkedOutField = $table->getColumnAlias('checked_out');
+            $checkedOUTField = $table->getColumnAlias('checked_out');
 
             // Check if this is the user having previously checked out the row.
-            if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->get('id') && !$user->authorise('core.manage', 'com_checkin')) {
+            if ($table->$checkedOUTField > 0 && $table->$checkedOUTField != $user->get('id') && !$user->authorise('core.manage', 'com_checkin')) {
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
                 return false;
@@ -157,10 +157,10 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
                 return false;
             }
 
-            $checkedOutField = $table->getColumnAlias('checked_out');
+            $checkedOUTField = $table->getColumnAlias('checked_out');
 
             // Check if this is the user having previously checked out the row.
-            if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->get('id')) {
+            if ($table->$checkedOUTField > 0 && $table->$checkedOUTField != $user->get('id')) {
                 $this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
 
                 return false;
@@ -187,7 +187,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
      * @see     FormRule
-     * @see     InputFilter
+     * @see     InpUTFilter
      * @since   1.6
      */
     public function validate($form, $data, $group = null)

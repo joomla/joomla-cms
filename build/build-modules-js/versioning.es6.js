@@ -83,7 +83,7 @@ const fixVersion = async (directory) => {
     return;
   }
 
-  const jAssetFileContent = await readFile(`${RootPath}${sep}media${sep}${directory}${sep}joomla.asset.json`, { encoding: 'utf8' });
+  const jAssetFileContent = await readFile(`${RootPath}${sep}media${sep}${directory}${sep}joomla.asset.json`, { encoding: 'UTF8' });
   let jsonData;
   try {
     jsonData = JSON.parse(jAssetFileContent);
@@ -101,7 +101,7 @@ const fixVersion = async (directory) => {
   await Promise.all(processes);
 
   jsonData.assets = final[directory];
-  await writeFile(`${RootPath}${sep}media${sep}${directory}${sep}joomla.asset.json`, JSON.stringify(jsonData, '', 2), { encoding: 'utf8', mode: 0o644 });
+  await writeFile(`${RootPath}${sep}media${sep}${directory}${sep}joomla.asset.json`, JSON.stringify(jsonData, '', 2), { encoding: 'UTF8', mode: 0o644 });
 };
 
 /**

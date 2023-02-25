@@ -11,7 +11,7 @@ namespace Joomla\CMS\Installer;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Installer\Manifest\PackageManifest;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -556,7 +556,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         }
 
         // Filter the name for illegal characters
-        return strtolower(InputFilter::getInstance()->clean($element, 'cmd'));
+        return strtolower(InpUTFilter::getInstance()->clean($element, 'cmd'));
     }
 
     /**
@@ -584,7 +584,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         $name = (string) $this->getManifest()->name;
 
         // Filter the name for illegal characters
-        $name = InputFilter::getInstance()->clean($name, 'string');
+        $name = InpUTFilter::getInstance()->clean($name, 'string');
 
         return $name;
     }
@@ -623,7 +623,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
     protected function getScriptClassName()
     {
         // Support element names like 'en-GB'
-        $className = InputFilter::getInstance()->clean($this->element, 'cmd') . 'InstallerScript';
+        $className = InpUTFilter::getInstance()->clean($this->element, 'cmd') . 'InstallerScript';
 
         // Cannot have - in class names
         $className = str_replace('-', '', $className);

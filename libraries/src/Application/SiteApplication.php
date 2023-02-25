@@ -14,7 +14,7 @@ use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -485,7 +485,7 @@ final class SiteApplication extends CMSApplication
         }
 
         // Need to filter the default value as well
-        $template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
+        $template->template = InpUTFilter::getInstance()->clean($template->template, 'cmd');
 
         // Fallback template
         if (!empty($template->parent)) {

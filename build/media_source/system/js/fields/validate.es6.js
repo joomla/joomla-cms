@@ -283,7 +283,7 @@ class JFormValidator {
   }
 
   attachToForm(form) {
-    const inputFields = [];
+    const inpUTFields = [];
     const elements = [].slice.call(form.querySelectorAll('input, textarea, select, button, fieldset'));
 
     // Iterate through the form object and attach the validate method to all input fields.
@@ -308,7 +308,7 @@ class JFormValidator {
             element.setAttribute('type', 'email');
           }
         }
-        inputFields.push(element);
+        inpUTFields.push(element);
       }
     });
   }

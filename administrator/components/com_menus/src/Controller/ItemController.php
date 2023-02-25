@@ -11,7 +11,7 @@
 namespace Joomla\Component\Menus\Administrator\Controller;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
@@ -514,7 +514,7 @@ class ItemController extends FormController
         if ($title == 'component') {
             if (isset($type->request)) {
                 // Clean component name
-                $type->request->option = InputFilter::getInstance()->clean($type->request->option, 'CMD');
+                $type->request->option = InpUTFilter::getInstance()->clean($type->request->option, 'CMD');
 
                 $component = ComponentHelper::getComponent($type->request->option);
                 $data['component_id'] = $component->id;

@@ -123,7 +123,7 @@ class OpensearchDocument extends Document
      */
     public function render($cache = false, $params = array())
     {
-        $xml = new \DOMDocument('1.0', 'utf-8');
+        $xml = new \DOMDocument('1.0', 'UTF-8');
 
         if (\defined('JDEBUG') && JDEBUG) {
             $xml->formatOutput = true;

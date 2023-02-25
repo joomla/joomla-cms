@@ -145,9 +145,9 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
         }
 
         // @todo safety checks, multiple files [?]
-        $outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
+        $oUTFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
         $data    = $this->getDataFromTask($event->getArgument('subject'));
-        $this->sendMail('plg_system_tasknotification.failure_mail', $data, $outFile);
+        $this->sendMail('plg_system_tasknotification.failure_mail', $data, $oUTFile);
     }
 
     /**
@@ -195,9 +195,9 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
         }
 
         // @todo safety checks, multiple files [?]
-        $outFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
+        $oUTFile = $event->getArgument('subject')->snapshot['output_file'] ?? '';
         $data    = $this->getDataFromTask($event->getArgument('subject'));
-        $this->sendMail('plg_system_tasknotification.success_mail', $data, $outFile);
+        $this->sendMail('plg_system_tasknotification.success_mail', $data, $oUTFile);
     }
 
     /**

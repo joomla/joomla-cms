@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Form;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Form\Field\SubformField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
@@ -1112,7 +1112,7 @@ abstract class FormField implements DatabaseAwareInterface
             }
         }
 
-        return InputFilter::getInstance()->clean($value, $filter);
+        return InpUTFilter::getInstance()->clean($value, $filter);
     }
 
     /**

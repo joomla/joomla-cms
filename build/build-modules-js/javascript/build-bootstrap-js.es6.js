@@ -12,14 +12,14 @@ const commonjs = require('@rollup/plugin-commonjs');
 const bsVersion = require('../../../package.json').dependencies.bootstrap.replace(/^\^|~/, '');
 
 const tasks = [];
-const inputFolder = 'build/media_source/vendor/bootstrap/js';
-const outputFolder = 'media/vendor/bootstrap/js';
+const inpUTFolder = 'build/media_source/vendor/bootstrap/js';
+const outpUTFolder = 'media/vendor/bootstrap/js';
 
 const createMinified = async (file) => {
-  const initial = await readFile(resolve(outputFolder, file), { encoding: 'utf8' });
+  const initial = await readFile(resolve(outpUTFolder, file), { encoding: 'UTF8' });
   const mini = await minify(initial.replace('./popper.js', `./popper.min.js?${bsVersion}`).replace('./dom.js', `./dom.min.js?${bsVersion}`), { sourceMap: false, format: { comments: false } });
-  await writeFile(resolve(outputFolder, file), initial.replace('./popper.js', `./popper.js?${bsVersion}`).replace('./dom.js', `./dom.js?${bsVersion}`), { encoding: 'utf8', mode: 0o644 });
-  await writeFile(resolve(outputFolder, file.replace('.js', '.min.js')), mini.code, { encoding: 'utf8', mode: 0o644 });
+  await writeFile(resolve(outpUTFolder, file), initial.replace('./popper.js', `./popper.js?${bsVersion}`).replace('./dom.js', `./dom.js?${bsVersion}`), { encoding: 'UTF8', mode: 0o644 });
+  await writeFile(resolve(outpUTFolder, file.replace('.js', '.min.js')), mini.code, { encoding: 'UTF8', mode: 0o644 });
 };
 
 const build = async () => {
@@ -30,7 +30,7 @@ const build = async () => {
   const utilImports = await readdir(resolve('node_modules/bootstrap', 'js/src/util'));
 
   const bundle = await rollup.rollup({
-    input: resolve(inputFolder, 'index.es6.js'),
+    input: resolve(inpUTFolder, 'index.es6.js'),
     plugins: [
       nodeResolve(),
       replace({
@@ -87,7 +87,7 @@ const build = async () => {
   await bundle.write({
     format: 'es',
     sourcemap: false,
-    dir: outputFolder,
+    dir: outpUTFolder,
     chunkFileNames: '[name].js',
   });
 
@@ -100,7 +100,7 @@ const buildLegacy = async () => {
   console.log('Building Legacy...');
 
   const bundle = await rollup.rollup({
-    input: resolve(inputFolder, 'index.es6.js'),
+    input: resolve(inpUTFolder, 'index.es6.js'),
     plugins: [
       commonjs(),
       nodeResolve(),
@@ -137,7 +137,7 @@ const buildLegacy = async () => {
     format: 'iife',
     sourcemap: false,
     name: 'bootstrap',
-    file: resolve(outputFolder, 'bootstrap-es5.js'),
+    file: resolve(outpUTFolder, 'bootstrap-es5.js'),
   });
 
   // closes the bundle
@@ -145,18 +145,18 @@ const buildLegacy = async () => {
 };
 
 module.exports.bootstrapJs = async () => {
-  rimraf.sync(resolve(outputFolder));
+  rimraf.sync(resolve(outpUTFolder));
 
   try {
-    await build(resolve(inputFolder, 'index.es6.js'));
-    await unlink(resolve(outputFolder, 'index.es6.js'));
+    await build(resolve(inpUTFolder, 'index.es6.js'));
+    await unlink(resolve(outpUTFolder, 'index.es6.js'));
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
     process.exit(1);
   }
 
-  (await readdir(outputFolder)).forEach((file) => {
+  (await readdir(outpUTFolder)).forEach((file) => {
     tasks.push(createMinified(file));
   });
 
@@ -165,10 +165,10 @@ module.exports.bootstrapJs = async () => {
     console.log('✅ ES6 components ready');
 
     try {
-      await buildLegacy(inputFolder, 'index.es6.js');
-      const es5File = await readFile(resolve(outputFolder, 'bootstrap-es5.js'), { encoding: 'utf8' });
+      await buildLegacy(inpUTFolder, 'index.es6.js');
+      const es5File = await readFile(resolve(outpUTFolder, 'bootstrap-es5.js'), { encoding: 'UTF8' });
       const mini = await minify(es5File, { sourceMap: false, format: { comments: false } });
-      await writeFile(resolve(outputFolder, 'bootstrap-es5.min.js'), mini.code, { encoding: 'utf8', mode: 0o644 });
+      await writeFile(resolve(outpUTFolder, 'bootstrap-es5.min.js'), mini.code, { encoding: 'UTF8', mode: 0o644 });
       // eslint-disable-next-line no-console
       console.log('✅ Legacy done!');
     } catch (error) {

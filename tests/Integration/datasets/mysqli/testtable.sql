@@ -12,4 +12,4 @@ CREATE TABLE IF NOT EXISTS `#__testtable` (
    `ordering` int NOT NULL DEFAULT 0,
    `params` text NOT NULL,
    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;

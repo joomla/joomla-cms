@@ -158,23 +158,23 @@ class CssMenu
     /**
      * Method to render a given level of a menu using provided layout file
      *
-     * @param   string                 $layoutFile  The layout file to be used to render
+     * @param   string                 $layoUTFile  The layout file to be used to render
      * @param   AdministratorMenuItem  $node        Node to render the children of
      *
      * @return  void
      *
      * @since   3.8.0
      */
-    public function renderSubmenu($layoutFile, $node)
+    public function renderSubmenu($layoUTFile, $node)
     {
-        if (is_file($layoutFile)) {
+        if (is_file($layoUTFile)) {
             $children = $node->getChildren();
 
             foreach ($children as $current) {
                 $current->level = $node->level + 1;
 
                 // This sets the scope to this object for the layout file and also isolates other `include`s
-                require $layoutFile;
+                require $layoUTFile;
             }
         }
     }

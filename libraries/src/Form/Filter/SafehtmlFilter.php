@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Form\Filter;
 
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFilterInterface;
 use Joomla\Registry\Registry;
@@ -42,11 +42,11 @@ class SafehtmlFilter implements FormFilterInterface
      */
     public function filter(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
     {
-        return InputFilter::getInstance(
+        return InpUTFilter::getInstance(
             [],
             [],
-            InputFilter::ONLY_BLOCK_DEFINED_TAGS,
-            InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
+            InpUTFilter::ONLY_BLOCK_DEFINED_TAGS,
+            InpUTFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
         )->clean($value, 'html');
     }
 }

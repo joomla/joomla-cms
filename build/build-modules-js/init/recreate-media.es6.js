@@ -79,7 +79,7 @@ module.exports.recreateMediaFolder = async (options) => {
 
   // Patch the scss files
   Object.keys(SCSSMediafolders).forEach(async (file) => {
-    const contents = await readFile(SCSSMediafolders[file], 'utf8');
+    const contents = await readFile(SCSSMediafolders[file], 'UTF8');
     // Transform this `../../../../../../media/` to `../../../../`
     await writeFile(SCSSMediafolders[file], contents.replace(/\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/media\//g, '../../../../'));
   });

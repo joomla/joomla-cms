@@ -12,7 +12,7 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -229,7 +229,7 @@ class AdministratorApplication extends CMSApplication
         $template   = $this->bootComponent('templates')->getMVCFactory()
             ->createModel('Style', 'Administrator')->getAdminTemplate($adminStyle);
 
-        $template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
+        $template->template = InpUTFilter::getInstance()->clean($template->template, 'cmd');
         $template->params = new Registry($template->params);
 
         // Fallback template

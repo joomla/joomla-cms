@@ -110,18 +110,18 @@
     /**
      * React on user changing input value
      *
-     * @param {HTMLElement} inputField
+     * @param {HTMLElement} inpUTField
      */
-    changeInput(inputField) {
+    changeInput(inpUTField) {
       let hsl = [this.hue, this.saturation, this.light, this.alpha];
 
-      if (!inputField.value) {
+      if (!inpUTField.value) {
         this.mainInput.value = '';
         this.showError('');
         return;
       }
 
-      if (!this.checkValue(inputField.value)) {
+      if (!this.checkValue(inpUTField.value)) {
         this.showError('JFIELD_COLOR_ERROR_WRONG_FORMAT');
         this.setInputValue(this.defaultHsl);
       } else {
@@ -129,23 +129,23 @@
 
         switch (this.format) {
           case 'hue':
-            hsl[0] = inputField.value;
-            this.hue = inputField.value;
+            hsl[0] = inpUTField.value;
+            this.hue = inpUTField.value;
             break;
           case 'saturation':
-            hsl[1] = inputField.value;
-            this.saturation = inputField.value;
+            hsl[1] = inpUTField.value;
+            this.saturation = inpUTField.value;
             break;
           case 'light':
-            hsl[2] = inputField.value;
-            this.light = inputField.value;
+            hsl[2] = inpUTField.value;
+            this.light = inpUTField.value;
             break;
           case 'alpha':
-            hsl[3] = inputField.value;
-            this.alpha = inputField.value;
+            hsl[3] = inpUTField.value;
+            this.alpha = inpUTField.value;
             break;
           default:
-            hsl = this.getHsl(inputField.value);
+            hsl = this.getHsl(inpUTField.value);
         }
 
         this.setSliderValues(hsl);

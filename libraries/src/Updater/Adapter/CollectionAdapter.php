@@ -11,7 +11,7 @@ namespace Joomla\CMS\Updater\Adapter;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\UpdateAdapter;
@@ -150,7 +150,7 @@ class CollectionAdapter extends UpdateAdapter
                 $ver = new Version();
 
                 // Lower case and remove the exclamation mark
-                $product = strtolower(InputFilter::getInstance()->clean($ver::PRODUCT, 'cmd'));
+                $product = strtolower(InpUTFilter::getInstance()->clean($ver::PRODUCT, 'cmd'));
 
                 /*
                  * Set defaults, the extension file should clarify in case but it may be only available in one version

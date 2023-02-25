@@ -10,7 +10,7 @@ INSERT INTO "#__extensions" ("name", "type", "element", "folder", "client_id", "
 ('plg_behaviour_versionable', 'plugin', 'versionable', 'behaviour', 0, 1, 1, 0, '', '{}', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 -- From 4.0.0-2016-09-22.sql
-DELETE FROM "#__extensions" WHERE "type" = 'library' AND "element" = 'phputf8';
+DELETE FROM "#__extensions" WHERE "type" = 'library' AND "element" = 'phpUTF8';
 
 -- From 4.0.0-2016-09-28.sql
 DELETE FROM "#__extensions" WHERE "type" = 'plugin' AND "element" = 'p3p' AND "folder" = 'system';

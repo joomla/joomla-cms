@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Installation\Form\Rule;
 
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
@@ -40,12 +40,12 @@ class UsernameRule extends FormRule
      */
     public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
     {
-        $filterInput = InputFilter::getInstance();
+        $filterInput = InpUTFilter::getInstance();
 
         if (
-            preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $value) || strlen(utf8_decode($value)) < 2
+            preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $value) || strlen(UTF8_decode($value)) < 2
             || $filterInput->clean($value, 'TRIM') !== $value
-            || strlen(utf8_decode($value)) > $element['size']
+            || strlen(UTF8_decode($value)) > $element['size']
         ) {
             return false;
         }

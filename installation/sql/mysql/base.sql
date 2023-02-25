@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
   UNIQUE KEY `idx_asset_name` (`name`),
   KEY `idx_lft_rgt` (`lft`,`rgt`),
   KEY `idx_parent_id` (`parent_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__assets`
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `#__extensions` (
   KEY `element_clientid` (`element`,`client_id`),
   KEY `element_folder_clientid` (`element`,`folder`,`client_id`),
   KEY `extension` (`type`,`element`,`folder`,`client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__extensions`
@@ -411,7 +411,7 @@ SELECT `extension_id`, 'English (en-GB)', 'language', 'en-GB', '', 3, 1, 1, 1, 1
 CREATE TABLE IF NOT EXISTS `#__languages` (
   `lang_id` int unsigned NOT NULL AUTO_INCREMENT,
   `asset_id` int unsigned NOT NULL DEFAULT 0,
-  `lang_code` char(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `lang_code` char(7) CHARACTER SET UTF8mb4 COLLATE UTF8mb4_bin NOT NULL,
   `title` varchar(50) NOT NULL,
   `title_native` varchar(50) NOT NULL,
   `sef` varchar(50) NOT NULL,
@@ -428,7 +428,7 @@ CREATE TABLE IF NOT EXISTS `#__languages` (
   UNIQUE KEY `idx_langcode` (`lang_code`),
   KEY `idx_access` (`access`),
   KEY `idx_ordering` (`ordering`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__languages`
@@ -447,7 +447,7 @@ CREATE TABLE IF NOT EXISTS `#__menu` (
   `id` int NOT NULL AUTO_INCREMENT,
   `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to #__menu_types.menutype',
   `title` varchar(255) NOT NULL COMMENT 'The display title of the menu item.',
-  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'The SEF alias of the menu item.',
+  `alias` varchar(400) CHARACTER SET UTF8mb4 COLLATE UTF8mb4_bin NOT NULL COMMENT 'The SEF alias of the menu item.',
   `note` varchar(255) NOT NULL DEFAULT '',
   `path` varchar(1024) NOT NULL COMMENT 'The computed path of the menu item based on the alias field.',
   `link` varchar(1024) NOT NULL COMMENT 'The actually link the menu item refers to.',
@@ -478,7 +478,7 @@ CREATE TABLE IF NOT EXISTS `#__menu` (
   KEY `idx_alias` (`alias`(100)),
   KEY `idx_path` (`path`(100)),
   KEY `idx_language` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=102;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci AUTO_INCREMENT=102;
 
 --
 -- Dumping data for table `#__menu`
@@ -544,7 +544,7 @@ CREATE TABLE IF NOT EXISTS `#__menu_types` (
   `client_id` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_menutype` (`menutype`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__menu_types`
@@ -582,7 +582,7 @@ CREATE TABLE IF NOT EXISTS `#__modules` (
   KEY `published` (`published`,`access`),
   KEY `newsfeeds` (`module`,`published`),
   KEY `idx_language` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=87;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci AUTO_INCREMENT=87;
 
 --
 -- Dumping data for table `#__modules`
@@ -635,7 +635,7 @@ CREATE TABLE IF NOT EXISTS `#__modules_menu` (
   `moduleid` int NOT NULL DEFAULT 0,
   `menuid` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`moduleid`,`menuid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__modules_menu`
@@ -691,7 +691,7 @@ CREATE TABLE IF NOT EXISTS `#__schemas` (
   `extension_id` int NOT NULL,
   `version_id` varchar(20) NOT NULL,
   PRIMARY KEY (`extension_id`,`version_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -711,7 +711,7 @@ CREATE TABLE IF NOT EXISTS `#__session` (
   KEY `userid` (`userid`),
   KEY `time` (`time`),
   KEY `client_id_guest` (`client_id`, `guest`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -727,7 +727,7 @@ CREATE TABLE IF NOT EXISTS `#__tags` (
   `level` int unsigned NOT NULL DEFAULT 0,
   `path` varchar(400) NOT NULL DEFAULT '',
   `title` varchar(255) NOT NULL,
-  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `alias` varchar(400) CHARACTER SET UTF8mb4 COLLATE UTF8mb4_bin NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
   `description` mediumtext NOT NULL,
   `published` tinyint NOT NULL DEFAULT 0,
@@ -758,7 +758,7 @@ CREATE TABLE IF NOT EXISTS `#__tags` (
   KEY `idx_left_right` (`lft`,`rgt`),
   KEY `idx_alias` (`alias`(100)),
   KEY `idx_language` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__tags`
@@ -786,7 +786,7 @@ CREATE TABLE IF NOT EXISTS `#__template_overrides` (
   PRIMARY KEY (`id`),
   KEY `idx_template` (`template`),
   KEY `idx_extension_id` (`extension_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -807,7 +807,7 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
   KEY `idx_template` (`template`),
   KEY `idx_client_id` (`client_id`),
   KEY `idx_client_id_home` (`client_id`,`home`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=9;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci AUTO_INCREMENT=9;
 
 --
 -- Dumping data for table `#__template_styles`
@@ -840,7 +840,7 @@ CREATE TABLE IF NOT EXISTS `#__updates` (
   `changelogurl` text,
   `extra_query` varchar(1000) DEFAULT '',
   PRIMARY KEY (`update_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Available Updates';
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci COMMENT='Available Updates';
 
 -- --------------------------------------------------------
 
@@ -859,7 +859,7 @@ CREATE TABLE IF NOT EXISTS `#__update_sites` (
   `checked_out` int unsigned,
   `checked_out_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`update_site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Update Sites';
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci COMMENT='Update Sites';
 
 --
 -- Dumping data for table `#__update_sites`
@@ -880,7 +880,7 @@ CREATE TABLE IF NOT EXISTS `#__update_sites_extensions` (
   `update_site_id` int NOT NULL DEFAULT 0,
   `extension_id` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`update_site_id`,`extension_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Links extensions to update sites';
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci COMMENT='Links extensions to update sites';
 
 --
 -- Dumping data for table `#__update_sites_extensions`
@@ -910,7 +910,7 @@ CREATE TABLE IF NOT EXISTS `#__usergroups` (
   KEY `idx_usergroup_title_lookup` (`title`),
   KEY `idx_usergroup_adjacency_lookup` (`parent_id`),
   KEY `idx_usergroup_nested_set_lookup` (`lft`,`rgt`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__usergroups`
@@ -956,7 +956,7 @@ CREATE TABLE IF NOT EXISTS `#__users` (
   KEY `idx_block` (`block`),
   UNIQUE KEY `idx_username` (`username`),
   KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -974,7 +974,7 @@ CREATE TABLE IF NOT EXISTS `#__user_keys` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `series` (`series`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1001,7 +1001,7 @@ CREATE TABLE IF NOT EXISTS `#__user_notes` (
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`),
   KEY `idx_category_id` (`catid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1015,7 +1015,7 @@ CREATE TABLE IF NOT EXISTS `#__user_profiles` (
   `profile_value` text NOT NULL,
   `ordering` int NOT NULL DEFAULT 0,
   UNIQUE KEY `idx_user_id_profile_key` (`user_id`,`profile_key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Simple user profile storage table';
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci COMMENT='Simple user profile storage table';
 
 -- --------------------------------------------------------
 
@@ -1034,7 +1034,7 @@ CREATE TABLE IF NOT EXISTS `#__user_mfa` (
   `last_used` datetime,
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Multi-factor Authentication settings';
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci COMMENT='Multi-factor Authentication settings';
 
 -- --------------------------------------------------------
 
@@ -1046,7 +1046,7 @@ CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
   `user_id` int unsigned NOT NULL DEFAULT 0 COMMENT 'Foreign Key to #__users.id',
   `group_id` int unsigned NOT NULL DEFAULT 0 COMMENT 'Foreign Key to #__usergroups.id',
   PRIMARY KEY (`user_id`,`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1061,7 +1061,7 @@ CREATE TABLE IF NOT EXISTS `#__viewlevels` (
   `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_assetgroup_title_lookup` (`title`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=7;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci AUTO_INCREMENT=7;
 
 --
 -- Dumping data for table `#__viewlevels`
@@ -1105,7 +1105,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   KEY `idx_modified` (`modified`),
   KEY `idx_modified_by` (`modified_by`),
   KEY `idx_checked_out` (`checked_out`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__workflows`
@@ -1129,7 +1129,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_associations` (
   KEY `idx_item_id` (`item_id`),
   KEY `idx_stage_id` (`stage_id`),
   KEY `idx_extension` (`extension`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1154,7 +1154,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
   KEY `idx_title` (`title`(191)),
   KEY `idx_asset_id` (`asset_id`),
   KEY `idx_default` (`default`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__workflow_stages`
@@ -1189,7 +1189,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
   KEY `idx_from_stage_id` (`from_stage_id`),
   KEY `idx_to_stage_id` (`to_stage_id`),
   KEY `idx_workflow_id` (`workflow_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__workflow_transitions`

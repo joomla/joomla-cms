@@ -77,11 +77,11 @@ module.exports.stylesheets = async (options, path) => {
 
   // eslint-disable-next-line no-restricted-syntax
   for (const file of files) {
-    const outputFile = file.replace(`${sep}scss${sep}`, `${sep}css${sep}`)
+    const outpUTFile = file.replace(`${sep}scss${sep}`, `${sep}css${sep}`)
       .replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`)
       .replace('.scss', '.css');
 
-    scssFilesPromises.push(handleScssFile(file, outputFile));
+    scssFilesPromises.push(handleScssFile(file, outpUTFile));
   }
 
   return Promise.all([...cssFilesPromises, ...scssFilesPromises]);

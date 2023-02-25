@@ -254,7 +254,7 @@ class ApiController extends BaseController
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function putFiles()
+    public function pUTFiles()
     {
         if (!$this->app->getIdentity()->authorise('core.edit', 'com_media')) {
             throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 403);

@@ -11,7 +11,7 @@ namespace Joomla\CMS\Application;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\Filter\OutpUTFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -90,14 +90,14 @@ class ApplicationHelper
     public static function stringURLSafe($string, $language = '')
     {
         if (Factory::getApplication()->get('unicodeslugs') == 1) {
-            $output = OutputFilter::stringUrlUnicodeSlug($string);
+            $output = OutpUTFilter::stringUrlUnicodeSlug($string);
         } else {
             if ($language === '*' || $language === '') {
                 $languageParams = ComponentHelper::getParams('com_languages');
                 $language = $languageParams->get('site');
             }
 
-            $output = OutputFilter::stringURLSafe($string, $language);
+            $output = OutpUTFilter::stringURLSafe($string, $language);
         }
 
         return $output;

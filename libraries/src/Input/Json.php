@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Input;
 
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -47,7 +47,7 @@ class Json extends Input
         if (isset($options['filter'])) {
             $this->filter = $options['filter'];
         } else {
-            $this->filter = InputFilter::getInstance();
+            $this->filter = InpUTFilter::getInstance();
         }
 
         if (\is_null($source)) {

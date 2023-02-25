@@ -84,10 +84,10 @@ class ChangeSet
             $this->changeItems[] = ChangeItem::getInstance($db, $obj->file, $obj->updateQuery);
         }
 
-        // If on mysql, add a query at the end to check for utf8mb4 conversion status
+        // If on mysql, add a query at the end to check for UTF8mb4 conversion status
         if ($this->db->getServerType() === 'mysql') {
-            // Check if the #__utf8_conversion table exists
-            $this->db->setQuery('SHOW TABLES LIKE ' . $this->db->quote($this->db->getPrefix() . 'utf8_conversion'));
+            // Check if the #__UTF8_conversion table exists
+            $this->db->setQuery('SHOW TABLES LIKE ' . $this->db->quote($this->db->getPrefix() . 'UTF8_conversion'));
 
             try {
                 $rows = $this->db->loadRowList(0);
@@ -97,13 +97,13 @@ class ChangeSet
                 $tableExists = 0;
             }
 
-            // If the table exists add a change item for utf8mb4 conversion to the end
+            // If the table exists add a change item for UTF8mb4 conversion to the end
             if ($tableExists > 0) {
                 // Let the update query do nothing
                 $tmpSchemaChangeItem = ChangeItem::getInstance(
                     $db,
                     'database.php',
-                    'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
+                    'UPDATE ' . $this->db->quoteName('#__UTF8_conversion')
                     . ' SET ' . $this->db->quoteName('converted') . ' = '
                     . $this->db->quoteName('converted') . ';'
                 );
@@ -116,7 +116,7 @@ class ChangeSet
 
                 $tmpSchemaChangeItem->checkQuery = 'SELECT '
                     . $this->db->quoteName('converted')
-                    . ' FROM ' . $this->db->quoteName('#__utf8_conversion')
+                    . ' FROM ' . $this->db->quoteName('#__UTF8_conversion')
                     . ' WHERE ' . $this->db->quoteName('converted') . ' = 5';
 
                 // Set expected records from check query

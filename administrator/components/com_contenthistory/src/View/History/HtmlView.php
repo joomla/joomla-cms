@@ -11,7 +11,7 @@
 namespace Joomla\Component\Contenthistory\Administrator\View\History;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
@@ -93,7 +93,7 @@ class HtmlView extends BaseHtmlView
         $token = Session::getFormToken();
 
         // Clean up input to ensure a clean url.
-        $filter     = InputFilter::getInstance();
+        $filter     = InpUTFilter::getInstance();
         $aliasArray = explode('.', $this->state->item_id);
 
         if ($aliasArray[1] === 'category') {

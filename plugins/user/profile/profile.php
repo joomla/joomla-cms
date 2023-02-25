@@ -147,7 +147,7 @@ class PlgUserProfile extends CMSPlugin
         if (empty($value)) {
             return HTMLHelper::_('users.value', $value);
         } else {
-            // Convert website URL to utf8 for display
+            // Convert website URL to UTF8 for display
             $value = PunycodeHelper::urlToUTF8(htmlspecialchars($value));
 
             if (strpos($value, 'http') === 0) {

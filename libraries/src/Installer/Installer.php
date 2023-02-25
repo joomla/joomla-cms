@@ -1038,7 +1038,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
         // Get the name of the sql file to process
         foreach ($element->children() as $file) {
-            $fCharset = strtolower($file->attributes()->charset) === 'utf8' ? 'utf8' : '';
+            $fCharset = strtolower($file->attributes()->charset) === 'UTF8' ? 'UTF8' : '';
             $fDriver  = strtolower($file->attributes()->driver);
 
             if ($fDriver === 'mysqli' || $fDriver === 'pdomysql') {
@@ -1047,7 +1047,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 $fDriver = 'postgresql';
             }
 
-            if ($fCharset !== 'utf8' || $fDriver != $dbDriver) {
+            if ($fCharset !== 'UTF8' || $fDriver != $dbDriver) {
                 continue;
             }
 

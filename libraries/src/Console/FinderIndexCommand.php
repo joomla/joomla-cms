@@ -204,7 +204,7 @@ EOF;
             $this->index();
 
             // Restore the filters again.
-            $this->putFilters();
+            $this->pUTFilters();
         } else {
             $this->index();
         }
@@ -450,7 +450,7 @@ EOF;
      *
      * @since   3.3
      */
-    private function putFilters()
+    private function pUTFilters()
     {
         $this->ioStyle->text(Text::_('FINDER_CLI_RESTORE_FILTERS'));
 

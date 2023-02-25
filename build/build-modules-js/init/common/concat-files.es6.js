@@ -16,11 +16,11 @@ module.exports.concatFiles = async (files, output) => {
   // eslint-disable-next-line no-restricted-syntax
   for (const file of files) {
     if (existsSync(`${RootPath}/${file}`)) {
-      promises.push(readFile(`${RootPath}/${file}`, { encoding: 'utf8' }));
+      promises.push(readFile(`${RootPath}/${file}`, { encoding: 'UTF8' }));
     }
   }
 
   const res = await Promise.all(promises);
 
-  await writeFile(`${RootPath}/${output}`, res.join(' '), { encoding: 'utf8', mode: 0o644 });
+  await writeFile(`${RootPath}/${output}`, res.join(' '), { encoding: 'UTF8', mode: 0o644 });
 };

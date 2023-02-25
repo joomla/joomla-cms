@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   KEY `idx_modified` (`modified`),
   KEY `idx_modified_by` (`modified_by`),
   KEY `idx_checked_out` (`checked_out`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__workflows`
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_associations` (
   KEY `idx_item_id` (`item_id`),
   KEY `idx_stage_id` (`stage_id`),
   KEY `idx_extension` (`extension`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 --
 -- Table structure for table `#__workflow_stages`
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
   KEY `idx_title` (`title`(191)),
   KEY `idx_asset_id` (`asset_id`),
   KEY `idx_default` (`default`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__workflow_stages`
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
   KEY `idx_from_stage_id` (`from_stage_id`),
   KEY `idx_to_stage_id` (`to_stage_id`),
   KEY `idx_workflow_id` (`workflow_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__workflow_transitions`

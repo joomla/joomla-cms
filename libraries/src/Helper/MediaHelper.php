@@ -13,7 +13,7 @@ use enshrined\svgSanitize\Sanitizer;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
@@ -32,7 +32,7 @@ class MediaHelper
     /**
      * A special list of blocked executable extensions, skipping executables that are
      * typically executable in the webserver context as those are fetched from
-     * Joomla\CMS\Filter\InputFilter
+     * Joomla\CMS\Filter\InpUTFilter
      *
      * @var    string[]
      * @since  4.0.0
@@ -164,7 +164,7 @@ class MediaHelper
         $params = ComponentHelper::getParams($component);
 
         // Media file names should never have executable extensions buried in them.
-        $executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
+        $executables = array_merge(self::EXECUTABLES, InpUTFilter::FORBIDDEN_FILE_EXTENSIONS);
 
         // Remove allowed executables from array
         if (count($allowedExecutables)) {
@@ -226,7 +226,7 @@ class MediaHelper
         array_shift($filetypes);
 
         // Media file names should never have executable extensions buried in them.
-        $executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
+        $executables = array_merge(self::EXECUTABLES, InpUTFilter::FORBIDDEN_FILE_EXTENSIONS);
 
         // Remove allowed executables from array
         if (count($allowedExecutables)) {

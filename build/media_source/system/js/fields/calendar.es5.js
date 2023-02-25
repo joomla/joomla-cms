@@ -28,10 +28,10 @@
 		this.hidden     = true;
 		this.params     = {};
 		this.element    = element;
-		this.inputField = element.getElementsByTagName('input')[0];
+		this.inpUTField = element.getElementsByTagName('input')[0];
 		this.button     = element.getElementsByTagName('button')[0];
 
-		if (!this.inputField) {
+		if (!this.inpUTField) {
 			throw new Error("Calendar setup failed:\n  No valid input found, Please check your code");
 		}
 
@@ -79,7 +79,7 @@
 
 		var btn = this.button,
 			instanceParams = {
-				inputField      : this.inputField,
+				inpUTField      : this.inpUTField,
 				dateType        : btn.dataset.dateType || 'gregorian',
 				direction       : document.dir ? document.dir : document.getElementsByTagName("html")[0].getAttribute("dir"),
 				firstDayOfWeek  : btn.dataset.firstday ? parseInt(btn.dataset.firstday, 10) : 0,
@@ -162,7 +162,7 @@
 		this.checkInputs();
 
 		// For the fields with readonly tag calendar will not initiate fully
-		if (this.inputField.getAttribute('readonly')) {
+		if (this.inpUTField.getAttribute('readonly')) {
 			return;
 		}
 
@@ -172,11 +172,11 @@
 
 	JoomlaCalendar.prototype.checkInputs = function () {
 		// Get the date from the input
-		var inputAltValueDate = Date.parseFieldDate(this.inputField.getAttribute('data-alt-value'), this.params.dateFormat, 'gregorian', this.strings);
+		var inputAltValueDate = Date.parseFieldDate(this.inpUTField.getAttribute('data-alt-value'), this.params.dateFormat, 'gregorian', this.strings);
 
-		if (this.inputField.value !== '') {
+		if (this.inpUTField.value !== '') {
 			this.date = inputAltValueDate;
-			this.inputField.value = inputAltValueDate.print(this.params.dateFormat, this.params.dateType, true, this.strings);
+			this.inpUTField.value = inputAltValueDate.print(this.params.dateFormat, this.params.dateType, true, this.strings);
 		} else {
 			this.date = new Date();
 		}
@@ -200,7 +200,7 @@
 		var d = self.date.getLocalDate(self.params.dateType),
 			m = self.date.getLocalMonth(self.params.dateType),
 			y = self.date.getLocalFullYear(self.params.dateType),
-			ampm = this.inputField.parentNode.parentNode.querySelectorAll('.time-ampm')[0];
+			ampm = this.inpUTField.parentNode.parentNode.querySelectorAll('.time-ampm')[0];
 
 		if (!self.params.time24) {
 			if (/pm/i.test(ampm.value) && hours < 12) {
@@ -251,21 +251,21 @@
 	/** Method to set the value for the input field */
 	JoomlaCalendar.prototype.callHandler = function () {
 		/** Output the date **/
-		this.inputField.setAttribute('data-alt-value', this.date.print(this.params.dateFormat, 'gregorian', false, this.strings));
+		this.inpUTField.setAttribute('data-alt-value', this.date.print(this.params.dateFormat, 'gregorian', false, this.strings));
 
-		if (this.inputField.getAttribute('data-alt-value') && this.inputField.getAttribute('data-alt-value') !== '0000-00-00 00:00:00') {
-			this.inputField.value = this.date.print(this.params.dateFormat, this.params.dateType, true, this.strings);
+		if (this.inpUTField.getAttribute('data-alt-value') && this.inpUTField.getAttribute('data-alt-value') !== '0000-00-00 00:00:00') {
+			this.inpUTField.value = this.date.print(this.params.dateFormat, this.params.dateType, true, this.strings);
 			if (this.params.dateType !== 'gregorian') {
-				this.inputField.setAttribute('data-local-value', this.date.print(this.params.dateFormat, this.params.dateType, true, this.strings));
+				this.inpUTField.setAttribute('data-local-value', this.date.print(this.params.dateFormat, this.params.dateType, true, this.strings));
 			}
 		}
-		this.inputField.value = this.date.print(this.params.dateFormat, this.params.dateType, true, this.strings);
+		this.inpUTField.value = this.date.print(this.params.dateFormat, this.params.dateType, true, this.strings);
 
 		if (this.dateClicked && typeof this.params.onUpdate === "function") {
 			this.params.onUpdate(this);
 		}
 
-		this.inputField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
+		this.inpUTField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
 
 		if (this.dateClicked) {
 			this.close();
@@ -282,7 +282,7 @@
 	/** Method to show the calendar. */
 	JoomlaCalendar.prototype.show = function () {
 		this.checkInputs();
-		this.inputField.focus();
+		this.inpUTField.focus();
 		this.dropdownElement.classList.add('open');
 		this.dropdownElement.removeAttribute('hidden');
 		this.hidden = false;
@@ -295,7 +295,7 @@
 		var containerTmp = this.element.querySelector('.js-calendar');
 
 		if (window.innerHeight < containerTmp.getBoundingClientRect().bottom + 20) {
-			containerTmp.style.marginTop = - (containerTmp.getBoundingClientRect().height + this.inputField.getBoundingClientRect().height) + "px";
+			containerTmp.style.marginTop = - (containerTmp.getBoundingClientRect().height + this.inpUTField.getBoundingClientRect().height) + "px";
 		}
 
 		this.processCalendar();
@@ -510,7 +510,7 @@
 			K = ev.keyCode;
 
 		// Get value from input
-		if (ev.target === this.inputField && (K === 13 || K === 9)) {
+		if (ev.target === this.inpUTField && (K === 13 || K === 9)) {
 			this.close();
 		}
 
@@ -544,7 +544,7 @@
 		if (K === 39) {                                // KEY right (next day)
 			this.moveCursorBy( -1);
 		}
-		if (ev.target === this.inputField && !(K>48 || K<57 || K===186 || K===189 || K===190 || K===32)) {
+		if (ev.target === this.inpUTField && !(K>48 || K<57 || K===186 || K===189 || K===190 || K===32)) {
 			return stopCalEvent(ev);
 		}
 	};
@@ -570,7 +570,7 @@
 		div.className = 'js-calendar';
 		div.style.position = "absolute";
 		div.style.boxShadow = "0 0 70px 0 rgba(0,0,0,0.67)";
-		div.style.minWidth = this.inputField.width;
+		div.style.minWidth = this.inpUTField.width;
 		div.style.padding = '0';
 		div.setAttribute('hidden', '');
 		div.style.left = "auto";
@@ -754,7 +754,7 @@
 
 				if (t12) {
 					var selAttr = true,
-						altDate = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, 'gregorian', self.strings);
+						altDate = Date.parseFieldDate(self.inpUTField.getAttribute('data-alt-value'), self.params.dateFormat, 'gregorian', self.strings);
 					pm = (altDate.getHours() >= 12);
 
 					var part = createElement("select", cell);
@@ -803,10 +803,10 @@
 						break;
 					}
 				}
-				self.inputField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
-				self.inputField.setAttribute('value', '');
-				self.inputField.value = '';
-				self.inputField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
+				self.inpUTField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
+				self.inpUTField.setAttribute('value', '');
+				self.inpUTField.value = '';
+				self.inpUTField.dispatchEvent(new CustomEvent('change', {bubbles: true, cancelable: true}));
 			});
 
 		if (this.params.showsTodayBtn) {
@@ -827,21 +827,21 @@
 		exita.addEventListener('click', function (e) {
 			e.preventDefault();
 			if (!self.dateClicked) {
-				if (self.inputField.value) {
+				if (self.inpUTField.value) {
 					if (self.params.dateType !== 'gregorian') {
-						self.inputField.setAttribute('data-local-value', self.inputField.value);
+						self.inpUTField.setAttribute('data-local-value', self.inpUTField.value);
 					}
 					if (typeof self.dateClicked === 'undefined') {
 						// value needs to be validated
-						self.inputField.setAttribute('data-alt-value', Date.parseFieldDate(self.inputField.value, self.params.dateFormat, self.params.dateType, self.strings)
+						self.inpUTField.setAttribute('data-alt-value', Date.parseFieldDate(self.inpUTField.value, self.params.dateFormat, self.params.dateType, self.strings)
 							.print(self.params.dateFormat, 'gregorian', false, self.strings));
 					} else {
-						self.inputField.setAttribute('data-alt-value', self.date.print(self.params.dateFormat, 'gregorian', false, self.strings));
+						self.inpUTField.setAttribute('data-alt-value', self.date.print(self.params.dateFormat, 'gregorian', false, self.strings));
 					}
 				} else {
-					self.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
+					self.inpUTField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
 				}
-				self.date = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, self.params.dateType, self.strings);
+				self.date = Date.parseFieldDate(self.inpUTField.getAttribute('data-alt-value'), self.params.dateFormat, self.params.dateType, self.strings);
 			}
 			self.close();
 		});
@@ -986,7 +986,7 @@
 
 			if (!this.params.time24)
 			{
-				var dateAlt = new Date(this.inputField.getAttribute('data-alt-value')),
+				var dateAlt = new Date(this.inpUTField.getAttribute('data-alt-value')),
 					ampmEl = this.table.querySelector('.time-ampm'),
 					hrsAlt = dateAlt.getHours();
 
@@ -1011,7 +1011,7 @@
 	/** Method to listen for the click event on the input button. **/
 	JoomlaCalendar.prototype._bindEvents = function () {
 		var self = this;
-		this.inputField.addEventListener('blur', function(event) {
+		this.inpUTField.addEventListener('blur', function(event) {
 			var calObj = JoomlaCalendar.getCalObject(this)._joomlaCalendar;
 
 			// If calendar is open we will handle the event elsewhere
@@ -1021,29 +1021,29 @@
 			}
 
 			if (calObj) {
-				if (calObj.inputField.value) {
+				if (calObj.inpUTField.value) {
 					if (typeof calObj.params.dateClicked === 'undefined') {
-						calObj.inputField.setAttribute('data-local-value', calObj.inputField.value);
+						calObj.inpUTField.setAttribute('data-local-value', calObj.inpUTField.value);
 
 						if (calObj.params.dateType !== 'gregorian') {
 							// We need to transform the date for the data-alt-value
-							var ndate, date = Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType, calObj.strings);
+							var ndate, date = Date.parseFieldDate(calObj.inpUTField.value, calObj.params.dateFormat, calObj.params.dateType, calObj.strings);
 							ndate = Date.localCalToGregorian(date.getFullYear(), date.getMonth(), date.getDate());
 							date.setFullYear(ndate[0]);
 							date.setMonth(ndate[1]);
 							date.setDate(ndate[2]);
-							calObj.inputField.setAttribute('data-alt-value', date.print(calObj.params.dateFormat, 'gregorian', false, calObj.strings));
+							calObj.inpUTField.setAttribute('data-alt-value', date.print(calObj.params.dateFormat, 'gregorian', false, calObj.strings));
 						} else {
-							calObj.inputField.setAttribute('data-alt-value', Date.parseFieldDate(calObj.inputField.value, calObj.params.dateFormat, calObj.params.dateType, calObj.strings)
+							calObj.inpUTField.setAttribute('data-alt-value', Date.parseFieldDate(calObj.inpUTField.value, calObj.params.dateFormat, calObj.params.dateType, calObj.strings)
 								.print(calObj.params.dateFormat, 'gregorian', false, calObj.strings));
 						}
 					} else {
-						calObj.inputField.setAttribute('data-alt-value', calObj.date.print(calObj.params.dateFormat, 'gregorian', false, calObj.strings));
+						calObj.inpUTField.setAttribute('data-alt-value', calObj.date.print(calObj.params.dateFormat, 'gregorian', false, calObj.strings));
 					}
 				} else {
-					calObj.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
+					calObj.inpUTField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
 				}
-				calObj.date = Date.parseFieldDate(calObj.inputField.getAttribute('data-alt-value'), calObj.params.dateFormat, calObj.params.dateType, calObj.strings);
+				calObj.date = Date.parseFieldDate(calObj.inpUTField.getAttribute('data-alt-value'), calObj.params.dateFormat, calObj.params.dateType, calObj.strings);
 			}
 
 			self.close();
@@ -1078,7 +1078,7 @@
 	 * by the onSubmit handler of the calendar fields form.
 	 */
 	JoomlaCalendar.prototype.setAltValue = function() {
-		var input = this.inputField;
+		var input = this.inpUTField;
 		if (input.getAttribute('disabled')) return;
 
 		// Set the value to the data-alt-value attribute, but only if it really has a value.
@@ -1154,8 +1154,8 @@
 		 */
 		Calendar.setup = function(obj) {
 
-			if (obj.inputField && document.getElementById(obj.inputField)) {
-				var element = document.getElementById(obj.inputField),
+			if (obj.inpUTField && document.getElementById(obj.inpUTField)) {
+				var element = document.getElementById(obj.inpUTField),
 					cal = element.parentNode.querySelectorAll('button')[0];
 
 				for (var property in obj) {
@@ -1186,7 +1186,7 @@
 								break;
 
 							case 'displayArea':
-							case 'inputField':
+							case 'inpUTField':
 							case 'button':
 							case 'eventName':
 							case 'daFormat':

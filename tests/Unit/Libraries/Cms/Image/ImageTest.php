@@ -476,9 +476,9 @@ class ImageTest extends UnitTestCase
     {
         $this->expectException(\LogicException::class);
 
-        $outFileGif = __DIR__ . '/tmp/out.gif';
+        $oUTFileGif = __DIR__ . '/tmp/out.gif';
 
-        $this->instance->toFile($outFileGif, IMAGETYPE_GIF);
+        $this->instance->toFile($oUTFileGif, IMAGETYPE_GIF);
     }
 
     /**
@@ -498,13 +498,13 @@ class ImageTest extends UnitTestCase
      */
     public function testToFileGif()
     {
-        $outFileGif = __DIR__ . '/tmp/out-' . rand() . '.gif';
+        $oUTFileGif = __DIR__ . '/tmp/out-' . rand() . '.gif';
 
         $image = new Image($this->testFile);
-        $image->toFile($outFileGif, IMAGETYPE_GIF);
+        $image->toFile($oUTFileGif, IMAGETYPE_GIF);
 
         $a = Image::getImageFileProperties($this->testFile);
-        $b = Image::getImageFileProperties($outFileGif);
+        $b = Image::getImageFileProperties($oUTFileGif);
 
         // Assert that properties that should be equal are equal.
         $this->assertEquals($a->width, $b->width);
@@ -518,7 +518,7 @@ class ImageTest extends UnitTestCase
         $this->assertEquals(IMAGETYPE_GIF, $b->type);
 
         // Clean up after ourselves.
-        unlink($outFileGif);
+        unlink($oUTFileGif);
     }
 
     /**
@@ -538,13 +538,13 @@ class ImageTest extends UnitTestCase
      */
     public function testToFilePng()
     {
-        $outFilePng = __DIR__ . '/tmp/out-' . rand() . '.png';
+        $oUTFilePng = __DIR__ . '/tmp/out-' . rand() . '.png';
 
         $image = new Image($this->testFile);
-        $image->toFile($outFilePng, IMAGETYPE_PNG);
+        $image->toFile($oUTFilePng, IMAGETYPE_PNG);
 
         $a = Image::getImageFileProperties($this->testFile);
-        $b = Image::getImageFileProperties($outFilePng);
+        $b = Image::getImageFileProperties($oUTFilePng);
 
         // Assert that properties that should be equal are equal.
         $this->assertEquals($a->width, $b->width);
@@ -558,7 +558,7 @@ class ImageTest extends UnitTestCase
         $this->assertNull($b->channels);
 
         // Clean up after ourselves.
-        unlink($outFilePng);
+        unlink($oUTFilePng);
     }
 
     /**
@@ -579,14 +579,14 @@ class ImageTest extends UnitTestCase
     public function testToFileJpg()
     {
         // Write the file out to a JPG.
-        $outFileJpg = __DIR__ . '/tmp/out-' . rand() . '.jpg';
+        $oUTFileJpg = __DIR__ . '/tmp/out-' . rand() . '.jpg';
 
         $image = new Image($this->testFile);
-        $image->toFile($outFileJpg, IMAGETYPE_JPEG);
+        $image->toFile($oUTFileJpg, IMAGETYPE_JPEG);
 
         // Get the file properties for both input and output.
         $a = Image::getImageFileProperties($this->testFile);
-        $b = Image::getImageFileProperties($outFileJpg);
+        $b = Image::getImageFileProperties($oUTFileJpg);
 
         // Assert that properties that should be equal are equal.
         $this->assertEquals($a->width, $b->width);
@@ -598,7 +598,7 @@ class ImageTest extends UnitTestCase
         $this->assertEquals($a->channels, $b->channels);
 
         // Clean up after ourselves.
-        unlink($outFileJpg);
+        unlink($oUTFileJpg);
     }
 
     /**
@@ -618,13 +618,13 @@ class ImageTest extends UnitTestCase
      */
     public function testToFileWebp()
     {
-        $outFileWebp = __DIR__ . '/tmp/out-' . rand() . '.webp';
+        $oUTFileWebp = __DIR__ . '/tmp/out-' . rand() . '.webp';
 
         $image = new Image($this->testFile);
-        $image->toFile($outFileWebp, IMAGETYPE_WEBP);
+        $image->toFile($oUTFileWebp, IMAGETYPE_WEBP);
 
         $a = Image::getImageFileProperties($this->testFile);
-        $b = Image::getImageFileProperties($outFileWebp);
+        $b = Image::getImageFileProperties($oUTFileWebp);
 
         // Assert that properties that should be equal are equal.
         $this->assertEquals($a->width, $b->width);
@@ -638,7 +638,7 @@ class ImageTest extends UnitTestCase
         $this->assertNull($b->channels);
 
         // Clean up after ourselves.
-        unlink($outFileWebp);
+        unlink($oUTFileWebp);
     }
 
     /**
@@ -659,14 +659,14 @@ class ImageTest extends UnitTestCase
     public function testToFileDefault()
     {
         // Write the file out to a JPG.
-        $outFileDefault = __DIR__ . '/tmp/out-' . rand() . '.default';
+        $oUTFileDefault = __DIR__ . '/tmp/out-' . rand() . '.default';
 
         $image = new Image($this->testFile);
-        $image->toFile($outFileDefault);
+        $image->toFile($oUTFileDefault);
 
         // Get the file properties for both input and output.
         $a = Image::getImageFileProperties($this->testFile);
-        $b = Image::getImageFileProperties($outFileDefault);
+        $b = Image::getImageFileProperties($oUTFileDefault);
 
         // Assert that properties that should be equal are equal.
         $this->assertEquals($a->width, $b->width);
@@ -678,7 +678,7 @@ class ImageTest extends UnitTestCase
         $this->assertEquals($a->channels, $b->channels);
 
         // Clean up after ourselves.
-        unlink($outFileDefault);
+        unlink($oUTFileDefault);
     }
 
     /**
@@ -930,10 +930,10 @@ class ImageTest extends UnitTestCase
         $this->instance->loadFile($this->testFile);
 
         $thumbs = $this->instance->createThumbs('50x38', Image::CROP);
-        $outFileGif = TestHelper::getValue($thumbs[0], 'path');
+        $oUTFileGif = TestHelper::getValue($thumbs[0], 'path');
 
         $a = Image::getImageFileProperties($this->testFile);
-        $b = Image::getImageFileProperties($outFileGif);
+        $b = Image::getImageFileProperties($oUTFileGif);
 
         // Assert that properties that should be equal are equal.
         $this->assertEquals(50, $b->width);
@@ -944,7 +944,7 @@ class ImageTest extends UnitTestCase
         $this->assertEquals($a->type, $b->type);
         $this->assertEquals($a->channels, $b->channels);
 
-        unlink($outFileGif);
+        unlink($oUTFileGif);
     }
 
     /**

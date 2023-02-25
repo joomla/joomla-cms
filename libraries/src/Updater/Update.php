@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Updater;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -334,7 +334,7 @@ class Update extends CMSObject
         switch ($name) {
             // Closing update, find the latest version and check
             case 'UPDATE':
-                $product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
+                $product = strtolower(InpUTFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
 
                 // Check that the product matches and that the version matches (optionally a regexp)
                 if (

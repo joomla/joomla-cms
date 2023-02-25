@@ -14,7 +14,7 @@ use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -547,7 +547,7 @@ abstract class ModuleHelper
      *
      * @return  string
      *
-     * @see     InputFilter::clean()
+     * @see     InpUTFilter::clean()
      * @since   1.6
      */
     public static function moduleCache($module, $moduleparams, $cacheparams)
@@ -605,7 +605,7 @@ abstract class ModuleHelper
                     $input   = $app->input;
                     $uri     = $input->getArray();
                     $safeuri = new \stdClass();
-                    $noHtmlFilter = InputFilter::getInstance();
+                    $noHtmlFilter = InpUTFilter::getInstance();
 
                     foreach ($cacheparams->modeparams as $key => $value) {
                         // Use int filter for id/catid to clean out spamy slugs

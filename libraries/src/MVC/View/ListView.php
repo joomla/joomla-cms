@@ -242,7 +242,7 @@ class ListView extends HtmlView
         ) {
             $title = Text::_('JTOOLBAR_BATCH');
 
-            // Instantiate a new LayoutFile instance and render the popup button
+            // Instantiate a new LayoUTFile instance and render the popup button
             $layout = new FileLayout('joomla.toolbar.popup');
 
             $dhtml = $layout->render(array('title' => $title));

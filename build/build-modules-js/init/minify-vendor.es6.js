@@ -62,7 +62,7 @@ const minifyJS = async (file) => {
     return;
   }
 
-  const content = await readFile(file, { encoding: 'utf8' });
+  const content = await readFile(file, { encoding: 'UTF8' });
 
   const isMinified = alreadyMinified.includes(file.replace(`${RootPath}${sep}`, ''));
   if (isMinified || needsDotJS) {
@@ -76,7 +76,7 @@ const minifyJS = async (file) => {
   await writeFile(
     newFile,
     minified,
-    { encoding: 'utf8', mode: 0o644 },
+    { encoding: 'UTF8', mode: 0o644 },
   );
 };
 

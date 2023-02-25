@@ -11,7 +11,7 @@
 namespace Joomla\Component\Users\Api\Controller;
 
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
@@ -82,7 +82,7 @@ class UsersController extends ApiController
     public function displayList()
     {
         $apiFilterInfo = $this->input->get('filter', [], 'array');
-        $filter        = InputFilter::getInstance();
+        $filter        = InpUTFilter::getInstance();
 
         if (\array_key_exists('state', $apiFilterInfo)) {
             $this->modelState->set('filter.state', $filter->clean($apiFilterInfo['state'], 'INT'));

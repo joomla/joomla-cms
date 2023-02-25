@@ -11,7 +11,7 @@
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -227,7 +227,7 @@ trait DisplayTrait
             $invalid_elements  = implode(',', array_merge($blockedTags, $blockedAttributes, $tagArray, $attrArray));
 
             // Valid elements are all entries listed as allowed in com_config, which are now missing in the filter blocked properties
-            $default_filter = InputFilter::getInstance();
+            $default_filter = InpUTFilter::getInstance();
             $valid_elements = implode(',', array_diff($default_filter->blockedTags, $blockedTags));
 
             $extended_elements = '';

@@ -12,7 +12,7 @@ namespace Joomla\CMS\Filesystem;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Client\FtpClient;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
@@ -494,7 +494,7 @@ class File
      * @param   string   $dest             The path (including filename) to move the uploaded file to
      * @param   boolean  $useStreams       True to use streams
      * @param   boolean  $allowUnsafe      Allow the upload of unsafe files
-     * @param   array    $safeFileOptions  Options to InputFilter::isSafeFile
+     * @param   array    $safeFileOptions  Options to InpUTFilter::isSafeFile
      *
      * @return  boolean  True on success
      *
@@ -511,7 +511,7 @@ class File
                 'size'     => '',
             );
 
-            $isSafe = InputFilter::isSafeFile($descriptor, $safeFileOptions);
+            $isSafe = InpUTFilter::isSafeFile($descriptor, $safeFileOptions);
 
             if (!$isSafe) {
                 Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR03', $dest), Log::WARNING, 'jerror');

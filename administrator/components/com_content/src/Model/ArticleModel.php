@@ -13,8 +13,8 @@ namespace Joomla\Component\Content\Administrator\Model;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
+use Joomla\CMS\Filter\OutpUTFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
@@ -646,7 +646,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     {
         $app    = Factory::getApplication();
         $input  = $app->input;
-        $filter = InputFilter::getInstance();
+        $filter = InpUTFilter::getInstance();
 
         if (isset($data['metadata']) && isset($data['metadata']['author'])) {
             $data['metadata']['author'] = $filter->clean($data['metadata']['author'], 'TRIM');
@@ -756,9 +756,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         if (in_array($input->get('task'), array('apply', 'save', 'save2new')) && (!isset($data['id']) || (int) $data['id'] == 0)) {
             if ($data['alias'] == null) {
                 if ($app->get('unicodeslugs') == 1) {
-                    $data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
+                    $data['alias'] = OutpUTFilter::stringUrlUnicodeSlug($data['title']);
                 } else {
-                    $data['alias'] = OutputFilter::stringURLSafe($data['title']);
+                    $data['alias'] = OutpUTFilter::stringURLSafe($data['title']);
                 }
 
                 $table = $this->getTable();

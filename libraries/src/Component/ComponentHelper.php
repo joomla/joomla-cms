@@ -17,7 +17,7 @@ use Joomla\CMS\Component\Exception\MissingComponentException;
 use Joomla\CMS\Dispatcher\ApiDispatcher;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\Registry\Registry;
@@ -125,8 +125,8 @@ class ComponentHelper
      */
     public static function filterText($text)
     {
-        // Punyencoding utf8 email addresses
-        $text = InputFilter::getInstance()->emailToPunycode($text);
+        // Punyencoding UTF8 email addresses
+        $text = InpUTFilter::getInstance()->emailToPunycode($text);
 
         // Filter settings
         $config     = static::getParams('com_config');
@@ -222,7 +222,7 @@ class ComponentHelper
         if (!$unfiltered) {
             // Custom Forbidden list precedes Default forbidden list.
             if ($customList) {
-                $filter = InputFilter::getInstance(array(), array(), 1, 1);
+                $filter = InpUTFilter::getInstance(array(), array(), 1, 1);
 
                 // Override filter's default forbidden tags and attributes
                 if ($customListTags) {
@@ -238,11 +238,11 @@ class ComponentHelper
                 $forbiddenListTags       = array_diff($forbiddenListTags, $allowedListTags);
                 $forbiddenListAttributes = array_diff($forbiddenListAttributes, $allowedListAttributes);
 
-                $filter = InputFilter::getInstance(
+                $filter = InpUTFilter::getInstance(
                     $forbiddenListTags,
                     $forbiddenListAttributes,
-                    InputFilter::ONLY_BLOCK_DEFINED_TAGS,
-                    InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
+                    InpUTFilter::ONLY_BLOCK_DEFINED_TAGS,
+                    InpUTFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
                 );
 
                 // Remove the allowed tags from filter's default forbidden list.
@@ -257,10 +257,10 @@ class ComponentHelper
             } elseif ($allowedList) {
                 // Allowed lists take third precedence.
                 // Turn off XSS auto clean
-                $filter = InputFilter::getInstance($allowedListTags, $allowedListAttributes, 0, 0, 0);
+                $filter = InpUTFilter::getInstance($allowedListTags, $allowedListAttributes, 0, 0, 0);
             } else {
                 // No HTML takes last place.
-                $filter = InputFilter::getInstance();
+                $filter = InpUTFilter::getInstance();
             }
 
             $text = $filter->clean($text, 'html');

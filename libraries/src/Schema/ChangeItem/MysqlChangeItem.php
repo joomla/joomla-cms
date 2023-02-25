@@ -150,7 +150,7 @@ class MysqlChangeItem extends ChangeItem
                  * When we made the UTF8MB4 conversion then text becomes medium text - so loosen the checks to these two types
                  * otherwise (for example) the profile fields profile_value check fails - see https://github.com/joomla/joomla-cms/issues/9258
                  */
-                $typeCheck = $this->fixUtf8mb4TypeChecks($type);
+                $typeCheck = $this->fixUTF8mb4TypeChecks($type);
 
                 $result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[4])
                     . ' AND ' . $typeCheck
@@ -175,7 +175,7 @@ class MysqlChangeItem extends ChangeItem
                  * When we made the UTF8MB4 conversion then text becomes medium text - so loosen the checks to these two types
                  * otherwise (for example) the profile fields profile_value check fails - see https://github.com/joomla/joomla-cms/issues/9258
                  */
-                $typeCheck = $this->fixUtf8mb4TypeChecks($type);
+                $typeCheck = $this->fixUTF8mb4TypeChecks($type);
 
                 $result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[5])
                     . ' AND ' . $typeCheck
@@ -261,7 +261,7 @@ class MysqlChangeItem extends ChangeItem
     /**
      * Make check query for column changes/modifications tolerant
      * for automatic type changes of text columns, e.g. from TEXT
-     * to MEDIUMTEXT, after conversion from utf8 to utf8mb4, and
+     * to MEDIUMTEXT, after conversion from UTF8 to UTF8mb4, and
      * fix integer columns without display length for MySQL 8
      * (see also function "fixInteger" above).
      *
@@ -271,7 +271,7 @@ class MysqlChangeItem extends ChangeItem
      *
      * @since   3.5
      */
-    private function fixUtf8mb4TypeChecks($type)
+    private function fixUTF8mb4TypeChecks($type)
     {
         $uType = strtoupper(str_replace(';', '', $type));
 

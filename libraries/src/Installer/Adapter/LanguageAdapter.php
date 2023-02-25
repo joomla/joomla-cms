@@ -13,7 +13,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Language\Language;
@@ -296,7 +296,7 @@ class LanguageAdapter extends InstallerAdapter
 
         // Get the language name
         // Set the extensions name
-        $this->name = InputFilter::getInstance()->clean((string) $this->getManifest()->name, 'string');
+        $this->name = InpUTFilter::getInstance()->clean((string) $this->getManifest()->name, 'string');
 
         // Get the Language tag [ISO tag, eg. en-GB]
         $tag = (string) $this->getManifest()->tag;
@@ -523,7 +523,7 @@ class LanguageAdapter extends InstallerAdapter
         // Get the language name
         // Set the extensions name
         $name = (string) $this->getManifest()->name;
-        $name = InputFilter::getInstance()->clean($name, 'string');
+        $name = InpUTFilter::getInstance()->clean($name, 'string');
         $this->name = $name;
 
         // Get the Language tag [ISO tag, eg. en-GB]

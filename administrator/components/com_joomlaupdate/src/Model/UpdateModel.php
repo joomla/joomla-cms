@@ -15,7 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Http\Http;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
@@ -377,11 +377,11 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Find the path to the temp directory and the local package.
-        $tempdir  = (string) InputFilter::getInstance(
+        $tempdir  = (string) InpUTFilter::getInstance(
             [],
             [],
-            InputFilter::ONLY_BLOCK_DEFINED_TAGS,
-            InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
+            InpUTFilter::ONLY_BLOCK_DEFINED_TAGS,
+            InpUTFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
         )
             ->clean(Factory::getApplication()->get('tmp_path'), 'path');
         $target   = $tempdir . '/' . $basename;
@@ -885,7 +885,7 @@ ENDDATA;
         // Get the uploaded file information.
         $input = Factory::getApplication()->input;
 
-        // Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See \JInputFiles::get.
+        // Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See \JInpUTFiles::get.
         $userfile = $input->files->get('install_package', null, 'raw');
 
         // Make sure that file uploads are enabled in php.

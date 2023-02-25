@@ -46,7 +46,7 @@ class AtomParser extends FeedParser
     {
         // Set the author information from the XML element.
         $feed->setAuthor(
-            $this->inputFilter->clean((string) $el->name, 'html'),
+            $this->inpUTFilter->clean((string) $el->name, 'html'),
             filter_var((string) $el->email, FILTER_VALIDATE_EMAIL),
             filter_var((string) $el->uri, FILTER_VALIDATE_URL)
         );
@@ -65,7 +65,7 @@ class AtomParser extends FeedParser
     protected function handleContributor(Feed $feed, \SimpleXMLElement $el)
     {
         $feed->addContributor(
-            $this->inputFilter->clean((string) $el->name, 'html'),
+            $this->inpUTFilter->clean((string) $el->name, 'html'),
             filter_var((string) $el->email, FILTER_VALIDATE_EMAIL),
             filter_var((string) $el->uri, FILTER_VALIDATE_URL)
         );
@@ -83,7 +83,7 @@ class AtomParser extends FeedParser
      */
     protected function handleGenerator(Feed $feed, \SimpleXMLElement $el)
     {
-        $feed->generator = $this->inputFilter->clean((string) $el, 'html');
+        $feed->generator = $this->inpUTFilter->clean((string) $el, 'html');
     }
 
     /**
@@ -118,7 +118,7 @@ class AtomParser extends FeedParser
         $link->language = (string) $el['hreflang'];
         $link->length   = (int) $el['length'];
         $link->relation = (string) $el['rel'];
-        $link->title    = $this->inputFilter->clean((string) $el['title'], 'html');
+        $link->title    = $this->inpUTFilter->clean((string) $el['title'], 'html');
         $link->type     = (string) $el['type'];
 
         $feed->link = $link;
@@ -136,7 +136,7 @@ class AtomParser extends FeedParser
      */
     protected function handleRights(Feed $feed, \SimpleXMLElement $el)
     {
-        $feed->copyright = $this->inputFilter->clean((string) $el, 'html');
+        $feed->copyright = $this->inpUTFilter->clean((string) $el, 'html');
     }
 
     /**
@@ -151,7 +151,7 @@ class AtomParser extends FeedParser
      */
     protected function handleSubtitle(Feed $feed, \SimpleXMLElement $el)
     {
-        $feed->description = $this->inputFilter->clean((string) $el, 'html');
+        $feed->description = $this->inpUTFilter->clean((string) $el, 'html');
     }
 
     /**
@@ -166,7 +166,7 @@ class AtomParser extends FeedParser
      */
     protected function handleTitle(Feed $feed, \SimpleXMLElement $el)
     {
-        $feed->title = $this->inputFilter->clean((string) $el, 'html');
+        $feed->title = $this->inpUTFilter->clean((string) $el, 'html');
     }
 
     /**
@@ -181,7 +181,7 @@ class AtomParser extends FeedParser
      */
     protected function handleUpdated(Feed $feed, \SimpleXMLElement $el)
     {
-        $feed->updatedDate = $this->inputFilter->clean((string) $el, 'html');
+        $feed->updatedDate = $this->inpUTFilter->clean((string) $el, 'html');
     }
 
     /**
@@ -212,12 +212,12 @@ class AtomParser extends FeedParser
     protected function processFeedEntry(FeedEntry $entry, \SimpleXMLElement $el)
     {
         $entry->uri         = (string) $el->id;
-        $entry->title       = $this->inputFilter->clean((string) $el->title, 'html');
-        $entry->updatedDate = $this->inputFilter->clean((string) $el->updated, 'html');
-        $entry->content     = $this->inputFilter->clean((string) $el->summary, 'html');
+        $entry->title       = $this->inpUTFilter->clean((string) $el->title, 'html');
+        $entry->updatedDate = $this->inpUTFilter->clean((string) $el->updated, 'html');
+        $entry->content     = $this->inpUTFilter->clean((string) $el->summary, 'html');
 
         if (!$entry->content) {
-            $entry->content = $this->inputFilter->clean((string) $el->content, 'html');
+            $entry->content = $this->inpUTFilter->clean((string) $el->content, 'html');
         }
 
         if (filter_var($entry->uri, FILTER_VALIDATE_URL) === false && !\is_null($el->link) && $el->link) {

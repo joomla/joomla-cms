@@ -41,7 +41,7 @@ class Mail extends PHPMailer
      * @var    string
      * @since  1.7.0
      */
-    public $CharSet = 'utf-8';
+    public $CharSet = 'UTF-8';
 
     /**
      * Constructor

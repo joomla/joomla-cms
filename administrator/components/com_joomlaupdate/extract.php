@@ -1412,10 +1412,10 @@ class ZIPExtraction
         $ignore = $this->isIgnoredDirectory($this->fileHeader->file);
 
         $writeMode = ($this->dataReadLength == 0) ? 'wb' : 'ab';
-        $outfp     = @fopen($this->fileHeader->realFile, $writeMode);
+        $oUTFp     = @fopen($this->fileHeader->realFile, $writeMode);
 
         // Can we write to the file?
-        if (($outfp === false) && (!$ignore)) {
+        if (($oUTFp === false) && (!$ignore)) {
             // An error occurred
             $this->setError(sprintf('Could not open %s for writing.', $this->fileHeader->realFile));
 
@@ -1425,8 +1425,8 @@ class ZIPExtraction
         // Does the file have any data, at all?
         if ($this->fileHeader->compressed == 0) {
             // No file data!
-            if (is_resource($outfp)) {
-                @fclose($outfp);
+            if (is_resource($oUTFp)) {
+                @fclose($oUTFp);
             }
 
             $this->debugMsg('Zero byte Stored file; no data will be read', self::LOG_DEBUG);
@@ -1457,8 +1457,8 @@ class ZIPExtraction
                 }
             }
 
-            if (is_resource($outfp)) {
-                @fwrite($outfp, $data);
+            if (is_resource($oUTFp)) {
+                @fwrite($oUTFp, $data);
             }
 
             if ($this->getTimeLeft()) {
@@ -1467,8 +1467,8 @@ class ZIPExtraction
         }
 
         // Close the file pointer
-        if (is_resource($outfp)) {
-            @fclose($outfp);
+        if (is_resource($oUTFp)) {
+            @fclose($oUTFp);
         }
 
         // Was this a pre-timeout bail out?
@@ -1498,12 +1498,12 @@ class ZIPExtraction
         $this->setCorrectPermissions($this->fileHeader->file);
 
         // Open the output file
-        $outfp = @fopen($this->fileHeader->realFile, 'wb');
+        $oUTFp = @fopen($this->fileHeader->realFile, 'wb');
 
         // Can we write to the file?
         $ignore = $this->isIgnoredDirectory($this->fileHeader->file);
 
-        if (($outfp === false) && (!$ignore)) {
+        if (($oUTFp === false) && (!$ignore)) {
             // An error occurred
             $this->setError(sprintf('Could not open %s for writing.', $this->fileHeader->realFile));
 
@@ -1515,8 +1515,8 @@ class ZIPExtraction
             $this->debugMsg('Zero byte Compressed file; no data will be read', self::LOG_DEBUG);
 
             // No file data!
-            if (is_resource($outfp)) {
-                @fclose($outfp);
+            if (is_resource($oUTFp)) {
+                @fclose($oUTFp);
             }
 
             $this->runState = self::AK_STATE_DATAREAD;
@@ -1558,9 +1558,9 @@ class ZIPExtraction
         unset($zipData);
 
         // Write to the file.
-        if (is_resource($outfp)) {
-            @fwrite($outfp, $unzipData, $this->fileHeader->uncompressed);
-            @fclose($outfp);
+        if (is_resource($oUTFp)) {
+            @fwrite($oUTFp, $unzipData, $this->fileHeader->uncompressed);
+            @fclose($oUTFp);
         }
 
         unset($unzipData);

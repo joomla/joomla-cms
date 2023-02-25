@@ -234,14 +234,14 @@ class FieldsHelper
      * Fields afterwards.
      *
      * @param   string  $context      The context of the content passed to the helper
-     * @param   string  $layoutFile   layoutFile
+     * @param   string  $layoUTFile   layoUTFile
      * @param   array   $displayData  displayData
      *
      * @return  NULL|string
      *
      * @since  3.7.0
      */
-    public static function render($context, $layoutFile, $displayData)
+    public static function render($context, $layoUTFile, $displayData)
     {
         $value = '';
 
@@ -254,12 +254,12 @@ class FieldsHelper
          */
         if ($parts = self::extract($context)) {
             // Trying to render the layout on the component from the context
-            $value = LayoutHelper::render($layoutFile, $displayData, null, array('component' => $parts[0], 'client' => 0));
+            $value = LayoutHelper::render($layoUTFile, $displayData, null, array('component' => $parts[0], 'client' => 0));
         }
 
         if ($value == '') {
             // Trying to render the layout on Fields itself
-            $value = LayoutHelper::render($layoutFile, $displayData, null, array('component' => 'com_fields','client' => 0));
+            $value = LayoutHelper::render($layoUTFile, $displayData, null, array('component' => 'com_fields','client' => 0));
         }
 
         return $value;

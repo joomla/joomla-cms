@@ -146,7 +146,7 @@ tinymce.addI18n('nb',{
 "Color levels": "Fargeniv\u00e5",
 "Gamma": "Gamma",
 "Invert": "Inverter",
-"Apply": "Utf\u00f8r",
+"Apply": "UTF\u00f8r",
 "Back": "Tilbake",
 "Insert date\/time": "Sett inn dato\/tid",
 "Date\/time": "Dato\/tid",

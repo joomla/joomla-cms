@@ -12,7 +12,7 @@ namespace Joomla\Component\Templates\Administrator\View\Template;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -161,7 +161,7 @@ class HtmlView extends BaseHtmlView
     {
         $app               = Factory::getApplication();
         $this->file        = $app->input->get('file', '');
-        $this->fileName    = InputFilter::getInstance()->clean(base64_decode($this->file), 'string');
+        $this->fileName    = InpUTFilter::getInstance()->clean(base64_decode($this->file), 'string');
         $explodeArray      = explode('.', $this->fileName);
         $ext               = end($explodeArray);
         $this->files       = $this->get('Files');

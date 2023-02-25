@@ -427,18 +427,18 @@ class JoomlaFieldMediaOptions extends HTMLElement {
 </div>
 </details>`;
 
-      this.lazyInputFn = this.lazyInputFn.bind(this);
+      this.lazyInpUTFn = this.lazyInpUTFn.bind(this);
       this.altCheckFn = this.altCheckFn.bind(this);
-      this.inputFn = this.inputFn.bind(this);
+      this.inpUTFn = this.inpUTFn.bind(this);
 
       // Add event listeners
       this.lazyInput = this.querySelector(`#${this.parentId}-lazy`);
-      this.lazyInput.addEventListener('change', this.lazyInputFn);
+      this.lazyInput.addEventListener('change', this.lazyInpUTFn);
       this.altCheck = this.querySelector(`#${this.parentId}-alt-check`);
       this.altCheck.addEventListener('input', this.altCheckFn);
       [].slice.call(this.querySelectorAll('input[type="text"]'))
         .map((el) => {
-          el.addEventListener('input', this.inputFn);
+          el.addEventListener('input', this.inpUTFn);
           const { is } = el.dataset;
           if (is) {
             this.setAttribute(is, el.value.replace(/"/g, '&quot;'));
@@ -495,16 +495,16 @@ class JoomlaFieldMediaOptions extends HTMLElement {
 </div>
 </details>`;
 
-      this.embedInputFn = this.embedInputFn.bind(this);
-      this.inputFn = this.inputFn.bind(this);
+      this.embedInpUTFn = this.embedInpUTFn.bind(this);
+      this.inpUTFn = this.inpUTFn.bind(this);
 
       [].slice.call(this.querySelectorAll('.form-check-input.radio'))
-        .map((el) => el.addEventListener('input', this.embedInputFn));
+        .map((el) => el.addEventListener('input', this.embedInpUTFn));
       this.setAttribute('embed-it', false);
 
       [].slice.call(this.querySelectorAll('input[type="text"]'))
         .map((el) => {
-          el.addEventListener('input', this.inputFn);
+          el.addEventListener('input', this.inpUTFn);
           const { is } = el.dataset;
           if (is) {
             this.setAttribute(is, el.value.replace(/"/g, '&quot;'));
@@ -516,22 +516,22 @@ class JoomlaFieldMediaOptions extends HTMLElement {
 
   disconnectedCallback() {
     if (this.type === 'image') {
-      this.lazyInput.removeEventListener('input', this.lazyInputFn);
-      this.altInput.removeEventListener('input', this.inputFn);
+      this.lazyInput.removeEventListener('input', this.lazyInpUTFn);
+      this.altInput.removeEventListener('input', this.inpUTFn);
       this.altCheck.removeEventListener('input', this.altCheckFn);
     }
 
     if (['audio', 'video', 'document'].includes(this.type)) {
       [].slice.call(this.querySelectorAll('.form-check-input.radio'))
-        .map((el) => el.removeEventListener('input', this.embedInputFn));
+        .map((el) => el.removeEventListener('input', this.embedInpUTFn));
       [].slice.call(this.querySelectorAll('input[type="text"]'))
-        .map((el) => el.removeEventListener('input', this.embedInputFn));
+        .map((el) => el.removeEventListener('input', this.embedInpUTFn));
     }
 
     this.innerHTML = '';
   }
 
-  lazyInputFn(e) {
+  lazyInpUTFn(e) {
     this.setAttribute('is-lazy', !!e.target.checked);
   }
 
@@ -539,14 +539,14 @@ class JoomlaFieldMediaOptions extends HTMLElement {
     this.setAttribute('alt-check', !!e.target.checked);
   }
 
-  inputFn(e) {
+  inpUTFn(e) {
     const { is } = e.target.dataset;
     if (is) {
       this.setAttribute(is, e.target.value.replace(/"/g, '&quot;'));
     }
   }
 
-  embedInputFn(e) {
+  embedInpUTFn(e) {
     const { value } = e.target;
     this.setAttribute('embed-it', value !== '0');
     const toggable = this.querySelector('.toggable-parts');

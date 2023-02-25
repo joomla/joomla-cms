@@ -19,7 +19,7 @@ use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\CMS\Versioning\Versioning;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
-use Joomla\Filter\InputFilter;
+use Joomla\Filter\InpUTFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -52,7 +52,7 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
     /**
      * The input filter
      *
-     * @var    InputFilter
+     * @var    InpUTFilter
      * @since  4.2.0
      */
     private $filter;
@@ -70,12 +70,12 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
      *
      * @param   DispatcherInterface   $dispatcher   The dispatcher
      * @param   array                 $config       An optional associative array of configuration settings
-     * @param   InputFilter           $filter       The input filter
+     * @param   InpUTFilter           $filter       The input filter
      * @param   CMSHelper             $helper       The CMS helper
      *
      * @since   4.0.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, InputFilter $filter, CMSHelper $helper)
+    public function __construct(DispatcherInterface $dispatcher, array $config, InpUTFilter $filter, CMSHelper $helper)
     {
         parent::__construct($dispatcher, $config);
 

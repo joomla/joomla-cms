@@ -31,9 +31,9 @@ module.exports.createErrorPages = async (options) => {
   global.fatalObj = {};
   global.noxmlObj = {};
 
-  const initTemplate = await readFile(`${srcPath}/template.html`, { encoding: 'utf8' });
-  let cssContent = await readFile(`${srcPath}/template.css`, { encoding: 'utf8' });
-  let jsContent = await readFile(`${srcPath}/template.js`, { encoding: 'utf8' });
+  const initTemplate = await readFile(`${srcPath}/template.html`, { encoding: 'UTF8' });
+  let cssContent = await readFile(`${srcPath}/template.css`, { encoding: 'UTF8' });
+  let jsContent = await readFile(`${srcPath}/template.js`, { encoding: 'UTF8' });
 
   const cssMin = await Postcss([Autoprefixer, CssNano]).process(cssContent, { from: undefined });
 
@@ -41,7 +41,7 @@ module.exports.createErrorPages = async (options) => {
   jsContent = await minify(jsContent);
 
   const processIni = async (file) => {
-    const languageStrings = Ini.parse(await readFile(file, { encoding: 'utf8' }));
+    const languageStrings = Ini.parse(await readFile(file, { encoding: 'UTF8' }));
 
     // Build the variables into json for the unsupported page
     if (languageStrings.BUILD_MIN_PHP_ERROR_LANGUAGE) {
@@ -150,7 +150,7 @@ module.exports.createErrorPages = async (options) => {
     await writeFile(
       `${RootPath}${options.settings.errorPages[name].destFile}`,
       template,
-      { encoding: 'utf8', mode: 0o644 },
+      { encoding: 'UTF8', mode: 0o644 },
     );
 
     // eslint-disable-next-line no-console

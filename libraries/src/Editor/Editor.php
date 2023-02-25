@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Editor;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -276,7 +276,7 @@ class Editor implements DispatcherAwareInterface
         }
 
         // Build the path to the needed editor plugin
-        $name = InputFilter::getInstance()->clean($this->_name, 'cmd');
+        $name = InpUTFilter::getInstance()->clean($this->_name, 'cmd');
         $path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
 
         if (!is_file($path)) {

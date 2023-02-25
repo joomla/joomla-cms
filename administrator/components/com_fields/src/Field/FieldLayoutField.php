@@ -26,7 +26,7 @@ use Joomla\CMS\Language\Text;
  *
  * @since  3.9.0
  */
-class FieldLayoutField extends FormField
+class FieldLayoUTField extends FormField
 {
     /**
      * The form field type.

@@ -277,7 +277,7 @@ class MediaListCest
 		$I->wantToTest('that search is applied to the current list.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
-		$I->fillField(MediaListPage::$searchInputField, 'joomla');
+		$I->fillField(MediaListPage::$searchInpUTField, 'joomla');
 		$I->seeElement(MediaListPage::$items);
 		$I->seeElement(MediaListPage::item('joomla_black.png'));
 		$I->dontSeeElement(MediaListPage::item('banners'));
@@ -297,10 +297,10 @@ class MediaListCest
 		$I->wantToTest('that search is cleared when navigating in the tree.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
-		$I->fillField(MediaListPage::$searchInputField, 'banner');
+		$I->fillField(MediaListPage::$searchInpUTField, 'banner');
 		$I->doubleClick(MediaListPage::item('banners'));
 		$I->waitForMediaLoaded();
-		$I->seeInField(MediaListPage::$searchInputField, '');
+		$I->seeInField(MediaListPage::$searchInpUTField, '');
 	}
 
 	/**
@@ -387,9 +387,9 @@ class MediaListCest
 
 		// Sometimes the modal is still fading in
 		$I->wait(1);
-		$I->seeElement(MediaListPage::$newFolderInputField);
+		$I->seeElement(MediaListPage::$newFolderInpUTField);
 		$I->seeElement(MediaListPage::$modalConfirmButtonDisabled);
-		$I->fillField(MediaListPage::$newFolderInputField, $testFolderName);
+		$I->fillField(MediaListPage::$newFolderInpUTField, $testFolderName);
 		$I->waitForElementChange(MediaListPage::$modalConfirmButton, function (Facebook\WebDriver\Remote\RemoteWebElement $el)  {
 			return $el->isEnabled();
 		});
@@ -416,9 +416,9 @@ class MediaListCest
 		$I->wantToTest('that it is not possible to create an existing folder.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->click(MediaListPage::$toolbarCreateFolderButton);
-		$I->seeElement(MediaListPage::$newFolderInputField);
+		$I->seeElement(MediaListPage::$newFolderInpUTField);
 		$I->seeElement(MediaListPage::$modalConfirmButtonDisabled);
-		$I->fillField(MediaListPage::$newFolderInputField, $this->testDirectory);
+		$I->fillField(MediaListPage::$newFolderInpUTField, $this->testDirectory);
 		$I->waitForElementChange(MediaListPage::$modalConfirmButton, function (Facebook\WebDriver\Remote\RemoteWebElement $el)  {
 			return $el->isEnabled();
 		});
@@ -560,13 +560,13 @@ class MediaListCest
 		$I->waitForElement($testFileItem);
 		$I->wait(1);
 		$I->clickOnActionInMenuOf($testFileName, MediaListPage::$renameAction);
-		$I->waitForElement(MediaListPage::$renameInputField);
+		$I->waitForElement(MediaListPage::$renameInpUTField);
 
 		// Sometimes the modal is still fading in
 		$I->wait(1);
-		$I->seeElement(MediaListPage::$renameInputField);
+		$I->seeElement(MediaListPage::$renameInpUTField);
 		$I->seeElement(MediaListPage::$modalConfirmButton);
-		$I->fillField(MediaListPage::$renameInputField, 'test-image-1-renamed');
+		$I->fillField(MediaListPage::$renameInpUTField, 'test-image-1-renamed');
 		$I->click(MediaListPage::$modalConfirmButton);
 
 		// Ensure the modal has closed
@@ -601,9 +601,9 @@ class MediaListCest
 		$I->uploadFile('com_media/' . $testFileName2);
 		$I->waitForElement($testFileItem2);
 		$I->clickOnActionInMenuOf($testFileName2, MediaListPage::$renameAction);
-		$I->seeElement(MediaListPage::$renameInputField);
+		$I->seeElement(MediaListPage::$renameInpUTField);
 		$I->seeElement(MediaListPage::$modalConfirmButton);
-		$I->fillField(MediaListPage::$renameInputField, 'test-image-1');
+		$I->fillField(MediaListPage::$renameInpUTField, 'test-image-1');
 		$I->click(MediaListPage::$modalConfirmButton);
 		$I->seeSystemMessage('Error renaming file.');
 		$I->seeElement($testFileItem1);
@@ -630,13 +630,13 @@ class MediaListCest
 		$I->waitForElement($testFolderItem);
 		$I->wait(1);
 		$I->clickOnActionInMenuOf($testFolderName, MediaListPage::$renameAction);
-		$I->waitForElement(MediaListPage::$renameInputField);
+		$I->waitForElement(MediaListPage::$renameInpUTField);
 
 		// Sometimes the modal is still fading in
 		$I->wait(1);
-		$I->seeElement(MediaListPage::$renameInputField);
+		$I->seeElement(MediaListPage::$renameInpUTField);
 		$I->seeElement(MediaListPage::$modalConfirmButton);
-		$I->fillField(MediaListPage::$renameInputField, $testFolderName . '-renamed');
+		$I->fillField(MediaListPage::$renameInpUTField, $testFolderName . '-renamed');
 		$I->click(MediaListPage::$modalConfirmButton);
 
 		// Ensure the modal has closed
@@ -672,9 +672,9 @@ class MediaListCest
 		$I->waitForElement($testFolderItem1);
 		$I->waitForElement($testFolderItem2);
 		$I->clickOnActionInMenuOf($testFolderName2, MediaListPage::$renameAction);
-		$I->seeElement(MediaListPage::$renameInputField);
+		$I->seeElement(MediaListPage::$renameInpUTField);
 		$I->seeElement(MediaListPage::$modalConfirmButton);
-		$I->fillField(MediaListPage::$renameInputField, $testFolderName1);
+		$I->fillField(MediaListPage::$renameInpUTField, $testFolderName1);
 		$I->click(MediaListPage::$modalConfirmButton);
 		$I->seeSystemMessage('Error renaming folder.');
 		$I->seeElement($testFolderItem1);
@@ -946,7 +946,7 @@ class MediaListCest
 		$I->openInfobar();
 		$I->click(MediaListPage::$increaseThumbnailSizeButton);
 		$I->click(MediaListPage::$toggleListViewButton);
-		$I->fillField(MediaListPage::$searchInputField, 'joomla');
+		$I->fillField(MediaListPage::$searchInpUTField, 'joomla');
 		$json = $I->executeJS('return sessionStorage.getItem("' . MediaListPage::$storageKey . '")');
 		$I->assertContains('"selectedDirectory":"local-images:/banners"', $json);
 		$I->assertContains('"showInfoBar":true', $json);

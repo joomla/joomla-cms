@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS `#__webauthn_credentials` (
     PRIMARY KEY (`id`(100)),
     INDEX (`user_id`(60))
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  DEFAULT COLLATE = utf8mb4_unicode_ci;
+  DEFAULT CHARSET = UTF8mb4
+  DEFAULT COLLATE = UTF8mb4_unicode_ci;
 
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 (0, 'plg_system_webauthn', 'plugin', 'webauthn', 'system', 0, 1, 1, 0, '', '{}', '', 0, '0000-00-00 00:00:00', 0, 0);

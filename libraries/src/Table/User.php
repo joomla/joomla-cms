@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\String\PunycodeHelper;
@@ -197,7 +197,7 @@ class User extends Table
             $this->id = null;
         }
 
-        $filterInput = InputFilter::getInstance();
+        $filterInput = InpUTFilter::getInstance();
 
         // Validate user information
         if ($filterInput->clean($this->name, 'TRIM') == '') {

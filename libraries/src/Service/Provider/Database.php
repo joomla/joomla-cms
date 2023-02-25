@@ -106,13 +106,13 @@ class Database implements ServiceProviderInterface
                         }
                     }
 
-                    // Enable utf8mb4 connections for mysql adapters
+                    // Enable UTF8mb4 connections for mysql adapters
                     if (strtolower($dbtype) === 'mysqli') {
-                        $options['utf8mb4'] = true;
+                        $options['UTF8mb4'] = true;
                     }
 
                     if (strtolower($dbtype) === 'mysql') {
-                        $options['charset'] = 'utf8mb4';
+                        $options['charset'] = 'UTF8mb4';
                     }
 
                     if (JDEBUG) {

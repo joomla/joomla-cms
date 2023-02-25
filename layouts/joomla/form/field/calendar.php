@@ -98,7 +98,7 @@ if (is_array($attributes)) {
 }
 
 $calendarAttrs = [
-    'data-inputfield'      => $id,
+    'data-inpUTField'      => $id,
     'data-button'          => $id . '_btn',
     'data-date-format'     => $format,
     'data-firstday'        => empty($firstday) ? '' : $firstday,

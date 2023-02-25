@@ -156,7 +156,7 @@ class IndexerController extends BaseController
 
         // Get the document properties.
         $attributes = array (
-            'charset'   => 'utf-8',
+            'charset'   => 'UTF-8',
             'lineend'   => 'unix',
             'tab'       => '  ',
             'language'  => $lang->getTag(),

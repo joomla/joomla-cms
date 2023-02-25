@@ -182,7 +182,7 @@ class DatabaseModel extends BaseInstallationModel
 
                 // Try to create the database now using the alternate driver
                 try {
-                    $this->createDb($altDB, $options, $altDB->hasUtfSupport());
+                    $this->createDb($altDB, $options, $altDB->hasUTFSupport());
                 } catch (\RuntimeException $e) {
                     // We did everything we could
                     throw new \RuntimeException(Text::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 500, $e);
@@ -220,14 +220,14 @@ class DatabaseModel extends BaseInstallationModel
         }
 
         // Get database's UTF support.
-        $utfSupport = $db->hasUtfSupport();
+        $UTFSupport = $db->hasUTFSupport();
 
         // Try to select the database.
         try {
             $db->select($options->db_name);
         } catch (\RuntimeException $e) {
             // If the database could not be selected, attempt to create it and then select it.
-            if (!$this->createDb($db, $options, $utfSupport)) {
+            if (!$this->createDb($db, $options, $UTFSupport)) {
                 throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_ERROR_CREATE', $options->db_name), 500, $e);
             }
 
@@ -386,18 +386,18 @@ class DatabaseModel extends BaseInstallationModel
      * @param   DatabaseDriver  $db       Database object.
      * @param   CMSObject       $options  CMSObject coming from "initialise" function to pass user
      *                                    and database name to database driver.
-     * @param   boolean         $utf      True if the database supports the UTF-8 character set.
+     * @param   boolean         $UTF      True if the database supports the UTF-8 character set.
      *
      * @return  boolean  True on success.
      *
      * @since   3.1
      */
-    public function createDb($db, $options, $utf)
+    public function createDb($db, $options, $UTF)
     {
         // Build the create database query.
         try {
             // Run the create database query.
-            $db->createDatabase($options, $utf);
+            $db->createDatabase($options, $UTF);
         } catch (\RuntimeException $e) {
             // If an error occurred return false.
             return false;

@@ -12,7 +12,7 @@
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 
@@ -77,7 +77,7 @@ class PlgSystemHighlight extends CMSPlugin
         }
 
         // Clean the terms array.
-        $filter     = InputFilter::getInstance();
+        $filter     = InpUTFilter::getInstance();
 
         $cleanTerms = array();
 

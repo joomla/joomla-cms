@@ -77,7 +77,7 @@ tinymce.addI18n('fo',{
 "Advanced": "Framkomi",
 "Source": "Kelda",
 "Border": "Rammi",
-"Constrain proportions": "Var\u00f0veit lutfall",
+"Constrain proportions": "Var\u00f0veit lUTFall",
 "Vertical space": "Loddr\u00e6t fr\u00e1st\u00f8\u00f0a",
 "Image description": "L\u00fdsing av mynd",
 "Style": "St\u00edlur",

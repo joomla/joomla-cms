@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\Filter\OutpUTFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 
 $attributes = [];
@@ -66,7 +66,7 @@ if ($item->browserNav == 1) {
     $attributes['onclick'] = "window.open(this.href, 'targetWindow', '" . $options . "'); return false;";
 }
 
-echo HTMLHelper::link(OutputFilter::ampReplace(htmlspecialchars($item->flink, ENT_COMPAT, 'UTF-8', false)), $linktype, $attributes);
+echo HTMLHelper::link(OutpUTFilter::ampReplace(htmlspecialchars($item->flink, ENT_COMPAT, 'UTF-8', false)), $linktype, $attributes);
 
 if ($showAll && $item->deeper) {
     echo '<button class="mm-collapsed mm-toggler mm-toggler-link" aria-haspopup="true" aria-expanded="false" aria-label="' . $item->title . '"></button>';

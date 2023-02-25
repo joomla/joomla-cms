@@ -13,7 +13,7 @@ namespace Joomla\Component\Media\Api\Controller;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
@@ -127,7 +127,7 @@ class MediaController extends ApiController
 
         // Map JSON:API compliant filter[search] to com_media model state.
         $apiFilterInfo = $this->input->get('filter', [], 'array');
-        $filter        = InputFilter::getInstance();
+        $filter        = InpUTFilter::getInstance();
 
         // Search for files matching (part of) a name or glob pattern.
         if (\array_key_exists('search', $apiFilterInfo))

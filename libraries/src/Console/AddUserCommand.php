@@ -13,7 +13,7 @@ use Joomla\CMS\User\User;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
-use Joomla\Filter\InputFilter;
+use Joomla\Filter\InpUTFilter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -143,7 +143,7 @@ class AddUserCommand extends AbstractCommand
         }
 
         // Get filter to remove invalid characters
-        $filter = new InputFilter();
+        $filter = new InpUTFilter();
 
         $user['username'] = $filter->clean($this->user, 'USERNAME');
         $user['password'] = $this->password;

@@ -65,7 +65,7 @@ use Joomla\CMS\Uri\Uri;
     <?php foreach ($this->results as $i => $result) : ?>
         <?php $this->result = &$result; ?>
         <?php $this->result->counter = $i + 1; ?>
-        <?php $layout = $this->getLayoutFile($this->result->layout); ?>
+        <?php $layout = $this->getLayoUTFile($this->result->layout); ?>
         <?php echo $this->loadTemplate($layout); ?>
     <?php endforeach; ?>
 </ol>

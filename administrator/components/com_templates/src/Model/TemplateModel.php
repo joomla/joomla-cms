@@ -1067,14 +1067,14 @@ class TemplateModel extends FormModel
                 $result['modules'][] = $this->getOverridesFolder($module, $modulePath);
             }
 
-            $layoutFolders = Folder::folders($layoutPath);
+            $layoUTFolders = Folder::folders($layoutPath);
 
-            foreach ($layoutFolders as $layoutFolder) {
-                $layoutFolderPath = Path::clean($layoutPath . '/' . $layoutFolder . '/');
-                $layouts = Folder::folders($layoutFolderPath);
+            foreach ($layoUTFolders as $layoUTFolder) {
+                $layoUTFolderPath = Path::clean($layoutPath . '/' . $layoUTFolder . '/');
+                $layouts = Folder::folders($layoUTFolderPath);
 
                 foreach ($layouts as $layout) {
-                    $result['layouts'][$layoutFolder][] = $this->getOverridesFolder($layout, $layoutFolderPath);
+                    $result['layouts'][$layoUTFolder][] = $this->getOverridesFolder($layout, $layoUTFolderPath);
                 }
             }
 

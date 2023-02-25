@@ -10,7 +10,7 @@
 
 namespace Joomla\Component\Content\Api\Controller;
 
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
@@ -51,7 +51,7 @@ class ArticlesController extends ApiController
     public function displayList()
     {
         $apiFilterInfo = $this->input->get('filter', [], 'array');
-        $filter        = InputFilter::getInstance();
+        $filter        = InpUTFilter::getInstance();
 
         if (\array_key_exists('author', $apiFilterInfo)) {
             $this->modelState->set('filter.author_id', $filter->clean($apiFilterInfo['author'], 'INT'));

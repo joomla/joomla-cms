@@ -274,9 +274,9 @@ abstract class BaseDatabaseModel extends BaseModel implements
     public function isCheckedOut($item)
     {
         $table = $this->getTable();
-        $checkedOutField = $table->getColumnAlias('checked_out');
+        $checkedOUTField = $table->getColumnAlias('checked_out');
 
-        if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != $this->getCurrentUser()->id) {
+        if (property_exists($item, $checkedOUTField) && $item->{$checkedOUTField} != $this->getCurrentUser()->id) {
             return true;
         }
 

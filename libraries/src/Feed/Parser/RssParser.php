@@ -53,7 +53,7 @@ class RssParser extends FeedParser
     {
         // Get the data from the element.
         $domain    = (string) $el['domain'];
-        $category  = $this->inputFilter->clean((string) $el, 'html');
+        $category  = $this->inpUTFilter->clean((string) $el, 'html');
 
         $feed->addCategory($category, $domain);
     }
@@ -92,7 +92,7 @@ class RssParser extends FeedParser
      */
     protected function handleCopyright(Feed $feed, \SimpleXMLElement $el)
     {
-        $feed->copyright = $this->inputFilter->clean((string) $el, 'html');
+        $feed->copyright = $this->inpUTFilter->clean((string) $el, 'html');
     }
 
     /**
@@ -107,7 +107,7 @@ class RssParser extends FeedParser
      */
     protected function handleDescription(Feed $feed, \SimpleXMLElement $el)
     {
-        $feed->description = $this->inputFilter->clean((string) $el, 'html');
+        $feed->description = $this->inpUTFilter->clean((string) $el, 'html');
     }
 
     /**
@@ -122,7 +122,7 @@ class RssParser extends FeedParser
      */
     protected function handleGenerator(Feed $feed, \SimpleXMLElement $el)
     {
-        $feed->generator = $this->inputFilter->clean((string) $el, 'html');
+        $feed->generator = $this->inpUTFilter->clean((string) $el, 'html');
     }
 
     /**
@@ -143,12 +143,12 @@ class RssParser extends FeedParser
             null,
             'logo',
             null,
-            $this->inputFilter->clean((string) $el->title, 'html')
+            $this->inpUTFilter->clean((string) $el->title, 'html')
         );
 
         // Populate extra fields if they exist.
         $image->link         = (string) filter_var($el->link, FILTER_VALIDATE_URL);
-        $image->description  = $this->inputFilter->clean((string) $el->description, 'html');
+        $image->description  = $this->inpUTFilter->clean((string) $el->description, 'html');
         $image->height       = (string) $el->height;
         $image->width        = (string) $el->width;
 
@@ -167,7 +167,7 @@ class RssParser extends FeedParser
      */
     protected function handleLanguage(Feed $feed, \SimpleXMLElement $el)
     {
-        $feed->language = $this->inputFilter->clean((string) $el, 'html');
+        $feed->language = $this->inpUTFilter->clean((string) $el, 'html');
     }
 
     /**
@@ -182,7 +182,7 @@ class RssParser extends FeedParser
      */
     protected function handleLastBuildDate(Feed $feed, \SimpleXMLElement $el)
     {
-        $feed->updatedDate = $this->inputFilter->clean((string) $el, 'html');
+        $feed->updatedDate = $this->inpUTFilter->clean((string) $el, 'html');
     }
 
     /**
@@ -275,7 +275,7 @@ class RssParser extends FeedParser
      */
     protected function handlePubDate(Feed $feed, \SimpleXMLElement $el)
     {
-        $feed->publishedDate = $this->inputFilter->clean((string) $el, 'html');
+        $feed->publishedDate = $this->inpUTFilter->clean((string) $el, 'html');
     }
 
     /**
@@ -290,7 +290,7 @@ class RssParser extends FeedParser
      */
     protected function handleTitle(Feed $feed, \SimpleXMLElement $el)
     {
-        $feed->title = $this->inputFilter->clean((string) $el, 'html');
+        $feed->title = $this->inpUTFilter->clean((string) $el, 'html');
     }
 
     /**
@@ -305,7 +305,7 @@ class RssParser extends FeedParser
      */
     protected function handleTtl(Feed $feed, \SimpleXMLElement $el)
     {
-        $feed->ttl = (int) $this->inputFilter->clean((string) $el, 'int');
+        $feed->ttl = (int) $this->inpUTFilter->clean((string) $el, 'int');
     }
 
     /**
@@ -329,7 +329,7 @@ class RssParser extends FeedParser
 
         if (isset($tmp[1])) {
             $name = trim(
-                $this->inputFilter->clean($tmp[1], 'html'),
+                $this->inpUTFilter->clean($tmp[1], 'html'),
                 ' ()'
             );
         }
@@ -372,16 +372,16 @@ class RssParser extends FeedParser
     protected function processFeedEntry(FeedEntry $entry, \SimpleXMLElement $el)
     {
         $entry->uri           = (string) filter_var($el->link, FILTER_VALIDATE_URL);
-        $entry->title         = $this->inputFilter->clean((string) $el->title, 'html');
-        $entry->publishedDate = $this->inputFilter->clean((string) $el->pubDate, 'html');
-        $entry->updatedDate   = $this->inputFilter->clean((string) $el->pubDate, 'html');
-        $entry->content       = $this->inputFilter->clean((string) $el->description, 'html');
-        $entry->guid          = $this->inputFilter->clean((string) $el->guid, 'html');
+        $entry->title         = $this->inpUTFilter->clean((string) $el->title, 'html');
+        $entry->publishedDate = $this->inpUTFilter->clean((string) $el->pubDate, 'html');
+        $entry->updatedDate   = $this->inpUTFilter->clean((string) $el->pubDate, 'html');
+        $entry->content       = $this->inpUTFilter->clean((string) $el->description, 'html');
+        $entry->guid          = $this->inpUTFilter->clean((string) $el->guid, 'html');
         $entry->isPermaLink   = $entry->guid !== '' && (string) $el->guid['isPermaLink'] !== 'false';
-        $entry->comments      = $this->inputFilter->clean((string) $el->comments, 'html');
+        $entry->comments      = $this->inpUTFilter->clean((string) $el->comments, 'html');
 
         // Add the feed entry author if available.
-        $author = $this->inputFilter->clean((string) $el->author, 'html');
+        $author = $this->inpUTFilter->clean((string) $el->author, 'html');
 
         if (!empty($author)) {
             $entry->author = $this->processPerson($author);
@@ -426,7 +426,7 @@ class RssParser extends FeedParser
 
         if (isset($data[1])) {
             $person->name = trim(
-                $this->inputFilter->clean($data[1], 'html'),
+                $this->inpUTFilter->clean($data[1], 'html'),
                 ' ()'
             );
         }

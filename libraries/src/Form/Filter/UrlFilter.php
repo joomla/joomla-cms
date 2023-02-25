@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Form\Filter;
 
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFilterInterface;
 use Joomla\CMS\String\PunycodeHelper;
@@ -49,7 +49,7 @@ class UrlFilter implements FormFilterInterface
         }
 
         // This cleans some of the more dangerous characters but leaves special characters that are valid.
-        $value = InputFilter::getInstance()->clean($value, 'html');
+        $value = InpUTFilter::getInstance()->clean($value, 'html');
         $value = trim($value);
 
         // <>" are never valid in a uri see https://www.ietf.org/rfc/rfc1738.txt

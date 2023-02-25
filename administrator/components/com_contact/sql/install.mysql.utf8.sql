@@ -5,7 +5,7 @@
 CREATE TABLE IF NOT EXISTS `#__contact_details` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `alias` varchar(400) CHARACTER SET UTF8mb4 COLLATE UTF8mb4_bin NOT NULL,
   `con_position` varchar(255),
   `address` text,
   `suburb` varchar(100),
@@ -53,4 +53,4 @@ CREATE TABLE IF NOT EXISTS `#__contact_details` (
   KEY `idx_createdby` (`created_by`),
   KEY `idx_featured_catid` (`featured`,`catid`),
   KEY `idx_language` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;

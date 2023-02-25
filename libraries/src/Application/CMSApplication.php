@@ -18,7 +18,7 @@ use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
@@ -224,17 +224,17 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             return;
         }
 
-        $inputFilter = InputFilter::getInstance(
+        $inpUTFilter = InpUTFilter::getInstance(
             [],
             [],
-            InputFilter::ONLY_BLOCK_DEFINED_TAGS,
-            InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
+            InpUTFilter::ONLY_BLOCK_DEFINED_TAGS,
+            InpUTFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
         );
 
-        // Build the message array and apply the HTML InputFilter with the default blacklist to the message
+        // Build the message array and apply the HTML InpUTFilter with the default blacklist to the message
         $message = array(
-            'message' => $inputFilter->clean($msg, 'html'),
-            'type'    => $inputFilter->clean(strtolower($type), 'cmd'),
+            'message' => $inpUTFilter->clean($msg, 'html'),
+            'type'    => $inpUTFilter->clean(strtolower($type), 'cmd'),
         );
 
         // For empty queue, if messages exists in the session, enqueue them first.
@@ -668,7 +668,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @param   string  $key      The key of the user state variable.
      * @param   string  $request  The name of the variable passed in a request.
      * @param   string  $default  The default value for the variable if not found. Optional.
-     * @param   string  $type     Filter for the variable, for valid values see {@link InputFilter::clean()}. Optional.
+     * @param   string  $type     Filter for the variable, for valid values see {@link InpUTFilter::clean()}. Optional.
      *
      * @return  mixed  The request user state.
      *
@@ -944,8 +944,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             return true;
         }
 
-        // Trigger onUserLogoutFailure Event.
-        $this->triggerEvent('onUserLogoutFailure', array($parameters));
+        // Trigger onUserLogoUTFailure Event.
+        $this->triggerEvent('onUserLogoUTFailure', array($parameters));
 
         return false;
     }

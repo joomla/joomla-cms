@@ -11,7 +11,7 @@ namespace Joomla\CMS\MVC\Model;
 
 use Exception;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
@@ -474,7 +474,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
         // If the context is set, assume that stateful lists are used.
         if ($this->context) {
             $app         = Factory::getApplication();
-            $inputFilter = InputFilter::getInstance();
+            $inpUTFilter = InpUTFilter::getInstance();
 
             // Receive & set filters
             if ($filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array')) {
@@ -546,7 +546,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
                                 break;
 
                             case 'limit':
-                                $value = $inputFilter->clean($value, 'int');
+                                $value = $inpUTFilter->clean($value, 'int');
                                 $limit = $value;
                                 break;
 
@@ -554,7 +554,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
                                 $explodedValue = explode(',', $value);
 
                                 foreach ($explodedValue as &$field) {
-                                    $field = $inputFilter->clean($field, 'cmd');
+                                    $field = $inpUTFilter->clean($field, 'cmd');
                                 }
 
                                 $value = implode(',', $explodedValue);
@@ -623,7 +623,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      * @param   string   $key        The key of the user state variable.
      * @param   string   $request    The name of the variable passed in a request.
      * @param   string   $default    The default value for the variable if not found. Optional.
-     * @param   string   $type       Filter for the variable, for valid values see {@link InputFilter::clean()}. Optional.
+     * @param   string   $type       Filter for the variable, for valid values see {@link InpUTFilter::clean()}. Optional.
      * @param   boolean  $resetPage  If true, the limitstart in request is set to zero
      *
      * @return  mixed  The request user state.

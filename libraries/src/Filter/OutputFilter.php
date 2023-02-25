@@ -11,7 +11,7 @@ namespace Joomla\CMS\Filter;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
-use Joomla\Filter\OutputFilter as BaseOutputFilter;
+use Joomla\Filter\OutpUTFilter as BaseOutpUTFilter;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -19,11 +19,11 @@ use Joomla\String\StringHelper;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * OutputFilter
+ * OutpUTFilter
  *
  * @since  1.7.0
  */
-class OutputFilter extends BaseOutputFilter
+class OutpUTFilter extends BaseOutpUTFilter
 {
     /**
      * This method processes a string and replaces all instances of & with &amp; in links only.
@@ -38,7 +38,7 @@ class OutputFilter extends BaseOutputFilter
     {
         $regex = 'href="([^"]*(&(amp;){0})[^"]*)*?"';
 
-        return preg_replace_callback("#$regex#i", array('\\Joomla\\CMS\\Filter\\OutputFilter', 'ampReplaceCallback'), $input);
+        return preg_replace_callback("#$regex#i", array('\\Joomla\\CMS\\Filter\\OutpUTFilter', 'ampReplaceCallback'), $input);
     }
 
     /**

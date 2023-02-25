@@ -40,7 +40,7 @@
     });
   };
 
-  const setShortcutFilter = () => {
+  const setShortcUTFilter = () => {
     hotkeys.filter = (event) => {
       const target = event.target || event.srcElement;
       const { tagName } = target;
@@ -162,7 +162,7 @@
       initOverviewModal(options);
       addOverviewHint();
     }
-    setShortcutFilter();
+    setShortcUTFilter();
     startupShortcuts();
   });
 })(document, Joomla);

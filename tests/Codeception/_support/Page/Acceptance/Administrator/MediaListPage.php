@@ -145,7 +145,7 @@ class MediaListPage extends AdminListPage
      * @var    string
      * @since  4.0.0
      */
-    public static $fileInputField = 'input[name=\'file\']';
+    public static $fileInpUTField = 'input[name=\'file\']';
 
     /**
      * The create folder button in the toolbar.
@@ -257,7 +257,7 @@ class MediaListPage extends AdminListPage
      * @var array
      * @since  4.0.0
      */
-    public static $renameInputField = ['id' => 'name'];
+    public static $renameInpUTField = ['id' => 'name'];
 
     /**
      * The name field of modal forms.
@@ -265,7 +265,7 @@ class MediaListPage extends AdminListPage
      * @var array
      * @since  4.0.0
      */
-    public static $newFolderInputField = ['id' => 'folder'];
+    public static $newFolderInpUTField = ['id' => 'folder'];
 
     /**
      * The confirm button of modals.
@@ -329,7 +329,7 @@ class MediaListPage extends AdminListPage
      * @var array
      * @since  4.0.5
      */
-    public static $searchInputField = ['id' => 'media_search'];
+    public static $searchInpUTField = ['id' => 'media_search'];
 
     /**
      * The key for the app storage.

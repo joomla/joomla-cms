@@ -297,12 +297,12 @@ class DatabaseModel extends InstallerModel
 
                 /*
                  * Finally, if the schema updates succeeded, make sure the database table is
-                 * converted to utf8mb4 or, if not supported by the server, compatible to it.
+                 * converted to UTF8mb4 or, if not supported by the server, compatible to it.
                  */
                 $statusArray = $changeSet['changeset']->getStatus();
 
                 if (count($statusArray['error']) == 0) {
-                    $installer->convertTablesToUtf8mb4(false);
+                    $installer->convertTablesToUTF8mb4(false);
                 }
             }
         }

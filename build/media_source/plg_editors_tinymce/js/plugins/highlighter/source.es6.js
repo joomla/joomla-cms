@@ -51,7 +51,7 @@ let CMsettings = {
 let tinymce; // Reference to TinyMCE
 let editor; // Reference to TinyMCE editor
 let codemirror; // CodeMirror instance
-const chr = 0; // Unused utf-8 character, placeholder for cursor
+const chr = 0; // Unused UTF-8 character, placeholder for cursor
 const isMac = /macintosh|mac os/i.test(navigator.userAgent);
 
 // Utility function to load CodeMirror script files

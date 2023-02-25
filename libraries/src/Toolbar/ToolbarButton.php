@@ -203,7 +203,7 @@ abstract class ToolbarButton
         $iconclass = $options['btnClass'] ?? '';
         $options['btnClass'] = 'button-' . $buttonClass . ' ' . $iconclass;
 
-        // Instantiate a new LayoutFile instance and render the layout
+        // Instantiate a new LayoUTFile instance and render the layout
         $layout = new FileLayout($this->layout);
 
         return $layout->render($options);

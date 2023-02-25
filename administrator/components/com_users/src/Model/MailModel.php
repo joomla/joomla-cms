@@ -13,7 +13,7 @@ namespace Joomla\Component\Users\Administrator\Model;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -117,7 +117,7 @@ class MailModel extends AdminModel
 
         // Automatically removes html formatting
         if (!$mode) {
-            $message_body = InputFilter::getInstance()->clean($message_body, 'string');
+            $message_body = InpUTFilter::getInstance()->clean($message_body, 'string');
         }
 
         // Check for a message body and subject

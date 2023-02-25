@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
   `catid` int NOT NULL DEFAULT 0,
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '',
-  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `alias` varchar(400) CHARACTER SET UTF8mb4 COLLATE UTF8mb4_bin NOT NULL DEFAULT '',
   `link` varchar(2048) NOT NULL DEFAULT '',
   `published` tinyint NOT NULL DEFAULT 0,
   `numarticles` int unsigned NOT NULL DEFAULT 1,
@@ -39,4 +39,4 @@ CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
   KEY `idx_catid` (`catid`),
   KEY `idx_createdby` (`created_by`),
   KEY `idx_language` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;

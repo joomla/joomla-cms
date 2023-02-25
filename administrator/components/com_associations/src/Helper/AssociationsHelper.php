@@ -554,9 +554,9 @@ class AssociationsHelper extends ContentHelper
 
         $item = self::getItem($extensionName, $typeName, $itemId);
 
-        $checkedOutFieldName = $helper->getTypeFieldName($typeName, 'checked_out');
+        $checkedOUTFieldName = $helper->getTypeFieldName($typeName, 'checked_out');
 
-        return $item->{$checkedOutFieldName} != 0;
+        return $item->{$checkedOUTFieldName} != 0;
     }
 
     /**
@@ -589,11 +589,11 @@ class AssociationsHelper extends ContentHelper
 
         $item = self::getItem($extensionName, $typeName, $itemId);
 
-        $checkedOutFieldName = $helper->getTypeFieldName($typeName, 'checked_out');
+        $checkedOUTFieldName = $helper->getTypeFieldName($typeName, 'checked_out');
 
         $userId = Factory::getUser()->id;
 
-        return ($item->{$checkedOutFieldName} == $userId || $item->{$checkedOutFieldName} == 0);
+        return ($item->{$checkedOUTFieldName} == $userId || $item->{$checkedOUTFieldName} == 0);
     }
 
     /**

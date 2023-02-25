@@ -13,7 +13,7 @@ namespace Joomla\Component\Languages\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Database\ParameterType;
@@ -132,7 +132,7 @@ class StringsModel extends BaseDatabaseModel
     {
         $results = array();
         $input   = Factory::getApplication()->input;
-        $filter  = InputFilter::getInstance();
+        $filter  = InpUTFilter::getInstance();
         $db      = $this->getDatabase();
         $searchTerm = $input->getString('searchstring');
 

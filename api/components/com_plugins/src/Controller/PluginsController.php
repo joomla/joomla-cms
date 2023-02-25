@@ -10,7 +10,7 @@
 
 namespace Joomla\Component\Plugins\Api\Controller;
 
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Controller\Exception;
@@ -100,7 +100,7 @@ class PluginsController extends ApiController
     public function displayList()
     {
         $apiFilterInfo = $this->input->get('filter', [], 'array');
-        $filter        = InputFilter::getInstance();
+        $filter        = InpUTFilter::getInstance();
 
         if (\array_key_exists('element', $apiFilterInfo)) {
             $this->modelState->set('filter.element', $filter->clean($apiFilterInfo['element'], 'STRING'));

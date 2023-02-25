@@ -12,7 +12,7 @@ namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -29,7 +29,7 @@ trait GlobalFilters
      * Get the global text filters to arbitrary text as per settings for current user groups
      * @param   User  $user  The user object
      *
-     * @return  InputFilter
+     * @return  InpUTFilter
      *
      * @since   4.1.0
      */
@@ -138,7 +138,7 @@ trait GlobalFilters
         } else {
             // Custom forbidden list precedes Default forbidden list.
             if ($customList) {
-                $filter = InputFilter::getInstance([], [], 1, 1);
+                $filter = InpUTFilter::getInstance([], [], 1, 1);
 
                 // Override filter's default forbidden tags and attributes
                 if ($customListTags) {
@@ -154,7 +154,7 @@ trait GlobalFilters
                 $forbiddenListTags       = array_diff($forbiddenListTags, $allowedListTags);
                 $forbiddenListAttributes = array_diff($forbiddenListAttributes, $allowedListAttributes);
 
-                $filter = InputFilter::getInstance($forbiddenListTags, $forbiddenListAttributes, 1, 1);
+                $filter = InpUTFilter::getInstance($forbiddenListTags, $forbiddenListAttributes, 1, 1);
 
                 // Remove allowed tags from filter's default forbidden list
                 if ($allowedListTags) {
@@ -168,10 +168,10 @@ trait GlobalFilters
             } elseif ($allowedList) {
                 // Allowed list take third precedence.
                 // Turn off XSS auto clean
-                $filter = InputFilter::getInstance($allowedListTags, $allowedListAttributes, 0, 0, 0);
+                $filter = InpUTFilter::getInstance($allowedListTags, $allowedListAttributes, 0, 0, 0);
             } else {
                 // No HTML takes last place.
-                $filter = InputFilter::getInstance();
+                $filter = InpUTFilter::getInstance();
             }
 
             return $filter;

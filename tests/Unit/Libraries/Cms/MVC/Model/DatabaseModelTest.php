@@ -226,7 +226,7 @@ class DatabaseModelTest extends UnitTestCase
      *
      * @since   4.2.0
      */
-    public function testCheckedOutWithoutField()
+    public function testCheckedOutWithoUTField()
     {
         $table = $this->createStub(Table::class);
         $table->method('getColumnAlias')->willReturn('checked_out');

@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Input;
 
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -56,7 +56,7 @@ class Cli extends Input
         if (isset($options['filter'])) {
             $this->filter = $options['filter'];
         } else {
-            $this->filter = InputFilter::getInstance();
+            $this->filter = InpUTFilter::getInstance();
         }
 
         // Get the command line options
@@ -107,7 +107,7 @@ class Cli extends Input
         if (isset($this->options['filter'])) {
             $this->filter = $this->options['filter'];
         } else {
-            $this->filter = InputFilter::getInstance();
+            $this->filter = InpUTFilter::getInstance();
         }
     }
 

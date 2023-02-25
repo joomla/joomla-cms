@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Feed;
 
 use Joomla\CMS\Feed\Parser\NamespaceParserInterface;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -48,25 +48,25 @@ abstract class FeedParser
     protected $stream;
 
     /**
-     * The InputFilter
+     * The InpUTFilter
      *
-     * @var    InputFilter
+     * @var    InpUTFilter
      * @since  3.9.25
      */
-    protected $inputFilter;
+    protected $inpUTFilter;
 
     /**
      * Constructor.
      *
      * @param   \XMLReader   $stream       The XMLReader stream object for the feed.
-     * @param   InputFilter  $inputFilter  The InputFilter object to be used
+     * @param   InpUTFilter  $inpUTFilter  The InpUTFilter object to be used
      *
      * @since   3.1.4
      */
-    public function __construct(\XMLReader $stream, InputFilter $inputFilter = null)
+    public function __construct(\XMLReader $stream, InpUTFilter $inpUTFilter = null)
     {
         $this->stream      = $stream;
-        $this->inputFilter = $inputFilter ?: InputFilter::getInstance([], [], 1, 1);
+        $this->inpUTFilter = $inpUTFilter ?: InpUTFilter::getInstance([], [], 1, 1);
     }
 
     /**

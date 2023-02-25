@@ -34,7 +34,7 @@ class DisplayController extends BaseController
     /**
      * @param   boolean  $cachable   If true, the view output will be cached
      * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see
-     *                               {@link InputFilter::clean()}.
+     *                               {@link InpUTFilter::clean()}.
      *
      * @return BaseController|boolean  Returns either a BaseController object to support chaining, or false on failure
      *

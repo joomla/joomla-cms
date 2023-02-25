@@ -103,7 +103,7 @@ class JoomlaInstallerScript
         $this->updateDatabase();
         $this->updateAssets($installer);
         $this->clearStatsCache();
-        $this->convertTablesToUtf8mb4(true);
+        $this->convertTablesToUTF8mb4(true);
         $this->addUserAuthProviderColumn();
         $this->cleanJoomlaCache();
     }
@@ -633,9 +633,9 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/postinstall/htaccess.php',
             '/administrator/components/com_admin/postinstall/joomla40checks.php',
             '/administrator/components/com_admin/postinstall/updatedefaultsettings.php',
-            '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql',
-            '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql',
-            '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-03.sql',
+            '/administrator/components/com_admin/sql/others/mysql/UTF8mb4-conversion-01.sql',
+            '/administrator/components/com_admin/sql/others/mysql/UTF8mb4-conversion-02.sql',
+            '/administrator/components/com_admin/sql/others/mysql/UTF8mb4-conversion-03.sql',
             '/administrator/components/com_admin/sql/updates/mysql/2.5.0-2011-12-06.sql',
             '/administrator/components/com_admin/sql/updates/mysql/2.5.0-2011-12-16.sql',
             '/administrator/components/com_admin/sql/updates/mysql/2.5.0-2011-12-19.sql',
@@ -2212,7 +2212,7 @@ class JoomlaInstallerScript
             '/administrator/language/en-GB/en-GB.xml',
             '/administrator/manifests/libraries/fof.xml',
             '/administrator/manifests/libraries/idna_convert.xml',
-            '/administrator/manifests/libraries/phputf8.xml',
+            '/administrator/manifests/libraries/phpUTF8.xml',
             '/administrator/modules/mod_feed/helper.php',
             '/administrator/modules/mod_latest/helper.php',
             '/administrator/modules/mod_latestactions/helper.php',
@@ -3156,7 +3156,7 @@ class JoomlaInstallerScript
             '/language/en-GB/en-GB.lib_joomla.ini',
             '/language/en-GB/en-GB.lib_joomla.sys.ini',
             '/language/en-GB/en-GB.lib_phpass.sys.ini',
-            '/language/en-GB/en-GB.lib_phputf8.sys.ini',
+            '/language/en-GB/en-GB.lib_phpUTF8.sys.ini',
             '/language/en-GB/en-GB.lib_simplepie.sys.ini',
             '/language/en-GB/en-GB.localise.php',
             '/language/en-GB/en-GB.mod_articles_archive.ini',
@@ -3787,31 +3787,31 @@ class JoomlaInstallerScript
             '/libraries/legacy/simplepie/factory.php',
             '/libraries/legacy/table/session.php',
             '/libraries/legacy/utilities/xmlelement.php',
-            '/libraries/phputf8/LICENSE',
-            '/libraries/phputf8/README',
-            '/libraries/phputf8/mbstring/core.php',
-            '/libraries/phputf8/native/core.php',
-            '/libraries/phputf8/ord.php',
-            '/libraries/phputf8/str_ireplace.php',
-            '/libraries/phputf8/str_pad.php',
-            '/libraries/phputf8/str_split.php',
-            '/libraries/phputf8/strcasecmp.php',
-            '/libraries/phputf8/strcspn.php',
-            '/libraries/phputf8/stristr.php',
-            '/libraries/phputf8/strrev.php',
-            '/libraries/phputf8/strspn.php',
-            '/libraries/phputf8/substr_replace.php',
-            '/libraries/phputf8/trim.php',
-            '/libraries/phputf8/ucfirst.php',
-            '/libraries/phputf8/ucwords.php',
-            '/libraries/phputf8/utf8.php',
-            '/libraries/phputf8/utils/ascii.php',
-            '/libraries/phputf8/utils/bad.php',
-            '/libraries/phputf8/utils/patterns.php',
-            '/libraries/phputf8/utils/position.php',
-            '/libraries/phputf8/utils/specials.php',
-            '/libraries/phputf8/utils/unicode.php',
-            '/libraries/phputf8/utils/validation.php',
+            '/libraries/phpUTF8/LICENSE',
+            '/libraries/phpUTF8/README',
+            '/libraries/phpUTF8/mbstring/core.php',
+            '/libraries/phpUTF8/native/core.php',
+            '/libraries/phpUTF8/ord.php',
+            '/libraries/phpUTF8/str_ireplace.php',
+            '/libraries/phpUTF8/str_pad.php',
+            '/libraries/phpUTF8/str_split.php',
+            '/libraries/phpUTF8/strcasecmp.php',
+            '/libraries/phpUTF8/strcspn.php',
+            '/libraries/phpUTF8/stristr.php',
+            '/libraries/phpUTF8/strrev.php',
+            '/libraries/phpUTF8/strspn.php',
+            '/libraries/phpUTF8/substr_replace.php',
+            '/libraries/phpUTF8/trim.php',
+            '/libraries/phpUTF8/ucfirst.php',
+            '/libraries/phpUTF8/ucwords.php',
+            '/libraries/phpUTF8/UTF8.php',
+            '/libraries/phpUTF8/utils/ascii.php',
+            '/libraries/phpUTF8/utils/bad.php',
+            '/libraries/phpUTF8/utils/patterns.php',
+            '/libraries/phpUTF8/utils/position.php',
+            '/libraries/phpUTF8/utils/specials.php',
+            '/libraries/phpUTF8/utils/unicode.php',
+            '/libraries/phpUTF8/utils/validation.php',
             '/libraries/src/Access/Wrapper/Access.php',
             '/libraries/src/Cache/Storage/ApcStorage.php',
             '/libraries/src/Cache/Storage/CacheliteStorage.php',
@@ -3831,7 +3831,7 @@ class JoomlaInstallerScript
             '/libraries/src/Filesystem/Wrapper/FileWrapper.php',
             '/libraries/src/Filesystem/Wrapper/FolderWrapper.php',
             '/libraries/src/Filesystem/Wrapper/PathWrapper.php',
-            '/libraries/src/Filter/Wrapper/OutputFilterWrapper.php',
+            '/libraries/src/Filter/Wrapper/OutpUTFilterWrapper.php',
             '/libraries/src/Form/Field/HelpsiteField.php',
             '/libraries/src/Form/FormWrapper.php',
             '/libraries/src/Helper/ContentHistoryHelper.php',
@@ -5503,7 +5503,7 @@ class JoomlaInstallerScript
             '/libraries/vendor/spomky-labs/cbor-php/infection.json.dist',
             '/libraries/vendor/spomky-labs/cbor-php/phpstan.neon',
             '/libraries/vendor/typo3/phar-stream-wrapper/_config.yml',
-            '/libraries/vendor/voku/portable-utf8/SUMMARY.md',
+            '/libraries/vendor/voku/portable-UTF8/SUMMARY.md',
             '/libraries/vendor/willdurand/negotiation/src/Negotiation/Match.php',
             '/media/com_actionlogs/js/admin-actionlogs-default.es6.js',
             '/media/com_actionlogs/js/admin-actionlogs-default.es6.min.js',
@@ -6815,10 +6815,10 @@ class JoomlaInstallerScript
             '/libraries/src/Filesystem/Wrapper',
             '/libraries/src/Crypt/Password',
             '/libraries/src/Access/Wrapper',
-            '/libraries/phputf8/utils',
-            '/libraries/phputf8/native',
-            '/libraries/phputf8/mbstring',
-            '/libraries/phputf8',
+            '/libraries/phpUTF8/utils',
+            '/libraries/phpUTF8/native',
+            '/libraries/phpUTF8/mbstring',
+            '/libraries/phpUTF8',
             '/libraries/legacy/utilities',
             '/libraries/legacy/table',
             '/libraries/legacy/simplepie',
@@ -7948,7 +7948,7 @@ class JoomlaInstallerScript
      *
      * @since   3.5
      */
-    public function convertTablesToUtf8mb4($doDbFixMsg = false)
+    public function convertTablesToUTF8mb4($doDbFixMsg = false)
     {
         $db = Factory::getDbo();
 
@@ -7956,8 +7956,8 @@ class JoomlaInstallerScript
             return;
         }
 
-        // Check if the #__utf8_conversion table exists
-        $db->setQuery('SHOW TABLES LIKE ' . $db->quote($db->getPrefix() . 'utf8_conversion'));
+        // Check if the #__UTF8_conversion table exists
+        $db->setQuery('SHOW TABLES LIKE ' . $db->quote($db->getPrefix() . 'UTF8_conversion'));
 
         try {
             $rows = $db->loadRowList(0);
@@ -7984,7 +7984,7 @@ class JoomlaInstallerScript
         // Check conversion status in database
         $db->setQuery(
             'SELECT ' . $db->quoteName('converted')
-            . ' FROM ' . $db->quoteName('#__utf8_conversion')
+            . ' FROM ' . $db->quoteName('#__UTF8_conversion')
         );
 
         try {
@@ -8001,16 +8001,16 @@ class JoomlaInstallerScript
             return;
         }
 
-        // If conversion status from DB is equal to required final status, try to drop the #__utf8_conversion table
+        // If conversion status from DB is equal to required final status, try to drop the #__UTF8_conversion table
         if ($convertedDB === $converted) {
-            $this->dropUtf8ConversionTable();
+            $this->dropUTF8ConversionTable();
 
             return;
         }
 
         // Perform the required conversions of core tables if not done already in a previous step
         if ($convertedDB !== 99) {
-            $fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion.sql';
+            $fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/UTF8mb4-conversion.sql';
 
             if (is_file($fileName1)) {
                 $fileContents1 = @file_get_contents($fileName1);
@@ -8033,7 +8033,7 @@ class JoomlaInstallerScript
 
         // If no error before, perform the optional conversions of tables which might or might not exist
         if ($converted === 5) {
-            $fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion_optional.sql';
+            $fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/UTF8mb4-conversion_optional.sql';
 
             if (is_file($fileName2)) {
                 $fileContents2 = @file_get_contents($fileName2);
@@ -8072,15 +8072,15 @@ class JoomlaInstallerScript
             Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
         }
 
-        // If the conversion was successful try to drop the #__utf8_conversion table
-        if ($converted === 5 && $this->dropUtf8ConversionTable()) {
+        // If the conversion was successful try to drop the #__UTF8_conversion table
+        if ($converted === 5 && $this->dropUTF8ConversionTable()) {
             // Table successfully dropped
             return;
         }
 
         // Set flag in database if the conversion status has changed.
         if ($converted !== $convertedDB) {
-            $db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
+            $db->setQuery('UPDATE ' . $db->quoteName('#__UTF8_conversion')
                 . ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
         }
     }
@@ -8107,18 +8107,18 @@ class JoomlaInstallerScript
     }
 
     /**
-     * This method drops the #__utf8_conversion table
+     * This method drops the #__UTF8_conversion table
      *
      * @return  boolean  True on success
      *
      * @since   4.0.0
      */
-    private function dropUtf8ConversionTable()
+    private function dropUTF8ConversionTable()
     {
         $db = Factory::getDbo();
 
         try {
-            $db->setQuery('DROP TABLE ' . $db->quoteName('#__utf8_conversion') . ';')->execute();
+            $db->setQuery('DROP TABLE ' . $db->quoteName('#__UTF8_conversion') . ';')->execute();
         } catch (Exception $e) {
             return false;
         }

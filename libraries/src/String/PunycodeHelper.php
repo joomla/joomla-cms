@@ -23,7 +23,7 @@ use Joomla\Uri\UriHelper;
  *
  * Class for handling UTF-8 URLs
  * Wraps the Punycode library
- * All functions assume the validity of utf-8 URLs.
+ * All functions assume the validity of UTF-8 URLs.
  *
  * @since  3.1.2
  */
@@ -32,18 +32,18 @@ abstract class PunycodeHelper
     /**
      * Transforms a UTF-8 string to a Punycode string
      *
-     * @param   string  $utfString  The UTF-8 string to transform
+     * @param   string  $UTFString  The UTF-8 string to transform
      *
      * @return  string  The punycode string
      *
      * @since   3.1.2
      */
-    public static function toPunycode($utfString)
+    public static function toPunycode($UTFString)
     {
         try {
-            $converted = (new ToIdn())->convert($utfString);
+            $converted = (new ToIdn())->convert($UTFString);
         } catch (AlreadyPunycodeException $e) {
-            $converted = $utfString;
+            $converted = $UTFString;
         }
 
         return $converted;

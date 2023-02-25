@@ -392,7 +392,7 @@ class FormModelTest extends UnitTestCase
      *
      * @since   4.2.0
      */
-    public function testSuccessfulCheckoutFieldNotAvailableCheck()
+    public function testSuccessfulCheckoUTFieldNotAvailableCheck()
     {
         $table              = $this->createStub(Table::class);
         $table->checked_out = 0;

@@ -66,7 +66,7 @@ module.exports.codeMirror = async (packageName, version) => {
   );
 
   // Update the XML file for Codemirror
-  let codemirrorXml = await readFile(`${RootPath}/plugins/editors/codemirror/codemirror.xml`, { encoding: 'utf8' });
+  let codemirrorXml = await readFile(`${RootPath}/plugins/editors/codemirror/codemirror.xml`, { encoding: 'UTF8' });
   codemirrorXml = codemirrorXml.replace(xmlVersionStr, `$1${version}$3`);
-  await writeFile(`${RootPath}/plugins/editors/codemirror/codemirror.xml`, codemirrorXml, { encoding: 'utf8', mode: 0o644 });
+  await writeFile(`${RootPath}/plugins/editors/codemirror/codemirror.xml`, codemirrorXml, { encoding: 'UTF8', mode: 0o644 });
 };

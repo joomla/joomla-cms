@@ -28,7 +28,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class ModulelayoutField extends FormField
+class ModulelayoUTField extends FormField
 {
     /**
      * The form field type.

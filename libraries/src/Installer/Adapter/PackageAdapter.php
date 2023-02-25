@@ -13,7 +13,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\InstallerHelper;
@@ -351,7 +351,7 @@ class PackageAdapter extends InstallerAdapter
             $element = (string) $this->getManifest()->packagename;
 
             // Filter the name for illegal characters
-            $element = 'pkg_' . InputFilter::getInstance()->clean($element, 'cmd');
+            $element = 'pkg_' . InpUTFilter::getInstance()->clean($element, 'cmd');
         }
 
         return $element;

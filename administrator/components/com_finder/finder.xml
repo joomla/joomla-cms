@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="component" method="upgrade">
 	<name>com_finder</name>
 	<author>Joomla! Project</author>
@@ -13,14 +13,14 @@
 	<menu link="option=com_finder">COM_FINDER</menu>
 	<install>
 		<sql>
-			<file charset="utf8" driver="mysql">sql/install.mysql.sql</file>
-			<file charset="utf8" driver="postgresql">sql/install.postgresql.sql</file>
+			<file charset="UTF8" driver="mysql">sql/install.mysql.sql</file>
+			<file charset="UTF8" driver="postgresql">sql/install.postgresql.sql</file>
 		</sql>
 	</install>
 	<uninstall>
 		<sql>
-			<file charset="utf8" driver="mysql">sql/uninstall.mysql.sql</file>
-			<file charset="utf8" driver="postgresql">sql/uninstall.postgresql.sql</file>
+			<file charset="UTF8" driver="mysql">sql/uninstall.mysql.sql</file>
+			<file charset="UTF8" driver="postgresql">sql/uninstall.postgresql.sql</file>
 		</sql>
 	</uninstall>
 	<files folder="site">

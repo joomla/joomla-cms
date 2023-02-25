@@ -40,7 +40,7 @@ class UserController extends BaseController
     {
         $this->checkToken('post');
 
-        $input = $this->input->getInputForRequestMethod();
+        $input = $this->input->getInpUTForRequestMethod();
 
         // Populate the data array:
         $data = array();
@@ -127,7 +127,7 @@ class UserController extends BaseController
 
         // Perform the log out.
         $error = $app->logout(null, $options);
-        $input = $app->input->getInputForRequestMethod();
+        $input = $app->input->getInpUTForRequestMethod();
 
         // Check if the log out succeeded.
         if ($error instanceof \Exception) {

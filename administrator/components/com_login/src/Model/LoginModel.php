@@ -39,7 +39,7 @@ class LoginModel extends BaseDatabaseModel
      */
     protected function populateState()
     {
-        $input = Factory::getApplication()->input->getInputForRequestMethod();
+        $input = Factory::getApplication()->input->getInpUTForRequestMethod();
 
         $credentials = array(
             'username'  => $input->get('username', '', 'USERNAME'),

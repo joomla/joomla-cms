@@ -11,7 +11,7 @@
  */
 
 use Joomla\CMS\Authentication\Authentication;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -111,7 +111,7 @@ class PlgAuthenticationCookie extends CMSPlugin
         $response->type = 'Cookie';
 
         // Filter series since we're going to use it in the query
-        $filter = new InputFilter();
+        $filter = new InpUTFilter();
         $series = $filter->clean($cookieArray[1], 'ALNUM');
         $now    = time();
 
@@ -259,7 +259,7 @@ class PlgAuthenticationCookie extends CMSPlugin
             $cookieArray = explode('.', $cookieValue);
 
             // Filter series since we're going to use it in the query
-            $filter = new InputFilter();
+            $filter = new InpUTFilter();
             $series = $filter->clean($cookieArray[1], 'ALNUM');
         } elseif (!empty($options['remember'])) {
             // Remember checkbox is set
@@ -384,7 +384,7 @@ class PlgAuthenticationCookie extends CMSPlugin
         $cookieArray = explode('.', $cookieValue);
 
         // Filter series since we're going to use it in the query
-        $filter = new InputFilter();
+        $filter = new InpUTFilter();
         $series = $filter->clean($cookieArray[1], 'ALNUM');
 
         // Remove the record from the database

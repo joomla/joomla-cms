@@ -772,12 +772,12 @@ abstract class AdminModel extends FormModel
             $pks = array((int) $this->getState($this->getName() . '.id'));
         }
 
-        $checkedOutField = $table->getColumnAlias('checked_out');
+        $checkedOUTField = $table->getColumnAlias('checked_out');
 
         // Check in all items.
         foreach ($pks as $pk) {
             if ($table->load($pk)) {
-                if ($table->{$checkedOutField} > 0) {
+                if ($table->{$checkedOUTField} > 0) {
                     if (!parent::checkin($pk)) {
                         return false;
                     }

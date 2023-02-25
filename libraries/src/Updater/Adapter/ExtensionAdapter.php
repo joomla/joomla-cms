@@ -11,7 +11,7 @@ namespace Joomla\CMS\Updater\Adapter;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\InpUTFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\UpdateAdapter;
@@ -102,7 +102,7 @@ class ExtensionAdapter extends UpdateAdapter
         switch ($name) {
             case 'UPDATE':
                 // Lower case and remove the exclamation mark
-                $product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
+                $product = strtolower(InpUTFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
 
                 // Check that the product matches and that the version matches (optionally a regexp)
                 if (

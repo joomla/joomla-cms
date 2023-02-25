@@ -11,7 +11,7 @@
 namespace Joomla\Component\Finder\Administrator\Service\HTML;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\Filter\OutpUTFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -373,7 +373,7 @@ class Filter
             // Build a node.
             $html .= '<div class="control-group">';
             $html .= '<div class="control-label">';
-            $html .= '<label for="tax-' . OutputFilter::stringURLSafe($bv->title) . '">';
+            $html .= '<label for="tax-' . OutpUTFilter::stringURLSafe($bv->title) . '">';
             $html .= Text::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', Text::_(LanguageHelper::branchSingular($bv->title)));
             $html .= '</label>';
             $html .= '</div>';
@@ -386,7 +386,7 @@ class Filter
                 'id',
                 'title',
                 $active,
-                'tax-' . OutputFilter::stringURLSafe($bv->title)
+                'tax-' . OutpUTFilter::stringURLSafe($bv->title)
             );
             $html .= '</div>';
             $html .= '</div>';

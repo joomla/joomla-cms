@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `#__mail_templates` (
   `attachments` TEXT NOT NULL,
   `params` TEXT NOT NULL,
   PRIMARY KEY (`template_id`, `language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8mb4 DEFAULT COLLATE=UTF8mb4_unicode_ci;
 
 -- The following statement was modified for 4.1.1 by adding the "IGNORE" keyword.
 -- See https://github.com/joomla/joomla-cms/pull/37156
