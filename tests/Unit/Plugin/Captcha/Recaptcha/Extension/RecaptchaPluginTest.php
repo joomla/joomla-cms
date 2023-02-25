@@ -62,12 +62,12 @@ class RecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can init the captcha
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can init the captcha
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testInit()
     {
         $document = new HtmlDocument();
@@ -87,12 +87,12 @@ class RecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can init the captcha with a wrong application
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can init the captcha with a wrong application
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testInitWrongApplication()
     {
         $plugin = new ReCaptcha(new Dispatcher(), ['params' => ['public_key' => 'test']], $this->createStub(RequestMethod::class));
@@ -102,12 +102,12 @@ class RecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can init the captcha with an empty public key
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can init the captcha with an empty public key
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testInitEmptyPublicKey()
     {
         $language = $this->createStub(Language::class);
@@ -125,12 +125,12 @@ class RecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can display the captcha
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can display the captcha
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testDisplay()
     {
         $plugin = new ReCaptcha(new Dispatcher(), ['params' => []], $this->createStub(RequestMethod::class));
@@ -143,12 +143,12 @@ class RecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can check successful answer
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can check successful answer
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testResponse()
     {
         $language = $this->createStub(Language::class);
@@ -168,12 +168,12 @@ class RecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can check successful answer
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can check successful answer
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testResponseWithCode()
     {
         $language = $this->createStub(Language::class);
@@ -192,12 +192,12 @@ class RecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can check answer with an empty private key
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can check answer with an empty private key
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testResponseEmptyPrivateKey()
     {
         $language = $this->createStub(Language::class);
@@ -215,12 +215,12 @@ class RecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can detect spam
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can detect spam
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testResponseSpam()
     {
         $language = $this->createStub(Language::class);
@@ -239,12 +239,12 @@ class RecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can check successful answer
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can check successful answer
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testFailedResponse()
     {
         $language = $this->createStub(Language::class);
@@ -266,12 +266,12 @@ class RecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can return admin capabilities
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can return admin capabilities
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testPrivacy()
     {
         $language = $this->createStub(Language::class);
