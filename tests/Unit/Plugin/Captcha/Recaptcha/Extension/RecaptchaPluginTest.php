@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Plugin\Task\Checkfiles\Extension;
+namespace Joomla\Tests\Unit\Plugin\Captcha\Recaptcha\Extension;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
