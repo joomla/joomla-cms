@@ -386,18 +386,18 @@ class DatabaseModel extends BaseInstallationModel
      * @param   DatabaseDriver  $db       Database object.
      * @param   CMSObject       $options  CMSObject coming from "initialise" function to pass user
      *                                    and database name to database driver.
-     * @param   boolean         $utf      True if the database supports the UTF-8 character set.
+     * @param   boolean         $UTF      True if the database supports the UTF-8 character set.
      *
      * @return  boolean  True on success.
      *
      * @since   3.1
      */
-    public function createDb($db, $options, $utf)
+    public function createDb($db, $options, $UTF)
     {
         // Build the create database query.
         try {
             // Run the create database query.
-            $db->createDatabase($options, $utf);
+            $db->createDatabase($options, $UTF);
         } catch (\RuntimeException $e) {
             // If an error occurred return false.
             return false;

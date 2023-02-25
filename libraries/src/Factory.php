@@ -746,7 +746,7 @@ abstract class Factory
         $version = new Version();
 
         $attributes = array(
-            'charset'      => 'utf-8',
+            'charset'      => 'UTF-8',
             'lineend'      => 'unix',
             'tab'          => "\t",
             'language'     => $lang->getTag(),

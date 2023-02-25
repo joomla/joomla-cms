@@ -46,7 +46,7 @@ class TextView extends AbstractView
             throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        header('Content-Type: text/plain; charset=utf-8');
+        header('Content-Type: text/plain; charset=UTF-8');
         header('Content-Description: File Transfer');
         header('Content-Disposition: attachment; filename="systeminfo-' . date('c') . '.txt"');
         header('Cache-Control: must-revalidate');

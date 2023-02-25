@@ -85,7 +85,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
             }
 
             if (!isset($headers['Content-Type'])) {
-                $headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
+                $headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
             }
 
             // Add the relevant headers.

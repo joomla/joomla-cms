@@ -68,8 +68,8 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
             foreach ($lineErrors as $column => $colErrors) {
                 foreach ($colErrors as $error) {
                     $error['type'] = strtolower($error['type']);
-                    if ($phpcsFile->config->encoding !== 'utf-8') {
-                        $error['message'] = iconv($phpcsFile->config->encoding, 'utf-8', $error['message']);
+                    if ($phpcsFile->config->encoding !== 'UTF-8') {
+                        $error['message'] = iconv($phpcsFile->config->encoding, 'UTF-8', $error['message']);
                     }
 
                     $error['fixable'] = $error['fixable'] === true ? 'Yes' : 'No';

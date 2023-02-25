@@ -23,7 +23,7 @@ use Joomla\Uri\UriHelper;
  *
  * Class for handling UTF-8 URLs
  * Wraps the Punycode library
- * All functions assume the validity of utf-8 URLs.
+ * All functions assume the validity of UTF-8 URLs.
  *
  * @since  3.1.2
  */
