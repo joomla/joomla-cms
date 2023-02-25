@@ -3,43 +3,61 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license   GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
+use Joomla\CMS\Component\ComponentHelper;
+
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined("JPATH_PLATFORM") or die();
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Supports an HTML select list of image
  *
- * @since  1.7.0
+ * @since 1.7.0
  */
 class ImagelistField extends FilelistField
 {
     /**
      * The form field type.
      *
-     * @var    string
-     * @since  1.7.0
+     * @var   string
+     * @since 1.7.0
      */
-    protected $type = 'Imagelist';
+    protected $type = "Imagelist";
 
     /**
      * Method to get the list of images field options.
      * Use the filter attribute to specify allowable file extensions.
      *
-     * @return  array  The field option objects.
+     * @return array  The field option objects.
      *
-     * @since   1.7.0
+     * @since 1.7.0
      */
     protected function getOptions()
     {
         // Define the image file type filter.
-        $this->fileFilter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$|\.jpeg$|\.psd$|\.eps$';
+        $this->fileFilter =
+            '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$|\.jpeg$|\.psd$|\.eps$' .
+            join(
+                "|",
+                array_map(
+                    function ($extension) {
+                        return "\." . $extension . '$';
+                    },
+                    explode(
+                        ",",
+                        ComponentHelper::getParams("com_media")->get(
+                            "image_extensions",
+                            "bmp,gif,jpg,jpeg,png,webp,avif"
+                        )
+                    )
+                )
+            );
 
         // Get the field options.
         return parent::getOptions();
