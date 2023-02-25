@@ -33,8 +33,7 @@ return new class () implements ServiceProviderInterface
      *
      * @since   4.0.0
      */
-    public function register(Container $container)
-    {
+    public function register(Container $container) {
         $container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\Custom'));
         $container->registerServiceProvider(new HelperFactory('\\Joomla\\Module\\Custom\\Site\\Helper'));
         $container->registerServiceProvider(new Module());
