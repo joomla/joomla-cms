@@ -328,7 +328,7 @@ class AtomParserTest extends UnitTestCase
      */
     public function testInitialiseSetsDefaultVersionWithXmlDocType()
     {
-        $dummyXml   = '<?xml version="1.0" encoding="UTF-8" ?>
+        $dummyXml   = '<?xml version="1.0" encoding="utf-8" ?>
 <feed xmlns="http://www.w3.org/2005/Atom" />';
         $reader = new XMLReader();
         $reader->xml($dummyXml);
@@ -352,7 +352,7 @@ class AtomParserTest extends UnitTestCase
      */
     public function testInitialiseSetsDefaultVersion()
     {
-        $dummyXml   = '<?xml version="1.0" encoding="UTF-8"?>
+        $dummyXml   = '<?xml version="1.0" encoding="utf-8"?>
 <!-- generator="Joomla! Unit Test" -->
 <feed xmlns="http://www.w3.org/2005/Atom">
 <title type="text">Joomla! Unit test</title>
@@ -392,7 +392,7 @@ class AtomParserTest extends UnitTestCase
      */
     public function testInitialiseSetsOldVersion()
     {
-        $dummyXml = '<?xml version="1.0" encoding="UTF-8"?>
+        $dummyXml = '<?xml version="1.0" encoding="utf-8"?>
 <!-- generator="Joomla! Unit Test" -->
 <feed  version="0.3" xmlns="http://www.w3.org/2005/Atom">
 <title type="text">Joomla! Unit test</title>

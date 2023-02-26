@@ -515,9 +515,13 @@ class UpdateController extends BaseController
 
         $this->app           = Factory::getApplication();
         $this->app->mimeType = 'application/json';
+<<<<<<< HEAD
 
         $this->app->charSet = 'UTF-8';
 
+=======
+        $this->app->charSet = 'utf-8';
+>>>>>>> parent of c2c4236572 (replacing lowercase utf to uppercase)
         $this->app->setHeader('Content-Type', $this->app->mimeType . '; charset=' . $this->app->charSet);
         $this->app->sendHeaders();
 
@@ -631,9 +635,13 @@ class UpdateController extends BaseController
         }
 
         $this->app->mimeType = 'application/json';
+<<<<<<< HEAD
 
         $this->app->charSet = 'UTF-8';
 
+=======
+        $this->app->charSet = 'utf-8';
+>>>>>>> parent of c2c4236572 (replacing lowercase utf to uppercase)
         $this->app->setHeader('Content-Type', $this->app->mimeType . '; charset=' . $this->app->charSet);
         $this->app->sendHeaders();
 

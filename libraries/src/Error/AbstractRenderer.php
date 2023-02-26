@@ -96,7 +96,7 @@ abstract class AbstractRenderer implements RendererInterface
     protected function loadDocument(): Document
     {
         $attributes = [
-            'charset'   => 'UTF-8',
+            'charset'   => 'utf-8',
             'lineend'   => 'unix',
             'tab'       => "\t",
             'language'  => 'en-GB',

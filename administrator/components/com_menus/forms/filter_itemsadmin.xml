@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 
 <?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Menus\Administrator\Field">
 
+=======
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+>>>>>>> parent of c2c4236572 (replacing lowercase utf to uppercase)
 	<field
 		name="client_id"
 		type="list"
