@@ -441,7 +441,7 @@ class PlgContentEmailcloak extends CMSPlugin
          * <img src="..." title="email@example.org"> or <input type="text" placeholder="email@example.org">
          * The '<[^<]*>(*SKIP)(*F)|' trick is used to exclude this kind of occurrences
          */
-        $pattern = '~<[^<]*(?<!\/(?:src))>(*SKIP)(*F)|<[^>]+?(\w*=\"' . $searchEmail . '\")[^>]*\/>~i';
+        $pattern = '~<[^<]*(?<!\/)>(*SKIP)(*F)|<[^>]+?(\w*=\"' . $searchEmail . '\")[^>]*\/>~i';
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[0][0];
@@ -469,6 +469,7 @@ class PlgContentEmailcloak extends CMSPlugin
         * Search for plain text email addresses, such as email@example.org but not within HTML tags:
         * <p>email@example.org</p>
         * The '<[^<]*>(*SKIP)(*F)|' trick is used to exclude this kind of occurrences
+        * The '<[^<]*(?<!\/(?:src))>(*SKIP)(*F)|' exclude image files with @ in filename
         */
 
         $pattern = '~<[^<]*(?<!\/(?:src))>(*SKIP)(*F)|' . $searchEmail . '~i';
