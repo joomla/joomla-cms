@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -95,11 +94,10 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->getInput()->set('hidemainmenu', true);
+        Factory::getApplication()->input->set('hidemainmenu', true);
 
-        $isNew   = ($this->item->id == 0);
-        $canDo   = $this->canDo;
-        $toolbar = Toolbar::getInstance();
+        $isNew = ($this->item->id == 0);
+        $canDo = $this->canDo;
 
         ToolbarHelper::title(
             $isNew ? Text::_('COM_TEMPLATES_MANAGER_ADD_STYLE')
@@ -107,34 +105,31 @@ class HtmlView extends BaseHtmlView
             'paint-brush thememanager'
         );
 
+        $toolbarButtons = [];
+
         // If not checked out, can save the item.
         if ($canDo->get('core.edit')) {
-            $toolbar->apply('style.apply');
+            ToolbarHelper::apply('style.apply');
+            $toolbarButtons[] = ['save', 'style.save'];
         }
 
-        $saveGroup = $toolbar->dropdownButton('save-group');
+        // If an existing item, can save to a copy.
+        if (!$isNew && $canDo->get('core.create')) {
+            $toolbarButtons[] = ['save2copy', 'style.save2copy'];
+        }
 
-        $saveGroup->configure(
-            function (Toolbar $childBar) use ($canDo, $isNew) {
-                // If not checked out, can save the item.
-                if ($canDo->get('core.edit')) {
-                    $childBar->save('style.save');
-                }
-
-                // If an existing item, can save to a copy.
-                if (!$isNew && $canDo->get('core.create')) {
-                    $childBar->save2copy('style.save2copy');
-                }
-            }
+        ToolbarHelper::saveGroup(
+            $toolbarButtons,
+            'btn-success'
         );
 
         if (empty($this->item->id)) {
-            $toolbar->cancel('style.cancel', 'JTOOLBAR_CANCEL');
+            ToolbarHelper::cancel('style.cancel');
         } else {
-            $toolbar->cancel('style.cancel');
+            ToolbarHelper::cancel('style.cancel', 'JTOOLBAR_CLOSE');
         }
 
-        $toolbar->divider();
+        ToolbarHelper::divider();
 
         // Get the help information for the template item.
         $lang = Factory::getLanguage();
@@ -142,12 +137,12 @@ class HtmlView extends BaseHtmlView
 
         if ($lang->hasKey($help->url)) {
             $debug = $lang->setDebug(false);
-            $url   = Text::_($help->url);
+            $url = Text::_($help->url);
             $lang->setDebug($debug);
         } else {
             $url = null;
         }
 
-        $toolbar->help($help->key, false, $url);
+        ToolbarHelper::help($help->key, false, $url);
     }
 }

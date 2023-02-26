@@ -18,7 +18,7 @@
     <div class="media-browser-item-info">
       {{ item.name }}
     </div>
-    <MediaBrowserActionItemsContainer
+    <media-browser-action-items-container
       ref="container"
       :item="item"
       @toggle-settings="toggleSettings"
@@ -27,20 +27,12 @@
 </template>
 <script>
 import navigable from '../../../mixins/navigable.es6';
-import MediaBrowserActionItemsContainer from '../actionItems/actionItemsContainer.vue';
 
 export default {
   name: 'MediaBrowserItemDirectory',
-  components: {
-    MediaBrowserActionItemsContainer,
-  },
   mixins: [navigable],
-  props: {
-    item: {
-      type: Object,
-      default: () => {},
-    },
-  },
+  // eslint-disable-next-line vue/require-prop-types
+  props: ['item'],
   emits: ['toggle-settings'],
   data() {
     return {
@@ -54,9 +46,7 @@ export default {
     },
     /* Hide actions dropdown */
     hideActions() {
-      if (this.$refs.container) {
-        this.$refs.container.hideActions();
-      }
+      this.$refs.container.hideActions();
     },
     toggleSettings(bool) {
       this.$emit('toggle-settings', bool);

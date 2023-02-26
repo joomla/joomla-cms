@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Plugin\PluginHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -65,15 +64,6 @@ class HtmlView extends BaseHtmlView
     public $document;
 
     /**
-     * Should we show a captcha form for the submission of the article?
-     *
-     * @var    boolean
-     *
-     * @since  3.7.0
-     */
-    protected $captchaEnabled = false;
-
-    /**
      * The page class suffix
      *
      * @var    string
@@ -109,15 +99,6 @@ class HtmlView extends BaseHtmlView
 
         if (isset($active->query['layout'])) {
             $this->setLayout($active->query['layout']);
-        }
-
-        $captchaSet = $this->params->get('captcha', Factory::getApplication()->get('captcha', '0'));
-
-        foreach (PluginHelper::getPlugin('captcha') as $plugin) {
-            if ($captchaSet === $plugin->name) {
-                $this->captchaEnabled = true;
-                break;
-            }
         }
 
         // Escape strings for HTML output

@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\CoreContent;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
@@ -71,7 +70,7 @@ class PlgContentJoomla extends CMSPlugin
         }
 
         // Check we are handling the frontend edit form.
-        if (!in_array($context, ['com_workflow.stage', 'com_workflow.workflow']) || $isNew || !$table->hasField('published')) {
+        if (!in_array($context, ['com_workflow.stage', 'com_workflow.workflow']) || $isNew) {
             return true;
         }
 
@@ -79,15 +78,13 @@ class PlgContentJoomla extends CMSPlugin
 
         $item->load($table->id);
 
-        $publishedField = $item->getColumnAlias('published');
-
-        if ($item->$publishedField > 0 && isset($data[$publishedField]) && $data[$publishedField] < 1) {
+        if ($item->published != -2 && $data['published'] == -2) {
             switch ($context) {
                 case 'com_workflow.workflow':
-                    return $this->_workflowNotUsed($item->id);
+                    return $this->_canDeleteWorkflow($item->id);
 
                 case 'com_workflow.stage':
-                    return $this->_stageNotUsed($item->id);
+                    return $this->_canDeleteStage($item->id);
             }
         }
 
@@ -124,7 +121,7 @@ class PlgContentJoomla extends CMSPlugin
             return;
         }
 
-        $db    = $this->db;
+        $db = $this->db;
         $query = $db->getQuery(true)
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
@@ -142,19 +139,19 @@ class PlgContentJoomla extends CMSPlugin
         // Messaging for new items
 
         $default_language = ComponentHelper::getParams('com_languages')->get('administrator');
-        $debug            = $this->app->get('debug_lang');
+        $debug = $this->app->get('debug_lang');
 
         foreach ($users as $user_id) {
             if ($user_id != $user->id) {
                 // Load language for messaging
                 $receiver = User::getInstance($user_id);
-                $lang     = Language::getInstance($receiver->getParam('admin_language', $default_language), $debug);
+                $lang = Language::getInstance($receiver->getParam('admin_language', $default_language), $debug);
                 $lang->load('com_content');
-                $message = [
+                $message = array(
                     'user_id_to' => $user_id,
-                    'subject'    => $lang->_('COM_CONTENT_NEW_ARTICLE'),
-                    'message'    => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title),
-                ];
+                    'subject' => $lang->_('COM_CONTENT_NEW_ARTICLE'),
+                    'message' => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title),
+                );
                 $model_message = $this->app->bootComponent('com_messages')->getMVCFactory()
                     ->createModel('Message', 'Administrator');
                 $model_message->save($message);
@@ -184,10 +181,10 @@ class PlgContentJoomla extends CMSPlugin
                 return $this->_canDeleteCategories($data);
 
             case 'com_workflow.workflow':
-                return $this->_workflowNotUsed($data->id);
+                return $this->_canDeleteWorkflow($data->id);
 
             case 'com_workflow.stage':
-                return $this->_stageNotUsed($data->id);
+                return $this->_canDeleteStage($data->id);
         }
     }
 
@@ -204,7 +201,7 @@ class PlgContentJoomla extends CMSPlugin
      */
     public function onContentBeforeChangeState($context, $pks, $value)
     {
-        if ($value > 0 || !in_array($context, ['com_workflow.workflow', 'com_workflow.stage'])) {
+        if ($value != -2 || !in_array($context, ['com_workflow.workflow', 'com_workflow.stage'])) {
             return true;
         }
 
@@ -213,16 +210,14 @@ class PlgContentJoomla extends CMSPlugin
         foreach ($pks as $id) {
             switch ($context) {
                 case 'com_workflow.workflow':
-                    $result = $result && $this->_workflowNotUsed($id);
-                    break;
+                    return $result && $this->_canDeleteWorkflow($id);
 
                 case 'com_workflow.stage':
-                    $result = $result && $this->_stageNotUsed($id);
-                    break;
+                    $result = $result && $this->_canDeleteStage($id);
             }
         }
 
-        return $result;
+        return true;
     }
 
     /**
@@ -239,19 +234,19 @@ class PlgContentJoomla extends CMSPlugin
             return true;
         }
 
-        $extension = $this->app->getInput()->getString('extension');
+        $extension = $this->app->input->getString('extension');
 
         // Default to true if not a core extension
         $result = true;
 
-        $tableInfo = [
-            'com_banners'   => ['table_name' => '#__banners'],
-            'com_contact'   => ['table_name' => '#__contact_details'],
-            'com_content'   => ['table_name' => '#__content'],
-            'com_newsfeeds' => ['table_name' => '#__newsfeeds'],
-            'com_users'     => ['table_name' => '#__user_notes'],
-            'com_weblinks'  => ['table_name' => '#__weblinks'],
-        ];
+        $tableInfo = array(
+            'com_banners' => array('table_name' => '#__banners'),
+            'com_contact' => array('table_name' => '#__contact_details'),
+            'com_content' => array('table_name' => '#__content'),
+            'com_newsfeeds' => array('table_name' => '#__newsfeeds'),
+            'com_users' => array('table_name' => '#__user_notes'),
+            'com_weblinks' => array('table_name' => '#__weblinks'),
+        );
 
         // Now check to see if this is a known core extension
         if (isset($tableInfo[$extension])) {
@@ -301,7 +296,7 @@ class PlgContentJoomla extends CMSPlugin
      *
      * @since  4.0.0
      */
-    private function _workflowNotUsed($pk)
+    private function _canDeleteWorkflow($pk)
     {
         // Check if this workflow is the default stage
         $table = new WorkflowTable($this->db);
@@ -361,7 +356,7 @@ class PlgContentJoomla extends CMSPlugin
      *
      * @since  4.0.0
      */
-    private function _stageNotUsed($pk)
+    private function _canDeleteStage($pk)
     {
         $table = new StageTable($this->db);
 
@@ -417,7 +412,7 @@ class PlgContentJoomla extends CMSPlugin
      */
     private function _countItemsInCategory($table, $catid)
     {
-        $db    = $this->db;
+        $db = $this->db;
         $query = $db->getQuery(true);
 
         // Count the items in this category
@@ -510,7 +505,7 @@ class PlgContentJoomla extends CMSPlugin
 
         // First element in tree is the current category, so we can skip that one
         unset($childCategoryTree[0]);
-        $childCategoryIds = [];
+        $childCategoryIds = array();
 
         foreach ($childCategoryTree as $node) {
             $childCategoryIds[] = (int) $node->id;
@@ -534,7 +529,8 @@ class PlgContentJoomla extends CMSPlugin
             }
 
             return $count;
-        } else { // If we didn't have any categories to check, return 0
+        } else // If we didn't have any categories to check, return 0
+        {
             return 0;
         }
     }
@@ -554,9 +550,9 @@ class PlgContentJoomla extends CMSPlugin
     {
         $pks = ArrayHelper::toInteger($pks);
 
-        if ($context === 'com_workflow.stage' && $value < 1) {
+        if ($context === 'com_workflow.stage' && $value == -2) {
             foreach ($pks as $pk) {
-                if (!$this->_stageNotUsed($pk)) {
+                if (!$this->_canDeleteStage($pk)) {
                     return false;
                 }
             }
@@ -564,7 +560,7 @@ class PlgContentJoomla extends CMSPlugin
             return true;
         }
 
-        $db    = $this->db;
+        $db = $this->db;
         $query = $db->getQuery(true)
             ->select($db->quoteName('core_content_id'))
             ->from($db->quoteName('#__ucm_content'))

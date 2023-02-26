@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -93,53 +92,48 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $input = Factory::getApplication()->getInput();
+        $input = Factory::getApplication()->input;
         $input->set('hidemainmenu', true);
 
-        $isNew   = ($this->item->id == 0);
-        $toolbar = Toolbar::getInstance();
+        $isNew = ($this->item->id == 0);
 
         ToolbarHelper::title(Text::_($isNew ? 'COM_MENUS_VIEW_NEW_MENU_TITLE' : 'COM_MENUS_VIEW_EDIT_MENU_TITLE'), 'list menu');
 
+        $toolbarButtons = [];
+
         // If a new item, can save the item.  Allow users with edit permissions to apply changes to prevent returning to grid.
-        if ($isNew && $this->canDo->get('core.create') && $this->canDo->get('core.edit')) {
-            $toolbar->apply('menu.apply');
+        if ($isNew && $this->canDo->get('core.create')) {
+            if ($this->canDo->get('core.edit')) {
+                ToolbarHelper::apply('menu.apply');
+            }
+
+            $toolbarButtons[] = ['save', 'menu.save'];
         }
 
         // If user can edit, can save the item.
         if (!$isNew && $this->canDo->get('core.edit')) {
-            $toolbar->apply('menu.apply');
+            ToolbarHelper::apply('menu.apply');
+
+            $toolbarButtons[] = ['save', 'menu.save'];
         }
 
-        $saveGroup = $toolbar->dropdownButton('save-group');
-        $canDo     = $this->canDo;
+        // If the user can create new items, allow them to see Save & New
+        if ($this->canDo->get('core.create')) {
+            $toolbarButtons[] = ['save2new', 'menu.save2new'];
+        }
 
-        $saveGroup->configure(
-            function (Toolbar $childBar) use ($isNew, $canDo) {
-                // If a new item, can save the item.  Allow users with edit permissions to apply changes to prevent returning to grid.
-                if ($isNew && $canDo->get('core.create')) {
-                    $childBar->save('menu.save');
-                }
-
-                // If user can edit, can save the item.
-                if (!$isNew && $canDo->get('core.edit')) {
-                    $childBar->save('menu.save');
-                }
-
-                // If the user can create new items, allow them to see Save & New
-                if ($canDo->get('core.create')) {
-                    $childBar->save2new('menu.save2new');
-                }
-            }
+        ToolbarHelper::saveGroup(
+            $toolbarButtons,
+            'btn-success'
         );
 
         if ($isNew) {
-            $toolbar->cancel('menu.cancel', 'JTOOLBAR_CANCEL');
+            ToolbarHelper::cancel('menu.cancel');
         } else {
-            $toolbar->cancel('menu.cancel');
+            ToolbarHelper::cancel('menu.cancel', 'JTOOLBAR_CLOSE');
         }
 
-        $toolbar->divider();
-        $toolbar->help('Menus:_Edit');
+        ToolbarHelper::divider();
+        ToolbarHelper::help('Menus:_Edit');
     }
 }

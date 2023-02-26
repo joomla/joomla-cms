@@ -29,10 +29,10 @@ class FeaturedModel extends ArticlesModel
      * @see     \Joomla\CMS\MVC\Controller\BaseController
      * @since   1.6
      */
-    public function __construct($config = [])
+    public function __construct($config = array())
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = [
+            $config['filter_fields'] = array(
                 'id', 'a.id',
                 'title', 'a.title',
                 'alias', 'a.alias',
@@ -59,7 +59,7 @@ class FeaturedModel extends ArticlesModel
                 'tag',
                 'rating_count', 'rating',
                 'ws.title',
-            ];
+            );
         }
 
         parent::__construct($config);

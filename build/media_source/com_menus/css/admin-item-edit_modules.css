@@ -1,0 +1,17 @@
+/**
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+ul.horizontal-buttons {
+  margin-top: 12px;
+  margin-bottom: 0;
+  padding-left: 10px;
+}
+ul.horizontal-buttons li {
+  display: inline-block;
+  padding-right: 10%;
+}
+ul.horizontal-buttons li .control-group {
+  margin-bottom: 0;
+}

@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -92,42 +91,40 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->getInput()->set('hidemainmenu', 1);
-        $isNew   = empty($this->item->lang_id);
-        $canDo   = $this->canDo;
-        $toolbar = Toolbar::getInstance();
+        Factory::getApplication()->input->set('hidemainmenu', 1);
+        $isNew = empty($this->item->lang_id);
+        $canDo = $this->canDo;
 
         ToolbarHelper::title(
             Text::_($isNew ? 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE' : 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_EDIT_TITLE'),
             'comments-2 langmanager'
         );
 
+        $toolbarButtons = [];
+
         if (($isNew && $canDo->get('core.create')) || (!$isNew && $canDo->get('core.edit'))) {
-            $toolbar->apply('language.apply');
+            ToolbarHelper::apply('language.apply');
+
+            $toolbarButtons[] = ['save', 'language.save'];
         }
 
-        $saveGroup = $toolbar->dropdownButton('save-group');
+        // If an existing item, can save to a copy only if we have create rights.
+        if ($canDo->get('core.create')) {
+            $toolbarButtons[] = ['save2new', 'language.save2new'];
+        }
 
-        $saveGroup->configure(
-            function (Toolbar $childBar) use ($canDo, $isNew) {
-                if (($isNew && $canDo->get('core.create')) || (!$isNew && $canDo->get('core.edit'))) {
-                    $childBar->save('language.save');
-                }
-
-                // If an existing item, can save to a copy only if we have create rights.
-                if ($canDo->get('core.create')) {
-                    $childBar->save2new('language.save2new');
-                }
-            }
+        ToolbarHelper::saveGroup(
+            $toolbarButtons,
+            'btn-success'
         );
 
         if ($isNew) {
-            $toolbar->cancel('language.cancel');
+            ToolbarHelper::cancel('language.cancel');
         } else {
-            $toolbar->cancel('language.cancel');
+            ToolbarHelper::cancel('language.cancel', 'JTOOLBAR_CLOSE');
         }
 
-        $toolbar->divider();
-        $toolbar->help('Languages:_Edit_Content_Language');
+        ToolbarHelper::divider();
+        ToolbarHelper::help('Languages:_Edit_Content_Language');
     }
 }

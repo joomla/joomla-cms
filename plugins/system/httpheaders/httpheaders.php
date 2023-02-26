@@ -70,7 +70,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
         'cross-origin-opener-policy',
         'report-to',
         'permissions-policy',
-        'nel',
     ];
 
     /**
@@ -452,8 +451,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
         foreach ($staticHeaderConfiguration as $headerAndClient => $value) {
             $headerAndClient = explode('#', $headerAndClient);
-            $header          = $headerAndClient[0];
-            $client          = $headerAndClient[1] ?? 'both';
+            $header = $headerAndClient[0];
+            $client = $headerAndClient[1] ?? 'both';
 
             if (!$this->app->isClient($client) && $client != 'both') {
                 continue;

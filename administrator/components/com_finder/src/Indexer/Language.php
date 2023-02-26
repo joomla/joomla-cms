@@ -32,7 +32,7 @@ class Language
      * @var    Language[]
      * @since  4.0.0
      */
-    protected static $instances = [];
+    protected static $instances = array();
 
     /**
      * Language locale of the class

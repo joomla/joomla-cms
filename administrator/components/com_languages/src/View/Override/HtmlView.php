@@ -15,7 +15,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -110,39 +109,37 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->getInput()->set('hidemainmenu', true);
+        Factory::getApplication()->input->set('hidemainmenu', true);
 
-        $canDo   = ContentHelper::getActions('com_languages');
-        $toolbar = Toolbar::getInstance();
+        $canDo = ContentHelper::getActions('com_languages');
 
         ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'comments langmanager');
 
+        $toolbarButtons = [];
+
         if ($canDo->get('core.edit')) {
-            $toolbar->apply('override.apply');
+            ToolbarHelper::apply('override.apply');
+
+            $toolbarButtons[] = ['save', 'override.save'];
         }
 
-        $saveGroup = $toolbar->dropdownButton('save-group');
+        // This component does not support Save as Copy.
+        if ($canDo->get('core.edit') && $canDo->get('core.create')) {
+            $toolbarButtons[] = ['save2new', 'override.save2new'];
+        }
 
-        $saveGroup->configure(
-            function (Toolbar $childBar) use ($canDo) {
-                if ($canDo->get('core.edit')) {
-                    $childBar->save('override.save');
-                }
-
-                // This component does not support Save as Copy.
-                if ($canDo->get('core.edit') && $canDo->get('core.create')) {
-                    $childBar->save2new('override.save2new');
-                }
-            }
+        ToolbarHelper::saveGroup(
+            $toolbarButtons,
+            'btn-success'
         );
 
         if (empty($this->item->key)) {
-            $toolbar->cancel('override.cancel', 'JTOOLBAR_CANCEL');
+            ToolbarHelper::cancel('override.cancel');
         } else {
-            $toolbar->cancel('override.cancel');
+            ToolbarHelper::cancel('override.cancel', 'JTOOLBAR_CLOSE');
         }
 
-        $toolbar->divider();
-        $toolbar->help('Languages:_Edit_Override');
+        ToolbarHelper::divider();
+        ToolbarHelper::help('Languages:_Edit_Override');
     }
 }

@@ -96,19 +96,19 @@ class MenuField extends GroupedlistField
             }
         }
 
-        $opts = [];
+        $opts = array();
 
         // Protected menutypes can be shown if requested
         if ($clientId == 1 && $showAll) {
-            $opts[] = (object) [
+            $opts[] = (object) array(
                 'value'     => 'main',
                 'text'      => Text::_('COM_MENUS_MENU_TYPE_PROTECTED_MAIN_LABEL'),
                 'client_id' => 1,
-            ];
+            );
         }
 
         $options = array_merge($opts, $menus);
-        $groups  = [];
+        $groups  = array();
 
         if (\strlen($clientId)) {
             $groups[0] = $options;

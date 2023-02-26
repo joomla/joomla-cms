@@ -34,7 +34,7 @@ class Router extends RouterBase
      */
     public function build(&$query)
     {
-        $segments = [];
+        $segments = array();
 
         if (isset($query['task'])) {
             $segments[] = $query['task'];
@@ -67,7 +67,7 @@ class Router extends RouterBase
     public function parse(&$segments)
     {
         $total = \count($segments);
-        $vars  = [];
+        $vars = array();
 
         for ($i = 0; $i < $total; $i++) {
             $segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);

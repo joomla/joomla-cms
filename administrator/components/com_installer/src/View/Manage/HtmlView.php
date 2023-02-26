@@ -85,31 +85,35 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
-        $toolbar = Toolbar::getInstance();
+        $toolbar = Toolbar::getInstance('toolbar');
         $canDo   = ContentHelper::getActions('com_installer');
 
         if ($canDo->get('core.edit.state')) {
-            $toolbar->publish('manage.publish', 'JTOOLBAR_ENABLE')
+            $toolbar->publish('manage.publish')
+                ->text('JTOOLBAR_ENABLE')
                 ->listCheck(true);
-            $toolbar->unpublish('manage.unpublish', 'JTOOLBAR_DISABLE')
+            $toolbar->unpublish('manage.unpublish')
+                ->text('JTOOLBAR_DISABLE')
                 ->listCheck(true);
             $toolbar->divider();
         }
 
-        $toolbar->standardButton('refresh', 'JTOOLBAR_REFRESH_CACHE', 'manage.refresh')
+        $toolbar->standardButton('refresh')
+            ->text('JTOOLBAR_REFRESH_CACHE')
+            ->task('manage.refresh')
             ->listCheck(true);
         $toolbar->divider();
 
         if ($canDo->get('core.delete')) {
-            $toolbar->delete('manage.remove', 'JTOOLBAR_UNINSTALL')
+            $toolbar->delete('manage.remove')
+                ->text('JTOOLBAR_UNINSTALL')
                 ->message('COM_INSTALLER_CONFIRM_UNINSTALL')
                 ->listCheck(true);
             $toolbar->divider();
         }
 
         if ($canDo->get('core.manage')) {
-            $toolbar->linkButton('upload', 'COM_INSTALLER_TOOLBAR_INSTALL_EXTENSIONS')
-                ->url('index.php?option=com_installer&view=install');
+            ToolbarHelper::link('index.php?option=com_installer&view=install', 'COM_INSTALLER_TOOLBAR_INSTALL_EXTENSIONS', 'upload');
             $toolbar->divider();
         }
 

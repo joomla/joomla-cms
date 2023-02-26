@@ -4,7 +4,7 @@
   margin-top: $cassiopeia-grid-gutter;
   color: $white;
   background-color: var(--cassiopeia-color-primary);
-  background-image: $cassiopeia-header-grad #{"/* rtl:"}$cassiopeia-header-grad-rtl #{"*/"};
+  background-image: $cassiopeia-header-grad;
 
   .grid-child {
     align-items: center;
@@ -14,6 +14,10 @@
 
   a {
     color: currentColor;
+  }
+
+  [dir=rtl] & {
+    background-image: $cassiopeia-header-grad-rtl;
   }
 
   .mod-menu {

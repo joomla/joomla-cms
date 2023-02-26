@@ -34,7 +34,7 @@ trait ActiveSiteTemplate
      */
     protected function getActiveSiteTemplate()
     {
-        $db    = $this->getDatabase();
+        $db    = Factory::getContainer()->get('db');
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->quoteName('#__template_styles'))
@@ -50,7 +50,7 @@ trait ActiveSiteTemplate
         try {
             return $db->loadObject();
         } catch (RuntimeException $e) {
-            $this->getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+            $this->app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
             return new \stdClass();
         }

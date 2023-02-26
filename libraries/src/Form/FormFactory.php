@@ -34,7 +34,7 @@ class FormFactory implements FormFactoryInterface
      *
      * @since   4.0.0
      */
-    public function createForm(string $name, array $options = []): Form
+    public function createForm(string $name, array $options = array()): Form
     {
         $form = new Form($name, $options);
 

@@ -16,10 +16,8 @@ use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Privacy\Site\View\Request\HtmlView $this */
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
-$wa->useScript('keepalive')
-    ->useScript('form.validate');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('behavior.formvalidator');
 
 ?>
 <div class="request-form<?php echo $this->pageclass_sfx; ?>">

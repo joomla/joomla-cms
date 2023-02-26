@@ -50,8 +50,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
      */
     protected function populateState()
     {
-        $app   = Factory::getApplication();
-        $input = $app->getInput();
+        $app = Factory::getApplication();
 
         // Load the parameters.
         $params = $app->getParams();
@@ -64,15 +63,15 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         }
 
         // Load state from the request.
-        $pk = $input->getInt('a_id');
+        $pk = $app->input->getInt('a_id');
         $this->setState('article.id', $pk);
 
-        $this->setState('article.catid', $input->getInt('catid', $catId));
+        $this->setState('article.catid', $app->input->getInt('catid', $catId));
 
-        $return = $input->get('return', '', 'base64');
+        $return = $app->input->get('return', '', 'base64');
         $this->setState('return_page', base64_decode($return));
 
-        $this->setState('layout', $input->getString('layout'));
+        $this->setState('layout', $app->input->getString('layout'));
     }
 
     /**
@@ -100,13 +99,13 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         }
 
         $properties = $table->getProperties(1);
-        $value      = ArrayHelper::toObject($properties, CMSObject::class);
+        $value = ArrayHelper::toObject($properties, CMSObject::class);
 
         // Convert attrib field to Registry.
         $value->params = new Registry($value->attribs);
 
         // Compute selected asset permissions.
-        $user   = $this->getCurrentUser();
+        $user   = Factory::getUser();
         $userId = $user->get('id');
         $asset  = 'com_content.article.' . $value->id;
 
@@ -144,7 +143,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         }
 
         // Convert the metadata field to an array.
-        $registry        = new Registry($value->metadata);
+        $registry = new Registry($value->metadata);
         $value->metadata = $registry->toArray();
 
         if ($itemId) {
@@ -157,7 +156,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 
             if ($value->featured) {
                 // Get featured dates.
-                $db    = $this->getDatabase();
+                $db = $this->getDatabase();
                 $query = $db->getQuery(true)
                     ->select(
                         [
@@ -245,7 +244,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         $user = $app->getIdentity();
 
         // On edit article, we get ID of article from article.id state, but on save, we use data from input
-        $id = (int) $this->getState('article.id', $app->getInput()->getInt('a_id'));
+        $id = (int) $this->getState('article.id', $app->input->getInt('a_id'));
 
         // Existing record. We can't edit the category in frontend if not edit.state.
         if ($id > 0 && !$user->authorise('core.edit.state', 'com_content.article.' . $id)) {
@@ -329,7 +328,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function getTable($name = 'Article', $prefix = 'Administrator', $options = [])
+    public function getTable($name = 'Article', $prefix = 'Administrator', $options = array())
     {
         return parent::getTable($name, $prefix, $options);
     }

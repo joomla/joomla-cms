@@ -46,7 +46,7 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
-$attributes = [
+$attributes = array(
     !empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
     !empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
     $disabled ? 'disabled' : '',
@@ -60,7 +60,7 @@ $attributes = [
     !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
     $autofocus ? 'autofocus' : '',
     $dataAttribute,
-];
+);
 
 if (is_numeric($value)) {
     $value = (float) $value;

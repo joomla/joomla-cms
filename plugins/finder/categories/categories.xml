@@ -9,10 +9,8 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_FINDER_CATEGORIES_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\Finder\Categories</namespace>
 	<files>
-		<folder plugin="categories">services</folder>
-		<folder>src</folder>
+		<filename plugin="categories">categories.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_finder_categories.ini</language>

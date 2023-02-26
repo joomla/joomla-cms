@@ -91,7 +91,7 @@ class ProfileController extends BaseController
         $userId = (int) $user->get('id');
 
         // Get the user data.
-        $requestData = $app->getInput()->post->get('jform', [], 'array');
+        $requestData = $app->input->post->get('jform', array(), 'array');
 
         // Force the ID to this user.
         $requestData['id'] = $userId;
@@ -107,7 +107,7 @@ class ProfileController extends BaseController
         $objData = (object) $requestData;
         $app->triggerEvent(
             'onContentNormaliseRequestData',
-            ['com_users.user', $objData, $form]
+            array('com_users.user', $objData, $form)
         );
         $requestData = (array) $objData;
 

@@ -23,11 +23,11 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
-$input = Factory::getApplication()->getInput();
+$input = Factory::getApplication()->input;
 
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
-$settings  = [];
+$settings  = array();
 
 $this->useCoreUI = true;
 ?>
@@ -60,7 +60,7 @@ $this->useCoreUI = true;
         <?php endif; ?>
 
         <?php
-        $this->ignore_fieldsets = ['user_details'];
+        $this->ignore_fieldsets = array('user_details');
         echo LayoutHelper::render('joomla.edit.params', $this);
         ?>
 

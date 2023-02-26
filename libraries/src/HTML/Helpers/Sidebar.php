@@ -29,7 +29,7 @@ abstract class Sidebar
      * @var    array
      * @since  3.0
      */
-    protected static $entries = [];
+    protected static $entries = array();
 
     /**
      * Filters
@@ -37,7 +37,7 @@ abstract class Sidebar
      * @var    array
      * @since  3.0
      */
-    protected static $filters = [];
+    protected static $filters = array();
 
     /**
      * Value for the action attribute of the form.
@@ -63,7 +63,7 @@ abstract class Sidebar
         $data->action         = static::getAction();
         $data->displayMenu    = count($data->list);
         $data->displayFilters = count($data->filters);
-        $data->hide           = Factory::getApplication()->getInput()->getBool('hidemainmenu');
+        $data->hide           = Factory::getApplication()->input->getBool('hidemainmenu');
 
         // Create a layout object and ask it to render the sidebar
         $layout      = new FileLayout('joomla.sidebars.submenu');
@@ -84,7 +84,7 @@ abstract class Sidebar
      */
     public static function addEntry($name, $link = '', $active = false)
     {
-        static::$entries[] = [$name, $link, $active];
+        static::$entries[] = array($name, $link, $active);
     }
 
     /**
@@ -113,7 +113,7 @@ abstract class Sidebar
      */
     public static function addFilter($label, $name, $options, $noDefault = false)
     {
-        static::$filters[] = ['label' => $label, 'name' => $name, 'options' => $options, 'noDefault' => $noDefault];
+        static::$filters[] = array('label' => $label, 'name' => $name, 'options' => $options, 'noDefault' => $noDefault);
     }
 
     /**

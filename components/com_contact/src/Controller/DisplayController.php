@@ -36,10 +36,10 @@ class DisplayController extends BaseController
      *
      * @since   3.0
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         // Contact frontpage Editor contacts proxying.
-        $input = Factory::getApplication()->getInput();
+        $input = Factory::getApplication()->input;
 
         if ($input->get('view') === 'contacts' && $input->get('layout') === 'modal') {
             $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
@@ -58,7 +58,7 @@ class DisplayController extends BaseController
      *
      * @since   1.5
      */
-    public function display($cachable = false, $urlparams = [])
+    public function display($cachable = false, $urlparams = array())
     {
         if ($this->app->getUserState('com_contact.contact.data') === null) {
             $cachable = true;
@@ -72,23 +72,10 @@ class DisplayController extends BaseController
             $cachable = false;
         }
 
-        $safeurlparams = [
-            'catid'            => 'INT',
-            'id'               => 'INT',
-            'cid'              => 'ARRAY',
-            'year'             => 'INT',
-            'month'            => 'INT',
-            'limit'            => 'UINT',
-            'limitstart'       => 'UINT',
-            'showall'          => 'INT',
-            'return'           => 'BASE64',
-            'filter'           => 'STRING',
-            'filter_order'     => 'CMD',
-            'filter_order_Dir' => 'CMD',
-            'filter-search'    => 'STRING',
-            'print'            => 'BOOLEAN',
-            'lang'             => 'CMD',
-        ];
+        $safeurlparams = array('catid' => 'INT', 'id' => 'INT', 'cid' => 'ARRAY', 'year' => 'INT', 'month' => 'INT',
+            'limit' => 'UINT', 'limitstart' => 'UINT', 'showall' => 'INT', 'return' => 'BASE64', 'filter' => 'STRING',
+            'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'filter-search' => 'STRING', 'print' => 'BOOLEAN',
+            'lang' => 'CMD');
 
         parent::display($cachable, $safeurlparams);
 

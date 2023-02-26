@@ -76,7 +76,7 @@ class UploaddirsField extends FolderlistField
      */
     protected function getInput()
     {
-        $html = [];
+        $html = array();
 
         // Get the field options.
         $options = (array) $this->getOptions();

@@ -19,7 +19,7 @@ if ($value == '') {
 }
 
 $value  = (array) $value;
-$texts  = [];
+$texts  = array();
 $groups = UsersHelper::getGroups();
 
 foreach ($groups as $group) {

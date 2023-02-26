@@ -58,6 +58,10 @@
       object-fit: contain;
       object-position: left center;
 
+      [dir=rtl] & {
+        object-position: right center;
+      }
+
       &.logo-collapsed {
         display: none;
       }

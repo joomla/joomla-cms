@@ -28,10 +28,10 @@ class Category extends Categories
      *
      * @param   array  $options  options
      */
-    public function __construct($options = [])
+    public function __construct($options = array())
     {
-        $options['table']      = '#__newsfeeds';
-        $options['extension']  = 'com_newsfeeds';
+        $options['table'] = '#__newsfeeds';
+        $options['extension'] = 'com_newsfeeds';
         $options['statefield'] = 'published';
         parent::__construct($options);
     }

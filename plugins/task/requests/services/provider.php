@@ -19,7 +19,8 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Http\HttpFactory;
 use Joomla\Plugin\Task\Requests\Extension\Requests;
 
-return new class () implements ServiceProviderInterface {
+return new class implements ServiceProviderInterface
+{
     /**
      * Registers the service provider with a DI container.
      *

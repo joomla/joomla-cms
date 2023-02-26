@@ -39,7 +39,7 @@ trait AjaxHandlerDelete
     public function onAjaxWebauthnDelete(AjaxDelete $event): void
     {
         // Initialize objects
-        $input      = $this->getApplication()->getInput();
+        $input      = $this->getApplication()->input;
         $repository = $this->authenticationHelper->getCredentialsRepository();
 
         // Retrieve data from the request

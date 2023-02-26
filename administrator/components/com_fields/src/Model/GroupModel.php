@@ -42,10 +42,10 @@ class GroupModel extends AdminModel
      *
      * @var array
      */
-    protected $batch_commands = [
+    protected $batch_commands = array(
         'assetgroup_id' => 'batchAccess',
-        'language_id'   => 'batchLanguage',
-    ];
+        'language_id'   => 'batchLanguage'
+    );
 
     /**
      * Method to save the form data.
@@ -59,7 +59,7 @@ class GroupModel extends AdminModel
     public function save($data)
     {
         // Alter the title for save as copy
-        $input = Factory::getApplication()->getInput();
+        $input = Factory::getApplication()->input;
 
         // Save new group as unpublished
         if ($input->get('task') == 'save2copy') {
@@ -81,7 +81,7 @@ class GroupModel extends AdminModel
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function getTable($name = 'Group', $prefix = 'Administrator', $options = [])
+    public function getTable($name = 'Group', $prefix = 'Administrator', $options = array())
     {
         return parent::getTable($name, $prefix, $options);
     }
@@ -96,10 +96,10 @@ class GroupModel extends AdminModel
      *
      * @since   3.7.0
      */
-    public function getForm($data = [], $loadData = true)
+    public function getForm($data = array(), $loadData = true)
     {
         $context = $this->getState('filter.context');
-        $jinput  = Factory::getApplication()->getInput();
+        $jinput = Factory::getApplication()->input;
 
         if (empty($context) && isset($data['context'])) {
             $context = $data['context'];
@@ -110,10 +110,10 @@ class GroupModel extends AdminModel
         $form = $this->loadForm(
             'com_fields.group.' . $context,
             'group',
-            [
+            array(
                 'control'   => 'jform',
                 'load_data' => $loadData,
-            ]
+            )
         );
 
         if (empty($form)) {
@@ -125,7 +125,7 @@ class GroupModel extends AdminModel
             $data['context'] = $context;
         }
 
-        $user = $this->getCurrentUser();
+        $user = Factory::getUser();
 
         if (!$user->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id'))) {
             // Disable fields for display.
@@ -160,7 +160,7 @@ class GroupModel extends AdminModel
             return false;
         }
 
-        return $this->getCurrentUser()->authorise('core.delete', $record->context . '.fieldgroup.' . (int) $record->id);
+        return Factory::getUser()->authorise('core.delete', $record->context . '.fieldgroup.' . (int) $record->id);
     }
 
     /**
@@ -175,7 +175,7 @@ class GroupModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $user = $this->getCurrentUser();
+        $user = Factory::getUser();
 
         // Check for existing fieldgroup.
         if (!empty($record->id)) {
@@ -282,7 +282,7 @@ class GroupModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
-        if (!$this->getCurrentUser()->authorise('core.admin', 'com_fields')) {
+        if (!Factory::getUser()->authorise('core.admin', 'com_fields')) {
             if (isset($data['rules'])) {
                 unset($data['rules']);
             }
@@ -301,9 +301,8 @@ class GroupModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $app   = Factory::getApplication();
-        $input = $app->getInput();
-        $data  = $app->getUserState('com_fields.edit.group.data', []);
+        $app = Factory::getApplication();
+        $data = $app->getUserState('com_fields.edit.group.data', array());
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -316,15 +315,15 @@ class GroupModel extends AdminModel
 
                 $data->set(
                     'state',
-                    $input->getInt('state', (!empty($filters['state']) ? $filters['state'] : null))
+                    $app->input->getInt('state', (!empty($filters['state']) ? $filters['state'] : null))
                 );
                 $data->set(
                     'language',
-                    $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null))
+                    $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null))
                 );
                 $data->set(
                     'access',
-                    $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
+                    $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
                 );
             }
         }
@@ -371,7 +370,7 @@ class GroupModel extends AdminModel
      */
     protected function cleanCache($group = null, $clientId = 0)
     {
-        $context = Factory::getApplication()->getInput()->get('context');
+        $context = Factory::getApplication()->input->get('context');
 
         parent::cleanCache($context);
     }

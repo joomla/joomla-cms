@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
@@ -91,13 +92,13 @@ class MethodModel extends BaseDatabaseModel
     public function getRenderOptions(?User $user = null): SetupRenderOptions
     {
         if (is_null($user)) {
-            $user = Factory::getApplication()->getIdentity() ?: $this->getCurrentUser();
+            $user = Factory::getApplication()->getIdentity() ?: Factory::getUser();
         }
 
         $renderOptions = new SetupRenderOptions();
 
         $event    = new GetSetup($this->getRecord($user));
-        $results  = Factory::getApplication()
+        $results = Factory::getApplication()
             ->getDispatcher()
             ->dispatch($event->getName(), $event)
             ->getArgument('result', []);
@@ -130,7 +131,8 @@ class MethodModel extends BaseDatabaseModel
     public function getRecord(User $user = null): MfaTable
     {
         if (is_null($user)) {
-            $user = $this->getCurrentUser();
+            $user = Factory::getApplication()->getIdentity()
+                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
         }
 
         $defaultRecord = $this->getDefaultRecord($user);
@@ -195,7 +197,8 @@ class MethodModel extends BaseDatabaseModel
     protected function getDefaultRecord(?User $user = null): MfaTable
     {
         if (is_null($user)) {
-            $user = $this->getCurrentUser();
+            $user = Factory::getApplication()->getIdentity()
+                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
         }
 
         $method = $this->getState('method');

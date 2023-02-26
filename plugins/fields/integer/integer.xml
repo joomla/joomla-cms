@@ -9,11 +9,9 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.7.0</version>
 	<description>PLG_FIELDS_INTEGER_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\Fields\Integer</namespace>
 	<files>
+		<filename plugin="integer">integer.php</filename>
 		<folder>params</folder>
-		<folder plugin="integer">services</folder>
-		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

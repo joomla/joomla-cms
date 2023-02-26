@@ -44,7 +44,7 @@ class ItemlanguageField extends ListField
      */
     protected function getOptions()
     {
-        $input = Factory::getApplication()->getInput();
+        $input = Factory::getApplication()->input;
 
         list($extensionName, $typeName) = explode('.', $input->get('itemtype', '', 'string'), 2);
 
@@ -63,9 +63,9 @@ class ItemlanguageField extends ListField
         $canCreate = AssociationsHelper::allowAdd($extensionName, $typeName);
 
         // Gets existing languages.
-        $existingLanguages = LanguageHelper::getContentLanguages([0, 1], false);
+        $existingLanguages = LanguageHelper::getContentLanguages(array(0, 1), false);
 
-        $options = [];
+        $options = array();
 
         // Each option has the format "<lang>|<id>", example: "en-GB|1"
         foreach ($existingLanguages as $langCode => $language) {

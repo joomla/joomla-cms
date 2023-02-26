@@ -14,10 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = \Joomla\CMS\Factory::getApplication()->getDocument()->getWebAssetManager();
-$wa->useScript('keepalive');
-
+HTMLHelper::_('behavior.keepalive');
 ?>
 <form class="mod-login-logout form-vertical" action="<?php echo Route::_('index.php', true); ?>" method="post" id="login-form-<?php echo $module->id; ?>">
 <?php if ($params->get('greeting', 1)) : ?>

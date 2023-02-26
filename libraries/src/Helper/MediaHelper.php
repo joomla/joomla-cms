@@ -37,11 +37,11 @@ class MediaHelper
      * @var    string[]
      * @since  4.0.0
      */
-    public const EXECUTABLES = [
+    public const EXECUTABLES = array(
         'js', 'exe', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta',
         'ins', 'isp', 'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
-        'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm', 'msi',
-    ];
+        'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm', 'msi'
+    );
 
     /**
      * Checks if the file is an image
@@ -113,13 +113,6 @@ class MediaHelper
             $mime = static::getMimeType($file, false);
         }
 
-        if (
-            ($mime === 'application/octet-stream' || $mime === 'image/svg' || $mime === 'image/svg+xml')
-            && !$isImage && strtolower(pathinfo($file, PATHINFO_EXTENSION)) === 'svg' && self::isValidSvg($file, false)
-        ) {
-            return 'image/svg+xml';
-        }
-
         // We have a mime here
         return $mime;
     }
@@ -166,7 +159,7 @@ class MediaHelper
      *
      * @since   4.0.0
      */
-    public static function checkFileExtension($extension, $component = 'com_media', $allowedExecutables = []): bool
+    public static function checkFileExtension($extension, $component = 'com_media', $allowedExecutables = array()): bool
     {
         $params = ComponentHelper::getParams($component);
 
@@ -204,7 +197,7 @@ class MediaHelper
      *
      * @since   3.2
      */
-    public function canUpload($file, $component = 'com_media', $allowedExecutables = [])
+    public function canUpload($file, $component = 'com_media', $allowedExecutables = array())
     {
         $app    = Factory::getApplication();
         $params = ComponentHelper::getParams($component);
@@ -327,7 +320,35 @@ class MediaHelper
         }
 
         if ($filetype === 'svg') {
-            return self::isValidSvg($file['tmp_name'], true);
+            $sanitizer = new Sanitizer();
+
+            $isValid = $sanitizer->sanitize(file_get_contents($file['tmp_name']));
+
+            $svgErrors = $sanitizer->getXmlIssues();
+
+            /*
+            * We allow comments and temp fix for bugs in svg-santitizer
+            * https://github.com/darylldoyle/svg-sanitizer/issues/64
+            * https://github.com/darylldoyle/svg-sanitizer/issues/63
+            * https://github.com/darylldoyle/svg-sanitizer/pull/65
+            * https://github.com/darylldoyle/svg-sanitizer/issues/82
+            */
+            foreach ($svgErrors as $i => $error) {
+                if (
+                    ($error['message'] === 'Suspicious node \'#comment\'')
+                    || ($error['message'] === 'Suspicious attribute \'space\'')
+                    || ($error['message'] === 'Suspicious attribute \'enable-background\'')
+                    || ($error['message'] === 'Suspicious node \'svg\'')
+                ) {
+                    unset($svgErrors[$i]);
+                }
+            }
+
+            if ($isValid === false || count($svgErrors)) {
+                $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
+
+                return false;
+            }
         }
 
         return true;
@@ -361,7 +382,7 @@ class MediaHelper
         $width  = round($width * $percentage);
         $height = round($height * $percentage);
 
-        return [$width, $height];
+        return array($width, $height);
     }
 
     /**
@@ -394,7 +415,7 @@ class MediaHelper
             $d->close();
         }
 
-        return [$total_file, $total_dir];
+        return array($total_file, $total_dir);
     }
 
     /**
@@ -476,52 +497,5 @@ class MediaHelper
         }
 
         return $value;
-    }
-
-    /**
-     * Check if a file is a valid SVG
-     *
-     * @param  string  $file
-     * @param  bool    $shouldLogErrors
-     *
-     * @return  boolean
-     *
-     * @since   4.3.0
-     */
-    private static function isValidSvg($file, $shouldLogErrors = true): bool
-    {
-        $sanitizer = new Sanitizer();
-
-        $isValid = $sanitizer->sanitize(file_get_contents($file));
-
-        $svgErrors = $sanitizer->getXmlIssues();
-
-        /**
-         * We allow comments and temp fix for bugs in svg-santitizer
-         * https://github.com/darylldoyle/svg-sanitizer/issues/64
-         * https://github.com/darylldoyle/svg-sanitizer/issues/63
-         * https://github.com/darylldoyle/svg-sanitizer/pull/65
-         * https://github.com/darylldoyle/svg-sanitizer/issues/82
-         */
-        foreach ($svgErrors as $i => $error) {
-            if (
-                ($error['message'] === 'Suspicious node \'#comment\'')
-                || ($error['message'] === 'Suspicious attribute \'space\'')
-                || ($error['message'] === 'Suspicious attribute \'enable-background\'')
-                || ($error['message'] === 'Suspicious node \'svg\'')
-            ) {
-                unset($svgErrors[$i]);
-            }
-        }
-
-        if ($isValid === false || count($svgErrors)) {
-            if ($shouldLogErrors) {
-                Factory::getApplication()->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
-            }
-
-            return false;
-        }
-
-        return true;
     }
 }

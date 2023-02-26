@@ -20,7 +20,12 @@ $chosen-select-padding-y: $form-select-padding-y + .21;
     border: $form-select-border-width solid $form-select-border-color;
     box-shadow: none;
     appearance: none;
-    @include border-radius($form-select-border-radius, 0);
+
+    @if $enable-rounded {
+      border-radius: $form-select-border-radius;
+    } @else {
+      border-radius: 0;
+    }
 
     abbr {
       top: 10px;

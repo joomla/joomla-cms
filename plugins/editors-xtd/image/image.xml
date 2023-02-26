@@ -9,10 +9,8 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_IMAGE_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\EditorsXtd\Image</namespace>
 	<files>
-		<folder plugin="image">services</folder>
-		<folder>src</folder>
+		<filename plugin="image">image.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_editors-xtd_image.ini</language>

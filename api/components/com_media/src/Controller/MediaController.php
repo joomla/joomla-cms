@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     Joomla.API
  * @subpackage  com_media
@@ -9,6 +8,8 @@
  */
 
 namespace Joomla\Component\Media\Api\Controller;
+
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Component\ComponentHelper;
@@ -21,10 +22,6 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 use Joomla\Component\Media\Api\Model\MediumModel;
 use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
-
-// phpcs:disable PSR1.Files.SideEffects
-\defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Media web service controller.
@@ -50,15 +47,15 @@ class MediaController extends ApiController
      * @since  4.1.0
      */
     private static $listQueryModelStateMap = [
-        'path' => [
+        'path'    => [
             'name' => 'path',
             'type' => 'STRING',
         ],
-        'url' => [
+        'url'     => [
             'name' => 'url',
             'type' => 'BOOLEAN',
         ],
-        'temp' => [
+        'temp'    => [
             'name' => 'temp',
             'type' => 'BOOLEAN',
         ],
@@ -75,15 +72,15 @@ class MediaController extends ApiController
      * @since  4.1.0
      */
     private static $itemQueryModelStateMap = [
-        'path' => [
+        'path'    => [
             'name' => 'path',
             'type' => 'STRING',
         ],
-        'url' => [
+        'url'     => [
             'name' => 'url',
             'type' => 'BOOLEAN',
         ],
-        'temp' => [
+        'temp'    => [
             'name' => 'temp',
             'type' => 'BOOLEAN',
         ],
@@ -117,12 +114,14 @@ class MediaController extends ApiController
         $this->setModelState(self::$listQueryModelStateMap);
 
         // Display files in specific path.
-        if ($this->input->exists('path')) {
+        if ($this->input->exists('path'))
+        {
             $this->modelState->set('path', $this->input->get('path', '', 'STRING'));
         }
 
         // Return files (not folders) as urls.
-        if ($this->input->exists('url')) {
+        if ($this->input->exists('url'))
+        {
             $this->modelState->set('url', $this->input->get('url', true, 'BOOLEAN'));
         }
 
@@ -131,7 +130,8 @@ class MediaController extends ApiController
         $filter        = InputFilter::getInstance();
 
         // Search for files matching (part of) a name or glob pattern.
-        if (\array_key_exists('search', $apiFilterInfo)) {
+        if (\array_key_exists('search', $apiFilterInfo))
+        {
             $this->modelState->set('search', $filter->clean($apiFilterInfo['search'], 'STRING'));
 
             // Tell model to search recursively
@@ -162,7 +162,8 @@ class MediaController extends ApiController
         $this->modelState->set('path', $path ?: $this->input->get('path', '', 'STRING'));
 
         // Return files (not folders) as urls.
-        if ($this->input->exists('url')) {
+        if ($this->input->exists('url'))
+        {
             $this->modelState->set('url', $this->input->get('url', true, 'BOOLEAN'));
         }
 
@@ -180,8 +181,10 @@ class MediaController extends ApiController
      */
     private function setModelState(array $mappings): void
     {
-        foreach ($mappings as $queryName => $modelState) {
-            if ($this->input->exists($queryName)) {
+        foreach ($mappings as $queryName => $modelState)
+        {
+            if ($this->input->exists($queryName))
+            {
                 $this->modelState->set($modelState['name'], $this->input->get($queryName, '', $modelState['type']));
             }
         }
@@ -202,21 +205,24 @@ class MediaController extends ApiController
      */
     public function add(): void
     {
-        $path    = $this->input->json->get('path', '', 'STRING');
+        $path = $this->input->json->get('path', '', 'STRING');
         $content = $this->input->json->get('content', '', 'RAW');
 
         $missingParameters = [];
 
-        if (empty($path)) {
+        if (empty($path))
+        {
             $missingParameters[] = 'path';
         }
 
         // Content is only required when it is a file
-        if (empty($content) && strpos($path, '.') !== false) {
+        if (empty($content) && strpos($path, '.') !== false)
+        {
             $missingParameters[] = 'content';
         }
 
-        if (\count($missingParameters)) {
+        if (\count($missingParameters))
+        {
             throw new InvalidParameterException(
                 Text::sprintf('WEBSERVICE_COM_MEDIA_MISSING_REQUIRED_PARAMETERS', implode(' & ', $missingParameters))
             );
@@ -239,7 +245,7 @@ class MediaController extends ApiController
      *
      * @since   4.1.0
      */
-    protected function allowAdd($data = []): bool
+    protected function allowAdd($data = array()): bool
     {
         $user = $this->app->getIdentity();
 
@@ -261,14 +267,16 @@ class MediaController extends ApiController
     public function edit(): void
     {
         // Access check.
-        if (!$this->allowEdit()) {
+        if (!$this->allowEdit())
+        {
             throw new NotAllowed('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED', 403);
         }
 
-        $path    = $this->input->json->get('path', '', 'STRING');
+        $path = $this->input->json->get('path', '', 'STRING');
         $content = $this->input->json->get('content', '', 'RAW');
 
-        if (empty($path) && empty($content)) {
+        if (empty($path) && empty($content))
+        {
             throw new InvalidParameterException(
                 Text::sprintf('WEBSERVICE_COM_MEDIA_MISSING_REQUIRED_PARAMETERS', 'path | content')
             );
@@ -294,7 +302,7 @@ class MediaController extends ApiController
      *
      * @since   4.1.0
      */
-    protected function allowEdit($data = [], $key = 'id'): bool
+    protected function allowEdit($data = array(), $key = 'id'): bool
     {
         $user = $this->app->getIdentity();
 
@@ -322,7 +330,8 @@ class MediaController extends ApiController
         $json = $this->input->json;
 
         // Decode content, if any
-        if ($content = base64_decode($json->get('content', '', 'raw'))) {
+        if ($content = base64_decode($json->get('content', '', 'raw')))
+        {
             $this->checkContent();
         }
 
@@ -348,12 +357,11 @@ class MediaController extends ApiController
         $serverlength = $this->input->server->getInt('CONTENT_LENGTH');
 
         // Check if the size of the request body does not exceed various server imposed limits.
-        if (
-            ($params->get('upload_maxsize', 0) > 0 && $serverlength > ($params->get('upload_maxsize', 0) * 1024 * 1024))
+        if (($params->get('upload_maxsize', 0) > 0 && $serverlength > ($params->get('upload_maxsize', 0) * 1024 * 1024))
             || $serverlength > $helper->toBytes(ini_get('upload_max_filesize'))
             || $serverlength > $helper->toBytes(ini_get('post_max_size'))
-            || $serverlength > $helper->toBytes(ini_get('memory_limit'))
-        ) {
+            || $serverlength > $helper->toBytes(ini_get('memory_limit')))
+        {
             throw new \RuntimeException(Text::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 400);
         }
     }
@@ -371,7 +379,8 @@ class MediaController extends ApiController
      */
     public function delete($id = null): void
     {
-        if (!$this->allowDelete()) {
+        if (!$this->allowDelete())
+        {
             throw new NotAllowed('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED', 403);
         }
 

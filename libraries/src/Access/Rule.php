@@ -26,7 +26,7 @@ class Rule
      * @var    array
      * @since  1.7.0
      */
-    protected $data = [];
+    protected $data = array();
 
     /**
      * Constructor.
@@ -95,7 +95,7 @@ class Rule
     public function mergeIdentity($identity, $allow)
     {
         $identity = (int) $identity;
-        $allow    = (int) ((bool) $allow);
+        $allow = (int) ((bool) $allow);
 
         // Check that the identity exists.
         if (isset($this->data[$identity])) {
@@ -128,7 +128,7 @@ class Rule
         // Check that the inputs are valid.
         if (!empty($identities)) {
             if (!\is_array($identities)) {
-                $identities = [$identities];
+                $identities = array($identities);
             }
 
             foreach ($identities as $identity) {

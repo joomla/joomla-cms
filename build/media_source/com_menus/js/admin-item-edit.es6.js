@@ -48,20 +48,20 @@
 
       onSuccess(response) {
         const data = JSON.parse(response);
-        const fancySelect = document.getElementById('jform_parent_id').closest('joomla-field-fancy-select');
+        const list = [].slice.call(document.querySelectorAll('#jform_parent_id option'));
 
-        fancySelect.choicesInstance.clearChoices();
-        fancySelect.choicesInstance.setChoices([{ id: '1', text: Joomla.Text._('JGLOBAL_ROOT_PARENT') }], 'id', 'text', false);
-
-        data.forEach((value) => {
-          const option = {};
-          option.innerText = value.title;
-          option.id = value.id;
-
-          fancySelect.choicesInstance.setChoices([option], 'id', 'innerText', false);
+        list.forEach((item) => {
+          if (item.value !== '1') {
+            item.parentNode.removeChild(item);
+          }
         });
 
-        fancySelect.choicesInstance.setChoiceByValue('1');
+        data.forEach((value) => {
+          const option = document.createElement('option');
+          option.innerText = value.title;
+          option.id = value.id;
+          document.getElementById('jform_parent_id').appendChild(option);
+        });
 
         const newEvent = document.createEvent('HTMLEvents');
         newEvent.initEvent('change', true, false);

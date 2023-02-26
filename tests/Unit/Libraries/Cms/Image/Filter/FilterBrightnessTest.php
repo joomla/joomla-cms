@@ -69,7 +69,7 @@ class FilterBrightnessTest extends UnitTestCase
 
         $filter = new FilterBrightness($imageHandle);
 
-        $filter->execute([IMG_FILTER_BRIGHTNESS => 10]);
+        $filter->execute(array(IMG_FILTER_BRIGHTNESS => 10));
 
         $this->assertEquals(
             137,
@@ -101,6 +101,6 @@ class FilterBrightnessTest extends UnitTestCase
 
         $filter = new FilterBrightness($imageHandle);
 
-        $filter->execute([]);
+        $filter->execute(array());
     }
 }

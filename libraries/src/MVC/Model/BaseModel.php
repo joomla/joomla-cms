@@ -51,7 +51,7 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function __construct($config = [])
+    public function __construct($config = array())
     {
         // Set the view name
         if (empty($this->name)) {
@@ -88,15 +88,15 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
     public static function addIncludePath($path = '', $prefix = '')
     {
         if (!isset(self::$paths)) {
-            self::$paths = [];
+            self::$paths = array();
         }
 
         if (!isset(self::$paths[$prefix])) {
-            self::$paths[$prefix] = [];
+            self::$paths[$prefix] = array();
         }
 
         if (!isset(self::$paths[''])) {
-            self::$paths[''] = [];
+            self::$paths[''] = array();
         }
 
         if (!empty($path)) {

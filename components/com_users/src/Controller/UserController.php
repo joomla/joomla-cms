@@ -43,7 +43,7 @@ class UserController extends BaseController
         $input = $this->input->getInputForRequestMethod();
 
         // Populate the data array:
-        $data = [];
+        $data = array();
 
         $data['return']    = base64_decode($input->get('return', '', 'BASE64'));
         $data['username']  = $input->get('username', '', 'USERNAME');
@@ -52,7 +52,7 @@ class UserController extends BaseController
 
         // Check for a simple menu item id
         if (is_numeric($data['return'])) {
-            $itemId         = (int) $data['return'];
+            $itemId = (int) $data['return'];
             $data['return'] = 'index.php?Itemid=' . $itemId;
 
             if (Multilanguage::isEnabled()) {
@@ -76,12 +76,12 @@ class UserController extends BaseController
         $this->app->setUserState('users.login.form.return', $data['return']);
 
         // Get the log in options.
-        $options             = [];
+        $options = array();
         $options['remember'] = $this->input->getBool('remember', false);
         $options['return']   = $data['return'];
 
         // Get the log in credentials.
-        $credentials              = [];
+        $credentials = array();
         $credentials['username']  = $data['username'];
         $credentials['password']  = $data['password'];
         $credentials['secretkey'] = $data['secretkey'];
@@ -90,9 +90,9 @@ class UserController extends BaseController
         if (true !== $this->app->login($credentials, $options)) {
             // Login failed !
             // Clear user name, password and secret key before sending the login form back to the user.
-            $data['remember']  = (int) $options['remember'];
-            $data['username']  = '';
-            $data['password']  = '';
+            $data['remember'] = (int) $options['remember'];
+            $data['username'] = '';
+            $data['password'] = '';
             $data['secretkey'] = '';
             $this->app->setUserState('users.login.form.data', $data);
             $this->app->redirect(Route::_('index.php?option=com_users&view=login', false));
@@ -103,11 +103,7 @@ class UserController extends BaseController
             $this->app->setUserState('rememberLogin', true);
         }
 
-        $this->app->setUserState('users.login.form.data', []);
-
-        // Show a message when a user is logged in.
-        $this->app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGIN_SUCCESS'), 'message');
-
+        $this->app->setUserState('users.login.form.data', array());
         $this->app->redirect(Route::_($this->app->getUserState('users.login.form.return'), false));
     }
 
@@ -125,13 +121,13 @@ class UserController extends BaseController
         $app = $this->app;
 
         // Prepare the logout options.
-        $options = [
+        $options = array(
             'clientid' => $app->get('shared_session', '0') ? null : 0,
-        ];
+        );
 
         // Perform the log out.
         $error = $app->logout(null, $options);
-        $input = $app->getInput()->getInputForRequestMethod();
+        $input = $app->input->getInputForRequestMethod();
 
         // Check if the log out succeeded.
         if ($error instanceof \Exception) {
@@ -163,9 +159,6 @@ class UserController extends BaseController
             $return = Uri::root();
         }
 
-        // Show a message when a user is logged out.
-        $app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGOUT_SUCCESS'), 'message');
-
         // Redirect the user.
         $app->redirect(Route::_($return, false));
     }
@@ -193,7 +186,7 @@ class UserController extends BaseController
                 $url = 'index.php?Itemid=' . $itemid . ($language !== '*' ? '&lang=' . $language : '');
             } else {
                 // Logout is set to default. Get the home page ItemID
-                $lang_code = $app->getInput()->cookie->getString(ApplicationHelper::getHash('language'));
+                $lang_code = $app->input->cookie->getString(ApplicationHelper::getHash('language'));
                 $item      = $app->getMenu()->getDefault($lang_code);
                 $itemid    = $item->id;
 
@@ -225,7 +218,7 @@ class UserController extends BaseController
 
         /** @var \Joomla\Component\Users\Site\Model\RemindModel $model */
         $model = $this->getModel('Remind', 'Site');
-        $data  = $this->input->post->get('jform', [], 'array');
+        $data  = $this->input->post->get('jform', array(), 'array');
 
         // Submit the username remind request.
         $return = $model->processRemindRequest($data);

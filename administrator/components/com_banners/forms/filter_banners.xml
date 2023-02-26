@@ -14,7 +14,7 @@
 			name="published"
 			type="status"
 			label="JSTATUS"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
@@ -24,7 +24,7 @@
 			type="category"
 			label="JCATEGORY"
 			extension="com_banners"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
@@ -35,7 +35,7 @@
 			type="bannerclient"
 			label="COM_BANNERS_HEADING_CLIENT"
 			extension="com_content"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			>
 			<option value="">COM_BANNERS_SELECT_CLIENT</option>
 		</field>
@@ -44,7 +44,7 @@
 			name="language"
 			type="contentlanguage"
 			label="JGRID_HEADING_LANGUAGE"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
@@ -58,7 +58,7 @@
 			last="10"
 			step="1"
 			languages="*"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
 		</field>
@@ -69,7 +69,7 @@
 			type="list"
 			label="JGLOBAL_SORT_BY"
 			statuses="*,0,1,2,-2"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			default="a.name ASC"
 			validate="options"
 			>
@@ -101,7 +101,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 		/>
 	</fields>
 </form>

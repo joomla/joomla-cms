@@ -39,7 +39,7 @@ trait AjaxHandlerSaveLabel
     public function onAjaxWebauthnSavelabel(AjaxSaveLabel $event): void
     {
         // Initialize objects
-        $input      = $this->getApplication()->getInput();
+        $input      = $this->getApplication()->input;
         $repository = $this->authenticationHelper->getCredentialsRepository();
 
         // Retrieve data from the request

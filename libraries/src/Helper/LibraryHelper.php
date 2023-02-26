@@ -15,7 +15,6 @@ use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -35,7 +34,7 @@ class LibraryHelper
      * @var    array
      * @since  3.2
      */
-    protected static $libraries = [];
+    protected static $libraries = array();
 
     /**
      * Get the library information.
@@ -58,9 +57,9 @@ class LibraryHelper
                 $result->params = new Registry($result->params);
             }
         } else {
-            $result          = new \stdClass();
+            $result = new \stdClass();
             $result->enabled = $strict ? false : true;
-            $result->params  = new Registry();
+            $result->params = new Registry();
         }
 
         return $result;
@@ -111,7 +110,7 @@ class LibraryHelper
     {
         if (static::isEnabled($element)) {
             // Save params in DB
-            $db           = Factory::getContainer()->get(DatabaseInterface::class);
+            $db           = Factory::getDbo();
             $paramsString = $params->toString();
             $query        = $db->getQuery(true)
                 ->update($db->quoteName('#__extensions'))
@@ -147,7 +146,7 @@ class LibraryHelper
     protected static function loadLibrary($element)
     {
         $loader = function ($element) {
-            $db    = Factory::getContainer()->get(DatabaseInterface::class);
+            $db = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
                 ->from($db->quoteName('#__extensions'))
@@ -163,7 +162,7 @@ class LibraryHelper
         $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', ['defaultgroup' => '_system']);
 
         try {
-            static::$libraries[$element] = $cache->get($loader, [$element], __METHOD__ . $element);
+            static::$libraries[$element] = $cache->get($loader, array($element), __METHOD__ . $element);
         } catch (CacheExceptionInterface $e) {
             static::$libraries[$element] = $loader($element);
         }

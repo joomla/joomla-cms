@@ -9,10 +9,8 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_READMORE_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\EditorsXtd\ReadMore</namespace>
 	<files>
-		<folder plugin="readmore">services</folder>
-		<folder>src</folder>
+		<filename plugin="readmore">readmore.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_editors-xtd_readmore.ini</language>

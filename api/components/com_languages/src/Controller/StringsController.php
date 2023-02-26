@@ -62,9 +62,10 @@ class StringsController extends ApiController
             throw new InvalidParameterException("Invalid param 'searchtype'");
         }
 
-        $this->input->set('searchstring', $data['searchstring']);
-        $this->input->set('searchtype', $data['searchtype']);
-        $this->input->set('more', 0);
+        $app = Factory::getApplication();
+        $app->input->set('searchstring', $data['searchstring']);
+        $app->input->set('searchtype', $data['searchtype']);
+        $app->input->set('more', 0);
 
         $viewType   = $this->app->getDocument()->getType();
         $viewName   = $this->input->get('view', $this->default_view);

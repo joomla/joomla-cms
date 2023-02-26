@@ -14,7 +14,7 @@
 			name="state"
 			type="list"
 			label="COM_PRIVACY_CONSENTS_FILTER_STATE"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			validate="options"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -33,7 +33,7 @@
 			sql_order="subject ASC"
 			key_field="subject"
 			translate="true"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			>
 			<option value="">COM_PRIVACY_CONSENTS_SUBJECT_DEFAULT</option>
 		</field>
@@ -44,7 +44,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			default="a.id DESC"
 			validate="options"
 			>
@@ -68,8 +68,9 @@
 			name="limit"
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
+			class="input-mini"
 			default="25"
-			class="input-mini js-select-submit-on-change"
+			onchange="this.form.submit();"
 		/>
 	</fields>
 </form>

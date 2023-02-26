@@ -55,7 +55,7 @@ class SubfieldsField extends ListField
      *
      * @since 4.0.0
      */
-    protected static $customFieldsCache = [];
+    protected static $customFieldsCache = array();
 
     /**
      * Method to get the field options.

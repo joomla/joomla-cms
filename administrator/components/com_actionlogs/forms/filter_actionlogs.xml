@@ -13,7 +13,7 @@
 			name="extension"
 			type="extension"
 			label="COM_ACTIONLOGS_EXTENSION"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit()"
 			>
 			<option value="">COM_ACTIONLOGS_SELECT_EXTENSION</option>
 		</field>
@@ -21,7 +21,7 @@
 			name="dateRange"
 			type="logsdaterange"
 			label="COM_ACTIONLOGS_DATE"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			>
 			<option value="">COM_ACTIONLOGS_OPTION_FILTER_DATE</option>
 		</field>
@@ -29,7 +29,7 @@
 			name="user"
 			type="logcreator"
 			label="COM_ACTIONLOGS_NAME"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			>
 			<option value="">COM_ACTIONLOGS_SELECT_USER</option>
 		</field>
@@ -39,7 +39,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			default="a.id DESC"
 			validate="options"
 			>
@@ -61,7 +61,8 @@
 			name="limit"
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
-			class="input-mini js-select-submit-on-change"
+			class="input-mini"
+			onchange="this.form.submit();"
 			default="25"
 		/>
 	</fields>

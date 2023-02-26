@@ -47,7 +47,6 @@ class ContactEmailMessageRule extends FormRule
 
         if ($banned) {
             foreach (explode(';', $banned) as $item) {
-                $item = trim($item);
                 if ($item != '' && StringHelper::stristr($value, $item) !== false) {
                     return false;
                 }

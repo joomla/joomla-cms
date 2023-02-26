@@ -14,7 +14,7 @@
 			name="state"
 			type="status"
 			label="JSTATUS"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
@@ -24,7 +24,7 @@
 			type="list"
 			label="COM_BANNERS_HEADING_TYPE"
 			default="0"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			validate="options"
 			>
 			<option value="">COM_BANNERS_SELECT_TYPE</option>
@@ -41,7 +41,7 @@
 			type="list"
 			label="JGLOBAL_SORT_BY"
 			statuses="*,0,1,2,-2"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			default="a.name ASC"
 			validate="options"
 			>
@@ -63,7 +63,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 		/>
 	</fields>
 </form>

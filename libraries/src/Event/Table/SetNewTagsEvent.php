@@ -36,7 +36,7 @@ class SetNewTagsEvent extends AbstractEvent
      *
      * @throws  BadMethodCallException
      */
-    public function __construct($name, array $arguments = [])
+    public function __construct($name, array $arguments = array())
     {
         if (!\array_key_exists('newTags', $arguments)) {
             throw new BadMethodCallException("Argument 'newTags' is required for event $name");

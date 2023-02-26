@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Joomla! Content Management System
  *
@@ -9,9 +8,7 @@
 
 namespace Joomla\CMS\Component\Router;
 
-// phpcs:disable PSR1.Files.SideEffects
-\defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * View-configuration class for the view-based component router
@@ -66,7 +63,7 @@ class RouterViewConfiguration
      * @var    array
      * @since  3.5
      */
-    public $layouts = ['default'];
+    public $layouts = array('default');
 
     /**
      * Child-views of this view
@@ -74,7 +71,7 @@ class RouterViewConfiguration
      * @var    RouterViewConfiguration[]
      * @since  3.5
      */
-    public $children = [];
+    public $children = array();
 
     /**
      * Keys used for this parent view by the child views
@@ -82,7 +79,7 @@ class RouterViewConfiguration
      * @var    array
      * @since  3.5
      */
-    public $child_keys = [];
+    public $child_keys = array();
 
     /**
      * Path of views from this one to the root view
@@ -90,7 +87,7 @@ class RouterViewConfiguration
      * @var    array
      * @since  3.5
      */
-    public $path = [];
+    public $path = array();
 
     /**
      * Constructor for the View-configuration class
@@ -152,14 +149,17 @@ class RouterViewConfiguration
      */
     public function setParent(RouterViewConfiguration $parent, $parentKey = null)
     {
-        if ($this->parent) {
+        if ($this->parent)
+        {
             $key = array_search($this, $this->parent->children);
 
-            if ($key !== false) {
+            if ($key !== false)
+            {
                 unset($this->parent->children[$key]);
             }
 
-            if ($this->parent_key) {
+            if ($this->parent_key)
+            {
                 $child_key = array_search($this->parent_key, $this->parent->child_keys);
                 unset($this->parent->child_keys[$child_key]);
             }
@@ -173,7 +173,8 @@ class RouterViewConfiguration
 
         $this->parent_key = $parentKey ?? false;
 
-        if ($parentKey) {
+        if ($parentKey)
+        {
             $parent->child_keys[] = $parentKey;
         }
 
@@ -226,7 +227,8 @@ class RouterViewConfiguration
     {
         $key = array_search($layout, $this->layouts);
 
-        if ($key !== false) {
+        if ($key !== false)
+        {
             unset($this->layouts[$key]);
         }
 

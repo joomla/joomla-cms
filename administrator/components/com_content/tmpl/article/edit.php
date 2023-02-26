@@ -27,18 +27,18 @@ $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_contenthistory.admin-history-versions');
 
-$this->configFieldsets  = ['editorConfig'];
-$this->hiddenFieldsets  = ['basic-limited'];
+$this->configFieldsets  = array('editorConfig');
+$this->hiddenFieldsets  = array('basic-limited');
 $fieldsetsInImages = ['image-intro', 'image-full'];
 $fieldsetsInLinks = ['linka', 'linkb', 'linkc'];
-$this->ignore_fieldsets = array_merge(['jmetadata', 'item_associations'], $fieldsetsInImages, $fieldsetsInLinks);
+$this->ignore_fieldsets = array_merge(array('jmetadata', 'item_associations'), $fieldsetsInImages, $fieldsetsInLinks);
 $this->useCoreUI = true;
 
 // Create shortcut to parameters.
 $params = clone $this->state->get('params');
 $params->merge(new Registry($this->item->attribs));
 
-$input = Factory::getApplication()->getInput();
+$input = Factory::getApplication()->input;
 
 $assoc              = Associations::isEnabled();
 $showArticleOptions = $params->get('show_article_options', 1);

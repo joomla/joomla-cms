@@ -34,17 +34,17 @@ class TransitionsModel extends ListModel
      * @see     JController
      * @since  4.0.0
      */
-    public function __construct($config = [])
+    public function __construct($config = array())
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = [
+            $config['filter_fields'] = array(
                 'id', 't.id',
                 'published', 't.published',
                 'ordering', 't.ordering',
                 'title', 't.title',
                 'from_stage', 't.from_stage_id',
-                'to_stage', 't.to_stage_id',
-            ];
+                'to_stage', 't.to_stage_id'
+            );
         }
 
         parent::__construct($config);
@@ -68,9 +68,9 @@ class TransitionsModel extends ListModel
      */
     protected function populateState($ordering = 't.ordering', $direction = 'ASC')
     {
-        $app        = Factory::getApplication();
+        $app = Factory::getApplication();
         $workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 1, 'int');
-        $extension  = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
+        $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
         if ($workflowID) {
             $table = $this->getTable('Workflow', 'Administrator');
@@ -97,7 +97,7 @@ class TransitionsModel extends ListModel
      *
      * @since  4.0.0
      */
-    public function getTable($type = 'Transition', $prefix = 'Administrator', $config = [])
+    public function getTable($type = 'Transition', $prefix = 'Administrator', $config = array())
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -209,7 +209,7 @@ class TransitionsModel extends ListModel
      *
      * @since   4.0.0
      */
-    public function getFilterForm($data = [], $loadData = true)
+    public function getFilterForm($data = array(), $loadData = true)
     {
         $form = parent::getFilterForm($data, $loadData);
 

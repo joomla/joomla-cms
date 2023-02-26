@@ -23,7 +23,7 @@ $wa->useScript('keepalive')
 
 $app = Factory::getApplication();
 $user = $app->getIdentity();
-$input = $app->getInput();
+$input = $app->input;
 
 // In case of modal
 $isModal  = $input->get('layout') === 'modal';

@@ -50,7 +50,7 @@ class IndexerController extends BaseController
         $params = ComponentHelper::getParams('com_finder');
 
         if ($params->get('enable_logging', '0')) {
-            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+            $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }
@@ -84,7 +84,7 @@ class IndexerController extends BaseController
             $this->app->triggerEvent('onStartIndex');
 
             // Get the indexer state.
-            $state        = Indexer::getState();
+            $state = Indexer::getState();
             $state->start = 1;
 
             // Send the response.
@@ -114,7 +114,7 @@ class IndexerController extends BaseController
         $params = ComponentHelper::getParams('com_finder');
 
         if ($params->get('enable_logging', '0')) {
-            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+            $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }
@@ -155,19 +155,21 @@ class IndexerController extends BaseController
         $lang = Factory::getLanguage();
 
         // Get the document properties.
-
         $attributes = array (
 <<<<<<< HEAD
             'charset'   => 'UTF-8',
+<<<<<<< HEAD
 
 =======
             'charset'   => 'utf-8',
 >>>>>>> parent of c2c4236572 (replacing lowercase utf to uppercase)
+=======
+>>>>>>> parent of f1cd2645e1 (Merge branch '4.3-dev' into testing)
             'lineend'   => 'unix',
             'tab'       => '  ',
             'language'  => $lang->getTag(),
-            'direction' => $lang->isRtl() ? 'rtl' : 'ltr',
-        ];
+            'direction' => $lang->isRtl() ? 'rtl' : 'ltr'
+        );
 
         // Start the indexer.
         try {
@@ -178,8 +180,8 @@ class IndexerController extends BaseController
             $this->app->triggerEvent('onBuildIndex');
 
             // Get the indexer state.
-            $state           = Indexer::getState();
-            $state->start    = 0;
+            $state = Indexer::getState();
+            $state->start = 0;
             $state->complete = 0;
 
             // Log batch completion and memory high-water mark.
@@ -229,8 +231,8 @@ class IndexerController extends BaseController
             $indexer->optimize();
 
             // Get the indexer state.
-            $state           = Indexer::getState();
-            $state->start    = 0;
+            $state = Indexer::getState();
+            $state->start = 0;
             $state->complete = 1;
 
             // Send the response.
@@ -259,7 +261,7 @@ class IndexerController extends BaseController
         $params = ComponentHelper::getParams('com_finder');
 
         if ($params->get('enable_logging', '0')) {
-            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+            $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }

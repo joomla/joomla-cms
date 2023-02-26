@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 
 $app       = Factory::getApplication();
 $form      = $displayData->getForm();
-$input     = $app->getInput();
+$input     = $app->input;
 $component = $input->getCmd('option', 'com_content');
 
 if ($component === 'com_categories') {
@@ -28,11 +28,11 @@ if ($component === 'com_categories') {
 
 $saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
 
-$fields = $displayData->get('fields') ?: [
+$fields = $displayData->get('fields') ?: array(
     'transition',
-    ['parent', 'parent_id'],
-    ['published', 'state', 'enabled'],
-    ['category', 'catid'],
+    array('parent', 'parent_id'),
+    array('published', 'state', 'enabled'),
+    array('category', 'catid'),
     'featured',
     'sticky',
     'access',
@@ -40,9 +40,9 @@ $fields = $displayData->get('fields') ?: [
     'tags',
     'note',
     'version_note',
-];
+);
 
-$hiddenFields   = $displayData->get('hidden_fields') ?: [];
+$hiddenFields   = $displayData->get('hidden_fields') ?: array();
 
 if (!$saveHistory) {
     $hiddenFields[] = 'version_note';
@@ -53,7 +53,7 @@ if (!Multilanguage::isEnabled()) {
     $form->setFieldAttribute('language', 'default', '*');
 }
 
-$html   = [];
+$html   = array();
 $html[] = '<fieldset class="form-vertical">';
 $html[] = '<legend class="visually-hidden">' . Text::_('JGLOBAL_FIELDSET_GLOBAL') . '</legend>';
 

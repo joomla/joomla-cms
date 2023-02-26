@@ -80,7 +80,7 @@ class Multilanguage
             $db->setQuery($query);
 
             static::$enabled = (bool) $db->loadResult();
-            $tested          = true;
+            $tested = true;
         }
 
         return static::$enabled;

@@ -41,10 +41,10 @@ class ArticlesModel extends ListModel
      * @since   1.6
      * @see     \Joomla\CMS\MVC\Controller\BaseController
      */
-    public function __construct($config = [])
+    public function __construct($config = array())
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = [
+            $config['filter_fields'] = array(
                 'id', 'a.id',
                 'title', 'a.title',
                 'alias', 'a.alias',
@@ -72,8 +72,8 @@ class ArticlesModel extends ListModel
                 'tag',
                 'rating_count', 'rating',
                 'stage', 'wa.stage_id',
-                'ws.title',
-            ];
+                'ws.title'
+            );
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
@@ -93,7 +93,7 @@ class ArticlesModel extends ListModel
      *
      * @since   3.2
      */
-    public function getFilterForm($data = [], $loadData = true)
+    public function getFilterForm($data = array(), $loadData = true)
     {
         $form = parent::getFilterForm($data, $loadData);
 
@@ -125,13 +125,12 @@ class ArticlesModel extends ListModel
      */
     protected function populateState($ordering = 'a.id', $direction = 'desc')
     {
-        $app   = Factory::getApplication();
-        $input = $app->getInput();
+        $app = Factory::getApplication();
 
-        $forcedLanguage = $input->get('forcedLanguage', '', 'cmd');
+        $forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
         // Adjust the context to support modal layouts.
-        if ($layout = $input->get('layout')) {
+        if ($layout = $app->input->get('layout')) {
             $this->context .= '.' . $layout;
         }
 
@@ -155,7 +154,7 @@ class ArticlesModel extends ListModel
         $language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
         $this->setState('filter.language', $language);
 
-        $formSubmitted = $input->post->get('form_submitted');
+        $formSubmitted = $app->input->post->get('form_submitted');
 
         // Gets the value of a user state variable and sets it in the session
         $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
@@ -164,16 +163,16 @@ class ArticlesModel extends ListModel
         $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
 
         if ($formSubmitted) {
-            $access = $input->post->get('access');
+            $access = $app->input->post->get('access');
             $this->setState('filter.access', $access);
 
-            $authorId = $input->post->get('author_id');
+            $authorId = $app->input->post->get('author_id');
             $this->setState('filter.author_id', $authorId);
 
-            $categoryId = $input->post->get('category_id');
+            $categoryId = $app->input->post->get('category_id');
             $this->setState('filter.category_id', $categoryId);
 
-            $tag = $input->post->get('tag');
+            $tag = $app->input->post->get('tag');
             $this->setState('filter.tag', $tag);
         }
 
@@ -226,7 +225,7 @@ class ArticlesModel extends ListModel
         // Create a new query object.
         $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user  = $this->getCurrentUser();
+        $user  = Factory::getUser();
 
         $params = ComponentHelper::getParams('com_content');
 
@@ -384,18 +383,18 @@ class ArticlesModel extends ListModel
         }
 
         // Filter by categories and by level
-        $categoryId = $this->getState('filter.category_id', []);
+        $categoryId = $this->getState('filter.category_id', array());
         $level      = (int) $this->getState('filter.level');
 
         if (!is_array($categoryId)) {
-            $categoryId = $categoryId ? [$categoryId] : [];
+            $categoryId = $categoryId ? array($categoryId) : array();
         }
 
         // Case: Using both categories filter and by level filter
         if (count($categoryId)) {
-            $categoryId       = ArrayHelper::toInteger($categoryId);
-            $categoryTable    = Table::getInstance('Category', 'JTable');
-            $subCatItemsWhere = [];
+            $categoryId = ArrayHelper::toInteger($categoryId);
+            $categoryTable = Table::getInstance('Category', 'JTable');
+            $subCatItemsWhere = array();
 
             foreach ($categoryId as $key => $filter_catid) {
                 $categoryTable->load($filter_catid);
@@ -431,13 +430,13 @@ class ArticlesModel extends ListModel
 
         if (is_numeric($authorId)) {
             $authorId = (int) $authorId;
-            $type     = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
+            $type = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
             $query->where($db->quoteName('a.created_by') . $type . ':authorId')
                 ->bind(':authorId', $authorId, ParameterType::INTEGER);
         } elseif (is_array($authorId)) {
             // Check to see if by_me is in the array
             if (\in_array('by_me', $authorId)) {
-                // Replace by_me with the current user id in the array
+            // Replace by_me with the current user id in the array
                 $authorId['by_me'] = $user->id;
             }
 
@@ -554,7 +553,7 @@ class ArticlesModel extends ListModel
         }
 
         $db   = $this->getDatabase();
-        $user = $this->getCurrentUser();
+        $user = Factory::getUser();
 
         $items = $this->getItems();
 
@@ -570,7 +569,7 @@ class ArticlesModel extends ListModel
         $workflow_ids = ArrayHelper::toInteger($workflow_ids);
         $workflow_ids = array_values(array_unique(array_filter($workflow_ids)));
 
-        $this->cache[$store] = [];
+        $this->cache[$store] = array();
 
         try {
             if (count($stage_ids) || count($workflow_ids)) {
@@ -651,7 +650,7 @@ class ArticlesModel extends ListModel
             $item->typeAlias = 'com_content.article';
 
             if (isset($item->metadata)) {
-                $registry       = new Registry($item->metadata);
+                $registry = new Registry($item->metadata);
                 $item->metadata = $registry->toArray();
             }
         }

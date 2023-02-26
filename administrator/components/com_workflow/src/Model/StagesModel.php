@@ -34,15 +34,15 @@ class StagesModel extends ListModel
      * @see     JController
      * @since  4.0.0
      */
-    public function __construct($config = [])
+    public function __construct($config = array())
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = [
+            $config['filter_fields'] = array(
                 'id', 's.id',
                 'title', 's.title',
                 'ordering','s.ordering',
-                'published', 's.published',
-            ];
+                'published', 's.published'
+            );
         }
 
         parent::__construct($config);
@@ -69,7 +69,7 @@ class StagesModel extends ListModel
         $app = Factory::getApplication();
 
         $workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 1, 'int');
-        $extension  = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
+        $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
         if ($workflowID) {
             $table = $this->getTable('Workflow', 'Administrator');
@@ -112,7 +112,7 @@ class StagesModel extends ListModel
      *
      * @since  4.0.0
      */
-    public function getTable($type = 'Stage', $prefix = 'Administrator', $config = [])
+    public function getTable($type = 'Stage', $prefix = 'Administrator', $config = array())
     {
         return parent::getTable($type, $prefix, $config);
     }

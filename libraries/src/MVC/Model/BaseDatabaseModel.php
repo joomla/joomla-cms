@@ -84,7 +84,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = array(), MVCFactoryInterface $factory = null)
     {
         parent::__construct($config);
 
@@ -224,20 +224,14 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @see     \JTable::getInstance()
      */
-    protected function _createTable($name, $prefix = 'Table', $config = [])
+    protected function _createTable($name, $prefix = 'Table', $config = array())
     {
         // Make sure we are returning a DBO object
         if (!\array_key_exists('dbo', $config)) {
             $config['dbo'] = $this->getDbo();
         }
 
-        $table = $this->getMVCFactory()->createTable($name, $prefix, $config);
-
-        if ($table instanceof CurrentUserInterface) {
-            $table->setCurrentUser($this->getCurrentUser());
-        }
-
-        return $table;
+        return $this->getMVCFactory()->createTable($name, $prefix, $config);
     }
 
     /**
@@ -252,7 +246,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @throws  \Exception
      */
-    public function getTable($name = '', $prefix = '', $options = [])
+    public function getTable($name = '', $prefix = '', $options = array())
     {
         if (empty($name)) {
             $name = $this->getName();
@@ -279,7 +273,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      */
     public function isCheckedOut($item)
     {
-        $table           = $this->getTable();
+        $table = $this->getTable();
         $checkedOutField = $table->getColumnAlias('checked_out');
 
         if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != $this->getCurrentUser()->id) {
@@ -303,7 +297,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
         $app = Factory::getApplication();
 
         $options = [
-            'defaultgroup' => $group ?: ($this->option ?? $app->getInput()->get('option')),
+            'defaultgroup' => $group ?: ($this->option ?? $app->input->get('option')),
             'cachebase'    => $app->get('cache_path', JPATH_CACHE),
             'result'       => true,
         ];

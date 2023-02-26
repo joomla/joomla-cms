@@ -9,11 +9,9 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.7.0</version>
 	<description>PLG_FIELDS_RADIO_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\Fields\Radio</namespace>
 	<files>
+		<filename plugin="radio">radio.php</filename>
 		<folder>params</folder>
-		<folder plugin="radio">services</folder>
-		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

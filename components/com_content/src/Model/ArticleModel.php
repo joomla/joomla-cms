@@ -52,17 +52,17 @@ class ArticleModel extends ItemModel
         $app = Factory::getApplication();
 
         // Load state from the request.
-        $pk = $app->getInput()->getInt('id');
+        $pk = $app->input->getInt('id');
         $this->setState('article.id', $pk);
 
-        $offset = $app->getInput()->getUint('limitstart');
+        $offset = $app->input->getUint('limitstart');
         $this->setState('list.offset', $offset);
 
         // Load the parameters.
         $params = $app->getParams();
         $this->setState('params', $params);
 
-        $user = $this->getCurrentUser();
+        $user = Factory::getUser();
 
         // If $pk is set then authorise on complete asset, else on component only
         $asset = empty($pk) ? 'com_content' : 'com_content.article.' . $pk;
@@ -84,17 +84,17 @@ class ArticleModel extends ItemModel
      */
     public function getItem($pk = null)
     {
-        $user = $this->getCurrentUser();
+        $user = Factory::getUser();
 
         $pk = (int) ($pk ?: $this->getState('article.id'));
 
         if ($this->_item === null) {
-            $this->_item = [];
+            $this->_item = array();
         }
 
         if (!isset($this->_item[$pk])) {
             try {
-                $db    = $this->getDatabase();
+                $db = $this->getDatabase();
                 $query = $db->getQuery(true);
 
                 $query->select(
@@ -204,7 +204,7 @@ class ArticleModel extends ItemModel
 
                 // Filter by published state.
                 $published = $this->getState('filter.published');
-                $archived  = $this->getState('filter.archived');
+                $archived = $this->getState('filter.archived');
 
                 if (is_numeric($published)) {
                     $query->whereIn($db->quoteName('a.state'), [(int) $published, (int) $archived]);
@@ -234,7 +234,7 @@ class ArticleModel extends ItemModel
                 // Technically guest could edit an article, but lets not check that to improve performance a little.
                 if (!$user->get('guest')) {
                     $userId = $user->get('id');
-                    $asset  = 'com_content.article.' . $data->id;
+                    $asset = 'com_content.article.' . $data->id;
 
                     // Check general edit permission first.
                     if ($user->authorise('core.edit', $asset)) {
@@ -254,7 +254,7 @@ class ArticleModel extends ItemModel
                     $data->params->set('access-view', true);
                 } else {
                     // If no access filter is set, the layout takes some responsibility for display of limited information.
-                    $user   = $this->getCurrentUser();
+                    $user = Factory::getUser();
                     $groups = $user->getAuthorisedViewLevels();
 
                     if ($data->catid == 0 || $data->category_access === null) {
@@ -288,7 +288,7 @@ class ArticleModel extends ItemModel
      */
     public function hit($pk = 0)
     {
-        $input    = Factory::getApplication()->getInput();
+        $input = Factory::getApplication()->input;
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {

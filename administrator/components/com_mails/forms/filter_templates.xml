@@ -14,7 +14,7 @@
 			name="language"
 			type="contentlanguage"
 			label="JGRID_HEADING_LANGUAGE"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 		</field>
@@ -27,7 +27,7 @@
 			key_field="extension"
 			value_field="extension"
 			translate="true"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			>
 			<option value="">COM_MAILS_FILTER_OPTION_SELECT_EXTENSION</option>
 		</field>
@@ -38,7 +38,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			default="a.template_id ASC"
 			validate="options"
 			>
@@ -52,7 +52,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 		/>
 	</fields>
 </form>

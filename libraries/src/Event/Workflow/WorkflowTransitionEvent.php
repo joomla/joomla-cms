@@ -32,7 +32,7 @@ class WorkflowTransitionEvent extends AbstractEvent
      *
      * @since   4.0.0
      */
-    public function __construct($name, array $arguments = [])
+    public function __construct($name, array $arguments = array())
     {
         $arguments['stopTransition'] = false;
 

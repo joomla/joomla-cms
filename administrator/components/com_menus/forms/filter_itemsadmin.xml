@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 <?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Menus\Administrator\Field">
@@ -7,12 +8,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
 >>>>>>> parent of c2c4236572 (replacing lowercase UTF to uppercase)
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+>>>>>>> parent of f1cd2645e1 (Merge branch '4.3-dev' into testing)
 	<field
 		name="client_id"
 		type="list"
 		label="JSITEADMIN"
 		filtermode="selector"
-		class="js-select-reset-on-change"
+		onchange="Joomla.resetFilters(this)"
 		validate="options"
 		>
 		<option value="0">JSITE</option>
@@ -27,7 +32,7 @@
 		clientid=""
 		showAll="false"
 		filtermode="selector"
-		class="js-select-submit-on-change"
+		onchange="this.form.submit();"
 		>
 		<option value="">COM_MENUS_SELECT_MENU</option>
 	</field>
@@ -46,7 +51,7 @@
 			type="status"
 			label="JSTATUS"
 			optionsFilter="*,0,1,-2"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
@@ -58,18 +63,9 @@
 			last="10"
 			step="1"
 			languages="*"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
-		</field>
-		<field
-			name="parent_id"
-			type="MenuItemByType"
-			label="COM_MENUS_FILTER_PARENT_MENU_ITEM_LABEL"
-			client_id="1"
-			class="js-select-submit-on-change"
-			>
-			<option value="">COM_MENUS_FILTER_SELECT_PARENT_MENU_ITEM</option>
 		</field>
 	</fields>
 	<fields name="list">
@@ -78,7 +74,7 @@
 			type="list"
 			label="JGLOBAL_SORT_BY"
 			statuses="*,0,1,2,-2"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			default="a.lft ASC"
 			validate="options"
 			>
@@ -99,7 +95,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 		/>
 	</fields>
 </form>

@@ -28,18 +28,6 @@ $canDo   = ContactHelper::getActions('com_contact', 'category', $this->category-
 $canEdit = $canDo->get('core.edit');
 $userId  = Factory::getUser()->id;
 
-$showEditColumn = false;
-if ($canEdit) {
-    $showEditColumn = true;
-} elseif ($canDo->get('core.edit.own') && !empty($this->items)) {
-    foreach ($this->items as $item) {
-        if ($item->created_by == $userId) {
-            $showEditColumn = true;
-            break;
-        }
-    }
-}
-
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 ?>
@@ -94,7 +82,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                             <th scope="col">
                                 <?php echo Text::_('COM_CONTACT_CONTACT_DETAILS'); ?>
                             </th>
-                            <?php if ($showEditColumn) : ?>
+                            <?php if ($canEdit || ($canDo->get('core.edit.own') && $item->created_by === $userId)) : ?>
                                 <th scope="col">
                                     <?php echo Text::_('COM_CONTACT_EDIT_CONTACT'); ?>
                                 </th>
@@ -179,7 +167,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                                 <?php echo $item->email_to; ?><br>
                             <?php endif; ?>
 
-                            <?php $location = []; ?>
+                            <?php $location = array(); ?>
                             <?php if ($this->params->get('show_suburb_headings') && !empty($item->suburb)) : ?>
                                 <?php $location[] = $item->suburb; ?>
                             <?php endif; ?>

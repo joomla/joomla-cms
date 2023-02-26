@@ -33,7 +33,7 @@ class ExecuteTaskEvent extends AbstractEvent
      * @since  4.1.0
      * @throws  \BadMethodCallException
      */
-    public function __construct($name, array $arguments = [])
+    public function __construct($name, array $arguments = array())
     {
         parent::__construct($name, $arguments);
 

@@ -167,7 +167,7 @@ class FeedDocument extends Document
      * @var    FeedItem[]
      * @since  1.7.0
      */
-    public $items = [];
+    public $items = array();
 
     /**
      * Class constructor
@@ -176,7 +176,7 @@ class FeedDocument extends Document
      *
      * @since  1.7.0
      */
-    public function __construct($options = [])
+    public function __construct($options = array())
     {
         parent::__construct($options);
 
@@ -200,10 +200,10 @@ class FeedDocument extends Document
      * @throws  \Exception
      * @todo    Make this cacheable
      */
-    public function render($cache = false, $params = [])
+    public function render($cache = false, $params = array())
     {
         // Get the feed type
-        $type = CmsFactory::getApplication()->getInput()->get('type', 'rss');
+        $type = CmsFactory::getApplication()->input->get('type', 'rss');
 
         // Instantiate feed renderer and set the mime encoding
         $renderer = $this->loadRenderer($type ?: 'rss');
@@ -243,7 +243,7 @@ class FeedDocument extends Document
      */
     public function addItem(FeedItem $item)
     {
-        $item->source  = $this->link;
+        $item->source = $this->link;
         $this->items[] = $item;
 
         return $this;

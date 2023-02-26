@@ -92,7 +92,7 @@ class DisplayController extends BaseController
      * @since   3.0
      * @throws  \Exception
      */
-    public function getView($name = '', $type = '', $prefix = '', $config = [])
+    public function getView($name = '', $type = '', $prefix = '', $config = array())
     {
         $view = parent::getView($name, $type, $prefix, $config);
 

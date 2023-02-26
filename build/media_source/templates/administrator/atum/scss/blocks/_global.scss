@@ -109,7 +109,7 @@ textarea {
 
 label,
 caption {
-  @include font-size($form-label-font-size);
+  font-size: $label-font-size;
   text-align: start;
 }
 
@@ -218,7 +218,7 @@ a[target="_blank"]::before {
 }
 
 .tiny {
-  @include font-size($form-label-font-size);
+  font-size: $font-size-vsm;
   line-height: 1.4rem;
 }
 

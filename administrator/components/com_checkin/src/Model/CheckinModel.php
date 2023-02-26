@@ -41,13 +41,13 @@ class CheckinModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = array(), MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = [
+            $config['filter_fields'] = array(
                 'table',
                 'count',
-            ];
+            );
         }
 
         parent::__construct($config, $factory);
@@ -80,7 +80,7 @@ class CheckinModel extends ListModel
      *
      * @since   1.6
      */
-    public function checkin($ids = [])
+    public function checkin($ids = array())
     {
         $db = $this->getDatabase();
 
@@ -128,7 +128,7 @@ class CheckinModel extends ListModel
 
             if ($db->execute()) {
                 $results = $results + $db->getAffectedRows();
-                $app->triggerEvent('onAfterCheckin', [$tn]);
+                $app->triggerEvent('onAfterCheckin', array($tn));
             }
         }
 
@@ -166,7 +166,7 @@ class CheckinModel extends ListModel
             $prefix = Factory::getApplication()->get('dbprefix');
 
             // This array will hold table name as key and checked in item count as value.
-            $results = [];
+            $results = array();
 
             foreach ($tables as $tn) {
                 // Make sure we get the right tables based on prefix.

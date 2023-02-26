@@ -49,10 +49,10 @@ class RadioField extends ListField
     {
         $data = parent::getLayoutData();
 
-        $extraData = [
+        $extraData = array(
             'options' => $this->getOptions(),
             'value'   => (string) $this->value,
-        ];
+        );
 
         return array_merge($data, $extraData);
     }

@@ -34,11 +34,11 @@ abstract class En_GBLocalise
     public static function getPluralSuffixes($count)
     {
         if ($count == 0) {
-            return ['0'];
+            return array('0');
         } elseif ($count == 1) {
-            return ['ONE', '1'];
+            return array('ONE', '1');
         } else {
-            return ['OTHER', 'MORE'];
+            return array('OTHER', 'MORE');
         }
     }
 
@@ -51,7 +51,7 @@ abstract class En_GBLocalise
      */
     public static function getIgnoredSearchWords()
     {
-        return ['and', 'in', 'on'];
+        return array('and', 'in', 'on');
     }
 
     /**

@@ -24,7 +24,6 @@ use Joomla\CMS\Filesystem\Path;
  *
  * @since  1.7.0
  */
-#[\AllowDynamicProperties]
 class LogEntry
 {
     /**
@@ -74,7 +73,7 @@ class LogEntry
      * @var    array
      * @since  1.7.0
      */
-    protected $priorities = [
+    protected $priorities = array(
         Log::EMERGENCY,
         Log::ALERT,
         Log::CRITICAL,
@@ -83,14 +82,14 @@ class LogEntry
         Log::NOTICE,
         Log::INFO,
         Log::DEBUG,
-    ];
+    );
 
     /**
      * Call stack and back trace of the logged call.
      * @var    array
      * @since  3.1.4
      */
-    public $callStack = [];
+    public $callStack = array();
 
     /**
      * Constructor
@@ -105,7 +104,7 @@ class LogEntry
      * @change  3.10.7  If the message contains a full path, the root path (JPATH_ROOT) is removed from it
      *          to avoid any full path disclosure. Before 3.10.7, the path was propagated as provided.
      */
-    public function __construct($message, $priority = Log::INFO, $category = '', $date = null, array $context = [])
+    public function __construct($message, $priority = Log::INFO, $category = '', $date = null, array $context = array())
     {
         $this->message = Path::removeRoot((string) $message);
 

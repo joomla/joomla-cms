@@ -33,22 +33,6 @@ class CaptchaField extends FormField
     protected $type = 'Captcha';
 
     /**
-     * The plugin of the captcha field.
-     *
-     * @var    string
-     * @since  4.3.0
-     */
-    protected $plugin;
-
-    /**
-     * The namespace of the captcha field.
-     *
-     * @var    string
-     * @since  4.3.0
-     */
-    protected $namespace;
-
-    /**
      * The captcha base instance of our type.
      *
      * @var Captcha
@@ -147,7 +131,7 @@ class CaptchaField extends FormField
 
         try {
             // Get an instance of the captcha class that we are using
-            $this->_captcha = Captcha::getInstance($this->plugin, ['namespace' => $this->namespace]);
+            $this->_captcha = Captcha::getInstance($this->plugin, array('namespace' => $this->namespace));
 
             /**
              * Give the captcha instance a possibility to react on the setup-process,

@@ -12,22 +12,22 @@ defined('_JEXEC') or die;
 
 $form = $displayData->getForm();
 
-$fields = $displayData->get('fields') ?: [
+$fields = $displayData->get('fields') ?: array(
     'publish_up',
     'publish_down',
     'featured_up',
     'featured_down',
-    ['created', 'created_time'],
-    ['created_by', 'created_user_id'],
+    array('created', 'created_time'),
+    array('created_by', 'created_user_id'),
     'created_by_alias',
-    ['modified', 'modified_time'],
-    ['modified_by', 'modified_user_id'],
+    array('modified', 'modified_time'),
+    array('modified_by', 'modified_user_id'),
     'version',
     'hits',
     'id'
-];
+);
 
-$hiddenFields = $displayData->get('hidden_fields') ?: [];
+$hiddenFields = $displayData->get('hidden_fields') ?: array();
 
 foreach ($fields as $field) {
     foreach ((array) $field as $f) {

@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -103,26 +102,24 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo   = ContentHelper::getActions('com_users');
-        $toolbar = Toolbar::getInstance();
+        $canDo = ContentHelper::getActions('com_users');
 
         ToolbarHelper::title(Text::_('COM_USERS_VIEW_GROUPS_TITLE'), 'users-cog groups');
 
         if ($canDo->get('core.create')) {
-            $toolbar->addNew('group.add');
+            ToolbarHelper::addNew('group.add');
         }
 
         if ($canDo->get('core.delete')) {
-            $toolbar->delete('groups.delete')
-                ->message('JGLOBAL_CONFIRM_DELETE');
-            $toolbar->divider();
+            ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'groups.delete', 'JTOOLBAR_DELETE');
+            ToolbarHelper::divider();
         }
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            $toolbar->preferences('com_users');
-            $toolbar->divider();
+            ToolbarHelper::preferences('com_users');
+            ToolbarHelper::divider();
         }
 
-        $toolbar->help('Users:_Groups');
+        ToolbarHelper::help('Users:_Groups');
     }
 }

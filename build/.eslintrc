@@ -45,10 +45,6 @@
       }
     ],
     // Allow extensions on imports
-    "import/extensions": 0,
-    "func-names": [
-      "error",
-      "as-needed"
-    ]
+    "import/extensions": 0
   }
 }

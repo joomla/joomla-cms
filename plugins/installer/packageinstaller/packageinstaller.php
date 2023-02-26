@@ -45,7 +45,7 @@ class PlgInstallerPackageInstaller extends CMSPlugin
         // Load language files
         $this->loadLanguage();
 
-        $tab            = [];
+        $tab            = array();
         $tab['name']    = 'package';
         $tab['label']   = Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE');
 

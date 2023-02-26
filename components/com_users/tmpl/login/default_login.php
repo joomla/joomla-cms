@@ -18,10 +18,8 @@ use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Users\Site\View\Login\HtmlView $cookieLogin */
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
-$wa->useScript('keepalive')
-    ->useScript('form.validate');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('behavior.formvalidator');
 
 $usersConfig = ComponentHelper::getParams('com_users');
 

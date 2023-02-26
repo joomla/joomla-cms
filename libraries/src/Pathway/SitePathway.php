@@ -33,7 +33,7 @@ class SitePathway extends Pathway
      */
     public function __construct(SiteApplication $app = null)
     {
-        $this->pathway = [];
+        $this->pathway = array();
 
         $app  = $app ?: Factory::getContainer()->get(SiteApplication::class);
         $menu = $app->getMenu();

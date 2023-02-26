@@ -70,13 +70,13 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
         $model->setState('filter.access', $access);
 
         // Category filter
-        $model->setState('filter.category_id', $params->get('catid', []));
+        $model->setState('filter.category_id', $params->get('catid', array()));
 
         // Filter by language
         $model->setState('filter.language', $app->getLanguageFilter());
 
         // Filter by tag
-        $model->setState('filter.tag', $params->get('tag', []));
+        $model->setState('filter.tag', $params->get('tag', array()));
 
         // Featured switch
         $featured = $params->get('show_featured', '');
@@ -89,16 +89,14 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
             $model->setState('filter.featured', 'hide');
         }
 
-        $input = $app->getInput();
-
         // Filter by id in case it should be excluded
         if (
             $params->get('exclude_current', true)
-            && $input->get('option') === 'com_content'
-            && $input->get('view') === 'article'
+            && $app->input->get('option') === 'com_content'
+            && $app->input->get('view') === 'article'
         ) {
             // Exclude the current article from displaying in this module
-            $model->setState('filter.article_id', $input->get('id', 0, 'UINT'));
+            $model->setState('filter.article_id', $app->input->get('id', 0, 'UINT'));
             $model->setState('filter.article_id.include', false);
         }
 
@@ -143,9 +141,9 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
 
             // Show the Intro/Full image field of the article
             if ($params->get('img_intro_full') !== 'none') {
-                $images             = json_decode($item->images);
-                $item->imageSrc     = '';
-                $item->imageAlt     = '';
+                $images = json_decode($item->images);
+                $item->imageSrc = '';
+                $item->imageAlt = '';
                 $item->imageCaption = '';
 
                 if ($params->get('img_intro_full') === 'intro' && !empty($images->image_intro)) {
@@ -167,15 +165,15 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
 
             if ($triggerEvents) {
                 $item->text = '';
-                $app->triggerEvent('onContentPrepare', ['com_content.article', &$item, &$params, 0]);
+                $app->triggerEvent('onContentPrepare', array('com_content.article', &$item, &$params, 0));
 
-                $results                 = $app->triggerEvent('onContentAfterTitle', ['com_content.article', &$item, &$params, 0]);
+                $results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 0));
                 $item->afterDisplayTitle = trim(implode("\n", $results));
 
-                $results                    = $app->triggerEvent('onContentBeforeDisplay', ['com_content.article', &$item, &$params, 0]);
+                $results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 0));
                 $item->beforeDisplayContent = trim(implode("\n", $results));
 
-                $results                   = $app->triggerEvent('onContentAfterDisplay', ['com_content.article', &$item, &$params, 0]);
+                $results                   = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 0));
                 $item->afterDisplayContent = trim(implode("\n", $results));
             } else {
                 $item->afterDisplayTitle    = '';

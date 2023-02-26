@@ -216,12 +216,11 @@ class ComponentAdapter extends InstallerAdapter
 
         // If there is a manifest script, let's copy it.
         if ($this->manifest_script) {
-            $path         = [];
             $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_administrator') . '/' . $this->manifest_script;
 
             if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles([$path])) {
+                if (!$this->parent->copyFiles(array($path))) {
                     throw new \RuntimeException(
                         Text::sprintf(
                             'JLIB_INSTALLER_ABORT_MANIFEST',
@@ -264,10 +263,10 @@ class ComponentAdapter extends InstallerAdapter
          */
         if ($created) {
             $this->parent->pushStep(
-                [
+                array(
                     'type' => 'folder',
                     'path' => $this->parent->getPath('extension_site'),
-                ]
+                )
             );
         }
 
@@ -292,10 +291,10 @@ class ComponentAdapter extends InstallerAdapter
          */
         if ($created) {
             $this->parent->pushStep(
-                [
+                array(
                     'type' => 'folder',
                     'path' => $this->parent->getPath('extension_administrator'),
-                ]
+                )
             );
         }
 
@@ -320,10 +319,10 @@ class ComponentAdapter extends InstallerAdapter
          */
         if ($created) {
             $this->parent->pushStep(
-                [
+                array(
                     'type' => 'folder',
                     'path' => $this->parent->getPath('extension_api'),
-                ]
+                )
             );
         }
     }
@@ -343,11 +342,11 @@ class ComponentAdapter extends InstallerAdapter
 
         // Clobber any possible pending updates
         $uid = $update->find(
-            [
+            array(
                 'element'   => $this->element,
                 'type'      => $this->extension->type,
                 'client_id' => 1,
-            ]
+            )
         );
 
         if ($uid) {
@@ -432,7 +431,7 @@ class ComponentAdapter extends InstallerAdapter
             $asset->delete();
         }
 
-        $extensionName             = $this->element;
+        $extensionName = $this->element;
         $extensionNameWithWildcard = $extensionName . '.%';
 
         // Remove categories for this component
@@ -455,13 +454,13 @@ class ComponentAdapter extends InstallerAdapter
 
         // Clobber any possible pending updates
         $update = Table::getInstance('update');
-        $uid    = $update->find(
-            [
+        $uid = $update->find(
+            array(
                 'element'   => $this->extension->element,
                 'type'      => 'component',
                 'client_id' => 1,
                 'folder'    => '',
-            ]
+            )
         );
 
         if ($uid) {
@@ -639,21 +638,21 @@ class ComponentAdapter extends InstallerAdapter
     public function prepareDiscoverInstall()
     {
         // Need to find to find where the XML file is since we don't store this normally
-        $client                 = ApplicationHelper::getClientInfo($this->extension->client_id);
-        $short_element          = str_replace('com_', '', $this->extension->element);
-        $manifestPath           = $client->path . '/components/' . $this->extension->element . '/' . $short_element . '.xml';
+        $client = ApplicationHelper::getClientInfo($this->extension->client_id);
+        $short_element = str_replace('com_', '', $this->extension->element);
+        $manifestPath = $client->path . '/components/' . $this->extension->element . '/' . $short_element . '.xml';
         $this->parent->manifest = $this->parent->isManifest($manifestPath);
         $this->parent->setPath('manifest', $manifestPath);
         $this->parent->setPath('source', $client->path . '/components/' . $this->extension->element);
         $this->parent->setPath('extension_root', $this->parent->getPath('source'));
         $this->setManifest($this->parent->getManifest());
 
-        $manifest_details                = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
+        $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->extension->manifest_cache = json_encode($manifest_details);
-        $this->extension->state          = 0;
-        $this->extension->name           = $manifest_details['name'];
-        $this->extension->enabled        = 1;
-        $this->extension->params         = $this->parent->getParams();
+        $this->extension->state = 0;
+        $this->extension->name = $manifest_details['name'];
+        $this->extension->enabled = 1;
+        $this->extension->params = $this->parent->getParams();
 
         $stored = false;
 
@@ -661,8 +660,8 @@ class ComponentAdapter extends InstallerAdapter
             $this->extension->store();
             $stored = true;
         } catch (\RuntimeException $e) {
-            $name    = $this->extension->name;
-            $type    = $this->extension->type;
+            $name = $this->extension->name;
+            $type = $this->extension->type;
             $element = $this->extension->element;
 
             // Try to delete existing failed records before retrying
@@ -820,8 +819,8 @@ class ComponentAdapter extends InstallerAdapter
 
         if ($old_manifest) {
             $this->oldAdminFiles = $old_manifest->administration->files;
-            $this->oldApiFiles   = $old_manifest->api->files;
-            $this->oldFiles      = $old_manifest->files;
+            $this->oldApiFiles = $old_manifest->api->files;
+            $this->oldFiles = $old_manifest->files;
         }
     }
 
@@ -850,8 +849,8 @@ class ComponentAdapter extends InstallerAdapter
 
         // If we are told to delete existing extension entries then do so.
         if ($deleteExisting) {
-            $name    = $this->extension->name;
-            $type    = $this->extension->type;
+            $name = $this->extension->name;
+            $type = $this->extension->type;
             $element = $this->extension->element;
 
             // Try to delete existing failed records before retrying
@@ -1006,12 +1005,12 @@ class ComponentAdapter extends InstallerAdapter
         }
 
         // If the menu item is hidden do nothing more, just return
-        if (\in_array((string) $menuElement['hidden'], ['true', 'hidden'])) {
+        if (\in_array((string) $menuElement['hidden'], array('true', 'hidden'))) {
             return true;
         }
 
         // Let's figure out what the menu item data should look like
-        $data = [];
+        $data = array();
 
         // I have a menu element, use this information
         $data['menutype']     = 'main';
@@ -1029,7 +1028,7 @@ class ComponentAdapter extends InstallerAdapter
 
         if ($params = $menuElement->params) {
             // Pass $params through Registry to convert to JSON.
-            $params         = new Registry($params);
+            $params = new Registry($params);
             $data['params'] = $params->toString();
         }
 
@@ -1044,7 +1043,7 @@ class ComponentAdapter extends InstallerAdapter
             $request[] = 'view=' . $menuElement->attributes()->view;
         }
 
-        $qstring      = \count($request) ? '&' . implode('&', $request) : '';
+        $qstring = \count($request) ? '&' . implode('&', $request) : '';
         $data['link'] = 'index.php?option=' . $option . $qstring;
 
         // Try to create the menu item in the database
@@ -1064,7 +1063,7 @@ class ComponentAdapter extends InstallerAdapter
         }
 
         foreach ($this->getManifest()->administration->submenu->menu as $child) {
-            $data                 = [];
+            $data                 = array();
             $data['menutype']     = 'main';
             $data['client_id']    = 1;
             $data['title']        = (string) trim($child);
@@ -1079,7 +1078,7 @@ class ComponentAdapter extends InstallerAdapter
 
             if ($params = $child->params) {
                 // Pass $params through Registry to convert to JSON.
-                $params         = new Registry($params);
+                $params = new Registry($params);
                 $data['params'] = $params->toString();
             }
 
@@ -1087,7 +1086,7 @@ class ComponentAdapter extends InstallerAdapter
             if ((string) $child->attributes()->link) {
                 $data['link'] = 'index.php?' . $child->attributes()->link;
             } else {
-                $request = [];
+                $request = array();
 
                 if ((string) $child->attributes()->act) {
                     $request[] = 'act=' . $child->attributes()->act;
@@ -1127,7 +1126,7 @@ class ComponentAdapter extends InstallerAdapter
              * Since we have created a menu item, we add it to the installation step stack
              * so that if we have to rollback the changes we can undo it.
              */
-            $this->parent->pushStep(['type' => 'menu', 'id' => $componentId]);
+            $this->parent->pushStep(array('type' => 'menu', 'id' => $componentId));
         }
 
         return true;
@@ -1278,10 +1277,10 @@ class ComponentAdapter extends InstallerAdapter
      */
     public function discover()
     {
-        $results          = [];
+        $results          = array();
         $site_components  = Folder::folders(JPATH_SITE . '/components');
         $admin_components = Folder::folders(JPATH_ADMINISTRATOR . '/components');
-        $api_components   = Folder::folders(JPATH_API . '/components');
+        $api_components = Folder::folders(JPATH_API . '/components');
 
         foreach ($site_components as $component) {
             if (file_exists(JPATH_SITE . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml')) {

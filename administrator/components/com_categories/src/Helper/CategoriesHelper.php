@@ -37,7 +37,7 @@ class CategoriesHelper
     public static function getAssociations($pk, $extension = 'com_content')
     {
         $langAssociations = Associations::getAssociations($extension, '#__categories', 'com_categories.item', $pk, 'id', 'alias', '');
-        $associations     = [];
+        $associations     = array();
         $user             = Factory::getUser();
         $groups           = $user->getAuthorisedViewLevels();
 
@@ -76,8 +76,8 @@ class CategoriesHelper
     {
         $categoryTable = Table::getInstance('CategoryTable', '\\Joomla\\Component\\Categories\\Administrator\\Table\\');
 
-        $data              = [];
-        $data['id']        = $catid;
+        $data = array();
+        $data['id'] = $catid;
         $data['extension'] = $extension;
 
         if (!$categoryTable->load($data)) {

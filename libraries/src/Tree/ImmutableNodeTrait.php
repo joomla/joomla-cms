@@ -34,7 +34,7 @@ trait ImmutableNodeTrait
      * @var    NodeInterface[]
      * @since  1.6
      */
-    protected $_children = [];
+    protected $_children = array();
 
     /**
      * Node left of this one
@@ -64,11 +64,11 @@ trait ImmutableNodeTrait
     public function &getChildren($recursive = false)
     {
         if ($recursive) {
-            $items = [];
+            $items = array();
 
             foreach ($this->_children as $child) {
                 $items[] = $child;
-                $items   = array_merge($items, $child->getChildren(true));
+                $items = array_merge($items, $child->getChildren(true));
             }
 
             return $items;

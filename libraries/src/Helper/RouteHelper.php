@@ -71,19 +71,19 @@ class RouteHelper
         $typeExploded = explode('.', $typealias);
 
         if (isset($typeExploded[1])) {
-            $this->view      = $typeExploded[1];
+            $this->view = $typeExploded[1];
             $this->extension = $typeExploded[0];
         } else {
-            $this->view      = Factory::getApplication()->getInput()->getString('view');
-            $this->extension = Factory::getApplication()->getInput()->getCmd('option');
+            $this->view = Factory::getApplication()->input->getString('view');
+            $this->extension = Factory::getApplication()->input->getCmd('option');
         }
 
         $name = ucfirst(substr_replace($this->extension, '', 0, 4));
 
-        $needles = [];
+        $needles = array();
 
         if (isset($this->view)) {
-            $needles[$this->view] = [(int) $id];
+            $needles[$this->view] = array((int) $id);
         }
 
         if (empty($link)) {
@@ -98,7 +98,7 @@ class RouteHelper
                 $category = $categories->get((int) $catid);
 
                 if ($category) {
-                    $needles['category']   = array_reverse($category->getPath());
+                    $needles['category'] = array_reverse($category->getPath());
                     $needles['categories'] = $needles['category'];
                     $link .= '&catid=' . $catid;
                 }
@@ -127,7 +127,7 @@ class RouteHelper
      *
      * @since   3.1
      */
-    protected function findItem($needles = [])
+    protected function findItem($needles = array())
     {
         $app      = Factory::getApplication();
         $menus    = $app->getMenu('site');
@@ -135,21 +135,21 @@ class RouteHelper
 
         // $this->extension may not be set if coming from a static method, check it
         if ($this->extension === null) {
-            $this->extension = $app->getInput()->getCmd('option');
+            $this->extension = $app->input->getCmd('option');
         }
 
         // Prepare the reverse lookup array.
         if (!isset(static::$lookup[$language])) {
-            static::$lookup[$language] = [];
+            static::$lookup[$language] = array();
 
             $component = ComponentHelper::getComponent($this->extension);
 
-            $attributes = ['component_id'];
-            $values     = [$component->id];
+            $attributes = array('component_id');
+            $values     = array($component->id);
 
             if ($language !== '*') {
                 $attributes[] = 'language';
-                $values[]     = [$needles['language'], '*'];
+                $values[]     = array($needles['language'], '*');
             }
 
             $items = $menus->getItems($attributes, $values);
@@ -159,7 +159,7 @@ class RouteHelper
                     $view = $item->query['view'];
 
                     if (!isset(static::$lookup[$language][$view])) {
-                        static::$lookup[$language][$view] = [];
+                        static::$lookup[$language][$view] = array();
                     }
 
                     if (isset($item->query['id'])) {
@@ -238,9 +238,9 @@ class RouteHelper
         } else {
             $link = 'index.php?option=' . $extension . '&view=category&id=' . $id;
 
-            $needles = [
-                'category' => [$id],
-            ];
+            $needles = array(
+                'category' => array($id),
+            );
 
             if ($language && $language !== '*' && Multilanguage::isEnabled()) {
                 $link .= '&lang=' . $language;
@@ -271,7 +271,7 @@ class RouteHelper
      *
      * @since   3.2
      */
-    protected static function lookupItem($needles = [])
+    protected static function lookupItem($needles = array())
     {
         $instance = new static();
 

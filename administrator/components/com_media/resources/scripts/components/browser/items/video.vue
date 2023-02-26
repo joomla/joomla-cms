@@ -14,7 +14,7 @@
     <div class="media-browser-item-info">
       {{ item.name }} {{ item.filetype }}
     </div>
-    <MediaBrowserActionItemsContainer
+    <media-browser-action-items-container
       ref="container"
       :item="item"
       :previewable="true"
@@ -26,23 +26,10 @@
 </template>
 
 <script>
-import MediaBrowserActionItemsContainer from '../actionItems/actionItemsContainer.vue';
-
 export default {
   name: 'MediaBrowserItemVideo',
-  components: {
-    MediaBrowserActionItemsContainer,
-  },
-  props: {
-    item: {
-      type: Object,
-      default: () => {},
-    },
-    focused: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  // eslint-disable-next-line vue/require-prop-types
+  props: ['item', 'focused'],
   emits: ['toggle-settings'],
   data() {
     return {
@@ -52,9 +39,7 @@ export default {
   methods: {
     /* Hide actions dropdown */
     hideActions() {
-      if (this.$refs.container) {
-        this.$refs.container.hideActions();
-      }
+      this.$refs.container.hideActions();
     },
     /* Preview an item */
     openPreview() {

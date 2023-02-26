@@ -38,7 +38,7 @@ class Router extends RouterBase
             unset($query['view']);
         }
 
-        return [];
+        return array();
     }
 
     /**
@@ -52,6 +52,6 @@ class Router extends RouterBase
      */
     public function parse(&$segments)
     {
-        return ['view' => 'wrapper'];
+        return array('view' => 'wrapper');
     }
 }

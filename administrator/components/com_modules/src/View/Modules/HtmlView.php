@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -175,7 +174,7 @@ class HtmlView extends BaseHtmlView
         $user  = $this->getCurrentUser();
 
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance();
+        $toolbar = Toolbar::getInstance('toolbar');
 
         if ($state->get('client_id') == 1) {
             ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
@@ -189,8 +188,8 @@ class HtmlView extends BaseHtmlView
         }
 
         if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $this->getCurrentUser()->authorise('core.admin'))) {
-            /** @var DropdownButton $dropdown */
-            $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
+            $dropdown = $toolbar->dropdownButton('status-group')
+                ->text('JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
                 ->icon('icon-ellipsis-h')
                 ->buttonClass('btn btn-action')
@@ -217,19 +216,23 @@ class HtmlView extends BaseHtmlView
                 $user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
                 && $user->authorise('core.edit.state', 'com_modules')
             ) {
-                $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
+                $childBar->popupButton('batch')
+                    ->text('JTOOLBAR_BATCH')
                     ->selector('collapseModal')
                     ->listCheck(true);
             }
 
             if ($canDo->get('core.create')) {
-                $childBar->standardButton('copy', 'JTOOLBAR_DUPLICATE', 'modules.duplicate')
+                $childBar->standardButton('copy')
+                    ->text('JTOOLBAR_DUPLICATE')
+                    ->task('modules.duplicate')
                     ->listCheck(true);
             }
         }
 
         if (!$this->isEmptyState && ($state->get('filter.state') == -2 && $canDo->get('core.delete'))) {
-            $toolbar->delete('modules.delete', 'JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('modules.delete')
+                ->text('JTOOLBAR_EMPTY_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

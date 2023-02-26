@@ -37,7 +37,7 @@ class BaseLayout implements LayoutInterface
      * @var    array
      * @since  3.5
      */
-    protected $data = [];
+    protected $data = array();
 
     /**
      * Debug information messages
@@ -45,7 +45,7 @@ class BaseLayout implements LayoutInterface
      * @var    array
      * @since  3.2
      */
-    protected $debugMessages = [];
+    protected $debugMessages = array();
 
     /**
      * Set the options
@@ -184,7 +184,7 @@ class BaseLayout implements LayoutInterface
      */
     public function clearDebugMessages()
     {
-        $this->debugMessages = [];
+        $this->debugMessages = array();
 
         return $this;
     }
@@ -198,7 +198,7 @@ class BaseLayout implements LayoutInterface
      *
      * @since    3.5
      */
-    public function debug($data = [])
+    public function debug($data = array())
     {
         $this->setDebug(true);
 

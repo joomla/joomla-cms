@@ -79,9 +79,6 @@ Joomla = window.Joomla || {};
 
         // Extra
         clearListOptions: false,
-
-        listSelectAutoSubmit: 'js-select-submit-on-change',
-        listSelectAutoReset: 'js-select-reset-on-change',
       };
 
       this.element = elem;
@@ -178,20 +175,9 @@ Joomla = window.Joomla || {};
 
       // Do we need to add to mark filter as enabled?
       this.getFilterFields().forEach((i) => {
-        const needsFormSubmit = !i.classList.contains(this.options.listSelectAutoSubmit)
-        && i.closest(`joomla-field-fancy-select.${this.options.listSelectAutoSubmit}`);
-        const needsFormReset = !i.classList.contains(this.options.listSelectAutoReset)
-        && i.closest(`joomla-field-fancy-select.${this.options.listSelectAutoReset}`);
-
         self.checkFilter(i);
         i.addEventListener('change', () => {
           self.checkFilter(i);
-          if (i.classList.contains(this.options.listSelectAutoSubmit) || needsFormSubmit) {
-            i.form.submit();
-          }
-          if (i.classList.contains(this.options.listSelectAutoReset) || needsFormReset) {
-            this.clear(i);
-          }
         });
       });
 
@@ -250,7 +236,7 @@ Joomla = window.Joomla || {};
       }
     }
 
-    clear(exceptElement = null) {
+    clear() {
       const self = this;
 
       if (self.searchField) {
@@ -258,10 +244,6 @@ Joomla = window.Joomla || {};
       }
 
       self.getFilterFields().forEach((i) => {
-        if (exceptElement && i === exceptElement) {
-          return;
-        }
-
         i.value = '';
         self.checkFilter(i);
 
@@ -305,10 +287,8 @@ Joomla = window.Joomla || {};
       this.getFilterFields().forEach((item) => {
         if (item.classList.contains('active')) {
           activeFilterCount += 1;
-          if (cont.filterButton) {
-            cont.filterButton.classList.remove('btn-secondary');
-            cont.filterButton.classList.add('btn-primary');
-          }
+          cont.filterButton.classList.remove('btn-secondary');
+          cont.filterButton.classList.add('btn-primary');
         }
       });
 
@@ -371,9 +351,6 @@ Joomla = window.Joomla || {};
 
     // eslint-disable-next-line consistent-return
     getFilterFields() {
-      if (this.mainContainer) {
-        return Array.prototype.slice.call(this.mainContainer.querySelectorAll('select,input'));
-      }
       if (this.filterContainer) {
         return Array.prototype.slice.call(this.filterContainer.querySelectorAll('select,input'));
       }

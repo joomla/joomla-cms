@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     Joomla.API
  * @subpackage  com_media
@@ -10,13 +9,11 @@
 
 namespace Joomla\Component\Media\Api\Controller;
 
+\defined('_JEXEC') or die;
+
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
-
-// phpcs:disable PSR1.Files.SideEffects
-\defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Media web service controller.

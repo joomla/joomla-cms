@@ -44,7 +44,7 @@ class MenuPresetField extends ListField
      */
     protected function getOptions()
     {
-        $options = [];
+        $options = array();
         $presets = MenusHelper::getPresets();
 
         foreach ($presets as $preset) {

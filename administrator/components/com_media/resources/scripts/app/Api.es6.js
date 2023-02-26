@@ -1,80 +1,5 @@
-import notifications from './Notifications.es6';
+import { notifications } from './Notifications.es6';
 import { dirname } from './path';
-
-/**
- * Normalize a single item
- * @param item
- * @returns {*}
- * @private
- */
-function normalizeItem(item) {
-  if (item.type === 'dir') {
-    item.directories = [];
-    item.files = [];
-  }
-
-  item.directory = dirname(item.path);
-
-  if (item.directory.indexOf(':', item.directory.length - 1) !== -1) {
-    item.directory += '/';
-  }
-
-  return item;
-}
-
-/**
- * Normalize array data
- * @param data
- * @returns {{directories, files}}
- * @private
- */
-function normalizeArray(data) {
-  const directories = data.filter((item) => (item.type === 'dir'))
-    .map((directory) => normalizeItem(directory));
-  const files = data.filter((item) => (item.type === 'file'))
-    .map((file) => normalizeItem(file));
-
-  return {
-    directories,
-    files,
-  };
-}
-
-/**
- * Handle errors
- * @param error
- * @private
- *
- * @TODO DN improve error handling
- */
-function handleError(error) {
-  const response = JSON.parse(error.response);
-  if (response.message) {
-    notifications.error(response.message);
-  } else {
-    switch (error.status) {
-      case 409:
-        // Handled in consumer
-        break;
-      case 404:
-        notifications.error('COM_MEDIA_ERROR_NOT_FOUND');
-        break;
-      case 401:
-        notifications.error('COM_MEDIA_ERROR_NOT_AUTHENTICATED');
-        break;
-      case 403:
-        notifications.error('COM_MEDIA_ERROR_NOT_AUTHORIZED');
-        break;
-      case 500:
-        notifications.error('COM_MEDIA_SERVER_ERROR');
-        break;
-      default:
-        notifications.error('COM_MEDIA_ERROR');
-    }
-  }
-
-  throw error;
-}
 
 /**
  * Api class for communication with the server
@@ -92,8 +17,10 @@ class Api {
       throw new TypeError('Media api csrf token is not defined');
     }
 
-    this.baseUrl = options.apiBaseUrl;
-    this.csrfToken = Joomla.getOptions('csrf.token');
+    // eslint-disable-next-line no-underscore-dangle
+    this._baseUrl = options.apiBaseUrl;
+    // eslint-disable-next-line no-underscore-dangle
+    this._csrfToken = Joomla.getOptions('csrf.token');
 
     this.imagesExtensions = options.imagesExtensions;
     this.audioExtensions = options.audioExtensions;
@@ -124,7 +51,8 @@ class Api {
         throw Error('Invalid parameter: content');
       }
 
-      let url = `${this.baseUrl}&task=api.files&path=${encodeURIComponent(dir)}`;
+      // eslint-disable-next-line no-underscore-dangle
+      let url = `${this._baseUrl}&task=api.files&path=${dir}`;
 
       if (full) {
         url += `&url=${full}`;
@@ -139,13 +67,15 @@ class Api {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         onSuccess: (response) => {
-          resolve(normalizeArray(JSON.parse(response).data));
+          // eslint-disable-next-line no-underscore-dangle
+          resolve(this._normalizeArray(JSON.parse(response).data));
         },
         onError: (xhr) => {
           reject(xhr);
         },
       });
-    }).catch(handleError);
+      // eslint-disable-next-line no-underscore-dangle
+    }).catch(this._handleError);
   }
 
   /**
@@ -157,8 +87,10 @@ class Api {
   createDirectory(name, parent) {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      const url = `${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`;
-      const data = { [this.csrfToken]: '1', name };
+      // eslint-disable-next-line no-underscore-dangle
+      const url = `${this._baseUrl}&task=api.files&path=${parent}`;
+      // eslint-disable-next-line no-underscore-dangle
+      const data = { [this._csrfToken]: '1', name };
 
       Joomla.request({
         url,
@@ -167,14 +99,16 @@ class Api {
         headers: { 'Content-Type': 'application/json' },
         onSuccess: (response) => {
           notifications.success('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS');
-          resolve(normalizeItem(JSON.parse(response).data));
+          // eslint-disable-next-line no-underscore-dangle
+          resolve(this._normalizeItem(JSON.parse(response).data));
         },
         onError: (xhr) => {
           notifications.error('COM_MEDIA_CREATE_NEW_FOLDER_ERROR');
           reject(xhr);
         },
       });
-    }).catch(handleError);
+      // eslint-disable-next-line no-underscore-dangle
+    }).catch(this._handleError);
   }
 
   /**
@@ -188,9 +122,11 @@ class Api {
   upload(name, parent, content, override) {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      const url = `${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`;
+      // eslint-disable-next-line no-underscore-dangle
+      const url = `${this._baseUrl}&task=api.files&path=${parent}`;
       const data = {
-        [this.csrfToken]: '1',
+        // eslint-disable-next-line no-underscore-dangle
+        [this._csrfToken]: '1',
         name,
         content,
       };
@@ -207,13 +143,15 @@ class Api {
         headers: { 'Content-Type': 'application/json' },
         onSuccess: (response) => {
           notifications.success('COM_MEDIA_UPLOAD_SUCCESS');
-          resolve(normalizeItem(JSON.parse(response).data));
+          // eslint-disable-next-line no-underscore-dangle
+          resolve(this._normalizeItem(JSON.parse(response).data));
         },
         onError: (xhr) => {
           reject(xhr);
         },
       });
-    }).catch(handleError);
+      // eslint-disable-next-line no-underscore-dangle
+    }).catch(this._handleError);
   }
 
   /**
@@ -222,12 +160,15 @@ class Api {
      * @param newPath
      * @return {Promise.<T>}
      */
+  // eslint-disable-next-line no-shadow
   rename(path, newPath) {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      const url = `${this.baseUrl}&task=api.files&path=${encodeURIComponent(path)}`;
+      // eslint-disable-next-line no-underscore-dangle
+      const url = `${this._baseUrl}&task=api.files&path=${path}`;
       const data = {
-        [this.csrfToken]: '1',
+        // eslint-disable-next-line no-underscore-dangle
+        [this._csrfToken]: '1',
         newPath,
       };
 
@@ -238,14 +179,16 @@ class Api {
         headers: { 'Content-Type': 'application/json' },
         onSuccess: (response) => {
           notifications.success('COM_MEDIA_RENAME_SUCCESS');
-          resolve(normalizeItem(JSON.parse(response).data));
+          // eslint-disable-next-line no-underscore-dangle
+          resolve(this._normalizeItem(JSON.parse(response).data));
         },
         onError: (xhr) => {
           notifications.error('COM_MEDIA_RENAME_ERROR');
           reject(xhr);
         },
       });
-    }).catch(handleError);
+      // eslint-disable-next-line no-underscore-dangle
+    }).catch(this._handleError);
   }
 
   /**
@@ -253,11 +196,14 @@ class Api {
      * @param path
      * @return {Promise.<T>}
      */
+  // eslint-disable-next-line no-shadow
   delete(path) {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      const url = `${this.baseUrl}&task=api.files&path=${encodeURIComponent(path)}`;
-      const data = { [this.csrfToken]: '1' };
+      // eslint-disable-next-line no-underscore-dangle
+      const url = `${this._baseUrl}&task=api.files&path=${path}`;
+      // eslint-disable-next-line no-underscore-dangle
+      const data = { [this._csrfToken]: '1' };
 
       Joomla.request({
         url,
@@ -273,9 +219,90 @@ class Api {
           reject(xhr);
         },
       });
-    }).catch(handleError);
+      // eslint-disable-next-line no-underscore-dangle
+    }).catch(this._handleError);
+  }
+
+  /**
+     * Normalize a single item
+     * @param item
+     * @returns {*}
+     * @private
+     */
+  // eslint-disable-next-line no-underscore-dangle,class-methods-use-this
+  _normalizeItem(item) {
+    if (item.type === 'dir') {
+      item.directories = [];
+      item.files = [];
+    }
+
+    item.directory = dirname(item.path);
+
+    if (item.directory.indexOf(':', item.directory.length - 1) !== -1) {
+      item.directory += '/';
+    }
+
+    return item;
+  }
+
+  /**
+     * Normalize array data
+     * @param data
+     * @returns {{directories, files}}
+     * @private
+     */
+  // eslint-disable-next-line no-underscore-dangle
+  _normalizeArray(data) {
+    const directories = data.filter((item) => (item.type === 'dir'))
+      // eslint-disable-next-line no-underscore-dangle
+      .map((directory) => this._normalizeItem(directory));
+    const files = data.filter((item) => (item.type === 'file'))
+      // eslint-disable-next-line no-underscore-dangle
+      .map((file) => this._normalizeItem(file));
+
+    return {
+      directories,
+      files,
+    };
+  }
+
+  /**
+     * Handle errors
+     * @param error
+     * @private
+     *
+     * @TODO DN improve error handling
+     */
+  // eslint-disable-next-line no-underscore-dangle,class-methods-use-this
+  _handleError(error) {
+    const response = JSON.parse(error.response);
+    if (response.message) {
+      notifications.error(response.message);
+    } else {
+      switch (error.status) {
+        case 409:
+          // Handled in consumer
+          break;
+        case 404:
+          notifications.error('COM_MEDIA_ERROR_NOT_FOUND');
+          break;
+        case 401:
+          notifications.error('COM_MEDIA_ERROR_NOT_AUTHENTICATED');
+          break;
+        case 403:
+          notifications.error('COM_MEDIA_ERROR_NOT_AUTHORIZED');
+          break;
+        case 500:
+          notifications.error('COM_MEDIA_SERVER_ERROR');
+          break;
+        default:
+          notifications.error('COM_MEDIA_ERROR');
+      }
+    }
+
+    throw error;
   }
 }
 
-const api = new Api();
-export default api;
+// eslint-disable-next-line import/prefer-default-export
+export const api = new Api();

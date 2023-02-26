@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     Joomla.API
  * @subpackage  com_media
@@ -10,12 +9,10 @@
 
 namespace Joomla\Component\Media\Api\View\Adapters;
 
+\defined('_JEXEC') or die;
+
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
-
-// phpcs:disable PSR1.Files.SideEffects
-\defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Media web service view

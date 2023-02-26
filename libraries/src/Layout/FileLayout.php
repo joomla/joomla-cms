@@ -34,7 +34,7 @@ class FileLayout extends BaseLayout
      * @var    array
      * @since  3.5
      */
-    protected static $cache = [];
+    protected static $cache = array();
 
     /**
      * Dot separated path to the layout file, relative to base path
@@ -66,7 +66,7 @@ class FileLayout extends BaseLayout
      * @var    array
      * @since  3.2
      */
-    protected $includePaths = [];
+    protected $includePaths = array();
 
     /**
      * Method to instantiate the file-based layout.
@@ -100,7 +100,7 @@ class FileLayout extends BaseLayout
      *
      * @since   3.0
      */
-    public function render($displayData = [])
+    public function render($displayData = array())
     {
         $this->clearDebugMessages();
 
@@ -161,10 +161,10 @@ class FileLayout extends BaseLayout
 
         $hash = md5(
             json_encode(
-                [
+                array(
                     'paths'    => $includePaths,
                     'suffixes' => $suffixes,
-                ]
+                )
             )
         );
 
@@ -266,7 +266,7 @@ class FileLayout extends BaseLayout
      */
     public function clearIncludePaths()
     {
-        $this->includePaths = [];
+        $this->includePaths = array();
 
         return $this;
     }
@@ -308,7 +308,7 @@ class FileLayout extends BaseLayout
      */
     public function getSuffixes()
     {
-        return $this->getOptions()->get('suffixes', []);
+        return $this->getOptions()->get('suffixes', array());
     }
 
     /**
@@ -323,10 +323,10 @@ class FileLayout extends BaseLayout
     {
         $lang = Factory::getLanguage();
 
-        $langTag   = $lang->getTag();
+        $langTag = $lang->getTag();
         $langParts = explode('-', $langTag);
 
-        $suffixes   = [$langTag, $langParts[0]];
+        $suffixes = array($langTag, $langParts[0]);
         $suffixes[] = $lang->isRtl() ? 'rtl' : 'ltr';
 
         $this->setSuffixes($suffixes);
@@ -350,11 +350,11 @@ class FileLayout extends BaseLayout
         $fullVersion = 'j' . str_replace('.', '', $cmsVersion->getShortVersion());
 
         // Create suffixes like array('j311', 'j31', 'j3')
-        $suffixes = [
+        $suffixes = array(
             $fullVersion,
             substr($fullVersion, 0, 3),
             substr($fullVersion, 0, 2),
-        ];
+        );
 
         $this->setSuffixes(array_unique($suffixes));
 
@@ -519,25 +519,10 @@ class FileLayout extends BaseLayout
     public function getDefaultIncludePaths()
     {
         // Get the template
-        $app          = Factory::getApplication();
-        $templateName = $this->options->get('template');
-
-        if ($templateName) {
-            // Check template name in the options
-            $template = (object) [
-                'template' => $templateName,
-                'parent'   => '',
-            ];
-        } elseif ($app->isClient('site') || $app->isClient('administrator')) {
-            // Try to get a default template
-            $template = $app->getTemplate(true);
-        } else {
-            // Template not found
-            $template = false;
-        }
+        $template = Factory::getApplication()->getTemplate(true);
 
         // Reset includePaths
-        $paths = [];
+        $paths = array();
 
         // (1 - highest priority) Received a custom high priority path
         if ($this->basePath !== null) {
@@ -548,14 +533,12 @@ class FileLayout extends BaseLayout
         $component = $this->options->get('component', null);
 
         if (!empty($component)) {
-            if ($template) {
-                // (2) Component template overrides path
-                $paths[] = JPATH_THEMES . '/' . $template->template . '/html/layouts/' . $component;
+            // (2) Component template overrides path
+            $paths[] = JPATH_THEMES . '/' . $template->template . '/html/layouts/' . $component;
 
-                if (!empty($template->parent)) {
-                    // (2.a) Component template overrides path for an inherited template using the parent
-                    $paths[] = JPATH_THEMES . '/' . $template->parent . '/html/layouts/' . $component;
-                }
+            if (!empty($template->parent)) {
+                // (2.a) Component template overrides path for an inherited template using the parent
+                $paths[] = JPATH_THEMES . '/' . $template->parent . '/html/layouts/' . $component;
             }
 
             // (3) Component path
@@ -566,14 +549,12 @@ class FileLayout extends BaseLayout
             }
         }
 
-        if ($template) {
-            // (4) Standard Joomla! layouts overridden
-            $paths[] = JPATH_THEMES . '/' . $template->template . '/html/layouts';
+        // (4) Standard Joomla! layouts overridden
+        $paths[] = JPATH_THEMES . '/' . $template->template . '/html/layouts';
 
-            if (!empty($template->parent)) {
-                // (4.a) Component template overrides path for an inherited template using the parent
-                $paths[] = JPATH_THEMES . '/' . $template->parent . '/html/layouts';
-            }
+        if (!empty($template->parent)) {
+            // (4.a) Component template overrides path for an inherited template using the parent
+            $paths[] = JPATH_THEMES . '/' . $template->parent . '/html/layouts';
         }
 
         // (5 - lower priority) Frontend base layouts
@@ -601,7 +582,7 @@ class FileLayout extends BaseLayout
     /**
      * Set suffixes to search layouts
      *
-     * @param   array  $suffixes  Array of suffixes to utilise
+     * @param   mixed  $suffixes  String with a single suffix or 'auto' | 'none' or array of suffixes
      *
      * @return  self
      *
@@ -631,7 +612,7 @@ class FileLayout extends BaseLayout
             $layoutId = $this->layoutId . '.' . $layoutId;
         }
 
-        $sublayout               = new static($layoutId, $this->basePath, $this->options);
+        $sublayout = new static($layoutId, $this->basePath, $this->options);
         $sublayout->includePaths = $this->includePaths;
 
         return $sublayout->render($displayData);

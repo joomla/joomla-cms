@@ -41,7 +41,7 @@ class DisplayController extends BaseController
      *
      * @return  static  A \JControllerLegacy object to support chaining.
      */
-    public function display($cachable = false, $urlparams = [])
+    public function display($cachable = false, $urlparams = array())
     {
         return parent::display();
     }
@@ -56,7 +56,7 @@ class DisplayController extends BaseController
         // Check for request forgeries
         $this->checkToken();
 
-        $ids = (array) $this->input->get('cid', [], 'string');
+        $ids = (array) $this->input->get('cid', array(), 'string');
 
         if (empty($ids)) {
             $this->app->enqueueMessage(Text::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'), 'warning');

@@ -18,9 +18,8 @@ $app->getDocument()->getWebAssetManager()
 
 Text::script('MOD_SAMPLEDATA_COMPLETED');
 Text::script('MOD_SAMPLEDATA_CONFIRM_START');
-Text::script('MOD_SAMPLEDATA_ERROR_RESPONSE');
-Text::script('MOD_SAMPLEDATA_INVALID_RESPONSE');
 Text::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');
+Text::script('MOD_SAMPLEDATA_INVALID_RESPONSE');
 
 $app->getDocument()->addScriptOptions(
     'sample-data',

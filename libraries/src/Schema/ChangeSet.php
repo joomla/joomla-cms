@@ -32,7 +32,7 @@ class ChangeSet
      * @var    ChangeItem[]
      * @since  2.5
      */
-    protected $changeItems = [];
+    protected $changeItems = array();
 
     /**
      * DatabaseDriver object
@@ -69,9 +69,9 @@ class ChangeSet
      */
     public function __construct($db, $folder = null)
     {
-        $this->db     = $db;
+        $this->db = $db;
         $this->folder = $folder;
-        $updateFiles  = $this->getUpdateFiles();
+        $updateFiles = $this->getUpdateFiles();
 
         // If no files were found nothing more we can do - continue
         if ($updateFiles === false) {
@@ -122,7 +122,7 @@ class ChangeSet
                 // Set expected records from check query
                 $tmpSchemaChangeItem->checkQueryExpected = 1;
 
-                $tmpSchemaChangeItem->msgElements = [];
+                $tmpSchemaChangeItem->msgElements = array();
 
                 $this->changeItems[] = $tmpSchemaChangeItem;
             }
@@ -159,7 +159,7 @@ class ChangeSet
      */
     public function check()
     {
-        $errors = [];
+        $errors = array();
 
         foreach ($this->changeItems as $item) {
             if ($item->check() === -2) {
@@ -196,7 +196,7 @@ class ChangeSet
      */
     public function getStatus()
     {
-        $result = ['unchecked' => [], 'ok' => [], 'error' => [], 'skipped' => []];
+        $result = array('unchecked' => array(), 'ok' => array(), 'error' => array(), 'skipped' => array());
 
         foreach ($this->changeItems as $item) {
             switch ($item->checkStatus) {
@@ -275,8 +275,8 @@ class ChangeSet
             '\.sql$',
             1,
             true,
-            ['.svn', 'CVS', '.DS_Store', '__MACOSX'],
-            ['^\..*', '.*~'],
+            array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
+            array('^\..*', '.*~'),
             true
         );
     }
@@ -295,7 +295,7 @@ class ChangeSet
     private function getUpdateQueries(array $sqlfiles)
     {
         // Hold results as array of objects
-        $result = [];
+        $result = array();
 
         foreach ($sqlfiles as $file) {
             $buffer = file_get_contents($file);
@@ -304,10 +304,10 @@ class ChangeSet
             $queries = DatabaseDriver::splitSql($buffer);
 
             foreach ($queries as $query) {
-                $fileQueries              = new \stdClass();
-                $fileQueries->file        = $file;
+                $fileQueries = new \stdClass();
+                $fileQueries->file = $file;
                 $fileQueries->updateQuery = $query;
-                $result[]                 = $fileQueries;
+                $result[] = $fileQueries;
             }
         }
 

@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
@@ -169,18 +168,25 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo   = ContentHelper::getActions('com_finder');
-        $toolbar = Toolbar::getInstance();
+        $canDo = ContentHelper::getActions('com_finder');
+
+        // Get the toolbar object instance
+        $toolbar = Toolbar::getInstance('toolbar');
 
         ToolbarHelper::title(Text::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'search-plus finder');
 
-        $toolbar->popupButton('archive', 'COM_FINDER_INDEX')
-            ->url('index.php?option=com_finder&view=indexer&tmpl=component')
-            ->iframeWidth(550)
-            ->iframeHeight(210)
-            ->onclose('window.parent.location.reload()')
-            ->icon('icon-archive')
-            ->title(Text::_('COM_FINDER_HEADING_INDEXER'));
+        $toolbar->appendButton(
+            'Popup',
+            'archive',
+            'COM_FINDER_INDEX',
+            'index.php?option=com_finder&view=indexer&tmpl=component',
+            500,
+            210,
+            0,
+            0,
+            'window.parent.location.reload()',
+            Text::_('COM_FINDER_HEADING_INDEXER')
+        );
 
         if (!$this->isEmptyState) {
             if ($canDo->get('core.edit.state')) {
@@ -199,15 +205,15 @@ class HtmlView extends BaseHtmlView
 
             if ($canDo->get('core.delete')) {
                 $toolbar->confirmButton('', 'JTOOLBAR_DELETE', 'index.delete')
-                    ->message('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT')
                     ->icon('icon-delete')
+                    ->message('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT')
                     ->listCheck(true);
                 $toolbar->divider();
             }
 
             if ($canDo->get('core.edit.state')) {
-                /** @var DropdownButton $dropdown */
-                $dropdown = $toolbar->dropdownButton('maintenance-group', 'COM_FINDER_INDEX_TOOLBAR_MAINTENANCE')
+                $dropdown = $toolbar->dropdownButton('maintenance-group');
+                $dropdown->text('COM_FINDER_INDEX_TOOLBAR_MAINTENANCE')
                     ->toggleSplit(false)
                     ->icon('icon-wrench')
                     ->buttonClass('btn btn-action');
@@ -216,22 +222,17 @@ class HtmlView extends BaseHtmlView
 
                 $childBar->standardButton('cog', 'COM_FINDER_INDEX_TOOLBAR_OPTIMISE', 'index.optimise', false);
                 $childBar->confirmButton('index.purge', 'COM_FINDER_INDEX_TOOLBAR_PURGE', 'index.purge')
-                    ->message('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT')
-                    ->icon('icon-trash');
+                    ->icon('icon-trash')
+                    ->message('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT');
             }
 
-            $toolbar->popupButton('bars', 'COM_FINDER_STATISTICS')
-                ->url('index.php?option=com_finder&view=statistics&tmpl=component')
-                ->iframeWidth(550)
-                ->iframeHeight(350)
-                ->title(Text::_('COM_FINDER_STATISTICS_TITLE'))
-                ->icon('icon-bars');
+            $toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
         }
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            $toolbar->preferences('com_finder');
+            ToolbarHelper::preferences('com_finder');
         }
 
-        $toolbar->help('Smart_Search:_Indexed_Content');
+        ToolbarHelper::help('Smart_Search:_Indexed_Content');
     }
 }

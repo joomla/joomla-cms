@@ -92,7 +92,7 @@ class CryptoCipher implements CipherInterface
      * @since   3.5
      * @throws  \RuntimeException
      */
-    public function generateKey(array $options = [])
+    public function generateKey(array $options = array())
     {
         // Generate the encryption key.
         try {

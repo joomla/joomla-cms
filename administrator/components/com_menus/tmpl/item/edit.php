@@ -21,7 +21,6 @@ $this->useCoreUI = true;
 
 Text::script('ERROR');
 Text::script('JGLOBAL_VALIDATION_FORM_FAILED');
-Text::script('JGLOBAL_ROOT_PARENT');
 
 $this->document->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
 
@@ -32,7 +31,7 @@ $wa->useScript('keepalive')
     ->useScript('com_menus.admin-item-edit');
 
 $assoc = Associations::isEnabled();
-$input = Factory::getApplication()->getInput();
+$input = Factory::getApplication()->input;
 
 // In case of modal
 $isModal  = $input->get('layout') === 'modal';
@@ -108,7 +107,7 @@ if ($clientId === 1) {
             <div class="col-lg-3">
                 <?php
                     // Set main fields.
-                    $this->fields = [
+                    $this->fields = array(
                         'id',
                         'client_id',
                         'menutype',
@@ -121,10 +120,10 @@ if ($clientId === 1) {
                         'access',
                         'language',
                         'note',
-                    ];
+                    );
 
                     if ($this->item->type != 'component') {
-                        $this->fields = array_diff($this->fields, ['home']);
+                        $this->fields = array_diff($this->fields, array('home'));
                         $this->form->setFieldAttribute('publish_up', 'showon', '');
                         $this->form->setFieldAttribute('publish_down', 'showon', '');
                     }
@@ -135,8 +134,8 @@ if ($clientId === 1) {
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
         <?php
-        $this->fieldsets = [];
-        $this->ignore_fieldsets = ['aliasoptions', 'request', 'item_associations'];
+        $this->fieldsets = array();
+        $this->ignore_fieldsets = array('aliasoptions', 'request', 'item_associations');
         echo LayoutHelper::render('joomla.edit.params', $this);
         ?>
 

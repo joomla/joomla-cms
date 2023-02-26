@@ -60,10 +60,10 @@ class RadiobasicField extends ListField
     {
         $data = parent::getLayoutData();
 
-        $extraData = [
+        $extraData = array(
             'options' => $this->getOptions(),
-            'value'   => (string) $this->value,
-        ];
+            'value'   => (string) $this->value
+        );
 
         return array_merge($data, $extraData);
     }

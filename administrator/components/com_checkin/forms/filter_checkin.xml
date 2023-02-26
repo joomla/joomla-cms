@@ -16,7 +16,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			default="table ASC"
 			validate="options"
 			>
@@ -31,7 +31,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="5"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 		/>
 	</fields>
 </form>

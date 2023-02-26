@@ -27,7 +27,7 @@ $wa->useScript('keepalive')
 $script = $wa->getAsset('script', 'com_media.edit-images')->getUri(true);
 
 $params = ComponentHelper::getParams('com_media');
-$input  = Factory::getApplication()->getInput();
+$input  = Factory::getApplication()->input;
 
 /** @var \Joomla\CMS\Form\Form $form */
 $form = $this->form;

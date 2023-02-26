@@ -6,15 +6,10 @@ import Video from './video.vue';
 import Audio from './audio.vue';
 import Doc from './document.vue';
 import * as types from '../../../store/mutation-types.es6';
-import api from '../../../app/Api.es6';
+import { api } from '../../../app/Api.es6';
 
 export default {
-  props: {
-    item: {
-      type: Object,
-      default: () => {},
-    },
-  },
+  props: ['item'],
   data() {
     return {
       hoverActive: false,
@@ -179,7 +174,8 @@ export default {
      * @param active
      */
     toggleSettings(active) {
-      this[`mouse${active ? 'over' : 'leave'}`]();
+      // eslint-disable-next-line no-unused-expressions
+      active ? this.mouseover() : this.mouseleave();
     },
   },
   render() {

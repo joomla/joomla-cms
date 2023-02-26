@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
@@ -104,18 +103,18 @@ class HtmlView extends BaseHtmlView
             } else {
                 $this->extensionName = $extensionName;
                 $this->typeName      = $typeName;
-                $this->typeSupports  = [];
-                $this->typeFields    = [];
+                $this->typeSupports  = array();
+                $this->typeFields    = array();
 
                 $details = $type->get('details');
 
                 if (\array_key_exists('support', $details)) {
-                    $support            = $details['support'];
+                    $support = $details['support'];
                     $this->typeSupports = $support;
                 }
 
                 if (\array_key_exists('fields', $details)) {
-                    $fields           = $details['fields'];
+                    $fields = $details['fields'];
                     $this->typeFields = $fields;
                 }
 
@@ -156,7 +155,7 @@ class HtmlView extends BaseHtmlView
 
                     if ($this->getLayout() == 'modal') {
                         // We need to change the category filter to only show categories tagged to All or to the forced language.
-                        if ($forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD')) {
+                        if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD')) {
                             $this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
                         }
                     }
@@ -165,11 +164,11 @@ class HtmlView extends BaseHtmlView
                 $this->items      = $this->get('Items');
                 $this->pagination = $this->get('Pagination');
 
-                $linkParameters = [
-                    'layout'   => 'edit',
-                    'itemtype' => $extensionName . '.' . $typeName,
-                    'task'     => 'association.edit',
-                ];
+                $linkParameters = array(
+                    'layout'     => 'edit',
+                    'itemtype'   => $extensionName . '.' . $typeName,
+                    'task'       => 'association.edit',
+                );
 
                 $this->editUri = 'index.php?option=com_associations&view=association&' . http_build_query($linkParameters);
             }
@@ -218,21 +217,15 @@ class HtmlView extends BaseHtmlView
             ToolbarHelper::title(Text::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'language assoc');
         }
 
-        $toolbar = Toolbar::getInstance();
-
         if ($user->authorise('core.admin', 'com_associations') || $user->authorise('core.options', 'com_associations')) {
             if (!isset($this->typeName)) {
-                $toolbar->standardButton('', 'COM_ASSOCIATIONS_PURGE', 'associations.purge')
-                    ->icon('icon-purge')
-                    ->listCheck(false);
-                $toolbar->standardButton('', 'COM_ASSOCIATIONS_DELETE_ORPHANS', 'associations.clean')
-                    ->icon('icon-refresh')
-                    ->listCheck(false);
+                ToolbarHelper::custom('associations.purge', 'purge', '', 'COM_ASSOCIATIONS_PURGE', false, false);
+                ToolbarHelper::custom('associations.clean', 'refresh', '', 'COM_ASSOCIATIONS_DELETE_ORPHANS', false, false);
             }
 
-            $toolbar->preferences('com_associations');
+            ToolbarHelper::preferences('com_associations');
         }
 
-        $toolbar->help('Multilingual_Associations');
+        ToolbarHelper::help('Multilingual_Associations');
     }
 }

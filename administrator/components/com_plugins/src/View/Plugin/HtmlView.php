@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -82,22 +81,21 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->getInput()->set('hidemainmenu', true);
+        Factory::getApplication()->input->set('hidemainmenu', true);
 
-        $canDo   = ContentHelper::getActions('com_plugins');
-        $toolbar = Toolbar::getInstance();
+        $canDo = ContentHelper::getActions('com_plugins');
 
         ToolbarHelper::title(Text::sprintf('COM_PLUGINS_MANAGER_PLUGIN', Text::_($this->item->name)), 'plug plugin');
 
         // If not checked out, can save the item.
         if ($canDo->get('core.edit')) {
-            $toolbar->apply('plugin.apply');
+            ToolbarHelper::apply('plugin.apply');
 
-            $toolbar->save('plugin.save');
+            ToolbarHelper::save('plugin.save');
         }
 
-        $toolbar->cancel('plugin.cancel');
-        $toolbar->divider();
+        ToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
+        ToolbarHelper::divider();
 
         // Get the help information for the plugin item.
         $lang = Factory::getLanguage();
@@ -106,13 +104,13 @@ class HtmlView extends BaseHtmlView
 
         if ($help->url && $lang->hasKey($help->url)) {
             $debug = $lang->setDebug(false);
-            $url   = Text::_($help->url);
+            $url = Text::_($help->url);
             $lang->setDebug($debug);
         } else {
             $url = null;
         }
 
-        $toolbar->inlinehelp();
-        $toolbar->help($help->key, false, $url);
+        ToolbarHelper::inlinehelp();
+        ToolbarHelper::help($help->key, false, $url);
     }
 }

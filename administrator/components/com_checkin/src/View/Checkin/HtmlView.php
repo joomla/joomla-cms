@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -117,18 +116,17 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         ToolbarHelper::title(Text::_('COM_CHECKIN_GLOBAL_CHECK_IN'), 'check-square');
-        $toolbar    = Toolbar::getInstance();
 
         if (!$this->isEmptyState) {
-            $toolbar->checkin('checkin');
+            ToolbarHelper::custom('checkin', 'checkin', '', 'JTOOLBAR_CHECKIN', true);
         }
 
         if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_checkin')) {
-            $toolbar->divider();
-            $toolbar->preferences('com_checkin');
-            $toolbar->divider();
+            ToolbarHelper::divider();
+            ToolbarHelper::preferences('com_checkin');
+            ToolbarHelper::divider();
         }
 
-        $toolbar->help('Maintenance:_Global_Check-in');
+        ToolbarHelper::help('Maintenance:_Global_Check-in');
     }
 }

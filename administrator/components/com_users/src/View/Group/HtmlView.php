@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -85,43 +84,41 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->getInput()->set('hidemainmenu', true);
+        Factory::getApplication()->input->set('hidemainmenu', true);
 
-        $isNew   = ($this->item->id == 0);
-        $canDo   = ContentHelper::getActions('com_users');
-        $toolbar = Toolbar::getInstance();
+        $isNew = ($this->item->id == 0);
+        $canDo = ContentHelper::getActions('com_users');
 
         ToolbarHelper::title(Text::_($isNew ? 'COM_USERS_VIEW_NEW_GROUP_TITLE' : 'COM_USERS_VIEW_EDIT_GROUP_TITLE'), 'users-cog groups-add');
 
+        $toolbarButtons = [];
+
         if ($canDo->get('core.edit') || $canDo->get('core.create')) {
-            $toolbar->apply('group.apply');
+            ToolbarHelper::apply('group.apply');
+            $toolbarButtons[] = ['save', 'group.save'];
         }
 
-        $saveGroup = $toolbar->dropdownButton('save-group');
-        $saveGroup->configure(
-            function (Toolbar $childBar) use ($canDo, $isNew) {
-                if ($canDo->get('core.edit') || $canDo->get('core.create')) {
-                    $childBar->save('group.save');
-                }
+        if ($canDo->get('core.create')) {
+            $toolbarButtons[] = ['save2new', 'group.save2new'];
+        }
 
-                if ($canDo->get('core.create')) {
-                    $childBar->save2new('group.save2new');
-                }
+        // If an existing item, can save to a copy.
+        if (!$isNew && $canDo->get('core.create')) {
+            $toolbarButtons[] = ['save2copy', 'group.save2copy'];
+        }
 
-                // If an existing item, can save to a copy.
-                if (!$isNew && $canDo->get('core.create')) {
-                    $childBar->save2copy('group.save2copy');
-                }
-            }
+        ToolbarHelper::saveGroup(
+            $toolbarButtons,
+            'btn-success'
         );
 
         if (empty($this->item->id)) {
-            $toolbar->cancel('group.cancel', 'JTOOLBAR_CANCEL');
+            ToolbarHelper::cancel('group.cancel');
         } else {
-            $toolbar->cancel('group.cancel');
+            ToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
         }
 
-        $toolbar->divider();
-        $toolbar->help('Users:_New_or_Edit_Group');
+        ToolbarHelper::divider();
+        ToolbarHelper::help('Users:_New_or_Edit_Group');
     }
 }

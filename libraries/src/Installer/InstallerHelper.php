@@ -77,9 +77,9 @@ abstract class InstallerHelper
         ini_set('user_agent', $version->getUserAgent('Installer'));
 
         // Load installer plugins, and allow URL and headers modification
-        $headers = [];
+        $headers = array();
         PluginHelper::importPlugin('installer');
-        Factory::getApplication()->triggerEvent('onInstallerBeforePackageDownload', [&$url, &$headers]);
+        Factory::getApplication()->triggerEvent('onInstallerBeforePackageDownload', array(&$url, &$headers));
 
         try {
             $response = HttpFactory::getHttp()->get($url, $headers);
@@ -105,7 +105,7 @@ abstract class InstallerHelper
             !empty($headers['content-disposition'])
             && preg_match("/\s*filename\s?=\s?(.*)/", $headers['content-disposition'][0], $parts)
         ) {
-            $flds   = explode(';', $parts[1]);
+            $flds = explode(';', $parts[1]);
             $target = trim($flds[0], '"');
         }
 
@@ -151,20 +151,20 @@ abstract class InstallerHelper
         $tmpdir = uniqid('install_');
 
         // Clean the paths to use for archive extraction
-        $extractdir  = Path::clean(\dirname($packageFilename) . '/' . $tmpdir);
+        $extractdir = Path::clean(\dirname($packageFilename) . '/' . $tmpdir);
         $archivename = Path::clean($archivename);
 
         // Do the unpacking of the archive
         try {
-            $archive = new Archive(['tmp_path' => Factory::getApplication()->get('tmp_path')]);
+            $archive = new Archive(array('tmp_path' => Factory::getApplication()->get('tmp_path')));
             $extract = $archive->extract($archivename, $extractdir);
         } catch (\Exception $e) {
             if ($alwaysReturnArray) {
-                return [
+                return array(
                     'extractdir'  => null,
                     'packagefile' => $archivename,
                     'type'        => false,
-                ];
+                );
             }
 
             return false;
@@ -172,11 +172,11 @@ abstract class InstallerHelper
 
         if (!$extract) {
             if ($alwaysReturnArray) {
-                return [
+                return array(
                     'extractdir'  => null,
                     'packagefile' => $archivename,
                     'type'        => false,
-                ];
+                );
             }
 
             return false;
@@ -186,8 +186,7 @@ abstract class InstallerHelper
          * Let's set the extraction directory and package file in the result array so we can
          * cleanup everything properly later on.
          */
-        $retval                = [];
-        $retval['extractdir']  = $extractdir;
+        $retval['extractdir'] = $extractdir;
         $retval['packagefile'] = $archivename;
 
         /*
@@ -338,7 +337,7 @@ abstract class InstallerHelper
      */
     public static function isChecksumValid($packagefile, $updateObject)
     {
-        $hashes     = ['sha256', 'sha384', 'sha512'];
+        $hashes     = array('sha256', 'sha384', 'sha512');
         $hashOnFile = false;
 
         foreach ($hashes as $hash) {

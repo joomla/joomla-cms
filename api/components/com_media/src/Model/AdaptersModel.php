@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     Joomla.API
  * @subpackage  com_media
@@ -10,14 +9,12 @@
 
 namespace Joomla\Component\Media\Api\Model;
 
+\defined('_JEXEC') or die;
+
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\Model\ListModelInterface;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
-
-// phpcs:disable PSR1.Files.SideEffects
-\defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Media web service model supporting lists of media adapters.
@@ -47,8 +44,10 @@ class AdaptersModel extends BaseModel implements ListModelInterface
     public function getItems(): array
     {
         $adapters = [];
-        foreach ($this->getProviderManager()->getProviders() as $provider) {
-            foreach ($provider->getAdapters() as $adapter) {
+        foreach ($this->getProviderManager()->getProviders() as $provider)
+        {
+            foreach ($provider->getAdapters() as $adapter)
+            {
                 $obj              = new \stdClass();
                 $obj->id          = $provider->getID() . '-' . $adapter->getAdapterName();
                 $obj->provider_id = $provider->getID();

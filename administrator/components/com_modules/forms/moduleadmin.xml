@@ -123,7 +123,7 @@
 			label="COM_MODULES_FIELD_CONTENT_LABEL"
 			buttons="true"
 			filter="JComponentHelper::filterText"
-			hide="readmore,pagebreak,module,menu,fields,contact,article"
+			hide="readmore,pagebreak,module"
 		/>
 
 		<field name="assignment" type="hidden" />

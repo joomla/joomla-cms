@@ -31,7 +31,7 @@ final class FetchMediaItemEvent extends AbstractMediaItemValidationEvent
      *
      * @since  4.1.0
      */
-    public function __construct($name, array $arguments = [])
+    public function __construct($name, array $arguments = array())
     {
         parent::__construct($name, $arguments);
 

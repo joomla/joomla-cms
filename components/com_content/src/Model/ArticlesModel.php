@@ -43,10 +43,10 @@ class ArticlesModel extends ListModel
      * @see     \JController
      * @since   1.6
      */
-    public function __construct($config = [])
+    public function __construct($config = array())
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = [
+            $config['filter_fields'] = array(
                 'id', 'a.id',
                 'title', 'a.title',
                 'alias', 'a.alias',
@@ -66,7 +66,7 @@ class ArticlesModel extends ListModel
                 'images', 'a.images',
                 'urls', 'a.urls',
                 'filter_tag',
-            ];
+            );
         }
 
         parent::__construct($config);
@@ -90,20 +90,19 @@ class ArticlesModel extends ListModel
      */
     protected function populateState($ordering = 'ordering', $direction = 'ASC')
     {
-        $app   = Factory::getApplication();
-        $input = $app->getInput();
+        $app = Factory::getApplication();
 
         // List state information
-        $value = $input->get('limit', $app->get('list_limit', 0), 'uint');
+        $value = $app->input->get('limit', $app->get('list_limit', 0), 'uint');
         $this->setState('list.limit', $value);
 
-        $value = $input->get('limitstart', 0, 'uint');
+        $value = $app->input->get('limitstart', 0, 'uint');
         $this->setState('list.start', $value);
 
-        $value = $input->get('filter_tag', 0, 'uint');
+        $value = $app->input->get('filter_tag', 0, 'uint');
         $this->setState('filter.tag', $value);
 
-        $orderCol = $input->get('filter_order', 'a.ordering');
+        $orderCol = $app->input->get('filter_order', 'a.ordering');
 
         if (!in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'a.ordering';
@@ -111,9 +110,9 @@ class ArticlesModel extends ListModel
 
         $this->setState('list.ordering', $orderCol);
 
-        $listOrder = $input->get('filter_order_Dir', 'ASC');
+        $listOrder = $app->input->get('filter_order_Dir', 'ASC');
 
-        if (!in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
+        if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
             $listOrder = 'ASC';
         }
 
@@ -122,7 +121,7 @@ class ArticlesModel extends ListModel
         $params = $app->getParams();
         $this->setState('params', $params);
 
-        $user = $this->getCurrentUser();
+        $user = Factory::getUser();
 
         if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content'))) {
             // Filter on published for those who do not have edit or edit.state rights.
@@ -138,7 +137,7 @@ class ArticlesModel extends ListModel
             $this->setState('filter.access', false);
         }
 
-        $this->setState('layout', $input->getString('layout'));
+        $this->setState('layout', $app->input->getString('layout'));
     }
 
     /**
@@ -187,7 +186,7 @@ class ArticlesModel extends ListModel
      */
     protected function getListQuery()
     {
-        $user = $this->getCurrentUser();
+        $user = Factory::getUser();
 
         // Create a new query object.
         $db = $this->getDatabase();
@@ -650,11 +649,11 @@ class ArticlesModel extends ListModel
     {
         $items  = parent::getItems();
 
-        $user   = $this->getCurrentUser();
+        $user = Factory::getUser();
         $userId = $user->get('id');
-        $guest  = $user->get('guest');
+        $guest = $user->get('guest');
         $groups = $user->getAuthorisedViewLevels();
-        $input  = Factory::getApplication()->getInput();
+        $input = Factory::getApplication()->input;
 
         // Get the global params
         $globalParams = ComponentHelper::getParams('com_content', true);
@@ -682,7 +681,7 @@ class ArticlesModel extends ListModel
             ) {
                 // Create an array of just the params set to 'use_article'
                 $menuParamsArray = $this->getState('params')->toArray();
-                $articleArray    = [];
+                $articleArray    = array();
 
                 foreach ($menuParamsArray as $key => $value) {
                     if ($value === 'use_article') {
@@ -758,7 +757,7 @@ class ArticlesModel extends ListModel
 
             // Some contexts may not use tags data at all, so we allow callers to disable loading tag data
             if ($this->getState('load_tags', $item->params->get('show_tags', '1'))) {
-                $item->tags             = new TagsHelper();
+                $item->tags = new TagsHelper();
                 $taggedItems[$item->id] = $item;
             }
 
@@ -770,7 +769,7 @@ class ArticlesModel extends ListModel
         // Load tags of all items.
         if ($taggedItems) {
             $tagsHelper = new TagsHelper();
-            $itemIds    = \array_keys($taggedItems);
+            $itemIds = \array_keys($taggedItems);
 
             foreach ($tagsHelper->getMultipleItemTags('com_content.article', $itemIds) as $id => $tags) {
                 $taggedItems[$id]->tags->itemTags = $tags;
@@ -820,12 +819,12 @@ class ArticlesModel extends ListModel
             ->select(
                 'DATE(' .
                 $query->concatenate(
-                    [
+                    array(
                         $query->year($db->quoteName('publish_up')),
                         $db->quote('-'),
                         $query->month($db->quoteName('publish_up')),
-                        $db->quote('-01'),
-                    ]
+                        $db->quote('-01')
+                    )
                 ) . ') AS ' . $db->quoteName('d')
             )
             ->select('COUNT(*) AS ' . $db->quoteName('c'))

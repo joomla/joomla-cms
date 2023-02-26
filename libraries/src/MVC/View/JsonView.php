@@ -44,7 +44,7 @@ class JsonView extends AbstractView
      * @var    array
      * @since  4.0.0
      */
-    protected $_output = [];
+    protected $_output = array();
 
     /**
      * Constructor
@@ -60,7 +60,7 @@ class JsonView extends AbstractView
      *
      * @since   4.0.0
      */
-    public function __construct($config = [])
+    public function __construct($config = array())
     {
         parent::__construct($config);
 

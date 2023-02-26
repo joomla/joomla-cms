@@ -25,7 +25,8 @@ use Joomla\Plugin\System\Webauthn\MetadataRepository;
 use Webauthn\MetadataService\MetadataStatementRepository;
 use Webauthn\PublicKeyCredentialSourceRepository;
 
-return new class () implements ServiceProviderInterface {
+return new class implements ServiceProviderInterface
+{
     /**
      * Registers the service provider with a DI container.
      *

@@ -28,6 +28,30 @@ export default {
    */
   [types.LOAD_CONTENTS_SUCCESS]: (state, payload) => {
     /**
+     * Create the directory structure
+     * @param path
+     */
+    function createDirectoryStructureFromPath(path) {
+      const exists = state.directories.some((existing) => (existing.path === path));
+      if (!exists) {
+        // eslint-disable-next-line no-use-before-define
+        const directory = directoryFromPath(path);
+
+        // Add the sub directories and files
+        directory.directories = state.directories
+          .filter((existing) => existing.directory === directory.path)
+          .map((existing) => existing.path);
+
+        // Add the directory
+        state.directories.push(directory);
+
+        if (directory.directory) {
+          createDirectoryStructureFromPath(directory.directory);
+        }
+      }
+    }
+
+    /**
      * Create a directory from a path
      * @param path
      */
@@ -49,34 +73,12 @@ export default {
     }
 
     /**
-     * Create the directory structure
-     * @param path
-     */
-    function createDirectoryStructureFromPath(path) {
-      const exists = state.directories.some((existing) => (existing.path === path));
-      if (!exists) {
-        const directory = directoryFromPath(path);
-
-        // Add the sub directories and files
-        directory.directories = state.directories
-          .filter((existing) => existing.directory === directory.path)
-          .map((existing) => existing.path);
-
-        // Add the directory
-        state.directories.push(directory);
-
-        if (directory.directory) {
-          createDirectoryStructureFromPath(directory.directory);
-        }
-      }
-    }
-
-    /**
      * Add a directory
-     * @param unused
+     * @param state
      * @param directory
      */
-    function addDirectory(unused, directory) {
+    // eslint-disable-next-line no-shadow
+    function addDirectory(state, directory) {
       const parentDirectory = state.directories
         .find((existing) => (existing.path === directory.directory));
       const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
@@ -104,10 +106,11 @@ export default {
 
     /**
      * Add a file
-     * @param unused
+     * @param state
      * @param directory
      */
-    function addFile(unused, file) {
+    // eslint-disable-next-line no-shadow
+    function addFile(state, file) {
       const parentDirectory = state.directories
         .find((directory) => (directory.path === file.directory));
       const parentDirectoryIndex = state.directories.indexOf(parentDirectory);
@@ -137,10 +140,14 @@ export default {
     createDirectoryStructureFromPath(state.selectedDirectory);
 
     // Add directories
-    payload.directories.forEach((directory) => addDirectory(null, directory));
+    payload.directories.forEach((directory) => {
+      addDirectory(state, directory);
+    });
 
     // Add files
-    payload.files.forEach((file) => addFile(null, file));
+    payload.files.forEach((file) => {
+      addFile(state, file);
+    });
   },
 
   /**
@@ -392,9 +399,10 @@ export default {
    * @param state
    */
   [types.INCREASE_GRID_SIZE]: (state) => {
-    const currentSizeIndex = gridItemSizes.indexOf(state.gridSize);
+    let currentSizeIndex = gridItemSizes.indexOf(state.gridSize);
     if (currentSizeIndex >= 0 && currentSizeIndex < gridItemSizes.length - 1) {
-      state.gridSize = gridItemSizes[currentSizeIndex + 1];
+      // eslint-disable-next-line no-plusplus
+      state.gridSize = gridItemSizes[++currentSizeIndex];
     }
   },
 
@@ -403,9 +411,10 @@ export default {
    * @param state
    */
   [types.DECREASE_GRID_SIZE]: (state) => {
-    const currentSizeIndex = gridItemSizes.indexOf(state.gridSize);
+    let currentSizeIndex = gridItemSizes.indexOf(state.gridSize);
     if (currentSizeIndex > 0 && currentSizeIndex < gridItemSizes.length) {
-      state.gridSize = gridItemSizes[currentSizeIndex - 1];
+      // eslint-disable-next-line no-plusplus
+      state.gridSize = gridItemSizes[--currentSizeIndex];
     }
   },
 
@@ -432,35 +441,5 @@ export default {
    */
   [types.HIDE_CONFIRM_DELETE_MODAL]: (state) => {
     state.showConfirmDeleteModal = false;
-  },
-
-  /**
-   * Update item properties
-   * @param context
-   * @param payload object with the item, the width and the height
-   */
-  [types.UPDATE_ITEM_PROPERTIES]: (state, payload) => {
-    const { item, width, height } = payload;
-    const index = state.files.findIndex((file) => (file.path === item.path));
-    state.files[index].width = width;
-    state.files[index].height = height;
-  },
-
-  /**
-   * Set the sorting by
-   * @param state
-   * @param payload
-   */
-  [types.UPDATE_SORT_BY]: (state, payload) => {
-    state.sortBy = payload;
-  },
-
-  /**
-   * Set the sorting direction
-   * @param state
-   * @param payload
-   */
-  [types.UPDATE_SORT_DIRECTION]: (state, payload) => {
-    state.sortDirection = payload === 'asc' ? 'asc' : 'desc';
   },
 };

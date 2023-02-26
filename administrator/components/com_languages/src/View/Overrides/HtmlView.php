@@ -14,7 +14,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -97,31 +96,27 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         // Get the results for each action
-        $canDo   = ContentHelper::getActions('com_languages');
-        $toolbar = Toolbar::getInstance();
+        $canDo = ContentHelper::getActions('com_languages');
 
         ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_OVERRIDES_TITLE'), 'comments langmanager');
 
         if ($canDo->get('core.create')) {
-            $toolbar->addNew('override.add');
+            ToolbarHelper::addNew('override.add');
         }
 
         if ($canDo->get('core.delete') && $this->pagination->total) {
-            $toolbar->delete('overrides.delete')
-                ->message('JGLOBAL_CONFIRM_DELETE');
+            ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'overrides.delete', 'JTOOLBAR_DELETE');
         }
 
         if ($this->getCurrentUser()->authorise('core.admin')) {
-            $toolbar->standardButton('purge', 'COM_LANGUAGES_VIEW_OVERRIDES_PURGE', 'overrides.purge')
-                ->listCheck(false)
-                ->icon('icon-refresh');
+            ToolbarHelper::custom('overrides.purge', 'refresh', '', 'COM_LANGUAGES_VIEW_OVERRIDES_PURGE', false);
         }
 
         if ($canDo->get('core.admin')) {
-            $toolbar->preferences('com_languages');
+            ToolbarHelper::preferences('com_languages');
         }
 
-        $toolbar->divider();
-        $toolbar->help('Languages:_Overrides');
+        ToolbarHelper::divider();
+        ToolbarHelper::help('Languages:_Overrides');
     }
 }

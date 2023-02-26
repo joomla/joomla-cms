@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -124,17 +123,16 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo   = ContentHelper::getActions('com_users');
-        $toolbar = Toolbar::getInstance();
+        $canDo = ContentHelper::getActions('com_users');
 
         ToolbarHelper::title(Text::sprintf('COM_USERS_VIEW_DEBUG_GROUP_TITLE', $this->group->id, $this->escape($this->group->title)), 'users groups');
-        $toolbar->cancel('group.cancel');
+        ToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            $toolbar->preferences('com_users');
-            $toolbar->divider();
+            ToolbarHelper::preferences('com_users');
+            ToolbarHelper::divider();
         }
 
-        $toolbar->help('Permissions_for_Group');
+        ToolbarHelper::help('Permissions_for_Group');
     }
 }

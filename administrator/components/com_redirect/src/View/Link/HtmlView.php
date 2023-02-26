@@ -15,7 +15,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -83,44 +82,41 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->getInput()->set('hidemainmenu', true);
+        Factory::getApplication()->input->set('hidemainmenu', true);
 
-        $isNew   = ($this->item->id == 0);
-        $canDo   = ContentHelper::getActions('com_redirect');
-        $toolbar = Toolbar::getInstance();
+        $isNew = ($this->item->id == 0);
+        $canDo = ContentHelper::getActions('com_redirect');
 
         ToolbarHelper::title($isNew ? Text::_('COM_REDIRECT_MANAGER_LINK_NEW') : Text::_('COM_REDIRECT_MANAGER_LINK_EDIT'), 'map-signs redirect');
 
+        $toolbarButtons = [];
+
+        // If not checked out, can save the item.
         if ($canDo->get('core.edit')) {
-            $toolbar->apply('link.apply');
+            ToolbarHelper::apply('link.apply');
+            $toolbarButtons[] = ['save', 'link.save'];
         }
 
-        $saveGroup = $toolbar->dropdownButton('save-group');
+        /**
+         * This component does not support Save as Copy due to uniqueness checks.
+         * While it can be done, it causes too much confusion if the user does
+         * not change the Old URL.
+         */
+        if ($canDo->get('core.edit') && $canDo->get('core.create')) {
+            $toolbarButtons[] = ['save2new', 'link.save2new'];
+        }
 
-        $saveGroup->configure(
-            function (Toolbar $childBar) use ($canDo) {
-                // If not checked out, can save the item.
-                if ($canDo->get('core.edit')) {
-                    $childBar->save('link.save');
-                }
-
-                /**
-                 * This component does not support Save as Copy due to uniqueness checks.
-                 * While it can be done, it causes too much confusion if the user does
-                 * not change the Old URL.
-                 */
-                if ($canDo->get('core.edit') && $canDo->get('core.create')) {
-                    $childBar->save2new('link.save2new');
-                }
-            }
+        ToolbarHelper::saveGroup(
+            $toolbarButtons,
+            'btn-success'
         );
 
         if (empty($this->item->id)) {
-            $toolbar->cancel('link.cancel', 'JTOOLBAR_CANCEL');
+            ToolbarHelper::cancel('link.cancel');
         } else {
-            $toolbar->cancel('link.cancel');
+            ToolbarHelper::cancel('link.cancel', 'JTOOLBAR_CLOSE');
         }
 
-        $toolbar->help('Redirects:_New_or_Edit');
+        ToolbarHelper::help('Redirects:_New_or_Edit');
     }
 }

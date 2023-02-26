@@ -19,7 +19,6 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
@@ -127,7 +126,9 @@ class HtmlView extends BaseHtmlView
         $component = $this->state->get('filter.component');
         $section   = $this->state->get('filter.section');
         $canDo     = ContentHelper::getActions($component, 'field', $fieldId);
-        $toolbar   = Toolbar::getInstance();
+
+        // Get the toolbar object instance
+        $toolbar = Toolbar::getInstance('toolbar');
 
         // Avoid nonsense situation.
         if ($component == 'com_fields') {
@@ -149,8 +150,8 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($canDo->get('core.edit.state') || $this->getCurrentUser()->authorise('core.admin')) {
-            /** @var DropdownButton $dropdown */
-            $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
+            $dropdown = $toolbar->dropdownButton('status-group')
+                ->text('JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
                 ->icon('icon-ellipsis-h')
                 ->buttonClass('btn btn-action')
@@ -160,7 +161,9 @@ class HtmlView extends BaseHtmlView
 
             if ($canDo->get('core.edit.state')) {
                 $childBar->publish('fields.publish')->listCheck(true);
+
                 $childBar->unpublish('fields.unpublish')->listCheck(true);
+
                 $childBar->archive('fields.archive')->listCheck(true);
             }
 
@@ -174,14 +177,16 @@ class HtmlView extends BaseHtmlView
 
             // Add a batch button
             if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state')) {
-                $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
+                $childBar->popupButton('batch')
+                    ->text('JTOOLBAR_BATCH')
                     ->selector('collapseModal')
                     ->listCheck(true);
             }
         }
 
         if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete', $component)) {
-            $toolbar->delete('fields.delete', 'JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('fields.delete')
+                ->text('JTOOLBAR_EMPTY_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

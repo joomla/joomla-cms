@@ -9,10 +9,8 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.2.2</version>
 	<description>PLG_CONTENT_CONTACT_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\Content\Contact</namespace>
 	<files>
-		<folder plugin="contact">services</folder>
-		<folder>src</folder>
+		<filename plugin="contact">contact.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_content_contact.ini</language>

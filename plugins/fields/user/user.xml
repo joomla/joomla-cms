@@ -9,11 +9,8 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.7.0</version>
 	<description>PLG_FIELDS_USER_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\Fields\User</namespace>
 	<files>
-		<folder>params</folder>
-		<folder plugin="user">services</folder>
-		<folder>src</folder>
+		<filename plugin="user">user.php</filename>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

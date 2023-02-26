@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -19,6 +18,6 @@ $formfields = $form->getGroup('');
 
 <div class="subform-wrapper">
 <?php foreach ($formfields as $field) : ?>
-    <?php echo $field->renderField(); ?>
+	<?php echo $field->renderField(); ?>
 <?php endforeach; ?>
 </div>

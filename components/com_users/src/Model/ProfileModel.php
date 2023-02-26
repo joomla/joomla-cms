@@ -52,12 +52,12 @@ class ProfileModel extends FormModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
     {
         $config = array_merge(
-            [
-                'events_map' => ['validate' => 'user'],
-            ],
+            array(
+                'events_map' => array('validate' => 'user')
+            ),
             $config
         );
 
@@ -87,7 +87,7 @@ class ProfileModel extends FormModel
             $this->data->email1 = $this->data->get('email');
 
             // Override the base user data with any data in the session.
-            $temp = (array) Factory::getApplication()->getUserState('com_users.edit.profile.data', []);
+            $temp = (array) Factory::getApplication()->getUserState('com_users.edit.profile.data', array());
 
             foreach ($temp as $k => $v) {
                 $this->data->$k = $v;
@@ -116,10 +116,10 @@ class ProfileModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = [], $loadData = true)
+    public function getForm($data = array(), $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.profile', 'profile', ['control' => 'jform', 'load_data' => $loadData]);
+        $form = $this->loadForm('com_users.profile', 'profile', array('control' => 'jform', 'load_data' => $loadData));
 
         if (empty($form)) {
             return false;
@@ -127,11 +127,10 @@ class ProfileModel extends FormModel
 
         // Check for username compliance and parameter set
         $isUsernameCompliant = true;
-        $username            = $loadData ? $form->getValue('username') : $this->loadFormData()->username;
+        $username = $loadData ? $form->getValue('username') : $this->loadFormData()->username;
 
         if ($username) {
-            $isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username)
-                || strlen(mb_convert_encoding($username, 'ISO-8859-1', 'UTF-8')) < 2
+            $isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username) || strlen(utf8_decode($username)) < 2
                 || trim($username) !== $username);
         }
 
@@ -153,7 +152,7 @@ class ProfileModel extends FormModel
         }
 
         // If the user needs to change their password, mark the password fields as required
-        if ($this->getCurrentUser()->requireReset) {
+        if (Factory::getUser()->requireReset) {
             $form->setFieldAttribute('password1', 'required', 'true');
             $form->setFieldAttribute('password2', 'required', 'true');
         }
@@ -195,7 +194,7 @@ class ProfileModel extends FormModel
         if (ComponentHelper::getParams('com_users')->get('frontend_userparams')) {
             $form->loadFile('frontend', false);
 
-            if ($this->getCurrentUser()->authorise('core.login.admin')) {
+            if (Factory::getUser()->authorise('core.login.admin')) {
                 $form->loadFile('frontend_admin', false);
             }
         }
@@ -220,7 +219,7 @@ class ProfileModel extends FormModel
 
         // Get the user id.
         $userId = Factory::getApplication()->getUserState('com_users.edit.profile.id');
-        $userId = !empty($userId) ? $userId : (int) $this->getCurrentUser()->get('id');
+        $userId = !empty($userId) ? $userId : (int) Factory::getUser()->get('id');
 
         // Set the user id.
         $this->setState('user.id', $userId);

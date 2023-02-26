@@ -58,8 +58,8 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state     = $this->get('State');
-        $this->items     = $this->get('Items');
+        $this->state = $this->get('State');
+        $this->items = $this->get('Items');
         $this->modalLink = '';
 
         // Check for errors.
@@ -82,7 +82,6 @@ class HtmlView extends BaseHtmlView
     {
         $state    = $this->get('State');
         $clientId = (int) $state->get('client_id', 0);
-        $toolbar  = Toolbar::getInstance();
 
         // Add page title
         ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
@@ -91,10 +90,12 @@ class HtmlView extends BaseHtmlView
             ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
         }
 
+        // Get the toolbar object instance
+        $bar = Toolbar::getInstance('toolbar');
+
         // Instantiate a new FileLayout instance and render the layout
         $layout = new FileLayout('toolbar.cancelselect');
 
-        $toolbar->customButton('new')
-            ->html($layout->render(['client_id' => $clientId]));
+        $bar->appendButton('Custom', $layout->render(array('client_id' => $clientId)), 'new');
     }
 }

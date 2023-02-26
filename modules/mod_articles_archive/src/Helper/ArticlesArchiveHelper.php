@@ -72,7 +72,7 @@ class ArticlesArchiveHelper
         $itemid = (isset($item) && !empty($item->id)) ? '&Itemid=' . $item->id : '';
 
         $i     = 0;
-        $lists = [];
+        $lists = array();
 
         foreach ($rows as $row) {
             $date = Factory::getDate($row->created);

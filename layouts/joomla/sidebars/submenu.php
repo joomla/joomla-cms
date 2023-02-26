@@ -10,13 +10,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Filter\OutputFilter;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = \Joomla\CMS\Factory::getApplication()->getDocument()->getWebAssetManager();
-$wa->useScript('core');
-
+HTMLHelper::_('behavior.core');
 ?>
 <?php if ($displayData->displayMenu || $displayData->displayFilters) : ?>
 <div id="j-toggle-sidebar-wrapper">

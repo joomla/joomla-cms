@@ -42,10 +42,10 @@ class PlgPrivacyContent extends PrivacyPlugin
     public function onPrivacyExportRequest(RequestTable $request, User $user = null)
     {
         if (!$user) {
-            return [];
+            return array();
         }
 
-        $domains   = [];
+        $domains   = array();
         $domain    = $this->createDomain('user_content', 'joomla_user_content_data');
         $domains[] = $domain;
 

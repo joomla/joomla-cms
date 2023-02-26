@@ -1,7 +1,7 @@
 <template>
   <div class="media-container">
     <div class="media-sidebar">
-      <MediaDisk
+      <media-disk
         v-for="(disk, index) in disks"
         :key="index"
         :uid="index"
@@ -9,44 +9,24 @@
       />
     </div>
     <div class="media-main">
-      <MediaToolbar />
-      <MediaBrowser />
+      <media-toolbar />
+      <media-browser />
     </div>
-    <MediaUpload />
-    <MediaCreateFolderModal />
-    <MediaPreviewModal />
-    <MediaRenameModal />
-    <MediaShareModal />
-    <MediaConfirmDeleteModal />
+    <media-upload />
+    <media-create-folder-modal />
+    <media-preview-modal />
+    <media-rename-modal />
+    <media-share-modal />
+    <media-confirm-delete-modal />
   </div>
 </template>
 
 <script>
 import * as types from '../store/mutation-types.es6';
-import notifications from '../app/Notifications.es6';
-import MediaBrowser from './browser/browser.vue';
-import MediaDisk from './tree/disk.vue';
-import MediaToolbar from './toolbar/toolbar.vue';
-import MediaUpload from './upload/upload.vue';
-import MediaCreateFolderModal from './modals/create-folder-modal.vue';
-import MediaPreviewModal from './modals/preview-modal.vue';
-import MediaRenameModal from './modals/rename-modal.vue';
-import MediaShareModal from './modals/share-modal.vue';
-import MediaConfirmDeleteModal from './modals/confirm-delete-modal.vue';
+import { notifications } from '../app/Notifications.es6';
 
 export default {
   name: 'MediaApp',
-  components: {
-    MediaBrowser,
-    MediaDisk,
-    MediaToolbar,
-    MediaUpload,
-    MediaCreateFolderModal,
-    MediaPreviewModal,
-    MediaRenameModal,
-    MediaShareModal,
-    MediaConfirmDeleteModal,
-  },
   data() {
     return {
       // The full height of the app in px

@@ -182,7 +182,7 @@ abstract class TagsPopularHelper
         try {
             $results = $db->loadObjectList();
         } catch (\RuntimeException $e) {
-            $results = [];
+            $results = array();
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
         }
 

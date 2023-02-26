@@ -20,7 +20,7 @@ extract($displayData);
  * @var   array  $statsData  Array containing the data that will be sent to the stats server
  */
 
-$versionFields = ['php_version', 'db_version', 'cms_version'];
+$versionFields = array('php_version', 'db_version', 'cms_version');
 ?>
 <table class="table mb-3 d-none" id="js-pstats-data-details">
     <caption class="visually-hidden">

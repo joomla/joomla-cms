@@ -1,20 +1,15 @@
 .switcher {
   .toggle-outside {
-    border: $input-border-width solid $input-border-color;
-    @include border-radius($input-border-radius, 0);
+    border: $input-border;
+    border-radius: $border-radius;
 
     &:focus {
       box-shadow: $input-box-shadow;
     }
   }
   input:focus ~ .toggle-outside {
-    border-color: $input-focus-border-color;
-    @if $enable-shadows {
-      @include box-shadow($input-box-shadow, $input-focus-box-shadow);
-    } @else {
-      // Avoid using mixin so we can pass custom focus shadow properly
-      box-shadow: $input-focus-box-shadow;
-    }
+    border-color: $focuscolor;
+    box-shadow: $focusshadow;
   }
 }
 .disabled {

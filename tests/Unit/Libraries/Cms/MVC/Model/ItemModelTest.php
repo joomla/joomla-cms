@@ -36,7 +36,8 @@ class ItemModelTest extends UnitTestCase
      */
     public function testGetStoreId()
     {
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel
+        {
             public function getStoreId($id = '')
             {
                 return parent::getStoreId($id);
@@ -59,7 +60,8 @@ class ItemModelTest extends UnitTestCase
      */
     public function testGetEmptyStoreId()
     {
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel
+        {
             public function getStoreId($id = '')
             {
                 return parent::getStoreId($id);
@@ -82,7 +84,8 @@ class ItemModelTest extends UnitTestCase
      */
     public function testStoreIdWithDifferentIds()
     {
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel
+        {
             public function getStoreId($id = '')
             {
                 return parent::getStoreId($id);
@@ -105,7 +108,8 @@ class ItemModelTest extends UnitTestCase
      */
     public function testStoreIdWithSameIds()
     {
-        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel
+        {
             public function getStoreId($id = '')
             {
                 return parent::getStoreId($id);

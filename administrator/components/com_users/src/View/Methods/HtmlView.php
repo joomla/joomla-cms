@@ -14,9 +14,10 @@ use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\MethodsModel;
@@ -109,7 +110,8 @@ class HtmlView extends BaseHtmlView
         $app = Factory::getApplication();
 
         if (empty($this->user)) {
-            $this->user = $this->getCurrentUser();
+            $this->user = Factory::getApplication()->getIdentity()
+                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
         }
 
         /** @var MethodsModel $model */
@@ -130,7 +132,7 @@ class HtmlView extends BaseHtmlView
                 continue;
             }
 
-            $activeRecords += $methodActiveRecords;
+            $activeRecords   += $methodActiveRecords;
             $this->mfaActive = true;
 
             foreach ($method['active'] as $record) {
@@ -165,7 +167,7 @@ class HtmlView extends BaseHtmlView
                             'canDisable' => false,
                             'active'     => [$backupCodesRecord],
                         ]
-                    ),
+                    )
                 ],
                 $this->methods
             );
@@ -178,10 +180,7 @@ class HtmlView extends BaseHtmlView
             ToolbarHelper::title(Text::_('COM_USERS_MFA_LIST_PAGE_HEAD'), 'users user-lock');
 
             if (Factory::getApplication()->getIdentity()->authorise('core.manage', 'com_users')) {
-                $toolbar = Toolbar::getInstance();
-                $arrow   = Factory::getApplication()->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
-                $toolbar->link('JTOOLBAR_BACK', 'index.php?option=com_users')
-                    ->icon('icon-' . $arrow);
+                ToolbarHelper::back('JTOOLBAR_BACK', Route::_('index.php?option=com_users'));
             }
         }
 

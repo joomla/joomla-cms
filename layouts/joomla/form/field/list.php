@@ -45,7 +45,7 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
 
-$html = [];
+$html = array();
 $attr = '';
 
 // Initialize the field attributes.
@@ -81,7 +81,7 @@ if ($readonly) {
     }
 } else // Create a regular list passing the arguments in an array.
 {
-    $listoptions = [];
+    $listoptions = array();
     $listoptions['option.key'] = 'value';
     $listoptions['option.text'] = 'text';
     $listoptions['list.select'] = $value;

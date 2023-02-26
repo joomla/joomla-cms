@@ -19,7 +19,6 @@
           :loading="loading"
           :width="width"
           :height="height"
-          @load="setSize"
         >
         <span
           v-if="!getURL"
@@ -39,7 +38,7 @@
       :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
       :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
     />
-    <MediaBrowserActionItemsContainer
+    <media-browser-action-items-container
       ref="container"
       :item="item"
       :edit="editItem"
@@ -52,14 +51,10 @@
 </template>
 
 <script>
-import api from '../../../app/Api.es6';
-import MediaBrowserActionItemsContainer from '../actionItems/actionItemsContainer.vue';
+import { api } from '../../../app/Api.es6';
 
 export default {
   name: 'MediaBrowserItemImage',
-  components: {
-    MediaBrowserActionItemsContainer,
-  },
   props: {
     item: { type: Object, required: true },
     focused: { type: Boolean, required: true, default: false },
@@ -100,9 +95,7 @@ export default {
     },
     /* Hide actions dropdown */
     hideActions() {
-      if (this.$refs.container) {
-        this.$refs.container.hideActions();
-      }
+      this.$refs.container.hideActions();
     },
     /* Preview an item */
     openPreview() {
@@ -117,15 +110,6 @@ export default {
     },
     toggleSettings(bool) {
       this.$emit('toggle-settings', bool);
-    },
-    setSize(event) {
-      if (this.item.mime_type === 'image/svg+xml') {
-        const image = event.target;
-        // Update the item properties
-        this.$store.dispatch('updateItemProperties', { item: this.item, width: image.naturalWidth ? image.naturalWidth : 300, height: image.naturalHeight ? image.naturalHeight : 150 });
-        // @TODO Remove the fallback size (300x150) when https://bugzilla.mozilla.org/show_bug.cgi?id=1328124 is fixed
-        // Also https://github.com/whatwg/html/issues/3510
-      }
     },
   },
 };

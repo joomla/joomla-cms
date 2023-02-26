@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
@@ -64,16 +63,13 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
-        $toolbar = Toolbar::getInstance();
-
         if (ContentHelper::getActions('com_installer')->get('core.manage')) {
-            $toolbar->linkButton('list', 'COM_INSTALLER_TOOLBAR_MANAGE')
-                ->url('index.php?option=com_installer&view=manage');
-            $toolbar->divider();
+            ToolbarHelper::link('index.php?option=com_installer&view=manage', 'COM_INSTALLER_TOOLBAR_MANAGE', 'list');
+            ToolbarHelper::divider();
         }
 
         parent::addToolbar();
 
-        $toolbar->help('Extensions:_Install');
+        ToolbarHelper::help('Extensions:_Install');
     }
 }

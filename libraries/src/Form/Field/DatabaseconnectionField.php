@@ -47,8 +47,6 @@ class DatabaseconnectionField extends ListField
      */
     protected function getOptions()
     {
-        $options = [];
-
         // This gets the connectors available in the platform and supported by the server.
         $available = array_map('strtolower', DatabaseDriver::getConnectors());
 

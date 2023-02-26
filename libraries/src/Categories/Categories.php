@@ -36,7 +36,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      * @var    Categories[]
      * @since  1.6
      */
-    public static $instances = [];
+    public static $instances = array();
 
     /**
      * Array of category nodes
@@ -136,7 +136,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      * @since       1.6
      * @deprecated  5.0 Use the ComponentInterface to get the categories
      */
-    public static function getInstance($extension, $options = [])
+    public static function getInstance($extension, $options = array())
     {
         $hash = md5(strtolower($extension) . serialize($options));
 
@@ -226,8 +226,8 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
-        $app       = Factory::getApplication();
-        $user      = Factory::getUser();
+        $app  = Factory::getApplication();
+        $user = Factory::getUser();
         $extension = $this->_extension;
 
         if ($id !== 'root') {
@@ -278,7 +278,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $case_when .= $query->charLength($db->quoteName('c.alias'), '!=', '0');
         $case_when .= ' THEN ';
         $c_id = $query->castAsChar($db->quoteName('c.id'));
-        $case_when .= $query->concatenate([$c_id, $db->quoteName('c.alias')], ':');
+        $case_when .= $query->concatenate(array($c_id, $db->quoteName('c.alias')), ':');
         $case_when .= ' ELSE ';
         $case_when .= $c_id . ' END as ' . $db->quoteName('slug');
 
@@ -357,7 +357,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
 
         // Get the results
         $db->setQuery($query);
-        $results        = $db->loadObjectList('id');
+        $results = $db->loadObjectList('id');
         $childrenLoaded = false;
 
         if (\count($results)) {

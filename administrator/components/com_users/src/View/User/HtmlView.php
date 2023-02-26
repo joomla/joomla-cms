@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
@@ -145,13 +144,12 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->getInput()->set('hidemainmenu', true);
+        Factory::getApplication()->input->set('hidemainmenu', true);
 
         $user      = Factory::getApplication()->getIdentity();
         $canDo     = ContentHelper::getActions('com_users');
         $isNew     = ($this->item->id == 0);
         $isProfile = $this->item->id == $user->id;
-        $toolbar   = Toolbar::getInstance();
 
         ToolbarHelper::title(
             Text::_(
@@ -160,31 +158,29 @@ class HtmlView extends BaseHtmlView
             'user ' . ($isNew ? 'user-add' : ($isProfile ? 'user-profile' : 'user-edit'))
         );
 
+        $toolbarButtons = [];
+
         if ($canDo->get('core.edit') || $canDo->get('core.create') || $isProfile) {
-            $toolbar->apply('user.apply');
+            ToolbarHelper::apply('user.apply');
+            $toolbarButtons[] = ['save', 'user.save'];
         }
 
-        $saveGroup = $toolbar->dropdownButton('save-group');
+        if ($canDo->get('core.create') && $canDo->get('core.manage')) {
+            $toolbarButtons[] = ['save2new', 'user.save2new'];
+        }
 
-        $saveGroup->configure(
-            function (Toolbar $childBar) use ($canDo, $isProfile) {
-                if ($canDo->get('core.edit') || $canDo->get('core.create') || $isProfile) {
-                    $childBar->save('user.save');
-                }
-
-                if ($canDo->get('core.create') && $canDo->get('core.manage')) {
-                    $childBar->save2new('user.save2new');
-                }
-            }
+        ToolbarHelper::saveGroup(
+            $toolbarButtons,
+            'btn-success'
         );
 
         if (empty($this->item->id)) {
-            $toolbar->cancel('user.cancel', 'JTOOLBAR_CANCEL');
+            ToolbarHelper::cancel('user.cancel');
         } else {
-            $toolbar->cancel('user.cancel');
+            ToolbarHelper::cancel('user.cancel', 'JTOOLBAR_CLOSE');
         }
 
-        $toolbar->divider();
-        $toolbar->help('Users:_Edit_Profile');
+        ToolbarHelper::divider();
+        ToolbarHelper::help('Users:_Edit_Profile');
     }
 }

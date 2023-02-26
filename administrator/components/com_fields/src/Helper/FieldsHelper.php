@@ -56,10 +56,6 @@ class FieldsHelper
      */
     public static function extract($contextString, $item = null)
     {
-        if ($contextString === null) {
-            return null;
-        }
-
         $parts = explode('.', $contextString, 2);
 
         if (count($parts) < 2) {
@@ -130,11 +126,11 @@ class FieldsHelper
         }
 
         if (Multilanguage::isEnabled() && isset($item->language) && $item->language != '*') {
-            self::$fieldsCache->setState('filter.language', ['*', $item->language]);
+            self::$fieldsCache->setState('filter.language', array('*', $item->language));
         }
 
         self::$fieldsCache->setState('filter.context', $context);
-        self::$fieldsCache->setState('filter.assigned_cat_ids', []);
+        self::$fieldsCache->setState('filter.assigned_cat_ids', array());
 
         /*
          * If item has assigned_cat_ids parameter display only fields which
@@ -156,7 +152,7 @@ class FieldsHelper
         $fields = self::$fieldsCache->getItems();
 
         if ($fields === false) {
-            return [];
+            return array();
         }
 
         if ($item && isset($item->id)) {
@@ -174,7 +170,7 @@ class FieldsHelper
 
             $fieldValues = self::$fieldCache->getFieldValues($fieldIds, $item->id);
 
-            $new = [];
+            $new = array();
 
             foreach ($fields as $key => $original) {
                 /*
@@ -205,10 +201,10 @@ class FieldsHelper
                      * On before field prepare
                      * Event allow plugins to modify the output of the field before it is prepared
                      */
-                    Factory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', [$context, $item, &$field]);
+                    Factory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
 
                     // Gathering the value for the field
-                    $value = Factory::getApplication()->triggerEvent('onCustomFieldsPrepareField', [$context, $item, &$field]);
+                    $value = Factory::getApplication()->triggerEvent('onCustomFieldsPrepareField', array($context, $item, &$field));
 
                     if (is_array($value)) {
                         $value = implode(' ', $value);
@@ -218,7 +214,7 @@ class FieldsHelper
                      * On after field render
                      * Event allows plugins to modify the output of the prepared field
                      */
-                    Factory::getApplication()->triggerEvent('onCustomFieldsAfterPrepareField', [$context, $item, $field, &$value]);
+                    Factory::getApplication()->triggerEvent('onCustomFieldsAfterPrepareField', array($context, $item, $field, &$value));
 
                     // Assign the value
                     $field->value = $value;
@@ -258,12 +254,12 @@ class FieldsHelper
          */
         if ($parts = self::extract($context)) {
             // Trying to render the layout on the component from the context
-            $value = LayoutHelper::render($layoutFile, $displayData, null, ['component' => $parts[0], 'client' => 0]);
+            $value = LayoutHelper::render($layoutFile, $displayData, null, array('component' => $parts[0], 'client' => 0));
         }
 
         if ($value == '') {
             // Trying to render the layout on Fields itself
-            $value = LayoutHelper::render($layoutFile, $displayData, null, ['component' => 'com_fields','client' => 0]);
+            $value = LayoutHelper::render($layoutFile, $displayData, null, array('component' => 'com_fields','client' => 0));
         }
 
         return $value;
@@ -346,12 +342,12 @@ class FieldsHelper
         $fieldTypes = self::getFieldTypes();
 
         // Creating the dom
-        $xml        = new \DOMDocument('1.0', 'UTF-8');
+        $xml = new \DOMDocument('1.0', 'UTF-8');
         $fieldsNode = $xml->appendChild(new \DOMElement('form'))->appendChild(new \DOMElement('fields'));
         $fieldsNode->setAttribute('name', 'com_fields');
 
         // Organizing the fields according to their group
-        $fieldsPerGroup = [0 => []];
+        $fieldsPerGroup = array(0 => array());
 
         foreach ($fields as $field) {
             if (!array_key_exists($field->type, $fieldTypes)) {
@@ -360,7 +356,7 @@ class FieldsHelper
             }
 
             if (!array_key_exists($field->group_id, $fieldsPerGroup)) {
-                $fieldsPerGroup[$field->group_id] = [];
+                $fieldsPerGroup[$field->group_id] = array();
             }
 
             if ($path = $fieldTypes[$field->type]['path']) {
@@ -385,11 +381,11 @@ class FieldsHelper
          * have the 'default' group with id 0 which is not in the database,
          * so we create it virtually here.
          */
-        $defaultGroup              = new \stdClass();
-        $defaultGroup->id          = 0;
-        $defaultGroup->title       = '';
+        $defaultGroup = new \stdClass();
+        $defaultGroup->id = 0;
+        $defaultGroup->title = '';
         $defaultGroup->description = '';
-        $iterateGroups             = array_merge([$defaultGroup], $model->getItems());
+        $iterateGroups = array_merge(array($defaultGroup), $model->getItems());
 
         // Looping through the groups
         foreach ($iterateGroups as $group) {
@@ -431,7 +427,7 @@ class FieldsHelper
             // Looping through the fields for that context
             foreach ($fieldsPerGroup[$group->id] as $field) {
                 try {
-                    Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', [$field, $fieldset, $form]);
+                    Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($field, $fieldset, $form));
 
                     /*
                      * If the field belongs to an assigned_cat_id but the assigned_cat_ids in the data
@@ -458,11 +454,11 @@ class FieldsHelper
             ->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true]);
 
         if (
-            (!isset($data->id) || !$data->id) && Factory::getApplication()->getInput()->getCmd('controller') == 'modules'
+            (!isset($data->id) || !$data->id) && Factory::getApplication()->input->getCmd('controller') == 'modules'
             && Factory::getApplication()->isClient('site')
         ) {
             // Modules on front end editing don't have data and an id set
-            $data->id = Factory::getApplication()->getInput()->getInt('id');
+            $data->id = Factory::getApplication()->input->getInt('id');
         }
 
         // Looping through the fields again to set the value
@@ -564,7 +560,7 @@ class FieldsHelper
         $fieldId = (int) $fieldId;
 
         if (!$fieldId) {
-            return [];
+            return array();
         }
 
         $db    = Factory::getDbo();
@@ -654,7 +650,7 @@ class FieldsHelper
         PluginHelper::importPlugin('fields');
         $eventData = Factory::getApplication()->triggerEvent('onCustomFieldsGetTypes');
 
-        $data = [];
+        $data = array();
 
         foreach ($eventData as $fields) {
             foreach ($fields as $fieldDescription) {

@@ -41,7 +41,7 @@ class PlgPrivacyMessage extends PrivacyPlugin
     public function onPrivacyExportRequest(RequestTable $request, User $user = null)
     {
         if (!$user) {
-            return [];
+            return array();
         }
 
         $domain = $this->createDomain('user_messages', 'joomla_user_messages_data');
@@ -61,6 +61,6 @@ class PlgPrivacyMessage extends PrivacyPlugin
             $domain->addItem($this->createItemFromArray($item));
         }
 
-        return [$domain];
+        return array($domain);
     }
 }

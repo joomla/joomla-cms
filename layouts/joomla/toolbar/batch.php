@@ -10,13 +10,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 // @todo: Deprecate this file since we can use popup button to raise batch modal.
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = \Joomla\CMS\Factory::getApplication()->getDocument()->getWebAssetManager();
-$wa->useScript('core');
+HTMLHelper::_('behavior.core');
 
 $id    = isset($displayData['id']) ? $displayData['id'] : '';
 $title = $displayData['title'];

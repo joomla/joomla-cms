@@ -33,8 +33,8 @@ class Utility
      */
     public static function parseAttributes($string)
     {
-        $attr     = [];
-        $retarray = [];
+        $attr = array();
+        $retarray = array();
 
         // Let's grab all the key/value pairs using a regular expression
         preg_match_all('/([\w:-]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr);
@@ -61,8 +61,6 @@ class Utility
      */
     public static function getMaxUploadSize($custom = null)
     {
-        $sizes = [];
-
         if ($custom) {
             $custom = HTMLHelper::_('number.bytes', $custom, '');
 

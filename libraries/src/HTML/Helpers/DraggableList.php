@@ -29,7 +29,7 @@ abstract class DraggableList
      * @var    array
      * @since  4.0.0
      */
-    protected static $loaded = [];
+    protected static $loaded = array();
 
     /**
      * Method to load the Dragula script and make table sortable

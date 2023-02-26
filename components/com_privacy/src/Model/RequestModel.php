@@ -85,7 +85,7 @@ class RequestModel extends AdminModel
             return false;
         }
 
-        $data['email'] = $this->getCurrentUser()->email;
+        $data['email'] = Factory::getUser()->email;
 
         // Search for an open information request matching the email and type
         $db    = $this->getDatabase();

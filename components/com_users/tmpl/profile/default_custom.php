@@ -23,8 +23,8 @@ if (isset($fieldsets['params'])) {
     unset($fieldsets['params']);
 }
 
-$tmp          = $this->data->jcfields ?? [];
-$customFields = [];
+$tmp          = $this->data->jcfields ?? array();
+$customFields = array();
 
 foreach ($tmp as $customField) {
     $customFields[$customField->name] = $customField;

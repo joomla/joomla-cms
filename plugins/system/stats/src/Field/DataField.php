@@ -53,9 +53,9 @@ class DataField extends AbstractStatsField
 
         PluginHelper::importPlugin('system', 'stats');
 
-        $result = Factory::getApplication()->triggerEvent('onGetStatsData', ['stats.field.data']);
+        $result = Factory::getApplication()->triggerEvent('onGetStatsData', array('stats.field.data'));
 
-        $data['statsData'] = $result ? reset($result) : [];
+        $data['statsData'] = $result ? reset($result) : array();
 
         return $data;
     }

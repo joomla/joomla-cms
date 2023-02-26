@@ -24,7 +24,7 @@ $wa->useScript('keepalive')
     ->useScript('form.validate');
 
 $app = Factory::getApplication();
-$input = $app->getInput();
+$input = $app->input;
 
 $assoc = Associations::isEnabled();
 // Are associations implemented for this extension?

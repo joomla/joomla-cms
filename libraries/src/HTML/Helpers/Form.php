@@ -32,7 +32,7 @@ abstract class Form
      *
      * @since  3.8.0
      */
-    protected static $loaded = [];
+    protected static $loaded = array();
 
     /**
      * Displays a hidden token field to reduce the risk of CSRF exploits
@@ -46,11 +46,11 @@ abstract class Form
      * @see     Session::checkToken()
      * @since   1.5
      */
-    public static function token(array $attribs = [])
+    public static function token(array $attribs = array())
     {
         $attributes = '';
 
-        if ($attribs !== []) {
+        if ($attribs !== array()) {
             $attributes .= ' ' . ArrayHelper::toString($attribs);
         }
 

@@ -136,7 +136,7 @@ final class InstallationApplication extends CMSApplication
         if (count($orphans)) {
             ksort($orphans, SORT_STRING);
 
-            $guesses = [];
+            $guesses = array();
 
             foreach ($orphans as $key => $occurrence) {
                 $guess = str_replace('_', ' ', $key);
@@ -274,7 +274,7 @@ final class InstallationApplication extends CMSApplication
      */
     protected function fetchConfigurationData($file = '', $class = 'JConfig')
     {
-        return [];
+        return array();
     }
 
     /**
@@ -327,7 +327,7 @@ final class InstallationApplication extends CMSApplication
             return false;
         }
 
-        $ret = [];
+        $ret = array();
 
         $ret['language']   = (string) $xml->forceLang;
         $ret['debug']      = (string) $xml->debug;
@@ -347,7 +347,7 @@ final class InstallationApplication extends CMSApplication
      */
     public function getLocaliseAdmin(DatabaseInterface $db = null)
     {
-        $langfiles = [];
+        $langfiles = array();
 
         // If db connection, fetch them from the database.
         if ($db) {
@@ -379,11 +379,11 @@ final class InstallationApplication extends CMSApplication
     public function getTemplate($params = false)
     {
         if ($params) {
-            $template              = new \stdClass();
-            $template->template    = 'template';
-            $template->params      = new Registry();
+            $template = new \stdClass();
+            $template->template = 'template';
+            $template->params = new Registry();
             $template->inheritable = 0;
-            $template->parent      = '';
+            $template->parent = '';
 
             return $template;
         }
@@ -400,7 +400,7 @@ final class InstallationApplication extends CMSApplication
      *
      * @since   3.1
      */
-    protected function initialiseApp($options = [])
+    protected function initialiseApp($options = array())
     {
         // Get the localisation information provided in the localise.xml file.
         $forced = $this->getLocalise();
@@ -474,20 +474,22 @@ final class InstallationApplication extends CMSApplication
             $type = $this->input->get('format', 'html', 'word');
             $date = new Date('now');
 
-
             $attributes = array(
 <<<<<<< HEAD
                 'charset'      => 'UTF-8',
+<<<<<<< HEAD
 
 =======
                 'charset'      => 'utf-8',
 >>>>>>> parent of c2c4236572 (replacing lowercase utf to uppercase)
+=======
+>>>>>>> parent of f1cd2645e1 (Merge branch '4.3-dev' into testing)
                 'lineend'      => 'unix',
                 'tab'          => "\t",
                 'language'     => $lang->getTag(),
                 'direction'    => $lang->isRtl() ? 'rtl' : 'ltr',
                 'mediaversion' => md5($date->format('YmdHi')),
-            ];
+            );
 
             $document = $this->getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
 
@@ -521,7 +523,7 @@ final class InstallationApplication extends CMSApplication
                 'file'             => $file . '.php',
                 'directory'        => JPATH_THEMES,
                 'params'           => '{}',
-                "templateInherits" => '',
+                "templateInherits" => ''
             ];
         }
 
@@ -545,7 +547,7 @@ final class InstallationApplication extends CMSApplication
      *
      * @since   3.1
      */
-    public function setCfg(array $vars = [], $namespace = 'config')
+    public function setCfg(array $vars = array(), $namespace = 'config')
     {
         $this->config->loadArray($vars, $namespace);
     }
@@ -560,7 +562,7 @@ final class InstallationApplication extends CMSApplication
      *
      * @since   3.2
      */
-    public function getMenu($name = null, $options = [])
+    public function getMenu($name = null, $options = array())
     {
         return null;
     }

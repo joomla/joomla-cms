@@ -32,7 +32,7 @@ abstract class AbstractMenu
      *
      * @since  4.0.0
      */
-    protected $items = [];
+    protected $items = array();
 
     /**
      * Identifier of the default menu item. Key of the array is the language.
@@ -41,7 +41,7 @@ abstract class AbstractMenu
      *
      * @since  4.0.0
      */
-    protected $default = [];
+    protected $default = array();
 
     /**
      * Identifier of the active menu item
@@ -61,7 +61,7 @@ abstract class AbstractMenu
      *
      * @deprecated 5.0 Use the MenuFactoryInterface from the container instead
      */
-    public static $instances = [];
+    public static $instances = array();
 
     /**
      * User object to check access levels for
@@ -88,7 +88,7 @@ abstract class AbstractMenu
      *
      * @since   1.5
      */
-    public function __construct($options = [])
+    public function __construct($options = array())
     {
         /**
          * It is preferred NOT to inject and store the user when constructing the menu object,
@@ -117,7 +117,7 @@ abstract class AbstractMenu
      *
      * @deprecated  5.0 Use the MenuFactoryInterface from the container instead
      */
-    public static function getInstance($client, $options = [])
+    public static function getInstance($client, $options = array())
     {
         if (!$client) {
             throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
@@ -254,7 +254,7 @@ abstract class AbstractMenu
      */
     public function getItems($attributes, $values, $firstonly = false)
     {
-        $items      = [];
+        $items      = array();
         $attributes = (array) $attributes;
         $values     = (array) $values;
         $count      = \count($attributes);

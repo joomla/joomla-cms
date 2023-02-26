@@ -104,7 +104,7 @@ class ExceptionHandler
             if (Factory::$document) {
                 $format = Factory::$document->getType();
             } else {
-                $format = $app->getInput()->getString('format', 'html');
+                $format = $app->input->getString('format', 'html');
             }
 
             try {

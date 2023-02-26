@@ -57,16 +57,16 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         $app            = Factory::getApplication();
-        $this->recordId = $app->getInput()->getInt('recordId');
+        $this->recordId = $app->input->getInt('recordId');
 
         $types = $this->get('TypeOptions');
 
         $this->addCustomTypes($types);
 
-        $sortedTypes = [];
+        $sortedTypes = array();
 
         foreach ($types as $name => $list) {
-            $tmp = [];
+            $tmp = array();
 
             foreach ($list as $item) {
                 $tmp[Text::_($item->title)] = $item;
@@ -97,15 +97,15 @@ class HtmlView extends BaseHtmlView
         // Add page title
         ToolbarHelper::title(Text::_('COM_MENUS'), 'list menumgr');
 
-        $toolbar = Toolbar::getInstance();
+        // Get the toolbar object instance
+        $bar = Toolbar::getInstance('toolbar');
 
         // Cancel
         $title = Text::_('JTOOLBAR_CANCEL');
         $dhtml = "<button onClick=\"location.href='index.php?option=com_menus&view=items'\" class=\"btn\">
 					<span class=\"icon-times\" title=\"$title\"></span>
 					$title</button>";
-        $toolbar->customButton('new')
-            ->html($dhtml);
+        $bar->appendButton('Custom', $dhtml, 'new');
     }
 
     /**
@@ -120,11 +120,11 @@ class HtmlView extends BaseHtmlView
     protected function addCustomTypes(&$types)
     {
         if (empty($types)) {
-            $types = [];
+            $types = array();
         }
 
         // Adding System Links
-        $list           = [];
+        $list           = array();
         $o              = new CMSObject();
         $o->title       = 'COM_MENUS_TYPE_EXTERNAL_URL';
         $o->type        = 'url';

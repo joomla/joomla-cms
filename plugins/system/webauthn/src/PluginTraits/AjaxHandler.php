@@ -57,7 +57,7 @@ trait AjaxHandler
      */
     public function onAjaxWebauthn(Ajax $event): void
     {
-        $input = $this->getApplication()->getInput();
+        $input = $this->getApplication()->input;
 
         // Get the return URL from the session
         $returnURL = $this->getApplication()->getSession()->get('plg_system_webauthn.returnUrl', Uri::base());

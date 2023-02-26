@@ -38,7 +38,7 @@ class MenuRules implements RulesInterface
      * @var   array
      * @since 3.4
      */
-    protected $lookup = [];
+    protected $lookup = array();
 
     /**
      * Class constructor.
@@ -155,7 +155,7 @@ class MenuRules implements RulesInterface
         // Check if the active menuitem matches the requested language
         if (
             $active && $active->component === 'com_' . $this->router->getName()
-            && ($language === '*' || \in_array($active->language, ['*', $language]) || !Multilanguage::isEnabled())
+            && ($language === '*' || \in_array($active->language, array('*', $language)) || !Multilanguage::isEnabled())
         ) {
             $query['Itemid'] = $active->id;
 
@@ -183,16 +183,16 @@ class MenuRules implements RulesInterface
     {
         // Prepare the reverse lookup array.
         if (!isset($this->lookup[$language])) {
-            $this->lookup[$language] = [];
+            $this->lookup[$language] = array();
 
             $component  = ComponentHelper::getComponent('com_' . $this->router->getName());
-            $views      = $this->router->getViews();
+            $views = $this->router->getViews();
 
-            $attributes = ['component_id'];
-            $values     = [(int) $component->id];
+            $attributes = array('component_id');
+            $values     = array((int) $component->id);
 
             $attributes[] = 'language';
-            $values[]     = [$language, '*'];
+            $values[]     = array($language, '*');
 
             $items = $this->router->menu->getItems($attributes, $values);
 
@@ -208,11 +208,11 @@ class MenuRules implements RulesInterface
 
                     if ($views[$view]->key) {
                         if (!isset($this->lookup[$language][$view . $layout])) {
-                            $this->lookup[$language][$view . $layout] = [];
+                            $this->lookup[$language][$view . $layout] = array();
                         }
 
                         if (!isset($this->lookup[$language][$view])) {
-                            $this->lookup[$language][$view] = [];
+                            $this->lookup[$language][$view] = array();
                         }
 
                         // If menuitem has no key set, we assume 0.
@@ -227,7 +227,7 @@ class MenuRules implements RulesInterface
                          */
                         if (!isset($this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]]) || $item->language !== '*') {
                             $this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]] = $item->id;
-                            $this->lookup[$language][$view][$item->query[$views[$view]->key]]           = $item->id;
+                            $this->lookup[$language][$view][$item->query[$views[$view]->key]] = $item->id;
                         }
                     } else {
                         /**

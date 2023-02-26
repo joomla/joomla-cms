@@ -86,7 +86,7 @@ class HtmlView extends BaseHtmlView
      * @since  4.1.0
      * @throws \Exception
      */
-    public function __construct($config = [])
+    public function __construct($config = array())
     {
         $this->app = Factory::getApplication();
         parent::__construct($config);
@@ -124,10 +124,16 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar(): void
     {
-        $this->app->getInput()->set('hidemainmenu', true);
+        $app = $this->app;
 
-        $isNew   = ($this->item->id == 0);
-        $canDo   = $this->canDo;
+        $app->getInput()->set('hidemainmenu', true);
+        $isNew = ($this->item->id == 0);
+        $canDo = $this->canDo;
+
+        /*
+         * Get the toolbar object instance
+         * !! @todo : Replace usage with ToolbarFactoryInterface
+         */
         $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title($isNew ? Text::_('COM_SCHEDULER_MANAGER_TASK_NEW') : Text::_('COM_SCHEDULER_MANAGER_TASK_EDIT'), 'clock');

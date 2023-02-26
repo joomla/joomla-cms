@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 $data = $displayData;
@@ -28,11 +27,9 @@ if ($data->order === $data->selected) :
     $selected = ' selected';
     $id = 'id="sorted"';
 endif;
-
-Factory::getDocument()->getWebAssetManager()->useScript('list-view');
 ?>
 
-<a href="#" class="js-stools-column-order<?php echo $selected; ?> js-stools-button-sort"
+<a href="" onclick="return false;" class="js-stools-column-order<?php echo $selected; ?> js-stools-button-sort"
     <?php echo $id; ?>
     data-order="<?php echo $data->order; ?>"
     data-direction="<?php echo strtoupper($data->direction); ?>"

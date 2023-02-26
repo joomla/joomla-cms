@@ -9,11 +9,9 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.7.0</version>
 	<description>PLG_FIELDS_URL_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\Fields\Url</namespace>
 	<files>
+		<filename plugin="url">url.php</filename>
 		<folder>params</folder>
-		<folder plugin="url">services</folder>
-		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

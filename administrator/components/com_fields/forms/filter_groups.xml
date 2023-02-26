@@ -5,7 +5,7 @@
 			name="context"
 			type="fieldcontexts"
 			filtermode="selector"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 		/>
 	</fieldset>
 	<fields name="filter">
@@ -22,7 +22,7 @@
 			name="state"
 			type="status"
 			label="JSTATUS"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
@@ -31,7 +31,7 @@
 			name="access"
 			type="accesslevel"
 			label="JGRID_HEADING_ACCESS"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
@@ -40,7 +40,7 @@
 			name="language"
 			type="contentlanguage"
 			label="JGRID_HEADING_LANGUAGE"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 		</field>
@@ -51,7 +51,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			default="a.ordering ASC"
 			validate="options"
 			>
@@ -75,7 +75,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 		/>
 	</fields>
 </form>

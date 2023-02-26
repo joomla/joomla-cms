@@ -45,18 +45,8 @@ export const SHOW_RENAME_MODAL = 'SHOW_RENAME_MODAL';
 export const HIDE_RENAME_MODAL = 'HIDE_RENAME_MODAL';
 export const RENAME_SUCCESS = 'RENAME_SUCCESS';
 
-// Share modal
+// Share model
 export const SHOW_SHARE_MODAL = 'SHOW_SHARE_MODAL';
 export const HIDE_SHARE_MODAL = 'HIDE_SHARE_MODAL';
-
 // Search Query
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
-
-// Update item properties
-export const UPDATE_ITEM_PROPERTIES = 'UPDATE_ITEM_PROPERTIES';
-
-// Update sorting by
-export const UPDATE_SORT_BY = 'UPDATE_SORT_BY';
-
-// Update sorting direction
-export const UPDATE_SORT_DIRECTION = 'UPDATE_SORT_DIRECTION';

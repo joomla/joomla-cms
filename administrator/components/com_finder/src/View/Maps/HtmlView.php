@@ -14,7 +14,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
@@ -137,15 +136,17 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo   = ContentHelper::getActions('com_finder');
-        $toolbar = Toolbar::getInstance();
+        $canDo = ContentHelper::getActions('com_finder');
 
         ToolbarHelper::title(Text::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'search-plus finder');
 
+        // Get the toolbar object instance
+        $toolbar = Toolbar::getInstance('toolbar');
+
         if (!$this->isEmptyState) {
             if ($canDo->get('core.edit.state')) {
-                /** @var DropdownButton $dropdown */
-                $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
+                $dropdown = $toolbar->dropdownButton('status-group')
+                    ->text('JTOOLBAR_CHANGE_STATUS')
                     ->toggleSplit(false)
                     ->icon('icon-ellipsis-h')
                     ->buttonClass('btn btn-action')
@@ -158,25 +159,19 @@ class HtmlView extends BaseHtmlView
             }
 
             if ($canDo->get('core.delete')) {
-                $toolbar->standardButton('delete', 'JTOOLBAR_DELETE', 'maps.delete')
-                    ->listCheck(true);
-                $toolbar->divider();
+                ToolbarHelper::deleteList('', 'maps.delete');
+                ToolbarHelper::divider();
             }
 
-            $toolbar->divider();
-            $toolbar->popupButton('bars', 'COM_FINDER_STATISTICS')
-                ->url('index.php?option=com_finder&view=statistics&tmpl=component')
-                ->iframeWidth(550)
-                ->iframeHeight(350)
-                ->title(Text::_('COM_FINDER_STATISTICS_TITLE'))
-                ->icon('icon-bars');
-            $toolbar->divider();
+            ToolbarHelper::divider();
+            $toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
+            ToolbarHelper::divider();
         }
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            $toolbar->preferences('com_finder');
+            ToolbarHelper::preferences('com_finder');
         }
 
-        $toolbar->help('Smart_Search:_Content_Maps');
+        ToolbarHelper::help('Smart_Search:_Content_Maps');
     }
 }

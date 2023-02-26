@@ -35,7 +35,7 @@ abstract class AbstractEvent extends AbstractImmutableEvent
      *
      * @since   4.0.0
      */
-    public function __construct($name, array $arguments = [])
+    public function __construct($name, array $arguments = array())
     {
         if (!\array_key_exists('subject', $arguments)) {
             throw new BadMethodCallException("Argument 'subject' of event {$this->name} is required but has not been provided");

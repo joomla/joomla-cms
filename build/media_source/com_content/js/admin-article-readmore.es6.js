@@ -20,9 +20,8 @@
     } else if (content && !content.match(/<hr\s+id=("|')system-readmore("|')\s*\/*>/i)) {
       Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore">');
     } else {
-      Joomla.renderMessages({
-        error: [options.exists],
-      });
+      // @todo replace with joomla-alert
+      alert(options.exists);
       return false;
     }
     return true;

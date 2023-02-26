@@ -31,7 +31,7 @@ abstract class Menu
      * @var    array
      * @since  1.6
      */
-    protected static $menus = [];
+    protected static $menus = array();
 
     /**
      * Cached array of the menus items.
@@ -39,7 +39,7 @@ abstract class Menu
      * @var    array
      * @since  1.6
      */
-    protected static $items = [];
+    protected static $items = array();
 
     /**
      * Get a list of the available menus.
@@ -95,7 +95,7 @@ abstract class Menu
      *
      * @since   1.6
      */
-    public static function menuItems($config = [])
+    public static function menuItems($config = array())
     {
         $key = serialize($config);
 
@@ -140,11 +140,11 @@ abstract class Menu
             $items = $db->loadObjectList();
 
             // Collate menu items based on menutype
-            $lookup = [];
+            $lookup = array();
 
             foreach ($items as &$item) {
                 if (!isset($lookup[$item->menutype])) {
-                    $lookup[$item->menutype] = [];
+                    $lookup[$item->menutype] = array();
                 }
 
                 $lookup[$item->menutype][] = &$item;
@@ -157,7 +157,7 @@ abstract class Menu
                 $item->text = str_repeat('- ', $item->level) . $item->text;
             }
 
-            static::$items[$key] = [];
+            static::$items[$key] = array();
 
             $user = Factory::getUser();
 
@@ -173,9 +173,9 @@ abstract class Menu
                 }
 
                 // Start group:
-                $optGroup              = new \stdClass();
-                $optGroup->value       = '<OPTGROUP>';
-                $optGroup->text        = $menu->text;
+                $optGroup = new \stdClass();
+                $optGroup->value = '<OPTGROUP>';
+                $optGroup->text = $menu->text;
                 static::$items[$key][] = $optGroup;
 
                 // Special "Add to this Menu" option:
@@ -189,9 +189,9 @@ abstract class Menu
                 }
 
                 // Finish group:
-                $closeOptGroup        = new \stdClass();
+                $closeOptGroup = new \stdClass();
                 $closeOptGroup->value = '</OPTGROUP>';
-                $closeOptGroup->text  = $menu->text;
+                $closeOptGroup->text = $menu->text;
 
                 static::$items[$key][] = $closeOptGroup;
             }
@@ -212,7 +212,7 @@ abstract class Menu
      *
      * @since   1.6
      */
-    public static function menuItemList($name, $selected = null, $attribs = null, $config = [])
+    public static function menuItemList($name, $selected = null, $attribs = null, $config = array())
     {
         static $count;
 
@@ -222,12 +222,12 @@ abstract class Menu
             'select.genericlist',
             $options,
             $name,
-            [
+            array(
                 'id'             => $config['id'] ?? 'assetgroups_' . (++$count),
                 'list.attr'      => $attribs ?? 'class="inputbox" size="1"',
                 'list.select'    => (int) $selected,
                 'list.translate' => false,
-            ]
+            )
         );
     }
 
@@ -244,7 +244,7 @@ abstract class Menu
     public static function ordering(&$row, $id)
     {
         if ($id) {
-            $db    = Factory::getDbo();
+            $db = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select(
                     [
@@ -263,12 +263,12 @@ abstract class Menu
                 ->order($db->quoteName('ordering'))
                 ->bind(':menutype', $row->menutype)
                 ->bind(':parent', $row->parent_id, ParameterType::INTEGER);
-            $order    = HTMLHelper::_('list.genericordering', $query);
+            $order = HTMLHelper::_('list.genericordering', $query);
             $ordering = HTMLHelper::_(
                 'select.genericlist',
                 $order,
                 'ordering',
-                ['list.attr' => 'class="inputbox" size="1"', 'list.select' => (int) $row->ordering]
+                array('list.attr' => 'class="inputbox" size="1"', 'list.select' => (int) $row->ordering)
             );
         } else {
             $ordering = '<input type="hidden" name="ordering" value="' . $row->ordering . '">' . Text::_('JGLOBAL_NEWITEMSLAST_DESC');
@@ -324,25 +324,25 @@ abstract class Menu
         $mitems = $db->loadObjectList();
 
         if (!$mitems) {
-            $mitems = [];
+            $mitems = array();
         }
 
         // Establish the hierarchy of the menu
-        $children = [];
+        $children = array();
 
         // First pass - collect children
         foreach ($mitems as $v) {
             $pt            = $v->parent_id;
-            $list          = @$children[$pt] ? $children[$pt] : [];
+            $list          = @$children[$pt] ? $children[$pt] : array();
             $list[]        = $v;
             $children[$pt] = $list;
         }
 
         // Second pass - get an indent list of the items
-        $list = static::treerecurse((int) $mitems[0]->parent_id, '', [], $children, 9999, 0, 0);
+        $list = static::treerecurse((int) $mitems[0]->parent_id, '', array(), $children, 9999, 0, 0);
 
         // Code that adds menu name to Display of Page(s)
-        $mitems = [];
+        $mitems = array();
 
         if ($all | $unassigned) {
             $mitems[] = HTMLHelper::_('select.option', '<OPTGROUP>', Text::_('JOPTION_MENUS'));

@@ -35,7 +35,7 @@ interface TableInterface
      * @since   3.2
      * @throws  \UnexpectedValueException
      */
-    public function bind($src, $ignore = []);
+    public function bind($src, $ignore = array());
 
     /**
      * Method to perform sanity checks on the TableInterface instance properties to ensure they are safe to store in the database.

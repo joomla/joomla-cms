@@ -39,7 +39,7 @@ class LanguageclientField extends ListField
      * @var     array
      * @since   3.9.0
      */
-    protected $cache = [];
+    protected $cache = array();
 
     /**
      * Method to get the field options.
@@ -56,7 +56,7 @@ class LanguageclientField extends ListField
         }
 
         // Get all languages of frontend and backend.
-        $languages       = [];
+        $languages       = array();
         $site_languages  = LanguageHelper::getKnownLanguages(JPATH_SITE);
         $admin_languages = LanguageHelper::getKnownLanguages(JPATH_ADMINISTRATOR);
 

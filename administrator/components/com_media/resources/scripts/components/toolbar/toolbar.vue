@@ -17,7 +17,7 @@
         @click.stop="toggleSelectAll"
       >
     </div>
-    <MediaBreadcrumb />
+    <media-breadcrumb />
     <div
       class="media-view-search-input"
       role="search"
@@ -36,19 +36,6 @@
       >
     </div>
     <div class="media-view-icons">
-      <button
-        v-if="isGridView"
-        type="button"
-        class="media-toolbar-icon"
-        :class="{ active: sortingOptions }"
-        :aria-label="translate('COM_MEDIA_CHANGE_ORDERING')"
-        @click="showSortOptions()"
-      >
-        <span
-          class="fas fa-sort-amount-down-alt"
-          aria-hidden="true"
-        />
-      </button>
       <button
         v-if="isGridView"
         type="button"
@@ -77,6 +64,7 @@
       </button>
       <button
         type="button"
+        href="#"
         class="media-toolbar-icon media-toolbar-list-view"
         :aria-label="translate('COM_MEDIA_TOGGLE_LIST_VIEW')"
         @click.stop.prevent="changeListView()"
@@ -88,6 +76,7 @@
       </button>
       <button
         type="button"
+        href="#"
         class="media-toolbar-icon media-toolbar-info"
         :aria-label="translate('COM_MEDIA_TOGGLE_INFO')"
         @click.stop.prevent="toggleInfoBar"
@@ -99,69 +88,13 @@
       </button>
     </div>
   </div>
-  <div
-    v-if="isGridView && sortingOptions"
-    class="row g-3 pt-2 pb-2 pe-3 justify-content-end"
-    style="border-inline-start: 1px solid var(--template-bg-dark-7); margin-left: 0;"
-  >
-    <div class="col-3">
-      <select
-        ref="orderby"
-        class="form-select"
-        :aria-label="translate('COM_MEDIA_ORDER_BY')"
-        :value="$store.state.sortBy"
-        @change="changeOrderBy()"
-      >
-        <option value="name">
-          {{ translate('COM_MEDIA_MEDIA_NAME') }}
-        </option>
-        <option value="size">
-          {{ translate('COM_MEDIA_MEDIA_SIZE') }}
-        </option>
-        <option value="dimension">
-          {{ translate('COM_MEDIA_MEDIA_DIMENSION') }}
-        </option>
-        <option value="date_created">
-          {{ translate('COM_MEDIA_MEDIA_DATE_CREATED') }}
-        </option>
-        <option value="date_modified">
-          {{ translate('COM_MEDIA_MEDIA_DATE_MODIFIED') }}
-        </option>
-      </select>
-    </div>
-    <div class="col-3">
-      <select
-        ref="orderdirection"
-        class="form-select"
-        :aria-label="translate('COM_MEDIA_ORDER_DIRECTION')"
-        :value="$store.state.sortDirection"
-        @change="changeOrderDirection()"
-      >
-        <option value="asc">
-          {{ translate('COM_MEDIA_ORDER_ASC') }}
-        </option>
-        <option value="desc">
-          {{ translate('COM_MEDIA_ORDER_DESC') }}
-        </option>
-      </select>
-    </div>
-  </div>
 </template>
 
 <script>
 import * as types from '../../store/mutation-types.es6';
-import MediaBreadcrumb from '../breadcrumb/breadcrumb.vue';
 
 export default {
   name: 'MediaToolbar',
-  components: {
-    MediaBreadcrumb,
-  },
-  data() {
-    return {
-      sortingOptions: false,
-    };
-  },
   computed: {
     toggleListViewBtnIcon() {
       return (this.isGridView) ? 'icon-list' : 'icon-th';
@@ -176,6 +109,7 @@ export default {
       return (this.$store.state.listView === 'grid');
     },
     allItemsSelected() {
+      // eslint-disable-next-line max-len
       return (this.$store.getters.getSelectedDirectoryContents.length === this.$store.state.selectedItems.length);
     },
     search() {
@@ -183,7 +117,8 @@ export default {
     },
   },
   watch: {
-    '$store.state.selectedItems': function () {
+    // eslint-disable-next-line
+    '$store.state.selectedItems'() {
       if (!this.allItemsSelected) {
         this.$refs.mediaToolbarSelectAll.checked = false;
       }
@@ -218,6 +153,7 @@ export default {
       if (this.allItemsSelected) {
         this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
       } else {
+        // eslint-disable-next-line max-len
         this.$store.commit(types.SELECT_BROWSER_ITEMS, this.$store.getters.getSelectedDirectoryContents);
         window.parent.document.dispatchEvent(
           new CustomEvent(
@@ -236,15 +172,6 @@ export default {
     },
     changeSearch(query) {
       this.$store.commit(types.SET_SEARCH_QUERY, query.target.value);
-    },
-    showSortOptions() {
-      this.sortingOptions = !this.sortingOptions;
-    },
-    changeOrderDirection() {
-      this.$store.commit(types.UPDATE_SORT_DIRECTION, this.$refs.orderdirection.value);
-    },
-    changeOrderBy() {
-      this.$store.commit(types.UPDATE_SORT_BY, this.$refs.orderby.value);
     },
   },
 };

@@ -75,7 +75,7 @@ class ListField extends FormField
     protected function getOptions()
     {
         $fieldname = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
-        $options   = [];
+        $options   = array();
 
         foreach ($this->element->xpath('option') as $option) {
             // Filter requirements
@@ -119,14 +119,14 @@ class ListField extends FormField
             $selected = (string) $option['selected'];
             $selected = ($selected === 'true' || $selected === 'selected' || $selected === '1');
 
-            $tmp = [
+            $tmp = array(
                     'value'    => $value,
                     'text'     => Text::alt($text, $fieldname),
                     'disable'  => $disabled,
                     'class'    => (string) $option['class'],
                     'selected' => ($checked || $selected),
                     'checked'  => ($checked || $selected),
-            ];
+            );
 
             // Set some event handler attributes. But really, should be using unobtrusive js.
             $tmp['onclick']  = (string) $option['onclick'];
@@ -148,7 +148,7 @@ class ListField extends FormField
             $tmp        = new \stdClass();
             $tmp->value = '';
             $tmp->text  = Text::_('JGLOBAL_USE_GLOBAL');
-            $component  = Factory::getApplication()->getInput()->getCmd('option');
+            $component  = Factory::getApplication()->input->getCmd('option');
 
             // Get correct component for menu items
             if ($component === 'com_menus') {
@@ -166,7 +166,7 @@ class ListField extends FormField
             }
 
             // Try with menu configuration
-            if (\is_null($value) && Factory::getApplication()->getInput()->getCmd('option') === 'com_menus') {
+            if (\is_null($value) && Factory::getApplication()->input->getCmd('option') === 'com_menus') {
                 $value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
             }
 
@@ -202,7 +202,7 @@ class ListField extends FormField
      *
      * @since   3.7.0
      */
-    public function addOption($text, $attributes = [])
+    public function addOption($text, $attributes = array())
     {
         if ($text && $this->element instanceof \SimpleXMLElement) {
             $child = $this->element->addChild('option', $text);

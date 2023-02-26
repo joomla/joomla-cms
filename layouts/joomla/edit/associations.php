@@ -14,10 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 $form     = $displayData->getForm();
-$options  = [
+$options  = array(
     'formControl' => $form->getFormControl(),
     'hidden'      => (int) ($form->getValue('language', null, '*') === '*'),
-];
+);
 
 // Load JavaScript message titles
 Text::script('ERROR');

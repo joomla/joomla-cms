@@ -1,24 +1,19 @@
 <?php
-
 /**
  * @package     Joomla.Plugin
  * @subpackage  Privacy.actionlogs
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
+
+defined('_JEXEC') or die;
 
 use Joomla\CMS\User\User;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 use Joomla\Database\ParameterType;
-
-// phpcs:disable PSR1.Files.SideEffects
-\defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Privacy plugin managing Joomla actionlogs data
@@ -39,8 +34,9 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
      */
     public function onPrivacyExportRequest(RequestTable $request, User $user = null)
     {
-        if (!$user) {
-            return [];
+        if (!$user)
+        {
+            return array();
         }
 
         $domain = $this->createDomain('user_action_logs', 'joomla_user_action_logs_data');
@@ -58,15 +54,18 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 
         $data = $db->loadObjectList();
 
-        if (!count($data)) {
-            return [];
+        if (!count($data))
+        {
+            return array();
         }
 
         $data    = ActionlogsHelper::getCsvData($data);
         $isFirst = true;
 
-        foreach ($data as $item) {
-            if ($isFirst) {
+        foreach ($data as $item)
+        {
+            if ($isFirst)
+            {
                 $isFirst = false;
 
                 continue;
@@ -75,6 +74,6 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
             $domain->addItem($this->createItemFromArray($item));
         }
 
-        return [$domain];
+        return array($domain);
     }
 }

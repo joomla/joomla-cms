@@ -11,7 +11,6 @@
 namespace Joomla\Component\Menus\Api\Controller;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -69,13 +68,6 @@ class ItemsController extends ApiController
      */
     public function displayList()
     {
-        $apiFilterInfo = $this->input->get('filter', [], 'array');
-        $filter        = InputFilter::getInstance();
-
-        if (\array_key_exists('menutype', $apiFilterInfo)) {
-            $this->modelState->set('filter.menutype', $filter->clean($apiFilterInfo['menutype'], 'STRING'));
-        }
-
         $this->modelState->set('filter.client_id', $this->getClientIdFromInput());
 
         return parent::displayList();
@@ -99,9 +91,9 @@ class ItemsController extends ApiController
             $this->input->set('com_menus.items.menutype', $data['menutype']);
         }
 
-        isset($data['type']) && $this->input->set('type', $data['type']);
+        isset($data['type'])      && $this->input->set('type', $data['type']);
         isset($data['parent_id']) && $this->input->set('parent_id', $data['parent_id']);
-        isset($data['link']) && $this->input->set('link', $data['link']);
+        isset($data['link'])      && $this->input->set('link', $data['link']);
 
         $this->input->set('id', '0');
 
@@ -124,9 +116,9 @@ class ItemsController extends ApiController
             $this->input->set('com_menus.items.menutype', $data['menutype']);
         }
 
-        isset($data['type']) && $this->input->set('type', $data['type']);
+        isset($data['type'])      && $this->input->set('type', $data['type']);
         isset($data['parent_id']) && $this->input->set('parent_id', $data['parent_id']);
-        isset($data['link']) && $this->input->set('link', $data['link']);
+        isset($data['link'])      && $this->input->set('link', $data['link']);
 
         return parent::edit();
     }

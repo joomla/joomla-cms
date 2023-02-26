@@ -622,9 +622,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       if (newOptions.method !== 'GET') {
         const token = Joomla.getOptions('csrf.token', '');
 
-        // Use the CSRF only on the site's domain
-        // eslint-disable-next-line no-restricted-globals
-        if (token && (newOptions.url.startsWith('/') || newOptions.url.startsWith(location.origin))) {
+        if (token) {
           xhr.setRequestHeader('X-CSRF-Token', token);
         }
 

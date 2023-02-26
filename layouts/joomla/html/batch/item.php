@@ -23,10 +23,10 @@ extract($displayData);
  */
 
 // Create the copy/move options.
-$options = [
+$options = array(
     HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
     HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
-];
+);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();

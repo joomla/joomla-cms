@@ -13,7 +13,7 @@
 			name="component"
 			type="Components"
 			label="COM_USERS_OPTION_LABEL_COMPONENT"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_COMPONENT</option>
 		</field>
@@ -21,7 +21,7 @@
 			name="level_start"
 			type="Levels"
 			label="COM_USERS_OPTION_LABEL_LEVEL_START"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_LEVEL_START</option>
 		</field>
@@ -29,7 +29,7 @@
 			name="level_end"
 			type="Levels"
 			label="COM_USERS_OPTION_LABEL_LEVEL_END"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_LEVEL_END</option>
 		</field>
@@ -39,7 +39,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			default="a.lft ASC"
 			validate="options"
 			>
@@ -58,7 +58,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 		/>
 	</fields>
 </form>

@@ -43,7 +43,7 @@ final class OnGetApiAttributes extends AbstractImmutableEvent
      * @since   4.0.0
      * @throws  \BadMethodCallException
      */
-    public function __construct($name, array $arguments = [])
+    public function __construct($name, array $arguments = array())
     {
         if (
             !\array_key_exists('attributes', $arguments)

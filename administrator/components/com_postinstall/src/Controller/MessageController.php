@@ -39,7 +39,7 @@ class MessageController extends BaseController
 
         /** @var MessagesModel $model */
         $model = $this->getModel('Messages', '', ['ignore_request' => true]);
-        $eid   = $this->input->getInt('eid');
+        $eid = $this->input->getInt('eid');
 
         if (empty($eid)) {
             $eid = $model->getJoomlaFilesExtensionId();
@@ -59,8 +59,6 @@ class MessageController extends BaseController
      */
     public function unpublish()
     {
-        $this->checkToken('get');
-
         $model = $this->getModel('Messages', '', ['ignore_request' => true]);
 
         $id = $this->input->get('id');
@@ -86,8 +84,6 @@ class MessageController extends BaseController
      */
     public function republish()
     {
-        $this->checkToken('get');
-
         $model = $this->getModel('Messages', '', ['ignore_request' => true]);
 
         $id = $this->input->get('id');
@@ -113,8 +109,6 @@ class MessageController extends BaseController
      */
     public function archive()
     {
-        $this->checkToken('get');
-
         $model = $this->getModel('Messages', '', ['ignore_request' => true]);
 
         $id = $this->input->get('id');
@@ -156,7 +150,7 @@ class MessageController extends BaseController
 
             case 'action':
                 $helper = new PostinstallHelper();
-                $file   = $helper->parsePath($item->action_file);
+                $file = $helper->parsePath($item->action_file);
 
                 if (File::exists($file)) {
                     require_once $file;
@@ -182,7 +176,7 @@ class MessageController extends BaseController
 
         /** @var MessagesModel $model */
         $model = $this->getModel('Messages', '', ['ignore_request' => true]);
-        $eid   = $this->input->getInt('eid');
+        $eid = $this->input->getInt('eid');
 
         if (empty($eid)) {
             $eid = $model->getJoomlaFilesExtensionId();

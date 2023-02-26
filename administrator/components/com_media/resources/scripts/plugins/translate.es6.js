@@ -6,18 +6,21 @@ const Translate = {
   // Translate from Joomla text
   translate: (key) => Joomla.Text._(key, key),
   sprintf: (string, ...args) => {
-    const newString = Translate.translate(string);
+    // eslint-disable-next-line no-param-reassign
+    string = Translate.translate(string);
     let i = 0;
-    return newString.replace(/%((%)|s|d)/g, (m) => {
+    return string.replace(/%((%)|s|d)/g, (m) => {
       let val = args[i];
 
       if (m === '%d') {
         val = parseFloat(val);
-        if (Number.isNaN(val)) {
+        // eslint-disable-next-line no-restricted-globals
+        if (isNaN(val)) {
           val = 0;
         }
       }
-      i += 1;
+      // eslint-disable-next-line no-plusplus
+      i++;
       return val;
     });
   },

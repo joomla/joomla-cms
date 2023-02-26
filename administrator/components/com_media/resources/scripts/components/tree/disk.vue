@@ -6,7 +6,7 @@
     >
       {{ disk.displayName }}
     </h2>
-    <MediaDrive
+    <media-drive
       v-for="(drive, index) in disk.drives"
       :key="index"
       :disk-id="diskId"
@@ -18,23 +18,10 @@
 </template>
 
 <script>
-import MediaDrive from './drive.vue';
-
 export default {
   name: 'MediaDisk',
-  components: {
-    MediaDrive,
-  },
-  props: {
-    disk: {
-      type: Object,
-      default: () => {},
-    },
-    uid: {
-      type: String,
-      default: '',
-    },
-  },
+  // eslint-disable-next-line vue/require-prop-types
+  props: ['disk', 'uid'],
   computed: {
     diskId() {
       return `disk-${this.uid + 1}`;

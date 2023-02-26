@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 
 $app       = Factory::getApplication();
 $form      = $displayData->getForm();
-$input     = $app->getInput();
+$input     = $app->input;
 $component = $input->getCmd('option', 'com_content');
 
 if ($component == 'com_categories') {
@@ -26,10 +26,10 @@ if ($component == 'com_categories') {
 
 $saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
 
-$fields = $displayData->get('fields') ?: [
-    ['parent', 'parent_id'],
-    ['published', 'state', 'enabled'],
-    ['category', 'catid'],
+$fields = $displayData->get('fields') ?: array(
+    array('parent', 'parent_id'),
+    array('published', 'state', 'enabled'),
+    array('category', 'catid'),
     'featured',
     'sticky',
     'access',
@@ -37,19 +37,19 @@ $fields = $displayData->get('fields') ?: [
     'tags',
     'note',
     'version_note',
-];
+);
 
-$hiddenFields = $displayData->get('hidden_fields') ?: [];
+$hiddenFields = $displayData->get('hidden_fields') ?: array();
 
 if (!$saveHistory) {
     $hiddenFields[] = 'version_note';
 }
 
-$html   = [];
+$html   = array();
 $html[] = '<fieldset><ul class="list-unstyled">';
 
 foreach ($fields as $field) {
-    $field = is_array($field) ? $field : [$field];
+    $field = is_array($field) ? $field : array($field);
 
     foreach ($field as $f) {
         if ($form->getField($f)) {

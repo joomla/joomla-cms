@@ -41,7 +41,7 @@ class AssociationsHelper extends AssociationExtensionHelper
      *
      * @since   3.7.0
      */
-    protected $itemTypes = ['item'];
+    protected $itemTypes = array('item');
 
     /**
      * Has the extension association support
@@ -142,41 +142,41 @@ class AssociationsHelper extends AssociationExtensionHelper
     public function getType($typeName = '')
     {
         $fields  = $this->getFieldsTemplate();
-        $tables  = [];
-        $joins   = [];
+        $tables  = array();
+        $joins   = array();
         $support = $this->getSupportTemplate();
         $title   = '';
 
         if (in_array($typeName, $this->itemTypes)) {
             switch ($typeName) {
                 case 'item':
-                    $fields['ordering']        = 'a.lft';
-                    $fields['level']           = 'a.level';
-                    $fields['catid']           = '';
-                    $fields['state']           = 'a.published';
+                    $fields['ordering'] = 'a.lft';
+                    $fields['level'] = 'a.level';
+                    $fields['catid'] = '';
+                    $fields['state'] = 'a.published';
                     $fields['created_user_id'] = '';
-                    $fields['menutype']        = 'a.menutype';
+                    $fields['menutype'] = 'a.menutype';
 
-                    $support['state']    = true;
-                    $support['acl']      = true;
+                    $support['state'] = true;
+                    $support['acl'] = true;
                     $support['checkout'] = true;
-                    $support['level']    = true;
+                    $support['level'] = true;
 
-                    $tables = [
-                        'a' => '#__menu',
-                    ];
+                    $tables = array(
+                        'a' => '#__menu'
+                    );
 
                     $title = 'menu';
                     break;
             }
         }
 
-        return [
+        return array(
             'fields'  => $fields,
             'support' => $support,
             'tables'  => $tables,
             'joins'   => $joins,
-            'title'   => $title,
-        ];
+            'title'   => $title
+        );
     }
 }

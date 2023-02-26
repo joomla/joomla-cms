@@ -42,8 +42,8 @@ class FinderHelper
      */
     public static function getGetFields($route = null, $paramItem = 0)
     {
-        $fields = [];
-        $uri    = Uri::getInstance(Route::_($route));
+        $fields = array();
+        $uri = Uri::getInstance(Route::_($route));
         $uri->delVar('q');
 
         // Create hidden input elements for each part of the URI.
@@ -65,11 +65,11 @@ class FinderHelper
      */
     public static function getQuery($params)
     {
-        $request = Factory::getApplication()->getInput()->request;
+        $request = Factory::getApplication()->input->request;
         $filter  = InputFilter::getInstance();
 
         // Get the static taxonomy filters.
-        $options           = [];
+        $options = array();
         $options['filter'] = ($request->get('f', 0, 'int') !== 0) ? $request->get('f', '', 'int') : $params->get('searchfilter');
         $options['filter'] = $filter->clean($options['filter'], 'int');
 

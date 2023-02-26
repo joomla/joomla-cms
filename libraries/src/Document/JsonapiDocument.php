@@ -40,7 +40,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
      *
      * @since  4.0.0
      */
-    public function __construct($options = [])
+    public function __construct($options = array())
     {
         parent::__construct($options);
 
@@ -137,7 +137,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
      *
      * @since  4.0.0
      */
-    public function render($cache = false, $params = [])
+    public function render($cache = false, $params = array())
     {
         $app = Factory::getApplication();
 

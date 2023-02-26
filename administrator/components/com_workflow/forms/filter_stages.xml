@@ -12,7 +12,7 @@
 			name="published"
 			type="status"
 			label="JSTATUS"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			optionsFilter="-2,0,1"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -25,7 +25,7 @@
 			type="list"
 			label="JGLOBAL_SORT_BY"
 			default="s.ordering ASC"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
@@ -43,7 +43,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 		/>
 	</fields>
 </form>

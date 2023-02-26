@@ -125,17 +125,20 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar(): void
     {
-        $canDo   = ContentHelper::getActions('com_banners');
-        $toolbar = Toolbar::getInstance();
+        $canDo = ContentHelper::getActions('com_banners');
 
         ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_CLIENTS'), 'bookmark banners-clients');
+
+        // Get the toolbar object instance
+        $toolbar = Toolbar::getInstance('toolbar');
 
         if ($canDo->get('core.create')) {
             $toolbar->addNew('client.add');
         }
 
         if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $canDo->get('core.admin'))) {
-            $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
+            $dropdown = $toolbar->dropdownButton('status-group')
+                ->text('JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
                 ->icon('icon-ellipsis-h')
                 ->buttonClass('btn btn-action')
@@ -157,7 +160,8 @@ class HtmlView extends BaseHtmlView
         }
 
         if (!$this->isEmptyState && $this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-            $toolbar->delete('clients.delete', 'JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('clients.delete')
+                ->text('JTOOLBAR_EMPTY_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

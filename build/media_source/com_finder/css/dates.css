@@ -16,9 +16,10 @@ ul#finder-filter-select-dates li.filter-date {
   list-style: none;
   margin: 0;
   padding: 5px 0;
+  text-align: left;
   width: 49%;
 }
 
 ul#finder-filter-select-dates li.filter-date select.filter-date-operator {
-  margin-inline-end: 10px;
+  margin-right: 10px;
 }

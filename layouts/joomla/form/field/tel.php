@@ -48,7 +48,7 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
-$attributes = [
+$attributes = array(
     !empty($size) ? 'size="' . $size . '"' : '',
     !empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
     $disabled ? 'disabled' : '',
@@ -60,9 +60,8 @@ $attributes = [
     $onchange ? 'onchange="' . $onchange . '"' : '',
     !empty($maxLength) ? $maxLength : '',
     $required ? 'required' : '',
-    !empty($pattern) ? 'pattern="' . $pattern . '"' : '',
     $dataAttribute,
-];
+);
 ?>
 <input
     type="tel"

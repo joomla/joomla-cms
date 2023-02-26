@@ -12,3 +12,7 @@
   border-radius: .25rem;
 }
 
+[dir="rtl"] .btn.jmodedit {
+  right: auto;
+  left: 0;
+}

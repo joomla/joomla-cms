@@ -42,7 +42,7 @@ class CollectionAdapter extends UpdateAdapter
      * @var    array
      * @since  1.7.0
      */
-    protected $parent = [0];
+    protected $parent = array(0);
 
     /**
      * Used to control if an item has a child or not
@@ -57,14 +57,14 @@ class CollectionAdapter extends UpdateAdapter
      *
      * @var  array
      */
-    protected $update_sites = [];
+    protected $update_sites = array();
 
     /**
      * A list of discovered updates
      *
      * @var  array
      */
-    protected $updates = [];
+    protected $updates = array();
 
     /**
      * Gets the reference to the current direct parent
@@ -101,7 +101,7 @@ class CollectionAdapter extends UpdateAdapter
      *
      * @since   1.7.0
      */
-    public function _startElement($parser, $name, $attrs = [])
+    public function _startElement($parser, $name, $attrs = array())
     {
         $this->stack[] = $name;
         $tag           = $this->_getStackLocation();
@@ -114,7 +114,7 @@ class CollectionAdapter extends UpdateAdapter
         switch ($name) {
             case 'CATEGORY':
                 if (isset($attrs['REF'])) {
-                    $this->update_sites[] = ['type' => 'collection', 'location' => $attrs['REF'], 'update_site_id' => $this->updateSiteId];
+                    $this->update_sites[] = array('type' => 'collection', 'location' => $attrs['REF'], 'update_site_id' => $this->updateSiteId);
                 } else {
                     // This item will have children, so prepare to attach them
                     $this->pop_parent = 1;
@@ -140,8 +140,6 @@ class CollectionAdapter extends UpdateAdapter
                 if (isset($client->id)) {
                     $attrs['CLIENT_ID'] = $client->id;
                 }
-
-                $values = [];
 
                 // Lower case all of the fields
                 foreach ($attrs as $key => $attr) {
@@ -234,13 +232,13 @@ class CollectionAdapter extends UpdateAdapter
             }
 
             $app = Factory::getApplication();
-            $app->getLogger()->warning("Error parsing url: {$this->_url}", ['category' => 'updater']);
+            $app->getLogger()->warning("Error parsing url: {$this->_url}", array('category' => 'updater'));
             $app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $this->_url), 'warning');
 
             return false;
         }
 
         // @todo: Decrement the bad counter if non-zero
-        return ['update_sites' => $this->update_sites, 'updates' => $this->updates];
+        return array('update_sites' => $this->update_sites, 'updates' => $this->updates);
     }
 }

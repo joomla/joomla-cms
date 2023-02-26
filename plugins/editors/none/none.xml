@@ -9,10 +9,8 @@
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>PLG_NONE_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\Editors\None</namespace>
 	<files>
-		<folder plugin="none">services</folder>
-		<folder>src</folder>
+		<filename plugin="none">none.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_editors_none.ini</language>

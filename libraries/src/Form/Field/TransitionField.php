@@ -19,11 +19,11 @@ use Joomla\Database\ParameterType;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Workflow Transitions field.
+ * Components Category field.
  *
  * @since  4.0.0
  */
-class TransitionField extends GroupedlistField
+class TransitionField extends ListField
 {
     /**
      * The form field type.
@@ -66,7 +66,7 @@ class TransitionField extends GroupedlistField
         $result = parent::setup($element, $value, $group);
 
         if ($result) {
-            $input = Factory::getApplication()->getInput();
+            $input = Factory::getApplication()->input;
 
             if (\strlen($element['extension'])) {
                 $this->extension = (string) $element['extension'];
@@ -91,14 +91,14 @@ class TransitionField extends GroupedlistField
      *
      * @since  4.0.0
      */
-    protected function getGroups()
+    protected function getOptions()
     {
         // Let's get the id for the current item, either category or content item.
-        $jinput = Factory::getApplication()->getInput();
+        $jinput = Factory::getApplication()->input;
 
         // Initialise variable.
-        $db            = $this->getDatabase();
-        $extension     = $this->extension;
+        $db = $this->getDatabase();
+        $extension = $this->extension;
         $workflowStage = (int) $this->workflowStage;
 
         $query = $db->getQuery(true)
@@ -161,19 +161,15 @@ class TransitionField extends GroupedlistField
 
         $workflowName = $db->setQuery($query)->loadResult();
 
-        $default = [[HTMLHelper::_('select.option', '', Text::_($workflowName))]];
+        $default = [HTMLHelper::_('select.option', '', Text::_($workflowName))];
 
-        $groups = parent::getGroups();
+        $options = array_merge(parent::getOptions(), $items);
 
-        if (\count($items)) {
-            $groups[Text::_('COM_CONTENT_RUN_TRANSITION')] = $items;
-        }
-
-        if (\count($groups)) {
-            $default[][] = HTMLHelper::_('select.option', '-1', '--------', ['disable' => true]);
+        if (\count($options)) {
+            $default[] = HTMLHelper::_('select.option', '-1', '--------', ['disable' => true]);
         }
 
         // Merge with defaults
-        return array_merge($default, $groups);
+        return array_merge($default, $options);
     }
 }

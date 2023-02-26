@@ -45,7 +45,7 @@ class BannerController extends FormController
      *
      * @since   1.6
      */
-    protected function allowAdd($data = [])
+    protected function allowAdd($data = array())
     {
         $filter     = $this->input->getInt('filter_category_id');
         $categoryId = ArrayHelper::getValue($data, 'catid', $filter, 'int');
@@ -69,7 +69,7 @@ class BannerController extends FormController
      *
      * @since   1.6
      */
-    protected function allowEdit($data = [], $key = 'id')
+    protected function allowEdit($data = array(), $key = 'id')
     {
         $recordId   = (int) isset($data[$key]) ? $data[$key] : 0;
         $categoryId = 0;
@@ -101,7 +101,7 @@ class BannerController extends FormController
         $this->checkToken();
 
         // Set the model
-        $model = $this->getModel('Banner', '', []);
+        $model = $this->getModel('Banner', '', array());
 
         // Preset the redirect
         $this->setRedirect(Route::_('index.php?option=com_banners&view=banners' . $this->getRedirectToListAppend(), false));

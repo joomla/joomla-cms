@@ -39,7 +39,7 @@ class RemindController extends BaseController
 
         /** @var \Joomla\Component\Users\Site\Model\RemindModel $model */
         $model = $this->getModel('Remind', 'Site');
-        $data  = $this->input->post->get('jform', [], 'array');
+        $data  = $this->input->post->get('jform', array(), 'array');
 
         // Submit the password reset request.
         $return = $model->processRemindRequest($data);

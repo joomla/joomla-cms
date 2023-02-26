@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Joomla! Content Management System
  *
@@ -9,12 +8,10 @@
 
 namespace Joomla\CMS\Cache;
 
+\defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
-
-// phpcs:disable PSR1.Files.SideEffects
-\defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Public cache handler
@@ -49,12 +46,14 @@ class CacheController
      */
     public function __construct($options)
     {
-        $this->cache   = new Cache($options);
+        $this->cache = new Cache($options);
         $this->options = & $this->cache->_options;
 
         // Overwrite default options with given options
-        foreach ($options as $option => $value) {
-            if (isset($options[$option])) {
+        foreach ($options as $option => $value)
+        {
+            if (isset($options[$option]))
+            {
                 $this->options[$option] = $options[$option];
             }
         }
@@ -72,7 +71,7 @@ class CacheController
      */
     public function __call($name, $arguments)
     {
-        return \call_user_func_array([$this->cache, $name], $arguments);
+        return \call_user_func_array(array($this->cache, $name), $arguments);
     }
 
     /**
@@ -87,7 +86,7 @@ class CacheController
      * @throws      \RuntimeException
      * @deprecated  5.0 Use the cache controller factory instead
      */
-    public static function getInstance($type = 'output', $options = [])
+    public static function getInstance($type = 'output', $options = array())
     {
         @trigger_error(
             sprintf(
@@ -97,22 +96,28 @@ class CacheController
             E_USER_DEPRECATED
         );
 
-        try {
+        try
+        {
             return Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
-        } catch (\RuntimeException $e) {
+        }
+        catch (\RuntimeException $e)
+        {
             $type  = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
             $class = 'JCacheController' . ucfirst($type);
 
-            if (!class_exists($class)) {
+            if (!class_exists($class))
+            {
                 // Search for the class file in the Cache include paths.
                 $path = Path::find(self::addIncludePath(), strtolower($type) . '.php');
 
-                if ($path !== false) {
+                if ($path !== false)
+                {
                     \JLoader::register($class, $path);
                 }
 
                 // The class should now be loaded
-                if (!class_exists($class)) {
+                if (!class_exists($class))
+                {
                     throw new \RuntimeException('Unable to load Cache Controller: ' . $type, 500);
                 }
 
@@ -142,11 +147,13 @@ class CacheController
     {
         static $paths;
 
-        if (!isset($paths)) {
-            $paths = [];
+        if (!isset($paths))
+        {
+            $paths = array();
         }
 
-        if (!empty($path) && !\in_array($path, $paths)) {
+        if (!empty($path) && !\in_array($path, $paths))
+        {
             // Only trigger a deprecation notice when adding a lookup path
             @trigger_error(
                 'Support for including cache controllers using path lookup is deprecated and will be removed in 5.0.'

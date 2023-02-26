@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Joomla! Content Management System
  *
@@ -9,9 +8,7 @@
 
 namespace Joomla\CMS\Cache;
 
-// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface defining a factory which can create CacheController objects
@@ -31,5 +28,5 @@ interface CacheControllerFactoryInterface
      * @since   4.0.0
      * @throws  \RuntimeException
      */
-    public function createCacheController($type = 'output', $options = []): CacheController;
+    public function createCacheController($type = 'output', $options = array()): CacheController;
 }

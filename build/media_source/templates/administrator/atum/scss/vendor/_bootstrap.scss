@@ -1,0 +1,37 @@
+// Variables
+
+// Media, Jumbotron & Print removed https://getbootstrap.com/docs/5.0/migration/
+// Code is now in reboot https://github.com/twbs/bootstrap/pull/28917/files
+
+@import "../../../../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../../../../media/vendor/bootstrap/scss/mixins";
+@import "../root";
+@import "../../../../../../../media/vendor/bootstrap/scss/reboot";
+@import "../../../../../../../media/vendor/bootstrap/scss/type";
+@import "../../../../../../../media/vendor/bootstrap/scss/images";
+@import "../../../../../../../media/vendor/bootstrap/scss/containers";
+@import "../../../../../../../media/vendor/bootstrap/scss/grid";
+@import "../../../../../../../media/vendor/bootstrap/scss/tables";
+@import "../../../../../../../media/vendor/bootstrap/scss/forms";
+@import "../../../../../../../media/vendor/bootstrap/scss/buttons";
+@import "../../../../../../../media/vendor/bootstrap/scss/transitions";
+@import "../../../../../../../media/vendor/bootstrap/scss/dropdown";
+@import "../../../../../../../media/vendor/bootstrap/scss/accordion";
+@import "../../../../../../../media/vendor/bootstrap/scss/button-group";
+@import "../../../../../../../media/vendor/bootstrap/scss/nav";
+@import "../../../../../../../media/vendor/bootstrap/scss/navbar";
+@import "../../../../../../../media/vendor/bootstrap/scss/card";
+@import "../../../../../../../media/vendor/bootstrap/scss/breadcrumb";
+@import "../../../../../../../media/vendor/bootstrap/scss/pagination";
+@import "../../../../../../../media/vendor/bootstrap/scss/badge";
+@import "../../../../../../../media/vendor/bootstrap/scss/alert";
+@import "../../../../../../../media/vendor/bootstrap/scss/progress";
+@import "../../../../../../../media/vendor/bootstrap/scss/list-group";
+@import "../../../../../../../media/vendor/bootstrap/scss/close";
+@import "../../../../../../../media/vendor/bootstrap/scss/modal";
+@import "../../../../../../../media/vendor/bootstrap/scss/tooltip";
+@import "../../../../../../../media/vendor/bootstrap/scss/popover";
+@import "../../../../../../../media/vendor/bootstrap/scss/carousel";
+@import "../../../../../../../media/vendor/bootstrap/scss/utilities";
+@import "../../../../../../../media/vendor/bootstrap/scss/utilities/api";
+@import "../../../../../../../media/vendor/bootstrap/scss/helpers";

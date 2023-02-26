@@ -75,10 +75,10 @@ class LanguageField extends ListField
         }
 
         if (!$options || $options instanceof \Exception) {
-            $options = [];
+            $options = array();
         } else {
             // Sort languages by name
-            usort($options, [$this, '_sortLanguages']);
+            usort($options, array($this, '_sortLanguages'));
         }
 
         // Merge any additional options in the XML definition.
@@ -118,12 +118,6 @@ class LanguageField extends ListField
         }
 
         $app = Factory::getApplication();
-
-        if ($app->isClient('cli_installation')) {
-            $native = 'en-GB';
-
-            return $native;
-        }
 
         // Detect the native language.
         $native = LanguageHelper::detectLanguage();

@@ -39,8 +39,8 @@ class Manage
      */
     public function state($value, $i, $enabled = true, $checkbox = 'cb')
     {
-        $states = [
-            2 => [
+        $states = array(
+            2 => array(
                 '',
                 'COM_INSTALLER_EXTENSION_PROTECTED',
                 '',
@@ -48,8 +48,8 @@ class Manage
                 true,
                 'protected',
                 'protected',
-            ],
-            1 => [
+            ),
+            1 => array(
                 'unpublish',
                 'COM_INSTALLER_EXTENSION_ENABLED',
                 'COM_INSTALLER_EXTENSION_DISABLE',
@@ -57,8 +57,8 @@ class Manage
                 true,
                 'publish',
                 'publish',
-            ],
-            0 => [
+            ),
+            0 => array(
                 'publish',
                 'COM_INSTALLER_EXTENSION_DISABLED',
                 'COM_INSTALLER_EXTENSION_ENABLE',
@@ -66,8 +66,8 @@ class Manage
                 true,
                 'unpublish',
                 'unpublish',
-            ],
-        ];
+            ),
+        );
 
         return HTMLHelper::_('jgrid.state', $states, $value, $i, 'manage.', $enabled, true, $checkbox);
     }

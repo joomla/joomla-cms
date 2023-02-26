@@ -11,7 +11,7 @@
     class="media-browser-actions"
     :class="{ active: showActions }"
   >
-    <MediaBrowserActionItemToggle
+    <media-browser-action-item-toggle
       ref="actionToggle"
       :main-action="openActions"
       @on-focused="focused"
@@ -38,7 +38,7 @@
       >
         <strong>{{ $parent.$props.item.name }}</strong>
       </span>
-      <MediaBrowserActionItemPreview
+      <media-browser-action-item-preview
         v-if="previewable"
         ref="actionPreview"
         :on-focused="focused"
@@ -55,7 +55,7 @@
         @keyup.esc="hideActions"
         @keydown.tab="hideActions"
       />
-      <MediaBrowserActionItemDownload
+      <media-browser-action-item-download
         v-if="downloadable"
         ref="actionDownload"
         :on-focused="focused"
@@ -72,7 +72,7 @@
         @keydown.home.prevent
         @keydown.end.prevent
       />
-      <MediaBrowserActionItemRename
+      <media-browser-action-item-rename
         v-if="canEdit"
         ref="actionRename"
         :on-focused="focused"
@@ -89,7 +89,7 @@
         @keydown.home.prevent
         @keydown.end.prevent
       />
-      <MediaBrowserActionItemEdit
+      <media-browser-action-item-edit
         v-if="canEdit && canOpenEditView"
         ref="actionEdit"
         :on-focused="focused"
@@ -106,7 +106,7 @@
         @keydown.home.prevent
         @keydown.end.prevent
       />
-      <MediaBrowserActionItemShare
+      <media-browser-action-item-share
         v-if="shareable"
         ref="actionShare"
         :on-focused="focused"
@@ -123,7 +123,7 @@
         @keydown.home.prevent
         @keydown.end.prevent
       />
-      <MediaBrowserActionItemDelete
+      <media-browser-action-item-delete
         v-if="canDelete"
         ref="actionDelete"
         :on-focused="focused"
@@ -146,27 +146,10 @@
 
 <script>
 import * as types from '../../../store/mutation-types.es6';
-import api from '../../../app/Api.es6';
-
-import MediaBrowserActionItemEdit from './edit.vue';
-import MediaBrowserActionItemDelete from './delete.vue';
-import MediaBrowserActionItemDownload from './download.vue';
-import MediaBrowserActionItemPreview from './preview.vue';
-import MediaBrowserActionItemRename from './rename.vue';
-import MediaBrowserActionItemShare from './share.vue';
-import MediaBrowserActionItemToggle from './toggle.vue';
+import { api } from '../../../app/Api.es6';
 
 export default {
   name: 'MediaBrowserActionItemsContainer',
-  components: {
-    MediaBrowserActionItemEdit,
-    MediaBrowserActionItemDelete,
-    MediaBrowserActionItemDownload,
-    MediaBrowserActionItemPreview,
-    MediaBrowserActionItemRename,
-    MediaBrowserActionItemShare,
-    MediaBrowserActionItemToggle,
-  },
   props: {
     item: { type: Object, default: () => {} },
     edit: { type: Function, default: () => {} },
@@ -192,7 +175,8 @@ export default {
     },
   },
   watch: {
-    '$store.state.showRenameModal': function (show) {
+    // eslint-disable-next-line
+    "$store.state.showRenameModal"(show) {
       if (
         !show
         && this.$refs.actionToggle

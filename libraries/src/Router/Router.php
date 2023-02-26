@@ -55,7 +55,7 @@ class Router
      * @var     array
      * @since   1.5
      */
-    protected $vars = [];
+    protected $vars = array();
 
     /**
      * An array of rules
@@ -63,14 +63,14 @@ class Router
      * @var    array
      * @since  1.5
      */
-    protected $rules = [
-        'buildpreprocess'  => [],
-        'build'            => [],
-        'buildpostprocess' => [],
-        'parsepreprocess'  => [],
-        'parse'            => [],
-        'parsepostprocess' => [],
-    ];
+    protected $rules = array(
+        'buildpreprocess' => array(),
+        'build' => array(),
+        'buildpostprocess' => array(),
+        'parsepreprocess' => array(),
+        'parse' => array(),
+        'parsepostprocess' => array(),
+    );
 
     /**
      * Caching of processed URIs
@@ -78,7 +78,7 @@ class Router
      * @var    array
      * @since  3.3
      */
-    protected $cache = [];
+    protected $cache = array();
 
     /**
      * Router instances container.
@@ -86,7 +86,7 @@ class Router
      * @var    Router[]
      * @since  1.7
      */
-    protected static $instances = [];
+    protected static $instances = array();
 
     /**
      * Returns the global Router object, only creating it if it
@@ -103,7 +103,7 @@ class Router
      *
      * @deprecated 5.0 Inject the router or load it from the dependency injection container
      */
-    public static function getInstance($client, $options = [])
+    public static function getInstance($client, $options = array())
     {
         if (empty(self::$instances[$client])) {
             // Create a Router object
@@ -227,7 +227,7 @@ class Router
      *
      * @since   1.5
      */
-    public function setVars($vars = [], $merge = true)
+    public function setVars($vars = array(), $merge = true)
     {
         if ($merge) {
             $this->vars = array_merge($this->vars, $vars);
@@ -329,7 +329,7 @@ class Router
      */
     public function detachRule($type, $rule, $stage = self::PROCESS_DURING)
     {
-        if (!\in_array($type, ['parse', 'build'])) {
+        if (!\in_array($type, array('parse', 'build'))) {
             throw new \InvalidArgumentException(sprintf('The %s type is not supported. (%s)', $type, __METHOD__));
         }
 
@@ -402,7 +402,7 @@ class Router
         }
 
         foreach ($this->rules['build' . $stage] as $rule) {
-            \call_user_func_array($rule, [&$this, &$uri]);
+            \call_user_func_array($rule, array(&$this, &$uri));
         }
     }
 
@@ -424,7 +424,7 @@ class Router
         $uri = new Uri('index.php');
 
         if (\is_string($url)) {
-            $vars = [];
+            $vars = array();
 
             if (strpos($url, '&amp;') !== false) {
                 $url = str_replace('&amp;', '&', $url);

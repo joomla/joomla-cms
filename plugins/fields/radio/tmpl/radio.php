@@ -19,7 +19,7 @@ if ($value == '') {
 }
 
 $value   = (array) $value;
-$texts   = [];
+$texts   = array();
 $options = $this->getOptionsFromField($field);
 
 foreach ($options as $optionValue => $optionText) {

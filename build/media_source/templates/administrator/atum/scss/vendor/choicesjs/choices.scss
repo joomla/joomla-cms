@@ -10,19 +10,15 @@
 @import "../../../../../../../../media/vendor/choicesjs/scss/choices";
 
 .choices {
-  border: $form-select-border-width solid $form-select-border-color;
-  @include border-radius($form-select-border-radius, 0);
-  @include box-shadow($form-select-box-shadow);
+  border: 0;
+  border-radius: $border-radius;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   &.is-focused {
-    border-color: $form-select-focus-border-color;
-
-    @if $enable-shadows {
-      @include box-shadow($form-select-box-shadow, $form-select-focus-box-shadow);
-    } @else {
-      // Avoid using mixin so we can pass custom focus shadow properly
-      box-shadow: $form-select-focus-box-shadow;
-    }
+    box-shadow: $focusshadow;
   }
 }
 
@@ -31,8 +27,12 @@
   padding: .1rem 1rem;
   margin-bottom: 0;
   font-size: 1rem;
-  border: none;
-  border-radius: 0;
+  border: $input-border;
+  border-radius: $border-radius;
+
+  .is-focused & {
+    border-color: $focuscolor;
+  }
 }
 
 .choices__input {
@@ -41,7 +41,12 @@
   font-size: 1rem;
   background-color: transparent;
 
-  &::placeholder {
+  &::-moz-placeholder {
+    color: $gray-700;
+    opacity: 1;
+  }
+
+  &::-webkit-input-placeholder {
     color: $gray-700;
     opacity: 1;
   }

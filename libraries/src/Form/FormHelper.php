@@ -47,7 +47,7 @@ class FormHelper
      * @var   string
      * @since 3.8.0
      */
-    protected static $prefixes = ['field' => [], 'form' => [], 'rule' => [], 'filter' => []];
+    protected static $prefixes = array('field' => array(), 'form' => array(), 'rule' => array(), 'filter' => array());
 
     /**
      * Static array of Form's entity objects for re-use.
@@ -61,7 +61,7 @@ class FormHelper
      * @var    array
      * @since  1.7.0
      */
-    protected static $entities = ['field' => [], 'form' => [], 'rule' => [], 'filter' => []];
+    protected static $entities = array('field' => array(), 'form' => array(), 'rule' => array(), 'filter' => array());
 
     /**
      * Method to load a form field object given a type.
@@ -214,7 +214,7 @@ class FormHelper
 
             if (strpos($name, '.')) {
                 list($subPrefix, $name) = explode('.', $name);
-                $subPrefix              = ucfirst($subPrefix) . '\\';
+                $subPrefix = ucfirst($subPrefix) . '\\';
             }
 
             // Compile the classname
@@ -479,7 +479,7 @@ class FormHelper
     {
         // Process the showon data.
         if (!$showOn) {
-            return [];
+            return array();
         }
 
         $formPath = $formControl ?: '';
@@ -499,7 +499,7 @@ class FormHelper
             }
         }
 
-        $showOnData  = [];
+        $showOnData  = array();
         $showOnParts = preg_split('#(\[AND\]|\[OR\])#', $showOn, -1, PREG_SPLIT_DELIM_CAPTURE);
         $op          = '';
 
@@ -530,12 +530,12 @@ class FormHelper
                 }
             }
 
-            $showOnData[] = [
+            $showOnData[] = array(
                 'field'  => $field,
                 'values' => explode(',', $showOnPartBlocks[1]),
                 'sign'   => $compareEqual === true ? '=' : '!=',
                 'op'     => $op,
-            ];
+            );
 
             if ($op !== '') {
                 $op = '';

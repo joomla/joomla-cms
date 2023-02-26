@@ -24,7 +24,7 @@
         >
           <span class="item-name">{{ drive.displayName }}</span>
         </a>
-        <MediaTree
+        <media-tree
           :ref="drive.root"
           :root="drive.root"
           :level="2"
@@ -38,32 +38,12 @@
 
 <script>
 import navigable from '../../mixins/navigable.es6';
-import MediaTree from './tree.vue';
 
 export default {
   name: 'MediaDrive',
-  components: {
-    MediaTree,
-  },
   mixins: [navigable],
-  props: {
-    drive: {
-      type: Object,
-      default: () => {},
-    },
-    total: {
-      type: Number,
-      default: 0,
-    },
-    diskId: {
-      type: String,
-      default: '',
-    },
-    counter: {
-      type: Number,
-      default: 0,
-    },
-  },
+  // eslint-disable-next-line vue/require-prop-types
+  props: ['drive', 'total', 'diskId', 'counter'],
   computed: {
     /* Whether or not the item is active */
     isActive() {

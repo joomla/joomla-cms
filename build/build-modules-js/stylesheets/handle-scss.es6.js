@@ -1,11 +1,10 @@
 const Autoprefixer = require('autoprefixer');
 const CssNano = require('cssnano');
-const rtlcss = require('rtlcss');
 const { writeFile } = require('fs').promises;
 const { ensureDir } = require('fs-extra');
 const { dirname, sep } = require('path');
 const Postcss = require('postcss');
-const Sass = require('sass-embedded');
+const Sass = require('sass');
 
 module.exports.handleScssFile = async (file) => {
   const cssFile = file.replace(`${sep}scss${sep}`, `${sep}css${sep}`)
@@ -21,11 +20,8 @@ module.exports.handleScssFile = async (file) => {
     process.exit(1);
   }
 
-  const plugins = [Autoprefixer];
-  if (cssFile.endsWith('-rtl.css')) plugins.push(rtlcss);
-
   // Auto prefixing
-  const cleaner = Postcss(plugins);
+  const cleaner = Postcss([Autoprefixer()]);
   const res = await cleaner.process(compiled.css.toString(), { from: undefined });
 
   // Ensure the folder exists or create it

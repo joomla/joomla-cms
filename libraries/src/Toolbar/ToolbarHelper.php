@@ -42,11 +42,11 @@ abstract class ToolbarHelper
     public static function title($title, $icon = 'generic.png')
     {
         $layout = new FileLayout('joomla.toolbar.title');
-        $html   = $layout->render(['title' => $title, 'icon' => $icon]);
+        $html   = $layout->render(array('title' => $title, 'icon' => $icon));
 
-        $app                  = Factory::getApplication();
+        $app = Factory::getApplication();
         $app->JComponentTitle = $html;
-        $title                = strip_tags($title) . ' - ' . $app->get('sitename');
+        $title = strip_tags($title) . ' - ' . $app->get('sitename');
 
         if ($app->isClient('administrator')) {
             $title .= ' - ' . Text::_('JADMINISTRATION');
@@ -191,7 +191,11 @@ abstract class ToolbarHelper
     public static function inlinehelp(string $class = "hide-aware-inline-help")
     {
         $bar = Toolbar::getInstance('toolbar');
-        $bar->inlinehelp($class);
+
+        // Add a help button.
+        $bar->inlinehelpButton('inlinehelp')
+            ->targetclass($class)
+            ->icon('fa fa-question-circle');
     }
 
     /**
@@ -641,10 +645,10 @@ abstract class ToolbarHelper
     public static function preferences($component, $height = 550, $width = 875, $alt = 'JTOOLBAR_OPTIONS', $path = '')
     {
         $component = urlencode($component);
-        $path      = urlencode($path);
-        $bar       = Toolbar::getInstance('toolbar');
+        $path = urlencode($path);
+        $bar = Toolbar::getInstance('toolbar');
 
-        $uri    = (string) Uri::getInstance();
+        $uri = (string) Uri::getInstance();
         $return = urlencode(base64_encode($uri));
 
         // Add a button linking to config for component.
@@ -679,7 +683,7 @@ abstract class ToolbarHelper
         $typeId           = $contentTypeTable->getTypeId($typeAlias);
 
         // Options array for Layout
-        $options              = [];
+        $options              = array();
         $options['title']     = Text::_($alt);
         $options['height']    = $height;
         $options['width']     = $width;
@@ -700,14 +704,14 @@ abstract class ToolbarHelper
      *
      * @since   4.0.0
      */
-    public static function saveGroup($buttons = [], $class = 'btn-success')
+    public static function saveGroup($buttons = array(), $class = 'btn-success')
     {
-        $validOptions = [
+        $validOptions = array(
             'apply'     => 'JTOOLBAR_APPLY',
             'save'      => 'JTOOLBAR_SAVE',
             'save2new'  => 'JTOOLBAR_SAVE_AND_NEW',
-            'save2copy' => 'JTOOLBAR_SAVE_AS_COPY',
-        ];
+            'save2copy' => 'JTOOLBAR_SAVE_AS_COPY'
+        );
 
         $bar = Toolbar::getInstance('toolbar');
 
@@ -720,6 +724,7 @@ abstract class ToolbarHelper
                         continue;
                     }
 
+                    $options['group'] = true;
                     $altText = $button[2] ?? $validOptions[$button[0]];
 
                     $childBar->{$button[0]}($button[1])

@@ -58,7 +58,7 @@ class Changelog extends CMSObject
      * @var    array
      * @since  4.0.0
      */
-    protected $security = [];
+    protected $security = array();
 
     /**
      * Update manifest `<fix>` element
@@ -66,7 +66,7 @@ class Changelog extends CMSObject
      * @var    array
      * @since  4.0.0
      */
-    protected $fix = [];
+    protected $fix = array();
 
     /**
      * Update manifest `<language>` element
@@ -74,7 +74,7 @@ class Changelog extends CMSObject
      * @var    array
      * @since  4.0.0
      */
-    protected $language = [];
+    protected $language = array();
 
     /**
      * Update manifest `<addition>` element
@@ -82,7 +82,7 @@ class Changelog extends CMSObject
      * @var    array
      * @since  4.0.0
      */
-    protected $addition = [];
+    protected $addition = array();
 
     /**
      * Update manifest `<change>` elements
@@ -90,7 +90,7 @@ class Changelog extends CMSObject
      * @var    array
      * @since  4.0.0
      */
-    protected $change = [];
+    protected $change = array();
 
     /**
      * Update manifest `<remove>` element
@@ -98,7 +98,7 @@ class Changelog extends CMSObject
      * @var    array
      * @since  4.0.0
      */
-    protected $remove = [];
+    protected $remove = array();
 
     /**
      * Update manifest `<maintainer>` element
@@ -106,7 +106,7 @@ class Changelog extends CMSObject
      * @var    array
      * @since  4.0.0
      */
-    protected $note = [];
+    protected $note = array();
 
     /**
      * List of node items
@@ -114,7 +114,7 @@ class Changelog extends CMSObject
      * @var    array
      * @since  4.0.0
      */
-    private $items = [];
+    private $items = array();
 
     /**
      * Resource handle for the XML Parser
@@ -130,7 +130,7 @@ class Changelog extends CMSObject
      * @var    array
      * @since  4.0.0
      */
-    protected $stack = ['base'];
+    protected $stack = array('base');
 
     /**
      * Object containing the current update data
@@ -206,7 +206,7 @@ class Changelog extends CMSObject
      * @note    This is public because it is called externally
      * @since   1.7.0
      */
-    public function startElement($parser, $name, $attrs = [])
+    public function startElement($parser, $name, $attrs = array())
     {
         $this->stack[] = $name;
         $tag           = $this->getStackLocation();
@@ -253,9 +253,9 @@ class Changelog extends CMSObject
             case 'CHANGE':
             case 'REMOVE':
             case 'NOTE':
-                $name                                = strtolower($name);
+                $name = strtolower($name);
                 $this->currentChangelog->$name->data = $this->items;
-                $this->items                         = [];
+                $this->items = array();
                 break;
             case 'CHANGELOG':
                 if (version_compare($this->currentChangelog->version->data, $this->matchVersion, '==') === true) {

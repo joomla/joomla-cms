@@ -16,7 +16,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
@@ -76,15 +75,13 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
-        $canDo   = ContentHelper::getActions('com_installer');
-        $toolbar = Toolbar::getInstance();
-
+        $canDo = ContentHelper::getActions('com_installer');
         ToolbarHelper::title(Text::_('COM_INSTALLER_HEADER_' . $this->getName()), 'puzzle-piece install');
 
         if ($canDo->get('core.admin')) {
             parent::addToolbar();
 
-            $toolbar->help('Extensions:_Languages');
+            ToolbarHelper::help('Extensions:_Languages');
         }
     }
 }

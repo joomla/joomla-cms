@@ -19,7 +19,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Banners\Administrator\Model\ClientModel;
 
@@ -107,13 +106,12 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar(): void
     {
-        Factory::getApplication()->getInput()->set('hidemainmenu', true);
+        Factory::getApplication()->input->set('hidemainmenu', true);
 
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
         $canDo      = $this->canDo;
-        $toolbar    = Toolbar::getInstance();
 
         ToolbarHelper::title(
             $isNew ? Text::_('COM_BANNERS_MANAGER_CLIENT_NEW') : Text::_('COM_BANNERS_MANAGER_CLIENT_EDIT'),
@@ -124,39 +122,35 @@ class HtmlView extends BaseHtmlView
 
         // If not checked out, can save the item.
         if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create'))) {
-            $toolbar->apply('client.apply');
+            ToolbarHelper::apply('client.apply');
+            $toolbarButtons[] = ['save', 'client.save'];
         }
 
-        $saveGroup = $toolbar->dropdownButton('save-group');
-        $saveGroup->configure(
-            function (Toolbar $childBar) use ($checkedOut, $canDo, $isNew) {
-                // If not checked out, can save the item.
-                if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create'))) {
-                    $childBar->save('client.save');
-                }
+        if (!$checkedOut && $canDo->get('core.create')) {
+            $toolbarButtons[] = ['save2new', 'client.save2new'];
+        }
 
-                if (!$checkedOut && $canDo->get('core.create')) {
-                    $childBar->save2new('client.save2new');
-                }
+        // If an existing item, can save to a copy.
+        if (!$isNew && $canDo->get('core.create')) {
+            $toolbarButtons[] = ['save2copy', 'client.save2copy'];
+        }
 
-                // If an existing item, can save to a copy.
-                if (!$isNew && $canDo->get('core.create')) {
-                    $childBar->save2copy('client.save2copy');
-                }
-            }
+        ToolbarHelper::saveGroup(
+            $toolbarButtons,
+            'btn-success'
         );
 
         if (empty($this->item->id)) {
-            $toolbar->cancel('client.cancel', 'JTOOLBAR_CANCEL');
+            ToolbarHelper::cancel('client.cancel');
         } else {
-            $toolbar->cancel('client.cancel');
+            ToolbarHelper::cancel('client.cancel', 'JTOOLBAR_CLOSE');
 
             if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit')) {
-                $toolbar->versions('com_banners.client', $this->item->id);
+                ToolbarHelper::versions('com_banners.client', $this->item->id);
             }
         }
 
-        $toolbar->divider();
-        $toolbar->help('Banners:_New_or_Edit_Client');
+        ToolbarHelper::divider();
+        ToolbarHelper::help('Banners:_New_or_Edit_Client');
     }
 }

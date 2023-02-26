@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -118,7 +117,7 @@ class HtmlView extends BaseHtmlView
         } else {
             // In article associations modal we need to remove language filter if forcing a language.
             // We also need to change the category filter to show show categories with All or the forced language.
-            if ($forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD')) {
+            if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD')) {
                 // If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
                 $languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
                 $this->filterForm->setField($languageXml, 'filter', true);
@@ -147,7 +146,7 @@ class HtmlView extends BaseHtmlView
         $user  = Factory::getApplication()->getIdentity();
 
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance();
+        $toolbar = Toolbar::getInstance('toolbar');
 
         ToolbarHelper::title(Text::_('COM_CONTACT_MANAGER_CONTACTS'), 'address-book contact');
 
@@ -156,8 +155,8 @@ class HtmlView extends BaseHtmlView
         }
 
         if (!$this->isEmptyState && $canDo->get('core.edit.state')) {
-            /** @var  DropdownButton $dropdown */
-            $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
+            $dropdown = $toolbar->dropdownButton('status-group')
+                ->text('JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
                 ->icon('icon-ellipsis-h')
                 ->buttonClass('btn btn-action')
@@ -166,15 +165,22 @@ class HtmlView extends BaseHtmlView
             $childBar = $dropdown->getChildToolbar();
 
             $childBar->publish('contacts.publish')->listCheck(true);
+
             $childBar->unpublish('contacts.unpublish')->listCheck(true);
-            $childBar->standardButton('featured', 'JFEATURE', 'contacts.featured')
+
+            $childBar->standardButton('featured')
+                ->text('JFEATURE')
+                ->task('contacts.featured')
                 ->listCheck(true);
-            $childBar->standardButton('unfeatured', 'JUNFEATURE', 'contacts.unfeatured')
+            $childBar->standardButton('unfeatured')
+                ->text('JUNFEATURE')
+                ->task('contacts.unfeatured')
                 ->listCheck(true);
+
             $childBar->archive('contacts.archive')->listCheck(true);
 
             if ($user->authorise('core.admin')) {
-                $childBar->checkin('contacts.checkin');
+                $childBar->checkin('contacts.checkin')->listCheck(true);
             }
 
             if ($this->state->get('filter.published') != -2) {
@@ -187,14 +193,16 @@ class HtmlView extends BaseHtmlView
                 && $user->authorise('core.edit', 'com_contact')
                 && $user->authorise('core.edit.state', 'com_contact')
             ) {
-                $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
+                $childBar->popupButton('batch')
+                    ->text('JTOOLBAR_BATCH')
                     ->selector('collapseModal')
                     ->listCheck(true);
             }
         }
 
         if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-            $toolbar->delete('contacts.delete', 'JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('contacts.delete')
+                ->text('JTOOLBAR_EMPTY_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

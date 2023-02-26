@@ -28,7 +28,7 @@ $wa->useScript('keepalive')
 
 $this->useCoreUI = true;
 
-$input = $app->getInput();
+$input = $app->input;
 list($component, $sub_id) = explode('.', $this->master->template_id, 2);
 $sub_id = str_replace('.', '_', $sub_id);
 

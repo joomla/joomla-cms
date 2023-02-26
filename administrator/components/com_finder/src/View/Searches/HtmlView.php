@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Uri\Uri;
 
@@ -126,12 +125,7 @@ class HtmlView extends BaseHtmlView
 
         // Check if component is enabled
         if (!$this->enabled) {
-            // Check if the user has access to the component options
-            if ($this->canDo->get('core.admin') || $this->canDo->get('core.options')) {
-                $app->enqueueMessage(Text::sprintf('COM_FINDER_LOGGING_DISABLED', $output), 'warning');
-            } else {
-                $app->enqueueMessage(Text::_('COM_FINDER_LOGGING_DISABLED_NO_AUTH'), 'warning');
-            }
+            $app->enqueueMessage(Text::sprintf('COM_FINDER_LOGGING_DISABLED', $output), 'warning');
         }
 
         // Prepare the view.
@@ -149,25 +143,22 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo   = $this->canDo;
-        $toolbar = Toolbar::getInstance();
+        $canDo = $this->canDo;
 
         ToolbarHelper::title(Text::_('COM_FINDER_MANAGER_SEARCHES'), 'search');
 
         if (!$this->isEmptyState) {
             if ($canDo->get('core.edit.state')) {
-                $toolbar->standardButton('reset', 'JSEARCH_RESET', 'searches.reset')
-                    ->icon('icon-refresh')
-                    ->listCheck(false);
+                ToolbarHelper::custom('searches.reset', 'refresh', '', 'JSEARCH_RESET', false);
             }
 
-            $toolbar->divider();
+            ToolbarHelper::divider();
         }
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            $toolbar->preferences('com_finder');
+            ToolbarHelper::preferences('com_finder');
         }
 
-        $toolbar->help('Smart_Search:_Search_Term_Analysis');
+        ToolbarHelper::help('Smart_Search:_Search_Term_Analysis');
     }
 }

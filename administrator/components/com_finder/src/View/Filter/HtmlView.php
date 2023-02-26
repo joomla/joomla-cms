@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -88,10 +87,10 @@ class HtmlView extends BaseHtmlView
     {
         // Load the view data.
         $this->filter = $this->get('Filter');
-        $this->item   = $this->get('Item');
-        $this->form   = $this->get('Form');
-        $this->state  = $this->get('State');
-        $this->total  = $this->get('Total');
+        $this->item = $this->get('Item');
+        $this->form = $this->get('Form');
+        $this->state = $this->get('State');
+        $this->total = $this->get('Total');
 
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {
@@ -113,12 +112,11 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->getInput()->set('hidemainmenu', true);
+        Factory::getApplication()->input->set('hidemainmenu', true);
 
-        $isNew      = ($this->item->filter_id == 0);
+        $isNew = ($this->item->filter_id == 0);
         $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $this->getCurrentUser()->id);
-        $canDo      = ContentHelper::getActions('com_finder');
-        $toolbar    = Toolbar::getInstance();
+        $canDo = ContentHelper::getActions('com_finder');
 
         // Configure the toolbar.
         ToolbarHelper::title(
@@ -130,49 +128,48 @@ class HtmlView extends BaseHtmlView
         if ($isNew) {
             // For new records, check the create permission.
             if ($canDo->get('core.create')) {
-                $toolbar->apply('filter.apply');
-                $saveGroup = $toolbar->dropdownButton('save-group');
-                $saveGroup->configure(
-                    function (Toolbar $childBar) {
-                        $childBar->save('filter.save');
-                        $childBar->save2new('filter.save2new');
-                    }
+                ToolbarHelper::apply('filter.apply');
+
+                ToolbarHelper::saveGroup(
+                    [
+                        ['save', 'filter.save'],
+                        ['save2new', 'filter.save2new']
+                    ],
+                    'btn-success'
                 );
             }
 
-            $toolbar->cancel('filter.cancel');
+            ToolbarHelper::cancel('filter.cancel');
         } else {
+            $toolbarButtons = [];
+
             // Can't save the record if it's checked out.
             // Since it's an existing record, check the edit permission.
             if (!$checkedOut && $canDo->get('core.edit')) {
-                $toolbar->apply('filter.apply');
+                ToolbarHelper::apply('filter.apply');
+
+                $toolbarButtons[] = ['save', 'filter.save'];
+
+                // We can save this record, but check the create permission to see if we can return to make a new one.
+                if ($canDo->get('core.create')) {
+                    $toolbarButtons[] = ['save2new', 'filter.save2new'];
+                }
             }
 
-            $saveGroup = $toolbar->dropdownButton('save-group');
-            $saveGroup->configure(
-                function (Toolbar $childBar) use ($checkedOut, $canDo) {
-                    // Can't save the record if it's checked out.
-                    // Since it's an existing record, check the edit permission.
-                    if (!$checkedOut && $canDo->get('core.edit')) {
-                        $childBar->save('filter.save');
+            // If an existing item, can save as a copy
+            if ($canDo->get('core.create')) {
+                $toolbarButtons[] = ['save2copy', 'filter.save2copy'];
+            }
 
-                        // We can save this record, but check the create permission to see if we can return to make a new one.
-                        if ($canDo->get('core.create')) {
-                            $childBar->save2new('filter.save2new');
-                        }
-                    }
-
-                    // If an existing item, can save as a copy
-                    if ($canDo->get('core.create')) {
-                        $childBar->save2copy('filter.save2copy');
-                    }
-                }
+            ToolbarHelper::saveGroup(
+                $toolbarButtons,
+                'btn-success'
             );
 
-            $toolbar->cancel('filter.cancel');
+            ToolbarHelper::cancel('filter.cancel', 'JTOOLBAR_CLOSE');
         }
 
-        $toolbar->divider();
-        $toolbar->help('Smart_Search:_New_or_Edit_Filter');
+        ToolbarHelper::divider();
+        ToolbarHelper::help('Smart_Search:_New_or_Edit_Filter');
     }
 }

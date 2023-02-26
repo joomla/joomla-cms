@@ -19,7 +19,7 @@ if ($value == '') {
 }
 
 $value = (array) $value;
-$texts = [];
+$texts = array();
 
 foreach ($value as $userId) {
     if (!$userId) {

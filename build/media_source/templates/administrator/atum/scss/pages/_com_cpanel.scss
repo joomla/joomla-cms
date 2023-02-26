@@ -82,7 +82,6 @@
     .table {
       padding: 0;
       margin-bottom: unset;
-      border-top: 1px solid var(--border-color);
     }
 
   }
@@ -93,7 +92,7 @@
     padding: 1rem 1rem .75rem;
     font-weight: $font-weight-bold;
     color: var(--template-bg-dark);
-    background: hsla(0, 0%, 100%, .7); // default: var(--card-bg);
+    background: var(--card-bg);
 
     > [class^="icon-"],
     > img {

@@ -118,8 +118,8 @@ class MenuitemField extends GroupedlistField
             case 'language':
             case 'published':
             case 'disable':
-                $value       = (string) $value;
-                $this->$name = $value ? explode(',', $value) : [];
+                $value = (string) $value;
+                $this->$name = $value ? explode(',', $value) : array();
                 break;
 
             default:
@@ -148,9 +148,9 @@ class MenuitemField extends GroupedlistField
         if ($result === true) {
             $this->menuType  = (string) $this->element['menu_type'];
             $this->clientId  = (int) $this->element['client_id'];
-            $this->published = $this->element['published'] ? explode(',', (string) $this->element['published']) : [];
-            $this->disable   = $this->element['disable'] ? explode(',', (string) $this->element['disable']) : [];
-            $this->language  = $this->element['language'] ? explode(',', (string) $this->element['language']) : [];
+            $this->published = $this->element['published'] ? explode(',', (string) $this->element['published']) : array();
+            $this->disable   = $this->element['disable'] ? explode(',', (string) $this->element['disable']) : array();
+            $this->language  = $this->element['language'] ? explode(',', (string) $this->element['language']) : array();
         }
 
         return $result;
@@ -165,7 +165,7 @@ class MenuitemField extends GroupedlistField
      */
     protected function getGroups()
     {
-        $groups = [];
+        $groups = array();
 
         $menuType = $this->menuType;
 
@@ -190,7 +190,7 @@ class MenuitemField extends GroupedlistField
             }
 
             // Initialize the group.
-            $groups[$menuTitle] = [];
+            $groups[$menuTitle] = array();
 
             // Build the options array.
             foreach ($items as $link) {
@@ -217,7 +217,7 @@ class MenuitemField extends GroupedlistField
             // Build the groups arrays.
             foreach ($items as $menu) {
                 // Initialize the group.
-                $groups[$menu->title] = [];
+                $groups[$menu->title] = array();
 
                 // Build the options array.
                 foreach ($menu->links as $link) {

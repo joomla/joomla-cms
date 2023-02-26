@@ -29,7 +29,7 @@ foreach ($modules as $key => $mod) {
     if ($out !== '') {
         if (strpos($out, 'data-bs-toggle="modal"') !== false) {
             $dom = new \DOMDocument();
-            $dom->loadHTML('<?xml encoding="utf-8" ?>' . $out);
+            $dom->loadHTML($out);
             $els = $dom->getElementsByTagName('a');
 
             $moduleCollapsedHtml[] = $dom->saveHTML($els[0]); //$els[0]->nodeValue;

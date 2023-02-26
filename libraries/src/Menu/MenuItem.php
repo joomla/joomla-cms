@@ -22,7 +22,6 @@ use Joomla\Registry\Registry;
  *
  * @since  3.7.0
  */
-#[\AllowDynamicProperties]
 class MenuItem implements NodeInterface
 {
     use NodeTrait;
@@ -186,7 +185,7 @@ class MenuItem implements NodeInterface
      * @var    array
      * @since  3.7.0
      */
-    public $tree = [];
+    public $tree = array();
 
     /**
      * An array of the query string values for this item
@@ -194,7 +193,7 @@ class MenuItem implements NodeInterface
      * @var    array
      * @since  3.7.0
      */
-    public $query = [];
+    public $query = array();
 
     /**
      * Class constructor
@@ -203,7 +202,7 @@ class MenuItem implements NodeInterface
      *
      * @since   3.7.0
      */
-    public function __construct($data = [])
+    public function __construct($data = array())
     {
         foreach ((array) $data as $key => $value) {
             $this->$key = $value;

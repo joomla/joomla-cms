@@ -44,7 +44,7 @@ interface CMSWebApplicationInterface extends SessionAwareWebApplicationInterface
      *
      * @since   4.0.0
      */
-    public function getMenu($name = null, $options = []);
+    public function getMenu($name = null, $options = array());
 
     /**
      * Returns the application Router object.
@@ -58,7 +58,7 @@ interface CMSWebApplicationInterface extends SessionAwareWebApplicationInterface
      *
      * @deprecated 5.0 Inject the router or load it from the dependency injection container
      */
-    public static function getRouter($name = null, array $options = []);
+    public static function getRouter($name = null, array $options = array());
 
     /**
      * Gets a user state.

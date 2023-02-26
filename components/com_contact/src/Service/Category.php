@@ -30,7 +30,7 @@ class Category extends Categories
      *
      * @since   1.6
      */
-    public function __construct($options = [])
+    public function __construct($options = array())
     {
         $options['table']      = '#__contact_details';
         $options['extension']  = 'com_contact';

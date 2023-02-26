@@ -9,10 +9,8 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_FINDER_CONTENT_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\Finder\Content</namespace>
 	<files>
-		<folder plugin="content">services</folder>
-		<folder>src</folder>
+		<filename plugin="content">content.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_finder_content.ini</language>

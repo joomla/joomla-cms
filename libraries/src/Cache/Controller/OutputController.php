@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Joomla! Content Management System
  *
@@ -9,11 +8,9 @@
 
 namespace Joomla\CMS\Cache\Controller;
 
-use Joomla\CMS\Cache\CacheController;
+\defined('JPATH_PLATFORM') or die;
 
-// phpcs:disable PSR1.Files.SideEffects
-\defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
+use Joomla\CMS\Cache\CacheController;
 
 /**
  * Joomla Cache output type object
@@ -52,21 +49,25 @@ class OutputController extends CacheController
     {
         $data = $this->cache->get($id, $group);
 
-        if ($data === false) {
+        if ($data === false)
+        {
             $locktest = $this->cache->lock($id, $group);
 
             // If locklooped is true try to get the cached data again; it could exist now.
-            if ($locktest->locked === true && $locktest->locklooped === true) {
+            if ($locktest->locked === true && $locktest->locklooped === true)
+            {
                 $data = $this->cache->get($id, $group);
             }
 
-            if ($locktest->locked === true) {
+            if ($locktest->locked === true)
+            {
                 $this->cache->unlock($id, $group);
             }
         }
 
         // Check again because we might get it from second attempt
-        if ($data !== false) {
+        if ($data !== false)
+        {
             // Trim to fix unserialize errors
             $data = unserialize(trim($data));
         }
@@ -90,14 +91,16 @@ class OutputController extends CacheController
     {
         $locktest = $this->cache->lock($id, $group);
 
-        if ($locktest->locked === false && $locktest->locklooped === true) {
+        if ($locktest->locked === false && $locktest->locklooped === true)
+        {
             // We can not store data because another process is in the middle of saving
             return false;
         }
 
         $result = $this->cache->store(serialize($data), $id, $group);
 
-        if ($locktest->locked === true) {
+        if ($locktest->locked === true)
+        {
             $this->cache->unlock($id, $group);
         }
 

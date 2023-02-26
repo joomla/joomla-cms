@@ -38,7 +38,7 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
      *
      * @since   3.7.0
      */
-    protected $itemTypes = [];
+    protected $itemTypes = array();
 
     /**
      * Has the extension association support
@@ -85,7 +85,7 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
      */
     public function getAssociationList($typeName, $itemId)
     {
-        $items = [];
+        $items = array();
 
         $associations = $this->getAssociations($typeName, $itemId);
 
@@ -108,18 +108,18 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
     public function getType($typeName = '')
     {
         $fields  = $this->getFieldsTemplate();
-        $tables  = [];
-        $joins   = [];
+        $tables  = array();
+        $joins   = array();
         $support = $this->getSupportTemplate();
         $title   = '';
 
-        return [
+        return array(
             'fields'  => $fields,
             'support' => $support,
             'tables'  => $tables,
             'joins'   => $joins,
-            'title'   => $title,
-        ];
+            'title'   => $title
+        );
     }
 
     /**
@@ -213,7 +213,7 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
         $type = $this->getType($typeName);
 
         if (!\array_key_exists($part, $type)) {
-            return [];
+            return array();
         }
 
         return $type[$part];
@@ -256,11 +256,11 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
      */
     protected function getSupportTemplate()
     {
-        return [
+        return array(
             'state'    => false,
             'acl'      => false,
-            'checkout' => false,
-        ];
+            'checkout' => false
+        );
     }
 
     /**
@@ -272,20 +272,20 @@ abstract class AssociationExtensionHelper implements AssociationExtensionInterfa
      */
     protected function getFieldsTemplate()
     {
-        return [
-            'id'               => 'a.id',
-            'title'            => 'a.title',
-            'alias'            => 'a.alias',
-            'ordering'         => 'a.ordering',
-            'menutype'         => '',
-            'level'            => '',
-            'catid'            => 'a.catid',
-            'language'         => 'a.language',
-            'access'           => 'a.access',
-            'state'            => 'a.state',
-            'created_user_id'  => 'a.created_by',
-            'checked_out'      => 'a.checked_out',
-            'checked_out_time' => 'a.checked_out_time',
-        ];
+        return array(
+            'id'                  => 'a.id',
+            'title'               => 'a.title',
+            'alias'               => 'a.alias',
+            'ordering'            => 'a.ordering',
+            'menutype'            => '',
+            'level'               => '',
+            'catid'               => 'a.catid',
+            'language'            => 'a.language',
+            'access'              => 'a.access',
+            'state'               => 'a.state',
+            'created_user_id'     => 'a.created_by',
+            'checked_out'         => 'a.checked_out',
+            'checked_out_time'    => 'a.checked_out_time'
+        );
     }
 }

@@ -29,7 +29,7 @@ class Text
      * @var    array
      * @since  1.7.0
      */
-    protected static $strings = [];
+    protected static $strings = array();
 
     /**
      * Translates a string into the current language.
@@ -96,7 +96,7 @@ class Text
             return false;
         }
 
-        $lang         = Factory::getLanguage();
+        $lang = Factory::getLanguage();
         $string_parts = explode(',', $string);
 
         // Pass all parts through the Text translator
@@ -187,12 +187,12 @@ class Text
      */
     public static function plural($string, $n)
     {
-        $lang  = Factory::getLanguage();
-        $args  = \func_get_args();
+        $lang = Factory::getLanguage();
+        $args = \func_get_args();
         $count = \count($args);
 
         // Try the key from the language plural potential suffixes
-        $found    = false;
+        $found = false;
         $suffixes = $lang->getPluralSuffixes((int) $n);
 
         // Add the count as possible suffix to allow for eg "a dozen" with suffix _12.
@@ -257,8 +257,8 @@ class Text
      */
     public static function sprintf($string)
     {
-        $lang  = Factory::getLanguage();
-        $args  = \func_get_args();
+        $lang = Factory::getLanguage();
+        $args = \func_get_args();
         $count = \count($args);
 
         if (\is_array($args[$count - 1])) {
@@ -296,8 +296,8 @@ class Text
      */
     public static function printf($string)
     {
-        $lang  = Factory::getLanguage();
-        $args  = \func_get_args();
+        $lang = Factory::getLanguage();
+        $args = \func_get_args();
         $count = \count($args);
 
         if (\is_array($args[$count - 1])) {

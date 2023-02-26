@@ -13,7 +13,7 @@
 			name="state"
 			type="MessageStates"
 			label="JSTATUS"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 			<option value="*">JALL</option>
@@ -24,7 +24,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 			default="a.date_time DESC"
 			validate="options"
 			>
@@ -43,7 +43,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="5"
-			class="js-select-submit-on-change"
+			onchange="this.form.submit();"
 		/>
 	</fields>
 </form>

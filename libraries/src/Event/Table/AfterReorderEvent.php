@@ -35,7 +35,7 @@ class AfterReorderEvent extends AbstractEvent
      *
      * @throws  BadMethodCallException
      */
-    public function __construct($name, array $arguments = [])
+    public function __construct($name, array $arguments = array())
     {
         if (!\array_key_exists('where', $arguments)) {
             throw new BadMethodCallException("Argument 'ignore' is required for event $name");

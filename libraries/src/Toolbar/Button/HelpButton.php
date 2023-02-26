@@ -43,14 +43,10 @@ class HelpButton extends BasicButton
      */
     protected function prepareOptions(array &$options)
     {
-        $options['text']                      = $options['text'] ?: 'JTOOLBAR_HELP';
-        $options['icon']                      = $options['icon'] ?? 'icon-question';
-        $options['button_class']              = ($options['button_class'] ?? 'btn btn-info') . ' js-toolbar-help-btn';
-        $options['attributes']['data-url']    = $this->_getCommand();
-        $options['attributes']['data-title']  = Text::_('JHELP');
-        $options['attributes']['data-width']  = 700;
-        $options['attributes']['data-height'] = 500;
-        $options['attributes']['data-scroll'] = true;
+        $options['text'] = $options['text'] ?: 'JTOOLBAR_HELP';
+        $options['icon'] = $options['icon'] ?? 'icon-question';
+        $options['button_class'] = $options['button_class'] ?? 'btn btn-info';
+        $options['onclick'] = $options['onclick'] ?? $this->_getCommand();
 
         parent::prepareOptions($options);
     }
@@ -93,8 +89,10 @@ class HelpButton extends BasicButton
         // Get Help URL
         $url = Help::createUrl($this->getRef(), $this->getUseComponent(), $this->getUrl(), $this->getComponent());
         $url = json_encode(htmlspecialchars($url, ENT_QUOTES), JSON_HEX_APOS);
+        $url = substr($url, 1, -1);
+        $cmd = "Joomla.popupWindow('$url', '" . Text::_('JHELP', true) . "', 700, 500, 1)";
 
-        return substr($url, 1, -1);
+        return $cmd;
     }
 
     /**
@@ -112,7 +110,7 @@ class HelpButton extends BasicButton
                 'ref',
                 'useComponent',
                 'component',
-                'url',
+                'url'
             ]
         );
     }

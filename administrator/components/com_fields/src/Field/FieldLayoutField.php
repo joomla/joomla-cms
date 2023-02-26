@@ -50,7 +50,7 @@ class FieldLayoutField extends FormField
 
         if ($extension) {
             // Get the database object and a new query object.
-            $db    = $this->getDatabase();
+            $db = $this->getDatabase();
             $query = $db->getQuery(true);
 
             // Build the query.
@@ -68,10 +68,10 @@ class FieldLayoutField extends FormField
             $component_path = Path::clean(JPATH_SITE . '/components/' . $extension . '/layouts/field');
 
             // Prepare array of component layouts
-            $component_layouts = [];
+            $component_layouts = array();
 
             // Prepare the grouped list
-            $groups = [];
+            $groups = array();
 
             // Add "Use Default"
             $groups[]['items'][] = HTMLHelper::_('select.option', '', Text::_('JOPTION_USE_DEFAULT'));
@@ -79,14 +79,14 @@ class FieldLayoutField extends FormField
             // Add the layout options from the component path.
             if (is_dir($component_path) && ($component_layouts = Folder::files($component_path, '^[^_]*\.php$', false, true))) {
                 // Create the group for the component
-                $groups['_']          = [];
-                $groups['_']['id']    = $this->id . '__';
-                $groups['_']['text']  = Text::sprintf('JOPTION_FROM_COMPONENT');
-                $groups['_']['items'] = [];
+                $groups['_'] = array();
+                $groups['_']['id'] = $this->id . '__';
+                $groups['_']['text'] = Text::sprintf('JOPTION_FROM_COMPONENT');
+                $groups['_']['items'] = array();
 
                 foreach ($component_layouts as $i => $file) {
                     // Add an option to the component group
-                    $value                 = basename($file, '.php');
+                    $value = basename($file, '.php');
                     $component_layouts[$i] = $value;
 
                     if ($value === 'render') {
@@ -100,12 +100,12 @@ class FieldLayoutField extends FormField
             // Loop on all templates
             if ($templates) {
                 foreach ($templates as $template) {
-                    $files          = [];
-                    $template_paths = [
+                    $files = array();
+                    $template_paths = array(
                         Path::clean(JPATH_SITE . '/templates/' . $template->element . '/html/layouts/' . $extension . '/field'),
                         Path::clean(JPATH_SITE . '/templates/' . $template->element . '/html/layouts/com_fields/field'),
                         Path::clean(JPATH_SITE . '/templates/' . $template->element . '/html/layouts/field'),
-                    ];
+                    );
 
                     // Add the layout options from the template paths.
                     foreach ($template_paths as $template_path) {
@@ -125,14 +125,14 @@ class FieldLayoutField extends FormField
 
                     if (count($files)) {
                         // Create the group for the template
-                        $groups[$template->name]          = [];
-                        $groups[$template->name]['id']    = $this->id . '_' . $template->element;
-                        $groups[$template->name]['text']  = Text::sprintf('JOPTION_FROM_TEMPLATE', $template->name);
-                        $groups[$template->name]['items'] = [];
+                        $groups[$template->name] = array();
+                        $groups[$template->name]['id'] = $this->id . '_' . $template->element;
+                        $groups[$template->name]['text'] = Text::sprintf('JOPTION_FROM_TEMPLATE', $template->name);
+                        $groups[$template->name]['items'] = array();
 
                         foreach ($files as $file) {
                             // Add an option to the template group
-                            $value                              = basename($file, '.php');
+                            $value = basename($file, '.php');
                             $groups[$template->name]['items'][] = HTMLHelper::_('select.option', $value, $value);
                         }
                     }
@@ -144,17 +144,17 @@ class FieldLayoutField extends FormField
             $attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 
             // Prepare HTML code
-            $html = [];
+            $html = array();
 
             // Compute the current selected values
-            $selected = [$this->value];
+            $selected = array($this->value);
 
             // Add a grouped list
             $html[] = HTMLHelper::_(
                 'select.groupedlist',
                 $groups,
                 $this->name,
-                ['id' => $this->id, 'group.id' => 'id', 'list.attr' => $attr, 'list.select' => $selected]
+                array('id' => $this->id, 'group.id' => 'id', 'list.attr' => $attr, 'list.select' => $selected)
             );
 
             return implode($html);

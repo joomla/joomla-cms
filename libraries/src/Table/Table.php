@@ -33,7 +33,6 @@ use Joomla\String\StringHelper;
  *
  * @since  1.7.0
  */
-#[\AllowDynamicProperties]
 abstract class Table extends CMSObject implements TableInterface, DispatcherAwareInterface
 {
     use DispatcherAwareTrait;
@@ -44,7 +43,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * @var    array
      * @since  3.0.0
      */
-    private static $_includePaths = [];
+    private static $_includePaths = array();
 
     /**
      * Table fields cache
@@ -76,7 +75,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * @var    array
      * @since  3.0.1
      */
-    protected $_tbl_keys = [];
+    protected $_tbl_keys = array();
 
     /**
      * DatabaseDriver object.
@@ -124,7 +123,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * @var    array
      * @since  3.4.0
      */
-    protected $_columnAlias = [];
+    protected $_columnAlias = array();
 
     /**
      * An array of key names to be json encoded in the bind function
@@ -132,7 +131,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * @var    array
      * @since  3.3
      */
-    protected $_jsonEncode = [];
+    protected $_jsonEncode = array();
 
     /**
      * Indicates that columns fully support the NULL value in the database
@@ -171,7 +170,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
         // Set the key to be an array.
         if (\is_string($key)) {
-            $key = [$key];
+            $key = array($key);
         } elseif (\is_object($key)) {
             $key = (array) $key;
         }
@@ -222,7 +221,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableObjectCreate',
             [
-                'subject' => $this,
+                'subject'   => $this,
             ]
         );
         $this->getDispatcher()->dispatch('onTableObjectCreate', $event);
@@ -271,7 +270,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * @since       1.7.0
      * @deprecated  5.0 Use the MvcFactory instead
      */
-    public static function getInstance($type, $prefix = 'JTable', $config = [])
+    public static function getInstance($type, $prefix = 'JTable', $config = array())
     {
         // Sanitize and prepare the table class name.
         $type       = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
@@ -280,7 +279,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         // Only try to load the class if it doesn't already exist.
         if (!class_exists($tableClass)) {
             // Search for the class file in the JTable include paths.
-            $paths     = self::addIncludePath();
+            $paths = self::addIncludePath();
             $pathIndex = 0;
 
             while (!class_exists($tableClass) && $pathIndex < \count($paths)) {
@@ -328,7 +327,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     {
         // If the internal paths have not been initialised, do so with the base table path.
         if (empty(self::$_includePaths)) {
-            self::$_includePaths = [__DIR__];
+            self::$_includePaths = array(__DIR__);
         }
 
         // Convert the passed path(s) to add to an array.
@@ -362,7 +361,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      */
     protected function _getAssetName()
     {
-        $keys = [];
+        $keys = array();
 
         foreach ($this->_tbl_keys as $k) {
             $keys[] = (int) $this->$k;
@@ -404,7 +403,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     {
         // For simple cases, parent to the asset root.
         /** @var Asset $assets */
-        $assets = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
+        $assets = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
         $rootId = $assets->getRootId();
 
         if (!empty($rootId)) {
@@ -432,7 +431,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
             }
         } else {
             if (\is_string($pk)) {
-                $pk = [$this->_tbl_key => $pk];
+                $pk = array($this->_tbl_key => $pk);
             }
 
             $pk = (object) $pk;
@@ -566,7 +565,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeReset',
             [
-                'subject' => $this,
+                'subject'   => $this,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeReset', $event);
@@ -580,12 +579,12 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         }
 
         // Reset table errors
-        $this->_errors = [];
+        $this->_errors = array();
 
         $event = AbstractEvent::create(
             'onTableAfterReset',
             [
-                'subject' => $this,
+                'subject'   => $this,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterReset', $event);
@@ -604,7 +603,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * @since   1.7.0
      * @throws  \InvalidArgumentException
      */
-    public function bind($src, $ignore = [])
+    public function bind($src, $ignore = array())
     {
         // Check if the source value is an array or object
         if (!\is_object($src) && !\is_array($src)) {
@@ -625,9 +624,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeBind',
             [
-                'subject' => $this,
-                'src'     => $src,
-                'ignore'  => $ignore,
+                'subject'   => $this,
+                'src'       => $src,
+                'ignore'    => $ignore
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeBind', $event);
@@ -659,9 +658,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableAfterBind',
             [
-                'subject' => $this,
-                'src'     => $src,
-                'ignore'  => $ignore,
+                'subject'   => $this,
+                'src'       => $src,
+                'ignore'    => $ignore
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterBind', $event);
@@ -689,16 +688,16 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeLoad',
             [
-                'subject' => $this,
-                'keys'    => $keys,
-                'reset'   => $reset,
+                'subject'   => $this,
+                'keys'      => $keys,
+                'reset'     => $reset,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeLoad', $event);
 
         if (empty($keys)) {
             $empty = true;
-            $keys  = [];
+            $keys  = array();
 
             // If empty, use the value of the current key
             foreach ($this->_tbl_keys as $key) {
@@ -719,7 +718,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
                     throw new \InvalidArgumentException('Table has multiple primary keys specified, only one primary key value provided.');
                 }
 
-                $keys = [$this->getKeyName() => $keys];
+                $keys = array($this->getKeyName() => $keys);
             } else {
                 throw new \RuntimeException('No table keys defined.');
             }
@@ -761,9 +760,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableAfterLoad',
             [
-                'subject' => $this,
-                'result'  => &$result,
-                'row'     => $row,
+                'subject'       => $this,
+                'result'        => &$result,
+                'row'           => $row,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterLoad', $event);
@@ -786,7 +785,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableCheck',
             [
-                'subject' => $this,
+                'subject'       => $this,
             ]
         );
         $this->getDispatcher()->dispatch('onTableCheck', $event);
@@ -816,9 +815,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeStore',
             [
-                'subject'     => $this,
-                'updateNulls' => $updateNulls,
-                'k'           => $k,
+                'subject'       => $this,
+                'updateNulls'   => $updateNulls,
+                'k'             => $k,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeStore', $event);
@@ -866,7 +865,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
             $title    = $this->_getAssetTitle();
 
             /** @var Asset $asset */
-            $asset = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
+            $asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
             $asset->loadByName($name);
 
             // Re-inject the asset id.
@@ -920,8 +919,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableAfterStore',
             [
-                'subject' => $this,
-                'result'  => &$result,
+                'subject'   => $this,
+                'result'    => &$result,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterStore', $event);
@@ -991,13 +990,13 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     public function delete($pk = null)
     {
         if (\is_null($pk)) {
-            $pk = [];
+            $pk = array();
 
             foreach ($this->_tbl_keys as $key) {
                 $pk[$key] = $this->$key;
             }
         } elseif (!\is_array($pk)) {
-            $pk = [$this->_tbl_key => $pk];
+            $pk = array($this->_tbl_key => $pk);
         }
 
         foreach ($this->_tbl_keys as $key) {
@@ -1014,8 +1013,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeDelete',
             [
-                'subject' => $this,
-                'pk'      => $pk,
+                'subject'   => $this,
+                'pk'        => $pk,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeDelete', $event);
@@ -1051,8 +1050,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableAfterDelete',
             [
-                'subject' => $this,
-                'pk'      => $pk,
+                'subject'   => $this,
+                'pk'        => $pk,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterDelete', $event);
@@ -1081,9 +1080,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeCheckout',
             [
-                'subject' => $this,
-                'userId'  => $userId,
-                'pk'      => $pk,
+                'subject'   => $this,
+                'userId'    => $userId,
+                'pk'        => $pk,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeCheckout', $event);
@@ -1094,13 +1093,13 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         }
 
         if (\is_null($pk)) {
-            $pk = [];
+            $pk = array();
 
             foreach ($this->_tbl_keys as $key) {
                 $pk[$key] = $this->$key;
             }
         } elseif (!\is_array($pk)) {
-            $pk = [$this->_tbl_key => $pk];
+            $pk = array($this->_tbl_key => $pk);
         }
 
         foreach ($this->_tbl_keys as $key) {
@@ -1129,15 +1128,15 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
         // Set table values in the object.
         $this->$checkedOutField      = (int) $userId;
-        $this->$checkedOutTimeField  = $time;
+        $this->$checkedOutTimeField = $time;
 
         // Post-processing by observers
         $event = AbstractEvent::create(
             'onTableAfterCheckout',
             [
-                'subject' => $this,
-                'userId'  => $userId,
-                'pk'      => $pk,
+                'subject'   => $this,
+                'userId'    => $userId,
+                'pk'        => $pk,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterCheckout', $event);
@@ -1163,8 +1162,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeCheckin',
             [
-                'subject' => $this,
-                'pk'      => $pk,
+                'subject'   => $this,
+                'pk'        => $pk,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeCheckin', $event);
@@ -1175,13 +1174,13 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         }
 
         if (\is_null($pk)) {
-            $pk = [];
+            $pk = array();
 
             foreach ($this->_tbl_keys as $key) {
                 $pk[$this->$key] = $this->$key;
             }
         } elseif (!\is_array($pk)) {
-            $pk = [$this->_tbl_key => $pk];
+            $pk = array($this->_tbl_key => $pk);
         }
 
         foreach ($this->_tbl_keys as $key) {
@@ -1218,13 +1217,13 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableAfterCheckin',
             [
-                'subject' => $this,
-                'pk'      => $pk,
+                'subject'   => $this,
+                'pk'        => $pk,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterCheckin', $event);
 
-        Factory::getApplication()->triggerEvent('onAfterCheckin', [$this->_tbl]);
+        Factory::getApplication()->triggerEvent('onAfterCheckin', array($this->_tbl));
 
         return true;
     }
@@ -1279,8 +1278,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeHit',
             [
-                'subject' => $this,
-                'pk'      => $pk,
+                'subject'   => $this,
+                'pk'        => $pk,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeHit', $event);
@@ -1291,13 +1290,13 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         }
 
         if (\is_null($pk)) {
-            $pk = [];
+            $pk = array();
 
             foreach ($this->_tbl_keys as $key) {
                 $pk[$key] = $this->$key;
             }
         } elseif (!\is_array($pk)) {
-            $pk = [$this->_tbl_key => $pk];
+            $pk = array($this->_tbl_key => $pk);
         }
 
         foreach ($this->_tbl_keys as $key) {
@@ -1326,8 +1325,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableAfterHit',
             [
-                'subject' => $this,
-                'pk'      => $pk,
+                'subject'   => $this,
+                'pk'        => $pk,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterHit', $event);
@@ -1352,7 +1351,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         // Handle the non-static case.
         if (isset($this) && ($this instanceof Table) && \is_null($against)) {
             $checkedOutField = $this->getColumnAlias('checked_out');
-            $against         = $this->get($checkedOutField);
+            $against = $this->get($checkedOutField);
         }
 
         // The item is not checked out or is checked out by the same user.
@@ -1362,7 +1361,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
         // This last check can only be relied on if tracking session metadata
         if (Factory::getApplication()->get('session_metadata', true)) {
-            $db    = Factory::getDbo();
+            $db = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select('COUNT(userid)')
                 ->from($db->quoteName('#__session'))
@@ -1422,7 +1421,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      *
      * @since   3.1.4
      */
-    public function getPrimaryKey(array $keys = [])
+    public function getPrimaryKey(array $keys = array())
     {
         foreach ($this->_tbl_keys as $key) {
             if (!isset($keys[$key])) {
@@ -1462,7 +1461,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
             ->update($this->_db->quoteName($this->_tbl))
             ->set($quotedOrderingField . ' = sq.new_ordering');
 
-        $innerOn = [];
+        $innerOn = array();
 
         // Get the primary keys for the selection.
         foreach ($this->_tbl_keys as $i => $k) {
@@ -1488,9 +1487,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeReorder',
             [
-                'subject' => $this,
-                'query'   => $query,
-                'where'   => $where,
+                'subject'   => $this,
+                'query'     => $query,
+                'where'     => $where,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeReorder', $event);
@@ -1502,8 +1501,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableAfterReorder',
             [
-                'subject' => $this,
-                'where'   => $where,
+                'subject'   => $this,
+                'where'     => $where,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterReorder', $event);
@@ -1565,10 +1564,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforeMove',
             [
-                'subject' => $this,
-                'query'   => $query,
-                'delta'   => $delta,
-                'where'   => $where,
+                'subject'   => $this,
+                'query'     => $query,
+                'delta'     => $delta,
+                'where'     => $where,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforeMove', $event);
@@ -1612,10 +1611,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableAfterMove',
             [
-                'subject' => $this,
-                'row'     => $row,
-                'delta'   => $delta,
-                'where'   => $where,
+                'subject'   => $this,
+                'row'       => $row,
+                'delta'     => $delta,
+                'where'     => $where,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterMove', $event);
@@ -1646,29 +1645,29 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableBeforePublish',
             [
-                'subject' => $this,
-                'pks'     => $pks,
-                'state'   => $state,
-                'userId'  => $userId,
+                'subject'   => $this,
+                'pks'       => $pks,
+                'state'     => $state,
+                'userId'    => $userId,
             ]
         );
         $this->getDispatcher()->dispatch('onTableBeforePublish', $event);
 
         if (!\is_null($pks)) {
             if (!\is_array($pks)) {
-                $pks = [$pks];
+                $pks = array($pks);
             }
 
             foreach ($pks as $key => $pk) {
                 if (!\is_array($pk)) {
-                    $pks[$key] = [$this->_tbl_key => $pk];
+                    $pks[$key] = array($this->_tbl_key => $pk);
                 }
             }
         }
 
         // If there are no primary keys set check to see if the instance key is set.
         if (empty($pks)) {
-            $pk = [];
+            $pk = array();
 
             foreach ($this->_tbl_keys as $key) {
                 if ($this->$key) {
@@ -1681,10 +1680,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
                 }
             }
 
-            $pks = [$pk];
+            $pks = array($pk);
         }
 
-        $publishedField  = $this->getColumnAlias('published');
+        $publishedField = $this->getColumnAlias('published');
         $checkedOutField = $this->getColumnAlias('checked_out');
 
         foreach ($pks as $pk) {
@@ -1751,10 +1750,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         $event = AbstractEvent::create(
             'onTableAfterPublish',
             [
-                'subject' => $this,
-                'pks'     => $pks,
-                'state'   => $state,
-                'userId'  => $userId,
+                'subject'   => $this,
+                'pks'       => $pks,
+                'state'     => $state,
+                'userId'    => $userId,
             ]
         );
         $this->getDispatcher()->dispatch('onTableAfterPublish', $event);

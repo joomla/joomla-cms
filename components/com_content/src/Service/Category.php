@@ -30,7 +30,7 @@ class Category extends Categories
      *
      * @since   1.7.0
      */
-    public function __construct($options = [])
+    public function __construct($options = array())
     {
         $options['table']     = '#__content';
         $options['extension'] = 'com_content';

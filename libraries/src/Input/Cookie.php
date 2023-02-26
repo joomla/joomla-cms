@@ -32,7 +32,7 @@ class Cookie extends Input
      * @since   1.7.0
      * @deprecated  5.0  Use Joomla\Input\Cookie instead
      */
-    public function __construct(array $source = null, array $options = [])
+    public function __construct(array $source = null, array $options = array())
     {
         if (isset($options['filter'])) {
             $this->filter = $options['filter'];

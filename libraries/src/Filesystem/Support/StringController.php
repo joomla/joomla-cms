@@ -29,7 +29,7 @@ class StringController
      */
     public function _getArray()
     {
-        static $strings = [];
+        static $strings = array();
 
         return $strings;
     }
@@ -46,7 +46,7 @@ class StringController
      */
     public function createRef($reference, &$string)
     {
-        $ref             = &self::_getArray();
+        $ref = &self::_getArray();
         $ref[$reference] = & $string;
     }
 

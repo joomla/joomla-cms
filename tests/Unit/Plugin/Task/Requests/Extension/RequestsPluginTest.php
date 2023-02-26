@@ -38,15 +38,6 @@ use Joomla\Uri\UriInterface;
 class RequestsPluginTest extends UnitTestCase
 {
     /**
-     * The temporary folder.
-     *
-     * @var string
-     *
-     * @since 4.3.0
-     */
-    private $tmpFolder;
-
-    /**
      * Setup
      *
      * @return  void
@@ -55,11 +46,8 @@ class RequestsPluginTest extends UnitTestCase
      */
     public function setUp(): void
     {
-        // Dir must be random for parallel automated tests
-        $this->tmpFolder = JPATH_ROOT . '/tmp/' . rand();
-
-        if (is_dir($this->tmpFolder)) {
-            Folder::delete($this->tmpFolder);
+        if (is_dir(__DIR__ . '/tmp')) {
+            Folder::delete(__DIR__ . '/tmp');
         }
     }
 
@@ -72,8 +60,8 @@ class RequestsPluginTest extends UnitTestCase
      */
     public function tearDown(): void
     {
-        if (is_dir($this->tmpFolder)) {
-            Folder::delete($this->tmpFolder);
+        if (is_dir(__DIR__ . '/tmp')) {
+            Folder::delete(__DIR__ . '/tmp');
         }
     }
 
@@ -86,7 +74,8 @@ class RequestsPluginTest extends UnitTestCase
      */
     public function testRequest()
     {
-        $transport = new class () implements TransportInterface {
+        $transport = new class implements TransportInterface
+        {
             public $url;
 
             public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
@@ -102,17 +91,14 @@ class RequestsPluginTest extends UnitTestCase
             }
         };
 
-        $http    = new Http([], $transport);
+        $http = new Http([], $transport);
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
-        $language = $this->createStub(Language::class);
-        $language->method('_')->willReturn('test');
-
         $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($language);
+        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
+        $plugin = new Requests(new Dispatcher(), [], $factory, __DIR__ . '/tmp');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -122,7 +108,7 @@ class RequestsPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
+                'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => '']
             ]
         );
         $plugin->standardRoutineHandler($event);
@@ -130,7 +116,7 @@ class RequestsPluginTest extends UnitTestCase
         $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('SAVED', $event->getResultSnapshot()['output']);
         $this->assertEquals('http://example.com', $transport->url);
-        $this->assertStringEqualsFile($this->tmpFolder . '/task_1_response.html', 'test');
+        $this->assertStringEqualsFile(__DIR__ . '/tmp/task_1_response.html', 'test');
     }
 
     /**
@@ -142,7 +128,8 @@ class RequestsPluginTest extends UnitTestCase
      */
     public function testInvalidRequest()
     {
-        $transport = new class () implements TransportInterface {
+        $transport = new class implements TransportInterface
+        {
             public $url;
 
             public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
@@ -158,17 +145,14 @@ class RequestsPluginTest extends UnitTestCase
             }
         };
 
-        $http    = new Http([], $transport);
+        $http = new Http([], $transport);
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
-        $language = $this->createStub(Language::class);
-        $language->method('_')->willReturn('test');
-
         $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($language);
+        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
+        $plugin = new Requests(new Dispatcher(), [], $factory, __DIR__ . '/tmp');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -178,7 +162,7 @@ class RequestsPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
+                'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => '']
             ]
         );
         $plugin->standardRoutineHandler($event);
@@ -186,7 +170,7 @@ class RequestsPluginTest extends UnitTestCase
         $this->assertEquals(Status::KNOCKOUT, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('SAVED', $event->getResultSnapshot()['output']);
         $this->assertEquals('http://example.com', $transport->url);
-        $this->assertStringEqualsFile($this->tmpFolder . '/task_1_response.html', 'test');
+        $this->assertStringEqualsFile(__DIR__ . '/tmp/task_1_response.html', 'test');
     }
 
     /**
@@ -198,7 +182,8 @@ class RequestsPluginTest extends UnitTestCase
      */
     public function testAuthRequest()
     {
-        $transport = new class () implements TransportInterface {
+        $transport = new class implements TransportInterface
+        {
             public $headers;
 
             public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
@@ -214,17 +199,14 @@ class RequestsPluginTest extends UnitTestCase
             }
         };
 
-        $http    = new Http([], $transport);
+        $http = new Http([], $transport);
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
-        $language = $this->createStub(Language::class);
-        $language->method('_')->willReturn('test');
-
         $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($language);
+        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
+        $plugin = new Requests(new Dispatcher(), [], $factory, __DIR__ . '/tmp');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -234,7 +216,7 @@ class RequestsPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 1, 'authType' => 'basic', 'authKey' => '123'],
+                'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 1, 'authType' => 'basic', 'authKey' => '123']
             ]
         );
         $plugin->standardRoutineHandler($event);
@@ -251,7 +233,8 @@ class RequestsPluginTest extends UnitTestCase
      */
     public function testExceptionInRequest()
     {
-        $transport = new class () implements TransportInterface {
+        $transport = new class implements TransportInterface
+        {
             public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
             {
                 throw new Exception('test');
@@ -263,7 +246,7 @@ class RequestsPluginTest extends UnitTestCase
             }
         };
 
-        $http    = new Http([], $transport);
+        $http = new Http([], $transport);
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
@@ -273,7 +256,7 @@ class RequestsPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
+        $plugin = new Requests(new Dispatcher(), [], $factory, __DIR__ . '/tmp');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -283,7 +266,7 @@ class RequestsPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
+                'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => '']
             ]
         );
         $plugin->standardRoutineHandler($event);
@@ -299,7 +282,8 @@ class RequestsPluginTest extends UnitTestCase
      */
     public function testInvalidFileToWrite()
     {
-        $transport = new class () implements TransportInterface {
+        $transport = new class implements TransportInterface
+        {
             public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
             {
                 return (object)['code' => 200, 'body' => 'test'];
@@ -311,7 +295,7 @@ class RequestsPluginTest extends UnitTestCase
             }
         };
 
-        $http    = new Http([], $transport);
+        $http = new Http([], $transport);
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
@@ -321,7 +305,7 @@ class RequestsPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, '/proc/invalid');
+        $plugin = new Requests(new Dispatcher(), [], $factory, '/invalid');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -331,7 +315,7 @@ class RequestsPluginTest extends UnitTestCase
             'test',
             [
                 'subject' => $task,
-                'params'  => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => ''],
+                'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => '']
             ]
         );
         $plugin->standardRoutineHandler($event);

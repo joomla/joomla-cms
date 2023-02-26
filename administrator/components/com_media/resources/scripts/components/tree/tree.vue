@@ -28,7 +28,7 @@
         <span class="item-name">{{ item.name }}</span>
       </a>
       <transition name="slide-fade">
-        <MediaTree
+        <media-tree
           v-if="hasChildren(item)"
           v-show="isOpen(item)"
           :ref="item.path"

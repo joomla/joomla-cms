@@ -43,10 +43,10 @@ class PlgPrivacyContact extends PrivacyPlugin
     public function onPrivacyExportRequest(RequestTable $request, User $user = null)
     {
         if (!$user && !$request->email) {
-            return [];
+            return array();
         }
 
-        $domains   = [];
+        $domains   = array();
         $domain    = $this->createDomain('user_contact', 'joomla_user_contact_data');
         $domains[] = $domain;
 

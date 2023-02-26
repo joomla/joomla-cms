@@ -124,7 +124,14 @@
   .btn-group:not(:last-child) > .dropdown-toggle-split {
     order: 1;
     margin-inline-start: -$border-radius;
-    border-radius: 0 $border-radius $border-radius 0;
+
+    [dir="ltr"] & {
+      border-radius: 0 $border-radius $border-radius 0;
+    }
+
+    [dir="rtl"] & {
+      border-radius: $border-radius 0 0 $border-radius;
+    }
   }
 
   .dropdown-menu joomla-toolbar-button,

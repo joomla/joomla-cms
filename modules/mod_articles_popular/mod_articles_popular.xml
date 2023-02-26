@@ -11,7 +11,7 @@
 	<description>MOD_POPULAR_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\ArticlesPopular</namespace>
 	<files>
-		<folder module="mod_articles_popular">services</folder>
+		<filename module="mod_articles_popular">mod_articles_popular.php</filename>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

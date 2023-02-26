@@ -78,7 +78,7 @@ class RouterLegacy implements RouterInterface
             return $segments;
         }
 
-        return [];
+        return array();
     }
 
     /**
@@ -104,6 +104,6 @@ class RouterLegacy implements RouterInterface
             return $function($segments);
         }
 
-        return [];
+        return array();
     }
 }
