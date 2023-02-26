@@ -263,10 +263,9 @@ class CategoriesModel extends ListModel
             }
 
             $query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
-        }
 
-        // Case: Using only the by level filter
-        elseif ($level) {
+            // Case: Using only the by level filter
+            } elseif ($level) {
             $query->where($db->quoteName('a.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);
         }
