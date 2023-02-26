@@ -42,7 +42,7 @@ class ConfigModel extends FormModel
      */
     protected function populateState()
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $this->setState('user.id', $user->get('id'));
 
@@ -63,7 +63,7 @@ class ConfigModel extends FormModel
         $item   = new CMSObject();
         $userid = (int) $this->getState('user.id');
 
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
         $query->select(
             [
@@ -104,10 +104,10 @@ class ConfigModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_messages.config', 'config', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_messages.config', 'config', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;

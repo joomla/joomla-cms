@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -159,29 +160,27 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo = ContentHelper::getActions($this->extension, 'workflow', $this->workflowID);
-
-        $user = $this->getCurrentUser();
-
-        $toolbar = Toolbar::getInstance('toolbar');
+        $canDo   = ContentHelper::getActions($this->extension, 'workflow', $this->workflowID);
+        $user    = $this->getCurrentUser();
+        $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_TRANSITIONS_LIST', Text::_($this->state->get('active_workflow'))), 'address contact');
 
         $arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
-        ToolbarHelper::link(
-            Route::_('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension)),
+        $toolbar->link(
             'JTOOLBAR_BACK',
-            $arrow
-        );
+            Route::_('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension))
+        )
+            ->icon('icon-' . $arrow);
 
         if ($canDo->get('core.create')) {
             $toolbar->addNew('transition.add');
         }
 
         if ($canDo->get('core.edit.state') || $user->authorise('core.admin')) {
-            $dropdown = $toolbar->dropdownButton('status-group')
-                ->text('JTOOLBAR_CHANGE_STATUS')
+            /** @var DropdownButton $dropdown */
+            $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
                 ->icon('icon-ellipsis-h')
                 ->buttonClass('btn btn-action')
@@ -202,8 +201,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete')) {
-            $toolbar->delete('transitions.delete')
-                ->text('JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('transitions.delete', 'JTOOLBAR_EMPTY_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

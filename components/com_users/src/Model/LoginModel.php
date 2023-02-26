@@ -41,10 +41,10 @@ class LoginModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.login', 'login', array('load_data' => $loadData));
+        $form = $this->loadForm('com_users.login', 'login', ['load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -65,9 +65,9 @@ class LoginModel extends FormModel
     {
         // Check the session for previously entered login form data.
         $app  = Factory::getApplication();
-        $data = $app->getUserState('users.login.form.data', array());
+        $data = $app->getUserState('users.login.form.data', []);
 
-        $input = $app->input->getInputForRequestMethod();
+        $input = $app->getInput()->getInputForRequestMethod();
 
         // Check for return URL from the request first
         if ($return = $input->get('return', '', 'BASE64')) {

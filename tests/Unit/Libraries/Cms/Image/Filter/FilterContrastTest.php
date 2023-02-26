@@ -62,7 +62,7 @@ class FilterContrastTest extends UnitTestCase
         $imageHandle = imagecreatetruecolor(100, 100);
 
         // Define red.
-        $dark = imagecolorallocate($imageHandle, 90, 90, 90);
+        $dark  = imagecolorallocate($imageHandle, 90, 90, 90);
         $light = imagecolorallocate($imageHandle, 120, 120, 120);
 
         imagefilledrectangle($imageHandle, 0, 0, 50, 99, $dark);
@@ -70,7 +70,7 @@ class FilterContrastTest extends UnitTestCase
 
         $filter = new FilterContrast($imageHandle);
 
-        $filter->execute(array(IMG_FILTER_CONTRAST => -10));
+        $filter->execute([IMG_FILTER_CONTRAST => -10]);
 
         $this->assertEquals(
             82,
@@ -102,6 +102,6 @@ class FilterContrastTest extends UnitTestCase
 
         $filter = new FilterContrast($imageHandle);
 
-        $filter->execute(array());
+        $filter->execute([]);
     }
 }

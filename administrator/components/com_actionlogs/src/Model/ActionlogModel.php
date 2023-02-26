@@ -62,7 +62,7 @@ class ActionlogModel extends BaseDatabaseModel
             $ip = 'COM_ACTIONLOGS_DISABLED';
         }
 
-        $loggedMessages = array();
+        $loggedMessages = [];
 
         foreach ($messages as $message) {
             $logMessage                       = new \stdClass();
@@ -112,7 +112,7 @@ class ActionlogModel extends BaseDatabaseModel
         $query = $db->getQuery(true);
 
         $query
-            ->select($db->quoteName(array('u.email', 'l.extensions')))
+            ->select($db->quoteName(['u.email', 'l.extensions']))
             ->from($db->quoteName('#__users', 'u'))
             ->where($db->quoteName('u.block') . ' = 0')
             ->join(
@@ -125,7 +125,7 @@ class ActionlogModel extends BaseDatabaseModel
 
         $users = $db->loadObjectList();
 
-        $recipients = array();
+        $recipients = [];
 
         foreach ($users as $user) {
             $extensions = json_decode($user->extensions, true);
@@ -145,16 +145,16 @@ class ActionlogModel extends BaseDatabaseModel
         $temp      = [];
 
         foreach ($messages as $message) {
-            $m = [];
+            $m              = [];
             $m['extension'] = Text::_($extension);
             $m['message']   = ActionlogsHelper::getHumanReadableLogMessage($message);
             $m['date']      = HTMLHelper::_('date', $message->log_date, 'Y-m-d H:i:s T', 'UTC');
             $m['username']  = $username;
-            $temp[] = $m;
+            $temp[]         = $m;
         }
 
         $templateData = [
-            'messages'     => $temp
+            'messages' => $temp,
         ];
 
         $mailer = new MailTemplate('com_actionlogs.notification', $app->getLanguage()->getTag());

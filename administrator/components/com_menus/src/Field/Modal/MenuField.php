@@ -118,7 +118,7 @@ class MenuField extends FormField
             case 'allowNew':
             case 'allowEdit':
             case 'allowPropagate':
-                $value = (string) $value;
+                $value       = (string) $value;
                 $this->$name = !($value === 'false' || $value === 'off' || $value === '0');
                 break;
 
@@ -146,13 +146,13 @@ class MenuField extends FormField
         $return = parent::setup($element, $value, $group);
 
         if ($return) {
-            $this->allowSelect = ((string) $this->element['select']) !== 'false';
-            $this->allowClear = ((string) $this->element['clear']) !== 'false';
+            $this->allowSelect    = ((string) $this->element['select']) !== 'false';
+            $this->allowClear     = ((string) $this->element['clear']) !== 'false';
             $this->allowPropagate = ((string) $this->element['propagate']) === 'true';
 
             // Creating/editing menu items is not supported in frontend.
             $isAdministrator = Factory::getApplication()->isClient('administrator');
-            $this->allowNew = $isAdministrator ? ((string) $this->element['new']) === 'true' : false;
+            $this->allowNew  = $isAdministrator ? ((string) $this->element['new']) === 'true' : false;
             $this->allowEdit = $isAdministrator ? ((string) $this->element['edit']) === 'true' : false;
         }
 
@@ -169,7 +169,7 @@ class MenuField extends FormField
     protected function getInput()
     {
         $clientId    = (int) $this->element['clientid'];
-        $languages   = LanguageHelper::getContentLanguages(array(0, 1), false);
+        $languages   = LanguageHelper::getContentLanguages([0, 1], false);
 
         // Load language
         Factory::getLanguage()->load('com_menus', JPATH_ADMINISTRATOR);
@@ -191,7 +191,7 @@ class MenuField extends FormField
             static $scriptSelect = null;
 
             if (is_null($scriptSelect)) {
-                $scriptSelect = array();
+                $scriptSelect = [];
             }
 
             if (!isset($scriptSelect[$this->id])) {
@@ -217,8 +217,8 @@ class MenuField extends FormField
         $modalTitle = Text::_('COM_MENUS_SELECT_A_MENUITEM');
 
         if (isset($this->element['language'])) {
-            $linkItems  .= '&amp;forcedLanguage=' . $this->element['language'];
-            $linkItem   .= '&amp;forcedLanguage=' . $this->element['language'];
+            $linkItems .= '&amp;forcedLanguage=' . $this->element['language'];
+            $linkItem .= '&amp;forcedLanguage=' . $this->element['language'];
             $modalTitle .= ' &#8212; ' . $this->element['label'];
         }
 
@@ -313,7 +313,7 @@ class MenuField extends FormField
         // Propagate menu item button
         if ($this->allowPropagate && count($languages) > 2) {
             // Strip off language tag at the end
-            $tagLength = (int) strlen($this->element['language']);
+            $tagLength            = (int) strlen($this->element['language']);
             $callbackFunctionStem = substr("jSelectMenu_" . $this->id, 0, -$tagLength);
 
             $html .= '<button'
@@ -335,16 +335,16 @@ class MenuField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalSelect' . $modalId,
-                array(
-                    'title'       => $modalTitle,
-                    'url'         => $urlSelect,
-                    'height'      => '400px',
-                    'width'       => '800px',
-                    'bodyHeight'  => 70,
-                    'modalWidth'  => 80,
-                    'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+                [
+                    'title'      => $modalTitle,
+                    'url'        => $urlSelect,
+                    'height'     => '400px',
+                    'width'      => '800px',
+                    'bodyHeight' => 70,
+                    'modalWidth' => 80,
+                    'footer'     => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
                                         . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
-                )
+                ]
             );
         }
 
@@ -353,7 +353,7 @@ class MenuField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalNew' . $modalId,
-                array(
+                [
                     'title'       => Text::_('COM_MENUS_NEW_MENUITEM'),
                     'backdrop'    => 'static',
                     'keyboard'    => false,
@@ -372,7 +372,7 @@ class MenuField extends FormField
                             . '<button type="button" class="btn btn-success"'
                             . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'apply\', \'item-form\'); return false;">'
                             . Text::_('JAPPLY') . '</button>',
-                )
+                ]
             );
         }
 
@@ -381,7 +381,7 @@ class MenuField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalEdit' . $modalId,
-                array(
+                [
                     'title'       => Text::_('COM_MENUS_EDIT_MENUITEM'),
                     'backdrop'    => 'static',
                     'keyboard'    => false,
@@ -400,7 +400,7 @@ class MenuField extends FormField
                             . '<button type="button" class="btn btn-success"'
                             . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'item\', \'apply\', \'item-form\'); return false;">'
                             . Text::_('JAPPLY') . '</button>',
-                )
+                ]
             );
         }
 
