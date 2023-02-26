@@ -21,15 +21,20 @@
 				<option value="alternate"/>
 				<option value="author"/>
 				<option value="bookmark"/>
+				<option value="external"/>
 				<option value="help"/>
 				<option value="license"/>
+				<option value="me"/>
 				<option value="next"/>
 				<option value="nofollow"/>
+				<option value="noopener"/>
 				<option value="noreferrer"/>
 				<option value="prefetch"/>
 				<option value="prev"/>
 				<option value="search"/>
+				<option value="sponsored"/>
 				<option value="tag"/>
+				<option value="ugc"/>
 			</field>
 
 			<field

@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.7.0</version>
 	<description>PLG_CONTENT_FIELDS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Content\Fields</namespace>
 	<files>
-		<filename plugin="fields">fields.php</filename>
+		<folder plugin="fields">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_content_fields.ini</language>

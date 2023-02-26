@@ -40,16 +40,16 @@ class DebuggroupModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'a.title',
                 'component', 'a.name',
                 'a.lft',
                 'a.id',
                 'level_start', 'level_end', 'a.level',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -84,10 +84,10 @@ class DebuggroupModel extends ListModel
             $actions = $this->getDebugActions();
 
             foreach ($assets as &$asset) {
-                $asset->checks = array();
+                $asset->checks = [];
 
                 foreach ($actions as $action) {
-                    $name = $action[0];
+                    $name                 = $action[0];
                     $asset->checks[$name] = Access::checkGroup($groupId, $name, $asset->name);
                 }
             }
@@ -113,7 +113,7 @@ class DebuggroupModel extends ListModel
         $app = Factory::getApplication();
 
         // Adjust the context to support modal layouts.
-        $layout = $app->input->get('layout', 'default');
+        $layout = $app->getInput()->get('layout', 'default');
 
         if ($layout) {
             $this->context .= '.' . $layout;
@@ -178,7 +178,7 @@ class DebuggroupModel extends ListModel
     {
         $groupId = (int) $this->getState('group_id');
 
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName(['id', 'title']))
             ->from($db->quoteName('#__usergroups'))
@@ -208,7 +208,7 @@ class DebuggroupModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.
@@ -235,7 +235,7 @@ class DebuggroupModel extends ListModel
 
         // Filter on the start and end levels.
         $levelStart = (int) $this->getState('filter.level_start');
-        $levelEnd = (int) $this->getState('filter.level_end');
+        $levelEnd   = (int) $this->getState('filter.level_end');
 
         if ($levelEnd > 0 && $levelEnd < $levelStart) {
             $levelEnd = $levelStart;
