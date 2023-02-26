@@ -19,7 +19,7 @@ use Joomla\Module\Finder\Site\Helper\FinderHelper;
 $lang = $app->getLanguage();
 $lang->load('com_finder', JPATH_SITE);
 
-$input = '<input type="text" name="q" id="mod-finder-searchword' . $module->id . '" class="js-finder-search-query form-control" value="' . htmlspecialchars($app->input->get('q', '', 'string'), ENT_COMPAT, 'UTF-8') . '"'
+$input = '<input type="text" name="q" id="mod-finder-searchword' . $module->id . '" class="js-finder-search-query form-control" value="' . htmlspecialchars($app->getInput()->get('q', '', 'string'), ENT_COMPAT, 'UTF-8') . '"'
     . ' placeholder="' . Text::_('MOD_FINDER_SEARCH_VALUE') . '">';
 
 $showLabel  = $params->get('show_label', 1);
@@ -50,7 +50,7 @@ $wa->getRegistry()->addExtensionRegistryFile('com_finder');
  */
 if ($params->get('show_autosuggest', 1)) {
     $wa->usePreset('awesomplete');
-    $app->getDocument()->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false)));
+    $app->getDocument()->addScriptOptions('finder-search', ['url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false)]);
 }
 
 $wa->useScript('com_finder.finder');

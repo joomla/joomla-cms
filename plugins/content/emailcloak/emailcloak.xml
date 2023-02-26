@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_CONTENT_EMAILCLOAK_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Content\EmailCloak</namespace>
 	<files>
-		<filename plugin="emailcloak">emailcloak.php</filename>
+		<folder plugin="emailcloak">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_content_emailcloak.ini</language>

@@ -39,7 +39,7 @@ class ItemController extends FormController
      *
      * @since   3.6
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         $user = $this->app->getIdentity();
 
@@ -67,7 +67,7 @@ class ItemController extends FormController
      *
      * @since   3.6
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         $user = $this->app->getIdentity();
 
@@ -75,7 +75,7 @@ class ItemController extends FormController
 
         if (isset($data[$key])) {
             $model = $this->getModel();
-            $item = $model->getItem($data[$key]);
+            $item  = $model->getItem($data[$key]);
 
             if (!empty($item->menutype)) {
                 // Protected menutype, do not allow edit
@@ -104,7 +104,7 @@ class ItemController extends FormController
         $model = $this->getModel();
         $table = $model->getTable('MenuType');
 
-        $table->load(array('menutype' => $menutype));
+        $table->load(['menutype' => $menutype]);
 
         return (int) $table->id;
     }
@@ -144,7 +144,7 @@ class ItemController extends FormController
         $this->checkToken();
 
         /** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
-        $model = $this->getModel('Item', 'Administrator', array());
+        $model = $this->getModel('Item', 'Administrator', []);
 
         // Preset the redirect
         $this->setRedirect(Route::_('index.php?option=com_menus&view=items' . $this->getRedirectToListAppend(), false));
@@ -255,9 +255,9 @@ class ItemController extends FormController
         $this->checkToken();
 
         /** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
-        $model    = $this->getModel('Item', 'Administrator', array());
+        $model    = $this->getModel('Item', 'Administrator', []);
         $table    = $model->getTable();
-        $data     = $this->input->post->get('jform', array(), 'array');
+        $data     = $this->input->post->get('jform', [], 'array');
         $task     = $this->getTask();
         $context  = 'com_menus.edit.item';
         $app      = $this->app;
@@ -293,9 +293,9 @@ class ItemController extends FormController
             }
 
             // Reset the ID and then treat the request as for Apply.
-            $data['id'] = 0;
-            $data['associations'] = array();
-            $task = 'apply';
+            $data['id']           = 0;
+            $data['associations'] = [];
+            $task                 = 'apply';
         }
 
         // Access check.
@@ -322,17 +322,17 @@ class ItemController extends FormController
         }
 
         if ($data['type'] == 'url') {
-            $data['link'] = str_replace(array('"', '>', '<'), '', $data['link']);
+            $data['link'] = str_replace(['"', '>', '<'], '', $data['link']);
 
             if (strstr($data['link'], ':')) {
                 $segments = explode(':', $data['link']);
                 $protocol = strtolower($segments[0]);
-                $scheme   = array(
+                $scheme   = [
                     'http', 'https', 'ftp', 'ftps', 'gopher', 'mailto',
                     'news', 'prospero', 'telnet', 'rlogin', 'tn3270', 'wais',
                     'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax',
                     'modem', 'git', 'sms',
-                );
+                ];
 
                 if (!in_array($protocol, $scheme)) {
                     $app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'warning');
@@ -352,10 +352,10 @@ class ItemController extends FormController
 
         // Check for the special 'request' entry.
         if ($data['type'] == 'component' && !empty($request)) {
-            $removeArgs = array();
+            $removeArgs = [];
 
             if (!isset($data['request']) || !is_array($data['request'])) {
-                $data['request'] = array();
+                $data['request'] = [];
             }
 
             foreach ($request as $field) {
@@ -367,7 +367,7 @@ class ItemController extends FormController
             }
 
             // Parse the submitted link arguments.
-            $args = array();
+            $args = [];
             parse_str(parse_url($data['link'], PHP_URL_QUERY), $args);
 
             // Merge in the user supplied request arguments.
@@ -491,16 +491,16 @@ class ItemController extends FormController
         $app = $this->app;
 
         // Get the posted values from the request.
-        $data = $this->input->post->get('jform', array(), 'array');
+        $data = $this->input->post->get('jform', [], 'array');
 
         // Get the type.
         $type = $data['type'];
 
-        $type = json_decode(base64_decode($type));
-        $title = $type->title ?? null;
+        $type     = json_decode(base64_decode($type));
+        $title    = $type->title ?? null;
         $recordId = $type->id ?? 0;
 
-        $specialTypes = array('alias', 'separator', 'url', 'heading', 'container');
+        $specialTypes = ['alias', 'separator', 'url', 'heading', 'container'];
 
         if (!in_array($title, $specialTypes)) {
             $title = 'component';
@@ -516,7 +516,7 @@ class ItemController extends FormController
                 // Clean component name
                 $type->request->option = InputFilter::getInstance()->clean($type->request->option, 'CMD');
 
-                $component = ComponentHelper::getComponent($type->request->option);
+                $component            = ComponentHelper::getComponent($type->request->option);
                 $data['component_id'] = $component->id;
 
                 $app->setUserState('com_menus.edit.item.link', 'index.php?' . Uri::buildQuery((array) $type->request));
@@ -554,12 +554,12 @@ class ItemController extends FormController
     {
         $app = $this->app;
 
-        $results  = array();
+        $results  = [];
         $menutype = $this->input->get->get('menutype');
 
         if ($menutype) {
             /** @var \Joomla\Component\Menus\Administrator\Model\ItemsModel $model */
-            $model = $this->getModel('Items', 'Administrator', array());
+            $model = $this->getModel('Items', 'Administrator', []);
             $model->getState();
             $model->setState('filter.menutype', $menutype);
             $model->setState('list.select', 'a.id, a.title, a.level');

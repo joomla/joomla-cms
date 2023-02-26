@@ -77,8 +77,9 @@
         "psr/link": "~1.0",
         "symfony/console": "~5.0",
         "symfony/error-handler": "^5.2",
-        "symfony/ldap": "~5.0",
+        "symfony/ldap": "^5.4.13",
         "symfony/options-resolver": "~5.0",
+        "symfony/polyfill-mbstring": "^1.27",
         "symfony/polyfill-php73": "^1.10",
         "symfony/web-link": "~5.0",
         "symfony/yaml": "~5.0",
@@ -97,7 +98,8 @@
         "enshrined/svg-sanitize": "^0.15.4",
         "lcobucci/jwt": "^3.4.6",
         "web-token/signature-pack": "^2.2.11",
-        "phpseclib/bcmath_compat": "^2.0"
+        "phpseclib/bcmath_compat": "^2.0",
+        "jfcherng/php-diff": "^6.10"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5",
@@ -113,7 +115,8 @@
         "codeception/module-rest": "^1.0",
         "codeception/module-webdriver": "^1.0",
         "codeception/module-phpbrowser": "^1.0",
-        "hoa/console": "^3.17"
+        "hoa/console": "^3.17",
+        "phan/phan": "^5.4"
     },
     "replace": {
         "paragonie/random_compat": "9.99.99"

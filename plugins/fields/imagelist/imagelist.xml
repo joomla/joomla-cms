@@ -9,9 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.7.0</version>
 	<description>PLG_FIELDS_IMAGELIST_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Fields\Imagelist</namespace>
 	<files>
-		<filename plugin="imagelist">imagelist.php</filename>
 		<folder>params</folder>
+		<folder plugin="imagelist">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
