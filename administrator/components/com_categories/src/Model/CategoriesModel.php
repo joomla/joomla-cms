@@ -242,35 +242,32 @@ class CategoriesModel extends ListModel
         }
 
         // Filter by categories and by level
-		$categoryId = $this->getState('filter.category_id', []);
-		$level = $this->getState('filter.level');
+        $categoryId = $this->getState('filter.category_id', []);
+        $level = $this->getState('filter.level');
 
-		if (!is_array($categoryId))
-		{
-			$categoryId = $categoryId ? array($categoryId) : [];
-		}
+        if (!is_array($categoryId)) {
+            $categoryId = $categoryId ? array($categoryId) : [];
+        }
 
-		// Case: Using both categories filter and by level filter
-		if (count($categoryId))
-		{
-			$categoryTable = Table::getInstance('Category', 'JTable');
-			$subCatItemsWhere = [];
+        // Case: Using both categories filter and by level filter
+        if (count($categoryId)) {
+            $categoryTable = Table::getInstance('Category', 'JTable');
+            $subCatItemsWhere = [];
 
-			foreach ($categoryId as $filter_catid)
-			{
-				$categoryTable->load($filter_catid);
-				$subCatItemsWhere[] = '(' .
-					($level ? 'a.level <= ' . ((int) $level + (int) $categoryTable->level - 1) . ' AND ' : '') .
-					'a.lft >= ' . (int) $categoryTable->lft . ' AND ' .
-					'a.rgt <= ' . (int) $categoryTable->rgt . ')';
-			}
+            foreach ($categoryId as $filter_catid)
+            {
+                $categoryTable->load($filter_catid);
+                $subCatItemsWhere[] = '(' .
+                    ($level ? 'a.level <= ' . ((int) $level + (int) $categoryTable->level - 1) . ' AND ' : '') .
+                    'a.lft >= ' . (int) $categoryTable->lft . ' AND ' .
+                    'a.rgt <= ' . (int) $categoryTable->rgt . ')';
+            }
 
-			$query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
-		}
+            $query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
+        }
 
-		// Case: Using only the by level filter
-		elseif ($level)
-        {
+        // Case: Using only the by level filter
+        elseif ($level) {
             $query->where($db->quoteName('a.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);
         }
@@ -385,25 +382,25 @@ class CategoriesModel extends ListModel
 
         // Group by on Categories for \JOIN with component tables to count items
         $query->group('a.id,
-				a.title,
-				a.alias,
-				a.note,
-				a.published,
-				a.access,
-				a.checked_out,
-				a.checked_out_time,
-				a.created_user_id,
-				a.path,
-				a.parent_id,
-				a.level,
-				a.lft,
-				a.rgt,
-				a.language,
-				l.title,
-				l.image,
-				uc.name,
-				ag.title,
-				ua.name');
+                a.title,
+                a.alias,
+                a.note,
+                a.published,
+                a.access,
+                a.checked_out,
+                a.checked_out_time,
+                a.created_user_id,
+                a.path,
+                a.parent_id,
+                a.level,
+                a.lft,
+                a.rgt,
+                a.language,
+                l.title,
+                l.image,
+                uc.name,
+                ag.title,
+                ua.name');
 
         return $query;
     }
