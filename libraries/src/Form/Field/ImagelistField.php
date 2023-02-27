@@ -44,16 +44,16 @@ class ImagelistField extends FilelistField
         $this->fileFilter =
             '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$|\.jpeg$|\.psd$|\.eps$' .
             join(
-                "|",
+                '|',
                 array_map(
                     function ($extension) {
-                        return "\." . $extension . '$';
+                        return '\.' . $extension . '$';
                     },
                     explode(
-                        ",",
-                        ComponentHelper::getParams("com_media")->get(
-                            "image_extensions",
-                            "bmp,gif,jpg,jpeg,png,webp,avif"
+                        ',',
+                        ComponentHelper::getParams('com_media')->get(
+                            'image_extensions',
+                            'bmp,gif,jpg,jpeg,png,webp,avif'
                         )
                     )
                 )
