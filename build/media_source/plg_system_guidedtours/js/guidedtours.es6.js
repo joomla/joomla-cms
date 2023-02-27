@@ -61,7 +61,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
     beforeShowPromise() {
       return new Promise((resolve) => {
         // Set graceful fallbacks in case there is an issue with the target.
-        // Possibility to use coma-separated selectors.
+        // Possibility to use comma-separated selectors.
         if (tour.currentStep.options.attachTo.element) {
           const targets = tour.currentStep.options.attachTo.element.split(',');
           const position = tour.currentStep.options.attachTo.on;
