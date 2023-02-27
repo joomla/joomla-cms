@@ -60,6 +60,32 @@ function addStepToTourButton(tour, stepObj, buttons) {
     arrow: true,
     beforeShowPromise() {
       return new Promise((resolve) => {
+        // Set graceful fallbacks in case there is an issue with the target.
+        // Possibility to use coma-separated selectors.
+        if (tour.currentStep.options.attachTo.element) {
+          const targets = tour.currentStep.options.attachTo.element.split(',');
+          const position = tour.currentStep.options.attachTo.on;
+          tour.currentStep.options.attachTo.element = '';
+          tour.currentStep.options.attachTo.on = 'center';
+
+          for (let i = 0; i < targets.length; i++) {
+            let t = document.querySelector(targets[i]);
+            if (t != null) {
+              // Make sure TinyMCE is accessible by using the source edition
+              if (t.parentElement.querySelector('.js-tiny-toggler-button') != null) {
+                t.parentElement.querySelector('.js-tiny-toggler-button').click();
+                tour.currentStep.options.attachTo.element = targets[i];
+                tour.currentStep.options.attachTo.on = position;
+                break;
+              }
+              if (!t.disabled && !t.readonly && t.style.display !== 'none') {
+                tour.currentStep.options.attachTo.element = targets[i];
+                tour.currentStep.options.attachTo.on = position;
+                break;
+              }
+            }
+          }
+        }
         if (tour.currentStep.options.attachTo.type === 'redirect') {
           const stepUrl = Joomla.getOptions('system.paths').rootFull + tour.currentStep.options.attachTo.url;
           if (window.location.href !== stepUrl) {
@@ -75,6 +101,15 @@ function addStepToTourButton(tour, stepObj, buttons) {
       });
     },
     when: {
+      hide() {
+        if (this.getTarget()) {
+          const toggleButton = this.getTarget().parentElement.querySelector('.js-tiny-toggler-button');
+          if (toggleButton != null) {
+            // Switch back to the full TinyMCE editor
+            toggleButton.click();
+          }
+        }
+      },
       show() {
         sessionStorage.setItem('currentStepId', tour.currentStep.id);
         addProgressIndicator(this.getElement(), tour.currentStep.id + 1, sessionStorage.getItem('stepCount'));
