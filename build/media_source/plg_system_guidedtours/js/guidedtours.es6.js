@@ -115,15 +115,12 @@ function addStepToTourButton(tour, stepObj, buttons) {
         addProgressIndicator(this.getElement(), tour.currentStep.id + 1, sessionStorage.getItem('stepCount'));
 
         if (this.getTarget()) {
-          const cancelButton = this.getElement().querySelector('.shepherd-cancel-icon');
-          if (cancelButton) {
-            cancelButton.addEventListener('keydown', (event) => {
-              if (event.key === 'Tab') {
-                this.getTarget().focus();
-                event.preventDefault();
-              }
-            });
-          }
+          this.getElement().querySelector('.shepherd-cancel-icon').addEventListener('keydown', (event) => {
+            if (event.key === 'Tab') {
+              this.getTarget().focus();
+              event.preventDefault();
+            }
+          });
           this.getTarget().addEventListener('blur', (event) => {
             const cancelButton = this.getElement().querySelector('.shepherd-cancel-icon');
             const primaryButton = this.getElement().querySelector('.shepherd-button-primary');
