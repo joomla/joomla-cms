@@ -79,27 +79,30 @@ function addStepToTourButton(tour, stepObj, buttons) {
         sessionStorage.setItem('currentStepId', tour.currentStep.id);
         addProgressIndicator(this.getElement(), tour.currentStep.id + 1, sessionStorage.getItem('stepCount'));
 
-        this.getElement().focus = () => {
-          const tabbedElements = document.querySelectorAll('[tabindex]');
-          tabbedElements.forEach((elt) => {
-            elt.setAttribute('tabindex', '-1');
-          });
-
-          let tabIndex = 0;
-          const target = tour.currentStep.getTarget();
-
-          if (target) {
-            // Give focus to the target and make it tabbable
-            target.focus();
-            tabIndex += 1;
-            target.tabIndex = tabIndex;
+        if (this.getTarget()) {
+          const cancelButton = this.getElement().querySelector('.shepherd-cancel-icon');
+          if (cancelButton) {
+            cancelButton.addEventListener('keydown', (event) => {
+              if (event.key === 'Tab') {
+                this.getTarget().focus();
+                event.preventDefault();
+              }
+            });
           }
-
-          const popupButtons = tour.currentStep.getElement().querySelectorAll('.shepherd-content button');
-          popupButtons.forEach((elt, index) => {
-            elt.setAttribute('tabindex', popupButtons.length + tabIndex - index); // loose tab on 'back'
+          this.getTarget().addEventListener('blur', (event) => {
+            const cancelButton = this.getElement().querySelector('.shepherd-cancel-icon');
+            const primaryButton = this.getElement().querySelector('.shepherd-button-primary');
+            const secondaryButton = this.getElement().querySelector('.shepherd-button-secondary');
+            if (primaryButton && !primaryButton.disabled) {
+              primaryButton.focus();
+            } else if (secondaryButton && !secondaryButton.disabled) {
+              secondaryButton.focus();
+            } else {
+              cancelButton.focus();
+            }
+            event.preventDefault();
           });
-        };
+        }
       },
     },
   });
