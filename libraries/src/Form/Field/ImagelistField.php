@@ -34,7 +34,7 @@ class ImagelistField extends FilelistField
      * Method to get the list of images field options.
      * Use the filter attribute to specify allowable file extensions.
      *
-     * @return array  The field option objects.
+     * @return  array  The field option objects.
      *
      * @since   1.7.0
      */
