@@ -226,8 +226,10 @@ function addBackButton(buttons, step) {
       if (step.type === 'redirect') {
         sessionStorage.setItem('currentStepId', step.id - 1);
         const previousStepUrl = sessionStorage.getItem('previousStepUrl');
-        sessionStorage.removeItem('previousStepUrl');
-        window.location.href = previousStepUrl;
+        if (previousStepUrl) {
+          sessionStorage.removeItem('previousStepUrl');
+          window.location.href = previousStepUrl;
+        }
       }
       return this.back();
     },
