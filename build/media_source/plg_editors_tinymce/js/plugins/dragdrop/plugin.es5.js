@@ -38,7 +38,13 @@
       var _data;
 
       var url = editor.settings.uploadUri + "&path=" + editor.settings.comMediaAdapter;
-      var data = (_data = {}, _data[editor.settings.csrfToken] = '1', _data.name = name, _data.content = content, _data.parent = editor.settings.parentUploadFolder, _data);
+      var data = (_data = {}, _data[editor.settings.csrfToken] = '1', _data.name = name, _data.content = content, _data.parent = editor.settings.parentUploadFolder, _data.context =  window.location.pathname, _data);
+
+      if(window.location.search){
+        var _pathObj = window.location.search.split('#',1).pop().split('?').pop().split('&').map(m=>m.split('=')).reduce((o,v) => ({...o,[v[0]??'']:v[1]??''}),{});
+        data.context = (_pathObj.option??'') + '.' + (_pathObj.view??'') + ':' + (_pathObj.id??'');
+      }
+
       Joomla.request({
         url: url,
         method: 'POST',
