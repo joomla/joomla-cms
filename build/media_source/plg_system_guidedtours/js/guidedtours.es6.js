@@ -68,8 +68,8 @@ function addStepToTourButton(tour, stepObj, buttons) {
           tour.currentStep.options.attachTo.element = '';
           tour.currentStep.options.attachTo.on = 'center';
 
-          for (let i = 0; i < targets.length; i++) {
-            let t = document.querySelector(targets[i]);
+          for (let i = 0; i < targets.length; i += 1) {
+            const t = document.querySelector(targets[i]);
             if (t != null) {
               // Use TinyMCE in code source to keep the step accessible
               if (t.parentElement.querySelector('.js-tiny-toggler-button') != null) {
