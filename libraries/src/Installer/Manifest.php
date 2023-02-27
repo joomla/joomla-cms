@@ -26,7 +26,7 @@ abstract class Manifest
      * The error messages
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public $_errors;
 
