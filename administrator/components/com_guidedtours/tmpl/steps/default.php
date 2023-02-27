@@ -94,7 +94,7 @@ if ($saveOrder && !empty($this->items)) {
                             'icon-sort'
                         ); ?>
                     </th>
-                    <th scope="col" class="w-1 text-center d-none d-md-table-cell">
+                    <th scope="col" class="w-1 text-center">
                         <?php echo HTMLHelper::_(
                             'searchtools.sort',
                             'COM_GUIDEDTOURS_STATUS',
