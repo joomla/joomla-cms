@@ -28,7 +28,7 @@ class ImagelistField extends FilelistField
      * @var    string
      * @since  1.7.0
      */
-    protected $type = "Imagelist";
+    protected $type = 'Imagelist';
 
     /**
      * Method to get the list of images field options.
