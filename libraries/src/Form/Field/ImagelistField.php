@@ -36,7 +36,7 @@ class ImagelistField extends FilelistField
      *
      * @return array  The field option objects.
      *
-     * @since 1.7.0
+     * @since   1.7.0
      */
     protected function getOptions()
     {
