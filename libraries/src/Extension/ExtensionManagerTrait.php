@@ -88,7 +88,8 @@ trait ExtensionManagerTrait
     public function bootPlugin($plugin, $type): PluginInterface
     {
         // Normalize the plugin name
-        $plugin = strtolower(preg_replace('/plg_/', '', $plugin, 1));
+        $plugin = strtolower($plugin);
+        $plugin = str_starts_with($plugin, 'plg_') ? substr($plugin, 4) : $plugin;
 
         // Path to look for services
         $path = JPATH_SITE . '/plugins/' . $type . '/' . $plugin;
