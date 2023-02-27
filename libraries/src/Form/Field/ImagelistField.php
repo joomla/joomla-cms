@@ -18,7 +18,7 @@ use Joomla\CMS\Component\ComponentHelper;
 /**
  * Supports an HTML select list of image
  *
- * @since 1.7.0
+ * @since  1.7.0
  */
 class ImagelistField extends FilelistField
 {
