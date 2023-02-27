@@ -55,7 +55,7 @@ if ($saveOrder && !empty($this->items)) {
     <div id="j-main-container" class="j-main-container">
         <?php
         // Search tools bar
-        echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+        echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
         ?>
 
         <!-- If no tours -->
@@ -63,8 +63,8 @@ if ($saveOrder && !empty($this->items)) {
             ?>
             <!-- No tours -->
             <div class="alert alert-info">
-                <span class="icon-info-circle" aria-hidden="true">
-                </span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+                <span class="icon-info-circle" aria-hidden="true"></span>
+                <span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
                 <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
             </div>
         <?php endif; ?>
