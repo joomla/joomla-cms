@@ -36,9 +36,10 @@
 
     function uploadFile(name, content) {
       var _data;
-
-      var url = editor.settings.uploadUri + "&path=" + editor.settings.comMediaAdapter;
-      var data = (_data = {}, _data[editor.settings.csrfToken] = '1', _data.name = name, _data.content = content, _data.parent = editor.settings.parentUploadFolder, _data);
+      
+      var url = editor.settings.uploadUri + "&path=" + editor.settings.comMediaAdapter + editor.settings.parentUploadFolder;
+      var context = window.location.search ? window.location.search.split('#',1).pop().split('?').pop().split('&').map(m=>m.split('=')).reduce((o,v) => ({...o, [v]:v}),{}) : window.location.pathname;
+      var data = (_data = {}, _data[editor.settings.csrfToken] = '1', _data.name = name, _data.content = content, _data.parent = editor.settings.parentUploadFolder, _data.conxext = context, _data);
       Joomla.request({
         url: url,
         method: 'POST',
