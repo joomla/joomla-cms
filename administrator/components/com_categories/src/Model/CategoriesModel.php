@@ -281,7 +281,7 @@ class CategoriesModel extends ListModel
                 $ids = array_filter($idsPrepareStrings, function ($number) {
 		    return is_numeric($number) && (int)$number > -1;
 		});
-    
+
                 $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->extendWhere(
                     'AND',
