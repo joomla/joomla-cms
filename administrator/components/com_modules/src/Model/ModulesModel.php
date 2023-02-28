@@ -395,7 +395,9 @@ class ModulesModel extends ListModel
                     ->bind(':id', $ids, ParameterType::INTEGER);
             } else {
                 $idsPrepareStrings = explode(' ', str_replace(',', ' ', trim($search)));
-                $ids = array_filter($idsPrepareStrings, function($number) {return is_numeric($number) && (int)$number > -1;});
+                $ids               = array_filter($idsPrepareStrings, function ($number) {
+                    return is_numeric($number) && (int)$number > -1;
+                });
 
                 $search = '%' . StringHelper::strtolower($search) . '%';
                 $query->extendWhere(
