@@ -294,9 +294,9 @@ class CategoriesModel extends ListModel
                     ->bind(':alias', $search)
                     ->bind(':note', $search);
 
-		if ($ids) {
+                if ($ids) {
                     $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
-		}
+                }
             }
         }
 
