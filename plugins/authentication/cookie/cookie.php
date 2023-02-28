@@ -58,11 +58,11 @@ class PlgAuthenticationCookie extends CMSPlugin
     {
         $this->loadLanguage();
 
-        return array(
-            Text::_('PLG_AUTHENTICATION_COOKIE') => array(
+        return [
+            Text::_('PLG_AUTHENTICATION_COOKIE') => [
                 Text::_('PLG_AUTHENTICATION_COOKIE_PRIVACY_CAPABILITY_COOKIE'),
-            ),
-        );
+            ],
+        ];
     }
 
     /**

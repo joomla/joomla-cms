@@ -107,7 +107,7 @@ if ($clientId === 1) {
             <div class="col-lg-3">
                 <?php
                     // Set main fields.
-                    $this->fields = array(
+                    $this->fields = [
                         'id',
                         'client_id',
                         'menutype',
@@ -120,10 +120,10 @@ if ($clientId === 1) {
                         'access',
                         'language',
                         'note',
-                    );
+                    ];
 
                     if ($this->item->type != 'component') {
-                        $this->fields = array_diff($this->fields, array('home'));
+                        $this->fields = array_diff($this->fields, ['home']);
                         $this->form->setFieldAttribute('publish_up', 'showon', '');
                         $this->form->setFieldAttribute('publish_down', 'showon', '');
                     }
@@ -134,8 +134,8 @@ if ($clientId === 1) {
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
         <?php
-        $this->fieldsets = array();
-        $this->ignore_fieldsets = array('aliasoptions', 'request', 'item_associations');
+        $this->fieldsets = [];
+        $this->ignore_fieldsets = ['aliasoptions', 'request', 'item_associations'];
         echo LayoutHelper::render('joomla.edit.params', $this);
         ?>
 
