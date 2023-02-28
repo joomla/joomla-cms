@@ -279,8 +279,8 @@ class CategoriesModel extends ListModel
             } else {
                 $idsPrepareStrings = explode(' ', str_replace(',', ' ', trim($search)));
                 $ids = array_filter($idsPrepareStrings, function ($number) {
-		    return is_numeric($number) && (int)$number > -1;
-		});
+                    return is_numeric($number) && (int)$number > -1;
+                });
 
                 $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->extendWhere(
