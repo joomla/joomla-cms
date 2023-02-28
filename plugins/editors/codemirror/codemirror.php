@@ -39,7 +39,7 @@ class PlgEditorCodemirror extends CMSPlugin
      *
      * @var array
      */
-    protected $modeAlias = array();
+    protected $modeAlias = [];
 
     /**
      * Base path for editor assets.
@@ -90,9 +90,9 @@ class PlgEditorCodemirror extends CMSPlugin
         PluginHelper::importPlugin('editors_codemirror');
 
         // At this point, params can be modified by a plugin before going to the layout renderer.
-        $this->app->triggerEvent('onCodeMirrorBeforeInit', array(&$this->params, &$this->basePath, &$this->modePath));
+        $this->app->triggerEvent('onCodeMirrorBeforeInit', [&$this->params, &$this->basePath, &$this->modePath]);
 
-        $displayData = (object) array('params' => $this->params);
+        $displayData = (object) ['params' => $this->params];
         $font = $this->params->get('fontFamily', '0');
         $fontInfo = $this->getFontInfo($font);
 
@@ -111,7 +111,7 @@ class PlgEditorCodemirror extends CMSPlugin
         LayoutHelper::render('editors.codemirror.styles', $displayData, __DIR__ . '/layouts');
         ob_end_clean();
 
-        $this->app->triggerEvent('onCodeMirrorAfterInit', array(&$this->params, &$this->basePath, &$this->modePath));
+        $this->app->triggerEvent('onCodeMirrorAfterInit', [&$this->params, &$this->basePath, &$this->modePath]);
     }
 
     /**
@@ -142,7 +142,7 @@ class PlgEditorCodemirror extends CMSPlugin
         $id = null,
         $asset = null,
         $author = null,
-        $params = array()
+        $params = []
     ) {
         // True if a CodeMirror already has autofocus. Prevent multiple autofocuses.
         static $autofocused;
@@ -180,10 +180,10 @@ class PlgEditorCodemirror extends CMSPlugin
 
         // Do we highlight selection matches?
         if ($this->params->get('selectionMatches', 1)) {
-            $options->highlightSelectionMatches = array(
+            $options->highlightSelectionMatches = [
                     'showToken' => true,
                     'annotateScrollbar' => true,
-                );
+                ];
         }
 
         // Do we use line numbering?
@@ -216,7 +216,7 @@ class PlgEditorCodemirror extends CMSPlugin
         }
 
         // Special options for tagged modes (xml/html).
-        if (in_array($options->mode, array('xml', 'html', 'php'))) {
+        if (in_array($options->mode, ['xml', 'html', 'php'])) {
             // Autogenerate closing tags (html/xml only).
             $options->autoCloseTags = (bool) $this->params->get('autoCloseTags', 1);
 
@@ -225,7 +225,7 @@ class PlgEditorCodemirror extends CMSPlugin
         }
 
         // Special options for non-tagged modes.
-        if (!in_array($options->mode, array('xml', 'html'))) {
+        if (!in_array($options->mode, ['xml', 'html'])) {
             // Autogenerate closing brackets.
             $options->autoCloseBrackets = (bool) $this->params->get('autoCloseBrackets', 1);
 
@@ -249,7 +249,7 @@ class PlgEditorCodemirror extends CMSPlugin
 
         $options->keyMapUrl = $keyMapUrl;
 
-        $displayData = (object) array(
+        $displayData = (object) [
             'options'  => $options,
             'params'   => $this->params,
             'name'     => $name,
@@ -260,14 +260,14 @@ class PlgEditorCodemirror extends CMSPlugin
             'buttons'  => $buttons,
             'basePath' => $this->basePath,
             'modePath' => $this->modePath,
-        );
+        ];
 
         // At this point, displayData can be modified by a plugin before going to the layout renderer.
-        $results = $this->app->triggerEvent('onCodeMirrorBeforeDisplay', array(&$displayData));
+        $results = $this->app->triggerEvent('onCodeMirrorBeforeDisplay', [&$displayData]);
 
         $results[] = LayoutHelper::render('editors.codemirror.element', $displayData, __DIR__ . '/layouts');
 
-        foreach ($this->app->triggerEvent('onCodeMirrorAfterDisplay', array(&$displayData)) as $result) {
+        foreach ($this->app->triggerEvent('onCodeMirrorAfterDisplay', [&$displayData]) as $result) {
             $results[] = $result;
         }
 

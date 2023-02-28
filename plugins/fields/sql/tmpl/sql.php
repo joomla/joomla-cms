@@ -38,7 +38,7 @@ try {
     $items = $db->loadObjectList();
 }
 
-$texts = array();
+$texts = [];
 
 foreach ($items as $item) {
     if (in_array($item->value, $value)) {
