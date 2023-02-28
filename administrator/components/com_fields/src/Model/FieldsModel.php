@@ -351,7 +351,7 @@ class FieldsModel extends ListModel
                     ->bind(':username', $search);
             } else {
                 $idsPrepareStrings = explode(' ', str_replace(',', ' ', trim($search)));
-                $ids = array_filter($idsPrepareStrings, fn($number)=> is_numeric($number) && (int)$number > -1);
+                $ids = array_filter($idsPrepareStrings, fn($number) => is_numeric($number) && (int)$number > -1);
 
                 $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->where(
