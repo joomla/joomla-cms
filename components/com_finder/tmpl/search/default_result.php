@@ -106,14 +106,11 @@ if ($this->params->get('show_url', 1)) {
     <?php if (count($taxonomies) && $this->params->get('show_taxonomy', 1)) : ?>
         <ul class="result__taxonomy">
             <?php foreach ($taxonomies as $type => $taxonomy) : ?>
-                <?php
-                if ($type == 'Language' && (!Multilanguage::isEnabled() || (isset($taxonomy[0]) && $taxonomy[0]->title == '*'))) :
-                    continue;
-                endif;
-
-                $branch = Taxonomy::getBranch($type);
-
-                if ($branch->state == 1 && in_array($branch->access, $user->getAuthorisedViewLevels())) : ?>
+                <?php if ($type == 'Language' && (!Multilanguage::isEnabled() || (isset($taxonomy[0]) && $taxonomy[0]->title == '*'))) : ?>
+                    <?php continue; ?>
+                <?php endif; ?>
+                <?php $branch = Taxonomy::getBranch($type); ?>
+                <?php if ($branch->state == 1 && in_array($branch->access, $user->getAuthorisedViewLevels())) : ?>
                     <?php $taxonomy_text = []; ?>
                     <?php foreach ($taxonomy as $node) : ?>
                         <?php if ($node->state == 1 && in_array($node->access, $user->getAuthorisedViewLevels())) : ?>
