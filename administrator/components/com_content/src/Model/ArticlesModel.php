@@ -471,7 +471,7 @@ class ArticlesModel extends ListModel
                         . ' OR ' . $db->quoteName('a.note') . ' LIKE :search3)'
                 )
                     ->bind([':search1', ':search2', ':search3'], $search);
-                    
+
                 if ($ids) {
                     $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
                 }
