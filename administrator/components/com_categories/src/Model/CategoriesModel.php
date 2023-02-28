@@ -277,6 +277,9 @@ class CategoriesModel extends ListModel
                 $query->where($db->quoteName('a.id') . ' = :search')
                     ->bind(':search', $search, ParameterType::INTEGER);
             } else {
+                $idsPrepareStrings = explode(' ', str_replace(',', ' ', trim($search)));
+                $ids = array_filter($idsPrepareStrings, fn($number)=> is_numeric($number) && (int)$number > -1);
+    
                 $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->extendWhere(
                     'AND',
@@ -290,6 +293,10 @@ class CategoriesModel extends ListModel
                     ->bind(':title', $search)
                     ->bind(':alias', $search)
                     ->bind(':note', $search);
+
+		if ($ids) {
+                    $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+		}
             }
         }
 
