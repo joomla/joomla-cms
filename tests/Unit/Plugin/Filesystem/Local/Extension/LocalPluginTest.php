@@ -27,7 +27,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @testdox     The Local plugin
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.3.0
  */
 class LocalPluginTest extends UnitTestCase
 {
@@ -36,7 +36,7 @@ class LocalPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testID()
     {
@@ -52,7 +52,7 @@ class LocalPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testDisplayName()
     {
@@ -75,7 +75,7 @@ class LocalPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testSetupProviders()
     {
@@ -98,7 +98,7 @@ class LocalPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testAdapters()
     {
@@ -116,7 +116,7 @@ class LocalPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testAdaptersInvalidDirectoy()
     {
