@@ -61,8 +61,8 @@ before_test:
       $Counter=0
       $Found=$false
       While ( ! $Found -and $Counter -lt 60 ) {
-        docker logs openldap
-        $Found = ( docker logs openldap 2>&1 | Select-String -Quiet "\*\* slapd starting \*\*" )
+        docker logs openldap 2>&1 | Select-String -Quiet "\*\* Starting slapd \*\*"
+        $Found = ( docker logs openldap 2>&1 | Select-String -Quiet "\*\* Starting slapd \*\*" )
         Start-Sleep -Seconds 1
         $Counter++
         "$Counter Waiting for slapd"
