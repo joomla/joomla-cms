@@ -278,7 +278,7 @@ class CategoriesModel extends ListModel
                     ->bind(':search', $search, ParameterType::INTEGER);
             } else {
                 $idsPrepareStrings = explode(' ', str_replace(',', ' ', trim($search)));
-                $ids = array_filter($idsPrepareStrings, function ($number) {
+                $ids               = array_filter($idsPrepareStrings, function ($number) {
                     return is_numeric($number) && (int)$number > -1;
                 });
 
