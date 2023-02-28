@@ -30,7 +30,7 @@ class ApplicationHelper
      * @var    array
      * @since  1.6
      */
-    protected static $_clients = array();
+    protected static $_clients = [];
 
     /**
      * Return the name of the request component [main component]

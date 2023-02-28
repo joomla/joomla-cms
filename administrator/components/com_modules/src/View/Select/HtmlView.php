@@ -96,6 +96,6 @@ class HtmlView extends BaseHtmlView
         // Instantiate a new FileLayout instance and render the layout
         $layout = new FileLayout('toolbar.cancelselect');
 
-        $bar->appendButton('Custom', $layout->render(array('client_id' => $clientId)), 'new');
+        $bar->appendButton('Custom', $layout->render(['client_id' => $clientId]), 'new');
     }
 }
