@@ -26,6 +26,14 @@
 
 .shepherd-button-primary {
   grid-column-start: 3;
+  color: var(--template-text-light);
+  background-color: var(--template-bg-dark-60);
+  border-color: var(--template-bg-dark-60);
+}
+
+.shepherd-button-primary:not(:disabled):hover {
+  background-color: var(--template-bg-dark-70);
+  border-color: var(--template-bg-dark-90);
 }
 
 .shepherd-enabled.shepherd-element[data-popper-placement="bottom"] {
