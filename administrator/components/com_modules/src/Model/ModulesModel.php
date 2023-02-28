@@ -394,6 +394,9 @@ class ModulesModel extends ListModel
                 $query->where($db->quoteName('a.id') . ' = :id')
                     ->bind(':id', $ids, ParameterType::INTEGER);
             } else {
+                $idsPrepareStrings = explode(' ', str_replace(',', ' ', trim($search)));
+                $ids = array_filter($idsPrepareStrings, fn($number)=> is_numeric($number) && (int)$number > -1);
+
                 $search = '%' . StringHelper::strtolower($search) . '%';
                 $query->extendWhere(
                     'AND',
@@ -405,6 +408,10 @@ class ModulesModel extends ListModel
                 )
                     ->bind(':title', $search)
                     ->bind(':note', $search);
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
             }
         }
 
