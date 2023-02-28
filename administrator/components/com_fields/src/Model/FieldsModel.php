@@ -350,6 +350,9 @@ class FieldsModel extends ListModel
                     ->bind(':name', $search)
                     ->bind(':username', $search);
             } else {
+                $idsPrepareStrings = explode(' ', str_replace(',', ' ', trim($search)));
+                $ids = array_filter($idsPrepareStrings, fn($number)=> is_numeric($number) && (int)$number > -1);
+
                 $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->where(
                     '(' .
@@ -361,6 +364,10 @@ class FieldsModel extends ListModel
                     ->bind(':title', $search)
                     ->bind(':sname', $search)
                     ->bind(':note', $search);
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
             }
         }
 
