@@ -15,6 +15,10 @@ use Joomla\CMS\Feed\FeedLink;
 use Joomla\CMS\Feed\FeedParser;
 use Joomla\CMS\Feed\FeedPerson;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * RSS Feed Parser class.
  *
@@ -226,7 +230,7 @@ class RssParser extends FeedParser
     protected function handleSkipDays(Feed $feed, \SimpleXMLElement $el)
     {
         // Initialise the array.
-        $days = array();
+        $days = [];
 
         // Add all of the day values from the feed to the array.
         foreach ($el->day as $day) {
@@ -249,7 +253,7 @@ class RssParser extends FeedParser
     protected function handleSkipHours(Feed $feed, \SimpleXMLElement $el)
     {
         // Initialise the array.
-        $hours = array();
+        $hours = [];
 
         // Add all of the day values from the feed to the array.
         foreach ($el->hour as $hour) {

@@ -19,6 +19,10 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The Joomla! update controller for the Update view
  *
@@ -39,7 +43,7 @@ class UpdateController extends BaseController
 
         $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
         $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
+        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
         $user = $this->app->getIdentity();
 
         try {
@@ -107,7 +111,7 @@ class UpdateController extends BaseController
 
         $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
         $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
+        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
 
         try {
             Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), Log::INFO, 'Update');
@@ -145,7 +149,7 @@ class UpdateController extends BaseController
 
         $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
         $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
+        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
 
         try {
             Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_FINALISE'), Log::INFO, 'Update');
@@ -183,7 +187,7 @@ class UpdateController extends BaseController
 
         $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
         $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
+        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
 
         try {
             Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_CLEANUP'), Log::INFO, 'Update');
@@ -318,11 +322,11 @@ class UpdateController extends BaseController
         }
 
         // Try to log in
-        $credentials = array(
+        $credentials = [
             'username'  => $this->input->post->get('username', '', 'username'),
             'password'  => $this->input->post->get('passwd', '', 'raw'),
             'secretkey' => $this->input->post->get('secretkey', '', 'raw'),
-        );
+        ];
 
         $result = $model->captiveLogin($credentials);
 
@@ -356,7 +360,7 @@ class UpdateController extends BaseController
      *
      * @since   2.5.4
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         // Get the document object.
         $document = $this->app->getDocument();
@@ -406,11 +410,11 @@ class UpdateController extends BaseController
         $model = $this->getModel('Update');
 
         // Try to log in
-        $credentials = array(
+        $credentials = [
             'username'  => $this->input->post->get('username', '', 'username'),
             'password'  => $this->input->post->get('passwd', '', 'raw'),
             'secretkey' => $this->input->post->get('secretkey', '', 'raw'),
-        );
+        ];
 
         $result = $model->captiveLogin($credentials);
 
@@ -496,18 +500,18 @@ class UpdateController extends BaseController
         }
 
         // Do we need to capture
-        $combinedCompatibilityStatus = array(
-            'upgradeCompatibilityStatus' => (object) array(
+        $combinedCompatibilityStatus = [
+            'upgradeCompatibilityStatus' => (object) [
                 'state' => $upgradeCompatibilityStatus->state,
                 'compatibleVersion' => $upgradeUpdateVersion
-            ),
-            'currentCompatibilityStatus' => (object) array(
+            ],
+            'currentCompatibilityStatus' => (object) [
                 'state' => $currentCompatibilityStatus->state,
                 'compatibleVersion' => $currentUpdateVersion
-            ),
+            ],
             'resultGroup' => $resultGroup,
             'upgradeWarning' => $upgradeWarning,
-        );
+        ];
 
         $this->app = Factory::getApplication();
         $this->app->mimeType = 'application/json';

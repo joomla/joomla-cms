@@ -14,9 +14,14 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Menu table
@@ -167,7 +172,7 @@ class Menu extends Nested
         $db = $this->getDbo();
 
         // Verify that the alias is unique
-        $table = Table::getInstance('Menu', 'JTable', array('dbo' => $db));
+        $table = Table::getInstance('Menu', 'JTable', ['dbo' => $db]);
 
         $originalAlias = trim($this->alias);
         $this->alias   = !$originalAlias ? $this->title : $originalAlias;
@@ -193,15 +198,15 @@ class Menu extends Nested
         if (empty($this->alias)) {
             $this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
         } else {
-            $itemSearch = array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => (int) $this->client_id);
+            $itemSearch = ['alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => (int) $this->client_id];
             $error      = false;
 
             // Check if the alias already exists. For multilingual site.
             if (Multilanguage::isEnabled() && (int) $this->client_id == 0) {
                 // If there is a menu item at the same level with the same alias (in the All or the same language).
                 if (
-                    ($table->load(array_replace($itemSearch, array('language' => '*'))) && ($table->id != $this->id || $this->id == 0))
-                    || ($table->load(array_replace($itemSearch, array('language' => $this->language))) && ($table->id != $this->id || $this->id == 0))
+                    ($table->load(array_replace($itemSearch, ['language' => '*'])) && ($table->id != $this->id || $this->id == 0))
+                    || ($table->load(array_replace($itemSearch, ['language' => $this->language])) && ($table->id != $this->id || $this->id == 0))
                     || ($this->language === '*' && $this->id == 0 && $table->load($itemSearch))
                 ) {
                     $error = true;
@@ -221,7 +226,7 @@ class Menu extends Nested
                     $otherMenuItemId = (int) $db->setQuery($query)->loadResult();
 
                     if ($otherMenuItemId) {
-                        $table->load(array('id' => $otherMenuItemId));
+                        $table->load(['id' => $otherMenuItemId]);
                         $error = true;
                     }
                 }
@@ -235,9 +240,16 @@ class Menu extends Nested
 
             // The alias already exists. Enqueue an error message.
             if ($error) {
-                $menuTypeTable = Table::getInstance('MenuType', 'JTable', array('dbo' => $db));
-                $menuTypeTable->load(array('menutype' => $table->menutype));
-                $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title));
+                $menuTypeTable = Table::getInstance('MenuType', 'JTable', ['dbo' => $db]);
+                $menuTypeTable->load(['menutype' => $table->menutype]);
+                $url = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $table->id);
+
+                // Is the existing menu item trashed?
+                $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title, $url));
+
+                if ($table->published === -2) {
+                    $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_TRASHED', $this->alias, $table->title, $menuTypeTable->title, $url));
+                }
 
                 return false;
             }
@@ -247,11 +259,11 @@ class Menu extends Nested
             // Verify that the home page for this menu is unique.
             if (
                 $table->load(
-                    array(
+                    [
                     'menutype' => $this->menutype,
                     'client_id' => (int) $this->client_id,
                     'home' => '1',
-                    )
+                    ]
                 )
                 && ($table->language != $this->language)
             ) {
@@ -261,7 +273,7 @@ class Menu extends Nested
             }
 
             // Verify that the home page for this language is unique per client id
-            if ($table->load(array('home' => '1', 'language' => $this->language, 'client_id' => (int) $this->client_id))) {
+            if ($table->load(['home' => '1', 'language' => $this->language, 'client_id' => (int) $this->client_id])) {
                 if ($table->checked_out && $table->checked_out != $this->checked_out) {
                     $this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_DEFAULT_CHECKIN_USER_MISMATCH'));
 
@@ -281,7 +293,7 @@ class Menu extends Nested
 
         // Get the new path in case the node was moved
         $pathNodes = $this->getPath();
-        $segments = array();
+        $segments = [];
 
         foreach ($pathNodes as $node) {
             // Don't include root in path

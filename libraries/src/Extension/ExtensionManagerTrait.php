@@ -19,6 +19,10 @@ use Joomla\DI\Exception\ContainerNotFoundException;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Trait for classes which can load extensions
  *
@@ -38,7 +42,8 @@ trait ExtensionManagerTrait
     public function bootComponent($component): ComponentInterface
     {
         // Normalize the component name
-        $component = strtolower(str_replace('com_', '', $component));
+        $component = strtolower($component);
+        $component = str_starts_with($component, 'com_') ? substr($component, 4) : $component;
 
         // Path to look for services
         $path = JPATH_ADMINISTRATOR . '/components/com_' . $component;
@@ -59,7 +64,8 @@ trait ExtensionManagerTrait
     public function bootModule($module, $applicationName): ModuleInterface
     {
         // Normalize the module name
-        $module = strtolower(str_replace('mod_', '', $module));
+        $module = strtolower($module);
+        $module = str_starts_with($module, 'mod_') ? substr($module, 4) : $module;
 
         // Path to look for services
         $path = JPATH_SITE . '/modules/mod_' . $module;
@@ -84,7 +90,8 @@ trait ExtensionManagerTrait
     public function bootPlugin($plugin, $type): PluginInterface
     {
         // Normalize the plugin name
-        $plugin = strtolower(str_replace('plg_', '', $plugin));
+        $plugin = strtolower($plugin);
+        $plugin = str_starts_with($plugin, 'plg_') ? substr($plugin, 4) : $plugin;
 
         // Path to look for services
         $path = JPATH_SITE . '/plugins/' . $type . '/' . $plugin;

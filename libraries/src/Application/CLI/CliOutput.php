@@ -11,6 +11,10 @@ namespace Joomla\CMS\Application\CLI;
 
 use Joomla\CMS\Application\CLI\Output\Processor\ProcessorInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class defining a command line output handler
  *

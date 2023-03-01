@@ -74,7 +74,7 @@ $assoc = Associations::isEnabled();
             <div id="j-main-container" class="j-main-container">
                 <?php
                 // Search tools bar
-                echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+                echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
                 ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
@@ -369,18 +369,19 @@ $assoc = Associations::isEnabled();
                     <?php echo $this->pagination->getListFooter(); ?>
 
                     <?php // Load the batch processing form. ?>
-                    <?php if (
-                    $user->authorise('core.create', 'com_content')
+                    <?php
+                    if (
+                        $user->authorise('core.create', 'com_content')
                         && $user->authorise('core.edit', 'com_content')
                         && $user->authorise('core.edit.state', 'com_content')
-) : ?>
+                    ) : ?>
                         <?php echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'collapseModal',
-                            array(
+                            [
                                 'title'  => Text::_('COM_CONTENT_BATCH_OPTIONS'),
                                 'footer' => $this->loadTemplate('batch_footer'),
-                            ),
+                            ],
                             $this->loadTemplate('batch_body')
                         ); ?>
                     <?php endif; ?>

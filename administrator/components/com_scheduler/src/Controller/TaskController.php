@@ -16,6 +16,10 @@ use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * MVC Controller for the item configuration page (TaskView).
  *
@@ -93,7 +97,7 @@ class TaskController extends FormController
      *
      * @since  4.1.0
      */
-    protected function allowEdit($data = array(), $key = 'id'): bool
+    protected function allowEdit($data = [], $key = 'id'): bool
     {
         // Extract the recordId from $data, will come in handy
         $recordId = (int) $data[$key] ?? 0;

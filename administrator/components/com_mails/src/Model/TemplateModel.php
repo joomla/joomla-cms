@@ -22,6 +22,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Item Model for a Mail template.
  *
@@ -69,10 +73,10 @@ class TemplateModel extends AdminModel
      *
      * @since   4.0.0
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_mails.template', 'template', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_mails.template', 'template', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -156,7 +160,7 @@ class TemplateModel extends AdminModel
 
         if ($templateId != '' && $language != '') {
             // Attempt to load the row.
-            $return = $table->load(array('template_id' => $templateId, 'language' => $language));
+            $return = $table->load(['template_id' => $templateId, 'language' => $language]);
 
             // Check for a table object error.
             if ($return === false && $table->getError()) {
@@ -202,7 +206,7 @@ class TemplateModel extends AdminModel
 
         if ($template_id != '') {
             // Attempt to load the row.
-            $return = $table->load(array('template_id' => $template_id, 'language' => ''));
+            $return = $table->load(['template_id' => $template_id, 'language' => '']);
 
             // Check for a table object error.
             if ($return === false && $table->getError()) {
@@ -236,7 +240,7 @@ class TemplateModel extends AdminModel
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function getTable($name = 'Template', $prefix = 'Administrator', $options = array())
+    public function getTable($name = 'Template', $prefix = 'Administrator', $options = [])
     {
         return parent::getTable($name, $prefix, $options);
     }
@@ -252,7 +256,7 @@ class TemplateModel extends AdminModel
     {
         // Check the session for previously entered form data.
         $app = Factory::getApplication();
-        $data = $app->getUserState('com_mails.edit.template.data', array());
+        $data = $app->getUserState('com_mails.edit.template.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -276,7 +280,7 @@ class TemplateModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
-        $validLanguages = LanguageHelper::getContentLanguages(array(0, 1));
+        $validLanguages = LanguageHelper::getContentLanguages([0, 1]);
 
         if (!array_key_exists($data['language'], $validLanguages)) {
             $this->setError(Text::_('COM_MAILS_FIELD_LANGUAGE_CODE_INVALID'));
@@ -312,14 +316,14 @@ class TemplateModel extends AdminModel
         // Allow an exception to be thrown.
         try {
             // Load the row if saving an existing record.
-            $table->load(array('template_id' => $template_id, 'language' => $language));
+            $table->load(['template_id' => $template_id, 'language' => $language]);
 
             if ($table->subject) {
                 $isNew = false;
             }
 
             // Load the default row
-            $table->load(array('template_id' => $template_id, 'language' => ''));
+            $table->load(['template_id' => $template_id, 'language' => '']);
 
             // Bind the data.
             if (!$table->bind($data)) {
@@ -339,7 +343,7 @@ class TemplateModel extends AdminModel
             }
 
             // Trigger the before save event.
-            $result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
+            $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
 
             if (in_array(false, $result, true)) {
                 $this->setError($table->getError());
@@ -358,7 +362,7 @@ class TemplateModel extends AdminModel
             $this->cleanCache();
 
             // Trigger the after save event.
-            Factory::getApplication()->triggerEvent($this->event_after_save, array($context, $table, $isNew, $data));
+            Factory::getApplication()->triggerEvent($this->event_after_save, [$context, $table, $isNew, $data]);
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
 

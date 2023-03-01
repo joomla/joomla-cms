@@ -18,6 +18,10 @@ use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * UpdateAdapter class.
  *
@@ -39,7 +43,7 @@ abstract class UpdateAdapter extends AdapterInstance
      * @var    array
      * @since  3.0.0
      */
-    protected $stack = array('base');
+    protected $stack = ['base'];
 
     /**
      * ID of update site
@@ -55,7 +59,7 @@ abstract class UpdateAdapter extends AdapterInstance
      * @var    array
      * @since  3.0.0
      */
-    protected $updatecols = array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL', 'CHANGELOGURL', 'EXTRA_QUERY');
+    protected $updatecols = ['NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL', 'CHANGELOGURL', 'EXTRA_QUERY'];
 
     /**
      * Should we try appending a .xml extension to the update site's URL?
@@ -206,7 +210,7 @@ abstract class UpdateAdapter extends AdapterInstance
      *
      * @throws  \Exception
      */
-    protected function getUpdateSiteResponse($options = array())
+    protected function getUpdateSiteResponse($options = [])
     {
         $url = trim($options['location']);
         $this->_url = &$url;
@@ -244,7 +248,7 @@ abstract class UpdateAdapter extends AdapterInstance
         // JHttp transport throws an exception when there's no response.
         try {
             $http = HttpFactory::getHttp($httpOption);
-            $response = $http->get($url, array(), 20);
+            $response = $http->get($url, [], 20);
         } catch (\RuntimeException $e) {
             $response = null;
         }

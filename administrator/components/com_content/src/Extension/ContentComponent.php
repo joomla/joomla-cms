@@ -34,6 +34,10 @@ use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Component class for com_content
  *
@@ -169,10 +173,10 @@ class ContentComponent extends MVCComponent implements
     {
         Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
-        $contexts = array(
+        $contexts = [
             'com_content.article'    => Text::_('COM_CONTENT'),
             'com_content.categories' => Text::_('JCATEGORY')
-        );
+        ];
 
         return $contexts;
     }
@@ -188,9 +192,9 @@ class ContentComponent extends MVCComponent implements
     {
         Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
-        $contexts = array(
+        $contexts = [
             'com_content.article'    => Text::_('COM_CONTENT')
-        );
+        ];
 
         return $contexts;
     }
@@ -294,14 +298,14 @@ class ContentComponent extends MVCComponent implements
      */
     public function countItems(array $items, string $section)
     {
-        $config = (object) array(
+        $config = (object) [
             'related_tbl'    => 'content',
             'state_col'      => 'state',
             'group_col'      => 'catid',
             'relation_type'  => 'category_or_group',
             'uses_workflows' => true,
             'workflows_component' => 'com_content'
-        );
+        ];
 
         LibraryContentHelper::countRelations($items, $config);
     }
@@ -322,13 +326,13 @@ class ContentComponent extends MVCComponent implements
         $parts   = explode('.', $extension);
         $section = count($parts) > 1 ? $parts[1] : null;
 
-        $config = (object) array(
+        $config = (object) [
             'related_tbl'   => ($section === 'category' ? 'categories' : 'content'),
             'state_col'     => ($section === 'category' ? 'published' : 'state'),
             'group_col'     => 'tag_id',
             'extension'     => $extension,
             'relation_type' => 'tag_assigments',
-        );
+        ];
 
         LibraryContentHelper::countRelations($items, $config);
     }

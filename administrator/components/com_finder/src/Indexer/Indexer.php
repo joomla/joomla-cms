@@ -22,6 +22,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Main indexer class for the Finder indexer package.
  *
@@ -128,7 +132,7 @@ class Indexer
         // Set up query template for addTokensToDb
         $this->addTokensToDbQueryTemplate = $db->getQuery(true)->insert($db->quoteName('#__finder_tokens'))
             ->columns(
-                array(
+                [
                     $db->quoteName('term'),
                     $db->quoteName('stem'),
                     $db->quoteName('common'),
@@ -136,7 +140,7 @@ class Indexer
                     $db->quoteName('weight'),
                     $db->quoteName('context'),
                     $db->quoteName('language')
-                )
+                ]
             );
     }
 
@@ -193,13 +197,13 @@ class Indexer
             }
 
             // Setup the weight lookup information.
-            $data->weights = array(
+            $data->weights = [
                 self::TITLE_CONTEXT => round($data->options->get('title_multiplier', 1.7), 2),
                 self::TEXT_CONTEXT  => round($data->options->get('text_multiplier', 0.7), 2),
                 self::META_CONTEXT  => round($data->options->get('meta_multiplier', 1.2), 2),
                 self::PATH_CONTEXT  => round($data->options->get('path_multiplier', 2.0), 2),
                 self::MISC_CONTEXT  => round($data->options->get('misc_multiplier', 0.3), 2)
-            );
+            ];
 
             // Set the current time as the start time.
             $data->startTime = Factory::getDate()->toSql();
@@ -208,7 +212,7 @@ class Indexer
             $data->batchSize   = (int) $data->options->get('batch_size', 50);
             $data->batchOffset = 0;
             $data->totalItems  = 0;
-            $data->pluginState = array();
+            $data->pluginState = [];
         }
 
         // Setup the profiler if debugging is enabled.
@@ -407,7 +411,7 @@ class Indexer
                          */
                         if ($group === static::PATH_CONTEXT) {
                             $ip = File::stripExt($ip);
-                            $ip = str_replace(array('/', '-'), ' ', $ip);
+                            $ip = str_replace(['/', '-'], ' ', $ip);
                         }
 
                         // Tokenize a string of content and add it to the database.
@@ -625,7 +629,7 @@ class Indexer
 
         // Trigger a plugin event after indexing
         PluginHelper::importPlugin('finder');
-        Factory::getApplication()->triggerEvent('onFinderIndexAfterIndex', array($item, $linkId));
+        Factory::getApplication()->triggerEvent('onFinderIndexAfterIndex', [$item, $linkId]);
 
         return $linkId;
     }
@@ -685,7 +689,7 @@ class Indexer
         }
 
         PluginHelper::importPlugin('finder');
-        Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', array($linkId));
+        Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', [$linkId]);
 
         return true;
     }
@@ -784,13 +788,13 @@ class Indexer
         $state = static::getState();
 
         // Get the relevant configuration variables.
-        $config = array(
+        $config = [
             $state->weights,
             $state->options->get('tuplecount', 1),
             $state->options->get('language_default', '')
-        );
+        ];
 
-        return md5(serialize(array($item, $config)));
+        return md5(serialize([$item, $config]));
     }
 
     /**

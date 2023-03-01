@@ -16,6 +16,10 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * A File handling class
  *
@@ -91,7 +95,7 @@ class File
             $file = iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII', $file));
         }
 
-        $regex = array('#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#');
+        $regex = ['#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#'];
 
         return trim(preg_replace($regex, '', $file));
     }
@@ -118,7 +122,7 @@ class File
 
         // Check src path
         if (!is_readable($src)) {
-            Log::add(Text::sprintf('LIB_FILESYSTEM_ERROR_JFILE_FIND_COPY', __METHOD__, $src), Log::WARNING, 'jerror');
+            Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_FILE_FIND_COPY', __METHOD__, $src), Log::WARNING, 'jerror');
 
             return false;
         }
@@ -140,7 +144,7 @@ class File
 
             if ($FTPOptions['enabled'] == 1) {
                 // Connect the FTP client
-                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
 
                 // If the parent folder doesn't exist we must create it
                 if (!file_exists(\dirname($dest))) {
@@ -248,7 +252,7 @@ class File
         // Do NOT use ftp if it is not enabled
         if ($FTPOptions['enabled'] == 1) {
             // Connect the FTP client
-            $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+            $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
         }
 
         foreach ($files as $file) {
@@ -342,7 +346,7 @@ class File
 
             if ($FTPOptions['enabled'] == 1) {
                 // Connect the FTP client
-                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
 
                 // Translate path for the FTP account
                 $src = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
@@ -410,7 +414,7 @@ class File
 
             if ($FTPOptions['enabled'] == 1) {
                 // Connect the FTP client
-                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
 
                 // Translate path for the FTP account and use FTP write buffer to file
                 $file = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
@@ -467,7 +471,7 @@ class File
 
             if ($FTPOptions['enabled'] == 1) {
                 // Connect the FTP client
-                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
 
                 // Translate path for the FTP account and use FTP write buffer to file
                 $file = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
@@ -496,16 +500,16 @@ class File
      *
      * @since   1.7.0
      */
-    public static function upload($src, $dest, $useStreams = false, $allowUnsafe = false, $safeFileOptions = array())
+    public static function upload($src, $dest, $useStreams = false, $allowUnsafe = false, $safeFileOptions = [])
     {
         if (!$allowUnsafe) {
-            $descriptor = array(
+            $descriptor = [
                 'tmp_name' => $src,
                 'name'     => basename($dest),
                 'type'     => '',
                 'error'    => '',
                 'size'     => '',
-            );
+            ];
 
             $isSafe = InputFilter::isSafeFile($descriptor, $safeFileOptions);
 
@@ -542,7 +546,7 @@ class File
 
             if ($FTPOptions['enabled'] == 1) {
                 // Connect the FTP client
-                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
 
                 // Translate path for the FTP account
                 $dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');

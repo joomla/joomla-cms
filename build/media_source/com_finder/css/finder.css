@@ -95,12 +95,12 @@
 }
 
 .result__taxonomy-item + .result__taxonomy-item {
-  margin-left: .5em;
+  margin-inline-start: .5em;
 }
 
 .result__taxonomy-item + .result__taxonomy-item:before {
   content: "|";
-  padding-right: .5em;
+  padding-inline-end: .5em;
 }
 
 /**

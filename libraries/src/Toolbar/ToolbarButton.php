@@ -13,6 +13,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The ToolbarButton class.
  *
@@ -233,7 +237,7 @@ abstract class ToolbarButton
         // It's an ugly hack, but this allows templates to define the icon classes for the toolbar
         $layout = new FileLayout('joomla.toolbar.iconclass');
 
-        return $layout->render(array('icon' => $identifier));
+        return $layout->render(['icon' => $identifier]);
     }
 
     /**

@@ -12,6 +12,10 @@ namespace Joomla\CMS\HTML\Helpers;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\String\StringHelper as FrameworkStringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML helper class for rendering manipulated strings.
  *
@@ -45,7 +49,7 @@ abstract class StringHelper
         if (!$allowHtml) {
             // Deal with spacing issues in the input.
             $text = str_replace('>', '> ', $text);
-            $text = str_replace(array('&nbsp;', '&#160;'), ' ', $text);
+            $text = str_replace(['&nbsp;', '&#160;'], ' ', $text);
             $text = FrameworkStringHelper::trim(preg_replace('#\s+#mui', ' ', $text));
 
             // Strip the tags from the input and decode entities.
@@ -88,7 +92,7 @@ abstract class StringHelper
                 $openedTags = $result[1];
 
                 // Some tags self close so they do not need a separate close tag.
-                $openedTags = array_diff($openedTags, array('img', 'hr', 'br'));
+                $openedTags = array_diff($openedTags, ['img', 'hr', 'br']);
                 $openedTags = array_values($openedTags);
 
                 // Put all closed tags into an array

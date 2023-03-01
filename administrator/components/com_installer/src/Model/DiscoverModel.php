@@ -19,6 +19,10 @@ use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Installer Discover Model
  *
@@ -35,17 +39,17 @@ class DiscoverModel extends InstallerModel
      * @see     \Joomla\CMS\MVC\Model\ListModel
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'name',
                 'client_id',
                 'client', 'client_translated',
                 'type', 'type_translated',
                 'folder', 'folder_translated',
                 'extension_id',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -113,7 +117,7 @@ class DiscoverModel extends InstallerModel
                 ->bind(':clientid', $clientId, ParameterType::INTEGER);
         }
 
-        if ($folder != '' && in_array($type, array('plugin', 'library', ''))) {
+        if ($folder != '' && in_array($type, ['plugin', 'library', ''])) {
             $folder = $folder === '*' ? '' : $folder;
             $query->where($db->quoteName('folder') . ' = :folder')
                 ->bind(':folder', $folder);
@@ -158,7 +162,7 @@ class DiscoverModel extends InstallerModel
         $db->setQuery($query);
         $installedtmp = $db->loadObjectList();
 
-        $extensions = array();
+        $extensions = [];
 
         foreach ($installedtmp as $install) {
             $key = implode(
@@ -213,7 +217,7 @@ class DiscoverModel extends InstallerModel
 
         if (is_array($eid) || $eid) {
             if (!is_array($eid)) {
-                $eid = array($eid);
+                $eid = [$eid];
             }
 
             $eid = ArrayHelper::toInteger($eid);
@@ -238,7 +242,7 @@ class DiscoverModel extends InstallerModel
             $app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
 
             if (!$failed) {
-                $app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DISCOVER_INSTALLSUCCESSFUL'));
+                $app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DISCOVER_INSTALLSUCCESSFUL'), 'success');
             }
         } else {
             $app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSIONSELECTED'));

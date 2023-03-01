@@ -11,6 +11,10 @@ namespace Joomla\CMS\MVC\View;
 
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla Platform CMS Interface
  *

@@ -14,6 +14,10 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class for a Joomla Module Dispatcher.
  *

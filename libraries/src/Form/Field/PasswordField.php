@@ -13,6 +13,10 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Text field for passwords
@@ -40,12 +44,52 @@ class PasswordField extends FormField
     protected $threshold = 66;
 
     /**
+     * The allowable minimum length of password.
+     *
+     * @var    integer
+     * @since  4.2.7
+     */
+    protected $minLength;
+
+    /**
      * The allowable maxlength of password.
      *
      * @var    integer
      * @since  3.2
      */
     protected $maxLength;
+
+    /**
+     * The allowable minimum length of integers.
+     *
+     * @var    integer
+     * @since  4.2.7
+     */
+    protected $minIntegers;
+
+    /**
+     * The allowable minimum length of symbols.
+     *
+     * @var    integer
+     * @since  4.2.7
+     */
+    protected $minSymbols;
+
+    /**
+     * The allowable minimum length of upper case characters.
+     *
+     * @var    integer
+     * @since  4.2.7
+     */
+    protected $minUppercase;
+
+    /**
+     * The allowable minimum length of lower case characters.
+     *
+     * @var    integer
+     * @since  4.2.7
+     */
+    protected $minLowercase;
 
     /**
      * Whether to attach a password strength meter or not.
@@ -62,6 +106,14 @@ class PasswordField extends FormField
      * @since  4.0.0
      */
     protected $force = false;
+
+    /**
+     * The rules flag.
+     *
+     * @var    bool
+     * @since  4.2.7
+     */
+    protected $rules = false;
 
     /**
      * Name of the layout being used to render the field
@@ -208,7 +260,7 @@ class PasswordField extends FormField
         $data = parent::getLayoutData();
 
         // Initialize some field attributes.
-        $extraData = array(
+        $extraData = [
             'lock'           => $this->lock,
             'maxLength'      => $this->maxLength,
             'meter'          => $this->meter,
@@ -220,7 +272,7 @@ class PasswordField extends FormField
             'minLowercase'   => $this->minLowercase,
             'forcePassword'  => $this->force,
             'rules'          => $this->rules,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

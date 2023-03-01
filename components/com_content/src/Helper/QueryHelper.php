@@ -15,6 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content Component Query Helper
  *
@@ -220,6 +224,6 @@ class QueryHelper
             $join = '';
         }
 
-        return array('select' => $select, 'join' => $join);
+        return ['select' => $select, 'join' => $join];
     }
 }

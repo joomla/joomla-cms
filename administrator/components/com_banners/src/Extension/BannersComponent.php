@@ -23,6 +23,10 @@ use Joomla\Component\Banners\Administrator\Service\Html\Banner;
 use Joomla\Database\DatabaseInterface;
 use Psr\Container\ContainerInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Component class for com_banners
  *

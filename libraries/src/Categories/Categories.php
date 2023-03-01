@@ -17,6 +17,10 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Categories Class.
  *
@@ -32,7 +36,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      * @var    Categories[]
      * @since  1.6
      */
-    public static $instances = array();
+    public static $instances = [];
 
     /**
      * Array of category nodes
@@ -132,7 +136,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      * @since       1.6
      * @deprecated  5.0 Use the ComponentInterface to get the categories
      */
-    public static function getInstance($extension, $options = array())
+    public static function getInstance($extension, $options = [])
     {
         $hash = md5(strtolower($extension) . serialize($options));
 
@@ -274,7 +278,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $case_when .= $query->charLength($db->quoteName('c.alias'), '!=', '0');
         $case_when .= ' THEN ';
         $c_id = $query->castAsChar($db->quoteName('c.id'));
-        $case_when .= $query->concatenate(array($c_id, $db->quoteName('c.alias')), ':');
+        $case_when .= $query->concatenate([$c_id, $db->quoteName('c.alias')], ':');
         $case_when .= ' ELSE ';
         $case_when .= $c_id . ' END as ' . $db->quoteName('slug');
 

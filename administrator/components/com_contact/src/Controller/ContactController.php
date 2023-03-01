@@ -16,6 +16,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Controller for a single contact
  *
@@ -34,7 +38,7 @@ class ContactController extends FormController
      *
      * @since   1.6
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         $categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
 
@@ -57,7 +61,7 @@ class ContactController extends FormController
      *
      * @since   1.6
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 
@@ -98,7 +102,7 @@ class ContactController extends FormController
 
         // Set the model
         /** @var \Joomla\Component\Contact\Administrator\Model\ContactModel $model */
-        $model = $this->getModel('Contact', 'Administrator', array());
+        $model = $this->getModel('Contact', 'Administrator', []);
 
         // Preset the redirect
         $this->setRedirect(Route::_('index.php?option=com_contact&view=contacts' . $this->getRedirectToListAppend(), false));

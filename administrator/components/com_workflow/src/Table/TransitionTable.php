@@ -14,6 +14,10 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Transition table
  *
@@ -64,7 +68,7 @@ class TransitionTable extends Table
      * @since   4.0.0
      * @throws  \InvalidArgumentException
      */
-    public function bind($src, $ignore = array())
+    public function bind($src, $ignore = [])
     {
         // Bind the rules.
         if (isset($src['rules']) && \is_array($src['rules'])) {
@@ -121,7 +125,7 @@ class TransitionTable extends Table
      */
     protected function _getAssetParentId(Table $table = null, $id = null)
     {
-        $asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+        $asset = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
 
         $workflow = new WorkflowTable($this->getDbo());
         $workflow->load($this->workflow_id);

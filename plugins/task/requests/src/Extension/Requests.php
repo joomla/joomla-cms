@@ -21,6 +21,10 @@ use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
 use Joomla\Http\HttpFactory;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Task plugin with routines to make HTTP requests.
  * At the moment, offers a single routine for GET requests.

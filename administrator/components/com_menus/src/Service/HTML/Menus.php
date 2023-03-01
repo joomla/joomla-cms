@@ -19,6 +19,10 @@ use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Menus HTML helper class.
  *
@@ -76,7 +80,7 @@ class Menus
 
             // Construct html
             if ($items) {
-                $languages = LanguageHelper::getContentLanguages(array(0, 1));
+                $languages = LanguageHelper::getContentLanguages([0, 1]);
                 $content_languages = array_column($languages, 'lang_code');
 
                 foreach ($items as &$item) {

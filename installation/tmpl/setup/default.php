@@ -43,8 +43,8 @@ HTMLHelper::_('behavior.formvalidator');
                 <div class="mb-3">
                     <?php echo $this->form->renderField('site_name'); ?>
                 </div>
-                <div class="mb-3 mt-4">
-                    <button class="btn btn-primary w-100" id="step1"><?php echo Text::_('INSTL_SETUP_LOGIN_DATA'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
+                <div class="mt-4 mb-3">
+                    <button id="step1" class="btn btn-primary w-100"><?php echo Text::_('INSTL_SETUP_LOGIN_DATA'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
                 </div>
             </div>
         </fieldset>
@@ -65,8 +65,8 @@ HTMLHelper::_('behavior.formvalidator');
                 <div class="mb-3">
                     <?php echo $this->form->renderField('admin_email'); ?>
                 </div>
-                <div class="mb-3 mt-4">
-                    <button class="btn btn-primary w-100" id="step2"><?php echo Text::_('INSTL_CONNECT_DB'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
+                <div class="mt-4 mb-3">
+                    <button id="step2" class="btn btn-primary w-100"><?php echo Text::_('INSTL_CONNECT_DB'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
                 </div>
             </div>
         </fieldset>
@@ -115,8 +115,8 @@ HTMLHelper::_('behavior.formvalidator');
                     <?php //echo $this->form->getLabel('db_old'); ?>
                     <?php echo $this->form->getInput('db_old'); ?>
                 </div>
-                <div class="mb-3 mt-4">
-                    <button class="btn btn-primary w-100" id="setupButton"><?php echo Text::_('INSTL_INSTALL_JOOMLA'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
+                <div class="mt-4 mb-3">
+                    <button id="setupButton" class="btn btn-primary w-100"><?php echo Text::_('INSTL_INSTALL_JOOMLA'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
                 </div>
             </div>
         </fieldset>

@@ -15,6 +15,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Supports a select grouped list of template styles
  *
@@ -127,7 +131,7 @@ class TemplatestyleField extends GroupedlistField
      */
     protected function getGroups()
     {
-        $groups = array();
+        $groups = [];
         $lang = Factory::getLanguage();
 
         // Get the client and client_id.
@@ -181,7 +185,7 @@ class TemplatestyleField extends GroupedlistField
 
                 // Initialize the group if necessary.
                 if (!isset($groups[$name])) {
-                    $groups[$name] = array();
+                    $groups[$name] = [];
                 }
 
                 $groups[$name][] = HTMLHelper::_('select.option', $style->id, $style->title);

@@ -14,6 +14,10 @@ use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! System Logging Plugin.
  *
@@ -32,7 +36,7 @@ class PlgSystemLog extends CMSPlugin
      */
     public function onUserLoginFailure($response)
     {
-        $errorlog = array();
+        $errorlog = [];
 
         switch ($response['status']) {
             case Authentication::STATUS_SUCCESS:
@@ -56,7 +60,7 @@ class PlgSystemLog extends CMSPlugin
                 break;
         }
 
-        Log::addLogger(array(), Log::INFO);
+        Log::addLogger([], Log::INFO);
 
         try {
             Log::add($errorlog['comment'], Log::INFO, $errorlog['status']);

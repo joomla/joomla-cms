@@ -27,6 +27,10 @@ use Joomla\Component\Users\Administrator\Model\CaptiveModel;
 use Joomla\Component\Users\Administrator\View\SiteTemplateTrait;
 use stdClass;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View for Multi-factor Authentication captive page
  *
@@ -187,7 +191,7 @@ class HtmlView extends BaseHtmlView
 
         // Back-end: always show a title in the 'title' module position, not in the page body
         if ($this->isAdmin) {
-            ToolbarHelper::title(Text::_('COM_USERS_HEADING_MFA'), 'users user-lock');
+            ToolbarHelper::title(Text::_('COM_USERS_USER_MULTIFACTOR_AUTH'), 'users user-lock');
             $this->title = '';
         }
 

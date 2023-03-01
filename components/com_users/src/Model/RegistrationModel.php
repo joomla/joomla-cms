@@ -30,6 +30,10 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Registration model class for Users.
  *
@@ -53,12 +57,12 @@ class RegistrationModel extends FormModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
     {
         $config = array_merge(
-            array(
-                'events_map' => array('validate' => 'user')
-            ),
+            [
+                'events_map' => ['validate' => 'user']
+            ],
             $config
         );
 
@@ -150,7 +154,7 @@ class RegistrationModel extends FormModel
             // Get all admin users
             $db = $this->getDatabase();
             $query = $db->getQuery(true)
-                ->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
+                ->select($db->quoteName(['name', 'email', 'sendEmail', 'id']))
                 ->from($db->quoteName('#__users'))
                 ->where($db->quoteName('sendEmail') . ' = 1')
                 ->where($db->quoteName('block') . ' = 0');
@@ -265,10 +269,10 @@ class RegistrationModel extends FormModel
             $params = ComponentHelper::getParams('com_users');
 
             // Override the base user data with any data in the session.
-            $temp = (array) $app->getUserState('com_users.registration.data', array());
+            $temp = (array) $app->getUserState('com_users.registration.data', []);
 
             // Don't load the data in this getForm call, or we'll call ourself
-            $form = $this->getForm(array(), false);
+            $form = $this->getForm([], false);
 
             foreach ($temp as $k => $v) {
                 // Here we could have a grouped field, let's check it
@@ -287,7 +291,7 @@ class RegistrationModel extends FormModel
             }
 
             // Get the groups the user should be added to after registration.
-            $this->data->groups = array();
+            $this->data->groups = [];
 
             // Get the default new user group, guest or public group if not specified.
             $system = $params->get('new_usertype', $params->get('guest_usergroup', 1));
@@ -301,7 +305,7 @@ class RegistrationModel extends FormModel
             PluginHelper::importPlugin('user');
 
             // Trigger the data preparation event.
-            Factory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.registration', $this->data));
+            Factory::getApplication()->triggerEvent('onContentPrepareData', ['com_users.registration', $this->data]);
         }
 
         return $this->data;
@@ -320,10 +324,10 @@ class RegistrationModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.registration', 'registration', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_users.registration', 'registration', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -523,7 +527,7 @@ class RegistrationModel extends FormModel
         if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1)) {
             // Get all admin users
             $query->clear()
-                ->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
+                ->select($db->quoteName(['name', 'email', 'sendEmail', 'id']))
                 ->from($db->quoteName('#__users'))
                 ->where($db->quoteName('sendEmail') . ' = 1')
                 ->where($db->quoteName('block') . ' = 0');

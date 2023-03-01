@@ -23,6 +23,10 @@ use Joomla\Component\Templates\Administrator\Table\StyleTable;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Installer Manage Model
  *
@@ -39,10 +43,10 @@ class ManageModel extends InstallerModel
      * @see     \Joomla\CMS\MVC\Model\ListModel
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'status',
                 'name',
                 'client_id',
@@ -52,7 +56,7 @@ class ManageModel extends InstallerModel
                 'package_id',
                 'extension_id',
                 'creationDate',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -105,7 +109,7 @@ class ManageModel extends InstallerModel
      *
      * @since   1.5
      */
-    public function publish(&$eid = array(), $value = 1)
+    public function publish(&$eid = [], $value = 1)
     {
         if (!Factory::getUser()->authorise('core.edit.state', 'com_installer')) {
             Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
@@ -120,7 +124,7 @@ class ManageModel extends InstallerModel
          * @todo: If it isn't an array do we want to set an error and fail?
          */
         if (!is_array($eid)) {
-            $eid = array($eid);
+            $eid = [$eid];
         }
 
         // Get a table object for the extension type
@@ -133,7 +137,7 @@ class ManageModel extends InstallerModel
             if ($table->type == 'template') {
                 $style = new StyleTable($this->getDatabase());
 
-                if ($style->load(array('template' => $table->element, 'client_id' => $table->client_id, 'home' => 1))) {
+                if ($style->load(['template' => $table->element, 'client_id' => $table->client_id, 'home' => 1])) {
                     Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_ERROR_DISABLE_DEFAULT_TEMPLATE_NOT_PERMITTED'), 'notice');
                     unset($eid[$i]);
                     continue;
@@ -157,7 +161,7 @@ class ManageModel extends InstallerModel
             $context = $this->option . '.' . $this->name;
 
             PluginHelper::importPlugin('extension');
-            Factory::getApplication()->triggerEvent('onExtensionChangeState', array($context, $eid, $value));
+            Factory::getApplication()->triggerEvent('onExtensionChangeState', [$context, $eid, $value]);
 
             if (!$table->store()) {
                 $this->setError($table->getError());
@@ -185,7 +189,7 @@ class ManageModel extends InstallerModel
     public function refresh($eid)
     {
         if (!is_array($eid)) {
-            $eid = array($eid => 0);
+            $eid = [$eid => 0];
         }
 
         // Get an installer object for the extension type
@@ -211,7 +215,7 @@ class ManageModel extends InstallerModel
      *
      * @since   1.5
      */
-    public function remove($eid = array())
+    public function remove($eid = [])
     {
         if (!Factory::getUser()->authorise('core.delete', 'com_installer')) {
             Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
@@ -224,7 +228,7 @@ class ManageModel extends InstallerModel
          * @todo: If it isn't an array do we want to set an error and fail?
          */
         if (!is_array($eid)) {
-            $eid = array($eid => 0);
+            $eid = [$eid => 0];
         }
 
         // Get an installer object for the extension type
@@ -232,7 +236,7 @@ class ManageModel extends InstallerModel
         $row       = new \Joomla\CMS\Table\Extension($this->getDatabase());
 
         // Uninstall the chosen extensions
-        $msgs   = array();
+        $msgs   = [];
         $result = false;
 
         foreach ($eid as $id) {
@@ -429,15 +433,15 @@ class ManageModel extends InstallerModel
         $changelog->loadFromXml($extension->changelogurl);
 
         // Read all the entries
-        $entries = array(
-            'security' => array(),
-            'fix'      => array(),
-            'addition' => array(),
-            'change'   => array(),
-            'remove'   => array(),
-            'language' => array(),
-            'note'     => array()
-        );
+        $entries = [
+            'security' => [],
+            'fix'      => [],
+            'addition' => [],
+            'change'   => [],
+            'remove'   => [],
+            'language' => [],
+            'note'     => []
+        ];
 
         array_walk(
             $entries,

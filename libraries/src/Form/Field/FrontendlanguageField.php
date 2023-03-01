@@ -11,6 +11,10 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Factory;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Provides a list of published content languages with home pages
  *
@@ -58,7 +62,7 @@ class FrontendlanguageField extends ListField
         try {
             $languages = $db->loadObjectList();
         } catch (\RuntimeException $e) {
-            $languages = array();
+            $languages = [];
 
             if (Factory::getUser()->authorise('core.admin')) {
                 Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');

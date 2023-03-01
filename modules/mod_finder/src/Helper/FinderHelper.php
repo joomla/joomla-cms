@@ -18,6 +18,10 @@ use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Finder module helper.
  *
@@ -38,7 +42,7 @@ class FinderHelper
      */
     public static function getGetFields($route = null, $paramItem = 0)
     {
-        $fields = array();
+        $fields = [];
         $uri = Uri::getInstance(Route::_($route));
         $uri->delVar('q');
 
@@ -65,7 +69,7 @@ class FinderHelper
         $filter  = InputFilter::getInstance();
 
         // Get the static taxonomy filters.
-        $options = array();
+        $options = [];
         $options['filter'] = ($request->get('f', 0, 'int') !== 0) ? $request->get('f', '', 'int') : $params->get('searchfilter');
         $options['filter'] = $filter->clean($options['filter'], 'int');
 

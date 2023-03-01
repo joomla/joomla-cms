@@ -24,6 +24,10 @@ use Joomla\CMS\User\UserFactoryInterface;
 use RuntimeException;
 use Throwable;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Ajax handler for akaction=login
  *

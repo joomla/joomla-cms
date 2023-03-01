@@ -20,6 +20,10 @@ use Joomla\Plugin\System\Debug\AbstractDataCollector;
 use Joomla\Registry\Registry;
 use Psr\Http\Message\ResponseInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * InfoDataCollector
  *

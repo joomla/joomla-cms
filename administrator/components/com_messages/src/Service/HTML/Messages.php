@@ -13,6 +13,10 @@ namespace Joomla\Component\Messages\Administrator\Service\HTML;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * JHtml administrator messages class.
  *
@@ -34,11 +38,11 @@ class Messages
     public function status($i, $value = 0, $canChange = false)
     {
         // Array of image, task, title, action.
-        $states = array(
-            -2 => array('trash', 'messages.unpublish', 'JTRASHED', 'COM_MESSAGES_MARK_AS_UNREAD'),
-            1  => array('publish', 'messages.unpublish', 'COM_MESSAGES_OPTION_READ', 'COM_MESSAGES_MARK_AS_UNREAD'),
-            0  => array('unpublish', 'messages.publish', 'COM_MESSAGES_OPTION_UNREAD', 'COM_MESSAGES_MARK_AS_READ'),
-        );
+        $states = [
+            -2 => ['trash', 'messages.unpublish', 'JTRASHED', 'COM_MESSAGES_MARK_AS_UNREAD'],
+            1  => ['publish', 'messages.unpublish', 'COM_MESSAGES_OPTION_READ', 'COM_MESSAGES_MARK_AS_UNREAD'],
+            0  => ['unpublish', 'messages.publish', 'COM_MESSAGES_OPTION_UNREAD', 'COM_MESSAGES_MARK_AS_READ'],
+        ];
 
         $state = ArrayHelper::getValue($states, (int) $value, $states[0]);
         $icon  = $state[0];

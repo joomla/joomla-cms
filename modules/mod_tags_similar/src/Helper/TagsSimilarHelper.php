@@ -19,6 +19,10 @@ use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_tags_similar
  *
@@ -42,7 +46,7 @@ abstract class TagsSimilarHelper
         // For now assume com_tags and com_users do not have tags.
         // This module does not apply to list views in general at this point.
         if ($option === 'com_tags' || $view === 'category' || $option === 'com_users') {
-            return array();
+            return [];
         }
 
         $db         = Factory::getDbo();
@@ -60,7 +64,7 @@ abstract class TagsSimilarHelper
         $tagsToMatch = $tagsHelper->getTagIds($id, $prefix);
 
         if (!$tagsToMatch) {
-            return array();
+            return [];
         }
 
         $tagsToMatch = explode(',', $tagsToMatch);

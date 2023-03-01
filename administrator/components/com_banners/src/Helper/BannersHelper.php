@@ -18,6 +18,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Banners component helper.
  *
@@ -141,7 +145,7 @@ class BannersHelper extends ContentHelper
      */
     public static function getClientOptions()
     {
-        $options = array();
+        $options = [];
 
         $db = Factory::getDbo();
         $query = $db->getQuery(true)

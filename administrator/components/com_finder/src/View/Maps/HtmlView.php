@@ -18,6 +18,10 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Groups view class for Finder.
  *
@@ -154,14 +158,14 @@ class HtmlView extends BaseHtmlView
                 $childBar->unpublish('maps.unpublish')->listCheck(true);
             }
 
-            ToolbarHelper::divider();
-            $toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
-            ToolbarHelper::divider();
-
             if ($canDo->get('core.delete')) {
                 ToolbarHelper::deleteList('', 'maps.delete');
                 ToolbarHelper::divider();
             }
+
+            ToolbarHelper::divider();
+            $toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
+            ToolbarHelper::divider();
         }
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {

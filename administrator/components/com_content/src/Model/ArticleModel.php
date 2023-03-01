@@ -38,6 +38,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Item Model for an Article.
  *
@@ -99,7 +103,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      * @since   1.6
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
     {
         $config['events_map'] = $config['events_map'] ?? [];
 
@@ -167,17 +171,17 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         $oldItem->load($oldId);
         $fields = FieldsHelper::getFields('com_content.article', $oldItem, true);
 
-        $fieldsData = array();
+        $fieldsData = [];
 
         if (!empty($fields)) {
-            $fieldsData['com_fields'] = array();
+            $fieldsData['com_fields'] = [];
 
             foreach ($fields as $field) {
                 $fieldsData['com_fields'][$field->name] = $field->rawvalue;
             }
         }
 
-        Factory::getApplication()->triggerEvent('onContentAfterSave', array('com_content.article', &$this->table, false, $fieldsData));
+        Factory::getApplication()->triggerEvent('onContentAfterSave', ['com_content.article', &$this->table, false, $fieldsData]);
     }
 
     /**
@@ -234,10 +238,10 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
             $fields = FieldsHelper::getFields('com_content.article', $this->table, true);
 
-            $fieldsData = array();
+            $fieldsData = [];
 
             if (!empty($fields)) {
-                $fieldsData['com_fields'] = array();
+                $fieldsData['com_fields'] = [];
 
                 foreach ($fields as $field) {
                     $fieldsData['com_fields'][$field->name] = $field->rawvalue;
@@ -267,7 +271,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             }
 
             // Run event for moved article
-            Factory::getApplication()->triggerEvent('onContentAfterSave', array('com_content.article', &$this->table, false, $fieldsData));
+            Factory::getApplication()->triggerEvent('onContentAfterSave', ['com_content.article', &$this->table, false, $fieldsData]);
         }
 
         // Clean the cache
@@ -430,7 +434,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         $assoc = Associations::isEnabled();
 
         if ($assoc) {
-            $item->associations = array();
+            $item->associations = [];
 
             if ($item->id != null) {
                 $associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $item->id);
@@ -454,12 +458,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         $app  = Factory::getApplication();
 
         // Get the form.
-        $form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_content.article', 'article', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -567,7 +571,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     {
         // Check the session for previously entered form data.
         $app = Factory::getApplication();
-        $data = $app->getUserState('com_content.edit.article.data', array());
+        $data = $app->getUserState('com_content.edit.article.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -700,7 +704,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         }
 
         if (isset($data['urls']) && is_array($data['urls'])) {
-            $check = $input->post->get('jform', array(), 'array');
+            $check = $input->post->get('jform', [], 'array');
 
             foreach ($data['urls'] as $i => $url) {
                 if ($url != false && ($i == 'urla' || $i == 'urlb' || $i == 'urlc')) {
@@ -749,7 +753,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         }
 
         // Automatic handling of alias for empty fields
-        if (in_array($input->get('task'), array('apply', 'save', 'save2new')) && (!isset($data['id']) || (int) $data['id'] == 0)) {
+        if (in_array($input->get('task'), ['apply', 'save', 'save2new']) && (!isset($data['id']) || (int) $data['id'] == 0)) {
             if ($data['alias'] == null) {
                 if ($app->get('unicodeslugs') == 1) {
                     $data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
@@ -759,7 +763,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
                 $table = $this->getTable();
 
-                if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid']))) {
+                if ($table->load(['alias' => $data['alias'], 'catid' => $data['catid']])) {
                     $msg = Text::_('COM_CONTENT_SAVE_WARNING');
                 }
 

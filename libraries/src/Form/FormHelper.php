@@ -13,6 +13,10 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form's helper class.
  * Provides a storage for filesystem's paths where Form's entities reside and methods for creating those entities.
@@ -43,7 +47,7 @@ class FormHelper
      * @var   string
      * @since 3.8.0
      */
-    protected static $prefixes = array('field' => array(), 'form' => array(), 'rule' => array(), 'filter' => array());
+    protected static $prefixes = ['field' => [], 'form' => [], 'rule' => [], 'filter' => []];
 
     /**
      * Static array of Form's entity objects for re-use.
@@ -57,7 +61,7 @@ class FormHelper
      * @var    array
      * @since  1.7.0
      */
-    protected static $entities = array('field' => array(), 'form' => array(), 'rule' => array(), 'filter' => array());
+    protected static $entities = ['field' => [], 'form' => [], 'rule' => [], 'filter' => []];
 
     /**
      * Method to load a form field object given a type.
@@ -475,7 +479,7 @@ class FormHelper
     {
         // Process the showon data.
         if (!$showOn) {
-            return array();
+            return [];
         }
 
         $formPath = $formControl ?: '';
@@ -495,7 +499,7 @@ class FormHelper
             }
         }
 
-        $showOnData  = array();
+        $showOnData  = [];
         $showOnParts = preg_split('#(\[AND\]|\[OR\])#', $showOn, -1, PREG_SPLIT_DELIM_CAPTURE);
         $op          = '';
 
@@ -526,12 +530,12 @@ class FormHelper
                 }
             }
 
-            $showOnData[] = array(
+            $showOnData[] = [
                 'field'  => $field,
                 'values' => explode(',', $showOnPartBlocks[1]),
                 'sign'   => $compareEqual === true ? '=' : '!=',
                 'op'     => $op,
-            );
+            ];
 
             if ($op !== '') {
                 $op = '';

@@ -17,6 +17,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Groups Model
  *
@@ -42,10 +46,10 @@ class GroupsModel extends ListModel
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'type', 'a.type',
@@ -58,7 +62,7 @@ class GroupsModel extends ListModel
                 'checked_out_time', 'a.checked_out_time',
                 'created', 'a.created',
                 'created_by', 'a.created_by',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);

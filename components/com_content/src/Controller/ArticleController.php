@@ -19,6 +19,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content article class.
  *
@@ -89,7 +93,7 @@ class ArticleController extends FormController
      *
      * @since   1.6
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         $user       = $this->app->getIdentity();
         $categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
@@ -118,7 +122,7 @@ class ArticleController extends FormController
      *
      * @since   1.6
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
         $user = $this->app->getIdentity();
@@ -244,7 +248,7 @@ class ArticleController extends FormController
      *
      * @since   1.5
      */
-    public function getModel($name = 'Form', $prefix = 'Site', $config = array('ignore_request' => true))
+    public function getModel($name = 'Form', $prefix = 'Site', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

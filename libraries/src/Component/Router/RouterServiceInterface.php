@@ -12,6 +12,10 @@ namespace Joomla\CMS\Component\Router;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Menu\AbstractMenu;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The component router service.
  *

@@ -13,6 +13,10 @@
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plug-in to show a custom field in eg an article
  * This uses the {fields ID} syntax
@@ -43,23 +47,23 @@ class PlgContentFields extends CMSPlugin
             return;
         }
 
-        // Don't run if there is no text property (in case of bad calls) or it is empty
-        if (empty($item->text)) {
+        // This plugin only works if $item is an object
+        if (!is_object($item)) {
             return;
         }
 
-        // Simple performance check to determine whether bot should process further
-        if (strpos($item->text, 'field') === false) {
+        // Don't run if there is no text property (in case of bad calls) or it is empty
+        if (!property_exists($item, 'text') || empty($item->text)) {
             return;
         }
 
         // Prepare the text
-        if (isset($item->text)) {
+        if (property_exists($item, 'text') && strpos($item->text, 'field') !== false) {
             $item->text = $this->prepare($item->text, $context, $item);
         }
 
         // Prepare the intro text
-        if (isset($item->introtext)) {
+        if (property_exists($item, 'introtext') && is_string($item->introtext) && strpos($item->introtext, 'field') !== false) {
             $item->introtext = $this->prepare($item->introtext, $context, $item);
         }
     }
@@ -93,8 +97,8 @@ class PlgContentFields extends CMSPlugin
 
         $context    = $parts[0] . '.' . $parts[1];
         $fields     = FieldsHelper::getFields($context, $item, true);
-        $fieldsById = array();
-        $groups     = array();
+        $fieldsById = [];
+        $groups     = [];
 
         // Rearranging fields in arrays for easier lookup later.
         foreach ($fields as $field) {
@@ -114,11 +118,11 @@ class PlgContentFields extends CMSPlugin
                     $output = FieldsHelper::render(
                         $context,
                         'field.' . $layout,
-                        array(
+                        [
                             'item'    => $item,
                             'context' => $context,
                             'field'   => $fieldsById[$id],
-                        )
+                        ]
                     );
                 }
             } else {
@@ -134,11 +138,11 @@ class PlgContentFields extends CMSPlugin
                     $output = FieldsHelper::render(
                         $context,
                         'fields.' . $layout,
-                        array(
+                        [
                             'item'    => $item,
                             'context' => $context,
                             'fields'  => $renderFields,
-                        )
+                        ]
                     );
                 }
             }

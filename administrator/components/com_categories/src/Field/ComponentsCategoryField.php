@@ -15,6 +15,10 @@ use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Components Category field.
  *
@@ -41,7 +45,7 @@ class ComponentsCategoryField extends ListField
     {
         // Initialise variable.
         $db      = $this->getDatabase();
-        $options = array();
+        $options = [];
 
         $query = $db->getQuery(true);
         $query->select('DISTINCT ' . $db->quoteName('extension'))

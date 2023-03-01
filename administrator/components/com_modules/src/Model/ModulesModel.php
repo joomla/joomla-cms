@@ -19,6 +19,10 @@ use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Modules Component Module Model
  *
@@ -34,10 +38,10 @@ class ModulesModel extends ListModel
      * @see     \JController
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'checked_out', 'a.checked_out',
@@ -56,7 +60,7 @@ class ModulesModel extends ListModel
                 'pages',
                 'name', 'e.name',
                 'menuitem',
-            );
+            ];
         }
 
         parent::__construct($config);
@@ -111,7 +115,7 @@ class ModulesModel extends ListModel
             $clientId = 0;
         } else {
             $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-            $clientId = (!in_array($clientId, array(0, 1))) ? 0 : $clientId;
+            $clientId = (!in_array($clientId, [0, 1])) ? 0 : $clientId;
             $this->setState('client_id', $clientId);
         }
 
@@ -171,7 +175,7 @@ class ModulesModel extends ListModel
         $db = $this->getDatabase();
 
         // If ordering by fields that need translate we need to sort the array of objects after translating them.
-        if (in_array($listOrder, array('pages', 'name'))) {
+        if (in_array($listOrder, ['pages', 'name'])) {
             // Fetch the results.
             $db->setQuery($query);
             $result = $db->loadObjectList();
@@ -372,10 +376,10 @@ class ModulesModel extends ListModel
 
                 // Filter by modules assigned to the selected menu item.
                 $query->where('(
-					(' . $subQuery1 . ') = 0
-					OR ((' . $subQuery1 . ') > 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery2 . '))
-					OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' NOT IN (' . $subQuery3 . '))
-					)');
+                    (' . $subQuery1 . ') = 0
+                    OR ((' . $subQuery1 . ') > 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery2 . '))
+                    OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' NOT IN (' . $subQuery3 . '))
+                    )');
                 $query->bind(':menuitemid2', $menuItemId, ParameterType::INTEGER);
                 $query->bind(':menuitemid3', $minusMenuItemId, ParameterType::INTEGER);
             }

@@ -20,6 +20,10 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Consentbox Field class for the Confirm Consent Plugin.
  *
@@ -168,12 +172,12 @@ class ConsentBoxField extends CheckboxesField
         }
 
         // Here mainly for B/C with old layouts. This can be done in the layouts directly
-        $extraData = array(
+        $extraData = [
             'text'     => $data['label'],
             'for'      => $this->id,
             'classes'  => explode(' ', $data['labelclass']),
             'position' => $position,
-        );
+        ];
 
         return $this->getRenderer($this->renderLabelLayout)->render(array_merge($data, $extraData));
     }
@@ -217,11 +221,11 @@ class ConsentBoxField extends CheckboxesField
     {
         $data = parent::getLayoutData();
 
-        $extraData = array(
+        $extraData = [
             'articleid' => (int) $this->articleid,
             'menuItemId' => (int) $this->menuItemId,
             'privacyType' => (string) $this->privacyType,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }
@@ -239,7 +243,7 @@ class ConsentBoxField extends CheckboxesField
 
         // Get the info from the article
         $query = $db->getQuery(true)
-            ->select($db->quoteName(array('id', 'catid', 'language')))
+            ->select($db->quoteName(['id', 'catid', 'language']))
             ->from($db->quoteName('#__content'))
             ->where($db->quoteName('id') . ' = ' . (int) $this->articleid);
         $db->setQuery($query);

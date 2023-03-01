@@ -20,6 +20,10 @@ use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugin Class
  *
@@ -94,7 +98,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
      *
      * @since   1.5
      */
-    public function __construct(&$subject, $config = array())
+    public function __construct(&$subject, $config = [])
     {
         // Get the parameters.
         if (isset($config['params'])) {

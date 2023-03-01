@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Filesystem\Support;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * String Controller
  *
@@ -25,7 +29,7 @@ class StringController
      */
     public function _getArray()
     {
-        static $strings = array();
+        static $strings = [];
 
         return $strings;
     }

@@ -23,6 +23,10 @@ use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of contenthistory records.
  *
@@ -39,10 +43,10 @@ class HistoryModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'version_id',
                 'h.version_id',
                 'version_note',
@@ -51,7 +55,7 @@ class HistoryModel extends ListModel
                 'h.save_date',
                 'editor_user_id',
                 'h.editor_user_id',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -89,7 +93,7 @@ class HistoryModel extends ListModel
         $typeAlias        = explode('.', $record->item_id);
         $id = array_pop($typeAlias);
         $typeAlias        = implode('.', $typeAlias);
-        $contentTypeTable->load(array('type_alias' => $typeAlias));
+        $contentTypeTable->load(['type_alias' => $typeAlias]);
         $typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
         $result = in_array((int) $id, $typeEditables);
 
@@ -217,7 +221,7 @@ class HistoryModel extends ListModel
      *
      * @since   3.2
      */
-    public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
+    public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
