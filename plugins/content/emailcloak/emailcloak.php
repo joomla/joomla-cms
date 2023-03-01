@@ -68,7 +68,7 @@ class PlgContentEmailcloak extends CMSPlugin
      */
     protected function _getPattern($link, $text)
     {
-        $pattern = '~(?:<a ([^>]*)href\s*=\s*"mailto:' . $link . '"([^>]*))>' . $text . '</a>~i';
+        $pattern = '~(?:<a ([^>]*)href\s*=\s*"mailto:' . $link . '"([^>]*))>' . $text . '</a>~iu';
 
         return $pattern;
     }
@@ -103,7 +103,7 @@ class PlgContentEmailcloak extends CMSPlugin
         $mode = $mode === 1;
 
         // Example: any@example.org
-        $searchEmail = ("[\p{L}\.\'\-\+]+\@(?:[\.\-\p{L}]+.)+(?:[\-\p{L}]{2,24})");
+        $searchEmail = "([\p{L}\p{N}\.\'\-\+]+\@(?:[\.\-\p{L}\p{N}]+\.)+(?:[\-\p{L}\p{N}]{2,24}))";
 
         // Example: any@example.org?subject=anyText
         $searchEmailLink = $searchEmail . '([?&][\x20-\x7f][^"<>]+)';
@@ -441,7 +441,7 @@ class PlgContentEmailcloak extends CMSPlugin
          * <img src="..." title="email@example.org"> or <input type="text" placeholder="email@example.org">
          * The '<[^<]*>(*SKIP)(*F)|' trick is used to exclude this kind of occurrences
          */
-        $pattern = '~<[^<]*(?<!\/)>(*SKIP)(*F)|<[^>]+?(\w*=\"' . $searchEmail . '\")[^>]*\/>~i';
+        $pattern = '~<[^<]*(?<!\/)>(*SKIP)(*F)|<[^>]+?(\w*=\"' . $searchEmail . '\")[^>]*\/>~iu';
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[0][0];
@@ -455,7 +455,7 @@ class PlgContentEmailcloak extends CMSPlugin
          * Search for plain text email addresses, such as email@example.org but within HTML attributes:
          * <a title="email@example.org" href="#">email</a> or <li title="email@example.org">email</li>
          */
-        $pattern = '(<[^>]+?(\w*=\"' . $searchEmail . '")[^>]*>[^<]+<[^<]+>)';
+        $pattern = '~(<[^>]+?(\w*=\"' . $searchEmail . '")[^>]*>[^<]+<[^<]+>)~iu';
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[0][0];
