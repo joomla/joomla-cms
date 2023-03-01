@@ -115,7 +115,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      */
     public function onBeforeCompileHead()
     {
-        $app = $this->getApplication();
+        $app  = $this->getApplication();
         $user = $app->getIdentity();
 
         if ($app->isClient('administrator') && $user != null && $user->id > 0) {
