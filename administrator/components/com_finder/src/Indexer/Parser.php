@@ -13,6 +13,10 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Parser base class for the Finder indexer package.
  *
@@ -26,7 +30,7 @@ abstract class Parser
      * @var    Parser[]
      * @since  4.0.0
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Method to get a parser, creating it if necessary.

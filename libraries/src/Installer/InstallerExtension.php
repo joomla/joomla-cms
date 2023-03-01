@@ -14,6 +14,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\CMSObject;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Extension object
  *
@@ -21,6 +25,14 @@ use Joomla\CMS\Object\CMSObject;
  */
 class InstallerExtension extends CMSObject
 {
+    /**
+     * Client ID of the extension
+     *
+     * @var    int
+     * @since  4.2.9
+     */
+    public $client_id;
+
     /**
      * Filename of the extension
      *

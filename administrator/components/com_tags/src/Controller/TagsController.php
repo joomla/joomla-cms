@@ -15,6 +15,10 @@ use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The Tags List Controller
  *
@@ -33,7 +37,7 @@ class TagsController extends AdminController
      *
      * @since   3.1
      */
-    public function getModel($name = 'Tag', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Tag', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

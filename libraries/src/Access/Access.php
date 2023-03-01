@@ -19,6 +19,10 @@ use Joomla\CMS\User\User;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Class that handles all access authorisation routines.
  *
@@ -32,7 +36,7 @@ class Access
      * @var    array
      * @since  1.7.0
      */
-    protected static $viewLevels = array();
+    protected static $viewLevels = [];
 
     /**
      * Array of rules for the asset
@@ -40,7 +44,7 @@ class Access
      * @var    array
      * @since  1.7.0
      */
-    protected static $assetRules = array();
+    protected static $assetRules = [];
 
     /**
      * Array of identities for asset rules
@@ -48,7 +52,7 @@ class Access
      * @var    array
      * @since  1.7.0
      */
-    protected static $assetRulesIdentities = array();
+    protected static $assetRulesIdentities = [];
 
     /**
      * Array of the permission parent ID mappings
@@ -56,7 +60,7 @@ class Access
      * @var    array
      * @since  1.7.0
      */
-    protected static $assetPermissionsParentIdMapping = array();
+    protected static $assetPermissionsParentIdMapping = [];
 
     /**
      * Array of asset types that have been preloaded
@@ -64,7 +68,7 @@ class Access
      * @var    array
      * @since  1.7.0
      */
-    protected static $preloadedAssetTypes = array();
+    protected static $preloadedAssetTypes = [];
 
     /**
      * Array of loaded user identities
@@ -72,7 +76,7 @@ class Access
      * @var    array
      * @since  1.7.0
      */
-    protected static $identities = array();
+    protected static $identities = [];
 
     /**
      * Array of user groups.
@@ -80,7 +84,7 @@ class Access
      * @var    array
      * @since  1.7.0
      */
-    protected static $userGroups = array();
+    protected static $userGroups = [];
 
     /**
      * Array of user group paths.
@@ -88,7 +92,7 @@ class Access
      * @var    array
      * @since  1.7.0
      */
-    protected static $userGroupPaths = array();
+    protected static $userGroupPaths = [];
 
     /**
      * Array of cached groups by user.
@@ -96,7 +100,7 @@ class Access
      * @var    array
      * @since  1.7.0
      */
-    protected static $groupsByUser = array();
+    protected static $groupsByUser = [];
 
     /**
      * Array of preloaded asset names and ids (key is the asset id).
@@ -104,7 +108,7 @@ class Access
      * @var    array
      * @since  3.7.0
      */
-    protected static $preloadedAssets = array();
+    protected static $preloadedAssets = [];
 
     /**
      * The root asset id.
@@ -123,16 +127,16 @@ class Access
      */
     public static function clearStatics()
     {
-        self::$viewLevels                      = array();
-        self::$assetRules                      = array();
-        self::$assetRulesIdentities            = array();
-        self::$assetPermissionsParentIdMapping = array();
-        self::$preloadedAssetTypes             = array();
-        self::$identities                      = array();
-        self::$userGroups                      = array();
-        self::$userGroupPaths                  = array();
-        self::$groupsByUser                    = array();
-        self::$preloadedAssets                 = array();
+        self::$viewLevels                      = [];
+        self::$assetRules                      = [];
+        self::$assetRulesIdentities            = [];
+        self::$assetPermissionsParentIdMapping = [];
+        self::$preloadedAssetTypes             = [];
+        self::$identities                      = [];
+        self::$userGroups                      = [];
+        self::$userGroupPaths                  = [];
+        self::$groupsByUser                    = [];
+        self::$preloadedAssets                 = [];
         self::$rootAssetId                     = null;
     }
 
@@ -184,7 +188,7 @@ class Access
         }
 
         // Check for default case:
-        $isDefault = \is_string($assetTypes) && \in_array($assetTypes, array('components', 'component'));
+        $isDefault = \is_string($assetTypes) && \in_array($assetTypes, ['components', 'component']);
 
         // Preload the rules for all of the components.
         if ($isDefault) {
@@ -223,7 +227,7 @@ class Access
         $extensionName = self::getExtensionNameFromAsset($assetType);
 
         // Holds the list of ancestors for the Asset ID:
-        $ancestors = array();
+        $ancestors = [];
 
         // Add in our starting Asset ID:
         $ancestors[] = (int) $assetId;
@@ -280,7 +284,7 @@ class Access
 
         // Get a fresh query object.
         $query = $db->getQuery(true)
-            ->select($db->quoteName(array('id', 'name', 'rules', 'parent_id')))
+            ->select($db->quoteName(['id', 'name', 'rules', 'parent_id']))
             ->from($db->quoteName('#__assets'))
             ->where(
                 [
@@ -296,7 +300,7 @@ class Access
         // Get the permission map for all assets in the asset extension.
         $assets = $db->setQuery($query)->loadObjectList();
 
-        self::$assetPermissionsParentIdMapping[$extensionName] = array();
+        self::$assetPermissionsParentIdMapping[$extensionName] = [];
 
         foreach ($assets as $asset) {
             self::$assetPermissionsParentIdMapping[$extensionName][$asset->id] = $asset;
@@ -325,13 +329,13 @@ class Access
     {
         // If the components already been preloaded do nothing.
         if (isset(self::$preloadedAssetTypes['components'])) {
-            return array();
+            return [];
         }
 
         !JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::preloadComponents (all components)');
 
         // Add root to asset names list.
-        $components = array('root.1');
+        $components = ['root.1'];
 
         // Add enabled components to asset names list.
         foreach (ComponentHelper::getComponents() as $component) {
@@ -345,7 +349,7 @@ class Access
 
         // Get the asset info for all assets in asset names list.
         $query = $db->getQuery(true)
-            ->select($db->quoteName(array('id', 'name', 'rules', 'parent_id')))
+            ->select($db->quoteName(['id', 'name', 'rules', 'parent_id']))
             ->from($db->quoteName('#__assets'))
             ->whereIn($db->quoteName('name'), $components, ParameterType::STRING);
 
@@ -371,7 +375,7 @@ class Access
         // Now create save the components asset tree to preload memory.
         foreach ($assets as $asset) {
             if (!isset(self::$assetPermissionsParentIdMapping[$asset->name])) {
-                self::$assetPermissionsParentIdMapping[$asset->name] = array($rootAsset->id => $rootAsset, $asset->id => $asset);
+                self::$assetPermissionsParentIdMapping[$asset->name] = [$rootAsset->id => $rootAsset, $asset->id => $asset];
                 self::$preloadedAssets[$asset->id]                   = $asset->name;
             }
         }
@@ -421,7 +425,7 @@ class Access
         $groups = UserGroupsHelper::getInstance()->getAll();
 
         if (!isset($groups[$groupId])) {
-            return array();
+            return [];
         }
 
         return $groups[$groupId]->path;
@@ -489,11 +493,11 @@ class Access
             !JDEBUG ?: Profiler::getInstance('Application')->mark('Before Access::getAssetRules (id:' . $assetId . ' name:' . $assetName . ')');
 
             // Collects permissions for each asset
-            $collected = array();
+            $collected = [];
 
             // If not in any recursive mode. We only want the asset rules.
             if (!$recursive && !$recursiveParentAsset) {
-                $collected = array(self::$assetPermissionsParentIdMapping[$extensionName][$assetId]->rules);
+                $collected = [self::$assetPermissionsParentIdMapping[$extensionName][$assetId]->rules];
             } else {
                 // If there is any type of recursive mode.
                 $ancestors = array_reverse(self::getAssetAncestors($extensionName, $assetId));
@@ -657,7 +661,7 @@ class Access
      */
     protected static function getAssetId($assetKey)
     {
-        static $loaded = array();
+        static $loaded = [];
 
         // If the asset is already an id return it.
         if (is_numeric($assetKey)) {
@@ -677,7 +681,7 @@ class Access
                 } else {
                     // Else we have to do an extra db query to fetch it from the table fetch it from table.
                     $table = new Asset(Factory::getDbo());
-                    $table->load(array('name' => $assetKey));
+                    $table->load(['name' => $assetKey]);
                     $loaded[$assetKey] = $table->id;
                 }
             }
@@ -697,7 +701,7 @@ class Access
      */
     protected static function getAssetName($assetKey)
     {
-        static $loaded = array();
+        static $loaded = [];
 
         // If the asset is already a string return it.
         if (!is_numeric($assetKey)) {
@@ -733,7 +737,7 @@ class Access
      */
     public static function getExtensionNameFromAsset($assetKey)
     {
-        static $loaded = array();
+        static $loaded = [];
 
         if (!isset($loaded[$assetKey])) {
             $assetName = self::getAssetName($assetKey);
@@ -830,7 +834,7 @@ class Access
 
             // Guest user (if only the actually assigned group is requested)
             if (empty($userId) && !$recursive) {
-                $result = array($guestUsergroup);
+                $result = [$guestUsergroup];
             } else {
                 // Registered user and guest if all groups are requested
                 $db = Factory::getDbo();
@@ -867,7 +871,7 @@ class Access
                 $result = ArrayHelper::toInteger($result);
 
                 if (empty($result)) {
-                    $result = array(1);
+                    $result = [1];
                 } else {
                     $result = array_unique($result);
                 }
@@ -954,7 +958,7 @@ class Access
         }
 
         // Initialise the authorised array.
-        $authorised = array(1);
+        $authorised = [1];
 
         // Check for the recovery mode setting and return early.
         $user      = User::getInstance($userId);
@@ -1049,7 +1053,7 @@ class Access
         }
 
         // Initialise the actions array
-        $actions = array();
+        $actions = [];
 
         // Get the elements from the xpath
         $elements = $data->xpath($xpath . 'action[@name][@title]');
@@ -1058,10 +1062,10 @@ class Access
         if (!empty($elements)) {
             foreach ($elements as $element) {
                 // Add the action to the actions array
-                $action = array(
+                $action = [
                     'name' => (string) $element['name'],
                     'title' => (string) $element['title'],
-                );
+                ];
 
                 if (isset($element['description'])) {
                     $action['description'] = (string) $element['description'];

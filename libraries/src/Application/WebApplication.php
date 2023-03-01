@@ -23,6 +23,10 @@ use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 use Psr\Http\Message\ResponseInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class for a Joomla! Web application.
  *
@@ -32,6 +36,22 @@ abstract class WebApplication extends AbstractWebApplication
 {
     use EventAware;
     use IdentityAware;
+
+    /**
+     * The application component title.
+     *
+     * @var    string
+     * @since  4.2.7
+     */
+    public $JComponentTitle;
+
+    /**
+     * The item associations
+     *
+     * @var    integer
+     * @since  4.2.9
+     */
+    public $item_associations;
 
     /**
      * The application document object.
@@ -175,12 +195,12 @@ abstract class WebApplication extends AbstractWebApplication
     protected function render()
     {
         // Setup the document options.
-        $options = array(
+        $options = [
             'template'         => $this->get('theme'),
             'file'             => $this->get('themeFile', 'index.php'),
             'params'           => $this->get('themeParams'),
             'templateInherits' => $this->get('themeInherits'),
-        );
+        ];
 
         if ($this->get('themes.base')) {
             $options['directory'] = $this->get('themes.base');
@@ -291,7 +311,7 @@ abstract class WebApplication extends AbstractWebApplication
      */
     public function loadSession(Session $session = null)
     {
-        $this->getLogger()->warning(__METHOD__ . '() is deprecated.  Inject the session as a service instead.', array('category' => 'deprecated'));
+        $this->getLogger()->warning(__METHOD__ . '() is deprecated.  Inject the session as a service instead.', ['category' => 'deprecated']);
 
         return $this;
     }
@@ -344,7 +364,7 @@ abstract class WebApplication extends AbstractWebApplication
 
         if ($siteUri !== '') {
             $uri = Uri::getInstance($siteUri);
-            $path = $uri->toString(array('path'));
+            $path = $uri->toString(['path']);
         } else {
             // No explicit base URI was set so we need to detect it.
             // Start with the requested URI.
@@ -360,7 +380,7 @@ abstract class WebApplication extends AbstractWebApplication
             }
         }
 
-        $host = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+        $host = $uri->toString(['scheme', 'user', 'pass', 'host', 'port']);
 
         // Check if the path includes "index.php".
         if (strpos($path, 'index.php') !== false) {

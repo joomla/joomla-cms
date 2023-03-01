@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Log;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Log Class
  *
@@ -108,7 +112,7 @@ class Log
      * @var    array
      * @since  1.7.0
      */
-    protected $configurations = array();
+    protected $configurations = [];
 
     /**
      * Container for Logger objects.
@@ -116,7 +120,7 @@ class Log
      * @var    Logger[]
      * @since  1.7.0
      */
-    protected $loggers = array();
+    protected $loggers = [];
 
     /**
      * Lookup array for loggers.
@@ -124,7 +128,7 @@ class Log
      * @var    array
      * @since  1.7.0
      */
-    protected $lookup = array();
+    protected $lookup = [];
 
     /**
      * The registry of available loggers
@@ -157,7 +161,7 @@ class Log
      *
      * @since   1.7.0
      */
-    public static function add($entry, $priority = self::INFO, $category = '', $date = null, array $context = array())
+    public static function add($entry, $priority = self::INFO, $category = '', $date = null, array $context = [])
     {
         // Automatically instantiate the singleton object if not already done.
         if (empty(static::$instance)) {
@@ -184,7 +188,7 @@ class Log
      *
      * @since   1.7.0
      */
-    public static function addLogger(array $options, $priorities = self::ALL, $categories = array(), $exclude = false)
+    public static function addLogger(array $options, $priorities = self::ALL, $categories = [], $exclude = false)
     {
         // Automatically instantiate the singleton object if not already done.
         if (empty(static::$instance)) {
@@ -228,7 +232,7 @@ class Log
      *
      * @since   1.7.0
      */
-    protected function addLoggerInternal(array $options, $priorities = self::ALL, $categories = array(), $exclude = false)
+    protected function addLoggerInternal(array $options, $priorities = self::ALL, $categories = [], $exclude = false)
     {
         // The default logger is the formatted text log file.
         if (empty($options['logger'])) {
@@ -262,11 +266,11 @@ class Log
             $this->configurations[$signature] = $options;
         }
 
-        $this->lookup[$signature] = (object) array(
+        $this->lookup[$signature] = (object) [
             'priorities' => $priorities,
             'categories' => array_map('strtolower', (array) $categories),
             'exclude' => (bool) $exclude,
-        );
+        ];
     }
 
     /**
@@ -360,7 +364,7 @@ class Log
      */
     protected function findLoggers($priority, $category)
     {
-        $loggers = array();
+        $loggers = [];
 
         // Sanitize inputs.
         $priority = (int) $priority;

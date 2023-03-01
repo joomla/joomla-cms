@@ -17,34 +17,34 @@ namespace Joomla\CMS\Cache;
  */
 class CacheControllerFactory implements CacheControllerFactoryInterface
 {
-	/**
-	 * Method to get an instance of a cache controller.
-	 *
-	 * @param   string  $type     The cache object type to instantiate
-	 * @param   array   $options  Array of options
-	 *
-	 * @return  CacheController
-	 *
-	 * @since   4.0.0
-	 * @throws  \RuntimeException
-	 */
-	public function createCacheController($type = 'output', $options = array()): CacheController
-	{
-		if (!$type)
-		{
-			$type = 'output';
-		}
+    /**
+     * Method to get an instance of a cache controller.
+     *
+     * @param   string  $type     The cache object type to instantiate
+     * @param   array   $options  Array of options
+     *
+     * @return  CacheController
+     *
+     * @since   4.0.0
+     * @throws  \RuntimeException
+     */
+    public function createCacheController($type = 'output', $options = []): CacheController
+    {
+        if (!$type)
+        {
+            $type = 'output';
+        }
 
-		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
+        $type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
 
-		$class = __NAMESPACE__ . '\\Controller\\' . ucfirst($type) . 'Controller';
+        $class = __NAMESPACE__ . '\\Controller\\' . ucfirst($type) . 'Controller';
 
-		// The class should now be loaded
-		if (!class_exists($class))
-		{
-			throw new \RuntimeException('Unable to load Cache Controller: ' . $type, 500);
-		}
+        // The class should now be loaded
+        if (!class_exists($class))
+        {
+            throw new \RuntimeException('Unable to load Cache Controller: ' . $type, 500);
+        }
 
-		return new $class($options);
-	}
+        return new $class($options);
+    }
 }

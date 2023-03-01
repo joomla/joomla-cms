@@ -14,6 +14,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Toolbar\ToolbarButton;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Renders a modal window button
  *
@@ -137,7 +141,7 @@ class PopupButton extends ToolbarButton
 
         if ((string) $this->getUrl() !== '') {
             // Build the options array for the modal
-            $params = array();
+            $params = [];
             $params['title']      = $options['title'] ?? $options['text'];
             $params['url']        = $this->getUrl();
             $params['height']     = $options['iframeHeight'] ?? 480;

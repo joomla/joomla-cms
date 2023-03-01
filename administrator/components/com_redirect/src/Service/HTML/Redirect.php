@@ -13,6 +13,10 @@ namespace Joomla\Component\Redirect\Administrator\Service\HTML;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class for creating HTML Grids.
  *
@@ -41,12 +45,12 @@ class Redirect
         }
 
         // Array of image, task, title, action
-        $states = array(
-            1  => array('publish', 'links.unpublish', 'JENABLED', 'COM_REDIRECT_DISABLE_LINK'),
-            0  => array('unpublish', 'links.publish', 'JDISABLED', 'COM_REDIRECT_ENABLE_LINK'),
-            2  => array('archive', 'links.unpublish', 'JARCHIVED', 'JUNARCHIVE'),
-            -2 => array('trash', 'links.publish', 'JTRASHED', 'COM_REDIRECT_ENABLE_LINK'),
-        );
+        $states = [
+            1  => ['publish', 'links.unpublish', 'JENABLED', 'COM_REDIRECT_DISABLE_LINK'],
+            0  => ['unpublish', 'links.publish', 'JDISABLED', 'COM_REDIRECT_ENABLE_LINK'],
+            2  => ['archive', 'links.unpublish', 'JARCHIVED', 'JUNARCHIVE'],
+            -2 => ['trash', 'links.publish', 'JTRASHED', 'COM_REDIRECT_ENABLE_LINK'],
+        ];
 
         $state = ArrayHelper::getValue($states, (int) $value, $states[0]);
         $icon  = $state[0];

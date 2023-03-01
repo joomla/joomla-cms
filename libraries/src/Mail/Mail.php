@@ -16,6 +16,10 @@ use Joomla\CMS\Mail\Exception\MailDisabledException;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 use PHPMailer\PHPMailer\PHPMailer;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Email Class.  Provides a common interface to send email from the Joomla! Platform
  *
@@ -29,7 +33,7 @@ class Mail extends PHPMailer
      * @var    Mail[]
      * @since  1.7.3
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Charset of the message.
@@ -274,7 +278,7 @@ class Mail extends PHPMailer
                     $recipientName = MailHelper::cleanLine($recipientName);
 
                     // Check for boolean false return if exception handling is disabled
-                    if (\call_user_func('parent::' . $method, $recipientEmail, $recipientName) === false) {
+                    if (\call_user_func([parent::class, $method], $recipientEmail, $recipientName) === false) {
                         return false;
                     }
                 }
@@ -285,7 +289,7 @@ class Mail extends PHPMailer
                     $to = MailHelper::cleanLine($to);
 
                     // Check for boolean false return if exception handling is disabled
-                    if (\call_user_func('parent::' . $method, $to, $name) === false) {
+                    if (\call_user_func([parent::class, $method], $to, $name) === false) {
                         return false;
                     }
                 }
@@ -294,7 +298,7 @@ class Mail extends PHPMailer
             $recipient = MailHelper::cleanLine($recipient);
 
             // Check for boolean false return if exception handling is disabled
-            if (\call_user_func('parent::' . $method, $recipient, $name) === false) {
+            if (\call_user_func([parent::class, $method], $recipient, $name) === false) {
                 return false;
             }
         }
@@ -655,7 +659,7 @@ class Mail extends PHPMailer
         // Add sender to replyTo only if no replyTo received
         $autoReplyTo = empty($this->ReplyTo);
 
-        if ($this->setSender(array($from, $fromName, $autoReplyTo)) === false) {
+        if ($this->setSender([$from, $fromName, $autoReplyTo]) === false) {
             return false;
         }
 

@@ -27,6 +27,10 @@ use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Installer Update Model
  *
@@ -43,16 +47,16 @@ class UpdateModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\ListModel
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'name', 'u.name',
                 'client_id', 'u.client_id', 'client_translated',
                 'type', 'u.type', 'type_translated',
                 'folder', 'u.folder', 'folder_translated',
                 'extension_id', 'u.extension_id',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -126,7 +130,7 @@ class UpdateModel extends ListModel
                 ->bind(':clientid', $clientId, ParameterType::INTEGER);
         }
 
-        if ($folder != '' && in_array($type, array('plugin', 'library', ''))) {
+        if ($folder != '' && in_array($type, ['plugin', 'library', ''])) {
             $folder = $folder === '*' ? '' : $folder;
             $query->where($db->quoteName('u.folder') . ' = :folder')
                 ->bind(':folder', $folder);
@@ -213,7 +217,7 @@ class UpdateModel extends ListModel
         $listDirn  = $this->getState('list.direction', 'asc');
 
         // Process ordering.
-        if (in_array($listOrder, array('client_translated', 'folder_translated', 'type_translated'))) {
+        if (in_array($listOrder, ['client_translated', 'folder_translated', 'type_translated'])) {
             $db->setQuery($query);
             $result = $db->loadObjectList();
             $this->translate($result);
@@ -389,7 +393,7 @@ class UpdateModel extends ListModel
         }
 
         $url     = trim($update->downloadurl->_data);
-        $sources = $update->get('downloadSources', array());
+        $sources = $update->get('downloadSources', []);
 
         if ($extra_query = $update->get('extra_query')) {
             $url .= (strpos($url, '?') === false) ? '?' : '&amp;';
@@ -498,12 +502,12 @@ class UpdateModel extends ListModel
      *
      * @since   2.5.2
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         Form::addFormPath(JPATH_COMPONENT . '/models/forms');
         Form::addFieldPath(JPATH_COMPONENT . '/models/fields');
-        $form = Form::getInstance('com_installer.update', 'update', array('load_data' => $loadData));
+        $form = Form::getInstance('com_installer.update', 'update', ['load_data' => $loadData]);
 
         // Check for an error.
         if ($form == false) {
@@ -533,7 +537,7 @@ class UpdateModel extends ListModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState($this->context, array());
+        $data = Factory::getApplication()->getUserState($this->context, []);
 
         return $data;
     }
@@ -562,8 +566,8 @@ class UpdateModel extends ListModel
                 if (File::exists($path)) {
                     require_once $path;
 
-                    if (class_exists($cname) && is_callable(array($cname, 'prepareUpdate'))) {
-                        call_user_func_array(array($cname, 'prepareUpdate'), array(&$update, &$table));
+                    if (class_exists($cname) && is_callable([$cname, 'prepareUpdate'])) {
+                        call_user_func_array([$cname, 'prepareUpdate'], [&$update, &$table]);
                     }
                 }
 
@@ -577,8 +581,8 @@ class UpdateModel extends ListModel
                 if (File::exists($path)) {
                     require_once $path;
 
-                    if (class_exists($cname) && is_callable(array($cname, 'prepareUpdate'))) {
-                        call_user_func_array(array($cname, 'prepareUpdate'), array(&$update, &$table));
+                    if (class_exists($cname) && is_callable([$cname, 'prepareUpdate'])) {
+                        call_user_func_array([$cname, 'prepareUpdate'], [&$update, &$table]);
                     }
                 }
 

@@ -18,6 +18,10 @@ use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Version;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Extension class for updater
  *
@@ -36,7 +40,7 @@ class ExtensionAdapter extends UpdateAdapter
      *
      * @since   1.7.0
      */
-    protected function _startElement($parser, $name, $attrs = array())
+    protected function _startElement($parser, $name, $attrs = [])
     {
         $this->stack[] = $name;
         $tag           = $this->_getStackLocation();
@@ -286,7 +290,7 @@ class ExtensionAdapter extends UpdateAdapter
             }
 
             $app = Factory::getApplication();
-            $app->getLogger()->warning("Error parsing url: {$this->_url}", array('category' => 'updater'));
+            $app->getLogger()->warning("Error parsing url: {$this->_url}", ['category' => 'updater']);
             $app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $this->_url), 'warning');
 
             return false;
@@ -301,12 +305,12 @@ class ExtensionAdapter extends UpdateAdapter
                 unset($this->latest->client);
             }
 
-            $updates = array($this->latest);
+            $updates = [$this->latest];
         } else {
-            $updates = array();
+            $updates = [];
         }
 
-        return array('update_sites' => array(), 'updates' => $updates);
+        return ['update_sites' => [], 'updates' => $updates];
     }
 
     /**

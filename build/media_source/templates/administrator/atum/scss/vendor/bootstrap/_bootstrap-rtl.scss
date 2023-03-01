@@ -174,3 +174,7 @@
     @include border-end-radius(0);
   }
 }
+
+.dropdown-menu {
+  text-align: right; // Bootstrap uses left instead of logical properties for this
+}

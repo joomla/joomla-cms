@@ -13,6 +13,10 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Syslog Log class
  *
@@ -31,7 +35,7 @@ class SyslogLogger extends Logger
      * @var    array
      * @since  1.7.0
      */
-    protected $priorities = array(
+    protected $priorities = [
         Log::EMERGENCY => 'EMERG',
         Log::ALERT => 'ALERT',
         Log::CRITICAL => 'CRIT',
@@ -40,7 +44,7 @@ class SyslogLogger extends Logger
         Log::NOTICE => 'NOTICE',
         Log::INFO => 'INFO',
         Log::DEBUG => 'DEBUG',
-    );
+    ];
 
     /**
      * Constructor.

@@ -16,6 +16,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Chrome Styles field.
  *
@@ -131,7 +135,7 @@ class ChromestyleField extends GroupedlistField
      */
     protected function getGroups()
     {
-        $groups = array();
+        $groups = [];
 
         // Add Module Style Field
         $tmp = '---' . Text::_('JLIB_FORM_VALUE_FROM_TEMPLATE') . '---';
@@ -142,7 +146,7 @@ class ChromestyleField extends GroupedlistField
         // Create one new option object for each available style, grouped by templates
         foreach ($templateStyles as $template => $styles) {
             $template = ucfirst($template);
-            $groups[$template] = array();
+            $groups[$template] = [];
 
             foreach ($styles as $style) {
                 $tmp = HTMLHelper::_('select.option', $template . '-' . $style, $style);
@@ -164,7 +168,7 @@ class ChromestyleField extends GroupedlistField
      */
     protected function getTemplateModuleStyles()
     {
-        $moduleStyles = array();
+        $moduleStyles = [];
 
         // Global Layouts
         $layouts = Folder::files(JPATH_SITE . '/layouts/chromes', '.*\.php');

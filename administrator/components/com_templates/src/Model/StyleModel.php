@@ -28,6 +28,10 @@ use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 use stdClass;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Template style model.
  *
@@ -57,7 +61,7 @@ class StyleModel extends AdminModel
      * @var    array
      * @since  1.6
      */
-    private $_cache = array();
+    private $_cache = [];
 
     /**
      * Constructor.
@@ -68,16 +72,16 @@ class StyleModel extends AdminModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         $config = array_merge(
-            array(
+            [
                 'event_before_delete' => 'onExtensionBeforeDelete',
                 'event_after_delete'  => 'onExtensionAfterDelete',
                 'event_before_save'   => 'onExtensionBeforeSave',
                 'event_after_save'    => 'onExtensionAfterSave',
-                'events_map'          => array('delete' => 'extension', 'save' => 'extension')
-            ),
+                'events_map'          => ['delete' => 'extension', 'save' => 'extension']
+            ],
             $config
         );
 
@@ -141,7 +145,7 @@ class StyleModel extends AdminModel
                 }
 
                 // Trigger the before delete event.
-                $result = Factory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
+                $result = Factory::getApplication()->triggerEvent($this->event_before_delete, [$context, $table]);
 
                 if (in_array(false, $result, true) || !$table->delete($pk)) {
                     $this->setError($table->getError());
@@ -150,7 +154,7 @@ class StyleModel extends AdminModel
                 }
 
                 // Trigger the after delete event.
-                Factory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
+                Factory::getApplication()->triggerEvent($this->event_after_delete, [$context, $table]);
             } else {
                 $this->setError($table->getError());
 
@@ -206,14 +210,14 @@ class StyleModel extends AdminModel
                 }
 
                 // Trigger the before save event.
-                $result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, true));
+                $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, true]);
 
                 if (in_array(false, $result, true) || !$table->store()) {
                     throw new \Exception($table->getError());
                 }
 
                 // Trigger the after save event.
-                Factory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, true));
+                Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, true]);
             } else {
                 throw new \Exception($table->getError());
             }
@@ -241,7 +245,7 @@ class StyleModel extends AdminModel
         // Alter the title
         $table = $this->getTable();
 
-        while ($table->load(array('title' => $title))) {
+        while ($table->load(['title' => $title])) {
             $title = StringHelper::increment($title);
         }
 
@@ -258,7 +262,7 @@ class StyleModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // The folder and element vars are passed when saving the form.
         if (empty($data)) {
@@ -279,7 +283,7 @@ class StyleModel extends AdminModel
         $this->setState('item.template', $template);
 
         // Get the form.
-        $form = $this->loadForm('com_templates.style', 'style', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_templates.style', 'style', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -308,7 +312,7 @@ class StyleModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_templates.edit.style.data', array());
+        $data = Factory::getApplication()->getUserState('com_templates.edit.style.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -450,7 +454,7 @@ class StyleModel extends AdminModel
         // Detect disabled extension
         $extension = Table::getInstance('Extension', 'Joomla\\CMS\\Table\\');
 
-        if ($extension->load(array('enabled' => 0, 'type' => 'template', 'element' => $data['template'], 'client_id' => $data['client_id']))) {
+        if ($extension->load(['enabled' => 0, 'type' => 'template', 'element' => $data['template'], 'client_id' => $data['client_id']])) {
             $this->setError(Text::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
 
             return false;
@@ -494,7 +498,7 @@ class StyleModel extends AdminModel
         }
 
         // Trigger the before save event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_save, array('com_templates.style', &$table, $isNew));
+        $result = Factory::getApplication()->triggerEvent($this->event_before_save, ['com_templates.style', &$table, $isNew]);
 
         // Store the data.
         if (in_array(false, $result, true) || !$table->store()) {
@@ -558,7 +562,7 @@ class StyleModel extends AdminModel
         $this->cleanCache();
 
         // Trigger the after save event.
-        Factory::getApplication()->triggerEvent($this->event_after_save, array('com_templates.style', &$table, $isNew));
+        Factory::getApplication()->triggerEvent($this->event_after_save, ['com_templates.style', &$table, $isNew]);
 
         $this->setState('style.id', $table->id);
 
@@ -593,7 +597,7 @@ class StyleModel extends AdminModel
         // Detect disabled extension
         $extension = Table::getInstance('Extension', 'Joomla\\CMS\\Table\\');
 
-        if ($extension->load(array('enabled' => 0, 'type' => 'template', 'element' => $style->template, 'client_id' => $style->client_id))) {
+        if ($extension->load(['enabled' => 0, 'type' => 'template', 'element' => $style->template, 'client_id' => $style->client_id])) {
             throw new \Exception(Text::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
         }
 
@@ -685,7 +689,7 @@ class StyleModel extends AdminModel
      */
     public function getHelp()
     {
-        return (object) array('key' => $this->helpKey, 'url' => $this->helpURL);
+        return (object) ['key' => $this->helpKey, 'url' => $this->helpURL];
     }
 
     /**

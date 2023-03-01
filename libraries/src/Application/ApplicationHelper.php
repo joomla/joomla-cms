@@ -13,6 +13,10 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Application helper functions
  *
@@ -26,7 +30,7 @@ class ApplicationHelper
      * @var    array
      * @since  1.6
      */
-    protected static $_clients = array();
+    protected static $_clients = [];
 
     /**
      * Return the name of the request component [main component]
@@ -109,7 +113,7 @@ class ApplicationHelper
      * @param   integer|string|null   $id      A client identifier
      * @param   boolean               $byName  If true, find the client by its name
      *
-     * @return  \stdClass|array|void  Object describing the client, array containing all the clients or void if $id not known
+     * @return  \stdClass|array|null  Object describing the client, array containing all the clients or null if $id not known
      *
      * @since   1.5
      */
@@ -167,6 +171,8 @@ class ApplicationHelper
                 }
             }
         }
+
+        return null;
     }
 
     /**

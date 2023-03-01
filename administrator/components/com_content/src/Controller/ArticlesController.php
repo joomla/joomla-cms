@@ -19,6 +19,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Articles list controller class.
  *
@@ -38,7 +42,7 @@ class ArticlesController extends AdminController
      *
      * @since   3.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -64,8 +68,8 @@ class ArticlesController extends AdminController
         $this->checkToken();
 
         $user        = $this->app->getIdentity();
-        $ids         = (array) $this->input->get('cid', array(), 'int');
-        $values      = array('featured' => 1, 'unfeatured' => 0);
+        $ids         = (array) $this->input->get('cid', [], 'int');
+        $values      = ['featured' => 1, 'unfeatured' => 0];
         $task        = $this->getTask();
         $value       = ArrayHelper::getValue($values, $task, 0, 'int');
         $redirectUrl = 'index.php?option=com_content&view=' . $this->view_list . $this->getRedirectToListAppend();
@@ -125,7 +129,7 @@ class ArticlesController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Article', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Article', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

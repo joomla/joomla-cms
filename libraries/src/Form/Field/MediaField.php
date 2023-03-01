@@ -15,6 +15,10 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Provides a modal media selector including upload mechanism
  *
@@ -103,6 +107,14 @@ class MediaField extends FormField
     protected $previewHeight;
 
     /**
+     * The folder.
+     *
+     * @var    string
+     * @since  4.2.7
+     */
+    protected $folder;
+
+    /**
      * Comma separated types of files for Media Manager
      * Possible values: images,audios,videos,documents
      *
@@ -148,6 +160,7 @@ class MediaField extends FormField
             case 'directory':
             case 'previewWidth':
             case 'previewHeight':
+            case 'folder':
             case 'types':
                 return $this->$name;
         }
@@ -175,6 +188,7 @@ class MediaField extends FormField
             case 'height':
             case 'preview':
             case 'directory':
+            case 'folder':
             case 'types':
                 $this->$name = (string) $value;
                 break;
@@ -392,7 +406,7 @@ class MediaField extends FormField
 
         sort($types);
 
-        $extraData = array(
+        $extraData = [
             'asset'               => $asset,
             'authorField'         => $this->authorField,
             'authorId'            => $this->form->getValue($this->authorField),
@@ -410,7 +424,7 @@ class MediaField extends FormField
             'audiosAllowedExt'    => $audiosAllowedExt,
             'videosAllowedExt'    => $videosAllowedExt,
             'documentsAllowedExt' => $documentsAllowedExt,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

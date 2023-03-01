@@ -28,6 +28,10 @@ use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Tag\TagServiceInterface;
 use Joomla\CMS\Tag\TagServiceTrait;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Access to component specific services.
  *
@@ -139,7 +143,7 @@ class LegacyComponent implements
     {
         $helper = $this->loadHelper();
 
-        if (!$helper || !\is_callable(array($helper, 'countItems'))) {
+        if (!$helper || !\is_callable([$helper, 'countItems'])) {
             return;
         }
 
@@ -161,7 +165,7 @@ class LegacyComponent implements
     {
         $helper = $this->loadHelper();
 
-        if (!$helper || !\is_callable(array($helper, 'countTagItems'))) {
+        if (!$helper || !\is_callable([$helper, 'countTagItems'])) {
             return;
         }
 
@@ -183,7 +187,7 @@ class LegacyComponent implements
     {
         $helper = $this->loadHelper();
 
-        if (!$helper || !\is_callable(array($helper, 'validateSection'))) {
+        if (!$helper || !\is_callable([$helper, 'validateSection'])) {
             return $section;
         }
 
@@ -201,7 +205,7 @@ class LegacyComponent implements
     {
         $helper = $this->loadHelper();
 
-        if (!$helper || !\is_callable(array($helper, 'getContexts'))) {
+        if (!$helper || !\is_callable([$helper, 'getContexts'])) {
             return [];
         }
 

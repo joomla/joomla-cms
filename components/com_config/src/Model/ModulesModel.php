@@ -16,6 +16,10 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Config Module model.
  *
@@ -52,10 +56,10 @@ class ModulesModel extends FormModel
      *
      * @since   3.2
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_config.modules', 'modules', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_config.modules', 'modules', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -122,7 +126,7 @@ class ModulesModel extends FormModel
 
         // Load templateDetails.xml file
         $path = Path::clean(JPATH_BASE . '/templates/' . $templateName . '/templateDetails.xml');
-        $currentTemplatePositions = array();
+        $currentTemplatePositions = [];
 
         if (file_exists($path)) {
             $xml = simplexml_load_file($path);
@@ -142,11 +146,11 @@ class ModulesModel extends FormModel
             }
         }
 
-        $templateGroups = array();
+        $templateGroups = [];
 
         // Add an empty value to be able to deselect a module position
         $option = self::createOption();
-        $templateGroups[''] = self::createOptionGroup('', array($option));
+        $templateGroups[''] = self::createOptionGroup('', [$option]);
 
         $templateGroups[$templateName] = self::createOptionGroup($templateName, $currentTemplatePositions);
 
@@ -183,7 +187,7 @@ class ModulesModel extends FormModel
 
         try {
             $positions = $db->loadColumn();
-            $positions = is_array($positions) ? $positions : array();
+            $positions = is_array($positions) ? $positions : [];
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
@@ -191,7 +195,7 @@ class ModulesModel extends FormModel
         }
 
         // Build the list
-        $options = array();
+        $options = [];
 
         foreach ($positions as $position) {
             if (!$position && !$editPositions) {
@@ -237,9 +241,9 @@ class ModulesModel extends FormModel
      *
      * @since   3.6.3
      */
-    private static function createOptionGroup($label = '', $options = array())
+    private static function createOptionGroup($label = '', $options = [])
     {
-        $group = array();
+        $group = [];
         $group['value'] = $label;
         $group['text']  = $label;
         $group['items'] = $options;

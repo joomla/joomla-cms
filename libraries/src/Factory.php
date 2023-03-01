@@ -30,6 +30,10 @@ use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla Platform Factory class.
  *
@@ -76,7 +80,7 @@ abstract class Factory
      * @var    array
      * @since  1.7.3
      */
-    public static $dates = array();
+    public static $dates = [];
 
     /**
      * Global session object
@@ -231,7 +235,7 @@ abstract class Factory
      * @since       1.7.0
      * @deprecated  5.0  Load the session service from the dependency injection container or via $app->getSession()
      */
-    public static function getSession(array $options = array())
+    public static function getSession(array $options = [])
     {
         @trigger_error(
             sprintf(
@@ -374,7 +378,7 @@ abstract class Factory
 
         $handler = ($handler === 'function') ? 'callback' : $handler;
 
-        $options = array('defaultgroup' => $group);
+        $options = ['defaultgroup' => $group];
 
         if (isset($storage)) {
             $options['storage'] = $storage;
@@ -597,7 +601,7 @@ abstract class Factory
         $prefix = $conf->get('dbprefix');
         $driver = $conf->get('dbtype');
 
-        $options = array('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
+        $options = ['driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix];
 
         if ((int) $conf->get('dbencryption') !== 0) {
             $options['ssl'] = [
@@ -741,14 +745,14 @@ abstract class Factory
 
         $version = new Version();
 
-        $attributes = array(
+        $attributes = [
             'charset'      => 'utf-8',
             'lineend'      => 'unix',
             'tab'          => "\t",
             'language'     => $lang->getTag(),
             'direction'    => $lang->isRtl() ? 'rtl' : 'ltr',
             'mediaversion' => $version->getMediaVersion(),
-        );
+        ];
 
         return self::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
     }
@@ -769,7 +773,7 @@ abstract class Factory
     public static function getStream($usePrefix = true, $useNetwork = true, $userAgentSuffix = 'Joomla', $maskUserAgent = false)
     {
         // Setup the context; Joomla! UA and overwrite
-        $context = array();
+        $context = [];
         $version = new Version();
 
         // Set the UA for HTTP and overwrite for FTP

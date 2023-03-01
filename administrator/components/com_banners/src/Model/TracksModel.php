@@ -20,6 +20,10 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of tracks.
  *
@@ -42,10 +46,10 @@ class TracksModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'b.name', 'banner_name',
                 'cl.name', 'client_name', 'client_id',
                 'c.title', 'category_title', 'category_id',
@@ -53,7 +57,7 @@ class TracksModel extends ListModel
                 'count', 'a.count',
                 'track_date', 'a.track_date', 'end', 'begin',
                 'level', 'c.level',
-            );
+            ];
         }
 
         parent::__construct($config);
@@ -274,7 +278,7 @@ class TracksModel extends ListModel
                 $categoryName = $this->getCategoryName();
                 $basename = str_replace('__CATNAME__', $categoryName, $basename);
             } else {
-                $basename = str_replace(array('__CATID__', '__CATNAME__'), '', $basename);
+                $basename = str_replace(['__CATID__', '__CATNAME__'], '', $basename);
             }
 
             $clientId = $this->getState('filter.client_id');
@@ -289,7 +293,7 @@ class TracksModel extends ListModel
                 $clientName = $this->getClientName();
                 $basename = str_replace('__CLIENTNAME__', $clientName, $basename);
             } else {
-                $basename = str_replace(array('__CLIENTID__', '__CLIENTNAME__'), '', $basename);
+                $basename = str_replace(['__CLIENTID__', '__CLIENTNAME__'], '', $basename);
             }
 
             $type = $this->getState('filter.type');
@@ -299,7 +303,7 @@ class TracksModel extends ListModel
                 $typeName = Text::_('COM_BANNERS_TYPE' . $type);
                 $basename = str_replace('__TYPENAME__', $typeName, $basename);
             } else {
-                $basename = str_replace(array('__TYPE__', '__TYPENAME__'), '', $basename);
+                $basename = str_replace(['__TYPE__', '__TYPENAME__'], '', $basename);
             }
 
             $begin = $this->getState('filter.begin');
@@ -445,13 +449,13 @@ class TracksModel extends ListModel
             if ($this->getState('compressed')) {
                 $app = Factory::getApplication();
 
-                $files = array(
-                    'track' => array(
+                $files = [
+                    'track' => [
                         'name' => $this->getBaseName() . '.csv',
                         'data' => $this->content,
                         'time' => time()
-                    )
-                );
+                    ]
+                ];
                 $ziproot = $app->get('tmp_path') . '/' . uniqid('banners_tracks_') . '.zip';
 
                 // Run the packager

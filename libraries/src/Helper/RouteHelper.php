@@ -15,6 +15,10 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Route Helper
  *
@@ -76,10 +80,10 @@ class RouteHelper
 
         $name = ucfirst(substr_replace($this->extension, '', 0, 4));
 
-        $needles = array();
+        $needles = [];
 
         if (isset($this->view)) {
-            $needles[$this->view] = array((int) $id);
+            $needles[$this->view] = [(int) $id];
         }
 
         if (empty($link)) {
@@ -123,7 +127,7 @@ class RouteHelper
      *
      * @since   3.1
      */
-    protected function findItem($needles = array())
+    protected function findItem($needles = [])
     {
         $app      = Factory::getApplication();
         $menus    = $app->getMenu('site');
@@ -136,16 +140,16 @@ class RouteHelper
 
         // Prepare the reverse lookup array.
         if (!isset(static::$lookup[$language])) {
-            static::$lookup[$language] = array();
+            static::$lookup[$language] = [];
 
             $component = ComponentHelper::getComponent($this->extension);
 
-            $attributes = array('component_id');
-            $values     = array($component->id);
+            $attributes = ['component_id'];
+            $values     = [$component->id];
 
             if ($language !== '*') {
                 $attributes[] = 'language';
-                $values[]     = array($needles['language'], '*');
+                $values[]     = [$needles['language'], '*'];
             }
 
             $items = $menus->getItems($attributes, $values);
@@ -155,7 +159,7 @@ class RouteHelper
                     $view = $item->query['view'];
 
                     if (!isset(static::$lookup[$language][$view])) {
-                        static::$lookup[$language][$view] = array();
+                        static::$lookup[$language][$view] = [];
                     }
 
                     if (isset($item->query['id'])) {
@@ -234,9 +238,9 @@ class RouteHelper
         } else {
             $link = 'index.php?option=' . $extension . '&view=category&id=' . $id;
 
-            $needles = array(
-                'category' => array($id),
-            );
+            $needles = [
+                'category' => [$id],
+            ];
 
             if ($language && $language !== '*' && Multilanguage::isEnabled()) {
                 $link .= '&lang=' . $language;
@@ -267,7 +271,7 @@ class RouteHelper
      *
      * @since   3.2
      */
-    protected static function lookupItem($needles = array())
+    protected static function lookupItem($needles = [])
     {
         $instance = new static();
 

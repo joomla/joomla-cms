@@ -11,6 +11,10 @@ namespace Joomla\CMS\Extension;
 
 use Psr\Container\ContainerInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Interface which defines that an extension can be booted.
  *

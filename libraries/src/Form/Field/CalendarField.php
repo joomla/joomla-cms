@@ -15,6 +15,10 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  *
@@ -80,6 +84,54 @@ class CalendarField extends FormField
      * @since  3.7.0
      */
     protected $maxyear;
+
+    /**
+     * The today button flag
+     *
+     * @var    string
+     * @since  4.2.7
+     */
+    protected $todaybutton;
+
+    /**
+     * The week numbers flag
+     *
+     * @var    string
+     * @since  4.2.7
+     */
+    protected $weeknumbers;
+
+    /**
+     * The show time flag
+     *
+     * @var    string
+     * @since  4.2.7
+     */
+    protected $showtime;
+
+    /**
+     * The fill table flag
+     *
+     * @var    string
+     * @since  4.2.7
+     */
+    protected $filltable;
+
+    /**
+     * The time format
+     *
+     * @var    integer
+     * @since  4.2.7
+     */
+    protected $timeformat;
+
+    /**
+     * The single header flag
+     *
+     * @var    string
+     * @since  4.2.7
+     */
+    protected $singleheader;
 
     /**
      * Name of the layout being used to render the field
@@ -183,6 +235,7 @@ class CalendarField extends FormField
         if ($return) {
             $this->maxlength    = (int) $this->element['maxlength'] ? (int) $this->element['maxlength'] : 45;
             $this->format       = (string) $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
+            $this->filterFormat = (string) $this->element['filterformat'] ? (string) $this->element['filterformat'] : '';
             $this->filter       = (string) $this->element['filter'] ? (string) $this->element['filter'] : 'USER_UTC';
             $this->todaybutton  = (string) $this->element['todaybutton'] ? (string) $this->element['todaybutton'] : 'true';
             $this->weeknumbers  = (string) $this->element['weeknumbers'] ? (string) $this->element['weeknumbers'] : 'true';
@@ -298,7 +351,7 @@ class CalendarField extends FormField
             $helperPath = 'system/fields/calendar-locales/date/' . strtolower($calendar) . '/date-helper.min.js';
         }
 
-        $extraData = array(
+        $extraData = [
             'value'        => $this->value,
             'maxLength'    => $this->maxlength,
             'format'       => $this->format,
@@ -316,7 +369,7 @@ class CalendarField extends FormField
             'calendar'     => $calendar,
             'firstday'     => $lang->getFirstDay(),
             'weekend'      => explode(',', $lang->getWeekEnd()),
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

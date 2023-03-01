@@ -21,6 +21,10 @@ use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Utilities\IpHelper;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of Actionlog records.
  *
@@ -58,7 +62,7 @@ class ActionlogModel extends BaseDatabaseModel
             $ip = 'COM_ACTIONLOGS_DISABLED';
         }
 
-        $loggedMessages = array();
+        $loggedMessages = [];
 
         foreach ($messages as $message) {
             $logMessage                       = new \stdClass();
@@ -108,7 +112,7 @@ class ActionlogModel extends BaseDatabaseModel
         $query = $db->getQuery(true);
 
         $query
-            ->select($db->quoteName(array('u.email', 'l.extensions')))
+            ->select($db->quoteName(['u.email', 'l.extensions']))
             ->from($db->quoteName('#__users', 'u'))
             ->where($db->quoteName('u.block') . ' = 0')
             ->join(
@@ -121,7 +125,7 @@ class ActionlogModel extends BaseDatabaseModel
 
         $users = $db->loadObjectList();
 
-        $recipients = array();
+        $recipients = [];
 
         foreach ($users as $user) {
             $extensions = json_decode($user->extensions, true);

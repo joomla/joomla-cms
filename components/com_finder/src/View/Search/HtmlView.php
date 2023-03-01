@@ -26,6 +26,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Component\Finder\Site\Helper\FinderHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Search HTML view class for the Finder package.
  *
@@ -173,7 +177,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
             PluginHelper::importPlugin('finder');
 
             foreach ($this->results as $result) {
-                $app->triggerEvent('onFinderResult', array(&$result, &$this->query));
+                $app->triggerEvent('onFinderResult', [&$result, &$this->query]);
             }
         }
 
@@ -253,7 +257,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         $file = $this->_layout . '_' . preg_replace('/[^A-Z0-9_\.-]/i', '', $layout);
 
         // Check if the file exists.
-        $filetofind = $this->_createFileName('template', array('name' => $file));
+        $filetofind = $this->_createFileName('template', ['name' => $file]);
         $exists     = Path::find($this->_path['template'], $filetofind);
 
         return ($exists ? $layout : 'result');
@@ -305,22 +309,22 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
                 Text::_('COM_FINDER_OPENSEARCH_NAME') . ' ' . $app->get('sitename')
             );
             $this->document->addHeadLink(
-                Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
+                Uri::getInstance()->toString(['scheme', 'host', 'port']) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
                 'search',
                 'rel',
-                array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
+                ['title' => $ostitle, 'type' => 'application/opensearchdescription+xml']
             );
         }
 
         // Add feed link to the document head.
         if ($this->params->get('show_feed_link', 1) == 1) {
             // Add the RSS link.
-            $props = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+            $props = ['type' => 'application/rss+xml', 'title' => 'RSS 2.0'];
             $route = Route::_($this->query->toUri() . '&format=feed&type=rss');
             $this->document->addHeadLink($route, 'alternate', 'rel', $props);
 
             // Add the ATOM link.
-            $props = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+            $props = ['type' => 'application/atom+xml', 'title' => 'Atom 1.0'];
             $route = Route::_($this->query->toUri() . '&format=feed&type=atom');
             $this->document->addHeadLink($route, 'alternate', 'rel', $props);
         }

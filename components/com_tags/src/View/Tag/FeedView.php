@@ -16,6 +16,10 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML View class for the Tags component
  *
@@ -33,7 +37,7 @@ class FeedView extends BaseHtmlView
     public function display($tpl = null)
     {
         $app    = Factory::getApplication();
-        $ids    = (array) $app->input->get('id', array(), 'int');
+        $ids    = (array) $app->input->get('id', [], 'int');
         $i      = 0;
         $tagIds = '';
 

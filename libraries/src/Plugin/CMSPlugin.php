@@ -20,6 +20,10 @@ use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugin Class
  *
@@ -94,7 +98,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
      *
      * @since   1.5
      */
-    public function __construct(&$subject, $config = array())
+    public function __construct(&$subject, $config = [])
     {
         // Get the parameters.
         if (isset($config['params'])) {
@@ -170,34 +174,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
         return $lang->load($extension, $basePath)
             || $lang->load($extension, JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name);
-    }
-
-    /**
-     * Translates the given key with the local applications language. If arguments are available, then
-     * injects them into the translated string.
-     *
-     * @param   string   $key        The key to translate
-     * @param   mixed[]  $arguments  The arguments
-     *
-     * @return  string  The translated string
-     *
-     * @since   4.2.0
-     *
-     * @see     sprintf
-     */
-    protected function translate(string $key): string
-    {
-        $language = $this->getApplication()->getLanguage();
-
-        $arguments = \func_get_args();
-
-        if (count($arguments) > 1) {
-            $arguments[0] = $language->_($key);
-
-            return \call_user_func_array('sprintf', $arguments);
-        }
-
-        return $language->_($key);
     }
 
     /**

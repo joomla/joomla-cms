@@ -12,6 +12,10 @@
 
 use Joomla\CMS\Form\Form;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Fields Editor Plugin
  *
@@ -39,7 +43,7 @@ class PlgFieldsEditor extends \Joomla\Component\Fields\Administrator\Plugin\Fiel
         }
 
         $fieldNode->setAttribute('buttons', $field->fieldparams->get('buttons', $this->params->get('buttons', 0)) ? 'true' : 'false');
-        $fieldNode->setAttribute('hide', implode(',', $field->fieldparams->get('hide', array())));
+        $fieldNode->setAttribute('hide', implode(',', $field->fieldparams->get('hide', [])));
 
         return $fieldNode;
     }

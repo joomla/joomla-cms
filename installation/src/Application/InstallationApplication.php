@@ -29,6 +29,10 @@ use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Installation Application class.
  *
@@ -132,7 +136,7 @@ final class InstallationApplication extends CMSApplication
         if (count($orphans)) {
             ksort($orphans, SORT_STRING);
 
-            $guesses = array();
+            $guesses = [];
 
             foreach ($orphans as $key => $occurrence) {
                 $guess = str_replace('_', ' ', $key);
@@ -270,7 +274,7 @@ final class InstallationApplication extends CMSApplication
      */
     protected function fetchConfigurationData($file = '', $class = 'JConfig')
     {
-        return array();
+        return [];
     }
 
     /**
@@ -323,7 +327,7 @@ final class InstallationApplication extends CMSApplication
             return false;
         }
 
-        $ret = array();
+        $ret = [];
 
         $ret['language']   = (string) $xml->forceLang;
         $ret['debug']      = (string) $xml->debug;
@@ -343,7 +347,7 @@ final class InstallationApplication extends CMSApplication
      */
     public function getLocaliseAdmin(DatabaseInterface $db = null)
     {
-        $langfiles = array();
+        $langfiles = [];
 
         // If db connection, fetch them from the database.
         if ($db) {
@@ -396,7 +400,7 @@ final class InstallationApplication extends CMSApplication
      *
      * @since   3.1
      */
-    protected function initialiseApp($options = array())
+    protected function initialiseApp($options = [])
     {
         // Get the localisation information provided in the localise.xml file.
         $forced = $this->getLocalise();
@@ -470,14 +474,14 @@ final class InstallationApplication extends CMSApplication
             $type = $this->input->get('format', 'html', 'word');
             $date = new Date('now');
 
-            $attributes = array(
+            $attributes = [
                 'charset'      => 'utf-8',
                 'lineend'      => 'unix',
                 'tab'          => "\t",
                 'language'     => $lang->getTag(),
                 'direction'    => $lang->isRtl() ? 'rtl' : 'ltr',
                 'mediaversion' => md5($date->format('YmdHi')),
-            );
+            ];
 
             $document = $this->getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
 
@@ -535,7 +539,7 @@ final class InstallationApplication extends CMSApplication
      *
      * @since   3.1
      */
-    public function setCfg(array $vars = array(), $namespace = 'config')
+    public function setCfg(array $vars = [], $namespace = 'config')
     {
         $this->config->loadArray($vars, $namespace);
     }
@@ -550,7 +554,7 @@ final class InstallationApplication extends CMSApplication
      *
      * @since   3.2
      */
-    public function getMenu($name = null, $options = array())
+    public function getMenu($name = null, $options = [])
     {
         return null;
     }

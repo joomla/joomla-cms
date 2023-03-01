@@ -18,6 +18,10 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View to edit a mail template.
  *
@@ -82,8 +86,8 @@ class HtmlView extends BaseHtmlView
         }
 
         list($component, $template_id) = explode('.', $this->item->template_id, 2);
-        $fields = array('subject', 'body', 'htmlbody');
-        $this->templateData = array();
+        $fields = ['subject', 'body', 'htmlbody'];
+        $this->templateData = [];
         $language = Factory::getLanguage();
         $language->load($component, JPATH_SITE, $this->item->language, true);
         $language->load($component, JPATH_SITE . '/components/' . $component, $this->item->language, true);

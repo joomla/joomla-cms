@@ -11,6 +11,10 @@ namespace Joomla\CMS\Input;
 
 use Joomla\CMS\Filter\InputFilter;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Input Files Class
  *
@@ -26,7 +30,7 @@ class Files extends Input
      * @since  1.7.0
      * @deprecated  5.0  Use Joomla\Input\Files instead
      */
-    protected $decodedData = array();
+    protected $decodedData = [];
 
     /**
      * The class constructor.
@@ -38,7 +42,7 @@ class Files extends Input
      * @since   3.0.0
      * @deprecated  5.0  Use Joomla\Input\Files instead
      */
-    public function __construct(array $source = null, array $options = array())
+    public function __construct(array $source = null, array $options = [])
     {
         if (isset($options['filter'])) {
             $this->filter = $options['filter'];
@@ -70,13 +74,13 @@ class Files extends Input
     {
         if (isset($this->data[$name])) {
             $results = $this->decodeData(
-                array(
+                [
                     $this->data[$name]['name'],
                     $this->data[$name]['type'],
                     $this->data[$name]['tmp_name'],
                     $this->data[$name]['error'],
                     $this->data[$name]['size'],
-                )
+                ]
             );
 
             // Prevent returning an unsafe file unless specifically requested
@@ -106,17 +110,17 @@ class Files extends Input
      */
     protected function decodeData(array $data)
     {
-        $result = array();
+        $result = [];
 
         if (\is_array($data[0])) {
             foreach ($data[0] as $k => $v) {
-                $result[$k] = $this->decodeData(array($data[0][$k], $data[1][$k], $data[2][$k], $data[3][$k], $data[4][$k]));
+                $result[$k] = $this->decodeData([$data[0][$k], $data[1][$k], $data[2][$k], $data[3][$k], $data[4][$k]]);
             }
 
             return $result;
         }
 
-        return array('name' => $data[0], 'type' => $data[1], 'tmp_name' => $data[2], 'error' => $data[3], 'size' => $data[4]);
+        return ['name' => $data[0], 'type' => $data[1], 'tmp_name' => $data[2], 'error' => $data[3], 'size' => $data[4]];
     }
 
     /**

@@ -11,6 +11,10 @@ namespace Joomla\CMS\Schema\ChangeItem;
 
 use Joomla\CMS\Schema\ChangeItem;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Checks the database schema against one SQL Server DDL query to see if it has been run.
  *
@@ -47,8 +51,8 @@ class SqlsrvChangeItem extends ChangeItem
         $this->updateQuery = str_replace("\n", '', $this->updateQuery);
 
         // Fix up extra spaces around () and in general
-        $find = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#');
-        $replace = array('($3)', '$1');
+        $find = ['#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#'];
+        $replace = ['($3)', '$1'];
         $updateQuery = preg_replace($find, $replace, $this->updateQuery);
         $wordArray = explode(' ', $updateQuery);
 
@@ -68,16 +72,16 @@ class SqlsrvChangeItem extends ChangeItem
             if ($alterCommand === 'ADD') {
                 $result = 'SELECT * FROM INFORMATION_SCHEMA.Columns ' . $wordArray[2] . ' WHERE COLUMN_NAME = ' . $this->fixQuote($wordArray[5]);
                 $this->queryType = 'ADD';
-                $this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
+                $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5])];
             } elseif ($alterCommand === 'CREATE INDEX') {
                 $index = $this->fixQuote(substr($wordArray[5], 0, strpos($wordArray[5], '(')));
                 $result = 'SELECT * FROM SYS.INDEXES ' . $wordArray[2] . ' WHERE name = ' . $index;
                 $this->queryType = 'CREATE INDEX';
-                $this->msgElements = array($this->fixQuote($wordArray[2]), $index);
+                $this->msgElements = [$this->fixQuote($wordArray[2]), $index];
             } elseif (strtoupper($wordArray[3]) === 'MODIFY' || strtoupper($wordArray[3]) === 'CHANGE') {
                 $result = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_name = ' . $this->fixQuote($wordArray[2]);
                 $this->queryType = 'ALTER COLUMN COLUMN_NAME =' . $this->fixQuote($wordArray[4]);
-                $this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]));
+                $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4])];
             }
         }
 
@@ -85,7 +89,7 @@ class SqlsrvChangeItem extends ChangeItem
             $table = $wordArray[2];
             $result = 'SELECT * FROM sys.TABLES WHERE NAME = ' . $this->fixQuote($table);
             $this->queryType = 'CREATE_TABLE';
-            $this->msgElements = array($this->fixQuote($table));
+            $this->msgElements = [$this->fixQuote($table)];
         }
 
         // Set fields based on results

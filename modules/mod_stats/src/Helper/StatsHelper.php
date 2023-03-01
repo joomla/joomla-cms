@@ -16,6 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_stats
  *
@@ -34,7 +38,7 @@ class StatsHelper
     {
         $app        = Factory::getApplication();
         $db         = Factory::getDbo();
-        $rows       = array();
+        $rows       = [];
         $query      = $db->getQuery(true);
         $serverinfo = $params->get('serverinfo', 0);
         $siteinfo   = $params->get('siteinfo', 0);
@@ -137,7 +141,7 @@ class StatsHelper
         // Include additional data defined by published system plugins
         PluginHelper::importPlugin('system');
 
-        $arrays = (array) $app->triggerEvent('onGetStats', array('mod_stats'));
+        $arrays = (array) $app->triggerEvent('onGetStats', ['mod_stats']);
 
         foreach ($arrays as $response) {
             foreach ($response as $row) {

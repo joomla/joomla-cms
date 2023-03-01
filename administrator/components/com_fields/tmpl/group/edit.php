@@ -41,32 +41,32 @@ $this->useCoreUI = true;
             <div class="col-lg-3">
                 <?php $this->set(
                     'fields',
-                    array(
-                            array(
+                    [
+                            [
                                 'published',
                                 'state',
                                 'enabled',
-                            ),
+                            ],
                             'access',
                             'language',
                             'note',
-                        )
+                        ]
                 ); ?>
                 <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
                 <?php $this->set('fields', null); ?>
             </div>
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
-            <fieldset id="fieldset-rules" class="options-form">
-                <legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
-                <div>
-                <?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
-                </div>
-            </fieldset>
-        <?php echo HTMLHelper::_('uitab.endTab'); ?>
-        <?php $this->set('ignore_fieldsets', array('fieldparams')); ?>
+        <?php $this->set('ignore_fieldsets', ['fieldparams']); ?>
         <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
+        <fieldset id="fieldset-rules" class="options-form">
+            <legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+            <div>
+            <?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+            </div>
+        </fieldset>
+        <?php echo HTMLHelper::_('uitab.endTab'); ?>
         <?php if ($this->canDo->get('core.admin')) : ?>
             <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'rules', Text::_('JGLOBAL_ACTION_PERMISSIONS_LABEL', true)); ?>
             <fieldset id="fieldset-rules" class="options-form">

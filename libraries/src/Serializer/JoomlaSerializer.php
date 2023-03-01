@@ -14,6 +14,10 @@ use Joomla\CMS\Object\CMSObject;
 use Tobscure\JsonApi\AbstractSerializer;
 use Tobscure\JsonApi\Relationship;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This class does the messy job of sanitising all the classes Joomla has that contain data and converting them
  * into a standard array that can be consumed by the Tobscure library. It also throws appropriate plugin events
@@ -83,7 +87,7 @@ class JoomlaSerializer extends AbstractSerializer
      * @param   mixed   $model  The model of the entity being rendered
      * @param   string  $name   The name of the relationship to return
      *
-     * @return \Tobscure\JsonApi\Relationship|void
+     * @return \Tobscure\JsonApi\Relationship|null
      *
      * @since   4.0.0
      */
@@ -107,5 +111,7 @@ class JoomlaSerializer extends AbstractSerializer
         if ($relationship instanceof Relationship) {
             return $relationship;
         }
+
+        return null;
     }
 }

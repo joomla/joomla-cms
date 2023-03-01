@@ -13,7 +13,12 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Base class for a Joomla Form View
@@ -37,6 +42,13 @@ class FormView extends HtmlView
      * @var  object
      */
     protected $item;
+
+    /**
+     * The item primary key name
+     *
+     * @var  string
+     */
+    protected $keyName;
 
     /**
      * The model state
@@ -138,13 +150,13 @@ class FormView extends HtmlView
         $this->form  = $this->get('Form');
         $this->item  = $this->get('Item');
         $this->state = $this->get('State');
+        $table       = $this->get('Table');
+
+        $this->keyName = $table instanceof TableInterface ? $table->getKeyName() : 'id';
+        $action        = empty($this->item->{$this->keyName}) ? '_NEW' : '_EDIT';
 
         // Set default toolbar title
-        if ($this->item->id) {
-            $this->toolbarTitle = Text::_(strtoupper($this->option . '_MANAGER_' . $this->getName() . '_EDIT'));
-        } else {
-            $this->toolbarTitle = Text::_(strtoupper($this->option . '_MANAGER_' . $this->getName() . '_NEW'));
-        }
+        $this->toolbarTitle = Text::_(strtoupper($this->option . '_MANAGER_' . $this->getName() . $action));
     }
 
     /**
@@ -160,7 +172,7 @@ class FormView extends HtmlView
 
         $user       = Factory::getUser();
         $userId     = $user->id;
-        $isNew      = ($this->item->id == 0);
+        $isNew      = empty($this->item->{$this->keyName});
         $viewName   = $this->getName();
         $checkedOut = $this->getModel()->isCheckedOut($this->item);
         $canDo      = $this->canDo;

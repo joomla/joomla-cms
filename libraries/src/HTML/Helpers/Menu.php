@@ -14,6 +14,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class working with menu select lists
  *
@@ -27,7 +31,7 @@ abstract class Menu
      * @var    array
      * @since  1.6
      */
-    protected static $menus = array();
+    protected static $menus = [];
 
     /**
      * Cached array of the menus items.
@@ -35,7 +39,7 @@ abstract class Menu
      * @var    array
      * @since  1.6
      */
-    protected static $items = array();
+    protected static $items = [];
 
     /**
      * Get a list of the available menus.
@@ -91,7 +95,7 @@ abstract class Menu
      *
      * @since   1.6
      */
-    public static function menuItems($config = array())
+    public static function menuItems($config = [])
     {
         $key = serialize($config);
 
@@ -136,11 +140,11 @@ abstract class Menu
             $items = $db->loadObjectList();
 
             // Collate menu items based on menutype
-            $lookup = array();
+            $lookup = [];
 
             foreach ($items as &$item) {
                 if (!isset($lookup[$item->menutype])) {
-                    $lookup[$item->menutype] = array();
+                    $lookup[$item->menutype] = [];
                 }
 
                 $lookup[$item->menutype][] = &$item;
@@ -153,7 +157,7 @@ abstract class Menu
                 $item->text = str_repeat('- ', $item->level) . $item->text;
             }
 
-            static::$items[$key] = array();
+            static::$items[$key] = [];
 
             $user = Factory::getUser();
 
@@ -208,7 +212,7 @@ abstract class Menu
      *
      * @since   1.6
      */
-    public static function menuItemList($name, $selected = null, $attribs = null, $config = array())
+    public static function menuItemList($name, $selected = null, $attribs = null, $config = [])
     {
         static $count;
 
@@ -218,12 +222,12 @@ abstract class Menu
             'select.genericlist',
             $options,
             $name,
-            array(
+            [
                 'id'             => $config['id'] ?? 'assetgroups_' . (++$count),
                 'list.attr'      => $attribs ?? 'class="inputbox" size="1"',
                 'list.select'    => (int) $selected,
                 'list.translate' => false,
-            )
+            ]
         );
     }
 
@@ -264,7 +268,7 @@ abstract class Menu
                 'select.genericlist',
                 $order,
                 'ordering',
-                array('list.attr' => 'class="inputbox" size="1"', 'list.select' => (int) $row->ordering)
+                ['list.attr' => 'class="inputbox" size="1"', 'list.select' => (int) $row->ordering]
             );
         } else {
             $ordering = '<input type="hidden" name="ordering" value="' . $row->ordering . '">' . Text::_('JGLOBAL_NEWITEMSLAST_DESC');
@@ -320,25 +324,25 @@ abstract class Menu
         $mitems = $db->loadObjectList();
 
         if (!$mitems) {
-            $mitems = array();
+            $mitems = [];
         }
 
         // Establish the hierarchy of the menu
-        $children = array();
+        $children = [];
 
         // First pass - collect children
         foreach ($mitems as $v) {
             $pt            = $v->parent_id;
-            $list          = @$children[$pt] ? $children[$pt] : array();
+            $list          = @$children[$pt] ? $children[$pt] : [];
             $list[]        = $v;
             $children[$pt] = $list;
         }
 
         // Second pass - get an indent list of the items
-        $list = static::treerecurse((int) $mitems[0]->parent_id, '', array(), $children, 9999, 0, 0);
+        $list = static::treerecurse((int) $mitems[0]->parent_id, '', [], $children, 9999, 0, 0);
 
         // Code that adds menu name to Display of Page(s)
-        $mitems = array();
+        $mitems = [];
 
         if ($all | $unassigned) {
             $mitems[] = HTMLHelper::_('select.option', '<OPTGROUP>', Text::_('JOPTION_MENUS'));

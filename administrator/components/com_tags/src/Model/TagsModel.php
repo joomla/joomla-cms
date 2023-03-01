@@ -18,6 +18,10 @@ use Joomla\CMS\Tag\TagServiceInterface;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Tags Component Tags Model
  *
@@ -34,10 +38,10 @@ class TagsModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id',
                 'a.id',
                 'title',
@@ -68,7 +72,7 @@ class TagsModel extends ListModel
                 'path',
                 'a.path',
                 'countTaggedItems',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);

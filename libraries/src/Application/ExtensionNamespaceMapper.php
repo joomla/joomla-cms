@@ -11,6 +11,10 @@ namespace Joomla\CMS\Application;
 
 use JLoader;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Trait for application classes which ensures the namespace mapper exists and includes it.
  *

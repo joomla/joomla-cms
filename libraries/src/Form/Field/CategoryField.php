@@ -14,6 +14,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Supports an HTML select list of categories
@@ -42,7 +46,7 @@ class CategoryField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
         $extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $this->element['scope'];
         $published = (string) $this->element['published'];
         $language  = (string) $this->element['language'];
@@ -50,7 +54,7 @@ class CategoryField extends ListField
         // Load the category options for a given extension.
         if (!empty($extension)) {
             // Filter over published state or not depending upon if it is present.
-            $filters = array();
+            $filters = [];
 
             if ($published) {
                 $filters['filter.published'] = explode(',', $published);
@@ -61,7 +65,7 @@ class CategoryField extends ListField
                 $filters['filter.language'] = explode(',', $language);
             }
 
-            if ($filters === array()) {
+            if ($filters === []) {
                 $options = HTMLHelper::_('category.options', $extension);
             } else {
                 $options = HTMLHelper::_('category.options', $extension, $filters);

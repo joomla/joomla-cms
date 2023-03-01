@@ -12,6 +12,10 @@ namespace Joomla\CMS\Language;
 use Joomla\CMS\Factory;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Languages/translation handler class
  *
@@ -25,7 +29,7 @@ class Language
      * @var    Language[]
      * @since  1.7.0
      */
-    protected static $languages = array();
+    protected static $languages = [];
 
     /**
      * Debug language, If true, highlights if string isn't found.
@@ -49,7 +53,7 @@ class Language
      * @var    array
      * @since  1.7.0
      */
-    protected $orphans = array();
+    protected $orphans = [];
 
     /**
      * Array holding the language metadata.
@@ -81,7 +85,7 @@ class Language
      * @var    array
      * @since  1.7.0
      */
-    protected $paths = array();
+    protected $paths = [];
 
     /**
      * List of language files that are in error state
@@ -89,7 +93,7 @@ class Language
      * @var    array
      * @since  1.7.0
      */
-    protected $errorfiles = array();
+    protected $errorfiles = [];
 
     /**
      * Translations
@@ -97,7 +101,7 @@ class Language
      * @var    array
      * @since  1.7.0
      */
-    protected $strings = array();
+    protected $strings = [];
 
     /**
      * An array of used text, used during debugging.
@@ -105,7 +109,7 @@ class Language
      * @var    array
      * @since  1.7.0
      */
-    protected $used = array();
+    protected $used = [];
 
     /**
      * Counter for number of loads.
@@ -121,7 +125,7 @@ class Language
      * @var    array
      * @since  1.7.0
      */
-    protected $override = array();
+    protected $override = [];
 
     /**
      * Name of the transliterator function for this language.
@@ -181,7 +185,7 @@ class Language
      */
     public function __construct($lang = null, $debug = false)
     {
-        $this->strings = array();
+        $this->strings = [];
 
         if ($lang == null) {
             $lang = $this->default;
@@ -204,7 +208,7 @@ class Language
 
         // Look for a language specific localise class
         $class = str_replace('-', '_', $lang . 'Localise');
-        $paths = array();
+        $paths = [];
 
         if (\defined('JPATH_SITE')) {
             // Note: Manual indexing to enforce load order.
@@ -242,27 +246,27 @@ class Language
              * -a getSearchDisplayCharactersNumber method
              */
             if (method_exists($class, 'transliterate')) {
-                $this->transliterator = array($class, 'transliterate');
+                $this->transliterator = [$class, 'transliterate'];
             }
 
             if (method_exists($class, 'getPluralSuffixes')) {
-                $this->pluralSuffixesCallback = array($class, 'getPluralSuffixes');
+                $this->pluralSuffixesCallback = [$class, 'getPluralSuffixes'];
             }
 
             if (method_exists($class, 'getIgnoredSearchWords')) {
-                $this->ignoredSearchWordsCallback = array($class, 'getIgnoredSearchWords');
+                $this->ignoredSearchWordsCallback = [$class, 'getIgnoredSearchWords'];
             }
 
             if (method_exists($class, 'getLowerLimitSearchWord')) {
-                $this->lowerLimitSearchWordCallback = array($class, 'getLowerLimitSearchWord');
+                $this->lowerLimitSearchWordCallback = [$class, 'getLowerLimitSearchWord'];
             }
 
             if (method_exists($class, 'getUpperLimitSearchWord')) {
-                $this->upperLimitSearchWordCallback = array($class, 'getUpperLimitSearchWord');
+                $this->upperLimitSearchWordCallback = [$class, 'getUpperLimitSearchWord'];
             }
 
             if (method_exists($class, 'getSearchDisplayedCharactersNumber')) {
-                $this->searchDisplayedCharactersNumberCallback = array($class, 'getSearchDisplayedCharactersNumber');
+                $this->searchDisplayedCharactersNumberCallback = [$class, 'getSearchDisplayedCharactersNumber'];
             }
         }
 
@@ -295,7 +299,8 @@ class Language
      * The function checks if $jsSafe is true, then if $interpretBackslashes is true.
      *
      * @param   string   $string                The string to translate
-     * @param   boolean  $jsSafe                Make the result javascript safe
+     * @param   boolean  $jsSafe                Parameter to add slashes to the string that will be rendered as JavaScript.
+     *                                          However, set as "false" if the string is going to be encoded by json_encode().
      * @param   boolean  $interpretBackSlashes  Interpret \t and \n
      *
      * @return  string  The translation of the string
@@ -322,7 +327,7 @@ class Language
                 $caller = $this->getCallerInfo();
 
                 if (!\array_key_exists($key, $this->used)) {
-                    $this->used[$key] = array();
+                    $this->used[$key] = [];
                 }
 
                 $this->used[$key][] = $caller;
@@ -335,7 +340,7 @@ class Language
                 $info['string'] = $string;
 
                 if (!\array_key_exists($key, $this->orphans)) {
-                    $this->orphans[$key] = array();
+                    $this->orphans[$key] = [];
                 }
 
                 $this->orphans[$key][] = $info;
@@ -350,7 +355,7 @@ class Language
         } elseif ($interpretBackSlashes) {
             if (strpos($string, '\\') !== false) {
                 // Interpret \n and \t characters
-                $string = str_replace(array('\\\\', '\t', '\n'), array("\\", "\t", "\n"), $string);
+                $string = str_replace(['\\\\', '\t', '\n'], ["\\", "\t", "\n"], $string);
             }
         }
 
@@ -437,7 +442,7 @@ class Language
         if ($this->pluralSuffixesCallback !== null) {
             return \call_user_func($this->pluralSuffixesCallback, $count);
         } else {
-            return array((string) $count);
+            return [(string) $count];
         }
     }
 
@@ -482,7 +487,7 @@ class Language
         if ($this->ignoredSearchWordsCallback !== null) {
             return \call_user_func($this->ignoredSearchWordsCallback);
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -680,7 +685,7 @@ class Language
 
         $internal = $extension === 'joomla' || $extension == '';
 
-        $filenames = array();
+        $filenames = [];
 
         if ($internal) {
             $filenames[] = "$path/joomla.ini";
@@ -728,14 +733,14 @@ class Language
         $result  = false;
         $strings = $this->parse($fileName);
 
-        if ($strings !== array()) {
+        if ($strings !== []) {
             $this->strings = array_replace($this->strings, $strings, $this->override);
             $result = true;
         }
 
         // Record the result of loading the extension's file.
         if (!isset($this->paths[$extension])) {
-            $this->paths[$extension] = array();
+            $this->paths[$extension] = [];
         }
 
         $this->paths[$extension][$fileName] = $result;
@@ -784,10 +789,10 @@ class Language
         }
 
         // Initialise variables for manually parsing the file for common errors.
-        $reservedWord = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
+        $reservedWord = ['YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE'];
         $debug = $this->getDebug();
         $this->debug = false;
-        $errors = array();
+        $errors = [];
         $php_errormsg = null;
 
         // Open the file as a stream.
@@ -895,7 +900,7 @@ class Language
         }
 
         $backtrace = debug_backtrace();
-        $info = array();
+        $info = [];
 
         // Search through the backtrace to our caller
         $continue = true;

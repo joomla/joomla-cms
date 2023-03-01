@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Microdata;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla Platform class for interacting with Microdata semantics.
  *
@@ -626,7 +630,7 @@ class Microdata
             return static::getExpectedTypes($extendedType, $property);
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -789,9 +793,9 @@ class Microdata
 
         // Depending on the case, the $scope must precede the $property, or otherwise
         if ($invert) {
-            $tmp = implode(' ', array($property, $scope));
+            $tmp = implode(' ', [$property, $scope]);
         } else {
-            $tmp = implode(' ', array($scope, $property));
+            $tmp = implode(' ', [$scope, $property]);
         }
 
         $tmp = trim($tmp);

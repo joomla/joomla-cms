@@ -29,6 +29,10 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Module model.
  *
@@ -75,29 +79,29 @@ class ModuleModel extends AdminModel
      *
      * @var array
      */
-    protected $batch_commands = array(
+    protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
         'language_id' => 'batchLanguage',
-    );
+    ];
 
     /**
      * Constructor.
      *
      * @param   array  $config  An optional associative array of configuration settings.
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         $config = array_merge(
-            array(
+            [
                 'event_after_delete'  => 'onExtensionAfterDelete',
                 'event_after_save'    => 'onExtensionAfterSave',
                 'event_before_delete' => 'onExtensionBeforeDelete',
                 'event_before_save'   => 'onExtensionBeforeSave',
-                'events_map'          => array(
+                'events_map'          => [
                     'save'   => 'extension',
                     'delete' => 'extension'
-                )
-            ),
+                ]
+            ],
             $config
         );
 
@@ -149,7 +153,7 @@ class ModuleModel extends AdminModel
         // Set the variables
         $user = Factory::getUser();
         $table = $this->getTable();
-        $newIds = array();
+        $newIds = [];
 
         foreach ($pks as $pk) {
             if ($user->authorise('core.create', 'com_modules')) {
@@ -339,7 +343,7 @@ class ModuleModel extends AdminModel
                 }
 
                 // Trigger the before delete event.
-                $result = $app->triggerEvent($this->event_before_delete, array($context, $table));
+                $result = $app->triggerEvent($this->event_before_delete, [$context, $table]);
 
                 if (in_array(false, $result, true) || !$table->delete($pk)) {
                     throw new \Exception($table->getError());
@@ -355,7 +359,7 @@ class ModuleModel extends AdminModel
                     $db->execute();
 
                     // Trigger the after delete event.
-                    $app->triggerEvent($this->event_after_delete, array($context, $table));
+                    $app->triggerEvent($this->event_after_delete, [$context, $table]);
                 }
 
                 // Clear module cache
@@ -437,7 +441,7 @@ class ModuleModel extends AdminModel
             // Module-Menu Mapping: Do it in one query
             $query = $db->getQuery(true)
                 ->insert($db->quoteName('#__modules_menu'))
-                ->columns($db->quoteName(array('moduleid', 'menuid')))
+                ->columns($db->quoteName(['moduleid', 'menuid']))
                 ->values($tuples);
 
             $db->setQuery($query);
@@ -473,11 +477,11 @@ class ModuleModel extends AdminModel
         // Alter the title & alias
         $table = $this->getTable();
 
-        while ($table->load(array('position' => $position, 'title' => $title))) {
+        while ($table->load(['position' => $position, 'title' => $title])) {
             $title = StringHelper::increment($title);
         }
 
-        return array($title);
+        return [$title];
     }
 
     /**
@@ -502,7 +506,7 @@ class ModuleModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // The folder and element vars are passed when saving the form.
         if (empty($data)) {
@@ -526,14 +530,14 @@ class ModuleModel extends AdminModel
 
         // Get the form.
         if ($clientId == 1) {
-            $form = $this->loadForm('com_modules.module.admin', 'moduleadmin', array('control' => 'jform', 'load_data' => $loadData), true);
+            $form = $this->loadForm('com_modules.module.admin', 'moduleadmin', ['control' => 'jform', 'load_data' => $loadData], true);
 
             // Display language field to filter admin custom menus per language
             if (!ModuleHelper::isAdminMultilang()) {
                 $form->setFieldAttribute('language', 'type', 'hidden');
             }
         } else {
-            $form = $this->loadForm('com_modules.module', 'module', array('control' => 'jform', 'load_data' => $loadData), true);
+            $form = $this->loadForm('com_modules.module', 'module', ['control' => 'jform', 'load_data' => $loadData], true);
         }
 
         if (empty($form)) {
@@ -579,7 +583,7 @@ class ModuleModel extends AdminModel
         $app = Factory::getApplication();
 
         // Check the session for previously entered form data.
-        $data = $app->getUserState('com_modules.edit.module.data', array());
+        $data = $app->getUserState('com_modules.edit.module.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -732,7 +736,7 @@ class ModuleModel extends AdminModel
      */
     public function getHelp()
     {
-        return (object) array('key' => $this->helpKey, 'url' => $this->helpURL);
+        return (object) ['key' => $this->helpKey, 'url' => $this->helpURL];
     }
 
     /**
@@ -746,7 +750,7 @@ class ModuleModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'Module', $prefix = 'JTable', $config = array())
+    public function getTable($type = 'Module', $prefix = 'JTable', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
@@ -933,7 +937,7 @@ class ModuleModel extends AdminModel
         }
 
         // Trigger the before save event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
+        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew]);
 
         if (in_array(false, $result, true)) {
             $this->setError($table->getError());
@@ -1003,7 +1007,7 @@ class ModuleModel extends AdminModel
 
                 $query->clear()
                     ->insert($db->quoteName('#__modules_menu'))
-                    ->columns($db->quoteName(array('moduleid', 'menuid')));
+                    ->columns($db->quoteName(['moduleid', 'menuid']));
 
                 foreach ($data['assigned'] as &$pk) {
                     $query->values((int) $table->id . ',' . (int) $pk * $sign);
@@ -1022,7 +1026,7 @@ class ModuleModel extends AdminModel
         }
 
         // Trigger the after save event.
-        Factory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
+        Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, $isNew]);
 
         // Compute the extension id of this module in case the controller wants it.
         $query->clear()

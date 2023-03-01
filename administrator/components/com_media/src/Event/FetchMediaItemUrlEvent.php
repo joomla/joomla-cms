@@ -12,6 +12,10 @@ namespace Joomla\Component\Media\Administrator\Event;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event object to set an url.
  *
@@ -29,7 +33,7 @@ final class FetchMediaItemUrlEvent extends AbstractImmutableEvent
      *
      * @since  4.1.0
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         // Check for required arguments
         if (!\array_key_exists('adapter', $arguments) || !is_string($arguments['adapter'])) {

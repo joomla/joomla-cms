@@ -14,6 +14,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class for creating HTML Grids
  *
@@ -40,10 +44,10 @@ abstract class Grid
     public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $newDirection = 'asc', $tip = '', $form = null)
     {
         HTMLHelper::_('behavior.core');
-        HTMLHelper::_('bootstrap.popover', '.hasPopover', ['trigger' => 'hover focus']);
+        HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
         $direction = strtolower($direction);
-        $icon = array('arrow-up-3', 'arrow-down-3');
+        $icon = ['arrow-up-3', 'arrow-down-3'];
         $index = (int) ($direction === 'desc');
 
         if ($order != $selected) {
@@ -57,8 +61,7 @@ abstract class Grid
         }
 
         $html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\'' . $form . ');return false;"'
-            . ' class="hasPopover" title="' . htmlspecialchars(Text::_($tip ?: $title)) . '"'
-            . ' data-bs-content="' . htmlspecialchars(Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-bs-placement="top">';
+            . ' class="hasTooltip" title="' . htmlspecialchars(Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-bs-placement="top">';
 
         if (isset($title['0']) && $title['0'] === '<') {
             $html .= $title;
@@ -199,7 +202,7 @@ abstract class Grid
      */
     public static function state($filterState = '*', $published = 'JPUBLISHED', $unpublished = 'JUNPUBLISHED', $archived = null, $trashed = null)
     {
-        $state = array('' => '- ' . Text::_('JLIB_HTML_SELECT_STATE') . ' -', 'P' => Text::_($published), 'U' => Text::_($unpublished));
+        $state = ['' => '- ' . Text::_('JLIB_HTML_SELECT_STATE') . ' -', 'P' => Text::_($published), 'U' => Text::_($unpublished)];
 
         if ($archived) {
             $state['A'] = Text::_($archived);
@@ -213,11 +216,11 @@ abstract class Grid
             'select.genericlist',
             $state,
             'filter_state',
-            array(
+            [
                 'list.attr' => 'class="form-select" size="1" onchange="Joomla.submitform();"',
                 'list.select' => $filterState,
                 'option.key' => null,
-            )
+            ]
         );
     }
 

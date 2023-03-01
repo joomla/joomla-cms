@@ -22,6 +22,10 @@ use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * MVC View for the Tasks list page.
  *
@@ -105,10 +109,7 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        // We don't need toolbar in the modal window.
-        if ($this->getLayout() !== 'modal') {
-            $this->addToolbar();
-        }
+        $this->addToolbar();
 
         parent::display($tpl);
     }

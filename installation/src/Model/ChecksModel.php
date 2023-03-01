@@ -15,6 +15,10 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Checks model for the Joomla Core Installer.
  *
@@ -159,7 +163,7 @@ class ChecksModel extends BaseInstallationModel
      */
     public function getPhpSettings()
     {
-        $settings = array();
+        $settings = [];
 
         // Check for display errors.
         $setting = new \stdClass();
@@ -229,8 +233,8 @@ class ChecksModel extends BaseInstallationModel
      */
     public function getOptions()
     {
-        if (!empty(Factory::getSession()->get('setup.options', array()))) {
-            return Factory::getSession()->get('setup.options', array());
+        if (!empty(Factory::getSession()->get('setup.options', []))) {
+            return Factory::getSession()->get('setup.options', []);
         }
     }
 
@@ -253,7 +257,7 @@ class ChecksModel extends BaseInstallationModel
         Form::addFormPath(JPATH_COMPONENT . '/forms');
 
         try {
-            $form = Form::getInstance('jform', $view, array('control' => 'jform'));
+            $form = Form::getInstance('jform', $view, ['control' => 'jform']);
         } catch (\Exception $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 

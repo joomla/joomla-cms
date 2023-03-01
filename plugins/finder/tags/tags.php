@@ -20,6 +20,10 @@ use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Finder adapter for Joomla Tag.
  *
@@ -295,7 +299,7 @@ class PlgFinderTags extends Adapter
         $case_when_item_alias .= $query->charLength('a.alias', '!=', '0');
         $case_when_item_alias .= ' THEN ';
         $a_id = $query->castAsChar('a.id');
-        $case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
+        $case_when_item_alias .= $query->concatenate([$a_id, 'a.alias'], ':');
         $case_when_item_alias .= ' ELSE ';
         $case_when_item_alias .= $a_id . ' END as slug';
         $query->select($case_when_item_alias)

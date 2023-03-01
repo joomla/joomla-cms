@@ -12,6 +12,10 @@ namespace Joomla\CMS\HTML\Helpers;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class for JavaScript behaviors
  *
@@ -25,7 +29,7 @@ abstract class Behavior
      * @var    array
      * @since  2.5
      */
-    protected static $loaded = array();
+    protected static $loaded = [];
 
     /**
      * Method to load core.js into the document head.
@@ -179,7 +183,7 @@ abstract class Behavior
         }
 
         foreach ((array) $polyfillTypes as $polyfillType) {
-            $sig = md5(serialize(array($polyfillType, $conditionalBrowser)));
+            $sig = md5(serialize([$polyfillType, $conditionalBrowser]));
 
             // Only load once
             if (isset(static::$loaded[__METHOD__][$sig])) {
@@ -187,8 +191,8 @@ abstract class Behavior
             }
 
             // If include according to browser.
-            $scriptOptions = array('version' => 'auto', 'relative' => true);
-            $scriptOptions = $conditionalBrowser !== null ? array_replace($scriptOptions, array('conditional' => $conditionalBrowser)) : $scriptOptions;
+            $scriptOptions = ['version' => 'auto', 'relative' => true];
+            $scriptOptions = $conditionalBrowser !== null ? array_replace($scriptOptions, ['conditional' => $conditionalBrowser]) : $scriptOptions;
 
             /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
             $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
@@ -218,37 +222,37 @@ abstract class Behavior
         $jsscript = 1;
 
         // To keep the code simple here, run strings through Text::_() using array_map()
-        $callback = array('Text', '_');
+        $callback = ['Text', '_'];
         $weekdays_full = array_map(
             $callback,
-            array(
+            [
                 'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY',
-            )
+            ]
         );
         $weekdays_short = array_map(
             $callback,
-            array(
+            [
                 'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN',
-            )
+            ]
         );
         $months_long = array_map(
             $callback,
-            array(
+            [
                 'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
                 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER',
-            )
+            ]
         );
         $months_short = array_map(
             $callback,
-            array(
+            [
                 'JANUARY_SHORT', 'FEBRUARY_SHORT', 'MARCH_SHORT', 'APRIL_SHORT', 'MAY_SHORT', 'JUNE_SHORT',
                 'JULY_SHORT', 'AUGUST_SHORT', 'SEPTEMBER_SHORT', 'OCTOBER_SHORT', 'NOVEMBER_SHORT', 'DECEMBER_SHORT',
-            )
+            ]
         );
 
         // This will become an object in Javascript but define it first in PHP for readability
         $today = " " . Text::_('JLIB_HTML_BEHAVIOR_TODAY') . " ";
-        $text = array(
+        $text = [
             'INFO'           => Text::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR'),
             'ABOUT'          => "DHTML Date/Time Selector\n"
                 . "(c) dynarch.com 20022005 / Author: Mihai Bazon\n"
@@ -280,7 +284,7 @@ abstract class Behavior
             'TT_DATE_FORMAT'  => Text::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT'),
             'WK'              => Text::_('JLIB_HTML_BEHAVIOR_WK'),
             'TIME'            => Text::_('JLIB_HTML_BEHAVIOR_TIME'),
-        );
+        ];
 
         return 'Calendar._DN = ' . json_encode($weekdays_full) . ';'
             . ' Calendar._SDN = ' . json_encode($weekdays_short) . ';'
