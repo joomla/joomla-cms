@@ -142,7 +142,7 @@
         data = div.innerHTML;
 
         if (error instanceof SyntaxError) {
-          data = Joomla.Text._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', data)
+          data = Joomla.Text._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', data);
         }
       } else if (typeof error === 'object' && error.responseText) {
         data = error.responseText;
