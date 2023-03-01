@@ -24,8 +24,8 @@ $input           = Factory::getApplication()->input;
 $field           = $input->getCmd('field');
 $listOrder       = $this->escape($this->state->get('list.ordering'));
 $listDirn        = $this->escape($this->state->get('list.direction'));
-$enabledStates   = array(0 => 'icon-check', 1 => 'icon-times');
-$activatedStates = array(0 => 'icon-check', 1 => 'icon-times');
+$enabledStates   = [0 => 'icon-check', 1 => 'icon-times'];
+$activatedStates = [0 => 'icon-check', 1 => 'icon-times'];
 $userRequired    = (int) $input->get('required', 0, 'int');
 $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.getCurrent().close()";
 
@@ -38,7 +38,7 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
                 data-user-field="<?php echo $this->escape($field); ?>"><?php echo Text::_('JOPTION_NO_USER'); ?></button>&nbsp;
         </div>
         <?php endif; ?>
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
                 <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -48,8 +48,8 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
         <table class="table table-sm">
             <caption class="visually-hidden">
                 <?php echo Text::_('COM_USERS_USERS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+                <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
             </caption>
             <thead>
                 <tr>
