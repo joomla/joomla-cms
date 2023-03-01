@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -146,7 +147,7 @@ class HtmlView extends BaseHtmlView
         $user  = Factory::getApplication()->getIdentity();
 
         // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_CONTACT_MANAGER_CONTACTS'), 'address-book contact');
 
@@ -155,8 +156,8 @@ class HtmlView extends BaseHtmlView
         }
 
         if (!$this->isEmptyState && $canDo->get('core.edit.state')) {
-            $dropdown = $toolbar->dropdownButton('status-group')
-                ->text('JTOOLBAR_CHANGE_STATUS')
+            /** @var  DropdownButton $dropdown */
+            $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
                 ->icon('icon-ellipsis-h')
                 ->buttonClass('btn btn-action')
@@ -165,22 +166,15 @@ class HtmlView extends BaseHtmlView
             $childBar = $dropdown->getChildToolbar();
 
             $childBar->publish('contacts.publish')->listCheck(true);
-
             $childBar->unpublish('contacts.unpublish')->listCheck(true);
-
-            $childBar->standardButton('featured')
-                ->text('JFEATURE')
-                ->task('contacts.featured')
+            $childBar->standardButton('featured', 'JFEATURE', 'contacts.featured')
                 ->listCheck(true);
-            $childBar->standardButton('unfeatured')
-                ->text('JUNFEATURE')
-                ->task('contacts.unfeatured')
+            $childBar->standardButton('unfeatured', 'JUNFEATURE', 'contacts.unfeatured')
                 ->listCheck(true);
-
             $childBar->archive('contacts.archive')->listCheck(true);
 
             if ($user->authorise('core.admin')) {
-                $childBar->checkin('contacts.checkin')->listCheck(true);
+                $childBar->checkin('contacts.checkin');
             }
 
             if ($this->state->get('filter.published') != -2) {
@@ -193,16 +187,14 @@ class HtmlView extends BaseHtmlView
                 && $user->authorise('core.edit', 'com_contact')
                 && $user->authorise('core.edit.state', 'com_contact')
             ) {
-                $childBar->popupButton('batch')
-                    ->text('JTOOLBAR_BATCH')
+                $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
                     ->selector('collapseModal')
                     ->listCheck(true);
             }
         }
 
         if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-            $toolbar->delete('contacts.delete')
-                ->text('JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('contacts.delete', 'JTOOLBAR_EMPTY_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

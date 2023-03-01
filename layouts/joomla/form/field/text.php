@@ -76,7 +76,7 @@ if ($charcounter) {
     $counterlabel = 'data-counter-label="' . $this->escape(Text::_('JFIELD_META_DESCRIPTION_COUNTER')) . '"';
 }
 
-$attributes = array(
+$attributes = [
     !empty($class) ? 'class="form-control ' . $class . $charcounterclass . '"' : 'class="form-control' . $charcounterclass . '"',
     !empty($size) ? 'size="' . $size . '"' : '',
     !empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
@@ -98,7 +98,7 @@ $attributes = array(
 
     // @TODO add a proper string here!!!
     !empty($validationtext) ? 'data-validation-text="' . $validationtext . '"' : '',
-);
+];
 
 $addonBeforeHtml = '<span class="input-group-text">' . Text::_($addonBefore) . '</span>';
 $addonAfterHtml  = '<span class="input-group-text">' . Text::_($addonAfter) . '</span>';

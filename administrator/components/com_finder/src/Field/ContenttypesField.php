@@ -46,7 +46,7 @@ class ContenttypesField extends ListField
     public function getOptions()
     {
         $lang    = Factory::getLanguage();
-        $options = array();
+        $options = [];
 
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)
@@ -65,7 +65,7 @@ class ContenttypesField extends ListField
 
         // Translate.
         foreach ($contentTypes as $contentType) {
-            $key = LanguageHelper::branchSingular($contentType->text);
+            $key                         = LanguageHelper::branchSingular($contentType->text);
             $contentType->translatedText = $lang->hasKey($key) ? Text::_($key) : $contentType->text;
         }
 

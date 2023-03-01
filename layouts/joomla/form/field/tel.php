@@ -50,7 +50,7 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
-$attributes = array(
+$attributes = [
     !empty($size) ? 'size="' . $size . '"' : '',
     !empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
     $disabled ? 'disabled' : '',
@@ -66,7 +66,7 @@ $attributes = array(
     $dataAttribute,
     // Force LTR input value in RTL
     Factory::getLanguage()->isRtl() ? 'dir="ltr"' : '',
-);
+];
 ?>
 <input
     type="tel"

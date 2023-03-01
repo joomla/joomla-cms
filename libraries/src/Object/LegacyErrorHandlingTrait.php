@@ -17,7 +17,7 @@ namespace Joomla\CMS\Object;
  * Trait which contains the legacy methods that formerly were inherited from \Joomla\CMS\Object\CMSObject to set and
  * get errors in a class.
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.3.0
  *
  * @deprecated  4.3 will be removed in 6.0
  *              Throw an Exception instead of setError
@@ -32,7 +32,7 @@ trait LegacyErrorHandlingTrait
      * @deprecated  3.1.4  JError has been deprecated
      */
     // phpcs:disable PSR2.Classes.PropertyDeclaration
-    protected $_errors = array();
+    protected $_errors = [];
     // phpcs:enable PSR2.Classes.PropertyDeclaration
 
     /**

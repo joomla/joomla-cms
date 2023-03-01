@@ -50,7 +50,7 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
-$attributes = array(
+$attributes = [
     !empty($size) ? ' size="' . $size . '"' : '',
     !empty($description) ? ' aria-describedby="' . ($id ?: $name) . '-desc"' : '',
     $disabled ? ' disabled' : '',
@@ -65,7 +65,7 @@ $attributes = array(
     $dataAttribute,
     // Force LTR input value in RTL
     Factory::getLanguage()->isRtl() ? 'dir="ltr"' : '',
-);
+];
 
 // @deprecated  5.0 The unicode conversion of the URL will be moved to \Joomla\CMS\Form\Field\UrlField::getLayoutData
 if ($value !== null) {

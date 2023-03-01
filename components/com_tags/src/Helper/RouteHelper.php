@@ -30,7 +30,7 @@ class RouteHelper extends CMSRouteHelper
      * Lookup-table for menu items
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected static $lookup;
 
@@ -50,13 +50,13 @@ class RouteHelper extends CMSRouteHelper
      */
     public static function getItemRoute($contentItemId, $contentItemAlias, $contentCatId, $language, $typeAlias, $routerName)
     {
-        $link = '';
-        $explodedAlias = explode('.', $typeAlias);
+        $link           = '';
+        $explodedAlias  = explode('.', $typeAlias);
         $explodedRouter = explode('::', $routerName);
 
         if (file_exists($routerFile = JPATH_BASE . '/components/' . $explodedAlias[0] . '/helpers/route.php')) {
             \JLoader::register($explodedRouter[0], $routerFile);
-            $routerClass = $explodedRouter[0];
+            $routerClass  = $explodedRouter[0];
             $routerMethod = $explodedRouter[1];
 
             if (class_exists($routerClass) && method_exists($routerClass, $routerMethod)) {
@@ -71,7 +71,7 @@ class RouteHelper extends CMSRouteHelper
         if ($link === '') {
             // Create a fallback link in case we can't find the component router
             $router = new CMSRouteHelper();
-            $link = $router->getRoute($contentItemId, $typeAlias, $link, $language, $contentCatId);
+            $link   = $router->getRoute($contentItemId, $typeAlias, $link, $language, $contentCatId);
         }
 
         return $link;
@@ -181,7 +181,7 @@ class RouteHelper extends CMSRouteHelper
 
         // Prepare the reverse lookup array.
         if (self::$lookup === null) {
-            self::$lookup = array();
+            self::$lookup = [];
 
             $component = ComponentHelper::getComponent('com_tags');
             $items     = $menus->getItems('component_id', $component->id);
@@ -192,13 +192,13 @@ class RouteHelper extends CMSRouteHelper
                         $lang = ($item->language != '' ? $item->language : '*');
 
                         if (!isset(self::$lookup[$lang])) {
-                            self::$lookup[$lang] = array();
+                            self::$lookup[$lang] = [];
                         }
 
                         $view = $item->query['view'];
 
                         if (!isset(self::$lookup[$lang][$view])) {
-                            self::$lookup[$lang][$view] = array();
+                            self::$lookup[$lang][$view] = [];
                         }
 
                         // Only match menu items that list one tag

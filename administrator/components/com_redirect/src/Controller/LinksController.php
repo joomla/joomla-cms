@@ -37,7 +37,7 @@ class LinksController extends AdminController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids = (array) $this->input->get('cid', array(), 'int');
+        $ids = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
@@ -74,7 +74,7 @@ class LinksController extends AdminController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids = (array) $this->input->get('cid', array(), 'int');
+        $ids = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
@@ -110,7 +110,7 @@ class LinksController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Link', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Link', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -125,14 +125,14 @@ class LinksController extends AdminController
         // Check for request forgeries.
         $this->checkToken();
 
-        $batch_urls_request = $this->input->post->get('batch_urls', array(), 'array');
+        $batch_urls_request = $this->input->post->get('batch_urls', [], 'array');
         $batch_urls_lines   = array_map('trim', explode("\n", $batch_urls_request[0]));
 
-        $batch_urls = array();
+        $batch_urls = [];
 
         foreach ($batch_urls_lines as $batch_urls_line) {
             if (!empty($batch_urls_line)) {
-                $params = ComponentHelper::getParams('com_redirect');
+                $params    = ComponentHelper::getParams('com_redirect');
                 $separator = $params->get('separator', '|');
 
                 // Basic check to make sure the correct separator is being used
