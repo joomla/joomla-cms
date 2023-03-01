@@ -16,8 +16,8 @@
 		name="position"
 		type="list"
 		label="COM_GUIDEDTOURS_STEP_POSITION_LABEL"
-		default="center"
 		description="COM_GUIDEDTOURS_STEP_POSITION_DESC"
+		default="center"
 		validate="options"
         	>
 		<option value="bottom">JGLOBAL_BOTTOM</option>
