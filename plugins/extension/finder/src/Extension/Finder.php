@@ -50,7 +50,6 @@ final class Finder extends CMSPlugin
         $extension = $this->getLanguage($eid);
 
         if ($extension) {
-            $this->removeCommonWords($extension);
             $this->addCommonWords($extension);
         }
     }
@@ -132,18 +131,20 @@ final class Finder extends CMSPlugin
     protected function addCommonWords($extension)
     {
         if ($extension->client_id == 0) {
-            $path = JPATH_SITE . '/language/' . $extension->element . '/' . $extension->element . '.com_finder.commonwords.txt';
+            $path = JPATH_SITE . '/language/' . $extension->element . '/com_finder.commonwords.txt';
         } else {
-            $path = JPATH_ADMINISTRATOR . '/language/' . $extension->element . '/' . $extension->element . '.com_finder.commonwords.txt';
+            $path = JPATH_ADMINISTRATOR . '/language/' . $extension->element . '/com_finder.commonwords.txt';
         }
 
         if (!file_exists($path)) {
             return;
         }
 
+        $this->removeCommonWords($extension);
+
         $file_content = file_get_contents($path);
-        $words = explode("\n", $file_content);
-        $words = array_map(
+        $words        = explode("\n", $file_content);
+        $words        = array_map(
             function ($word) {
                 // Remove comments
                 if (StringHelper::strpos($word, ';') !== false) {

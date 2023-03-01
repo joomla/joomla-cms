@@ -40,7 +40,7 @@ class CMSHelper
      */
     public function getCurrentLanguage($detectBrowser = true)
     {
-        $app = Factory::getApplication();
+        $app      = Factory::getApplication();
         $langCode = null;
 
         // Get the languagefilter parameters
@@ -101,11 +101,11 @@ class CMSHelper
     public function getRowData(TableInterface $table)
     {
         $fields = $table->getFields();
-        $data = array();
+        $data   = [];
 
         foreach ($fields as &$field) {
-            $columnName = $field->Field;
-            $value = $table->$columnName;
+            $columnName        = $field->Field;
+            $value             = $table->$columnName;
             $data[$columnName] = $value;
         }
 
@@ -123,11 +123,11 @@ class CMSHelper
      */
     public function getDataObject(TableInterface $table)
     {
-        $fields = $table->getFields();
+        $fields     = $table->getFields();
         $dataObject = new \stdClass();
 
         foreach ($fields as $field) {
-            $fieldName = $field->Field;
+            $fieldName              = $field->Field;
             $dataObject->$fieldName = $table->get($fieldName);
         }
 

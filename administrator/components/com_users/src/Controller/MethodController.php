@@ -229,7 +229,7 @@ class MethodController extends BaseControllerAlias
         $this->checkToken($this->input->getMethod());
 
         // Make sure I am allowed to edit the specified user
-        $userId = $this->input->getInt('user_id', null);
+        $userId  = $this->input->getInt('user_id', null);
         $user    = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
         $this->assertCanDelete($user);
 

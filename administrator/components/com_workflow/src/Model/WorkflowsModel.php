@@ -34,10 +34,10 @@ class WorkflowsModel extends ListModel
      * @see     JController
      * @since  4.0.0
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'w.id',
                 'title', 'w.title',
                 'published', 'w.published',
@@ -45,8 +45,8 @@ class WorkflowsModel extends ListModel
                 'created', 'w.created',
                 'ordering', 'w.ordering',
                 'modified', 'w.modified',
-                'description', 'w.description'
-            );
+                'description', 'w.description',
+            ];
         }
 
         parent::__construct($config);
@@ -70,7 +70,7 @@ class WorkflowsModel extends ListModel
      */
     protected function populateState($ordering = 'w.ordering', $direction = 'asc')
     {
-        $app = Factory::getApplication();
+        $app       = Factory::getApplication();
         $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
         $this->setState('filter.extension', $extension);
@@ -96,7 +96,7 @@ class WorkflowsModel extends ListModel
      *
      * @since  4.0.0
      */
-    public function getTable($type = 'Workflow', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Workflow', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -129,7 +129,7 @@ class WorkflowsModel extends ListModel
      *
      * @since   4.0.0
      */
-    public function getFilterForm($data = array(), $loadData = true)
+    public function getFilterForm($data = [], $loadData = true)
     {
         $form = parent::getFilterForm($data, $loadData);
 
@@ -158,7 +158,7 @@ class WorkflowsModel extends ListModel
         foreach ($items as $item) {
             $ids[] = (int) $item->id;
 
-            $item->count_states = 0;
+            $item->count_states      = 0;
             $item->count_transitions = 0;
         }
 

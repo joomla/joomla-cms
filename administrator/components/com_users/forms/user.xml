@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Users\Administrator\Field">
 	<fieldset name="user_details" label="COM_USERS_USER_ACCOUNT_DETAILS">
 		<field

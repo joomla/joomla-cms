@@ -238,7 +238,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
             $options['pubkeysource'] = $publicKeyCredentialSource;
             $mfaTable->save(
                 [
-                    'options' => $options
+                    'options' => $options,
                 ]
             );
         } else {
