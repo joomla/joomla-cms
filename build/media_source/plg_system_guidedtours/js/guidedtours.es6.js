@@ -377,7 +377,6 @@ function loadTour(tourId) {
         }
         startTour(result.data);
       })
-      // eslint-disable-next-line no-console
       .catch((error) => {
         throw new Error(error)
       });
