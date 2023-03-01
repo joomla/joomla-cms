@@ -64,7 +64,7 @@ class GuidedtoursHelper
     public static function getTourLanguage(int $id): string
     {
         if ($id < 0) {
-            return "*";
+            return '*';
         }
 
         $db    = Factory::getDbo();
