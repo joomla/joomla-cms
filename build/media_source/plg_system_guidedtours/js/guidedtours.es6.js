@@ -378,7 +378,7 @@ function loadTour(tourId) {
         startTour(result.data);
       })
       .catch((error) => {
-        throw new Error(error)
+        throw new Error(error);
       });
   }
 }
