@@ -113,8 +113,8 @@ function addStepToTourButton(tour, stepObj, buttons) {
         }
       },
       show() {
-        sessionStorage.setItem('currentStepId', tour.currentStep.id);
-        addProgressIndicator(this.getElement(), tour.currentStep.id + 1, sessionStorage.getItem('stepCount'));
+        sessionStorage.setItem('currentStepId', this.id);
+        addProgressIndicator(this.getElement(), this.id + 1, sessionStorage.getItem('stepCount'));
 
         if (this.getTarget()) {
           this.getElement().querySelector('.shepherd-cancel-icon').addEventListener('keydown', (event) => {
@@ -186,10 +186,10 @@ function showTourInfo(tour, stepObj) {
         text: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_START'),
       },
     ],
-    id: 0,
+    id: 'tourinfo',
     when: {
       show() {
-        sessionStorage.setItem('currentStepId', '0');
+        sessionStorage.setItem('currentStepId', 'tourinfo');
         addProgressIndicator(this.getElement(), 1, sessionStorage.getItem('stepCount'));
       },
     },
