@@ -100,7 +100,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
      * @return integer  The exit code
      *
      * @since 4.1.0
-     * @throws RuntimeException
+     * @throws \RuntimeException
      * @throws LogicException
      */
     protected function checkImages(ExecuteTaskEvent $event): int

@@ -47,7 +47,7 @@ class PlgContentPagebreak extends CMSPlugin
      * @var    array
      * @since  4.0.0
      */
-    protected $list = array();
+    protected $list = [];
 
     /**
      * Plugin that adds a pagebreak into the text and truncates text at that point
@@ -74,9 +74,9 @@ class PlgContentPagebreak extends CMSPlugin
         // Expression to search for.
         $regex = '#<hr(.*)class="system-pagebreak"(.*)\/?>#iU';
 
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
-        $print = $input->getBool('print');
+        $print   = $input->getBool('print');
         $showall = $input->getBool('showall');
 
         if (!$this->params->get('enabled', 1)) {
@@ -115,7 +115,7 @@ class PlgContentPagebreak extends CMSPlugin
         $this->loadLanguage();
 
         // Find all instances of plugin and put in $matches.
-        $matches = array();
+        $matches = [];
         preg_match_all($regex, $row->text, $matches, PREG_SET_ORDER);
 
         if ($showall && $this->params->get('showall', 1)) {
@@ -204,7 +204,7 @@ class PlgContentPagebreak extends CMSPlugin
                 if ($style === 'tabs') {
                     $t[] = (string) HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'article' . $row->id . '-' . $style . '0', 'view' => 'tabs']);
                 } else {
-                    $t[] = (string) HTMLHelper::_('bootstrap.startAccordion', 'myAccordion', array('active' => 'article' . $row->id . '-' . $style . '0'));
+                    $t[] = (string) HTMLHelper::_('bootstrap.startAccordion', 'myAccordion', ['active' => 'article' . $row->id . '-' . $style . '0']);
                 }
 
                 foreach ($text as $key => $subtext) {
@@ -263,7 +263,7 @@ class PlgContentPagebreak extends CMSPlugin
     protected function _createToc(&$row, &$matches, &$page)
     {
         $heading     = $row->title ?? Text::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
-        $input       = Factory::getApplication()->input;
+        $input       = Factory::getApplication()->getInput();
         $limitstart  = $input->getUint('limitstart', 0);
         $showall     = $input->getInt('showall', 0);
         $headingtext = '';
@@ -334,10 +334,10 @@ class PlgContentPagebreak extends CMSPlugin
      */
     protected function _createNavigation(&$row, $page, $n)
     {
-        $links = array(
-            'next' => '',
+        $links = [
+            'next'     => '',
             'previous' => '',
-        );
+        ];
 
         if ($page < $n - 1) {
             $links['next'] = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($page + 1);

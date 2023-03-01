@@ -36,7 +36,7 @@ class PlgSystemLog extends CMSPlugin
      */
     public function onUserLoginFailure($response)
     {
-        $errorlog = array();
+        $errorlog = [];
 
         switch ($response['status']) {
             case Authentication::STATUS_SUCCESS:
@@ -60,7 +60,7 @@ class PlgSystemLog extends CMSPlugin
                 break;
         }
 
-        Log::addLogger(array(), Log::INFO);
+        Log::addLogger([], Log::INFO);
 
         try {
             Log::add($errorlog['comment'], Log::INFO, $errorlog['status']);

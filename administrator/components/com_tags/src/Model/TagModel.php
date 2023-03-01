@@ -63,7 +63,7 @@ class TagModel extends AdminModel
      */
     protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
-        'language_id' => 'batchLanguage',
+        'language_id'   => 'batchLanguage',
     ];
 
     /**
@@ -97,11 +97,11 @@ class TagModel extends AdminModel
     {
         $app = Factory::getApplication();
 
-        $parentId = $app->input->getInt('parent_id');
+        $parentId = $app->getInput()->getInt('parent_id');
         $this->setState('tag.parent_id', $parentId);
 
         // Load the User state.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
         $this->setState($this->getName() . '.id', $pk);
 
         // Load the parameters.
@@ -127,15 +127,15 @@ class TagModel extends AdminModel
             }
 
             // Convert the metadata field to an array.
-            $registry = new Registry($result->metadata);
+            $registry         = new Registry($result->metadata);
             $result->metadata = $registry->toArray();
 
             // Convert the images field to an array.
-            $registry = new Registry($result->images);
+            $registry       = new Registry($result->images);
             $result->images = $registry->toArray();
 
             // Convert the urls field to an array.
-            $registry = new Registry($result->urls);
+            $registry     = new Registry($result->urls);
             $result->urls = $registry->toArray();
 
             // Convert the modified date to local user time for display in the form.
@@ -165,7 +165,7 @@ class TagModel extends AdminModel
      */
     public function getForm($data = [], $loadData = true)
     {
-        $jinput = Factory::getApplication()->input;
+        $jinput = Factory::getApplication()->getInput();
 
         // Get the form.
         $form = $this->loadForm('com_tags.tag', 'tag', ['control' => 'jform', 'load_data' => $loadData]);
@@ -224,7 +224,7 @@ class TagModel extends AdminModel
     {
         /** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
         $table      = $this->getTable();
-        $input      = Factory::getApplication()->input;
+        $input      = Factory::getApplication()->getInput();
         $pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
         $isNew      = true;
         $context    = $this->option . '.' . $this->name;
@@ -251,8 +251,8 @@ class TagModel extends AdminModel
 
                 if ($data['title'] == $origTable->title) {
                     list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-                    $data['title'] = $title;
-                    $data['alias'] = $alias;
+                    $data['title']       = $title;
+                    $data['alias']       = $alias;
                 } elseif ($data['alias'] == $origTable->alias) {
                     $data['alias'] = '';
                 }

@@ -33,7 +33,7 @@ final class ApiMVCFactory extends MVCFactory
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function createModel($name, $prefix = '', array $config = array())
+    public function createModel($name, $prefix = '', array $config = [])
     {
         $model = parent::createModel($name, $prefix, $config);
 
@@ -56,7 +56,7 @@ final class ApiMVCFactory extends MVCFactory
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function createTable($name, $prefix = '', array $config = array())
+    public function createTable($name, $prefix = '', array $config = [])
     {
         $table = parent::createTable($name, $prefix, $config);
 
