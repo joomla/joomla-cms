@@ -109,7 +109,7 @@ textarea {
 
 label,
 caption {
-  font-size: $label-font-size;
+  @include font-size($form-label-font-size);
   text-align: start;
 }
 
@@ -152,11 +152,6 @@ body:not(.contentpane) .main-card {
 
 .row-selected {
   background-color: var(--toolbar-bg);
-}
-
-// Chosen (TEMPORARY)
-.chzn-container-single {
-  width: auto !important;
 }
 
 // Multiple buttons wrapping
@@ -223,7 +218,7 @@ a[target="_blank"]::before {
 }
 
 .tiny {
-  font-size: $font-size-vsm;
+  @include font-size($form-label-font-size);
   line-height: 1.4rem;
 }
 

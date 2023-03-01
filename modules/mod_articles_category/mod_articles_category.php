@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\ArticlesCategory\Site\Helper\ArticlesCategoryHelper;
 
-$input = $app->input;
+$input = $app->getInput();
 
 // Prep for Normal or Dynamic Modes
 $mode   = $params->get('mode', 'normal');
@@ -43,7 +43,7 @@ switch ($mode) {
         break;
 }
 
-$cacheid = md5(serialize(array ($idbase, $module->module, $module->id)));
+$cacheid = md5(serialize([$idbase, $module->module, $module->id]));
 
 $cacheparams               = new \stdClass();
 $cacheparams->cachemode    = 'id';

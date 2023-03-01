@@ -37,7 +37,7 @@ class AfterMoveEvent extends AbstractEvent
      *
      * @throws  BadMethodCallException
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('row', $arguments)) {
             throw new BadMethodCallException("Argument 'row' is required for event $name");
