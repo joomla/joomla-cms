@@ -12,6 +12,7 @@ namespace Joomla\Plugin\System\GuidedTours\Extension;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
@@ -116,6 +117,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     public function onBeforeCompileHead()
     {
         $app  = $this->getApplication();
+        $doc  = $app->getDocument();
         $user = $app->getIdentity();
 
         if ($app->isClient('administrator') && $user != null && $user->id > 0) {
@@ -126,8 +128,10 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
             Text::script('PLG_SYSTEM_GUIDEDTOURS_BACK');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR');
 
+            $doc->addScriptOptions('com_guidedtours.token', Session::getFormToken());
+
             // Load required assets
-            $app->getDocument()->getWebAssetManager()
+            $doc->getWebAssetManager()
                 ->usePreset('plg_system_guidedtours.guidedtours');
         }
     }

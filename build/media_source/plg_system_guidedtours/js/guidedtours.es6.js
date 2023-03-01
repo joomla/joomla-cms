@@ -13,6 +13,7 @@ function emptyStorage() {
   sessionStorage.removeItem('currentStepId');
   sessionStorage.removeItem('stepCount');
   sessionStorage.removeItem('tourId');
+  sessionStorage.removeItem('tourToken');
   sessionStorage.removeItem('previousStepUrl');
 }
 
@@ -396,12 +397,15 @@ document.querySelector('body').addEventListener('click', (event) => {
     return;
   }
 
+  sessionStorage.setItem('tourToken', String(Joomla.getOptions('com_guidedtours.token')));
   loadTour(event.target.getAttribute('data-id'));
 });
 
 // Start a given tour
 const tourId = sessionStorage.getItem('tourId');
 
-if (tourId > 0) {
+if (tourId > 0 && sessionStorage.getItem('tourToken') === String(Joomla.getOptions('com_guidedtours.token'))) {
   loadTour(tourId);
+} else {
+  emptyStorage();
 }
