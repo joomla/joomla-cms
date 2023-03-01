@@ -192,9 +192,18 @@ class GroupsModel extends ListModel
                 $query->where($db->quoteName('a.id') . ' = :search')
                     ->bind(':id', $search, ParameterType::INTEGER);
             } else {
+                $idsPrepareStrings = explode(' ', str_replace(',', ' ', trim($search)));
+                $ids               = array_filter($idsPrepareStrings, function ($number) {
+                    return is_numeric($number) && (int)$number > -1;
+                });
+
                 $search = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->where($db->quoteName('a.title') . ' LIKE :search')
                     ->bind(':search', $search);
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
             }
         }
 
