@@ -289,8 +289,7 @@ function startTour(obj) {
   const len = obj.steps.length;
   let buttons;
 
-  // eslint-disable-next-line no-plusplus
-  for (let index = ind; index < len; index++) {
+  for (let index = ind; index < len; index += 1) {
     buttons = [];
 
     // If we have at least done one step, let's allow a back step
@@ -379,7 +378,9 @@ function loadTour(tourId) {
         startTour(result.data);
       })
       // eslint-disable-next-line no-console
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        throw new Error(error)
+      });
   }
 }
 
