@@ -469,7 +469,7 @@ class ArticlesModel extends ListModel
                 )
                     ->bind([':search1', ':search2', ':search3'], $searchLike);
 
-                // Search by ID without the prefix ID:, used numbers from the search
+                // Search by ID without the prefix ID:, used numbers from the search.
                 $idsPrepare = str_replace(',', ' ', $search);
                 $idsPrepare = explode(' ', $idsPrepare);
                 $ids        = array_filter($idsPrepareStrings, function ($number) {
