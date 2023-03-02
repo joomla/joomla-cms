@@ -392,7 +392,7 @@ class PlgSystemActionLogs extends CMSPlugin
             $query->bind(':notify', $notify, ParameterType::INTEGER);
 
             if (isset($user['actionlogs']['actionlogsExtensions'])) {
-                $values[] = $db->quoteName('extensions') . ' = :extension';
+                $values[]  = $db->quoteName('extensions') . ' = :extension';
                 $extension = json_encode($user['actionlogs']['actionlogsExtensions']);
                 $query->bind(':extension', $extension);
             }

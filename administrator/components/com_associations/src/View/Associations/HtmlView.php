@@ -110,12 +110,12 @@ class HtmlView extends BaseHtmlView
                 $details = $type->get('details');
 
                 if (\array_key_exists('support', $details)) {
-                    $support = $details['support'];
+                    $support            = $details['support'];
                     $this->typeSupports = $support;
                 }
 
                 if (\array_key_exists('fields', $details)) {
-                    $fields = $details['fields'];
+                    $fields           = $details['fields'];
                     $this->typeFields = $fields;
                 }
 
@@ -166,9 +166,9 @@ class HtmlView extends BaseHtmlView
                 $this->pagination = $this->get('Pagination');
 
                 $linkParameters = [
-                    'layout'     => 'edit',
-                    'itemtype'   => $extensionName . '.' . $typeName,
-                    'task'       => 'association.edit',
+                    'layout'   => 'edit',
+                    'itemtype' => $extensionName . '.' . $typeName,
+                    'task'     => 'association.edit',
                 ];
 
                 $this->editUri = 'index.php?option=com_associations&view=association&' . http_build_query($linkParameters);

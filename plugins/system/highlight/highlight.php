@@ -49,7 +49,7 @@ class PlgSystemHighlight extends CMSPlugin
     public function onAfterDispatch()
     {
         // Check that we are in the site application.
-        if ($this->app->isClient('administrator')) {
+        if (!$this->app->isClient('site')) {
             return;
         }
 
@@ -93,8 +93,8 @@ class PlgSystemHighlight extends CMSPlugin
             $doc->addScriptOptions(
                 'highlight',
                 [[
-                    'class'      => 'js-highlight',
-                    'highLight'  => $cleanTerms,
+                    'class'     => 'js-highlight',
+                    'highLight' => $cleanTerms,
                 ]]
             );
         }

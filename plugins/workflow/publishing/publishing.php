@@ -338,7 +338,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
         }
 
         $options = [
-            'ignore_request'            => true,
+            'ignore_request' => true,
             // We already have triggered onContentBeforeChangeState, so use our own
             'event_before_change_state' => 'onWorkflowBeforeChangeState',
         ];

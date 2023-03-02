@@ -37,8 +37,7 @@ class CacheControllerFactoryAwareTraitTest extends UnitTestCase
     {
         $cacheControllerFactory = new CacheControllerFactory();
 
-        $trait = new class
-        {
+        $trait = new class () {
             use CacheControllerFactoryAwareTrait;
 
             public function getFactory(): CacheControllerFactory

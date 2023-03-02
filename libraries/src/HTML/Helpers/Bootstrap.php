@@ -188,7 +188,7 @@ abstract class Bootstrap
 
         if ($selector !== '') {
             // Setup options object
-            $opt = [];
+            $opt           = [];
             $opt['parent'] = isset($params['parent']) ? $params['parent'] : false;
             $opt['toggle'] = isset($params['toggle']) ? (bool) $params['toggle'] : true;
 
@@ -229,11 +229,11 @@ abstract class Bootstrap
 
         if ($selector !== '') {
             // Setup options object
-            $opt = [];
-            $opt['flip'] = isset($params['flip']) ? $params['flip'] : true;
-            $opt['boundary'] = isset($params['boundary']) ? $params['boundary'] : 'scrollParent';
-            $opt['reference'] = isset($params['reference']) ? $params['reference'] : 'toggle';
-            $opt['display'] = isset($params['display']) ? $params['display'] : 'dynamic';
+            $opt                 = [];
+            $opt['flip']         = isset($params['flip']) ? $params['flip'] : true;
+            $opt['boundary']     = isset($params['boundary']) ? $params['boundary'] : 'scrollParent';
+            $opt['reference']    = isset($params['reference']) ? $params['reference'] : 'toggle';
+            $opt['display']      = isset($params['display']) ? $params['display'] : 'dynamic';
             $opt['popperConfig'] = isset($params['popperConfig']) ? (bool) $params['popperConfig'] : true;
 
             Factory::getDocument()->addScriptOptions('bootstrap.dropdown', [$selector => (object) array_filter((array) $opt)]);
@@ -428,9 +428,9 @@ abstract class Bootstrap
         if ($selector !== '') {
             // Setup options object
             $opt = [
-                'offset'         => isset($options['offset']) ? (int) $options['offset'] : 10,
-                'method'         => isset($options['method']) ? $options['method'] : 'auto',
-                'target'         => isset($options['target']) ? $options['target'] : null,
+                'offset' => isset($options['offset']) ? (int) $options['offset'] : 10,
+                'method' => isset($options['method']) ? $options['method'] : 'auto',
+                'target' => isset($options['target']) ? $options['target'] : null,
             ];
 
             Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', [$selector => (object) array_filter((array) $opt)]);
@@ -660,7 +660,7 @@ abstract class Bootstrap
             ->useScript('bootstrap.collapse');
 
         // Setup options object
-        $opt = [];
+        $opt           = [];
         $opt['parent'] = isset($options['parent']) ?
             ($options['parent'] == true ? '#' . preg_replace('/^[\.#]/', '', $selector) : $options['parent']) : '';
         $opt['toggle'] = isset($options['toggle']) ? (bool) $options['toggle'] : !($opt['parent'] === false || isset($options['active']));
@@ -706,7 +706,7 @@ abstract class Bootstrap
         $collapsed = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] === $id ? '' : ' collapsed';
         $parent    = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
             'data-bs-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
-        $class     = (!empty($class)) ? ' ' . $class : '';
+        $class        = (!empty($class)) ? ' ' . $class : '';
         $ariaExpanded = $in === 'show' ? true : false;
 
         return <<<HTMLSTR
@@ -800,7 +800,7 @@ HTMLSTR;
 
         if (!isset(static::$loaded[__METHOD__][$sig])) {
             // Setup options object
-            $opt = [];
+            $opt           = [];
             $opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
 
             // Initialise with the Joomla specifics
@@ -810,7 +810,7 @@ HTMLSTR;
             HTMLHelper::_('bootstrap.tab', '#' . preg_replace('/^[\.#]/', '', $selector), $opt);
 
             // Set static array
-            static::$loaded[__METHOD__][$sig] = true;
+            static::$loaded[__METHOD__][$sig]                = true;
             static::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
 
             return LayoutHelper::render('libraries.html.bootstrap.tab.starttabset', ['selector' => $selector]);
@@ -845,7 +845,7 @@ HTMLSTR;
         static $tabLayout = null;
 
         $tabLayout = $tabLayout === null ? new FileLayout('libraries.html.bootstrap.tab.addtab') : $tabLayout;
-        $active = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
+        $active    = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
         return $tabLayout->render(['id' => preg_replace('/^[\.#]/', '', $id), 'active' => $active, 'title' => $title]);
     }

@@ -112,7 +112,7 @@ trait LegacyPropertyManagementTrait
      */
     public function set($property, $value = null)
     {
-        $previous = $this->$property ?? null;
+        $previous        = $this->$property ?? null;
         $this->$property = $value;
 
         return $previous;

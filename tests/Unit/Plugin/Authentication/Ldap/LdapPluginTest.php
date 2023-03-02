@@ -31,7 +31,7 @@ use Symfony\Component\Ldap\LdapInterface;
  *
  * @testdox     The Ldap plugin
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.3.0
  */
 class LdapPluginTest extends UnitTestCase
 {
@@ -40,7 +40,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testNoHost()
     {
@@ -48,7 +48,7 @@ class LdapPluginTest extends UnitTestCase
         $plugin->setApplication($this->createStub(CMSApplicationInterface::class));
 
         $response = new AuthenticationResponse();
-        $result = $plugin->onUserAuthenticate([], [], $response);
+        $result   = $plugin->onUserAuthenticate([], [], $response);
 
         $this->assertFalse($result);
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
@@ -59,7 +59,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testNoCredentials()
     {
@@ -73,7 +73,7 @@ class LdapPluginTest extends UnitTestCase
         $plugin->setApplication($app);
 
         $response = new AuthenticationResponse();
-        $result = $plugin->onUserAuthenticate(['password' => ''], [], $response);
+        $result   = $plugin->onUserAuthenticate(['password' => ''], [], $response);
 
         $this->assertFalse($result);
         $this->assertEquals(Authentication::STATUS_FAILURE, $response->status);
@@ -84,7 +84,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testNoAuthenticationMethod()
     {
@@ -108,7 +108,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testSearchAuthenticationMethod()
     {
@@ -125,7 +125,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testSearchAuthenticationMethodNoEntry()
     {
@@ -149,7 +149,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testSearchAuthenticationMethodWithBindException()
     {
@@ -173,7 +173,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testSearchAuthenticationMethodWithQueryException()
     {
@@ -197,7 +197,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testBindAuthenticationMethod()
     {
@@ -214,7 +214,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testBindAuthenticationMethodNoEntry()
     {
@@ -238,7 +238,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testBindAuthenticationMethodWithDN()
     {
@@ -255,7 +255,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testBindAuthenticationMethodWithBindException()
     {
@@ -279,7 +279,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testBindAuthenticationMethodWithQueryException()
     {
@@ -303,20 +303,20 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  LdapFactoryInterface
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     private function createFactory(bool $failBind = false, bool $failQuery = false, bool $hasEntry = true): LdapFactoryInterface
     {
         return new class ($failBind, $failQuery, $hasEntry) implements LdapFactoryInterface {
             private $failBind  = false;
             private $failQuery = false;
-            private $hasEntry = false;
+            private $hasEntry  = false;
 
             public function __construct(bool $failBind, bool $failQuery, bool $hasEntry)
             {
                 $this->failBind  = $failBind;
                 $this->failQuery = $failQuery;
-                $this->hasEntry = $hasEntry;
+                $this->hasEntry  = $hasEntry;
             }
 
             public function createLdap(array $config): LdapInterface
@@ -324,13 +324,13 @@ class LdapPluginTest extends UnitTestCase
                 return new class ($this->failBind, $this->failQuery, $this->hasEntry) implements LdapInterface {
                     private $failBind  = false;
                     private $failQuery = false;
-                    private $hasEntry = false;
+                    private $hasEntry  = false;
 
                     public function __construct(bool $failBind, bool $failQuery, bool $hasEntry)
                     {
                         $this->failBind  = $failBind;
                         $this->failQuery = $failQuery;
-                        $this->hasEntry = $hasEntry;
+                        $this->hasEntry  = $hasEntry;
                     }
 
                     public function bind(string $dn = null, string $password = null)
