@@ -180,7 +180,7 @@ function showTourInfo(tour, stepObj) {
     classes: 'shepherd-theme-arrows',
     buttons: [
       {
-        classes: 'shepherd-button-primary',
+        classes: 'btn btn-primary shepherd-button-primary',
         action() {
           return this.next();
         },
@@ -200,7 +200,7 @@ function showTourInfo(tour, stepObj) {
 function pushCompleteButton(buttons) {
   buttons.push({
     text: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_COMPLETE'),
-    classes: 'shepherd-button-primary',
+    classes: 'btn btn-primary shepherd-button-primary',
     action() {
       return this.cancel();
     },
@@ -210,7 +210,7 @@ function pushCompleteButton(buttons) {
 function pushNextButton(buttons, step, disabled = false, disabledClass = '') {
   buttons.push({
     text: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_NEXT'),
-    classes: `shepherd-button-primary step-next-button-${step.id} ${disabledClass}`,
+    classes: `btn btn-primary shepherd-button-primary step-next-button-${step.id} ${disabledClass}`,
     action() {
       return this.next();
     },
@@ -221,7 +221,7 @@ function pushNextButton(buttons, step, disabled = false, disabledClass = '') {
 function addBackButton(buttons, step) {
   buttons.push({
     text: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_BACK'),
-    classes: 'shepherd-button-secondary',
+    classes: 'btn btn-secondary shepherd-button-secondary',
     action() {
       if (step.type === 'redirect') {
         sessionStorage.setItem('currentStepId', step.id - 1);
