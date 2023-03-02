@@ -804,11 +804,11 @@ class PlgSystemLanguageFilter extends CMSPlugin
                 ApplicationHelper::getHash('language'),
                 $languageCode,
                 [
-                    'expires' => time() + 365 * 86400,
-                    'path' => $this->app->get('cookie_path', '/'),
-                    'domain' => $this->app->get('cookie_domain', ''),
-                    'secure' => $this->app->isHttpsForced(),
-                    'httponly' => true
+                    'expires'  => time() + 365 * 86400,
+                    'path'     => $this->app->get('cookie_path', '/'),
+                    'domain'   => $this->app->get('cookie_domain', ''),
+                    'secure'   => $this->app->isHttpsForced(),
+                    'httponly' => true,
                 ]
             );
         } else {
