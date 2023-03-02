@@ -469,9 +469,10 @@ class PlgContentEmailcloak extends CMSPlugin
         * Search for plain text email addresses, such as email@example.org but not within HTML tags:
         * <p>email@example.org</p>
         * The '<[^<]*>(*SKIP)(*F)|' trick is used to exclude this kind of occurrences
+        * The '<[^<]*(?<!\/(?:src))>(*SKIP)(*F)|' exclude image files with @ in filename
         */
 
-        $pattern = '~<[^<]*(?<!\/)>(*SKIP)(*F)|' . $searchEmail . '~i';
+        $pattern = '~<[^<]*(?<!\/(?:src))>(*SKIP)(*F)|' . $searchEmail . '~i';
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[1][0];
