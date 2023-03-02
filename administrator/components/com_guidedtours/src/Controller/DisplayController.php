@@ -49,14 +49,14 @@ class DisplayController extends BaseController
         $layout = $this->input->get('layout', 'default');
         $id     = $this->input->getInt('id');
 
-        if ($view == 'tour' && $layout == 'edit' && !$this->checkEditId('com_guidedtours.edit.tour', $id)) {
+        if ($view === 'tour' && $layout === 'edit' && !$this->checkEditId('com_guidedtours.edit.tour', $id)) {
             $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
             $this->setRedirect(Route::_('index.php?option=com_guidedtour&view=tours', false));
 
             return false;
         }
 
-        if ($view == 'step' && $layout == 'edit' && !$this->checkEditId('com_guidedtours.edit.step', $id)) {
+        if ($view === 'step' && $layout === 'edit' && !$this->checkEditId('com_guidedtours.edit.step', $id)) {
             $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
             $this->setRedirect(Route::_('index.php?option=com_guidedtour&view=steps', false));
 
