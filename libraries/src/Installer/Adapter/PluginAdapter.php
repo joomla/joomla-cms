@@ -50,7 +50,7 @@ class PluginAdapter extends InstallerAdapter
     /**
      * `<files>` element of the old extension manifest
      *
-     * @var    object
+     * @var    \SimpleXMLElement
      * @since  3.1
      */
     protected $oldFiles = null;

@@ -89,7 +89,7 @@ class ComponentAdapter extends InstallerAdapter
     /**
      * Method to check if the extension is present in the filesystem
      *
-     * @return  boolean
+     * @return  void
      *
      * @since   3.4
      * @throws  \RuntimeException
@@ -146,8 +146,6 @@ class ComponentAdapter extends InstallerAdapter
                 );
             }
         }
-
-        return false;
     }
 
     /**

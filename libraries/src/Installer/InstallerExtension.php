@@ -109,7 +109,7 @@ class InstallerExtension extends CMSObject
     /**
      * Constructor
      *
-     * @param   \SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
+     * @param   ?\SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
      *
      * @since  3.1
      */

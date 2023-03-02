@@ -1216,7 +1216,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
          */
 
         try {
-            $retval |= $this->finaliseUninstall();
+            $retval = $this->finaliseUninstall();
         } catch (\RuntimeException $e) {
             Log::add($e->getMessage(), Log::WARNING, 'jerror');
 

@@ -464,7 +464,7 @@ class ModuleAdapter extends InstallerAdapter
                     Text::sprintf(
                         'JLIB_INSTALLER_ABORT_MOD_UNKNOWN_CLIENT',
                         Text::_('JLIB_INSTALLER_' . $this->route),
-                        $client->name
+                        $cname
                     )
                 );
             }

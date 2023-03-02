@@ -514,8 +514,9 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function abort($msg = null, $type = null)
     {
-        $retval = true;
-        $step   = array_pop($this->stepStack);
+        $retval  = true;
+        $stepval = null;
+        $step    = array_pop($this->stepStack);
 
         // Raise abort warning
         if ($msg) {
@@ -1372,10 +1373,10 @@ class Installer extends Adapter implements DatabaseAwareInterface
      * Method to parse through a files element of the installation manifest and take appropriate
      * action.
      *
-     * @param   \SimpleXMLElement  $element   The XML node to process
-     * @param   integer            $cid       Application ID of application to install to
-     * @param   array              $oldFiles  List of old files (SimpleXMLElement's)
-     * @param   array              $oldMD5    List of old MD5 sums (indexed by filename with value as MD5)
+     * @param   \SimpleXMLElement   $element   The XML node to process
+     * @param   integer             $cid       Application ID of application to install to
+     * @param   ?\SimpleXMLElement  $oldFiles  List of old files (SimpleXMLElement's)
+     * @param   array               $oldMD5    List of old MD5 sums (indexed by filename with value as MD5)
      *
      * @return  boolean      True on success
      *
@@ -2093,7 +2094,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      * @param   string   $folder   The folder of the extension (plugins; e.g. system)
      * @param   integer  $client   The client application (administrator or site)
      *
-     * @return  object    Result of query
+     * @return  bool   Result of query
      *
      * @since   3.1
      */
@@ -2119,8 +2120,8 @@ class Installer extends Adapter implements DatabaseAwareInterface
     /**
      * Compares two "files" entries to find deleted files/folders
      *
-     * @param   array  $oldFiles  An array of \SimpleXMLElement objects that are the old files
-     * @param   array  $newFiles  An array of \SimpleXMLElement objects that are the new files
+     * @param   \SimpleXMLElement  $oldFiles  An array of \SimpleXMLElement objects that are the old files
+     * @param   \SimpleXMLElement  $newFiles  An array of \SimpleXMLElement objects that are the new files
      *
      * @return  array  An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] respectively
      *
@@ -2216,7 +2217,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      *
      * @param   string  $filename  Filename to load
      *
-     * @return  array  Associative array with filenames as the index and the MD5 as the value
+     * @return  array|bool  Associative array with filenames as the index and the MD5 as the value
      *
      * @since   3.1
      */
@@ -2251,7 +2252,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      *
      * @param   string  $path  Full path to XML file.
      *
-     * @return  array  XML metadata.
+     * @return  array|bool  XML metadata.
      *
      * @since   3.0.0
      */
@@ -2387,7 +2388,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                     continue;
                 }
 
-                $adapters[] = str_ireplace('.php', '', $fileName);
+                $adapters[] = $adapter;
             }
         }
 
