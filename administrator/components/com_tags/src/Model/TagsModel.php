@@ -229,7 +229,7 @@ class TagsModel extends ListModel
                 $query->where($db->quoteName('a.id') . ' = :id')
                     ->bind(':id', $ids, ParameterType::INTEGER);
             } else {
-                $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+                $searchLike = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->extendWhere(
                     'AND',
                     [
@@ -240,9 +240,20 @@ class TagsModel extends ListModel
                     ],
                     'OR'
                 );
-                $query->bind(':title', $search)
-                    ->bind(':alias', $search)
-                    ->bind(':note', $search);
+                $query->bind(':title', $searchLike)
+                    ->bind(':alias', $searchLike)
+                    ->bind(':note', $searchLike);
+
+                // Search by ID without the prefix ID:, used numbers from the search.
+                $idsPrepare = explode(',', $search);
+                $ids        = array_filter($idsPrepare, function ($number) {
+                    $number = trim($number);
+                    return is_numeric($number) && (int)$number > -1;
+                });
+
+                if ($ids) {
+                    $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
+                }
             }
         }
 
