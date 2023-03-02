@@ -17,7 +17,6 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
-use Joomla\Component\Guidedtours\Administrator\Helper\StepHelper;
 use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
