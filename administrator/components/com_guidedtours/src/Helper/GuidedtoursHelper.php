@@ -25,62 +25,6 @@ use Joomla\Database\ParameterType;
 class GuidedtoursHelper
 {
     /**
-     * Get a tour title
-     *
-     * @param   int  $id  Id of a tour
-     *
-     * @return  object
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public static function getTourTitle(int $id): string
-    {
-        if ($id < 0) {
-            return "";
-        }
-
-        $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
-
-        $query->select('title')
-            ->from($db->quoteName('#__guidedtours'))
-            ->where($db->quoteName('id') . ' = :id')
-            ->bind(':id', $id, ParameterType::INTEGER);
-
-        $db->setQuery($query);
-
-        return $db->loadResult();
-    }
-
-    /**
-     * Get a tour language
-     *
-     * @param   int  $id  Id of a tour
-     *
-     * @return  string
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public static function getTourLanguage(int $id): string
-    {
-        if ($id < 0) {
-            return '*';
-        }
-
-        $db    = Factory::getDbo();
-        $query = $db->getQuery(true);
-
-        $query->select('language')
-            ->from($db->quoteName('#__guidedtours'))
-            ->where($db->quoteName('id') . ' = :id')
-            ->bind(':id', $id, ParameterType::INTEGER);
-
-        $db->setQuery($query);
-
-        return $db->loadResult();
-    }
-
-    /**
      * Sets a step language
      *
      * @param   int     $id  Id of a step
