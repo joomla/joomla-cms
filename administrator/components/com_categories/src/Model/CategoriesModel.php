@@ -292,8 +292,7 @@ class CategoriesModel extends ListModel
                     ->bind(':note', $searchLike);
 
                 // Search by ID without the prefix ID:, used numbers from the search.
-                $idsPrepare = str_replace(',', ' ', $search);
-                $idsPrepare = explode(' ', $idsPrepare);
+                $idsPrepare = explode(',', $idsPrepare);
                 $ids        = array_filter($idsPrepareStrings, function ($number) {
                     $number = trim($number);
                     return is_numeric($number) && (int)$number > -1;
