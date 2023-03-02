@@ -295,7 +295,7 @@ class CategoriesModel extends ListModel
                 $idsPrepare = str_replace(',', ' ', $search);
                 $idsPrepare = explode(' ', $idsPrepare);
                 $ids        = array_filter($idsPrepareStrings, function ($number) {
-		    $number = trim($number);
+                    $number = trim($number);
                     return is_numeric($number) && (int)$number > -1;
                 });
 
