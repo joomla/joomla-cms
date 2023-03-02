@@ -12,7 +12,6 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\SessionAwareWebApplicationTrait;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
