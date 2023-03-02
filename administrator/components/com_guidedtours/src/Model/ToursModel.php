@@ -153,8 +153,6 @@ class ToursModel extends ListModel
 
         return $form;
     }
-
-
     /**
      * Method to get the data that should be injected in the form.
      *
