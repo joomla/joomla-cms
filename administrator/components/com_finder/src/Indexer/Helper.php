@@ -31,10 +31,10 @@ use Joomla\String\StringHelper;
  */
 class Helper
 {
-    public const CUSTOMFIELDS_DONT_INDEX = 0;
-    public const CUSTOMFIELDS_ADD_TO_INDEX = 1;
+    public const CUSTOMFIELDS_DONT_INDEX      = 0;
+    public const CUSTOMFIELDS_ADD_TO_INDEX    = 1;
     public const CUSTOMFIELDS_ADD_TO_TAXONOMY = 2;
-    public const CUSTOMFIELDS_ADD_TO_BOTH = 3;
+    public const CUSTOMFIELDS_ADD_TO_BOTH     = 3;
 
     /**
      * Method to parse input into plain text.
@@ -407,7 +407,7 @@ class Helper
             return;
         }
 
-        $obj = new \stdClass();
+        $obj     = new \stdClass();
         $obj->id = $item->id;
 
         $fields = FieldsHelper::getFields($context, $obj, true);
@@ -417,7 +417,7 @@ class Helper
 
             // We want to add this field to the search index
             if ($searchindex == self::CUSTOMFIELDS_ADD_TO_INDEX || $searchindex == self::CUSTOMFIELDS_ADD_TO_BOTH) {
-                $name = 'jsfield_' . $field->name;
+                $name        = 'jsfield_' . $field->name;
                 $item->$name = $field->value;
                 $item->addInstruction(Indexer::META_CONTEXT, $name);
             }
