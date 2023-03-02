@@ -19,7 +19,7 @@
 		description="COM_GUIDEDTOURS_STEP_POSITION_DESC"
 		default="center"
 		validate="options"
-        >
+                >
 		<option value="bottom">JGLOBAL_BOTTOM</option>
 		<option value="center">JGLOBAL_CENTER</option>
 		<option value="left">JGLOBAL_LEFT</option>
