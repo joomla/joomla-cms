@@ -277,12 +277,7 @@ class CategoriesModel extends ListModel
                 $query->where($db->quoteName('a.id') . ' = :search')
                     ->bind(':search', $search, ParameterType::INTEGER);
             } else {
-                $idsPrepareStrings = explode(' ', str_replace(',', ' ', trim($search)));
-                $ids               = array_filter($idsPrepareStrings, function ($number) {
-                    return is_numeric($number) && (int)$number > -1;
-                });
-
-                $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+                $searchLike = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->extendWhere(
                     'AND',
                     [
@@ -292,9 +287,17 @@ class CategoriesModel extends ListModel
                     ],
                     'OR'
                 )
-                    ->bind(':title', $search)
-                    ->bind(':alias', $search)
-                    ->bind(':note', $search);
+                    ->bind(':title', $searchLike)
+                    ->bind(':alias', $searchLike)
+                    ->bind(':note', $searchLike);
+
+                // Search by ID without the prefix ID:, used numbers from the search.
+                $idsPrepare = str_replace(',', ' ', $search);
+                $idsPrepare = explode(' ', $idsPrepare);
+                $ids        = array_filter($idsPrepareStrings, function ($number) {
+		    $number = trim($number);
+                    return is_numeric($number) && (int)$number > -1;
+                });
 
                 if ($ids) {
                     $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
