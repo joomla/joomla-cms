@@ -462,17 +462,20 @@ class ArticlesModel extends ListModel
                 $query->where('(' . $db->quoteName('a.introtext') . ' LIKE :search1 OR ' . $db->quoteName('a.fulltext') . ' LIKE :search2)')
                     ->bind([':search1', ':search2'], $search);
             } else {
-                $idsPrepareStrings = explode(' ', str_replace(',', ' ', trim($search)));
-                $ids               = array_filter($idsPrepareStrings, function ($number) {
-                    return is_numeric($number) && (int)$number > -1;
-                });
-
-                $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+                $searchLike = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->where(
                     '(' . $db->quoteName('a.title') . ' LIKE :search1 OR ' . $db->quoteName('a.alias') . ' LIKE :search2'
                         . ' OR ' . $db->quoteName('a.note') . ' LIKE :search3)'
                 )
-                    ->bind([':search1', ':search2', ':search3'], $search);
+                    ->bind([':search1', ':search2', ':search3'], $searchLike);
+
+                // Search by ID without the prefix ID:, used numbers from the search
+                $idsPrepare = str_replace(',', ' ', $search);
+                $idsPrepare = explode(' ', $idsPrepare);
+                $ids        = array_filter($idsPrepareStrings, function ($number) {
+                    $number = trim($number);
+                    return is_numeric($number) && (int)$number > -1;
+                });
 
                 if ($ids) {
                     $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
