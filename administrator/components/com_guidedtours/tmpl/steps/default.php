@@ -160,14 +160,12 @@ if ($saveOrder && !empty($this->items)) {
                             }
                             ?>
 
-                            <span class="sortable-handler <?php echo $iconClass ?>">
-                                    <span class="icon-ellipsis-v"></span>
+                            <span class="sortable-handler <?php echo $iconClass; ?>">
+                                <span class="icon-ellipsis-v" aria-hidden="true"></span>
                             </span>
 
-                            <?php if ($canChange && $saveOrder) :
-                                ?>
-                                <input type="text" class="hidden text-area-order" name="order[]" size="5"
-                                       value="<?php echo $item->ordering; ?>">
+                            <?php if ($canChange && $saveOrder) : ?>
+                                <input type="text" class="hidden text-area-order" name="order[]" size="5" value="<?php echo $item->ordering; ?>">
                             <?php endif; ?>
                         </td>
 
