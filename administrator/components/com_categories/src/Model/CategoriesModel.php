@@ -293,7 +293,7 @@ class CategoriesModel extends ListModel
 
                 // Search by ID without the prefix ID:, used numbers from the search.
                 $idsPrepare = explode(',', $search);
-                $ids        = array_filter($idsPrepareStrings, function ($number) {
+                $ids        = array_filter($idsPrepare, function ($number) {
                     $number = trim($number);
                     return is_numeric($number) && (int)$number > -1;
                 });
