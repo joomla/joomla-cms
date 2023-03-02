@@ -192,9 +192,9 @@ class GroupsModel extends ListModel
                 $query->where($db->quoteName('a.id') . ' = :search')
                     ->bind(':id', $search, ParameterType::INTEGER);
             } else {
-                $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+                $searchLike = '%' . str_replace(' ', '%', trim($search)) . '%';
                 $query->where($db->quoteName('a.title') . ' LIKE :search')
-                    ->bind(':search', $search);
+                    ->bind(':search', $searchLike);
 
                 // Search by ID without the prefix ID:, used numbers from the search.
                 $idsPrepare = str_replace(',', ' ', $search);
