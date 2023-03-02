@@ -43,16 +43,16 @@ class GuidedToursHelper
         $user = $app->getIdentity();
 
         // Get an instance of the guided tour model
-        $tours = $factory->createModel('Tours', 'Administrator', ['ignore_request' => true]);
+        $tourModel = $factory->createModel('Tours', 'Administrator', ['ignore_request' => true]);
 
-        $tours->setState('filter.published', 1);
-        $tours->setState('filter.access', $app->getIdentity()->getAuthorisedViewLevels());
+        $tourModel->setState('filter.published', 1);
+        $tourModel->setState('filter.access', $app->getIdentity()->getAuthorisedViewLevels());
 
         if (Multilanguage::isEnabled()) {
-            $tours->setState('filter.language', ['*', $app->getLanguage()->getTag()]);
+            $tourModel->setState('filter.language', ['*', $app->getLanguage()->getTag()]);
         }
 
-        $items = $tours->getItems();
+        $items = $tourModel->getItems();
 
         foreach ($items as $key => $item) {
             // The user can only see the tours of extensions that are allowed.
