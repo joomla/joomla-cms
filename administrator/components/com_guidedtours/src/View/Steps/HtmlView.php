@@ -12,15 +12,12 @@ namespace Joomla\Component\Guidedtours\Administrator\View\Steps;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
-use Joomla\Component\Guidedtours\Administrator\Helper\StepHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -126,9 +123,16 @@ class HtmlView extends BaseHtmlView
         $toolbar = Toolbar::getInstance('toolbar');
 
         $canDo = ContentHelper::getActions('com_guidedtours');
-        $user  = Factory::getApplication()->getIdentity();
+        $app   = Factory::getApplication();
+        $user  = $app->getIdentity();
 
-        $title = GuidedtoursHelper::getTourTitle($this->state->get('filter.tour_id', -1));
+        /** @var \Joomla\Component\Guidedtours\Administrator\Model\TourModel $tourModel */
+        $tourModel = $app->bootComponent('com_guidedtours')
+            ->getMVCFactory()->createModel('Tour', 'Administrator', ['ignore_request' => true]);
+
+        $tour  = $tourModel->getItem($this->state->get('filter.tour_id', -1));
+        $title = !empty($tour->title) ? $tour->title : '';
+
         ToolbarHelper::title(Text::sprintf('COM_GUIDEDTOURS_STEPS_LIST', Text::_($title)), 'map-signs');
         $arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
