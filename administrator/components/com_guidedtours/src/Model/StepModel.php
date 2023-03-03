@@ -60,24 +60,11 @@ class StepModel extends AdminModel
             return false;
         }
 
-        $table = $this->getTable('Tour', 'Administrator');
-
-        $table->load($record->tour_id);
-
-        $app       = Factory::getApplication();
-        $extension = $app->getUserStateFromRequest('com_guidedtours.step.filter.extension', 'extension', null, 'cmd');
-
-        $parts = explode('.', $extension);
-
-        $component = reset($parts);
-
-        if (!$this->getCurrentUser()->authorise('core.delete', $component . '.state.' . (int) $record->id)) {
-            $this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
-
-            return false;
+        if ($record->tour_id) {
+            return $this->getCurrentUser()->authorise('core.delete', 'com_guidedtours.tour.' . $record->tour_id);
         }
 
-        return true;
+        return parent::canDelete($record);
     }
 
     /**
