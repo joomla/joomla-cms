@@ -196,23 +196,21 @@ class StepModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $user      = $this->getCurrentUser();
         $app       = Factory::getApplication();
         $context   = $this->option . '.' . $this->name;
-        $extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
 
+        // Make sure we have a tour id.
         if (!\property_exists($record, 'tour_id')) {
             $tourID          = $app->getUserStateFromRequest($context . '.filter.tour_id', 'tour_id', 0, 'int');
             $record->tour_id = $tourID;
         }
 
         // Check for existing tour.
-        if (!empty($record->id)) {
-            return $user->authorise('core.edit.state', $extension . '.state.' . (int) $record->id);
+        if (!empty($record->tour_id)) {
+            return $this->getCurrentUser()->authorise('core.edit.state', 'com_guidedtours.tour.' . $record->tour_id);
         }
 
-        // Default to component settings if tour isn't known.
-        return $user->authorise('core.edit.state', $extension);
+        return parent::canEditState($record);
     }
 
     /**
