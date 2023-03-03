@@ -119,6 +119,9 @@ function addStepToTourButton(tour, stepObj, buttons) {
         }
       },
       show() {
+        // Force the screen reader to only read the content of the popup after a refresh
+        this.getElement().setAttribute('aria-live', 'assertive');
+
         sessionStorage.setItem('currentStepId', this.id);
         addProgressIndicator(this.getElement(), this.id + 1, sessionStorage.getItem('stepCount'));
 
