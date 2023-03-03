@@ -113,7 +113,7 @@ class ApplicationHelper
      * @param   integer|string|null   $id      A client identifier
      * @param   boolean               $byName  If true, find the client by its name
      *
-     * @return  \stdClass|array|null  Object describing the client, array containing all the clients or null if $id not known
+     * @return  \stdClass|\stdClass[]|null  Object describing the client, array containing all the clients or null if $id not known
      *
      * @since   1.5
      */
