@@ -245,11 +245,10 @@ class TagsModel extends ListModel
                     ->bind(':note', $searchLike);
 
                 // Search by ID without the prefix ID:, used numbers from the search.
-                $idsPrepare = explode(',', $search);
-                $ids        = array_filter($idsPrepare, function ($number) {
+                $ids        = array_filter(array_map(function ($number) {
                     $number = trim($number);
-                    return is_numeric($number) && (int)$number > -1;
-                });
+                    return is_numeric($number) && $number > 0 ? (int) $number : 0;
+                }, explode(',', $search)));
 
                 if ($ids) {
                     $query->orWhere($db->quoteName('a.id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')');
