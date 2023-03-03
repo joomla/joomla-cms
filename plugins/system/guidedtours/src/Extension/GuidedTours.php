@@ -122,11 +122,12 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
 
         if ($app->isClient('administrator') && $user != null && $user->id > 0) {
             Text::script('JCANCEL');
-            Text::script('PLG_SYSTEM_GUIDEDTOURS_START');
-            Text::script('PLG_SYSTEM_GUIDEDTOURS_COMPLETE');
-            Text::script('PLG_SYSTEM_GUIDEDTOURS_NEXT');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_BACK');
+            Text::script('PLG_SYSTEM_GUIDEDTOURS_COMPLETE');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR');
+            Text::script('PLG_SYSTEM_GUIDEDTOURS_NEXT');
+            Text::script('PLG_SYSTEM_GUIDEDTOURS_START');
+            Text::script('PLG_SYSTEM_GUIDEDTOURS_STEP_NUMBER_OF');
 
             $doc->addScriptOptions('com_guidedtours.token', Session::getFormToken());
 

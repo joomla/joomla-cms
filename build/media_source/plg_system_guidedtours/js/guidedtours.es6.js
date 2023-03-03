@@ -45,9 +45,14 @@ function getTourInstance() {
 
 function addProgressIndicator(stepElement, index, total) {
   const header = stepElement.querySelector('.shepherd-header');
-  const progress = document.createElement('span');
+  const progress = document.createElement('div');
   progress.classList.add('shepherd-progress');
-  progress.innerText = `${index}/${total}`;
+  progress.setAttribute('role', 'status');
+  progress.setAttribute('aria-label', Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_STEP_NUMBER_OF').replace('{number}', index).replace('{total}', total));
+  const progressText = document.createElement('span');
+  progressText.setAttribute('aria-hidden', true);
+  progressText.innerText = `${index}/${total}`;
+  progress.appendChild(progressText);
   header.insertBefore(progress, stepElement.querySelector('.shepherd-cancel-icon'));
 }
 
