@@ -305,7 +305,7 @@ class ApplicationModel extends FormModel
             return false;
         }
 
-        if (in_array($options['driver'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/\.]#', $options['database'])) {
+        if (in_array($options['driver'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options['database'])) {
             $app->enqueueMessage(Text::_('COM_CONFIG_FIELD_DATABASE_NAME_INVALID_MSG_MYSQL'), 'warning');
 
             return false;
