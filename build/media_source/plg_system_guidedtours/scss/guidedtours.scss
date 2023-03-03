@@ -56,3 +56,8 @@
 .shepherd-enabled.shepherd-element[data-popper-placement=right] {
   transform: translateX(12px);
 }
+
+#modGuidedTours-modal a {
+  font-weight: 500;
+  text-decoration: underline;
+}
