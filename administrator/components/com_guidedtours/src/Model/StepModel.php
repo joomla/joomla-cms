@@ -56,13 +56,13 @@ class StepModel extends AdminModel
      */
     protected function canDelete($record)
     {
-        $table = $this->getTable('Tour', 'Administrator');
-
-        $table->load($record->tour_id);
-
         if (empty($record->id) || $record->published != -2) {
             return false;
         }
+
+        $table = $this->getTable('Tour', 'Administrator');
+
+        $table->load($record->tour_id);
 
         $app       = Factory::getApplication();
         $extension = $app->getUserStateFromRequest('com_guidedtours.step.filter.extension', 'extension', null, 'cmd');
