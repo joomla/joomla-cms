@@ -34,7 +34,7 @@ abstract class CliOutput
     /**
      * Constructor
      *
-     * @param   ProcessorInterface  $processor  The output processor.
+     * @param   ?ProcessorInterface  $processor  The output processor.
      *
      * @since   4.0.0
      */
