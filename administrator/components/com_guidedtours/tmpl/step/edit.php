@@ -22,13 +22,11 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
-$app     = Factory::getApplication();
-$tour_id = $app->getUserState('com_guidedtours.tour_id');
-$lang    = Factory::getLanguage()->getTag();
-
-if (empty($tour_id)) {
+if (empty($this->item->tour_id)) {
     throw new GenericDataException("\nThe Tour id was not set!\n", 500);
 }
+
+$lang = Factory::getLanguage()->getTag();
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_guidedtours&view=step&layout=edit&id=' .
@@ -61,8 +59,6 @@ if (empty($tour_id)) {
 
             <div class="col-lg-3">
                 <?php
-                $this->form->setValue('tour_id', null, $tour_id);
-
                 // Set main fields.
                 $this->fields = [
                     'published',
