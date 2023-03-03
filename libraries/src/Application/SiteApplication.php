@@ -61,7 +61,7 @@ final class SiteApplication extends CMSApplication
      * The registered URL parameters.
      *
      * @var    object
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public $registeredurlparams;
 
