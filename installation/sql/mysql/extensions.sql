@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `#__banners` (
   `imptotal` int NOT NULL DEFAULT 0,
   `impmade` int NOT NULL DEFAULT 0,
   `clicks` int NOT NULL DEFAULT 0,
-  `clickurl` varchar(200) NOT NULL DEFAULT '',
+  `clickurl` varchar(2048) NOT NULL DEFAULT '',
   `state` tinyint NOT NULL DEFAULT 0,
   `catid` int unsigned NOT NULL DEFAULT 0,
   `description` text NOT NULL,
