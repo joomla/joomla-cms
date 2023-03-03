@@ -78,7 +78,7 @@
             @click="changeOrder('date_created')"
           >
             {{ translate('COM_MEDIA_MEDIA_DATE_CREATED') }}
-             <span
+            <span
               class="ms-1"
               :class="{
                 'icon-sort': $store.state.sortBy !== 'date_created',
@@ -98,7 +98,7 @@
             @click="changeOrder('date_modified')"
           >
             {{ translate('COM_MEDIA_MEDIA_DATE_MODIFIED') }}
-             <span
+            <span
               class="ms-1"
               :class="{
                 'icon-sort': $store.state.sortBy !== 'date_modified',
