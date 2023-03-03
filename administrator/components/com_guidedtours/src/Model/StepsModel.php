@@ -133,22 +133,6 @@ class StepsModel extends ListModel
     }
 
     /**
-     * A protected method to get a set of ordering conditions.
-     *
-     * @param   object  $table  A record object.
-     *
-     * @return  array  An array of conditions to add to ordering queries.
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function getReorderConditions($table)
-    {
-        return [
-            $this->_db->quoteName('tour_id') . ' = ' . (int) $table->tour_id,
-        ];
-    }
-
-    /**
      * Method to get a store id based on model configuration state.
      *
      * This is necessary because the model is used by the component and
