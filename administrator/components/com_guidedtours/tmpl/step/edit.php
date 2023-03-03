@@ -103,6 +103,6 @@ if (empty($tour_id)) {
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
     </div>
     <input type="hidden" name="task" value="">
-    <input type="hidden" name="tour_id" value="<?php echo $tour_id; ?>">
+    <?php echo $this->form->getInput('tour_id'); ?>
     <?php echo HTMLHelper::_('form.token'); ?>
 </form>
