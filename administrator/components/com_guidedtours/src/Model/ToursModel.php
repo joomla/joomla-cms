@@ -246,7 +246,7 @@ class ToursModel extends ListModel
     public function getItems()
     {
         $items = parent::getItems();
-        
+
         Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
         foreach ($items as $item) {
