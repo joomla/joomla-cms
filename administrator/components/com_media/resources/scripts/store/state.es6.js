@@ -63,12 +63,13 @@ function getCurrentPath() {
     return defaultDisk.drives[0].root;
   }
 
-  // Session missmatch
+  // Session match
   if ((storedState && storedState.selectedDirectory && storedState.selectedDirectory.startsWith(useDrive.root))) {
     setSession(storedState.selectedDirectory);
     return storedState.selectedDirectory;
   }
 
+  // Session missmatch
   setSession(options.currentPath);
   return options.currentPath;
 }
