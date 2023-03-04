@@ -115,7 +115,7 @@ class Api {
   getContents(dir, full = false, content = false) {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      let url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(dir)}`);
+      const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(dir)}`);
 
       if (full) {
         url.searchParams.append('url', full);
