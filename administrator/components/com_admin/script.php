@@ -6541,6 +6541,8 @@ class JoomlaInstallerScript
             '/plugins/finder/content/content.php',
             '/plugins/finder/newsfeeds/newsfeeds.php',
             '/plugins/finder/tags/tags.php',
+            // From 4.3.0-beta3 to 4.3.0-beta4
+            '/layouts/joomla/content/categories_default_items.php',
         ];
 
         $folders = [
