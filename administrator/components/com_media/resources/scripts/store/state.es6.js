@@ -58,7 +58,6 @@ function getCurrentPath() {
   const useDrive = drivesTmp.flat().find((drive) => drive.root.startsWith(fragment[0]));
 
   // Drive doesn't exist
-  console.log({x: useDrive})
   if (!useDrive) {
     setSession(defaultDisk.drives[0].root);
     return defaultDisk.drives[0].root;
