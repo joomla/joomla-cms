@@ -459,7 +459,7 @@ class ModuleAdapter extends InstallerAdapter
             // Attempt to map the client to a base path
             $client = ApplicationHelper::getClientInfo($cname, true);
 
-            if ($client === false) {
+            if (!$client) {
                 throw new \RuntimeException(
                     Text::sprintf(
                         'JLIB_INSTALLER_ABORT_MOD_UNKNOWN_CLIENT',
