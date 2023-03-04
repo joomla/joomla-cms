@@ -126,7 +126,7 @@ class Api {
       }
 
       Joomla.request({
-        url,
+        url: url.toString(),
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         onSuccess: (response) => {
@@ -152,7 +152,7 @@ class Api {
       const data = { [this.csrfToken]: '1', name };
 
       Joomla.request({
-        url,
+        url: url.toString(),
         method: 'POST',
         data: JSON.stringify(data),
         headers: { 'Content-Type': 'application/json' },
@@ -192,7 +192,7 @@ class Api {
       }
 
       Joomla.request({
-        url,
+        url: url.toString(),
         method: 'POST',
         data: JSON.stringify(data),
         headers: { 'Content-Type': 'application/json' },
@@ -223,7 +223,7 @@ class Api {
       };
 
       Joomla.request({
-        url,
+        url: url.toString(),
         method: 'PUT',
         data: JSON.stringify(data),
         headers: { 'Content-Type': 'application/json' },
@@ -251,7 +251,7 @@ class Api {
       const data = { [this.csrfToken]: '1' };
 
       Joomla.request({
-        url,
+        url: url.toString(),
         method: 'DELETE',
         data: JSON.stringify(data),
         headers: { 'Content-Type': 'application/json' },
