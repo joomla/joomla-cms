@@ -4,11 +4,11 @@
  * @package     Joomla.UnitTest
  * @subpackage  Extension
  *
- * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Plugin\Task\Checkfiles\Extension;
+namespace Joomla\Tests\Unit\Plugin\Captcha\InvisibleRecaptcha\Extension;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
@@ -64,12 +64,12 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can init the captcha
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can init the captcha
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testInit()
     {
         $document = new HtmlDocument();
@@ -89,12 +89,12 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can init the captcha with a wrong application
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can init the captcha with a wrong application
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testInitWrongApplication()
     {
         $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => ['public_key' => 'test']], $this->createStub(RequestMethod::class));
@@ -104,12 +104,12 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can init the captcha with an empty public key
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can init the captcha with an empty public key
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testInitEmptyPublicKey()
     {
         $language = $this->createStub(Language::class);
@@ -127,12 +127,12 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can display the captcha
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can display the captcha
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testDisplay()
     {
         $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => []], $this->createStub(RequestMethod::class));
@@ -145,12 +145,12 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can check successful answer
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can check successful answer
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testResponse()
     {
         $language = $this->createStub(Language::class);
@@ -170,12 +170,12 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can check answer with an empty private key
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can check answer with an empty private key
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testResponseEmptyPrivateKey()
     {
         $language = $this->createStub(Language::class);
@@ -193,12 +193,12 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can detect spam
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can detect spam
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testResponseSpam()
     {
         $language = $this->createStub(Language::class);
@@ -217,12 +217,12 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can check successful answer
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can check successful answer
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testFailedResponse()
     {
         $language = $this->createStub(Language::class);
@@ -244,12 +244,12 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can setup field
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can setup field
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testSetupField()
     {
         $plugin = new InvisibleReCaptcha(new Dispatcher(), ['params' => ['private_key' => 'test']], $this->createStub(RequestMethod::class));
@@ -259,12 +259,12 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can return admin capabilities
-      *
-      * @return  void
-      *
-      * @since   4.3.0
-      */
+     * @testdox  can return admin capabilities
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testPrivacy()
     {
         $language = $this->createStub(Language::class);
