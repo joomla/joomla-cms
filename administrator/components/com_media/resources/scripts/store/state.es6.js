@@ -45,6 +45,15 @@ function getCurrentPath() {
     return defaultDisk.drives[0].root;
   }
 
+  // Check that we have a fragment
+  if (!options.currentPath) {
+    if (!(storedState || storedState.selectedDirectory)) {
+      setSession(defaultDisk.drives[0].root);
+      return defaultDisk.drives[0].root;
+    }
+    options.currentPath = '';
+  }
+
   // Get the fragments
   const fragment = options.currentPath.split(':/');
 
