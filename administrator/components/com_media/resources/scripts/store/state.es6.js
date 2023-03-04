@@ -31,7 +31,6 @@ if (!defaultDisk) {
 const storedState = JSON.parse(persistedStateOptions.storage.getItem(persistedStateOptions.key));
 
 function setSession(path) {
-  console.log(path);
   persistedStateOptions.storage.setItem(
     persistedStateOptions.key,
     JSON.stringify({ ...storedState, ...{ selectedDirectory: path } }),
