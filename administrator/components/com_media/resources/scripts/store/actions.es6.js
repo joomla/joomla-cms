@@ -51,7 +51,7 @@ export const getContents = (context, payload) => {
  */
 export const getFullContents = (context, payload) => {
   context.commit(types.SET_IS_LOADING, true);
-  api.getContents(payload.path, true)
+  api.getContents(payload.path, true, true)
     .then((contents) => {
       context.commit(types.LOAD_FULL_CONTENTS_SUCCESS, contents.files[0]);
       context.commit(types.SET_IS_LOADING, false);
