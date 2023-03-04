@@ -59,38 +59,6 @@ class ToursModel extends ListModel
     }
 
     /**
-     * Provide a query to be used to evaluate if this is an Empty State, can be overridden in the model to provide granular control.
-     *
-     * @return DatabaseQuery
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    protected function getEmptyStateQuery()
-    {
-        $query = clone $this->_getListQuery();
-
-        if ($query instanceof DatabaseQuery) {
-            $query->clear('bounded')
-                ->clear('group')
-                ->clear('having')
-                ->clear('join')
-                ->clear('values')
-                ->clear('where');
-
-            // override of ListModel to keep the tour id filter
-            $db      = $this->getDatabase();
-            $tour_id = $this->getState('filter.tour_id');
-            if ($tour_id) {
-                $tour_id = (int) $tour_id;
-                $query->where($db->quoteName('a.tour_id') . ' = :tour_id')
-                    ->bind(':tour_id', $tour_id, ParameterType::INTEGER);
-            }
-        }
-
-        return $query;
-    }
-
-    /**
      * Method to auto-populate the model state.
      *
      * This method should only be called once per instantiation and is designed
@@ -113,26 +81,9 @@ class ToursModel extends ListModel
 
         $this->setState('filter.extension', $extension);
 
-        // Extract the optional section name
-
         parent::populateState($ordering, $direction);
     }
 
-    /**
-     * Method to get a table object, load it if necessary.
-     *
-     * @param   string  $type    The table name. Optional.
-     * @param   string  $prefix  The class prefix. Optional.
-     * @param   array   $config  Configuration array for model. Optional.
-     *
-     * @return  \Joomla\CMS\Table\Table  A JTable object
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public function getTable($type = 'Tour', $prefix = 'Administrator', $config = [])
-    {
-        return parent::getTable($type, $prefix, $config);
-    }
     /**
      * Get the filter form
      *
@@ -295,9 +246,8 @@ class ToursModel extends ListModel
     public function getItems()
     {
         $items = parent::getItems();
-
-        $lang = Factory::getLanguage();
-        $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
+        
+        Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
         foreach ($items as $item) {
             $item->title       = Text::_($item->title);
