@@ -237,7 +237,7 @@ class Editor implements DispatcherAwareInterface
     /**
      * Get the editor extended buttons (usually from plugins)
      *
-     * @param   string  $editor   The name of the editor.
+     * @param   string  $editor   The ID of the editor.
      * @param   mixed   $buttons  Can be boolean or array, if boolean defines if the buttons are
      *                            displayed, if array defines a list of buttons not to show.
      *
@@ -247,6 +247,10 @@ class Editor implements DispatcherAwareInterface
      */
     public function getButtons($editor, $buttons = true)
     {
+        if ($this->provider) {
+            return $this->provider->getButtons($buttons, ['editorId' => $editor]);
+        }
+
         $result = [];
 
         if (\is_bool($buttons) && !$buttons) {
