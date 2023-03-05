@@ -21,7 +21,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * The module Custom HTML service provider.
  *
- * @since  1.0.0
+ * @since  __DEPLOY_VERSION__
  */
 return new class () implements ServiceProviderInterface {
     /**
