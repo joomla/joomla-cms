@@ -119,21 +119,15 @@ final class CodeMirrorProvider implements EditorProviderInterface
 
         $this->loadAssets();
 
-        $width   = $attributes['width'] ?? '';
-        $height  = $attributes['height'] ?? '';
         $col     = $attributes['col'] ?? '';
         $row     = $attributes['row'] ?? '';
-        $buttons = (bool) $attributes['buttons'] ?? true;
+        $buttons = $attributes['buttons'] ?? true;
         $id      = $attributes['id'] ?? $name;
         $asset   = $attributes['asset'] ?? 0;
         $author  = $attributes['author'] ?? 0;
 
         // Must pass the field id to the buttons in this editor.
         $buttonsStr = ''; //$this->displayButtons($id, $buttons, $asset, $author);
-
-        // Only add "px" to width and height if they are not given as a percentage.
-        $width .= is_numeric($width) ? 'px' : '';
-        $height .= is_numeric($height) ? 'px' : '';
 
         // Options for the CodeMirror constructor.
         $options   = new \stdClass();
