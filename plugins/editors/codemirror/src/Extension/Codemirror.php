@@ -56,6 +56,6 @@ final class Codemirror extends CMSPlugin implements SubscriberInterface
 
         /** @var EditorRegistry $subject */
         $subject = $event['subject'];
-        $subject->add(new CodeMirrorProvider($this->params, $this->getApplication()));
+        $subject->add(new CodeMirrorProvider($this->params, $this->getApplication(), $this->getDispatcher()));
     }
 }

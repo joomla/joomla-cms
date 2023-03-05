@@ -19,7 +19,7 @@ use Joomla\Event\DispatcherAwareTrait;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Captcha Registry class
+ * Editor Registry class
  * @since   __DEPLOY_VERSION__
  */
 final class EditorRegistry implements DispatcherAwareInterface

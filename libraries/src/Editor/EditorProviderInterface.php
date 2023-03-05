@@ -37,4 +37,16 @@ interface EditorProviderInterface
      * @since   __DEPLOY_VERSION__
      */
     public function display(string $name, string $content = '', array $attributes = [], array $params = []): string;
+
+    /**
+     * Load the editor buttons.
+     *
+     * @param   mixed   $buttons  Array with button names to be excluded. Empty array or boolean true to display all buttons.
+     * @param   array   $options  Associative array with additional parameters
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getButtons($buttons, array $options = []): array;
 }

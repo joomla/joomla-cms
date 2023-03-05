@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Event\Editor;
 
 use BadMethodCallException;
+use Joomla\CMS\Editor\Button\ButtonRegistryInterface;
 use Joomla\CMS\Editor\EditorRegistry;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
@@ -18,7 +19,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
  *
  * @since   __DEPLOY_VERSION__
  */
-final class EditorSetupEvent extends AbstractImmutableEvent
+final class EditorButtonsSetupEvent extends AbstractImmutableEvent
 {
     /**
      * Constructor.
@@ -42,13 +43,13 @@ final class EditorSetupEvent extends AbstractImmutableEvent
     /**
      * Setter for the subject argument
      *
-     * @param   EditorRegistry  $value  The value to set
+     * @param   ButtonRegistryInterface  $value  The value to set
      *
-     * @return  EditorRegistry
+     * @return  ButtonRegistryInterface
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected function setSubject(EditorRegistry $value)
+    protected function setSubject(ButtonRegistryInterface $value)
     {
         return $value;
     }

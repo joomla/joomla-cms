@@ -13,6 +13,7 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Editor\AbstractEditorProvider;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -80,13 +81,16 @@ final class CodeMirrorProvider extends AbstractEditorProvider
      *
      * @param   Registry                 $params
      * @param   CMSApplicationInterface  $application
+     * @param   DispatcherInterface      $dispatcher
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function __construct(Registry $params, CMSApplicationInterface $application)
+    public function __construct(Registry $params, CMSApplicationInterface $application, DispatcherInterface $dispatcher)
     {
-        $this->params        = $params;
-        $this->application   = $application;
+        $this->params      = $params;
+        $this->application = $application;
+
+        $this->setDispatcher($dispatcher);
     }
 
     /**
@@ -122,12 +126,12 @@ final class CodeMirrorProvider extends AbstractEditorProvider
         $col     = $attributes['col'] ?? '';
         $row     = $attributes['row'] ?? '';
         $buttons = $attributes['buttons'] ?? true;
-        $id      = $attributes['id'] ?? $name;
+        $id      = $attributes['id'] ?? '';
         $asset   = $attributes['asset'] ?? 0;
         $author  = $attributes['author'] ?? 0;
 
         // Must pass the field id to the buttons in this editor.
-        $buttonsStr = $this->displayButtons($id, $buttons, ['asset' => $asset, 'author' => $author]);
+        $buttonsStr = $this->displayButtons($buttons, ['asset' => $asset, 'author' => $author, 'editorId' => $id]);
 
         // Options for the CodeMirror constructor.
         $options   = new \stdClass();
