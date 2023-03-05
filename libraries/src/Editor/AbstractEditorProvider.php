@@ -75,10 +75,11 @@ abstract class AbstractEditorProvider implements EditorProviderInterface, Dispat
             }
         };
         $event = new EditorButtonsSetupEvent('onEditorButtonsSetup', [
-            'subject'  => $buttonsRegistry,
-            'editorId' => $editorId,
-            'asset'    => $asset,
-            'author'   => $author,
+            'subject'    => $buttonsRegistry,
+            'editorId'   => $editorId,
+            'editorType1' => $this->getName(),
+            'asset'      => $asset,
+            'author'     => $author,
         ]);
         $this->getDispatcher()->dispatch($event->getName(), $event);
 

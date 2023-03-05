@@ -34,7 +34,11 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('subject', $arguments)) {
-            throw new BadMethodCallException("Argument 'subject' of event {$this->name} is required but has not been provided");
+            throw new BadMethodCallException("Argument 'subject' of event {$name} is required but has not been provided");
+        }
+
+        if (!\array_key_exists('editorType', $arguments)) {
+            throw new BadMethodCallException("Argument 'editorType' of event {$name} is required but has not been provided");
         }
 
         parent::__construct($name, $arguments);
@@ -64,6 +68,20 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      * @since  __DEPLOY_VERSION__
      */
     protected function setEditorId(string $value)
+    {
+        return $value;
+    }
+
+    /**
+     * Setter for the Editor Type argument
+     *
+     * @param   string  $value  The value to set
+     *
+     * @return  string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function setEditorType(string $value)
     {
         return $value;
     }
