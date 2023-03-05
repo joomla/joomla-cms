@@ -83,18 +83,18 @@ abstract class AbstractEditorProvider implements EditorProviderInterface, Dispat
                 continue;
             }
 
-            $plugin = Factory::getApplication()->bootPlugin($plugin->name, 'editors-xtd');
+            $pluginInst = Factory::getApplication()->bootPlugin($plugin->name, 'editors-xtd');
 
-            if (!$plugin || $plugin instanceof SubscriberInterface) {
+            if (!$pluginInst || $pluginInst instanceof SubscriberInterface) {
                 continue;
             }
 
             // Try to authenticate
-            if (!method_exists($plugin, 'onDisplay')) {
+            if (!method_exists($pluginInst, 'onDisplay')) {
                 continue;
             }
 
-            $button = $plugin->onDisplay($editorId, $asset, $author);
+            $button = $pluginInst->onDisplay($editorId, $asset, $author);
 
             if (empty($button)) {
                 continue;
@@ -106,8 +106,9 @@ abstract class AbstractEditorProvider implements EditorProviderInterface, Dispat
             }
 
             $button->editor = $editorId;
+            $button->buttonName = $plugin->name;
 
-            $result[$button->name] = $button;
+            $result[$plugin->name] = $button;
         }
 
         return array_values($result);
