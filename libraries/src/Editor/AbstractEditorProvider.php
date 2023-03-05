@@ -60,16 +60,29 @@ abstract class AbstractEditorProvider implements EditorProviderInterface, Dispat
 
         $result   = [];
         $editorId = $options['editorId'] ?? '';
-        $asset    = $options['asset'] ?? '';
-        $author   = $options['author'] ?? '';
+        $asset    = $options['asset'] ?? 0;
+        $author   = $options['author'] ?? 0;
 
         $buttonsRegistry = new class() implements ButtonRegistryInterface {
-            // pass
+            protected $registry = [];
+            public function add($item): self {
+                $this->registry[$item->get('buttonName')] = $item;
+                return $this;
+            }
+            public function getAll(): array
+            {
+                return array_values($this->registry);
+            }
         };
-        $event = new EditorButtonsSetupEvent('onEditorButtonsSetup', ['subject' => $buttonsRegistry]);
+        $event = new EditorButtonsSetupEvent('onEditorButtonsSetup', [
+            'subject'  => $buttonsRegistry,
+            'editorId' => $editorId,
+            'asset'    => $asset,
+            'author'   => $author,
+        ]);
         $this->getDispatcher()->dispatch($event->getName(), $event);
 
-        dump($event, $buttonsRegistry);
+        dump($event, $buttonsRegistry, $options);
 
         // Load legacy buttons for backward compatibility
         $plugins = PluginHelper::getPlugin('editors-xtd');

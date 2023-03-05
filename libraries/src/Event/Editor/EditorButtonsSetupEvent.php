@@ -53,4 +53,46 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
     {
         return $value;
     }
+
+    /**
+     * Setter for the Editor ID argument
+     *
+     * @param   string  $value  The value to set
+     *
+     * @return  string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function setEditorId(string $value)
+    {
+        return $value;
+    }
+
+    /**
+     * Setter for the asset argument
+     *
+     * @param   int  $value  The value to set
+     *
+     * @return  int
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function setAsset(int $value)
+    {
+        return $value;
+    }
+
+    /**
+     * Setter for the author argument
+     *
+     * @param   int  $value  The value to set
+     *
+     * @return  int
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function setAuthor(int $value)
+    {
+        return $value;
+    }
 }
