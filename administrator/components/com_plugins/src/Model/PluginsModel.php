@@ -178,7 +178,7 @@ class PluginsModel extends ListModel
      *
      * @param   array  &$items  The array of objects.
      *
-     * @return  array The array of translated objects.
+     * @return  void
      */
     protected function translate(&$items)
     {

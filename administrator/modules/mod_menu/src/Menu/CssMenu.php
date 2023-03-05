@@ -249,7 +249,7 @@ class CssMenu
      *
      * @param   AdministratorMenuItem  $parent  A menu item to process
      *
-     * @return  array
+     * @return  void
      *
      * @since   3.8.0
      */

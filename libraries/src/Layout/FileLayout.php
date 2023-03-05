@@ -425,7 +425,7 @@ class FileLayout extends BaseLayout
      *
      * @param   string  $option  URL Option of the component. Example: com_content
      *
-     * @return  mixed  Component option string | null for none
+     * @return  void
      *
      * @since   3.2
      */

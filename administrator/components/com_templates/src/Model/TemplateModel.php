@@ -267,7 +267,7 @@ class TemplateModel extends FormModel
      * @param   string     $element   The path of the template element.
      * @param   \stdClass  $template  The stdClass object of template.
      *
-     * @return  array
+     * @return  void
      *
      * @since   4.0.0
      */

@@ -240,7 +240,7 @@ class PluginModel extends AdminModel
      * @param   mixed   $data   The data expected for the form.
      * @param   string  $group  Cache group name.
      *
-     * @return  mixed  True if successful.
+     * @return  void
      *
      * @since   1.6
      *

@@ -117,7 +117,7 @@ class BannersController extends AdminController
     /**
      * Method to get the number of published banners for quickicons
      *
-     * @return  string  The JSON-encoded amount of published banners
+     * @return  void
      *
      * @since   4.3.0
      */

@@ -841,7 +841,7 @@ class Stream extends CMSObject
      * Stream contexts
      * Builds the context from the array
      *
-     * @return  mixed
+     * @return  void
      *
      * @since   1.7.0
      */
