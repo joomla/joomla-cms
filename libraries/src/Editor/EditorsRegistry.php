@@ -22,7 +22,7 @@ use Joomla\Event\DispatcherAwareTrait;
  * Editor Registry class
  * @since   __DEPLOY_VERSION__
  */
-final class EditorsRegistry implements DispatcherAwareInterface
+final class EditorsRegistry implements EditorsRegistryInterface, DispatcherAwareInterface
 {
     use DispatcherAwareTrait;
 
@@ -89,10 +89,10 @@ final class EditorsRegistry implements DispatcherAwareInterface
      *
      * @param   EditorProviderInterface $instance
      *
-     * @return  static
+     * @return  EditorsRegistryInterface
      * @since    __DEPLOY_VERSION__
      */
-    public function add(EditorProviderInterface $instance)
+    public function add(EditorProviderInterface $instance): EditorsRegistryInterface
     {
         $this->registry[$instance->getName()] = $instance;
 
@@ -102,10 +102,10 @@ final class EditorsRegistry implements DispatcherAwareInterface
     /**
      * Trigger event to allow register the element through plugins.
      *
-     * @return  static
+     * @return  EditorsRegistryInterface
      * @since   __DEPLOY_VERSION__
      */
-    public function initRegistry()
+    public function initRegistry(): EditorsRegistryInterface
     {
         if (!$this->initialised) {
             $this->initialised = true;
