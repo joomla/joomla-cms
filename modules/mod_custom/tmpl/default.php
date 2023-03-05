@@ -9,25 +9,12 @@
  */
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Uri\Uri;
-
-/**
- * @var \stdClass               $module   The module
- * @var CMSApplicationInterface $app      The application instance
- * @var Input                   $input    The input instance
- * @var Registry                $params   Module params
- * @var Registry                $template Template params
- *
- * And your own vars wich you can set in your module displatcher
- * src/Dispatcher/Dispatcher.php in function getLayoutData().
- * When you return $data['your_own_variable_name'] function getLayoutData() here
- * you'll access to it via $your_own_variable_name
- */
 
 $modId = 'mod-custom' . $module->id;
 
