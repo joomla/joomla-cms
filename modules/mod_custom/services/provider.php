@@ -9,7 +9,7 @@
  */
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 use Joomla\CMS\Extension\Service\Provider\HelperFactory;
@@ -36,7 +36,6 @@ return new class () implements ServiceProviderInterface {
     public function register(Container $container)
     {
         $container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\Custom'));
-        $container->registerServiceProvider(new HelperFactory('\\Joomla\\Module\\Custom\\Site\\Helper'));
         $container->registerServiceProvider(new Module());
     }
 };
