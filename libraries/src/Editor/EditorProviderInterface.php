@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Editor;
 
+use Joomla\CMS\Editor\Button\ButtonInterface;
+
 /**
  * Editor provider interface
  *
@@ -44,7 +46,7 @@ interface EditorProviderInterface
      * @param   mixed   $buttons  Array with button names to be excluded. Empty array or boolean true to display all buttons.
      * @param   array   $options  Associative array with additional parameters
      *
-     * @return  array
+     * @return  ButtonInterface[]
      *
      * @since   __DEPLOY_VERSION__
      */

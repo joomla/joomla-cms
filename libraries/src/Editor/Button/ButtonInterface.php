@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -30,8 +31,21 @@ interface ButtonInterface
     /**
      * Return Button property or null.
      *
+     * @param string $name Property name
+     *
      * @return mixed
      * @since   __DEPLOY_VERSION__
      */
-    public function get($name);
+    public function get(string $name);
+
+    /**
+     * Set Button property.
+     *
+     * @param string $name  Property name
+     * @param mixed  $value Property value
+     *
+     * @return ButtonInterface
+     * @since   __DEPLOY_VERSION__
+     */
+    public function set(string $name, $value): ButtonInterface;
 }

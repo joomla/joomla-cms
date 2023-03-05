@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Editor;
 
+use Joomla\CMS\Editor\Button\ButtonInterface;
 use Joomla\CMS\Editor\Button\ButtonsRegistry;
 use Joomla\CMS\Event\Editor\EditorButtonsSetupEvent;
 use Joomla\CMS\Factory;
@@ -37,7 +38,8 @@ abstract class AbstractEditorProvider implements EditorProviderInterface, Dispat
      * @param   mixed   $buttons  Array with button names to be excluded. Empty array or boolean true to display all buttons.
      * @param   array   $options  Associative array with additional parameters
      *
-     * @return  array
+     * @return  ButtonInterface[]
+     * @throws \Exception
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -60,9 +62,10 @@ abstract class AbstractEditorProvider implements EditorProviderInterface, Dispat
 
         $result   = [];
         $editorId = $options['editorId'] ?? '';
-        $asset    = $options['asset'] ?? 0;
-        $author   = $options['author'] ?? 0;
+        $asset    = (int) ($options['asset'] ?? 0);
+        $author   = (int) ($options['author'] ?? 0);
 
+        // Trigger ButtonsSetup event for current editor
         $btnsReg = new ButtonsRegistry;
         $event   = new EditorButtonsSetupEvent('onEditorButtonsSetup', [
             'subject'    => $btnsReg,
@@ -71,9 +74,19 @@ abstract class AbstractEditorProvider implements EditorProviderInterface, Dispat
             'asset'      => $asset,
             'author'     => $author,
         ]);
+        PluginHelper::importPlugin('editors-xtd', null, true, $this->getDispatcher());
         $this->getDispatcher()->dispatch($event->getName(), $event);
 
-        dump($event, $btnsReg, $options);
+        // Go through all and leave only allowed buttons
+        foreach ($btnsReg->getAll() as $button) {
+            $btnName = $button->getButtonName();
+
+            if (!$loadAll && \in_array($btnName, $buttons)) {
+                continue;
+            }
+
+            $result[$btnName] = $button;
+        }
 
         // Load legacy buttons for backward compatibility
         $plugins = PluginHelper::getPlugin('editors-xtd');
