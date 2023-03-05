@@ -327,8 +327,9 @@ class MailTemplate
         foreach ($tags as $key => $value) {
             if (is_array($value)) {
                 $matches = [];
+                $pregKey = preg_quote(strtoupper($key), '/');
 
-                if (preg_match_all('/{' . strtoupper($key) . '}(.*?){\/' . strtoupper($key) . '}/s', $text, $matches)) {
+                if (preg_match_all('/{' . $pregKey . '}(.*?){\/' . $pregKey . '}/s', $text, $matches)) {
                     foreach ($matches[0] as $i => $match) {
                         $replacement = '';
 
