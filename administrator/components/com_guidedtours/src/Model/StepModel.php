@@ -102,14 +102,7 @@ class StepModel extends AdminModel
     public function save($data)
     {
         $table      = $this->getTable();
-        $context    = $this->option . '.' . $this->name;
-        $app        = Factory::getApplication();
-        $input      = $app->input;
-        $tourID     = $app->getUserStateFromRequest($context . '.filter.tour_id', 'tour_id', 0, 'int');
-
-        if (empty($data['tour_id'])) {
-            $data['tour_id'] = $tourID;
-        }
+        $input      = Factory::getApplication()->input;
 
         $tour = $this->getTable('Tour');
 
@@ -196,15 +189,6 @@ class StepModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $app       = Factory::getApplication();
-        $context   = $this->option . '.' . $this->name;
-
-        // Make sure we have a tour id.
-        if (!\property_exists($record, 'tour_id')) {
-            $tourID          = $app->getUserStateFromRequest($context . '.filter.tour_id', 'tour_id', 0, 'int');
-            $record->tour_id = $tourID;
-        }
-
         // Check for existing tour.
         if (!empty($record->tour_id)) {
             return $this->getCurrentUser()->authorise('core.edit.state', 'com_guidedtours.tour.' . $record->tour_id);
@@ -260,10 +244,8 @@ class StepModel extends AdminModel
 
         $item = $this->getItem($id);
 
-        $canEditState = $this->canEditState((object) $item);
-
         // Modify the form based on access controls.
-        if (!$canEditState) {
+        if (!$this->canEditState((object) $item)) {
             $form->setFieldAttribute('published', 'disabled', 'true');
             $form->setFieldAttribute('published', 'required', 'false');
             $form->setFieldAttribute('published', 'filter', 'unset');
@@ -308,8 +290,7 @@ class StepModel extends AdminModel
      */
     public function getItem($pk = null)
     {
-        $lang = Factory::getLanguage();
-        $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
+        Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
         if ($result = parent::getItem($pk)) {
             if (!empty($result->id)) {
@@ -317,20 +298,20 @@ class StepModel extends AdminModel
                 $result->description_translation = Text::_($result->description);
             } else {
                 $app    = Factory::getApplication();
-                $tourID = $app->getUserState('com_guidedtours.tour_id');
+                $tourId = $app->getUserState('com_guidedtours.tour_id');
 
                 /** @var \Joomla\Component\Guidedtours\Administrator\Model\TourModel $tourModel */
                 $tourModel = $app->bootComponent('com_guidedtours')
                     ->getMVCFactory()->createModel('Tour', 'Administrator', ['ignore_request' => true]);
 
-                $tour         = $tourModel->getItem($tourID);
+                $tour         = $tourModel->getItem($tourId);
                 $tourLanguage = !empty($tour->language) ? $tour->language : '*';
 
                 // Sets step language to parent tour language
                 $result->language = $tourLanguage;
 
                 // Set the step's tour id
-                $result->tour_id = $tourID;
+                $result->tour_id = $tourId;
             }
         }
 
