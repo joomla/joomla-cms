@@ -198,6 +198,12 @@ class ActionlogsHelper
             $messageData['type'] = Text::_($messageData['type']);
         }
 
+        // Remove links from the message template, if we should not generate links.
+        if (!$generateLinks) {
+            $message = preg_replace('/<a href=["\']{.+?}["\']>/', '', $message);
+            $message = str_replace('</a>', '', $message);
+        }
+
         $linkMode = Factory::getApplication()->get('force_ssl', 0) >= 1 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
         foreach ($messageData as $key => $value) {
