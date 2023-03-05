@@ -63,9 +63,9 @@ abstract class AbstractEditorProvider implements EditorProviderInterface, Dispat
         $asset    = $options['asset'] ?? 0;
         $author   = $options['author'] ?? 0;
 
-        $buttonsRegistry = new ButtonsRegistry;
-        $event = new EditorButtonsSetupEvent('onEditorButtonsSetup', [
-            'subject'    => $buttonsRegistry,
+        $btnsReg = new ButtonsRegistry;
+        $event   = new EditorButtonsSetupEvent('onEditorButtonsSetup', [
+            'subject'    => $btnsReg,
             'editorId'   => $editorId,
             'editorType' => $this->getName(),
             'asset'      => $asset,
@@ -73,7 +73,7 @@ abstract class AbstractEditorProvider implements EditorProviderInterface, Dispat
         ]);
         $this->getDispatcher()->dispatch($event->getName(), $event);
 
-        dump($event, $buttonsRegistry, $options);
+        dump($event, $btnsReg, $options);
 
         // Load legacy buttons for backward compatibility
         $plugins = PluginHelper::getPlugin('editors-xtd');

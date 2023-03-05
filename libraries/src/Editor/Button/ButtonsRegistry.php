@@ -30,14 +30,14 @@ final class ButtonsRegistry implements ButtonsRegistryInterface
     /**
      * Register element in registry, add new or override existing.
      *
-     * @param   object $instance
+     * @param   ButtonInterface $instance
      *
      * @return  static
      * @since    __DEPLOY_VERSION__
      */
-    public function add($item): ButtonsRegistryInterface
+    public function add(ButtonInterface $instance): ButtonsRegistryInterface
     {
-        $this->registry[$item->getButtonName()] = $item;
+        $this->registry[$instance->getButtonName()] = $instance;
 
         return $this;
     }
@@ -45,7 +45,7 @@ final class ButtonsRegistry implements ButtonsRegistryInterface
     /**
      * Return list of all registered elements
      *
-     * @return array
+     * @return ButtonInterface[]
      * @since    __DEPLOY_VERSION__
      */
     public function getAll(): array

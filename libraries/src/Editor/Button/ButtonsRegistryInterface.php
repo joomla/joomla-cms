@@ -19,4 +19,21 @@ namespace Joomla\CMS\Editor\Button;
  */
 interface ButtonsRegistryInterface
 {
+    /**
+     * Register element in registry, add new or override existing.
+     *
+     * @param   ButtonInterface $instance
+     *
+     * @return  static
+     * @since    __DEPLOY_VERSION__
+     */
+    public function add(ButtonInterface $instance): ButtonsRegistryInterface;
+
+    /**
+     * Return list of all registered elements
+     *
+     * @return ButtonInterface[]
+     * @since    __DEPLOY_VERSION__
+     */
+    public function getAll(): array;
 }
