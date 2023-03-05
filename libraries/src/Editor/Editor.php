@@ -87,16 +87,16 @@ class Editor implements DispatcherAwareInterface
      *
      * @param   string                    $editor      The editor name
      * @param   DispatcherInterface|null  $dispatcher  The event dispatcher we're going to use
-     * @param   EditorRegistry|null       $registry    The editors registry
+     * @param   EditorsRegistry|null       $registry    The editors registry
      *
      * @since  1.5
      */
-    public function __construct(string $editor = 'none', DispatcherInterface $dispatcher = null, EditorRegistry $registry = null)
+    public function __construct(string $editor = 'none', DispatcherInterface $dispatcher = null, EditorsRegistry $registry = null)
     {
         $this->_name = $editor;
 
-        /** @var  EditorRegistry  $registry */
-        $registry = $registry ?? Factory::getContainer()->get(EditorRegistry::class);
+        /** @var  EditorsRegistry  $registry */
+        $registry = $registry ?? Factory::getContainer()->get(EditorsRegistry::class);
 
         if ($registry->has($editor)) {
             $this->provider = $registry->get($editor);

@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Service\Provider;
 
-use Joomla\CMS\Editor\EditorRegistry as Registry;
+use Joomla\CMS\Editor\EditorsRegistry as Registry;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -20,11 +20,11 @@ use Joomla\Event\DispatcherInterface;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Service provider for the application's EditorRegistry dependency
+ * Service provider for the application's EditorsRegistry dependency
  *
  * @since  __DEPLOY_VERSION__
  */
-class EditorRegistry implements ServiceProviderInterface
+class EditorsRegistry implements ServiceProviderInterface
 {
     /**
      * Registers the service provider with a DI container.
@@ -37,7 +37,7 @@ class EditorRegistry implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container->alias('editorregistry', Registry::class)
+        $container->alias('editorsregistry', Registry::class)
             ->share(
                 Registry::class,
                 function (Container $container) {

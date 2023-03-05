@@ -22,7 +22,7 @@ use Joomla\Event\DispatcherAwareTrait;
  * Editor Registry class
  * @since   __DEPLOY_VERSION__
  */
-final class EditorRegistry implements DispatcherAwareInterface
+final class EditorsRegistry implements DispatcherAwareInterface
 {
     use DispatcherAwareTrait;
 

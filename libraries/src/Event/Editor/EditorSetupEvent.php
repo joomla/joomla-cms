@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Event\Editor;
 
 use BadMethodCallException;
-use Joomla\CMS\Editor\EditorRegistry;
+use Joomla\CMS\Editor\EditorsRegistry;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
 /**
@@ -42,13 +42,13 @@ final class EditorSetupEvent extends AbstractImmutableEvent
     /**
      * Setter for the subject argument
      *
-     * @param   EditorRegistry  $value  The value to set
+     * @param   EditorsRegistry  $value  The value to set
      *
-     * @return  EditorRegistry
+     * @return  EditorsRegistry
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected function setSubject(EditorRegistry $value)
+    protected function setSubject(EditorsRegistry $value)
     {
         return $value;
     }
