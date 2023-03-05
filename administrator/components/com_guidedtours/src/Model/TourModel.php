@@ -283,7 +283,9 @@ class TourModel extends AdminModel
     {
         Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
-        if ($result = parent::getItem($pk) && !empty($result->id)) {
+        $result = parent::getItem($pk);
+
+        if (!empty($result->id)) {
             $result->title_translation       = Text::_($result->title);
             $result->description_translation = Text::_($result->description);
         }
