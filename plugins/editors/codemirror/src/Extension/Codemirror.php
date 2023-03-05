@@ -58,32 +58,4 @@ final class Codemirror extends CMSPlugin implements SubscriberInterface
         $subject = $event['subject'];
         $subject->add(new CodeMirrorProvider($this->params, $this->getApplication()));
     }
-
-    /**
-     * Displays the editor buttons.
-     *
-     * @param   string  $name     Button name.
-     * @param   mixed   $buttons  [array with button objects | boolean true to display buttons]
-     * @param   mixed   $asset    Unused.
-     * @param   mixed   $author   Unused.
-     *
-     * @return  string|void
-     */
-    protected function displayButtons($name, $buttons, $asset, $author)
-    {
-        if (is_array($buttons) || (is_bool($buttons) && $buttons)) {
-            $buttonsEvent = new Event(
-                'getButtons',
-                [
-                    'editor'  => $name,
-                    'buttons' => $buttons,
-                ]
-            );
-
-            $buttonsResult = $this->getDispatcher()->dispatch('getButtons', $buttonsEvent);
-            $buttons       = $buttonsResult['result'];
-
-            return LayoutHelper::render('joomla.editors.buttons', $buttons);
-        }
-    }
 }

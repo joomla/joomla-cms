@@ -10,7 +10,7 @@
 namespace Joomla\Plugin\Editors\CodeMirror\Provider;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Editor\EditorProviderInterface;
+use Joomla\CMS\Editor\AbstractEditorProvider;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since   __DEPLOY_VERSION__
  */
-final class CodeMirrorProvider implements EditorProviderInterface
+final class CodeMirrorProvider extends AbstractEditorProvider
 {
     /**
      * A Registry object holding the parameters for the plugin
@@ -127,7 +127,7 @@ final class CodeMirrorProvider implements EditorProviderInterface
         $author  = $attributes['author'] ?? 0;
 
         // Must pass the field id to the buttons in this editor.
-        $buttonsStr = ''; //$this->displayButtons($id, $buttons, $asset, $author);
+        $buttonsStr = $this->displayButtons($id, $buttons, ['asset' => $asset, 'author' => $author]);
 
         // Options for the CodeMirror constructor.
         $options   = new \stdClass();

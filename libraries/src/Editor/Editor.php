@@ -247,10 +247,6 @@ class Editor implements DispatcherAwareInterface
      */
     public function getButtons($editor, $buttons = true)
     {
-        if ($this->provider) {
-            return [];
-        }
-
         $result = [];
 
         if (\is_bool($buttons) && !$buttons) {
