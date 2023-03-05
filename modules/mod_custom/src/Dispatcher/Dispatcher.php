@@ -29,7 +29,7 @@ class Dispatcher extends AbstractModuleDispatcher
      *
      * @return  array
      *
-     * @since   4.0.0
+     * @since   __DEPLOY_VERSION__
      */
     protected function getLayoutData()
     {
