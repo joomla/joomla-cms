@@ -105,7 +105,7 @@ class TourModel extends AdminModel
         $id   = $data['id'];
         $lang = $data['language'];
 
-        GuidedtoursHelper::setStepLanguage($id, $lang);
+        $this->setStepsLanguage($id, $lang);
 
         $result = parent::save($data);
 
@@ -536,5 +536,33 @@ class TourModel extends AdminModel
         $this->cleanCache();
 
         return true;
+    }
+
+    /**
+     * Sets a tour's steps language
+     *
+     * @param   int     $id        Id of a tour
+     * @param   string  $language  The language to apply to the steps belong the tour
+     *
+     * @return  boolean
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function setStepsLanguage(int $id, string $language = '*'): bool
+    {
+        if ($id <= 0) {
+            return false;
+        }
+
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->update($db->quoteName('#__guidedtour_steps'))
+            ->set($db->quoteName('language') . ' = :language')
+            ->where($db->quoteName('tour_id') . ' = :tourId')
+            ->bind(':language', $language)
+            ->bind(':tourId', $id, ParameterType::INTEGER);
+
+        return $db->setQuery($query)
+            ->execute();
     }
 }
