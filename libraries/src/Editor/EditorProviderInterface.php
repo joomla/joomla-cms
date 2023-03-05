@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Joomla! Content Management System
  *
@@ -10,6 +9,11 @@
 
 namespace Joomla\CMS\Editor;
 
+/**
+ * Editor provider interface
+ *
+ * @since   __DEPLOY_VERSION__
+ */
 interface EditorProviderInterface
 {
     /**
