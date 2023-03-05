@@ -38,7 +38,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
     {
         $data = parent::getLayoutData();
 
-        $data['buttons'] = $this->getHelperFactory()->getButtons($data['params'], $this->getApplication());
+        $data['buttons'] = $this->getHelperFactory()->getHelper('QuickIconHelper')->getButtons($data['params'], $this->getApplication());
 
         return $data;
     }
