@@ -20,7 +20,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 /**
  * Dispatcher class for mod_custom
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class Dispatcher extends AbstractModuleDispatcher
 {
