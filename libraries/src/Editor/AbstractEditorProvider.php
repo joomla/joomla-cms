@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Editor;
 
-use Joomla\CMS\Editor\Button\ButtonRegistryInterface;
+use Joomla\CMS\Editor\Button\ButtonsRegistry;
 use Joomla\CMS\Event\Editor\EditorButtonsSetupEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -63,21 +63,11 @@ abstract class AbstractEditorProvider implements EditorProviderInterface, Dispat
         $asset    = $options['asset'] ?? 0;
         $author   = $options['author'] ?? 0;
 
-        $buttonsRegistry = new class() implements ButtonRegistryInterface {
-            protected $registry = [];
-            public function add($item): self {
-                $this->registry[$item->get('buttonName')] = $item;
-                return $this;
-            }
-            public function getAll(): array
-            {
-                return array_values($this->registry);
-            }
-        };
+        $buttonsRegistry = new ButtonsRegistry;
         $event = new EditorButtonsSetupEvent('onEditorButtonsSetup', [
             'subject'    => $buttonsRegistry,
             'editorId'   => $editorId,
-            'editorType1' => $this->getName(),
+            'editorType' => $this->getName(),
             'asset'      => $asset,
             'author'     => $author,
         ]);

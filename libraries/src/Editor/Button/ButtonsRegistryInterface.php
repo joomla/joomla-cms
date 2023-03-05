@@ -17,6 +17,6 @@ namespace Joomla\CMS\Editor\Button;
  * Buttons Registry class
  * @since   __DEPLOY_VERSION__
  */
-interface ButtonRegistryInterface
+interface ButtonsRegistryInterface
 {
 }
