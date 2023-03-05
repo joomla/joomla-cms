@@ -64,9 +64,9 @@ class FeedPerson
      */
     public function __construct($name = null, $email = null, $uri = null, $type = null)
     {
-        $this->name = $name;
+        $this->name  = $name;
         $this->email = $email;
-        $this->uri = $uri;
-        $this->type = $type;
+        $this->uri   = $uri;
+        $this->type  = $type;
     }
 }

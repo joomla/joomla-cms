@@ -72,7 +72,7 @@ class ArticlesModel extends ListModel
                 'tag',
                 'rating_count', 'rating',
                 'stage', 'wa.stage_id',
-                'ws.title'
+                'ws.title',
             ];
 
             if (Associations::isEnabled()) {
@@ -125,12 +125,13 @@ class ArticlesModel extends ListModel
      */
     protected function populateState($ordering = 'a.id', $direction = 'desc')
     {
-        $app = Factory::getApplication();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
-        $forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
+        $forcedLanguage = $input->get('forcedLanguage', '', 'cmd');
 
         // Adjust the context to support modal layouts.
-        if ($layout = $app->input->get('layout')) {
+        if ($layout = $input->get('layout')) {
             $this->context .= '.' . $layout;
         }
 
@@ -154,7 +155,7 @@ class ArticlesModel extends ListModel
         $language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
         $this->setState('filter.language', $language);
 
-        $formSubmitted = $app->input->post->get('form_submitted');
+        $formSubmitted = $input->post->get('form_submitted');
 
         // Gets the value of a user state variable and sets it in the session
         $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
@@ -163,16 +164,16 @@ class ArticlesModel extends ListModel
         $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
 
         if ($formSubmitted) {
-            $access = $app->input->post->get('access');
+            $access = $input->post->get('access');
             $this->setState('filter.access', $access);
 
-            $authorId = $app->input->post->get('author_id');
+            $authorId = $input->post->get('author_id');
             $this->setState('filter.author_id', $authorId);
 
-            $categoryId = $app->input->post->get('category_id');
+            $categoryId = $input->post->get('category_id');
             $this->setState('filter.category_id', $categoryId);
 
-            $tag = $app->input->post->get('tag');
+            $tag = $input->post->get('tag');
             $this->setState('filter.tag', $tag);
         }
 
@@ -225,7 +226,7 @@ class ArticlesModel extends ListModel
         // Create a new query object.
         $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
 
         $params = ComponentHelper::getParams('com_content');
 
@@ -392,8 +393,8 @@ class ArticlesModel extends ListModel
 
         // Case: Using both categories filter and by level filter
         if (count($categoryId)) {
-            $categoryId = ArrayHelper::toInteger($categoryId);
-            $categoryTable = Table::getInstance('Category', 'JTable');
+            $categoryId       = ArrayHelper::toInteger($categoryId);
+            $categoryTable    = Table::getInstance('Category', 'JTable');
             $subCatItemsWhere = [];
 
             foreach ($categoryId as $key => $filter_catid) {
@@ -430,13 +431,13 @@ class ArticlesModel extends ListModel
 
         if (is_numeric($authorId)) {
             $authorId = (int) $authorId;
-            $type = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
+            $type     = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
             $query->where($db->quoteName('a.created_by') . $type . ':authorId')
                 ->bind(':authorId', $authorId, ParameterType::INTEGER);
         } elseif (is_array($authorId)) {
             // Check to see if by_me is in the array
             if (\in_array('by_me', $authorId)) {
-            // Replace by_me with the current user id in the array
+                // Replace by_me with the current user id in the array
                 $authorId['by_me'] = $user->id;
             }
 
@@ -553,7 +554,7 @@ class ArticlesModel extends ListModel
         }
 
         $db   = $this->getDatabase();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $items = $this->getItems();
 
@@ -650,7 +651,7 @@ class ArticlesModel extends ListModel
             $item->typeAlias = 'com_content.article';
 
             if (isset($item->metadata)) {
-                $registry = new Registry($item->metadata);
+                $registry       = new Registry($item->metadata);
                 $item->metadata = $registry->toArray();
             }
         }

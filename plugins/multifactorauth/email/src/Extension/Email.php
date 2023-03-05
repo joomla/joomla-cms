@@ -173,25 +173,25 @@ class Email extends CMSPlugin implements SubscriberInterface
             new CaptiveRenderOptions(
                 [
                     // Custom HTML to display above the MFA form
-                    'pre_message'        => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_PRE_MESSAGE'),
+                    'pre_message' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_PRE_MESSAGE'),
                     // How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
-                    'field_type'         => 'input',
+                    'field_type' => 'input',
                     // The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
-                    'input_type'         => 'text',
+                    'input_type' => 'text',
                     // The attributes for the HTML input box.
-                    'input_attributes'   => [
-                        'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric"
+                    'input_attributes' => [
+                        'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric",
                     ],
                     // Placeholder text for the HTML input box. Leave empty if you don't need it.
-                    'placeholder'        => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),
+                    'placeholder' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),
                     // Label to show above the HTML input box. Leave empty if you don't need it.
-                    'label'              => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_LABEL'),
+                    'label' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_LABEL'),
                     // Custom HTML. Only used when field_type = custom.
-                    'html'               => '',
+                    'html' => '',
                     // Custom HTML to display below the MFA form
-                    'post_message'       => '',
+                    'post_message' => '',
                     // Should I hide the default Submit button?
-                    'hide_submit'        => false,
+                    'hide_submit' => false,
                     // Is this MFA method validating against all configured authenticators of the same type?
                     'allowEntryBatching' => false,
                 ]
@@ -247,19 +247,19 @@ class Email extends CMSPlugin implements SubscriberInterface
             $event->addResult(
                 new SetupRenderOptions(
                     [
-                        'default_title'    => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_DISPLAYEDAS'),
-                        'hidden_data'      => [
+                        'default_title' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_DISPLAYEDAS'),
+                        'hidden_data'   => [
                             'key' => $key,
                         ],
                         'field_type'       => 'input',
                         'input_type'       => 'text',
                         'input_attributes' => [
-                            'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric"
+                            'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric",
                         ],
-                        'input_value'      => '',
-                        'placeholder'      => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),
-                        'pre_message'      => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_PRE_MESSAGE'),
-                        'label'            => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_LABEL'),
+                        'input_value' => '',
+                        'placeholder' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),
+                        'pre_message' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_PRE_MESSAGE'),
+                        'label'       => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_LABEL'),
                     ]
                 )
             );
@@ -540,7 +540,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 
         try {
             $jLanguage = $this->getApplication()->getLanguage();
-            $mailer = new MailTemplate('plg_multifactorauth_email.mail', $jLanguage->getTag());
+            $mailer    = new MailTemplate('plg_multifactorauth_email.mail', $jLanguage->getTag());
             $mailer->addRecipient($user->email, $user->name);
             $mailer->addTemplateData($replacements);
 

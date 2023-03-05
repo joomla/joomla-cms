@@ -43,7 +43,7 @@ class ModuleorderField extends FormField
      * The linked property
      *
      * @var    string
-     * @since  __DEPLOY_VERSION_
+     * @since  4.2.7
      */
     protected $linked;
 
@@ -141,7 +141,7 @@ class ModuleorderField extends FormField
             'moduleId' => $this->form->getValue('id'),
             'name'     => $this->name,
             'token'    => Session::getFormToken() . '=1',
-            'element'  => $this->form->getName() . '_' . $this->linked
+            'element'  => $this->form->getName() . '_' . $this->linked,
         ];
 
         return array_merge($data, $extraData);

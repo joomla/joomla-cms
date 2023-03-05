@@ -1,4 +1,4 @@
-import { persistedStateOptions } from './plugins/persisted-state.es6';
+import persistedStateOptions from './plugins/persisted-state.es6';
 
 // Get the disks from joomla option storage
 const options = Joomla.getOptions('com_media', {});
@@ -100,4 +100,8 @@ export default {
   previewItem: null,
   // The Search Query
   search: '',
+  // The sorting by
+  sortBy: storedState && storedState.sortBy ? storedState.sortBy : 'name',
+  // The sorting direction
+  sortDirection: storedState && storedState.sortDirection ? storedState.sortDirection : 'asc',
 };

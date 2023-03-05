@@ -67,8 +67,8 @@ class PluginModel extends AdminModel
                 'event_after_save'  => 'onExtensionAfterSave',
                 'event_before_save' => 'onExtensionBeforeSave',
                 'events_map'        => [
-                    'save' => 'extension'
-                ]
+                    'save' => 'extension',
+                ],
             ],
             $config
         );
@@ -178,11 +178,11 @@ class PluginModel extends AdminModel
             }
 
             // Convert to the \Joomla\CMS\Object\CMSObject before adding other data.
-            $properties = $table->getProperties(1);
+            $properties             = $table->getProperties(1);
             $this->_cache[$cacheId] = ArrayHelper::toObject($properties, CMSObject::class);
 
             // Convert the params field to an array.
-            $registry = new Registry($table->params);
+            $registry                       = new Registry($table->params);
             $this->_cache[$cacheId]->params = $registry->toArray();
 
             // Get the plugin XML.
@@ -229,7 +229,7 @@ class PluginModel extends AdminModel
         $app = Factory::getApplication();
 
         // Load the User state.
-        $pk = $app->input->getInt('extension_id');
+        $pk = $app->getInput()->getInt('extension_id');
         $this->setState('plugin.id', $pk);
     }
 
@@ -280,8 +280,8 @@ class PluginModel extends AdminModel
         }
 
         // Load the core and/or local language file(s).
-            $lang->load('plg_' . $folder . '_' . $element, JPATH_ADMINISTRATOR)
-        ||  $lang->load('plg_' . $folder . '_' . $element, JPATH_PLUGINS . '/' . $folder . '/' . $element);
+        $lang->load('plg_' . $folder . '_' . $element, JPATH_ADMINISTRATOR)
+        || $lang->load('plg_' . $folder . '_' . $element, JPATH_PLUGINS . '/' . $folder . '/' . $element);
 
         if (file_exists($formFile)) {
             // Get the plugin form.

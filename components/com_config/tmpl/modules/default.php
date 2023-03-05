@@ -165,7 +165,7 @@ if (Multilanguage::isEnabled()) {
                 </div>
 
                 <input type="hidden" name="id" value="<?php echo $this->item['id']; ?>">
-                <input type="hidden" name="return" value="<?php echo Factory::getApplication()->input->get('return', null, 'base64'); ?>">
+                <input type="hidden" name="return" value="<?php echo Factory::getApplication()->getInput()->get('return', null, 'base64'); ?>">
                 <input type="hidden" name="task" value="">
                 <?php echo HTMLHelper::_('form.token'); ?>
             </div>

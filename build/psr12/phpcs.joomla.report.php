@@ -100,7 +100,6 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
 
     private function prepareProcessing($file, $phpcsFile, $line, $column, $error)
     {
-
         switch ($error['source']) {
             case 'PSR1.Files.SideEffects.FoundWithSymbols':
                 $fileContent = file_get_contents($file);
@@ -114,7 +113,7 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                         'file' => $file,
                         'line' => $line,
                         'column' => $column,
-                        'cleanup' => 'definedJEXEC'
+                        'cleanup' => 'definedJEXEC',
                     ];
                 } else {
                     $targetFile = $this->tmpDir . '/' . $error['source'] . '.txt';
@@ -143,7 +142,7 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                     'file' => $file,
                     'line' => $line,
                     'column' => $column,
-                    'cleanup' => 'MissingNamespace'
+                    'cleanup' => 'MissingNamespace',
                 ];
                 break;
 
@@ -156,7 +155,7 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                         'file' => $file,
                         'line' => $line,
                         'column' => $column,
-                        'cleanup' => 'ValidClassNameNotCamelCaps'
+                        'cleanup' => 'ValidClassNameNotCamelCaps',
                     ];
                 }
                 break;
@@ -166,7 +165,7 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                     'file' => $file,
                     'line' => $line,
                     'column' => $column,
-                    'cleanup' => 'SpaceAfterCloseBrace'
+                    'cleanup' => 'SpaceAfterCloseBrace',
                 ];
                 break;
 
@@ -175,7 +174,7 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                     'file' => $file,
                     'line' => $line,
                     'column' => $column,
-                    'cleanup' => 'ConstantVisibility'
+                    'cleanup' => 'ConstantVisibility',
                 ];
                 break;
 
@@ -232,7 +231,6 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
         $interactive = false,
         $toScreen = true
     ) {
-
         $preprocessing = [];
         if (file_exists($this->tmpDir . '/cleanup.json')) {
             $preprocessing = json_decode(file_get_contents($this->tmpDir . '/cleanup.json'), JSON_OBJECT_AS_ARRAY);

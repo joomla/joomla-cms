@@ -126,7 +126,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
         if (property_exists($this, 'app')) {
             @trigger_error('The application should be injected through setApplication() and requested through getApplication().', E_USER_DEPRECATED);
-            $reflection = new \ReflectionClass($this);
+            $reflection  = new \ReflectionClass($this);
             $appProperty = $reflection->getProperty('app');
 
             if ($appProperty->isPrivate() === false && \is_null($this->app)) {
@@ -201,7 +201,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
         }
 
         $reflectedObject = new \ReflectionObject($this);
-        $methods = $reflectedObject->getMethods(\ReflectionMethod::IS_PUBLIC);
+        $methods         = $reflectedObject->getMethods(\ReflectionMethod::IS_PUBLIC);
 
         /** @var \ReflectionMethod $method */
         foreach ($methods as $method) {
@@ -227,7 +227,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
             }
 
             /** @var \ReflectionParameter $param */
-            $param = array_shift($parameters);
+            $param     = array_shift($parameters);
             $paramName = $param->getName();
 
             // No type hint / type hint class not an event or parameter name is not "event"? It's a legacy listener.

@@ -71,11 +71,11 @@ class RouteHelper
         $typeExploded = explode('.', $typealias);
 
         if (isset($typeExploded[1])) {
-            $this->view = $typeExploded[1];
+            $this->view      = $typeExploded[1];
             $this->extension = $typeExploded[0];
         } else {
-            $this->view = Factory::getApplication()->input->getString('view');
-            $this->extension = Factory::getApplication()->input->getCmd('option');
+            $this->view      = Factory::getApplication()->getInput()->getString('view');
+            $this->extension = Factory::getApplication()->getInput()->getCmd('option');
         }
 
         $name = ucfirst(substr_replace($this->extension, '', 0, 4));
@@ -98,7 +98,7 @@ class RouteHelper
                 $category = $categories->get((int) $catid);
 
                 if ($category) {
-                    $needles['category'] = array_reverse($category->getPath());
+                    $needles['category']   = array_reverse($category->getPath());
                     $needles['categories'] = $needles['category'];
                     $link .= '&catid=' . $catid;
                 }
@@ -135,7 +135,7 @@ class RouteHelper
 
         // $this->extension may not be set if coming from a static method, check it
         if ($this->extension === null) {
-            $this->extension = $app->input->getCmd('option');
+            $this->extension = $app->getInput()->getCmd('option');
         }
 
         // Prepare the reverse lookup array.
