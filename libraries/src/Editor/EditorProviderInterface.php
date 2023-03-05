@@ -1,0 +1,36 @@
+<?php
+
+
+/**
+ * Joomla! Content Management System
+ *
+ * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+namespace Joomla\CMS\Editor;
+
+interface EditorProviderInterface
+{
+    /**
+     * Return Editor name, CMD string.
+     *
+     * @return string
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getName(): string;
+
+    /**
+     * Gets the editor HTML markup
+     *
+     * @param   string  $name        Input name.
+     * @param   string  $content     The content of the field.
+     * @param   array   $attributes  Associative array of editor attributes.
+     * @param   array   $params      Associative array of editor parameters.
+     *
+     * @return  string  The HTML markup of the editor
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function display(string $name, string $content = '', array $attributes = [], array $params = []): string;
+}

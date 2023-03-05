@@ -37,8 +37,18 @@ class Editor implements DispatcherAwareInterface
      *
      * @var    object
      * @since  1.5
+     *
+     * @deprecated  Should use Provider instance
      */
     protected $_editor = null;
+
+    /**
+     * Captcha Provider instance
+     *
+     * @var    EditorProviderInterface
+     * @since  __DEPLOY_VERSION__
+     */
+    private $provider;
 
     /**
      * Editor Plugin name
@@ -75,30 +85,40 @@ class Editor implements DispatcherAwareInterface
     /**
      * Constructor
      *
-     * @param   string               $editor      The editor name
-     * @param   DispatcherInterface  $dispatcher  The event dispatcher we're going to use
+     * @param   string                    $editor      The editor name
+     * @param   DispatcherInterface|null  $dispatcher  The event dispatcher we're going to use
+     * @param   EditorRegistry|null       $registry    The editors registry
+     *
+     * @since  1.5
      */
-    public function __construct($editor = 'none', DispatcherInterface $dispatcher = null)
+    public function __construct(string $editor = 'none', DispatcherInterface $dispatcher = null, EditorRegistry $registry = null)
     {
         $this->_name = $editor;
 
-        // Set the dispatcher
-        if (!\is_object($dispatcher)) {
-            $dispatcher = Factory::getContainer()->get('dispatcher');
-        }
+        /** @var  EditorRegistry  $registry */
+        $registry = $registry ?? Factory::getContainer()->get(EditorRegistry::class);
 
-        $this->setDispatcher($dispatcher);
-
-        // Register the getButtons event
-        $this->getDispatcher()->addListener(
-            'getButtons',
-            function (AbstractEvent $event) {
-                $event['result'] = (array) $this->getButtons(
-                    $event->getArgument('editor', null),
-                    $event->getArgument('buttons', null)
-                );
+        if ($registry->has($editor)) {
+            $this->provider = $registry->get($editor);
+        } else {
+            // Set the dispatcher
+            if (!\is_object($dispatcher)) {
+                $dispatcher = Factory::getContainer()->get('dispatcher');
             }
-        );
+
+            $this->setDispatcher($dispatcher);
+
+            // Register the getButtons event
+            $this->getDispatcher()->addListener(
+                'getButtons',
+                function (AbstractEvent $event) {
+                    $event['result'] = (array)$this->getButtons(
+                        $event->getArgument('editor', null),
+                        $event->getArgument('buttons', null)
+                    );
+                }
+            );
+        }
     }
 
     /**
@@ -113,7 +133,7 @@ class Editor implements DispatcherAwareInterface
      */
     public static function getInstance($editor = 'none')
     {
-        $signature = serialize($editor);
+        $signature = $editor;
 
         if (empty(self::$instances[$signature])) {
             self::$instances[$signature] = new static($editor);
@@ -128,9 +148,15 @@ class Editor implements DispatcherAwareInterface
      * @return  void
      *
      * @since   1.5
+     *
+     * @deprecated  Without replacement
      */
     public function initialise()
     {
+        if ($this->provider) {
+            return;
+        }
+
         // Check if editor is already loaded
         if ($this->_editor === null) {
             return;
@@ -162,6 +188,19 @@ class Editor implements DispatcherAwareInterface
      */
     public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = [])
     {
+        if ($this->provider) {
+            return $this->provider->display($name, $html, [
+                'width'   => $width,
+                'height'  => $height,
+                'col'     => $col,
+                'row'     => $row,
+                'buttons' => $buttons,
+                'id'      => $id,
+                'asset'   => $asset,
+                'author'  => $author,
+            ], $params);
+        }
+
         $this->asset  = $asset;
         $this->author = $author;
         $this->_loadEditor($params);
@@ -170,7 +209,7 @@ class Editor implements DispatcherAwareInterface
         if ($this->_editor === null) {
             Factory::getApplication()->enqueueMessage(Text::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
 
-            return;
+            return '';
         }
 
         // Backwards compatibility. Width and height should be passed without a semicolon from now on.
@@ -208,6 +247,10 @@ class Editor implements DispatcherAwareInterface
      */
     public function getButtons($editor, $buttons = true)
     {
+        if ($this->provider) {
+            return [];
+        }
+
         $result = [];
 
         if (\is_bool($buttons) && !$buttons) {
@@ -260,6 +303,8 @@ class Editor implements DispatcherAwareInterface
      * @return  mixed
      *
      * @since   1.5
+     *
+     * @deprecated  Should use EditorRegistry
      */
     protected function _loadEditor($config = [])
     {
