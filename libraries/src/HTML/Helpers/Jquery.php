@@ -29,7 +29,7 @@ abstract class Jquery
      * @var    array
      * @since  3.0
      */
-    protected static $loaded = array();
+    protected static $loaded = [];
 
     /**
      * Method to load the jQuery JavaScript framework into the document head

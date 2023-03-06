@@ -36,7 +36,7 @@ class ModuleRenderer extends DocumentRenderer
      *
      * @since   3.5
      */
-    public function render($module, $attribs = array(), $content = null)
+    public function render($module, $attribs = [], $content = null)
     {
         if (!\is_object($module)) {
             $title = $attribs['title'] ?? null;
@@ -86,7 +86,7 @@ class ModuleRenderer extends DocumentRenderer
             $cacheparams->cachemode = $cachemode;
             $cacheparams->class = ModuleHelper::class;
             $cacheparams->method = 'renderModule';
-            $cacheparams->methodparams = array($module, $attribs);
+            $cacheparams->methodparams = [$module, $attribs];
             $cacheparams->cachesuffix = $attribs['contentOnly'] ?? false;
 
             // It need to be done here because the cache controller does not keep reference to the module object

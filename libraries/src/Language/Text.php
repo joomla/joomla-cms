@@ -29,7 +29,7 @@ class Text
      * @var    array
      * @since  1.7.0
      */
-    protected static $strings = array();
+    protected static $strings = [];
 
     /**
      * Translates a string into the current language.
@@ -284,7 +284,7 @@ class Text
     }
 
     /**
-     * Passes a string thru an printf.
+     * Passes a string through a printf.
      *
      * Note that this method can take a mixed number of arguments as for the sprintf function.
      *

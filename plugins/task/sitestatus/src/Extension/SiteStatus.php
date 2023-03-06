@@ -170,7 +170,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
 
         try {
             // Attempt to write the configuration file as a PHP class named JConfig.
-            $configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+            $configuration = $config->toString('PHP', ['class' => 'JConfig', 'closingtag' => false]);
             File::write($file, $configuration);
         } catch (Exception $e) {
             $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_ERROR_WRITE_FAILED'), 'error');

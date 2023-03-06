@@ -42,7 +42,7 @@ class AssociationsHelper extends AssociationExtensionHelper
      *
      * @since   3.7.0
      */
-    protected $itemTypes = array('contact', 'category');
+    protected $itemTypes = ['contact', 'category'];
 
     /**
      * Has the extension association support
@@ -153,8 +153,8 @@ class AssociationsHelper extends AssociationExtensionHelper
     public function getType($typeName = '')
     {
         $fields  = $this->getFieldsTemplate();
-        $tables  = array();
-        $joins   = array();
+        $tables  = [];
+        $joins   = [];
         $support = $this->getSupportTemplate();
         $title   = '';
 
@@ -170,9 +170,9 @@ class AssociationsHelper extends AssociationExtensionHelper
                     $support['category'] = true;
                     $support['save2copy'] = true;
 
-                    $tables = array(
+                    $tables = [
                         'a' => '#__contact_details'
-                    );
+                    ];
 
                     $title = 'contact';
                     break;
@@ -189,21 +189,21 @@ class AssociationsHelper extends AssociationExtensionHelper
                     $support['checkout'] = true;
                     $support['level'] = true;
 
-                    $tables = array(
+                    $tables = [
                         'a' => '#__categories'
-                    );
+                    ];
 
                     $title = 'category';
                     break;
             }
         }
 
-        return array(
+        return [
             'fields'  => $fields,
             'support' => $support,
             'tables'  => $tables,
             'joins'   => $joins,
             'title'   => $title
-        );
+        ];
     }
 }
