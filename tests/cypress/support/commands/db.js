@@ -1,7 +1,7 @@
 Cypress.Commands.add('db_createArticle', (article) => {
     article = {...{title: 'test article', alias: 'test-article', catid: 2, state: 1, access: 1, language: '*'}, ...article};
-    return cy.task('queryDb', createInsertQuery('content', article)).then((info)=>
-        cy.task('queryDb', "INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('" + info.insertId + "', '1');")
+    return cy.task('queryDB', createInsertQuery('content', article)).then((info)=>
+        cy.task('queryDB', "INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('" + info.insertId + "', '1');")
     );
 });
 
@@ -21,7 +21,7 @@ Cypress.Commands.add('db_createMenuItem', (menuItem) => {
         language: '*'
     };
 
-    return cy.task('queryDb', createInsertQuery('menu', {...defaultMenuItemOptions, ...menuItem}));
+    return cy.task('queryDB', createInsertQuery('menu', {...defaultMenuItemOptions, ...menuItem}));
 });
 
 /**
