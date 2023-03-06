@@ -24,13 +24,13 @@ module.exports = defineConfig({
         });
 
         return new Promise((resolve, reject) => {
-            connection.connect((error, results) => {
+            connection.connect((error) => {
             if (error) {
               connection = false;
-              return reject(error);
+              return resolve(false);
             }
 
-            return resolve(results);
+            return resolve(true);
           })
         });
       }
