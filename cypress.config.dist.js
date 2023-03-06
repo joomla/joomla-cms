@@ -7,7 +7,32 @@ module.exports = defineConfig({
   viewportHeight: 1000,
   viewportWidth: 1200,
   e2e: {
-    setupNodeEvents(on, config) {},
+    setupNodeEvents(on, config) {
+        function queryTestDb(query, config) {
+            const connection = mysql.createConnection({
+                host: config.env.db_host,
+                user: config.env.db_user,
+                password: config.env.db_password,
+                database: config.env.db_name
+            });
+            connection.connect();
+
+            return new Promise((resolve, reject) => {
+                connection.query(query, (error, results) => {
+                    if (error) {
+                        return reject(error);
+                    }
+
+                    connection.end();
+                    return resolve(results);
+                })
+            });
+        }
+
+        on('task', {
+            queryDb: (query) => queryTestDb(query.replace('#__', config.env.db_prefix), config)
+        });
+    },
     baseUrl: 'http://localhost/',
     specPattern: [
       'tests/cypress/integration/install/*.cy.{js,jsx,ts,tsx}',

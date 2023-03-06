@@ -1,3 +1,12 @@
+/**
+ * Imports commands fom files. The commands start with the folder name and an underscore as cypress doesn't support
+ * namespaces for commands.
+ *
+ * https://github.com/cypress-io/cypress/issues/6575
+ */
+
+import './commands/db';
+
 Cypress.Commands.add('createContentCategory', (title) => {
   cy.visit('administrator/index.php?option=com_categories&view=categories&extension=com_content')
   cy.contains('h1', 'Articles: Categories').should('exist')
@@ -13,12 +22,6 @@ Cypress.Commands.add('createContentCategory', (title) => {
 
   //$this->seeInDatabase('categories', $testCategory);
 
-})
-
-Cypress.Commands.add('createDBArticle', (title) => {
-    return cy.task('queryDb',"INSERT INTO #__content (title, alias, catid, state,access, language, featured) VALUES ('"+title+"','test',2,1,1,'*',1)").then((info)=>{
-        cy.task('queryDb',"INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('"+info.insertId+"', '1');")
-    });
 })
 
 Cypress.Commands.add('createField', (type, title) => {
