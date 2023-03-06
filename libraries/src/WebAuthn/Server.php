@@ -292,11 +292,11 @@ final class Server
     public function loadAndCheckAttestationResponse(string $data, PublicKeyCredentialCreationOptions $publicKeyCredentialCreationOptions, ServerRequestInterface $serverRequest): PublicKeyCredentialSource
     {
         // Remove padding from the response data
-        $temp = json_decode($data);
-        $temp->response = $temp?->response ?? new \stdClass();
-        $temp->response->clientDataJSON = rtrim($temp?->response?->clientDataJSON ?? '', '=');
+        $temp                              = json_decode($data);
+        $temp->response                    = $temp?->response ?? new \stdClass();
+        $temp->response->clientDataJSON    = rtrim($temp?->response?->clientDataJSON ?? '', '=');
         $temp->response->attestationObject = rtrim($temp?->response?->attestationObject ?? '', '=');
-        $data = json_encode($temp);
+        $data                              = json_encode($temp);
 
         $attestationStatementSupportManager = $this->getAttestationStatementSupportManager();
         $attestationObjectLoader            = new AttestationObjectLoader($attestationStatementSupportManager);
