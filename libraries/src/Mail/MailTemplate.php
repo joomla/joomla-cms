@@ -60,7 +60,7 @@ class MailTemplate
      */
     protected $data = [];
 
-     /**
+    /**
      *
      * @var    string[]
      * @since  __DEPLOY_VERSION__
