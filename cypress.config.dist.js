@@ -1,4 +1,5 @@
-const { defineConfig } = require('cypress')
+const { defineConfig } = require('cypress');
+const mysql = require('mysql');
 
 module.exports = defineConfig({
   fixturesFolder: 'tests/cypress/fixtures',
