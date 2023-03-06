@@ -158,8 +158,8 @@ class Module extends Table
         // Check the publish down date is not earlier than publish up.
         if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up) {
             // Swap the dates.
-            $temp = $this->publish_up;
-            $this->publish_up = $this->publish_down;
+            $temp               = $this->publish_up;
+            $this->publish_up   = $this->publish_down;
             $this->publish_down = $temp;
         }
 
@@ -180,7 +180,7 @@ class Module extends Table
     public function bind($array, $ignore = '')
     {
         if (isset($array['params']) && \is_array($array['params'])) {
-            $registry = new Registry($array['params']);
+            $registry        = new Registry($array['params']);
             $array['params'] = (string) $registry;
         }
 

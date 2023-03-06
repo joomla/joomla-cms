@@ -66,10 +66,10 @@ class InstalledModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'name',
                 'nativeName',
                 'language',
@@ -81,7 +81,7 @@ class InstalledModel extends ListModel
                 'authorEmail',
                 'extension_id',
                 'client_id',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -106,7 +106,7 @@ class InstalledModel extends ListModel
 
         // Special case for client id.
         $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-        $clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
+        $clientId = (!in_array($clientId, [0, 1])) ? 0 : $clientId;
         $this->setState('client_id', $clientId);
 
         // Load the parameters.
@@ -176,7 +176,7 @@ class InstalledModel extends ListModel
     {
         // Fetch language data if not fetched yet.
         if (is_null($this->data)) {
-            $this->data = array();
+            $this->data = [];
 
             $isCurrentLanguageRtl = Factory::getLanguage()->isRtl();
             $params               = ComponentHelper::getParams('com_languages');
@@ -219,7 +219,7 @@ class InstalledModel extends ListModel
 
         foreach ($installedLanguages as $key => $installedLanguage) {
             // Filter by client id.
-            if (in_array($clientId, array(0, 1))) {
+            if (in_array($clientId, [0, 1])) {
                 if ($installedLanguage->client_id !== $clientId) {
                     unset($installedLanguages[$key]);
                     continue;
@@ -239,8 +239,8 @@ class InstalledModel extends ListModel
         }
 
         // Process ordering.
-        $listOrder = $this->getState('list.ordering', 'name');
-        $listDirn  = $this->getState('list.direction', 'ASC');
+        $listOrder          = $this->getState('list.ordering', 'name');
+        $listDirn           = $this->getState('list.direction', 'ASC');
         $installedLanguages = ArrayHelper::sortObjects($installedLanguages, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
 
         // Process pagination.
@@ -292,7 +292,7 @@ class InstalledModel extends ListModel
             $params->set($client->name, $cid);
 
             $table = Table::getInstance('extension', 'Joomla\\CMS\\Table\\');
-            $id    = $table->find(array('element' => 'com_languages'));
+            $id    = $table->find(['element' => 'com_languages']);
 
             // Load.
             if (!$table->load($id)) {
@@ -339,8 +339,8 @@ class InstalledModel extends ListModel
     protected function getFolders()
     {
         if (is_null($this->folders)) {
-            $path = $this->getPath();
-            $this->folders = Folder::folders($path, '.', false, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'pdf_fonts', 'overrides'));
+            $path          = $this->getPath();
+            $this->folders = Folder::folders($path, '.', false, false, ['.svn', 'CVS', '.DS_Store', '__MACOSX', 'pdf_fonts', 'overrides']);
         }
 
         return $this->folders;
