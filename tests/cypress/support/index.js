@@ -15,4 +15,5 @@ before(function() {
 
 beforeEach(function() {
     cy.task('queryDb', 'DELETE FROM #__content');
+    cy.task('queryDb', 'DELETE FROM #__menu WHERE id > 101');
 });

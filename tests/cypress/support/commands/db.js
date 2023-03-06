@@ -1,9 +1,27 @@
 Cypress.Commands.add('db_createArticle', (article) => {
     article = {...{title: 'test article', alias: 'test-article', catid: 2, state: 1, access: 1, language: '*'}, ...article};
-    console.log(article);
     return cy.task('queryDb', createInsertQuery('content', article)).then((info)=>
         cy.task('queryDb', "INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('" + info.insertId + "', '1');")
     );
+});
+
+Cypress.Commands.add('db_createMenuItem', (menuItem) => {
+    const defaultMenuItemOptions = {
+        title: 'test menu item',
+        alias: 'test-menu-item',
+        menutype: 'mainmenu',
+        type: 'component',
+        link: 'index.php?option=com_content',
+        component_id: 19,
+        path: 'test-menu-item/root',
+        parent_id: 1,
+        level: 1,
+        published: 1,
+        access: 1,
+        language: '*'
+    };
+
+    return cy.task('queryDb', createInsertQuery('menu', {...defaultMenuItemOptions, ...menuItem}));
 });
 
 /**
