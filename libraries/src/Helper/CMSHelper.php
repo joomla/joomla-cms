@@ -101,7 +101,7 @@ class CMSHelper
     public function getRowData(TableInterface $table)
     {
         $fields = $table->getFields();
-        $data = array();
+        $data = [];
 
         foreach ($fields as &$field) {
             $columnName = $field->Field;

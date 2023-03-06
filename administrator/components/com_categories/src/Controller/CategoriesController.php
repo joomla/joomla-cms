@@ -37,7 +37,7 @@ class CategoriesController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Category', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Category', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

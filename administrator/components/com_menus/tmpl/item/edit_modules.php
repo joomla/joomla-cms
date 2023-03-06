@@ -29,7 +29,7 @@ $wa->useStyle('com_menus.admin-item-edit-modules')
 echo HTMLHelper::_(
     'bootstrap.renderModal',
     'moduleEditModal',
-    array(
+    [
         'title'       => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
         'backdrop'    => 'static',
         'keyboard'    => false,
@@ -42,13 +42,13 @@ echo HTMLHelper::_(
                 . Text::_('JSAVE') . '</button>'
                 . '<button type="button" class="btn btn-success" data-bs-target="#applyBtn">'
                 . Text::_('JAPPLY') . '</button>',
-    )
+    ]
 );
 
 ?>
 <?php
 // Set main fields.
-$this->fields = array('toggle_modules_assigned','toggle_modules_published');
+$this->fields = ['toggle_modules_assigned', 'toggle_modules_published'];
 
 echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 

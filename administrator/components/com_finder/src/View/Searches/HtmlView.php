@@ -125,7 +125,12 @@ class HtmlView extends BaseHtmlView
 
         // Check if component is enabled
         if (!$this->enabled) {
-            $app->enqueueMessage(Text::sprintf('COM_FINDER_LOGGING_DISABLED', $output), 'warning');
+            // Check if the user has access to the component options
+            if ($this->canDo->get('core.admin') || $this->canDo->get('core.options')) {
+                $app->enqueueMessage(Text::sprintf('COM_FINDER_LOGGING_DISABLED', $output), 'warning');
+            } else {
+                $app->enqueueMessage(Text::_('COM_FINDER_LOGGING_DISABLED_NO_AUTH'), 'warning');
+            }
         }
 
         // Prepare the view.
