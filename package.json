@@ -66,6 +66,7 @@
     "skipto": "^4.1.6",
     "tinymce": "^6.1.2",
     "vue": "3.2.41",
+    "vue-focus-lock": "^2.0.5",
     "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.1.0"
   },
