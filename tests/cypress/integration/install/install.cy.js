@@ -20,8 +20,6 @@ describe('Install Joomla', () => {
       "db_prefix": Cypress.env('db_prefix'),
     }
 
-    cy.task('queryDB', 'CREATE DATABASE IF NOT EXISTS ' + Cypress.env('db_name'))
-
     cy.installJoomla(config)
 
     cy.doAdministratorLogin(config.username, config.password)

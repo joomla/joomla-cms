@@ -9,7 +9,32 @@ module.exports = defineConfig({
   viewportWidth: 1200,
   e2e: {
     setupNodeEvents(on, config) {
-      let connection;
+      let connection = null;
+
+      function isTestDBReady(config) {
+        if (connection !== null) {
+            return connection !== false;
+        }
+
+        connection = mysql.createConnection({
+          host: config.env.db_host,
+          user: config.env.db_user,
+          password: config.env.db_password,
+          database: config.env.db_name
+        });
+
+        return new Promise((resolve, reject) => {
+            connection.connect((error, results) => {
+            if (error) {
+              connection = false;
+              return reject(error);
+            }
+
+            return resolve(results);
+          })
+        });
+      }
+
       function queryTestDb(query, config) {
         if (connection === null) {
           connection = mysql.createConnection({
@@ -24,17 +49,18 @@ module.exports = defineConfig({
         return new Promise((resolve, reject) => {
           connection.query(query, (error, results) => {
             if (error) {
+              connection = false;
               return reject(error);
             }
 
-              connection.end();
-              return resolve(results);
+            return resolve(results);
           })
         });
       }
 
       on('task', {
-        queryDB: (query) => queryTestDb(query.replace('#__', config.env.db_prefix), config)
+        queryDB: (query) => queryTestDb(query.replace('#__', config.env.db_prefix), config),
+        isDBReady: () => isTestDBReady(config)
       });
     },
     baseUrl: 'http://localhost/',

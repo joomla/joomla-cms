@@ -14,6 +14,12 @@ before(function() {
 })
 
 beforeEach(function() {
-    cy.task('queryDB', 'DELETE FROM #__content');
-    cy.task('queryDB', 'DELETE FROM #__menu WHERE id > 101');
+    cy.task('isDBReady').then((ready) => {
+        if (!ready) {
+            return;
+        }
+
+        cy.task('queryDB', 'DELETE FROM #__content');
+        cy.task('queryDB', 'DELETE FROM #__menu WHERE id > 101');
+    });
 });
