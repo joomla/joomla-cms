@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\GuidedTours\Extension;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
@@ -68,6 +69,16 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
+        try {
+            $app = Factory::getApplication();
+        } catch (\Exception $e) {
+            return [];
+        }
+
+        if (!$app->isClient('administrator')) {
+            return [];
+        }
+
         return [
             'onAjaxGuidedtours'   => 'startTour',
             'onBeforeCompileHead' => 'onBeforeCompileHead',
@@ -83,13 +94,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      */
     public function startTour(Event $event)
     {
-        $app = $this->getApplication();
-
-        if (!$app->isClient('administrator')) {
-            return null;
-        }
-
-        $tourId = (int) $app->getInput()->getInt('id');
+        $tourId = (int) $this->getApplication()->getInput()->getInt('id');
 
         $activeTourId = null;
         $tour         = null;
@@ -120,7 +125,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $doc  = $app->getDocument();
         $user = $app->getIdentity();
 
-        if ($app->isClient('administrator') && $user != null && $user->id > 0) {
+        if ($user != null && $user->id > 0) {
             Text::script('JCANCEL');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_BACK');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_COMPLETE');
