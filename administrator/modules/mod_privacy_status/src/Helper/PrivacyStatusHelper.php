@@ -112,7 +112,7 @@ class PrivacyStatusHelper
         if (!$menuItem) {
             if (Multilanguage::isEnabled()) {
                 // Find the Itemid of the home menu item tagged to the site default language
-                $params = ComponentHelper::getParams('com_languages');
+                $params              = ComponentHelper::getParams('com_languages');
                 $defaultSiteLanguage = $params->get('site');
 
                 $db    = Factory::getDbo();

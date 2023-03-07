@@ -34,8 +34,7 @@ class BaseModelTest extends UnitTestCase
      */
     public function testGetInjectedName()
     {
-        $model = new class (['name' => 'unit test']) extends BaseModel
-        {
+        $model = new class (['name' => 'unit test']) extends BaseModel {
         };
 
         $this->assertEquals('unit test', $model->getName());
@@ -50,8 +49,7 @@ class BaseModelTest extends UnitTestCase
      */
     public function testGetCompiledName()
     {
-        $model = new class extends BaseModel
-        {
+        $model = new class () extends BaseModel {
         };
 
         $this->assertStringContainsStringIgnoringCase('basetest', $model->getName());
@@ -67,8 +65,7 @@ class BaseModelTest extends UnitTestCase
     public function testGetInjectedState()
     {
         $state = ['test' => 'unit'];
-        $model = new class (['state' => $state]) extends BaseModel
-        {
+        $model = new class (['state' => $state]) extends BaseModel {
         };
 
         $this->assertEquals($state, $model->getState());
@@ -83,8 +80,7 @@ class BaseModelTest extends UnitTestCase
      */
     public function testAcceptRequest()
     {
-        $model = new class (['ignore_request' => false]) extends BaseModel
-        {
+        $model = new class (['ignore_request' => false]) extends BaseModel {
             protected function populateState()
             {
                 $this->setState('state.set', true);
@@ -103,8 +99,7 @@ class BaseModelTest extends UnitTestCase
      */
     public function testIgnoreRequest()
     {
-        $model = new class (['ignore_request' => true]) extends BaseModel
-        {
+        $model = new class (['ignore_request' => true]) extends BaseModel {
             protected function populateState()
             {
                 $this->setState('state.set', true);

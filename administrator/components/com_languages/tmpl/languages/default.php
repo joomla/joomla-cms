@@ -37,7 +37,7 @@ if ($saveOrder && !empty($this->items)) {
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
                         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -141,7 +141,7 @@ if ($saveOrder && !empty($this->items)) {
                                 </td>
                                 <td class="d-none d-md-table-cell">
                                     <?php if ($item->image) : ?>
-                                        <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, array('class' => 'me-1'), true); ?><?php echo $this->escape($item->image); ?>
+                                        <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, ['class' => 'me-1'], true); ?><?php echo $this->escape($item->image); ?>
                                     <?php else : ?>
                                         <?php echo Text::_('JNONE'); ?>
                                     <?php endif; ?>

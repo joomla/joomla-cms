@@ -32,7 +32,7 @@ trait LegacyErrorHandlingTrait
      * @deprecated  3.1.4  JError has been deprecated
      */
     // phpcs:disable PSR2.Classes.PropertyDeclaration
-    protected $_errors = array();
+    protected $_errors = [];
     // phpcs:enable PSR2.Classes.PropertyDeclaration
 
     /**
