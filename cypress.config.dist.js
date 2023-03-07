@@ -1,5 +1,6 @@
 const { defineConfig } = require('cypress');
 const mysql = require('mysql');
+const postgres = require('postgres');
 
 module.exports = defineConfig({
   fixturesFolder: 'tests/cypress/fixtures',
@@ -10,6 +11,29 @@ module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
       function queryTestDB(query, config) {
+        if (config.env.db_type === 'PostgreSQL (PDO)') {
+          const connection = postgres({
+            host: config.env.db_host,
+            database: config.env.db_name,
+            username: config.env.db_user,
+            password: config.env.db_password
+          });
+
+          // Postgres delivers the data direct as result of the insert query
+          if (query.indexOf('INSERT') === 0) {
+            query += ' returning *'
+          }
+
+          return connection.unsafe(query).then((result) => {
+            if (query.indexOf('INSERT') !== 0 || result.length === 0) {
+              return result;
+            }
+
+            // Normalize the object
+            return {insertId: result[0].id};
+          });
+        }
+
         return new Promise((resolve, reject) => {
           const connection = mysql.createConnection({
             host: config.env.db_host,

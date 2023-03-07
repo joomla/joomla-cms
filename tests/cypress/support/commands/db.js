@@ -7,10 +7,17 @@ Cypress.Commands.add('db_createArticle', (article) => {
         fulltext: '',
         state: 1,
         access: 1,
-        language: '*'
+        language: '*',
+        created: '2023-01-01 20:00:00',
+        modified: '2023-01-01 20:00:00',
+        images: '',
+        urls: '',
+        attribs: '',
+        metadesc: '',
+        metadata: '',
     };
     return cy.task('queryDB', createInsertQuery('content', {...defaultArticleOptions, ...article})).then((info) =>
-        cy.task('queryDB', "INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('" + info.insertId + "', '1');")
+        cy.task('queryDB', "INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('" + info.insertId + "', '1')")
     );
 });
 
@@ -27,7 +34,8 @@ Cypress.Commands.add('db_createMenuItem', (menuItem) => {
         level: 1,
         published: 1,
         access: 1,
-        language: '*'
+        language: '*',
+        params: ''
     };
 
     return cy.task('queryDB', createInsertQuery('menu', {...defaultMenuItemOptions, ...menuItem}));

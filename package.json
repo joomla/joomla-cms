@@ -97,6 +97,7 @@
     "mysql": "^2.18.1",
     "postcss": "^8.4.21",
     "postcss-scss": "^4.0.6",
+    "postgres": "^3.3.3",
     "recursive-readdir": "^2.2.3",
     "rimraf": "^3.0.2",
     "rollup": "^2.79.1",
