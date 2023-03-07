@@ -16,6 +16,7 @@ Cypress.Commands.add('db_createArticle', (article) => {
         metadesc: '',
         metadata: '',
     };
+
     return cy.task('queryDB', createInsertQuery('content', {...defaultArticleOptions, ...article})).then((info) =>
         cy.task('queryDB', "INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('" + info.insertId + "', '1')")
     );
