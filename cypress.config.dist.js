@@ -18,7 +18,7 @@ module.exports = defineConfig({
               database: config.env.db_name
             });
 
-            connection.connect((error) => resolve(!error || !error.errno ? connection : false));
+            connection.connect((error) => resolve(error));
         });
       }
 
@@ -33,7 +33,7 @@ module.exports = defineConfig({
 
       on('task', {
         queryDB: (query) => queryTestDB(query.replace('#__', config.env.db_prefix), config),
-        hasDBConnection: () => getTestDBConnection(config).then((connection) => connection !== false)
+        hasDBConnection: () => getTestDBConnection(config)
       });
     },
     baseUrl: 'http://localhost/',
