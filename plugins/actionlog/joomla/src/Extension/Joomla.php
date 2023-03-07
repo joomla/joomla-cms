@@ -1133,7 +1133,7 @@ final class Joomla extends ActionLogPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.9
      */
     public function onUserAfterResetRequest($user)
     {
@@ -1166,7 +1166,7 @@ final class Joomla extends ActionLogPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.9
      */
     public function onUserAfterResetComplete($user)
     {

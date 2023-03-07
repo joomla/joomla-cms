@@ -22,7 +22,7 @@
  *
  * @return  boolean
  *
- * @since   __DEPLOY_VERSION__
+ * @since   4.2.9
  */
 function admin_postinstall_htaccesssetce_condition()
 {
