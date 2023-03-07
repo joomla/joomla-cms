@@ -1,6 +1,15 @@
 Cypress.Commands.add('db_createArticle', (article) => {
-    article = {...{title: 'test article', alias: 'test-article', catid: 2, state: 1, access: 1, language: '*'}, ...article};
-    return cy.task('queryDB', createInsertQuery('content', article)).then((info)=>
+    const defaultArticleOptions = {
+        title: 'test article',
+        alias: 'test-article',
+        catid: 2,
+        introtext: '',
+        fulltext: '',
+        state: 1,
+        access: 1,
+        language: '*'
+    };
+    return cy.task('queryDB', createInsertQuery('content', {...defaultArticleOptions, ...article})).then((info) =>
         cy.task('queryDB', "INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('" + info.insertId + "', '1');")
     );
 });
