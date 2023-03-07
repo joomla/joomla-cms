@@ -50,8 +50,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     DatabaseModelInterface,
     DispatcherAwareInterface,
     CurrentUserInterface,
-    CacheControllerFactoryAwareInterface,
-    DatabaseAwareInterface
+    CacheControllerFactoryAwareInterface
 {
     use DatabaseAwareTrait;
     use MVCFactoryAwareTrait;
@@ -84,7 +83,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         parent::__construct($config);
 
@@ -156,13 +155,13 @@ abstract class BaseDatabaseModel extends BaseModel implements
     protected function _getList($query, $limitstart = 0, $limit = 0)
     {
         if (\is_string($query)) {
-            $query = $this->getDbo()->getQuery(true)->setQuery($query);
+            $query = $this->getDatabase()->getQuery(true)->setQuery($query);
         }
 
         $query->setLimit($limit, $limitstart);
-        $this->getDbo()->setQuery($query);
+        $this->getDatabase()->setQuery($query);
 
-        return $this->getDbo()->loadObjectList();
+        return $this->getDatabase()->loadObjectList();
     }
 
     /**
@@ -193,9 +192,9 @@ abstract class BaseDatabaseModel extends BaseModel implements
             $query = clone $query;
             $query->clear('select')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
 
-            $this->getDbo()->setQuery($query);
+            $this->getDatabase()->setQuery($query);
 
-            return (int) $this->getDbo()->loadResult();
+            return (int) $this->getDatabase()->loadResult();
         }
 
         // Otherwise fall back to inefficient way of counting all results.
@@ -206,10 +205,10 @@ abstract class BaseDatabaseModel extends BaseModel implements
             $query->clear('limit')->clear('offset')->clear('order');
         }
 
-        $this->getDbo()->setQuery($query);
-        $this->getDbo()->execute();
+        $this->getDatabase()->setQuery($query);
+        $this->getDatabase()->execute();
 
-        return (int) $this->getDbo()->getNumRows();
+        return (int) $this->getDatabase()->getNumRows();
     }
 
     /**
@@ -224,14 +223,20 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @see     \JTable::getInstance()
      */
-    protected function _createTable($name, $prefix = 'Table', $config = array())
+    protected function _createTable($name, $prefix = 'Table', $config = [])
     {
         // Make sure we are returning a DBO object
         if (!\array_key_exists('dbo', $config)) {
-            $config['dbo'] = $this->getDbo();
+            $config['dbo'] = $this->getDatabase();
         }
 
-        return $this->getMVCFactory()->createTable($name, $prefix, $config);
+        $table = $this->getMVCFactory()->createTable($name, $prefix, $config);
+
+        if ($table instanceof CurrentUserInterface) {
+            $table->setCurrentUser($this->getCurrentUser());
+        }
+
+        return $table;
     }
 
     /**
@@ -246,7 +251,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   3.0
      * @throws  \Exception
      */
-    public function getTable($name = '', $prefix = '', $options = array())
+    public function getTable($name = '', $prefix = '', $options = [])
     {
         if (empty($name)) {
             $name = $this->getName();
@@ -273,7 +278,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      */
     public function isCheckedOut($item)
     {
-        $table = $this->getTable();
+        $table           = $this->getTable();
         $checkedOutField = $table->getColumnAlias('checked_out');
 
         if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != $this->getCurrentUser()->id) {
@@ -399,7 +404,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     public function __get($name)
     {
         if ($name === '_db') {
-            return $this->getDbo();
+            return $this->getDatabase();
         }
 
         // Default the variable

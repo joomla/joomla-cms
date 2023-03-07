@@ -127,7 +127,7 @@ class FolderlistField extends ListField
 
             case 'hideNone':
             case 'hideDefault':
-                $value = (string) $value;
+                $value       = (string) $value;
                 $this->$name = ($value === 'true' || $value === $name || $value === '1');
                 break;
 
@@ -183,7 +183,7 @@ class FolderlistField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         $path = $this->directory;
 

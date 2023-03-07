@@ -70,10 +70,10 @@ class PlgSystemSef extends CMSPlugin
             unset($doc->_links[$canonical]);
 
             // Set the current canonical link but use the SEF system plugin domain field.
-            $canonical = $sefDomain . Uri::getInstance($canonical)->toString(array('path', 'query', 'fragment'));
+            $canonical = $sefDomain . Uri::getInstance($canonical)->toString(['path', 'query', 'fragment']);
         } else {
             // If a canonical html doesn't exists already add a canonical html tag using the SEF plugin domain field.
-            $canonical = $sefDomain . Uri::getInstance()->toString(array('path', 'query', 'fragment'));
+            $canonical = $sefDomain . Uri::getInstance()->toString(['path', 'query', 'fragment']);
         }
 
         // Add the canonical link.
@@ -115,7 +115,7 @@ class PlgSystemSef extends CMSPlugin
 
         // Check for all unknown protocols (a protocol must contain at least one alphanumeric character followed by a ":").
         $protocols  = '[a-zA-Z0-9\-]+:';
-        $attributes = array('href=', 'src=', 'poster=');
+        $attributes = ['href=', 'src=', 'poster='];
 
         foreach ($attributes as $attribute) {
             if (strpos($buffer, $attribute) !== false) {
@@ -153,7 +153,7 @@ class PlgSystemSef extends CMSPlugin
         }
 
         // Replace all unknown protocols in onmouseover and onmouseout attributes.
-        $attributes = array('onmouseover=', 'onmouseout=');
+        $attributes = ['onmouseover=', 'onmouseout='];
 
         foreach ($attributes as $attribute) {
             if (strpos($buffer, $attribute) !== false) {
@@ -166,8 +166,8 @@ class PlgSystemSef extends CMSPlugin
         // Replace all unknown protocols in CSS background image.
         if (strpos($buffer, 'style=') !== false) {
             $regex_url  = '\s*url\s*\(([\'\"]|\&\#0?3[49];)?(?!/|\&\#0?3[49];|' . $protocols . '|\#)([^\)\'\"]+)([\'\"]|\&\#0?3[49];)?\)';
-            $regex  = '#style=\s*([\'\"])(.*):' . $regex_url . '#m';
-            $buffer = preg_replace($regex, 'style=$1$2: url($3' . $base . '$4$5)', $buffer);
+            $regex      = '#style=\s*([\'\"])(.*):' . $regex_url . '#m';
+            $buffer     = preg_replace($regex, 'style=$1$2: url($3' . $base . '$4$5)', $buffer);
             $this->checkBuffer($buffer);
         }
 

@@ -135,12 +135,7 @@ class JoomlaFieldMedia extends HTMLElement {
 
     this.inputElement.removeAttribute('readonly');
     this.inputElement.addEventListener('change', this.validateValue);
-
-    // Force input revalidation
-    (async () => {
-      await this.validateValue({ target: this.inputElement });
-      this.updatePreview();
-    })();
+    this.updatePreview();
   }
 
   disconnectedCallback() {

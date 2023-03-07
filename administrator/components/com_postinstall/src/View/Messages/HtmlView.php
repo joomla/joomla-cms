@@ -57,7 +57,7 @@ class HtmlView extends BaseHtmlView
 
         $this->toolbar();
 
-        $this->token = Factory::getSession()->getFormToken();
+        $this->token             = Factory::getSession()->getFormToken();
         $this->extension_options = $model->getComponentOptions();
 
         ToolbarHelper::title(Text::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)), 'bell');
@@ -74,7 +74,7 @@ class HtmlView extends BaseHtmlView
      */
     private function toolbar()
     {
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = Toolbar::getInstance();
 
         if (!empty($this->items)) {
             $toolbar->unpublish('message.hideAll', 'COM_POSTINSTALL_HIDE_ALL_MESSAGES');
