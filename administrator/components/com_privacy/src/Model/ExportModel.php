@@ -202,7 +202,7 @@ class ExportModel extends BaseDatabaseModel
 
         // The mailer can be set to either throw Exceptions or return boolean false, account for both
         try {
-            $app = Factory::getApplication();
+            $app    = Factory::getApplication();
             $mailer = new MailTemplate('com_privacy.userdataexport', $app->getLanguage()->getTag());
 
             $templateData = [

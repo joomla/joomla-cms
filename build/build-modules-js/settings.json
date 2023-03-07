@@ -604,6 +604,10 @@
           }
         ]
       },
+      "shepherd.js": {
+        "name": "shepherdjs",
+        "licenseFilename": "LICENSE"
+      },
       "short-and-sweet": {
         "name": "short-and-sweet",
         "licenseFilename": "LICENSE",

@@ -41,7 +41,7 @@ class SessionCollector extends AbstractDataCollector
      */
     public function collect()
     {
-        $returnData = [];
+        $returnData  = [];
         $sessionData = Factory::getApplication()->getSession()->all();
 
         // redact value of potentially secret keys
@@ -84,9 +84,9 @@ class SessionCollector extends AbstractDataCollector
     {
         return [
             'session' => [
-                'icon' => 'key',
-                'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
-                'map' => $this->name . '.data',
+                'icon'    => 'key',
+                'widget'  => 'PhpDebugBar.Widgets.VariableListWidget',
+                'map'     => $this->name . '.data',
                 'default' => '[]',
             ],
         ];

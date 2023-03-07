@@ -74,7 +74,7 @@ class JoomlaStorage extends NativeStorage
         $this->setHandler($handler);
         $this->setCookieParams();
 
-        $this->data = new Registry();
+        $this->data  = new Registry();
         $this->input = $input;
 
         // Register our function as shutdown method, so we can manipulate it
@@ -113,7 +113,7 @@ class JoomlaStorage extends NativeStorage
             $app           = Factory::getApplication();
             $cookie_domain = $app->get('cookie_domain', '');
             $cookie_path   = $app->get('cookie_path', '/');
-            $cookie = session_get_cookie_params();
+            $cookie        = session_get_cookie_params();
             setcookie($session_name, '', time() - 42000, $cookie_path, $cookie_domain, $cookie['secure'], true);
         }
 

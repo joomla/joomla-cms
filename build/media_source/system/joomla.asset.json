@@ -386,6 +386,17 @@
       "dependencies": [
         "wcpolyfill"
       ]
+    },
+    {
+      "name": "list-view",
+      "type": "script",
+      "uri": "system/list-view.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "core"
+      ]
     }
   ]
 }
