@@ -18,7 +18,7 @@ module.exports = defineConfig({
               database: config.env.db_name
             });
 
-            connection.connect((error) => {console.log(error);resolve(!error || !error.errno ? connection : false);});
+            connection.connect((error) => resolve(!error || !error.errno ? connection : false));
         });
       }
 
@@ -27,7 +27,7 @@ module.exports = defineConfig({
           if (connection === false) {
             return reject('No connection');
           }
-          connection.query(query, (error, results) => !error ? resolve(results) : reject(error));
+          connection.query(query, (error, results) => !error || !error.errno ? resolve(results) : reject(error));
         }));
       }
 
