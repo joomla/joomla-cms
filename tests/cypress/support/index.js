@@ -14,8 +14,8 @@ before(function() {
 })
 
 beforeEach(function() {
-    cy.task('isDBReady').then((ready) => {
-        if (!ready) {
+    cy.task('hasDBConnection').then((hasConnection) => {
+        if (!hasConnection) {
             return;
         }
 
