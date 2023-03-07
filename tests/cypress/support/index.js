@@ -12,15 +12,3 @@ before(function() {
     return false
   })
 })
-
-beforeEach(function() {
-    cy.task('hasDBConnection').then((hasConnection) => {
-        cy.log(hasConnection);return;
-        if (!hasConnection) {
-            return;
-        }
-
-        cy.task('queryDB', 'DELETE FROM #__content');
-        cy.task('queryDB', 'DELETE FROM #__menu WHERE id > 101');
-    });
-});

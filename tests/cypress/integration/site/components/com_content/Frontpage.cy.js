@@ -1,3 +1,7 @@
+beforeEach(function() {
+  cy.task('queryDB', 'DELETE FROM #__content');
+});
+
 describe('Test that the front page', () => {
   it('can display an article', function () {
     cy.db_createArticle({'title': 'automated test article'}).then((article) => {

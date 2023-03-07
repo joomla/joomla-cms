@@ -1,3 +1,9 @@
+
+beforeEach(function() {
+  cy.task('queryDB', 'DELETE FROM #__content');
+  cy.task('queryDB', 'DELETE FROM #__menu WHERE id > 101');
+});
+
 describe('Test that the blog view ', () => {
   it('can display a list of articles in a menu item', function () {
     cy.db_createArticle({title: 'article 1'})

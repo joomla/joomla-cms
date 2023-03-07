@@ -9,31 +9,22 @@ module.exports = defineConfig({
   viewportWidth: 1200,
   e2e: {
     setupNodeEvents(on, config) {
-      function getTestDBConnection(config) {
+      function queryTestDB(query, config) {
         return new Promise((resolve, reject) => {
-            const connection = mysql.createConnection({
-              host: config.env.db_host,
-              user: config.env.db_user,
-              password: config.env.db_password,
-              database: config.env.db_name
-            });
+          const connection = mysql.createConnection({
+            host: config.env.db_host,
+            user: config.env.db_user,
+            password: config.env.db_password,
+            database: config.env.db_name
+          });
+          connection.connect();
 
-            connection.connect((error) => resolve(error));
+          connection.query(query, (error, results) => !error || !error.errno ? resolve(results) : reject(error));
         });
       }
 
-      function queryTestDB(query, config) {
-        return getTestDBConnection(config).then((connection) => new Promise((resolve, reject) => {
-          if (connection === false) {
-            return reject('No connection');
-          }
-          connection.query(query, (error, results) => !error || !error.errno ? resolve(results) : reject(error));
-        }));
-      }
-
       on('task', {
-        queryDB: (query) => queryTestDB(query.replace('#__', config.env.db_prefix), config),
-        hasDBConnection: () => getTestDBConnection(config)
+        queryDB: (query) => queryTestDB(query.replace('#__', config.env.db_prefix), config)
       });
     },
     baseUrl: 'http://localhost/',
