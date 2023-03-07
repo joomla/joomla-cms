@@ -25,7 +25,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Model class for Tours
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.3.0
  */
 class ToursModel extends ListModel
 {
@@ -35,7 +35,7 @@ class ToursModel extends ListModel
      * @param   array  $config  An optional associative array of configuration settings.
      *
      * @see     JController
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function __construct($config = [])
     {
@@ -63,7 +63,7 @@ class ToursModel extends ListModel
      *
      * @return DatabaseQuery
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected function getEmptyStateQuery()
     {
@@ -104,7 +104,7 @@ class ToursModel extends ListModel
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected function populateState($ordering = 'a.ordering', $direction = 'ASC')
     {
@@ -127,7 +127,7 @@ class ToursModel extends ListModel
      *
      * @return  \Joomla\CMS\Table\Table  A JTable object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public function getTable($type = 'Tour', $prefix = 'Administrator', $config = [])
     {
@@ -141,7 +141,7 @@ class ToursModel extends ListModel
      *
      * @return  \JForm|false  the JForm object or false
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public function getFilterForm($data = [], $loadData = true)
     {
@@ -158,7 +158,7 @@ class ToursModel extends ListModel
      *
      * @return  string  The query to database.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public function getListQuery()
     {
@@ -290,7 +290,7 @@ class ToursModel extends ListModel
      *
      * @return  mixed  An array of data items on success, false on failure.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getItems()
     {
