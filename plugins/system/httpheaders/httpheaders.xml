@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_httpheaders</name>
 	<author>Joomla! Project</author>
@@ -76,6 +76,7 @@
 							<option value="cross-origin-opener-policy">Cross-Origin-Opener-Policy</option>
 							<option value="expect-ct">Expect-CT</option>
 							<option value="feature-policy">Feature-Policy</option>
+							<option value="nel">NEL</option>
 							<option value="permissions-policy">Permissions-Policy</option>
 							<option value="referrer-policy">Referrer-Policy</option>
 							<option value="report-to">Report-To</option>
