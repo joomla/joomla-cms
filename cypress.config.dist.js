@@ -11,7 +11,7 @@ module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
       function queryTestDB(query, config) {
-        if (config.env.db_type === 'PostgreSQL (PDO)') {
+        if (config.env.db_type === 'pgsql' || config.env.db_type === 'PostgreSQL (PDO)') {
           const connection = postgres({
             host: config.env.db_host,
             database: config.env.db_name,
