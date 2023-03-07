@@ -1058,13 +1058,6 @@ ENDDATA;
             $option->state  = strtolower(ini_get('mbstring.language')) === 'neutral';
             $option->notice = $option->state ? null : Text::_('INSTL_NOTICEMBLANGNOTDEFAULT');
             $options[]      = $option;
-
-            // Check for MB function overload.
-            $option         = new \stdClass();
-            $option->label  = Text::_('INSTL_MB_STRING_OVERLOAD_OFF');
-            $option->state  = ini_get('mbstring.func_overload') == 0;
-            $option->notice = $option->state ? null : Text::_('INSTL_NOTICEMBSTRINGOVERLOAD');
-            $options[]      = $option;
         }
 
         // Check for a missing native parse_ini_file implementation.
