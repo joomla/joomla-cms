@@ -14,7 +14,7 @@ Cypress.Commands.add('db_createArticle', (article) => {
         urls: '',
         attribs: '',
         metadesc: '',
-        metadata: '',
+        metadata: ''
     };
 
     return cy.task('queryDB', createInsertQuery('content', {...defaultArticleOptions, ...article})).then((info) =>
@@ -36,7 +36,8 @@ Cypress.Commands.add('db_createMenuItem', (menuItem) => {
         published: 1,
         access: 1,
         language: '*',
-        params: ''
+        params: '',
+        img: ''
     };
 
     return cy.task('queryDB', createInsertQuery('menu', {...defaultMenuItemOptions, ...menuItem}));
@@ -51,7 +52,7 @@ Cypress.Commands.add('db_createMenuItem', (menuItem) => {
  * @returns string
  */
 function createInsertQuery (table, values) {
-    const query= 'INSERT INTO #__' + table + ' (' + Object.keys(values).join() + ') VALUES (:' + Object.keys(values).join(',:') + ')';
+    const query= 'INSERT INTO #__' + table + ' (\`' + Object.keys(values).join('\`, \`') + '\`) VALUES (:' + Object.keys(values).join(',:') + ')';
 
     return prepareQuery(query, values);
 }
