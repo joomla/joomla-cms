@@ -1,5 +1,5 @@
-describe('Test view article on front page', () => {
-  it('views the front page', function () {
+describe('Test that the front page', () => {
+  it('can display an article', function () {
     cy.db_createArticle({'title': 'automated test article'}).then((article) => {
         cy.visit('/');
 
@@ -7,7 +7,7 @@ describe('Test view article on front page', () => {
     });
   });
 
-  it('navigates to the article from the front page', function () {
+  it('can navigate to the article', function () {
     cy.db_createArticle({'title': 'automated test article'}).then((article) => {
         cy.visit('/');
         cy.get('.item-title a').click();
@@ -16,7 +16,7 @@ describe('Test view article on front page', () => {
     });
   });
 
-  it('navigates to the category from the front page', function () {
+  it('can navigate to the category', function () {
     cy.db_createArticle({'title': 'automated test article'}).then((article) => {
         cy.visit('/');
         cy.get('.category-name a').click();

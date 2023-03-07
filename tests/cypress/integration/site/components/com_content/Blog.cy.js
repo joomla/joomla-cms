@@ -1,4 +1,4 @@
-describe('Test the blog view that ', () => {
+describe('Test that the blog view ', () => {
   it('can display a list of articles in a menu item', function () {
     cy.db_createArticle({title: 'article 1'})
         .then(() => cy.db_createArticle({title: 'article 2'}))
