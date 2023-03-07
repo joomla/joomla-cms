@@ -24,6 +24,9 @@ module.exports = defineConfig({
             query += ' returning *'
           }
 
+          // Postgres doesn't support backticks
+          query = query.replaceAll('\`', '');
+
           return connection.unsafe(query).then((result) => {
             if (query.indexOf('INSERT') !== 0 || result.length === 0) {
               return result;
