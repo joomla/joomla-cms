@@ -101,8 +101,8 @@ class StepModel extends AdminModel
      */
     public function save($data)
     {
-        $table      = $this->getTable();
-        $input      = Factory::getApplication()->getInput();
+        $table = $this->getTable();
+        $input = Factory::getApplication()->getInput();
 
         $tour = $this->getTable('Tour');
 
