@@ -43,7 +43,7 @@ class TagModel extends ListModel
      * Array of tags
      *
      * @var    CMSObject[]
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $item = [];
 
@@ -55,10 +55,10 @@ class TagModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'core_content_id', 'c.core_content_id',
                 'core_title', 'c.core_title',
                 'core_type_alias', 'c.core_type_alias',
@@ -79,7 +79,7 @@ class TagModel extends ListModel
                 'core_images', 'c.core_images',
                 'core_urls', 'c.core_urls',
                 'match_count',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -135,15 +135,15 @@ class TagModel extends ListModel
      */
     protected function getListQuery()
     {
-        $tagId  = $this->getState('tag.id') ? : '';
+        $tagId  = $this->getState('tag.id') ?: '';
 
-        $typesr = $this->getState('tag.typesr');
-        $orderByOption = $this->getState('list.ordering', 'c.core_title');
+        $typesr          = $this->getState('tag.typesr');
+        $orderByOption   = $this->getState('list.ordering', 'c.core_title');
         $includeChildren = $this->state->params->get('include_children', 0);
-        $orderDir = $this->getState('list.direction', 'ASC');
-        $matchAll = $this->getState('params')->get('return_any_or_all', 1);
-        $language = $this->getState('tag.language');
-        $stateFilter = $this->getState('tag.state');
+        $orderDir        = $this->getState('list.direction', 'ASC');
+        $matchAll        = $this->getState('params')->get('return_any_or_all', 1);
+        $language        = $this->getState('tag.language');
+        $stateFilter     = $this->getState('tag.state');
 
         // Optionally filter on language
         if (empty($language)) {
@@ -182,7 +182,7 @@ class TagModel extends ListModel
         $this->setState('params', $params);
 
         // Load state from the request.
-        $ids = (array) $app->getInput()->get('id', array(), 'string');
+        $ids = (array) $app->getInput()->get('id', [], 'string');
 
         if (count($ids) == 1) {
             $ids = explode(',', $ids[0]);
@@ -198,7 +198,7 @@ class TagModel extends ListModel
         $this->setState('tag.id', $pkString);
 
         // Get the selected list of types from the request. If none are specified all are used.
-        $typesr = $app->getInput()->get('types', array(), 'array');
+        $typesr = $app->getInput()->get('types', [], 'array');
 
         if ($typesr) {
             // Implode is needed because the array can contain a string with a coma separated list of ids
@@ -229,7 +229,7 @@ class TagModel extends ListModel
         $offset = $app->getInput()->get('limitstart', 0, 'uint');
         $this->setState('list.start', $offset);
 
-        $itemid = $pkString . ':' . $app->getInput()->get('Itemid', 0, 'int');
+        $itemid   = $pkString . ':' . $app->getInput()->get('Itemid', 0, 'int');
         $orderCol = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
         $orderCol = !$orderCol ? $this->state->params->get('tag_list_orderby', 'c.core_title') : $orderCol;
 
@@ -242,7 +242,7 @@ class TagModel extends ListModel
         $listOrder = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order_direction', 'filter_order_Dir', '', 'string');
         $listOrder = !$listOrder ? $this->state->params->get('tag_list_orderby_direction', 'ASC') : $listOrder;
 
-        if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+        if (!in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
@@ -294,7 +294,7 @@ class TagModel extends ListModel
                     }
 
                     // Convert the Table to a clean CMSObject.
-                    $properties = $table->getProperties(1);
+                    $properties   = $table->getProperties(1);
                     $this->item[] = ArrayHelper::toObject($properties, CMSObject::class);
                 } catch (\RuntimeException $e) {
                     $this->setError($e->getMessage());

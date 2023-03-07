@@ -57,17 +57,17 @@ class PlgSystemLanguagecode extends CMSPlugin
             // Replace the old code by the new code in the <html /> tag.
             if ($new_code) {
                 // Replace the new code in the HTML document.
-                $patterns = array(
+                $patterns = [
                     chr(1) . '(<html.*\s+xml:lang=")(' . $code . ')(".*>)' . chr(1) . 'i',
                     chr(1) . '(<html.*\s+lang=")(' . $code . ')(".*>)' . chr(1) . 'i',
-                );
-                $replace = array(
+                ];
+                $replace = [
                     '${1}' . strtolower($new_code) . '${3}',
                     '${1}' . strtolower($new_code) . '${3}',
-                );
+                ];
             } else {
-                $patterns = array();
-                $replace  = array();
+                $patterns = [];
+                $replace  = [];
             }
 
             // Replace codes in <link hreflang="" /> attributes.
@@ -78,7 +78,7 @@ class PlgSystemLanguagecode extends CMSPlugin
 
                 if ($new_code) {
                     $patterns[] = chr(1) . '(<link.*\s+hreflang=")(' . $match . ')(".*\s+rel="alternate".*>)' . chr(1) . 'i';
-                    $replace[] = '${1}' . $new_code . '${3}';
+                    $replace[]  = '${1}' . $new_code . '${3}';
                 }
             }
 
@@ -89,7 +89,7 @@ class PlgSystemLanguagecode extends CMSPlugin
 
                 if ($new_code) {
                     $patterns[] = chr(1) . '(<link.*\s+rel="alternate".*\s+hreflang=")(' . $match . ')(".*>)' . chr(1) . 'i';
-                    $replace[] = '${1}' . $new_code . '${3}';
+                    $replace[]  = '${1}' . $new_code . '${3}';
                 }
             }
 
@@ -101,7 +101,7 @@ class PlgSystemLanguagecode extends CMSPlugin
 
                 if ($new_code) {
                     $patterns[] = chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")(' . $match . ')(".*>)' . chr(1) . 'i';
-                    $replace[] = '${1}' . $new_code . '${3}';
+                    $replace[]  = '${1}' . $new_code . '${3}';
                 }
             }
 

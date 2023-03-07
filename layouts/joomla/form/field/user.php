@@ -72,9 +72,9 @@ if ($this->escape($userName) === Text::_('JLIB_FORM_SELECT_USER')) {
     $userName = '';
 }
 
-$inputAttributes = array(
+$inputAttributes = [
     'type' => 'text', 'id' => $id, 'class' => 'form-control field-user-input-name', 'value' => $this->escape($userName)
-);
+];
 if ($class) {
     $inputAttributes['class'] .= ' ' . $class;
 }
@@ -92,7 +92,7 @@ if (!$readonly) {
     $modalHTML = HTMLHelper::_(
         'bootstrap.renderModal',
         'userModal_' . $id,
-        array(
+        [
             'url'         => $uri,
             'title'       => Text::_('JLIB_FORM_CHANGE_USER'),
             'closeButton' => true,
@@ -101,7 +101,7 @@ if (!$readonly) {
             'modalWidth'  => 80,
             'bodyHeight'  => 60,
             'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
-        )
+        ]
     );
 
     Factory::getDocument()->getWebAssetManager()
