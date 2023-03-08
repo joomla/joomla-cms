@@ -109,7 +109,6 @@ class GuidedtoursComponent extends MVCComponent
      */
     public function prepareAssets(CMSWebApplicationInterface $app)
     {
-        // Load guided tours
         $app->getLanguage()->load('com_guidedtours', JPATH_ADMINISTRATOR);
         Text::script('JCANCEL');
         Text::script('COM_GUIDEDTOURS_BACK');
