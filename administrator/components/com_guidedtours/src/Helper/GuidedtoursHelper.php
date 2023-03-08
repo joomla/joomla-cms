@@ -20,7 +20,7 @@ use Joomla\Database\ParameterType;
 /**
  * Guided Tours component helper.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
 class GuidedtoursHelper
 {
@@ -32,7 +32,7 @@ class GuidedtoursHelper
      *
      * @return  boolean
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public static function setStepLanguage(int $id, string $language = '*'): string
     {

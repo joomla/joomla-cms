@@ -19,7 +19,7 @@ use Joomla\CMS\MVC\Controller\FormController;
 /**
  * Controller for a single step
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
 class StepController extends FormController
 {
