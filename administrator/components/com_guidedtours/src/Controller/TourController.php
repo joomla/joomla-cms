@@ -69,7 +69,7 @@ class TourController extends FormController
         echo new JsonResponse($tour);
     }
 
-     /**
+    /**
      * Get a tour and its steps or null if not found.
      *
      * @param   integer  $tourId  The ID of the tour to load
