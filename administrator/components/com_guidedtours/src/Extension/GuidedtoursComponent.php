@@ -12,7 +12,6 @@ namespace Joomla\Component\Guidedtours\Administrator\Extension;
 
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Extension\MVCComponent;
-use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
@@ -27,8 +26,6 @@ use Joomla\CMS\Session\Session;
  */
 class GuidedtoursComponent extends MVCComponent
 {
-    use HTMLRegistryAwareTrait;
-
     /**
      * The step type
      *
