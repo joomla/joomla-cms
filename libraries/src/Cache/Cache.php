@@ -29,7 +29,7 @@ class Cache
      * @var    CacheStorage[]
      * @since  1.7.0
      */
-    public static $_handler = array();
+    public static $_handler = [];
 
     /**
      * Cache options
@@ -50,7 +50,7 @@ class Cache
     {
         $app = Factory::getApplication();
 
-        $this->_options = array(
+        $this->_options = [
             'cachebase'    => $app->get('cache_path', JPATH_CACHE),
             'lifetime'     => (int) $app->get('cachetime'),
             'language'     => $app->get('language', 'en-GB'),
@@ -60,7 +60,7 @@ class Cache
             'locktime'     => 15,
             'checkTime'    => true,
             'caching'      => ($app->get('caching') >= 1),
-        );
+        ];
 
         // Overwrite default options with given options
         foreach ($options as $option => $value)
@@ -88,7 +88,7 @@ class Cache
      * @since       1.7.0
      * @deprecated  5.0 Use the cache controller factory instead
      */
-    public static function getInstance($type = 'output', $options = array())
+    public static function getInstance($type = 'output', $options = [])
     {
         @trigger_error(
             sprintf(
@@ -110,7 +110,7 @@ class Cache
      */
     public static function getStores()
     {
-        $handlers = array();
+        $handlers = [];
 
         // Get an iterator and loop through the driver classes.
         $iterator = new \DirectoryIterator(__DIR__ . '/Storage');
@@ -177,7 +177,7 @@ class Cache
     /**
      * Set cache lifetime
      *
-     * @param   integer  $lt  Cache lifetime
+     * @param   integer  $lt  Cache lifetime in minutes
      *
      * @return  void
      *
@@ -523,7 +523,7 @@ class Cache
      *
      * @since   1.7.0
      */
-    public static function getWorkarounds($data, $options = array())
+    public static function getWorkarounds($data, $options = [])
     {
         $app      = Factory::getApplication();
         $document = Factory::getDocument();
@@ -739,14 +739,14 @@ class Cache
         }
 
         // Platform defaults
-        $defaulturlparams = array(
+        $defaulturlparams = [
             'format' => 'WORD',
             'option' => 'WORD',
             'view'   => 'WORD',
             'layout' => 'WORD',
             'tpl'    => 'CMD',
             'id'     => 'INT',
-        );
+        ];
 
         // Use platform defaults if parameter doesn't already exist.
         foreach ($defaulturlparams as $param => $type)
@@ -807,7 +807,7 @@ class Cache
 
         if (!isset($paths))
         {
-            $paths = array();
+            $paths = [];
         }
 
         if (!empty($path) && !\in_array($path, $paths))
