@@ -12,7 +12,6 @@ namespace Joomla\Component\Admin\Administrator\View\Sysinfo;
 
 use Exception;
 use Joomla\CMS\Access\Exception\NotAllowed;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;

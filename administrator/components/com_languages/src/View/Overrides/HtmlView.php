@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Languages\Administrator\View\Overrides;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;

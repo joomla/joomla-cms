@@ -91,16 +91,16 @@ class CategoryModel extends ListModel
      * @see    \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
                 'numarticles', 'a.numarticles',
                 'link', 'a.link',
                 'ordering', 'a.ordering',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -266,7 +266,7 @@ class CategoryModel extends ListModel
 
         $listOrder = $app->input->get('filter_order_Dir', 'ASC');
 
-        if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+        if (!in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
@@ -311,7 +311,7 @@ class CategoryModel extends ListModel
                 $params = new Registry();
             }
 
-            $options = array();
+            $options = [];
             $options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
             $categories = Categories::getInstance('Newsfeeds', $options);
             $this->_item = $categories->get($this->getState('category.id', 'root'));

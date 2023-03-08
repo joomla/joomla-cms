@@ -14,11 +14,12 @@ If it is a PR, include what the issue is, what the PR is addressing, testing ins
 Please be patient as not all items will be tested immediately (remember, all bug testing for the Joomla! CMS is done by volunteers) and be receptive to feedback about your code.
 
 #### Branches
-PRs should usually be made to the `4.1-dev` branch as this contains the most recent version of the code.
+PRs should usually be made to the `4.2-dev` branch as this contains the most recent version of the code.
 There are other branches available which serve specific purposes.
 
 | Branch | Purpose |
 | ------ | ------- |
-| 3.10-dev | Branch for the Joomla 3.x series. The 3.10 series release will only include compatibility features for 4.x as well as bugfixes and security patches. |
-| 4.1-dev | Branch for the current minor Joomla version. Commits to 3.10-dev will be applied to this branch as well. |
-| 4.2-dev | Branch for the next minor Joomla version. New features go into this branch. Commits to 4.1-dev will be applied to this branch as well. |
+| 3.10-dev | Branch for the Joomla 3.x series. The 3.10 series release will now only include security patches. |
+| 4.2-dev | Branch for the current minor Joomla version.|
+| 4.3-dev | Branch for the next minor Joomla version. New features go into this branch. Commits to 4.2-dev will be applied to this branch as well. |
+| 5.0-dev | Branch for the next major Joomla version. |

@@ -66,7 +66,7 @@ class LocalAdapter implements AdapterInterface
     public function __construct(string $rootPath, string $filePath)
     {
         if (!file_exists($rootPath)) {
-            throw new \InvalidArgumentException();
+            throw new \InvalidArgumentException(Text::_('COM_MEDIA_ERROR_MISSING_DIR'));
         }
 
         $this->rootPath = Path::clean(realpath($rootPath), '/');

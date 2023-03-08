@@ -219,7 +219,7 @@ class AddUserCommand extends AbstractCommand
             }
         }
 
-            return $answer;
+        return $answer;
     }
 
     /**

@@ -55,7 +55,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const PATCH_VERSION = 1;
+    public const PATCH_VERSION = 9;
 
     /**
      * Extra release version info.
@@ -66,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'rc3-dev';
+    public const EXTRA_VERSION = 'rc2-dev';
 
     /**
      * Development status.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '21-August-2022';
+    public const RELDATE = '7-March-2023';
 
     /**
      * Release time.
@@ -98,7 +98,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTIME = '12:39';
+    public const RELTIME = '20:00';
 
     /**
      * Release timezone.
@@ -310,7 +310,7 @@ final class Version
         $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
             ->createCacheController('callback', ['defaultgroup' => '_media_version', 'caching' => true]);
 
-        $cache->setLifeTime(315576000);
+        $cache->setLifeTime(5259600);
 
         // Disable cache when Debug is enabled
         if (JDEBUG) {

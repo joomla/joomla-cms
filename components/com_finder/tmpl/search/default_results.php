@@ -25,7 +25,7 @@ use Joomla\CMS\Uri\Uri;
             <?php $uri = Uri::getInstance($this->query->toUri()); ?>
             <?php $uri->setVar('q', $this->suggested); ?>
             <?php // Compile the suggested query link. ?>
-            <?php $linkUrl = Route::_($uri->toString(array('path', 'query'))); ?>
+            <?php $linkUrl = Route::_($uri->toString(['path', 'query'])); ?>
             <?php $link = '<a href="' . $linkUrl . '">' . $this->escape($this->suggested) . '</a>'; ?>
             <?php echo Text::sprintf('COM_FINDER_SEARCH_SIMILAR', $link); ?>
         <?php elseif ($this->explained && $this->params->get('show_explained_query', 1)) : ?>
@@ -61,7 +61,7 @@ use Joomla\CMS\Uri\Uri;
 <?php endif; ?>
 <?php // Display a list of results ?>
 <ol id="search-result-list" class="js-highlight com-finder__results-list" start="<?php echo (int) $this->pagination->limitstart + 1; ?>">
-    <?php $this->baseUrl = Uri::getInstance()->toString(array('scheme', 'host', 'port')); ?>
+    <?php $this->baseUrl = Uri::getInstance()->toString(['scheme', 'host', 'port']); ?>
     <?php foreach ($this->results as $i => $result) : ?>
         <?php $this->result = &$result; ?>
         <?php $this->result->counter = $i + 1; ?>

@@ -102,9 +102,9 @@ class ContactModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
-        $form = $this->loadForm('com_contact.contact', 'contact', array('control' => 'jform', 'load_data' => true));
+        $form = $this->loadForm('com_contact.contact', 'contact', ['control' => 'jform', 'load_data' => true]);
 
         if (empty($form)) {
             return false;
@@ -148,7 +148,7 @@ class ContactModel extends FormModel
      */
     protected function loadFormData()
     {
-        $data = (array) Factory::getApplication()->getUserState('com_contact.contact.data', array());
+        $data = (array) Factory::getApplication()->getUserState('com_contact.contact.data', []);
 
         if (empty($data['language']) && Multilanguage::isEnabled()) {
             $data['language'] = Factory::getLanguage()->getTag();
@@ -178,7 +178,7 @@ class ContactModel extends FormModel
         $pk = $pk ?: (int) $this->getState('contact.id');
 
         if ($this->_item === null) {
-            $this->_item = array();
+            $this->_item = [];
         }
 
         if (!isset($this->_item[$pk])) {
@@ -381,10 +381,10 @@ class ContactModel extends FormModel
         $form = Form::getInstance('com_users.profile', 'profile');
 
         // Trigger the form preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
+        Factory::getApplication()->triggerEvent('onContentPrepareForm', [$form, $data]);
 
         // Trigger the data preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', $data));
+        Factory::getApplication()->triggerEvent('onContentPrepareData', ['com_users.profile', $data]);
 
         // Load the data into the form after the plugins have operated.
         $form->bind($data);
@@ -407,7 +407,7 @@ class ContactModel extends FormModel
         return 'CASE WHEN '
             . $query->charLength($alias, '!=', '0')
             . ' THEN '
-            . $query->concatenate(array($query->castAsChar($id), $alias), ':')
+            . $query->concatenate([$query->castAsChar($id), $alias], ':')
             . ' ELSE '
             . $query->castAsChar($id) . ' END';
     }
