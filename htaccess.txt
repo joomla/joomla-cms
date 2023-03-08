@@ -163,7 +163,7 @@ Options -Indexes
 
 	<FilesMatch "(\.js\.gz|\.css\.gz)$">
 		# Serve correct encoding type.
-		Header set Content-Encoding gzip
+		Header append Content-Encoding gzip
 
 		# Force proxies to cache gzipped &
 		# non-gzipped css/js files separately.
