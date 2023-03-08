@@ -68,7 +68,7 @@ class ConfigHelper extends ContentHelper
      *
      * @return  boolean
      *
-     * @since   4.2.9
+     * @since   __DEPLOY_VERSION__
      */
     public static function canChangeComponentConfig(string $component)
     {
