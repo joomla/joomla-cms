@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
 
 /** @var \Joomla\CMS\Document\HtmlDocument $this */
 
