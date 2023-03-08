@@ -24,7 +24,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Methods supporting a list of steps records.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
 class StepsModel extends ListModel
 {
@@ -33,7 +33,7 @@ class StepsModel extends ListModel
      *
      * @param   array $config An optional associative array of configuration settings.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      * @see   \Joomla\CMS\MVC\Controller\BaseController
      */
     public function __construct($config = [])
@@ -61,7 +61,7 @@ class StepsModel extends ListModel
      *
      * @return DatabaseQuery
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected function getEmptyStateQuery()
     {
@@ -88,7 +88,7 @@ class StepsModel extends ListModel
      *
      * @return  \Joomla\CMS\Table\Table  A JTable object
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     public function getTable($type = 'Step', $prefix = 'Administrator', $config = [])
     {
@@ -105,7 +105,7 @@ class StepsModel extends ListModel
      *
      * @return void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected function populateState($ordering = 'a.ordering', $direction = 'ASC')
     {
@@ -143,7 +143,7 @@ class StepsModel extends ListModel
      *
      * @return string  A store id.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected function getStoreId($id = '')
     {
@@ -159,7 +159,7 @@ class StepsModel extends ListModel
      *
      * @return \Joomla\Database\DatabaseQuery
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected function getListQuery()
     {
@@ -242,7 +242,7 @@ class StepsModel extends ListModel
      *
      * @return  mixed  An array of data items on success, false on failure.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getItems()
     {
