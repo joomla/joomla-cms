@@ -124,7 +124,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
           });
           if (target.tagName.toLowerCase() === 'iframe') {
             // Give blur to the content of the iframe, as iframes don't have blur events
-            target.contentWindow.addEventListener('blur', event => {
+            target.contentWindow.addEventListener('blur', (event) => {
               if (primaryButton && !primaryButton.disabled) {
                 primaryButton.focus();
               } else if (secondaryButton && !secondaryButton.disabled) {
