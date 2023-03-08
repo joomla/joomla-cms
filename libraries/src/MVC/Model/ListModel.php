@@ -564,8 +564,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
                         $this->setState('list.' . $name, $value);
                     }
                 }
-            } else // Keep B/C for components previous to jform forms for filters
-            {
+            } else { // Keep B/C for components previous to jform forms for filters
                 // Pre-fill the limits
                 $limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
                 $this->setState('list.limit', $limit);
@@ -605,7 +604,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
                 $this->setState('list.direction', $oldDirection);
             }
 
-            $value = $app->getUserStateFromRequest($this->context . '.limitstart', 'limitstart', 0, 'int');
+            $value      = $app->getUserStateFromRequest($this->context . '.limitstart', 'limitstart', 0, 'int');
             $limitstart = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
             $this->setState('list.start', $limitstart);
         } else {

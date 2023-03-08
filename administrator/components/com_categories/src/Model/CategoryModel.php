@@ -89,7 +89,7 @@ class CategoryModel extends AdminModel
      */
     public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
-        $extension = Factory::getApplication()->getInput()->get('extension', 'com_content');
+        $extension       = Factory::getApplication()->getInput()->get('extension', 'com_content');
         $this->typeAlias = $extension . '.category';
 
         // Add a new batch command
@@ -213,7 +213,7 @@ class CategoryModel extends AdminModel
             }
 
             // Convert the metadata field to an array.
-            $registry = new Registry($result->metadata);
+            $registry         = new Registry($result->metadata);
             $result->metadata = $registry->toArray();
 
             if (!empty($result->id)) {
@@ -248,12 +248,12 @@ class CategoryModel extends AdminModel
     public function getForm($data = [], $loadData = true)
     {
         $extension = $this->getState('category.extension');
-        $jinput = Factory::getApplication()->getInput();
+        $jinput    = Factory::getApplication()->getInput();
 
         // A workaround to get the extension into the model for save requests.
         if (empty($extension) && isset($data['extension'])) {
             $extension = $data['extension'];
-            $parts = explode('.', $extension);
+            $parts     = explode('.', $extension);
 
             $this->setState('category.extension', $extension);
             $this->setState('category.component', $parts[0]);
@@ -324,7 +324,7 @@ class CategoryModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $app = Factory::getApplication();
+        $app  = Factory::getApplication();
         $data = $app->getUserState('com_categories.edit.' . $this->getName() . '.data', []);
 
         if (empty($data)) {
@@ -334,7 +334,7 @@ class CategoryModel extends AdminModel
             if (!$data->id) {
                 // Check for which extension the Category Manager is used and get selected fields
                 $extension = substr($app->getUserState('com_categories.categories.filter.extension', ''), 4);
-                $filters = (array) $app->getUserState('com_categories.categories.' . $extension . '.filter');
+                $filters   = (array) $app->getUserState('com_categories.categories.' . $extension . '.filter');
 
                 $data->set(
                     'published',
@@ -397,9 +397,9 @@ class CategoryModel extends AdminModel
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
-        $lang = Factory::getLanguage();
+        $lang      = Factory::getLanguage();
         $component = $this->getState('category.component');
-        $section = $this->getState('category.section');
+        $section   = $this->getState('category.section');
         $extension = Factory::getApplication()->getInput()->get('extension', null);
 
         // Get the component form if it exists
@@ -434,7 +434,7 @@ class CategoryModel extends AdminModel
         } else {
             // Try to find the component helper.
             $eName = str_replace('com_', '', $component);
-            $path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/helpers/category.php");
+            $path  = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/helpers/category.php");
 
             if (file_exists($path)) {
                 $cName = ucfirst($eName) . ucfirst($section) . 'HelperCategory';
@@ -468,7 +468,7 @@ class CategoryModel extends AdminModel
 
             if (\count($languages) > 1) {
                 $addform = new \SimpleXMLElement('<form />');
-                $fields = $addform->addChild('fields');
+                $fields  = $addform->addChild('fields');
                 $fields->addAttribute('name', 'associations');
                 $fieldset = $fields->addChild('fieldset');
                 $fieldset->addAttribute('name', 'item_associations');
@@ -538,8 +538,8 @@ class CategoryModel extends AdminModel
 
             if ($data['title'] == $origTable->title) {
                 [$title, $alias] = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-                $data['title'] = $title;
-                $data['alias'] = $alias;
+                $data['title']   = $title;
+                $data['alias']   = $alias;
             } else {
                 if ($data['alias'] == $origTable->alias) {
                     $data['alias'] = '';
@@ -817,7 +817,7 @@ class CategoryModel extends AdminModel
     {
         $successful = [];
 
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         /**
@@ -866,16 +866,16 @@ class CategoryModel extends AdminModel
      */
     protected function batchCopy($value, $pks, $contexts)
     {
-        $type = new UCMType();
+        $type       = new UCMType();
         $this->type = $type->getTypeByAlias($this->typeAlias);
 
         // $value comes as {parent_id}.{extension}
-        $parts = explode('.', $value);
+        $parts    = explode('.', $value);
         $parentId = (int) ArrayHelper::getValue($parts, 0, 1);
 
-        $db = $this->getDatabase();
+        $db        = $this->getDatabase();
         $extension = Factory::getApplication()->input->get('extension', '', 'word');
-        $newIds = [];
+        $newIds    = [];
 
         // Check that the parent exists
         if ($parentId) {
@@ -996,13 +996,13 @@ class CategoryModel extends AdminModel
 
             // @TODO: Deal with ordering?
             // $this->table->ordering = 1;
-            $this->table->level = null;
+            $this->table->level    = null;
             $this->table->asset_id = null;
-            $this->table->lft = null;
-            $this->table->rgt = null;
+            $this->table->lft      = null;
+            $this->table->rgt      = null;
 
             // Alter the title & alias
-            [$title, $alias] = $this->generateNewTitle($this->table->parent_id, $this->table->alias, $this->table->title);
+            [$title, $alias]     = $this->generateNewTitle($this->table->parent_id, $this->table->alias, $this->table->title);
             $this->table->title  = $title;
             $this->table->alias  = $alias;
 
@@ -1071,12 +1071,12 @@ class CategoryModel extends AdminModel
      */
     protected function batchMove($value, $pks, $contexts)
     {
-        $parentId = (int) $value;
-        $type = new UCMType();
+        $parentId   = (int) $value;
+        $type       = new UCMType();
         $this->type = $type->getTypeByAlias($this->typeAlias);
 
-        $db = $this->getDatabase();
-        $query = $db->getQuery(true);
+        $db        = $this->getDatabase();
+        $query     = $db->getQuery(true);
         $extension = Factory::getApplication()->getInput()->get('extension', '', 'word');
 
         // Check that the parent exists.
@@ -1122,6 +1122,8 @@ class CategoryModel extends AdminModel
 
         // We are going to store all the children and just move the category
         $children = [];
+
+        $table = $this->getTable();
 
         // Parent exists so let's proceed
         foreach ($pks as $pk) {
@@ -1171,7 +1173,7 @@ class CategoryModel extends AdminModel
                     'extension' => $extension,
                 ];
 
-                if ($this->table->load($conditions)) {
+                if ($table->load($conditions)) {
                     $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
 
                     return false;
@@ -1271,9 +1273,9 @@ class CategoryModel extends AdminModel
         $extension = $this->getState('category.extension', '');
 
         $this->hasAssociation = Associations::isEnabled();
-        $extension = explode('.', $extension);
-        $component = array_shift($extension);
-        $cname = str_replace('com_', '', $component);
+        $extension            = explode('.', $extension);
+        $component            = array_shift($extension);
+        $cname                = str_replace('com_', '', $component);
 
         if (!$this->hasAssociation || !$component || !$cname) {
             $this->hasAssociation = false;

@@ -82,7 +82,7 @@ class FeatureEvent extends AbstractImmutableEvent
      */
     public function setAbort(string $reason)
     {
-        $this->arguments['abort'] = true;
+        $this->arguments['abort']       = true;
         $this->arguments['abortReason'] = $reason;
     }
 }

@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Templates\Administrator\Field">
 	<field
 		name="client_id"
 		type="list"
 		label="JSITEADMIN"
 		filtermode="selector"
-		onchange="Joomla.resetFilters(this)"
+		class="js-select-reset-on-change"
 		validate="options"
 		>
 		<option value="0">JSITE</option>

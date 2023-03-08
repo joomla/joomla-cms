@@ -101,7 +101,7 @@ final class None extends CMSPlugin
             $buttonsEvent = new Event(
                 'getButtons',
                 [
-                    'editor'    => $name,
+                    'editor'  => $name,
                     'buttons' => $buttons,
                 ]
             );

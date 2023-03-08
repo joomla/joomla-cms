@@ -94,14 +94,14 @@ class PlgSystemAccessibility extends CMSPlugin
                 'icon' => [
                     'position' => [
                         $direction => [
-                            'size' => '0',
+                            'size'  => '0',
                             'units' => 'px',
                         ],
                     ],
                     'useEmojis' => $this->params->get('useEmojis') != 'false' ? true : false,
                 ],
                 'hotkeys' => [
-                    'enabled' => true,
+                    'enabled'    => true,
                     'helpTitles' => true,
                 ],
                 'textToSpeechLang' => [$lang],

@@ -61,7 +61,7 @@ class BannerModel extends AdminModel
      */
     protected $batch_commands = [
         'client_id'   => 'batchClient',
-        'language_id' => 'batchLanguage'
+        'language_id' => 'batchLanguage',
     ];
 
     /**
@@ -143,8 +143,8 @@ class BannerModel extends AdminModel
     public function generateTitle($categoryId, $table)
     {
         // Alter the title & alias
-        $data = $this->generateNewTitle($categoryId, $table->alias, $table->name);
-        $table->name = $data['0'];
+        $data         = $this->generateNewTitle($categoryId, $table->alias, $table->name);
+        $table->name  = $data['0'];
         $table->alias = $data['1'];
     }
 
@@ -320,7 +320,7 @@ class BannerModel extends AdminModel
 
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
-                $db = $this->getDatabase();
+                $db    = $this->getDatabase();
                 $query = $db->getQuery(true)
                     ->select('MAX(' . $db->quoteName('ordering') . ')')
                     ->from($db->quoteName('#__banners'));

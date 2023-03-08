@@ -265,7 +265,7 @@ class MediaCest
             '/media/files',
             [
                 'path'    => $this->testDirectory . '/test.jpg',
-                'content' => base64_encode(file_get_contents(codecept_data_dir() . '/com_media/test-image-1.jpg'))
+                'content' => base64_encode(file_get_contents(codecept_data_dir() . '/com_media/test-image-1.jpg')),
             ]
         );
 
@@ -314,7 +314,7 @@ class MediaCest
             '/media/files',
             [
                 'path'    => 'local-images:/' . $this->testDirectory . '/test.jpg',
-                'content' => base64_encode(file_get_contents(codecept_data_dir() . '/com_media/test-image-1.jpg'))
+                'content' => base64_encode(file_get_contents(codecept_data_dir() . '/com_media/test-image-1.jpg')),
             ]
         );
 
@@ -365,7 +365,7 @@ class MediaCest
             '/media/files/' . $this->testDirectory . '/override.jpg',
             [
                 'path'    => $this->testDirectory . '/override.jpg',
-                'content' => base64_encode(file_get_contents(codecept_data_dir() . '/com_media/test-image-1.jpg'))
+                'content' => base64_encode(file_get_contents(codecept_data_dir() . '/com_media/test-image-1.jpg')),
             ]
         );
 
@@ -392,7 +392,7 @@ class MediaCest
         $I->haveHttpHeader('Accept', 'application/vnd.api+json');
         $I->sendPatch(
             '/media/files/' . $this->testDirectory . '/override',
-            ['path'    => $this->testDirectory . '/override-new']
+            ['path' => $this->testDirectory . '/override-new']
         );
 
         $I->seeResponseCodeIs(HttpCode::OK);
@@ -419,7 +419,7 @@ class MediaCest
             '/media/files/local-images:/' . $this->testDirectory . '/override.jpg',
             [
                 'path'    => 'local-images:/' . $this->testDirectory . '/override.jpg',
-                'content' => base64_encode(file_get_contents(codecept_data_dir() . '/com_media/test-image-1.jpg'))
+                'content' => base64_encode(file_get_contents(codecept_data_dir() . '/com_media/test-image-1.jpg')),
             ]
         );
 

@@ -96,7 +96,7 @@ if (!$format) {
                 $basePath = JPATH_BASE;
                 $lang     = Factory::getLanguage();
                 $lang->load('mod_' . $module, $basePath)
-                ||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module);
+                || $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module);
 
                 try {
                     $results = call_user_func($class . '::' . $method . 'Ajax');
@@ -178,7 +178,7 @@ if (!$format) {
                 // Load language file for template
                 $lang = Factory::getLanguage();
                 $lang->load('tpl_' . $template, $basePath)
-                ||  $lang->load('tpl_' . $template, $basePath . '/templates/' . $template);
+                || $lang->load('tpl_' . $template, $basePath . '/templates/' . $template);
 
                 try {
                     $results = call_user_func($class . '::' . $method . 'Ajax');

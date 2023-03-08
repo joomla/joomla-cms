@@ -56,6 +56,10 @@ class FieldsHelper
      */
     public static function extract($contextString, $item = null)
     {
+        if ($contextString === null) {
+            return null;
+        }
+
         $parts = explode('.', $contextString, 2);
 
         if (count($parts) < 2) {
@@ -342,7 +346,7 @@ class FieldsHelper
         $fieldTypes = self::getFieldTypes();
 
         // Creating the dom
-        $xml = new \DOMDocument('1.0', 'UTF-8');
+        $xml        = new \DOMDocument('1.0', 'UTF-8');
         $fieldsNode = $xml->appendChild(new \DOMElement('form'))->appendChild(new \DOMElement('fields'));
         $fieldsNode->setAttribute('name', 'com_fields');
 
@@ -381,11 +385,11 @@ class FieldsHelper
          * have the 'default' group with id 0 which is not in the database,
          * so we create it virtually here.
          */
-        $defaultGroup = new \stdClass();
-        $defaultGroup->id = 0;
-        $defaultGroup->title = '';
+        $defaultGroup              = new \stdClass();
+        $defaultGroup->id          = 0;
+        $defaultGroup->title       = '';
         $defaultGroup->description = '';
-        $iterateGroups = array_merge([$defaultGroup], $model->getItems());
+        $iterateGroups             = array_merge([$defaultGroup], $model->getItems());
 
         // Looping through the groups
         foreach ($iterateGroups as $group) {

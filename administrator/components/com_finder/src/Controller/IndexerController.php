@@ -53,7 +53,7 @@ class IndexerController extends BaseController
         $params = ComponentHelper::getParams('com_finder');
 
         if ($params->get('enable_logging', '0')) {
-            $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }
@@ -87,7 +87,7 @@ class IndexerController extends BaseController
             $this->app->triggerEvent('onStartIndex');
 
             // Get the indexer state.
-            $state = Indexer::getState();
+            $state        = Indexer::getState();
             $state->start = 1;
 
             // Send the response.
@@ -117,7 +117,7 @@ class IndexerController extends BaseController
         $params = ComponentHelper::getParams('com_finder');
 
         if ($params->get('enable_logging', '0')) {
-            $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }
@@ -159,8 +159,8 @@ class IndexerController extends BaseController
             $this->app->triggerEvent('onBuildIndex');
 
             // Get the indexer state.
-            $state = Indexer::getState();
-            $state->start = 0;
+            $state           = Indexer::getState();
+            $state->start    = 0;
             $state->complete = 0;
 
             // Log batch completion and memory high-water mark.
@@ -210,8 +210,8 @@ class IndexerController extends BaseController
             $indexer->optimize();
 
             // Get the indexer state.
-            $state = Indexer::getState();
-            $state->start = 0;
+            $state           = Indexer::getState();
+            $state->start    = 0;
             $state->complete = 1;
 
             // Send the response.
@@ -240,7 +240,7 @@ class IndexerController extends BaseController
         $params = ComponentHelper::getParams('com_finder');
 
         if ($params->get('enable_logging', '0')) {
-            $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }

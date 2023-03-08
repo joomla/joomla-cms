@@ -63,7 +63,7 @@ class ItemsModel extends ListModel
                 'publish_up', 'a.publish_up',
                 'publish_down', 'a.publish_down',
                 'e.element', 'componentName',
-                'a.ordering'
+                'a.ordering',
             ];
 
             if (Associations::isEnabled()) {
