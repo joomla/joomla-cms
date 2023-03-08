@@ -107,7 +107,7 @@ final class Token extends CMSPlugin
          * Do keep in mind that Bearer is **case-sensitive**. Whitespace between Bearer and the
          * token, as well as any whitespace following the token is discarded.
          */
-        $authHeader  = $this->getApplication()->input->server->get('HTTP_AUTHORIZATION', '', 'string');
+        $authHeader  = $this->getApplication()->getInput()->server->get('HTTP_AUTHORIZATION', '', 'string');
         $tokenString = '';
 
         // Apache specific fixes. See https://github.com/symfony/symfony/issues/19693
@@ -129,7 +129,7 @@ final class Token extends CMSPlugin
         }
 
         if (empty($tokenString)) {
-            $tokenString = $this->getApplication()->input->server->get('HTTP_X_JOOMLA_TOKEN', '', 'string');
+            $tokenString = $this->getApplication()->getInput()->server->get('HTTP_X_JOOMLA_TOKEN', '', 'string');
         }
 
         // No token: authentication failure
