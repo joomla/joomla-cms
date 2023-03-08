@@ -61,8 +61,8 @@ trait UserDeletion
             $db = Factory::getContainer()->get('DatabaseDriver');
 
             $query = $db->getQuery(true)
-                ->delete($db->qn('#__webauthn_credentials'))
-                ->where($db->qn('user_id') . ' = :userId')
+                ->delete($db->quoteName('#__webauthn_credentials'))
+                ->where($db->quoteName('user_id') . ' = :userId')
                 ->bind(':userId', $userId);
 
             try {

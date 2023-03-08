@@ -27,7 +27,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
  */
-const JOOMLA_MINIMUM_PHP = '7.2.5';
+const JOOMLA_MINIMUM_PHP = '8.1.0';
 
 if (!defined('_JDEFINES')) {
     define('JPATH_BASE', dirname(__DIR__));
@@ -37,8 +37,7 @@ if (!defined('_JDEFINES')) {
 // Get the framework.
 require_once JPATH_BASE . '/includes/framework.php';
 
-$command = new class extends AbstractCommand
-{
+$command = new class () extends AbstractCommand {
     /**
      * The default command name
      *
@@ -185,8 +184,7 @@ $input = new ArrayInput(
     ]
 );
 
-$app = new class ($input) extends Application
-{
+$app = new class ($input) extends Application {
     /**
      * Retrieve the application configuration object.
      *

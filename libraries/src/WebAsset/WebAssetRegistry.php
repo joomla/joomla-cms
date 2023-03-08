@@ -394,9 +394,9 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 
             $item['type'] = strtolower($item['type']);
 
-            $name    = $item['name'];
-            $uri     = $item['uri'] ?? '';
-            $options = $item;
+            $name                   = $item['name'];
+            $uri                    = $item['uri'] ?? '';
+            $options                = $item;
             $options['assetSource'] = $assetSource;
 
             unset($options['uri'], $options['name']);

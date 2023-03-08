@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
@@ -153,10 +154,9 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $state = $this->get('State');
-        $canDo = ContentHelper::getActions('com_redirect');
-
-        $toolbar = Toolbar::getInstance('toolbar');
+        $state   = $this->get('State');
+        $canDo   = ContentHelper::getActions('com_redirect');
+        $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_REDIRECT_MANAGER_LINKS'), 'map-signs redirect');
 
@@ -165,8 +165,8 @@ class HtmlView extends BaseHtmlView
         }
 
         if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $canDo->get('core.admin'))) {
-            $dropdown = $toolbar->dropdownButton('status-group')
-                ->text('JTOOLBAR_CHANGE_STATUS')
+            /** @var DropdownButton $dropdown */
+            $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
                 ->icon('icon-ellipsis-h')
                 ->buttonClass('btn btn-action')
@@ -193,22 +193,18 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-            $toolbar->delete('links.delete')
-                ->text('JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('links.delete', 'JTOOLBAR_EMPTY_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }
 
         if (!$this->isEmptyState && (!$state->get('filter.state') == -2 && $canDo->get('core.delete'))) {
-            $toolbar->confirmButton('delete')
-                ->text('COM_REDIRECT_TOOLBAR_PURGE')
-                ->message('COM_REDIRECT_CONFIRM_PURGE')
-                ->task('links.purge');
+            $toolbar->confirmButton('delete', 'COM_REDIRECT_TOOLBAR_PURGE', 'links.purge')
+                ->message('COM_REDIRECT_CONFIRM_PURGE');
         }
 
         if ($canDo->get('core.create')) {
-            $toolbar->popupButton('batch')
-                ->text('JTOOLBAR_BULK_IMPORT')
+            $toolbar->popupButton('batch', 'JTOOLBAR_BULK_IMPORT')
                 ->selector('collapseModal')
                 ->listCheck(false);
         }
