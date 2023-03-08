@@ -54,7 +54,7 @@ class FieldsController extends AdminController
      *
      * @return  string  The arguments to append to the redirect URL.
      *
-     * @since   4.2.9
+     * @since   __DEPLOY_VERSION__
      */
     protected function getRedirectToListAppend()
     {
