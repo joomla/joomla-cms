@@ -21,7 +21,7 @@ use Joomla\Database\DatabaseDriver;
 /**
  * Tours table class.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
 class TourTable extends Table
 {
@@ -29,7 +29,7 @@ class TourTable extends Table
      * Indicates that columns fully support the NULL value in the database
      *
      * @var    boolean
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
     protected $_supportNullValue = true;
@@ -38,7 +38,7 @@ class TourTable extends Table
      * An array of key names to be json encoded in the bind function
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
     protected $_jsonEncode = ['extensions'];
@@ -48,7 +48,7 @@ class TourTable extends Table
      *
      * @param   DatabaseDriver $db Database connector object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function __construct(DatabaseDriver $db)
     {
@@ -62,7 +62,7 @@ class TourTable extends Table
      *
      * @return  boolean  True on success, false on failure.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function store($updateNulls = true)
     {
@@ -105,7 +105,7 @@ class TourTable extends Table
      *
      * @return  string  The asset name.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     // phpcs:ignore
     protected function _getAssetName(): string
@@ -120,7 +120,7 @@ class TourTable extends Table
      *
      * @return  string  The string to use as the title in the asset table.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     // phpcs:ignore
     protected function _getAssetTitle()
