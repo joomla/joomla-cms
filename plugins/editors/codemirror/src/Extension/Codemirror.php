@@ -237,7 +237,7 @@ final class Codemirror extends CMSPlugin
         }
 
         if ($options->keyMap !== 'default') {
-            $keyMapUrl = $this->basePath . 'keymap/' . $options->keyMap . '.min.js';
+            $keyMapUrl = Uri::root() . $this->basePath . 'keymap/' . $options->keyMap . '.min.js';
         }
 
         $options->keyMapUrl = $keyMapUrl;
