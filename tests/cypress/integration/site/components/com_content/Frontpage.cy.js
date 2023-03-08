@@ -1,4 +1,4 @@
-beforeEach(function() {
+afterEach(function() {
   cy.task('queryDB', 'DELETE FROM #__content');
 });
 

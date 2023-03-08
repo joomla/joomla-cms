@@ -1,5 +1,5 @@
 
-beforeEach(function() {
+afterEach(function() {
   cy.task('queryDB', 'DELETE FROM #__content');
   cy.task('queryDB', 'DELETE FROM #__menu WHERE id > 101');
 });
