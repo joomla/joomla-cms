@@ -48,7 +48,7 @@ function addProgressIndicator(stepElement, index, total) {
   const progress = document.createElement('div');
   progress.classList.add('shepherd-progress');
   progress.setAttribute('role', 'status');
-  progress.setAttribute('aria-label', Joomla.Text._('MOD_GUIDEDTOURS_STEP_NUMBER_OF').replace('{number}', index).replace('{total}', total));
+  progress.setAttribute('aria-label', Joomla.Text._('COM_GUIDEDTOURS_STEP_NUMBER_OF').replace('{number}', index).replace('{total}', total));
   const progressText = document.createElement('span');
   progressText.setAttribute('aria-hidden', true);
   progressText.innerText = `${index}/${total}`;
@@ -192,7 +192,7 @@ function showTourInfo(tour, stepObj) {
         action() {
           return this.next();
         },
-        text: Joomla.Text._('MOD_GUIDEDTOURS_START'),
+        text: Joomla.Text._('COM_GUIDEDTOURS_START'),
       },
     ],
     id: 'tourinfo',
@@ -207,7 +207,7 @@ function showTourInfo(tour, stepObj) {
 
 function pushCompleteButton(buttons) {
   buttons.push({
-    text: Joomla.Text._('MOD_GUIDEDTOURS_COMPLETE'),
+    text: Joomla.Text._('COM_GUIDEDTOURS_COMPLETE'),
     classes: 'btn btn-primary shepherd-button-primary',
     action() {
       return this.cancel();
@@ -217,7 +217,7 @@ function pushCompleteButton(buttons) {
 
 function pushNextButton(buttons, step, disabled = false, disabledClass = '') {
   buttons.push({
-    text: Joomla.Text._('MOD_GUIDEDTOURS_NEXT'),
+    text: Joomla.Text._('COM_GUIDEDTOURS_NEXT'),
     classes: `btn btn-primary shepherd-button-primary step-next-button-${step.id} ${disabledClass}`,
     action() {
       return this.next();
@@ -228,7 +228,7 @@ function pushNextButton(buttons, step, disabled = false, disabledClass = '') {
 
 function addBackButton(buttons, step) {
   buttons.push({
-    text: Joomla.Text._('MOD_GUIDEDTOURS_BACK'),
+    text: Joomla.Text._('COM_GUIDEDTOURS_BACK'),
     classes: 'btn btn-secondary shepherd-button-secondary',
     action() {
       if (step.type === 'redirect') {
@@ -401,7 +401,7 @@ document.querySelector('body').addEventListener('click', (event) => {
 
   // Click button but missing data-id
   if (typeof event.target.getAttribute('data-id') === 'undefined' || event.target.getAttribute('data-id') <= 0) {
-    Joomla.renderMessages([Joomla.Text._('MOD_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR')]);
+    Joomla.renderMessages([Joomla.Text._('COM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR')]);
     return;
   }
 

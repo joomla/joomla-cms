@@ -23,17 +23,18 @@ $wa = $app->getDocument()->getWebAssetManager();
 // Load the Bootstrap Dropdown
 $wa->useScript('bootstrap.dropdown');
 
+$app->getLanguage()->load('com_guidedtours');
 Text::script('JCANCEL');
-Text::script('MOD_GUIDEDTOURS_BACK');
-Text::script('MOD_GUIDEDTOURS_COMPLETE');
-Text::script('MOD_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR');
-Text::script('MOD_GUIDEDTOURS_NEXT');
-Text::script('MOD_GUIDEDTOURS_START');
-Text::script('MOD_GUIDEDTOURS_STEP_NUMBER_OF');
+Text::script('COM_GUIDEDTOURS_BACK');
+Text::script('COM_GUIDEDTOURS_COMPLETE');
+Text::script('COM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR');
+Text::script('COM_GUIDEDTOURS_NEXT');
+Text::script('COM_GUIDEDTOURS_START');
+Text::script('COM_GUIDEDTOURS_STEP_NUMBER_OF');
 
-$wa->getRegistry()->addExtensionRegistryFile('mod_guidedtours');
-$wa->usePreset('mod_guidedtours.guidedtours');
-$app->getDocument()->addScriptOptions('mod_guidedtours.token', Session::getFormToken());
+$wa->getRegistry()->addExtensionRegistryFile('com_guidedtours');
+$wa->usePreset('com_guidedtours.guidedtours');
+$app->getDocument()->addScriptOptions('com_guidedtours.token', Session::getFormToken());
 
 $lang = $app->getLanguage();
 
