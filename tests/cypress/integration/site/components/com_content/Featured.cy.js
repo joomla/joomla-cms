@@ -1,5 +1,6 @@
 afterEach(function() {
   cy.task('queryDB', 'DELETE FROM #__content');
+  cy.task('queryDB', 'DELETE FROM #__content_frontpage');
 });
 
 describe('Test that the front page', () => {

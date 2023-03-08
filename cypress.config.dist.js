@@ -16,7 +16,9 @@ module.exports = defineConfig({
             host: config.env.db_host,
             database: config.env.db_name,
             username: config.env.db_user,
-            password: config.env.db_password
+            password: config.env.db_password,
+            idle_timeout: 5,
+            max_lifetime: 60
           });
 
           // Postgres delivers the data direct as result of the insert query
