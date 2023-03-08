@@ -1,5 +1,5 @@
 
-afterEach(function() {
+beforeEach(function() {
   cy.task('queryDB', 'DELETE FROM #__content');
   cy.task('queryDB', 'DELETE FROM #__content_frontpage');
   cy.task('queryDB', 'DELETE FROM #__menu WHERE id > 101');
@@ -37,6 +37,19 @@ describe('Test that the list view ', () => {
               cy.contains('article 3');
               cy.contains('article 4');
           });
+    });
+  });
+
+  it('can open the article form in the default layout', function () {
+    cy.db_createArticle({title: 'article 1'})
+      .then(() => cy.db_createMenuItem({'title': 'automated test', link: 'index.php?option=com_content&view=category&id=2&layout=default'}))
+      .then(() => {
+      cy.doFrontendLogin(Cypress.env('username'), Cypress.env('password'))
+      cy.visit('/');
+      cy.get('a:contains(automated test)').click();
+      cy.get('a:contains(New Article)').click();
+
+      cy.get('#adminForm').should('exist');
     });
   });
 });
