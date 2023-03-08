@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
 $hideLinks = $app->getInput()->getBool('hidemainmenu');
@@ -20,10 +21,21 @@ if ($hideLinks || !$tours) {
     return;
 }
 
+$wa = $app->getDocument()->getWebAssetManager();
 // Load the Bootstrap Dropdown
-$app->getDocument()
-    ->getWebAssetManager()
-    ->useScript('bootstrap.dropdown');
+$wa->useScript('bootstrap.dropdown');
+
+Text::script('JCANCEL');
+Text::script('MOD_GUIDEDTOURS_BACK');
+Text::script('MOD_GUIDEDTOURS_COMPLETE');
+Text::script('MOD_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR');
+Text::script('MOD_GUIDEDTOURS_NEXT');
+Text::script('MOD_GUIDEDTOURS_START');
+Text::script('MOD_GUIDEDTOURS_STEP_NUMBER_OF');
+
+$wa->getRegistry()->addExtensionRegistryFile('mod_guidedtours');
+$wa->usePreset('mod_guidedtours.guidedtours');
+$app->getDocument()->addScriptOptions('mod_guidedtours.token', Session::getFormToken());
 
 $lang = $app->getLanguage();
 

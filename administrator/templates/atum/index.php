@@ -75,12 +75,6 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 		--template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
 	}');
 
-// Load guided tours when enabled
-$component = $app->bootComponent('com_guidedtours');
-if ($component instanceof GuidedtoursComponent) {
-    $component->prepareAssets($app);
-}
-
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 

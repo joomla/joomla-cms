@@ -1,14 +1,14 @@
 {
   "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
-  "name": "com_guidedtours",
+  "name": "mod_guidedtours",
   "version": "4.0.0",
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_guidedtours.guidedtours.es5",
+      "name": "mod_guidedtours.guidedtours.es5",
       "type": "script",
-      "uri": "com_guidedtours/guidedtours-es5.min.js",
+      "uri": "mod_guidedtours/guidedtours-es5.min.js",
       "dependencies": [
         "core"
       ],
@@ -18,28 +18,28 @@
       }
     },
     {
-      "name": "com_guidedtours.guidedtours",
+      "name": "mod_guidedtours.guidedtours",
       "type": "script",
-      "uri": "com_guidedtours/guidedtours.min.js",
+      "uri": "mod_guidedtours/guidedtours.min.js",
       "dependencies": [
         "core",
-        "com_guidedtours.guidedtours.es5"
+        "mod_guidedtours.guidedtours.es5"
       ],
       "attributes": {
         "type": "module"
       }
     },
     {
-      "name": "com_guidedtours.guidedtours",
+      "name": "mod_guidedtours.guidedtours",
       "type": "style",
-      "uri": "com_guidedtours/guidedtours.min.css"
+      "uri": "mod_guidedtours/guidedtours.min.css"
     },
     {
-      "name": "com_guidedtours.guidedtours",
+      "name": "mod_guidedtours.guidedtours",
       "type": "preset",
       "dependencies": [
-        "com_guidedtours.guidedtours#style",
-        "com_guidedtours.guidedtours#script"
+        "mod_guidedtours.guidedtours#style",
+        "mod_guidedtours.guidedtours#script"
       ]
     }
   ]

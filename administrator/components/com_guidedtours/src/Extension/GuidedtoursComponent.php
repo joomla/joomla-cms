@@ -10,10 +10,7 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Extension;
 
-use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Extension\MVCComponent;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -97,29 +94,4 @@ class GuidedtoursComponent extends MVCComponent
      * @since 4.3.0
      */
     public const STEP_INTERACTIVETYPE_OTHER = 3;
-
-    /**
-     * Loads the required assets and language strings for guided tours.
-     *
-     * @param   CMSWebApplicationInterface $app The app
-     *
-     * @return void
-     *
-     * @since 4.3.0
-     */
-    public function prepareAssets(CMSWebApplicationInterface $app)
-    {
-        $app->getLanguage()->load('com_guidedtours', JPATH_ADMINISTRATOR);
-        Text::script('JCANCEL');
-        Text::script('COM_GUIDEDTOURS_BACK');
-        Text::script('COM_GUIDEDTOURS_COMPLETE');
-        Text::script('COM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR');
-        Text::script('COM_GUIDEDTOURS_NEXT');
-        Text::script('COM_GUIDEDTOURS_START');
-        Text::script('COM_GUIDEDTOURS_STEP_NUMBER_OF');
-
-        $app->getDocument()->getWebAssetManager()->getRegistry()->addExtensionRegistryFile('com_guidedtours');
-        $app->getDocument()->getWebAssetManager()->usePreset('com_guidedtours.guidedtours');
-        $app->getDocument()->addScriptOptions('com_guidedtours.token', Session::getFormToken());
-    }
 }

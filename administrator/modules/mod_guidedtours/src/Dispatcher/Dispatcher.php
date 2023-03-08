@@ -10,10 +10,10 @@
 
 namespace Joomla\Module\GuidedTours\Administrator\Dispatcher;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
 use Joomla\CMS\Helper\HelperFactoryAwareInterface;
 use Joomla\CMS\Helper\HelperFactoryAwareTrait;
-use Joomla\CMS\Plugin\PluginHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -43,8 +43,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
             return;
         }
 
-        // The module can't show if the plugin is not enabled.
-        if (!PluginHelper::isEnabled('system', 'guidedtours')) {
+        if (!ComponentHelper::isEnabled('com_guidedtours')) {
             return;
         }
 
