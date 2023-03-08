@@ -10,10 +10,11 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Extension;
 
-use Joomla\CMS\Extension\BootableExtensionInterface;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
-use Psr\Container\ContainerInterface;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -24,7 +25,7 @@ use Psr\Container\ContainerInterface;
  *
  * @since 4.3.0
  */
-class GuidedtoursComponent extends MVCComponent implements BootableExtensionInterface
+class GuidedtoursComponent extends MVCComponent
 {
     use HTMLRegistryAwareTrait;
 
@@ -101,19 +102,28 @@ class GuidedtoursComponent extends MVCComponent implements BootableExtensionInte
     public const STEP_INTERACTIVETYPE_OTHER = 3;
 
     /**
-     * Booting the extension. This is the function to set up the environment of the extension like
-     * registering new class loaders, etc.
+     * Loads the required assets and language strings for guided tours.
      *
-     * If required, some initial set up can be done from services of the container, eg.
-     * registering HTML services.
-     *
-     * @param   ContainerInterface $container The container
+     * @param   CMSWebApplicationInterface $app The app
      *
      * @return void
      *
      * @since 4.3.0
      */
-    public function boot(ContainerInterface $container)
+    public function prepareAssets(CMSWebApplicationInterface $app)
     {
+        // Load guided tours
+        $app->getLanguage()->load('com_guidedtours', JPATH_ADMINISTRATOR);
+        Text::script('JCANCEL');
+        Text::script('COM_GUIDEDTOURS_BACK');
+        Text::script('COM_GUIDEDTOURS_COMPLETE');
+        Text::script('COM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR');
+        Text::script('COM_GUIDEDTOURS_NEXT');
+        Text::script('COM_GUIDEDTOURS_START');
+        Text::script('COM_GUIDEDTOURS_STEP_NUMBER_OF');
+
+        $app->getDocument()->getWebAssetManager()->getRegistry()->addExtensionRegistryFile('com_guidedtours');
+        $app->getDocument()->getWebAssetManager()->usePreset('com_guidedtours.guidedtours');
+        $app->getDocument()->addScriptOptions('com_guidedtours.token', Session::getFormToken());
     }
 }

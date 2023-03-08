@@ -75,19 +75,7 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 		--template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
 	}');
 
-// Load guided tours
-$app->getLanguage()->load('com_guidedtours', JPATH_ADMINISTRATOR);
-Text::script('JCANCEL');
-Text::script('COM_GUIDEDTOURS_BACK');
-Text::script('COM_GUIDEDTOURS_COMPLETE');
-Text::script('COM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR');
-Text::script('COM_GUIDEDTOURS_NEXT');
-Text::script('COM_GUIDEDTOURS_START');
-Text::script('COM_GUIDEDTOURS_STEP_NUMBER_OF');
-
-$wa->getRegistry()->addExtensionRegistryFile('com_guidedtours');
-$wa->usePreset('com_guidedtours.guidedtours');
-$this->addScriptOptions('com_guidedtours.token', Session::getFormToken());
+$app->bootComponent('com_guidedtours')->prepareAssets($app);
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
