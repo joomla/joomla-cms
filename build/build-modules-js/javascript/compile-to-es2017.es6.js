@@ -72,10 +72,10 @@ module.exports.handleESMFile = async (file) => {
               targets: {
                 browsers: [
                   /** https://caniuse.com/es6-module */
-                  'chrome 61',
-                  'safari 11',
-                  'edge 16',
-                  'Firefox 60',
+                  'chrome >= 61',
+                  'safari >= 11',
+                  'edge >= 16',
+                  'Firefox >= 60',
                 ],
               },
               bugfixes: true,
