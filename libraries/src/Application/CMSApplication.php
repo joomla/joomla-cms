@@ -1100,7 +1100,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @param   string  $key    The path of the state.
      * @param   mixed   $value  The value of the variable.
      *
-     * @return  mixed|void  The previous state, if one existed.
+     * @return  mixed  The previous state, if one existed. Null otherwise.
      *
      * @since   3.2
      */
@@ -1112,6 +1112,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         if ($registry !== null) {
             return $registry->set($key, $value);
         }
+
+        return null;
     }
 
     /**
