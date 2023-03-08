@@ -15,6 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
 /** @var \Joomla\CMS\Document\HtmlDocument $this */
@@ -62,6 +63,7 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
 preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
 
 // Enable assets
+$wa->getRegistry()->addRegistryFile('media/com_guidedtours/joomla.asset.json');
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
     ->useStyle('template.active.language')
     ->useStyle('template.user')
@@ -72,7 +74,18 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 		--template-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
 		--template-link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
 		--template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
-	}');
+	}')
+    ->usePreset('com_guidedtours.guidedtours');
+
+$this->addScriptOptions('com_guidedtours.token', Session::getFormToken());
+
+Text::script('JCANCEL');
+Text::script('PLG_SYSTEM_GUIDEDTOURS_BACK');
+Text::script('PLG_SYSTEM_GUIDEDTOURS_COMPLETE');
+Text::script('PLG_SYSTEM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR');
+Text::script('PLG_SYSTEM_GUIDEDTOURS_NEXT');
+Text::script('PLG_SYSTEM_GUIDEDTOURS_START');
+Text::script('PLG_SYSTEM_GUIDEDTOURS_STEP_NUMBER_OF');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
