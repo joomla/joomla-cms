@@ -11,7 +11,6 @@ namespace Joomla\CMS\Editor;
 
 use Joomla\CMS\Editor\Button\ButtonInterface;
 use Joomla\CMS\Editor\Button\ButtonsRegistry;
-use Joomla\CMS\Event\Editor\EditorButtonsSetupEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -65,17 +64,14 @@ abstract class AbstractEditorProvider implements EditorProviderInterface, Dispat
         $asset    = (int) ($options['asset'] ?? 0);
         $author   = (int) ($options['author'] ?? 0);
 
-        // Trigger ButtonsSetup event for current editor
+        // Retrieve buttons for current editor
         $btnsReg = new ButtonsRegistry;
-        $event   = new EditorButtonsSetupEvent('onEditorButtonsSetup', [
-            'subject'    => $btnsReg,
+        $btnsReg->setDispatcher($this->getDispatcher())->initRegistry([
             'editorId'   => $editorId,
             'editorType' => $this->getName(),
             'asset'      => $asset,
             'author'     => $author,
         ]);
-        PluginHelper::importPlugin('editors-xtd', null, true, $this->getDispatcher());
-        $this->getDispatcher()->dispatch($event->getName(), $event);
 
         // Go through all and leave only allowed buttons
         foreach ($btnsReg->getAll() as $button) {

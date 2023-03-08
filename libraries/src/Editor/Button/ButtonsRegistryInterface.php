@@ -36,4 +36,14 @@ interface ButtonsRegistryInterface
      * @since    __DEPLOY_VERSION__
      */
     public function getAll(): array;
+
+    /**
+     * Initialise the registry, eg: auto-register elements.
+     *
+     * @param array $options  Extra data with editor information.
+     *
+     * @return  ButtonsRegistryInterface
+     * @since   __DEPLOY_VERSION__
+     */
+    public function initRegistry(array $options = []): ButtonsRegistryInterface;
 }
