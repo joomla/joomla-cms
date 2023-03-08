@@ -36,6 +36,11 @@ $wa->getRegistry()->addExtensionRegistryFile('com_guidedtours');
 $wa->usePreset('com_guidedtours.guidedtours');
 $app->getDocument()->addScriptOptions('com_guidedtours.token', Session::getFormToken());
 
+// Do not load button when main menu is hidden
+if ($app->getInput()->getBool('hidemainmenu')) {
+    return;
+}
+
 $lang = $app->getLanguage();
 
 $extension = $app->input->get('option');
