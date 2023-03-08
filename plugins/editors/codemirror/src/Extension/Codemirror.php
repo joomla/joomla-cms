@@ -14,6 +14,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\Event;
+use Joomla\CMS\Uri\Uri;
 use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -237,7 +238,7 @@ final class Codemirror extends CMSPlugin
         }
 
         if ($options->keyMap !== 'default') {
-            $keyMapUrl = $this->basePath . 'keymap/' . $options->keyMap . '.min.js';
+            $keyMapUrl = Uri::root() . $this->basePath . 'keymap/' . $options->keyMap . '.min.js';
         }
 
         $options->keyMapUrl = $keyMapUrl;
