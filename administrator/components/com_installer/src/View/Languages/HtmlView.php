@@ -44,9 +44,9 @@ class HtmlView extends InstallerViewDefault
     /**
      * Display the view.
      *
-     * @param   null  $tpl  template to display
+     * @param   string  $tpl  template to display
      *
-     * @return mixed|void
+     * @return  void
      */
     public function display($tpl = null)
     {
