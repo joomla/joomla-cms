@@ -328,6 +328,23 @@
         "dependencies": [],
         "licenseFilename": "license"
       },
+      "focus-visible": {
+       "name": "focus-visible",
+         "js": {
+           "dist/focus-visible.js": "js/focus-visible.js",
+           "dist/focus-visible.min.js": "js/focus-visible.min.js",
+           "dist/focus-visible.min.js.map": "js/focus-visible.min.js.map"
+         },
+         "provideAssets": [
+           {
+             "name": "focus-visible",
+             "type": "script",
+             "uri": "focus-visible.min.js"
+           }
+         ],
+         "dependencies": [],
+         "licenseFilename": "LICENSE.md"
+       },
       "roboto-fontface": {
         "name": "roboto-fontface",
         "filesExtra": {
