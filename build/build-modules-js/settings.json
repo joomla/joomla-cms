@@ -329,22 +329,22 @@
         "licenseFilename": "license"
       },
       "focus-visible": {
-       "name": "focus-visible",
-         "js": {
-           "dist/focus-visible.js": "js/focus-visible.js",
-           "dist/focus-visible.min.js": "js/focus-visible.min.js",
-           "dist/focus-visible.min.js.map": "js/focus-visible.min.js.map"
-         },
-         "provideAssets": [
-           {
-             "name": "focus-visible",
-             "type": "script",
-             "uri": "focus-visible.min.js"
-           }
-         ],
-         "dependencies": [],
-         "licenseFilename": "LICENSE.md"
-       },
+        "name": "focus-visible",
+        "js": {
+          "dist/focus-visible.js": "js/focus-visible.js",
+          "dist/focus-visible.min.js": "js/focus-visible.min.js",
+          "dist/focus-visible.min.js.map": "js/focus-visible.min.js.map"
+        },
+        "provideAssets": [
+          {
+            "name": "focus-visible",
+            "type": "script",
+            "uri": "focus-visible.min.js"
+          }
+        ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE.md"
+      },
       "roboto-fontface": {
         "name": "roboto-fontface",
         "filesExtra": {
@@ -584,6 +584,40 @@
           }
         ]
       },
+      "chosen-js": {
+         "name": "chosen",
+         "js": {
+           "chosen.jquery.js": "js/chosen.jquery.js"
+         },
+         "css": {
+           "chosen.css": "css/chosen.css",
+           "chosen-sprite.png": "css/chosen-sprite.png",
+           "chosen-sprite@2x.png": "css/chosen-sprite@2x.png"
+         },
+         "provideAssets": [
+           {
+             "name": "chosen",
+             "type": "style",
+             "uri": "chosen.css"
+           },
+           {
+             "name": "chosen",
+             "type": "script",
+             "uri": "chosen.jquery.js",
+             "dependencies": [
+               "jquery"
+             ]
+           },
+           {
+             "name": "chosen",
+             "type": "preset",
+             "dependencies": [
+               "chosen#style",
+               "chosen#script"
+             ]
+           }
+         ]
+       },
       "accessibility": {
         "name": "accessibility",
         "licenseFilename": "LICENSE",
