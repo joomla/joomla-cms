@@ -15,9 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
-$hideLinks = $app->getInput()->getBool('hidemainmenu');
-
-if ($hideLinks || !$tours) {
+if (!$tours) {
     return;
 }
 
