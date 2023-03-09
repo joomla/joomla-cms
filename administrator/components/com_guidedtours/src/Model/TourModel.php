@@ -111,14 +111,14 @@ class TourModel extends AdminModel
 
         // Create default step for new tour
         if ($result && $input->getCmd('task') !== 'save2copy' && $this->getState($this->getName() . '.new')) {
-            $tour_id = (int) $this->getState($this->getName() . '.id');
+            $tourId = (int) $this->getState($this->getName() . '.id');
 
             $table = $this->getTable('Step');
 
             $table->id          = 0;
             $table->title       = 'COM_GUIDEDTOURS_BASIC_STEP';
             $table->description = '';
-            $table->tour_id     = $tour_id;
+            $table->tour_id     = $tourId;
             $table->published   = 1;
 
             $table->store();
@@ -194,19 +194,17 @@ class TourModel extends AdminModel
 
         $item = $this->getItem($id);
 
-        $canEditState = $this->canEditState((object) $item);
-
         // Modify the form based on access controls.
-        if (!$canEditState || !empty($item->default)) {
-            if (!$canEditState) {
-                $form->setFieldAttribute('published', 'disabled', 'true');
-                $form->setFieldAttribute('published', 'required', 'false');
-                $form->setFieldAttribute('published', 'filter', 'unset');
-            }
+        if (!$this->canEditState((object) $item)) {
+            $form->setFieldAttribute('published', 'disabled', 'true');
+            $form->setFieldAttribute('published', 'required', 'false');
+            $form->setFieldAttribute('published', 'filter', 'unset');
         }
 
-        $form->setFieldAttribute('created', 'default', Factory::getDate()->toSql());
-        $form->setFieldAttribute('modified', 'default', Factory::getDate()->toSql());
+        $currentDate = Factory::getDate()->toSql();
+
+        $form->setFieldAttribute('created', 'default', $currentDate);
+        $form->setFieldAttribute('modified', 'default', $currentDate);
 
         return $form;
     }
@@ -245,7 +243,7 @@ class TourModel extends AdminModel
     protected function canDelete($record)
     {
         if (!empty($record->id)) {
-            return Factory::getUser()->authorise('core.delete', 'com_guidedtours.tour.' . (int) $record->id);
+            return $this->getCurrentUser()->authorise('core.delete', 'com_guidedtours.tour.' . (int) $record->id);
         }
 
         return false;
@@ -263,11 +261,9 @@ class TourModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $user = Factory::getUser();
-
         // Check for existing tour.
         if (!empty($record->id)) {
-            return $user->authorise('core.edit.state', 'com_guidedtours.tour.' . (int) $record->id);
+            return $this->getCurrentUser()->authorise('core.edit.state', 'com_guidedtours.tour.' . (int) $record->id);
         }
 
         // Default to component settings if neither tour nor category known.
@@ -285,14 +281,13 @@ class TourModel extends AdminModel
      */
     public function getItem($pk = null)
     {
-        $lang = Factory::getLanguage();
-        $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
+        Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
-        if ($result = parent::getItem($pk)) {
-            if (!empty($result->id)) {
-                $result->title_translation       = Text::_($result->title);
-                $result->description_translation = Text::_($result->description);
-            }
+        $result = parent::getItem($pk);
+
+        if (!empty($result->id)) {
+            $result->title_translation       = Text::_($result->title);
+            $result->description_translation = Text::_($result->description);
         }
 
         return $result;
@@ -330,7 +325,7 @@ class TourModel extends AdminModel
                         return false;
                     }
 
-                    $tour_id = $table->id;
+                    $tourId = $table->id;
 
                     if (!$table->delete($pk)) {
                         $this->setError($table->getError());
@@ -342,7 +337,7 @@ class TourModel extends AdminModel
                     $db    = $this->getDatabase();
                     $query = $db->getQuery(true)
                         ->delete($db->quoteName('#__guidedtour_steps'))
-                        ->where($db->quoteName('tour_id') . '=' . $tour_id);
+                        ->where($db->quoteName('tour_id') . '=' . $tourId);
                     $db->setQuery($query);
                     $db->execute();
 
@@ -391,7 +386,7 @@ class TourModel extends AdminModel
         $db   = $this->getDatabase();
 
         // Access checks.
-        if (!$user->authorise('core.create', 'com_tours') || !$user->authorise('core.create', '__guidedtour_steps')) {
+        if (!$user->authorise('core.create', 'com_tours')) {
             throw new \Exception(Text::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
         }
 
