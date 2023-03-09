@@ -33,7 +33,7 @@ class ComponentRenderer extends DocumentRenderer
      *
      * @since   3.5
      */
-    public function render($component = null, $params = array(), $content = null)
+    public function render($component = null, $params = [], $content = null)
     {
         return $content;
     }

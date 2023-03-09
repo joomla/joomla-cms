@@ -25,9 +25,9 @@ if (!empty($this->returnURL)) {
     $cancelURL = $this->escape(base64_decode($this->returnURL));
 }
 
-$recordId     = (int)$this->record->id ?? 0;
+$recordId     = (int) $this->record->id ?? 0;
 $method       = $this->record->method ?? $this->getModel()->getState('method');
-$userId       = (int)$this->user->id ?? 0;
+$userId       = (int) $this->user->id ?? 0;
 $headingLevel = 2;
 $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
 ?>

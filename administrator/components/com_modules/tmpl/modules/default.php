@@ -37,7 +37,7 @@ if ($saveOrder && !empty($this->items)) {
 ?>
 <form action="<?php echo Route::_('index.php?option=com_modules&view=modules&client_id=' . $clientId); ?>" method="post" name="adminForm" id="adminForm">
     <div id="j-main-container" class="j-main-container">
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if ($this->total > 0) : ?>
             <table class="table" id="moduleList">
                 <caption class="visually-hidden">
@@ -198,18 +198,19 @@ if ($saveOrder && !empty($this->items)) {
         <?php endif; ?>
 
         <?php // Load the batch processing form. ?>
-        <?php if (
-        $user->authorise('core.create', 'com_modules')
+        <?php
+        if (
+            $user->authorise('core.create', 'com_modules')
             && $user->authorise('core.edit', 'com_modules')
             && $user->authorise('core.edit.state', 'com_modules')
-) : ?>
+        ) : ?>
             <?php echo HTMLHelper::_(
                 'bootstrap.renderModal',
                 'collapseModal',
-                array(
+                [
                     'title'  => Text::_('COM_MODULES_BATCH_OPTIONS'),
                     'footer' => $this->loadTemplate('batch_footer'),
-                ),
+                ],
                 $this->loadTemplate('batch_body')
             ); ?>
         <?php endif; ?>

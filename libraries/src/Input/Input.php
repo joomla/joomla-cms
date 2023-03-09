@@ -30,6 +30,7 @@ use Joomla\CMS\Filter\InputFilter;
  * @property-read   Input   $env
  * @property-read   Files   $files
  * @property-read   Cookie  $cookie
+ * @property-read   Json    $json
  */
 class Input extends \Joomla\Input\Input
 {
@@ -40,7 +41,7 @@ class Input extends \Joomla\Input\Input
      * @since  3.8.9
      * @deprecated  5.0  Use Joomla\Input\Input instead
      */
-    private static $allowedGlobals = array('REQUEST', 'GET', 'POST', 'FILES', 'SERVER', 'ENV');
+    private static $allowedGlobals = ['REQUEST', 'GET', 'POST', 'FILES', 'SERVER', 'ENV'];
 
     /**
      * Input objects
@@ -49,7 +50,7 @@ class Input extends \Joomla\Input\Input
      * @since  1.7.0
      * @deprecated  5.0  Use Joomla\Input\Input instead
      */
-    protected $inputs = array();
+    protected $inputs = [];
 
     /**
      * Constructor.
@@ -60,7 +61,7 @@ class Input extends \Joomla\Input\Input
      * @since   1.7.0
      * @deprecated  5.0  Use Joomla\Input\Input instead
      */
-    public function __construct($source = null, array $options = array())
+    public function __construct($source = null, array $options = [])
     {
         if (!isset($options['filter'])) {
             $this->filter = InputFilter::getInstance();
@@ -122,7 +123,7 @@ class Input extends \Joomla\Input\Input
      * @since   1.7.0
      * @deprecated  5.0  Use Joomla\Input\Input instead
      */
-    public function getArray(array $vars = array(), $datasource = null, $defaultFilter = 'unknown')
+    public function getArray(array $vars = [], $datasource = null, $defaultFilter = 'unknown')
     {
         return $this->getArrayRecursive($vars, $datasource, $defaultFilter, false);
     }
@@ -145,7 +146,7 @@ class Input extends \Joomla\Input\Input
      * @since   3.4.2
      * @deprecated  5.0  Use Joomla\Input\Input instead
      */
-    protected function getArrayRecursive(array $vars = array(), $datasource = null, $defaultFilter = 'unknown', $recursion = false)
+    protected function getArrayRecursive(array $vars = [], $datasource = null, $defaultFilter = 'unknown', $recursion = false)
     {
         if (empty($vars) && \is_null($datasource)) {
             $vars = $this->data;
@@ -155,7 +156,7 @@ class Input extends \Joomla\Input\Input
             }
         }
 
-        $results = array();
+        $results = [];
 
         foreach ($vars as $k => $v) {
             if (\is_array($v)) {

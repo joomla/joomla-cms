@@ -39,7 +39,7 @@ class TemplatesController extends BaseController
      *
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -86,7 +86,7 @@ class TemplatesController extends BaseController
 
         // Access backend com_templates
         $controllerClass = $app->bootComponent('com_templates')
-            ->getMVCFactory()->createController('Style', 'Administrator', [], $app, $app->input);
+            ->getMVCFactory()->createController('Style', 'Administrator', [], $app, $app->getInput());
 
         // Get a document object
         $document = $app->getDocument();

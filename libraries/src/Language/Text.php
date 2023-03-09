@@ -29,7 +29,7 @@ class Text
      * @var    array
      * @since  1.7.0
      */
-    protected static $strings = array();
+    protected static $strings = [];
 
     /**
      * Translates a string into the current language.
@@ -96,7 +96,7 @@ class Text
             return false;
         }
 
-        $lang = Factory::getLanguage();
+        $lang         = Factory::getLanguage();
         $string_parts = explode(',', $string);
 
         // Pass all parts through the Text translator
@@ -187,12 +187,12 @@ class Text
      */
     public static function plural($string, $n)
     {
-        $lang = Factory::getLanguage();
-        $args = \func_get_args();
+        $lang  = Factory::getLanguage();
+        $args  = \func_get_args();
         $count = \count($args);
 
         // Try the key from the language plural potential suffixes
-        $found = false;
+        $found    = false;
         $suffixes = $lang->getPluralSuffixes((int) $n);
 
         // Add the count as possible suffix to allow for eg "a dozen" with suffix _12.
@@ -257,8 +257,8 @@ class Text
      */
     public static function sprintf($string)
     {
-        $lang = Factory::getLanguage();
-        $args = \func_get_args();
+        $lang  = Factory::getLanguage();
+        $args  = \func_get_args();
         $count = \count($args);
 
         if (\is_array($args[$count - 1])) {
@@ -284,7 +284,7 @@ class Text
     }
 
     /**
-     * Passes a string thru an printf.
+     * Passes a string through a printf.
      *
      * Note that this method can take a mixed number of arguments as for the sprintf function.
      *
@@ -296,8 +296,8 @@ class Text
      */
     public static function printf($string)
     {
-        $lang = Factory::getLanguage();
-        $args = \func_get_args();
+        $lang  = Factory::getLanguage();
+        $args  = \func_get_args();
         $count = \count($args);
 
         if (\is_array($args[$count - 1])) {
@@ -317,7 +317,8 @@ class Text
      * Translate a string into the current language and stores it in the JavaScript language store.
      *
      * @param   string   $string                The Text key.
-     * @param   boolean  $jsSafe                Ensure the output is JavaScript safe.
+     * @param   boolean  $jsSafe                Legacy parameter to add slashes to the string.
+     *                                          Set it as "false" because the method encodes the string as JSON with json_encode().
      * @param   boolean  $interpretBackSlashes  Interpret \t and \n.
      *
      * @return  array

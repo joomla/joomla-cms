@@ -50,7 +50,7 @@ $wa->useScript('com_templates.admin-template-toggle-assignment');
                                                                                else :
                                                                                     ?> class="form-check-input chk-menulink menutype-<?php echo $type->menutype; ?>"<?php
                                                                                endif; ?> />
-                        <?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $link->level)) . $link->text; ?>
+                        <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $link->level]) . $link->text; ?>
                         </label>
                     <?php endforeach; ?>
 

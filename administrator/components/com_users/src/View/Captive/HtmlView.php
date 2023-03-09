@@ -20,7 +20,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Button\BasicButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\CaptiveModel;
@@ -111,8 +110,7 @@ class HtmlView extends BaseHtmlView
         $this->setSiteTemplateStyle();
 
         $app  = Factory::getApplication();
-        $user = Factory::getApplication()->getIdentity()
-            ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        $user = $this->getCurrentUser();
 
         PluginHelper::importPlugin('multifactorauth');
         $event = new BeforeDisplayMethods($user);
@@ -191,12 +189,12 @@ class HtmlView extends BaseHtmlView
 
         // Back-end: always show a title in the 'title' module position, not in the page body
         if ($this->isAdmin) {
-            ToolbarHelper::title(Text::_('COM_USERS_HEADING_MFA'), 'users user-lock');
+            ToolbarHelper::title(Text::_('COM_USERS_USER_MULTIFACTOR_AUTH'), 'users user-lock');
             $this->title = '';
         }
 
         if ($this->isAdmin && $this->getLayout() === 'default') {
-            $bar = Toolbar::getInstance();
+            $bar    = Toolbar::getInstance();
             $button = (new BasicButton('user-mfa-submit'))
                 ->text($this->renderOptions['submit_text'])
                 ->icon($this->renderOptions['submit_icon']);

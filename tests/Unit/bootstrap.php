@@ -15,7 +15,6 @@
 define('_JEXEC', 1);
 
 // Maximise error reporting.
-ini_set('zend.ze1_compatibility_mode', '0');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -37,15 +36,11 @@ if (!defined('JPATH_ROOT')) {
 }
 
 if (!defined('JPATH_PLATFORM')) {
-    define('JPATH_PLATFORM', JPATH_BASE . '/libraries');
+    define('JPATH_PLATFORM', JPATH_BASE . DIRECTORY_SEPARATOR . 'libraries');
 }
 
 if (!defined('JPATH_LIBRARIES')) {
-    define('JPATH_LIBRARIES', JPATH_BASE . '/libraries');
-}
-
-if (!defined('JPATH_CACHE')) {
-    define('JPATH_CACHE', JPATH_BASE . '/cache');
+    define('JPATH_LIBRARIES', JPATH_BASE . DIRECTORY_SEPARATOR . 'libraries');
 }
 
 if (!defined('JPATH_CONFIGURATION')) {
@@ -57,27 +52,31 @@ if (!defined('JPATH_SITE')) {
 }
 
 if (!defined('JPATH_ADMINISTRATOR')) {
-    define('JPATH_ADMINISTRATOR', JPATH_ROOT . '/administrator');
+    define('JPATH_ADMINISTRATOR', JPATH_ROOT . DIRECTORY_SEPARATOR . 'administrator');
+}
+
+if (!defined('JPATH_CACHE')) {
+    define('JPATH_CACHE', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'cache');
 }
 
 if (!defined('JPATH_API')) {
-    define('JPATH_API', JPATH_ROOT . '/api');
+    define('JPATH_API', JPATH_ROOT . DIRECTORY_SEPARATOR . 'api');
 }
 
 if (!defined('JPATH_INSTALLATION')) {
-    define('JPATH_INSTALLATION', JPATH_ROOT . '/installation');
+    define('JPATH_INSTALLATION', JPATH_ROOT . DIRECTORY_SEPARATOR . 'installation');
 }
 
 if (!defined('JPATH_MANIFESTS')) {
-    define('JPATH_MANIFESTS', JPATH_ADMINISTRATOR . '/manifests');
+    define('JPATH_MANIFESTS', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'manifests');
 }
 
 if (!defined('JPATH_PLUGINS')) {
-    define('JPATH_PLUGINS', JPATH_BASE . '/plugins');
+    define('JPATH_PLUGINS', JPATH_BASE . DIRECTORY_SEPARATOR . 'plugins');
 }
 
 if (!defined('JPATH_THEMES')) {
-    define('JPATH_THEMES', JPATH_BASE . '/templates');
+    define('JPATH_THEMES', JPATH_BASE . DIRECTORY_SEPARATOR . 'templates');
 }
 
 if (!defined('JDEBUG')) {

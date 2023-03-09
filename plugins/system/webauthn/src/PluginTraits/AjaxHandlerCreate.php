@@ -16,7 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\User\UserFactoryInterface;
-use Joomla\Event\Event;
 use RuntimeException;
 use Webauthn\PublicKeyCredentialSource;
 
@@ -54,7 +53,7 @@ trait AjaxHandlerCreate
          * someone else's Webauthn configuration thus mitigating a major privacy and security risk. So, please, DO NOT
          * remove this sanity check!
          */
-        $session = $this->getApplication()->getSession();
+        $session      = $this->getApplication()->getSession();
         $storedUserId = $session->get('plg_system_webauthn.registration_user_id', 0);
         $thatUser     = empty($storedUserId) ?
             Factory::getApplication()->getIdentity() :
@@ -75,7 +74,7 @@ trait AjaxHandlerCreate
 
         // Try to validate the browser data. If there's an error I won't save anything and pass the message to the GUI.
         try {
-            $input = $this->getApplication()->input;
+            $input = $this->getApplication()->getInput();
 
             // Retrieve the data sent by the device
             $data = $input->get('data', '', 'raw');
@@ -88,7 +87,7 @@ trait AjaxHandlerCreate
 
             $credentialRepository->saveCredentialSource($publicKeyCredentialSource);
         } catch (Exception $e) {
-            $error                  = $e->getMessage();
+            $error                     = $e->getMessage();
             $publicKeyCredentialSource = null;
         }
 
