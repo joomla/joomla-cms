@@ -483,7 +483,7 @@ class PlgSystemFields extends CMSPlugin
         /*
         * Event allow plugins to modify the the fields it is with content prepare
         */
-        Factory::getApplication()->triggerEvent('onCustomFieldsContentPrepare', [$context, $item, &$fields]);
+        Factory::getApplication()->triggerEvent('onCustomFieldsContentPrepare', [$context, $item, &$item->jcfields]);
     }
 
     /**
