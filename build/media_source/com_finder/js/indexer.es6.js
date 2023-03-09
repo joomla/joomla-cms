@@ -130,33 +130,17 @@
       return true;
     };
 
-    const handleFailure = (error) => {
+    const handleFailure = (xhr) => {
       const progressHeader = document.getElementById('finder-progress-header');
       const progressMessage = document.getElementById('finder-progress-message');
-      let data;
 
-      if (error instanceof Error) {
-        // Encode any html in the message
-        const div = document.createElement('div');
-        div.textContent = error.message;
-        data = div.innerHTML;
-
-        if (error instanceof SyntaxError) {
-          data = Joomla.Text._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', data);
-        }
-      } else if (typeof error === 'object' && error.responseText) {
-        data = error.responseText;
-        try {
-          data = JSON.parse(data);
-        } catch (e) {
-          data = Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', error.status);
-        }
-      }
+      let data = (typeof xhr === 'object' && xhr.responseText) ? xhr.responseText : null;
+      data = data ? JSON.parse(data) : null;
 
       removeElement('progress');
 
-      const header = data && data.header ? data.header : Joomla.Text._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
-      const message = data && data.message ? data.message : `${Joomla.Text._('COM_FINDER_MESSAGE_RETURNED')}<br>${data}`;
+      const header = data ? data.header : Joomla.Text._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
+      const message = data ? data.message : `${Joomla.Text._('COM_FINDER_MESSAGE_RETURNED')}<br>${data}`;
 
       if (progressHeader) {
         progressHeader.innerText = header;
@@ -171,11 +155,16 @@
     getRequest = (task) => {
       Joomla.request({
         url: `${path}&task=${task}${token}`,
-        promise: true,
-      }).then((xhr) => {
-        handleResponse(JSON.parse(xhr.responseText));
-      }).catch((error) => {
-        handleFailure(error);
+        method: 'GET',
+        data: '',
+        perform: true,
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        onSuccess: (response) => {
+          handleResponse(JSON.parse(response));
+        },
+        onError: (xhr) => {
+          handleFailure(xhr);
+        },
       });
     };
 
