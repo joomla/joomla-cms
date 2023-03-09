@@ -176,6 +176,8 @@ class FieldsHelper
 
             $new = [];
 
+            $render = [];
+
             foreach ($fields as $key => $original) {
                 /*
                  * Doing a clone, otherwise fields for different items will
@@ -207,24 +209,36 @@ class FieldsHelper
                      */
                     Factory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', [$context, $item, &$field]);
 
-                    // Gathering the value for the field
-                    $value = Factory::getApplication()->triggerEvent('onCustomFieldsPrepareField', [$context, $item, &$field]);
-
-                    if (is_array($value)) {
-                        $value = implode(' ', $value);
-                    }
-
-                    /*
-                     * On after field render
-                     * Event allows plugins to modify the output of the prepared field
-                     */
-                    Factory::getApplication()->triggerEvent('onCustomFieldsAfterPrepareField', [$context, $item, $field, &$value]);
-
-                    // Assign the value
-                    $field->value = $value;
+                    $render[$key] = $field;
                 }
 
                 $new[$key] = $field;
+            }
+
+            foreach ($render as $key => &$field) {
+                // Gathering the value for the field
+                $value = Factory::getApplication()->triggerEvent('onCustomFieldsPrepareField', [$context, $item, &$field]);
+
+                if (is_array($value)) {
+                    $value = implode(' ', $value);
+                }
+
+                $contents[$key] = $value;
+            }
+
+            foreach ($render as $key => &$field) {
+                $value = $contents[$key];
+                /*
+                 * On after field render
+                 * Event allows plugins to modify the output of the prepared field
+                 */
+                Factory::getApplication()->triggerEvent('onCustomFieldsAfterPrepareField', [$context, $item, $field, &$value]);
+
+                // Assign the value
+                $field->value = $value;
+
+                // Assign the render value
+                $field->content = &$field->value;
             }
 
             $fields = $new;
