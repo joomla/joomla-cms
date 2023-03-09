@@ -15,6 +15,7 @@
       target.awesomplete.list = [];
 
       Joomla.request({
+        url: `${Joomla.getOptions('finder-search').url}&q=${target.value}`,
         method: 'GET',
         data: { q: target.value },
         perform: true,
