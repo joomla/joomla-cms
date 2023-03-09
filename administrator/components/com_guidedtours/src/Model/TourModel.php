@@ -28,7 +28,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Model class for tour
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.3.0
  */
 class TourModel extends AdminModel
 {
@@ -36,7 +36,7 @@ class TourModel extends AdminModel
      * The prefix to use with controller messages.
      *
      * @var   string
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected $text_prefix = 'COM_GUIDEDTOURS';
 
@@ -44,7 +44,7 @@ class TourModel extends AdminModel
      * Type alias for content type
      *
      * @var string
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     public $typeAlias = 'com_guidedtours.tour';
 
@@ -57,7 +57,7 @@ class TourModel extends AdminModel
      *
      * @return  array  Contains the modified title and alias.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected function generateNewTitle($categoryId, $alias, $title)
     {
@@ -78,7 +78,7 @@ class TourModel extends AdminModel
      *
      * @return  boolean True on success.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public function save($data)
     {
@@ -134,7 +134,7 @@ class TourModel extends AdminModel
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected function prepareTable($table)
     {
@@ -172,7 +172,7 @@ class TourModel extends AdminModel
      *
      * @return \JForm|boolean  A JForm object on success, false on failure
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -214,7 +214,7 @@ class TourModel extends AdminModel
      *
      * @return mixed  The data for the form.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected function loadFormData()
     {
@@ -238,7 +238,7 @@ class TourModel extends AdminModel
      *
      * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected function canDelete($record)
     {
@@ -257,7 +257,7 @@ class TourModel extends AdminModel
      * @return  boolean  True if allowed to change the state of the record.
      * Defaults to the permission set in the component.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected function canEditState($record)
     {
@@ -277,7 +277,7 @@ class TourModel extends AdminModel
      *
      * @return  CMSObject|boolean  Object on success, false on failure.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getItem($pk = null)
     {
@@ -300,7 +300,7 @@ class TourModel extends AdminModel
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function delete(&$pks)
     {
@@ -378,7 +378,7 @@ class TourModel extends AdminModel
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function duplicate(&$pks)
     {
