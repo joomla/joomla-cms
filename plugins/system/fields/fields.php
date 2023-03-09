@@ -410,7 +410,7 @@ class PlgSystemFields extends CMSPlugin
                     /*
                     * Event allow plugins to modify the output of the field before it is display
                     */
-                    Factory::getApplication()->triggerEvent('onCustomFieldsBeforeDisplay', array($context, $item, &$field, $displayType, &$params));
+                    Factory::getApplication()->triggerEvent('onCustomFieldsBeforeDisplay', [$context, $item, &$field, $displayType, &$params]);
 
                     continue;
                 }
@@ -483,7 +483,7 @@ class PlgSystemFields extends CMSPlugin
         /*
         * Event allow plugins to modify the the fields it is with content prepare
         */
-        Factory::getApplication()->triggerEvent('onCustomFieldsContentPrepare', array($context, $item, &$fields));
+        Factory::getApplication()->triggerEvent('onCustomFieldsContentPrepare', [$context, $item, &$fields]);
     }
 
     /**
