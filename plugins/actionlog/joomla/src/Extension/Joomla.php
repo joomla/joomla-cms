@@ -585,7 +585,7 @@ final class Joomla extends ActionLogPlugin
         if (!$jUser->id) {
             $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_REGISTERED';
             $action             = 'register';
-            
+
             // Reset request
             if ($task === 'reset.request') {
                 $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_RESET_REQUEST';
