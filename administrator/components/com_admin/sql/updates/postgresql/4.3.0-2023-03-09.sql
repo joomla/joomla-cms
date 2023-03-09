@@ -1,6 +1,6 @@
 UPDATE "#__guidedtour_steps"
 SET "target" = '#jform_published'
-WHERE "target" = '#jform_state';
+WHERE "target" = '#jform_state' and "id" = 87;
 
 UPDATE "#__guidedtour_steps"
 SET "target" = '#jform_sendEmail0'
