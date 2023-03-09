@@ -39,7 +39,7 @@ if ($params->get('show_button', 0)) {
     $output .= $input;
 }
 
-Text::script('MOD_FINDER_SEARCH_VALUE');
+Text::script('MOD_FINDER_SEARCH_VALUE', true);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
