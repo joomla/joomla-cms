@@ -626,7 +626,7 @@ class Document
     public function addStyleDeclaration($content, $type = 'text/css')
     {
         if ($content === null) {
-	        return $this;
+            return $this;
         }
 
         $type = strtolower($type);
