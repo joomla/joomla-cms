@@ -391,7 +391,7 @@ function loadTour(tourId) {
         emptyStorage();
         console.log(`Exception error - ${error.message} - Tour stopped`);
 
-        const messages = { 'error': [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR')] };
+        const messages = { error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR')] };
         Joomla.renderMessages(messages);
       });
   }
