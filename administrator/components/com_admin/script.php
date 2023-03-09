@@ -6465,6 +6465,10 @@ class JoomlaInstallerScript
             '/administrator/cache/fido.jwt',
             // From 4.2.6 to 4.2.7
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataFormatter/VarDumper/SeekingData.php',
+            // From 4.2.8 to 4.2.9
+            '/administrator/components/com_scheduler/tmpl/select/modal.php',
+            '/components/com_contact/layouts/field/render.php',
+            '/components/com_contact/layouts/fields/render.php',
             // From 4.2.x to 4.3.0-alpha1
             '/libraries/vendor/paragonie/sodium_compat/autoload-fast.php',
             '/libraries/vendor/paragonie/sodium_compat/autoload-pedantic.php',
@@ -6527,6 +6531,18 @@ class JoomlaInstallerScript
             '/plugins/fields/url/url.php',
             '/plugins/fields/user/user.php',
             '/plugins/fields/usergrouplist/usergrouplist.php',
+            // From 4.3.0-beta2 to 4.3.0-beta3
+            '/cypress.config.dist.js',
+            '/plugins/captcha/recaptcha/recaptcha.php',
+            '/plugins/captcha/recaptcha_invisible/recaptcha_invisible.php',
+            '/plugins/filesystem/local/local.php',
+            '/plugins/finder/categories/categories.php',
+            '/plugins/finder/contacts/contacts.php',
+            '/plugins/finder/content/content.php',
+            '/plugins/finder/newsfeeds/newsfeeds.php',
+            '/plugins/finder/tags/tags.php',
+            // From 4.3.0-beta3 to 4.3.0-beta4
+            '/layouts/joomla/content/categories_default_items.php',
         ];
 
         $folders = [
@@ -7901,6 +7917,10 @@ class JoomlaInstallerScript
             '/media/vendor/hotkeys.js/js',
             '/media/vendor/hotkeys.js',
             '/libraries/vendor/symfony/string/Resources/bin',
+            // From 4.2.8 to 4.2.9
+            '/components/com_contact/layouts/fields',
+            '/components/com_contact/layouts/field',
+            '/components/com_contact/layouts',
             // From 4.2.x to 4.3.0-alpha1
             '/libraries/vendor/paragonie/sodium_compat/dist',
         ];
