@@ -48,8 +48,8 @@ class LanguageModel extends AdminModel
                 'event_after_save'  => 'onExtensionAfterSave',
                 'event_before_save' => 'onExtensionBeforeSave',
                 'events_map'        => [
-                    'save' => 'extension'
-                ]
+                    'save' => 'extension',
+                ],
             ],
             $config
         );
@@ -88,7 +88,7 @@ class LanguageModel extends AdminModel
         $params = ComponentHelper::getParams('com_languages');
 
         // Load the User state.
-        $langId = $app->input->getInt('lang_id');
+        $langId = $app->getInput()->getInt('lang_id');
         $this->setState('language.id', $langId);
 
         // Load the parameters.

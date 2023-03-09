@@ -151,7 +151,7 @@ class Filter
                 if (trim($nv->parent_title, '*') === 'Language') {
                     $title = LanguageHelper::branchLanguageTitle($nv->title);
                 } else {
-                    $key = LanguageHelper::branchPlural($nv->title);
+                    $key   = LanguageHelper::branchPlural($nv->title);
                     $title = $lang->hasKey($key) ? Text::_($key) : $nv->title;
                 }
 
@@ -323,7 +323,7 @@ class Filter
                     if (trim($node->parent_title, '*') === 'Language') {
                         $title = LanguageHelper::branchLanguageTitle($node->title);
                     } else {
-                        $key = LanguageHelper::branchPlural($node->title);
+                        $key   = LanguageHelper::branchPlural($node->title);
                         $title = $language->hasKey($key) ? Text::_($key) : $node->title;
                     }
 
@@ -363,7 +363,7 @@ class Filter
             // Check if the branch is in the filter.
             if (array_key_exists($bv->title, $idxQuery->filters)) {
                 // Get the request filters.
-                $temp   = Factory::getApplication()->input->request->get('t', [], 'array');
+                $temp   = Factory::getApplication()->getInput()->request->get('t', [], 'array');
 
                 // Search for active nodes in the branch and get the active node.
                 $active = array_intersect($temp, $idxQuery->filters[$bv->title]);

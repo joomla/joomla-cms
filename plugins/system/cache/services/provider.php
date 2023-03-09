@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.cache
@@ -20,8 +21,7 @@ use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\Cache\Extension\Cache;
 
-return new class implements ServiceProviderInterface
-{
+return new class () implements ServiceProviderInterface {
     /**
      * Registers the service provider with a DI container.
      *
@@ -34,8 +34,7 @@ return new class implements ServiceProviderInterface
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container)
-            {
+            function (Container $container) {
                 $plugin                 = PluginHelper::getPlugin('system', 'cache');
                 $dispatcher             = $container->get(DispatcherInterface::class);
                 $documentFactory        = $container->get('document.factory');

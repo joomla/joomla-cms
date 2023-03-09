@@ -178,7 +178,7 @@ class CategoryView extends HtmlView
             PluginHelper::importPlugin('content');
 
             foreach ($items as $itemElement) {
-                $itemElement = (object) $itemElement;
+                $itemElement        = (object) $itemElement;
                 $itemElement->event = new \stdClass();
 
                 // For some plugins.

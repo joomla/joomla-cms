@@ -127,7 +127,7 @@ class FolderlistField extends ListField
 
             case 'hideNone':
             case 'hideDefault':
-                $value = (string) $value;
+                $value       = (string) $value;
                 $this->$name = ($value === 'true' || $value === $name || $value === '1');
                 break;
 

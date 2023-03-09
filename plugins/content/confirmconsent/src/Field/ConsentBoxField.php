@@ -130,8 +130,8 @@ class ConsentBoxField extends CheckboxesField
         $return = parent::setup($element, $value, $group);
 
         if ($return) {
-            $this->articleid = (int) $this->element['articleid'];
-            $this->menuItemId = (int) $this->element['menu_item_id'];
+            $this->articleid   = (int) $this->element['articleid'];
+            $this->menuItemId  = (int) $this->element['menu_item_id'];
             $this->privacyType = (string) $this->element['privacy_type'];
         }
 
@@ -198,13 +198,13 @@ class ConsentBoxField extends CheckboxesField
             || ($this->privacyType === 'menu_item' && $this->menuItemId);
 
         if ($hasLink) {
-            $modalParams['title']  = $layoutData['label'];
-            $modalParams['url']    = ($this->privacyType === 'menu_item') ? $this->getAssignedMenuItemUrl() : $this->getAssignedArticleUrl();
-            $modalParams['height'] = '100%';
-            $modalParams['width']  = '100%';
+            $modalParams['title']      = $layoutData['label'];
+            $modalParams['url']        = ($this->privacyType === 'menu_item') ? $this->getAssignedMenuItemUrl() : $this->getAssignedArticleUrl();
+            $modalParams['height']     = '100%';
+            $modalParams['width']      = '100%';
             $modalParams['bodyHeight'] = 70;
             $modalParams['modalWidth'] = 80;
-            $modalHtml = HTMLHelper::_('bootstrap.renderModal', 'modal-' . $this->id, $modalParams);
+            $modalHtml                 = HTMLHelper::_('bootstrap.renderModal', 'modal-' . $this->id, $modalParams);
         }
 
         return $modalHtml . parent::getInput();
@@ -222,8 +222,8 @@ class ConsentBoxField extends CheckboxesField
         $data = parent::getLayoutData();
 
         $extraData = [
-            'articleid' => (int) $this->articleid,
-            'menuItemId' => (int) $this->menuItemId,
+            'articleid'   => (int) $this->articleid,
+            'menuItemId'  => (int) $this->menuItemId,
             'privacyType' => (string) $this->privacyType,
         ];
 
@@ -307,12 +307,12 @@ class ConsentBoxField extends CheckboxesField
      */
     private function getAssignedMenuItemUrl()
     {
-        $itemId = $this->menuItemId;
+        $itemId         = $this->menuItemId;
         $languageSuffix = '';
 
         if ($itemId > 0 && Associations::isEnabled()) {
             $privacyAssociated = Associations::getAssociations('com_menus', '#__menu', 'com_menus.item', $itemId, 'id', '', '');
-            $currentLang = Factory::getLanguage()->getTag();
+            $currentLang       = Factory::getLanguage()->getTag();
 
             if (isset($privacyAssociated[$currentLang])) {
                 $itemId = $privacyAssociated[$currentLang]->id;

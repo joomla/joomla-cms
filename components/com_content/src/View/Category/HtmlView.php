@@ -110,13 +110,13 @@ class HtmlView extends CategoryView
             // Old plugins: Use processed text as introtext
             $item->introtext = $item->text;
 
-            $results = $app->triggerEvent('onContentAfterTitle', ['com_content.category', &$item, &$item->params, 0]);
+            $results                        = $app->triggerEvent('onContentAfterTitle', ['com_content.category', &$item, &$item->params, 0]);
             $item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-            $results = $app->triggerEvent('onContentBeforeDisplay', ['com_content.category', &$item, &$item->params, 0]);
+            $results                           = $app->triggerEvent('onContentBeforeDisplay', ['com_content.category', &$item, &$item->params, 0]);
             $item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-            $results = $app->triggerEvent('onContentAfterDisplay', ['com_content.category', &$item, &$item->params, 0]);
+            $results                          = $app->triggerEvent('onContentAfterDisplay', ['com_content.category', &$item, &$item->params, 0]);
             $item->event->afterDisplayContent = trim(implode("\n", $results));
         }
 
