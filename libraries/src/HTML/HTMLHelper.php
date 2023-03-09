@@ -1240,7 +1240,7 @@ abstract class HTMLHelper
      *
      * @return  mixed The format compatible with PHP's Date functions if success, false otherwise
      *
-     * @since   4.2.9
+     * @since   __DEPLOY_VERSION__
      */
     public static function strftimeFormatToDateFormat(string $strftimeformat)
     {
