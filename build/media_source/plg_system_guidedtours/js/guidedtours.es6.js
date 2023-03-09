@@ -387,9 +387,10 @@ function loadTour(tourId) {
         startTour(result.data);
       })
       .catch((error) => {
+        throw new Error(error);
+
         // Kill the tour if there is a problem with selector validation
         emptyStorage();
-        console.log(`Exception error - ${error.message} - Tour stopped`);
 
         const messages = { error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR')] };
         Joomla.renderMessages(messages);
