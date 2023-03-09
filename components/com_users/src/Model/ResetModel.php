@@ -194,14 +194,6 @@ class ResetModel extends FormModel
         // Get the user object.
         $user = User::getInstance($userId);
 
-        $event = AbstractEvent::create(
-            'onUserBeforeResetComplete',
-            [
-                'subject' => $user,
-            ]
-        );
-        $app->getDispatcher()->dispatch($event->getName(), $event);
-
         // Check for a user and that the tokens match.
         if (empty($user) || $user->activation !== $token) {
             $this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
