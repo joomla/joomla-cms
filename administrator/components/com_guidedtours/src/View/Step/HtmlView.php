@@ -24,7 +24,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 /**
  * View to edit an Step
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
 class HtmlView extends BaseHtmlView
 {
@@ -64,7 +64,7 @@ class HtmlView extends BaseHtmlView
      * @return  void
      *
      * @throws \Exception
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public function display($tpl = null)
     {
@@ -87,7 +87,7 @@ class HtmlView extends BaseHtmlView
      * @return void
      *
      * @throws \Exception
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected function addToolbar()
     {
