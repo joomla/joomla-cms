@@ -24,7 +24,7 @@ use Joomla\String\StringHelper;
 /**
  * Item Model for a single tour.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
 
 class StepModel extends AdminModel
@@ -33,7 +33,7 @@ class StepModel extends AdminModel
      * The prefix to use with controller messages.
      *
      * @var   string
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected $text_prefix = 'COM_GUIDEDTOURS';
 
@@ -41,7 +41,7 @@ class StepModel extends AdminModel
      * Type alias for content type
      *
      * @var   string
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     public $typeAlias = 'com_guidedtours.step';
 
@@ -52,7 +52,7 @@ class StepModel extends AdminModel
      *
      * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected function canDelete($record)
     {
@@ -76,7 +76,7 @@ class StepModel extends AdminModel
      *
      * @return  array  Contains the modified title and alias.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected function generateNewTitle($categoryId, $alias, $title)
     {
@@ -97,7 +97,7 @@ class StepModel extends AdminModel
      *
      * @return  boolean  True on success.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function save($data)
     {
@@ -147,7 +147,7 @@ class StepModel extends AdminModel
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected function prepareTable($table)
     {
@@ -185,7 +185,7 @@ class StepModel extends AdminModel
      * @return  boolean  True if allowed to change the state of the record.
      * Defaults to the permission set in the component.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected function canEditState($record)
     {
@@ -206,7 +206,7 @@ class StepModel extends AdminModel
      *
      * @return  Table  A Table object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      * @throws  \Exception
      */
     public function getTable($type = 'Step', $prefix = 'Administrator', $config = [])
@@ -222,7 +222,7 @@ class StepModel extends AdminModel
      *
      * @return  \JForm|boolean  A JForm object on success, false on failure
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getForm($data = [], $loadData = true)
     {
@@ -262,7 +262,7 @@ class StepModel extends AdminModel
      *
      * @return mixed  The data for the form.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected function loadFormData()
     {
@@ -286,7 +286,7 @@ class StepModel extends AdminModel
      *
      * @return  CMSObject|boolean  Object on success, false on failure.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getItem($pk = null)
     {
