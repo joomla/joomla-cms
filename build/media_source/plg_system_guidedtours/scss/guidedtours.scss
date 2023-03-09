@@ -4,9 +4,6 @@
  */
 
 @import "../../../../node_modules/shepherd.js/dist/css/shepherd";
-@import "../../../../media/vendor/bootstrap/scss/functions";
-@import "../../../../media/vendor/bootstrap/scss/mixins";
-@import "../../../../media/vendor/bootstrap/scss/variables";
 
 .shepherd-content img {
   max-width: 100%;
@@ -63,10 +60,4 @@
 #modGuidedTours-modal a {
   font-weight: 500;
   text-decoration: underline;
-}
-
-@include media-breakpoint-down(sm) {
-  .header-item .header-tours {
-    display: none;
-  }
 }
