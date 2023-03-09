@@ -625,14 +625,14 @@ class Document
      */
     public function addStyleDeclaration($content, $type = 'text/css')
     {
+        if ($content === null) {
+	        return $this;
+        }
+
         $type = strtolower($type);
 
         if (empty($this->_style[$type])) {
             $this->_style[$type] = [];
-        }
-        
-        if ($content === null) {
-            return $this;
         }
 
         $this->_style[$type][md5($content)] = $content;
