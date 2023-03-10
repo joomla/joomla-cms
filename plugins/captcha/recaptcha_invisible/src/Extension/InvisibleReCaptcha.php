@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\Captcha\InvisibleReCaptcha\Extension;
 
 use Joomla\CMS\Application\CMSWebApplicationInterface;
-use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
 use Joomla\CMS\Form\Field\CaptchaField;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
@@ -42,7 +41,7 @@ final class InvisibleReCaptcha extends CMSPlugin
      * The http request method
      *
      * @var    RequestMethod
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     private $requestMethod;
 
@@ -53,7 +52,7 @@ final class InvisibleReCaptcha extends CMSPlugin
      * @param   array                $config         An optional associative array of configuration settings
      * @param   RequestMethod        $requestMethod  The http request method
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function __construct(DispatcherInterface $dispatcher, array $config, RequestMethod $requestMethod)
     {

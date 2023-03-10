@@ -92,7 +92,7 @@ interface CMSWebApplicationInterface extends SessionAwareWebApplicationInterface
      * @param   string  $key    The path of the state.
      * @param   mixed   $value  The value of the variable.
      *
-     * @return  mixed|void  The previous state, if one existed. Void otherwise.
+     * @return  mixed  The previous state, if one existed. Null otherwise.
      *
      * @since   4.0.0
      */

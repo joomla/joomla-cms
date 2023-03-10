@@ -12,8 +12,6 @@ namespace Joomla\CMS\Helper;
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 
 // phpcs:disable PSR1.Files.SideEffects

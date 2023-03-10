@@ -12,7 +12,6 @@ namespace Joomla\CMS\Document;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
-use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
@@ -21,7 +20,6 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Utility\Utility;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-use UnexpectedValueException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -317,14 +315,14 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      *
      * @param   array  $data  The document head data in array form
      *
-     * @return  HtmlDocument|void instance of $this to allow chaining or void for empty input data
+     * @return  HtmlDocument  instance of $this to allow chaining
      *
      * @since   1.7.0
      */
     public function mergeHeadData($data)
     {
         if (empty($data) || !\is_array($data)) {
-            return;
+            return $this;
         }
 
         $this->title = (isset($data['title']) && !empty($data['title']) && !stristr($this->title, $data['title']))
