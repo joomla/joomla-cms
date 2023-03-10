@@ -25,8 +25,6 @@ use Joomla\CMS\Language\Text;
  */
 class Dispatcher extends AbstractModuleDispatcher
 {
-    //use HelperFactoryAwareTrait;
-
     /**
      * Returns the layout data.
      *
