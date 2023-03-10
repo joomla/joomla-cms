@@ -11,8 +11,8 @@ Overview
 ---------------------
 * This is the source of Joomla! 4.x.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 4.3 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_4.3_version_history).
-* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/4.2-dev).
+* Joomla! 4.4 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_4.4_version_history).
+* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/4.4-dev).
 
 What is Joomla?
 ---------------------
