@@ -11,8 +11,8 @@
 namespace Joomla\Module\Footer\Site\Dispatcher;
 
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
-use Joomla\CMS\Helper\HelperFactoryAwareInterface;
-use Joomla\CMS\Helper\HelperFactoryAwareTrait;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,9 +23,9 @@ use Joomla\CMS\Helper\HelperFactoryAwareTrait;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareInterface
+class Dispatcher extends AbstractModuleDispatcher
 {
-    use HelperFactoryAwareTrait;
+    //use HelperFactoryAwareTrait;
 
     /**
      * Returns the layout data.
@@ -38,7 +38,11 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
     {
         $data = parent::getLayoutData();
 
-        $data['list'] = $this->getHelperFactory()->getHelper('FooterHelper')->getList($this->getApplication());
+        $lineOne = Text::_('MOD_FOOTER_LINE1');
+        $lineOne = str_replace('%date%', HTMLHelper::_('date', HTMLHelper::_('date', 'Now', 'Y'), 'Y'), $lineOne);
+        $lineOne = str_replace('%sitename%', $this->getApplication()->get('sitename'), $lineOne);
+
+        $data['lineOne'] = $lineOne;
 
         return $data;
     }
