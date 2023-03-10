@@ -46,6 +46,8 @@ module.exports.mediaManager = async () => {
             {
               targets: {
                 browsers: [
+                  '> 1%',
+                  'not op_mini all',
                   /** https://caniuse.com/es6-module */
                   'chrome >= 61',
                   'safari >= 11',
