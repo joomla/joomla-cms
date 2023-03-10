@@ -42,7 +42,7 @@ class Dispatcher extends AbstractModuleDispatcher
         $lineOne = str_replace('%date%', HTMLHelper::_('date', HTMLHelper::_('date', 'Now', 'Y'), 'Y'), $lineOne);
         $lineOne = str_replace('%sitename%', $this->getApplication()->get('sitename'), $lineOne);
 
-        $data['lineOne'] = $lineOne;
+        $data['lineone'] = $lineOne;
 
         return $data;
     }
