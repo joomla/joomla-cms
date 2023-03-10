@@ -32,7 +32,7 @@ return new class () implements ServiceProviderInterface {
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function register(Container $container)
+    public function register(Container $container): void
     {
         $container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\Footer'));
         $container->registerServiceProvider(new Module());
