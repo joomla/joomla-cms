@@ -135,7 +135,16 @@ function addStepToTourButton(tour, stepObj, buttons) {
 
           // The 'next' button should always be enabled if the target input field of type 'text' has a value
           if (target.tagName.toLowerCase() === 'input' && target.type === 'text') {
-            if (target.value.trim().length) {
+            if (target.hasAttribute('required')) {
+              if (target.value.trim().length) {
+                primaryButton.removeAttribute('disabled');
+                primaryButton.classList.remove('disabled');
+              } else {
+                primaryButton.setAttribute('disabled', 'disabled');
+                primaryButton.classList.add('disabled');
+              }
+            } else {
+              // All text inputs are disabled by default
               primaryButton.removeAttribute('disabled');
               primaryButton.classList.remove('disabled');
             }
@@ -339,15 +348,17 @@ function startTour(obj) {
 
             case 'text':
               ele.step_id = index;
-              ['input', 'focus'].forEach((eventName) =>
-                ele.addEventListener(eventName, (event) => {
-                  if (event.target.value.trim().length) {
-                    enableButton(event);
-                  } else {
-                    disableButton(event);
-                  }
-                })
-              );
+              if (ele.hasAttribute('required')) {
+                ['input', 'focus'].forEach((eventName) =>
+                  ele.addEventListener(eventName, (event) => {
+                    if (event.target.value.trim().length) {
+                      enableButton(event);
+                    } else {
+                      disableButton(event);
+                    }
+                  })
+                );
+              }
               break;
 
             case 'button':
