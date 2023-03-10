@@ -37,7 +37,7 @@ class Dispatcher extends AbstractModuleDispatcher
         $data = parent::getLayoutData();
 
         $lineOne = Text::_('MOD_FOOTER_LINE1');
-        $lineOne = str_replace('%date%', HTMLHelper::_('date', HTMLHelper::_('date', 'Now', 'Y'), 'Y'), $lineOne);
+        $lineOne = str_replace('%date%', HTMLHelper::_('date', 'now', 'Y'), $lineOne);
         $lineOne = str_replace('%sitename%', $this->getApplication()->get('sitename'), $lineOne);
 
         $data['lineone'] = $lineOne;
