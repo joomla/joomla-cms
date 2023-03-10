@@ -19,7 +19,7 @@ use Joomla\CMS\MVC\Controller\AdminController;
 /**
  * Component Controller
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
 
 class StepsController extends AdminController
@@ -33,7 +33,7 @@ class StepsController extends AdminController
      *
      * @return \Joomla\CMS\MVC\Model\BaseDatabaseModel
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     public function getModel($name = 'Step', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
