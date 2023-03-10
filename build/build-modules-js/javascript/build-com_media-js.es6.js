@@ -75,16 +75,10 @@ module.exports.mediaManager = async () => {
       if (isProduction) {
         // eslint-disable-next-line no-console
         console.log('✅ ES2017 Media Manager ready');
-        writeFile(resolve('media/com_media/js/media-manager.min.js'), content.code, { encoding: 'utf8', mode: 0o644 });
+        return writeFile(resolve('media/com_media/js/media-manager.min.js'), content.code, { encoding: 'utf8', mode: 0o644 });
       }
       // eslint-disable-next-line no-console
       console.log('✅ ES2017 Media Manager ready');
-      if (existsSync(resolve('media/com_media/js/media-manager-es5.js'))) {
-        rm(resolve('media/com_media/js/media-manager-es5.js'));
-      }
-      if (existsSync(resolve('media/com_media/js/media-manager-es5.min.js'))) {
-        rm(resolve('media/com_media/js/media-manager-es5.min.js'));
-      }
       return copyFile(resolve('media/com_media/js/media-manager.js'), resolve('media/com_media/js/media-manager.min.js'));
     })
     .catch((error) => {
@@ -97,12 +91,6 @@ module.exports.mediaManager = async () => {
 };
 
 module.exports.watchMediaManager = async () => {
-  if (existsSync(resolve('media/com_media/js/media-manager-es5.js'))) {
-    rm(resolve('media/com_media/js/media-manager-es5.js'));
-  }
-  if (existsSync(resolve('media/com_media/js/media-manager-es5.min.js'))) {
-    rm(resolve('media/com_media/js/media-manager-es5.min.js'));
-  }
   // eslint-disable-next-line no-console
   console.log('Watching Media Manager js+vue files...');
   // eslint-disable-next-line no-console
@@ -136,6 +124,8 @@ module.exports.watchMediaManager = async () => {
             {
               targets: {
                 browsers: [
+                  '> 1%',
+                  'not op_mini all',
                   /** https://caniuse.com/es6-module */
                   'chrome 61',
                   'safari 11',
