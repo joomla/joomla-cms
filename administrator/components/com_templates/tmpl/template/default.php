@@ -164,7 +164,6 @@ if ($this->type == 'font') {
                                         'detailLevel' => 'word',
                                         'spaceToHtmlTag' => true,
                                         'wrapperClasses' => ['diff-wrapper', 'columns-order-ignore'],
-
                                     ]
                                 );
                             ?>
