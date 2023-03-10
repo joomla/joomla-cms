@@ -12,7 +12,6 @@
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
-use Joomla\CMS\Extension\Service\Provider\HelperFactory;
 use Joomla\CMS\Extension\Service\Provider\Module;
 use Joomla\CMS\Extension\Service\Provider\ModuleDispatcherFactory;
 use Joomla\DI\Container;
@@ -36,8 +35,6 @@ return new class () implements ServiceProviderInterface {
     public function register(Container $container)
     {
         $container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\Footer'));
-        $container->registerServiceProvider(new HelperFactory('\\Joomla\\Module\\Footer\\Site\\Helper'));
-
         $container->registerServiceProvider(new Module());
     }
 };
