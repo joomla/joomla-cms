@@ -120,7 +120,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
       },
       show() {
         const element = this.getElement();
-        const target  = this.getTarget();
+        const target = this.getTarget();
 
         // Force the screen reader to only read the content of the popup after a refresh
         element.setAttribute('aria-live', 'assertive');
