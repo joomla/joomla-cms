@@ -812,16 +812,16 @@
         },
         {
             "name": "jfcherng/php-diff",
-            "version": "6.10.8",
+            "version": "6.10.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jfcherng/php-diff.git",
-                "reference": "1dfc245316db88e403b486f55f356acddaf94cd0"
+                "reference": "bd7da32392a068e0256a6816ae2f0c7dfe4e8601"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jfcherng/php-diff/zipball/1dfc245316db88e403b486f55f356acddaf94cd0",
-                "reference": "1dfc245316db88e403b486f55f356acddaf94cd0",
+                "url": "https://api.github.com/repos/jfcherng/php-diff/zipball/bd7da32392a068e0256a6816ae2f0c7dfe4e8601",
+                "reference": "bd7da32392a068e0256a6816ae2f0c7dfe4e8601",
                 "shasum": ""
             },
             "require": {
@@ -866,7 +866,7 @@
             ],
             "support": {
                 "issues": "https://github.com/jfcherng/php-diff/issues",
-                "source": "https://github.com/jfcherng/php-diff/tree/6.10.8"
+                "source": "https://github.com/jfcherng/php-diff/tree/6.10.9"
             },
             "funding": [
                 {
@@ -874,7 +874,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-01-18T16:51:03+00:00"
+            "time": "2023-03-10T12:56:38+00:00"
         },
         {
             "name": "jfcherng/php-mb-string",
@@ -12082,5 +12082,5 @@
     "platform-overrides": {
         "php": "7.2.5"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.1.0"
 }
