@@ -158,11 +158,11 @@ final class Server
         $this->coseAlgorithmManagerFactory->add('ES512', new ECDSA\ES512());
         $this->coseAlgorithmManagerFactory->add('Ed25519', new EdDSA\Ed25519());
 
-        $this->selectedAlgorithms = ['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512', 'Ed25519'];
+        $this->selectedAlgorithms                  = ['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512', 'Ed25519'];
         $this->publicKeyCredentialSourceRepository = $publicKeyCredentialSourceRepository;
-        $this->tokenBindingHandler = new IgnoreTokenBindingHandler();
-        $this->extensionOutputCheckerHandler = new ExtensionOutputCheckerHandler();
-        $this->metadataStatementRepository = $metadataStatementRepository;
+        $this->tokenBindingHandler                 = new IgnoreTokenBindingHandler();
+        $this->extensionOutputCheckerHandler       = new ExtensionOutputCheckerHandler();
+        $this->metadataStatementRepository         = $metadataStatementRepository;
     }
 
     /**
@@ -191,7 +191,7 @@ final class Server
     {
         $this->coseAlgorithmManagerFactory->add($alias, $algorithm);
         $this->selectedAlgorithms[] = $alias;
-        $this->selectedAlgorithms = array_unique($this->selectedAlgorithms);
+        $this->selectedAlgorithms   = array_unique($this->selectedAlgorithms);
     }
 
     /**
@@ -237,9 +237,9 @@ final class Server
             );
         }
 
-        $criteria = $criteria ?? new AuthenticatorSelectionCriteria();
+        $criteria   = $criteria ?? new AuthenticatorSelectionCriteria();
         $extensions = $extensions ?? new AuthenticationExtensionsClientInputs();
-        $challenge = random_bytes($this->challengeSize);
+        $challenge  = random_bytes($this->challengeSize);
 
         return (new PublicKeyCredentialCreationOptions(
             $this->rpEntity,
@@ -292,17 +292,17 @@ final class Server
     public function loadAndCheckAttestationResponse(string $data, PublicKeyCredentialCreationOptions $publicKeyCredentialCreationOptions, ServerRequestInterface $serverRequest): PublicKeyCredentialSource
     {
         // Remove padding from the response data
-        $temp = json_decode($data);
-        $temp->response = $temp?->response ?? new \stdClass();
-        $temp->response->clientDataJSON = rtrim($temp?->response?->clientDataJSON ?? '', '=');
+        $temp                              = json_decode($data);
+        $temp->response                    = $temp?->response ?? new \stdClass();
+        $temp->response->clientDataJSON    = rtrim($temp?->response?->clientDataJSON ?? '', '=');
         $temp->response->attestationObject = rtrim($temp?->response?->attestationObject ?? '', '=');
-        $data = json_encode($temp);
+        $data                              = json_encode($temp);
 
         $attestationStatementSupportManager = $this->getAttestationStatementSupportManager();
-        $attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager);
-        $publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader);
+        $attestationObjectLoader            = new AttestationObjectLoader($attestationStatementSupportManager);
+        $publicKeyCredentialLoader          = new PublicKeyCredentialLoader($attestationObjectLoader);
 
-        $publicKeyCredential = $publicKeyCredentialLoader->load($data);
+        $publicKeyCredential   = $publicKeyCredentialLoader->load($data);
         $authenticatorResponse = $publicKeyCredential->getResponse();
 
         if (!$authenticatorResponse instanceof AuthenticatorAttestationResponse) {
@@ -325,7 +325,7 @@ final class Server
          * BTW, the documentation of the library is wrong...
          */
         if (!empty($this->metadataStatementRepository)) {
-            $refObj = new \ReflectionObject($authenticatorAttestationResponseValidator);
+            $refObj  = new \ReflectionObject($authenticatorAttestationResponseValidator);
             $refProp = $refObj->getProperty('metadataStatementRepository');
             $refProp->setAccessible(true);
             $refProp->setValue($authenticatorAttestationResponseValidator, $this->metadataStatementRepository);
@@ -377,10 +377,10 @@ final class Server
 
         // Now, we can proceed with checking the assertion response.
         $attestationStatementSupportManager = $this->getAttestationStatementSupportManager();
-        $attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager);
-        $publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader);
+        $attestationObjectLoader            = new AttestationObjectLoader($attestationStatementSupportManager);
+        $publicKeyCredentialLoader          = new PublicKeyCredentialLoader($attestationObjectLoader);
 
-        $publicKeyCredential = $publicKeyCredentialLoader->load($data);
+        $publicKeyCredential   = $publicKeyCredentialLoader->load($data);
         $authenticatorResponse = $publicKeyCredential->getResponse();
 
         if (!$authenticatorResponse instanceof AuthenticatorAssertionResponse) {
@@ -411,7 +411,7 @@ final class Server
      */
     private function getAttestationStatementSupportManager(): AttestationStatementSupportManager
     {
-        $coseAlgorithmManager = $this->coseAlgorithmManagerFactory->generate(...$this->selectedAlgorithms);
+        $coseAlgorithmManager               = $this->coseAlgorithmManagerFactory->generate(...$this->selectedAlgorithms);
         $attestationStatementSupportManager = new AttestationStatementSupportManager();
 
         $attestationStatementSupportManager->add(new NoneAttestationStatementSupport());

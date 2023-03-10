@@ -41,7 +41,7 @@ class PlgPrivacyConsents extends PrivacyPlugin
     public function onPrivacyExportRequest(RequestTable $request, User $user = null)
     {
         if (!$user) {
-            return array();
+            return [];
         }
 
         $domain = $this->createDomain('consents', 'joomla_consent_data');
@@ -60,6 +60,6 @@ class PlgPrivacyConsents extends PrivacyPlugin
             $domain->addItem($this->createItemFromArray($item));
         }
 
-        return array($domain);
+        return [$domain];
     }
 }

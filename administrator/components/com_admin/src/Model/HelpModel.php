@@ -152,8 +152,8 @@ class HelpModel extends BaseDatabaseModel
         }
 
         // Get Help files
-        $files = Folder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
-        $this->toc = array();
+        $files     = Folder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
+        $this->toc = [];
 
         foreach ($files as $file) {
             $buffer = file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/' . $file);

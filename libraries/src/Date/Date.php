@@ -43,8 +43,8 @@ use Joomla\Database\DatabaseDriver;
  */
 class Date extends \DateTime
 {
-    public const DAY_ABBR = "\x021\x03";
-    public const DAY_NAME = "\x022\x03";
+    public const DAY_ABBR   = "\x021\x03";
+    public const DAY_NAME   = "\x022\x03";
     public const MONTH_ABBR = "\x023\x03";
     public const MONTH_NAME = "\x024\x03";
 
@@ -288,8 +288,7 @@ class Date extends \DateTime
      *
      * @since   1.7.0
      */
-    #[\ReturnTypeWillChange]
-    public function format($format, $local = false, $translate = true)
+    public function format($format, $local = false, $translate = true): string
     {
         if ($translate) {
             // Do string replacements for date format options that can be translated.
@@ -397,8 +396,7 @@ class Date extends \DateTime
      * @since   1.7.0
      * @note    This method can't be type hinted due to a PHP bug: https://bugs.php.net/bug.php?id=61483
      */
-    #[\ReturnTypeWillChange]
-    public function setTimezone($tz)
+    public function setTimezone($tz): \Datetime
     {
         $this->tz = $tz;
 

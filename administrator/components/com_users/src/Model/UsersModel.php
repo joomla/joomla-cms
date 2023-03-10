@@ -38,7 +38,7 @@ class UsersModel extends ListModel
      * @var    array
      * @since  4.0.0
      */
-    protected $filterForbiddenList = array('groups', 'excluded');
+    protected $filterForbiddenList = ['groups', 'excluded'];
 
     /**
      * Override parent constructor.
@@ -49,10 +49,10 @@ class UsersModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
                 'username', 'a.username',
@@ -67,8 +67,8 @@ class UsersModel extends ListModel
                 'range',
                 'lastvisitrange',
                 'state',
-                'mfa'
-            );
+                'mfa',
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -168,7 +168,7 @@ class UsersModel extends ListModel
             $groupId = $this->getState('filter.group_id');
 
             if (isset($groups) && (empty($groups) || $groupId && !in_array($groupId, $groups))) {
-                $items = array();
+                $items = [];
             } else {
                 $items = parent::getItems();
             }
@@ -184,14 +184,14 @@ class UsersModel extends ListModel
             // Find the information only on the result set.
 
             // First pass: get list of the user ids and reset the counts.
-            $userIds = array();
+            $userIds = [];
 
             foreach ($items as $item) {
                 $userIds[] = (int) $item->id;
 
                 $item->group_count = 0;
                 $item->group_names = '';
-                $item->note_count = 0;
+                $item->note_count  = 0;
             }
 
             // Get the counts from the database only for the users in the list.
@@ -307,7 +307,7 @@ class UsersModel extends ListModel
                 ->select(
                     [
                         'MIN(' . $db->quoteName('user_id') . ') AS ' . $db->quoteName('uid'),
-                        'COUNT(*) AS ' . $db->quoteName('mfaRecords')
+                        'COUNT(*) AS ' . $db->quoteName('mfaRecords'),
                     ]
                 )
                 ->from($db->quoteName('#__user_mfa'))
@@ -368,7 +368,7 @@ class UsersModel extends ListModel
             $query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id')
                 ->group(
                     $db->quoteName(
-                        array(
+                        [
                             'a.id',
                             'a.name',
                             'a.username',
@@ -384,8 +384,8 @@ class UsersModel extends ListModel
                             'a.resetCount',
                             'a.otpKey',
                             'a.otep',
-                            'a.requireReset'
-                        )
+                            'a.requireReset',
+                        ]
                     )
                 );
 
@@ -429,9 +429,9 @@ class UsersModel extends ListModel
 
         // Add filter for registration time ranges select list. UI Visitors get a range of predefined
         // values. API users can do a full range based on ISO8601
-        $range = $this->getState('filter.range');
+        $range             = $this->getState('filter.range');
         $registrationStart = $this->getState('filter.registrationDateStart');
-        $registrationEnd = $this->getState('filter.registrationDateEnd');
+        $registrationEnd   = $this->getState('filter.registrationDateEnd');
 
         // Apply the range filter.
         if ($range || ($registrationStart && $registrationEnd)) {
@@ -464,7 +464,7 @@ class UsersModel extends ListModel
         // values. API users can do a full range based on ISO8601
         $lastvisitrange = $this->getState('filter.lastvisitrange');
         $lastVisitStart = $this->getState('filter.lastVisitStart');
-        $lastVisitEnd = $this->getState('filter.lastVisitEnd');
+        $lastVisitEnd   = $this->getState('filter.lastVisitEnd');
 
         // Apply the range filter.
         if ($lastvisitrange || ($lastVisitStart && $lastVisitEnd)) {
@@ -569,12 +569,12 @@ class UsersModel extends ListModel
                 $dStart->setTimezone($tz);
                 break;
             case 'never':
-                $dNow = false;
+                $dNow   = false;
                 $dStart = false;
                 break;
         }
 
-        return array('dNow' => $dNow, 'dStart' => $dStart);
+        return ['dNow' => $dNow, 'dStart' => $dStart];
     }
 
     /**
@@ -597,7 +597,7 @@ class UsersModel extends ListModel
         try {
             $result = $db->setQuery($query)->loadColumn();
         } catch (\RuntimeException $e) {
-            $result = array();
+            $result = [];
         }
 
         return implode("\n", $result);

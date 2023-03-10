@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "18e4e967d0fc8a5617856281248211ed",
+    "content-hash": "f82efa3cb4256885752401c56198450d",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -5517,24 +5517,24 @@
         },
         {
             "name": "wamania/php-stemmer",
-            "version": "v2.2.0",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wamania/php-stemmer.git",
-                "reference": "a5eafec3f6c48e277939af0dbc0c24a76e658c04"
+                "reference": "eab7b93465eb3d5da372806c8e1b01da5766aea5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wamania/php-stemmer/zipball/a5eafec3f6c48e277939af0dbc0c24a76e658c04",
-                "reference": "a5eafec3f6c48e277939af0dbc0c24a76e658c04",
+                "url": "https://api.github.com/repos/wamania/php-stemmer/zipball/eab7b93465eb3d5da372806c8e1b01da5766aea5",
+                "reference": "eab7b93465eb3d5da372806c8e1b01da5766aea5",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.0",
+                "php": ">=7.3",
                 "voku/portable-utf8": "^5.4"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8"
+                "phpunit/phpunit": "^9.0"
             },
             "type": "library",
             "autoload": {
@@ -5560,9 +5560,9 @@
             ],
             "support": {
                 "issues": "https://github.com/wamania/php-stemmer/issues",
-                "source": "https://github.com/wamania/php-stemmer/tree/v2.2.0"
+                "source": "https://github.com/wamania/php-stemmer/tree/v3.0.0"
             },
-            "time": "2021-02-10T09:07:25+00:00"
+            "time": "2021-08-17T18:16:34+00:00"
         },
         {
             "name": "web-auth/cose-lib",
