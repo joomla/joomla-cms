@@ -10,12 +10,13 @@
 
 namespace Joomla\Module\Custom\Site\Dispatcher;
 
+use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
+use Joomla\CMS\HTML\HTMLHelper;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
-use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Dispatcher class for mod_custom
