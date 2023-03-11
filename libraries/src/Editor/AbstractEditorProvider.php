@@ -63,9 +63,9 @@ abstract class AbstractEditorProvider implements EditorProviderInterface, Dispat
         $result  = [];
         $btnsReg = new ButtonsRegistry;
         $btnsReg->setDispatcher($this->getDispatcher())->initRegistry([
-            'editorId'        => $options['editorId'] ?? '',
             'editorType'      => $this->getName(),
             'disabledButtons' => $buttons,
+            'editorId'        => $options['editorId'] ?? '',
             'asset'           => (int) ($options['asset'] ?? 0),
             'author'          => (int) ($options['author'] ?? 0),
         ]);

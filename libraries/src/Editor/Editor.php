@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Editor;
 
+use Joomla\CMS\Editor\Button\ButtonsRegistry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
@@ -87,7 +88,7 @@ class Editor implements DispatcherAwareInterface
      *
      * @param   string                    $editor      The editor name
      * @param   DispatcherInterface|null  $dispatcher  The event dispatcher we're going to use
-     * @param   EditorsRegistry|null       $registry    The editors registry
+     * @param   EditorsRegistry|null      $registry    The editors registry
      *
      * @since  1.5
      */
@@ -244,6 +245,8 @@ class Editor implements DispatcherAwareInterface
      * @return  array
      *
      * @since   1.5
+     *
+     * @deprecated  Load buttons from Editor provider
      */
     public function getButtons($editor, $buttons = true)
     {
@@ -251,43 +254,35 @@ class Editor implements DispatcherAwareInterface
             return $this->provider->getButtons($buttons, ['editorId' => $editor]);
         }
 
-        $result = [];
-
-        if (\is_bool($buttons) && !$buttons) {
-            return $result;
+        if ($buttons === false) {
+            return [];
         }
 
-        // Get plugins
-        $plugins = PluginHelper::getPlugin('editors-xtd');
+        $loadAll = false;
 
-        foreach ($plugins as $plugin) {
-            if (\is_array($buttons) && \in_array($plugin->name, $buttons)) {
+        if ($buttons === true || $buttons === []) {
+            $buttons = [];
+            $loadAll = true;
+        }
+
+        // Retrieve buttons for current editor
+        $result  = [];
+        $btnsReg = new ButtonsRegistry;
+        $btnsReg->setDispatcher($this->getDispatcher())->initRegistry([
+            'editorType'      => $this->_name,
+            'disabledButtons' => $buttons,
+            'editorId'        => $editor,
+            'asset'           => (int) $this->asset,
+            'author'          => (int) $this->author,
+        ]);
+
+        // Go through all and leave only allowed buttons
+        foreach ($btnsReg->getAll() as $button) {
+            $btnName = $button->getButtonName();
+
+            if (!$loadAll && \in_array($btnName, $buttons)) {
                 continue;
             }
-
-            $plugin = Factory::getApplication()->bootPlugin($plugin->name, 'editors-xtd');
-
-            if (!$plugin) {
-                return $result;
-            }
-
-            // Try to authenticate
-            if (!method_exists($plugin, 'onDisplay')) {
-                continue;
-            }
-
-            $button = $plugin->onDisplay($editor, $this->asset, $this->author);
-
-            if (empty($button)) {
-                continue;
-            }
-
-            if (\is_array($button)) {
-                $result = array_merge($result, $button);
-                continue;
-            }
-
-            $button->editor = $editor;
 
             $result[] = $button;
         }
