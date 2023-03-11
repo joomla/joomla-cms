@@ -3,10 +3,10 @@
 
 describe('Test com_content Category features', () => {
   beforeEach(() => {
-    cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password'))
-  })
+    cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password'));
+  });
 
-  it('Category', function () {
-    cy.createContentCategory('Category title')
-  })
-})
+  it('Category', () => {
+    cy.createContentCategory('Category title');
+  });
+});
