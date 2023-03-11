@@ -150,7 +150,7 @@ class Editor implements DispatcherAwareInterface
      *
      * @since   1.5
      *
-     * @deprecated  Without replacement
+     * @deprecated  6.0 Without replacement
      */
     public function initialise()
     {
@@ -162,6 +162,8 @@ class Editor implements DispatcherAwareInterface
         if ($this->_editor === null) {
             return;
         }
+
+        @trigger_error('Method onInit() for Editor instance is deprecated, without replacement.', \E_USER_DEPRECATED);
 
         if (method_exists($this->_editor, 'onInit')) {
             \call_user_func([$this->_editor, 'onInit']);
@@ -246,7 +248,6 @@ class Editor implements DispatcherAwareInterface
      *
      * @since   1.5
      *
-     * @deprecated  Load buttons from Editor provider
      */
     public function getButtons($editor, $buttons = true)
     {
@@ -265,7 +266,7 @@ class Editor implements DispatcherAwareInterface
             $loadAll = true;
         }
 
-        // Retrieve buttons for current editor
+        // Retrieve buttons for legacy editor
         $result  = [];
         $btnsReg = new ButtonsRegistry;
         $btnsReg->setDispatcher($this->getDispatcher())->initRegistry([
@@ -299,7 +300,7 @@ class Editor implements DispatcherAwareInterface
      *
      * @since   1.5
      *
-     * @deprecated  Should use EditorRegistry
+     * @deprecated  6.0 Should use EditorRegistry
      */
     protected function _loadEditor($config = [])
     {
@@ -307,6 +308,8 @@ class Editor implements DispatcherAwareInterface
         if ($this->_editor !== null) {
             return false;
         }
+
+        @trigger_error('Editor "' . $this->_name . '" instance should be set up onEditorSetup event.', \E_USER_DEPRECATED);
 
         // Build the path to the needed editor plugin
         $name = InputFilter::getInstance()->clean($this->_name, 'cmd');

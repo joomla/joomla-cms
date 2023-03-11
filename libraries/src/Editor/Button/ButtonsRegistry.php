@@ -120,6 +120,8 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
                 continue;
             }
 
+            @trigger_error('Button "' . $plugin->name . '" instance should be set up onEditorButtonsSetup event.', \E_USER_DEPRECATED);
+
             // Transform Legacy buttons to Button object
             if (\is_array($legacyButton)) {
                 foreach ($legacyButton as $item) {
