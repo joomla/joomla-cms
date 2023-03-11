@@ -396,7 +396,7 @@ class MailTemplate
         $template->subject = $subject;
         $template->body = $body;
         $template->htmlbody = $htmlbody;
-        $template->extension = explode('.', $key)[0];
+        $template->extension = explode('.', $key, 2)[0] ?? '';
         $template->attachments = '';
         $params = new \stdClass();
         $params->tags = [$tags];
