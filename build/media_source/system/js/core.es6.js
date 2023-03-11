@@ -624,12 +624,9 @@ window.Joomla.Modal = window.Joomla.Modal || {
 
         // Use the CSRF only on the site's domain
         if (
-          token
-          &&
-          (
+          token && (
             (!newOptions.url.startsWith('http:') && !newOptions.url.startsWith('https:'))
-            ||
-            newOptions.url.startsWith(window.location.origin)
+            || newOptions.url.startsWith(window.location.origin)
           )
         ) {
           xhr.setRequestHeader('X-CSRF-Token', token);
