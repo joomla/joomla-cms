@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper as CmsInstallerHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
@@ -92,7 +91,7 @@ class HtmlView extends InstallerViewDefault
         }
 
         $mappingCallback = function ($item) {
-            $dlkeyInfo = CmsInstallerHelper::getDownloadKey(new CMSObject($item));
+            $dlkeyInfo                  = CmsInstallerHelper::getDownloadKey(new CMSObject($item));
             $item->isMissingDownloadKey = $dlkeyInfo['supported'] && !$dlkeyInfo['valid'];
 
             if ($item->isMissingDownloadKey) {

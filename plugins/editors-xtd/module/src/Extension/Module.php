@@ -58,7 +58,7 @@ final class Module extends CMSPlugin
         ) {
             $link = 'index.php?option=com_modules&amp;view=modules&amp;layout=modal&amp;tmpl=component&amp;editor='
                     . $name . '&amp;' . Session::getFormToken() . '=1';
-            $button = new CMSObject();
+            $button          = new CMSObject();
             $button->modal   = true;
             $button->link    = $link;
             $button->text    = Text::_('PLG_MODULE_BUTTON_MODULE');

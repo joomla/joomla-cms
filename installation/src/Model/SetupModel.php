@@ -73,7 +73,7 @@ class SetupModel extends BaseInstallationModel
         }
 
         // Get the session
-        $session = Factory::getSession();
+        $session            = Factory::getSession();
         $options['helpurl'] = $session->get('setup.helpurl', null);
 
         // Merge the new setup options into the current ones and store in the session.
@@ -249,7 +249,7 @@ class SetupModel extends BaseInstallationModel
         $options = ArrayHelper::toObject($options);
 
         // Load the backend language files so that the DB error messages work.
-        $lang = Factory::getLanguage();
+        $lang        = Factory::getLanguage();
         $currentLang = $lang->getTag();
 
         // Load the selected language

@@ -226,8 +226,8 @@ class CaptiveModel extends BaseDatabaseModel
                 return $renderOptions->merge(
                     [
                         'pre_message' => Text::_('COM_USERS_USER_BACKUPCODES_CAPTIVE_PROMPT'),
-                        'input_type' => 'number',
-                        'label' => Text::_('COM_USERS_USER_BACKUPCODE'),
+                        'input_type'  => 'number',
+                        'label'       => Text::_('COM_USERS_USER_BACKUPCODE'),
                     ]
                 );
             }

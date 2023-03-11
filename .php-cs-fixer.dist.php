@@ -29,18 +29,8 @@
  *        ./libraries/vendor/bin/php-cs-fixer fix administrator/index.php
  */
 
-// Only index the files in /libraries and no deeper, to prevent /libraries/vendor being indexed
-$topFilesFinder = PhpCsFixer\Finder::create()
-    ->in(
-        [
-            __DIR__ . '/libraries'
-        ]
-    )
-    ->files()
-    ->depth(0);
-
-// Add all the core Joomla folders and append to this list the files indexed above from /libraries
-$mainFinder = PhpCsFixer\Finder::create()
+// Add all the core Joomla folders
+$finder = PhpCsFixer\Finder::create()
     ->in(
         [
             __DIR__ . '/administrator',
@@ -57,20 +47,39 @@ $mainFinder = PhpCsFixer\Finder::create()
             __DIR__ . '/plugins',
             __DIR__ . '/templates',
             __DIR__ . '/tests',
-            __DIR__ . '/layouts',
         ]
     )
-    ->append($topFilesFinder);
+    // Ignore template files as PHP CS fixer can't handle them properly
+    // https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/3702#issuecomment-396717120
+    ->notPath('/tmpl/')
+    ->notPath('/layouts/')
+    ->notPath('/cassiopeia/')
+    ->notPath('/atum/')
+    // Ignore psr12 scripts because they contain invalid syntax
+    ->notPath('/psr12/')
+    ->notName('github_rebase.php');
 
 $config = new PhpCsFixer\Config();
 $config
     ->setRiskyAllowed(true)
+    ->setHideProgress(false)
+    ->setUsingCache(false)
     ->setRules(
         [
-            '@PSR12' => true,
-            'array_syntax' => ['syntax' => 'short'],
+            // Basic ruleset is PSR 12
+            '@PSR12'                         => true,
+            // Short array syntax
+            'array_syntax'                   => ['syntax' => 'short'],
+            // Lists should not have a trailing comma like list($foo, $bar,) = ...
+            'no_trailing_comma_in_list_call' => true,
+            // Arrays on multiline should have a trailing comma
+            'trailing_comma_in_multiline'    => ['elements' => ['arrays']],
+            // Align elements in multiline array and variable declarations on new lines below each other
+            'binary_operator_spaces'         => ['operators' => ['=>' => 'align_single_space_minimal', '=' => 'align']],
+            // The "No break" comment in switch statements
+            'no_break_comment'               => ['comment_text' => 'No break'],
         ]
     )
-    ->setFinder($mainFinder);
+    ->setFinder($finder);
 
 return $config;

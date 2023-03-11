@@ -52,7 +52,7 @@ final class Fields extends CMSPlugin
         }
 
         // Guess the field context based on view.
-        $jinput = $this->getApplication()->getInput();
+        $jinput  = $this->getApplication()->getInput();
         $context = $jinput->get('option') . '.' . $jinput->get('view');
 
         // Special context for com_categories
@@ -63,7 +63,7 @@ final class Fields extends CMSPlugin
         $link = 'index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;tmpl=component&amp;context='
             . $context . '&amp;editor=' . $name . '&amp;' . Session::getFormToken() . '=1';
 
-        $button = new CMSObject();
+        $button          = new CMSObject();
         $button->modal   = true;
         $button->link    = $link;
         $button->text    = Text::_('PLG_EDITORS-XTD_FIELDS_BUTTON_FIELD');

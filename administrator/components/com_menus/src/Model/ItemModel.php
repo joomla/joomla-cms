@@ -93,7 +93,7 @@ class ItemModel extends AdminModel
      */
     protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
-        'language_id'   => 'batchLanguage'
+        'language_id'   => 'batchLanguage',
     ];
 
     /**
@@ -256,7 +256,7 @@ class ItemModel extends AdminModel
             }
 
             // Make a copy of the old ID and Parent ID
-            $oldId = $table->id;
+            $oldId       = $table->id;
             $oldParentId = $table->parent_id;
 
             // Reset the id because we are making a copy.
@@ -265,7 +265,7 @@ class ItemModel extends AdminModel
             // If we a copying children, the Old ID will turn up in the parents list
             // otherwise it's a new top level item
             $table->parent_id = isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
-            $table->menutype = $menuType;
+            $table->menutype  = $menuType;
 
             // Set the new location in the tree for the node.
             $table->setLocation($table->parent_id, 'last-child');
@@ -279,8 +279,8 @@ class ItemModel extends AdminModel
 
             // Alter the title & alias
             list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
-            $table->title = $title;
-            $table->alias = $alias;
+            $table->title        = $title;
+            $table->alias        = $alias;
 
             // Check the row.
             if (!$table->check()) {
@@ -578,7 +578,7 @@ class ItemModel extends AdminModel
         // For a new menu item, pre-select some filters (Status, Language, Access) in edit form if those have been selected in Menu Manager
         if (empty($data['id'])) {
             // Get selected fields
-            $filters = Factory::getApplication()->getUserState('com_menus.items.filter');
+            $filters           = Factory::getApplication()->getUserState('com_menus.items.filter');
             $data['parent_id'] = $data['parent_id'] ?? ($filters['parent_id'] ?? null);
             $data['published'] = $data['published'] ?? ($filters['published'] ?? null);
             $data['language']  = $data['language'] ?? ($filters['language'] ?? null);
@@ -646,7 +646,7 @@ class ItemModel extends AdminModel
             $table->parent_id = $this->getState('item.parent_id');
             $table->menutype  = $this->getState('item.menutype');
             $table->client_id = $this->getState('item.client_id');
-            $table->params = '{}';
+            $table->params    = '{}';
         }
 
         // If the link has been set in the state, possibly changing link type.
@@ -661,7 +661,7 @@ class ItemModel extends AdminModel
             case 'alias':
             case 'url':
                 $table->component_id = 0;
-                $args = [];
+                $args                = [];
 
                 if ($table->link) {
                     $q = parse_url($table->link, PHP_URL_QUERY);
@@ -676,7 +676,7 @@ class ItemModel extends AdminModel
             case 'separator':
             case 'heading':
             case 'container':
-                $table->link = '';
+                $table->link         = '';
                 $table->component_id = 0;
                 break;
 
@@ -717,17 +717,17 @@ class ItemModel extends AdminModel
 
         // Convert to the \Joomla\CMS\Object\CMSObject before adding the params.
         $properties = $table->getProperties(1);
-        $result = ArrayHelper::toObject($properties);
+        $result     = ArrayHelper::toObject($properties);
 
         // Convert the params field to an array.
-        $registry = new Registry($table->params);
+        $registry       = new Registry($table->params);
         $result->params = $registry->toArray();
 
         // Merge the request arguments in to the params for a component.
         if ($table->type == 'component') {
             // Note that all request arguments become reserved parameter names.
             $result->request = $args;
-            $result->params = array_merge($result->params, $args);
+            $result->params  = array_merge($result->params, $args);
 
             // Special case for the Login menu item.
             // Display the login or logout redirect URL fields if not empty
@@ -1080,12 +1080,12 @@ class ItemModel extends AdminModel
 
             // Confirm that the option is defined.
             $option = '';
-            $base = '';
+            $base   = '';
 
             if (isset($args['option'])) {
                 // The option determines the base path to work with.
                 $option = $args['option'];
-                $base = $clientInfo->path . '/components/' . $option;
+                $base   = $clientInfo->path . '/components/' . $option;
             }
 
             if (isset($args['view'])) {
@@ -1128,7 +1128,7 @@ class ItemModel extends AdminModel
                 if (isset($view)) {
                     $metadataFolders = [
                         $base . '/view/' . $view,
-                        $base . '/views/' . $view
+                        $base . '/views/' . $view,
                     ];
                     $metaPath = Path::find($metadataFolders, 'metadata.xml');
 
@@ -1180,8 +1180,8 @@ class ItemModel extends AdminModel
             $helpURL = trim((string) $help[0]['url']);
             $helpLoc = trim((string) $help[0]['local']);
 
-            $this->helpKey = $helpKey ?: $this->helpKey;
-            $this->helpURL = $helpURL ?: $this->helpURL;
+            $this->helpKey   = $helpKey ?: $this->helpKey;
+            $this->helpURL   = $helpURL ?: $this->helpURL;
             $this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local'));
         }
 
@@ -1195,7 +1195,7 @@ class ItemModel extends AdminModel
 
             if (count($languages) > 1) {
                 $addform = new \SimpleXMLElement('<form />');
-                $fields = $addform->addChild('fields');
+                $fields  = $addform->addChild('fields');
                 $fields->addAttribute('name', 'associations');
                 $fieldset = $fields->addChild('fieldset');
                 $fieldset->addAttribute('name', 'item_associations');
@@ -1235,7 +1235,7 @@ class ItemModel extends AdminModel
     public function rebuild()
     {
         // Initialise variables.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
         $table = $this->getTable();
 
@@ -1385,8 +1385,8 @@ class ItemModel extends AdminModel
 
             if ($table->title === $origTable->title) {
                 list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
-                $table->title = $title;
-                $table->alias = $alias;
+                $table->title        = $title;
+                $table->alias        = $alias;
             }
 
             if ($table->alias === $origTable->alias) {
@@ -1568,8 +1568,8 @@ class ItemModel extends AdminModel
         $this->cleanCache();
 
         if (isset($data['link'])) {
-            $base = Uri::base();
-            $juri = Uri::getInstance($base . $data['link']);
+            $base   = Uri::base();
+            $juri   = Uri::getInstance($base . $data['link']);
             $option = $juri->getVar('option');
 
             // Clean the cache
@@ -1625,10 +1625,10 @@ class ItemModel extends AdminModel
     public function setHome(&$pks, $value = 1)
     {
         $table = $this->getTable();
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
 
         $languages = [];
-        $onehome = false;
+        $onehome   = false;
 
         // Remember that we can set a home page for different languages,
         // so we need to loop through the primary key array.

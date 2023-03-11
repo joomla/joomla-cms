@@ -96,7 +96,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $lang = Factory::getLanguage();
+        $lang                = Factory::getLanguage();
         $this->items         = $this->get('Items');
         $this->pagination    = $this->get('Pagination');
         $this->total         = $this->get('Total');
@@ -184,7 +184,7 @@ class HtmlView extends BaseHtmlView
 
                                 // Load template language file
                                 $lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE)
-                                ||  $lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0]);
+                                || $lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0]);
                             } else {
                                 $base = $this->state->get('filter.client_id') == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
 

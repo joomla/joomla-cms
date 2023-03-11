@@ -45,11 +45,11 @@ class FeedView extends BaseHtmlView
         $app->getInput()->set('limit', $app->get('feed_limit'));
 
         // Get view data.
-        $state = $this->get('State');
-        $params = $state->get('params');
-        $query = $this->get('Query');
+        $state   = $this->get('State');
+        $params  = $state->get('params');
+        $query   = $this->get('Query');
         $results = $this->get('Items');
-        $total = $this->get('Total');
+        $total   = $this->get('Total');
 
         // Push out the query data.
         $explained = HTMLHelper::_('query.explained', $query);
