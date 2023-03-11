@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
@@ -29,14 +30,6 @@ use Joomla\Event\SubscriberInterface;
  */
 final class GuidedTours extends CMSPlugin implements SubscriberInterface
 {
-    /**
-     * Load the language file on instantiation
-     *
-     * @var    boolean
-     * @since  __DEPLOY_VERSION__
-     */
-    protected $autoloadLanguage = true;
-
     /**
      * A mapping for the step types
      *
@@ -63,26 +56,43 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     ];
 
     /**
+     * An internal flag whether plugin should listen any event.
+     *
+     * @var bool
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected static $enabled = false;
+
+    /**
+     * Constructor
+     *
+     * @param   DispatcherInterface  $subject  The object to observe
+     * @param   array                $config   An optional associative array of configuration settings.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct($subject, array $config = [], bool $enabled = false)
+    {
+        $this->autoloadLanguage = $enabled;
+        self::$enabled = $enabled;
+
+        parent::__construct($subject, $config);
+    }
+
+    /**
      * function for getSubscribedEvents : new Joomla 4 feature
      *
      * @return array
+     *
+     * @since   __DEPLOY_VERSION__
      */
     public static function getSubscribedEvents(): array
     {
-        try {
-            $app = Factory::getApplication();
-        } catch (\Exception $e) {
-            return [];
-        }
-
-        if (!$app->isClient('administrator')) {
-            return [];
-        }
-
-        return [
+        return self::$enabled ? [
             'onAjaxGuidedtours'   => 'startTour',
             'onBeforeCompileHead' => 'onBeforeCompileHead',
-        ];
+        ] : [];
     }
 
     /**
