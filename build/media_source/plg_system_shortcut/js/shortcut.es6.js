@@ -109,7 +109,7 @@
       });
       dl += '</dt>';
       titles.forEach((title) => {
-        dl += `<dd class="d-inline-block">${title}</dd>`;
+        dl += `<dd class="d-inline-block ms-1">${title}</dd>`;
       });
       dl += '</div>';
     });
