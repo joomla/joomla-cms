@@ -85,7 +85,7 @@ abstract class AbstractEditorProvider implements EditorProviderInterface, Dispat
     }
 
     /**
-     * Displays the editor buttons.
+     * Helper method for rendering the editor buttons.
      *
      * @param   mixed   $buttons  Array with button names to be excluded. Empty array or boolean true to display all buttons.
      * @param   array   $options  Associative array with additional parameters
