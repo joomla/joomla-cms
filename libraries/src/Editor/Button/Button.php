@@ -84,4 +84,39 @@ final class Button implements ButtonInterface
 
         return $this;
     }
+
+    /**
+     * Magic method to access a property.
+     *
+     * @param  string  $name  The name of the property.
+     *
+     * @return string|null A value if the property name is valid, null otherwise.
+     *
+     * @since       __DEPLOY_VERSION__
+     * @deprecated  6.0  This is a B/C proxy for deprecated read accesses
+     */
+    public function __get($name)
+    {
+        @trigger_error('Property access is deprecated in Joomla\CMS\Editor\Button class, use get/set methods.', \E_USER_DEPRECATED);
+
+        return array_key_exists($name, $this->props) ? $this->props[$name] : null;
+    }
+
+    /**
+     * Magic method to access property.
+     *
+     * @param  string  $name   The name of the property.
+     * @param  mixed   $value  The value of the property.
+     *
+     * @return void
+     *
+     * @since       __DEPLOY_VERSION__
+     * @deprecated  6.0  This is a B/C proxy for deprecated write accesses
+     */
+    public function __set($name, $value)
+    {
+        @trigger_error('Property access is deprecated in Joomla\CMS\Editor\Button class, use get/set methods.', \E_USER_DEPRECATED);
+
+        $this->props[$name] = $value;
+    }
 }
