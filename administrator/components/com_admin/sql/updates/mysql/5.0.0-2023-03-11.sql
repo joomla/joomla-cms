@@ -1,1 +1,1 @@
--- Add the first SQL statement for 5.0 changes here
+DROP TABLE IF EXISTS `#__utf8_conversion`;
