@@ -48,4 +48,22 @@ interface ButtonInterface
      * @since   __DEPLOY_VERSION__
      */
     public function set(string $name, $value): ButtonInterface;
+
+    /**
+     * Return Button options.
+     *
+     * @return array
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getOptions(): array;
+
+    /**
+     * Set Button options.
+     *
+     * @param array  $options The button options.
+     *
+     * @return ButtonInterface
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setOptions(array $options): ButtonInterface;
 }

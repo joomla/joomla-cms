@@ -32,17 +32,27 @@ final class Button implements ButtonInterface
     protected $props = [];
 
     /**
+     * Button options.
+     *
+     * @return array
+     * @since   __DEPLOY_VERSION__
+     */
+    protected $options = [];
+
+    /**
      * Class constructor;
      *
-     * @param string $name  The button name
-     * @param array  $props The button properties.
+     * @param string $name    The button name
+     * @param array  $props   The button properties.
+     * @param array  $options The button options.
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function __construct(string $name, array $props = [])
+    public function __construct(string $name, array $props = [], array $options = [])
     {
-        $this->name  = $name;
-        $this->props = $props;
+        $this->name    = $name;
+        $this->props   = $props;
+        $this->options = $options;
     }
 
     /**
@@ -57,6 +67,32 @@ final class Button implements ButtonInterface
     }
 
     /**
+     * Return Button options.
+     *
+     * @return array
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+
+    /**
+     * Set Button options.
+     *
+     * @param array  $options The button options.
+     *
+     * @return ButtonInterface
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setOptions(array $options): ButtonInterface
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
      * Return Button property or null.
      *
      * @param string $name Property name
@@ -66,6 +102,15 @@ final class Button implements ButtonInterface
      */
     public function get(string $name)
     {
+        if ($name === 'options') {
+            @trigger_error(
+                'Accessing options property is deprecated. To access the Button options use getOptions() method.',
+                \E_USER_DEPRECATED
+            );
+
+            return $this->getOptions();
+        }
+
         return array_key_exists($name, $this->props) ? $this->props[$name] : null;
     }
 
@@ -80,6 +125,15 @@ final class Button implements ButtonInterface
      */
     public function set(string $name, $value): ButtonInterface
     {
+        if ($name === 'options') {
+            @trigger_error(
+                'Accessing options property is deprecated. To set the Button options use setOptions() method.',
+                \E_USER_DEPRECATED
+            );
+
+            return $this->setOptions($value);
+        }
+
         $this->props[$name] = $value;
 
         return $this;
@@ -99,7 +153,7 @@ final class Button implements ButtonInterface
     {
         @trigger_error('Property access is deprecated in Joomla\CMS\Editor\Button class, use get/set methods.', \E_USER_DEPRECATED);
 
-        return array_key_exists($name, $this->props) ? $this->props[$name] : null;
+        return $this->get($name);
     }
 
     /**
@@ -117,6 +171,6 @@ final class Button implements ButtonInterface
     {
         @trigger_error('Property access is deprecated in Joomla\CMS\Editor\Button class, use get/set methods.', \E_USER_DEPRECATED);
 
-        $this->props[$name] = $value;
+        $this->set($name, $value);
     }
 }

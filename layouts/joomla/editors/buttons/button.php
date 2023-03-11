@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Uri\Uri;
 
+/** @var \Joomla\CMS\Editor\Button\Button $button */
 $button = $displayData;
 
 if ($button->get('name')) :
