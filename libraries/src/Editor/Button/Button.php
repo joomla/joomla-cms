@@ -67,32 +67,6 @@ final class Button implements ButtonInterface
     }
 
     /**
-     * Return Button options.
-     *
-     * @return array
-     * @since   __DEPLOY_VERSION__
-     */
-    public function getOptions(): array
-    {
-        return $this->options;
-    }
-
-    /**
-     * Set Button options.
-     *
-     * @param array  $options The button options.
-     *
-     * @return ButtonInterface
-     * @since   __DEPLOY_VERSION__
-     */
-    public function setOptions(array $options): ButtonInterface
-    {
-        $this->options = $options;
-
-        return $this;
-    }
-
-    /**
      * Return Button property or null.
      *
      * @param string $name Property name
@@ -135,6 +109,32 @@ final class Button implements ButtonInterface
         }
 
         $this->props[$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Return Button options.
+     *
+     * @return array
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+
+    /**
+     * Set Button options.
+     *
+     * @param array  $options The button options.
+     *
+     * @return ButtonInterface
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setOptions(array $options): ButtonInterface
+    {
+        $this->options = $options;
 
         return $this;
     }
