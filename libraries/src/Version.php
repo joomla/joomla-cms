@@ -47,7 +47,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MINOR_VERSION = 3;
+    public const MINOR_VERSION = 4;
 
     /**
      * Patch release version.
@@ -66,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'beta5-dev';
+    public const EXTRA_VERSION = 'dev';
 
     /**
      * Development status.
