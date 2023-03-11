@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\GuidedTours\Extension;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
