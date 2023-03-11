@@ -391,7 +391,7 @@ class MailTemplate
      * @param   string  $body      A default body (normally a translatable string)
      * @param   array   $tags      Associative array of tags to replace
      * @param   string  $htmlbody  A default htmlbody (normally a translatable string)
-     * 
+     *
      * @return  boolean  True on success, false on failure
      *
      * @since   4.0.0
