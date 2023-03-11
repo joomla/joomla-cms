@@ -102,6 +102,9 @@ class Editor implements DispatcherAwareInterface
         if ($registry->has($editor)) {
             $this->provider = $registry->get($editor);
         } else {
+            // Fallback to legacy editor logic
+            // @todo: Remove in 6.0
+
             // Set the dispatcher
             if (!\is_object($dispatcher)) {
                 $dispatcher = Factory::getContainer()->get('dispatcher');
@@ -113,6 +116,11 @@ class Editor implements DispatcherAwareInterface
             $this->getDispatcher()->addListener(
                 'getButtons',
                 function (AbstractEvent $event) {
+                    @trigger_error(
+                        '6.0 Use Button "getButtons" event is deprecated,  buttons should be set up onEditorButtonsSetup event.',
+                        \E_USER_DEPRECATED
+                    );
+
                     $event['result'] = (array)$this->getButtons(
                         $event->getArgument('editor', null),
                         $event->getArgument('buttons', null)
@@ -163,7 +171,7 @@ class Editor implements DispatcherAwareInterface
             return;
         }
 
-        @trigger_error('Method onInit() for Editor instance is deprecated, without replacement.', \E_USER_DEPRECATED);
+        @trigger_error('6.0 Method onInit() for Editor instance is deprecated, without replacement.', \E_USER_DEPRECATED);
 
         if (method_exists($this->_editor, 'onInit')) {
             \call_user_func([$this->_editor, 'onInit']);
@@ -309,7 +317,7 @@ class Editor implements DispatcherAwareInterface
             return false;
         }
 
-        @trigger_error('Editor "' . $this->_name . '" instance should be set up onEditorSetup event.', \E_USER_DEPRECATED);
+        @trigger_error('6.0 Editor "' . $this->_name . '" instance should be set up onEditorSetup event.', \E_USER_DEPRECATED);
 
         // Build the path to the needed editor plugin
         $name = InputFilter::getInstance()->clean($this->_name, 'cmd');

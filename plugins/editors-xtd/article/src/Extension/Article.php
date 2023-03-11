@@ -81,7 +81,7 @@ final class Article extends CMSPlugin implements SubscriberInterface
      *
      * @since   1.5
      *
-     * @deprecated  Use onEditorButtonsSetup event
+     * @deprecated  6.0 Use onEditorButtonsSetup event
      */
     public function onDisplay($name)
     {
