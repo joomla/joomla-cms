@@ -80,7 +80,7 @@ class StyleModel extends AdminModel
                 'event_after_delete'  => 'onExtensionAfterDelete',
                 'event_before_save'   => 'onExtensionBeforeSave',
                 'event_after_save'    => 'onExtensionAfterSave',
-                'events_map'          => ['delete' => 'extension', 'save' => 'extension']
+                'events_map'          => ['delete' => 'extension', 'save' => 'extension'],
             ],
             $config
         );
@@ -202,7 +202,7 @@ class StyleModel extends AdminModel
                 $table->home = 0;
 
                 // Alter the title.
-                $m = null;
+                $m            = null;
                 $table->title = $this->generateNewTitle(null, null, $table->title);
 
                 if (!$table->check()) {
@@ -353,7 +353,7 @@ class StyleModel extends AdminModel
             $this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
 
             // Convert the params field to an array.
-            $registry = new Registry($table->params);
+            $registry                  = new Registry($table->params);
             $this->_cache[$pk]->params = $registry->toArray();
 
             // Get the template XML.
@@ -397,9 +397,9 @@ class StyleModel extends AdminModel
 
         // Load the core and/or local language file(s).
         $lang->load('tpl_' . $template, $client->path)
-        ||  (!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path))
-        ||  (!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent))
-        ||  $lang->load('tpl_' . $template, $client->path . '/templates/' . $template);
+        || (!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path))
+        || (!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent))
+        || $lang->load('tpl_' . $template, $client->path . '/templates/' . $template);
 
         if (file_exists($formFile)) {
             // Get the template form.

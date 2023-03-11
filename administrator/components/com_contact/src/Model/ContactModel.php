@@ -211,7 +211,7 @@ class ContactModel extends AdminModel
     {
         if ($item = parent::getItem($pk)) {
             // Convert the metadata field to an array.
-            $registry = new Registry($item->metadata);
+            $registry       = new Registry($item->metadata);
             $item->metadata = $registry->toArray();
         }
 
@@ -321,8 +321,8 @@ class ContactModel extends AdminModel
 
             if ($data['name'] == $origTable->name) {
                 list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
-                $data['name'] = $name;
-                $data['alias'] = $alias;
+                $data['name']       = $name;
+                $data['alias']      = $alias;
             } else {
                 if ($data['alias'] == $origTable->alias) {
                     $data['alias'] = '';
@@ -366,7 +366,7 @@ class ContactModel extends AdminModel
 
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
-                $db = $this->getDatabase();
+                $db    = $this->getDatabase();
                 $query = $db->getQuery(true)
                     ->select('MAX(ordering)')
                     ->from($db->quoteName('#__contact_details'));
@@ -377,7 +377,7 @@ class ContactModel extends AdminModel
             }
         } else {
             // Set the values
-            $table->modified = $date;
+            $table->modified    = $date;
             $table->modified_by = $this->getCurrentUser()->id;
         }
 
@@ -427,7 +427,7 @@ class ContactModel extends AdminModel
 
             if (count($languages) > 1) {
                 $addform = new \SimpleXMLElement('<form />');
-                $fields = $addform->addChild('fields');
+                $fields  = $addform->addChild('fields');
                 $fields->addAttribute('name', 'associations');
                 $fieldset = $fields->addChild('fieldset');
                 $fieldset->addAttribute('name', 'item_associations');

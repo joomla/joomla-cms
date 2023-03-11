@@ -126,8 +126,8 @@ abstract class ToolbarButton
         $options['id']    = $this->ensureUniqueId($this->fetchId());
 
         if (!empty($options['is_child'])) {
-            $options['tagName'] = 'button';
-            $options['btnClass'] = ($options['button_class'] ?? '') . ' dropdown-item';
+            $options['tagName']            = 'button';
+            $options['btnClass']           = ($options['button_class'] ?? '') . ' dropdown-item';
             $options['attributes']['type'] = 'button';
 
             if ($options['is_first_child']) {
@@ -138,8 +138,8 @@ abstract class ToolbarButton
                 $options['btnClass'] .= ' last';
             }
         } else {
-            $options['tagName'] = 'button';
-            $options['btnClass'] = ($options['button_class'] ?? 'btn btn-primary');
+            $options['tagName']            = 'button';
+            $options['btnClass']           = ($options['button_class'] ?? 'btn btn-primary');
             $options['attributes']['type'] = 'button';
         }
     }
@@ -171,8 +171,8 @@ abstract class ToolbarButton
 
         return $layout->render(
             [
-                'action' => $action,
-                'options' => $this->options
+                'action'  => $action,
+                'options' => $this->options,
             ]
         );
     }
@@ -199,8 +199,8 @@ abstract class ToolbarButton
         $options['htmlAttributes'] = ArrayHelper::toString($options['attributes']);
 
         // Isolate button class from icon class
-        $buttonClass = str_replace('icon-', '', $this->getName());
-        $iconclass = $options['btnClass'] ?? '';
+        $buttonClass         = str_replace('icon-', '', $this->getName());
+        $iconclass           = $options['btnClass'] ?? '';
         $options['btnClass'] = 'button-' . $buttonClass . ' ' . $iconclass;
 
         // Instantiate a new LayoutFile instance and render the layout

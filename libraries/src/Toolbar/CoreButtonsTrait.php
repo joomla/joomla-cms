@@ -133,7 +133,7 @@ trait CoreButtonsTrait
      *
      * @return  InlinehelpButton
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function inlinehelp(string $class = 'hide-aware-inline-help'): InlinehelpButton
     {
@@ -486,9 +486,9 @@ trait CoreButtonsTrait
     public function preferences(string $component, string $text = 'JTOOLBAR_OPTIONS', string $path = ''): LinkButton
     {
         $component = urlencode($component);
-        $path = urlencode($path);
+        $path      = urlencode($path);
 
-        $uri = (string) Uri::getInstance();
+        $uri    = (string) Uri::getInstance();
         $return = urlencode(base64_encode($uri));
 
         return $this->linkButton('options', $text)

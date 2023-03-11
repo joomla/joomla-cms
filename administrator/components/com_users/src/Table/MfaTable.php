@@ -337,7 +337,7 @@ class MfaTable extends Table implements CurrentUserInterface
 
         /** @var BackupcodesModel $backupCodes */
         $backupCodes = $factory->createModel('Backupcodes', 'Administrator');
-        $user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($this->user_id);
+        $user        = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($this->user_id);
         $backupCodes->regenerateBackupCodes($user);
     }
 

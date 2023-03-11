@@ -12,12 +12,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
-$cacheparams = new \stdClass();
-$cacheparams->cachemode = 'safeuri';
-$cacheparams->class = 'Joomla\Module\TagsSimilar\Site\Helper\TagsSimilarHelper';
-$cacheparams->method = 'getList';
+$cacheparams               = new \stdClass();
+$cacheparams->cachemode    = 'safeuri';
+$cacheparams->class        = 'Joomla\Module\TagsSimilar\Site\Helper\TagsSimilarHelper';
+$cacheparams->method       = 'getList';
 $cacheparams->methodparams = $params;
-$cacheparams->modeparams = ['id' => 'array', 'Itemid' => 'int'];
+$cacheparams->modeparams   = ['id' => 'array', 'Itemid' => 'int'];
 
 $list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 

@@ -95,10 +95,10 @@ class ComponentsFieldgroupField extends ListField
                     $contexts = $c->getContexts();
 
                     foreach ($contexts as $context) {
-                        $newOption = new \stdClass();
+                        $newOption        = new \stdClass();
                         $newOption->value = strtolower($component->value . '.' . $context);
-                        $newOption->text = $component->text . ' - ' . Text::_($context);
-                        $options[] = $newOption;
+                        $newOption->text  = $component->text . ' - ' . Text::_($context);
+                        $options[]        = $newOption;
                     }
                 } else {
                     $options[] = $component;

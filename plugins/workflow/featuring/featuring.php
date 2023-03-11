@@ -277,12 +277,12 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
             AbstractEvent::create(
                 'onContentBeforeChangeFeatured',
                 [
-                    'eventClass' => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',
-                    'subject'    => $this,
-                    'extension'  => $context,
-                    'pks'        => $pks,
-                    'value'      => $value,
-                    'abort'      => false,
+                    'eventClass'  => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',
+                    'subject'     => $this,
+                    'extension'   => $context,
+                    'pks'         => $pks,
+                    'value'       => $value,
+                    'abort'       => false,
                     'abortReason' => '',
                 ]
             )
@@ -329,7 +329,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
         }
 
         $options = [
-            'ignore_request'               => true,
+            'ignore_request' => true,
             // We already have triggered onContentBeforeChangeFeatured, so use our own
             'event_before_change_featured' => 'onWorkflowBeforeChangeFeatured',
         ];
