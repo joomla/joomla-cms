@@ -120,7 +120,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
       },
       show() {
         const element = this.getElement();
-        const target  = this.getTarget();
+        const target = this.getTarget();
 
         // Force the screen reader to only read the content of the popup after a refresh
         element.setAttribute('aria-live', 'assertive');
@@ -346,19 +346,14 @@ function startTour(obj) {
 
             case 'text':
               ele.step_id = index;
-              if (
-                ele.hasAttribute('required')
-                && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(ele.type)
-              ) {
-                ['input', 'focus'].forEach((eventName) =>
-                  ele.addEventListener(eventName, (event) => {
-                    if (event.target.value.trim().length) {
-                      enableButton(event);
-                    } else {
-                      disableButton(event);
-                    }
-                  })
-                );
+              if (ele.hasAttribute('required') && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(ele.type)) {
+                ['input', 'focus'].forEach((eventName) => ele.addEventListener(eventName, (event) => {
+                  if (event.target.value.trim().length) {
+                    enableButton(event);
+                  } else {
+                    disableButton(event);
+                  }
+                }));
               }
               break;
 
