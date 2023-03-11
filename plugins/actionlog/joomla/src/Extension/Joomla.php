@@ -1143,7 +1143,7 @@ final class Joomla extends ActionLogPlugin
             return;
         }
 
-        $message = array(
+        $message = [
             'action'      => 'reset',
             'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
             'id'          => $user->id,
@@ -1152,9 +1152,9 @@ final class Joomla extends ActionLogPlugin
             'userid'      => $user->id,
             'username'    => $user->name,
             'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-        );
+        ];
 
-        $this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_RESET_REQUEST', $context, $user->id);
+        $this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_USER_RESET_REQUEST', $context, $user->id);
     }
 
     /**
@@ -1176,7 +1176,7 @@ final class Joomla extends ActionLogPlugin
             return;
         }
 
-        $message = array(
+        $message = [
             'action'      => 'complete',
             'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
             'id'          => $user->id,
@@ -1185,8 +1185,8 @@ final class Joomla extends ActionLogPlugin
             'userid'      => $user->id,
             'username'    => $user->name,
             'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-        );
+        ];
 
-        $this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_RESET_COMPLETE', $context, $user->id);
+        $this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_USER_RESET_COMPLETE', $context, $user->id);
     }
 }
