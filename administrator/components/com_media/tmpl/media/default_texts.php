@@ -78,6 +78,7 @@ $translationStrings = [
     'JAPPLY',
     'JCANCEL',
     'JGLOBAL_CONFIRM_DELETE',
+    'JGLOBAL_NO_MATCHING_RESULTS',
     'JLIB_FORM_FIELD_REQUIRED_VALUE',
     'MESSAGE',
 ];
