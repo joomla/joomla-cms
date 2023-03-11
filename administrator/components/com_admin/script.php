@@ -602,6 +602,7 @@ class JoomlaInstallerScript
             // From 4.4 to 5.0
             '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion_optional.sql',
             '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion.sql',
+            '/libraries/src/Schema/ChangeItem/SqlsrvChangeItem.php',
         ];
 
         $folders = [
