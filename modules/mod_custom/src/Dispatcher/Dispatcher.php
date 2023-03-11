@@ -17,7 +17,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
-
 /**
  * Dispatcher class for mod_custom
  *
