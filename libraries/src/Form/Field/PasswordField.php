@@ -47,7 +47,7 @@ class PasswordField extends FormField
      * The allowable minimum length of password.
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $minLength;
 
@@ -63,7 +63,7 @@ class PasswordField extends FormField
      * The allowable minimum length of integers.
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $minIntegers;
 
@@ -71,7 +71,7 @@ class PasswordField extends FormField
      * The allowable minimum length of symbols.
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $minSymbols;
 
@@ -79,7 +79,7 @@ class PasswordField extends FormField
      * The allowable minimum length of upper case characters.
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $minUppercase;
 
@@ -87,7 +87,7 @@ class PasswordField extends FormField
      * The allowable minimum length of lower case characters.
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $minLowercase;
 
@@ -111,7 +111,7 @@ class PasswordField extends FormField
      * The rules flag.
      *
      * @var    bool
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.7
      */
     protected $rules = false;
 

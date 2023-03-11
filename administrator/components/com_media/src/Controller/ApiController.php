@@ -202,7 +202,7 @@ class ApiController extends BaseController
             // A file needs to be created
             $name = $this->getModel()->createFile($adapter, $name, $path, $mediaContent, $override);
         } else {
-            // A file needs to be created
+            // A folder needs to be created
             $name = $this->getModel()->createFolder($adapter, $name, $path, $override);
         }
 

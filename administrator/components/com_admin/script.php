@@ -6463,6 +6463,12 @@ class JoomlaInstallerScript
             '/media/vendor/hotkeys.js/LICENSE',
             // From 4.2.1 to 4.2.2
             '/administrator/cache/fido.jwt',
+            // From 4.2.6 to 4.2.7
+            '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataFormatter/VarDumper/SeekingData.php',
+            // From 4.2.8 to 4.2.9
+            '/administrator/components/com_scheduler/tmpl/select/modal.php',
+            '/components/com_contact/layouts/field/render.php',
+            '/components/com_contact/layouts/fields/render.php',
         ];
 
         $folders = [
@@ -7837,6 +7843,10 @@ class JoomlaInstallerScript
             '/media/vendor/hotkeys.js/js',
             '/media/vendor/hotkeys.js',
             '/libraries/vendor/symfony/string/Resources/bin',
+            // From 4.2.8 to 4.2.9
+            '/components/com_contact/layouts/fields',
+            '/components/com_contact/layouts/field',
+            '/components/com_contact/layouts',
         ];
 
         $status['files_checked'] = $files;
