@@ -67,10 +67,11 @@ abstract class AbstractEditorProvider implements EditorProviderInterface, Dispat
         // Retrieve buttons for current editor
         $btnsReg = new ButtonsRegistry;
         $btnsReg->setDispatcher($this->getDispatcher())->initRegistry([
-            'editorId'   => $editorId,
-            'editorType' => $this->getName(),
-            'asset'      => $asset,
-            'author'     => $author,
+            'editorId'        => $editorId,
+            'editorType'      => $this->getName(),
+            'disabledButtons' => $buttons,
+            'asset'           => $asset,
+            'author'          => $author,
         ]);
 
         // Go through all and leave only allowed buttons

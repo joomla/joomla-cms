@@ -81,8 +81,9 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
         if (!$this->initialised) {
             $this->initialised = true;
 
-            $options['subject']    = $this;
-            $options['editorType'] = $options['editorType'] ?? '';
+            $options['subject']         = $this;
+            $options['editorType']      = $options['editorType'] ?? '';
+            $options['disabledButtons'] = $options['disabledButtons'] ?? [];
 
             $event      = new EditorButtonsSetupEvent('onEditorButtonsSetup', $options);
             $dispatcher = $this->getDispatcher();

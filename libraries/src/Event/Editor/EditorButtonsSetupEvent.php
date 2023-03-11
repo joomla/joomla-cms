@@ -40,6 +40,10 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
             throw new BadMethodCallException("Argument 'editorType' of event {$name} is required but has not been provided");
         }
 
+        if (!\array_key_exists('disabledButtons', $arguments)) {
+            throw new BadMethodCallException("Argument 'disabledButtons' of event {$name} is required but has not been provided");
+        }
+
         parent::__construct($name, $arguments);
     }
 
@@ -81,6 +85,20 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      * @since  __DEPLOY_VERSION__
      */
     protected function setEditorType(string $value)
+    {
+        return $value;
+    }
+
+    /**
+     * Setter for the disabled buttons argument
+     *
+     * @param   array  $value  The value to set
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function setDisabledButtons(array $value)
     {
         return $value;
     }
