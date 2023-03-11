@@ -276,7 +276,7 @@ class Editor implements DispatcherAwareInterface
 
         // Retrieve buttons for legacy editor
         $result  = [];
-        $btnsReg = new ButtonsRegistry;
+        $btnsReg = new ButtonsRegistry();
         $btnsReg->setDispatcher($this->getDispatcher())->initRegistry([
             'editorType'      => $this->_name,
             'disabledButtons' => $buttons,
