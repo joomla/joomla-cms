@@ -26,7 +26,7 @@ use Joomla\Event\SubscriberInterface;
 /**
  * Guided Tours plugin to add interactive tours to the administrator interface.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.3.0
  */
 final class GuidedTours extends CMSPlugin implements SubscriberInterface
 {
@@ -34,7 +34,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      * A mapping for the step types
      *
      * @var    string[]
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $stepType = [
         GuidedtoursComponent::STEP_NEXT        => 'next',
@@ -46,7 +46,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      * A mapping for the step interactive types
      *
      * @var    string[]
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $stepInteractiveType = [
         GuidedtoursComponent::STEP_INTERACTIVETYPE_FORM_SUBMIT => 'submit',
@@ -101,7 +101,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      *
      * @return null|object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function startTour(Event $event)
     {
@@ -128,7 +128,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function onBeforeCompileHead()
     {
@@ -160,7 +160,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      *
      * @return null|object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     private function getTour(int $tourId)
     {
