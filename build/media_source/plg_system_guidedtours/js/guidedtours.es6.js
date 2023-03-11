@@ -128,7 +128,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
         sessionStorage.setItem('currentStepId', this.id);
         addProgressIndicator(element, this.id + 1, sessionStorage.getItem('stepCount'));
 
-        if (target) {
+        if (target && this.options.attachTo.type === 'interactive') {
           const cancelButton = element.querySelector('.shepherd-cancel-icon');
           const primaryButton = element.querySelector('.shepherd-button-primary');
           const secondaryButton = element.querySelector('.shepherd-button-secondary');
