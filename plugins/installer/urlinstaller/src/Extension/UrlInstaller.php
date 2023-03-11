@@ -2,15 +2,14 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Installer.folderInstaller
+ * @subpackage  Installer.urlinstaller
  *
  * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Language\Text;
+namespace Joomla\Plugin\Installer\Url\Extension;
+
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 
@@ -19,17 +18,18 @@ use Joomla\CMS\Plugin\PluginHelper;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * FolderInstaller Plugin.
+ * UrlFolderInstaller Plugin.
  *
  * @since  3.6.0
  */
-class PlgInstallerFolderInstaller extends CMSPlugin
+final class UrlInstaller extends CMSPlugin
 {
     /**
      * Application object.
      *
      * @var    \Joomla\CMS\Application\CMSApplication
      * @since  4.0.0
+     * @deprecated 5.0 Is needed for template overrides, use getApplication instead
      */
     protected $app;
 
@@ -46,12 +46,12 @@ class PlgInstallerFolderInstaller extends CMSPlugin
         $this->loadLanguage();
 
         $tab            = [];
-        $tab['name']    = 'folder';
-        $tab['label']   = Text::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT');
+        $tab['name']    = 'url';
+        $tab['label']   = $this->getApplication()->getLanguage()->_('PLG_INSTALLER_URLINSTALLER_TEXT');
 
         // Render the input
         ob_start();
-        include PluginHelper::getLayoutPath('installer', 'folderinstaller');
+        include PluginHelper::getLayoutPath('installer', 'urlinstaller');
         $tab['content'] = ob_get_clean();
 
         return $tab;

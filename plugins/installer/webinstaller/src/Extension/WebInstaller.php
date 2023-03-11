@@ -6,9 +6,9 @@
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
+
+namespace Joomla\Plugin\Installer\Web\Extension;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Form\Rule\UrlRule;
@@ -18,6 +18,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
+use SimpleXMLElement;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -28,7 +29,7 @@ use Joomla\CMS\Version;
  *
  * @since  3.2
  */
-class PlgInstallerWebinstaller extends CMSPlugin
+final class WebInstaller extends CMSPlugin
 {
     /**
      * The URL for the remote server.
@@ -43,6 +44,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
      *
      * @var    CMSApplication
      * @since  4.0.0
+     * @deprecated 5.0 Is needed for template overrides, use getApplication instead
      */
     protected $app;
 
@@ -75,8 +77,8 @@ class PlgInstallerWebinstaller extends CMSPlugin
         $this->loadLanguage();
 
         $installfrom = $this->getInstallFrom();
-        $doc         = $this->app->getDocument();
-        $lang        = $this->app->getLanguage();
+        $doc         = $this->getApplication()->getDocument();
+        $lang        = $this->getApplication()->getLanguage();
 
         // Push language strings to the JavaScript store
         Text::script('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN');
@@ -115,7 +117,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 
         $tab = [
             'name'  => 'web',
-            'label' => Text::_('PLG_INSTALLER_WEBINSTALLER_TAB_LABEL'),
+            'label' => $lang->_('PLG_INSTALLER_WEBINSTALLER_TAB_LABEL'),
         ];
 
         // Render the input
@@ -137,7 +139,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
     private function isRTL()
     {
         if ($this->rtl === null) {
-            $this->rtl = strtolower($this->app->getDocument()->getDirection()) === 'rtl' ? 1 : 0;
+            $this->rtl = strtolower($this->getApplication()->getDocument()->getDirection()) === 'rtl' ? 1 : 0;
         }
 
         return $this->rtl;
@@ -153,7 +155,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
     private function getInstallFrom()
     {
         if ($this->installfrom === null) {
-            $installfrom = base64_decode($this->app->getInput()->getBase64('installfrom', ''));
+            $installfrom = base64_decode($this->getApplication()->getInput()->getBase64('installfrom', ''));
 
             $field = new SimpleXMLElement('<field></field>');
 
