@@ -603,10 +603,18 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion_optional.sql',
             '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion.sql',
             '/libraries/src/Schema/ChangeItem/SqlsrvChangeItem.php',
+            '/plugins/multifactorauth/webauthn/src/Hotfix/AndroidKeyAttestationStatementSupport.php',
+            '/plugins/multifactorauth/webauthn/src/Hotfix/FidoU2FAttestationStatementSupport.php',
+            '/plugins/multifactorauth/webauthn/src/Hotfix/Server.php',
+            '/plugins/system/webauthn/src/Hotfix/AndroidKeyAttestationStatementSupport.php',
+            '/plugins/system/webauthn/src/Hotfix/FidoU2FAttestationStatementSupport.php',
+            '/plugins/system/webauthn/src/Hotfix/Server.php',
         ];
 
         $folders = [
             // From 4.4 to 5.0
+            '/plugins/system/webauthn/src/Hotfix',
+            '/plugins/multifactorauth/webauthn/src/Hotfix',
             '/administrator/components/com_admin/sql/others/mysql',
             '/administrator/components/com_admin/sql/others',
         ];
