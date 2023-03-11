@@ -10,9 +10,12 @@
 namespace Joomla\CMS\Editor\Button;
 
 use Joomla\CMS\Event\Editor\EditorButtonsSetupEvent;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -78,18 +81,57 @@ final class ButtonsRegistry implements ButtonsRegistryInterface, DispatcherAware
      */
     public function initRegistry(array $options = []): ButtonsRegistryInterface
     {
-        if (!$this->initialised) {
-            $this->initialised = true;
+        if ($this->initialised) {
+            return $this;
+        }
 
-            $options['subject']         = $this;
-            $options['editorType']      = $options['editorType'] ?? '';
-            $options['disabledButtons'] = $options['disabledButtons'] ?? [];
+        $this->initialised = true;
 
-            $event      = new EditorButtonsSetupEvent('onEditorButtonsSetup', $options);
-            $dispatcher = $this->getDispatcher();
+        $options['subject']         = $this;
+        $options['editorType']      = $options['editorType'] ?? '';
+        $options['disabledButtons'] = $options['disabledButtons'] ?? [];
 
-            PluginHelper::importPlugin('editors-xtd', null, true, $dispatcher);
-            $dispatcher->dispatch($event->getName(), $event);
+        $event      = new EditorButtonsSetupEvent('onEditorButtonsSetup', $options);
+        $dispatcher = $this->getDispatcher();
+
+        PluginHelper::importPlugin('editors-xtd', null, true, $dispatcher);
+        $dispatcher->dispatch($event->getName(), $event);
+
+        // Load legacy buttons for backward compatibility
+        $plugins  = PluginHelper::getPlugin('editors-xtd');
+        $editorId = $options['editorId'] ?? '';
+        $asset    = (int) ($options['asset'] ?? 0);
+        $author   = (int) ($options['author'] ?? 0);
+
+        foreach ($plugins as $plugin) {
+            $pluginInst = Factory::getApplication()->bootPlugin($plugin->name, 'editors-xtd');
+
+            if (!$pluginInst || $pluginInst instanceof SubscriberInterface) {
+                continue;
+            }
+
+            if (!method_exists($pluginInst, 'onDisplay')) {
+                continue;
+            }
+
+            $legacyButton = $pluginInst->onDisplay($editorId, $asset, $author);
+
+            if (empty($legacyButton)) {
+                continue;
+            }
+
+            // Transform Legacy buttons to Button object
+            if (\is_array($legacyButton)) {
+                foreach ($legacyButton as $item) {
+                    if ($item instanceof CMSObject) {
+                        $button = new Button($plugin->name, $item->getProperties());
+                        $this->add($button);
+                    }
+                }
+            } elseif ($legacyButton instanceof CMSObject) {
+                $button = new Button($plugin->name, $legacyButton->getProperties());
+                $this->add($button);
+            }
         }
 
         return $this;

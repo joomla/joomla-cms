@@ -56,22 +56,18 @@ abstract class AbstractEditorProvider implements EditorProviderInterface, Dispat
         }
 
         if (!\is_array($buttons)) {
-            throw new \UnexpectedValueException('The Buttons variable should be an array of names of enabled buttons or boolean.');
+            throw new \UnexpectedValueException('The Buttons variable should be an array of names of disabled buttons or boolean.');
         }
 
-        $result   = [];
-        $editorId = $options['editorId'] ?? '';
-        $asset    = (int) ($options['asset'] ?? 0);
-        $author   = (int) ($options['author'] ?? 0);
-
         // Retrieve buttons for current editor
+        $result  = [];
         $btnsReg = new ButtonsRegistry;
         $btnsReg->setDispatcher($this->getDispatcher())->initRegistry([
-            'editorId'        => $editorId,
+            'editorId'        => $options['editorId'] ?? '',
             'editorType'      => $this->getName(),
             'disabledButtons' => $buttons,
-            'asset'           => $asset,
-            'author'          => $author,
+            'asset'           => (int) ($options['asset'] ?? 0),
+            'author'          => (int) ($options['author'] ?? 0),
         ]);
 
         // Go through all and leave only allowed buttons
@@ -82,46 +78,10 @@ abstract class AbstractEditorProvider implements EditorProviderInterface, Dispat
                 continue;
             }
 
-            $result[$btnName] = $button;
+            $result[] = $button;
         }
 
-        // Load legacy buttons for backward compatibility
-        $plugins = PluginHelper::getPlugin('editors-xtd');
-
-        foreach ($plugins as $plugin) {
-            if (!$loadAll && \in_array($plugin->name, $buttons)) {
-                continue;
-            }
-
-            $pluginInst = Factory::getApplication()->bootPlugin($plugin->name, 'editors-xtd');
-
-            if (!$pluginInst || $pluginInst instanceof SubscriberInterface) {
-                continue;
-            }
-
-            // Try to authenticate
-            if (!method_exists($pluginInst, 'onDisplay')) {
-                continue;
-            }
-
-            $button = $pluginInst->onDisplay($editorId, $asset, $author);
-
-            if (empty($button)) {
-                continue;
-            }
-
-            if (\is_array($button)) {
-                $result = array_merge($result, $button);
-                continue;
-            }
-
-            $button->editor = $editorId;
-            $button->buttonName = $plugin->name;
-
-            $result[$plugin->name] = $button;
-        }
-
-        return array_values($result);
+        return $result;
     }
 
     /**
