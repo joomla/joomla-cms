@@ -600,10 +600,14 @@ class JoomlaInstallerScript
 
         $files = [
             // From 4.4 to 5.0
+            '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion_optional.sql',
+            '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion.sql',
         ];
 
         $folders = [
             // From 4.4 to 5.0
+            '/administrator/components/com_admin/sql/others/mysql',
+            '/administrator/components/com_admin/sql/others',
         ];
 
         $status['files_checked']   = $files;
