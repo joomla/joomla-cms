@@ -74,10 +74,6 @@ class TourTable extends Table
             $this->created = $date;
         }
 
-        if (empty($this->extensions)) {
-            $this->extensions = '["*"]';
-        }
-
         if ($this->id) {
             // Existing item
             $this->modified_by = $userId;
