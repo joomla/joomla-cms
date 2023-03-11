@@ -600,8 +600,8 @@ class JoomlaInstallerScript
 
         $files = [
             // From 4.4 to 5.0
-            '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion_optional.sql',
             '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion.sql',
+            '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion_optional.sql',
             '/libraries/src/Schema/ChangeItem/SqlsrvChangeItem.php',
             '/libraries/vendor/beberlei/assert/LICENSE',
             '/libraries/vendor/beberlei/assert/lib/Assert/Assert.php',
