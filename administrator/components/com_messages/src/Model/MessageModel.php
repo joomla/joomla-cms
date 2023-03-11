@@ -375,15 +375,15 @@ class MessageModel extends AdminModel
 
             // Send the email
             $mailer = new MailTemplate('com_messages.new_message', $lang->getTag());
-            $data = [
-                'subject' => $subject,
-                'message' => $message,
-                'fromname' => $fromName,
-                'sitename' => $sitename,
-                'siteurl' => $siteURL,
+            $data   = [
+                'subject'   => $subject,
+                'message'   => $message,
+                'fromname'  => $fromName,
+                'sitename'  => $sitename,
+                'siteurl'   => $siteURL,
                 'fromemail' => $fromUser->email,
-                'toname' => $toUser->name,
-                'toemail' => $toUser->email
+                'toname'    => $toUser->name,
+                'toemail'   => $toUser->email,
             ];
             $mailer->addTemplateData($data);
             $mailer->setReplyTo($fromUser->email, $fromUser->name);

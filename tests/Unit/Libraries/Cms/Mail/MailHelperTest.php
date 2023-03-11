@@ -34,7 +34,7 @@ class MailHelperTest extends UnitTestCase
         return [
             ["test\n\nme\r\r", 'testme'],
             ["test%0Ame", 'testme'],
-            ["test%0Dme", 'testme']
+            ["test%0Dme", 'testme'],
         ];
     }
 
@@ -138,7 +138,7 @@ class MailHelperTest extends UnitTestCase
             ["testSubject: Foobar me", "test me"],
             ["testsubject: Foobar me", "testsubject: Foobar me"],
             ["testContent-type: Foobar me", "test me"],
-            ["testcontent-type: Foobar me", "testcontent-type: Foobar me"]
+            ["testcontent-type: Foobar me", "testcontent-type: Foobar me"],
             // @TODO should this be case sensitive
         ];
     }
@@ -266,7 +266,7 @@ class MailHelperTest extends UnitTestCase
             ["joe$@bob.com", true],
             ["joe+bob@bob.com", true],
             ["o'reilly@there.com", true],
-            ["o’reilly@there.com", false]
+            ["o’reilly@there.com", false],
         ];
     }
 

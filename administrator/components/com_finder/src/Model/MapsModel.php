@@ -93,7 +93,7 @@ class MapsModel extends ListModel
      */
     public function delete(&$pks)
     {
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
         $table = $this->getTable();
 
         // Include the content plugins for the on delete events.
@@ -314,9 +314,9 @@ class MapsModel extends ListModel
      */
     public function publish(&$pks, $value = 1)
     {
-        $user = $this->getCurrentUser();
+        $user  = $this->getCurrentUser();
         $table = $this->getTable();
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
 
         // Include the content plugins for the change of state event.
         PluginHelper::importPlugin('content');
@@ -367,7 +367,7 @@ class MapsModel extends ListModel
      */
     public function purge()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__finder_taxonomy'))
             ->where($db->quoteName('parent_id') . ' > 1');

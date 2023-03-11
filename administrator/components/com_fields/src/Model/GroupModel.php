@@ -44,7 +44,7 @@ class GroupModel extends AdminModel
      */
     protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
-        'language_id'   => 'batchLanguage'
+        'language_id'   => 'batchLanguage',
     ];
 
     /**
@@ -99,7 +99,7 @@ class GroupModel extends AdminModel
     public function getForm($data = [], $loadData = true)
     {
         $context = $this->getState('filter.context');
-        $jinput = Factory::getApplication()->getInput();
+        $jinput  = Factory::getApplication()->getInput();
 
         if (empty($context) && isset($data['context'])) {
             $context = $data['context'];

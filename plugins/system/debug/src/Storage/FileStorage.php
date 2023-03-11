@@ -84,7 +84,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
             if ($file->getExtension() == 'php') {
                 $files[] = [
                     'time' => $file->getMTime(),
-                    'id' => $file->getBasename('.php'),
+                    'id'   => $file->getBasename('.php'),
                 ];
             }
         }
@@ -103,7 +103,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 
         // Load the metadata and filter the results.
         $results = [];
-        $i = 0;
+        $i       = 0;
 
         foreach ($files as $file) {
             // When filter is empty, skip loading the offset
@@ -165,8 +165,8 @@ class FileStorage extends \DebugBar\Storage\FileStorage
             return false;
         }
 
-        $currentUser = Factory::getUser();
-        $currentUserId = $currentUser->id;
+        $currentUser           = Factory::getUser();
+        $currentUserId         = $currentUser->id;
         $currentUserSuperAdmin = $currentUser->authorise('core.admin');
 
         /**

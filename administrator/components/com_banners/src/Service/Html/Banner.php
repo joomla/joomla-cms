@@ -48,7 +48,7 @@ class Banner
                 '<option value="">' . Text::_('COM_BANNERS_BATCH_CLIENT_NOCHANGE') . '</option>',
                 '<option value="0">' . Text::_('COM_BANNERS_NO_CLIENT') . '</option>',
                 HTMLHelper::_('select.options', static::clientlist(), 'value', 'text'),
-                '</select>'
+                '</select>',
             ]
         );
     }
@@ -108,7 +108,7 @@ class Banner
                 'COM_BANNERS_BANNERS_PINNED',
                 true,
                 'publish',
-                'publish'
+                'publish',
             ],
             0 => [
                 'sticky_publish',
@@ -117,7 +117,7 @@ class Banner
                 'COM_BANNERS_BANNERS_UNPINNED',
                 true,
                 'unpublish',
-                'unpublish'
+                'unpublish',
             ],
         ];
 

@@ -93,14 +93,14 @@ class AssociationField extends FormField
             'bootstrap.renderModal',
             'associationSelect' . $this->id . 'Modal',
             [
-                'title'       => Text::_('COM_ASSOCIATIONS_SELECT_TARGET'),
-                'backdrop'    => 'static',
-                'url'         => $urlSelect,
-                'height'      => '400px',
-                'width'       => '800px',
-                'bodyHeight'  => 70,
-                'modalWidth'  => 80,
-                'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+                'title'      => Text::_('COM_ASSOCIATIONS_SELECT_TARGET'),
+                'backdrop'   => 'static',
+                'url'        => $urlSelect,
+                'height'     => '400px',
+                'width'      => '800px',
+                'bodyHeight' => 70,
+                'modalWidth' => 80,
+                'footer'     => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
                         . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
             ]
         );

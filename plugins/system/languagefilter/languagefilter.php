@@ -153,8 +153,6 @@ class PlgSystemLanguageFilter extends CMSPlugin
      */
     public function onAfterInitialise()
     {
-        $this->app->item_associations = $this->params->get('item_associations', 0);
-
         // We need to make sure we are always using the site router, even if the language plugin is executed in admin app.
         // Router can be injected when turned into a DI built plugin
         $router = Factory::getContainer()->get(SiteRouter::class);
@@ -289,7 +287,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
         // Are we in SEF mode or not?
         if ($this->mode_sef) {
-            $path = $uri->getPath();
+            $path  = $uri->getPath();
             $parts = explode('/', $path);
 
             $sef = StringHelper::strtolower($parts[0]);
@@ -323,7 +321,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
                 }
             } else {
                 // We found our language
-                $found = true;
+                $found     = true;
                 $lang_code = $this->sefs[$sef]->lang_code;
 
                 // If we found our language, but it's the default language and we don't want a prefix for that, we are on a wrong URL.
@@ -366,7 +364,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
         if (isset($this->sefs[$lang])) {
             // We found our language
-            $found = true;
+            $found     = true;
             $lang_code = $this->sefs[$lang]->lang_code;
         }
 
@@ -452,7 +450,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
         }
 
         // We have found our language and now need to set the cookie and the language value in our system
-        $array = ['lang' => $lang_code];
+        $array              = ['lang' => $lang_code];
         $this->current_lang = $lang_code;
 
         // Set the request var.
@@ -522,7 +520,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
     public function onUserBeforeSave($user, $isnew, $new)
     {
         if (array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1) {
-            $registry = new Registry($user['params']);
+            $registry             = new Registry($user['params']);
             $this->user_lang_code = $registry->get('language');
 
             if (empty($this->user_lang_code)) {
@@ -548,7 +546,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
     public function onUserAfterSave($user, $isnew, $success, $msg): void
     {
         if ($success && array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1) {
-            $registry = new Registry($user['params']);
+            $registry  = new Registry($user['params']);
             $lang_code = $registry->get('language');
 
             if (empty($lang_code)) {
@@ -587,7 +585,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
             $menu = $this->app->getMenu();
 
             if ($this->params->get('automatic_change', 1)) {
-                $assoc = Associations::isEnabled();
+                $assoc     = Associations::isEnabled();
                 $lang_code = $user['language'];
 
                 // If no language is specified for this user, we set it to the site default language

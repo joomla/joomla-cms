@@ -52,7 +52,7 @@ class TagModel extends AdminModel
      */
     protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
-        'language_id' => 'batchLanguage',
+        'language_id'   => 'batchLanguage',
     ];
 
     /**
@@ -116,15 +116,15 @@ class TagModel extends AdminModel
             }
 
             // Convert the metadata field to an array.
-            $registry = new Registry($result->metadata);
+            $registry         = new Registry($result->metadata);
             $result->metadata = $registry->toArray();
 
             // Convert the images field to an array.
-            $registry = new Registry($result->images);
+            $registry       = new Registry($result->images);
             $result->images = $registry->toArray();
 
             // Convert the urls field to an array.
-            $registry = new Registry($result->urls);
+            $registry     = new Registry($result->urls);
             $result->urls = $registry->toArray();
 
             // Convert the modified date to local user time for display in the form.
@@ -240,8 +240,8 @@ class TagModel extends AdminModel
 
                 if ($data['title'] == $origTable->title) {
                     list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-                    $data['title'] = $title;
-                    $data['alias'] = $alias;
+                    $data['title']       = $title;
+                    $data['alias']       = $alias;
                 } elseif ($data['alias'] == $origTable->alias) {
                     $data['alias'] = '';
                 }
