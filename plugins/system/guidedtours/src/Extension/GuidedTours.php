@@ -69,6 +69,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      *
      * @param   DispatcherInterface  $subject  The object to observe
      * @param   array                $config   An optional associative array of configuration settings.
+     * @param   boolean              $enabled  An internal flag whether plugin should listen any event.
      *
      * @since   __DEPLOY_VERSION__
      */
