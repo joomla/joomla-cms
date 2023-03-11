@@ -134,19 +134,17 @@ function addStepToTourButton(tour, stepObj, buttons) {
           const secondaryButton = element.querySelector('.shepherd-button-secondary');
 
           // The 'next' button should always be enabled if the target input field of type 'text' has a value
-          if (target.tagName.toLowerCase() === 'input' && target.type === 'text') {
-            if (target.hasAttribute('required')) {
-              if (target.value.trim().length) {
-                primaryButton.removeAttribute('disabled');
-                primaryButton.classList.remove('disabled');
-              } else {
-                primaryButton.setAttribute('disabled', 'disabled');
-                primaryButton.classList.add('disabled');
-              }
-            } else {
-              // All text inputs are disabled by default
+          if (
+            target.tagName.toLowerCase() === 'input'
+            && target.hasAttribute('required')
+            && (['email', 'password', 'search', 'tel', 'text', 'url'].includes(target.type))
+          ) {
+            if (target.value.trim().length) {
               primaryButton.removeAttribute('disabled');
               primaryButton.classList.remove('disabled');
+            } else {
+              primaryButton.setAttribute('disabled', 'disabled');
+              primaryButton.classList.add('disabled');
             }
           }
 
@@ -348,7 +346,10 @@ function startTour(obj) {
 
             case 'text':
               ele.step_id = index;
-              if (ele.hasAttribute('required')) {
+              if (
+                ele.hasAttribute('required')
+                && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(ele.type)
+              ) {
                 ['input', 'focus'].forEach((eventName) =>
                   ele.addEventListener(eventName, (event) => {
                     if (event.target.value.trim().length) {
@@ -374,16 +375,12 @@ function startTour(obj) {
     }
 
     if (index < len - 1) {
-      let disabled = false;
-      if (obj && obj.steps[index].interactive_type === 'text') {
-        disabled = true;
-      }
       if (
         (obj && obj.steps[index].type !== 'interactive')
         || (obj && obj.steps[index].interactive_type === 'text')
         || (obj && obj.steps[index].interactive_type === 'other')
       ) {
-        pushNextButton(buttons, obj.steps[index], disabled, disabled ? 'disabled' : '');
+        pushNextButton(buttons, obj.steps[index]);
       }
     } else {
       pushCompleteButton(buttons);
