@@ -124,14 +124,16 @@ function addStepToTourButton(tour, stepObj, buttons) {
           });
           if (target.tagName.toLowerCase() === 'iframe') {
             // Give blur to the content of the iframe, as iframes don't have blur events
-            target.contentWindow.addEventListener('blur', (event) => {
-              if (primaryButton && !primaryButton.disabled) {
-                primaryButton.focus();
-              } else if (secondaryButton && !secondaryButton.disabled) {
-                secondaryButton.focus();
-              } else {
-                cancelButton.focus();
-              }
+            target.contentWindow.document.body.addEventListener('blur', (event) => {
+              setTimeout(function() {
+                if (primaryButton && !primaryButton.disabled) {
+                  primaryButton.focus();
+                } else if (secondaryButton && !secondaryButton.disabled) {
+                  secondaryButton.focus();
+                } else {
+                  cancelButton.focus();
+                }
+              }, 1);
               event.preventDefault();
             });
           } else {
