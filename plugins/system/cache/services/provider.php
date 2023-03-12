@@ -19,7 +19,7 @@ use Joomla\CMS\Router\SiteRouter;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\System\Cache\Extension\Compat;
+use Joomla\Plugin\System\Cache\Extension\Cache;
 
 return new class () implements ServiceProviderInterface {
     /**
@@ -42,7 +42,7 @@ return new class () implements ServiceProviderInterface {
                 $profiler               = (defined('JDEBUG') && JDEBUG) ? Profiler::getInstance('Application') : null;
                 $router                 = $container->has(SiteRouter::class) ? $container->get(SiteRouter::class) : null;
 
-                $plugin = new Compat($dispatcher, (array) $plugin, $documentFactory, $cacheControllerFactory, $profiler, $router);
+                $plugin = new Cache($dispatcher, (array) $plugin, $documentFactory, $cacheControllerFactory, $profiler, $router);
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
