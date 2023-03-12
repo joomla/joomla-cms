@@ -77,13 +77,6 @@ function addStepToTourButton(tour, stepObj, buttons) {
           for (let i = 0; i < targets.length; i += 1) {
             const t = document.querySelector(targets[i]);
             if (t != null) {
-              // Use TinyMCE in code source to keep the step accessible
-              if (t.parentElement.querySelector('.js-tiny-toggler-button') != null) {
-                t.parentElement.querySelector('.js-tiny-toggler-button').click();
-                tour.currentStep.options.attachTo.element = targets[i];
-                tour.currentStep.options.attachTo.on = position;
-                break;
-              }
               if (!t.disabled && !t.readonly && t.style.display !== 'none') {
                 tour.currentStep.options.attachTo.element = targets[i];
                 tour.currentStep.options.attachTo.on = position;
@@ -109,15 +102,6 @@ function addStepToTourButton(tour, stepObj, buttons) {
       });
     },
     when: {
-      hide() {
-        if (this.getTarget()) {
-          const toggleButton = this.getTarget().parentElement.querySelector('.js-tiny-toggler-button');
-          if (toggleButton != null) {
-            // Switch back to the full TinyMCE editor
-            toggleButton.click();
-          }
-        }
-      },
       show() {
         const element = this.getElement();
         const target = this.getTarget();
@@ -155,16 +139,32 @@ function addStepToTourButton(tour, stepObj, buttons) {
             }
           });
 
-          target.addEventListener('blur', (event) => {
-            if (primaryButton && !primaryButton.disabled) {
-              primaryButton.focus();
-            } else if (secondaryButton && !secondaryButton.disabled) {
-              secondaryButton.focus();
-            } else {
-              cancelButton.focus();
-            }
-            event.preventDefault();
-          });
+          if (target.tagName.toLowerCase() === 'iframe') {
+            // Give blur to the content of the iframe, as iframes don't have blur events
+            target.contentWindow.document.body.addEventListener('blur', (event) => {
+              setTimeout(() => {
+                if (primaryButton && !primaryButton.disabled) {
+                  primaryButton.focus();
+                } else if (secondaryButton && !secondaryButton.disabled) {
+                  secondaryButton.focus();
+                } else {
+                  cancelButton.focus();
+                }
+              }, 1);
+              event.preventDefault();
+            });
+          } else {
+            target.addEventListener('blur', (event) => {
+              if (primaryButton && !primaryButton.disabled) {
+                primaryButton.focus();
+              } else if (secondaryButton && !secondaryButton.disabled) {
+                secondaryButton.focus();
+              } else {
+                cancelButton.focus();
+              }
+              event.preventDefault();
+            });
+          }
         }
       },
     },
@@ -405,6 +405,12 @@ function loadTour(tourId) {
         startTour(result.data);
       })
       .catch((error) => {
+        // Kill the tour if there is a problem with selector validation
+        emptyStorage();
+
+        const messages = { error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR')] };
+        Joomla.renderMessages(messages);
+
         throw new Error(error);
       });
   }
