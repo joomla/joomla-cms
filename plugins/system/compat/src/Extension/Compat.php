@@ -99,12 +99,12 @@ final class Compat extends CMSPlugin implements SubscriberInterface
          * might be needed by other plugins
          */
         return [
-            'onAfterInitialise'  => ['onAfterInitialise', Priority::HIGH],
+            'onAfterInitialise' => ['onAfterInitialise', Priority::HIGH],
         ];
     }
 
-    public function onAfterInitialise(Event $event) {
-
+    public function onAfterInitialise(Event $event)
+    {
         /**
          * Load class names which are deprecated in joomla 4.0 and which will
          * likely be removed in Joomla 6.0
@@ -112,7 +112,5 @@ final class Compat extends CMSPlugin implements SubscriberInterface
         if ($this->params->get('namespaced_classes')) {
             require_once dirname(__DIR__) . '/classmap/classmap.php';
         }
-
     }
-
 }
