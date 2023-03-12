@@ -39,10 +39,10 @@ class AssociationsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.7
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id',
                 'title',
                 'ordering',
@@ -57,7 +57,7 @@ class AssociationsModel extends ListModel
                 'category_title',
                 'access',
                 'access_level',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -244,14 +244,14 @@ class AssociationsModel extends ListModel
             ->bind(':context', $extensionNameItem);
 
         // Prepare the group by clause.
-        $groupby = array(
+        $groupby = [
             $fields['id'],
             $fields['title'],
             $fields['alias'],
             $fields['language'],
             'l.title',
             'l.image',
-        );
+        ];
 
         // Select author for ACL checks.
         if (!empty($fields['created_user_id'])) {
@@ -367,7 +367,7 @@ class AssociationsModel extends ListModel
                 ->bind(':extensionname', $extensionName);
         } elseif ($typeNameExploded = explode('.', $typeName)) {
             if (\count($typeNameExploded) > 1 && array_pop($typeNameExploded) === 'category') {
-                $section = implode('.', $typeNameExploded);
+                $section              = implode('.', $typeNameExploded);
                 $extensionNameSection = $extensionName . '.' . $section;
                 $query->where($db->quoteName('a.extension') . ' = :extensionsection')
                     ->bind(':extensionsection', $extensionNameSection);

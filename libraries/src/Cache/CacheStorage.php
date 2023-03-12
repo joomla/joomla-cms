@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,11 +9,13 @@
 
 namespace Joomla\CMS\Cache;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Abstract cache storage handler
@@ -79,17 +82,25 @@ class CacheStorage
     public $_hash;
 
     /**
+     * The threshold
+     *
+     * @var    integer
+     * @since  4.3.0
+     */
+    public $_threshold;
+
+    /**
      * Constructor
      *
      * @param   array  $options  Optional parameters
      *
      * @since   1.7.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         $app = Factory::getApplication();
 
-        $this->_hash        = md5($app->get('secret'));
+        $this->_hash        = md5($app->get('secret', ''));
         $this->_application = $options['application'] ?? md5(JPATH_CONFIGURATION);
         $this->_language    = $options['language'] ?? 'en-GB';
         $this->_locking     = $options['locking'] ?? true;
@@ -98,13 +109,10 @@ class CacheStorage
 
         // Set time threshold value.  If the lifetime is not set, default to 60 (0 is BAD)
         // _threshold is now available ONLY as a legacy (it's deprecated).  It's no longer used in the core.
-        if (empty($this->_lifetime))
-        {
+        if (empty($this->_lifetime)) {
             $this->_threshold = $this->_now - 60;
-            $this->_lifetime = 60;
-        }
-        else
-        {
+            $this->_lifetime  = 60;
+        } else {
             $this->_threshold = $this->_now - $this->_lifetime;
         }
     }
@@ -121,22 +129,19 @@ class CacheStorage
      * @throws  \UnexpectedValueException
      * @throws  UnsupportedCacheException
      */
-    public static function getInstance($handler = null, $options = array())
+    public static function getInstance($handler = null, $options = [])
     {
         static $now = null;
 
-        if (!isset($handler))
-        {
+        if (!isset($handler)) {
             $handler = Factory::getApplication()->get('cache_handler');
 
-            if (empty($handler))
-            {
+            if (empty($handler)) {
                 throw new \UnexpectedValueException('Cache Storage Handler not set.');
             }
         }
 
-        if (\is_null($now))
-        {
+        if (\is_null($now)) {
             $now = time();
         }
 
@@ -148,33 +153,28 @@ class CacheStorage
         /** @var CacheStorage $class */
         $class = __NAMESPACE__ . '\\Storage\\' . ucfirst($handler) . 'Storage';
 
-        if (!class_exists($class))
-        {
+        if (!class_exists($class)) {
             $class = 'JCacheStorage' . ucfirst($handler);
         }
 
-        if (!class_exists($class))
-        {
+        if (!class_exists($class)) {
             // Search for the class file in the JCacheStorage include paths.
             $path = Path::find(self::addIncludePath(), strtolower($handler) . '.php');
 
-            if ($path === false)
-            {
+            if ($path === false) {
                 throw new UnsupportedCacheException(sprintf('Unable to load Cache Storage: %s', $handler));
             }
 
             \JLoader::register($class, $path);
 
             // The class should now be loaded
-            if (!class_exists($class))
-            {
+            if (!class_exists($class)) {
                 throw new UnsupportedCacheException(sprintf('Unable to load Cache Storage: %s', $handler));
             }
         }
 
         // Validate the cache storage is supported on this platform
-        if (!$class::isSupported())
-        {
+        if (!$class::isSupported()) {
             throw new UnsupportedCacheException(sprintf('The %s Cache Storage is not supported on this platform.', $handler));
         }
 
@@ -371,13 +371,11 @@ class CacheStorage
     {
         static $paths;
 
-        if (!isset($paths))
-        {
-            $paths = array();
+        if (!isset($paths)) {
+            $paths = [];
         }
 
-        if (!empty($path) && !\in_array($path, $paths))
-        {
+        if (!empty($path) && !\in_array($path, $paths)) {
             array_unshift($paths, Path::clean($path));
         }
 

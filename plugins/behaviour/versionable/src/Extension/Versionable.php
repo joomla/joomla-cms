@@ -115,10 +115,10 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $id     = $table->getId();
-        $data   = $this->helper->getDataObject($table);
-        $input  = $this->getApplication()->getInput();
-        $jform  = $input->get('jform', array(), 'array');
+        $id          = $table->getId();
+        $data        = $this->helper->getDataObject($table);
+        $input       = $this->getApplication()->getInput();
+        $jform       = $input->get('jform', [], 'array');
         $versionNote = '';
 
         if (isset($jform['version_note'])) {

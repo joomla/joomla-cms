@@ -99,7 +99,7 @@ class TagTable extends Nested implements VersionableTableInterface
         // Clean up description -- eliminate quotes and <> brackets
         if (!empty($this->metadesc)) {
             // Only process if not empty
-            $bad_characters = array("\"", '<', '>');
+            $bad_characters = ["\"", '<', '>'];
             $this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
         }
 
@@ -167,7 +167,7 @@ class TagTable extends Nested implements VersionableTableInterface
         if ($this->id) {
             // Existing item
             $this->modified_user_id = $user->get('id');
-            $this->modified_time = $date->toSql();
+            $this->modified_time    = $date->toSql();
         } else {
             // New tag. A tag created and created_by field can be set by the user,
             // so we don't touch either of these if they are set.
@@ -192,7 +192,7 @@ class TagTable extends Nested implements VersionableTableInterface
         $table = new static($this->getDbo());
 
         if (
-            $table->load(array('alias' => $this->alias, 'parent_id' => (int) $this->parent_id))
+            $table->load(['alias' => $this->alias, 'parent_id' => (int) $this->parent_id])
             && ($table->id != $this->id || $this->id == 0)
         ) {
             // Is the existing tag trashed?

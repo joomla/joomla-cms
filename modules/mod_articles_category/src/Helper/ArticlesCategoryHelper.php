@@ -268,14 +268,14 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
             $items      = [];
             $itemParams = new \stdClass();
 
-            $itemParams->show_date         = $moduleParams->get('show_date', 0);
-            $itemParams->show_date_field   = $moduleParams->get('show_date_field', 'created');
-            $itemParams->show_date_format  = $moduleParams->get('show_date_format', 'Y-m-d H:i:s');
-            $itemParams->show_category     = $moduleParams->get('show_category', 0);
-            $itemParams->show_hits         = $moduleParams->get('show_hits', 0);
-            $itemParams->show_author       = $moduleParams->get('show_author', 0);
-            $itemParams->show_introtext    = $moduleParams->get('show_introtext', 0);
-            $itemParams->introtext_limit   = $moduleParams->get('introtext_limit', 100);
+            $itemParams->show_date        = $moduleParams->get('show_date', 0);
+            $itemParams->show_date_field  = $moduleParams->get('show_date_field', 'created');
+            $itemParams->show_date_format = $moduleParams->get('show_date_format', 'Y-m-d H:i:s');
+            $itemParams->show_category    = $moduleParams->get('show_category', 0);
+            $itemParams->show_hits        = $moduleParams->get('show_hits', 0);
+            $itemParams->show_author      = $moduleParams->get('show_author', 0);
+            $itemParams->show_introtext   = $moduleParams->get('show_introtext', 0);
+            $itemParams->introtext_limit  = $moduleParams->get('introtext_limit', 100);
 
             $itemParams->active_article_id = $active_article_id;
             $itemParams->authorised        = Access::getAuthorisedViewLevels($app->getIdentity()->get('id'));
@@ -354,7 +354,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
         }
 
         // Used for styling the active article
-        $item->active      = $item->id == $params->active_article_id ? 'active' : '';
+        $item->active = $item->id == $params->active_article_id ? 'active' : '';
 
         $item->displayDate = '';
         $dateField         = $params->show_date_field;
@@ -414,7 +414,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      */
     public static function _cleanIntrotext($introtext)
     {
-        $introtext = str_replace(array('<p>', '</p>'), ' ', $introtext);
+        $introtext = str_replace(['<p>', '</p>'], ' ', $introtext);
         $introtext = strip_tags($introtext, '<a><em><strong><joomla-hidden-mail>');
         $introtext = trim($introtext);
 
@@ -441,7 +441,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
         // First get the plain text string. This is the rendered text we want to end up with.
         $ptString = HTMLHelper::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = false);
 
-        for ($maxLength; $maxLength < $baseLength;) {
+        for ($maxLength; $maxLength < $baseLength; ) {
             // Now get the string if we allow html.
             $htmlString = HTMLHelper::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = true);
 
@@ -481,19 +481,19 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      */
     public static function groupBy($list, $fieldName, $direction, $fieldNameToKeep = null)
     {
-        $grouped = array();
+        $grouped = [];
 
         if (!\is_array($list)) {
             if ($list === '') {
                 return $grouped;
             }
 
-            $list = array($list);
+            $list = [$list];
         }
 
         foreach ($list as $key => $item) {
             if (!isset($grouped[$item->$fieldName])) {
-                $grouped[$item->$fieldName] = array();
+                $grouped[$item->$fieldName] = [];
             }
 
             if ($fieldNameToKeep === null) {
@@ -525,14 +525,14 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      */
     public static function groupByDate($list, $direction = 'ksort', $type = 'year', $monthYearFormat = 'F Y', $field = 'created')
     {
-        $grouped = array();
+        $grouped = [];
 
         if (!\is_array($list)) {
             if ($list === '') {
                 return $grouped;
             }
 
-            $list = array($list);
+            $list = [$list];
         }
 
         foreach ($list as $key => $item) {
@@ -541,7 +541,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
                     $month_year = StringHelper::substr($item->$field, 0, 7);
 
                     if (!isset($grouped[$month_year])) {
-                        $grouped[$month_year] = array();
+                        $grouped[$month_year] = [];
                     }
 
                     $grouped[$month_year][$key] = $item;
@@ -551,7 +551,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
                     $year = StringHelper::substr($item->$field, 0, 4);
 
                     if (!isset($grouped[$year])) {
-                        $grouped[$year] = array();
+                        $grouped[$year] = [];
                     }
 
                     $grouped[$year][$key] = $item;
@@ -588,8 +588,8 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      */
     public static function groupByTags($list, $direction = 'ksort')
     {
-        $grouped  = array();
-        $untagged = array();
+        $grouped  = [];
+        $untagged = [];
 
         if (!$list) {
             return $grouped;

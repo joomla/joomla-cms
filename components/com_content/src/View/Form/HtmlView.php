@@ -144,11 +144,11 @@ class HtmlView extends BaseHtmlView
             $this->item->tags->getItemTags('com_content.article', $this->item->id);
 
             $this->item->images = json_decode($this->item->images);
-            $this->item->urls = json_decode($this->item->urls);
+            $this->item->urls   = json_decode($this->item->urls);
 
-            $tmp = new \stdClass();
+            $tmp         = new \stdClass();
             $tmp->images = $this->item->images;
-            $tmp->urls = $this->item->urls;
+            $tmp->urls   = $this->item->urls;
             $this->form->bind($tmp);
         }
 

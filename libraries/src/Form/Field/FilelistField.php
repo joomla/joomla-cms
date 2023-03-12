@@ -128,7 +128,7 @@ class FilelistField extends ListField
             case 'hideNone':
             case 'hideDefault':
             case 'stripExt':
-                $value = (string) $value;
+                $value       = (string) $value;
                 $this->$name = ($value === 'true' || $value === $name || $value === '1');
                 break;
 
@@ -187,7 +187,7 @@ class FilelistField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         $path = $this->directory;
 

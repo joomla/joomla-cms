@@ -44,8 +44,7 @@ class CMSPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
-        $plugin = new class ($dispatcher, []) extends CMSPlugin
-        {
+        $plugin = new class ($dispatcher, []) extends CMSPlugin {
         };
 
         $this->assertEquals($dispatcher, $plugin->getDispatcher());
@@ -63,8 +62,7 @@ class CMSPluginTest extends UnitTestCase
         $dispatcher = new Dispatcher();
         $app        = $this->createStub(CMSApplicationInterface::class);
 
-        $plugin = new class ($dispatcher, []) extends CMSPlugin
-        {
+        $plugin = new class ($dispatcher, []) extends CMSPlugin {
             public function getApplication(): CMSApplicationInterface
             {
                 return parent::getApplication();
@@ -86,8 +84,7 @@ class CMSPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
-        $plugin = new class ($dispatcher, []) extends CMSPlugin
-        {
+        $plugin = new class ($dispatcher, []) extends CMSPlugin {
         };
 
         $this->assertNull($plugin->params);
@@ -105,8 +102,7 @@ class CMSPluginTest extends UnitTestCase
         $dispatcher = new Dispatcher();
         $registry   = new Registry();
 
-        $plugin = new class ($dispatcher, ['params' => $registry]) extends CMSPlugin
-        {
+        $plugin = new class ($dispatcher, ['params' => $registry]) extends CMSPlugin {
         };
 
         $this->assertEquals($registry, $plugin->params);
@@ -123,8 +119,7 @@ class CMSPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
-        $plugin = new class ($dispatcher, ['params' => ['test' => 'unit']]) extends CMSPlugin
-        {
+        $plugin = new class ($dispatcher, ['params' => ['test' => 'unit']]) extends CMSPlugin {
         };
 
         $this->assertEquals('unit', $plugin->params->get('test'));
@@ -141,8 +136,7 @@ class CMSPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
-        $plugin = new class ($dispatcher, ['name' => 'test']) extends CMSPlugin
-        {
+        $plugin = new class ($dispatcher, ['name' => 'test']) extends CMSPlugin {
             public function getName()
             {
                 return $this->_name;
@@ -163,8 +157,7 @@ class CMSPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
-        $plugin = new class ($dispatcher, ['type' => 'test']) extends CMSPlugin
-        {
+        $plugin = new class ($dispatcher, ['type' => 'test']) extends CMSPlugin {
             public function getType()
             {
                 return $this->_type;
@@ -184,14 +177,13 @@ class CMSPluginTest extends UnitTestCase
     public function testLoadLanguage()
     {
         $dispatcher = new Dispatcher();
-        $language = $this->createMock(Language::class);
+        $language   = $this->createMock(Language::class);
         $language->expects($this->once())->method('load')->with($this->equalTo('plg__'), JPATH_ADMINISTRATOR)->willReturn(true);
 
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new class ($dispatcher, []) extends CMSPlugin
-        {
+        $plugin = new class ($dispatcher, []) extends CMSPlugin {
         };
         $plugin->setApplication($app);
         $plugin->loadLanguage();
@@ -207,14 +199,13 @@ class CMSPluginTest extends UnitTestCase
     public function testLoadLanguageWithExtensionAndPath()
     {
         $dispatcher = new Dispatcher();
-        $language = $this->createMock(Language::class);
+        $language   = $this->createMock(Language::class);
         $language->expects($this->once())->method('load')->with($this->equalTo('test'), __DIR__)->willReturn(true);
 
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new class ($dispatcher, []) extends CMSPlugin
-        {
+        $plugin = new class ($dispatcher, []) extends CMSPlugin {
         };
         $plugin->setApplication($app);
         $plugin->loadLanguage('test', __DIR__);
@@ -230,15 +221,14 @@ class CMSPluginTest extends UnitTestCase
     public function testNotLoadLanguageWhenExists()
     {
         $dispatcher = new Dispatcher();
-        $language = $this->createMock(Language::class);
+        $language   = $this->createMock(Language::class);
         $language->method('getPaths')->willReturn(true);
         $language->expects($this->never())->method('load');
 
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new class ($dispatcher, []) extends CMSPlugin
-        {
+        $plugin = new class ($dispatcher, []) extends CMSPlugin {
         };
         $plugin->setApplication($app);
         $plugin->loadLanguage();
@@ -255,8 +245,7 @@ class CMSPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
-        $plugin = new class ($dispatcher, []) extends CMSPlugin implements SubscriberInterface
-        {
+        $plugin = new class ($dispatcher, []) extends CMSPlugin implements SubscriberInterface {
             public static function getSubscribedEvents(): array
             {
                 return ['test' => 'unit'];
@@ -282,8 +271,7 @@ class CMSPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
-        $plugin = new class ($dispatcher, []) extends CMSPlugin
-        {
+        $plugin = new class ($dispatcher, []) extends CMSPlugin {
             public function onTest()
             {
             }
@@ -304,8 +292,7 @@ class CMSPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
-        $plugin = new class ($dispatcher, []) extends CMSPlugin
-        {
+        $plugin = new class ($dispatcher, []) extends CMSPlugin {
             public function onTest(EventInterface $event)
             {
             }
@@ -326,8 +313,7 @@ class CMSPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
-        $plugin = new class ($dispatcher, []) extends CMSPlugin
-        {
+        $plugin                             = new class ($dispatcher, []) extends CMSPlugin {
             protected $allowLegacyListeners = false;
 
             public function onTest(EventInterface $event)
@@ -350,8 +336,7 @@ class CMSPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
-        $plugin = new class ($dispatcher, []) extends CMSPlugin
-        {
+        $plugin = new class ($dispatcher, []) extends CMSPlugin {
             public function onTest(string $context)
             {
             }
@@ -372,8 +357,7 @@ class CMSPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
-        $plugin = new class ($dispatcher, []) extends CMSPlugin
-        {
+        $plugin = new class ($dispatcher, []) extends CMSPlugin {
             public function onTest($event)
             {
             }
@@ -394,8 +378,7 @@ class CMSPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
-        $plugin = new class ($dispatcher, []) extends CMSPlugin
-        {
+        $plugin = new class ($dispatcher, []) extends CMSPlugin {
             public function onTest(stdClass $event = null)
             {
             }
@@ -416,8 +399,7 @@ class CMSPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
-        $plugin = new class ($dispatcher, []) extends CMSPlugin
-        {
+        $plugin = new class ($dispatcher, []) extends CMSPlugin {
             public function registerTestListener()
             {
                 parent::registerLegacyListener('onTest');
@@ -445,8 +427,7 @@ class CMSPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
-        $plugin = new class ($dispatcher, []) extends CMSPlugin
-        {
+        $plugin = new class ($dispatcher, []) extends CMSPlugin {
             public function registerTestListener()
             {
                 parent::registerLegacyListener('onTest');
@@ -473,8 +454,7 @@ class CMSPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
-        $plugin = new class ($dispatcher, []) extends CMSPlugin
-        {
+        $plugin = new class ($dispatcher, []) extends CMSPlugin {
             public function registerTestListener()
             {
                 parent::registerLegacyListener('onTest');
