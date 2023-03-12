@@ -75,7 +75,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     public function __construct($subject, array $config = [], bool $enabled = false)
     {
         $this->autoloadLanguage = $enabled;
-        self::$enabled = $enabled;
+        self::$enabled          = $enabled;
 
         parent::__construct($subject, $config);
     }
