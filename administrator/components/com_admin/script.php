@@ -718,6 +718,7 @@ class JoomlaInstallerScript
             '/libraries/vendor/beberlei/assert/lib/Assert/LazyAssertion.php',
             '/libraries/vendor/beberlei/assert/lib/Assert/LazyAssertionException.php',
             '/libraries/vendor/beberlei/assert/lib/Assert/functions.php',
+            '/libraries/vendor/google/recaptcha/ARCHITECTURE.md',
             '/libraries/vendor/jfcherng/php-color-output/src/helpers.php',
             '/libraries/vendor/joomla/ldap/LICENSE',
             '/libraries/vendor/joomla/ldap/src/LdapClient.php',
