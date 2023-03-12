@@ -10,25 +10,11 @@
       "type": "script",
       "uri": "plg_multifactorauth_totp/setup.min.js",
       "dependencies": [
-        "plg_multifactorauth_totp.setup.es5",
         "qrcode",
         "core"
       ],
       "attributes": {
         "type": "module"
-      }
-    },
-    {
-      "name": "plg_multifactorauth_totp.setup.es5",
-      "type": "script",
-      "uri": "plg_multifactorauth_totp/setup-es5.min.js",
-      "dependencies": [
-        "qrcode",
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
       }
     }
   ]
