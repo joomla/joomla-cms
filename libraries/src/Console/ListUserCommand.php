@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Console;
 
-use Joomla\CMS\Factory;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;

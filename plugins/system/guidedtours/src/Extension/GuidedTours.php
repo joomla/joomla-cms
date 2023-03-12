@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
@@ -24,23 +25,15 @@ use Joomla\Event\SubscriberInterface;
 /**
  * Guided Tours plugin to add interactive tours to the administrator interface.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.3.0
  */
 final class GuidedTours extends CMSPlugin implements SubscriberInterface
 {
     /**
-     * Load the language file on instantiation
-     *
-     * @var    boolean
-     * @since  __DEPLOY_VERSION__
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * A mapping for the step types
      *
      * @var    string[]
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $stepType = [
         GuidedtoursComponent::STEP_NEXT        => 'next',
@@ -52,7 +45,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      * A mapping for the step interactive types
      *
      * @var    string[]
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $stepInteractiveType = [
         GuidedtoursComponent::STEP_INTERACTIVETYPE_FORM_SUBMIT => 'submit',
@@ -62,16 +55,44 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     ];
 
     /**
+     * An internal flag whether plugin should listen any event.
+     *
+     * @var bool
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected static $enabled = false;
+
+    /**
+     * Constructor
+     *
+     * @param   DispatcherInterface  $subject  The object to observe
+     * @param   array                $config   An optional associative array of configuration settings.
+     * @param   boolean              $enabled  An internal flag whether plugin should listen any event.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct($subject, array $config = [], bool $enabled = false)
+    {
+        $this->autoloadLanguage = $enabled;
+        self::$enabled          = $enabled;
+
+        parent::__construct($subject, $config);
+    }
+
+    /**
      * function for getSubscribedEvents : new Joomla 4 feature
      *
      * @return array
+     *
+     * @since   __DEPLOY_VERSION__
      */
     public static function getSubscribedEvents(): array
     {
-        return [
+        return self::$enabled ? [
             'onAjaxGuidedtours'   => 'startTour',
             'onBeforeCompileHead' => 'onBeforeCompileHead',
-        ];
+        ] : [];
     }
 
     /**
@@ -79,17 +100,11 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      *
      * @return null|object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function startTour(Event $event)
     {
-        $app = $this->getApplication();
-
-        if (!$app->isClient('administrator')) {
-            return null;
-        }
-
-        $tourId = (int) $app->getInput()->getInt('id');
+        $tourId = (int) $this->getApplication()->getInput()->getInt('id');
 
         $activeTourId = null;
         $tour         = null;
@@ -112,7 +127,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function onBeforeCompileHead()
     {
@@ -120,7 +135,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $doc  = $app->getDocument();
         $user = $app->getIdentity();
 
-        if ($app->isClient('administrator') && $user != null && $user->id > 0) {
+        if ($user != null && $user->id > 0) {
             Text::script('JCANCEL');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_BACK');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_COMPLETE');
@@ -144,7 +159,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      *
      * @return null|object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     private function getTour(int $tourId)
     {
