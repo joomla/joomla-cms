@@ -409,7 +409,7 @@ class MailTemplate
         $template->extension = explode('.', $key, 2)[0] ?? '';
         $template->attachments = '';
         $params = new \stdClass();
-        $params->tags = [$tags];
+        $params->tags = (array) $tags;
         $template->params = json_encode($params);
 
         return $db->insertObject('#__mail_templates', $template);
@@ -439,7 +439,7 @@ class MailTemplate
         $template->body = $body;
         $template->htmlbody = $htmlbody;
         $params = new \stdClass();
-        $params->tags = [$tags];
+        $params->tags = (array) $tags;
         $template->params = json_encode($params);
 
         return $db->updateObject('#__mail_templates', $template, ['template_id', 'language']);
