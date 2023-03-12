@@ -22,6 +22,8 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\String\StringHelper;
 
+use function ucfirst;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -275,19 +277,31 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     {
         // Sanitize and prepare the table class name.
         $type       = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-        $tableClass = $prefix . ucfirst($type);
+
+        $tableClass       = $prefix . ucfirst($type);
+        $tableClassLegacy = $tableClass;
+
+        if ($prefix === 'JTable') {
+            $tableClass = 'Joomla\\CMS\\Table\\' . ucfirst($type);
+        }
 
         // Only try to load the class if it doesn't already exist.
-        if (!class_exists($tableClass)) {
+        if (!class_exists($tableClass) && !class_exists($tableClassLegacy)) {
             // Search for the class file in the JTable include paths.
             $paths     = self::addIncludePath();
             $pathIndex = 0;
 
-            while (!class_exists($tableClass) && $pathIndex < \count($paths)) {
+            while (!class_exists($tableClass) && !class_exists($tableClassLegacy) && $pathIndex < \count($paths)) {
                 if ($tryThis = Path::find($paths[$pathIndex++], strtolower($type) . '.php')) {
                     // Import the class file.
                     include_once $tryThis;
                 }
+            }
+
+            if (class_exists($tableClass)) {
+                $tableClassLegacy = $tableClass;
+            } elseif (class_exists($tableClass)) {
+                $tableClass = $tableClassLegacy;
             }
 
             if (!class_exists($tableClass)) {
