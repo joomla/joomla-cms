@@ -119,23 +119,43 @@ function addStepToTourButton(tour, stepObj, buttons) {
         }
       },
       show() {
+        const element = this.getElement();
+        const target = this.getTarget();
+
         // Force the screen reader to only read the content of the popup after a refresh
-        this.getElement().setAttribute('aria-live', 'assertive');
+        element.setAttribute('aria-live', 'assertive');
 
         sessionStorage.setItem('currentStepId', this.id);
-        addProgressIndicator(this.getElement(), this.id + 1, sessionStorage.getItem('stepCount'));
+        addProgressIndicator(element, this.id + 1, sessionStorage.getItem('stepCount'));
 
-        if (this.getTarget()) {
-          this.getElement().querySelector('.shepherd-cancel-icon').addEventListener('keydown', (event) => {
+        if (target && this.options.attachTo.type === 'interactive') {
+          const cancelButton = element.querySelector('.shepherd-cancel-icon');
+          const primaryButton = element.querySelector('.shepherd-button-primary');
+          const secondaryButton = element.querySelector('.shepherd-button-secondary');
+
+          // The 'next' button should always be enabled if the target input field of type 'text' has a value
+          if (
+            target.tagName.toLowerCase() === 'input'
+            && target.hasAttribute('required')
+            && (['email', 'password', 'search', 'tel', 'text', 'url'].includes(target.type))
+          ) {
+            if (target.value.trim().length) {
+              primaryButton.removeAttribute('disabled');
+              primaryButton.classList.remove('disabled');
+            } else {
+              primaryButton.setAttribute('disabled', 'disabled');
+              primaryButton.classList.add('disabled');
+            }
+          }
+
+          cancelButton.addEventListener('keydown', (event) => {
             if (event.key === 'Tab') {
-              this.getTarget().focus();
+              target.focus();
               event.preventDefault();
             }
           });
-          this.getTarget().addEventListener('blur', (event) => {
-            const cancelButton = this.getElement().querySelector('.shepherd-cancel-icon');
-            const primaryButton = this.getElement().querySelector('.shepherd-button-primary');
-            const secondaryButton = this.getElement().querySelector('.shepherd-button-secondary');
+
+          target.addEventListener('blur', (event) => {
             if (primaryButton && !primaryButton.disabled) {
               primaryButton.focus();
             } else if (secondaryButton && !secondaryButton.disabled) {
@@ -326,13 +346,15 @@ function startTour(obj) {
 
             case 'text':
               ele.step_id = index;
-              ele.addEventListener('input', (event) => {
-                if (event.target.value.trim().length) {
-                  enableButton(event);
-                } else {
-                  disableButton(event);
-                }
-              });
+              if (ele.hasAttribute('required') && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(ele.type)) {
+                ['input', 'focus'].forEach((eventName) => ele.addEventListener(eventName, (event) => {
+                  if (event.target.value.trim().length) {
+                    enableButton(event);
+                  } else {
+                    disableButton(event);
+                  }
+                }));
+              }
               break;
 
             case 'button':
@@ -348,16 +370,12 @@ function startTour(obj) {
     }
 
     if (index < len - 1) {
-      let disabled = false;
-      if (obj && obj.steps[index].interactive_type === 'text') {
-        disabled = true;
-      }
       if (
         (obj && obj.steps[index].type !== 'interactive')
         || (obj && obj.steps[index].interactive_type === 'text')
         || (obj && obj.steps[index].interactive_type === 'other')
       ) {
-        pushNextButton(buttons, obj.steps[index], disabled, disabled ? 'disabled' : '');
+        pushNextButton(buttons, obj.steps[index]);
       }
     } else {
       pushCompleteButton(buttons);

@@ -21,7 +21,7 @@ use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 /**
  * ComponentDispatcher class for com_config
  *
- * @since  4.3.0
+ * @since  4.2.9
  */
 class Dispatcher extends ComponentDispatcher
 {
@@ -30,7 +30,7 @@ class Dispatcher extends ComponentDispatcher
      *
      * @return  void
      *
-     * @since  4.3.0
+     * @since  4.2.9
      *
      * @throws  \Exception
      */
