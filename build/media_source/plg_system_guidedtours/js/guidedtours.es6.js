@@ -405,6 +405,12 @@ function loadTour(tourId) {
         startTour(result.data);
       })
       .catch((error) => {
+        // Kill the tour if there is a problem with selector validation
+        emptyStorage();
+
+        const messages = { error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR')] };
+        Joomla.renderMessages(messages);
+
         throw new Error(error);
       });
   }
