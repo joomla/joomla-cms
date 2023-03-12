@@ -167,7 +167,7 @@ abstract class Access
                     $checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
                 }
 
-                $rel = ($item->parent_id > 0) ? ' rel="' . $count . 'group_' . $item->parent_id . '"' : '';
+                $rel = ($item->parent_id > 0) ? ' rel="group_' . $item->parent_id . '_'.$count.'"' : '';
 
                 // Build the HTML for the item.
                 $html[] = '	<div class="control-group">';
