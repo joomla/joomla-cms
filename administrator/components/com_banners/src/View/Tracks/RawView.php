@@ -15,7 +15,6 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Banners\Administrator\Model\TracksModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -41,12 +40,10 @@ class RawView extends BaseHtmlView
      */
     public function display($tpl = null): void
     {
-        /** @var TracksModel $model */
-        $model    = $this->getModel();
-        $basename = $model->getBaseName();
-        $fileType = $model->getFileType();
-        $mimeType = $model->getMimeType();
-        $content  = $model->getContent();
+        $basename = $this->get('BaseName');
+        $fileType = $this->get('FileType');
+        $mimeType = $this->get('MimeType');
+        $content  = $this->get('Content');
 
         // Check for errors.
         if (\count($errors = $this->get('Errors'))) {

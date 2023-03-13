@@ -90,6 +90,7 @@ class BannersHelper extends ContentHelper
 
             switch ($purchaseType) {
                 case 1:
+                default:
                     $reset = null;
                     break;
                 case 2:

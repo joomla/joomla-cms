@@ -20,7 +20,6 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Banners\Administrator\Model\BannerModel;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -70,11 +69,9 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null): void
     {
-        /** @var BannerModel $model */
-        $model       = $this->getModel();
-        $this->form  = $model->getForm();
-        $this->item  = $model->getItem();
-        $this->state = $model->getState();
+        $this->form  = $this->get('Form');
+        $this->item  = $this->get('Item');
+        $this->state = $this->get('State');
 
         // Check for errors.
         if (\count($errors = $this->get('Errors'))) {
