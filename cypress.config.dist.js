@@ -1,6 +1,5 @@
-import setupPlugins from './tests/cypress/plugins/index';
-
 const { defineConfig } = require('cypress');
+const setupPlugins =require('./tests/cypress/plugins/index');
 
 module.exports = defineConfig({
   fixturesFolder: 'tests/cypress/fixtures',
