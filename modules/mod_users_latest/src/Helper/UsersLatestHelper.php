@@ -11,7 +11,6 @@
 namespace Joomla\Module\UsersLatest\Site\Helper;
 
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
@@ -68,7 +67,7 @@ class UsersLatestHelper implements DatabaseAwareInterface
         try {
             return (array) $db->loadObjectList();
         } catch (\RuntimeException $e) {
-            Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+            $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
             return [];
         }
