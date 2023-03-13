@@ -9,11 +9,6 @@
 
 namespace Joomla\CMS\Filesystem;
 
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Client\FtpClient;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\Filesystem\Folder as Filesystem_Folder;
 
 // phpcs:disable PSR1.Files.SideEffects
