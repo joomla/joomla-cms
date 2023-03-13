@@ -1,9 +1,3 @@
-afterEach(() => {
-  cy.task('queryDB', 'DELETE FROM #__content');
-  cy.task('queryDB', 'DELETE FROM #__content_frontpage');
-  cy.task('queryDB', 'DELETE FROM #__modules where module = \'mod_articles_news\'');
-});
-
 describe('Test that the news module', () => {
   it('can load in frontend and showing the title of the articles', () => {
     cy.db_createArticle({ title: 'automated test article' })
