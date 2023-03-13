@@ -43,6 +43,23 @@ Cypress.Commands.add('db_createMenuItem', (menuItem) => {
   return cy.task('queryDB', createInsertQuery('menu', { ...defaultMenuItemOptions, ...menuItem }));
 });
 
+Cypress.Commands.add('db_createModule', (module) => {
+  const defaultModuleOptions = {
+    title: 'test module',
+    position: 'sidebar-right',
+    module: '',
+    client_id: 0,
+    access: 1,
+    published: 1,
+    language: '*',
+    params: ''
+  };
+
+  return cy.task('queryDB', createInsertQuery('modules', { ...defaultModuleOptions, ...module })).then((info) =>
+    cy.task('queryDB', "INSERT INTO #__modules_menu (moduleid, menuid) VALUES ('" + info.insertId + "', '0')").then(() => info)
+  );
+});
+
 /**
  * Returns an insert query for the given database and fields.
  *
