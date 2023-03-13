@@ -585,39 +585,39 @@
         ]
       },
       "chosen-js": {
-         "name": "chosen",
-         "js": {
-           "chosen.jquery.js": "js/chosen.jquery.js"
-         },
-         "css": {
-           "chosen.css": "css/chosen.css",
-           "chosen-sprite.png": "css/chosen-sprite.png",
-           "chosen-sprite@2x.png": "css/chosen-sprite@2x.png"
-         },
-         "provideAssets": [
-           {
-             "name": "chosen",
-             "type": "style",
-             "uri": "chosen.css"
-           },
-           {
-             "name": "chosen",
-             "type": "script",
-             "uri": "chosen.jquery.js",
-             "dependencies": [
-               "jquery"
-             ]
-           },
-           {
-             "name": "chosen",
-             "type": "preset",
-             "dependencies": [
-               "chosen#style",
-               "chosen#script"
-             ]
-           }
-         ]
-       },
+        "name": "chosen",
+        "js": {
+          "chosen.jquery.js": "js/chosen.jquery.js"
+        },
+        "css": {
+          "chosen.css": "css/chosen.css",
+          "chosen-sprite.png": "css/chosen-sprite.png",
+          "chosen-sprite@2x.png": "css/chosen-sprite@2x.png"
+        },
+        "provideAssets": [
+          {
+            "name": "chosen",
+            "type": "style",
+            "uri": "chosen.css"
+          },
+          {
+            "name": "chosen",
+            "type": "script",
+            "uri": "chosen.jquery.js",
+            "dependencies": [
+              "jquery"
+            ]
+          },
+          {
+            "name": "chosen",
+            "type": "preset",
+            "dependencies": [
+              "chosen#style",
+              "chosen#script"
+            ]
+          }
+        ]
+      },
       "accessibility": {
         "name": "accessibility",
         "licenseFilename": "LICENSE",
