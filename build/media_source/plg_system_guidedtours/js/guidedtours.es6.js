@@ -98,7 +98,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
           resolve();
         }
       }).catch((error) => {
-        console.log(`Exception error - ${error.message} - Bypass Shepherd target`);
+        throw new Error(`Exception error - ${error.message} - Bypass Shepherd target`);
       });
     },
     when: {
