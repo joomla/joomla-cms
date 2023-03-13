@@ -10,8 +10,12 @@
 
 namespace Joomla\Module\UsersLatest\Site\Helper;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -22,25 +26,28 @@ use Joomla\CMS\Language\Text;
  *
  * @since  1.6
  */
-class UsersLatestHelper
+class UsersLatestHelper implements DatabaseAwareInterface
 {
+    use DatabaseAwareTrait;
+
     /**
      * Get users sorted by activation date
      *
-     * @param   \Joomla\Registry\Registry  $params  module parameters
+     * @param   Registry         $params  Object holding the models parameters
+     * @param   SiteApplication  $app     The app
      *
      * @return  array  The array of users
      *
-     * @since   1.6
+     * @since   __DEPLOY_VERSION__
      */
-    public static function getUsers($params)
+    public function getUsers(Registry $params, SiteApplication $app): array
     {
-        $db    = Factory::getDbo();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName(['a.id', 'a.name', 'a.username', 'a.registerDate']))
             ->order($db->quoteName('a.registerDate') . ' DESC')
             ->from($db->quoteName('#__users', 'a'));
-        $user = Factory::getUser();
+        $user = $app->getIdentity();
 
         if (!$user->authorise('core.admin') && $params->get('filter_groups', 0) == 1) {
             $groups = $user->getAuthorisedGroups();
