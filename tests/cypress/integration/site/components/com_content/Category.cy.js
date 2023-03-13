@@ -1,9 +1,3 @@
-afterEach(() => {
-  cy.task('queryDB', 'DELETE FROM #__content');
-  cy.task('queryDB', 'DELETE FROM #__content_frontpage');
-  cy.task('queryDB', 'DELETE FROM #__menu WHERE id > 101');
-});
-
 describe('Test that the list view ', () => {
   ['default', 'blog'].forEach((layout) => {
     it(`can display a list of articles in the ${layout} layout in a menu item`, () => {
