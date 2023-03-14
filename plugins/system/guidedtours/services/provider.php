@@ -36,15 +36,13 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $dispatcher = $container->get(DispatcherInterface::class);
-                $app        = Factory::getApplication();
 
                 $plugin = new GuidedTours(
                     $dispatcher,
-                    (array) PluginHelper::getPlugin('system', 'guidedtours'),
-                    $app->isClient('administrator')
+                    (array) PluginHelper::getPlugin('system', 'guidedtours')
                 );
 
-                $plugin->setApplication($app);
+                $plugin->setApplication(Factory::getApplication());
 
                 $wa = $container->get(WebAssetRegistry::class);
 

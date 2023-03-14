@@ -14,7 +14,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
@@ -29,6 +28,14 @@ use Joomla\Event\SubscriberInterface;
  */
 final class GuidedTours extends CMSPlugin implements SubscriberInterface
 {
+    /**
+     * Load the language file on instantiation
+     *
+     * @var    boolean
+     * @since  4.3.0
+     */
+    protected $autoloadLanguage = true;
+
     /**
      * A mapping for the step types
      *
@@ -55,44 +62,16 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     ];
 
     /**
-     * An internal flag whether plugin should listen any event.
-     *
-     * @var bool
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected static $enabled = false;
-
-    /**
-     * Constructor
-     *
-     * @param   DispatcherInterface  $subject  The object to observe
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   boolean              $enabled  An internal flag whether plugin should listen any event.
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function __construct($subject, array $config = [], bool $enabled = false)
-    {
-        $this->autoloadLanguage = $enabled;
-        self::$enabled          = $enabled;
-
-        parent::__construct($subject, $config);
-    }
-
-    /**
      * function for getSubscribedEvents : new Joomla 4 feature
      *
      * @return array
-     *
-     * @since   __DEPLOY_VERSION__
      */
     public static function getSubscribedEvents(): array
     {
-        return self::$enabled ? [
+        return [
             'onAjaxGuidedtours'   => 'startTour',
             'onBeforeCompileHead' => 'onBeforeCompileHead',
-        ] : [];
+        ];
     }
 
     /**
@@ -104,7 +83,13 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      */
     public function startTour(Event $event)
     {
-        $tourId = (int) $this->getApplication()->getInput()->getInt('id');
+        $app = $this->getApplication();
+
+        if (!$app->isClient('administrator')) {
+            return null;
+        }
+
+        $tourId = (int) $app->getInput()->getInt('id');
 
         $activeTourId = null;
         $tour         = null;
@@ -135,7 +120,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $doc  = $app->getDocument();
         $user = $app->getIdentity();
 
-        if ($user != null && $user->id > 0) {
+        if ($app->isClient('administrator') && $user != null && $user->id > 0) {
             Text::script('JCANCEL');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_BACK');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_COMPLETE');
