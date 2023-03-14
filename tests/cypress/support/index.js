@@ -1,14 +1,16 @@
-import './commands'
-import 'joomla-cypress'
+import './commands';
+import 'joomla-cypress';
 
-before(function() {
-  const {registerCommands} = require('../../../node_modules/joomla-cypress/src/index.js')
+before(function () {
+  const { registerCommands } = require('../../../node_modules/joomla-cypress/src/index.js');
 
-  registerCommands()
+  registerCommands();
 
   Cypress.on('uncaught:exception', (err, runnable) => {
-    console.log("err :" + err)
-    console.log("runnable :" + runnable)
+    console.log("err :" + err);
+    console.log("runnable :" + runnable);
     return false
-  })
-})
+  });
+});
+
+afterEach(() => cy.task('cleanupDB'));
