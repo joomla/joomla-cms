@@ -12,7 +12,6 @@ namespace Joomla\Module\Footer\Site\Dispatcher;
 
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -36,7 +35,7 @@ class Dispatcher extends AbstractModuleDispatcher
     {
         $data = parent::getLayoutData();
 
-        $lineOne = Text::_('MOD_FOOTER_LINE1');
+        $lineOne = $this->getApplication()->getLanguage()->_('MOD_FOOTER_LINE1');
         $lineOne = str_replace('%date%', HTMLHelper::_('date', 'now', 'Y'), $lineOne);
         $lineOne = str_replace('%sitename%', $this->getApplication()->get('sitename'), $lineOne);
 
