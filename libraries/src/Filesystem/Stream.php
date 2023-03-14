@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Filesystem;
 
-use Joomla\Filesystem\Stream as Filesystem_Stream;
+use Joomla\Filesystem\Stream as FilesystemStream;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -29,8 +29,7 @@ use Joomla\Filesystem\Stream as Filesystem_Stream;
  * @link   https://www.php.net/manual/en/filters.php Stream Filters
  * @link   https://www.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
  * @since  1.7.0
- * @deprecated  5.0 will be removed in 6.0 use Joomla\Filesystem\Stream instead
  */
-class Stream extends Filesystem_Stream
+class Stream extends FilesystemStream
 {
 }

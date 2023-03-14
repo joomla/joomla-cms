@@ -11,7 +11,7 @@ namespace Joomla\CMS\Filesystem\Streams;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\Filesystem\Stream\StringWrapper as Filesystem_StringWrapper;
+use Joomla\Filesystem\Stream\StringWrapper as FilesystemStringWrapper;
 
 /**
  * String Stream Wrapper
@@ -20,8 +20,7 @@ use Joomla\Filesystem\Stream\StringWrapper as Filesystem_StringWrapper;
  * you would normally use a regular stream wrapper
  *
  * @since  1.7.0
- * @deprecated  5.0 will be removed in 6.0 use Joomla\Filesystem\Streams\StringWrapper instead
  */
-class StreamString extends Filesystem_StringWrapper
+class StreamString extends FilesystemStringWrapper
 {
 }
