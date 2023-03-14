@@ -41,12 +41,14 @@ class UsersLatestHelper implements DatabaseAwareInterface
      */
     public function getUsers(Registry $params, SiteApplication $app): array
     {
-        $db    = $this->getDatabase();
+        // Get the Dbo and User object
+        $db   = $this->getDatabase();
+        $user = $app->getIdentity();
+
         $query = $db->getQuery(true)
             ->select($db->quoteName(['a.id', 'a.name', 'a.username', 'a.registerDate']))
             ->order($db->quoteName('a.registerDate') . ' DESC')
             ->from($db->quoteName('#__users', 'a'));
-        $user = $app->getIdentity();
 
         if (!$user->authorise('core.admin') && $params->get('filter_groups', 0) == 1) {
             $groups = $user->getAuthorisedGroups();
