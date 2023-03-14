@@ -29,14 +29,6 @@ use Joomla\Event\SubscriberInterface;
 final class GuidedTours extends CMSPlugin implements SubscriberInterface
 {
     /**
-     * Load the language file on instantiation
-     *
-     * @var    boolean
-     * @since  4.3.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * A mapping for the step types
      *
      * @var    string[]
@@ -91,15 +83,10 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
 
         $tourId = (int) $app->getInput()->getInt('id');
 
-        $activeTourId = null;
         $tour         = null;
 
         if ($tourId > 0) {
             $tour = $this->getTour($tourId);
-
-            if (!empty($tour->id)) {
-                $activeTourId = $tour->id;
-            }
         }
 
         $event->setArgument('result', $tour ?? new \stdClass());
@@ -117,25 +104,29 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     public function onBeforeCompileHead()
     {
         $app  = $this->getApplication();
-        $doc  = $app->getDocument();
-        $user = $app->getIdentity();
 
-        if ($app->isClient('administrator') && $user != null && $user->id > 0) {
-            Text::script('JCANCEL');
-            Text::script('PLG_SYSTEM_GUIDEDTOURS_BACK');
-            Text::script('PLG_SYSTEM_GUIDEDTOURS_COMPLETE');
-            Text::script('PLG_SYSTEM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR');
-            Text::script('PLG_SYSTEM_GUIDEDTOURS_NEXT');
-            Text::script('PLG_SYSTEM_GUIDEDTOURS_START');
-            Text::script('PLG_SYSTEM_GUIDEDTOURS_STEP_NUMBER_OF');
-            Text::script('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR');
-
-            $doc->addScriptOptions('com_guidedtours.token', Session::getFormToken());
-
-            // Load required assets
-            $doc->getWebAssetManager()
-                ->usePreset('plg_system_guidedtours.guidedtours');
+        if (!$app->isClient('administrator') || !$app->getIdentity()->id)
+        {
+            return;
         }
+
+        $this->loadLanguage();
+
+        Text::script('JCANCEL');
+        Text::script('PLG_SYSTEM_GUIDEDTOURS_BACK');
+        Text::script('PLG_SYSTEM_GUIDEDTOURS_COMPLETE');
+        Text::script('PLG_SYSTEM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR');
+        Text::script('PLG_SYSTEM_GUIDEDTOURS_NEXT');
+        Text::script('PLG_SYSTEM_GUIDEDTOURS_START');
+        Text::script('PLG_SYSTEM_GUIDEDTOURS_STEP_NUMBER_OF');
+        Text::script('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR');
+
+        $doc  = $app->getDocument();
+        $doc->addScriptOptions('com_guidedtours.token', Session::getFormToken());
+
+        // Load required assets
+        $doc->getWebAssetManager()
+            ->usePreset('plg_system_guidedtours.guidedtours');
     }
 
     /**
