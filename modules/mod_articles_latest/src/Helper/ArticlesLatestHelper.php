@@ -124,7 +124,7 @@ class ArticlesLatestHelper implements DatabaseAwareInterface
             'random' => $db->getQuery(true)->rand(),
         ];
 
-        $ordering = ArrayHelper::getValue($order_map, $params->get('ordering'), 'a.publish_up');
+        $ordering = ArrayHelper::getValue($order_map, $params->get('ordering', 'p_dsc'), 'a.publish_up');
         $dir      = 'DESC';
 
         $model->setState('list.ordering', $ordering);
