@@ -37,7 +37,7 @@ class Dispatcher extends AbstractModuleDispatcher
 
         $lineOne = $this->getApplication()->getLanguage()->_('MOD_FOOTER_LINE1');
         $lineOne = str_replace('%date%', HTMLHelper::_('date', 'now', 'Y'), $lineOne);
-        $lineOne = str_replace('%sitename%', $this->getApplication()->get('sitename'), $lineOne);
+        $lineOne = str_replace('%sitename%', $this->getApplication()->get('sitename', ''), $lineOne);
 
         $data['lineone'] = $lineOne;
 
