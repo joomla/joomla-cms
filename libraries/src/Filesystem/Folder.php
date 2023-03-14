@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Filesystem;
 
-use Joomla\Filesystem\Folder as Filesystem_Folder;
+use Joomla\Filesystem\Folder as FilesystemFolder;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -20,7 +20,7 @@ use Joomla\Filesystem\Folder as Filesystem_Folder;
  *
  * @since  1.7.0
  */
-abstract class Folder extends Filesystem_Folder
+abstract class Folder extends FilesystemFolder
 {
     /**
      * Wrapper for the standard file_exists function
