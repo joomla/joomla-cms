@@ -12,7 +12,6 @@
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -118,7 +117,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
             return false;
         }
 
-        if (!File::exists($formFile)) {
+        if (!is_file($formFile)) {
             return false;
         }
 
@@ -302,7 +301,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 
                     if (
                         !empty($attachment)
-                        && File::exists($attachment)
+                        && is_file($attachment)
                         && is_file($attachment)
                     ) {
                         // @todo we allow multiple files [?]
