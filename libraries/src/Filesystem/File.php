@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\Filesystem\File as Filesystem_File;
+use Joomla\Filesystem\File as FilesystemFile;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -24,7 +24,7 @@ use Joomla\Filesystem\File as Filesystem_File;
  *
  * @since  1.7.0
  */
-class File extends Filesystem_File
+class File extends FilesystemFile
 {
     /**
      * @var    boolean  true if OPCache enabled, and we have permission to invalidate files
@@ -203,7 +203,6 @@ class File extends Filesystem_File
      * @return  boolean  True if path is a file
      *
      * @since   1.7.0
-     * @deprecated  5.0 will be removed in 6.0 use is_file() directly
      */
     public static function exists($file)
     {
