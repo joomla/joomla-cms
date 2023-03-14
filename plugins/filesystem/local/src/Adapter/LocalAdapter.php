@@ -324,10 +324,6 @@ class LocalAdapter implements AdapterInterface
         $thumbnailPaths = $this->getLocalThumbnailPaths($localPath);
 
         if (is_file($localPath)) {
-            if (!is_file($localPath)) {
-                throw new FileNotFoundException();
-            }
-
             if ($this->thumbnails && !empty($thumbnailPaths['fs']) && is_file($thumbnailPaths['fs'])) {
                 File::delete($thumbnailPaths['fs']);
             }

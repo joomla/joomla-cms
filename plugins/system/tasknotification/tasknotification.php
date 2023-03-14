@@ -302,7 +302,6 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
                     if (
                         !empty($attachment)
                         && is_file($attachment)
-                        && is_file($attachment)
                     ) {
                         // @todo we allow multiple files [?]
                         $attachName = pathinfo($attachment, PATHINFO_BASENAME);
