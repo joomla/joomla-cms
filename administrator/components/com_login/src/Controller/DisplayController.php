@@ -14,6 +14,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Login Controller.
  *
@@ -75,7 +79,7 @@ class DisplayController extends BaseController
         $credentials = $model->getState('credentials');
         $return = $model->getState('return');
 
-        $app->login($credentials, array('action' => 'core.login.admin'));
+        $app->login($credentials, ['action' => 'core.login.admin']);
 
         if (Uri::isInternal($return) && strpos($return, 'tmpl=component') === false) {
             $app->redirect($return);
@@ -103,9 +107,9 @@ class DisplayController extends BaseController
             $clientid = $userid ? 0 : 1;
         }
 
-        $options = array(
+        $options = [
             'clientid' => $clientid,
-        );
+        ];
 
         $result = $app->logout($userid, $options);
 

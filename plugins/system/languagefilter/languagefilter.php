@@ -31,6 +31,10 @@ use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Language Filter Plugin.
  *
@@ -149,24 +153,22 @@ class PlgSystemLanguageFilter extends CMSPlugin
      */
     public function onAfterInitialise()
     {
-        $this->app->item_associations = $this->params->get('item_associations', 0);
-
         // We need to make sure we are always using the site router, even if the language plugin is executed in admin app.
         // Router can be injected when turned into a DI built plugin
         $router = Factory::getContainer()->get(SiteRouter::class);
 
         // Attach build rules for language SEF.
-        $router->attachBuildRule(array($this, 'preprocessBuildRule'), Router::PROCESS_BEFORE);
+        $router->attachBuildRule([$this, 'preprocessBuildRule'], Router::PROCESS_BEFORE);
 
         if ($this->mode_sef) {
-            $router->attachBuildRule(array($this, 'buildRule'), Router::PROCESS_BEFORE);
-            $router->attachBuildRule(array($this, 'postprocessSEFBuildRule'), Router::PROCESS_AFTER);
+            $router->attachBuildRule([$this, 'buildRule'], Router::PROCESS_BEFORE);
+            $router->attachBuildRule([$this, 'postprocessSEFBuildRule'], Router::PROCESS_AFTER);
         } else {
-            $router->attachBuildRule(array($this, 'postprocessNonSEFBuildRule'), Router::PROCESS_AFTER);
+            $router->attachBuildRule([$this, 'postprocessNonSEFBuildRule'], Router::PROCESS_AFTER);
         }
 
         // Attach parse rule.
-        $router->attachParseRule(array($this, 'parseRule'), Router::PROCESS_BEFORE);
+        $router->attachParseRule([$this, 'parseRule'], Router::PROCESS_BEFORE);
     }
 
     /**
@@ -339,7 +341,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
                     // Empty parts array when "index.php" is the only part left.
                     if (count($parts) === 1 && $parts[0] === 'index.php') {
-                        $parts = array();
+                        $parts = [];
                     }
 
                     $uri->setPath(implode('/', $parts));
@@ -423,7 +425,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
                     $uri->setPath('index.php/' . $uri->getPath());
                 }
 
-                $redirectUri = $uri->base() . $uri->toString(array('path', 'query', 'fragment'));
+                $redirectUri = $uri->base() . $uri->toString(['path', 'query', 'fragment']);
             } else {
                 $uri->setVar('lang', $this->lang_codes[$lang_code]->sef);
                 $redirectUri = $uri->base() . 'index.php?' . $uri->getQuery();
@@ -448,7 +450,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
         }
 
         // We have found our language and now need to set the cookie and the language value in our system
-        $array = array('lang' => $lang_code);
+        $array = ['lang' => $lang_code];
         $this->current_lang = $lang_code;
 
         // Set the request var.
@@ -495,11 +497,11 @@ class PlgSystemLanguageFilter extends CMSPlugin
     {
         $this->loadLanguage();
 
-        return array(
-            Text::_('PLG_SYSTEM_LANGUAGEFILTER') => array(
+        return [
+            Text::_('PLG_SYSTEM_LANGUAGEFILTER') => [
                 Text::_('PLG_SYSTEM_LANGUAGEFILTER_PRIVACY_CAPABILITY_LANGUAGE_COOKIE'),
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -577,7 +579,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
      *
      * @since   1.5
      */
-    public function onUserLogin($user, $options = array())
+    public function onUserLogin($user, $options = [])
     {
         if ($this->app->isClient('site')) {
             $menu = $this->app->getMenu();
@@ -689,7 +691,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
             $active                = $menu->getActive();
             $levels                = $this->app->getIdentity()->getAuthorisedViewLevels();
             $remove_default_prefix = $this->params->get('remove_default_prefix', 0);
-            $server                = Uri::getInstance()->toString(array('scheme', 'host', 'port'));
+            $server                = Uri::getInstance()->toString(['scheme', 'host', 'port']);
             $is_home               = false;
 
             // Router can be injected when turned into a DI built plugin
@@ -720,8 +722,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
                 $cName = ucfirst(substr($option, 4)) . 'HelperAssociation';
                 JLoader::register($cName, \Joomla\CMS\Filesystem\Path::clean(JPATH_SITE . '/components/' . $option . '/helpers/association.php'));
 
-                if (class_exists($cName) && is_callable(array($cName, 'getAssociations'))) {
-                    $cassociations = call_user_func(array($cName, 'getAssociations'));
+                if (class_exists($cName) && is_callable([$cName, 'getAssociations'])) {
+                    $cassociations = call_user_func([$cName, 'getAssociations']);
                 }
             }
 
@@ -771,7 +773,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
                 }
 
                 foreach ($languages as $i => $language) {
-                    $doc->addHeadLink($server . $language->link, 'alternate', 'rel', array('hreflang' => $i));
+                    $doc->addHeadLink($server . $language->link, 'alternate', 'rel', ['hreflang' => $i]);
                 }
 
                 // Add x-default language tag

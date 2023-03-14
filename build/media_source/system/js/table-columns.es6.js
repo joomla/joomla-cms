@@ -61,7 +61,7 @@ class TableColumns {
     $button.setAttribute('aria-expanded', 'false');
 
     const $ul = document.createElement('ul');
-    $ul.setAttribute('class', 'list-unstyled p-2');
+    $ul.setAttribute('class', 'list-unstyled p-2 text-nowrap mb-0');
     $ul.setAttribute('id', 'columnList');
 
     // Collect a list of headers for dropdown
@@ -111,11 +111,11 @@ class TableColumns {
 
     // Remove "media query" classes, which may prevent toggling from working.
     this.$headers.forEach(($el) => {
-      $el.classList.remove('d-none', 'd-md-table-cell', 'd-lg-table-cell', 'd-xl-table-cell');
+      $el.classList.remove('d-none', 'd-xs-table-cell', 'd-sm-table-cell', 'd-md-table-cell', 'd-lg-table-cell', 'd-xl-table-cell', 'd-xxl-table-cell');
     });
     this.$rows.forEach(($row) => {
       [].slice.call($row.children).forEach(($el) => {
-        $el.classList.remove('d-none', 'd-md-table-cell', 'd-lg-table-cell', 'd-xl-table-cell');
+        $el.classList.remove('d-none', 'd-xs-table-cell', 'd-sm-table-cell', 'd-md-table-cell', 'd-lg-table-cell', 'd-xl-table-cell', 'd-xxl-table-cell');
       });
     });
 

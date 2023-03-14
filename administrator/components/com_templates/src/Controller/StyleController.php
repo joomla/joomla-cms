@@ -14,6 +14,10 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Template style controller class.
  *
@@ -46,7 +50,7 @@ class StyleController extends FormController
         if ($this->app->getDocument()->getType() === 'json') {
             $model = $this->getModel('Style', 'Administrator');
             $table = $model->getTable();
-            $data  = $this->input->post->get('params', array(), 'array');
+            $data  = $this->input->post->get('params', [], 'array');
             $checkin = $table->hasField('checked_out');
             $context = $this->option . '.edit.' . $this->context;
 

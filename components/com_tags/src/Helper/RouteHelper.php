@@ -15,6 +15,10 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\RouteHelper as CMSRouteHelper;
 use Joomla\CMS\Menu\AbstractMenu;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Tags Component Route Helper.
  *
@@ -188,7 +192,7 @@ class RouteHelper extends CMSRouteHelper
 
         // Prepare the reverse lookup array.
         if (self::$lookup === null) {
-            self::$lookup = array();
+            self::$lookup = [];
 
             $component = ComponentHelper::getComponent('com_tags');
             $items     = $menus->getItems('component_id', $component->id);
@@ -199,13 +203,13 @@ class RouteHelper extends CMSRouteHelper
                         $lang = ($item->language != '' ? $item->language : '*');
 
                         if (!isset(self::$lookup[$lang])) {
-                            self::$lookup[$lang] = array();
+                            self::$lookup[$lang] = [];
                         }
 
                         $view = $item->query['view'];
 
                         if (!isset(self::$lookup[$lang][$view])) {
-                            self::$lookup[$lang][$view] = array();
+                            self::$lookup[$lang][$view] = [];
                         }
 
                         // Only match menu items that list one tag

@@ -22,6 +22,10 @@ use Joomla\CMS\Session\Session;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Template style controller class.
  *
@@ -40,7 +44,7 @@ class TemplateController extends BaseController
      * @since  1.6
      * @see    BaseController
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -93,8 +97,8 @@ class TemplateController extends BaseController
         $file = $this->input->get('file');
         $id   = $this->input->get('id');
 
-        $ids    = (array) $this->input->get('cid', array(), 'string');
-        $values = array('publish' => 1, 'unpublish' => 0, 'deleteOverrideHistory' => -3);
+        $ids    = (array) $this->input->get('cid', [], 'string');
+        $values = ['publish' => 1, 'unpublish' => 0, 'deleteOverrideHistory' => -3];
         $task   = $this->getTask();
         $value  = ArrayHelper::getValue($values, $task, 0, 'int');
 
@@ -235,7 +239,7 @@ class TemplateController extends BaseController
      *
      * @since   3.2
      */
-    public function getModel($name = 'Template', $prefix = 'Administrator', $config = array())
+    public function getModel($name = 'Template', $prefix = 'Administrator', $config = [])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -264,7 +268,7 @@ class TemplateController extends BaseController
         // Check for request forgeries.
         $this->checkToken();
 
-        $data         = $this->input->post->get('jform', array(), 'array');
+        $data         = $this->input->post->get('jform', [], 'array');
         $task         = $this->getTask();
 
         /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
@@ -868,7 +872,7 @@ class TemplateController extends BaseController
 
         // Checks status of installer override plugin.
         if (!PluginHelper::isEnabled('installer', 'override')) {
-            $error = array('installerOverride' => 'disabled');
+            $error = ['installerOverride' => 'disabled'];
 
             echo json_encode($error);
 

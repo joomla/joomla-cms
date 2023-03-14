@@ -13,6 +13,10 @@ namespace Joomla\Component\Languages\Administrator\Service\HTML;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class working with languages
  *
@@ -63,10 +67,10 @@ class Languages
      */
     public function clients()
     {
-        return array(
+        return [
             HTMLHelper::_('select.option', 0, Text::_('JSITE')),
             HTMLHelper::_('select.option', 1, Text::_('JADMINISTRATOR'))
-        );
+        ];
     }
 
     /**
@@ -79,7 +83,7 @@ class Languages
     public function publishedOptions()
     {
         // Build the active state filter options.
-        $options   = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '1', 'JPUBLISHED');
         $options[] = HTMLHelper::_('select.option', '0', 'JUNPUBLISHED');
         $options[] = HTMLHelper::_('select.option', '-2', 'JTRASHED');

@@ -24,6 +24,10 @@ use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla User plugin
  *
@@ -64,7 +68,7 @@ class PlgUserJoomla extends CMSPlugin
             // In case there is a validation error (like duplicated user), $data is an empty array on save.
             // After returning from error, $data is an array but populated
             if (!$data) {
-                $data = Factory::getApplication()->input->get('jform', array(), 'array');
+                $data = Factory::getApplication()->input->get('jform', [], 'array');
             }
 
             if (is_array($data)) {

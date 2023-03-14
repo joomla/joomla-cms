@@ -12,6 +12,10 @@ namespace Joomla\CMS\HTML\Helpers;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class for jQuery JavaScript behaviors
  *
@@ -25,7 +29,7 @@ abstract class Jquery
      * @var    array
      * @since  3.0
      */
-    protected static $loaded = array();
+    protected static $loaded = [];
 
     /**
      * Method to load the jQuery JavaScript framework into the document head

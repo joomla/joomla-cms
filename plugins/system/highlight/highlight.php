@@ -16,6 +16,10 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * System plugin to highlight terms.
  *
@@ -45,7 +49,7 @@ class PlgSystemHighlight extends CMSPlugin
     public function onAfterDispatch()
     {
         // Check that we are in the site application.
-        if ($this->app->isClient('administrator')) {
+        if (!$this->app->isClient('site')) {
             return;
         }
 
@@ -75,7 +79,7 @@ class PlgSystemHighlight extends CMSPlugin
         // Clean the terms array.
         $filter     = InputFilter::getInstance();
 
-        $cleanTerms = array();
+        $cleanTerms = [];
 
         foreach ($terms as $term) {
             $cleanTerms[] = htmlspecialchars($filter->clean($term, 'string'));

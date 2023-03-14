@@ -14,6 +14,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Languages Override Controller
  *
@@ -36,7 +40,7 @@ class OverrideController extends FormController
         // Do not cache the response to this, its a redirect
         $this->app->allowCache(false);
 
-        $cid     = (array) $this->input->post->get('cid', array(), 'string');
+        $cid     = (array) $this->input->post->get('cid', [], 'string');
         $context = "$this->option.edit.$this->context";
 
         // Get the constant name.
@@ -71,7 +75,7 @@ class OverrideController extends FormController
 
         $app     = $this->app;
         $model   = $this->getModel();
-        $data    = $this->input->post->get('jform', array(), 'array');
+        $data    = $this->input->post->get('jform', [], 'array');
         $context = "$this->option.edit.$this->context";
         $task    = $this->getTask();
 

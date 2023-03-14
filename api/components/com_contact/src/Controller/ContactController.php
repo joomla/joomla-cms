@@ -30,6 +30,10 @@ use Joomla\String\Inflector;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The contact controller
  *
@@ -207,11 +211,11 @@ class ContactController extends ApiController
             $output = FieldsHelper::render(
                 'com_contact.mail',
                 'fields.render',
-                array(
+                [
                     'context' => 'com_contact.mail',
                     'item'    => $contact,
                     'fields'  => $fields,
-                )
+                ]
             );
 
             if ($output) {

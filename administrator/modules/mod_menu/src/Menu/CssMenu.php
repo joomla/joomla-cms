@@ -21,6 +21,10 @@ use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Tree based class to render the admin menu
  *
@@ -209,7 +213,7 @@ class CssMenu
                 return true;
             }
 
-            $missing = array();
+            $missing = [];
 
             if ($rMenu) {
                 $missing[] = Text::_('MOD_MENU_IMPORTANT_ITEM_MENU_MANAGER');
@@ -229,7 +233,7 @@ class CssMenu
             $table    = Table::getInstance('MenuType');
             $menutype = $params->get('menutype');
 
-            $table->load(array('menutype' => $menutype));
+            $table->load(['menutype' => $menutype]);
 
             $menutype = $table->get('title', $menutype);
             $message  = Text::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', $menutype, implode(', ', $missing), $uri);
@@ -262,7 +266,7 @@ class CssMenu
          * $children is an array of AdministratorMenuItem objects. A plugin can traverse the whole tree,
          * but new nodes will only be run through this method if their parents have not been processed yet.
          */
-        $this->application->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.module', $children, $this->params, $this->enabled));
+        $this->application->triggerEvent('onPreprocessMenuItems', ['com_menus.administrator.module', $children, $this->params, $this->enabled]);
 
         foreach ($children as $item) {
             $itemParams = $item->getParams();
@@ -344,7 +348,7 @@ class CssMenu
                     continue;
                 }
 
-                list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
+                list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : ['com_fields'];
             } elseif ($item->element === 'com_cpanel' && $item->link === 'index.php') {
                 continue;
             } elseif (
@@ -373,8 +377,8 @@ class CssMenu
                     continue;
                 }
 
-                list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
-            } elseif (\in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin')) {
+                list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : ['com_workflow'];
+            } elseif (\in_array($item->element, ['com_config', 'com_privacy', 'com_actionlogs'], true) && !$user->authorise('core.admin')) {
                 // Special case for components which only allow super user access
                 $parent->removeChild($item);
                 continue;
@@ -402,7 +406,7 @@ class CssMenu
             }
 
             // Exclude if link is invalid
-            if (is_null($item->link) || !\in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === '') {
+            if (is_null($item->link) || !\in_array($item->type, ['separator', 'heading', 'container']) && trim($item->link) === '') {
                 $parent->removeChild($item);
                 continue;
             }
@@ -414,7 +418,7 @@ class CssMenu
 
             // Populate automatic children for container items
             if ($item->type === 'container') {
-                $exclude    = (array) $itemParams->get('hideitems') ?: array();
+                $exclude    = (array) $itemParams->get('hideitems') ?: [];
                 $components = MenusHelper::getMenuItems('main', false, $exclude);
 
                 // We are adding the nodes first to preprocess them, then sort them and add them again.
@@ -431,7 +435,7 @@ class CssMenu
             }
 
             // Exclude if there are no child items under heading or container
-            if (\in_array($item->type, array('heading', 'container')) && !$item->hasChildren() && empty($item->components)) {
+            if (\in_array($item->type, ['heading', 'container']) && !$item->hasChildren() && empty($item->components)) {
                 $parent->removeChild($item);
                 continue;
             }

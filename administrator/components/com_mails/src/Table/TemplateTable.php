@@ -13,6 +13,10 @@ namespace Joomla\Component\Mails\Administrator\Table;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Mail Table class.
  *
@@ -37,6 +41,6 @@ class TemplateTable extends Table
      */
     public function __construct(DatabaseDriver $db)
     {
-        parent::__construct('#__mail_templates', array('template_id', 'language'), $db);
+        parent::__construct('#__mail_templates', ['template_id', 'language'], $db);
     }
 }

@@ -14,6 +14,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! SEF Plugin.
  *
@@ -66,10 +70,10 @@ class PlgSystemSef extends CMSPlugin
             unset($doc->_links[$canonical]);
 
             // Set the current canonical link but use the SEF system plugin domain field.
-            $canonical = $sefDomain . Uri::getInstance($canonical)->toString(array('path', 'query', 'fragment'));
+            $canonical = $sefDomain . Uri::getInstance($canonical)->toString(['path', 'query', 'fragment']);
         } else {
             // If a canonical html doesn't exists already add a canonical html tag using the SEF plugin domain field.
-            $canonical = $sefDomain . Uri::getInstance()->toString(array('path', 'query', 'fragment'));
+            $canonical = $sefDomain . Uri::getInstance()->toString(['path', 'query', 'fragment']);
         }
 
         // Add the canonical link.
@@ -111,7 +115,7 @@ class PlgSystemSef extends CMSPlugin
 
         // Check for all unknown protocols (a protocol must contain at least one alphanumeric character followed by a ":").
         $protocols  = '[a-zA-Z0-9\-]+:';
-        $attributes = array('href=', 'src=', 'poster=');
+        $attributes = ['href=', 'src=', 'poster='];
 
         foreach ($attributes as $attribute) {
             if (strpos($buffer, $attribute) !== false) {
@@ -149,7 +153,7 @@ class PlgSystemSef extends CMSPlugin
         }
 
         // Replace all unknown protocols in onmouseover and onmouseout attributes.
-        $attributes = array('onmouseover=', 'onmouseout=');
+        $attributes = ['onmouseover=', 'onmouseout='];
 
         foreach ($attributes as $attribute) {
             if (strpos($buffer, $attribute) !== false) {

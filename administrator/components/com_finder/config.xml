@@ -309,14 +309,6 @@
 		</field>
 
 		<field
-			name="memory_table_limit"
-			type="number"
-			label="COM_FINDER_CONFIG_MEMORY_TABLE_LIMIT_LABEL"
-			default="30000"
-			filter="integer"
-		/>
-
-		<field
 			name="title_multiplier"
 			type="number"
 			label="COM_FINDER_CONFIG_TITLE_MULTIPLIER_LABEL"

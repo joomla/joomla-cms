@@ -12,6 +12,10 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Field to show a list of available user active statuses
  *
@@ -33,10 +37,10 @@ class UseractiveField extends PredefinedlistField
      * @var  array
      * @since  3.2
      */
-    protected $predefinedOptions = array(
+    protected $predefinedOptions = [
         '0'  => 'COM_USERS_ACTIVATED',
         '1'  => 'COM_USERS_UNACTIVATED',
-    );
+    ];
 
     /**
      * Method to instantiate the form field object.

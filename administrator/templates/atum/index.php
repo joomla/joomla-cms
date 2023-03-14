@@ -45,18 +45,18 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], t
 
 // Template params
 $logoBrandLarge  = $this->params->get('logoBrandLarge')
-    ? Uri::root() . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
-    : Uri::root() . 'media/templates/administrator/atum/images/logos/brand-large.svg';
+    ? Uri::root(false) . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
+    : Uri::root(false) . 'media/templates/administrator/atum/images/logos/brand-large.svg';
 $logoBrandSmall = $this->params->get('logoBrandSmall')
-    ? Uri::root() . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
-    : Uri::root() . 'media/templates/administrator/atum/images/logos/brand-small.svg';
+    ? Uri::root(false) . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
+    : Uri::root(false) . 'media/templates/administrator/atum/images/logos/brand-small.svg';
 
 $logoBrandLargeAlt = empty($this->params->get('logoBrandLargeAlt')) && empty($this->params->get('emptyLogoBrandLargeAlt'))
-    ? 'alt=""'
-    : 'alt="' . htmlspecialchars($this->params->get('logoBrandLargeAlt'), ENT_COMPAT, 'UTF-8') . '"';
+    ? ''
+    : htmlspecialchars($this->params->get('logoBrandLargeAlt', ''), ENT_COMPAT, 'UTF-8');
 $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($this->params->get('emptyLogoBrandSmallAlt'))
-    ? 'alt=""'
-    : 'alt="' . htmlspecialchars($this->params->get('logoBrandSmallAlt'), ENT_COMPAT, 'UTF-8') . '"';
+    ? ''
+    : htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8');
 
 // Get the hue value
 preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
@@ -112,13 +112,13 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
                 <?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
                 <?php if ($hiddenMenu || $cpanel) : ?>
                     <div class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>">
-                    <img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
-                    <img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
+                        <?php echo HTMLHelper::_('image', $logoBrandLarge, $logoBrandLargeAlt, ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
+                        <?php echo HTMLHelper::_('image', $logoBrandSmall, $logoBrandSmallAlt, ['class' => 'logo-collapsed', 'loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                     </div>
                 <?php else : ?>
                     <a class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>" href="<?php echo Route::_('index.php'); ?>">
-                        <img src="<?php echo $logoBrandLarge; ?>" alt="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
-                        <img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" alt="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
+                        <?php echo HTMLHelper::_('image', $logoBrandLarge, Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'), ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
+                        <?php echo HTMLHelper::_('image', $logoBrandSmall, Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'), ['class' => 'logo-collapsed', 'loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                     </a>
                 <?php endif; ?>
             </div>

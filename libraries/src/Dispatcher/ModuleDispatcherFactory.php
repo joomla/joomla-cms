@@ -12,6 +12,10 @@ namespace Joomla\CMS\Dispatcher;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\Input\Input;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Namespace based implementation of the ModuleDispatcherFactoryInterface
  *

@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\Exception\ExecutionFailureException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Login Model
  *
@@ -37,11 +41,11 @@ class LoginModel extends BaseDatabaseModel
     {
         $input = Factory::getApplication()->input->getInputForRequestMethod();
 
-        $credentials = array(
+        $credentials = [
             'username'  => $input->get('username', '', 'USERNAME'),
             'password'  => $input->get('passwd', '', 'RAW'),
             'secretkey' => $input->get('secretkey', '', 'RAW'),
-        );
+        ];
 
         $this->setState('credentials', $credentials);
 
@@ -175,7 +179,7 @@ class LoginModel extends BaseDatabaseModel
         };
 
         try {
-            return $clean = $cache->get($loader, array(), md5(serialize(array($clientId, $lang))));
+            return $clean = $cache->get($loader, [], md5(serialize([$clientId, $lang])));
         } catch (CacheExceptionInterface $cacheException) {
             try {
                 return $loader();
@@ -185,12 +189,12 @@ class LoginModel extends BaseDatabaseModel
                     'error'
                 );
 
-                return array();
+                return [];
             }
         } catch (ExecutionFailureException $databaseException) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
 
-            return array();
+            return [];
         }
     }
 }

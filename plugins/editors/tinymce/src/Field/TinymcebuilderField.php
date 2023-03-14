@@ -16,6 +16,10 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the TinyMCE editor.
  *
@@ -47,7 +51,7 @@ class TinymcebuilderField extends FormField
      * @var    array
      * @since  3.7.0
      */
-    protected $layoutData = array();
+    protected $layoutData = [];
 
     /**
      * Method to get the data to be passed to the layout for rendering.
@@ -67,21 +71,21 @@ class TinymcebuilderField extends FormField
         $setsAmount = empty($paramsAll->sets_amount) ? 3 : $paramsAll->sets_amount;
 
         if (empty($data['value'])) {
-            $data['value'] = array();
+            $data['value'] = [];
         }
 
         // Get the plugin
         require_once JPATH_PLUGINS . '/editors/tinymce/tinymce.php';
 
-        $menus = array(
-            'edit'   => array('label' => 'Edit'),
-            'insert' => array('label' => 'Insert'),
-            'view'   => array('label' => 'View'),
-            'format' => array('label' => 'Format'),
-            'table'  => array('label' => 'Table'),
-            'tools'  => array('label' => 'Tools'),
-            'help'   => array('label' => 'Help'),
-        );
+        $menus = [
+            'edit'   => ['label' => 'Edit'],
+            'insert' => ['label' => 'Insert'],
+            'view'   => ['label' => 'View'],
+            'format' => ['label' => 'Format'],
+            'table'  => ['label' => 'Table'],
+            'tools'  => ['label' => 'Tools'],
+            'help'   => ['label' => 'Help'],
+        ];
 
         $data['menus']         = $menus;
         $data['menubarSource'] = array_keys($menus);
@@ -96,7 +100,7 @@ class TinymcebuilderField extends FormField
         }
 
         // Prepare the forms for each set
-        $setsForms  = array();
+        $setsForms  = [];
         $formsource = JPATH_PLUGINS . '/editors/tinymce/forms/setoptions.xml';
 
         // Preload an old params for B/C
@@ -113,14 +117,14 @@ class TinymcebuilderField extends FormField
         }
 
         // Collect already used groups
-        $groupsInUse = array();
+        $groupsInUse = [];
 
         // Prepare the Set forms, for the set options
         foreach (array_keys($data['setsNames']) as $num) {
             $formname = 'set.form.' . $num;
             $control  = $this->name . '[setoptions][' . $num . ']';
 
-            $setsForms[$num] = Form::getInstance($formname, $formsource, array('control' => $control));
+            $setsForms[$num] = Form::getInstance($formname, $formsource, ['control' => $control]);
 
             // Check whether we already have saved values or it first time or even old params
             if (empty($this->value['setoptions'][$num])) {
@@ -131,11 +135,11 @@ class TinymcebuilderField extends FormField
                  * Set 0: for Administrator, Editor, Super Users (4,7,8)
                  * Set 1: for Registered, Manager (2,6), all else are public
                  */
-                $formValues->access = !$num ? array(4, 7, 8) : ($num === 1 ? array(2, 6) : array());
+                $formValues->access = !$num ? [4, 7, 8] : ($num === 1 ? [2, 6] : []);
 
                 // Assign Public to the new Set, but only when it not in use already
                 if (empty($formValues->access) && !\in_array(1, $groupsInUse)) {
-                    $formValues->access = array(1);
+                    $formValues->access = [1];
                 }
             } else {
                 $formValues = (object) $this->value['setoptions'][$num];

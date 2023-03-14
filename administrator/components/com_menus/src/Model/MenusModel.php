@@ -16,6 +16,10 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Menu List Model for Menus.
  *
@@ -32,15 +36,15 @@ class MenusModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'menutype', 'a.menutype',
                 'client_id', 'a.client_id',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -68,7 +72,7 @@ class MenusModel extends ListModel
 
         // If empty or an error, just return.
         if (empty($items)) {
-            return array();
+            return [];
         }
 
         // Getting the following metric by joins is WAY TOO SLOW.
@@ -264,7 +268,7 @@ class MenusModel extends ListModel
      *
      * @return  array
      *
-     * @since   _DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function getMissingModuleLanguages(): array
     {

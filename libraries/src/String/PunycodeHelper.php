@@ -14,6 +14,10 @@ use Algo26\IdnaConvert\ToUnicode;
 use Algo26\IdnaConvert\Exception\AlreadyPunycodeException;
 use Joomla\Uri\UriHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla Platform String Punycode Class
  *

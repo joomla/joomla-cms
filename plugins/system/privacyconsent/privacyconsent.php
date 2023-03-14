@@ -30,6 +30,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * An example custom privacyconsent plugin.
  *
@@ -135,7 +139,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
         $form   = $this->app->input->post->get('jform', [], 'array');
 
         if (
-            $option == 'com_users' && in_array($task, array('registration.register', 'profile.save'))
+            $option == 'com_users' && in_array($task, ['registration.register', 'profile.save'])
             && empty($form['privacyconsent']['privacy'])
         ) {
             throw new InvalidArgumentException(Text::_('PLG_SYSTEM_PRIVACYCONSENT_FIELD_ERROR'));
@@ -281,7 +285,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
             }
 
             $option = $this->app->input->getCmd('option');
-            $task   = $this->app->input->get('task');
+            $task   = $this->app->input->get('task', '');
             $view   = $this->app->input->getString('view', '');
             $layout = $this->app->input->getString('layout', '');
             $id     = $this->app->input->getInt('id');

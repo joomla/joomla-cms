@@ -11,6 +11,10 @@ namespace Joomla\CMS\Client;
 
 use Joomla\CMS\Factory;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Client helper class
  *
@@ -32,7 +36,7 @@ class ClientHelper
      */
     public static function getCredentials($client, $force = false)
     {
-        static $credentials = array();
+        static $credentials = [];
 
         $client = strtolower($client);
 
@@ -42,18 +46,18 @@ class ClientHelper
             // Fetch the client layer configuration options for the specific client
             switch ($client) {
                 case 'ftp':
-                    $options = array(
+                    $options = [
                         'enabled' => $app->get('ftp_enable'),
                         'host'    => $app->get('ftp_host'),
                         'port'    => $app->get('ftp_port'),
                         'user'    => $app->get('ftp_user'),
                         'pass'    => $app->get('ftp_pass'),
                         'root'    => $app->get('ftp_root'),
-                    );
+                    ];
                     break;
 
                 default:
-                    $options = array('enabled' => false, 'host' => '', 'port' => '', 'user' => '', 'pass' => '', 'root' => '');
+                    $options = ['enabled' => false, 'host' => '', 'port' => '', 'user' => '', 'pass' => '', 'root' => ''];
                     break;
             }
 
@@ -96,7 +100,7 @@ class ClientHelper
         switch ($client) {
             case 'ftp':
                 $app = Factory::getApplication();
-                $options = array('enabled' => $app->get('ftp_enable'), 'host' => $app->get('ftp_host'), 'port' => $app->get('ftp_port'));
+                $options = ['enabled' => $app->get('ftp_enable'), 'host' => $app->get('ftp_host'), 'port' => $app->get('ftp_port')];
 
                 if ($options['enabled']) {
                     $ftp = FtpClient::getInstance($options['host'], $options['port']);
@@ -147,11 +151,11 @@ class ClientHelper
         switch ($client) {
             case 'ftp':
                 $app = Factory::getApplication();
-                $options = array('enabled' => $app->get('ftp_enable'), 'user' => $app->get('ftp_user'), 'pass' => $app->get('ftp_pass'));
+                $options = ['enabled' => $app->get('ftp_enable'), 'user' => $app->get('ftp_user'), 'pass' => $app->get('ftp_pass')];
                 break;
 
             default:
-                $options = array('enabled' => false, 'user' => '', 'pass' => '');
+                $options = ['enabled' => false, 'user' => '', 'pass' => ''];
                 break;
         }
 

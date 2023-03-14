@@ -16,6 +16,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This models supports retrieving lists of contact categories.
  *
@@ -119,7 +123,7 @@ class CategoriesModel extends ListModel
                 $params = new Registry();
             }
 
-            $options = array();
+            $options = [];
             $options['countItems'] = $params->get('show_cat_items_cat', 1) || !$params->get('show_empty_categories_cat', 0);
             $categories = Categories::getInstance('Contact', $options);
             $this->_parent = $categories->get($this->getState('filter.parentId', 'root'));

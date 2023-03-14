@@ -17,6 +17,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Redirect link model.
  *
@@ -58,10 +62,10 @@ class LinkModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_redirect.link', 'link', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_redirect.link', 'link', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -97,7 +101,7 @@ class LinkModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_redirect.edit.link.data', array());
+        $data = Factory::getApplication()->getUserState('com_redirect.edit.link.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -133,7 +137,7 @@ class LinkModel extends AdminModel
 
         // Access checks.
         if (!$user->authorise('core.edit', 'com_redirect')) {
-            $pks = array();
+            $pks = [];
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 
             return false;
@@ -185,7 +189,7 @@ class LinkModel extends AdminModel
 
         // Access checks.
         if (!$user->authorise('core.edit', 'com_redirect')) {
-            $pks = array();
+            $pks = [];
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 
             return false;

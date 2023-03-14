@@ -15,6 +15,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseQuery;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class for creating different select lists
  *
@@ -48,7 +52,7 @@ abstract class ListHelper
         }
 
         $imageFiles = new \DirectoryIterator(JPATH_SITE . '/' . $directory);
-        $images = array(HTMLHelper::_('select.option', '', Text::_('JOPTION_SELECT_IMAGE')));
+        $images = [HTMLHelper::_('select.option', '', Text::_('JOPTION_SELECT_IMAGE'))];
 
         foreach ($imageFiles as $file) {
             $fileName = $file->getFilename();
@@ -66,10 +70,10 @@ abstract class ListHelper
             'select.genericlist',
             $images,
             $name,
-            array(
+            [
                 'list.attr' => 'size="1" ' . $javascript,
                 'list.select' => $active,
-            )
+            ]
         );
 
         return $images;
@@ -88,7 +92,7 @@ abstract class ListHelper
     public static function genericordering($query, $chop = 30)
     {
         $db = Factory::getDbo();
-        $options = array();
+        $options = [];
         $db->setQuery($query);
 
         $items = $db->loadObjectList();
@@ -200,10 +204,10 @@ abstract class ListHelper
             'select.genericlist',
             $users,
             $name,
-            array(
+            [
                 'list.attr' => 'size="1" ' . $javascript,
                 'list.select' => $active,
-            )
+            ]
         );
 
         return $users;
@@ -235,7 +239,7 @@ abstract class ListHelper
         $right = true,
         $id = false
     ) {
-        $pos = array();
+        $pos = [];
 
         if ($none) {
             $pos[''] = Text::_('JNONE');
@@ -257,12 +261,12 @@ abstract class ListHelper
             'select.genericlist',
             $pos,
             $name,
-            array(
+            [
                 'id' => $id,
                 'list.attr' => 'size="1"' . $javascript,
                 'list.select' => $active,
                 'option.key' => null,
-            )
+            ]
         );
 
         return $positions;

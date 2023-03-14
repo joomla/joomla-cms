@@ -15,6 +15,10 @@ use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Indexer controller class for Finder.
  *
@@ -40,7 +44,7 @@ class FilterController extends FormController
         /** @var \Joomla\Component\Finder\Administrator\Model\FilterModel $model */
         $model = $this->getModel();
         $table = $model->getTable();
-        $data = $this->input->post->get('jform', array(), 'array');
+        $data = $this->input->post->get('jform', [], 'array');
         $checkin = $table->hasField('checked_out');
         $context = "$this->option.edit.$this->context";
         $task = $this->getTask();
@@ -134,7 +138,7 @@ class FilterController extends FormController
         }
 
         // Get and sanitize the filter data.
-        $validData['data'] = $this->input->post->get('t', array(), 'array');
+        $validData['data'] = $this->input->post->get('t', [], 'array');
         $validData['data'] = array_unique($validData['data']);
         $validData['data'] = ArrayHelper::toInteger($validData['data']);
 

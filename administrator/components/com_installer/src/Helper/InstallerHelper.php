@@ -19,6 +19,10 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use SimpleXMLElement;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Installer helper.
  *
@@ -42,7 +46,7 @@ class InstallerHelper
         $db->setQuery($query);
         $types = $db->loadColumn();
 
-        $options = array();
+        $options = [];
 
         foreach ($types as $type) {
             $options[] = HTMLHelper::_('select.option', $type, Text::_('COM_INSTALLER_TYPE_' . strtoupper($type)));
@@ -71,7 +75,7 @@ class InstallerHelper
         $db->setQuery($query);
         $folders = $db->loadColumn();
 
-        $options = array();
+        $options = [];
 
         foreach ($folders as $folder) {
             $options[] = HTMLHelper::_('select.option', $folder, $folder);
@@ -90,7 +94,7 @@ class InstallerHelper
     public static function getClientOptions()
     {
         // Build the filter options.
-        $options   = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
         $options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
         $options[] = HTMLHelper::_('select.option', '3', Text::_('JAPI'));
@@ -108,7 +112,7 @@ class InstallerHelper
     public static function getStateOptions()
     {
         // Build the filter options.
-        $options   = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '0', Text::_('JDISABLED'));
         $options[] = HTMLHelper::_('select.option', '1', Text::_('JENABLED'));
         $options[] = HTMLHelper::_('select.option', '2', Text::_('JPROTECTED'));

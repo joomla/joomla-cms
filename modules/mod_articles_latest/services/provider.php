@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package     Joomla.Administrator
+ * @package     Joomla.Site
  * @subpackage  mod_articles_latest
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>

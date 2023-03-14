@@ -15,6 +15,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Editor Pagebreak button
  *
@@ -57,7 +61,7 @@ class PlgButtonPagebreak extends CMSPlugin
             return;
         }
 
-        Factory::getDocument()->addScriptOptions('xtd-pagebreak', array('editor' => $name));
+        Factory::getDocument()->addScriptOptions('xtd-pagebreak', ['editor' => $name]);
         $link = 'index.php?option=com_content&amp;view=article&amp;layout=pagebreak&amp;tmpl=component&amp;e_name=' . $name;
 
         $button = new CMSObject();

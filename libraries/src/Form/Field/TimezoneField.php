@@ -11,6 +11,10 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  *
@@ -32,7 +36,7 @@ class TimezoneField extends GroupedlistField
      * @var    array
      * @since  1.7.0
      */
-    protected static $zones = array('Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific');
+    protected static $zones = ['Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific'];
 
     /**
      * The keyField of timezone field.
@@ -116,7 +120,7 @@ class TimezoneField extends GroupedlistField
      */
     protected function getGroups()
     {
-        $groups = array();
+        $groups = [];
 
         // Get the list of time zones from the server.
         $zones = \DateTimeZone::listIdentifiers();
@@ -135,7 +139,7 @@ class TimezoneField extends GroupedlistField
             if (\in_array($group, self::$zones)) {
                 // Initialize the group if necessary.
                 if (!isset($groups[$group])) {
-                    $groups[$group] = array();
+                    $groups[$group] = [];
                 }
 
                 // Only add options where a locale exists.

@@ -12,6 +12,10 @@ namespace Joomla\Component\Content\Administrator\Event\Model;
 use BadMethodCallException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event class for WebAsset events
  *
@@ -29,7 +33,7 @@ class FeatureEvent extends AbstractImmutableEvent
      *
      * @since   4.0.0
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!isset($arguments['extension'])) {
             throw new BadMethodCallException("Argument 'extension' of event $this->name is required but has not been provided");

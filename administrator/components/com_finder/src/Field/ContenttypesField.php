@@ -17,6 +17,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content Types Filter field for the Finder package.
  *
@@ -42,7 +46,7 @@ class ContenttypesField extends ListField
     public function getOptions()
     {
         $lang    = Factory::getLanguage();
-        $options = array();
+        $options = [];
 
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)

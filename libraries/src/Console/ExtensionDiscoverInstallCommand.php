@@ -19,6 +19,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command for discovering extensions
  *
@@ -118,7 +122,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
     public function processDiscover($eid): int
     {
         $jInstaller = new Installer();
-        $jInstaller->setDatabase($this->db);
+        $jInstaller->setDatabase($this->getDatabase());
         $count = 0;
 
         if ($eid === -1) {
@@ -194,6 +198,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
+        $this->ioStyle->title('Install Discovered Extensions');
 
         if ($eid = $this->cliInput->getOption('eid')) {
             $result = $this->processDiscover($eid);

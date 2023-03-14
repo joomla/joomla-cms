@@ -10,7 +10,6 @@
     <exclude-pattern type="relative">media/*</exclude-pattern>
     <exclude-pattern type="relative">node_modules/*</exclude-pattern>
     <exclude-pattern type="relative">tmp/*</exclude-pattern>
-    <exclude-pattern type="relative">tests/*</exclude-pattern>
 
     <!-- Exclude 3rd party libraries and Framework code. -->
     <exclude-pattern type="relative">libraries/php-encryption/*</exclude-pattern>
@@ -28,11 +27,6 @@
             <property name="lineLimit" value="560"/>
             <property name="absoluteLineLimit" value="560"/>
         </properties>
-    </rule>
-
-
-    <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
-        <exclude-pattern type="relative">administrator/components/com_banners/src/Controller/BannersController\.php</exclude-pattern>
     </rule>
 
     <rule ref="PSR2.Classes.PropertyDeclaration.Underscore">
@@ -100,6 +94,7 @@
         <exclude-pattern type="relative">libraries/src/Encrypt/Totp\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Form/Field/CaptchaField\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Input/Json\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Installer/Manifest\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/MVC/Model/DatabaseAwareTrait\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/MVC/Model/FormBehaviorTrait\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/MVC/Model/ItemModel\.php</exclude-pattern>
@@ -129,6 +124,7 @@
     </rule>
 
     <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
+        <exclude-pattern type="relative">administrator/components/com_banners/src/Controller/BannersController\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_content/src/Service/HTML/Icon\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_installer/src/Controller/InstallController\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_installer/src/Model/DiscoverModel\.php</exclude-pattern>
@@ -245,6 +241,7 @@
         <exclude-pattern type="relative">plugins/content/pagebreak/pagebreak\.php</exclude-pattern>
         <exclude-pattern type="relative">plugins/editors/none/none\.php</exclude-pattern>
         <exclude-pattern type="relative">plugins/user/joomla/joomla\.php</exclude-pattern>
+        <exclude-pattern type="relative">tests/</exclude-pattern>
     </rule>
 
     <rule ref="PSR1.Classes.ClassDeclaration.MultipleClasses">

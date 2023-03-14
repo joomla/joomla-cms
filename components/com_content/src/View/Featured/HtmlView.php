@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Frontpage View class
  *
@@ -50,21 +54,21 @@ class HtmlView extends BaseHtmlView
      *
      * @var  \stdClass[]
      */
-    protected $lead_items = array();
+    protected $lead_items = [];
 
     /**
      * The featured articles to be displayed as intro items.
      *
      * @var  \stdClass[]
      */
-    protected $intro_items = array();
+    protected $intro_items = [];
 
     /**
      * The featured articles to be displayed as link items.
      *
      * @var  \stdClass[]
      */
-    protected $link_items = array();
+    protected $link_items = [];
 
     /**
      * @var    \Joomla\Database\DatabaseDriver
@@ -150,18 +154,18 @@ class HtmlView extends BaseHtmlView
                 $item->text = $item->introtext;
             }
 
-            Factory::getApplication()->triggerEvent('onContentPrepare', array('com_content.featured', &$item, &$item->params, 0));
+            Factory::getApplication()->triggerEvent('onContentPrepare', ['com_content.featured', &$item, &$item->params, 0]);
 
             // Old plugins: Use processed text as introtext
             $item->introtext = $item->text;
 
-            $results = Factory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.featured', &$item, &$item->params, 0));
+            $results = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_content.featured', &$item, &$item->params, 0]);
             $item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-            $results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.featured', &$item, &$item->params, 0));
+            $results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_content.featured', &$item, &$item->params, 0]);
             $item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-            $results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.featured', &$item, &$item->params, 0));
+            $results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_content.featured', &$item, &$item->params, 0]);
             $item->event->afterDisplayContent = trim(implode("\n", $results));
         }
 
@@ -233,9 +237,9 @@ class HtmlView extends BaseHtmlView
         // Add feed links
         if ($this->params->get('show_feed_link', 1)) {
             $link    = '&format=feed&limitstart=';
-            $attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+            $attribs = ['type' => 'application/rss+xml', 'title' => 'RSS 2.0'];
             $this->document->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
-            $attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+            $attribs = ['type' => 'application/atom+xml', 'title' => 'Atom 1.0'];
             $this->document->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
         }
     }

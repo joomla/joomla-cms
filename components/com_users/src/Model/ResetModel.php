@@ -11,6 +11,7 @@
 namespace Joomla\Component\Users\Site\Model;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -21,6 +22,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Reset model class for Users.
@@ -42,10 +47,10 @@ class ResetModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.reset_request', 'reset_request', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_users.reset_request', 'reset_request', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -64,10 +69,10 @@ class ResetModel extends FormModel
      *
      * @since   1.6
      */
-    public function getResetCompleteForm($data = array(), $loadData = true)
+    public function getResetCompleteForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.reset_complete', 'reset_complete', $options = array('control' => 'jform'));
+        $form = $this->loadForm('com_users.reset_complete', 'reset_complete', $options = ['control' => 'jform']);
 
         if (empty($form)) {
             return false;
@@ -87,10 +92,10 @@ class ResetModel extends FormModel
      * @since   1.6
      * @throws  \Exception
      */
-    public function getResetConfirmForm($data = array(), $loadData = true)
+    public function getResetConfirmForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.reset_confirm', 'reset_confirm', $options = array('control' => 'jform'));
+        $form = $this->loadForm('com_users.reset_confirm', 'reset_confirm', $options = ['control' => 'jform']);
 
         if (empty($form)) {
             return false;
@@ -190,6 +195,14 @@ class ResetModel extends FormModel
         // Get the user object.
         $user = User::getInstance($userId);
 
+        $event = AbstractEvent::create(
+            'onUserBeforeResetComplete',
+            [
+                'subject' => $user,
+            ]
+        );
+        $app->getDispatcher()->dispatch($event->getName(), $event);
+
         // Check for a user and that the tokens match.
         if (empty($user) || $user->activation !== $token) {
             $this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
@@ -231,6 +244,14 @@ class ResetModel extends FormModel
         // Flush the user data from the session.
         $app->setUserState('com_users.reset.token', null);
         $app->setUserState('com_users.reset.user', null);
+
+        $event = AbstractEvent::create(
+            'onUserAfterResetComplete',
+            [
+                'subject' => $user,
+            ]
+        );
+        $app->getDispatcher()->dispatch($event->getName(), $event);
 
         return true;
     }
@@ -426,6 +447,14 @@ class ResetModel extends FormModel
 
         $user->activation = $hashedToken;
 
+        $event = AbstractEvent::create(
+            'onUserBeforeResetRequest',
+            [
+                'subject' => $user,
+            ]
+        );
+        $app->getDispatcher()->dispatch($event->getName(), $event);
+
         // Save the user to the database.
         if (!$user->save(true)) {
             return new \Exception(Text::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
@@ -455,7 +484,7 @@ class ResetModel extends FormModel
 
                 $return = false;
             } catch (\RuntimeException $exception) {
-                Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                $app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
 
                 $return = false;
             }
@@ -464,9 +493,17 @@ class ResetModel extends FormModel
         // Check for an error.
         if ($return !== true) {
             return new \Exception(Text::_('COM_USERS_MAIL_FAILED'), 500);
-        } else {
-            return true;
         }
+
+        $event = AbstractEvent::create(
+            'onUserAfterResetRequest',
+            [
+                'subject' => $user,
+            ]
+        );
+        $app->getDispatcher()->dispatch($event->getName(), $event);
+
+        return true;
     }
 
     /**

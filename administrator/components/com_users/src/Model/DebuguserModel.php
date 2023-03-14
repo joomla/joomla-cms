@@ -19,6 +19,10 @@ use Joomla\Component\Users\Administrator\Helper\DebugHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of User ACL permissions
  *
@@ -35,16 +39,16 @@ class DebuguserModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'a.title',
                 'component', 'a.name',
                 'a.lft',
                 'a.id',
                 'level_start', 'level_end', 'a.level',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -80,7 +84,7 @@ class DebuguserModel extends ListModel
             $actions = $this->getDebugActions();
 
             foreach ($assets as &$asset) {
-                $asset->checks = array();
+                $asset->checks = [];
 
                 foreach ($actions as $action) {
                     $name = $action[0];

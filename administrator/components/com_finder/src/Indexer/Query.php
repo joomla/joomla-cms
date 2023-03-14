@@ -24,6 +24,10 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Query class for the Finder indexer package.
  *
@@ -71,7 +75,7 @@ class Query
      * @var    Token[]
      * @since  2.5
      */
-    public $included = array();
+    public $included = [];
 
     /**
      * The excluded tokens.
@@ -79,7 +83,7 @@ class Query
      * @var    Token[]
      * @since  2.5
      */
-    public $excluded = array();
+    public $excluded = [];
 
     /**
      * The tokens to ignore because no matches exist.
@@ -87,7 +91,7 @@ class Query
      * @var    Token[]
      * @since  2.5
      */
-    public $ignored = array();
+    public $ignored = [];
 
     /**
      * The operators used in the query input string.
@@ -95,7 +99,7 @@ class Query
      * @var    array
      * @since  2.5
      */
-    public $operators = array();
+    public $operators = [];
 
     /**
      * The terms to highlight as matches.
@@ -103,7 +107,7 @@ class Query
      * @var    array
      * @since  2.5
      */
-    public $highlight = array();
+    public $highlight = [];
 
     /**
      * The number of matching terms for the query input.
@@ -143,7 +147,7 @@ class Query
      * @var    array
      * @since  2.5
      */
-    public $filters = array();
+    public $filters = [];
 
     /**
      * The start date filter.
@@ -184,6 +188,14 @@ class Query
      * @since  4.2.0
      */
     public $wordmode;
+
+    /**
+     * The dates Registry.
+     *
+     * @var    Registry
+     * @since  4.2.7
+     */
+    public $dates;
 
     /**
      * Method to instantiate the query object.
@@ -308,7 +320,7 @@ class Query
         }
 
         // Get the filters in the request.
-        $t = Factory::getApplication()->input->request->get('t', array(), 'array');
+        $t = Factory::getApplication()->input->request->get('t', [], 'array');
 
         // Add the dynamic taxonomy filters if present.
         if ((bool) $this->filters) {
@@ -351,11 +363,11 @@ class Query
         // Add a menu item id if one is not present.
         if (!$uri->getVar('Itemid')) {
             // Get the menu item id.
-            $query = array(
+            $query = [
                 'view' => $uri->getVar('view'),
                 'f'    => $uri->getVar('f'),
                 'q'    => $uri->getVar('q'),
-            );
+            ];
 
             $item = RouteHelper::getItemid($query);
 
@@ -365,7 +377,7 @@ class Query
             }
         }
 
-        return $uri->toString(array('path', 'query'));
+        return $uri->toString(['path', 'query']);
     }
 
     /**
@@ -377,7 +389,7 @@ class Query
      */
     public function getExcludedTermIds()
     {
-        $results = array();
+        $results = [];
 
         // Iterate through the excluded tokens and compile the matching terms.
         for ($i = 0, $c = count($this->excluded); $i < $c; $i++) {
@@ -401,7 +413,7 @@ class Query
      */
     public function getIncludedTermIds()
     {
-        $results = array();
+        $results = [];
 
         // Iterate through the included tokens and compile the matching terms.
         for ($i = 0, $c = count($this->included); $i < $c; $i++) {
@@ -415,7 +427,7 @@ class Query
 
             // Prepare the container for the term if necessary.
             if (!array_key_exists($term, $results)) {
-                $results[$term] = array();
+                $results[$term] = [];
             }
 
             // Add the matches to the stack.
@@ -442,7 +454,7 @@ class Query
      */
     public function getRequiredTermIds()
     {
-        $results = array();
+        $results = [];
 
         // Iterate through the included tokens and compile the matching terms.
         for ($i = 0, $c = count($this->included); $i < $c; $i++) {
@@ -453,7 +465,7 @@ class Query
 
                 // Prepare the container for the term if necessary.
                 if (!array_key_exists($term, $results)) {
-                    $results[$term] = array();
+                    $results[$term] = [];
                 }
 
                 // Add the matches to the stack.
@@ -618,7 +630,7 @@ class Query
         $results = $db->loadObjectList();
 
         // Cleared filter branches.
-        $cleared = array();
+        $cleared = [];
 
         /*
          * Sort the filter ids by branch. Because these filters are designed to
@@ -633,7 +645,7 @@ class Query
             // Check if the branch has been cleared.
             if (!in_array($result->branch, $cleared, true)) {
                 // Clear the branch.
-                $this->filters[$result->branch] = array();
+                $this->filters[$result->branch] = [];
 
                 // Add the branch to the cleared list.
                 $cleared[] = $result->branch;
@@ -671,7 +683,7 @@ class Query
         $offset = Factory::getApplication()->get('offset');
 
         // Array of allowed when values.
-        $whens = array('before', 'after', 'exact');
+        $whens = ['before', 'after', 'exact'];
 
         // The value of 'today' is a special case that we need to handle.
         if ($date1 === StringHelper::strtolower(Text::_('COM_FINDER_QUERY_FILTER_TODAY'))) {
@@ -738,10 +750,10 @@ class Query
          * modifiers could potentially include things like "category:blah" or
          * "before:2009-10-21" or "type:article", etc.
          */
-        $patterns = array(
+        $patterns = [
             'before' => Text::_('COM_FINDER_FILTER_WHEN_BEFORE'),
             'after'  => Text::_('COM_FINDER_FILTER_WHEN_AFTER'),
-        );
+        ];
 
         // Add the taxonomy branch titles to the possible patterns.
         foreach (Taxonomy::getBranchTitles() as $branch) {
@@ -750,11 +762,11 @@ class Query
         }
 
         // Container for search terms and phrases.
-        $terms   = array();
-        $phrases = array();
+        $terms   = [];
+        $phrases = [];
 
         // Cleared filter branches.
-        $cleared = array();
+        $cleared = [];
 
         /*
          * Compile the suffix pattern. This is used to match the values of the
@@ -770,7 +782,7 @@ class Query
          * to be valid.
          */
         foreach ($patterns as $modifier => $pattern) {
-            $matches = array();
+            $matches = [];
 
             if ($debug) {
                 $pattern = substr($pattern, 2, -2);
@@ -790,7 +802,7 @@ class Query
                         $offset = Factory::getApplication()->get('offset');
 
                         // Array of allowed when values.
-                        $whens = array('before', 'after', 'exact');
+                        $whens = ['before', 'after', 'exact'];
 
                         // The value of 'today' is a special case that we need to handle.
                         if ($value === StringHelper::strtolower(Text::_('COM_FINDER_QUERY_FILTER_TODAY'))) {
@@ -819,7 +831,7 @@ class Query
                             // Check if the branch has been cleared.
                             if (!in_array($modifier, $cleared, true)) {
                                 // Clear the branch.
-                                $this->filters[$modifier] = array();
+                                $this->filters[$modifier] = [];
 
                                 // Add the branch to the cleared list.
                                 $cleared[] = $modifier;
@@ -844,7 +856,7 @@ class Query
          * them as phrases.
          */
         if (StringHelper::strpos($input, '"') !== false) {
-            $matches = array();
+            $matches = [];
 
             // Extract the tokens enclosed in double quotes.
             if (preg_match_all('#\"([^"]+)\"#m', $input, $matches)) {
@@ -918,15 +930,15 @@ class Query
         }
 
         // An array of our boolean operators. $operator => $translation
-        $operators = array(
+        $operators = [
             'AND' => StringHelper::strtolower(Text::_('COM_FINDER_QUERY_OPERATOR_AND')),
             'OR'  => StringHelper::strtolower(Text::_('COM_FINDER_QUERY_OPERATOR_OR')),
             'NOT' => StringHelper::strtolower(Text::_('COM_FINDER_QUERY_OPERATOR_NOT')),
-        );
+        ];
 
         // If language debugging is enabled you need to ignore the debug strings in matching.
         if (JDEBUG) {
-            $debugStrings = array('**', '??');
+            $debugStrings = ['**', '??'];
             $operators    = str_replace($debugStrings, '', $operators);
         }
 
@@ -1176,7 +1188,7 @@ class Query
             $tokens = Helper::tokenize($terms, $lang, false);
 
             // Make sure we are working with an array.
-            $tokens = is_array($tokens) ? $tokens : array($tokens);
+            $tokens = is_array($tokens) ? $tokens : [$tokens];
 
             // Get the token data and required state for all the tokens.
             foreach ($tokens as $token) {
@@ -1272,7 +1284,7 @@ class Query
             // Add the matches to the token.
             for ($i = 0, $c = count($matches); $i < $c; $i++) {
                 if (!isset($token->matches[$matches[$i]->term])) {
-                    $token->matches[$matches[$i]->term] = array();
+                    $token->matches[$matches[$i]->term] = [];
                 }
 
                 $token->matches[$matches[$i]->term][] = (int) $matches[$i]->term_id;
@@ -1299,7 +1311,7 @@ class Query
             }
 
             // Stack for sorting the similar terms.
-            $suggestions = array();
+            $suggestions = [];
 
             // Get the levnshtein distance for all suggested terms.
             foreach ($results as $sk => $st) {

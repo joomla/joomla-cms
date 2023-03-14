@@ -14,6 +14,10 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\User;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Field to select a user ID from a modal list.
  *
@@ -130,11 +134,11 @@ class UserField extends FormField
             $name = $this->value;
         }
 
-        $extraData = array(
+        $extraData = [
             'userName'  => $name,
             'groups'    => $this->getGroups(),
             'excluded'  => $this->getExcluded(),
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

@@ -20,6 +20,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The Menu Item Controller
  *
@@ -37,7 +41,7 @@ class ItemsController extends AdminController
      *
      * @since  1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -55,7 +59,7 @@ class ItemsController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Item', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Item', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -129,8 +133,8 @@ class ItemsController extends AdminController
         $app = $this->app;
 
         // Get items to publish from the request.
-        $cid   = (array) $this->input->get('cid', array(), 'int');
-        $data  = array('setDefault' => 1, 'unsetDefault' => 0);
+        $cid   = (array) $this->input->get('cid', [], 'int');
+        $data  = ['setDefault' => 1, 'unsetDefault' => 0];
         $task  = $this->getTask();
         $value = ArrayHelper::getValue($data, $task, 0, 'int');
 
@@ -179,8 +183,8 @@ class ItemsController extends AdminController
         $this->checkToken();
 
         // Get items to publish from the request.
-        $cid = (array) $this->input->get('cid', array(), 'int');
-        $data = array('publish' => 1, 'unpublish' => 0, 'trash' => -2, 'report' => -3);
+        $cid = (array) $this->input->get('cid', [], 'int');
+        $data = ['publish' => 1, 'unpublish' => 0, 'trash' => -2, 'report' => -3];
         $task = $this->getTask();
         $value = ArrayHelper::getValue($data, $task, 0, 'int');
 

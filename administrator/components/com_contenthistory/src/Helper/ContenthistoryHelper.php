@@ -20,6 +20,10 @@ use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Categories helper.
  *
@@ -38,7 +42,7 @@ class ContenthistoryHelper
      */
     public static function createObjectArray($object)
     {
-        $result = array();
+        $result = [];
 
         if ($object === null) {
             return $result;
@@ -98,8 +102,8 @@ class ContenthistoryHelper
      */
     public static function getFormValues($object, ContentType $typesTable)
     {
-        $labels = array();
-        $values = array();
+        $labels = [];
+        $values = [];
         $expandedObjectArray = static::createObjectArray($object);
         static::loadLanguageFiles($typesTable->type_alias);
 
@@ -319,7 +323,7 @@ class ContenthistoryHelper
         $typesTable = Table::getInstance('ContentType', 'Joomla\\CMS\\Table\\');
         $typeAlias = explode('.', $table->item_id);
         array_pop($typeAlias);
-        $typesTable->load(array('type_alias' => implode('.', $typeAlias)));
+        $typesTable->load(['type_alias' => implode('.', $typeAlias)]);
         $formValues = static::getFormValues($object, $typesTable);
         $object = static::mergeLabels($object, $formValues);
         $object = static::hideFields($object, $typesTable);

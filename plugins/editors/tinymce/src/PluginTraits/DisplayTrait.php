@@ -20,6 +20,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 use stdClass;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Handles the onDisplay event for the TinyMCE editor.
  *
@@ -383,7 +387,7 @@ trait DisplayTrait
             foreach (json_decode(json_encode($extraOptions->content_languages), true) as $content_language) {
                 // if we have a language name and a language code then add to the menu
                 if ($content_language['content_language_name'] != '' && $content_language['content_language_code'] != '') {
-                    $ctemp[] = array('title' => $content_language['content_language_name'], 'code' => $content_language['content_language_code']);
+                    $ctemp[] = ['title' => $content_language['content_language_name'], 'code' => $content_language['content_language_code']];
                 }
             }
             $scriptOptions['content_langs'] = array_merge($ctemp);
@@ -417,6 +421,9 @@ trait DisplayTrait
                 'skin'     => $skin,
                 'theme'    => $theme,
                 'schema'   => 'html5',
+
+                // Prevent cursor from getting stuck in blocks when nested or at end of document.
+                'end_container_on_empty_block' => true,
 
                 // Toolbars
                 'menubar'  => empty($menubar)  ? false : implode(' ', array_unique($menubar)),

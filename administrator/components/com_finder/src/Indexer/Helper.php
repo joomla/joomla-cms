@@ -16,9 +16,12 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper class for the Finder indexer package.
@@ -98,7 +101,7 @@ class Helper
             $cache[$lang] = [];
         }
 
-        $tokens = array();
+        $tokens = [];
         $terms = $language->tokenise($input);
 
         // @todo: array_filter removes any number 0's from the terms. Not sure this is entirely intended
@@ -128,7 +131,7 @@ class Helper
             // Create multi-word phrase tokens from the individual words.
             if ($tuplecount > 1) {
                 for ($i = 0, $n = count($tokens); $i < $n; $i++) {
-                    $temp = array($tokens[$i]->term);
+                    $temp = [$tokens[$i]->term];
 
                     // Create tokens for 2 to $tuplecount length phrases
                     for ($j = 1; $j < $tuplecount; $j++) {
@@ -240,7 +243,7 @@ class Helper
         // Add the type.
         $query->clear()
             ->insert($db->quoteName('#__finder_types'))
-            ->columns(array($db->quoteName('title'), $db->quoteName('mime')))
+            ->columns([$db->quoteName('title'), $db->quoteName('mime')])
             ->values($db->quote($title) . ', ' . $db->quote($mime));
         $db->setQuery($query);
         $db->execute();
@@ -349,7 +352,7 @@ class Helper
 
         // Only parse the identifier if necessary.
         if (!isset($data[$lang])) {
-            if (is_callable(array('Locale', 'getPrimaryLanguage'))) {
+            if (is_callable(['Locale', 'getPrimaryLanguage'])) {
                 // Get the language key using the Locale package.
                 $data[$lang] = \Locale::getPrimaryLanguage($lang);
             } else {
@@ -377,43 +380,9 @@ class Helper
         // Load the finder plugin group.
         PluginHelper::importPlugin('finder');
 
-        Factory::getApplication()->triggerEvent('onPrepareFinderContent', array(&$item));
+        Factory::getApplication()->triggerEvent('onPrepareFinderContent', [&$item]);
 
         return true;
-    }
-
-    /**
-     * Add custom fields for the item to the Result object
-     *
-     * @param   Result  $item     Result object to add the custom fields to
-     * @param   string  $context  Context of the item in the custom fields
-     *
-     * @return  void
-     *
-     * @since   4.2.0
-     */
-    public static function addCustomFields(Result $item, $context)
-    {
-        $obj = new \stdClass();
-        $obj->id = $item->id;
-
-        $fields = FieldsHelper::getFields($context, $obj, true);
-
-        foreach ($fields as $field) {
-            $searchindex = $field->params->get('searchindex', 0);
-
-            // We want to add this field to the search index
-            if ($searchindex == 1 || $searchindex == 3) {
-                $name = 'jsfield_' . $field->name;
-                $item->$name = $field->value;
-                $item->addInstruction(Indexer::META_CONTEXT, $name);
-            }
-
-            // We want to add this field as a taxonomy
-            if (($searchindex == 2 || $searchindex == 3) && $field->value) {
-                $item->addTaxonomy($field->title, $field->value, $field->state, $field->access, $field->language);
-            }
-        }
     }
 
     /**
@@ -457,7 +426,7 @@ class Helper
         }
 
         // Fire the onContentPrepare event.
-        Factory::getApplication()->triggerEvent('onContentPrepare', array('com_finder.indexer', &$content, &$params, 0));
+        Factory::getApplication()->triggerEvent('onContentPrepare', ['com_finder.indexer', &$content, &$params, 0]);
 
         return $content->text;
     }

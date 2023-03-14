@@ -17,6 +17,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Abstract Fields Plugin
  *
@@ -50,13 +54,13 @@ abstract class FieldsPlugin extends CMSPlugin
     public function onCustomFieldsGetTypes()
     {
         // Cache filesystem access / checks
-        static $types_cache = array();
+        static $types_cache = [];
 
         if (isset($types_cache[$this->_type . $this->_name])) {
             return $types_cache[$this->_type . $this->_name];
         }
 
-        $types = array();
+        $types = [];
 
         // The root of the plugin
         $root = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name;
@@ -66,7 +70,7 @@ abstract class FieldsPlugin extends CMSPlugin
             $layout = str_replace('.php', '', $layout);
 
             // The data array
-            $data = array();
+            $data = [];
 
             // The language key
             $key = strtoupper($layout);

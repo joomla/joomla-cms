@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Form\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Provides and input field for email addresses
@@ -58,10 +62,10 @@ class EmailField extends TextField
     {
         $data = parent::getLayoutData();
 
-        $extraData = array(
+        $extraData = [
             'maxLength'  => $this->maxLength,
             'multiple'   => $this->multiple,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

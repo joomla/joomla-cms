@@ -16,6 +16,10 @@ use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Newsfeeds Component Newsfeed Model
  *
@@ -77,7 +81,7 @@ class NewsfeedModel extends ItemModel
         $pk = (int) $pk ?: (int) $this->getState('newsfeed.id');
 
         if ($this->_item === null) {
-            $this->_item = array();
+            $this->_item = [];
         }
 
         if (!isset($this->_item[$pk])) {

@@ -18,6 +18,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Banner model.
  *
@@ -55,10 +59,10 @@ class BannerModel extends AdminModel
      *
      * @var  array
      */
-    protected $batch_commands = array(
+    protected $batch_commands = [
         'client_id'   => 'batchClient',
         'language_id' => 'batchLanguage'
-    );
+    ];
 
     /**
      * Batch client changes for a group of banners.
@@ -174,10 +178,10 @@ class BannerModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_banners.banner', 'banner', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_banners.banner', 'banner', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -220,7 +224,7 @@ class BannerModel extends AdminModel
     {
         // Check the session for previously entered form data.
         $app  = Factory::getApplication();
-        $data = $app->getUserState('com_banners.edit.banner.data', array());
+        $data = $app->getUserState('com_banners.edit.banner.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();

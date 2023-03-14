@@ -15,6 +15,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! template override notification plugin
  *
@@ -61,16 +65,16 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
      */
     public function onGetIcons($context)
     {
-        if ($context !== $this->params->get('context', 'update_quickicon') || !$this->app->getIdentity()->authorise('core.manage', 'com_installer')) {
-            return array();
+        if ($context !== $this->params->get('context', 'update_quickicon') || !$this->app->getIdentity()->authorise('core.manage', 'com_templates')) {
+            return [];
         }
 
         $token    = Session::getFormToken() . '=1';
-        $options  = array(
+        $options  = [
             'url'      => Uri::base() . 'index.php?option=com_templates&view=templates',
             'ajaxUrl'  => Uri::base() . 'index.php?option=com_templates&view=templates&task=template.ajax&' . $token,
             'pluginId' => $this->getOverridePluginId(),
-        );
+        ];
 
         $this->app->getDocument()->addScriptOptions('js-override-check', $options);
 
@@ -82,16 +86,16 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
         $this->app->getDocument()->getWebAssetManager()
             ->registerAndUseScript('plg_quickicon_overridecheck', 'plg_quickicon_overridecheck/overridecheck.js', [], ['defer' => true], ['core']);
 
-        return array(
-            array(
+        return [
+            [
                 'link'  => 'index.php?option=com_templates&view=templates',
                 'image' => 'icon-file',
                 'icon'  => '',
                 'text'  => Text::_('PLG_QUICKICON_OVERRIDECHECK_CHECKING'),
                 'id'    => 'plg_quickicon_overridecheck',
                 'group' => 'MOD_QUICKICON_MAINTENANCE',
-            ),
-        );
+            ],
+        ];
     }
 
     /**

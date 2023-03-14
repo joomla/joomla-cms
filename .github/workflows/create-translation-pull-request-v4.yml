@@ -8,7 +8,7 @@ on:
 
   schedule:
     # Run daily at 7:26
-    - cron:  '26 7 * * *'
+    - cron:  '27 7 * * *'
 
 permissions:
   contents: read
@@ -22,13 +22,13 @@ jobs:
     if: ${{ github.repository == 'joomla-translation-bot/joomla-cms' && github.ref == 'refs/heads/translation' }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         # We need the full depth to create / update the pull request against the main repo
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 16
 
       - name: Fetch latest cms changes
         run: |
@@ -36,8 +36,8 @@ jobs:
           git config user.email release+translation-bot@joomla.org
           git remote add upstream https://github.com/joomla/joomla-cms.git
           git fetch upstream
-          git checkout --progress --force -B translation refs/remotes/origin/translation          
-          git merge upstream/4.1-dev
+          git checkout --progress --force -B translation refs/remotes/origin/translation
+          git merge upstream/4.2-dev
 
       - name: Fetch and extract translations
         run: |
@@ -50,26 +50,28 @@ jobs:
         run: |
           cd ..
           SYNC_VERSION="v4"
-          
+
           SYNC_PATH="installation/language/"
           echo ${SYNC_PATH}
-          rsync -i -rptgo --checksum --ignore-times --delete --exclude="*en-GB*" core-translations-main/joomla_${SYNC_VERSION}/translations/core/${SYNC_PATH} joomla-cms/${SYNC_PATH} 
-          
+          rsync -i -rptgo --checksum --ignore-times --delete --exclude="*en-GB*" core-translations-main/joomla_${SYNC_VERSION}/translations/core/${SYNC_PATH} joomla-cms/${SYNC_PATH}
+
       - name: Update static error pages
         run: |
           npm ci --ignore-scripts && node build/build.js --build-pages
-          
+
       - name: Create commit
+        continue-on-error: true
         run: |
           git config user.name Translation Bot
           git config user.email release+translation-bot@joomla.org
           git add .
           git commit -m "Language update"
           git push --force
-          
+
       - name: Create pull request
+        if: ${{ success() }}
         env:
-          GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}      
+          GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
         run: |
           gh pr list -R joomla/joomla-cms --state open --author joomla-translation-bot -S "Translation Update" | grep -v "No pull" || \
-            gh pr create --title "Translation Update" --body "Automatically created pull request based on core-translation repository changes" -R joomla/joomla-cms --base 4.1-dev
+            gh pr create --title "Translation Update" --body "Automatically created pull request based on core-translation repository changes" -R joomla/joomla-cms --base 4.2-dev

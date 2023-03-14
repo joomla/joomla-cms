@@ -12,6 +12,10 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content Type field.
  *
@@ -77,7 +81,7 @@ class ContenttypeField extends ListField
         try {
             $options = $db->loadObjectList();
         } catch (\RuntimeException $e) {
-            return array();
+            return [];
         }
 
         foreach ($options as $option) {

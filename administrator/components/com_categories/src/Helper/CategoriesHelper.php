@@ -15,6 +15,10 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Categories helper.
  *
@@ -33,7 +37,7 @@ class CategoriesHelper
     public static function getAssociations($pk, $extension = 'com_content')
     {
         $langAssociations = Associations::getAssociations($extension, '#__categories', 'com_categories.item', $pk, 'id', 'alias', '');
-        $associations     = array();
+        $associations     = [];
         $user             = Factory::getUser();
         $groups           = $user->getAuthorisedViewLevels();
 
@@ -72,7 +76,7 @@ class CategoriesHelper
     {
         $categoryTable = Table::getInstance('CategoryTable', '\\Joomla\\Component\\Categories\\Administrator\\Table\\');
 
-        $data = array();
+        $data = [];
         $data['id'] = $catid;
         $data['extension'] = $extension;
 

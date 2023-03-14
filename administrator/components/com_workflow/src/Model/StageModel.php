@@ -18,6 +18,10 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Model class for stage
  *
@@ -61,11 +65,11 @@ class StageModel extends AdminModel
         // Alter the title & alias
         $table = $this->getTable();
 
-        while ($table->load(array('title' => $title))) {
+        while ($table->load(['title' => $title])) {
             $title = StringHelper::increment($title);
         }
 
-        return array($title, $alias);
+        return [$title, $alias];
     }
 
     /**
@@ -203,16 +207,16 @@ class StageModel extends AdminModel
      *
      * @since   4.0.0
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm(
             'com_workflow.state',
             'stage',
-            array(
+            [
                 'control' => 'jform',
                 'load_data' => $loadData
-            )
+            ]
         );
 
         if (empty($form)) {
@@ -253,7 +257,7 @@ class StageModel extends AdminModel
         // Check the session for previously entered form data.
         $data = Factory::getApplication()->getUserState(
             'com_workflow.edit.state.data',
-            array()
+            []
         );
 
         if (empty($data)) {
@@ -293,7 +297,7 @@ class StageModel extends AdminModel
 
         if ($value) {
             // Verify that the home page for this language is unique per client id
-            if ($table->load(array('default' => '1', 'workflow_id' => $table->workflow_id))) {
+            if ($table->load(['default' => '1', 'workflow_id' => $table->workflow_id])) {
                 $table->default = 0;
                 $table->store();
             }
