@@ -67,7 +67,8 @@ Cypress.Commands.add('db_createUser', (user) => {
     email: 'test@example.com',
     password: '098f6bcd4621d373cade4e832627b4f6', // Is the md5 of the word 'test'
     block: 0,
-    registerDate: '2023-03-01 20:00:00'
+    registerDate: '2023-03-01 20:00:00',
+    params: ''
   };
   user = { ...defaultUserOptions, ...user };
 
