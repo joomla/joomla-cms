@@ -12,6 +12,7 @@ namespace Joomla\CMS\Table;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -46,13 +47,14 @@ class ContentHistory extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  A database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   3.1
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__history', 'version_id', $db);
+        parent::__construct('#__history', 'version_id', $db, $dispatcher);
         $this->ignoreChanges = [
             'modified_by',
             'modified_user_id',
@@ -79,7 +81,7 @@ class ContentHistory extends Table
     public function store($updateNulls = false)
     {
         $this->set('character_count', \strlen($this->get('version_data')));
-        $typeTable = Table::getInstance('ContentType', 'JTable', ['dbo' => $this->getDbo()]);
+        $typeTable = new ContentType($this->getDbo(), $this->getDispatcher());
         $typeAlias = explode('.', $this->item_id);
         array_pop($typeAlias);
         $typeTable->load(['type_alias' => implode('.', $typeAlias)]);

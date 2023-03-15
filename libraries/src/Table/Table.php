@@ -403,8 +403,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     protected function _getAssetParentId(Table $table = null, $id = null)
     {
         // For simple cases, parent to the asset root.
-        /** @var Asset $assets */
-        $assets = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
+        $assets = new Asset($this->getDbo(), $this->getDispatcher());
         $rootId = $assets->getRootId();
 
         if (!empty($rootId)) {
@@ -864,9 +863,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
             $parentId = $this->_getAssetParentId();
             $name     = $this->_getAssetName();
             $title    = $this->_getAssetTitle();
+            $asset    = new Asset($this->getDbo(), $this->getDispatcher());
 
-            /** @var Asset $asset */
-            $asset = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
             $asset->loadByName($name);
 
             // Re-inject the asset id.
@@ -1024,9 +1022,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         if ($this->_trackAssets) {
             // Get the asset name
             $name  = $this->_getAssetName();
-
-            /** @var Asset $asset */
-            $asset = self::getInstance('Asset');
+            $asset = new Asset($this->getDbo(), $this->getDispatcher());
 
             if ($asset->loadByName($name)) {
                 if (!$asset->delete()) {

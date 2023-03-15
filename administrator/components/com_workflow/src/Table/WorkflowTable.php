@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -38,15 +39,16 @@ class WorkflowTable extends Table
     protected $_supportNullValue = true;
 
     /**
-     * @param   DatabaseDriver  $db  Database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since  4.0.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = '{extension}.workflow';
 
-        parent::__construct('#__workflows', 'id', $db);
+        parent::__construct('#__workflows', 'id', $db, $dispatcher);
     }
 
     /**
@@ -175,7 +177,7 @@ class WorkflowTable extends Table
         $date = Factory::getDate();
         $user = Factory::getUser();
 
-        $table = new WorkflowTable($this->getDbo());
+        $table = new static($this->getDbo(), $this->getDispatcher());
 
         if ($this->id) {
             // Existing item

@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -47,13 +48,14 @@ class FilterTable extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  Database Driver connector object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   2.5
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__finder_filters', 'filter_id', $db);
+        parent::__construct('#__finder_filters', 'filter_id', $db, $dispatcher);
 
         $this->setColumnAlias('published', 'state');
     }
@@ -154,7 +156,7 @@ class FilterTable extends Table
         }
 
         // Verify that the alias is unique
-        $table = new static($this->getDbo());
+        $table = new static($this->getDbo(), $this->getDispatcher());
 
         if ($table->load(['alias' => $this->alias]) && ($table->filter_id != $this->filter_id || $this->filter_id == 0)) {
             $this->setError(Text::_('COM_FINDER_FILTER_ERROR_UNIQUE_ALIAS'));

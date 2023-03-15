@@ -18,6 +18,7 @@ use Joomla\CMS\Tag\TaggableTableTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -44,16 +45,17 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  Database driver object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.5
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
         // @deprecated 5.0 This format was used by tags and versioning before 4.0 before the introduction of the
         //                 getTypeAlias function. This notation with the {} will be removed in Joomla 5
         $this->typeAlias = '{extension}.category';
-        parent::__construct('#__categories', 'id', $db);
+        parent::__construct('#__categories', 'id', $db, $dispatcher);
         $this->access = (int) Factory::getApplication()->get('access');
     }
 
@@ -251,7 +253,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
         }
 
         // Verify that the alias is unique
-        $table = Table::getInstance('Category', 'JTable', ['dbo' => $this->getDbo()]);
+        $table = new Category($this->getDbo(), $this->getDispatcher());
 
         if (
             $table->load(['alias' => $this->alias, 'parent_id' => (int) $this->parent_id, 'extension' => $this->extension])

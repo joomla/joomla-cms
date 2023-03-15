@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -29,13 +30,14 @@ class MenuType extends Table
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  Database driver object.
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.6
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
-        parent::__construct('#__menu_types', 'id', $db);
+        parent::__construct('#__menu_types', 'id', $db, $dispatcher);
     }
 
     /**
@@ -110,7 +112,7 @@ class MenuType extends Table
             $notIn  = [0, $userId];
 
             // Get the old value of the table
-            $table = Table::getInstance('Menutype', 'JTable', ['dbo' => $this->getDbo()]);
+            $table = new Menutype($this->getDbo(), $this->getDispatcher());
             $table->load($this->id);
 
             // Verify that no items are checked out
@@ -202,7 +204,7 @@ class MenuType extends Table
             $star   = '*';
 
             // Get the old value of the table
-            $table = Table::getInstance('Menutype', 'JTable', ['dbo' => $this->getDbo()]);
+            $table = new Menutype($this->getDbo(), $this->getDispatcher());
             $table->load($pk);
 
             // Verify that no items are checked out

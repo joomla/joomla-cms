@@ -20,6 +20,7 @@ use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\Tag\TaggableTableTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -54,15 +55,16 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  Database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.0
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_contact.contact';
 
-        parent::__construct('#__contact_details', 'id', $db);
+        parent::__construct('#__contact_details', 'id', $db, $dispatcher);
 
         $this->setColumnAlias('title', 'name');
     }
@@ -116,7 +118,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
         }
 
         // Verify that the alias is unique
-        $table = Table::getInstance('ContactTable', __NAMESPACE__ . '\\', ['dbo' => $this->getDbo()]);
+        $table = new static($this->getDbo(), $this->getDispatcher());
 
         if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
             // Is the existing contact trashed?
@@ -137,7 +139,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
      *
      * @return  boolean  True on success, false on failure
      *
-     * @see     \JTable::check
+     * @see     Table::check
      * @since   1.5
      */
     public function check()
@@ -252,7 +254,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
 
 
     /**
-     * Get the type alias for the history table
+     * Get the type alias for the history and tags mapping table
      *
      * @return  string  The alias as described above
      *

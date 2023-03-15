@@ -18,6 +18,7 @@ use Joomla\CMS\Tag\TaggableTableTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -45,15 +46,16 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
     /**
      * Constructor
      *
-     * @param   DatabaseDriver  $db  A database connector object
+     * @param   DatabaseDriver        $db          Database connector object
+     * @param   ?DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.5
      */
-    public function __construct(DatabaseDriver $db)
+    public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
         $this->typeAlias = 'com_content.article';
 
-        parent::__construct('#__content', 'id', $db);
+        parent::__construct('#__content', 'id', $db, $dispatcher);
 
         // Set the alias since the column is called state
         $this->setColumnAlias('published', 'state');
@@ -343,7 +345,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
         }
 
         // Verify that the alias is unique
-        $table = Table::getInstance('Content', 'JTable', ['dbo' => $this->getDbo()]);
+        $table = new static($this->getDbo(), $this->getDispatcher());
 
         if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
             // Is the existing article trashed?
