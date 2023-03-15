@@ -60,6 +60,24 @@ Cypress.Commands.add('db_createModule', (module) => {
   );
 });
 
+Cypress.Commands.add('db_createUser', (user) => {
+  const defaultUserOptions = {
+    name: 'test user',
+    username: 'test',
+    email: 'test@example.com',
+    password: '098f6bcd4621d373cade4e832627b4f6', // Is the md5 of the word 'test'
+    block: 0
+  };
+  user = { ...defaultUserOptions, ...user };
+
+  const groupId = user.group_id ?? 2; // Default the group id to registered
+  delete user.group_id;
+
+  return cy.task('queryDB', createInsertQuery('users', user)).then((info) => {
+    cy.task('queryDB', "INSERT INTO #__user_usergroup_map (user_id, group_id) VALUES ('" + info.insertId + "', '" + groupId + "')").then(() => info);
+  });
+});
+
 /**
  * Returns an insert query for the given database and fields.
  *
