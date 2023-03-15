@@ -18,7 +18,10 @@ Cypress.Commands.add('db_createArticle', (article) => {
   };
 
   return cy.task('queryDB', createInsertQuery('content', { ...defaultArticleOptions, ...article })).then((info) =>
-    cy.task('queryDB', "INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('" + info.insertId + "', '1')").then(() => info)
+    cy.task('queryDB', "INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('" + info.insertId + "', '1')")
+      .then(() => cy.task(
+        'queryDB', "INSERT INTO #__workflow_associations (item_id, stage_id, extension) VALUES (" + info.insertId + ", 1, 'com_content.article')")
+      ).then(() => info)
   );
 });
 
@@ -73,39 +76,9 @@ Cypress.Commands.add('db_createUser', (user) => {
   const groupId = user.group_id ?? 2; // Default the group id to registered
   delete user.group_id;
 
-  return cy.task('queryDB', createInsertQuery('users', user)).then((info) => {
-    cy.task('queryDB', "INSERT INTO #__user_usergroup_map (user_id, group_id) VALUES ('" + info.insertId + "', '" + groupId + "')").then(() => info);
-  });
-});
-
-Cypress.Commands.add('db_getBearerToken', () => {
-  return cy.task('queryDB', "SELECT id FROM #__users WHERE username = 'api'").then((id) => {
-    if (id.length >0) {
-      return 'c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==';
-    }
-
-    return cy.db_createUser({
-      id: 3,
-      name: 'API',
-      email: 'api@example.com',
-      username: 'api',
-      password: '123',
-      block: 0,
-      registerDate: '2000-01-01',
-      params: '{}',
-      group_id: 8
-    }).then((user) => {
-      cy.task(
-        'queryDB',
-        "INSERT INTO #__user_profiles (user_id, profile_key, profile_value) VALUES "
-        + "('" + user.insertId + "', 'joomlatoken.token', 'dOi2m1NRrnBHlhaWK/WWxh3B5tqq1INbdf4DhUmYTI4=')"
-      );
-      return cy.task(
-        'queryDB',
-        "INSERT INTO #__user_profiles (user_id, profile_key, profile_value) VALUES ('" + user.insertId + "', 'joomlatoken.enabled', 1)"
-      );
-    }).then(() => 'c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
-  });
+  return cy.task('queryDB', createInsertQuery('users', user)).then((info) =>
+    cy.task('queryDB', "INSERT INTO #__user_usergroup_map (user_id, group_id) VALUES ('" + info.insertId + "', '" + groupId + "')").then(() => info)
+  );
 });
 
 /**

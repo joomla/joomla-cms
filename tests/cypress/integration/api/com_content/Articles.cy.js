@@ -6,17 +6,8 @@ beforeEach(() => {
 
 describe('Test that content API endpoint', () => {
   it('can deliver a list of articles', () => {
-    cy.db_createArticle({ title: 'automated test article' }).then(() => cy.db_getBearerToken())
-      .then((token) => {cy.log(Cypress.config('baseUrl') + '/api/index.php/v1/content/articles');cy.pause();
-        return cy.request({
-          method: 'GET',
-          url: Cypress.config('baseUrl') + '/api/index.php/v1/content/articles',
-          headers: { bearer: token }
-        });
-      })
-      .then((res) => {
-        console.log(res);
-        cy.contains('automated test article');
-      });
+    cy.db_createArticle({ title: 'automated test article' })
+      .then(() => cy.api_get('/content/articles'))
+      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes').its('title').should('include', 'automated test article'));
   });
 });

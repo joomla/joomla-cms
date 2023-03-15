@@ -6,6 +6,7 @@
  */
 
 import './commands/db';
+import './commands/api';
 
 Cypress.Commands.add('createContentCategory', (title) => {
   cy.visit('administrator/index.php?option=com_categories&view=categories&extension=com_content')
