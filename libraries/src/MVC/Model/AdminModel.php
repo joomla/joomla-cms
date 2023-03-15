@@ -145,7 +145,7 @@ abstract class AdminModel extends FormModel
     /**
      * A flag to indicate if member variables for batch actions (and saveorder) have been initialized
      *
-     * @var     bool
+     * @var     ?bool
      * @since   3.8.2
      */
     protected $batchSet = null;
