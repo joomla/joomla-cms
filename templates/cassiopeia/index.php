@@ -133,15 +133,15 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 </head>
 
 <body class="site <?php echo $option
-                        . ' ' . $wrapper
-                        . ' view-' . $view
-                        . ($layout ? ' layout-' . $layout : ' no-layout')
-                        . ($task ? ' task-' . $task : ' no-task')
-                        . ($itemid ? ' itemid-' . $itemid : '')
-                        . ($pageclass ? ' ' . $pageclass : '')
-                        . $hasClass
-                        . ($this->direction == 'rtl' ? ' rtl' : '');
-                    ?>">
+    . ' ' . $wrapper
+    . ' view-' . $view
+    . ($layout ? ' layout-' . $layout : ' no-layout')
+    . ($task ? ' task-' . $task : ' no-task')
+    . ($itemid ? ' itemid-' . $itemid : '')
+    . ($pageclass ? ' ' . $pageclass : '')
+    . $hasClass
+    . ($this->direction == 'rtl' ? ' rtl' : '');
+?>">
     <header class="header container-header full-width<?php echo $stickyHeader ? ' ' . $stickyHeader : ''; ?>">
 
         <?php if ($this->countModules('topbar')) : ?>
