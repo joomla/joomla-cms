@@ -117,6 +117,8 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
             return false;
         }
 
+        $formFile = Path::clean($formFile);
+
         if (!is_file($formFile)) {
             return false;
         }
