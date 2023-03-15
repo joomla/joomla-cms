@@ -3,7 +3,7 @@ describe('Test that the users latest module', () => {
     cy.db_createModule({ module: 'mod_users_latest' }).then(() => {
       cy.visit('/');
 
-      cy.contains(Latest Registered Users');
+      cy.contains('Latest Registered Users');
     });
   });
 });
