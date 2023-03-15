@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Form;
 
-use Joomla\CMS\Filesystem\Path;
+use Joomla\Filesystem\Path;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
 

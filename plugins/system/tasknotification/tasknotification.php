@@ -12,7 +12,6 @@
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -25,6 +24,7 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Filesystem\Path;
 use PHPMailer\PHPMailer\Exception as MailerException;
 
 // phpcs:disable PSR1.Files.SideEffects
