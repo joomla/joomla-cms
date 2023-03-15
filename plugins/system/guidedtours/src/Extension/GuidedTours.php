@@ -105,8 +105,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     {
         $app  = $this->getApplication();
 
-        if (!$app->isClient('administrator') || !$app->getIdentity()->id)
-        {
+        if (!$app->isClient('administrator') || !$app->getIdentity()->id) {
             return;
         }
 
