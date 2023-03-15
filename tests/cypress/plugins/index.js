@@ -12,6 +12,9 @@ let insertedItems = [];
  * @returns Promise
  */
 function queryTestDB(query, config) {
+  // Substitute the joomla table prefix
+  query = query.replaceAll('#__', config.env.db_prefix);
+
   // Parse the table name
   const tableNameOfInsert = query.match(/insert\s+into\s+(.*?)\s/i);
 
@@ -104,11 +107,14 @@ function deleteInsertedItems(config) {
     }
 
     // Delete the items from the database
-    queryTestDB('DELETE FROM ' + item.table + '  WHERE ID IN (' + item.rows.join(',') + ')', config);
+    queryTestDB('DELETE FROM ' + item.table + '  WHERE id IN (' + item.rows.join(',') + ')', config);
   });
 
   // Clear the cache
   insertedItems = [];
+
+  // Delete the user mappings
+  queryTestDB('DELETE FROM #__user_usergroup_map WHERE user_id NOT IN (SELECT id FROM #__users)', config);
 
   // Cypress wants a return value
   return null;
@@ -124,7 +130,7 @@ function deleteInsertedItems(config) {
  */
 function setupPlugins(on, config) {
   on('task', {
-    queryDB: (query) => queryTestDB(query.replace('#__', config.env.db_prefix), config),
+    queryDB: (query) => queryTestDB(query, config),
     cleanupDB: () => deleteInsertedItems(config),
   });
 };
