@@ -1,8 +1,3 @@
-afterEach(() => {
-  cy.task('queryDB', 'DELETE FROM #__content');
-  cy.task('queryDB', 'DELETE FROM #__content_frontpage');
-});
-
 describe('Test that the front page', () => {
   it('can display an article', () => {
     cy.db_createArticle({ title: 'automated test article' }).then(() => {
