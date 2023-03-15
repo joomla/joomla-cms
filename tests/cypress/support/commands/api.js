@@ -4,6 +4,24 @@ Cypress.Commands.add('api_get', (path) =>
   )
 );
 
+Cypress.Commands.add('api_post', (path, body) =>
+  cy.api_getBearerToken().then((token) =>
+    cy.request({ method: 'POST', url: '/api/index.php/v1' + path, body: body, headers: { Authorization: 'Bearer ' + token }, json: true })
+  )
+);
+
+Cypress.Commands.add('api_patch', (path, body) =>
+  cy.api_getBearerToken().then((token) =>
+    cy.request({ method: 'PATCH', url: '/api/index.php/v1' + path, body: body, headers: { Authorization: 'Bearer ' + token }, json: true })
+  )
+);
+
+Cypress.Commands.add('api_delete', (path) =>
+  cy.api_getBearerToken().then((token) =>
+    cy.request({ method: 'DELETE', url: '/api/index.php/v1' + path, headers: { Authorization: 'Bearer ' + token }})
+  )
+);
+
 Cypress.Commands.add('api_getBearerToken', () => {
   return cy.task('queryDB', "SELECT id FROM #__users WHERE username = 'api'").then((id) => {
     if (id.length > 0) {

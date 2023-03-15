@@ -71,7 +71,7 @@ function queryTestDB(query, config) {
       user: config.env.db_user,
       password: config.env.db_password,
       database: config.env.db_name,
-      connectionLimit : 10
+      connectionLimit: 10
     });
 
     // Perform the query
@@ -115,6 +115,7 @@ function deleteInsertedItems(config) {
 
   // Delete the user mappings
   queryTestDB('DELETE FROM #__user_usergroup_map WHERE user_id NOT IN (SELECT id FROM #__users)', config);
+  queryTestDB('DELETE FROM #__user_profiles WHERE user_id NOT IN (SELECT id FROM #__users)', config);
 
   // Cypress wants a return value
   return null;
