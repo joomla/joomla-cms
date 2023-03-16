@@ -200,7 +200,7 @@ class ActionlogsHelper
 
         // Remove links from the message template, if we should not generate links.
         if (!$generateLinks) {
-            $message = preg_replace('/<a href=["\']{.+?}["\']>/', '', $message);
+            $message = preg_replace('/<a href=["\'].+?["\']>/', '', $message);
             $message = str_replace('</a>', '', $message);
         }
 
