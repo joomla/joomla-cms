@@ -130,10 +130,6 @@ trait CoreEventAware
      */
     protected static function getEventClassByEventName(string $eventName): string
     {
-        if (strpos($eventName, 'onWebAssetRegistryChangedAsset') === 0) {
-            return WebAssetRegistryAssetChanged::class;
-        }
-
         return self::$eventNameToConcreteClass[$eventName] ?? Event::class;
     }
 }
