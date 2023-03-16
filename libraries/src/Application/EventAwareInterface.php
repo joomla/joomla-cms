@@ -53,7 +53,10 @@ interface EventAwareInterface extends DispatcherAwareInterface
      *
      * @since       4.0.0
      * @throws      \InvalidArgumentException
-     * @deprecated  5.0
+     *
+     * #deprecated  4.3 will be removed in 6.0
+     *              Use the Dispatcher method instead
+     *              Example: Factory::getApplication()->getDispatcher()->dispatch($eventName, $event);
      */
     public function triggerEvent($eventName, $args = []);
 }
