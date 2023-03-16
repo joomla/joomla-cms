@@ -25,6 +25,21 @@ Cypress.Commands.add('db_createArticle', (article) => {
   );
 });
 
+Cypress.Commands.add('db_createContact', (contact) => {
+  const defaultContactOptions = {
+    name: 'test contact',
+    alias: 'test-contact',
+    catid: 4,
+    published: 1,
+    access: 1,
+    language: '*',
+    created: '2023-01-01 20:00:00',
+    modified: '2023-01-01 20:00:00'
+  };
+
+  return cy.task('queryDB', createInsertQuery('contact_details', { ...defaultContactOptions, ...contact }));
+});
+
 Cypress.Commands.add('db_createBanner', (banner) => {
   const defaultBannerOptions = {
     name: 'test banner',
