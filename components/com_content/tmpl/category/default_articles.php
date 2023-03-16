@@ -164,7 +164,6 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                     <?php endif; ?>
                 </tr>
             </thead>
-
             <tbody>
             <?php foreach ($this->items as $i => $article) : ?>
                 <?php if ($this->items[$i]->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
