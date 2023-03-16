@@ -22,8 +22,5 @@ describe('Install Joomla', () => {
     cy.disableStatistics();
     cy.setErrorReportingToDevelopment();
     cy.doAdministratorLogout();
-
-    // Update to the correct secret for the API tests because of the bearer token
-    cy.task('readFile', 'configuration.php').then((content) => cy.task('writeFile', { path: 'configuration.php', content: content.replace(/^.*\$secret.*$/mg, "public $secret = 'tEstValue';") }));
   });
 });
