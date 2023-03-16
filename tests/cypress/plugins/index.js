@@ -1,5 +1,23 @@
 const mysql = require('mysql');
 const postgres = require('postgres');
+const fs = require('fs');
+const fspath = require('path');
+
+function deleteFolder(path, config) {
+  fs.rmSync(path, { recursive: true, force: true });
+
+  return null;
+}
+
+function writeFile(path, content, config) {
+  fs.mkdirSync(fspath.dirname(config.projectRoot + '/' + path), { recursive: true ,mode:0o777});
+  fs.chmod(fspath.dirname(config.projectRoot + '/' + path), 0o777);
+  fs.writeFileSync(config.projectRoot + '/' + path, content);
+  fs.chmod(config.projectRoot + '/' + path, 0o777);
+
+  return config;
+}
+
 
 // Rows cache of items which got inserted
 let insertedItems = [];
@@ -133,6 +151,8 @@ function setupPlugins(on, config) {
   on('task', {
     queryDB: (query) => queryTestDB(query, config),
     cleanupDB: () => deleteInsertedItems(config),
+    deleteFolder: (path) => deleteFolder(path, config),
+    writeFile: ({ path, content }) => writeFile(path, content, config)
   });
 };
 
