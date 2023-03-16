@@ -337,7 +337,7 @@ class SysinfoModel extends BaseDatabaseModel
     public function phpinfoEnabled(): bool
     {
         // remove any spaces from the ini value before exploding it
-        $disabled = str_replace(' ', '', ini_get('disable_functions'));
+        $disabledFunctions = str_replace(' ', '', ini_get('disable_functions'));
         return !\in_array('phpinfo', explode(',', $disabled));
     }
 
