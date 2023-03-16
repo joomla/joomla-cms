@@ -57,7 +57,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
             </div>
         <?php else : ?>
             <table class="com-tags-tag-list__category category table table-striped table-bordered table-hover">
-                <thead <?php echo $this->params->get('show_headings', '1') ? '' :  'class="visually-hidden"'; ?>>
+                <thead<?php echo $this->params->get('show_headings', '1') ? '' :  ' class="visually-hidden"'; ?>>
                     <tr>
                         <th scope="col" id="categorylist_header_title">
                             <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'c.core_title', $listDirn, $listOrder); ?>
