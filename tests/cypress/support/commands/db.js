@@ -25,6 +25,20 @@ Cypress.Commands.add('db_createArticle', (article) => {
   );
 });
 
+Cypress.Commands.add('db_createBanner', (banner) => {
+  const defaultBannerOptions = {
+    name: 'test banner',
+    alias: 'test-banner',
+    catid: 3,
+    state: 1,
+    language: '*',
+    created: '2023-01-01 20:00:00',
+    modified: '2023-01-01 20:00:00'
+  };
+
+  return cy.task('queryDB', createInsertQuery('banners', { ...defaultBannerOptions, ...banner }));
+});
+
 Cypress.Commands.add('db_createMenuItem', (menuItem) => {
   const defaultMenuItemOptions = {
     title: 'test menu item',

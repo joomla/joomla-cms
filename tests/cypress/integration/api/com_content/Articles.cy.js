@@ -1,6 +1,5 @@
-beforeEach(() => {
+afterEach(() => {
   cy.task('queryDB', 'DELETE FROM #__content');
-  cy.task('queryDB', 'DELETE FROM #__categories WHERE id > 7');
 });
 
 describe('Test that content API endpoint', () => {
