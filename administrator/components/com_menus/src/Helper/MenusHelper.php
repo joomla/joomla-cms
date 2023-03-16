@@ -608,7 +608,7 @@ class MenusHelper extends ContentHelper
 
                 $folder = JPATH_ADMINISTRATOR . '/components/' . $component->option . '/presets/';
 
-                if (!Folder::exists($folder)) {
+                if (!is_dir($folder)) {
                     continue;
                 }
 

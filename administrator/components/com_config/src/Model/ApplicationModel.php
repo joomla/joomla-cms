@@ -496,7 +496,7 @@ class ApplicationModel extends FormModel
             $data['session_filesystem_path'] = Path::clean($data['session_filesystem_path']);
 
             if ($currentPath !== $data['session_filesystem_path']) {
-                if (!Folder::exists($data['session_filesystem_path']) && !Folder::create($data['session_filesystem_path'])) {
+                if (!is_dir(Path::clean($data['session_filesystem_path'])) && !Folder::create($data['session_filesystem_path'])) {
                     try {
                         Log::add(
                             Text::sprintf(

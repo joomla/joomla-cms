@@ -23,6 +23,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -201,7 +202,7 @@ class LanguageAdapter extends InstallerAdapter
         $this->parent->setPath('source', $path);
 
         // Check it exists
-        if (!Folder::exists($path)) {
+        if (!is_dir(Path::clean($path))) {
             // If the folder doesn't exist lets just nuke the row as well and presume the user killed it for us
             $this->extension->delete();
 

@@ -594,7 +594,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
                 if (
                     !array_key_exists($lang_code, $this->lang_codes)
                     || !array_key_exists($lang_code, Multilanguage::getSiteHomePages())
-                    || !Folder::exists(JPATH_SITE . '/language/' . $lang_code)
+                    || !is_dir(JPATH_SITE . '/language/' . $lang_code)
                 ) {
                     $lang_code = $this->current_lang;
                 }

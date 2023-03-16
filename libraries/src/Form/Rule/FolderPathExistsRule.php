@@ -64,6 +64,6 @@ class FolderPathExistsRule extends FilePathRule
             return false;
         }
 
-        return Folder::exists($pathCleaned);
+        return is_dir(Path::clean($pathCleaned));
     }
 }

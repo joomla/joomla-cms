@@ -20,6 +20,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -7954,7 +7955,7 @@ class JoomlaInstallerScript
         $this->moveRemainingTemplateFiles();
 
         foreach ($folders as $folder) {
-            if ($folderExists = Folder::exists(JPATH_ROOT . $folder)) {
+            if ($folderExists = is_dir(Path::clean(JPATH_ROOT . $folder))) {
                 $status['folders_exist'][] = $folder;
 
                 if ($dryRun === false) {
@@ -8727,7 +8728,7 @@ class JoomlaInstallerScript
         ];
 
         foreach ($folders as $oldFolder => $newFolder) {
-            if (Folder::exists(JPATH_ROOT . $oldFolder)) {
+            if (is_dir(Path::clean(JPATH_ROOT . $oldFolder))) {
                 $oldPath   = realpath(JPATH_ROOT . $oldFolder);
                 $newPath   = realpath(JPATH_ROOT . $newFolder);
                 $directory = new \RecursiveDirectoryIterator($oldPath);

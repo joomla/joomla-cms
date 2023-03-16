@@ -179,7 +179,7 @@ trait DisplayTrait
         $skin = $levelParams->get($this->getApplication()->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
 
         // Check that selected skin exists.
-        $skin = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
+        $skin = is_dir(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
 
         if (!$levelParams->get('lang_mode', 1)) {
             // Admin selected language
@@ -312,7 +312,7 @@ trait DisplayTrait
             $template_path = $levelParams->get('content_template_path');
             $template_path = $template_path ? '/templates/' . $template_path : '/media/vendor/tinymce/templates';
 
-            $filepaths = Folder::exists(JPATH_ROOT . $template_path)
+            $filepaths = is_dir(JPATH_ROOT . $template_path)
                 ? Folder::files(JPATH_ROOT . $template_path, '\.(html|txt)$', false, true)
                 : [];
 

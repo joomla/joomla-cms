@@ -189,7 +189,7 @@ class ChromestyleField extends GroupedlistField
         foreach ($templates as $template) {
             $chromeLayoutPath = $path . '/templates/' . $template->element . '/html/layouts/chromes';
 
-            if (!Folder::exists($chromeLayoutPath)) {
+            if (!is_dir(Path::clean($chromeLayoutPath))) {
                 continue;
             }
 
