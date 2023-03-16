@@ -3,19 +3,36 @@ const postgres = require('postgres');
 const fs = require('fs');
 const fspath = require('path');
 
+/**
+ * Deletes a folder with the given path recursive.
+ *
+ * @param {string} path The path
+ * @param {object} config The config
+ *
+ * @returns null
+ */
 function deleteFolder(path, config) {
-  fs.rmSync(path, { recursive: true, force: true });
+  fs.rmSync(config.projectRoot + '/' + path, { recursive: true, force: true });
 
   return null;
 }
 
+/**
+ * Writes the given content to a file for the given path.
+ *
+ * @param {string} path The path
+ * @param {mixed} content The content
+ * @param {object} config The config
+ *
+ * @returns null
+ */
 function writeFile(path, content, config) {
-  fs.mkdirSync(fspath.dirname(config.projectRoot + '/' + path), { recursive: true ,mode:0o777});
+  fs.mkdirSync(fspath.dirname(config.projectRoot + '/' + path), { recursive: true, mode: 0o777 });
   fs.chmod(fspath.dirname(config.projectRoot + '/' + path), 0o777);
   fs.writeFileSync(config.projectRoot + '/' + path, content);
   fs.chmod(config.projectRoot + '/' + path, 0o777);
 
-  return config;
+  return null;
 }
 
 
@@ -114,6 +131,7 @@ function queryTestDB(query, config) {
  * Deletes the inserted items from the database.
  *
  * @param {object} config The configuration
+ *
  * @returns null
  */
 function deleteInsertedItems(config) {
