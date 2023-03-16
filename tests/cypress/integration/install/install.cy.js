@@ -24,6 +24,6 @@ describe('Install Joomla', () => {
     cy.doAdministratorLogout();
 
     // Update to the correct secret for the API tests because of the bearer token
-    cy.readFile('configuration.php').then((content) => cy.task('writeFile', { path: 'configuration.php', content: content.replace(/^.*\$secret.*$/mg, "public $secret = 'tEstValue';") }));
+    cy.readFile(`${Cypress.originalConfig.projectRoot}/configuration.php`).then((content) => cy.task('writeFile', { path: 'configuration.php', content: content.replace(/^.*\$secret.*$/mg, "public $secret = 'tEstValue';") }));
   });
 });
