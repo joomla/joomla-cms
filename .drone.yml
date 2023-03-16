@@ -276,10 +276,6 @@ steps:
       - phpmin-system-mysql
       - phpmin-system-mysql8
       - phpmin-system-postgres
-      - phpmax-api-mysql
-      - phpmax-api-postgres
-      - phpmin-api-mysql
-      - phpmin-api-postgres
     environment:
       FTP_USERNAME:
         from_secret: ftpusername
