@@ -124,6 +124,8 @@ function queryTestDB(joomlaQuery, config) {
 
     // Perform the query
     connection.query(query, (error, results) => {
+      connection.end();
+
       // Reject when an error
       if (error && error.errno) {
         return reject(error);
