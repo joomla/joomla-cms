@@ -18,6 +18,19 @@ function deleteFolder(path, config) {
 }
 
 /**
+ * Reads the file for the given path.
+ *
+ * @param {string} path The path
+ * @param {object} config The config
+ *
+ * @returns null
+ */
+function readFile(path, config) {
+  fs.chmod(`${config.projectRoot}/${path}`, 0o777);
+  return fs.readFileSync(`${config.projectRoot}/${path}`, 'utf8');
+}
+
+/**
  * Writes the given content to a file for the given path.
  *
  * @param {string} path The path
@@ -168,8 +181,9 @@ function setupPlugins(on, config) {
   on('task', {
     queryDB: (query) => queryTestDB(query, config),
     cleanupDB: () => deleteInsertedItems(config),
-    deleteFolder: (path) => deleteFolder(path, config),
+    readFile: (path) => readFile(path, config),
     writeFile: ({ path, content }) => writeFile(path, content, config),
+    deleteFolder: (path) => deleteFolder(path, config),
   });
 }
 
