@@ -195,8 +195,7 @@ steps:
 
   - name: phpmin-system-mysql
     depends_on:
-      - phpmax-api-mysql
-      - phpmax-api-postgres
+      - prepare_system_tests
     image: joomlaprojects/docker-images:cypress
     volumes:
       - name: cypress-cache
@@ -208,8 +207,7 @@ steps:
 
   - name: phpmin-system-postgres
     depends_on:
-      - phpmax-api-mysql
-      - phpmax-api-postgres
+      - prepare_system_tests
     image: joomlaprojects/docker-images:cypress
     volumes:
       - name: cypress-cache
@@ -221,8 +219,7 @@ steps:
 
   - name: phpmax-system-mysql
     depends_on:
-      - phpmin-system-mysql
-      - phpmin-system-postgres
+      - prepare_system_tests
     image: joomlaprojects/docker-images:cypress8.1
     volumes:
       - name: cypress-cache
