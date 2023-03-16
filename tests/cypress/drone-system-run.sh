@@ -21,7 +21,7 @@ echo "[RUNNER] Run cypress"
 chmod +rwx /root
 
 cd /tests/www/$TEST_GROUP
-php installation/joomla.php install --verbose --site-name="Joomla CMS test" --admin-email=admin@example.org --admin-username=ci-admin --admin-user="jane doe" --admin-password=joomla-17082005 --db-type=$DB_ENGINE --db-host=$DB_HOST --db-name=test_joomla --db-pass=joomla_ut --db-user=root --db-encryption=0 --db-prefix=$TEST_GROUP
+php installation/joomla.php install --verbose --site-name="Joomla CMS test" --admin-email=admin@example.org --admin-username=ci-admin --admin-user="jane doe" --admin-password=joomla-17082005 --db-type=$DB_ENGINE --db-host=$DB_HOST --db-name=test_joomla --db-pass=joomla_ut --db-user=root --db-encryption=0 --db-prefix="${TEST_GROUP}_"
 
 # If you have found this line failing on OSX you need to brew install gnu-sed like we mentioned in the codeception readme!
 # This replaces the site secret in configuration.php so we can guarantee a consistent API token for our super user.
