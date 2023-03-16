@@ -113,16 +113,17 @@ function queryTestDB(joomlaQuery, config) {
   // Return a promise when resolves the query
   return new Promise((resolve, reject) => {
     // Create the connection and connect
-    const pool = mysql.createPool({
+    const connection = mysql.createConnection({
       host: config.env.db_host,
       user: config.env.db_user,
       password: config.env.db_password,
       database: config.env.db_name,
       connectionLimit: 10,
     });
+    connection.connect();
 
     // Perform the query
-    pool.query(query, (error, results) => {
+    connection.query(query, (error, results) => {
       // Reject when an error
       if (error && error.errno) {
         return reject(error);
