@@ -6,7 +6,9 @@ describe('Test that banners API endpoint', () => {
   it('can deliver a list of banners', () => {
     cy.db_createBanner({ name: 'automated test banner' })
       .then(() => cy.api_get('/banners'))
-      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes').its('name').should('include', 'automated test banner'));
+      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
+        .its('name')
+        .should('include', 'automated test banner'));
   });
 
   it('can create a banner', () => {
@@ -18,18 +20,24 @@ describe('Test that banners API endpoint', () => {
       language: '*',
       description: '',
       custombannercode: '',
-      params: { imageurl: '', width: '', height: '', alt: '' }
-    }).then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('name').should('include', 'automated test banner'));
+      params: {
+        imageurl: '', width: '', height: '', alt: '',
+      },
+    }).then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+      .its('name')
+      .should('include', 'automated test banner'));
   });
 
   it('can update a banner', () => {
     cy.db_createBanner({ name: 'automated test banner' })
-      .then((banner) => cy.api_patch('/banners/' + banner.insertId, { name: 'updated automated test banner' }))
-      .then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('name').should('include', 'updated automated test banner'));
+      .then((banner) => cy.api_patch(`/banners/${banner.insertId}`, { name: 'updated automated test banner' }))
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+        .its('name')
+        .should('include', 'updated automated test banner'));
   });
 
   it('can delete a banner', () => {
     cy.db_createBanner({ name: 'automated test banner', state: -2 })
-      .then((banner) => cy.api_delete('/banners/' + banner.insertId));
+      .then((banner) => cy.api_delete(`/banners/${banner.insertId}`));
   });
 });

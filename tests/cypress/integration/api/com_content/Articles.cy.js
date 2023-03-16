@@ -6,7 +6,9 @@ describe('Test that content API endpoint', () => {
   it('can deliver a list of articles', () => {
     cy.db_createArticle({ title: 'automated test article' })
       .then(() => cy.api_get('/content/articles'))
-      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes').its('title').should('include', 'automated test article'));
+      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
+        .its('title')
+        .should('include', 'automated test article'));
   });
 
   it('can create an article', () => {
@@ -25,18 +27,22 @@ describe('Test that content API endpoint', () => {
       urls: '',
       attribs: '',
       metadesc: '',
-      metadata: ''
-    }).then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'automated test article'));
+      metadata: '',
+    }).then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+      .its('title')
+      .should('include', 'automated test article'));
   });
 
   it('can update an article', () => {
     cy.db_createArticle({ title: 'automated test article' })
-      .then((article) => cy.api_patch('/content/articles/' + article.insertId, { title: 'updated automated test article' }))
-      .then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('title').should('include', 'updated automated test article'));
+      .then((article) => cy.api_patch(`/content/articles/${article.insertId}`, { title: 'updated automated test article' }))
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+        .its('title')
+        .should('include', 'updated automated test article'));
   });
 
   it('can delete an article', () => {
     cy.db_createArticle({ title: 'automated test article', state: -2 })
-      .then((article) => cy.api_delete('/content/articles/' + article.insertId));
+      .then((article) => cy.api_delete(`/content/articles/${article.insertId}`));
   });
 });

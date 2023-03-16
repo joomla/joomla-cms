@@ -12,7 +12,7 @@ const fspath = require('path');
  * @returns null
  */
 function deleteFolder(path, config) {
-  fs.rmSync(config.projectRoot + '/' + path, { recursive: true, force: true });
+  fs.rmSync(`${config.projectRoot}/${path}`, { recursive: true, force: true });
 
   return null;
 }
@@ -27,14 +27,13 @@ function deleteFolder(path, config) {
  * @returns null
  */
 function writeFile(path, content, config) {
-  fs.mkdirSync(fspath.dirname(config.projectRoot + '/' + path), { recursive: true, mode: 0o777 });
-  fs.chmod(fspath.dirname(config.projectRoot + '/' + path), 0o777);
-  fs.writeFileSync(config.projectRoot + '/' + path, content);
-  fs.chmod(config.projectRoot + '/' + path, 0o777);
+  fs.mkdirSync(fspath.dirname(`${config.projectRoot}/${path}`), { recursive: true, mode: 0o777 });
+  fs.chmod(fspath.dirname(`${config.projectRoot}/${path}`), 0o777);
+  fs.writeFileSync(`${config.projectRoot}/${path}`, content);
+  fs.chmod(`${config.projectRoot}/${path}`, 0o777);
 
   return null;
 }
-
 
 // Rows cache of items which got inserted
 let insertedItems = [];
@@ -46,9 +45,9 @@ let insertedItems = [];
  * @param {object} config The config
  * @returns Promise
  */
-function queryTestDB(query, config) {
+function queryTestDB(joomlaQuery, config) {
   // Substitute the joomla table prefix
-  query = query.replaceAll('#__', config.env.db_prefix);
+  let query = joomlaQuery.replaceAll('#__', config.env.db_prefix);
 
   // Parse the table name
   const tableNameOfInsert = query.match(/insert\s+into\s+(.*?)\s/i);
@@ -72,12 +71,12 @@ function queryTestDB(query, config) {
       username: config.env.db_user,
       password: config.env.db_password,
       idle_timeout: 5,
-      max_lifetime: 60
+      max_lifetime: 60,
     });
 
     // Postgres delivers the data direct as result of the insert query
     if (insertItem) {
-      query += ' returning *'
+      query += ' returning *';
     }
 
     // Postgres needs double quotes
@@ -106,7 +105,7 @@ function queryTestDB(query, config) {
       user: config.env.db_user,
       password: config.env.db_password,
       database: config.env.db_name,
-      connectionLimit: 10
+      connectionLimit: 10,
     });
 
     // Perform the query
@@ -122,10 +121,10 @@ function queryTestDB(query, config) {
       }
 
       // Resolve the result
-      resolve(results);
+      return resolve(results);
     });
   });
-};
+}
 
 /**
  * Deletes the inserted items from the database.
@@ -143,7 +142,7 @@ function deleteInsertedItems(config) {
     }
 
     // Delete the items from the database
-    queryTestDB('DELETE FROM ' + item.table + '  WHERE id IN (' + item.rows.join(',') + ')', config);
+    queryTestDB(`DELETE FROM ${item.table}  WHERE id IN (${item.rows.join(',')})`, config);
   });
 
   // Clear the cache
@@ -155,7 +154,7 @@ function deleteInsertedItems(config) {
 
   // Cypress wants a return value
   return null;
-};
+}
 
 /**
  * Does the setup of the plugins.
@@ -170,8 +169,8 @@ function setupPlugins(on, config) {
     queryDB: (query) => queryTestDB(query, config),
     cleanupDB: () => deleteInsertedItems(config),
     deleteFolder: (path) => deleteFolder(path, config),
-    writeFile: ({ path, content }) => writeFile(path, content, config)
+    writeFile: ({ path, content }) => writeFile(path, content, config),
   });
-};
+}
 
 module.exports = setupPlugins;

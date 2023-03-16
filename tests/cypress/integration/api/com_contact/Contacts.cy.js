@@ -6,7 +6,9 @@ describe('Test that contacts API endpoint', () => {
   it('can deliver a list of contacts', () => {
     cy.db_createContact({ name: 'automated test contact' })
       .then(() => cy.api_get('/contacts'))
-      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes').its('name').should('include', 'automated test contact'));
+      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
+        .its('name')
+        .should('include', 'automated test contact'));
   });
 
   it('can create a contact', () => {
@@ -15,18 +17,22 @@ describe('Test that contacts API endpoint', () => {
       alias: 'test-contact',
       catid: 4,
       published: 1,
-      language: '*'
-    }).then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('name').should('include', 'automated test contact'));
+      language: '*',
+    }).then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+      .its('name')
+      .should('include', 'automated test contact'));
   });
 
   it('can update a contact', () => {
     cy.db_createContact({ name: 'automated test contact', access: 1 })
-      .then((contact) => cy.api_patch('/contacts/' + contact.insertId, { name: 'updated automated test contact' }))
-      .then((response) => cy.wrap(response).its('body').its('data').its('attributes').its('name').should('include', 'updated automated test contact'));
+      .then((contact) => cy.api_patch(`/contacts/${contact.insertId}`, { name: 'updated automated test contact' }))
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+        .its('name')
+        .should('include', 'updated automated test contact'));
   });
 
   it('can delete a contact', () => {
     cy.db_createContact({ name: 'automated test contact', published: -2 })
-      .then((contact) => cy.api_delete('/contacts/' + contact.insertId));
+      .then((contact) => cy.api_delete(`/contacts/${contact.insertId}`));
   });
 });
