@@ -11,7 +11,7 @@ steps:
       - name: certificates
         path: /certificates
     commands:
-      - cp -v tests/Codeception/_data/certs/* /certificates/
+      - cp -v tests/certs/* /certificates/
 
   - name: composer
     image: joomlaprojects/docker-images:php8.2
@@ -179,6 +179,7 @@ steps:
     image: node:current-alpine
     commands:
       - npm run lint:js
+      - npm run lint:testjs
 
   - name: prepare_system_tests
     depends_on:
