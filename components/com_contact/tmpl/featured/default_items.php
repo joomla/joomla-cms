@@ -64,7 +64,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
             <caption class="visually-hidden">
                 <?php echo Text::_('COM_CONTACT_TABLE_CAPTION'); ?>,
             </caption>
-                <thead<?php echo $this->params->get('show_headings', '1') ?:  ' class="visually-hidden"'; ?>>
+                <thead<?php echo $this->params->get('show_headings', '1') ? '' : ' class="visually-hidden"'; ?>>
                     <tr>
                         <th scope="col" class="item-title">
                             <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
