@@ -117,8 +117,7 @@ function queryTestDB(joomlaQuery, config) {
       host: config.env.db_host,
       user: config.env.db_user,
       password: config.env.db_password,
-      database: config.env.db_name,
-      connectionLimit: 10,
+      database: config.env.db_name
     });
     connection.connect();
 
