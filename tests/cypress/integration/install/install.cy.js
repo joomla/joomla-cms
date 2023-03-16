@@ -1,6 +1,3 @@
-// type definitions for Cypress object "cy"
-// <reference types="cypress" />
-
 describe('Install Joomla', () => {
   it('Install Joomla', () => {
     cy.exec('rm configuration.php', { failOnNonZeroExit: false });
@@ -25,5 +22,10 @@ describe('Install Joomla', () => {
     cy.disableStatistics();
     cy.setErrorReportingToDevelopment();
     cy.doAdministratorLogout();
+
+    // Update to the correct secret for the API tests
+    cy.readFile('configuration.php').then((content) =>
+      cy.task('writeFile', { path: 'configuration.php', content: content.replace(/^.*\$secret.*$/mg, "public $secret = 'tEstValue';") })
+    );
   });
 });
