@@ -123,7 +123,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
             <caption class="visually-hidden">
                 <?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>
             </caption>
-            <thead<?php echo $this->params->get('show_headings', '1') ? '' :  ' class="visually-hidden"'; ?>>
+            <thead<?php echo $this->params->get('show_headings', '1') ? '' : ' class="visually-hidden"'; ?>>
                 <tr>
                     <th scope="col" id="categorylist_header_title">
                         <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder, null, 'asc', '', 'adminForm'); ?>
