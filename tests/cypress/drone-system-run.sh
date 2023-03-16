@@ -19,11 +19,12 @@ apache2ctl -D FOREGROUND &
 
 echo "[RUNNER] Run cypress"
 chmod +rwx /root
-# cd /tests/www/$TEST_GROUP
 
-#export CYPRESS_CACHE_FOLDER=/tests/www/$DB_ENGINE/.cache
+cd /tests/www/$TEST_SUITE
+php installation/joomla.php install --verbose --site-name="Joomla CMS test" --admin-email=admin@example.org --admin-username=ci-admin --admin-user="jane doe" --admin-password=joomla-17082005 --db-type=$DB_ENGINE --db-host=$DB_HOST --db-name=test_joomla --db-pass=joomla_ut --db-user=root --db-encryption=0 --db-prefix=$TEST_GROUP
 
-#npx cypress install
-#npx cypress verify
+# If you have found this line failing on OSX you need to brew install gnu-sed like we mentioned in the codeception readme!
+# This replaces the site secret in configuration.php so we can guarantee a consistent API token for our super user.
+sed -i "/\$secret/c\	public \$secret = 'tEstValue';" /tests/www/$TEST_SUITE/configuration.php
+
 npx cypress run --browser=firefox --e2e --env db_type=$DB_ENGINE,db_host=$DB_HOST,db_password=joomla_ut,db_prefix="${TEST_GROUP}_" --config baseUrl=http://localhost/$TEST_GROUP,screenshotsFolder=$JOOMLA_BASE/tests/cypress/output/screenshots
-
