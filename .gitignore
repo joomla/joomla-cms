@@ -30,9 +30,6 @@ selenium.log
 composer.phar
 /test-install
 /.phpunit.result.cache
-/tests/Codeception/acceptance.suite.yml
-/tests/Codeception/_output/
-/tests/Codeception/api.suite.yml
 
 
 # Vendor directory handling

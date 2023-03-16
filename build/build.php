@@ -395,7 +395,6 @@ $doNotPackage = [
     'appveyor-phpunit.xml',
     'build',
     'build.xml',
-    'codeception.yml',
     'CODE_OF_CONDUCT.md',
     'composer.json',
     'composer.lock',
