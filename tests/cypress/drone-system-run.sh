@@ -14,7 +14,7 @@ echo "[RUNNER] Copy files to test installation"
 rsync -a --exclude-from=tests/cypress/exclude.txt $JOOMLA_BASE/ /tests/www/$TEST_GROUP/
 chown -R www-data /tests/www/$TEST_GROUP/
 
-# Is needed for media manager tests
+# Required for media manager tests
 chmod -R 777 /tests/www/$TEST_GROUP/images
 
 echo "[RUNNER] Start Apache"
