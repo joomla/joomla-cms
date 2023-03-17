@@ -26,7 +26,6 @@
 
 # Test Related Files
 /phpunit.xml
-selenium.log
 composer.phar
 /test-install
 /.phpunit.result.cache

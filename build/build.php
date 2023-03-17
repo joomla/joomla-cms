@@ -411,7 +411,6 @@ $doNotPackage = [
     'README.md',
     'renovate.json',
     'ruleset.xml',
-    'selenium.log',
     'tests',
 ];
 
