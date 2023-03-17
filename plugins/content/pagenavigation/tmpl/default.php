@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Router\Route;
 
 ?>
-
 <nav class="pagenavigation">
     <span class="pagination ms-0">
     <?php if ($row->prev) :
