@@ -30,7 +30,7 @@ describe('Test that media files API endpoint', () => {
         .should('include', 'nasa1-1200.jpg'));
   });
 
-  it('can search in files', () => {
+  it('can search in filenames', () => {
     cy.api_get('/media/files?filter[search]=joomla')
       .then((response) => {
         cy.wrap(response).its('body').its('data.0').its('attributes')
