@@ -49,9 +49,9 @@ Cypress.Commands.add('db_createContact', (contact) => {
     language: '*',
     created: '2023-01-01 20:00:00',
     modified: '2023-01-01 20:00:00',
-    metadata:'',
-    metadesc:'',
-    params:'',
+    metadata: '',
+    metadesc: '',
+    params: '',
   };
 
   return cy.task('queryDB', createInsertQuery('contact_details', { ...defaultContactOptions, ...contact }));
@@ -66,9 +66,9 @@ Cypress.Commands.add('db_createBanner', (banner) => {
     language: '*',
     created: '2023-01-01 20:00:00',
     modified: '2023-01-01 20:00:00',
-    description:'',
-    custombannercode:'',
-    params:'',
+    description: '',
+    custombannercode: '',
+    params: '',
   };
 
   return cy.task('queryDB', createInsertQuery('banners', { ...defaultBannerOptions, ...banner }));
