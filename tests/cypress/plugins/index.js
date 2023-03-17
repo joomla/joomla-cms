@@ -12,7 +12,7 @@ const fspath = require('path');
  * @returns null
  */
 function deleteFolder(path, config) {
-  fs.rmSync(`${config.projectRoot}/${path}`, { recursive: true, force: true });
+  fs.rmSync(`${config.env.cmsPath}/${path}`, { recursive: true, force: true });
 
   return null;
 }
@@ -27,10 +27,10 @@ function deleteFolder(path, config) {
  * @returns null
  */
 function writeFile(path, content, config) {
-  fs.mkdirSync(fspath.dirname(`${config.projectRoot}/${path}`), { recursive: true, mode: 0o777 });
-  fs.chmod(fspath.dirname(`${config.projectRoot}/${path}`), 0o777);
-  fs.writeFileSync(`${config.projectRoot}/${path}`, content);
-  fs.chmod(`${config.projectRoot}/${path}`, 0o777);
+  fs.mkdirSync(fspath.dirname(`${config.env.cmsPath}/${path}`), { recursive: true, mode: 0o777 });
+  fs.chmod(fspath.dirname(`${config.env.cmsPath}/${path}`), 0o777);
+  fs.writeFileSync(`${config.env.cmsPath}/${path}`, content);
+  fs.chmod(`${config.env.cmsPath}/${path}`, 0o777);
 
   return null;
 }

@@ -35,6 +35,7 @@ module.exports = defineConfig({
     db_name: 'test_joomla',
     db_user: 'root',
     db_password: '',
-    db_prefix: 'jos_'
+    db_prefix: 'jos_',
+    cmsPath: '.',
   },
 })
