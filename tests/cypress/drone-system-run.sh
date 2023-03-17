@@ -26,6 +26,6 @@ npx cypress run --browser=firefox --e2e --env db_type=$DB_ENGINE,db_host=$DB_HOS
 
 # If you have found this line failing on OSX you need to brew install gnu-sed like we mentioned in the codeception readme!
 # This replaces the site secret in configuration.php so we can guarantee a consistent API token for our super user.
-sed -i "/\$secret/c\	public \$secret = 'tEstValue';" /tests/www/$TEST_SUITE/configuration.php
+sed -i "/\$secret/c\	public \$secret = 'tEstValue';" configuration.php
 
 npx cypress run --browser=firefox --e2e --env db_type=$DB_ENGINE,db_host=$DB_HOST,db_password=joomla_ut,db_prefix="${TEST_GROUP}_" --config baseUrl=http://localhost/$TEST_GROUP,screenshotsFolder=$JOOMLA_BASE/tests/cypress/output/screenshots --spec 'tests/cypress/integration/administrator/*.cy.js,tests/cypress/integration/site/*.cy.js,tests/cypress/integration/api/*.cy.js'

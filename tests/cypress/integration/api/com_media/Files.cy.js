@@ -23,14 +23,14 @@ describe('Test that media files API endpoint', () => {
         .should('include', 'nasa1-1200.jpg'));
   });
 
-  it('can deliver a list of files wih an adapter', () => {
+  it('can deliver a list of files with an adapter', () => {
     cy.api_get('/media/files/local-images:/sampledata/cassiopeia/')
       .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
         .its('name')
         .should('include', 'nasa1-1200.jpg'));
   });
 
-  it('can search in files', () => {
+  it('can search in filenames', () => {
     cy.api_get('/media/files?filter[search]=joomla')
       .then((response) => {
         cy.wrap(response).its('body').its('data.0').its('attributes')
