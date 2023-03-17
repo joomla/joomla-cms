@@ -70,8 +70,8 @@ function queryTestDB(joomlaQuery, config) {
       database: config.env.db_name,
       username: config.env.db_user,
       password: config.env.db_password,
-      idle_timeout: 5,
-      max_lifetime: 60,
+      idle_timeout: 1,
+      max_lifetime: 1,
     });
 
     // Postgres delivers the data direct as result of the insert query

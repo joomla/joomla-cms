@@ -7,10 +7,10 @@ describe('Test that media files API endpoint', () => {
   it('can deliver a list of files', () => {
     cy.api_get('/media/files')
       .then((response) => {
-        cy.wrap(response).its('body').its('data.1').its('attributes')
+        cy.wrap(response).its('body').its('data.0').its('attributes')
           .its('name')
           .should('include', 'banners');
-        cy.wrap(response).its('body').its('data.5').its('attributes')
+        cy.wrap(response).its('body').its('data.4').its('attributes')
           .its('name')
           .should('include', 'joomla_black.png');
       });
