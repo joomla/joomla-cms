@@ -15,8 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\MenuItem;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -52,6 +54,11 @@ abstract class Menu
          * but new nodes will only be run through this method if their parents have not been processed yet.
          */
         $app->triggerEvent('onPreprocessMenuItems', ['administrator.module.mod_submenu', $children]);
+
+        // Get languagecode params
+        if (PluginHelper::isEnabled('system', 'languagecode')) {
+            $languageCodeParams = new Registry(PluginHelper::getPlugin('system', 'languagecode')->params);
+        }
 
         foreach ($children as $item) {
             if (substr($item->link, 0, 8) === 'special:') {
@@ -198,7 +205,12 @@ abstract class Menu
                         $iconImage = '<span class="home-image icon-home" aria-hidden="true"></span>';
                         $iconImage .= '<span class="visually-hidden">' . Text::_('JDEFAULT') . '</span>';
                     } elseif (substr($iconImage, 0, 6) === 'image:') {
-                        $iconImage = '&nbsp;<span class="badge bg-secondary">' . substr($iconImage, 6) . '</span>';
+                        if ($languageCodeParams) {
+                            $new_code = $languageCodeParams->get(strtolower(substr($iconImage, 6)));
+                            $text     = $new_code ?: substr($iconImage, 6);
+                        }
+
+                        $iconImage = '&nbsp;<span class="badge bg-secondary">' . $text . '</span>';
                     }
 
                     $item->iconImage = $iconImage;

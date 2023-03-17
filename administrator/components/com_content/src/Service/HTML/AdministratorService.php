@@ -15,8 +15,10 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -81,9 +83,20 @@ class AdministratorService
                 $languages = LanguageHelper::getContentLanguages([0, 1]);
                 $content_languages = array_column($languages, 'lang_code');
 
+                // Get languagecode params
+                if (PluginHelper::isEnabled('system', 'languagecode')) {
+                    $languageCodeParams = new Registry(PluginHelper::getPlugin('system', 'languagecode')->params);
+                }
+
                 foreach ($items as &$item) {
                     if (in_array($item->lang_code, $content_languages)) {
-                        $text    = $item->lang_code;
+                        $text = $item->lang_code;
+
+                        if ($languageCodeParams) {
+                            $new_code = $languageCodeParams->get(strtolower($item->lang_code));
+                            $text     = $new_code ?: $item->lang_code;
+                        }
+
                         $url     = Route::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
                         $tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
                             . htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);

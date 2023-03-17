@@ -17,6 +17,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -231,6 +232,11 @@ class AssociationsHelper extends ContentHelper
         $canEditReference = self::allowEdit($extensionName, $typeName, $itemId);
         $canCreate        = self::allowAdd($extensionName, $typeName);
 
+        // Get languagecode params
+        if (PluginHelper::isEnabled('system', 'languagecode')) {
+            $languageCodeParams = new Registry(PluginHelper::getPlugin('system', 'languagecode')->params);
+        }
+
         // Create associated items list.
         foreach ($languages as $langCode => $language) {
             // Don't do for the reference language.
@@ -312,9 +318,14 @@ class AssociationsHelper extends ContentHelper
                 'target'   => $target,
             ];
 
-            $url     = Route::_('index.php?' . http_build_query($options));
-            $url     = $allow && $addLink ? $url : '';
-            $text    = $language->lang_code;
+            $url  = Route::_('index.php?' . http_build_query($options));
+            $url  = $allow && $addLink ? $url : '';
+            $text = $language->lang_code;
+
+            if ($languageCodeParams) {
+                $new_code = $languageCodeParams->get(strtolower($language->lang_code));
+                $text     = $new_code ?: $language->lang_code;
+            }
 
             $tooltip = '<strong>' . htmlspecialchars($language->title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
                 . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
