@@ -13,10 +13,4 @@ before(() => {
   });
 });
 
-afterEach(() => {
-  cy.task('cleanupDB').then(() => {
-    cy.task('queryDB', 'DELETE FROM #__user_usergroup_map WHERE user_id NOT IN (SELECT id FROM #__users)');
-    cy.task('queryDB', 'DELETE FROM #__user_profiles WHERE user_id NOT IN (SELECT id FROM #__users)');
-    return null;
-  });
-});
+afterEach(() => cy.task('cleanupDB'));

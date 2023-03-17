@@ -136,6 +136,9 @@ function queryTestDB(joomlaQuery, config) {
  * @returns null
  */
 function deleteInsertedItems(config) {
+  // Holds the promises for the deleted items
+  const promises = [];
+
   // Loop over the cached items
   insertedItems.forEach((item) => {
     // When there is nothing to delete, ignore it
@@ -144,11 +147,17 @@ function deleteInsertedItems(config) {
     }
 
     // Delete the items from the database
-    queryTestDB(`DELETE FROM ${item.table} WHERE id IN (${item.rows.join(',')})`, config);
+    promises.push(queryTestDB(`DELETE FROM ${item.table} WHERE id IN (${item.rows.join(',')})`, config));
   });
 
-  // Clear the cache
-  insertedItems = [];
+  Promise.all(promises).then(() => {
+    // Clear the cache
+    insertedItems = [];
+
+    // Cleanup
+    queryTestDB('DELETE FROM #__user_usergroup_map WHERE user_id NOT IN (SELECT id FROM #__users)', config);
+    queryTestDB('DELETE FROM #__user_profiles WHERE user_id NOT IN (SELECT id FROM #__users)', config);
+  });
 
   // Cypress wants a return value
   return null;
