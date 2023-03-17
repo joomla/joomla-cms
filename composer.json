@@ -99,7 +99,7 @@
         "lcobucci/jwt": "^3.4.6",
         "web-token/signature-pack": "^2.2.11",
         "phpseclib/bcmath_compat": "^2.0.1",
-        "jfcherng/php-diff": "^6.10.8",
+        "jfcherng/php-diff": "^6.10.10",
         "voku/portable-utf8": "6.0.12 as 5.4.0"
     },
     "require-dev": {
