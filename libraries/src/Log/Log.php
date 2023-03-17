@@ -209,7 +209,7 @@ class Log
      *
      * @since   4.0.0
      */
-    public function registerLogger(string $key, string $class, bool $replace = false)
+    public static function registerLogger(string $key, string $class, bool $replace = false)
     {
         // Automatically instantiate the singleton object if not already done.
         if (empty(static::$instance)) {
