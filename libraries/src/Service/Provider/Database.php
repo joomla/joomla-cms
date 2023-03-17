@@ -43,7 +43,7 @@ class Database implements ServiceProviderInterface
             ->alias(DatabaseDriver::class, DatabaseInterface::class)
             ->share(
                 DatabaseInterface::class,
-                function (Container $container) {
+                static function (Container $container) {
                     $conf = $container->get('config');
 
                     /**

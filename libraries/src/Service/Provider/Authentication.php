@@ -47,7 +47,7 @@ class Authentication implements ServiceProviderInterface
             ->alias(BaseArgon2iHandler::class, Argon2iHandler::class)
             ->share(
                 Argon2iHandler::class,
-                function (Container $container) {
+                static function (Container $container) {
                     return new Argon2iHandler();
                 },
                 true
@@ -57,7 +57,7 @@ class Authentication implements ServiceProviderInterface
             ->alias(BaseArgon2idHandler::class, Argon2idHandler::class)
             ->share(
                 Argon2idHandler::class,
-                function (Container $container) {
+                static function (Container $container) {
                     return new Argon2idHandler();
                 },
                 true
@@ -66,7 +66,7 @@ class Authentication implements ServiceProviderInterface
         $container->alias('password.handler.chained', ChainedHandler::class)
             ->share(
                 ChainedHandler::class,
-                function (Container $container) {
+                static function (Container $container) {
                     $handler = new ChainedHandler();
 
                     // Load the chain with supported core handlers
@@ -94,7 +94,7 @@ class Authentication implements ServiceProviderInterface
             ->alias('password.handler.bcrypt', BCryptHandler::class)
             ->share(
                 BCryptHandler::class,
-                function (Container $container) {
+                static function (Container $container) {
                     return new BCryptHandler();
                 },
                 true
@@ -103,7 +103,7 @@ class Authentication implements ServiceProviderInterface
         $container->alias('password.handler.md5', MD5Handler::class)
             ->share(
                 MD5Handler::class,
-                function (Container $container) {
+                static function (Container $container) {
                     @trigger_error(
                         sprintf(
                             'The "%1$s" class service is deprecated, use the "%2$s" service for the active password handler instead.',
@@ -121,7 +121,7 @@ class Authentication implements ServiceProviderInterface
         $container->alias('password.handler.phpass', PHPassHandler::class)
             ->share(
                 PHPassHandler::class,
-                function (Container $container) {
+                static function (Container $container) {
                     @trigger_error(
                         sprintf(
                             'The "%1$s" class service is deprecated, use the "%2$s" service for the active password handler instead.',

@@ -43,7 +43,7 @@ return new class implements ServiceProviderInterface
 
         $container->set(
             ComponentInterface::class,
-            function (Container $container) {
+            static function (Container $container) {
                 $component = new RedirectComponent($container->get(ComponentDispatcherFactoryInterface::class));
                 $component->setMVCFactory($container->get(MVCFactoryInterface::class));
                 $component->setRegistry($container->get(Registry::class));

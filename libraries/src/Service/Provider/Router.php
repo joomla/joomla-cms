@@ -43,7 +43,7 @@ class Router implements ServiceProviderInterface
             ->alias('JRouterSite', SiteRouter::class)
             ->share(
                 SiteRouter::class,
-                function (Container $container) {
+                static function (Container $container) {
                     return new SiteRouter($container->get(SiteApplication::class));
                 },
                 true
@@ -53,7 +53,7 @@ class Router implements ServiceProviderInterface
             ->alias('JRouterAdministrator', AdministratorRouter::class)
             ->share(
                 AdministratorRouter::class,
-                function (Container $container) {
+                static function (Container $container) {
                     return new AdministratorRouter();
                 },
                 true
@@ -62,7 +62,7 @@ class Router implements ServiceProviderInterface
         $container->alias('ApiRouter', ApiRouter::class)
             ->share(
                 ApiRouter::class,
-                function (Container $container) {
+                static function (Container $container) {
                     return new ApiRouter($container->get(ApiApplication::class));
                 },
                 true

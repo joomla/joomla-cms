@@ -41,7 +41,7 @@ class Application implements ServiceProviderInterface
     {
         $container->share(
             InstallationApplication::class,
-            function (Container $container) {
+            static function (Container $container) {
                 $app = new InstallationApplication(null, $container->get('config'), null, $container);
 
                 // The session service provider needs Factory::$application, set it if still null
@@ -61,7 +61,7 @@ class Application implements ServiceProviderInterface
         // Inject a custom JSON error renderer
         $container->share(
             JsonRenderer::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new \Joomla\CMS\Installation\Error\Renderer\JsonRenderer();
             }
         );

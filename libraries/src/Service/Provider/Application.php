@@ -74,7 +74,7 @@ class Application implements ServiceProviderInterface
         $container->alias(AdministratorApplication::class, 'JApplicationAdministrator')
             ->share(
                 'JApplicationAdministrator',
-                function (Container $container) {
+                static function (Container $container) {
                     $app = new AdministratorApplication(null, $container->get('config'), null, $container);
 
                     // The session service provider needs Factory::$application, set it if still null
@@ -96,7 +96,7 @@ class Application implements ServiceProviderInterface
         $container->alias(SiteApplication::class, 'JApplicationSite')
             ->share(
                 'JApplicationSite',
-                function (Container $container) {
+                static function (Container $container) {
                     $app = new SiteApplication(null, $container->get('config'), null, $container);
 
                     // The session service provider needs Factory::$application, set it if still null
@@ -119,7 +119,7 @@ class Application implements ServiceProviderInterface
         $container->alias(ConsoleApplication::class, BaseConsoleApplication::class)
             ->share(
                 BaseConsoleApplication::class,
-                function (Container $container) {
+                static function (Container $container) {
                     $dispatcher = $container->get(DispatcherInterface::class);
 
                     // Console uses the default system language
@@ -151,7 +151,7 @@ class Application implements ServiceProviderInterface
             ->alias(WritableLoaderInterface::class, LoaderInterface::class)
             ->share(
                 LoaderInterface::class,
-                function (Container $container) {
+                static function (Container $container) {
                     $mapping = [
                         SessionGcCommand::getDefaultName()                => SessionGcCommand::class,
                         SessionMetadataGcCommand::getDefaultName()        => SessionMetadataGcCommand::class,
@@ -183,7 +183,7 @@ class Application implements ServiceProviderInterface
         $container->alias(ApiApplication::class, 'JApplicationApi')
             ->share(
                 'JApplicationApi',
-                function (Container $container) {
+                static function (Container $container) {
                     $app = new ApiApplication(null, $container->get('config'), null, $container);
 
                     // The session service provider needs Factory::$application, set it if still null

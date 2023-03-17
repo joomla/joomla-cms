@@ -40,12 +40,12 @@ return new class implements ServiceProviderInterface
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            static function (Container $container) {
                 $config  = (array) PluginHelper::getPlugin('system', 'webauthn');
                 $subject = $container->get(DispatcherInterface::class);
 
                 $app     = Factory::getApplication();
-                $session = $container->has('session') ? $container->get('session') : $this->getSession($app);
+                $session = $container->has('session') ? $container->get('session') : self::getSession($app);
 
                 $db                    = $container->get('DatabaseDriver');
                 $credentialsRepository = $container->has(PublicKeyCredentialSourceRepository::class)
@@ -82,7 +82,7 @@ return new class implements ServiceProviderInterface
      *
      * @since  4.2.0
      */
-    private function getSession(ApplicationInterface $app)
+    private static function getSession(ApplicationInterface $app)
     {
         return $app instanceof SessionAwareWebApplicationInterface ? $app->getSession() : null;
     }

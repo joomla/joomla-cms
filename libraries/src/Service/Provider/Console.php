@@ -58,7 +58,7 @@ class Console implements ServiceProviderInterface
     {
         $container->share(
             SessionGcCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 /*
                  * The command will need the same session handler that web apps use to run correctly,
                  * since this is based on an option we need to inject the container
@@ -73,7 +73,7 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             SessionMetadataGcCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new SessionMetadataGcCommand($container->get('session'), $container->get(MetadataManager::class));
             },
             true
@@ -81,7 +81,7 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             ExportCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new ExportCommand($container->get('db'));
             },
             true
@@ -89,7 +89,7 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             ImportCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new ImportCommand($container->get('db'));
             },
             true
@@ -97,7 +97,7 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             SiteDownCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new SiteDownCommand();
             },
             true
@@ -105,7 +105,7 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             SiteUpCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new SiteUpCommand();
             },
             true
@@ -113,7 +113,7 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             SetConfigurationCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new SetConfigurationCommand();
             },
             true
@@ -121,7 +121,7 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             GetConfigurationCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new GetConfigurationCommand();
             },
             true
@@ -129,7 +129,7 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             ExtensionsListCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new ExtensionsListCommand($container->get('db'));
             },
             true
@@ -137,7 +137,7 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             CheckJoomlaUpdatesCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new CheckJoomlaUpdatesCommand();
             },
             true
@@ -145,7 +145,7 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             ExtensionRemoveCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new ExtensionRemoveCommand($container->get(DatabaseInterface::class));
             },
             true
@@ -153,7 +153,7 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             ExtensionInstallCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new ExtensionInstallCommand();
             },
             true
@@ -161,7 +161,7 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             ExtensionDiscoverCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new ExtensionDiscoverCommand();
             },
             true
@@ -169,7 +169,7 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             ExtensionDiscoverInstallCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new ExtensionDiscoverInstallCommand($container->get('db'));
             },
             true
@@ -177,7 +177,7 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             ExtensionDiscoverListCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new ExtensionDiscoverListCommand($container->get('db'));
             },
             true
@@ -185,7 +185,7 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             UpdateCoreCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new UpdateCoreCommand($container->get('db'));
             },
             true
@@ -193,7 +193,7 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             FinderIndexCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new FinderIndexCommand($container->get('db'));
             },
             true
@@ -201,7 +201,7 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             TasksListCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new TasksListCommand();
             },
             true
@@ -209,14 +209,14 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             TasksRunCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new TasksRunCommand();
             }
         );
 
         $container->share(
             TasksStateCommand::class,
-            function (Container $container) {
+            static function (Container $container) {
                 return new TasksStateCommand();
             }
         );

@@ -59,7 +59,7 @@ class Session implements ServiceProviderInterface
     {
         $container->share(
             'session.web.administrator',
-            function (Container $container) {
+            static function (Container $container) {
                 /** @var Registry $config */
                 $config = $container->get('config');
                 $app    = Factory::getApplication();
@@ -83,10 +83,10 @@ class Session implements ServiceProviderInterface
                 $handler = $container->get('session.factory')->createSessionHandler($options);
 
                 if (!$container->has('session.handler')) {
-                    $this->registerSessionHandlerAsService($container, $handler);
+                    self::registerSessionHandlerAsService($container, $handler);
                 }
 
-                return $this->buildSession(
+                return self::buildSession(
                     new JoomlaStorage($app->input, $handler, $options),
                     $app,
                     $container->get(DispatcherInterface::class),
@@ -98,7 +98,7 @@ class Session implements ServiceProviderInterface
 
         $container->share(
             'session.web.installation',
-            function (Container $container) {
+            static function (Container $container) {
                 /** @var Registry $config */
                 $config = $container->get('config');
                 $app    = Factory::getApplication();
@@ -128,10 +128,10 @@ class Session implements ServiceProviderInterface
                 $handler = $container->get('session.factory')->createSessionHandler($options);
 
                 if (!$container->has('session.handler')) {
-                    $this->registerSessionHandlerAsService($container, $handler);
+                    self::registerSessionHandlerAsService($container, $handler);
                 }
 
-                return $this->buildSession(
+                return self::buildSession(
                     new JoomlaStorage($app->input, $handler),
                     $app,
                     $container->get(DispatcherInterface::class),
@@ -143,7 +143,7 @@ class Session implements ServiceProviderInterface
 
         $container->share(
             'session.web.site',
-            function (Container $container) {
+            static function (Container $container) {
                 /** @var Registry $config */
                 $config = $container->get('config');
                 $app    = Factory::getApplication();
@@ -167,10 +167,10 @@ class Session implements ServiceProviderInterface
                 $handler = $container->get('session.factory')->createSessionHandler($options);
 
                 if (!$container->has('session.handler')) {
-                    $this->registerSessionHandlerAsService($container, $handler);
+                    self::registerSessionHandlerAsService($container, $handler);
                 }
 
-                return $this->buildSession(
+                return self::buildSession(
                     new JoomlaStorage($app->input, $handler, $options),
                     $app,
                     $container->get(DispatcherInterface::class),
@@ -182,7 +182,7 @@ class Session implements ServiceProviderInterface
 
         $container->share(
             'session.cli',
-            function (Container $container) {
+            static function (Container $container) {
                 /** @var Registry $config */
                 $config = $container->get('config');
                 $app    = Factory::getApplication();
@@ -207,10 +207,10 @@ class Session implements ServiceProviderInterface
                 $handler = $container->get('session.factory')->createSessionHandler($options);
 
                 if (!$container->has('session.handler')) {
-                    $this->registerSessionHandlerAsService($container, $handler);
+                    self::registerSessionHandlerAsService($container, $handler);
                 }
 
-                return $this->buildSession(
+                return self::buildSession(
                     new RuntimeStorage(),
                     $app,
                     $container->get(DispatcherInterface::class),
@@ -223,7 +223,7 @@ class Session implements ServiceProviderInterface
         $container->alias(SessionFactory::class, 'session.factory')
             ->share(
                 'session.factory',
-                function (Container $container) {
+                static function (Container $container) {
                     $factory = new SessionFactory();
                     $factory->setContainer($container);
 
@@ -235,7 +235,7 @@ class Session implements ServiceProviderInterface
         $container->alias(SessionManager::class, 'session.manager')
             ->share(
                 'session.manager',
-                function (Container $container) {
+                static function (Container $container) {
                     if (!$container->has('session.handler')) {
                         throw new DependencyResolutionException(
                             'The "session.handler" service has not been created, make sure you have created the "session" service first.'
@@ -250,7 +250,7 @@ class Session implements ServiceProviderInterface
         $container->alias(MetadataManager::class, 'session.metadata_manager')
             ->share(
                 'session.metadata_manager',
-                function (Container $container) {
+                static function (Container $container) {
                     /*
                      * Normally we should inject the application as a dependency via $container->get() however there is not
                      * a 'app' or CMSApplicationInterface::class key for the primary application of the request so we need to
@@ -273,7 +273,7 @@ class Session implements ServiceProviderInterface
         $container->alias(MetadataManagerListener::class, 'session.event_listener.metadata_manager')
             ->share(
                 'session.event_listener.metadata_manager',
-                function (Container $container) {
+                static function (Container $container) {
                     return new MetadataManagerListener($container->get(MetadataManager::class), $container->get('config'));
                 },
                 true
@@ -298,7 +298,7 @@ class Session implements ServiceProviderInterface
      *
      * @since   4.0.0
      */
-    private function buildSession(
+    private static function buildSession(
         StorageInterface $storage,
         CMSApplicationInterface $app,
         DispatcherInterface $dispatcher,
@@ -325,7 +325,7 @@ class Session implements ServiceProviderInterface
      *
      * @since   4.0.0
      */
-    private function registerSessionHandlerAsService(Container $container, \SessionHandlerInterface $sessionHandler): void
+    private static function registerSessionHandlerAsService(Container $container, \SessionHandlerInterface $sessionHandler): void
     {
         // Alias the session handler to the core SessionHandlerInterface for improved autowiring and discoverability
         $container->alias(\SessionHandlerInterface::class, 'session.handler')

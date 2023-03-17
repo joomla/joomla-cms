@@ -44,7 +44,7 @@ return new class implements ServiceProviderInterface
         $container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Wrapper'));
         $container->set(
             ComponentInterface::class,
-            function (Container $container) {
+            static function (Container $container) {
                 $component = new WrapperComponent($container->get(ComponentDispatcherFactoryInterface::class));
                 $component->setMVCFactory($container->get(MVCFactoryInterface::class));
                 $component->setRouterFactory($container->get(RouterFactoryInterface::class));

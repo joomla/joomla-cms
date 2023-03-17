@@ -34,7 +34,7 @@ return new class implements ServiceProviderInterface
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            static function (Container $container) {
                 $plugin = new Requests(
                     $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('task', 'requests'),

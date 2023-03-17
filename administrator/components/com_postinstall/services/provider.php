@@ -41,7 +41,7 @@ return new class implements ServiceProviderInterface
         $container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Postinstall'));
         $container->set(
             ComponentInterface::class,
-            function (Container $container) {
+            static function (Container $container) {
                 $component = new MVCComponent($container->get(ComponentDispatcherFactoryInterface::class));
                 $component->setMVCFactory($container->get(MVCFactoryInterface::class));
 
