@@ -26,7 +26,6 @@ libraries/src/Updater/*  @rdeutz @zero-24
 
 # Automated Testing
 tests/*  @hackwar
-tests/javascript/*  @rdeutz
 tests/Unit/*  @rdeutz
 .appveyor.yml  @rdeutz @hackwar
 .drone.yml  @rdeutz @hackwar
