@@ -150,17 +150,16 @@ function deleteInsertedItems(config) {
     promises.push(queryTestDB(`DELETE FROM ${item.table} WHERE id IN (${item.rows.join(',')})`, config));
   });
 
-  Promise.all(promises).then(() => {
+  return Promise.all(promises).then(() => {
     // Clear the cache
     insertedItems = [];
 
-    // Cleanup
-    queryTestDB('DELETE FROM #__user_usergroup_map WHERE user_id NOT IN (SELECT id FROM #__users)', config);
-    queryTestDB('DELETE FROM #__user_profiles WHERE user_id NOT IN (SELECT id FROM #__users)', config);
+    // Cleanup some tables we do not have control over from inserted items
+    return Promise.all([
+      queryTestDB('DELETE FROM #__user_usergroup_map WHERE user_id NOT IN (SELECT id FROM #__users)', config),
+      queryTestDB('DELETE FROM #__user_profiles WHERE user_id NOT IN (SELECT id FROM #__users)', config)
+    ]);
   });
-
-  // Cypress wants a return value
-  return null;
 }
 
 /**
