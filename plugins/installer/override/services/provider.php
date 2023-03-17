@@ -40,7 +40,7 @@ return new class () implements ServiceProviderInterface {
                     (array) PluginHelper::getPlugin('installer', 'override')
                 );
                 $plugin->setApplication(Factory::getApplication());
-				$plugin->setDatabase($container->get(DatabaseInterface::class));
+                $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 return $plugin;
             }

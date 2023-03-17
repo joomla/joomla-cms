@@ -27,7 +27,7 @@ use Joomla\Database\ParameterType;
  */
 final class Override extends CMSPlugin
 {
-	use DatabaseAwareTrait;
+    use DatabaseAwareTrait;
 
     /**
      * Load the language file on instantiation.
@@ -322,7 +322,7 @@ final class Override extends CMSPlugin
             'client_id',
         ];
 
-		$db = $this->getDatabase();
+        $db = $this->getDatabase();
 
         // Create an insert query.
         $insertQuery = $db->getQuery(true)
