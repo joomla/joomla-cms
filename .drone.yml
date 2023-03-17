@@ -258,7 +258,8 @@ steps:
 
   - name: phpmax-system-mysql8
     depends_on:
-      - phpmin-system-mysql8
+      - phpmax-system-mysql
+      - phpmax-system-postgres
     image: joomlaprojects/docker-images:cypress8.1
     volumes:
       - name: cypress-cache
@@ -452,6 +453,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 0e4a30f284aaf8c32cb8aee6e9d733c44aa1ad4736f759144f219b81980d4c2b
+hmac: 00d46134529cdb52d6a292038fb489695ea0acb00df2234eca7157c3e27a76cd
 
 ...
