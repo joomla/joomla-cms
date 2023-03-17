@@ -18,19 +18,6 @@ function deleteFolder(path, config) {
 }
 
 /**
- * Reads the file for the given path.
- *
- * @param {string} path The path
- * @param {object} config The config
- *
- * @returns null
- */
-function readFile(path, config) {
-  fs.chmod(`${config.projectRoot}/${path}`, 0o777);
-  return fs.readFileSync(`${config.projectRoot}/${path}`, 'utf8');
-}
-
-/**
  * Writes the given content to a file for the given path.
  *
  * @param {string} path The path
@@ -157,15 +144,11 @@ function deleteInsertedItems(config) {
     }
 
     // Delete the items from the database
-    queryTestDB(`DELETE FROM ${item.table}  WHERE id IN (${item.rows.join(',')})`, config);
+    queryTestDB(`DELETE FROM ${item.table} WHERE id IN (${item.rows.join(',')})`, config);
   });
 
   // Clear the cache
   insertedItems = [];
-
-  // Delete the user mappings
-  queryTestDB('DELETE FROM #__user_usergroup_map WHERE user_id NOT IN (SELECT id FROM #__users)', config);
-  queryTestDB('DELETE FROM #__user_profiles WHERE user_id NOT IN (SELECT id FROM #__users)', config);
 
   // Cypress wants a return value
   return null;
@@ -183,7 +166,6 @@ function setupPlugins(on, config) {
   on('task', {
     queryDB: (query) => queryTestDB(query, config),
     cleanupDB: () => deleteInsertedItems(config),
-    readFile: (path) => readFile(path, config),
     writeFile: ({ path, content }) => writeFile(path, content, config),
     deleteFolder: (path) => deleteFolder(path, config),
   });
