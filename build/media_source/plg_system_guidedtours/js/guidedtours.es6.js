@@ -98,7 +98,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
           resolve();
         }
       }).catch(() => {
-        resolve();
+        // Ignore
       });
     },
     when: {
