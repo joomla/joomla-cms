@@ -1,5 +1,5 @@
 const { defineConfig } = require('cypress');
-const setupPlugins =require('./tests/cypress/plugins/index');
+const setupPlugins = require('./tests/cypress/plugins/index');
 
 module.exports = defineConfig({
   fixturesFolder: 'tests/cypress/fixtures',
@@ -16,13 +16,13 @@ module.exports = defineConfig({
       'tests/cypress/integration/install/**/*.cy.{js,jsx,ts,tsx}',
       'tests/cypress/integration/administrator/**/*.cy.{js,jsx,ts,tsx}',
       'tests/cypress/integration/site/**/*.cy.{js,jsx,ts,tsx}',
-      'tests/cypress/integration/api/**/*.cy.{js,jsx,ts,tsx}'
+      'tests/cypress/integration/api/**/*.cy.{js,jsx,ts,tsx}',
     ],
     supportFile: 'tests/cypress/support/index.js',
     scrollBehavior: 'center',
     browser: 'firefox',
     screenshotOnRunFailure: true,
-    video: false
+    video: false,
   },
   env: {
     sitename: 'Joomla CMS Test',
@@ -38,4 +38,4 @@ module.exports = defineConfig({
     db_prefix: 'jos_',
     cmsPath: '.',
   },
-})
+});
