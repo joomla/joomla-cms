@@ -208,7 +208,7 @@ class JoomlaPopup extends HTMLElement {
         className: 'button-close btn-close',
         onClick: () => this.close(),
         location: 'header',
-      })
+      });
     }
 
     // Buttons holders
