@@ -165,3 +165,139 @@
     }
   }
 }
+
+// Styling for joomla-popup element
+joomla-popup{
+  dialog {
+    border: 1px solid var(--border-color-translucent);
+    border-radius: 0.3rem;
+    padding: 0;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    width: 80vw;
+    max-width: 1700px;
+    height: 80vh;
+  }
+
+  &[type="image"]{
+    dialog {
+      width: fit-content;
+      height: fit-content;
+    }
+  }
+
+  &[type="iframe"] {
+    dialog {
+      overflow: hidden;
+    }
+  }
+
+  // Extra loading animation for iframe and ajax types
+  &[type="iframe"],
+  &[type="ajax"]{
+    &.loading{
+      dialog:after{
+        content: '';
+        display: block;
+        position: absolute;
+        width: 66px;
+        height: 66px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: url(../../../../system/images/ajax-loader.gif) no-repeat center;
+      }
+    }
+  }
+
+}
+.joomla-popup-container{
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+
+  .buttons-holder{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-inline-start: auto;
+
+    button{
+      margin-inline: 0.375rem;
+    }
+  }
+}
+.joomla-popup-header{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+
+  h3{
+    margin: 0;
+  }
+
+  .header-icon{
+    margin-inline-end: 0.375rem;
+    font-size: $h3-font-size;
+  }
+
+  &.empty{
+    display: none;
+  }
+}
+.joomla-popup-body{
+  position: relative;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+
+  .buttons-holder{
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+  }
+
+  // Apply overflow for potentially large content
+  joomla-popup[type="inline"],
+  joomla-popup[type="ajax"] &{
+    overflow: auto;
+  }
+
+  // Content basic loading animation
+  joomla-popup.loading &{
+    opacity: 0;
+  }
+  joomla-popup.loaded &{
+    transition: opacity 0.4s ease;
+    opacity: 1;
+  }
+}
+.joomla-popup-footer{
+  position: relative;
+  padding: 1rem;
+  border-top: 1px solid var(--border-color);
+
+  .buttons-holder button{
+    padding-inline: 22px;
+  }
+
+  &.empty{
+    display: none;
+  }
+}
+
+.joomla-popup-alert,
+.joomla-popup-confirm{
+  dialog {
+    width: 600px;
+    max-width: 80vw;
+    height: fit-content;
+  }
+
+  .joomla-popup-body{
+    padding: 1rem;
+  }
+}
