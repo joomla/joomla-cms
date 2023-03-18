@@ -20,16 +20,7 @@ chmod -R 777 /tests/www/$TEST_GROUP/images
 echo "[RUNNER] Start Apache"
 apache2ctl -D FOREGROUND &
 
-echo "[RUNNER] Run cypress installations tests"
+echo "[RUNNER] Run cypress tests"
 chmod +rwx /root
 
-# Run first the installation test
-npx cypress run --browser=firefox --e2e --env db_type=$DB_ENGINE,db_host=$DB_HOST,db_password=joomla_ut,db_prefix="${TEST_GROUP}_" --config baseUrl=http://localhost/$TEST_GROUP,screenshotsFolder=$JOOMLA_BASE/tests/cypress/output/screenshots --spec 'tests/cypress/integration/install/*.cy.js'
-
-echo "[RUNNER] Run cypress CMS tests"
-
-# If you have found this line failing on OSX you need to brew install gnu-sed like we mentioned in the cypress readme!
-# This replaces the site secret in configuration.php so we can guarantee a consistent API token for our super user.
-sed -i "/\$secret/c\	public \$secret = 'tEstValue';" /tests/www/$TEST_GROUP/configuration.php
-
-npx cypress run --browser=firefox --e2e --env cmsPath=/tests/www/$TEST_GROUP,db_type=$DB_ENGINE,db_host=$DB_HOST,db_password=joomla_ut,db_prefix="${TEST_GROUP}_" --config baseUrl=http://localhost/$TEST_GROUP,screenshotsFolder=$JOOMLA_BASE/tests/cypress/output/screenshots --spec 'tests/cypress/integration/administrator/**/*.cy.js,tests/cypress/integration/site/**/*.cy.js,tests/cypress/integration/api/**/*.cy.js'
+npx cypress run --browser=firefox --e2e --env cmsPath=/tests/www/$TEST_GROUP,db_type=$DB_ENGINE,db_host=$DB_HOST,db_password=joomla_ut,db_prefix="${TEST_GROUP}_" --config baseUrl=http://localhost/$TEST_GROUP,screenshotsFolder=$JOOMLA_BASE/tests/cypress/output/screenshots

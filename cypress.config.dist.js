@@ -14,7 +14,7 @@ module.exports = defineConfig({
     baseUrl: 'http://localhost/',
     specPattern: [
       'tests/cypress/integration/api/**/*.cy.{js,jsx,ts,tsx}',
-      'tests/cypress/integration/install/*.cy.{js,jsx,ts,tsx}',
+      'tests/cypress/integration/install/**/*.cy.{js,jsx,ts,tsx}',
       'tests/cypress/integration/administrator/**/*.cy.{js,jsx,ts,tsx}',
       'tests/cypress/integration/site/**/*.cy.{js,jsx,ts,tsx}'
     ],
