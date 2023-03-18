@@ -38,6 +38,9 @@ function writeFile(path, content, config) {
 // Rows cache of items which got inserted
 let insertedItems = [];
 
+// The cached connection
+let connection = null;
+
 /**
  * Does run the given query against the database from the configuration. It caches all inserted items.
  *
@@ -65,13 +68,11 @@ function queryTestDB(joomlaQuery, config) {
 
   // Check if the DB is from postgres
   if (config.env.db_type === 'pgsql' || config.env.db_type === 'PostgreSQL (PDO)') {
-    const connection = postgres({
+    connection = connection ?? postgres({
       host: config.env.db_host,
       database: config.env.db_name,
       username: config.env.db_user,
       password: config.env.db_password,
-      idle_timeout: 1,
-      max_lifetime: 1,
     });
 
     // Postgres delivers the data direct as result of the insert query
@@ -100,18 +101,15 @@ function queryTestDB(joomlaQuery, config) {
   // Return a promise when resolves the query
   return new Promise((resolve, reject) => {
     // Create the connection and connect
-    const connection = mysql.createConnection({
+    connection = connection ?? mysql.createConnection({
       host: config.env.db_host,
       user: config.env.db_user,
       password: config.env.db_password,
       database: config.env.db_name,
     });
-    connection.connect();
 
     // Perform the query
     connection.query(query, (error, results) => {
-      connection.end();
-
       // Reject when an error
       if (error && error.errno) {
         return reject(error);
