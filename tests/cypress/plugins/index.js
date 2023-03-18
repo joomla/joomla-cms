@@ -149,7 +149,7 @@ function deleteInsertedItems(config) {
     // Delete the items from the database
     promises.push(queryTestDB(`DELETE FROM ${item.table} WHERE id IN (${item.rows.join(',')})`, config).then(() => {
       // Cleanup some tables we do not have control over from inserted items
-      if (item.table === config.env.db_prefix + 'users') {
+      if (item.table === `${config.env.db_prefix}users`) {
         promises.push(queryTestDB('DELETE FROM #__user_usergroup_map WHERE user_id NOT IN (SELECT id FROM #__users)', config));
         promises.push(queryTestDB('DELETE FROM #__user_profiles WHERE user_id NOT IN (SELECT id FROM #__users)', config));
       }
