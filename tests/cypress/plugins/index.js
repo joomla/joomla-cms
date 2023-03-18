@@ -147,19 +147,20 @@ function deleteInsertedItems(config) {
     }
 
     // Delete the items from the database
-    promises.push(queryTestDB(`DELETE FROM ${item.table} WHERE id IN (${item.rows.join(',')})`, config));
+    promises.push(queryTestDB(`DELETE FROM ${item.table} WHERE id IN (${item.rows.join(',')})`, config).then(() => {
+      // Cleanup some tables we do not have control over from inserted items
+      if (item.table === config.env.db_prefix + 'users') {
+        promises.push(queryTestDB('DELETE FROM #__user_usergroup_map WHERE user_id NOT IN (SELECT id FROM #__users)', config));
+        promises.push(queryTestDB('DELETE FROM #__user_profiles WHERE user_id NOT IN (SELECT id FROM #__users)', config));
+      }
+    }));
   });
 
-  return Promise.all(promises).then(() => {
-    // Clear the cache
-    insertedItems = [];
+  // Clear the cache
+  insertedItems = [];
 
-    // Cleanup some tables we do not have control over from inserted items
-    return Promise.all([
-      queryTestDB('DELETE FROM #__user_usergroup_map WHERE user_id NOT IN (SELECT id FROM #__users)', config),
-      queryTestDB('DELETE FROM #__user_profiles WHERE user_id NOT IN (SELECT id FROM #__users)', config),
-    ]);
-  });
+  // Return the promise which waits for all delete queries
+  return Promise.all(promises);
 }
 
 /**
