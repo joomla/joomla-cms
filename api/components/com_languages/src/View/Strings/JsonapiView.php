@@ -54,22 +54,26 @@ class JsonapiView extends BaseApiView
         $model  = $this->getModel();
         $result = $model->search();
 
-        if ($result instanceof \Exception) {
+        if ($result instanceof \Exception) 
+        {
             throw $result;
         }
 
         $items = [];
 
-        foreach ($result['results'] as $item) {
+        foreach ($result['results'] as $item) 
+        {
             $items[] = $this->prepareItem($item);
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) 
+        {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        if ($this->type === null) {
+        if ($this->type === null) 
+        {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_CONTENT_TYPE_MISSING'), 400);
         }
 

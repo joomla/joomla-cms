@@ -15,26 +15,36 @@ const { handleESMToLegacy } = require('./compile-to-es5.es6.js');
 const getWcMinifiedCss = async (file) => {
   let scssFileExists = false;
   const scssFile = file.replace(`${sep}js${sep}`, `${sep}scss${sep}`).replace(/\.w-c\.es6\.js$/, '.scss');
-  try {
+  try 
+  {
     // eslint-disable-next-line no-bitwise
     await access(scssFile, constants.R_OK | constants.W_OK);
 
     scssFileExists = true;
-  } catch { /* nothing */ }
+  } 
+  catch 
+  { 
+    /* nothing */ 
+  }
 
   /// {{CSS_CONTENTS_PLACEHOLDER}}
-  if (scssFileExists) {
+  if (scssFileExists) 
+  {
     let compiled;
-    try {
+    try 
+    {
       compiled = renderSync({ file: scssFile });
-    } catch (error) {
+    } 
+    catch (error) 
+    {
       // eslint-disable-next-line no-console
       console.error(`${error.column}
                     ${error.message}
                     ${error.line}`);
     }
 
-    if (typeof compiled === 'object' && compiled.css) {
+    if (typeof compiled === 'object' && compiled.css) 
+    {
       return Postcss([Autoprefixer(), CssNano()])
         .process(compiled.css.toString(), { from: undefined });
     }

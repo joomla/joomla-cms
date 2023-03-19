@@ -8,12 +8,14 @@ const CssNano = require('cssnano');
 
 module.exports.handleCssFile = async (file) => {
   const outputFile = file.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
-  try {
+  try 
+  {
     // CSS file, we will copy the file and then minify it in place
     // Ensure that the directories exist or create them
     await ensureDir(dirname(outputFile), { recursive: true, mode: 0o755 });
 
-    if (file !== outputFile) {
+    if (file !== outputFile) 
+    {
       await copy(file, outputFile, { preserveTimestamps: true, overwrite: true });
     }
 
@@ -25,7 +27,9 @@ module.exports.handleCssFile = async (file) => {
 
     // eslint-disable-next-line no-console
     console.log(`✅ CSS file copied/minified: ${file}`);
-  } catch (err) {
+  } 
+  catch (err) 
+  {
     // eslint-disable-next-line no-console
     console.log(err);
   }

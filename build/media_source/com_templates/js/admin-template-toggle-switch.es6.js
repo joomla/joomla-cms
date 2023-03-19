@@ -8,10 +8,12 @@
   const showDiffChangedOff = () => {
     const diffMain = document.getElementById('diff-main');
 
-    if (diffMain) {
+    if (diffMain) 
+    {
       diffMain.classList.remove('active');
 
-      if (typeof Storage !== 'undefined') {
+      if (typeof Storage !== 'undefined') 
+      {
         localStorage.removeItem('diffSwitchState');
       }
     }
@@ -20,10 +22,12 @@
   const showDiffChangedOn = () => {
     const diffMain = document.getElementById('diff-main');
 
-    if (diffMain) {
+    if (diffMain) 
+    {
       diffMain.classList.add('active');
 
-      if (typeof Storage !== 'undefined') {
+      if (typeof Storage !== 'undefined') 
+      {
         localStorage.setItem('diffSwitchState', 'checked');
       }
     }
@@ -34,15 +38,18 @@
     const corePane = document.getElementById('core-pane');
     const fieldset = override.parentElement.parentElement;
 
-    if (corePane && override) {
+    if (corePane && override) 
+    {
       corePane.classList.remove('active');
 
-      if (fieldset.classList.contains('options-grid-form-half')) {
+      if (fieldset.classList.contains('options-grid-form-half')) 
+      {
         fieldset.classList.remove('options-grid-form-half');
         fieldset.classList.add('options-grid-form-full');
       }
 
-      if (typeof Storage !== 'undefined') {
+      if (typeof Storage !== 'undefined') 
+      {
         localStorage.removeItem('coreSwitchState');
       }
     }
@@ -53,19 +60,23 @@
     const corePane = document.getElementById('core-pane');
     const fieldset = override.parentElement.parentElement;
 
-    if (corePane && override) {
+    if (corePane && override) 
+    {
       corePane.classList.add('active');
 
-      if (fieldset.classList.contains('options-grid-form-full')) {
+      if (fieldset.classList.contains('options-grid-form-full')) 
+      {
         fieldset.classList.remove('options-grid-form-full');
         fieldset.classList.add('options-grid-form-half');
       }
 
-      if (Joomla.editors.instances.jform_core) {
+      if (Joomla.editors.instances.jform_core) 
+      {
         Joomla.editors.instances.jform_core.refresh();
       }
 
-      if (typeof Storage !== 'undefined') {
+      if (typeof Storage !== 'undefined') 
+      {
         localStorage.setItem('coreSwitchState', 'checked');
       }
     }
@@ -77,24 +88,28 @@
     const JformShowCoreOn = document.getElementById('jform_show_core1');
     const JformShowCoreOff = document.getElementById('jform_show_core0');
 
-    if (JformShowDiffOn && JformShowDiffOff) {
+    if (JformShowDiffOn && JformShowDiffOff) 
+    {
       JformShowDiffOn.addEventListener('click', showDiffChangedOn);
       JformShowDiffOff.addEventListener('click', showDiffChangedOff);
     }
 
-    if (JformShowCoreOn && JformShowCoreOff) {
+    if (JformShowCoreOn && JformShowCoreOff) 
+    {
       JformShowCoreOn.addEventListener('click', showCoreChangedOn);
       JformShowCoreOff.addEventListener('click', showCoreChangedOff);
     }
 
-    if (typeof Storage !== 'undefined' && localStorage.getItem('coreSwitchState') && JformShowCoreOn) {
+    if (typeof Storage !== 'undefined' && localStorage.getItem('coreSwitchState') && JformShowCoreOn) 
+    {
       JformShowCoreOn.checked = true;
       JformShowCoreOff.checked = false;
 
       showCoreChangedOn();
     }
 
-    if (typeof Storage !== 'undefined' && localStorage.getItem('diffSwitchState') && JformShowDiffOn) {
+    if (typeof Storage !== 'undefined' && localStorage.getItem('diffSwitchState') && JformShowDiffOn) 
+    {
       JformShowDiffOn.checked = true;
       JformShowDiffOff.checked = false;
 

@@ -90,7 +90,8 @@ class OverridesController extends ApiController
         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
         $model = $this->getModel(Inflector::singularize($this->contentType));
 
-        if (!$model) {
+        if (!$model) 
+        {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
         }
 
@@ -105,7 +106,8 @@ class OverridesController extends ApiController
         // Validate the posted data.
         $form = $model->getForm($data, false);
 
-        if (!$form) {
+        if (!$form) 
+        {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_FORM_CREATE'));
         }
 
@@ -113,14 +115,19 @@ class OverridesController extends ApiController
         $validData = $model->validate($form, $data);
 
         // Check for validation errors.
-        if ($validData === false) {
+        if ($validData === false) 
+        {
             $errors   = $model->getErrors();
             $messages = [];
 
-            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
-                if ($errors[$i] instanceof \Exception) {
+            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) 
+            {
+                if ($errors[$i] instanceof \Exception) 
+                {
                     $messages[] = "{$errors[$i]->getMessage()}";
-                } else {
+                } 
+                else 
+                {
                     $messages[] = "{$errors[$i]}";
                 }
             }
@@ -128,11 +135,13 @@ class OverridesController extends ApiController
             throw new InvalidParameterException(implode("\n", $messages));
         }
 
-        if (!isset($validData['tags'])) {
+        if (!isset($validData['tags'])) 
+        {
             $validData['tags'] = [];
         }
 
-        if (!$model->save($validData)) {
+        if (!$model->save($validData)) 
+        {
             throw new Exception\Save(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
         }
 

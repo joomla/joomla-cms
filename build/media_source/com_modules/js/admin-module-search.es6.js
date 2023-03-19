@@ -41,7 +41,8 @@ const elSearchResults = document.getElementById('comModulesSelectResultsContaine
 const alertElement = document.querySelector('.modules-alert');
 const elCards = [].slice.call(document.querySelectorAll('.comModulesSelectCard'));
 
-if (elSearch && elSearchContainer) {
+if (elSearch && elSearchContainer) 
+{
   // Add the keyboard event listener which performs the live search in the cards
   elSearch.addEventListener('keyup', (event) => {
     /** @type {KeyboardEvent} event */
@@ -49,7 +50,8 @@ if (elSearch && elSearchContainer) {
     let hasSearchResults = false;
 
     // Save the search string into session storage
-    if (typeof (sessionStorage) !== 'undefined') {
+    if (typeof (sessionStorage) !== 'undefined') 
+    {
       sessionStorage.setItem('Joomla.com_modules.new.search', partialSearch);
     }
 
@@ -59,7 +61,8 @@ if (elSearch && elSearchContainer) {
       card.classList.remove('d-none');
 
       // An empty search string means that we should show everything
-      if (!partialSearch) {
+      if (!partialSearch) 
+      {
         return;
       }
 
@@ -70,18 +73,24 @@ if (elSearch && elSearchContainer) {
 
       // If the module title and description don’t match add a class to hide it.
       if ((title && !title.toLowerCase().includes(partialSearch.toLowerCase())
-        && (description && !description.toLowerCase().includes(partialSearch.toLowerCase())))) {
+        && (description && !description.toLowerCase().includes(partialSearch.toLowerCase())))) 
+      {
         card.classList.add('d-none');
-      } else {
+      } 
+      else 
+      {
         hasSearchResults = true;
       }
     });
 
-    if (hasSearchResults || !partialSearch) {
+    if (hasSearchResults || !partialSearch) 
+    {
       alertElement.classList.add('d-none');
       elSearchHeader.classList.remove('d-none');
       elSearchResults.classList.remove('d-none');
-    } else {
+    } 
+    else 
+    {
       alertElement.classList.remove('d-none');
       elSearchHeader.classList.add('d-none');
       elSearchResults.classList.add('d-none');
@@ -94,15 +103,19 @@ if (elSearch && elSearchContainer) {
   // Focus the just show element
   elSearch.focus();
 
-  try {
-    if (typeof (sessionStorage) !== 'undefined') {
+  try 
+  {
+    if (typeof (sessionStorage) !== 'undefined') 
+    {
       // Load the search string from session storage
       elSearch.value = sessionStorage.getItem('Joomla.com_modules.new.search') || '';
 
       // Trigger the keyboard handler event manually to initiate the search
       elSearch.dispatchEvent(new KeyboardEvent('keyup'));
     }
-  } catch (e) {
+  } 
+  catch (e) 
+  {
     // This is probably Internet Explorer which doesn't support the KeyboardEvent constructor :(
   }
 }

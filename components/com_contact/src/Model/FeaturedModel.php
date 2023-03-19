@@ -37,7 +37,8 @@ class FeaturedModel extends ListModel
      */
     public function __construct($config = [])
     {
-        if (empty($config['filter_fields'])) {
+        if (empty($config['filter_fields'])) 
+        {
             $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
@@ -63,10 +64,12 @@ class FeaturedModel extends ListModel
         $items = parent::getItems();
 
         // Convert the params field into an object, saving original in _params
-        for ($i = 0, $n = count($items); $i < $n; $i++) {
+        for ($i = 0, $n = count($items); $i < $n; $i++) 
+        {
             $item = &$items[$i];
 
-            if (!isset($this->_params)) {
+            if (!isset($this->_params)) 
+            {
                 $item->params = new Registry($item->params);
             }
         }
@@ -99,7 +102,8 @@ class FeaturedModel extends ListModel
             ->whereIn($db->quoteName('c.access'), $groups);
 
         // Filter by category.
-        if ($categoryId = $this->getState('category.id')) {
+        if ($categoryId = $this->getState('category.id')) 
+        {
             $query->where($db->quoteName('a.catid') . ' = :catid');
             $query->bind(':catid', $categoryId, ParameterType::INTEGER);
         }
@@ -110,7 +114,8 @@ class FeaturedModel extends ListModel
         // Filter by state
         $state = $this->getState('filter.published');
 
-        if (is_numeric($state)) {
+        if (is_numeric($state)) 
+        {
             $query->where($db->quoteName('a.published') . ' = :published');
             $query->bind(':published', $state, ParameterType::INTEGER);
 
@@ -129,14 +134,16 @@ class FeaturedModel extends ListModel
         $search = $this->getState('list.filter');
 
         // Filter by search in title
-        if (!empty($search)) {
+        if (!empty($search)) 
+        {
             $search = '%' . trim($search) . '%';
             $query->where($db->quoteName('a.name') . ' LIKE :name ');
             $query->bind(':name', $search);
         }
 
         // Filter by language
-        if ($this->getState('filter.language')) {
+        if ($this->getState('filter.language')) 
+        {
             $query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
         }
 
@@ -175,7 +182,8 @@ class FeaturedModel extends ListModel
 
         $orderCol = $app->input->get('filter_order', 'ordering');
 
-        if (!in_array($orderCol, $this->filter_fields)) {
+        if (!in_array($orderCol, $this->filter_fields)) 
+        {
             $orderCol = 'ordering';
         }
 
@@ -183,7 +191,8 @@ class FeaturedModel extends ListModel
 
         $listOrder = $app->input->get('filter_order_Dir', 'ASC');
 
-        if (!in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
+        if (!in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) 
+        {
             $listOrder = 'ASC';
         }
 
@@ -191,7 +200,8 @@ class FeaturedModel extends ListModel
 
         $user = Factory::getUser();
 
-        if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact'))) {
+        if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact'))) 
+        {
             // Limit to published for people who can't edit or edit.state.
             $this->setState('filter.published', 1);
 

@@ -40,22 +40,27 @@ class JsonapiView extends BaseApiView
      */
     public function displayList(array $items = null)
     {
-        try {
+        try 
+        {
             $component = ComponentHelper::getComponent($this->get('component_name'));
 
-            if ($component === null || !$component->enabled) {
+            if ($component === null || !$component->enabled) 
+            {
                 // @todo: exception component unavailable
                 throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_INVALID_COMPONENT_NAME'), 400);
             }
 
             $data = $component->getParams()->toObject();
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) 
+        {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SERVER'), 500, $e);
         }
 
         $items = [];
 
-        foreach ($data as $key => $value) {
+        foreach ($data as $key => $value) 
+        {
             $item    = (object) [$key => $value];
             $items[] = $this->prepareItem($item);
         }
@@ -76,7 +81,8 @@ class JsonapiView extends BaseApiView
             ->addLink('self', (string) $currentUrl);
 
         // Check for first and previous pages
-        if ($offset > 0) {
+        if ($offset > 0) 
+        {
             $firstPage = clone $currentUrl;
             $firstPageQuery = $currentPageQuery;
             $firstPageQuery['offset'] = 0;
@@ -93,7 +99,8 @@ class JsonapiView extends BaseApiView
         }
 
         // Check for next and last pages
-        if ($offset + $limit < $totalItemsCount) {
+        if ($offset + $limit < $totalItemsCount) 
+        {
             $nextPage = clone $currentUrl;
             $nextPageQuery = $currentPageQuery;
             $nextOffset = $currentPageQuery['offset'] + $limit;

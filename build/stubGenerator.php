@@ -17,11 +17,13 @@ use Joomla\CMS\Application\CliApplication;
 use Joomla\CMS\Factory;
 
 // Load system defines
-if (file_exists(dirname(__DIR__) . '/defines.php')) {
+if (file_exists(dirname(__DIR__) . '/defines.php')) 
+{
     require_once dirname(__DIR__) . '/defines.php';
 }
 
-if (!defined('_JDEFINES')) {
+if (!defined('_JDEFINES')) 
+{
     define('JPATH_BASE', dirname(__DIR__));
     require_once JPATH_BASE . '/includes/defines.php';
 }
@@ -67,7 +69,8 @@ class StubGenerator extends CliApplication
         $file = "<?php\n";
 
         // Loop the aliases to generate the stubs data
-        foreach (JLoader::getDeprecatedAliases() as $alias) {
+        foreach (JLoader::getDeprecatedAliases() as $alias) 
+        {
             $oldName           = $alias['old'];
             $newName           = $alias['new'];
             $deprecatedVersion = $alias['version'];
@@ -83,7 +86,8 @@ class StubGenerator extends CliApplication
             $targetNamespace   = ltrim(implode('\\', $namespaceSegments), '\\');
 
             // If a deprecated version is available, write a stub class doc block with a deprecated tag
-            if ($deprecatedVersion !== false) {
+            if ($deprecatedVersion !== false) 
+            {
                 $fileContents = <<<PHP
 	/**
 	 * @deprecated $deprecatedVersion Use $newName instead.
@@ -94,14 +98,16 @@ PHP;
 
             $fileContents .= "\t$modifier$type $className extends \\$newName {}\n\n";
 
-            if (!array_key_exists($targetNamespace, $contentsByNamespace)) {
+            if (!array_key_exists($targetNamespace, $contentsByNamespace)) 
+            {
                 $contentsByNamespace[$targetNamespace] = '';
             }
 
             $contentsByNamespace[$targetNamespace] .= $fileContents;
         }
 
-        foreach ($contentsByNamespace as $namespace => $contents) {
+        foreach ($contentsByNamespace as $namespace => $contents) 
+        {
             $file .= "namespace $namespace {\n";
             $file .= $contents;
             $file .= "}\n\n";

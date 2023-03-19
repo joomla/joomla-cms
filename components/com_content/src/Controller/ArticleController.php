@@ -65,7 +65,8 @@ class ArticleController extends FormController
      */
     public function add()
     {
-        if (!parent::add()) {
+        if (!parent::add()) 
+        {
             // Redirect to the return page.
             $this->setRedirect($this->getReturnPage());
 
@@ -99,15 +100,19 @@ class ArticleController extends FormController
         $categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
         $allow      = null;
 
-        if ($categoryId) {
+        if ($categoryId) 
+        {
             // If the category has been passed in the data or URL check it.
             $allow = $user->authorise('core.create', 'com_content.category.' . $categoryId);
         }
 
-        if ($allow === null) {
+        if ($allow === null) 
+        {
             // In the absence of better information, revert to the component permissions.
             return parent::allowAdd();
-        } else {
+        } 
+        else 
+        {
             return $allow;
         }
     }
@@ -128,21 +133,25 @@ class ArticleController extends FormController
         $user = $this->app->getIdentity();
 
         // Zero record (id:0), return component edit permission by calling parent controller method
-        if (!$recordId) {
+        if (!$recordId) 
+        {
             return parent::allowEdit($data, $key);
         }
 
         // Check edit on the record asset (explicit or inherited)
-        if ($user->authorise('core.edit', 'com_content.article.' . $recordId)) {
+        if ($user->authorise('core.edit', 'com_content.article.' . $recordId)) 
+        {
             return true;
         }
 
         // Check edit own on the record asset (explicit or inherited)
-        if ($user->authorise('core.edit.own', 'com_content.article.' . $recordId)) {
+        if ($user->authorise('core.edit.own', 'com_content.article.' . $recordId)) 
+        {
             // Existing record already has an owner, get it
             $record = $this->getModel()->getItem($recordId);
 
-            if (empty($record)) {
+            if (empty($record)) 
+            {
                 return false;
             }
 
@@ -174,37 +183,48 @@ class ArticleController extends FormController
 
         $customCancelRedir = (bool) $params->get('custom_cancel_redirect');
 
-        if ($customCancelRedir) {
+        if ($customCancelRedir) 
+        {
             $cancelMenuitemId = (int) $params->get('cancel_redirect_menuitem');
 
-            if ($cancelMenuitemId > 0) {
+            if ($cancelMenuitemId > 0) 
+            {
                 $item = $app->getMenu()->getItem($cancelMenuitemId);
                 $lang = '';
 
-                if (Multilanguage::isEnabled()) {
+                if (Multilanguage::isEnabled()) 
+                {
                     $lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
                 }
 
                 // Redirect to the user specified return page.
                 $redirlink = $item->link . $lang . '&Itemid=' . $cancelMenuitemId;
-            } else {
+            } 
+            else 
+            {
                 // Redirect to the same article submission form (clean form).
                 $redirlink = $app->getMenu()->getActive()->link . '&Itemid=' . $app->getMenu()->getActive()->id;
             }
-        } else {
+        } 
+        else 
+        {
             $menuitemId = (int) $params->get('redirect_menuitem');
 
-            if ($menuitemId > 0) {
+            if ($menuitemId > 0) 
+            {
                 $lang = '';
                 $item = $app->getMenu()->getItem($menuitemId);
 
-                if (Multilanguage::isEnabled()) {
+                if (Multilanguage::isEnabled()) 
+                {
                     $lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
                 }
 
                 // Redirect to the general (redirect_menuitem) user specified return page.
                 $redirlink = $item->link . $lang . '&Itemid=' . $menuitemId;
-            } else {
+            } 
+            else 
+            {
                 // Redirect to the return page.
                 $redirlink = $this->getReturnPage();
             }
@@ -230,7 +250,8 @@ class ArticleController extends FormController
     {
         $result = parent::edit($key, $urlVar);
 
-        if (!$result) {
+        if (!$result) 
+        {
             $this->setRedirect(Route::_($this->getReturnPage(), false));
         }
 
@@ -271,7 +292,8 @@ class ArticleController extends FormController
         $append = '';
 
         // Setup redirect info.
-        if ($tmpl) {
+        if ($tmpl)
+        {
             $append .= '&tmpl=' . $tmpl;
         }
 
@@ -285,7 +307,8 @@ class ArticleController extends FormController
 
         $append .= '&layout=edit';
 
-        if ($recordId) {
+        if ($recordId) 
+        {
             $append .= '&' . $urlVar . '=' . $recordId;
         }
 
@@ -293,15 +316,18 @@ class ArticleController extends FormController
         $return = $this->getReturnPage();
         $catId  = $this->input->getInt('catid');
 
-        if ($itemId) {
+        if ($itemId) 
+        {
             $append .= '&Itemid=' . $itemId;
         }
 
-        if ($catId) {
+        if ($catId) 
+        {
             $append .= '&catid=' . $catId;
         }
 
-        if ($return) {
+        if ($return) 
+        {
             $append .= '&return=' . base64_encode($return);
         }
 
@@ -321,9 +347,12 @@ class ArticleController extends FormController
     {
         $return = $this->input->get('return', null, 'base64');
 
-        if (empty($return) || !Uri::isInternal(base64_decode($return))) {
+        if (empty($return) || !Uri::isInternal(base64_decode($return))) 
+        {
             return Uri::base();
-        } else {
+        } 
+        else 
+        {
             return base64_decode($return);
         }
     }
@@ -342,7 +371,8 @@ class ArticleController extends FormController
     {
         $result    = parent::save($key, $urlVar);
 
-        if (\in_array($this->getTask(), ['save2copy', 'apply'], true)) {
+        if (\in_array($this->getTask(), ['save2copy', 'apply'], true)) 
+        {
             return $result;
         }
 
@@ -357,20 +387,27 @@ class ArticleController extends FormController
         if ($menuitem > 0 && $articleId == 0) {
             $lang = '';
 
-            if (Multilanguage::isEnabled()) {
+            if (Multilanguage::isEnabled()) 
+            {
                 $item = $app->getMenu()->getItem($menuitem);
                 $lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
             }
 
             // If ok, redirect to the return page.
-            if ($result) {
+            if ($result) 
+            {
                 $this->setRedirect(Route::_('index.php?Itemid=' . $menuitem . $lang, false));
             }
-        } elseif ($this->getTask() === 'save2copy') {
+        } 
+        elseif ($this->getTask() === 'save2copy') 
+        {
             // Redirect to the article page, use the redirect url set from parent controller
-        } else {
+        } 
+        else 
+        {
             // If ok, redirect to the return page.
-            if ($result) {
+            if ($result) 
+            {
                 $this->setRedirect(Route::_($this->getReturnPage(), false));
             }
         }
@@ -407,20 +444,25 @@ class ArticleController extends FormController
 
         $user_rating = $this->input->getInt('user_rating', -1);
 
-        if ($user_rating > -1) {
+        if ($user_rating > -1) 
+        {
             $url = $this->input->getString('url', '');
             $id = $this->input->getInt('id', 0);
             $viewName = $this->input->getString('view', $this->default_view);
             $model = $this->getModel($viewName);
 
             // Don't redirect to an external URL.
-            if (!Uri::isInternal($url)) {
+            if (!Uri::isInternal($url)) 
+            {
                 $url = Route::_('index.php');
             }
 
-            if ($model->storeVote($id, $user_rating)) {
+            if ($model->storeVote($id, $user_rating)) 
+            {
                 $this->setRedirect($url, Text::_('COM_CONTENT_ARTICLE_VOTE_SUCCESS'));
-            } else {
+            } 
+            else 
+            {
                 $this->setRedirect($url, Text::_('COM_CONTENT_ARTICLE_VOTE_FAILURE'));
             }
         }

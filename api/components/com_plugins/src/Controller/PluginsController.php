@@ -57,14 +57,17 @@ class PluginsController extends ApiController
     {
         $recordId = $this->input->getInt('id');
 
-        if (!$recordId) {
+        if (!$recordId) 
+        {
             throw new Exception\ResourceNotFound(Text::_('JLIB_APPLICATION_ERROR_RECORD'), 404);
         }
 
         $data = json_decode($this->input->json->getRaw(), true);
 
-        foreach ($data as $key => $value) {
-            if (!\in_array($key, ['enabled', 'access', 'ordering'])) {
+        foreach ($data as $key => $value) 
+        {
+            if (!\in_array($key, ['enabled', 'access', 'ordering'])) 
+            {
                 throw new InvalidParameterException("Invalid parameter {$key}.", 400);
             }
         }
@@ -72,13 +75,15 @@ class PluginsController extends ApiController
         /** @var \Joomla\Component\Plugins\Administrator\Model\PluginModel $model */
         $model = $this->getModel(Inflector::singularize($this->contentType), '', ['ignore_request' => true]);
 
-        if (!$model) {
+        if (!$model) 
+        {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
         }
 
         $item = $model->getItem($recordId);
 
-        if (!isset($item->extension_id)) {
+        if (!isset($item->extension_id)) 
+        {
             throw new RouteNotFoundException('Item does not exist');
         }
 
@@ -102,19 +107,23 @@ class PluginsController extends ApiController
         $apiFilterInfo = $this->input->get('filter', [], 'array');
         $filter        = InputFilter::getInstance();
 
-        if (\array_key_exists('element', $apiFilterInfo)) {
+        if (\array_key_exists('element', $apiFilterInfo)) 
+        {
             $this->modelState->set('filter.element', $filter->clean($apiFilterInfo['element'], 'STRING'));
         }
 
-        if (\array_key_exists('status', $apiFilterInfo)) {
+        if (\array_key_exists('status', $apiFilterInfo)) 
+        {
             $this->modelState->set('filter.enabled', $filter->clean($apiFilterInfo['status'], 'INT'));
         }
 
-        if (\array_key_exists('search', $apiFilterInfo)) {
+        if (\array_key_exists('search', $apiFilterInfo)) 
+        {
             $this->modelState->set('filter.search', $filter->clean($apiFilterInfo['search'], 'STRING'));
         }
 
-        if (\array_key_exists('type', $apiFilterInfo)) {
+        if (\array_key_exists('type', $apiFilterInfo)) 
+        {
             $this->modelState->set('filter.folder', $filter->clean($apiFilterInfo['type'], 'STRING'));
         }
 

@@ -15,7 +15,8 @@
    */
   const submitTask = (task) => {
     const form = document.getElementById(formId);
-    if (task === 'article.cancel' || document.formvalidator.isValid(form)) {
+    if (task === 'article.cancel' || document.formvalidator.isValid(form)) 
+    {
       submitForm(task, form);
     }
   };

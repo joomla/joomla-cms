@@ -73,7 +73,8 @@ class TemplatesController extends BaseController
         $this->checkToken();
 
         // Check if the user is authorized to do this.
-        if (!$this->app->getIdentity()->authorise('core.admin')) {
+        if (!$this->app->getIdentity()->authorise('core.admin')) 
+        {
             $this->setRedirect('index.php', Text::_('JERROR_ALERTNOAUTHOR'));
 
             return false;
@@ -102,7 +103,8 @@ class TemplatesController extends BaseController
         $document->setType('html');
 
         // Check the return value.
-        if ($return === false) {
+        if ($return === false) 
+        {
             // Save failed, go back to the screen and display a notice.
             $this->setMessage(Text::sprintf('JERROR_SAVE_FAILED'), 'error');
             $this->setRedirect(Route::_('index.php?option=com_config&view=templates', false));

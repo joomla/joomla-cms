@@ -41,11 +41,13 @@ window.customElements.define('joomla-editor-none', class extends HTMLElement {
    * Get the selected text
    */
   getSelection() {
-    if (document.selection) {
+    if (document.selection) 
+    {
       // IE support
       this.editor.focus();
       return document.selection.createRange();
-    } if (this.editor.selectionStart || this.editor.selectionStart === 0) {
+    } if (this.editor.selectionStart || this.editor.selectionStart === 0) 
+    {
       // MOZILLA/NETSCAPE support
       return this.editor.value.substring(this.editor.selectionStart, this.editor.selectionEnd);
     }
@@ -58,7 +60,8 @@ window.customElements.define('joomla-editor-none', class extends HTMLElement {
   registerEditor() {
     if (!window.Joomla
         || !window.Joomla.editors
-        || typeof window.Joomla.editors !== 'object') {
+        || typeof window.Joomla.editors !== 'object') 
+    {
       throw new Error('The Joomla API is not correctly registered.');
     }
 
@@ -78,11 +81,14 @@ window.customElements.define('joomla-editor-none', class extends HTMLElement {
       },
       // eslint-disable-next-line no-return-assign
       replaceSelection: (text) => {
-        if (this.editor.selectionStart || this.editor.selectionStart === 0) {
+        if (this.editor.selectionStart || this.editor.selectionStart === 0) 
+        {
           this.editor.value = this.editor.value.substring(0, this.editor.selectionStart)
             + text
             + this.editor.value.substring(this.editor.selectionEnd, this.editor.value.length);
-        } else {
+        } 
+        else 
+        {
           this.editor.value += text;
         }
       },
@@ -94,7 +100,8 @@ window.customElements.define('joomla-editor-none', class extends HTMLElement {
    * Remove the editor from the Joomla API
    */
   unregisterEditor() {
-    if (this.editor) {
+    if (this.editor)
+    {
       delete window.Joomla.editors.instances[this.editor.id];
     }
   }
@@ -107,7 +114,8 @@ window.customElements.define('joomla-editor-none', class extends HTMLElement {
     if (this.firstElementChild
             && this.firstElementChild.tagName
             && this.firstElementChild.tagName.toLowerCase() === 'textarea'
-            && this.firstElementChild.getAttribute('id')) {
+            && this.firstElementChild.getAttribute('id')) 
+    {
       this.editor = this.firstElementChild;
       this.unregisterEditor();
       this.registerEditor();

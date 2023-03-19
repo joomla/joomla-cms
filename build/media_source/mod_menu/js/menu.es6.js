@@ -16,13 +16,15 @@
 
   function topLevelMouseOut(el, settings) {
     const ulChild = el.querySelector('ul');
-    if (ulChild) {
+    if (ulChild) 
+    {
       ulChild.setAttribute('aria-hidden', 'true');
       ulChild.classList.remove(settings.menuHoverClass);
     }
   }
 
-  function setupNavigation(nav) {
+  function setupNavigation(nav) 
+  {
     const settings = {
       menuHoverClass: 'show-menu',
       dir: 'ltr',
@@ -32,13 +34,15 @@
     // Set tabIndex to -1 so that top_level_childs can't receive focus until menu is open
     topLevelChilds.forEach((topLevelEl) => {
       const linkEl = topLevelEl.querySelector('a');
-      if (linkEl) {
+      if (linkEl) 
+      {
         linkEl.tabIndex = '0';
         linkEl.addEventListener('mouseover', topLevelMouseOver(topLevelEl, settings));
         linkEl.addEventListener('mouseout', topLevelMouseOut(topLevelEl, settings));
       }
       const spanEl = topLevelEl.querySelector('span');
-      if (spanEl) {
+      if (spanEl) 
+      {
         spanEl.tabIndex = '0';
         spanEl.addEventListener('mouseover', topLevelMouseOver(topLevelEl, settings));
         spanEl.addEventListener('mouseout', topLevelMouseOut(topLevelEl, settings));
@@ -46,7 +50,8 @@
 
       topLevelEl.addEventListener('mouseover', ({ target }) => {
         const ulChild = target.querySelector('ul');
-        if (ulChild) {
+        if (ulChild) 
+        {
           ulChild.setAttribute('aria-hidden', 'false');
           ulChild.classList.add(settings.menuHoverClass);
         }
@@ -54,7 +59,8 @@
 
       topLevelEl.addEventListener('mouseout', ({ target }) => {
         const ulChild = target.querySelector('ul');
-        if (ulChild) {
+        if (ulChild) 
+        {
           ulChild.setAttribute('aria-hidden', 'true');
           ulChild.classList.remove(settings.menuHoverClass);
         }
@@ -62,7 +68,8 @@
 
       topLevelEl.addEventListener('focus', ({ target }) => {
         const ulChild = target.querySelector('ul');
-        if (ulChild) {
+        if (ulChild) 
+        {
           ulChild.setAttribute('aria-hidden', 'true');
           ulChild.classList.add(settings.menuHoverClass);
         }
@@ -70,7 +77,8 @@
 
       topLevelEl.addEventListener('blur', ({ target }) => {
         const ulChild = target.querySelector('ul');
-        if (ulChild) {
+        if (ulChild) 
+        {
           ulChild.setAttribute('aria-hidden', 'false');
           ulChild.classList.remove(settings.menuHoverClass);
         }
@@ -83,26 +91,35 @@
         const curUlEl = curLiEl.parentElement;
         let prevLiEl = curLiEl.previousElementSibling;
         let nextLiEl = curLiEl.nextElementSibling;
-        if (!prevLiEl) {
+        if (!prevLiEl) 
+        {
           prevLiEl = curUlEl.children[curUlEl.children.length - 1];
         }
-        if (!nextLiEl) {
+        if (!nextLiEl) 
+        {
           [nextLiEl] = curUlEl.children;
         }
-        switch (keyName) {
+        switch (keyName) 
+        {
           case 'ArrowLeft':
             event.preventDefault();
-            if (settings.dir === 'rtl') {
+            if (settings.dir === 'rtl') 
+            {
               nextLiEl.children[0].focus();
-            } else {
+            } 
+            else 
+            {
               prevLiEl.children[0].focus();
             }
             break;
           case 'ArrowRight':
             event.preventDefault();
-            if (settings.dir === 'rtl') {
+            if (settings.dir === 'rtl') 
+            {
               prevLiEl.children[0].focus();
-            } else {
+            } 
+            else 
+            {
               nextLiEl.children[0].focus();
             }
             break;
@@ -110,24 +127,33 @@
           {
             event.preventDefault();
             const parent = curLiEl.parentElement.parentElement;
-            if (parent.nodeName === 'LI') {
+            if (parent.nodeName === 'LI') 
+            {
               parent.children[0].focus();
-            } else {
+            } 
+            else 
+            {
               prevLiEl.children[0].focus();
             }
             break;
           }
           case 'ArrowDown':
             event.preventDefault();
-            if (curLiEl.classList.contains('parent')) {
+            if (curLiEl.classList.contains('parent')) 
+            {
               const child = curLiEl.querySelector('ul');
-              if (child != null) {
+              if (child != null) 
+              {
                 const childLi = child.querySelector('li');
                 childLi.children[0].focus();
-              } else {
+              } 
+              else 
+              {
                 nextLiEl.children[0].focus();
               }
-            } else {
+            } 
+            else 
+            {
               nextLiEl.children[0].focus();
             }
             break;

@@ -36,11 +36,16 @@
       /* eslint-enable */
 
       diff.forEach((part) => {
-        if (part.added) {
+        if (part.added) 
+        {
           color = '#a6f3a6';
-        } else if (part.removed) {
+        } 
+        else if (part.removed) 
+        {
           color = '#f8cbcb';
-        } else {
+        } 
+        else 
+        {
           color = '';
         }
         pre = document.createElement('pre');
@@ -54,7 +59,8 @@
     };
 
     const diffs = [].slice.call(document.querySelectorAll('#original'));
-    for (let i = 0, l = diffs.length; i < l; i += 1) {
+    for (let i = 0, l = diffs.length; i < l; i += 1) 
+    {
       compare(diffs[i], diffs[i].nextElementSibling);
     }
   });

@@ -14,7 +14,8 @@
   window.jSelectMenuItem = (id, title, uri, object, link, lang) => {
     let thislang = '';
 
-    if (!Joomla.getOptions('xtd-menus')) {
+    if (!Joomla.getOptions('xtd-menus')) 
+    {
       // Something went wrong!
       window.parent.Joomla.Modal.getCurrent().close();
 
@@ -24,21 +25,26 @@
     // eslint-disable-next-line prefer-destructuring
     const editor = Joomla.getOptions('xtd-menus').editor;
 
-    if (lang !== '') {
+    if (lang !== '') 
+    {
       thislang = '&lang=';
     }
 
     const tag = `<a href="${uri + thislang + lang}">${title}</a>`;
 
     // Insert the link in the editor
-    if (window.parent.Joomla.editors.instances[editor].getSelection()) {
+    if (window.parent.Joomla.editors.instances[editor].getSelection()) 
+    {
       window.parent.Joomla.editors.instances[editor].replaceSelection(`<a href="${uri + thislang + lang}">${window.parent.Joomla.editors.instances[editor].getSelection()}</a>`);
-    } else {
+    } 
+    else 
+    {
       window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
     }
 
     // Close the modal
-    if (window.parent.Joomla && window.parent.Joomla.Modal) {
+    if (window.parent.Joomla && window.parent.Joomla.Modal)
+    {
       window.parent.Joomla.Modal.getCurrent().close();
     }
   };
@@ -52,16 +58,20 @@
       event.preventDefault();
       const functionName = event.target.getAttribute('data-function');
 
-      if (functionName === 'jSelectMenuItem') {
+      if (functionName === 'jSelectMenuItem') 
+      {
         // Used in xtd_contacts
         window[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), event.target.getAttribute('data-uri'), null, null, event.target.getAttribute('data-language'));
-      } else {
+      } 
+      else 
+      {
         // Used in com_menus
         window.parent[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), null, null, event.target.getAttribute('data-uri'), event.target.getAttribute('data-language'), null);
       }
 
       // Close the modal
-      if (window.parent.Joomla.Modal) {
+      if (window.parent.Joomla.Modal) 
+      {
         window.parent.Joomla.Modal.getCurrent().close();
       }
     });

@@ -13,7 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const label = document.getElementById('jform_label');
     const changedTitle = currentTarget;
 
-    if (changedTitle.dpOldValue === label.value) {
+    if (changedTitle.dpOldValue === label.value) 
+    {
       label.value = changedTitle.value;
     }
 

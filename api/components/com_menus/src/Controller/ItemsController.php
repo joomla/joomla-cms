@@ -72,7 +72,8 @@ class ItemsController extends ApiController
         $apiFilterInfo = $this->input->get('filter', [], 'array');
         $filter        = InputFilter::getInstance();
 
-        if (\array_key_exists('menutype', $apiFilterInfo)) {
+        if (\array_key_exists('menutype', $apiFilterInfo)) 
+        {
             $this->modelState->set('filter.menutype', $filter->clean($apiFilterInfo['menutype'], 'STRING'));
         }
 
@@ -94,7 +95,8 @@ class ItemsController extends ApiController
     {
         $data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
 
-        if (isset($data['menutype'])) {
+        if (isset($data['menutype'])) 
+        {
             $this->input->set('menutype', $data['menutype']);
             $this->input->set('com_menus.items.menutype', $data['menutype']);
         }
@@ -119,7 +121,8 @@ class ItemsController extends ApiController
     {
         $data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
 
-        if (isset($data['menutype'])) {
+        if (isset($data['menutype'])) 
+        {
             $this->input->set('menutype', $data['menutype']);
             $this->input->set('com_menus.items.menutype', $data['menutype']);
         }
@@ -152,14 +155,17 @@ class ItemsController extends ApiController
                 '',
                 ['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]
             );
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) 
+        {
             throw new \RuntimeException($e->getMessage());
         }
 
         /** @var ListModel $model */
         $model = $this->getModel('menutypes', '', ['ignore_request' => true]);
 
-        if (!$model) {
+        if (!$model) 
+        {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
         }
 

@@ -6,10 +6,12 @@
 // We need to use JS to move the modal before the closing body tag to avoid stacking issues
 const multilangueModal = document.getElementById('multiLangModal');
 
-if (multilangueModal) {
+if (multilangueModal) 
+{
   const bsModal = bootstrap.Modal.getInstance(multilangueModal);
 
-  if (bsModal) {
+  if (bsModal) 
+  {
     bsModal.dispose();
   }
 

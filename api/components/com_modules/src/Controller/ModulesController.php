@@ -85,7 +85,8 @@ class ModulesController extends ApiController
         $viewName   = $this->input->get('view', $this->default_view);
         $viewLayout = $this->input->get('layout', 'default', 'string');
 
-        try {
+        try 
+        {
             /** @var JsonapiView $view */
             $view = $this->getView(
                 $viewName,
@@ -93,14 +94,17 @@ class ModulesController extends ApiController
                 '',
                 ['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]
             );
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) 
+        {
             throw new \RuntimeException($e->getMessage());
         }
 
         /** @var SelectModel $model */
         $model = $this->getModel('select', '', ['ignore_request' => true]);
 
-        if (!$model) {
+        if (!$model) 
+        {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
         }
 

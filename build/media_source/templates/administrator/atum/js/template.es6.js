@@ -3,7 +3,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-if (!Joomla) {
+if (!Joomla) 
+{
   throw new Error('Joomla API is not initialized');
 }
 
@@ -48,27 +49,36 @@ headerCondensedItemContainer.classList.add('d-none');
  * @since   4.0.0
  */
 function changeLogo(change) {
-  if (!logo || isLogin) {
+  if (!logo || isLogin) 
+  {
     return;
   }
 
-  if (small.matches) {
+  if (small.matches) 
+  {
     logo.classList.add('small');
     return;
   }
 
   const state = change || getCookie();
 
-  if (state === 'closed') {
+  if (state === 'closed') 
+  {
     logo.classList.add('small');
-  } else {
+  } 
+  else 
+  {
     logo.classList.remove('small');
   }
-  if (menuToggleIcon) {
-    if (wrapper.classList.contains('closed')) {
+  if (menuToggleIcon) 
+  {
+    if (wrapper.classList.contains('closed')) 
+    {
       menuToggleIcon.classList.add('icon-toggle-on');
       menuToggleIcon.classList.remove('icon-toggle-off');
-    } else {
+    } 
+    else 
+    {
       menuToggleIcon.classList.remove('icon-toggle-on');
       menuToggleIcon.classList.add('icon-toggle-off');
     }
@@ -86,7 +96,8 @@ function toggleArrowIcon(positionTop) {
   const remIcon = (positionTop) ? 'icon-angle-up' : 'icon-angle-down';
   const addIcon = (positionTop) ? 'icon-angle-down' : 'icon-angle-up';
 
-  if (!navDropDownIcon) {
+  if (!navDropDownIcon) 
+  {
     return;
   }
 
@@ -113,19 +124,24 @@ function headerItemsInDropdown() {
   const minViable = headerTitleWidth + ellipsisWidth;
   const totalHeaderItemWidths = 50 + getSum(headerItemWidths);
 
-  if (headerTitleWidth + totalHeaderItemWidths < document.body.getBoundingClientRect().width) {
+  if (headerTitleWidth + totalHeaderItemWidths < document.body.getBoundingClientRect().width) 
+  {
     headerExpandedItems.map((element) => element.classList.remove('d-none'));
     headerCondensedItemContainer.classList.add('d-none');
-  } else {
+  } 
+  else 
+  {
     headerCondensedItemContainer.classList.remove('d-none');
     headerCondensedItems.map((el) => el.classList.add('d-none'));
     headerCondensedItemContainer.classList.remove('d-none');
     headerItemWidths.forEach((width, index) => {
       const tempArr = headerItemWidths.slice(index, headerItemWidths.length);
-      if (minViable + getSum(tempArr) < document.body.getBoundingClientRect().width) {
+      if (minViable + getSum(tempArr) < document.body.getBoundingClientRect().width) 
+      {
         return;
       }
-      if (headerExpandedItems[index].children && !headerExpandedItems[index].children[0].classList.contains('dropdown')) {
+      if (headerExpandedItems[index].children && !headerExpandedItems[index].children[0].classList.contains('dropdown')) 
+      {
         headerExpandedItems[index].classList.add('d-none');
         headerCondensedItems[index].classList.remove('d-none');
       }
@@ -139,25 +155,33 @@ function headerItemsInDropdown() {
  * @since   4.0.0
  */
 function setMobile() {
-  if (small.matches) {
+  if (small.matches) 
+  {
     toggleArrowIcon();
 
-    if (menu) {
+    if (menu) 
+    {
       wrapper.classList.remove('closed');
     }
-  } else {
+  } 
+  else 
+  {
     toggleArrowIcon('top');
   }
 
-  if (tablet.matches && menu) {
+  if (tablet.matches && menu) 
+  {
     wrapper.classList.add('closed');
   }
 
-  if (small.matches) {
+  if (small.matches) 
+  {
     sidebarNav.map((el) => el.classList.add('collapse'));
     if (subhead) subhead.classList.add('collapse');
     if (sidebarWrapper) sidebarWrapper.classList.add('collapse');
-  } else {
+  } 
+  else 
+  {
     sidebarNav.map((el) => el.classList.remove('collapse'));
     if (subhead) subhead.classList.remove('collapse');
     if (sidebarWrapper) sidebarWrapper.classList.remove('collapse');
@@ -171,9 +195,12 @@ function setMobile() {
  * @since   4.0.0
  */
 function setDesktop() {
-  if (!sidebarWrapper) {
+  if (!sidebarWrapper) 
+  {
     changeLogo('closed');
-  } else {
+  } 
+  else 
+  {
     changeLogo(getCookie() || 'open');
     sidebarWrapper.classList.remove('collapse');
   }
@@ -191,9 +218,12 @@ function setDesktop() {
  */
 function reactToResize() {
   window.addEventListener('resize', () => {
-    if (mobile.matches) {
+    if (mobile.matches) 
+    {
       setMobile();
-    } else {
+    } 
+    else 
+    {
       setDesktop();
     }
 
@@ -207,11 +237,15 @@ function reactToResize() {
  * @since   4.0.0
  */
 function subheadScrolling() {
-  if (subhead) {
+  if (subhead) 
+  {
     document.addEventListener('scroll', () => {
-      if (window.scrollY > 0) {
+      if (window.scrollY > 0) 
+      {
         subhead.classList.add('shadow-sm');
-      } else {
+      } 
+      else 
+      {
         subhead.classList.remove('shadow-sm');
       }
     });
@@ -222,23 +256,29 @@ function subheadScrolling() {
 headerItemsInDropdown();
 reactToResize();
 subheadScrolling();
-if (small.matches) {
+if (small.matches) 
+{
   changeLogo('closed');
-  if (subhead) {
+  if (subhead) 
+  {
     subhead.classList.remove('show');
     subhead.classList.add('collapse');
   }
 }
-if (!navigator.cookieEnabled) {
+if (!navigator.cookieEnabled) 
+{
   Joomla.renderMessages({ error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] }, undefined, false, 6000);
 }
 window.addEventListener('joomla:menu-toggle', (event) => {
   headerItemsInDropdown();
   document.cookie = `atumSidebarState=${event.detail};`;
 
-  if (mobile.matches) {
+  if (mobile.matches) 
+  {
     changeLogo('closed');
-  } else {
+  } 
+  else 
+  {
     changeLogo(event.detail);
   }
 });

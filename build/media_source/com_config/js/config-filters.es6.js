@@ -15,9 +15,11 @@ const applyChanges = (event) => {
   const currentElement = event.currentTarget;
   const currentFilter = currentElement.options[currentElement.selectedIndex].value;
 
-  if (currentFilter === 'NONE') {
+  if (currentFilter === 'NONE') 
+  {
     const childs = [].slice.call(document.querySelectorAll(`#filter-config select[data-parent="${currentElement.dataset.id}"]`));
-    if (childs.length && window.confirm(Joomla.Text._('COM_CONFIG_TEXT_FILTERS_NOTE'))) {
+    if (childs.length && window.confirm(Joomla.Text._('COM_CONFIG_TEXT_FILTERS_NOTE'))) 
+    {
       childs.map((child) => {
         recursiveApplyChanges(child.dataset.id);
         child.value = 'NONE';

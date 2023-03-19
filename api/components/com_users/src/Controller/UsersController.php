@@ -84,27 +84,33 @@ class UsersController extends ApiController
         $apiFilterInfo = $this->input->get('filter', [], 'array');
         $filter        = InputFilter::getInstance();
 
-        if (\array_key_exists('state', $apiFilterInfo)) {
+        if (\array_key_exists('state', $apiFilterInfo)) 
+        {
             $this->modelState->set('filter.state', $filter->clean($apiFilterInfo['state'], 'INT'));
         }
 
-        if (\array_key_exists('active', $apiFilterInfo)) {
+        if (\array_key_exists('active', $apiFilterInfo)) 
+        {
             $this->modelState->set('filter.active', $filter->clean($apiFilterInfo['active'], 'INT'));
         }
 
-        if (\array_key_exists('groupid', $apiFilterInfo)) {
+        if (\array_key_exists('groupid', $apiFilterInfo)) 
+        {
             $this->modelState->set('filter.group_id', $filter->clean($apiFilterInfo['groupid'], 'INT'));
         }
 
-        if (\array_key_exists('search', $apiFilterInfo)) {
+        if (\array_key_exists('search', $apiFilterInfo)) 
+        {
             $this->modelState->set('filter.search', $filter->clean($apiFilterInfo['search'], 'STRING'));
         }
 
-        if (\array_key_exists('registrationDateStart', $apiFilterInfo)) {
+        if (\array_key_exists('registrationDateStart', $apiFilterInfo)) 
+        {
             $registrationStartInput = $filter->clean($apiFilterInfo['registrationDateStart'], 'STRING');
             $registrationStartDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $registrationStartInput);
 
-            if (!$registrationStartDate) {
+            if (!$registrationStartDate) 
+            {
                 // Send the error response
                 $error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'registrationDateStart');
 
@@ -114,30 +120,34 @@ class UsersController extends ApiController
             $this->modelState->set('filter.registrationDateStart', $registrationStartDate);
         }
 
-        if (\array_key_exists('registrationDateEnd', $apiFilterInfo)) {
+        if (\array_key_exists('registrationDateEnd', $apiFilterInfo)) 
+        {
             $registrationEndInput = $filter->clean($apiFilterInfo['registrationDateEnd'], 'STRING');
             $registrationEndDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $registrationEndInput);
 
-            if (!$registrationEndDate) {
+            if (!$registrationEndDate) 
+            {
                 // Send the error response
                 $error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'registrationDateEnd');
                 throw new InvalidParameterException($error, 400, null, 'registrationDateEnd');
             }
 
             $this->modelState->set('filter.registrationDateEnd', $registrationEndDate);
-        } elseif (
-            \array_key_exists('registrationDateStart', $apiFilterInfo)
-            && !\array_key_exists('registrationDateEnd', $apiFilterInfo)
-        ) {
+        }
+        elseif (   \array_key_exists('registrationDateStart', $apiFilterInfo)
+                    && !\array_key_exists('registrationDateEnd', $apiFilterInfo)  ) 
+        {
             // If no end date specified the end date is now
             $this->modelState->set('filter.registrationDateEnd', new Date());
         }
 
-        if (\array_key_exists('lastVisitDateStart', $apiFilterInfo)) {
+        if (\array_key_exists('lastVisitDateStart', $apiFilterInfo)) 
+        {
             $lastVisitStartInput = $filter->clean($apiFilterInfo['lastVisitDateStart'], 'STRING');
             $lastVisitStartDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $lastVisitStartInput);
 
-            if (!$lastVisitStartDate) {
+            if (!$lastVisitStartDate) 
+            {
                 // Send the error response
                 $error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'lastVisitDateStart');
                 throw new InvalidParameterException($error, 400, null, 'lastVisitDateStart');
@@ -146,11 +156,13 @@ class UsersController extends ApiController
             $this->modelState->set('filter.lastVisitStart', $lastVisitStartDate);
         }
 
-        if (\array_key_exists('lastVisitDateEnd', $apiFilterInfo)) {
+        if (\array_key_exists('lastVisitDateEnd', $apiFilterInfo)) 
+        {
             $lastVisitEndInput = $filter->clean($apiFilterInfo['lastVisitDateEnd'], 'STRING');
             $lastVisitEndDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $lastVisitEndInput);
 
-            if (!$lastVisitEndDate) {
+            if (!$lastVisitEndDate) 
+            {
                 // Send the error response
                 $error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'lastVisitDateEnd');
 
@@ -158,10 +170,10 @@ class UsersController extends ApiController
             }
 
             $this->modelState->set('filter.lastVisitEnd', $lastVisitEndDate);
-        } elseif (
-            \array_key_exists('lastVisitDateStart', $apiFilterInfo)
-            && !\array_key_exists('lastVisitDateEnd', $apiFilterInfo)
-        ) {
+        } 
+        elseif (   \array_key_exists('lastVisitDateStart', $apiFilterInfo)
+                    && !\array_key_exists('lastVisitDateEnd', $apiFilterInfo)  ) 
+        {
             // If no end date specified the end date is now
             $this->modelState->set('filter.lastVisitEnd', new Date());
         }

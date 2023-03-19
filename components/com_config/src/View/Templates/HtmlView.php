@@ -112,7 +112,8 @@ class HtmlView extends BaseHtmlView
         /** @var Form $form */
         $form = $this->getForm();
 
-        if ($form) {
+        if ($form) 
+        {
             $form->bind($data);
         }
 
@@ -140,11 +141,13 @@ class HtmlView extends BaseHtmlView
         // right from the menu item itself
         $this->setDocumentTitle($params->get('page_title', ''));
 
-        if ($params->get('menu-meta_description')) {
+        if ($params->get('menu-meta_description')) 
+        {
             $this->document->setDescription($params->get('menu-meta_description'));
         }
 
-        if ($params->get('robots')) {
+        if ($params->get('robots')) 
+        {
             $this->document->setMetaData('robots', $params->get('robots'));
         }
 

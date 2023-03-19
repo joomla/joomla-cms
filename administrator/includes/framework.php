@@ -20,7 +20,8 @@ if (
     !file_exists(JPATH_CONFIGURATION . '/configuration.php')
     || (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10)
     || (file_exists(JPATH_INSTALLATION . '/index.php') && (false === (new Version())->isInDevelopmentState()))
-) {
+   ) 
+{
     if (file_exists(JPATH_INSTALLATION . '/index.php')) {
         header('Location: ../installation/index.php');
 
@@ -41,7 +42,8 @@ ob_end_clean();
 $config = new JConfig();
 
 // Set the error_reporting, and adjust a global Error Handler
-switch ($config->error_reporting) {
+switch ($config->error_reporting) 
+{
     case 'default':
     case '-1':
         break;
@@ -75,15 +77,19 @@ switch ($config->error_reporting) {
 define('JDEBUG', $config->debug);
 
 // Check deprecation logging
-if (empty($config->log_deprecated)) {
+if (empty($config->log_deprecated)) 
+{
     // Reset handler for E_USER_DEPRECATED
     set_error_handler(null, E_USER_DEPRECATED);
-} else {
+} 
+else 
+{
     // Make sure handler for E_USER_DEPRECATED is registered
     set_error_handler(['Joomla\CMS\Exception\ExceptionHandler', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
 }
 
-if (JDEBUG || $config->error_reporting === 'maximum') {
+if (JDEBUG || $config->error_reporting === 'maximum') 
+{
     // Set new Exception handler with debug enabled
     $errorHandler->setExceptionHandler(
         [
@@ -99,10 +105,13 @@ if (JDEBUG || $config->error_reporting === 'maximum') {
  * We need to do this as high up the stack as we can, as the default in \Joomla\Utilities\IpHelper is to
  * $allowIpOverride = true which is the wrong default for a generic site NOT behind a trusted proxy/load balancer.
  */
-if (property_exists($config, 'behind_loadbalancer') && $config->behind_loadbalancer == 1) {
+if (property_exists($config, 'behind_loadbalancer') && $config->behind_loadbalancer == 1) 
+{
     // If Joomla is configured to be behind a trusted proxy/load balancer, allow HTTP Headers to override the REMOTE_ADDR
     IpHelper::setAllowIpOverrides(true);
-} else {
+} 
+else 
+{
     // We disable the allowing of IP overriding using headers by default.
     IpHelper::setAllowIpOverrides(false);
 }

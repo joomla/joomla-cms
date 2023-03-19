@@ -9,10 +9,12 @@
   document.addEventListener('DOMContentLoaded', () => {
     const btn = document.getElementById('btn-login-submit');
 
-    if (btn) {
+    if (btn) 
+    {
       btn.addEventListener('click', (event) => {
         event.preventDefault();
-        if (document.formvalidator.isValid(btn.form)) {
+        if (document.formvalidator.isValid(btn.form)) 
+        {
           Joomla.submitbutton('login');
         }
       });

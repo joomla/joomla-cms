@@ -25,7 +25,8 @@ const copyFilesTo = async (files, srcDir, destDir) => {
 
   // Copy each file
   // eslint-disable-next-line no-restricted-syntax,guard-for-in
-  for (const srcFile in files) {
+  for (const srcFile in files) 
+  {
     copyPromises.push(doTheCopy(join(srcDir, srcFile), join(destDir, files[srcFile])));
   }
 
@@ -46,11 +47,16 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
 
   const promises = [];
 
-  if (packageName === 'codemirror') {
+  if (packageName === 'codemirror') 
+  {
     promises.push(codeMirror(packageName, moduleOptions.version));
-  } else if (packageName === 'tinymce') {
+  } 
+  else if (packageName === 'tinymce') 
+  {
     promises.push(tinyMCE(packageName, moduleOptions.version));
-  } else {
+  } 
+  else 
+  {
     await mkdirs(join(mediaVendorPath, vendorName));
 
     ['js', 'css', 'filesExtra'].forEach((type) => {
@@ -65,7 +71,8 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
   // Copy the license if existsSync
   if (options.settings.vendors[packageName].licenseFilename
   && await existsSync(`${join(RootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`)
-  ) {
+  ) 
+  {
     const dest = join(mediaVendorPath, vendorName);
     await copy(
       `${join(RootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`,
@@ -77,7 +84,8 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
   await Promise.all(promises);
 
   // Add provided Assets to a registry, if any
-  if (vendor.provideAssets && vendor.provideAssets.length) {
+  if (vendor.provideAssets && vendor.provideAssets.length) 
+  {
     vendor.provideAssets.forEach((assetInfo) => {
       const registryItemBase = {
         package: packageName,
@@ -89,11 +97,13 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
       const registryItem = Object.assign(assetInfo, registryItemBase);
 
       // Update path to file
-      if (assetInfo.uri && (assetInfo.type === 'script' || assetInfo.type === 'style' || assetInfo.type === 'webcomponent')) {
+      if (assetInfo.uri && (assetInfo.type === 'script' || assetInfo.type === 'style' || assetInfo.type === 'webcomponent')) 
+      {
         let itemPath = assetInfo.uri;
 
         // Check for external path
-        if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
+        if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) 
+        {
           itemPath = `vendor/${vendorName}/${itemPath}`;
         }
 

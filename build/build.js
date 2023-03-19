@@ -43,7 +43,8 @@ const settings = require('./build-modules-js/settings.json');
 const Program = new Command();
 
 // Merge Joomla's specific settings to the main package.json object
-if ('settings' in settings) {
+if ('settings' in settings) 
+{
   options.settings = settings.settings;
 }
 
@@ -54,7 +55,8 @@ const handleError = (err, terminateCode) => {
 };
 
 const allowedVersion = () => {
-  if (!semver.satisfies(process.version.substring(1), options.engines.node)) {
+  if (!semver.satisfies(process.version.substring(1), options.engines.node)) 
+  {
     handleError(`Command line tools require Node Version ${options.engines.node} but found ${process.version}`, -1);
   }
 };
@@ -84,7 +86,8 @@ Program.parse(process.argv);
 const cliOptions = Program.opts();
 
 // Update the vendor folder
-if (cliOptions.copyAssets) {
+if (cliOptions.copyAssets) 
+{
   allowedVersion();
   recreateMediaFolder(options)
     .then(() => cleanVendors())
@@ -98,57 +101,67 @@ if (cliOptions.copyAssets) {
 }
 
 // Creates the error pages for unsupported PHP version & incomplete environment
-if (cliOptions.buildPages) {
+if (cliOptions.buildPages) 
+{
   createErrorPages(options)
     .catch((err) => handleError(err, 1));
 }
 
 // Convert scss to css
-if (cliOptions.compileCss) {
+if (cliOptions.compileCss) 
+{
   stylesheets(options, Program.args[0])
     .catch((err) => handleError(err, 1));
 }
 
 // Compress/transpile the javascript files
-if (cliOptions.compileJs) {
+if (cliOptions.compileJs) 
+{
   scripts(options, Program.args[0])
     .catch((err) => handleError(err, 1));
 }
 
 // Compress/transpile the javascript files
-if (cliOptions.watch) {
+if (cliOptions.watch) 
+{
   watching(Program.args[0]);
 }
 
 // Gzip js/css files
-if (cliOptions.compileBs) {
+if (cliOptions.compileBs) 
+{
   bootstrapJs();
 }
 
 // Gzip js/css files
-if (cliOptions.gzip) {
+if (cliOptions.gzip) 
+{
   compressFiles();
 }
 
 // Compile the media manager
-if (cliOptions.comMedia) {
+if (cliOptions.comMedia) 
+{
   // false indicates "no watch"
   mediaManager(false);
 }
 
 // Watch & Compile the media manager
-if (cliOptions.watchComMedia) {
+if (cliOptions.watchComMedia) 
+{
   watchMediaManager(true);
 }
 
 // Update the .js/.css versions
-if (cliOptions.versioning) {
+if (cliOptions.versioning) 
+{
   versioning()
     .catch((err) => handleError(err, 1));
 }
 
 // Prepare the repo for dev work
-if (cliOptions.prepare) {
+if (cliOptions.prepare) 
+{
   const bench = new Timer('Build');
   allowedVersion();
   recreateMediaFolder(options)

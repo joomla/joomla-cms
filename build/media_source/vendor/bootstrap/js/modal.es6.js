@@ -10,7 +10,8 @@ const allowed = {
 };
 
 Joomla.initialiseModal = (modal, options) => {
-  if (!(modal instanceof Element)) {
+  if (!(modal instanceof Element)) 
+  {
     return;
   }
 
@@ -26,14 +27,17 @@ Joomla.initialiseModal = (modal, options) => {
     // Comply with the Joomla API - Set the current Modal ID
     Joomla.Modal.setCurrent(modal);
 
-    if (modal.dataset.url) {
+    if (modal.dataset.url) 
+    {
       const modalBody = modal.querySelector('.modal-body');
       const iframe = modalBody.querySelector('iframe');
 
-      if (iframe) {
+      if (iframe) 
+      {
         const addData = modal.querySelector('joomla-field-mediamore');
 
-        if (addData) {
+        if (addData) 
+        {
           addData.parentNode.removeChild(addData);
         }
 
@@ -42,23 +46,29 @@ Joomla.initialiseModal = (modal, options) => {
 
       // @todo merge https://github.com/joomla/joomla-cms/pull/20788
       // Hacks because com_associations and field modals use pure javascript in the url!
-      if (modal.dataset.iframe.indexOf('document.getElementById') > 0) {
+      if (modal.dataset.iframe.indexOf('document.getElementById') > 0) 
+      {
         const iframeTextArr = modal.dataset.iframe.split('+');
         const idFieldArr = iframeTextArr[1].split('"');
         let el;
 
         idFieldArr[0] = idFieldArr[0].replace(/&quot;/g, '"');
 
-        if (!document.getElementById(idFieldArr[1])) {
+        if (!document.getElementById(idFieldArr[1])) 
+        {
           // eslint-disable-next-line no-new-func
           const fn = new Function(`return ${idFieldArr[0]}`); // This is UNSAFE!!!!
           el = fn.call(null);
-        } else {
+        } 
+        else 
+        {
           el = document.getElementById(idFieldArr[1]).value;
         }
 
         modalBody.insertAdjacentHTML('afterbegin', Joomla.sanitizeHtml(`${iframeTextArr[0]}${el}${iframeTextArr[2]}`, allowed));
-      } else {
+      } 
+      else 
+      {
         modalBody.insertAdjacentHTML('afterbegin', Joomla.sanitizeHtml(modal.dataset.iframe, allowed));
       }
     }
@@ -74,13 +84,16 @@ Joomla.initialiseModal = (modal, options) => {
     let modalBodyPadding = 0;
     let modalBodyHeightOuter = 0;
 
-    if (modalBody) {
-      if (modalHeader) {
+    if (modalBody) 
+    {
+      if (modalHeader) 
+      {
         const modalHeaderRects = modalHeader.getBoundingClientRect();
         modalHeaderHeight = modalHeaderRects.height;
         modalBodyHeightOuter = modalBody.offsetHeight;
       }
-      if (modalFooter) {
+      if (modalFooter) 
+      {
         modalFooterHeight = parseFloat(getComputedStyle(modalFooter, null).height.replace('px', ''));
       }
 
@@ -91,10 +104,12 @@ Joomla.initialiseModal = (modal, options) => {
       maxModalBodyHeight = maxModalHeight - (modalHeaderHeight + modalFooterHeight + modalBodyPadding);
     }
 
-    if (modal.dataset.url) {
+    if (modal.dataset.url) 
+    {
       const iframeEl = modal.querySelector('iframe');
       const iframeHeight = parseFloat(getComputedStyle(iframeEl, null).height.replace('px', ''));
-      if (iframeHeight > maxModalBodyHeight) {
+      if (iframeHeight > maxModalBodyHeight) 
+      {
         modalBody.style.maxHeight = maxModalBodyHeight;
         modalBody.style.overflowY = 'auto';
         iframeEl.style.maxHeight = maxModalBodyHeight - modalBodyPadding;
@@ -124,24 +139,29 @@ Joomla.initialiseModal = (modal, options) => {
  * @since   4.0.0
  */
 Joomla.iframeButtonClick = (options) => {
-  if (!options.iframeSelector || !options.buttonSelector) {
+  if (!options.iframeSelector || !options.buttonSelector) 
+  {
     throw new Error('Selector is missing');
   }
 
   const iframe = document.querySelector(`${options.iframeSelector} iframe`);
-  if (iframe) {
+  if (iframe) 
+  {
     const button = iframe.contentWindow.document.querySelector(options.buttonSelector);
-    if (button) {
+    if (button) 
+    {
       button.click();
     }
   }
 };
 
-if (Joomla && Joomla.getOptions) {
+if (Joomla && Joomla.getOptions) 
+{
   // Get the elements/configurations from the PHP
   const modals = Joomla.getOptions('bootstrap.modal');
   // Initialise the elements
-  if (typeof modals === 'object' && modals !== null) {
+  if (typeof modals === 'object' && modals !== null) 
+  {
     Object.keys(modals).forEach((modal) => {
       const opt = modals[modal];
       const options = {

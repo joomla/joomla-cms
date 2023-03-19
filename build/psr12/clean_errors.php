@@ -21,7 +21,8 @@ $data = array_reverse($data);
 
 foreach ($data as $error) {
     $file = file_get_contents($error['file']);
-    switch ($error['cleanup']) {
+    switch ($error['cleanup']) 
+    {
         // Remove defined JEXEC statement, PSR-12 doesn't allow functional and symbol code in the same file
         case 'definedJEXEC':
             $file = str_replace([
@@ -115,14 +116,18 @@ foreach ($data as $error) {
             $sourceLineEndNo   = $lineNo;
             $found             = false;
 
-            while (substr(ltrim($fileContent[$sourceLineEndNo]), 0, 2) === '//') {
+            while (substr(ltrim($fileContent[$sourceLineEndNo]), 0, 2) === '//') 
+            {
                 $sourceLineEndNo++;
                 $found = true;
             }
 
-            if ($sourceLineStartNo === $sourceLineEndNo) {
-                if (substr(ltrim($fileContent[$sourceLineStartNo]), 0, 2) === '/*') {
-                    while (substr(ltrim($fileContent[$sourceLineEndNo]), 0, 2) !== '*/') {
+            if ($sourceLineStartNo === $sourceLineEndNo) 
+            {
+                if (substr(ltrim($fileContent[$sourceLineStartNo]), 0, 2) === '/*') 
+                {
+                    while (substr(ltrim($fileContent[$sourceLineEndNo]), 0, 2) !== '*/') 
+                    {
                         $sourceLineEndNo++;
                     }
                     $sourceLineEndNo++;
@@ -130,7 +135,8 @@ foreach ($data as $error) {
                 }
             }
 
-            if (!$found) {
+            if (!$found) 
+            {
                 echo "Unrecoverable error while running SpaceAfterCloseBrace cleanup";
                 var_dump($error['file'], $sourceLineStartNo, $sourceLineEndNo);
                 die(1);
@@ -138,22 +144,27 @@ foreach ($data as $error) {
             $targetLineNo = $sourceLineEndNo + 1;
 
             // Adjust the indentation to match the next line of code
-            for ($indent = 0; $indent <= strlen($fileContent[$targetLineNo]); $indent++) {
-                if ($fileContent[$targetLineNo][$indent] !== ' ') {
+            for ($indent = 0; $indent <= strlen($fileContent[$targetLineNo]); $indent++) 
+            {
+                if ($fileContent[$targetLineNo][$indent] !== ' ') 
+                {
                     break;
                 }
             }
 
             $replace = [];
-            for ($i = $sourceLineStartNo; $i < $sourceLineEndNo; $i++) {
+            for ($i = $sourceLineStartNo; $i < $sourceLineEndNo; $i++) 
+            {
                 $newLine = ltrim($fileContent[$i]);
                 // Fix codeblocks not starting with /**
-                if (substr($newLine, 0, 2) === '/*') {
+                if (substr($newLine, 0, 2) === '/*') 
+                {
                     $newLine = "/**\n";
                 }
 
                 $localIndent = $indent;
-                if ($newLine[0] === '*') {
+                if ($newLine[0] === '*') 
+                {
                     $localIndent++;
                 }
                 $replace[] = str_repeat(' ', $localIndent) . $newLine;

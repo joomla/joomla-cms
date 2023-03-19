@@ -34,9 +34,12 @@ const alreadyMinified = [
  * @returns {Promise<boolean>}
  */
 const minifiedExists = async (file) => {
-  try {
+  try 
+  {
     return (await lstat(file)).isFile();
-  } catch (e) {
+  } 
+  catch (e) 
+  {
     return false;
   }
 };
@@ -49,7 +52,8 @@ const minifiedExists = async (file) => {
  */
 const minifyJS = async (file) => {
   const needsDotJS = noMinified.includes(basename(file));
-  if (file.endsWith('.min.js') && !needsDotJS) {
+  if (file.endsWith('.min.js') && !needsDotJS) 
+  {
     return;
   }
 
@@ -58,16 +62,20 @@ const minifyJS = async (file) => {
 
   let minified;
   const fileExists = await minifiedExists(file);
-  if (!fileExists) {
+  if (!fileExists) 
+  {
     return;
   }
 
   const content = await readFile(file, { encoding: 'utf8' });
 
   const isMinified = alreadyMinified.includes(file.replace(`${RootPath}${sep}`, ''));
-  if (isMinified || needsDotJS) {
+  if (isMinified || needsDotJS) 
+  {
     minified = content;
-  } else {
+  } 
+  else 
+  {
     minified = (await minify(content, { sourceMap: false, format: { comments: false } })).code;
   }
 

@@ -5,7 +5,8 @@
 ((Joomla) => {
   'use strict';
 
-  if (Joomla.getOptions('menus-default')) {
+  if (Joomla.getOptions('menus-default')) 
+  {
     // eslint-disable-next-line prefer-destructuring
     const items = Joomla.getOptions('menus-default').items;
 
@@ -29,7 +30,8 @@
 
   Joomla.submitform = (task, form) => {
     originalFn(task, form);
-    if (task === 'menu.exportXml') {
+    if (task === 'menu.exportXml') 
+    {
       document.adminForm.task.value = '';
     }
   };

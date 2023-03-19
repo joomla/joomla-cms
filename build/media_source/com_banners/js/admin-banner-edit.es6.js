@@ -10,7 +10,8 @@
     const imgWrapper = document.getElementById('image');
     const custom = document.getElementById('custom');
 
-    switch (value) {
+    switch (value) 
+    {
       case '0':
         // Image
         imgWrapper.classList.remove('hidden');
@@ -29,7 +30,8 @@
   document.addEventListener('DOMContentLoaded', () => {
     const jformType = document.getElementById('jform_type');
 
-    if (jformType) {
+    if (jformType) 
+    {
       // Hide/show parameters initially
       updateBannerFields(jformType.value);
 

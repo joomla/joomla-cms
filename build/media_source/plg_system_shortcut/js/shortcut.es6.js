@@ -1,7 +1,8 @@
 ((document, Joomla) => {
   'use strict';
 
-  if (!Joomla) {
+  if (!Joomla) 
+  {
     throw new Error('Joomla API is not properly initialised');
   }
 
@@ -19,7 +20,8 @@
   Joomla.addClickShortcut = (hotkey, selector) => {
     Joomla.addShortcut(hotkey, () => {
       const element = document.querySelector(selector);
-      if (element) {
+      if (element) 
+      {
         element.click();
       }
     });
@@ -28,7 +30,8 @@
   Joomla.addFocusShortcut = (hotkey, selector) => {
     Joomla.addShortcut(hotkey, () => {
       const element = document.querySelector(selector);
-      if (element) {
+      if (element) 
+      {
         element.focus();
       }
     });
@@ -46,7 +49,8 @@
       const { tagName } = target;
 
       // Checkboxes should not block a shortcut event
-      if (target.type === 'checkbox') {
+      if (target.type === 'checkbox') 
+      {
         return true;
       }
       // Default hotkeys filter behavior
@@ -57,7 +61,8 @@
   const startupShortcuts = () => {
     hotkeys('J', (event) => {
       // If we're already in the scope, it's a normal shortkey
-      if (hotkeys.getScope() === 'joomla') {
+      if (hotkeys.getScope() === 'joomla') 
+      {
         return;
       }
 
@@ -76,7 +81,8 @@
 
   const addOverviewHint = () => {
     const mainContainer = document.querySelector('.com_cpanel .container-main');
-    if (mainContainer) {
+    if (mainContainer) 
+    {
       const containerElement = document.createElement('section');
       containerElement.className = 'content pt-4';
       containerElement.insertAdjacentHTML('beforeend', Joomla.Text._('PLG_SYSTEM_SHORTCUT_OVERVIEW_HINT'));
@@ -87,14 +93,18 @@
   const initOverviewModal = (options) => {
     const dlItems = new Map();
     Object.values(options).forEach((value) => {
-      if (!value.shortcut || !value.title) {
+      if (!value.shortcut || !value.title) 
+      {
         return;
       }
       let titles = [];
-      if (dlItems.has(value.shortcut)) {
+      if (dlItems.has(value.shortcut)) 
+      {
         titles = dlItems.get(value.shortcut);
         titles.push(value.title);
-      } else {
+      } 
+      else 
+      {
         titles = [value.title];
       }
       dlItems.set(value.shortcut, titles);
@@ -146,19 +156,26 @@
   document.addEventListener('DOMContentLoaded', () => {
     const options = Joomla.getOptions('plg_system_shortcut.shortcuts');
     Object.values(options).forEach((value) => {
-      if (!value.shortcut || !value.selector) {
+      if (!value.shortcut || !value.selector) 
+      {
         return;
       }
-      if (value.selector.startsWith('/') || value.selector.startsWith('http://') || value.selector.startsWith('www.')) {
+      if (value.selector.startsWith('/') || value.selector.startsWith('http://') || value.selector.startsWith('www.')) 
+      {
         Joomla.addLinkShortcut(value.shortcut, value.selector);
-      } else if (value.selector.includes('input')) {
+      } 
+      else if (value.selector.includes('input')) 
+      {
         Joomla.addFocusShortcut(value.shortcut, value.selector);
-      } else {
+      } 
+      else 
+      {
         Joomla.addClickShortcut(value.shortcut, value.selector);
       }
     });
     // Show hint and overview on logged in backend only (not login page)
-    if (document.querySelector('nav')) {
+    if (document.querySelector('nav')) 
+    {
       initOverviewModal(options);
       addOverviewHint();
     }

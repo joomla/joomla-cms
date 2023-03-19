@@ -3,11 +3,13 @@ import Dropdown from 'bootstrap/js/src/dropdown';
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Dropdown = Dropdown;
 
-if (Joomla && Joomla.getOptions) {
+if (Joomla && Joomla.getOptions) 
+{
   // Get the elements/configurations from the PHP
   const dropdowns = Joomla.getOptions('bootstrap.dropdown');
   // Initialise the elements
-  if (typeof dropdowns === 'object' && dropdowns !== null) {
+  if (typeof dropdowns === 'object' && dropdowns !== null) 
+  {
     Object.keys(dropdowns).forEach((dropdown) => {
       const opt = dropdowns[dropdown];
       const options = {
@@ -16,7 +18,8 @@ if (Joomla && Joomla.getOptions) {
       };
 
       const elements = Array.from(document.querySelectorAll(dropdown));
-      if (elements.length) {
+      if (elements.length) 
+      {
         elements.map((el) => new window.bootstrap.Dropdown(el, options));
       }
     });

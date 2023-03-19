@@ -5,18 +5,21 @@
 Joomla.submitbutton = (task) => {
   'use strict';
 
-  if (task === 'actionlogs.exportLogs') {
+  if (task === 'actionlogs.exportLogs') 
+  {
     Joomla.submitform(task, document.getElementById('exportForm'));
 
     return;
   }
 
-  if (task === 'actionlogs.exportSelectedLogs') {
+  if (task === 'actionlogs.exportSelectedLogs') 
+  {
     // Get id of selected action logs item and pass it to export form hidden input
     const cids = [];
     const elements = [].slice.call(document.querySelectorAll("input[name='cid[]']:checked"));
 
-    if (elements.length) {
+    if (elements.length) 
+    {
       elements.forEach((element) => {
         cids.push(element.value);
       });

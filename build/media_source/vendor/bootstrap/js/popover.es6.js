@@ -5,12 +5,14 @@ window.bootstrap = window.bootstrap || {};
 window.bootstrap.Popover = Popover;
 window.bootstrap.Tooltip = Tooltip;
 
-if (Joomla && Joomla.getOptions) {
+if (Joomla && Joomla.getOptions) 
+{
   // Get the elements/configurations from the PHP
   const tooltips = Joomla.getOptions('bootstrap.tooltip');
   const popovers = Joomla.getOptions('bootstrap.popover');
   // Initialise the elements
-  if (typeof popovers === 'object' && popovers !== null) {
+  if (typeof popovers === 'object' && popovers !== null) 
+  {
     Object.keys(popovers).forEach((popover) => {
       const opt = popovers[popover];
       const options = {
@@ -31,24 +33,29 @@ if (Joomla && Joomla.getOptions) {
         popperConfig: opt.popperConfig ? opt.popperConfig : null,
       };
 
-      if (opt.content) {
+      if (opt.content) 
+      {
         options.content = opt.content;
       }
-      if (opt.template) {
+      if (opt.template) 
+      {
         options.template = opt.template;
       }
-      if (opt.allowList) {
+      if (opt.allowList) 
+      {
         options.allowList = opt.allowList;
       }
 
       const elements = Array.from(document.querySelectorAll(popover));
-      if (elements.length) {
+      if (elements.length) 
+      {
         elements.map((el) => new window.bootstrap.Popover(el, options));
       }
     });
   }
   // Initialise the elements
-  if (typeof tooltips === 'object' && tooltips !== null) {
+  if (typeof tooltips === 'object' && tooltips !== null) 
+  {
     Object.keys(tooltips).forEach((tooltip) => {
       const opt = tooltips[tooltip];
       const options = {
@@ -67,18 +74,22 @@ if (Joomla && Joomla.getOptions) {
         popperConfig: opt.popperConfig ? opt.popperConfig : null,
       };
 
-      if (opt.placement) {
+      if (opt.placement) 
+      {
         options.placement = opt.placement;
       }
-      if (opt.template) {
+      if (opt.template) 
+      {
         options.template = opt.template;
       }
-      if (opt.allowList) {
+      if (opt.allowList) 
+      {
         options.allowList = opt.allowList;
       }
 
       const elements = Array.from(document.querySelectorAll(tooltip));
-      if (elements.length) {
+      if (elements.length) 
+      {
         elements.map((el) => new window.bootstrap.Tooltip(el, options));
       }
     });

@@ -53,33 +53,40 @@ class ArticlesController extends ApiController
         $apiFilterInfo = $this->input->get('filter', [], 'array');
         $filter        = InputFilter::getInstance();
 
-        if (\array_key_exists('author', $apiFilterInfo)) {
+        if (\array_key_exists('author', $apiFilterInfo)) 
+        {
             $this->modelState->set('filter.author_id', $filter->clean($apiFilterInfo['author'], 'INT'));
         }
 
-        if (\array_key_exists('category', $apiFilterInfo)) {
+        if (\array_key_exists('category', $apiFilterInfo)) 
+        {
             $this->modelState->set('filter.category_id', $filter->clean($apiFilterInfo['category'], 'INT'));
         }
 
-        if (\array_key_exists('search', $apiFilterInfo)) {
+        if (\array_key_exists('search', $apiFilterInfo)) 
+        {
             $this->modelState->set('filter.search', $filter->clean($apiFilterInfo['search'], 'STRING'));
         }
 
-        if (\array_key_exists('state', $apiFilterInfo)) {
+        if (\array_key_exists('state', $apiFilterInfo)) 
+        {
             $this->modelState->set('filter.published', $filter->clean($apiFilterInfo['state'], 'INT'));
         }
 
-        if (\array_key_exists('language', $apiFilterInfo)) {
+        if (\array_key_exists('language', $apiFilterInfo)) 
+        {
             $this->modelState->set('filter.language', $filter->clean($apiFilterInfo['language'], 'STRING'));
         }
 
         $apiListInfo = $this->input->get('list', [], 'array');
 
-        if (array_key_exists('ordering', $apiListInfo)) {
+        if (array_key_exists('ordering', $apiListInfo)) 
+        {
             $this->modelState->set('list.ordering', $filter->clean($apiListInfo['ordering'], 'STRING'));
         }
 
-        if (array_key_exists('direction', $apiListInfo)) {
+        if (array_key_exists('direction', $apiListInfo)) 
+        {
             $this->modelState->set('list.direction', $filter->clean($apiListInfo['direction'], 'STRING'));
         }
 
@@ -97,8 +104,10 @@ class ArticlesController extends ApiController
      */
     protected function preprocessSaveData(array $data): array
     {
-        foreach (FieldsHelper::getFields('com_content.article') as $field) {
-            if (isset($data[$field->name])) {
+        foreach (FieldsHelper::getFields('com_content.article') as $field) 
+        {
+            if (isset($data[$field->name])) 
+            {
                 !isset($data['com_fields']) && $data['com_fields'] = [];
 
                 $data['com_fields'][$field->name] = $data[$field->name];

@@ -16,7 +16,8 @@
     event.preventDefault();
     const element = document.getElementById(statsDataDetailsId);
 
-    if (element) {
+    if (element) 
+    {
       element.classList.toggle('d-none');
     }
   };
@@ -30,13 +31,15 @@
   const onBoot = () => {
     // Toggle stats details
     const toggler = document.getElementById(statsDataTogglerId);
-    if (toggler) {
+    if (toggler) 
+    {
       toggler.addEventListener('click', onToggle);
     }
 
     // Reset the unique id
     const reset = document.getElementById(resetId);
-    if (reset) {
+    if (reset) 
+    {
       reset.addEventListener('click', onReset);
     }
 

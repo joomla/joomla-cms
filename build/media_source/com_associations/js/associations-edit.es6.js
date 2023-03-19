@@ -14,10 +14,12 @@ Joomla = window.Joomla || {};
       // Current selected language. Hide it
       const el = element.querySelector('.control-label label');
 
-      if (el) {
+      if (el) 
+      {
         const attribute = el.getAttribute('for');
 
-        if (attribute.replace(/_name$/, '') === `${formControl}_associations_${languageCode.replace('-', '_')}`) {
+        if (attribute.replace(/_name$/, '') === `${formControl}_associations_${languageCode.replace('-', '_')}`)
+        {
           element.classList.add('hidden');
         }
       }
@@ -28,7 +30,8 @@ Joomla = window.Joomla || {};
     const controlGroup = [].slice.call(document.querySelectorAll('#associations .control-group'));
     const associations = document.getElementById('associations');
 
-    if (associations) {
+    if (associations) 
+    {
       const html = document.createElement('joomla-alert');
       html.innerText = Joomla.Text._('JGLOBAL_ASSOC_NOT_POSSIBLE');
 
@@ -65,18 +68,23 @@ Joomla = window.Joomla || {};
   Joomla.injectAssociations = (result, callbackFunctionPrefix) => {
     let functionName;
 
-    if (result.success) {
-      if (result.data.length !== 0) {
+    if (result.success) 
+    {
+      if (result.data.length !== 0) 
+      {
         [].slice.call(Object.keys(result.data)).forEach((lang) => {
           functionName = callbackFunctionPrefix + lang.replace('-', '_');
           window[functionName](result.data[lang].id, result.data[lang].title, result.data[lang].catid, null, null, lang);
         });
       }
 
-      if (result.message) {
+      if (result.message) 
+      {
         Joomla.renderMessages({ notice: [result.message] });
       }
-    } else {
+    } 
+    else 
+    {
       Joomla.renderMessages({ warning: [(Joomla.Text._('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED'))] });
     }
   };
@@ -146,15 +154,19 @@ Joomla = window.Joomla || {};
     const formControlLanguage = document.getElementById(`${formControl}_language`);
 
     // Hide the associations tab if needed
-    if (parseInt(associationsEditOptions.hidden, 10) === 1) {
+    if (parseInt(associationsEditOptions.hidden, 10) === 1) 
+    {
       Joomla.showAssociationMessage();
-    } else if (formControlLanguage) {
+    } 
+    else if (formControlLanguage) 
+    {
       // Hide only the associations for the current language
       Joomla.hideAssociation(formControl, formControlLanguage.value);
     }
 
     // When changing the language
-    if (formControlLanguage) {
+    if (formControlLanguage) 
+    {
       formControlLanguage.addEventListener('change', ({ target }) => {
         // Remove message if any
         Joomla.removeMessages();
@@ -174,31 +186,39 @@ Joomla = window.Joomla || {};
           element.classList.remove('hidden');
 
           // Check if there was an association selected for this language
-          if (!existsAssociations && document.getElementById(`${formControl}_associations_${languageCode}_id`).value !== '') {
+          if (!existsAssociations && document.getElementById(`${formControl}_associations_${languageCode}_id`).value !== '') 
+          {
             existsAssociations = true;
           }
 
           // Call the modal clear button
           const clear = document.getElementById(`${formControl}_associations_${languageCode}_clear`);
 
-          if (clear.onclick) {
+          if (clear.onclick) 
+          {
             clear.onclick();
-          } else if (clear.click) {
+          } 
+          else if (clear.click) 
+          {
             clear.click();
           }
         });
 
         // If associations existed, send a warning to the user
-        if (existsAssociations) {
+        if (existsAssociations) 
+        {
           Joomla.renderMessages({ warning: [Joomla.Text._('JGLOBAL_ASSOCIATIONS_RESET_WARNING')] });
         }
 
         // If the selected language is All hide the fields and add a message
         const selectedLanguage = target.value;
 
-        if (selectedLanguage === '*') {
+        if (selectedLanguage === '*') 
+        {
           Joomla.showAssociationMessage();
-        } else {
+        } 
+        else 
+        {
           // Else show the associations fields/buttons and hide the current selected language
           Joomla.hideAssociation(formControl, selectedLanguage);
         }

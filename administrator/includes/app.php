@@ -13,17 +13,20 @@ defined('_JEXEC') or die;
 $startTime = microtime(1);
 $startMem  = memory_get_usage();
 
-if (file_exists(dirname(__DIR__) . '/defines.php')) {
+if (file_exists(dirname(__DIR__) . '/defines.php')) 
+{
     include_once dirname(__DIR__) . '/defines.php';
 }
 
-if (!defined('_JDEFINES')) {
+if (!defined('_JDEFINES')) 
+{
     define('JPATH_BASE', dirname(__DIR__));
     require_once JPATH_BASE . '/includes/defines.php';
 }
 
 // Check for presence of vendor dependencies not included in the git repository
-if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT . '/media/vendor')) {
+if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT . '/media/vendor')) 
+{
     echo file_get_contents(JPATH_ROOT . '/templates/system/build_incomplete.html');
 
     exit;

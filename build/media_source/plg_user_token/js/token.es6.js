@@ -10,14 +10,20 @@
     input.focus();
     input.select();
 
-    try {
+    try 
+    {
       const copy = document.execCommand('copy');
-      if (copy) {
+      if (copy) 
+      {
         Joomla.renderMessages({ message: [Joomla.Text._('PLG_USER_TOKEN_COPY_SUCCESS')] });
-      } else {
+      } 
+      else 
+      {
         Joomla.renderMessages({ error: [Joomla.Text._('PLG_USER_TOKEN_COPY_FAIL')] });
       }
-    } catch (err) {
+    } 
+    catch (err) 
+    {
       Joomla.renderMessages({ error: [err] });
     }
   };
@@ -28,7 +34,8 @@
     button.addEventListener('click', ({ currentTarget }) => {
       const input = currentTarget.previousElementSibling;
 
-      if (!navigator.clipboard) {
+      if (!navigator.clipboard) 
+      {
         copyToClipboardFallback(input);
         return;
       }

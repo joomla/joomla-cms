@@ -8,18 +8,24 @@
   const options = window.Joomla.getOptions('xtd-readmore');
 
   window.insertReadmore = (editor) => {
-    if (!options) {
+    if (!options) 
+    {
       // Something went wrong!
       throw new Error('XTD Button \'read more\' not properly initialized');
     }
 
     const content = window.Joomla.editors.instances[editor].getValue();
 
-    if (!content) {
+    if (!content) 
+    {
       Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore">');
-    } else if (content && !content.match(/<hr\s+id=("|')system-readmore("|')\s*\/*>/i)) {
+    } 
+    else if (content && !content.match(/<hr\s+id=("|')system-readmore("|')\s*\/*>/i)) 
+    {
       Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore">');
-    } else {
+    } 
+    else 
+    {
       Joomla.renderMessages({
         error: [options.exists],
       });

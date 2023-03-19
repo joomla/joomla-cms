@@ -61,7 +61,8 @@ class ModulesModel extends FormModel
         // Get the form.
         $form = $this->loadForm('com_config.modules', 'modules', ['control' => 'jform', 'load_data' => $loadData]);
 
-        if (empty($form)) {
+        if (empty($form)) 
+        {
             return false;
         }
 
@@ -92,14 +93,17 @@ class ModulesModel extends FormModel
         $lang->load($module, $basePath)
             ||   $lang->load($module, $basePath . '/modules/' . $module);
 
-        if (file_exists($formFile)) {
+        if (file_exists($formFile)) 
+        {
             // Get the module form.
-            if (!$form->loadFile($formFile, false, '//config')) {
+            if (!$form->loadFile($formFile, false, '//config')) 
+            {
                 throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
             }
 
             // Attempt to load the xml file.
-            if (!$xml = simplexml_load_file($formFile)) {
+            if (!$xml = simplexml_load_file($formFile)) 
+            {
                 throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
             }
         }
@@ -128,15 +132,18 @@ class ModulesModel extends FormModel
         $path = Path::clean(JPATH_BASE . '/templates/' . $templateName . '/templateDetails.xml');
         $currentTemplatePositions = [];
 
-        if (file_exists($path)) {
+        if (file_exists($path)) 
+        {
             $xml = simplexml_load_file($path);
 
-            if (isset($xml->positions[0])) {
+            if (isset($xml->positions[0])) 
+            {
                 // Load language files
                 $lang->load('tpl_' . $templateName . '.sys', JPATH_BASE)
                 ||  $lang->load('tpl_' . $templateName . '.sys', JPATH_BASE . '/templates/' . $templateName);
 
-                foreach ($xml->positions[0] as $position) {
+                foreach ($xml->positions[0] as $position) 
+                {
                     $value = (string) $position;
                     $text = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_' . strtoupper($templateName) . '_POSITION_' . strtoupper($value));
 
@@ -185,10 +192,13 @@ class ModulesModel extends FormModel
 
         $db->setQuery($query);
 
-        try {
+        try 
+        {
             $positions = $db->loadColumn();
             $positions = is_array($positions) ? $positions : [];
-        } catch (\RuntimeException $e) {
+        } 
+        catch (\RuntimeException $e) 
+        {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
             return;
@@ -197,10 +207,14 @@ class ModulesModel extends FormModel
         // Build the list
         $options = [];
 
-        foreach ($positions as $position) {
-            if (!$position && !$editPositions) {
+        foreach ($positions as $position) 
+        {
+            if (!$position && !$editPositions) 
+            {
                 $options[] = HTMLHelper::_('select.option', 'none', ':: ' . Text::_('JNONE') . ' ::');
-            } else {
+            } 
+            else 
+            {
                 $options[] = HTMLHelper::_('select.option', $position, $position);
             }
         }
@@ -220,7 +234,8 @@ class ModulesModel extends FormModel
      */
     private static function createOption($value = '', $text = '')
     {
-        if (empty($text)) {
+        if (empty($text)) 
+        {
             $text = $value;
         }
 

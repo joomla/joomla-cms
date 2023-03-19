@@ -11,26 +11,32 @@ window.bootstrap.Tab = Tab;
  * @param {object} options The options for this collapse
  */
 Joomla.initialiseTabs = (el, options) => {
-  if (!(el instanceof Element) && options.isJoomla) {
+  if (!(el instanceof Element) && options.isJoomla) 
+  {
     const tab = document.querySelector(`${el}Content`);
-    if (tab) {
+    if (tab) 
+    {
       const related = Array.from(tab.children);
 
       // Build the navigation
-      if (related.length) {
+      if (related.length) 
+      {
         related.forEach((element) => {
-          if (!element.classList.contains('tab-pane')) {
+          if (!element.classList.contains('tab-pane')) 
+          {
             return;
           }
 
           const isActive = element.dataset.active !== '';
           const ul = document.querySelector(`${el}Tabs`);
 
-          if (ul) {
+          if (ul) 
+          {
             const link = document.createElement('a');
             link.href = `#${element.dataset.id}`;
             link.classList.add('nav-link');
-            if (isActive) {
+            if (isActive) 
+            {
               link.classList.add('active');
             }
 
@@ -53,17 +59,21 @@ Joomla.initialiseTabs = (el, options) => {
         });
       }
     }
-  } else {
+  } 
+  else 
+  {
     Array.from(document.querySelectorAll(`${el} a`))
       .map((tab) => new window.bootstrap.Tab(tab, options));
   }
 };
 
-if (Joomla && Joomla.getOptions) {
+if (Joomla && Joomla.getOptions) 
+{
   // Get the elements/configurations from the PHP
   const tabs = Joomla.getOptions('bootstrap.tabs');
   // Initialise the elements
-  if (typeof tabs === 'object' && tabs !== null) {
+  if (typeof tabs === 'object' && tabs !== null) 
+  {
     Object.keys(tabs).map((tab) => Joomla.initialiseTabs(tab, tabs[tab]));
   }
 }

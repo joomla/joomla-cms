@@ -35,19 +35,24 @@ const updateSettings = async (options) => {
 module.exports.recreateMediaFolder = async (options) => {
   await updateSettings(options);
   const installedVendors = Object.keys(options.settings.vendors).map((vendor) => {
-    if (vendor === 'choices.js') {
+    if (vendor === 'choices.js') 
+    {
       return 'vendor/choicesjs';
     }
-    if (vendor === '@fortawesome/fontawesome-free') {
+    if (vendor === '@fortawesome/fontawesome-free') 
+    {
       return 'vendor/fontawesome-free';
     }
-    if (vendor === '@claviska/jquery-minicolors') {
+    if (vendor === '@claviska/jquery-minicolors') 
+    {
       return 'vendor/minicolors';
     }
-    if (vendor === '@webcomponents/webcomponentsjs') {
+    if (vendor === '@webcomponents/webcomponentsjs') 
+    {
       return 'vendor/webcomponentsjs';
     }
-    if (vendor === 'joomla-ui-custom-elements') {
+    if (vendor === 'joomla-ui-custom-elements') 
+    {
       return 'vendor/joomla-custom-elements';
     }
     return `vendor/${vendor}`;
@@ -66,7 +71,8 @@ module.exports.recreateMediaFolder = async (options) => {
 
   const filterFunc = async (src) => {
     const fileStat = await stat(src);
-    if (fileStat.isFile() && (extname(src) === '.js' || extname(src) === '.css')) {
+    if (fileStat.isFile() && (extname(src) === '.js' || extname(src) === '.css')) 
+    {
       return false;
     }
 

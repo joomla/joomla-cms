@@ -2,7 +2,8 @@
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-if (!Joomla) {
+if (!Joomla) 
+{
   throw new Error('Joomla API is not properly initialized');
 }
 
@@ -12,7 +13,8 @@ class Edit {
     // Get the options from Joomla.optionStorage
     this.options = Joomla.getOptions('com_media', {});
 
-    if (!this.options) {
+    if (!this.options) 
+    {
       throw new Error('Initialization error "edit-images.js"');
     }
 
@@ -33,7 +35,8 @@ class Edit {
     this.plugins = {};
     this.baseContainer = document.getElementById('media-manager-edit-container');
 
-    if (!this.baseContainer) {
+    if (!this.baseContainer) 
+    {
       throw new Error('The image preview container is missing');
     }
 
@@ -51,12 +54,14 @@ class Edit {
       // Couple the tabs with the plugin objects
       links.forEach((link, index) => {
         const tab = document.getElementById(link.getAttribute('aria-controls'));
-        if (index === 0) {
+        if (index === 0) 
+        {
           tab.insertAdjacentElement('beforeend', this.baseContainer);
         }
 
         link.addEventListener('joomla.tab.hidden', ({ target }) => {
-          if (!target) {
+          if (!target) 
+          {
             // eslint-disable-next-line no-promise-executor-return
             this.previousPluginDeactivated = new Promise((resolve) => resolve);
             return;
@@ -108,10 +113,12 @@ class Edit {
    * PRIVATE
    */
   addHistoryPoint() {
-    if (this.original !== this.current) {
+    if (this.original !== this.current) 
+    {
       const key = Object.keys(this.history).length;
       if (this.history[key] && this.history[key - 1]
-        && this.history[key] === this.history[key - 1]) {
+        && this.history[key] === this.history[key - 1]) 
+      {
         return;
       }
       this.history[key + 1] = this.current;
@@ -123,7 +130,8 @@ class Edit {
    * PRIVATE
    */
   createImageContainer(data) {
-    if (!data.contents) {
+    if (!data.contents) 
+    {
       throw new Error('Initialization error "edit-images.js"');
     }
 
@@ -175,18 +183,21 @@ class Edit {
   upload(url, stateChangeCallback) {
     let format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension;
 
-    if (!format) {
+    if (!format) 
+    {
       // eslint-disable-next-line prefer-destructuring
       format = /data:image\/(.+);/gm.exec(Joomla.MediaManager.Edit.original.contents)[1];
     }
 
-    if (!format) {
+    if (!format) 
+    {
       throw new Error('Unable to determine image format');
     }
 
     this.xhr = new XMLHttpRequest();
 
-    if (typeof stateChangeCallback === 'function') {
+    if (typeof stateChangeCallback === 'function') 
+    {
       this.xhr.onreadystatechange = stateChangeCallback;
     }
 
@@ -195,24 +206,33 @@ class Edit {
     };
     this.xhr.onload = () => {
       let resp;
-      try {
+      try 
+      {
         resp = JSON.parse(this.xhr.responseText);
-      } catch (er) {
+      } 
+      catch (er) 
+      {
         resp = null;
       }
 
-      if (resp) {
-        if (this.xhr.status === 200) {
-          if (resp.success === true) {
+      if (resp) 
+      {
+        if (this.xhr.status === 200) 
+        {
+          if (resp.success === true) 
+          {
             this.removeProgressBar();
           }
 
-          if (resp.status === '1') {
+          if (resp.status === '1') 
+          {
             Joomla.renderMessages({ success: [resp.message] }, 'true');
             this.removeProgressBar();
           }
         }
-      } else {
+      } 
+      else 
+      {
         this.removeProgressBar();
       }
       this.xhr = null;
@@ -258,7 +278,8 @@ const getUrl = (isModal) => {
   fileDirectory = fileDirectory.join('/');
 
   // If we are in root add a backslash
-  if (fileDirectory.endsWith(':')) {
+  if (fileDirectory.endsWith(':')) 
+  {
     fileDirectory = `${fileDirectory}/`;
   }
 
@@ -268,7 +289,8 @@ const getUrl = (isModal) => {
   const mediaTypes = document.querySelector('input[name="mediatypes"]');
   params.set('mediatypes', (mediaTypes && mediaTypes.value) ? mediaTypes.value : '0');
 
-  if (isModal) {
+  if (isModal) 
+  {
     params.set('tmpl', 'component');
   }
 
@@ -280,7 +302,8 @@ const getUrl = (isModal) => {
 // Customize the Toolbar buttons behavior
 Joomla.submitbutton = (task) => {
   const url = new URL(`${Joomla.MediaManager.Edit.options.apiBaseUrl}&task=api.files&path=${Joomla.MediaManager.Edit.options.uploadPath}`);
-  switch (task) {
+  switch (task) 
+  {
     case 'apply':
       Joomla.MediaManager.Edit.upload(url, null);
       Joomla.MediaManager.Edit.imagePreview.src = Joomla.MediaManager.Edit.current.contents;
@@ -290,10 +313,13 @@ Joomla.submitbutton = (task) => {
       (async () => {
         const activeTab = [].slice.call(document.querySelectorAll('joomla-tab-element'))
           .filter((tab) => tab.hasAttribute('active'));
-        try {
+        try 
+        {
           await Joomla.MediaManager.Edit.plugins[activeTab[0].id.replace('attrib-', '')].Deactivate(Joomla.MediaManager.Edit.imagePreview);
           await Joomla.MediaManager.Edit.plugins[activeTab[0].id.replace('attrib-', '')].Activate(Joomla.MediaManager.Edit.imagePreview);
-        } catch (e) {
+        } 
+        catch (e) 
+        {
           // eslint-disable-next-line no-console
           console.log(e);
         }
@@ -302,18 +328,24 @@ Joomla.submitbutton = (task) => {
     case 'save':
       Joomla.MediaManager.Edit.upload(url, () => {
         if (Joomla.MediaManager.Edit.xhr.readyState === XMLHttpRequest.DONE) {
-          if (window.self !== window.top) {
+          if (window.self !== window.top) 
+          {
             window.location = getUrl(true);
-          } else {
+          } 
+          else 
+          {
             window.location = getUrl();
           }
         }
       });
       break;
     case 'cancel':
-      if (window.self !== window.top) {
+      if (window.self !== window.top) 
+      {
         window.location = getUrl(true);
-      } else {
+      } 
+      else 
+      {
         window.location = getUrl();
       }
       break;

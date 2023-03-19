@@ -36,7 +36,8 @@ class Dispatcher extends ComponentDispatcher
         $checkCreateEdit = ($this->input->get('view') === 'articles' && $this->input->get('layout') === 'modal')
             || ($this->input->get('view') === 'article' && $this->input->get('layout') === 'pagebreak');
 
-        if ($checkCreateEdit) {
+        if ($checkCreateEdit) 
+        {
             // Can create in any category (component permission) or at least in one category
             $canCreateRecords = $this->app->getIdentity()->authorise('core.create', 'com_content')
                 || count($this->app->getIdentity()->getAuthorisedCategories('com_content', 'core.create')) > 0;
@@ -46,7 +47,8 @@ class Dispatcher extends ComponentDispatcher
             $isEditingRecords = count($values);
             $hasAccess = $canCreateRecords || $isEditingRecords;
 
-            if (!$hasAccess) {
+            if (!$hasAccess) 
+            {
                 $this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 
                 return;

@@ -44,9 +44,12 @@ const sampledataAjax = (type, steps, step) => {
 
       let response = {};
 
-      try {
+      try 
+      {
         response = JSON.parse(resp);
-      } catch (e) {
+      } 
+      catch (e) 
+      {
         Joomla.renderMessages({ error: [Joomla.Text._('MOD_SAMPLEDATA_INVALID_RESPONSE')] }, `.sampledata-steps-${type}-${step}`);
         SampleData.inProgress = false;
         return;
@@ -55,12 +58,14 @@ const sampledataAjax = (type, steps, step) => {
       let progressClass = '';
       let success;
 
-      if (response.success && response.data && response.data.length > 0) {
+      if (response.success && response.data && response.data.length > 0) 
+      {
         const progress = document.querySelector(`.sampledata-progress-${type} .progress-bar`);
 
         // Display all messages that we got
         response.data.forEach((value) => {
-          if (value === null) {
+          if (value === null) 
+          {
             return;
           }
 
@@ -69,9 +74,12 @@ const sampledataAjax = (type, steps, step) => {
           progressClass = success ? 'bg-success' : 'bg-danger';
 
           // Display success alert
-          if (success) {
+          if (success) 
+          {
             Joomla.renderMessages({ message: [value.message] }, `.sampledata-steps-${type}-${step}`, false, 3000);
-          } else {
+          } 
+          else 
+          {
             Joomla.renderMessages({ error: [value.message] }, `.sampledata-steps-${type}-${step}`, false);
           }
         });
@@ -85,11 +93,15 @@ const sampledataAjax = (type, steps, step) => {
         progress.classList.add(progressClass);
 
         // Move on next step
-        if (success && (step <= steps)) {
+        if (success && (step <= steps)) 
+        {
           const stepNew = step + 1;
-          if (stepNew <= steps) {
+          if (stepNew <= steps) 
+          {
             sampledataAjax(type, steps, stepNew);
-          } else {
+          } 
+          else 
+          {
             const bar = document.querySelector(`.sampledata-progress-${type}`);
 
             bar.parentNode.removeChild(bar);
@@ -102,7 +114,9 @@ const sampledataAjax = (type, steps, step) => {
             SampleData.inProgress = false;
           }
         }
-      } else {
+      } 
+      else 
+      {
         // Display error alert
         Joomla.renderMessages({ error: [Joomla.Text._('MOD_SAMPLEDATA_INVALID_RESPONSE')] });
         window.scroll({
@@ -131,11 +145,13 @@ const sampledataApply = (element) => {
   const steps = element.getAttribute('data-steps');
 
   // Check whether the work in progress or we already processed with current item
-  if (SampleData.inProgress) {
+  if (SampleData.inProgress) 
+  {
     return;
   }
 
-  if (element.getAttribute('data-processed')) {
+  if (element.getAttribute('data-processed')) 
+  {
     alert(Joomla.Text._('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED'));
     SampleData.inProgress = false;
     return;
@@ -143,7 +159,8 @@ const sampledataApply = (element) => {
 
   // Make sure that use run this not by random clicking on the page links
   // @todo use the CE Modal here
-  if (!window.confirm(Joomla.Text._('MOD_SAMPLEDATA_CONFIRM_START'))) {
+  if (!window.confirm(Joomla.Text._('MOD_SAMPLEDATA_CONFIRM_START'))) 
+  {
     // eslint-disable-next-line consistent-return
     return false;
   }
@@ -166,7 +183,8 @@ const sampledataApply = (element) => {
 
 const sampleDataWrapper = document.getElementById('sample-data-wrapper');
 
-if (sampleDataWrapper) {
+if (sampleDataWrapper) 
+{
   const links = [].slice.call(sampleDataWrapper.querySelectorAll('.apply-sample-data'));
   links.forEach((link) => {
     link.addEventListener('click', ({ currentTarget }) => sampledataApply(currentTarget));

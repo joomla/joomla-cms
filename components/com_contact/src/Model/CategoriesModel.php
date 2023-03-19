@@ -112,14 +112,18 @@ class CategoriesModel extends ListModel
      */
     public function getItems()
     {
-        if ($this->_items === null) {
+        if ($this->_items === null) 
+        {
             $app = Factory::getApplication();
             $menu = $app->getMenu();
             $active = $menu->getActive();
 
-            if ($active) {
+            if ($active) 
+            {
                 $params = $active->getParams();
-            } else {
+            } 
+            else 
+            {
                 $params = new Registry();
             }
 
@@ -128,9 +132,12 @@ class CategoriesModel extends ListModel
             $categories = Categories::getInstance('Contact', $options);
             $this->_parent = $categories->get($this->getState('filter.parentId', 'root'));
 
-            if (is_object($this->_parent)) {
+            if (is_object($this->_parent)) 
+            {
                 $this->_items = $this->_parent->getChildren();
-            } else {
+            } 
+            else 
+            {
                 $this->_items = false;
             }
         }
@@ -147,7 +154,8 @@ class CategoriesModel extends ListModel
      */
     public function getParent()
     {
-        if (!is_object($this->_parent)) {
+        if (!is_object($this->_parent)) 
+        {
             $this->getItems();
         }
 

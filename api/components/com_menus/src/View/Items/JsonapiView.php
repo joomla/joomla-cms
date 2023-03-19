@@ -126,10 +126,12 @@ class JsonapiView extends BaseApiView
         $model = $this->getModel();
         $items = [];
 
-        foreach ($model->getTypeOptions() as $type => $data) {
+        foreach ($model->getTypeOptions() as $type => $data) 
+        {
             $groupItems = [];
 
-            foreach ($data as $item) {
+            foreach ($data as $item) 
+            {
                 $item->id          = implode('/', $item->request);
                 $item->title       = Text::_($item->title);
                 $item->description = Text::_($item->description);
@@ -200,7 +202,8 @@ class JsonapiView extends BaseApiView
      */
     protected function prepareItem($item)
     {
-        if (\is_string($item->params)) {
+        if (\is_string($item->params)) 
+        {
             $item->params = json_decode($item->params);
         }
 

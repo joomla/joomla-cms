@@ -85,7 +85,8 @@ class CategoryModel extends ListModel
      */
     public function __construct($config = [])
     {
-        if (empty($config['filter_fields'])) {
+        if (empty($config['filter_fields'])) 
+        {
             $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
@@ -115,31 +116,37 @@ class CategoryModel extends ListModel
         // Invoke the parent getItems method to get the main list
         $items = parent::getItems();
 
-        if ($items === false) {
+        if ($items === false) 
+        {
             return false;
         }
 
         $taggedItems = [];
 
         // Convert the params field into an object, saving original in _params
-        foreach ($items as $item) {
-            if (!isset($this->_params)) {
+        foreach ($items as $item) 
+        {
+            if (!isset($this->_params)) 
+            {
                 $item->params = new Registry($item->params);
             }
 
             // Some contexts may not use tags data at all, so we allow callers to disable loading tag data
-            if ($this->getState('load_tags', true)) {
+            if ($this->getState('load_tags', true))
+            {
                 $item->tags = new TagsHelper();
                 $taggedItems[$item->id] = $item;
             }
         }
 
         // Load tags of all items.
-        if ($taggedItems) {
+        if ($taggedItems) 
+        {
             $tagsHelper = new TagsHelper();
             $itemIds = \array_keys($taggedItems);
 
-            foreach ($tagsHelper->getMultipleItemTags('com_contact.contact', $itemIds) as $id => $tags) {
+            foreach ($tagsHelper->getMultipleItemTags('com_contact.contact', $itemIds) as $id => $tags) 
+            {
                 $taggedItems[$id]->tags->itemTags = $tags;
             }
         }
@@ -178,7 +185,8 @@ class CategoryModel extends ListModel
             ->whereIn($db->quoteName('a.access'), $groups);
 
         // Filter by category.
-        if ($categoryId = $this->getState('category.id')) {
+        if ($categoryId = $this->getState('category.id')) 
+        {
             $query->where($db->quoteName('a.catid') . ' = :acatid')
                 ->whereIn($db->quoteName('c.access'), $groups);
             $query->bind(':acatid', $categoryId, ParameterType::INTEGER);
@@ -193,17 +201,21 @@ class CategoryModel extends ListModel
         // Filter by state
         $state = $this->getState('filter.published');
 
-        if (is_numeric($state)) {
+        if (is_numeric($state)) 
+        {
             $query->where($db->quoteName('a.published') . ' = :published');
             $query->bind(':published', $state, ParameterType::INTEGER);
-        } else {
+        } 
+        else 
+        {
             $query->whereIn($db->quoteName('c.published'), [0,1,2]);
         }
 
         // Filter by start and end dates.
         $nowDate = Factory::getDate()->toSql();
 
-        if ($this->getState('filter.publish_date')) {
+        if ($this->getState('filter.publish_date')) 
+        {
             $query->where('(' . $db->quoteName('a.publish_up')
                 . ' IS NULL OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)')
                 ->where('(' . $db->quoteName('a.publish_down')
@@ -215,26 +227,33 @@ class CategoryModel extends ListModel
         // Filter by search in title
         $search = $this->getState('list.filter');
 
-        if (!empty($search)) {
+        if (!empty($search)) 
+        {
             $search = '%' . trim($search) . '%';
             $query->where($db->quoteName('a.name') . ' LIKE :name ');
             $query->bind(':name', $search);
         }
 
         // Filter on the language.
-        if ($this->getState('filter.language')) {
+        if ($this->getState('filter.language')) 
+        {
             $query->whereIn($db->quoteName('a.language'), [Factory::getApplication()->getLanguage()->getTag(), '*'], ParameterType::STRING);
         }
 
         // Set sortname ordering if selected
-        if ($this->getState('list.ordering') === 'sortname') {
+        if ($this->getState('list.ordering') === 'sortname') 
+        {
             $query->order($db->escape('a.sortname1') . ' ' . $db->escape($this->getState('list.direction', 'ASC')))
                 ->order($db->escape('a.sortname2') . ' ' . $db->escape($this->getState('list.direction', 'ASC')))
                 ->order($db->escape('a.sortname3') . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
-        } elseif ($this->getState('list.ordering') === 'featuredordering') {
+        } 
+        elseif ($this->getState('list.ordering') === 'featuredordering') 
+        {
             $query->order($db->escape('a.featured') . ' DESC')
                 ->order($db->escape('a.ordering') . ' ASC');
-        } else {
+        } 
+        else 
+        {
             $query->order($db->escape($this->getState('list.ordering', 'a.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
         }
 
@@ -259,9 +278,12 @@ class CategoryModel extends ListModel
         $params = ComponentHelper::getParams('com_contact');
 
         // Get list ordering default from the parameters
-        if ($menu = $app->getMenu()->getActive()) {
+        if ($menu = $app->getMenu()->getActive()) 
+        {
             $menuParams = $menu->getParams();
-        } else {
+        } 
+        else 
+        {
             $menuParams = new Registry();
         }
 
@@ -271,9 +293,12 @@ class CategoryModel extends ListModel
         // List state information
         $format = $app->input->getWord('format');
 
-        if ($format === 'feed') {
+        if ($format === 'feed') 
+        {
             $limit = $app->get('feed_limit');
-        } else {
+        } 
+        else 
+        {
             $limit = $app->getUserStateFromRequest(
                 'com_contact.category.list.limit',
                 'limit',
@@ -294,7 +319,8 @@ class CategoryModel extends ListModel
 
         $orderCol = $app->input->get('filter_order', $mergedParams->get('initial_sort', 'ordering'));
 
-        if (!in_array($orderCol, $this->filter_fields)) {
+        if (!in_array($orderCol, $this->filter_fields)) 
+        {
             $orderCol = 'ordering';
         }
 
@@ -302,7 +328,8 @@ class CategoryModel extends ListModel
 
         $listOrder = $app->input->get('filter_order_Dir', 'ASC');
 
-        if (!in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
+        if (!in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) 
+        {
             $listOrder = 'ASC';
         }
 
@@ -313,7 +340,8 @@ class CategoryModel extends ListModel
 
         $user = Factory::getUser();
 
-        if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact'))) {
+        if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact'))) 
+        {
             // Limit to published for people who can't edit or edit.state.
             $this->setState('filter.published', 1);
 
@@ -336,14 +364,18 @@ class CategoryModel extends ListModel
      */
     public function getCategory()
     {
-        if (!is_object($this->_item)) {
+        if (!is_object($this->_item)) 
+        {
             $app = Factory::getApplication();
             $menu = $app->getMenu();
             $active = $menu->getActive();
 
-            if ($active) {
+            if ($active) 
+            {
                 $params = $active->getParams();
-            } else {
+            } 
+            else 
+            {
                 $params = new Registry();
             }
 
@@ -352,17 +384,21 @@ class CategoryModel extends ListModel
             $categories = Categories::getInstance('Contact', $options);
             $this->_item = $categories->get($this->getState('category.id', 'root'));
 
-            if (is_object($this->_item)) {
+            if (is_object($this->_item)) 
+            {
                 $this->_children = $this->_item->getChildren();
                 $this->_parent = false;
 
-                if ($this->_item->getParent()) {
+                if ($this->_item->getParent()) 
+                {
                     $this->_parent = $this->_item->getParent();
                 }
 
                 $this->_rightsibling = $this->_item->getSibling();
                 $this->_leftsibling = $this->_item->getSibling(false);
-            } else {
+            } 
+            else
+            {
                 $this->_children = false;
                 $this->_parent = false;
             }
@@ -378,7 +414,8 @@ class CategoryModel extends ListModel
      */
     public function getParent()
     {
-        if (!is_object($this->_item)) {
+        if (!is_object($this->_item)) 
+        {
             $this->getCategory();
         }
 
@@ -392,7 +429,8 @@ class CategoryModel extends ListModel
      */
     public function &getLeftSibling()
     {
-        if (!is_object($this->_item)) {
+        if (!is_object($this->_item)) 
+        {
             $this->getCategory();
         }
 
@@ -406,7 +444,8 @@ class CategoryModel extends ListModel
      */
     public function &getRightSibling()
     {
-        if (!is_object($this->_item)) {
+        if (!is_object($this->_item)) 
+        {
             $this->getCategory();
         }
 
@@ -420,7 +459,8 @@ class CategoryModel extends ListModel
      */
     public function &getChildren()
     {
-        if (!is_object($this->_item)) {
+        if (!is_object($this->_item)) 
+        {
             $this->getCategory();
         }
 
@@ -462,7 +502,8 @@ class CategoryModel extends ListModel
         $input = Factory::getApplication()->input;
         $hitcount = $input->getInt('hitcount', 1);
 
-        if ($hitcount) {
+        if ($hitcount)
+        {
             $pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
             $table = Table::getInstance('Category');

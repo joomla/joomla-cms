@@ -116,12 +116,15 @@ class Router extends RouterView
     {
         $category = $this->getCategories()->get($id);
 
-        if ($category) {
+        if ($category) 
+        {
             $path = array_reverse($category->getPath(), true);
             $path[0] = '1:root';
 
-            if ($this->noIDs) {
-                foreach ($path as &$segment) {
+            if ($this->noIDs) 
+            {
+                foreach ($path as &$segment) 
+                {
                     list($id, $segment) = explode(':', $segment, 2);
                 }
             }
@@ -155,7 +158,8 @@ class Router extends RouterView
      */
     public function getContactSegment($id, $query)
     {
-        if (!strpos($id, ':')) {
+        if (!strpos($id, ':')) 
+        {
             $id = (int) $id;
             $dbquery = $this->db->getQuery(true);
             $dbquery->select($this->db->quoteName('alias'))
@@ -167,7 +171,8 @@ class Router extends RouterView
             $id .= ':' . $this->db->loadResult();
         }
 
-        if ($this->noIDs) {
+        if ($this->noIDs) 
+        {
             list($void, $segment) = explode(':', $id, 2);
 
             return [$void => $segment];
@@ -201,17 +206,25 @@ class Router extends RouterView
      */
     public function getCategoryId($segment, $query)
     {
-        if (isset($query['id'])) {
+        if (isset($query['id'])) 
+        {
             $category = $this->getCategories(['access' => false])->get($query['id']);
 
-            if ($category) {
-                foreach ($category->getChildren() as $child) {
-                    if ($this->noIDs) {
-                        if ($child->alias == $segment) {
+            if ($category) 
+            {
+                foreach ($category->getChildren() as $child)
+                {
+                    if ($this->noIDs) 
+                    {
+                        if ($child->alias == $segment) 
+                        {
                             return $child->id;
                         }
-                    } else {
-                        if ($child->id == (int) $segment) {
+                    } 
+                    else 
+                    {
+                        if ($child->id == (int) $segment) 
+                        {
                             return $child->id;
                         }
                     }
@@ -245,7 +258,8 @@ class Router extends RouterView
      */
     public function getContactId($segment, $query)
     {
-        if ($this->noIDs) {
+        if ($this->noIDs) 
+        {
             $dbquery = $this->db->getQuery(true);
             $dbquery->select($this->db->quoteName('id'))
                 ->from($this->db->quoteName('#__contact_details'))
@@ -278,7 +292,8 @@ class Router extends RouterView
     {
         $key = serialize($options);
 
-        if (!isset($this->categoryCache[$key])) {
+        if (!isset($this->categoryCache[$key])) 
+        {
             $this->categoryCache[$key] = $this->categoryFactory->createCategory($options);
         }
 

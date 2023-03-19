@@ -36,11 +36,13 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         onSuccess: (response) => {
-          if (response.error && response.message) {
+          if (response.error && response.message) 
+          {
             alert(response.message);
           }
 
-          if (response.messages) {
+          if (response.messages) 
+          {
             Joomla.renderMessages(response.messages);
           }
 
@@ -65,7 +67,8 @@
      */
     searchStrings(more) {
       // Prevent searching if the cache is refreshed at the moment
-      if (this.states.refreshing) {
+      if (this.states.refreshing) 
+      {
         return;
       }
 
@@ -74,7 +77,8 @@
 
       // Only update the used searchstring and searchtype if the search button
       // was used to start the search (that will be the case if 'more' is null)
-      if (!more) {
+      if (!more) 
+      {
         this.states.searchString = formSearchString.value;
         this.states.searchType = formSearchType.value || 'value';
 
@@ -86,16 +90,20 @@
         });
       }
 
-      if (!this.states.searchString) {
+      if (!this.states.searchString) 
+      {
         formSearchString.classList.add('invalid');
         return;
       }
 
-      if (more) {
+      if (more) 
+      {
         // If 'more' is greater than 0 we have already displayed some results for
         // the current searchstring, so display the spinner at the more link
         this.spinnerBtn.classList.add('show');
-      } else {
+      } 
+      else 
+      {
         // Otherwise it is a new searchstring and we have to remove all previous results first
         this.moreResults.classList.remove('show');
 
@@ -115,26 +123,33 @@
         onSuccess: (resp) => {
           const response = JSON.parse(resp);
 
-          if (response.error && response.message) {
+          if (response.error && response.message) 
+          {
             alert(response.message);
           }
 
-          if (response.messages) {
+          if (response.messages) 
+          {
             Joomla.renderMessages(response.messages);
           }
 
-          if (response.data) {
-            if (response.data.results) {
+          if (response.data) 
+          {
+            if (response.data.results) 
+            {
               Joomla.overrider.insertResults(response.data.results);
             }
 
-            if (response.data.more) {
+            if (response.data.more) 
+            {
               // If there are more results than the sent ones
               // display the more link
               this.states.more = response.data.more;
               this.moreResultsButton.disabled = false;
               this.moreResults.classList.add('show');
-            } else {
+            } 
+            else 
+            {
               this.moreResultsButton.disabled = true;
               this.moreResults.classList.remove('show');
             }
@@ -200,14 +215,16 @@
       });
 
       // If there aren't any results display an appropriate message
-      if (!results.length) {
+      if (!results.length) 
+      {
         const noresult = document.createElement('div');
         noresult.innerText = Joomla.Text._('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
 
         resultsDiv.appendChild(noresult);
       }
 
-      if (this.moreResults) {
+      if (this.moreResults) 
+      {
         this.moreResults.parentNode.insertBefore(resultsDiv, this.moreResults);
       }
     }

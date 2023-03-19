@@ -11,19 +11,24 @@ const { debounce } = require('./utils/debounce.es6.js');
 const RootPath = process.cwd();
 
 const processFile = (file) => {
-  if (extname(file) === '.js' && !dirname(file).startsWith(join(RootPath, 'build/media_source/vendor/bootstrap/js'))) {
-    if (file.match(/\.w-c\.es6\.js$/) || file.match(/\.es6\.js$/)) {
+  if (extname(file) === '.js' && !dirname(file).startsWith(join(RootPath, 'build/media_source/vendor/bootstrap/js'))) 
+  {
+    if (file.match(/\.w-c\.es6\.js$/) || file.match(/\.es6\.js$/)) 
+    {
       debounce(handleESMFile(file), 300);
     }
-    if (file.match(/\.es5\.js/)) {
+    if (file.match(/\.es5\.js/)) 
+    {
       debounce(handleES5File(file), 300);
     }
   }
 
-  if (extname(file) === '.scss' && !basename(file).startsWith('_')) {
+  if (extname(file) === '.scss' && !basename(file).startsWith('_')) 
+  {
     debounce(handleScssFile(file), 300);
   }
-  if (extname(file) === '.css') {
+  if (extname(file) === '.css') 
+  {
     debounce(handleCssFile(file), 300);
   }
 };

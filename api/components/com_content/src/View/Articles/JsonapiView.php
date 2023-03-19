@@ -128,7 +128,8 @@ class JsonapiView extends BaseApiView
      */
     public function __construct($config = [])
     {
-        if (\array_key_exists('contentType', $config)) {
+        if (\array_key_exists('contentType', $config)) 
+        {
             $this->serializer = new ContentSerializer($config['contentType']);
         }
 
@@ -146,7 +147,8 @@ class JsonapiView extends BaseApiView
      */
     public function displayList(array $items = null)
     {
-        foreach (FieldsHelper::getFields('com_content.article') as $field) {
+        foreach (FieldsHelper::getFields('com_content.article') as $field) 
+        {
             $this->fieldsToRenderList[] = $field->name;
         }
 
@@ -166,11 +168,13 @@ class JsonapiView extends BaseApiView
     {
         $this->relationship[] = 'modified_by';
 
-        foreach (FieldsHelper::getFields('com_content.article') as $field) {
+        foreach (FieldsHelper::getFields('com_content.article') as $field) 
+        {
             $this->fieldsToRenderItem[] = $field->name;
         }
 
-        if (Multilanguage::isEnabled()) {
+        if (Multilanguage::isEnabled()) 
+        {
             $this->fieldsToRenderItem[] = 'languageAssociations';
             $this->relationship[]       = 'languageAssociations';
         }
@@ -195,14 +199,17 @@ class JsonapiView extends BaseApiView
         PluginHelper::importPlugin('content');
         Factory::getApplication()->triggerEvent('onContentPrepare', ['com_content.article', &$item, &$item->params]);
 
-        foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field) {
+        foreach (FieldsHelper::getFields('com_content.article', $item, true) as $field) 
+        {
             $item->{$field->name} = $field->apivalue ?? $field->rawvalue;
         }
 
-        if (Multilanguage::isEnabled() && !empty($item->associations)) {
+        if (Multilanguage::isEnabled() && !empty($item->associations)) 
+        {
             $associations = [];
 
-            foreach ($item->associations as $language => $association) {
+            foreach ($item->associations as $language => $association) 
+            {
                 $itemId = explode(':', $association)[0];
 
                 $associations[] = (object) [
@@ -214,32 +221,39 @@ class JsonapiView extends BaseApiView
             $item->associations = $associations;
         }
 
-        if (!empty($item->tags->tags)) {
+        if (!empty($item->tags->tags)) 
+        {
             $tagsIds   = explode(',', $item->tags->tags);
             $tagsNames = $item->tagsHelper->getTagNames($tagsIds);
 
             $item->tags = array_combine($tagsIds, $tagsNames);
-        } else {
+        } 
+        else 
+        {
             $item->tags = [];
             $tags = new TagsHelper();
             $tagsIds = $tags->getTagIds($item->id, 'com_content.article');
 
-            if (!empty($tagsIds)) {
+            if (!empty($tagsIds)) 
+            {
                 $tagsIds    = explode(',', $tagsIds);
                 $tagsNames  = $tags->getTagNames($tagsIds);
                 $item->tags = array_combine($tagsIds, $tagsNames);
             }
         }
 
-        if (isset($item->images)) {
+        if (isset($item->images)) 
+        {
             $registry = new Registry($item->images);
             $item->images = $registry->toArray();
 
-            if (!empty($item->images['image_intro'])) {
+            if (!empty($item->images['image_intro'])) 
+            {
                 $item->images['image_intro'] = ContentHelper::resolve($item->images['image_intro']);
             }
 
-            if (!empty($item->images['image_fulltext'])) {
+            if (!empty($item->images['image_fulltext'])) 
+            {
                 $item->images['image_fulltext'] = ContentHelper::resolve($item->images['image_fulltext']);
             }
         }

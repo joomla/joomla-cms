@@ -33,16 +33,20 @@ class WebInstaller {
     cancelButton.addEventListener('click', () => {
       document.getElementById('uploadform-web').classList.add('hidden');
 
-      if (webInstallerOptions.list && document.querySelector('.list-view')) {
+      if (webInstallerOptions.list && document.querySelector('.list-view')) 
+      {
         document.querySelector('.list-view').click();
       }
     });
 
     const installButton = document.getElementById('uploadform-web-install');
     installButton.addEventListener('click', () => {
-      if (webInstallerOptions.options.installFrom === 4) {
+      if (webInstallerOptions.options.installFrom === 4) 
+      {
         this.submitButtonUrl();
-      } else {
+      } 
+      else 
+      {
         this.submitButtonWeb();
       }
     });
@@ -53,7 +57,8 @@ class WebInstaller {
   }
 
   loadweb(url) {
-    if (!url) {
+    if (!url) 
+    {
       return false;
     }
 
@@ -61,7 +66,8 @@ class WebInstaller {
     const pattern1 = new RegExp(webInstallerOptions.options.base_url);
     const pattern2 = /^index\.php/;
 
-    if (!(pattern1.test(url) || pattern2.test(url))) {
+    if (!(pattern1.test(url) || pattern2.test(url))) 
+    {
       window.open(url, '_blank');
 
       return false;
@@ -72,12 +78,14 @@ class WebInstaller {
     const orderingSelect = document.getElementById('com-apps-ordering');
     const versionSelect = document.getElementById('com-apps-filter-joomla-version');
 
-    if (webInstallerOptions.ordering !== '' && orderingSelect && orderingSelect.value) {
+    if (webInstallerOptions.ordering !== '' && orderingSelect && orderingSelect.value) 
+    {
       webInstallerOptions.ordering = orderingSelect.value;
       requestUrl += `&ordering=${webInstallerOptions.ordering}`;
     }
 
-    if (webInstallerOptions.version !== '' && versionSelect && versionSelect.value) {
+    if (webInstallerOptions.version !== '' && versionSelect && versionSelect.value) 
+    {
       webInstallerOptions.version = versionSelect.value;
       requestUrl += `&filter_version=${webInstallerOptions.version}`;
     }
@@ -90,13 +98,17 @@ class WebInstaller {
         onSuccess: (resp) => {
           let response;
 
-          try {
+          try 
+          {
             response = JSON.parse(resp);
-          } catch (error) {
+          } 
+          catch (error) 
+          {
             throw new Error('Failed to parse JSON');
           }
 
-          if (document.getElementById('web-loader')) {
+          if (document.getElementById('web-loader')) 
+          {
             document.getElementById('web-loader').classList.add('hidden');
           }
 
@@ -104,7 +116,8 @@ class WebInstaller {
           jedContainer.innerHTML = Joomla.sanitizeHtml(response.data.html, allowList);
 
           document.getElementById('com-apps-searchbox').addEventListener('keypress', ({ which }) => {
-            if (which === 13) {
+            if (which === 13) 
+            {
               this.initiateSearch();
             }
           });
@@ -120,7 +133,8 @@ class WebInstaller {
             document.getElementById('search-reset').setAttribute('disabled', 'disabled');
           });
 
-          if (document.getElementById('com-apps-searchbox').value === '') {
+          if (document.getElementById('com-apps-searchbox').value === '') 
+          {
             document.getElementById('search-reset').setAttribute('disabled', 'disabled');
           }
 
@@ -131,7 +145,8 @@ class WebInstaller {
           // eslint-disable-next-line no-shadow
           const versionSelect = document.getElementById('com-apps-filter-joomla-version');
 
-          if (orderingSelect) {
+          if (orderingSelect) 
+          {
             orderingSelect.addEventListener('change', () => {
               const index = orderingSelect.selectedIndex;
               webInstallerOptions.ordering = orderingSelect.options[index].value;
@@ -139,7 +154,8 @@ class WebInstaller {
             });
           }
 
-          if (versionSelect) {
+          if (versionSelect) 
+          {
             versionSelect.addEventListener('change', () => {
               const index = versionSelect.selectedIndex;
               webInstallerOptions.version = versionSelect.options[index].value;
@@ -147,7 +163,8 @@ class WebInstaller {
             });
           }
 
-          if (webInstallerOptions.options.installfrom_url !== '') {
+          if (webInstallerOptions.options.installfrom_url !== '') 
+          {
             WebInstaller.installfromweb(webInstallerOptions.options.installfrom_url);
           }
 
@@ -157,11 +174,13 @@ class WebInstaller {
           const errorContainer = document.getElementById('web-loader-error');
           const loaderContainer = document.getElementById('web-loader');
 
-          if (request.responseText && errorContainer) {
+          if (request.responseText && errorContainer) 
+          {
             errorContainer.innerHTML = Joomla.sanitizeHtml(request.responseText);
           }
 
-          if (loaderContainer) {
+          if (loaderContainer) 
+          {
             loaderContainer.classList.add('hidden');
             errorContainer.classList.remove('hidden');
           }
@@ -176,14 +195,16 @@ class WebInstaller {
 
       const installAtField = document.getElementById('joomlaapsinstallatinput');
 
-      if (installAtField) {
+      if (installAtField) 
+      {
         installAtField.value = webInstallerOptions.options.installat_url;
       }
 
       this.clickforlinks();
       WebInstaller.clicker();
 
-      if (webInstallerOptions.view !== 'extension') {
+      if (webInstallerOptions.view !== 'extension') 
+      {
         [].slice.call(document.querySelectorAll('div.load-extension')).forEach((element) => {
           element.addEventListener('click', (event) => {
             event.preventDefault();
@@ -194,23 +215,27 @@ class WebInstaller {
         });
       }
 
-      if (webInstallerOptions.view === 'extension') {
+      if (webInstallerOptions.view === 'extension') 
+      {
         const installExtensionButton = document.getElementById('install-extension');
         const installExtensionFromExternalButton = document.getElementById('install-extension-from-external');
 
-        if (installExtensionButton) {
+        if (installExtensionButton) 
+        {
           installExtensionButton.addEventListener('click', () => {
             WebInstaller.installfromweb(installExtensionButton.getAttribute('data-downloadurl'), installExtensionButton.getAttribute('data-name'));
             document.getElementById('uploadform-web-install').scrollIntoView({ behavior: 'smooth', block: 'start' });
           });
         }
 
-        if (installExtensionFromExternalButton) {
+        if (installExtensionFromExternalButton) 
+        {
           installExtensionFromExternalButton.addEventListener('click', () => {
             const redirectUrl = installExtensionFromExternalButton.getAttribute('data-downloadurl');
             const redirectConfirm = window.confirm(Joomla.Text._('PLG_INSTALLER_WEBINSTALLER_REDIRECT_TO_EXTERNAL_SITE_TO_INSTALL').replace('[SITEURL]', redirectUrl));
 
-            if (redirectConfirm !== true) {
+            if (redirectConfirm !== true) 
+            {
               return;
             }
 
@@ -226,7 +251,8 @@ class WebInstaller {
         }
       }
 
-      if (webInstallerOptions.list && document.querySelector('.list-view')) {
+      if (webInstallerOptions.list && document.querySelector('.list-view')) 
+      {
         document.querySelector('.list-view').click();
       }
 
@@ -258,11 +284,13 @@ class WebInstaller {
   installfromwebajaxsubmit() {
     let tail = `&view=${webInstallerOptions.view}`;
 
-    if (webInstallerOptions.id) {
+    if (webInstallerOptions.id) 
+    {
       tail += `&id=${webInstallerOptions.id}`;
     }
 
-    if (document.getElementById('com-apps-searchbox').value) {
+    if (document.getElementById('com-apps-searchbox').value) 
+    {
       const value = encodeURI(document.getElementById('com-apps-searchbox').value.toLowerCase().replace(/ +/g, '_').replace(/[^a-z0-9-_]/g, '').trim());
       tail += `&filter_search=${value}`;
     }
@@ -270,19 +298,23 @@ class WebInstaller {
     const orderingSelect = document.getElementById('com-apps-ordering');
     const versionSelect = document.getElementById('com-apps-filter-joomla-version');
 
-    if (webInstallerOptions.ordering !== '' && orderingSelect && orderingSelect.value) {
+    if (webInstallerOptions.ordering !== '' && orderingSelect && orderingSelect.value) 
+    {
       webInstallerOptions.ordering = orderingSelect.value;
     }
 
-    if (webInstallerOptions.ordering) {
+    if (webInstallerOptions.ordering) 
+    {
       tail += `&ordering=${webInstallerOptions.ordering}`;
     }
 
-    if (webInstallerOptions.version !== '' && versionSelect && versionSelect.value) {
+    if (webInstallerOptions.version !== '' && versionSelect && versionSelect.value) 
+    {
       webInstallerOptions.version = versionSelect.value;
     }
 
-    if (webInstallerOptions.version) {
+    if (webInstallerOptions.version) 
+    {
       tail += `&filter_version=${webInstallerOptions.version}`;
     }
 
@@ -293,17 +325,23 @@ class WebInstaller {
     const pattern1 = new RegExp(webInstallerOptions.options.base_url);
     const pattern2 = /^index\.php/;
 
-    if (pattern1.test(url) || pattern2.test(url)) {
+    if (pattern1.test(url) || pattern2.test(url)) 
+    {
       webInstallerOptions.view = url.replace(/^.+[&?]view=(\w+).*$/, '$1');
 
-      if (webInstallerOptions.view === 'dashboard') {
+      if (webInstallerOptions.view === 'dashboard') 
+      {
         webInstallerOptions.id = 0;
-      } else if (webInstallerOptions.view === 'category') {
+      } 
+      else if (webInstallerOptions.view === 'category') 
+      {
         webInstallerOptions.id = url.replace(/^.+[&?]id=(\d+).*$/, '$1');
       }
 
       this.loadweb(webInstallerOptions.options.base_url + url);
-    } else {
+    } 
+    else 
+    {
       this.loadweb(url);
     }
   }
@@ -318,7 +356,8 @@ class WebInstaller {
   }
 
   static clicker() {
-    if (document.querySelector('.grid-view')) {
+    if (document.querySelector('.grid-view')) 
+    {
       document.querySelector('.grid-view').addEventListener('click', () => {
         webInstallerOptions.list = 0;
         document.querySelector('.list-container').classList.add('hidden');
@@ -328,7 +367,8 @@ class WebInstaller {
       });
     }
 
-    if (document.querySelector('.list-view')) {
+    if (document.querySelector('.list-view')) 
+    {
       document.querySelector('.list-view').addEventListener('click', () => {
         webInstallerOptions.list = 1;
         document.querySelector('.grid-container').classList.add('hidden');
@@ -345,7 +385,8 @@ class WebInstaller {
    * @returns {boolean}
    */
   static installfromweb(installUrl, name = null) {
-    if (!installUrl) {
+    if (!installUrl) 
+    {
       Joomla.renderMessages({ warning: [Joomla.Text._('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN')] });
 
       return false;
@@ -354,10 +395,13 @@ class WebInstaller {
     document.getElementById('install_url').value = installUrl;
     document.getElementById('uploadform-web-url').innerText = installUrl;
 
-    if (name) {
+    if (name) 
+    {
       document.getElementById('uploadform-web-name').innerText = name;
       document.getElementById('uploadform-web-name-label').classList.remove('hidden');
-    } else {
+    } 
+    else 
+    {
       document.getElementById('uploadform-web-name-label').classList.add('hidden');
     }
 
@@ -371,11 +415,15 @@ class WebInstaller {
     const form = document.getElementById('adminForm');
 
     // do field validation
-    if (form.install_url.value === '' || form.install_url.value === 'http://' || form.install_url.value === 'https://') {
+    if (form.install_url.value === '' || form.install_url.value === 'http://' || form.install_url.value === 'https://') 
+    {
       Joomla.renderMessages({ warning: [Joomla.Text._('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL')] });
-    } else {
+    } 
+    else 
+    {
       const loading = document.getElementById('loading');
-      if (loading) {
+      if (loading) 
+      {
         loading.classList.remove('hidden');
       }
 
@@ -388,11 +436,16 @@ class WebInstaller {
     const form = document.getElementById('adminForm');
 
     // do field validation
-    if (form.install_url.value !== '' || form.install_url.value !== 'http://' || form.install_url.value !== 'https://') {
+    if (form.install_url.value !== '' || form.install_url.value !== 'http://' || form.install_url.value !== 'https://') 
+    {
       this.submitButtonUrl();
-    } else if (form.install_url.value === '') {
+    } 
+    else if (form.install_url.value === '') 
+    {
       Joomla.renderMessages({ warning: [Joomla.apps.options.btntxt] });
-    } else {
+    } 
+    else 
+    {
       document.querySelector('#appsloading').classList.remove('hidden');
       form.installtype.value = 'web';
       form.submit();
@@ -405,25 +458,30 @@ customElements.whenDefined('joomla-tab').then(() => {
   const link = installerTabs.querySelector('button[aria-controls=web]');
 
   // Abort if the IFW tab cannot be found
-  if (!link) {
+  if (!link) 
+  {
     return;
   }
 
-  if (webInstallerOptions.options.installfromon) {
+  if (webInstallerOptions.options.installfromon) 
+  {
     link.click();
   }
 
-  if (link.hasAttribute('aria-expanded') && link.getAttribute('aria-expanded') === 'true' && !instance) {
+  if (link.hasAttribute('aria-expanded') && link.getAttribute('aria-expanded') === 'true' && !instance) 
+  {
     instance = new WebInstaller();
     instance.initialise();
   }
 
-  if (webInstallerOptions.options.installfrom_url !== '') {
+  if (webInstallerOptions.options.installfrom_url !== '') 
+  {
     link.click();
   }
 
   link.addEventListener('joomla.tab.shown', () => {
-    if (!instance) {
+    if (!instance) 
+    {
       instance = new WebInstaller();
       instance.initialise();
     }

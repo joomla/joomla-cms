@@ -68,8 +68,10 @@ class ContactController extends ApiController
      */
     protected function preprocessSaveData(array $data): array
     {
-        foreach (FieldsHelper::getFields('com_contact.contact') as $field) {
-            if (isset($data[$field->name])) {
+        foreach (FieldsHelper::getFields('com_contact.contact') as $field) 
+        {
+            if (isset($data[$field->name])) 
+            {
                 !isset($data['com_fields']) && $data['com_fields'] = [];
 
                 $data['com_fields'][$field->name] = $data[$field->name];
@@ -90,7 +92,8 @@ class ContactController extends ApiController
      */
     public function submitForm($id = null)
     {
-        if ($id === null) {
+        if ($id === null) 
+        {
             $id = $this->input->post->get('id', 0, 'int');
         }
 
@@ -99,7 +102,8 @@ class ContactController extends ApiController
         /** @var  \Joomla\Component\Contact\Site\Model\ContactModel $model */
         $model = $this->getModel($modelName, 'Site');
 
-        if (!$model) {
+        if (!$model) 
+        {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
         }
 
@@ -108,13 +112,15 @@ class ContactController extends ApiController
         $data    = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
         $contact = $model->getItem($id);
 
-        if ($contact->id === null) {
+        if ($contact->id === null) 
+        {
             throw new RouteNotFoundException('Item does not exist');
         }
 
         $contactParams = new Registry($contact->params);
 
-        if (!$contactParams->get('show_email_form')) {
+        if (!$contactParams->get('show_email_form')) 
+        {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_DISPLAY_EMAIL_FORM'));
         }
 
@@ -126,18 +132,24 @@ class ContactController extends ApiController
         // Validate the posted data.
         $form = $model->getForm();
 
-        if (!$form) {
+        if (!$form) 
+        {
             throw new \RuntimeException($model->getError(), 500);
         }
 
-        if (!$model->validate($form, $data)) {
+        if (!$model->validate($form, $data)) 
+        {
             $errors   = $model->getErrors();
             $messages = [];
 
-            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
-                if ($errors[$i] instanceof \Exception) {
+            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) 
+            {
+                if ($errors[$i] instanceof \Exception) 
+                {
                     $messages[] = "{$errors[$i]->getMessage()}";
-                } else {
+                }
+                else 
+                {
                     $messages[] = "{$errors[$i]}";
                 }
             }
@@ -148,8 +160,10 @@ class ContactController extends ApiController
         // Validation succeeded, continue with custom handlers
         $results = $this->app->triggerEvent('onValidateContact', [&$contact, &$data]);
 
-        foreach ($results as $result) {
-            if ($result instanceof \Exception) {
+        foreach ($results as $result) 
+        {
+            if ($result instanceof \Exception) 
+            {
                 throw new InvalidParameterException($result->getMessage());
             }
         }
@@ -162,11 +176,13 @@ class ContactController extends ApiController
 
         $params = ComponentHelper::getParams('com_contact');
 
-        if (!$params->get('custom_reply')) {
+        if (!$params->get('custom_reply')) 
+        {
             $sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy', 0));
         }
 
-        if (!$sent) {
+        if (!$sent) 
+        {
             throw new SendEmail('Error sending message');
         }
 
@@ -190,7 +206,8 @@ class ContactController extends ApiController
 
         Factory::getLanguage()->load('com_contact', JPATH_SITE, $app->getLanguage()->getTag(), true);
 
-        if ($contact->email_to == '' && $contact->user_id != 0) {
+        if ($contact->email_to == '' && $contact->user_id != 0) 
+        {
             $contact_user      = User::getInstance($contact->user_id);
             $contact->email_to = $contact_user->get('email');
         }
@@ -207,7 +224,8 @@ class ContactController extends ApiController
         ];
 
         // Load the custom fields
-        if (!empty($data['com_fields']) && $fields = FieldsHelper::getFields('com_contact.mail', $contact, true, $data['com_fields'])) {
+        if (!empty($data['com_fields']) && $fields = FieldsHelper::getFields('com_contact.mail', $contact, true, $data['com_fields'])) 
+        {
             $output = FieldsHelper::render(
                 'com_contact.mail',
                 'fields.render',
@@ -218,7 +236,8 @@ class ContactController extends ApiController
                 ]
             );
 
-            if ($output) {
+            if ($output) 
+            {
                 $templateData['customfields'] = $output;
             }
         }
@@ -231,19 +250,24 @@ class ContactController extends ApiController
             $sent = $mailer->send();
 
             // If we are supposed to copy the sender, do so.
-            if ($emailCopyToSender == true && !empty($data['contact_email_copy'])) {
+            if ($emailCopyToSender == true && !empty($data['contact_email_copy'])) 
+            {
                 $mailer = new MailTemplate('com_contact.mail.copy', $app->getLanguage()->getTag());
                 $mailer->addRecipient($templateData['email']);
                 $mailer->setReplyTo($templateData['email'], $templateData['name']);
                 $mailer->addTemplateData($templateData);
                 $sent = $mailer->send();
             }
-        } catch (MailDisabledException | phpMailerException $exception) {
+        } 
+        catch (MailDisabledException | phpMailerException $exception) 
+        {
             try {
                 Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
 
                 $sent = false;
-            } catch (\RuntimeException $exception) {
+            } 
+            catch (\RuntimeException $exception) 
+            {
                 Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
 
                 $sent = false;

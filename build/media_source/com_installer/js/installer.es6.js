@@ -10,7 +10,8 @@
     const loading = document.getElementById('loading');
     const installer = document.getElementById('installer-install');
 
-    if (loading && installer) {
+    if (loading && installer) 
+    {
       loading.style.position = 'absolute';
       loading.style.top = 0;
       loading.style.left = 0;

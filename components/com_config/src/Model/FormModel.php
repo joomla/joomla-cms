@@ -52,23 +52,27 @@ abstract class FormModel extends BaseForm
     public function checkin($pk = null)
     {
         // Only attempt to check the row in if it exists.
-        if ($pk) {
+        if ($pk) 
+        {
             $user = Factory::getUser();
 
             // Get an instance of the row to checkin.
             $table = $this->getTable();
 
-            if (!$table->load($pk)) {
+            if (!$table->load($pk)) 
+            {
                 throw new \RuntimeException($table->getError());
             }
 
             // Check if this is the user has previously checked out the row.
-            if (!is_null($table->checked_out) && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin')) {
+            if (!is_null($table->checked_out) && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin')) 
+            {
                 throw new \RuntimeException($table->getError());
             }
 
             // Attempt to check the row in.
-            if (!$table->checkIn($pk)) {
+            if (!$table->checkIn($pk)) 
+            {
                 throw new \RuntimeException($table->getError());
             }
         }
@@ -88,23 +92,27 @@ abstract class FormModel extends BaseForm
     public function checkout($pk = null)
     {
         // Only attempt to check the row in if it exists.
-        if ($pk) {
+        if ($pk) 
+        {
             $user = Factory::getUser();
 
             // Get an instance of the row to checkout.
             $table = $this->getTable();
 
-            if (!$table->load($pk)) {
+            if (!$table->load($pk)) 
+            {
                 throw new \RuntimeException($table->getError());
             }
 
             // Check if this is the user having previously checked out the row.
-            if (!is_null($table->checked_out) && $table->checked_out != $user->get('id')) {
+            if (!is_null($table->checked_out) && $table->checked_out != $user->get('id')) 
+            {
                 throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
             }
 
             // Attempt to check the row out.
-            if (!$table->checkOut($user->get('id'), $pk)) {
+            if (!$table->checkOut($user->get('id'), $pk)) 
+            {
                 throw new \RuntimeException($table->getError());
             }
         }
@@ -135,7 +143,8 @@ abstract class FormModel extends BaseForm
         $hash = sha1($source . serialize($options));
 
         // Check if we can use a previously loaded form.
-        if (isset($this->_forms[$hash]) && !$clear) {
+        if (isset($this->_forms[$hash]) && !$clear) 
+        {
             return $this->_forms[$hash];
         }
 
@@ -143,14 +152,18 @@ abstract class FormModel extends BaseForm
         Form::addFormPath(JPATH_SITE . '/components/com_config/forms');
         Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_config/forms');
 
-        try {
+        try 
+        {
             // Get the form.
             $form = Form::getInstance($name, $source, $options, false, $xpath);
 
-            if (isset($options['load_data']) && $options['load_data']) {
+            if (isset($options['load_data']) && $options['load_data']) 
+            {
                 // Get the data for the form.
                 $data = $this->loadFormData();
-            } else {
+            } 
+            else 
+            {
                 $data = [];
             }
 
@@ -160,7 +173,9 @@ abstract class FormModel extends BaseForm
 
             // Load the data into the form after the plugins have operated.
             $form->bind($data);
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) 
+        {
             Factory::getApplication()->enqueueMessage($e->getMessage());
 
             return false;
@@ -246,17 +261,21 @@ abstract class FormModel extends BaseForm
         $return = $form->validate($data, $group);
 
         // Check for an error.
-        if ($return instanceof \Exception) {
+        if ($return instanceof \Exception) 
+        {
             Factory::getApplication()->enqueueMessage($return->getMessage(), 'error');
 
             return false;
         }
 
         // Check the validation results.
-        if ($return === false) {
+        if ($return === false) 
+        {
             // Get the validation messages from the form.
-            foreach ($form->getErrors() as $message) {
-                if ($message instanceof \Exception) {
+            foreach ($form->getErrors() as $message) 
+            {
+                if ($message instanceof \Exception) 
+                {
                     $message = $message->getMessage();
                 }
 

@@ -9,7 +9,8 @@
     window.jSelectModuleType = () => {
       const elements = document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn.hidden');
 
-      if (elements.length) {
+      if (elements.length) 
+      {
         setTimeout(() => {
           elements.forEach((button) => {
             button.classList.remove('hidden');
@@ -22,9 +23,11 @@
     const hideButtons = [];
     let isSaving = false;
 
-    if (buttons.length) {
+    if (buttons.length) 
+    {
       buttons.forEach((button) => {
-        if (button.classList.contains('hidden')) {
+        if (button.classList.contains('hidden')) 
+        {
           hideButtons.push(button);
         }
 
@@ -33,11 +36,13 @@
 
           // There is some bug with events in iframe where currentTarget is "null"
           // => prevent this here by bubble up
-          if (!elem) {
+          if (!elem) 
+          {
             elem = event.target;
           }
 
-          if (elem) {
+          if (elem) 
+          {
             const clickTarget = elem.dataset.bsTarget;
 
             // We remember to be in the saving process
@@ -50,7 +55,8 @@
             const content = iframe.contentDocument || iframe.contentWindow.document;
             const targetBtn = content.querySelector(clickTarget);
 
-            if (targetBtn) {
+            if (targetBtn) 
+            {
               targetBtn.click();
             }
           }
@@ -60,7 +66,8 @@
 
     const elementH = document.querySelector('#moduleDashboardAddModal');
 
-    if (elementH) {
+    if (elementH) 
+    {
       elementH.addEventListener('hide.bs.modal', () => {
         hideButtons.forEach((button) => {
           button.classList.add('hidden');
@@ -68,7 +75,8 @@
       });
 
       elementH.addEventListener('hidden.bs.modal', () => {
-        if (isSaving) {
+        if (isSaving) 
+        {
           setTimeout(() => { window.parent.location.reload(); }, 1000);
         }
       });

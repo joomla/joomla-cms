@@ -3,7 +3,8 @@ const { basename, dirname, sep } = require('path');
 const { minifyJs } = require('./minify.es6.js');
 
 module.exports.handleES5File = async (file) => {
-  if (file.match(/\.es5\.js$/)) {
+  if (file.match(/\.es5\.js$/)) 
+  {
     // eslint-disable-next-line no-console
     console.log(`Processing Legacy js file: ${basename(file)}...`);
     // ES5 file, we will copy the file and then minify it in place

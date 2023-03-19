@@ -20,14 +20,19 @@ $fieldSets = $this->form->getFieldsets('params');
 <?php
 
 // Search for com_config field set
-if (!empty($fieldSets['com_config'])) {
+if (!empty($fieldSets['com_config'])) 
+{
     echo $this->form->renderFieldset('com_config');
-} else {
+} 
+else 
+{
     // Fall-back to display all in params
-    foreach ($fieldSets as $name => $fieldSet) {
+    foreach ($fieldSets as $name => $fieldSet) 
+    {
         $label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CONFIG_' . $name . '_FIELDSET_LABEL';
 
-        if (isset($fieldSet->description) && trim($fieldSet->description)) {
+        if (isset($fieldSet->description) && trim($fieldSet->description)) 
+        {
             echo '<p class="tip">' . $this->escape(Text::_($fieldSet->description)) . '</p>';
         }
 

@@ -266,7 +266,8 @@ system('cp build/fido.jwt ' . $fullpath . '/plugins/system/webauthn/fido.jwt');
 chdir($fullpath);
 system('composer install --no-dev --no-autoloader --ignore-platform-reqs', $composerReturnCode);
 
-if ($composerReturnCode !== 0) {
+if ($composerReturnCode !== 0) 
+{
     echo "`composer install` did not complete as expected.\n";
     exit(1);
 }
@@ -281,7 +282,8 @@ if (!file_exists(rtrim($fullpath, '\\/') . '/plugins/system/webauthn/fido.jwt'))
 
 system('npm install --unsafe-perm', $npmReturnCode);
 
-if ($npmReturnCode !== 0) {
+if ($npmReturnCode !== 0) 
+{
     echo "`npm install` did not complete as expected.\n";
     exit(1);
 }
@@ -289,7 +291,8 @@ if ($npmReturnCode !== 0) {
 // Create gzipped version of the static assets
 system('npm run gzip', $gzipReturnCode);
 
-if ($gzipReturnCode !== 0) {
+if ($gzipReturnCode !== 0) 
+{
     echo "`npm run gzip` did not complete as expected.\n";
     exit(1);
 }
@@ -297,7 +300,8 @@ if ($gzipReturnCode !== 0) {
 // Create version entries of the static assets in their respective joomla.asset.json
 system('npm run versioning', $verReturnCode);
 
-if ($verReturnCode !== 0) {
+if ($verReturnCode !== 0) 
+{
     echo "`npm run versioning` did not complete as expected.\n";
     exit(1);
 }
@@ -327,7 +331,8 @@ $fullVersion = (new Version())->getShortVersion();
 
 $previousRelease = Version::PATCH_VERSION - 1;
 
-if ($previousRelease < 0) {
+if ($previousRelease < 0) 
+{
     $previousRelease = false;
 }
 
@@ -435,13 +440,16 @@ $packageStability = str_replace(' ', '_', Version::DEV_STATUS);
 // Delete the files and folders we exclude from the packages (tests, docs, build, etc.).
 echo "Delete folders not included in packages.\n";
 
-foreach ($doNotPackage as $removeFile) {
+foreach ($doNotPackage as $removeFile) 
+{
     system('rm -rf ' . $time . '/' . $removeFile);
 }
 
 // Count down starting with the latest release and add diff files to this array
-for ($num = $release - 1; $num >= 0; $num--) {
-    if (!$buildPatchPackages) {
+for ($num = $release - 1; $num >= 0; $num--) 
+{
+    if (!$buildPatchPackages) 
+    {
         echo "Disabled creating patch package for $num per flag.\n";
         continue;
     }
@@ -459,10 +467,14 @@ for ($num = $release - 1; $num >= 0; $num--) {
     $files        = file('diffdocs/' . $version . '.' . $num);
 
     // Loop through and add all files except: tests, installation, build, .git, .travis, travis, phpunit, .md, or images
-    foreach ($files as $file) {
-        if (substr($file, 0, 1) === 'R') {
+    foreach ($files as $file) 
+    {
+        if (substr($file, 0, 1) === 'R') 
+        {
             $fileName = substr($file, strrpos($file, "\t") + 1);
-        } else {
+        } 
+        else 
+        {
             $fileName = substr($file, 2);
         }
 
@@ -476,17 +488,20 @@ for ($num = $release - 1; $num >= 0; $num--) {
 
         // The raw files for the vue files are not packaged but are not a top level directory so aren't handled by the
         // above checks. This is dirty but a fairly performant fix for now until we can come up with something better.
-        if (count($folderPath) >= 4) {
+        if (count($folderPath) >= 4) 
+        {
             $fullPath = [$folderPath[0] . '/' . $folderPath[1] . '/' . $folderPath[2] . '/' . $folderPath[3]];
             $dirtyHackForMediaCheck = in_array('administrator/components/com_media/resources', $fullPath);
         }
 
-        if ($dirtyHackForMediaCheck || $doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder) {
+        if ($dirtyHackForMediaCheck || $doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder) 
+        {
             continue;
         }
 
         // Act on the file based on the action
-        switch (substr($file, 0, 1)) {
+        switch (substr($file, 0, 1)) 
+        {
             // This is a new case with git 2.9 to handle renamed files
             case 'R':
                 // Explode the file on the tab character; key 0 is the action (rename), key 1 is the old filename, and key 2 is the new filename
@@ -521,7 +536,8 @@ for ($num = $release - 1; $num >= 0; $num--) {
     file_put_contents('diffconvert/' . $version . '.' . $num . '-deleted', $deletedFiles);
 
     // Only create archives for 0 and most recent versions. Skip other update versions.
-    if ($num != 0 && ($num != $release - 1)) {
+    if ($num != 0 && ($num != $release - 1)) 
+    {
         echo "Skipping patch archive for version $version.$num\n";
 
         continue;
@@ -530,7 +546,8 @@ for ($num = $release - 1; $num >= 0; $num--) {
     $fromName = $num == 0 ? 'x' : $num;
 
     // Create the diff archive packages using the file name list.
-    if (!$excludeBzip2) {
+    if (!$excludeBzip2) 
+    {
         $packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.bz2';
         echo "Building " . $packageName . "... ";
         system('tar --create --bzip2 --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
@@ -538,7 +555,8 @@ for ($num = $release - 1; $num >= 0; $num--) {
         $checksums[$packageName] = [];
     }
 
-    if (!$excludeGzip) {
+    if (!$excludeGzip) 
+    {
         $packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.gz';
         echo "Building " . $packageName . "... ";
         system('tar --create --gzip  --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
@@ -546,7 +564,8 @@ for ($num = $release - 1; $num >= 0; $num--) {
         $checksums[$packageName] = [];
     }
 
-    if (!$excludeZip) {
+    if (!$excludeZip) 
+    {
         $packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.zip';
         echo "Building " . $packageName . "... ";
         chdir($time);
@@ -556,7 +575,8 @@ for ($num = $release - 1; $num >= 0; $num--) {
         $checksums[$packageName] = [];
     }
 
-    if (!$excludeZstd) {
+    if (!$excludeZstd) 
+    {
         $packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.zst';
         echo "Building " . $packageName . "... ";
         system('tar --create --use-compress-program=zstd --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
@@ -575,7 +595,8 @@ system('mv administrator/manifests/packages/pkg_search.xml ../pkg_search.xml');
 system('mv administrator/components/com_joomlaupdate/restore_finalisation.php ../restore_finalisation.php');
 
 // Create full archive packages.
-if (!$excludeBzip2) {
+if (!$excludeBzip2) 
+{
     $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.bz2';
     echo "Building " . $packageName . "... ";
     system('tar --create --bzip2 --file ../packages/' . $packageName . ' * > /dev/null');
@@ -583,7 +604,8 @@ if (!$excludeBzip2) {
     $checksums[$packageName] = [];
 }
 
-if (!$excludeGzip) {
+if (!$excludeGzip) 
+{
     $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.gz';
     echo "Building " . $packageName . "... ";
     system('tar --create --gzip --file ../packages/' . $packageName . ' * > /dev/null');
@@ -591,7 +613,8 @@ if (!$excludeGzip) {
     $checksums[$packageName] = [];
 }
 
-if (!$excludeZip) {
+if (!$excludeZip) 
+{
     $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.zip';
     echo "Building " . $packageName . "... ";
     system('zip -r ../packages/' . $packageName . ' * > /dev/null');
@@ -599,7 +622,8 @@ if (!$excludeZip) {
     $checksums[$packageName] = [];
 }
 
-if (!$excludeZstd) {
+if (!$excludeZstd) 
+{
     $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.zst';
     echo "Building " . $packageName . "... ";
     system('tar --create --use-compress-program=zstd --file ../packages/' . $packageName . ' * > /dev/null');
@@ -623,7 +647,8 @@ system('mv ../pkg_search.xml administrator/manifests/packages/pkg_search.xml');
 // Move the restore_finalisation.php back
 system('mv ../restore_finalisation.php administrator/components/com_joomlaupdate/restore_finalisation.php');
 
-if (!$excludeBzip2) {
+if (!$excludeBzip2) 
+{
     $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2';
     echo "Building " . $packageName . "... ";
     system('tar --create --bzip2 --file ../packages/' . $packageName . ' * > /dev/null');
@@ -631,7 +656,8 @@ if (!$excludeBzip2) {
     $checksums[$packageName] = [];
 }
 
-if (!$excludeGzip) {
+if (!$excludeGzip) 
+{
     $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.gz';
     echo "Building " . $packageName . "... ";
     system('tar --create --gzip --file ../packages/' . $packageName . ' * > /dev/null');
@@ -639,7 +665,8 @@ if (!$excludeGzip) {
     $checksums[$packageName] = [];
 }
 
-if (!$excludeZip) {
+if (!$excludeZip) 
+{
     $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.zip';
     echo "Building " . $packageName . "... ";
     system('zip -r ../packages/' . $packageName . ' * > /dev/null');
@@ -647,7 +674,8 @@ if (!$excludeZip) {
     $checksums[$packageName] = [];
 }
 
-if (!$excludeZstd) {
+if (!$excludeZstd) 
+{
     $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.zst';
     echo "Building " . $packageName . "... ";
     system('tar --create --use-compress-program=zstd --file ../packages/' . $packageName . ' * > /dev/null');
@@ -658,14 +686,19 @@ if (!$excludeZstd) {
 chdir('..');
 
 // This is only needed when we release a version
-if ($includeExtraTextfiles) {
+if ($includeExtraTextfiles) 
+{
     foreach (array_keys($checksums) as $packageName) {
         echo "Generating checksums for $packageName\n";
 
-        foreach (['sha256', 'sha384', 'sha512'] as $hash) {
-            if (file_exists('packages/' . $packageName)) {
+        foreach (['sha256', 'sha384', 'sha512'] as $hash) 
+        {
+            if (file_exists('packages/' . $packageName)) 
+            {
                 $checksums[$packageName][$hash] = hash_file($hash, 'packages/' . $packageName);
-            } else {
+            } 
+            else 
+            {
                 echo "Package $packageName not found in build directories\n";
             }
         }
@@ -675,10 +708,12 @@ if ($includeExtraTextfiles) {
 
     $checksumsContent = '';
 
-    foreach ($checksums as $packageName => $packageHashes) {
+    foreach ($checksums as $packageName => $packageHashes) 
+    {
         $checksumsContent .= "Filename: $packageName\n";
 
-        foreach ($packageHashes as $hashType => $hash) {
+        foreach ($packageHashes as $hashType => $hash) 
+        {
             $checksumsContent .= "$hashType: $hash\n";
         }
 
@@ -698,32 +733,44 @@ if ($includeExtraTextfiles) {
         'UPGRADE' => 'Update from Joomla! 3.10 ',
     ];
 
-    if (!$buildPatchPackages) {
+    if (!$buildPatchPackages) 
+    {
         $releaseText['UPGRADE'] = 'Update from a previous version of Joomla! ';
     }
 
     $githubLink = 'https://github.com/joomla/joomla-cms/releases/download/' . $tagVersion . '/';
 
-    foreach ($checksums as $packageName => $packageHashes) {
+    foreach ($checksums as $packageName => $packageHashes) 
+    {
         $type = '';
 
-        if (strpos($packageName, 'Full_Package') !== false) {
+        if (strpos($packageName, 'Full_Package') !== false) 
+        {
             $type = 'FULL';
-        } elseif (strpos($packageName, 'Patch_Package') !== false) {
-            if (strpos($packageName, '.x_to') !== false) {
+        } 
+        elseif (strpos($packageName, 'Patch_Package') !== false) 
+        {
+            if (strpos($packageName, '.x_to') !== false) 
+            {
                 $type = 'MINOR';
-            } else {
+            } 
+            else 
+            {
                 $type = 'POINT';
             }
-        } elseif (strpos($packageName, 'Update_Package') !== false) {
+        } 
+        elseif (strpos($packageName, 'Update_Package') !== false) 
+        {
             $type = 'UPGRADE';
         }
 
         $githubContent[$type][] = '[' . substr($packageName, strpos($packageName, 'Package') + 7) . '](' . $githubLink . $packageName . ')';
     }
 
-    foreach ($releaseText as $type => $text) {
-        if (empty($githubContent[$type])) {
+    foreach ($releaseText as $type => $text) 
+    {
+        if (empty($githubContent[$type])) 
+        {
             continue;
         }
 

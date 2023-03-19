@@ -73,11 +73,14 @@ class ContactModel extends FormModel
         /** @var SiteApplication $app */
         $app = Factory::getContainer()->get(SiteApplication::class);
 
-        if (Factory::getApplication()->isClient('api')) {
+        if (Factory::getApplication()->isClient('api')) 
+        {
             // @todo: remove this
             $app->loadLanguage();
             $this->setState('contact.id', Factory::getApplication()->input->post->getInt('id'));
-        } else {
+        } 
+        else 
+        {
             $this->setState('contact.id', $app->input->getInt('id'));
         }
 
@@ -106,7 +109,8 @@ class ContactModel extends FormModel
     {
         $form = $this->loadForm('com_contact.contact', 'contact', ['control' => 'jform', 'load_data' => true]);
 
-        if (empty($form)) {
+        if (empty($form)) 
+        {
             return false;
         }
 
@@ -114,9 +118,11 @@ class ContactModel extends FormModel
         $contact = $this->_item[$this->getState('contact.id')];
         $active = Factory::getContainer()->get(SiteApplication::class)->getMenu()->getActive();
 
-        if ($active) {
+        if ($active) 
+        {
             // If the current view is the active item and a contact view for this contact, then the menu item params take priority
-            if (strpos($active->link, 'view=contact') && strpos($active->link, '&id=' . (int) $contact->id)) {
+            if (strpos($active->link, 'view=contact') && strpos($active->link, '&id=' . (int) $contact->id)) 
+            {
                 // $contact->params are the contact params, $temp are the menu item params
                 // Merge so that the menu item params take priority
                 $contact->params->merge($temp);
@@ -126,13 +132,16 @@ class ContactModel extends FormModel
                 $temp->merge($contact->params);
                 $contact->params = $temp;
             }
-        } else {
+        } 
+        else 
+        {
             // Merge so that contact params take priority
             $temp->merge($contact->params);
             $contact->params = $temp;
         }
 
-        if (!$contact->params->get('show_email_copy', 0)) {
+        if (!$contact->params->get('show_email_copy', 0)) 
+        {
             $form->removeField('contact_email_copy');
         }
 
@@ -150,12 +159,14 @@ class ContactModel extends FormModel
     {
         $data = (array) Factory::getApplication()->getUserState('com_contact.contact.data', []);
 
-        if (empty($data['language']) && Multilanguage::isEnabled()) {
+        if (empty($data['language']) && Multilanguage::isEnabled()) 
+        {
             $data['language'] = Factory::getLanguage()->getTag();
         }
 
         // Add contact catid to contact form data, so fields plugin can work properly
-        if (empty($data['catid'])) {
+        if (empty($data['catid'])) 
+        {
             $data['catid'] = $this->getItem()->catid;
         }
 
@@ -177,12 +188,15 @@ class ContactModel extends FormModel
     {
         $pk = $pk ?: (int) $this->getState('contact.id');
 
-        if ($this->_item === null) {
+        if ($this->_item === null) 
+        {
             $this->_item = [];
         }
 
-        if (!isset($this->_item[$pk])) {
-            try {
+        if (!isset($this->_item[$pk])) 
+        {
+            try 
+            {
                 $db    = $this->getDatabase();
                 $query = $db->getQuery(true);
 
@@ -208,10 +222,12 @@ class ContactModel extends FormModel
                 $published = $this->getState('filter.published');
                 $archived = $this->getState('filter.archived');
 
-                if (is_numeric($published)) {
+                if (is_numeric($published)) 
+                {
                     $queryString = $db->quoteName('a.published') . ' = :published';
 
-                    if ($archived !== null) {
+                    if ($archived !== null) 
+                    {
                         $queryString = '(' . $queryString . ' OR ' . $db->quoteName('a.published') . ' = :archived)';
                         $query->bind(':archived', $archived, ParameterType::INTEGER);
                     }
@@ -227,12 +243,14 @@ class ContactModel extends FormModel
                 $db->setQuery($query);
                 $data = $db->loadObject();
 
-                if (empty($data)) {
+                if (empty($data)) 
+                {
                     throw new \Exception(Text::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
                 }
 
                 // Check for published state if filter set.
-                if ((is_numeric($published) || is_numeric($archived)) && (($data->published != $published) && ($data->published != $archived))) {
+                if ((is_numeric($published) || is_numeric($archived)) && (($data->published != $published) && ($data->published != $archived))) 
+                {
                     throw new \Exception(Text::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
                 }
 
@@ -250,40 +268,53 @@ class ContactModel extends FormModel
                 $data->metadata = $registry;
 
                 // Some contexts may not use tags data at all, so we allow callers to disable loading tag data
-                if ($this->getState('load_tags', true)) {
+                if ($this->getState('load_tags', true)) 
+                {
                     $data->tags = new TagsHelper();
                     $data->tags->getItemTags('com_contact.contact', $data->id);
                 }
 
                 // Compute access permissions.
-                if (($access = $this->getState('filter.access'))) {
+                if (($access = $this->getState('filter.access'))) 
+                {
                     // If the access filter has been set, we already know this user can view.
                     $data->params->set('access-view', true);
-                } else {
+                } 
+                else 
+                {
                     // If no access filter is set, the layout takes some responsibility for display of limited information.
                     $user = Factory::getUser();
                     $groups = $user->getAuthorisedViewLevels();
 
-                    if ($data->catid == 0 || $data->category_access === null) {
+                    if ($data->catid == 0 || $data->category_access === null) 
+                    {
                         $data->params->set('access-view', in_array($data->access, $groups));
-                    } else {
+                    } 
+                    else 
+                    {
                         $data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
                     }
                 }
 
                 $this->_item[$pk] = $data;
-            } catch (\Exception $e) {
-                if ($e->getCode() == 404) {
+            } 
+            catch (\Exception $e) 
+            {
+                if ($e->getCode() == 404) 
+                {
                     // Need to go through the error handler to allow Redirect to work.
                     throw $e;
-                } else {
+                } 
+                else 
+                {
                     $this->setError($e);
                     $this->_item[$pk] = false;
                 }
             }
         }
 
-        if ($this->_item[$pk]) {
+        if ($this->_item[$pk]) 
+        {
             $this->buildContactExtendedData($this->_item[$pk]);
         }
 
@@ -308,12 +339,14 @@ class ContactModel extends FormModel
 
         // If we are showing a contact list, then the contact parameters take priority
         // So merge the contact parameters with the merged parameters
-        if ($this->getState('params')->get('show_contact_list')) {
+        if ($this->getState('params')->get('show_contact_list')) 
+        {
             $this->getState('params')->merge($contact->params);
         }
 
         // Get the com_content articles by the linked user
-        if ((int) $contact->user_id && $this->getState('params')->get('show_articles')) {
+        if ((int) $contact->user_id && $this->getState('params')->get('show_articles')) 
+        {
             $query->select('a.id')
                 ->select('a.title')
                 ->select('a.state')
@@ -334,12 +367,14 @@ class ContactModel extends FormModel
                 ->order('a.publish_up DESC');
 
             // Filter per language if plugin published
-            if (Multilanguage::isEnabled()) {
+            if (Multilanguage::isEnabled()) 
+            {
                 $language = [Factory::getLanguage()->getTag(), $db->quote('*')];
                 $query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
             }
 
-            if (is_numeric($published)) {
+            if (is_numeric($published)) 
+            {
                 $query->where('a.state IN (1,2)')
                     ->where('(' . $db->quoteName('a.publish_up') . ' IS NULL' .
                         ' OR ' . $db->quoteName('a.publish_up') . ' <= :now1)')
@@ -352,11 +387,13 @@ class ContactModel extends FormModel
             $articles_display_num = $this->getState('params')->get('articles_display_num', 10);
 
             // Use contact setting?
-            if ($articles_display_num === 'use_contact') {
+            if ($articles_display_num === 'use_contact') 
+            {
                 $articles_display_num = $contact->params->get('articles_display_num', 10);
 
                 // Use global?
-                if ((string) $articles_display_num === '') {
+                if ((string) $articles_display_num === '') 
+                {
                     $articles_display_num = ComponentHelper::getParams('com_contact')->get('articles_display_num', 10);
                 }
             }
@@ -364,7 +401,9 @@ class ContactModel extends FormModel
             $query->setLimit((int) $articles_display_num);
             $db->setQuery($query);
             $contact->articles = $db->loadObjectList();
-        } else {
+        } 
+        else 
+        {
             $contact->articles = null;
         }
 
@@ -426,7 +465,8 @@ class ContactModel extends FormModel
         $input = Factory::getApplication()->input;
         $hitcount = $input->getInt('hitcount', 1);
 
-        if ($hitcount) {
+        if ($hitcount) 
+        {
             $pk = $pk ?: (int) $this->getState('contact.id');
 
             $table = $this->getTable('Contact');

@@ -13,7 +13,8 @@
  *
  * @since    4.1.0
  */
-if (!window.Joomla) {
+if (!window.Joomla) 
+{
   throw new Error('Joomla API was not properly initialised');
 }
 

@@ -29,7 +29,8 @@ const addListeners = () => {
 const init = (image) => {
   // Set default aspect ratio after numeric check, option has a dummy value
   const defaultCropFactor = image.naturalWidth / image.naturalHeight;
-  if (!Number.isNaN(defaultCropFactor) && Number.isFinite(defaultCropFactor)) {
+  if (!Number.isNaN(defaultCropFactor) && Number.isFinite(defaultCropFactor)) 
+  {
     formElements.cropAspectRatioOption.value = defaultCropFactor;
   }
 
@@ -61,7 +62,8 @@ const init = (image) => {
   });
 
   // Add listeners
-  if (!activated) {
+  if (!activated) 
+  {
     addListeners();
   }
 
@@ -89,7 +91,8 @@ window.addEventListener('media-manager-edit-init', () => {
     },
     Deactivate(image) {
       return new Promise((resolve /* , reject */) => {
-        if (image.cropper) {
+        if (image.cropper) 
+        {
           image.cropper.destroy();
           instance = null;
         }

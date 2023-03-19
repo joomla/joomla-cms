@@ -22,7 +22,8 @@ $baseBranches      = '4.2-dev'; // '4.1-dev,4.2-dev,4.3-dev'; We only check for 
 
 $script = array_shift($argv);
 
-if (empty($argv)) {
+if (empty($argv)) 
+{
     echo <<<TEXT
         Joomla! PSR-12 Converter
         =======================
@@ -59,10 +60,13 @@ if (empty($argv)) {
     die(1);
 }
 
-foreach ($argv as $arg) {
-    if (substr($arg, 0, 2) === '--') {
+foreach ($argv as $arg) 
+{
+    if (substr($arg, 0, 2) === '--') 
+    {
         $argi = explode('=', $arg, 2);
-        switch ($argi[0]) {
+        switch ($argi[0]) 
+        {
             case '--pr':
                 $prNumber = $argi[1];
                 break;
@@ -70,13 +74,16 @@ foreach ($argv as $arg) {
                 $repoRoot = $argi[1];
                 break;
         }
-    } else {
+    } 
+    else 
+    {
         $checkPath = $arg;
         break;
     }
 }
 
-if (!$repoRoot) {
+if (!$repoRoot) 
+{
     die('You have to set the repository root! (--repo)');
 }
 
@@ -85,7 +92,8 @@ $output       = [];
 $scriptInRepo = false;
 $repoScript   = '';
 exec($cmd, $output, $result);
-if ($result === 0) {
+if ($result === 0) 
+{
     $scriptInRepo = true;
     $repoScript   = $output[0];
 }
@@ -93,13 +101,15 @@ if ($result === 0) {
 $cmd    = $git . ' -C "' . $repoRoot . '" rev-parse --show-toplevel';
 $output = [];
 exec($cmd, $output, $result);
-if ($result !== 0) {
+if ($result !== 0) 
+{
     die($repoRoot . ' is not a git repository.');
 }
 
 $repoRoot = $output[0];
 
-if ($scriptInRepo && $repoRoot === $repoScript) {
+if ($scriptInRepo && $repoRoot === $repoScript) 
+{
     die($script . ' must be located outside of the git repository');
 }
 
@@ -110,14 +120,16 @@ echo "Validate gh client...\n";
 $cmd    = $gh;
 $output = [];
 exec($cmd, $output, $result);
-if ($result !== 0) {
+if ($result !== 0) 
+{
     die('Github cli client not found. Please install the client first (https://cli.github.com)');
 }
 
 echo "Validate gh authentication...\n";
 $cmd = $gh . ' auth status';
 passthru($cmd, $result);
-if ($result !== 0) {
+if ($result !== 0) 
+{
     die('Please login with the github cli client first. (gh auth login)');
 }
 
@@ -141,24 +153,29 @@ $fieldList = [
 $branches = 'base:' . implode(' base:', explode(',', $baseBranches));
 
 
-if (!empty($prNumber)) {
+if (!empty($prNumber)) 
+{
     echo "Retrieving Pull Request " . $prNumber . "...\n";
     $cmd = $gh . ' pr view ' . $prNumber . ' --json ' . implode(',', $fieldList);
-} else {
+} 
+else 
+{
     echo "Retrieving Pull Request list...\n";
     $cmd = $gh . ' pr list --limit 1000 --json ' . implode(',', $fieldList) . ' --search "is:pr is:open -label:psr12 ' . $branches . '"';
 }
 
 $output = [];
 exec($cmd, $output, $result);
-if ($result !== 0) {
+if ($result !== 0) 
+{
     var_dump([$cmd, $output, $result]);
     die('Unable to retrieve PR list.');
 }
 
 $json = $output[0];
 
-if (!empty($prNumber)) {
+if (!empty($prNumber)) 
+{
     $json = '[' . $json . ']';
 }
 
@@ -166,13 +183,15 @@ $list = json_decode($json, true);
 
 echo "\nFound " . count($list) . " pull request(s).\n";
 
-foreach ($list as $pr) {
+foreach ($list as $pr) 
+{
     echo "Checkout #" . $pr['number'] . "\n";
 
     $cmd    = $gh . ' pr checkout ' . $pr['url'] . ' --force -b psr12/merge/' . $pr['number'];
     $output = [];
     exec($cmd, $output, $result);
-    if ($result !== 0) {
+    if ($result !== 0) 
+    {
         var_dump([$cmd, $output, $result]);
         die('Unable to checkout pr #' . $pr['number']);
     }
@@ -182,7 +201,8 @@ foreach ($list as $pr) {
     $cmd    = $git . ' merge psr12anchor';
     $output = [];
     exec($cmd, $output, $result);
-    if ($result !== 0) {
+    if ($result !== 0)
+    {
         var_dump([$cmd, $output, $result]);
         echo 'Unable to upmerge to psr12anchor pr #' . $pr['number'] . "\n";
         echo "Abort merge...\n";
@@ -197,7 +217,8 @@ foreach ($list as $pr) {
     $cmd = $git . ' diff --name-only psr12anchor..HEAD';
     $output = [];
     exec($cmd, $output, $result);
-    if (count($output) > 500) {
+    if (count($output) > 500) 
+    {
         var_dump([$cmd, $output, $result]);
         echo 'Too many files changed between psr12anchor and HEAD pr #' . $pr['number'] ."\n";
         continue;
@@ -208,7 +229,8 @@ foreach ($list as $pr) {
     $cmd = $php . ' ' . $scriptRoot . '/psr12_converter.php --task=branch --repo="' . $repoRoot . '"';
 
     passthru($cmd, $result);
-    if ($result !== 0) {
+    if ($result !== 0) 
+    {
         var_dump([$cmd, $result]);
         die('Unable to convert to psr-12 pr #' . $pr['number']);
     }
@@ -218,7 +240,8 @@ foreach ($list as $pr) {
     $cmd    = $git . ' merge --strategy=ort --strategy-option=ours psr12final';
     $output = [];
     exec($cmd, $output, $result);
-    if ($result !== 0) {
+    if ($result !== 0) 
+    {
 
         echo "Upmerge with strategy ort failed using fallback ours\n";
         var_dump([$cmd, $result]);
@@ -229,13 +252,15 @@ foreach ($list as $pr) {
         $cmd    = $git . ' merge --strategy=ours psr12final';
         $output = [];
         exec($cmd, $output, $result);
-        if ($result !== 0) {
+        if ($result !== 0) 
+        {
             var_dump([$cmd, $result]);
             die('Unable to upmerge to psr-12 pr #' . $pr['number']);
         }
     }
 
-    if (!$createPullRequest && $pr['maintainerCanModify'] === true) {
+    if (!$createPullRequest && $pr['maintainerCanModify'] === true) 
+    {
         echo "Push directly to PR branch\n";
 
         $cmd    = $git . ' push git@github.com:' . $pr['headRepositoryOwner']['login'] . '/' . $pr['headRepository']['name'] . '.git '
@@ -243,7 +268,8 @@ foreach ($list as $pr) {
         $output = [];
 
         exec($cmd, $output, $result);
-        if ($result !== 0) {
+        if ($result !== 0) 
+        {
             var_dump([$cmd, $output, $result]);
             die('Unable to directly push for pr #' . $pr['number']);
         }
@@ -251,18 +277,22 @@ foreach ($list as $pr) {
         $cmd    = $gh . ' pr comment ' . $pr['url'] . ' --body "This pull requests has been automatically converted to the PSR-12 coding standard."';
         $output = [];
         exec($cmd, $output, $result);
-        if ($result !== 0) {
+        if ($result !== 0) 
+        {
             var_dump([$cmd, $output, $result]);
             die('Unable to create a comment for pr #' . $pr['number']);
         }
-    } else {
+    } 
+    else 
+    {
         echo "Create pull request\n";
 
         $cmd    = $git . ' push --force -u github HEAD';
         $output = [];
 
         exec($cmd, $output, $result);
-        if ($result !== 0) {
+        if ($result !== 0) 
+        {
             var_dump([$cmd, $output, $result]);
             die('Unable to push to github for pr #' . $pr['number']);
         }
@@ -271,7 +301,8 @@ foreach ($list as $pr) {
             . '-R ' . $pr['headRepositoryOwner']['login'] . '/' . $pr['headRepository']['name'] . ' -B ' . str_replace('"', '\"', $pr['headRefName']);
         $output = [];
         exec($cmd, $output, $result);
-        if ($result !== 0) {
+        if ($result !== 0) 
+        {
             var_dump([$cmd, $output, $result]);
             die('Unable to create pull request for pr #' . $pr['number']);
         }
@@ -281,7 +312,8 @@ foreach ($list as $pr) {
             . ' The pr can be found at ' . $output[0] . '"';
         $output = [];
         exec($cmd, $output, $result);
-        if ($result !== 0) {
+        if ($result !== 0) 
+        {
             var_dump([$cmd, $output, $result]);
             die('Unable to create a comment for pr #' . $pr['number']);
         }
@@ -293,7 +325,8 @@ foreach ($list as $pr) {
     $cmd    = $gh . ' pr edit ' . $pr['url'] . ' --add-label psr12';
     $output = [];
     exec($cmd, $output, $result);
-    if ($result !== 0) {
+    if ($result !== 0) 
+    {
         var_dump([$cmd, $output, $result]);
         die('Unable to set psr12 label for pr #' . $pr['number']);
     }

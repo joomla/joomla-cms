@@ -22,17 +22,23 @@
     }
 
     setBodyValue(value) {
-      if (Joomla.editors.instances[this.inputBody.id]) {
+      if (Joomla.editors.instances[this.inputBody.id]) 
+      {
         Joomla.editors.instances[this.inputBody.id].setValue(value);
-      } else {
+      } 
+      else 
+      {
         this.inputBody.value = value;
       }
     }
 
     setHtmlBodyValue(value) {
-      if (Joomla.editors.instances[this.inputHtmlBody.id]) {
+      if (Joomla.editors.instances[this.inputHtmlBody.id]) 
+      {
         Joomla.editors.instances[this.inputHtmlBody.id].setValue(value);
-      } else {
+      } 
+      else 
+      {
         this.inputHtmlBody.value = value;
       }
     }
@@ -41,7 +47,8 @@
       if (!tag) return false;
 
       let input;
-      switch (targetField) {
+      switch (targetField) 
+      {
         case 'body':
           input = this.inputBody;
           break;
@@ -52,9 +59,12 @@
           return false;
       }
 
-      if (Joomla.editors.instances[input.id]) {
+      if (Joomla.editors.instances[input.id]) 
+      {
         Joomla.editors.instances[input.id].replaceSelection(tag);
-      } else {
+      } 
+      else 
+      {
         input.value += ` ${tag}`;
       }
 
@@ -70,7 +80,8 @@
 
       const btnResetBody = document.querySelector('#btnResetBody');
 
-      if (btnResetBody) {
+      if (btnResetBody) 
+      {
         btnResetBody.addEventListener('click', (event) => {
           event.preventDefault();
 
@@ -80,7 +91,8 @@
 
       const btnResetHtmlBody = document.querySelector('#btnResetHtmlBody');
 
-      if (btnResetHtmlBody) {
+      if (btnResetHtmlBody) 
+      {
         btnResetHtmlBody.addEventListener('click', (event) => {
           event.preventDefault();
 

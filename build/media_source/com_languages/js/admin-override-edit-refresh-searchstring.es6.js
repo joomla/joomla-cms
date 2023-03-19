@@ -5,9 +5,11 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('jform_searchstring').addEventListener('focus', ({ srcElement }) => {
-    if (!Joomla.overrider.states.refreshed) {
+    if (!Joomla.overrider.states.refreshed) 
+    {
       const expired = document.getElementById('overrider-spinner').getAttribute('data-search-string-expired');
-      if (expired) {
+      if (expired) 
+      {
         Joomla.overrider.refreshCache();
         Joomla.overrider.states.refreshed = true;
       }

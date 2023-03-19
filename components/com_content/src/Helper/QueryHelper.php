@@ -37,7 +37,8 @@ class QueryHelper
      */
     public static function orderbyPrimary($orderby)
     {
-        switch ($orderby) {
+        switch ($orderby) 
+        {
             case 'alpha':
                 $orderby = 'c.path, ';
                 break;
@@ -75,7 +76,8 @@ class QueryHelper
 
         $queryDate = self::getQueryDate($orderDate, $db);
 
-        switch ($orderby) {
+        switch ($orderby) 
+        {
             case 'date':
                 $orderby = $queryDate;
                 break;
@@ -174,7 +176,8 @@ class QueryHelper
     {
         $db = $db ?: Factory::getDbo();
 
-        switch ($orderDate) {
+        switch ($orderDate) 
+        {
             case 'modified':
                 $queryDate = ' CASE WHEN a.modified IS NULL THEN a.created ELSE a.modified END';
                 break;
@@ -209,17 +212,21 @@ class QueryHelper
      */
     public static function buildVotingQuery($params = null)
     {
-        if (!$params) {
+        if (!$params) 
+        {
             $params = ComponentHelper::getParams('com_content');
         }
 
         $voting = $params->get('show_vote');
 
-        if ($voting) {
+        if ($voting) 
+        {
             // Calculate voting count
             $select = ' , ROUND(v.rating_sum / v.rating_count) AS rating, v.rating_count';
             $join = ' LEFT JOIN #__content_rating AS v ON a.id = v.content_id';
-        } else {
+        } 
+        else 
+        {
             $select = '';
             $join = '';
         }

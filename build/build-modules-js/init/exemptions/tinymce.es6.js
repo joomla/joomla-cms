@@ -25,10 +25,12 @@ const xmlVersionStr = /(<version>)(.+)(<\/version>)/;
 const copyArrayFiles = async (dirName, files, name, type) => {
   const promises = [];
   // eslint-disable-next-line guard-for-in,no-restricted-syntax
-  for (const file of files) {
+  for (const file of files) 
+  {
     const folderName = dirName === '/' ? '/' : `/${dirName}/`;
 
-    if (existsSync(`node_modules/${name}${folderName}${file}`)) {
+    if (existsSync(`node_modules/${name}${folderName}${file}`)) 
+    {
       promises.push(copy(`node_modules/${name}${folderName}${file}`, `media/vendor/${name.replace(/.+\//, '')}${type ? `/${type}` : ''}/${file}`, { preserveTimestamps: true }));
     }
   }
@@ -42,7 +44,8 @@ const copyArrayFiles = async (dirName, files, name, type) => {
 module.exports.tinyMCE = async (packageName, version) => {
   const itemvendorPath = join(RootPath, `media/vendor/${packageName}`);
 
-  if (!await existsSync(itemvendorPath)) {
+  if (!await existsSync(itemvendorPath)) 
+  {
     await mkdir(itemvendorPath, { mode: 0o755 });
     await mkdir(join(itemvendorPath, 'icons'), { mode: 0o755 });
     await mkdir(join(itemvendorPath, 'plugins'), { mode: 0o755 });

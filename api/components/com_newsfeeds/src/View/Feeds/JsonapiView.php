@@ -116,7 +116,8 @@ class JsonapiView extends BaseApiView
      */
     public function __construct($config = [])
     {
-        if (\array_key_exists('contentType', $config)) {
+        if (\array_key_exists('contentType', $config)) 
+        {
             $this->serializer = new NewsfeedSerializer($config['contentType']);
         }
 
@@ -134,7 +135,8 @@ class JsonapiView extends BaseApiView
      */
     public function displayItem($item = null)
     {
-        if (Multilanguage::isEnabled()) {
+        if (Multilanguage::isEnabled()) 
+        {
             $this->fieldsToRenderItem[] = 'languageAssociations';
             $this->relationship[]       = 'languageAssociations';
         }
@@ -153,10 +155,12 @@ class JsonapiView extends BaseApiView
      */
     protected function prepareItem($item)
     {
-        if (Multilanguage::isEnabled() && !empty($item->associations)) {
+        if (Multilanguage::isEnabled() && !empty($item->associations)) 
+        {
             $associations = [];
 
-            foreach ($item->associations as $language => $association) {
+            foreach ($item->associations as $language => $association) 
+            {
                 $itemId = explode(':', $association)[0];
 
                 $associations[] = (object) [
@@ -168,12 +172,15 @@ class JsonapiView extends BaseApiView
             $item->associations = $associations;
         }
 
-        if (!empty($item->tags->tags)) {
+        if (!empty($item->tags->tags)) 
+        {
             $tagsIds   = explode(',', $item->tags->tags);
             $tagsNames = $item->tagsHelper->getTagNames($tagsIds);
 
             $item->tags = array_combine($tagsIds, $tagsNames);
-        } else {
+        } 
+        else 
+        {
             $item->tags = [];
         }
 

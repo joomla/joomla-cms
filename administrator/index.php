@@ -12,7 +12,8 @@
 // Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
 define('JOOMLA_MINIMUM_PHP', '7.2.5');
 
-if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
+if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) 
+{
     die(
         str_replace(
             '{{phpversion}}',

@@ -3,7 +3,8 @@ var errorLocale = window.errorLocale || null;
 (function(document, errorLocale) {
   'use strict';
 
-  if (errorLocale) {
+  if (errorLocale) 
+  {
     var header = document.getElementById('headerText');
 
     // Create links for all the languages
@@ -13,24 +14,28 @@ var errorLocale = window.errorLocale || null;
       opt.text = errorLocale[key].language;
       opt.value = key;
 
-      if (key === 'en-GB') {
+      if (key === 'en-GB') 
+      {
         opt.setAttribute('selected', 'selected');
       }
 
       document.getElementById('translatedLanguagesSelect').addEventListener('change', function(e) {
         var ref = e.target.value, helpLink, meta;
 
-        if (ref) {
+        if (ref) 
+        {
           header.innerHTML = errorLocale[ref].header;
         }
 
         helpLink = document.getElementById('linkHelp');
-        if (helpLink) {
+        if (helpLink) 
+        {
           helpLink.innerText = errorLocale[ref]['help-url-text'];
         }
 
         meta = document.querySelector('[http-equiv="Content-Language"]');
-        if (meta) {
+        if (meta) 
+        {
           meta.setAttribute('content', ref);
         }
       });
@@ -40,7 +45,8 @@ var errorLocale = window.errorLocale || null;
 
     // Select language based on Browser's language
     Object.keys(errorLocale).forEach(function(key) {
-      if (navigator.language === key) {
+      if (navigator.language === key) 
+      {
         // Remove the selected property
         document.querySelector('#translatedLanguagesSelect option[value="en-GB"]').removeAttribute('selected');
         document.querySelector('#translatedLanguagesSelect option[value="' + key + '"]').setAttribute('selected', 'selected');
@@ -50,12 +56,14 @@ var errorLocale = window.errorLocale || null;
 
         var helpLink = document.getElementById('linkHelp'), meta;
 
-        if (helpLink) {
+        if (helpLink) 
+        {
           helpLink.innerText = errorLocale[key]['help-url-text'];
         }
 
         meta = document.querySelector('[http-equiv="Content-Language"]');
-        if (meta) {
+        if (meta) 
+        {
           meta.setAttribute('content', key);
         }
       }

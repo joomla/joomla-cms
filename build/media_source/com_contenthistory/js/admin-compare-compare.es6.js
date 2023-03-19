@@ -20,11 +20,13 @@
     diff.forEach((part) => {
       let color = '';
 
-      if (part.added) {
+      if (part.added) 
+      {
         color = '#a6f3a6';
       }
 
-      if (part.removed) {
+      if (part.removed) 
+      {
         color = '#f8cbcb';
       }
 

@@ -10,7 +10,8 @@ Joomla = window.Joomla || {};
 
   const options = Joomla.getOptions('menus-edit-modules');
 
-  if (options) {
+  if (options) 
+  {
     window.viewLevels = options.viewLevels;
     window.menuId = parseInt(options.itemId, 10);
   }
@@ -23,7 +24,8 @@ Joomla = window.Joomla || {};
   const linkElements = [].slice.call(document.getElementsByClassName('module-edit-link'));
   const elements = [].slice.call(document.querySelectorAll('#moduleEditModal .modal-footer .btn'));
 
-  if (assigned1) {
+  if (assigned1) 
+  {
     assigned1.addEventListener('click', () => {
       const list = [].slice.call(document.querySelectorAll('tr.no'));
 
@@ -34,7 +36,8 @@ Joomla = window.Joomla || {};
     });
   }
 
-  if (assigned0) {
+  if (assigned0) 
+  {
     assigned0.addEventListener('click', () => {
       const list = [].slice.call(document.querySelectorAll('tr.no'));
 
@@ -45,7 +48,8 @@ Joomla = window.Joomla || {};
     });
   }
 
-  if (published1) {
+  if (published1) 
+  {
     published1.addEventListener('click', () => {
       const list = [].slice.call(document.querySelectorAll('.table tr.unpublished'));
 
@@ -56,7 +60,8 @@ Joomla = window.Joomla || {};
     });
   }
 
-  if (published0) {
+  if (published0) 
+  {
     published0.addEventListener('click', () => {
       const list = [].slice.call(document.querySelectorAll('.table tr.unpublished'));
 
@@ -67,7 +72,8 @@ Joomla = window.Joomla || {};
     });
   }
 
-  if (linkElements.length) {
+  if (linkElements.length) 
+  {
     linkElements.forEach((linkElement) => {
       linkElement.addEventListener('click', ({ target }) => {
         const link = baseLink + target.getAttribute('data-module-id');
@@ -85,12 +91,14 @@ Joomla = window.Joomla || {};
     });
   }
 
-  if (elements.length) {
+  if (elements.length) 
+  {
     elements.forEach((element) => {
       element.addEventListener('click', ({ target }) => {
         const dataTarget = target.getAttribute('data-bs-target');
 
-        if (dataTarget) {
+        if (dataTarget) 
+        {
           const iframe = document.querySelector('#moduleEditModal iframe');
           const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
           iframeDocument.querySelector(dataTarget).click();

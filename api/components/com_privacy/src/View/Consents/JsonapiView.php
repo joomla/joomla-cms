@@ -78,7 +78,8 @@ class JsonapiView extends BaseApiView
     {
         $id = $this->get('state')->get($this->getName() . '.id');
 
-        if ($id === null) {
+        if ($id === null) 
+        {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ITEMID_MISSING'));
         }
 
@@ -86,25 +87,30 @@ class JsonapiView extends BaseApiView
         $model       = $this->getModel();
         $displayItem = null;
 
-        foreach ($model->getItems() as $item) {
+        foreach ($model->getItems() as $item) 
+        {
             $item = $this->prepareItem($item);
 
-            if ($item->id === $id) {
+            if ($item->id === $id) 
+            {
                 $displayItem = $item;
                 break;
             }
         }
 
-        if ($displayItem === null) {
+        if ($displayItem === null) 
+        {
             throw new RouteNotFoundException('Item does not exist');
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (\count($errors = $this->get('Errors'))) 
+        {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        if ($this->type === null) {
+        if ($this->type === null) 
+        {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_CONTENT_TYPE_MISSING'));
         }
 

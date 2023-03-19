@@ -99,15 +99,18 @@ class JsonapiView extends BaseApiView
         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
         $model = $this->getModel();
 
-        if ($item === null) {
+        if ($item === null) 
+        {
             $item  = $this->prepareItem($model->getItem());
         }
 
-        if ($item->id === null) {
+        if ($item->id === null) 
+        {
             throw new RouteNotFoundException('Item does not exist');
         }
 
-        if ((int) $model->getState('client_id') !== $item->client_id) {
+        if ((int) $model->getState('client_id') !== $item->client_id) 
+        {
             throw new RouteNotFoundException('Item does not exist');
         }
 
@@ -127,7 +130,8 @@ class JsonapiView extends BaseApiView
         $model = $this->getModel();
         $items = [];
 
-        foreach ($model->getItems() as $item) {
+        foreach ($model->getItems() as $item) 
+        {
             $item->id = $item->extension_id;
             unset($item->extension_id);
 

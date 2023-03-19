@@ -64,11 +64,13 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
         $form = parent::getForm($data, $loadData);
 
         // Prevent messing with article language and category when editing existing contact with associations
-        if ($id = $this->getState('contact.id') && Associations::isEnabled()) {
+        if ($id = $this->getState('contact.id') && Associations::isEnabled()) 
+        {
             $associations = Associations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $id);
 
             // Make fields read only
-            if (!empty($associations)) {
+            if (!empty($associations))
+            {
                 $form->setFieldAttribute('language', 'readonly', 'true');
                 $form->setFieldAttribute('language', 'filter', 'unset');
             }
@@ -96,11 +98,15 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
         $table = $this->getTable();
 
         // Attempt to load the row.
-        try {
-            if (!$table->load($itemId)) {
+        try 
+        {
+            if (!$table->load($itemId)) 
+            {
                 return false;
             }
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             Factory::getApplication()->enqueueMessage($e->getMessage());
 
             return false;
@@ -116,7 +122,8 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
         $registry        = new Registry($value->metadata);
         $value->metadata = $registry->toArray();
 
-        if ($itemId) {
+        if ($itemId) 
+        {
             $value->tags = new TagsHelper();
             $value->tags->getTagIds($value->id, 'com_contact.contact');
             $value->metadata['tags'] = $value->tags;
@@ -154,8 +161,10 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
         if (
             Associations::isEnabled() && !empty($data['id'])
             && $associations = Associations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $data['id'])
-        ) {
-            foreach ($associations as $tag => $associated) {
+        ) 
+        {
+            foreach ($associations as $tag => $associated) 
+            {
                 $associations[$tag] = (int) $associated->id;
             }
 

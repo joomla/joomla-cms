@@ -37,16 +37,19 @@ Joomla = window.Joomla || {};
     const toolbarHelp = document.getElementById('toolbar-help');
     const toolbarInlineHelp = document.getElementById('toolbar-inlinehelp');
 
-    if (toolbarInlineHelp) {
+    if (toolbarInlineHelp) 
+    {
       toolbarInlineHelp.classList.add('ms-auto');
       return;
     }
 
-    if (toolbarHelp && !toolbarOptions) {
+    if (toolbarHelp && !toolbarOptions) 
+    {
       toolbarHelp.classList.add('ms-auto');
     }
 
-    if (toolbarOptions && !toolbarHelp) {
+    if (toolbarOptions && !toolbarHelp) 
+    {
       toolbarOptions.classList.add('ms-auto');
     }
   });

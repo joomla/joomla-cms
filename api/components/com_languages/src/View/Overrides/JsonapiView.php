@@ -72,7 +72,8 @@ class JsonapiView extends BaseApiView
         $model = $this->getModel();
         $items = [];
 
-        foreach ($model->getOverrides() as $key => $override) {
+        foreach ($model->getOverrides() as $key => $override) 
+        {
             $item = (object) [
                 'key'      => $key,
                 'override' => $override,

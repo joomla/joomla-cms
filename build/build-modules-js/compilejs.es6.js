@@ -25,19 +25,27 @@ module.exports.scripts = async (options, path) => {
   const files = [];
   let folders = [];
 
-  if (path) {
+  if (path) 
+  {
     const stats = await stat(`${RootPath}/${path}`);
 
-    if (stats.isDirectory()) {
+    if (stats.isDirectory()) 
+    {
       folders.push(`${RootPath}/${path}`);
-    } else if (stats.isFile()) {
+    } 
+    else if (stats.isFile()) 
+    {
       files.push(`${RootPath}/${path}`);
-    } else {
+    } 
+    else 
+    {
       // eslint-disable-next-line no-console
       console.error(`Unknown path ${path}`);
       process.exit(1);
     }
-  } else {
+  } 
+  else 
+  {
     folders = [
       `${RootPath}/build/media_source`,
       `${RootPath}/templates/cassiopeia`,
@@ -48,7 +56,8 @@ module.exports.scripts = async (options, path) => {
 
   // Loop to get the files that should be compiled via parameter
   // eslint-disable-next-line no-restricted-syntax
-  for (const folder of folders) {
+  for (const folder of folders) 
+  {
     folderPromises.push(recursive(folder, ['!*.+(js)']));
   }
 
@@ -59,13 +68,17 @@ module.exports.scripts = async (options, path) => {
 
   // Loop to get the files that should be compiled via parameter
   computedFilesFlat.forEach((file) => {
-    if (file.includes(`build${sep}media_source${sep}vendor${sep}bootstrap${sep}js`)) {
+    if (file.includes(`build${sep}media_source${sep}vendor${sep}bootstrap${sep}js`)) 
+    {
       return;
     }
 
-    if (file.match(/\.es5\.js$/)) {
+    if (file.match(/\.es5\.js$/)) 
+    {
       jsFilesPromises.push(handleES5File(file));
-    } else if (file.match(/\.es6\.js$/) || file.match(/\.w-c\.es6\.js$/)) {
+    } 
+    else if (file.match(/\.es6\.js$/) || file.match(/\.w-c\.es6\.js$/)) 
+    {
       esmFilesPromises.push(handleESMFile(file));
     }
   });

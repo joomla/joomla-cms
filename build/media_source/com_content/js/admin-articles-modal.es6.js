@@ -12,8 +12,10 @@
     * and closes the select frame.
     * */
   window.jSelectArticle = (id, title, catid, object, link, lang) => {
-    if (!Joomla.getOptions('xtd-articles')) {
-      if (window.parent.Joomla.Modal) {
+    if (!Joomla.getOptions('xtd-articles')) 
+    {
+      if (window.parent.Joomla.Modal) 
+      {
         window.parent.Joomla.Modal.getCurrent().close();
       }
     }
@@ -22,7 +24,8 @@
     const tag = `<a href="${link}"${lang !== '' ? ` hreflang="${lang}"` : ''}>${title}</a>`;
     window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
 
-    if (window.parent.Joomla.Modal) {
+    if (window.parent.Joomla.Modal) 
+    {
       window.parent.Joomla.Modal.getCurrent().close();
     }
   };
@@ -34,15 +37,19 @@
       const { target } = event;
       const functionName = target.getAttribute('data-function');
 
-      if (functionName === 'jSelectArticle') {
+      if (functionName === 'jSelectArticle') 
+      {
         // Used in xtd_contacts
         window[functionName](target.getAttribute('data-id'), target.getAttribute('data-title'), target.getAttribute('data-cat-id'), null, target.getAttribute('data-uri'), target.getAttribute('data-language'));
-      } else {
+      } 
+      else 
+      {
         // Used in com_menus
         window.parent[functionName](target.getAttribute('data-id'), target.getAttribute('data-title'), target.getAttribute('data-cat-id'), null, target.getAttribute('data-uri'), target.getAttribute('data-language'));
       }
 
-      if (window.parent.Joomla.Modal) {
+      if (window.parent.Joomla.Modal) 
+      {
         window.parent.Joomla.Modal.getCurrent().close();
       }
     });

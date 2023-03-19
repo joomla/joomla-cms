@@ -7,7 +7,8 @@
 
   Joomla.submitbutton = (task, type) => {
     if (task === 'item.setType' || task === 'item.setMenuType') {
-      if (task === 'item.setType') {
+      if (task === 'item.setType') 
+      {
         const list = [].slice.call(document.querySelectorAll('#item-form input[name="jform[type]"]'));
 
         list.forEach((item) => {
@@ -15,7 +16,9 @@
         });
 
         document.getElementById('fieldtype').value = 'type';
-      } else {
+      } 
+      else 
+      {
         const list = [].slice.call(document.querySelectorAll('#item-form input[name="jform[menutype]"]'));
 
         list.forEach((item) => {
@@ -24,9 +27,13 @@
       }
 
       Joomla.submitform('item.setType', document.getElementById('item-form'));
-    } else if (task === 'item.cancel' || document.formvalidator.isValid(document.getElementById('item-form'))) {
+    } 
+    else if (task === 'item.cancel' || document.formvalidator.isValid(document.getElementById('item-form'))) 
+    {
       Joomla.submitform(task, document.getElementById('item-form'));
-    } else {
+    } 
+    else 
+    {
       // special case for modal popups validation response
       const list = [].slice.call(document.querySelectorAll('#item-form .modal-value.invalid'));
 
@@ -51,7 +58,8 @@
         const list = [].slice.call(document.querySelectorAll('#jform_parent_id option'));
 
         list.forEach((item) => {
-          if (item.value !== '1') {
+          if (item.value !== '1') 
+          {
             item.parentNode.removeChild(item);
           }
         });
@@ -73,32 +81,39 @@
     });
   };
 
-  if (!Joomla || typeof Joomla.request !== 'function') {
+  if (!Joomla || typeof Joomla.request !== 'function') 
+  {
     throw new Error('core.js was not properly initialised');
   }
 
   const element = document.getElementById('jform_menutype');
 
-  if (element) {
+  if (element) 
+  {
     element.addEventListener('change', onChange);
   }
 
   // Menu type Login Form specific
   document.getElementById('item-form').addEventListener('submit', () => {
-    if (document.getElementById('jform_params_login_redirect_url') && document.getElementById('jform_params_logout_redirect_url')) {
+    if (document.getElementById('jform_params_login_redirect_url') && document.getElementById('jform_params_logout_redirect_url')) 
+    {
       // Login
-      if (!document.getElementById('jform_params_login_redirect_url').closest('.control-group').classList.contains('hidden')) {
+      if (!document.getElementById('jform_params_login_redirect_url').closest('.control-group').classList.contains('hidden')) 
+      {
         document.getElementById('jform_params_login_redirect_menuitem_id').value = '';
       }
-      if (!document.getElementById('jform_params_login_redirect_menuitem_name').closest('.control-group').classList.contains('hidden')) {
+      if (!document.getElementById('jform_params_login_redirect_menuitem_name').closest('.control-group').classList.contains('hidden')) 
+      {
         document.getElementById('jform_params_login_redirect_url').value = '';
       }
 
       // Logout
-      if (!document.getElementById('jform_params_logout_redirect_url').closest('.control-group').classList.contains('hidden')) {
+      if (!document.getElementById('jform_params_logout_redirect_url').closest('.control-group').classList.contains('hidden')) 
+      {
         document.getElementById('jform_params_logout_redirect_menuitem_id').value = '';
       }
-      if (!document.getElementById('jform_params_logout_redirect_menuitem_id').closest('.control-group').classList.contains('hidden')) {
+      if (!document.getElementById('jform_params_logout_redirect_menuitem_id').closest('.control-group').classList.contains('hidden'))
+      {
         document.getElementById('jform_params_logout_redirect_url').value = '';
       }
     }

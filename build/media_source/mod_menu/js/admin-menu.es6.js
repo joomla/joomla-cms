@@ -13,11 +13,13 @@ const sidebar = document.getElementById('sidebar-wrapper');
 const menuToggleIcon = document.getElementById('menu-collapse-icon');
 
 // If the sidebar doesn't exist, for example, on edit views, then remove the "closed" class
-if (!sidebar) {
+if (!sidebar) 
+{
   wrapper.classList.remove('closed');
 }
 
-if (sidebar && !sidebar.getAttribute('data-hidden')) {
+if (sidebar && !sidebar.getAttribute('data-hidden')) 
+{
   // Sidebar
   const menuToggle = document.getElementById('menu-collapse');
   const firsts = [].slice.call(sidebar.querySelectorAll('.collapse-level-1'));
@@ -26,7 +28,8 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
   firsts.forEach((first) => {
     const seconds = [].slice.call(first.querySelectorAll('.collapse-level-1'));
     seconds.forEach((second) => {
-      if (second) {
+      if (second) 
+      {
         second.classList.remove('collapse-level-1');
         second.classList.add('collapse-level-2');
       }
@@ -46,7 +49,8 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
     });
 
     const elem = document.querySelector('.child-open');
-    if (elem) {
+    if (elem) 
+    {
       elem.classList.remove('child-open');
     }
 
@@ -68,12 +72,14 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
   allLinks.forEach((link) => {
     if (
       (!link.href.match(/index\.php$/) && currentUrl.indexOf(link.href) === 0)
-      || (link.href.match(/index\.php$/) && currentUrl.match(/index\.php$/))) {
+      || (link.href.match(/index\.php$/) && currentUrl.match(/index\.php$/))) 
+    {
       link.setAttribute('aria-current', 'page');
       link.classList.add('mm-active');
 
       // Auto Expand Levels
-      if (!link.parentNode.classList.contains('parent')) {
+      if (!link.parentNode.classList.contains('parent')) 
+      {
         const firstLevel = link.closest('.collapse-level-1');
         const secondLevel = link.closest('.collapse-level-2');
         if (firstLevel) firstLevel.parentNode.classList.add('mm-active');
@@ -88,27 +94,33 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
   const openToggle = ({ currentTarget }) => {
     let menuItem = currentTarget.parentNode;
 
-    if (menuItem.tagName.toLowerCase() === 'span') {
+    if (menuItem.tagName.toLowerCase() === 'span') 
+    {
       menuItem = currentTarget.parentNode.parentNode;
     }
 
-    if (menuItem.classList.contains('open')) {
+    if (menuItem.classList.contains('open')) 
+    {
       mainNav.classList.remove('child-open');
       menuItem.classList.remove('open');
-    } else {
+    } 
+    else 
+    {
       const siblings = [].slice.call(menuItem.parentNode.children);
       siblings.forEach((sibling) => {
         sibling.classList.remove('open');
       });
 
       wrapper.classList.remove('closed');
-      if (menuToggleIcon.classList.contains('icon-toggle-off')) {
+      if (menuToggleIcon.classList.contains('icon-toggle-off')) 
+      {
         menuToggleIcon.classList.toggle('icon-toggle-off');
         menuToggleIcon.classList.toggle('icon-toggle-on');
       }
       mainNav.classList.add('child-open');
 
-      if (menuItem.parentNode.classList.contains('main-nav')) {
+      if (menuItem.parentNode.classList.contains('main-nav')) 
+      {
         menuItem.classList.add('open');
       }
     }

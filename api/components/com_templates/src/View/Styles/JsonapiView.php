@@ -70,7 +70,8 @@ class JsonapiView extends BaseApiView
      */
     protected function prepareItem($item)
     {
-        if ($item->client_id != $this->getModel()->getState('client_id')) {
+        if ($item->client_id != $this->getModel()->getState('client_id')) 
+        {
             throw new RouteNotFoundException('Item does not exist');
         }
 

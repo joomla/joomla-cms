@@ -106,26 +106,32 @@ class ContactController extends FormController
         $stateParams = clone $model->getState()->get('params');
 
         // If the current view is the active item and a contact view for this contact, then the menu item params take priority
-        if ($active && strpos($active->link, 'view=contact') && strpos($active->link, '&id=' . (int) $contact->id)) {
+        if ($active && strpos($active->link, 'view=contact') && strpos($active->link, '&id=' . (int) $contact->id)) 
+        {
             // $item->params are the contact params, $temp are the menu item params
             // Merge so that the menu item params take priority
             $contact->params->merge($stateParams);
-        } else {
+        } 
+        else 
+        {
             // Current view is not a single contact, so the contact params take priority here
             $stateParams->merge($contact->params);
             $contact->params = $stateParams;
         }
 
         // Check if the contact form is enabled
-        if (!$contact->params->get('show_email_form')) {
+        if (!$contact->params->get('show_email_form')) 
+        {
             $this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub . '&catid=' . $contact->catid, false));
 
             return false;
         }
 
         // Check for a valid session cookie
-        if ($contact->params->get('validate_session', 0)) {
-            if (Factory::getSession()->getState() !== 'active') {
+        if ($contact->params->get('validate_session', 0)) 
+        {
+            if (Factory::getSession()->getState() !== 'active') 
+            {
                 $this->app->enqueueMessage(Text::_('JLIB_ENVIRONMENT_SESSION_INVALID'), 'warning');
 
                 // Save the data in the session.
@@ -144,17 +150,21 @@ class ContactController extends FormController
         // Validate the posted data.
         $form = $model->getForm();
 
-        if (!$form) {
+        if (!$form) 
+        {
             throw new \Exception($model->getError(), 500);
         }
 
-        if (!$model->validate($form, $data)) {
+        if (!$model->validate($form, $data)) 
+        {
             $errors = $model->getErrors();
 
-            foreach ($errors as $error) {
+            foreach ($errors as $error) 
+            {
                 $errorMessage = $error;
 
-                if ($error instanceof \Exception) {
+                if ($error instanceof \Exception) 
+                {
                     $errorMessage = $error->getMessage();
                 }
 
@@ -171,8 +181,10 @@ class ContactController extends FormController
         // Validation succeeded, continue with custom handlers
         $results = $this->app->triggerEvent('onValidateContact', [&$contact, &$data]);
 
-        foreach ($results as $result) {
-            if ($result instanceof \Exception) {
+        foreach ($results as $result) 
+        {
+            if ($result instanceof \Exception) 
+            {
                 return false;
             }
         }
@@ -183,14 +195,16 @@ class ContactController extends FormController
         // Send the email
         $sent = false;
 
-        if (!$contact->params->get('custom_reply')) {
+        if (!$contact->params->get('custom_reply')) 
+        {
             $sent = $this->_sendEmail($data, $contact, $contact->params->get('show_email_copy', 0));
         }
 
         $msg = '';
 
         // Set the success message if it was a success
-        if ($sent) {
+        if ($sent) 
+        {
             $msg = Text::_('COM_CONTACT_EMAIL_THANKS');
         }
 
@@ -198,9 +212,12 @@ class ContactController extends FormController
         $this->app->setUserState('com_contact.contact.data', null);
 
         // Redirect if it is set in the parameters, otherwise redirect back to where we came from
-        if ($contact->params->get('redirect')) {
+        if ($contact->params->get('redirect')) 
+        {
             $this->setRedirect($contact->params->get('redirect'), $msg);
-        } else {
+        } 
+        else 
+        {
             $this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub . '&catid=' . $contact->catid, false), $msg);
         }
 
@@ -222,7 +239,8 @@ class ContactController extends FormController
     {
         $app = $this->app;
 
-        if ($contact->email_to == '' && $contact->user_id != 0) {
+        if ($contact->email_to == '' && $contact->user_id != 0) 
+        {
             $contact_user      = User::getInstance($contact->user_id);
             $contact->email_to = $contact_user->get('email');
         }
@@ -239,7 +257,8 @@ class ContactController extends FormController
         ];
 
         // Load the custom fields
-        if (!empty($data['com_fields']) && $fields = FieldsHelper::getFields('com_contact.mail', $contact, true, $data['com_fields'])) {
+        if (!empty($data['com_fields']) && $fields = FieldsHelper::getFields('com_contact.mail', $contact, true, $data['com_fields'])) 
+        {
             $output = FieldsHelper::render(
                 'com_contact.mail',
                 'fields.render',
@@ -250,12 +269,14 @@ class ContactController extends FormController
                 ]
             );
 
-            if ($output) {
+            if ($output) 
+            {
                 $templateData['customfields'] = $output;
             }
         }
 
-        try {
+        try 
+        {
             $mailer = new MailTemplate('com_contact.mail', $app->getLanguage()->getTag());
             $mailer->addRecipient($contact->email_to);
             $mailer->setReplyTo($templateData['email'], $templateData['name']);
@@ -263,19 +284,25 @@ class ContactController extends FormController
             $sent = $mailer->send();
 
             // If we are supposed to copy the sender, do so.
-            if ($emailCopyToSender == true && !empty($data['contact_email_copy'])) {
+            if ($emailCopyToSender == true && !empty($data['contact_email_copy'])) 
+            {
                 $mailer = new MailTemplate('com_contact.mail.copy', $app->getLanguage()->getTag());
                 $mailer->addRecipient($templateData['email']);
                 $mailer->setReplyTo($templateData['email'], $templateData['name']);
                 $mailer->addTemplateData($templateData);
                 $sent = $mailer->send();
             }
-        } catch (MailDisabledException | phpMailerException $exception) {
-            try {
+        } 
+        catch (MailDisabledException | phpMailerException $exception) 
+        {
+            try 
+            {
                 Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
 
                 $sent = false;
-            } catch (\RuntimeException $exception) {
+            } 
+            catch (\RuntimeException $exception) 
+            {
                 $this->app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
 
                 $sent = false;
@@ -296,7 +323,8 @@ class ContactController extends FormController
      */
     protected function allowAdd($data = [])
     {
-        if ($categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int')) {
+        if ($categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int')) 
+        {
             $user = $this->app->getIdentity();
 
             // If the category has been passed in the data or URL check it.
@@ -321,7 +349,8 @@ class ContactController extends FormController
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 
-        if (!$recordId) {
+        if (!$recordId) 
+        {
             return false;
         }
 
@@ -329,16 +358,19 @@ class ContactController extends FormController
         $record     = $this->getModel()->getItem($recordId);
         $categoryId = (int) $record->catid;
 
-        if ($categoryId) {
+        if ($categoryId) 
+        {
             $user = $this->app->getIdentity();
 
             // The category has been set. Check the category permissions.
-            if ($user->authorise('core.edit', $this->option . '.category.' . $categoryId)) {
+            if ($user->authorise('core.edit', $this->option . '.category.' . $categoryId)) 
+            {
                 return true;
             }
 
             // Fallback on edit.own.
-            if ($user->authorise('core.edit.own', $this->option . '.category.' . $categoryId)) {
+            if ($user->authorise('core.edit.own', $this->option . '.category.' . $categoryId)) 
+            {
                 return ($record->created_by === $user->id);
             }
 
@@ -385,7 +417,8 @@ class ContactController extends FormController
         $append = '';
 
         // Setup redirect info.
-        if ($tmpl) {
+        if ($tmpl) 
+        {
             $append .= '&tmpl=' . $tmpl;
         }
 
@@ -397,15 +430,18 @@ class ContactController extends FormController
         $return = $this->getReturnPage();
         $catId  = $this->input->getInt('catid');
 
-        if ($itemId) {
+        if ($itemId) 
+        {
             $append .= '&Itemid=' . $itemId;
         }
 
-        if ($catId) {
+        if ($catId) 
+        {
             $append .= '&catid=' . $catId;
         }
 
-        if ($return) {
+        if ($return) 
+        {
             $append .= '&return=' . base64_encode($return);
         }
 
@@ -425,7 +461,8 @@ class ContactController extends FormController
     {
         $return = $this->input->get('return', null, 'base64');
 
-        if (empty($return) || !Uri::isInternal(base64_decode($return))) {
+        if (empty($return) || !Uri::isInternal(base64_decode($return))) 
+        {
             return Uri::base();
         }
 

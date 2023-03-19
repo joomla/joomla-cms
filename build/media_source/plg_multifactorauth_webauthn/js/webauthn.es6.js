@@ -18,8 +18,10 @@
       .replace(/-/g, '+')
       .replace(/_/g, '/');
     const pad = output.length % 4;
-    if (pad) {
-      if (pad === 1) {
+    if (pad) 
+    {
+      if (pad === 1) 
+      {
         throw new Error('InvalidLengthError: Input base64url string is the wrong length to determine padding');
       }
       output += new Array(5 - pad).join('=');
@@ -28,19 +30,25 @@
   };
 
   const displayError = (message) => {
-    try {
+    try 
+    {
       Joomla.renderMessages({
         error: message,
       });
-    } catch (e) {
+    } 
+    catch (e) 
+    {
       alert(message);
     }
   };
 
   const handleError = (message) => {
-    try {
+    try 
+    {
       document.getElementById('plg_multifactorauth_webauthn_validate_button').style.disabled = 'null';
-    } catch (e) {
+    } 
+    catch (e) 
+    {
       // Do nothing
     }
 
@@ -51,7 +59,8 @@
     e.preventDefault();
 
     // Make sure the browser supports Webauthn
-    if (!('credentials' in navigator)) {
+    if (!('credentials' in navigator)) 
+    {
       displayError(Joomla.Text._('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'));
 
       return false;
@@ -66,7 +75,8 @@
 
     publicKey.user.id = Uint8Array.from(window.atob(publicKey.user.id), (c) => c.charCodeAt(0));
 
-    if (publicKey.excludeCredentials) {
+    if (publicKey.excludeCredentials) 
+    {
       publicKey.excludeCredentials = publicKey.excludeCredentials.map((data) => {
         data.id = Uint8Array.from(
           window.atob(base64url2base64(data.id)),
@@ -109,7 +119,8 @@
 
   const validate = () => {
     // Make sure the browser supports Webauthn
-    if (!('credentials' in navigator)) {
+    if (!('credentials' in navigator)) 
+    {
       displayError(Joomla.Text._('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'));
 
       return;
@@ -117,7 +128,8 @@
 
     const publicKey = authData;
 
-    if (!publicKey.challenge) {
+    if (!publicKey.challenge) 
+    {
       handleError(Joomla.Text._('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NO_STORED_CREDENTIAL'));
 
       return;
@@ -125,7 +137,8 @@
 
     publicKey.challenge = Uint8Array.from(window.atob(base64url2base64(publicKey.challenge)), (c) => c.charCodeAt(0));
 
-    if (publicKey.allowCredentials) {
+    if (publicKey.allowCredentials) 
+    {
       publicKey.allowCredentials = publicKey.allowCredentials.map((data) => {
         data.id = Uint8Array.from(
           window.atob(base64url2base64(data.id)),
@@ -178,16 +191,20 @@
 
   document.getElementById('multifactorauth-webauthn-missing').style.display = 'none';
 
-  if (typeof (navigator.credentials) === 'undefined') {
+  if (typeof (navigator.credentials) === 'undefined') 
+  {
     document.getElementById('multifactorauth-webauthn-missing').style.display = 'block';
     document.getElementById('multifactorauth-webauthn-controls').style.display = 'none';
   }
 
   window.addEventListener('DOMContentLoaded', () => {
-    if (Joomla.getOptions('com_users.pagetype') === 'validate') {
+    if (Joomla.getOptions('com_users.pagetype') === 'validate') 
+    {
       document.getElementById('users-mfa-captive-button-submit')
         .addEventListener('click', onValidateClick);
-    } else {
+    }
+    else 
+    {
       document.querySelectorAll('.multifactorauth_webauthn_setup').forEach((btn) => {
         btn.addEventListener('click', setUp);
       });

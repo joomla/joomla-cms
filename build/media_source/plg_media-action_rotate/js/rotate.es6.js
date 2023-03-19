@@ -12,10 +12,13 @@ const rotate = (angle, image) => {
   // Pseudo rectangle calculation
   if ((angle >= 0 && angle < 45)
     || (angle >= 135 && angle < 225)
-    || (angle >= 315 && angle <= 360)) {
+    || (angle >= 315 && angle <= 360)) 
+  {
     canvas.width = image.naturalWidth;
     canvas.height = image.naturalHeight;
-  } else {
+  } 
+  else 
+  {
     // swap
     canvas.width = image.naturalHeight;
     canvas.height = image.naturalWidth;
@@ -55,7 +58,8 @@ const rotate = (angle, image) => {
 };
 
 const initRotate = (image) => {
-  if (!activated) {
+  if (!activated) 
+  {
     // The number input listener
     document.getElementById('jform_rotate_a').addEventListener('change', ({ target }) => {
       rotate(parseInt(target.value, 10), image);

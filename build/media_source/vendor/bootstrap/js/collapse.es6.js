@@ -3,7 +3,8 @@ import Collapse from 'bootstrap/js/src/collapse';
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Collapse = Collapse;
 
-if (Joomla && Joomla.getOptions) {
+if (Joomla && Joomla.getOptions) 
+{
   // Get the elements/configurations from the PHP
   const collapses = { ...Joomla.getOptions('bootstrap.collapse'), ...Joomla.getOptions('bootstrap.accordion') };
   // Initialise the elements
@@ -13,12 +14,14 @@ if (Joomla && Joomla.getOptions) {
       toggle: opt.toggle ? opt.toggle : true,
     };
 
-    if (opt.parent) {
+    if (opt.parent) 
+    {
       options.parent = opt.parent;
     }
 
     const elements = Array.from(document.querySelectorAll(collapse));
-    if (elements.length) {
+    if (elements.length) 
+    {
       elements.map((el) => new window.bootstrap.Collapse(el, options));
     }
   });

@@ -28,13 +28,17 @@
 
         const list = event.currentTarget.parentNode.querySelector('ul');
 
-        if (!list) {
+        if (!list) 
+        {
           return;
         }
 
-        if (!list.classList.contains('hidden')) {
+        if (!list.classList.contains('hidden')) 
+        {
           list.classList.add('hidden');
-        } else {
+        } 
+        else 
+        {
           list.classList.remove('hidden');
         }
       });
@@ -88,24 +92,28 @@
     const listEls = [...treeContainer.querySelectorAll('.folder.show')];
     const filePathEl = document.querySelector('p.lead.hidden.path');
 
-    if (filePathEl) {
+    if (filePathEl) 
+    {
       let filePathTmp = document.querySelector('p.lead.hidden.path').innerText;
 
-      if (filePathTmp && filePathTmp.charAt(0) === '/') {
+      if (filePathTmp && filePathTmp.charAt(0) === '/') 
+      {
         filePathTmp = filePathTmp.slice(1);
         filePathTmp = filePathTmp.split('/');
         filePathTmp = filePathTmp[filePathTmp.length - 1];
 
         listEls.forEach((element, index) => {
           element.querySelector('a').classList.add('active');
-          if (index === listEls.length - 1) {
+          if (index === listEls.length - 1) 
+          {
             const parentUl = element.querySelector('ul');
 
             [...parentUl.querySelectorAll('li')].forEach((liElement) => {
               const aEl = liElement.querySelector('a');
               const spanEl = aEl.querySelector('span');
 
-              if (spanEl && spanEl.innerText.trim()) {
+              if (spanEl && spanEl.innerText.trim()) 
+              {
                 aEl.classList.add('active');
               }
             });
@@ -116,7 +124,8 @@
 
     // Image cropper
     const image = document.getElementById('image-crop');
-    if (image) {
+    if (image) 
+    {
       const width = document.getElementById('imageWidth').value;
       const height = document.getElementById('imageHeight').value;
 

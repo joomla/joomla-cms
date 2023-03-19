@@ -13,13 +13,19 @@ Joomla = window.Joomla || {};
       const form = document.getElementById('adminForm');
 
       // do field validation
-      if (form.install_package.value === '') {
+      if (form.install_package.value === '') 
+      {
         Joomla.renderMessages({ warning: [Joomla.Text._('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE')] });
-      } else if (form.install_package.files[0].size > form.max_upload_size.value) {
+      } 
+      else if (form.install_package.files[0].size > form.max_upload_size.value) 
+      {
         Joomla.renderMessages({ warning: [Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG')] });
-      } else {
+      } 
+      else 
+      {
         const loading = document.getElementById('loading');
-        if (loading) {
+        if (loading) 
+        {
           loading.classList.remove('hidden');
         }
 
@@ -28,7 +34,8 @@ Joomla = window.Joomla || {};
       }
     };
 
-    if (typeof FormData === 'undefined') {
+    if (typeof FormData === 'undefined') 
+    {
       document.querySelector('#legacy-uploader').classList.remove('hidden');
       document.querySelector('#uploader-wrapper').classList.add('hidden');
       return;
@@ -48,18 +55,24 @@ Joomla = window.Joomla || {};
     function showError(res) {
       dragZone.setAttribute('data-state', 'pending');
       let message = Joomla.Text._('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
-      if (res == null) {
+      if (res == null) 
+      {
         message = Joomla.Text._('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
-      } else if (typeof res === 'string') {
+      } 
+      else if (typeof res === 'string') 
+      {
         // Let's remove unnecessary HTML
         message = res.replace(/(<([^>]+)>|\s+)/g, ' ');
-      } else if (res.message) {
+      } 
+      else if (res.message) 
+      {
         ({ message } = res);
       }
       Joomla.renderMessages({ error: [message] });
     }
 
-    if (returnUrl) {
+    if (returnUrl) 
+    {
       uploadUrl += `&return=${returnUrl}`;
     }
 
@@ -68,7 +81,8 @@ Joomla = window.Joomla || {};
     });
 
     fileInput.addEventListener('change', () => {
-      if (uploading) {
+      if (uploading) 
+      {
         return;
       }
       Joomla.submitbuttonpackage();
@@ -105,7 +119,8 @@ Joomla = window.Joomla || {};
       event.preventDefault();
       event.stopPropagation();
 
-      if (uploading) {
+      if (uploading) 
+      {
         return;
       }
 
@@ -113,19 +128,22 @@ Joomla = window.Joomla || {};
 
       const files = event.target.files || event.dataTransfer.files;
 
-      if (!files.length) {
+      if (!files.length) 
+      {
         return;
       }
 
       const file = files[0];
       const data = new FormData();
 
-      if (!file.type) {
+      if (!file.type) 
+      {
         Joomla.renderMessages({ error: [Joomla.Text._('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE')] });
         return;
       }
 
-      if (file.size > fileSizeMax) {
+      if (file.size > fileSizeMax) 
+      {
         Joomla.renderMessages({ warning: [Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG')] });
         return;
       }
@@ -141,13 +159,15 @@ Joomla = window.Joomla || {};
 
       // Upload progress
       const progressCallback = (evt) => {
-        if (evt.lengthComputable) {
+        if (evt.lengthComputable) 
+        {
           const percentComplete = evt.loaded / evt.total;
           const number = Math.round(percentComplete * 100);
           progressBar.style.width = `${number}%`;
           progressBar.setAttribute('aria-valuenow', number);
           percentage.textContent = `${number}`;
-          if (number === 100) {
+          if (number === 100) 
+          {
             dragZone.setAttribute('data-state', 'installing');
           }
         }
@@ -162,40 +182,51 @@ Joomla = window.Joomla || {};
           xhr.upload.addEventListener('progress', progressCallback);
         },
         onSuccess: (response) => {
-          if (!response) {
+          if (!response) 
+          {
             showError(response);
             return;
           }
 
           let res;
 
-          try {
+          try 
+          {
             res = JSON.parse(response);
-          } catch (e) {
+          } 
+          catch (e) 
+          {
             showError(e);
 
             return;
           }
 
-          if (!res.success && !res.data) {
+          if (!res.success && !res.data) 
+          {
             showError(res);
 
             return;
           }
 
           // Always redirect that can show message queue from session
-          if (res.data.redirect) {
+          if (res.data.redirect) 
+          {
             window.location.href = res.data.redirect;
-          } else {
+          } 
+          else 
+          {
             window.location.href = 'index.php?option=com_installer&view=install';
           }
         },
         onError: (error) => {
           uploading = false;
-          if (error.status === 200) {
+          if (error.status === 200) 
+          {
             const res = error.responseText || error.responseJSON;
             showError(res);
-          } else {
+          } 
+          else 
+          {
             showError(error.statusText);
           }
         },

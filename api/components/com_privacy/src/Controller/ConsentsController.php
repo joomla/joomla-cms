@@ -50,7 +50,8 @@ class ConsentsController extends ApiController
      */
     public function displayItem($id = null)
     {
-        if ($id === null) {
+        if ($id === null) 
+        {
             $id = $this->input->get('id', 0, 'int');
         }
 

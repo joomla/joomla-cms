@@ -15,7 +15,8 @@ Joomla.toggleAllNextElements = (element, className) => {
   const getNextSiblings = (el) => {
     const siblings = [];
     /* eslint-disable no-cond-assign,no-param-reassign */
-    do {
+    do 
+    {
       siblings.push(el);
     } while ((el = el.nextElementSibling) !== null);
     /* eslint-enable no-cond-assign,no-param-reassign */
@@ -23,11 +24,15 @@ Joomla.toggleAllNextElements = (element, className) => {
   };
 
   const followingElements = getNextSiblings(element);
-  if (followingElements.length) {
+  if (followingElements.length) 
+  {
     followingElements.forEach((elem) => {
-      if (elem.classList.contains(className)) {
+      if (elem.classList.contains(className)) 
+      {
         elem.classList.remove(className);
-      } else {
+      } 
+      else 
+      {
         elem.classList.add(className);
       }
     });
@@ -40,7 +45,8 @@ Joomla.toggleAllNextElements = (element, className) => {
   document.addEventListener('DOMContentLoaded', () => {
     const dropDownBtn = document.getElementById('toolbar-status-group');
 
-    if (!dropDownBtn) {
+    if (!dropDownBtn) 
+    {
       return;
     }
 
@@ -52,25 +58,32 @@ Joomla.toggleAllNextElements = (element, className) => {
     let itemListRows = [];
     let transitionIds = [];
 
-    if (itemList) {
+    if (itemList) 
+    {
       itemListRows = [].slice.call(itemList.querySelectorAll('tbody tr'));
     }
 
-    function enableTransitions() {
-      if (transitionIds.length) {
+    function enableTransitions() 
+    {
+      if (transitionIds.length) 
+      {
         let availableTrans = transitionIds.shift();
 
-        while (transitionIds.length) {
+        while (transitionIds.length) 
+        {
           const compareTrans = transitionIds.shift();
 
           availableTrans = availableTrans.filter((id) => compareTrans.indexOf(id) !== -1);
         }
 
-        if (availableTrans.length) {
-          if (headline) {
+        if (availableTrans.length) 
+        {
+          if (headline) 
+          {
             headline.classList.remove('d-none');
           }
-          if (separator) {
+          if (separator) 
+          {
             separator.classList.remove('d-none');
           }
         }
@@ -78,7 +91,8 @@ Joomla.toggleAllNextElements = (element, className) => {
         availableTrans.forEach((trans) => {
           const elem = dropDownBtn.querySelector(`.transition-${trans}`);
 
-          if (elem) {
+          if (elem) 
+          {
             elem.parentNode.classList.remove('d-none');
           }
         });
@@ -87,26 +101,31 @@ Joomla.toggleAllNextElements = (element, className) => {
 
     // check for common attributes for which the conditions for a transition are possible or not
     // and save this information in a boolean variable.
-    function collectTransitions(row) {
+    function collectTransitions(row) 
+    {
       transitionIds.push(row.getAttribute('data-transitions').split(','));
     }
 
     // listen to click event to get selected rows
-    if (itemList) {
+    if (itemList) 
+    {
       itemList.addEventListener('click', () => {
         transitions.forEach((trans) => {
           trans.parentNode.classList.add('d-none');
         });
-        if (headline) {
+        if (headline) 
+        {
           headline.classList.add('d-none');
         }
-        if (separator) {
+        if (separator) 
+        {
           separator.classList.add('d-none');
         }
         transitionIds = [];
         itemListRows.forEach((el) => {
           const checkedBox = el.querySelector('input[type=checkbox]');
-          if (checkedBox.checked) {
+          if (checkedBox.checked) 
+          {
             const parentTr = checkedBox.closest('tr');
             collectTransitions(parentTr);
           }

@@ -43,11 +43,13 @@ abstract class RouteHelper
         // Create the link
         $link = 'index.php?option=com_contact&view=contact&id=' . $id;
 
-        if ($catid > 1) {
+        if ($catid > 1) 
+        {
             $link .= '&catid=' . $catid;
         }
 
-        if ($language && $language !== '*' && Multilanguage::isEnabled()) {
+        if ($language && $language !== '*' && Multilanguage::isEnabled()) 
+        {
             $link .= '&lang=' . $language;
         }
 
@@ -66,19 +68,26 @@ abstract class RouteHelper
      */
     public static function getCategoryRoute($catid, $language = 0)
     {
-        if ($catid instanceof CategoryNode) {
+        if ($catid instanceof CategoryNode) 
+        {
             $id = $catid->id;
-        } else {
+        } 
+        else 
+        {
             $id       = (int) $catid;
         }
 
-        if ($id < 1) {
+        if ($id < 1) 
+        {
             $link = '';
-        } else {
+        }
+        else 
+        {
             // Create the link
             $link = 'index.php?option=com_contact&view=category&id=' . $id;
 
-            if ($language && $language !== '*' && Multilanguage::isEnabled()) {
+            if ($language && $language !== '*' && Multilanguage::isEnabled()) 
+            {
                 $link .= '&lang=' . $language;
             }
         }

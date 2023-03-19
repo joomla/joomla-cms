@@ -8,8 +8,10 @@ function insertDefineOrDie($file, $keyword)
 
     $realfile           = dirname(__DIR__) . '/' . $file;
 
-    if (!file_exists($realfile)) {
-        if ($file === 'plugins/task/checkfiles/checkfiles.php') {
+    if (!file_exists($realfile)) 
+    {
+        if ($file === 'plugins/task/checkfiles/checkfiles.php') 
+        {
             return;
         }
     }
@@ -18,22 +20,28 @@ function insertDefineOrDie($file, $keyword)
     $lastUse            = 0;
     $lastComment = 0;
     $lastNamespace = 0;
-    foreach ($currentcontent as $k => $line) {
-        if ($k > 200) {
+    foreach ($currentcontent as $k => $line) 
+    {
+        if ($k > 200) 
+        {
             // we only test the first 200 lines for a jexec die
             break;
         }
-        if (substr($line, 0, 4) === 'use ') {
+        if (substr($line, 0, 4) === 'use ') 
+        {
             $lastUse = $k;
         }
-        if (substr($line, 0, 10) === 'namespace ') {
+        if (substr($line, 0, 10) === 'namespace ') 
+        {
             $lastNamespace = $k;
         }
-        if ($lastComment === 0 && substr(trim($line), -2) === '*/') {
+        if ($lastComment === 0 && substr(trim($line), -2) === '*/') 
+        {
             $lastComment = $k;
         }
 
-        if (preg_match('/^[ \t\\\]*(defined).*(_JEXEC|JPATH_PLATFORM|JPATH_BASE).*/', $line, $matches)) {
+        if (preg_match('/^[ \t\\\]*(defined).*(_JEXEC|JPATH_PLATFORM|JPATH_BASE).*/', $line, $matches)) 
+        {
             $jexecfound[$file] = $file;
             unset($skipped[$file]);
 
@@ -44,9 +52,11 @@ function insertDefineOrDie($file, $keyword)
     $insert = max($lastUse, $lastComment, $lastNamespace);
 
     $distance = 0;
-    if (empty(trim($currentcontent[$insert + 2]))) {
+    if (empty(trim($currentcontent[$insert + 2]))) 
+    {
         $distance++;
-        if (empty(trim($currentcontent[$insert + 3]))) {
+        if (empty(trim($currentcontent[$insert + 3]))) 
+        {
             $distance++;
         }
     }
@@ -149,7 +159,8 @@ $additional = [
 $cmd    = $git . ' diff --name-only 6d9cc0fe..psr12final';
 $output = [];
 exec($cmd, $output, $result);
-if ($result !== 0) {
+if ($result !== 0) 
+{
     var_dump([$cmd, $output, $result]);
     echo "Error";
     die();
@@ -158,8 +169,10 @@ $files      = [];
 $skipped    = [];
 $nojexec    = [];
 $jexecfound = [];
-foreach ($output as $file) {
-    if (substr($file, -4) !== '.php') {
+foreach ($output as $file) 
+{
+    if (substr($file, -4) !== '.php') 
+    {
         continue;
     }
 
@@ -167,26 +180,32 @@ foreach ($output as $file) {
     $cmd            = $git . ' show 6d9cc0fe:' . $file;
     $content        = [];
     exec($cmd, $content, $result);
-    if ($result !== 0) {
+    if ($result !== 0) 
+    {
         var_dump([$cmd, $content, $result]);
         echo "Error";
         die();
     }
 
     $keyword = '';
-    foreach ($content as $k => $line) {
-        if ($k > 200) {
+    foreach ($content as $k => $line) 
+    {
+        if ($k > 200) 
+        {
             // we only test the first 200 lines for a jexec die
             break;
         }
-        if (preg_match('/^[ \t\\\]*(defined).*(_JEXEC|JPATH_PLATFORM|JPATH_BASE).*/', $line, $matches)) {
+        if (preg_match('/^[ \t\\\]*(defined).*(_JEXEC|JPATH_PLATFORM|JPATH_BASE).*/', $line, $matches)) 
+        {
             $keyword = $matches[2];
             break;
         }
     }
 
-    if ($keyword === '') {
-        if (!in_array($file, $additional)) {
+    if ($keyword === '') 
+    {
+        if (!in_array($file, $additional)) 
+        {
             $nojexec[$file] = $file;
             unset($skipped[$file]);
             continue;

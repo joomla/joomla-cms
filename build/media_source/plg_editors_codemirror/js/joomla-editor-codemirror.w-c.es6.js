@@ -9,7 +9,8 @@ class CodemirrorEditor extends HTMLElement {
 
     // Observer instance to refresh the Editor when it become visible, eg after Tab switching
     this.intersectionObserver = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && this.instance) {
+      if (entries[0].isIntersecting && this.instance) 
+      {
         this.instance.refresh();
       }
     }, { threshold: 0 });
@@ -24,9 +25,11 @@ class CodemirrorEditor extends HTMLElement {
   set options(value) { this.setAttribute('options', value); }
 
   attributeChangedCallback(attr, oldValue, newValue) {
-    switch (attr) {
+    switch (attr) 
+    {
       case 'options':
-        if (oldValue && newValue !== oldValue) {
+        if (oldValue && newValue !== oldValue) 
+        {
           this.refresh(this.element);
         }
         break;
@@ -41,7 +44,8 @@ class CodemirrorEditor extends HTMLElement {
 
     await import(`${this.host}/${cmPath}`);
 
-    if (this.options.keyMapUrl) {
+    if (this.options.keyMapUrl) 
+    {
       await import(`${this.host}/${this.options.keyMapUrl}`);
     }
     await import(`${this.host}/${addonsPath}`);
@@ -59,13 +63,19 @@ class CodemirrorEditor extends HTMLElement {
 
       window.CodeMirror.autoLoadMode(editor, typeof mode === 'object' ? mode.mode : editor.options.mode);
 
-      if (mode && mode.mime) {
+      if (mode && mode.mime) 
+      {
         // Fix the x-php error
-        if (['text/x-php', 'application/x-httpd-php', 'application/x-httpd-php-open'].includes(mode.mime)) {
+        if (['text/x-php', 'application/x-httpd-php', 'application/x-httpd-php-open'].includes(mode.mime)) 
+        {
           editor.setOption('mode', 'php');
-        } else if (mode.mime === 'text/html') {
+        } 
+        else if (mode.mime === 'text/html') 
+        {
           editor.setOption('mode', mode.mode);
-        } else {
+        } 
+        else 
+        {
           editor.setOption('mode', mode.mime);
         }
       }
@@ -73,7 +83,8 @@ class CodemirrorEditor extends HTMLElement {
       const toggleFullScreen = () => {
         that.instance.setOption('fullScreen', !that.instance.getOption('fullScreen'));
         const header = document.getElementById('subhead');
-        if (header) {
+        if (header) 
+        {
           const header1 = document.getElementById('header');
           header1.classList.toggle('hidden');
           header.classList.toggle('hidden');
@@ -85,9 +96,11 @@ class CodemirrorEditor extends HTMLElement {
         that.instance.getOption('fullScreen');
         that.instance.setOption('fullScreen', false);
 
-        if (!that.instance.getOption('fullScreen')) {
+        if (!that.instance.getOption('fullScreen')) 
+        {
           const header = document.getElementById('subhead');
-          if (header) {
+          if (header) 
+          {
             const header1 = document.getElementById('header');
             header.classList.toggle('hidden');
             header1.classList.toggle('hidden');
@@ -113,7 +126,8 @@ class CodemirrorEditor extends HTMLElement {
 
       // Handle gutter clicks (place or remove a marker).
       editor.on('gutterClick', (ed, n, gutter) => {
-        if (gutter !== 'CodeMirror-markergutter') {
+        if (gutter !== 'CodeMirror-markergutter') 
+        {
           return;
         }
 
@@ -124,7 +138,8 @@ class CodemirrorEditor extends HTMLElement {
 
       /* Some browsers do something weird with the fieldset which doesn't
         work well with CodeMirror. Fix it. */
-      if (that.parentNode.tagName.toLowerCase() === 'fieldset') {
+      if (that.parentNode.tagName.toLowerCase() === 'fieldset') 
+      {
         that.parentNode.style.minWidth = 0;
       }
     });

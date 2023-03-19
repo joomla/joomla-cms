@@ -10,7 +10,8 @@
     // Get the pagebreak title
     let title = document.getElementById('title').value;
 
-    if (!window.parent.Joomla.getOptions('xtd-pagebreak')) {
+    if (!window.parent.Joomla.getOptions('xtd-pagebreak')) 
+    {
       // Something went wrong!
       window.parent.Joomla.Modal.getCurrent().close();
       return false;

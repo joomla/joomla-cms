@@ -42,9 +42,12 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
         $this->input = Factory::getApplication()->input;
 
         // Article frontpage Editor pagebreak proxying:
-        if ($this->input->get('view') === 'article' && $this->input->get('layout') === 'pagebreak') {
+        if ($this->input->get('view') === 'article' && $this->input->get('layout') === 'pagebreak') 
+        {
             $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
-        } elseif ($this->input->get('view') === 'articles' && $this->input->get('layout') === 'modal') {
+        } 
+        elseif ($this->input->get('view') === 'articles' && $this->input->get('layout') === 'modal') 
+        {
             // Article frontpage Editor article proxying:
             $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
         }
@@ -81,7 +84,8 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
             $user->get('id')
             || ($this->input->getMethod() === 'POST'
             && (($vName === 'category' && $this->input->get('layout') !== 'blog') || $vName === 'archive' ))
-        ) {
+        ) 
+        {
             $cachable = false;
         }
 
@@ -104,15 +108,19 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
             'Itemid' => 'INT'];
 
         // Check for edit form.
-        if ($vName === 'form' && !$this->checkEditId('com_content.edit.article', $id)) {
+        if ($vName === 'form' && !$this->checkEditId('com_content.edit.article', $id)) 
+        {
             // Somehow the person just went to the form - we don't allow that.
             throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 403);
         }
 
-        if ($vName === 'article') {
+        if ($vName === 'article') 
+        {
             // Get/Create the model
-            if ($model = $this->getModel($vName)) {
-                if (ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1) {
+            if ($model = $this->getModel($vName)) 
+            {
+                if (ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1) 
+                {
                     $model->hit();
                 }
             }

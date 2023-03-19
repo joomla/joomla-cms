@@ -62,7 +62,8 @@ const initResize = (image) => {
   formElements.resizeWidth.value = image.naturalWidth;
   formElements.resizeHeight.value = image.naturalHeight;
 
-  if (!activated) {
+  if (!activated) 
+  {
     activated = true;
     addListeners(image);
   }

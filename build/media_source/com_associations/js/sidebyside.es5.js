@@ -10,9 +10,12 @@ jQuery(document).ready(function($) {
   // Save button actions, replacing the default Joomla.submitbutton() with custom function.
   Joomla.submitbutton = function(task) {
     // Using close button, normal joomla submit.
-    if (task === 'association.cancel') {
+    if (task === 'association.cancel') 
+    {
       Joomla.submitform(task);
-    } else if(task === 'copy') {
+    } 
+    else if(task === 'copy') 
+    {
       document.body.appendChild(document.createElement('joomla-core-loader'));
 
       var targetLang = document.getElementById('target-association').getAttribute('data-language'),
@@ -23,7 +26,9 @@ jQuery(document).ready(function($) {
       referlangInput.value = targetLang;
 
       window.frames['reference-association'].Joomla.submitbutton(document.getElementById('adminForm').getAttribute('data-associatedview') + '.save2copy');
-    } else if (task === 'undo-association') { // Undo association
+    } 
+    else if (task === 'undo-association') 
+    { // Undo association
       var reference     = document.getElementById('reference-association');
       var target        = document.getElementById('target-association');
       var referenceId   = reference.getAttribute('data-id');
@@ -48,7 +53,8 @@ jQuery(document).ready(function($) {
       {
         lang = $(this).val().split('|')[0];
 
-        if (typeof lang !== 'undefined') {
+        if (typeof lang !== 'undefined') 
+        {
           lang = lang.replace(/-/,'_');
           // - For modal association selectors.
           target.find('#jform_associations_' + lang + '_id').val('');
@@ -78,7 +84,9 @@ jQuery(document).ready(function($) {
 
       // Save one of the items to confirm action
       Joomla.submitbutton('reference');
-    } else {
+    } 
+    else 
+    {
       // Saving target or reference, send the save action to the target/reference iframe.
       // We need to re-enable the language field to save.
       $('#' + task + '-association').contents().find('#jform_language').attr('disabled', false);
@@ -93,9 +101,12 @@ jQuery(document).ready(function($) {
     var referenceHide = this.getAttribute('data-hide-reference');
     var referenceShow = this.getAttribute('data-show-reference');
 
-    if ($(this).text() === referenceHide) {
+    if ($(this).text() === referenceHide) 
+    {
       $(this).text(referenceShow);
-    } else {
+    } 
+    else 
+    {
       $(this).text(referenceHide);
     }
 
@@ -109,7 +120,8 @@ jQuery(document).ready(function($) {
     var selected = $(this).val();
 
     // Populate the data attributes and load the the edit page in target frame.
-    if (selected !== '' && typeof selected !== 'undefined') {
+    if (selected !== '' && typeof selected !== 'undefined') 
+    {
       target.setAttribute('data-action', selected.split(':')[2]);
       target.setAttribute('data-id', selected.split(':')[1]);
       target.setAttribute('data-language', selected.split(':')[0]);
@@ -119,7 +131,9 @@ jQuery(document).ready(function($) {
 
       // Load the target frame.
       target.src = target.getAttribute('data-editurl') + '&task=' + target.getAttribute('data-item') + '.' + target.getAttribute('data-action') + '&id=' + target.getAttribute('data-id');
-    } else {
+    } 
+    else 
+    {
       // Reset the data attributes and no item to load.
       $('#toolbar-target').hide();
       $('#toolbar-copy').hide();
@@ -150,7 +164,8 @@ jQuery(document).ready(function($) {
     document.getElementById('target-association').setAttribute('src', document.getElementById('target-association').getAttribute('src'));
 
     // If copy button used
-    if ($(this).contents().find('#jform_id').val() !== this.getAttribute('data-id')) {
+    if ($(this).contents().find('#jform_id').val() !== this.getAttribute('data-id')) 
+    {
       var target = document.getElementById('target-association');
       target.src = target.getAttribute('data-editurl') + '&task=' + target.getAttribute('data-item') + '.edit' + '&id=' + $(this).contents().find('#jform_id').val();
       this.src   = this.getAttribute('data-editurl') + '&task=' + this.getAttribute('data-item') + '.edit' + '&id=' + this.getAttribute('data-id');
@@ -169,11 +184,13 @@ jQuery(document).ready(function($) {
     $('#jform_itemlanguage option').each(function() {
       parse = $(this).val().split(':');
 
-      if (typeof parse[0] !== 'undefined') {
+      if (typeof parse[0] !== 'undefined') 
+      {
         // - For modal association selectors.
         var langAssociation = parse[0].replace(/-/,'_');
 
-        if (reference.find('#jform_associations_' + langAssociation + '_id').val() == '') {
+        if (reference.find('#jform_associations_' + langAssociation + '_id').val() == '') 
+        {
           reference.find('#jform_associations_' + langAssociation + '_name')
             .val(document.getElementById('reference-association').getAttribute('data-no-assoc'));
         }
@@ -182,7 +199,8 @@ jQuery(document).ready(function($) {
 
     // Iframe load finished, hide Joomla loading layer.
     var spinner = document.querySelector('joomla-core-loader');
-    if (spinner) {
+    if (spinner) 
+    {
       spinner.parentNode.removeChild(spinner);
     }
   });
@@ -190,7 +208,8 @@ jQuery(document).ready(function($) {
   // Attach behaviour to target frame load event.
   $('#target-association').on('load', function() {
     // We need to check if we are not loading a blank iframe.
-    if (this.getAttribute('src') != '') {
+    if (this.getAttribute('src') != '') 
+    {
       $('#toolbar-target').show();
       $('#toolbar-copy').show();
       $('#select-change').removeClass("hidden");
@@ -204,7 +223,8 @@ jQuery(document).ready(function($) {
       $(this).contents().find('#associations').find('.btn').remove();
 
       // Always show General tab first if associations tab is selected on the reference
-      if ($(this).contents().find('#associations').hasClass('active')) {
+      if ($(this).contents().find('#associations').hasClass('active')) 
+      {
         $(this).contents().find('a[href=\"#associations\"]').parent().removeClass('active');
         $(this).contents().find('#associations').removeClass('active');
 
@@ -234,7 +254,8 @@ jQuery(document).ready(function($) {
         document.getElementById('target-id').value = updatedList;
 
         // If we created a new association (after save).
-        if (targetLoadedId != targetId) {
+        if (targetLoadedId != targetId) 
+        {
           // Refresh the language selector with the new id (used after save).
           $('#jform_itemlanguage option[value^=\"' + targetLanguage + ':' + targetId + ':add\"]').val(targetLanguage + ':' + targetLoadedId + ':edit');
 
@@ -281,7 +302,8 @@ jQuery(document).ready(function($) {
       $('#jform_itemlanguage option').each(function() {
         parse = $(this).val().split(':');
 
-        if (typeof parse[1] !== 'undefined' && parse[1] !== '0') {
+        if (typeof parse[1] !== 'undefined' && parse[1] !== '0') 
+        {
           // - For modal association selectors.
           langAssociation = parse[0].replace(/-/,'_');
           target.find('#jform_associations_' + langAssociation + '_id').val(parse[1]);
@@ -295,7 +317,8 @@ jQuery(document).ready(function($) {
 
       // Iframe load finished, hide Joomla loading layer.
       var spinner = document.querySelector('joomla-core-loader');
-      if (spinner) {
+      if (spinner) 
+      {
         spinner.parentNode.removeChild(spinner);
       }
     }

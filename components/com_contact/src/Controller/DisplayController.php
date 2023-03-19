@@ -41,7 +41,8 @@ class DisplayController extends BaseController
         // Contact frontpage Editor contacts proxying.
         $input = Factory::getApplication()->input;
 
-        if ($input->get('view') === 'contacts' && $input->get('layout') === 'modal') {
+        if ($input->get('view') === 'contacts' && $input->get('layout') === 'modal') 
+        {
             $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
         }
 
@@ -60,7 +61,8 @@ class DisplayController extends BaseController
      */
     public function display($cachable = false, $urlparams = [])
     {
-        if ($this->app->getUserState('com_contact.contact.data') === null) {
+        if ($this->app->getUserState('com_contact.contact.data') === null) 
+        {
             $cachable = true;
         }
 
@@ -68,7 +70,8 @@ class DisplayController extends BaseController
         $vName = $this->input->get('view', 'categories');
         $this->input->set('view', $vName);
 
-        if ($this->app->getIdentity()->get('id')) {
+        if ($this->app->getIdentity()->get('id')) 
+        {
             $cachable = false;
         }
 

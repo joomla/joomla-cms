@@ -59,7 +59,8 @@ class ComponentController extends ApiController
         $viewType = $this->app->getDocument()->getType();
         $viewLayout = $this->input->get('layout', 'default', 'string');
 
-        try {
+        try 
+        {
             /** @var JsonapiView $view */
             $view = $this->getView(
                 $this->default_view,
@@ -67,14 +68,17 @@ class ComponentController extends ApiController
                 '',
                 ['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]
             );
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) 
+        {
             throw new \RuntimeException($e->getMessage());
         }
 
         /** @var ComponentModel $model */
         $model = $this->getModel($this->contentType);
 
-        if (!$model) {
+        if (!$model) 
+        {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'), 500);
         }
 
@@ -100,12 +104,14 @@ class ComponentController extends ApiController
         /** @var ComponentModel $model */
         $model = $this->getModel($this->contentType);
 
-        if (!$model) {
+        if (!$model) 
+        {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'), 500);
         }
 
         // Access check.
-        if (!$this->allowEdit()) {
+        if (!$this->allowEdit()) 
+        {
             throw new NotAllowed('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED', 403);
         }
 
@@ -126,14 +132,19 @@ class ComponentController extends ApiController
         // Validate the posted data.
         $validData = $model->validate($form, $data);
 
-        if ($validData === false) {
+        if ($validData === false) 
+        {
             $errors   = $model->getErrors();
             $messages = [];
 
-            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
-                if ($errors[$i] instanceof \Exception) {
+            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) 
+            {
+                if ($errors[$i] instanceof \Exception) 
+                {
                     $messages[] = "{$errors[$i]->getMessage()}";
-                } else {
+                } 
+                else 
+                {
                     $messages[] = "{$errors[$i]}";
                 }
             }
@@ -148,7 +159,8 @@ class ComponentController extends ApiController
             'option' => $option,
         ];
 
-        if (!$model->save($data)) {
+        if (!$model->save($data)) 
+        {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SERVER'), 500);
         }
 

@@ -12,11 +12,13 @@
     // Get the elements
     const elements = [].slice.call(document.querySelectorAll('.system-counter'));
 
-    if (elements.length) {
+    if (elements.length) 
+    {
       elements.forEach((element) => {
         const badgeurl = element.getAttribute('data-url');
 
-        if (badgeurl && Joomla && Joomla.request && typeof Joomla.request === 'function') {
+        if (badgeurl && Joomla && Joomla.request && typeof Joomla.request === 'function') 
+        {
           Joomla.enqueueRequest({
             url: badgeurl,
             method: 'POST',
@@ -24,18 +26,24 @@
           }).then((xhr) => {
             const resp = xhr.responseText;
             let response;
-            try {
+            try 
+            {
               response = JSON.parse(resp);
-            } catch (error) {
+            } 
+            catch (error) 
+            {
               throw new Error('Failed to parse JSON');
             }
 
-            if (response.error || !response.success) {
+            if (response.error || !response.success) 
+            {
               element.classList.remove('icon-spin');
               element.classList.remove('icon-spinner');
               element.classList.add('text-danger');
               element.classList.add('icon-remove');
-            } else if (response.data) {
+            } 
+            else if (response.data) 
+            {
               const elem = document.createElement('span');
 
               elem.classList.add('float-end');
@@ -44,7 +52,9 @@
               elem.innerHTML = Joomla.sanitizeHtml(response.data);
 
               element.parentNode.replaceChild(elem, element);
-            } else {
+            } 
+            else 
+            {
               element.classList.remove('icon-spin');
               element.classList.remove('icon-spinner');
               element.classList.add('icon-check');

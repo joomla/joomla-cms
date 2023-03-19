@@ -14,13 +14,17 @@
     elements.forEach((element) => {
       let options = {};
 
-      if (element.dataset) {
+      if (element.dataset) 
+      {
         options = element.dataset;
-      } else {
+      } 
+      else 
+      {
         optionKeys.forEach((key) => {
           const optionKeyFq = `data-${optionKeys[key]}`;
 
-          if (element.hasAttribute(optionKeyFq)) {
+          if (element.hasAttribute(optionKeyFq)) 
+          {
             options[optionKeys[key]] = element.getAttribute(optionKeyFq);
           }
         });

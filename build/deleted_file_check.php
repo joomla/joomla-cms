@@ -40,7 +40,8 @@ function usage($command)
 $options = getopt('', ['from:', 'to::']);
 
 // We need the from reference, otherwise we're doomed to fail
-if (empty($options['from'])) {
+if (empty($options['from'])) 
+{
     echo PHP_EOL;
     echo 'Missing starting directory' . PHP_EOL;
 
@@ -50,7 +51,8 @@ if (empty($options['from'])) {
 }
 
 // Missing the to reference?  No problem, grab the current HEAD
-if (empty($options['to'])) {
+if (empty($options['to'])) 
+{
     echo PHP_EOL;
     echo 'Missing ending directory' . PHP_EOL;
 
@@ -81,7 +83,8 @@ $previousReleaseExclude = [
  * @return bool True if you need to recurse or if the item is acceptable
  */
 $previousReleaseFilter = function ($file, $key, $iterator) use ($previousReleaseExclude) {
-    if ($iterator->hasChildren() && !in_array($file->getPathname(), $previousReleaseExclude)) {
+    if ($iterator->hasChildren() && !in_array($file->getPathname(), $previousReleaseExclude)) 
+    {
         return true;
     }
 
@@ -101,7 +104,8 @@ $newReleaseExclude = [
  * @return bool True if you need to recurse or if the item is acceptable
  */
 $newReleaseFilter = function ($file, $key, $iterator) use ($newReleaseExclude) {
-    if ($iterator->hasChildren() && !in_array($file->getPathname(), $newReleaseExclude)) {
+    if ($iterator->hasChildren() && !in_array($file->getPathname(), $newReleaseExclude)) 
+    {
         return true;
     }
 
@@ -116,8 +120,10 @@ $previousReleaseIterator = new RecursiveIteratorIterator(
 $previousReleaseFiles = [];
 $previousReleaseFolders = [];
 
-foreach ($previousReleaseIterator as $info) {
-    if ($info->isDir()) {
+foreach ($previousReleaseIterator as $info) 
+{
+    if ($info->isDir()) 
+    {
         $previousReleaseFolders[] = "'" . str_replace($options['from'], '', $info->getPathname()) . "',";
         continue;
     }
@@ -133,8 +139,10 @@ $newReleaseIterator = new RecursiveIteratorIterator(
 $newReleaseFiles = [];
 $newReleaseFolders = [];
 
-foreach ($newReleaseIterator as $info) {
-    if ($info->isDir()) {
+foreach ($newReleaseIterator as $info) 
+{
+    if ($info->isDir()) 
+    {
         $newReleaseFolders[] = "'" . str_replace($options['to'], '', $info->getPathname()) . "',";
         continue;
     }
@@ -182,8 +190,10 @@ $foldersToKeep = [
 ];
 
 // Remove folders from the results which we want to keep on upgrade
-foreach ($foldersToKeep as $folder) {
-    if (($key = array_search($folder, $foldersDifference)) !== false) {
+foreach ($foldersToKeep as $folder) 
+{
+    if (($key = array_search($folder, $foldersDifference)) !== false) 
+    {
         unset($foldersDifference[$key]);
     }
 }
@@ -194,18 +204,23 @@ rsort($foldersDifference);
 $deletedFiles = [];
 $renamedFiles = [];
 
-foreach ($filesDifference as $file) {
+foreach ($filesDifference as $file) 
+{
     // Don't remove any specific files (e.g. language files) that we want to keep on upgrade
-    if (array_search($file, $filesToKeep) !== false) {
+    if (array_search($file, $filesToKeep) !== false) 
+    {
         continue;
     }
 
     // Check for files which might have been renamed only
     $matches = preg_grep('/^' . preg_quote($file, '/') . '$/i', $newReleaseFiles);
 
-    if ($matches !== false) {
-        foreach ($matches as $match) {
-            if (dirname($match) === dirname($file) && strtolower(basename($match)) === strtolower(basename($file))) {
+    if ($matches !== false) 
+    {
+        foreach ($matches as $match) 
+        {
+            if (dirname($match) === dirname($file) && strtolower(basename($match)) === strtolower(basename($file))) 
+            {
                 // File has been renamed only: Add to renamed files list
                 $renamedFiles[] = substr($file, 0, -1) . ' => ' . $match;
 

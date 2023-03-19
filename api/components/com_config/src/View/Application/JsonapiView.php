@@ -43,7 +43,8 @@ class JsonapiView extends BaseApiView
         $model = $this->getModel();
         $items = [];
 
-        foreach ($model->getData() as $key => $value) {
+        foreach ($model->getData() as $key => $value) 
+        {
             $item    = (object) [$key => $value];
             $items[] = $this->prepareItem($item);
         }
@@ -64,7 +65,8 @@ class JsonapiView extends BaseApiView
             ->addLink('self', (string) $currentUrl);
 
         // Check for first and previous pages
-        if ($offset > 0) {
+        if ($offset > 0) 
+        {
             $firstPage = clone $currentUrl;
             $firstPageQuery = $currentPageQuery;
             $firstPageQuery['offset'] = 0;
@@ -81,7 +83,8 @@ class JsonapiView extends BaseApiView
         }
 
         // Check for next and last pages
-        if ($offset + $limit < $totalItemsCount) {
+        if ($offset + $limit < $totalItemsCount) 
+        {
             $nextPage = clone $currentUrl;
             $nextPageQuery = $currentPageQuery;
             $nextOffset = $currentPageQuery['offset'] + $limit;

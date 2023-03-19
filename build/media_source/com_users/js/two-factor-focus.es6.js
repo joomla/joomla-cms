@@ -15,13 +15,18 @@
     if (
       elCodeField && elCodeField.style.display !== 'none'
       && !elCodeField.classList.contains('visually-hidden') && elCodeField.type !== 'hidden'
-    ) {
+    ) 
+    {
       elCodeField.focus();
-    } else {
-      if (elValidateButton) {
+    } 
+    else 
+    {
+      if (elValidateButton) 
+      {
         elValidateButton.focus();
       }
-      if (elToolbarButton) {
+      if (elToolbarButton) 
+      {
         elToolbarButton.focus();
       }
     }
@@ -41,7 +46,8 @@
 
         const elLogout = document.getElementById('users-mfa-captive-button-logout');
 
-        if (elLogout) {
+        if (elLogout) 
+        {
           elLogout.click();
         }
       });
@@ -53,7 +59,8 @@
 
         const elChooseAnother = document.getElementById('users-mfa-captive-form-choose-another');
 
-        if (elChooseAnother) {
+        if (elChooseAnother) 
+        {
           elChooseAnother.click();
         }
       });

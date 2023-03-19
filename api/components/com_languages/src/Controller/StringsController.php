@@ -54,11 +54,13 @@ class StringsController extends ApiController
     {
         $data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
 
-        if (!isset($data['searchstring']) || !\is_string($data['searchstring'])) {
+        if (!isset($data['searchstring']) || !\is_string($data['searchstring'])) 
+        {
             throw new InvalidParameterException("Invalid param 'searchstring'");
         }
 
-        if (!isset($data['searchtype']) || !\in_array($data['searchtype'], ['constant', 'value'])) {
+        if (!isset($data['searchtype']) || !\in_array($data['searchtype'], ['constant', 'value'])) 
+        {
             throw new InvalidParameterException("Invalid param 'searchtype'");
         }
 
@@ -79,14 +81,17 @@ class StringsController extends ApiController
                 '',
                 ['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]
             );
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) 
+        {
             throw new \RuntimeException($e->getMessage());
         }
 
         /** @var \Joomla\Component\Languages\Administrator\Model\StringsModel $model */
         $model = $this->getModel($this->contentType, '', ['ignore_request' => true]);
 
-        if (!$model) {
+        if (!$model) 
+        {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
         }
 
@@ -112,13 +117,15 @@ class StringsController extends ApiController
         /** @var \Joomla\Component\Languages\Administrator\Model\StringsModel $model */
         $model = $this->getModel($this->contentType, '', ['ignore_request' => true]);
 
-        if (!$model) {
+        if (!$model) 
+        {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
         }
 
         $result = $model->refresh();
 
-        if ($result instanceof \Exception) {
+        if ($result instanceof \Exception) 
+        {
             throw $result;
         }
 

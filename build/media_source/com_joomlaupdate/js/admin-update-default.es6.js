@@ -3,7 +3,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-if (!Joomla) {
+if (!Joomla) 
+{
   throw new Error('Joomla API was not initialised properly');
 }
 
@@ -26,7 +27,8 @@ Joomla.Update = window.Joomla.Update || {
     headerDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_GENERIC');
     messageDiv.innerHTML = message;
 
-    if (message.toLowerCase() === 'invalid login') {
+    if (message.toLowerCase() === 'invalid login') 
+    {
       messageDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_INVALIDLOGIN');
     }
 
@@ -41,10 +43,13 @@ Joomla.Update = window.Joomla.Update || {
     const progressDiv = document.getElementById('joomlaupdate-progress');
     const errorDiv = document.getElementById('joomlaupdate-error');
 
-    if (isForbidden) {
+    if (isForbidden) 
+    {
       headerDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_FORBIDDEN');
       messageDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_FORBIDDEN');
-    } else {
+    } 
+    else 
+    {
       headerDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_SERVERERROR');
       messageDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_SERVERERROR');
     }
@@ -74,11 +79,14 @@ Joomla.Update = window.Joomla.Update || {
       method: 'POST',
       perform: true,
       onSuccess: (rawJson) => {
-        try {
+        try 
+        {
           // If we can decode the response as JSON step through the update
           const data = JSON.parse(rawJson);
           Joomla.Update.stepExtract(data);
-        } catch (e) {
+        } 
+        catch (e) 
+        {
           // Decoding failed; display an error
           Joomla.Update.genericErrorMessage(e.message);
         }
@@ -88,7 +96,8 @@ Joomla.Update = window.Joomla.Update || {
   },
   stepExtract: (data) => {
     // Did we get an error from the ZIP extraction engine?
-    if (data.status === false) {
+    if (data.status === false)
+    {
       Joomla.Update.genericErrorMessage(data.message);
 
       return;
@@ -107,11 +116,14 @@ Joomla.Update = window.Joomla.Update || {
     Joomla.Update.stat_outbytes = data.bytesOut;
     Joomla.Update.stat_files = data.files;
 
-    if (Joomla.Update.stat_percent < 100) {
+    if (Joomla.Update.stat_percent < 100) 
+    {
       progressDiv.classList.remove('bg-success');
       progressDiv.style.width = `${Joomla.Update.stat_percent}%`;
       progressDiv.setAttribute('aria-valuenow', Joomla.Update.stat_percent);
-    } else if (Joomla.Update.stat_percent >= 100) {
+    } 
+    else if (Joomla.Update.stat_percent >= 100) 
+    {
       progressDiv.classList.add('bg-success');
       progressDiv.style.width = '100%';
       progressDiv.setAttribute('aria-valuenow', 100);
@@ -124,7 +136,8 @@ Joomla.Update = window.Joomla.Update || {
     document.getElementById('extfiles').innerText = Joomla.Update.stat_files;
 
     // Are we done extracting?
-    if (data.done) {
+    if (data.done) 
+    {
       progressDiv.classList.add('bg-success');
       progressDiv.style.width = '100%';
       progressDiv.setAttribute('aria-valuenow', 100);
@@ -147,7 +160,8 @@ Joomla.Update = window.Joomla.Update || {
     postData.append('task', 'stepExtract');
     postData.append('password', Joomla.Update.password);
 
-    if (instance) {
+    if (instance) 
+    {
       postData.append('instance', instance);
     }
 
@@ -157,10 +171,13 @@ Joomla.Update = window.Joomla.Update || {
       method: 'POST',
       perform: true,
       onSuccess: (rawJson) => {
-        try {
+        try 
+        {
           const newData = JSON.parse(rawJson);
           Joomla.Update.stepExtract(newData);
-        } catch (e) {
+        } 
+        catch (e) 
+        {
           Joomla.Update.genericErrorMessage(e.message);
         }
       },
@@ -209,9 +226,12 @@ Joomla.Update = window.Joomla.Update || {
     document.getElementById('joomlaupdate-progress').classList.remove('d-none');
     document.getElementById('joomlaupdate-error').classList.add('d-none');
 
-    if (Joomla.Update.cached_instance === false) {
+    if (Joomla.Update.cached_instance === false) 
+    {
       Joomla.Update.startExtract();
-    } else {
+    } 
+    else 
+    {
       Joomla.Update.delayedStepExtract(Joomla.Update.cached_instance);
     }
   },
@@ -229,18 +249,21 @@ Joomla.Update = window.Joomla.Update || {
 const elResume = document.getElementById('joomlaupdate-resume');
 const elRestart = document.getElementById('joomlaupdate-restart');
 
-if (elResume) {
+if (elResume) 
+{
   elResume.addEventListener('click', Joomla.Update.resumeButtonHandler);
 }
 
-if (elRestart) {
+if (elRestart) 
+{
   elRestart.addEventListener('click', Joomla.Update.restartButtonHandler);
 }
 
 // Start the update
 const JoomlaUpdateOptions = Joomla.getOptions('joomlaupdate');
 
-if (JoomlaUpdateOptions && Object.keys(JoomlaUpdateOptions).length) {
+if (JoomlaUpdateOptions && Object.keys(JoomlaUpdateOptions).length) 
+{
   Joomla.Update.password = JoomlaUpdateOptions.password;
   Joomla.Update.totalsize = JoomlaUpdateOptions.totalsize;
   Joomla.Update.ajax_url = JoomlaUpdateOptions.ajax_url;

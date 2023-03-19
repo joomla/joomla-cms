@@ -29,7 +29,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 const JOOMLA_MINIMUM_PHP = '7.2.5';
 
-if (!defined('_JDEFINES')) {
+if (!defined('_JDEFINES')) 
+{
     define('JPATH_BASE', dirname(__DIR__));
     require_once JPATH_BASE . '/includes/defines.php';
 }
@@ -68,7 +69,8 @@ $command = new class extends AbstractCommand
     {
         $io = new SymfonyStyle($input, $output);
 
-        if (!class_exists(Http::class)) {
+        if (!class_exists(Http::class)) 
+        {
             $io->error(
                 'The `joomla/mediawiki` package is not installed. To use this script, you must run `composer install` to install development'
                 . ' dependencies not tracked in this repo.'
@@ -135,31 +137,45 @@ $command = new class extends AbstractCommand
             // Validate the key exists
             $io->comment(sprintf('Validating key COM_ADMIN_HELP_%s', $string));
 
-            if ($language->hasKey('COM_ADMIN_HELP_' . $string)) {
+            if ($language->hasKey('COM_ADMIN_HELP_' . $string)) 
+            {
                 $io->comment(sprintf('Adding %s', $string));
 
                 $toc[$value] = $string;
-            } else {
+            } 
+            else 
+            {
                 // We check the string for words in singular/plural form and check again
                 $io->comment(sprintf('Inflecting %s', $string));
 
-                if (strpos($string, '_CATEGORIES') !== false) {
+                if (strpos($string, '_CATEGORIES') !== false) 
+                {
                     $inflected = str_replace('_CATEGORIES', '_CATEGORY', $string);
-                } elseif (strpos($string, '_USERS') !== false) {
+                } 
+                elseif (strpos($string, '_USERS') !== false) 
+                {
                     $inflected = str_replace('_USERS', '_USER', $string);
-                } elseif (strpos($string, '_CATEGORY') !== false) {
+                } 
+                elseif (strpos($string, '_CATEGORY') !== false) 
+                {
                     $inflected = str_replace('_CATEGORY', '_CATEGORIES', $string);
-                } elseif (strpos($string, '_USER') !== false) {
+                }
+                elseif (strpos($string, '_USER') !== false) 
+                {
                     $inflected = str_replace('_USER', '_USERS', $string);
-                } else {
+                } 
+                else 
+                {
                     $inflected = '';
                 }
 
                 // Now try to validate the key
-                if ($inflected !== '') {
+                if ($inflected !== '') 
+                {
                     $io->comment(sprintf('Validating key COM_ADMIN_HELP_%s', $inflected));
 
-                    if ($language->hasKey('COM_ADMIN_HELP_' . $inflected)) {
+                    if ($language->hasKey('COM_ADMIN_HELP_' . $inflected)) 
+                    {
                         $io->comment(sprintf('Adding %s', $inflected));
 
                         $toc[$value] = $inflected;

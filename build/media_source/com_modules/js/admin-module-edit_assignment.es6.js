@@ -6,9 +6,12 @@
   'use strict';
 
   const onChange = (value) => {
-    if (value === '-' || parseInt(value, 10) === 0) {
+    if (value === '-' || parseInt(value, 10) === 0) 
+    {
       document.getElementById('menuselect-group').classList.add('hidden');
-    } else {
+    } 
+    else
+    {
       document.getElementById('menuselect-group').classList.remove('hidden');
     }
   };
@@ -16,7 +19,8 @@
   const onBoot = () => {
     const element = document.getElementById('jform_assignment');
 
-    if (element) {
+    if (element) 
+    {
       // Initialise the state
       onChange(element.value);
 

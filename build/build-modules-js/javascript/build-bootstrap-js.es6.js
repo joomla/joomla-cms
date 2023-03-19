@@ -147,10 +147,13 @@ const buildLegacy = async () => {
 module.exports.bootstrapJs = async () => {
   rimraf.sync(resolve(outputFolder));
 
-  try {
+  try 
+  {
     await build(resolve(inputFolder, 'index.es6.js'));
     await unlink(resolve(outputFolder, 'index.es6.js'));
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     // eslint-disable-next-line no-console
     console.error(error);
     process.exit(1);
@@ -164,14 +167,17 @@ module.exports.bootstrapJs = async () => {
     // eslint-disable-next-line no-console
     console.log('✅ ES6 components ready');
 
-    try {
+    try 
+    {
       await buildLegacy(inputFolder, 'index.es6.js');
       const es5File = await readFile(resolve(outputFolder, 'bootstrap-es5.js'), { encoding: 'utf8' });
       const mini = await minify(es5File, { sourceMap: false, format: { comments: false } });
       await writeFile(resolve(outputFolder, 'bootstrap-es5.min.js'), mini.code, { encoding: 'utf8', mode: 0o644 });
       // eslint-disable-next-line no-console
       console.log('✅ Legacy done!');
-    } catch (error) {
+    } 
+    catch (error) 
+    {
       // eslint-disable-next-line no-console
       console.error(error);
       process.exit(1);

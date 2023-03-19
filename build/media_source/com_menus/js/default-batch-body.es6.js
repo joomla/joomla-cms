@@ -8,18 +8,23 @@
   let batchSelector;
 
   const onChange = () => {
-    if (batchSelector.value !== 0 || batchSelector.value !== '') {
+    if (batchSelector.value !== 0 || batchSelector.value !== '') 
+    {
       batchCopyMove.classList.remove('hidden');
-    } else {
+    } 
+    else 
+    {
       batchCopyMove.classList.add('hidden');
     }
   };
 
-  if (batchMenu) {
+  if (batchMenu) 
+  {
     batchSelector = batchMenu;
   }
 
-  if (batchCopyMove) {
+  if (batchCopyMove) 
+  {
     batchSelector.addEventListener('change', onChange);
   }
 })(document);

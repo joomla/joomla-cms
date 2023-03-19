@@ -28,16 +28,19 @@ $wa->useScript('keepalive')
 $editorText  = false;
 $moduleXml   = JPATH_SITE . '/modules/' . $this->item['module'] . '/' . $this->item['module'] . '.xml';
 
-if (File::exists($moduleXml)) {
+if (File::exists($moduleXml)) 
+{
     $xml = simplexml_load_file($moduleXml);
 
-    if (isset($xml->customContent)) {
+    if (isset($xml->customContent)) 
+    {
         $editorText = true;
     }
 }
 
 // If multi-language site, make language read-only
-if (Multilanguage::isEnabled()) {
+if (Multilanguage::isEnabled()) 
+{
     $this->form->setFieldAttribute('language', 'readonly', 'true');
 }
 ?>

@@ -27,7 +27,8 @@
       const response = xhr.responseText;
       const request = JSON.parse(response);
 
-      if (request.data.number_urgent_requests) {
+      if (request.data.number_urgent_requests) 
+      {
         // Quickicon on dashboard shows message
         const countBadge = document.createElement('span');
         countBadge.classList.add('badge', 'text-dark', 'bg-light');
@@ -57,7 +58,9 @@
         // Add elements to container for alert messages
         const container = document.querySelector('#system-message-container');
         container.insertBefore(div, container.firstChild);
-      } else {
+      } 
+      else 
+      {
         quickicon.classList.add('success');
         link.textContent = text.NOREQUEST;
       }

@@ -34,15 +34,21 @@ Joomla = window.Joomla || {};
       url: `index.php?option=com_installer&task=manage.loadChangelog&eid=${extensionId}&source=${view}&format=json`,
       onSuccess: (response) => {
         let message = '';
-        try {
+        try 
+        {
           const result = JSON.parse(response);
 
-          if (result.error) {
+          if (result.error) 
+          {
             [message] = result;
-          } else {
+          } 
+          else 
+          {
             message = result.data;
           }
-        } catch (exception) {
+        } 
+        catch (exception) 
+        {
           message = exception;
         }
         modal.innerHTML = Joomla.sanitizeHtml(message);

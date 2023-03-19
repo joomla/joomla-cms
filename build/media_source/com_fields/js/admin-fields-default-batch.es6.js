@@ -10,9 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
   batchCopyMove.classList.add('hidden');
 
   batchSelector.addEventListener('change', () => {
-    if (batchSelector.value === 'nogroup' || batchSelector.value !== '') {
+    if (batchSelector.value === 'nogroup' || batchSelector.value !== '') 
+    {
       batchCopyMove.classList.remove('hidden');
-    } else {
+    } 
+    else 
+    {
       batchCopyMove.classList.add('hidden');
     }
   }, false);

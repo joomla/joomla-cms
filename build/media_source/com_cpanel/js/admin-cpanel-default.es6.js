@@ -44,7 +44,8 @@ const debounce = (callback, time = 250, interval) => (...args) => clearTimeout(i
 
   const onBoot = () => {
     const cpanelModules = document.getElementById('content');
-    if (cpanelModules) {
+    if (cpanelModules) 
+    {
       const links = [].slice.call(cpanelModules.querySelectorAll('.unpublish-module'));
       links.forEach((link) => {
         link.addEventListener('click', ({ target }) => Joomla.unpublishModule(target));
@@ -67,7 +68,8 @@ const debounce = (callback, time = 250, interval) => (...args) => clearTimeout(i
     // Calculate "grid-row-end" property
     resizeGridItem($cell, rowHeight, rowGap) {
       const $content = $cell.querySelector('.card');
-      if ($content) {
+      if ($content) 
+      {
         const contentHeight = $content.getBoundingClientRect().height + rowGap;
         const rowSpan = Math.ceil(contentHeight / (rowHeight + rowGap));
 

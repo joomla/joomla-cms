@@ -36,7 +36,8 @@ class ConfigModel extends FormModel
         // Get the form.
         $form = $this->loadForm('com_config.config', 'config', ['control' => 'jform', 'load_data' => $loadData]);
 
-        if (empty($form)) {
+        if (empty($form)) 
+        {
             return false;
         }
 

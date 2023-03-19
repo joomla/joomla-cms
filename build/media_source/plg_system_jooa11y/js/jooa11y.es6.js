@@ -1,6 +1,7 @@
 import { Jooa11y, Lang } from '@joomla/joomla-a11y-checker/dist/js/joomla-a11y-checker.esm.js';
 
-if (!Joomla) {
+if (!Joomla) 
+{
   throw new Error('Joomla API is not properly initialised');
 }
 

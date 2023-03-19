@@ -20,7 +20,8 @@
   const enable = (element) => element.removeAttribute('disabled');
 
   const toggleState = (element, rootChecked) => {
-    if (rootChecked === true) {
+    if (rootChecked === true) 
+    {
       disable(element);
       check(element);
 
@@ -34,7 +35,8 @@
     const root = getTreeRoot(target);
     const selfChecked = isChecked(target);
 
-    if (root) {
+    if (root) 
+    {
       getTreeElements(root).map((element) => toggleState(element, selfChecked));
     }
   };

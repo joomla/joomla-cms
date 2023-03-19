@@ -8,17 +8,20 @@
 
   // Ajax call to get the update status of the installed extensions
   const fetchUpdate = () => {
-    if (Joomla.getOptions('js-extensions-update')) {
+    if (Joomla.getOptions('js-extensions-update')) 
+    {
       const options = Joomla.getOptions('js-extensions-update');
 
       const update = (type, text) => {
         const link = document.getElementById('plg_quickicon_extensionupdate');
         const linkSpans = [].slice.call(link.querySelectorAll('span.j-links-link'));
-        if (link) {
+        if (link) 
+        {
           link.classList.add(type);
         }
 
-        if (linkSpans.length) {
+        if (linkSpans.length) 
+        {
           linkSpans.forEach((span) => {
             span.innerHTML = Joomla.sanitizeHtml(text);
           });
@@ -38,14 +41,20 @@
         const response = xhr.responseText;
         const updateInfoList = JSON.parse(response);
 
-        if (Array.isArray(updateInfoList)) {
-          if (updateInfoList.length === 0) {
+        if (Array.isArray(updateInfoList)) 
+        {
+          if (updateInfoList.length === 0) 
+          {
             // No updates
             update('success', Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE'));
-          } else {
+          } 
+          else 
+          {
             update('danger', Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND').replace('%s', `<span class="badge text-dark bg-light">${updateInfoList.length}</span>`));
           }
-        } else {
+        } 
+        else 
+        {
           // An error occurred
           update('danger', Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_ERROR'));
         }

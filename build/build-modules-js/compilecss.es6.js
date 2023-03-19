@@ -23,19 +23,25 @@ module.exports.stylesheets = async (options, path) => {
   const files = [];
   let folders = [];
 
-  if (path) {
+  if (path) 
+  {
     const stats = await stat(`${RootPath}/${path}`);
 
-    if (stats.isDirectory()) {
+    if (stats.isDirectory()) 
+    {
       folders.push(`${RootPath}/${path}`);
     } else if (stats.isFile()) {
       files.push(`${RootPath}/${path}`);
-    } else {
+    } 
+    else 
+    {
       // eslint-disable-next-line no-console
       console.error(`Unknown path ${path}`);
       process.exit(1);
     }
-  } else {
+  } 
+  else 
+  {
     folders = [
       `${RootPath}/build/media_source`,
       `${RootPath}/templates`,
@@ -49,7 +55,8 @@ module.exports.stylesheets = async (options, path) => {
 
   // Loop to get the files that should be compiled via parameter
   // eslint-disable-next-line no-restricted-syntax
-  for (const folder of folders) {
+  for (const folder of folders) 
+  {
     folderPromises.push(recursive(folder, ['!*.+(scss|css)']));
   }
 
@@ -60,14 +67,17 @@ module.exports.stylesheets = async (options, path) => {
 
   // Loop to get the files that should be compiled via parameter
   [].concat(...computedFiles).forEach((file) => {
-    if (file.endsWith('.css') && !file.endsWith('.min.css')) {
+    if (file.endsWith('.css') && !file.endsWith('.min.css')) 
+    {
       cssFilesPromises.push(handleCssFile(file));
     }
 
     // Don't take files with "_" but "file" has the full path, so check via match
-    if (file.endsWith('.scss') && !file.match(/(\/|\\)_[^/\\]+$/)) {
+    if (file.endsWith('.scss') && !file.match(/(\/|\\)_[^/\\]+$/)) 
+    {
       // Bail out for non Joomla convention folders, eg: scss
-      if (!(file.match(/\/scss\//) || file.match(/\\scss\\/))) {
+      if (!(file.match(/\/scss\//) || file.match(/\\scss\\/))) 
+      {
         return;
       }
 
@@ -76,7 +86,8 @@ module.exports.stylesheets = async (options, path) => {
   });
 
   // eslint-disable-next-line no-restricted-syntax
-  for (const file of files) {
+  for (const file of files) 
+  {
     const outputFile = file.replace(`${sep}scss${sep}`, `${sep}css${sep}`)
       .replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`)
       .replace('.scss', '.css');

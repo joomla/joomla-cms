@@ -51,7 +51,8 @@ class RequestsController extends ApiController
      */
     public function export($id = null)
     {
-        if ($id === null) {
+        if ($id === null) 
+        {
             $id = $this->input->get('id', 0, 'int');
         }
 
@@ -59,7 +60,8 @@ class RequestsController extends ApiController
         $viewName   = $this->input->get('view', $this->default_view);
         $viewLayout = $this->input->get('layout', 'default', 'string');
 
-        try {
+        try 
+        {
             /** @var JsonapiView $view */
             $view = $this->getView(
                 $viewName,
@@ -67,15 +69,20 @@ class RequestsController extends ApiController
                 '',
                 ['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]
             );
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) 
+        {
             throw new \RuntimeException($e->getMessage());
         }
 
         $model = $this->getModel('export');
 
-        try {
+        try 
+        {
             $modelName = $model->getName();
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) 
+        {
             throw new \RuntimeException($e->getMessage());
         }
 

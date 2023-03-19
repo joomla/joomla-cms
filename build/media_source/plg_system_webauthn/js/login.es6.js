@@ -24,14 +24,19 @@ window.Joomla = window.Joomla || {};
     let encodedString = '';
 
     Object.keys(object).forEach((prop) => {
-      if (typeof object[prop] !== 'object') {
-        if (encodedString.length > 0) {
+      if (typeof object[prop] !== 'object') 
+      {
+        if (encodedString.length > 0) 
+        {
           encodedString += '&';
         }
 
-        if (prefix === '') {
+        if (prefix === '') 
+        {
           encodedString += `${encodeURIComponent(prop)}=${encodeURIComponent(object[prop])}`;
-        } else {
+        } 
+        else 
+        {
           encodedString
             += `${encodeURIComponent(prefix)}[${encodeURIComponent(prop)}]=${encodeURIComponent(
               object[prop],
@@ -59,7 +64,8 @@ window.Joomla = window.Joomla || {};
   const findField = (form, fieldSelector) => {
     const elInputs = form.querySelectorAll(fieldSelector);
 
-    if (!elInputs.length) {
+    if (!elInputs.length) 
+    {
       return null;
     }
 
@@ -79,13 +85,15 @@ window.Joomla = window.Joomla || {};
   const lookForField = (outerElement, fieldSelector) => {
     let elInput = null;
 
-    if (!outerElement) {
+    if (!outerElement) 
+    {
       return elInput;
     }
 
     const elElement = outerElement.parentElement;
 
-    if (elElement.nodeName === 'FORM') {
+    if (elElement.nodeName === 'FORM') 
+    {
       elInput = findField(elElement, fieldSelector);
 
       return elInput;
@@ -93,11 +101,14 @@ window.Joomla = window.Joomla || {};
 
     const elForms = elElement.querySelectorAll('form');
 
-    if (elForms.length) {
-      for (let i = 0; i < elForms.length; i += 1) {
+    if (elForms.length) 
+    {
+      for (let i = 0; i < elForms.length; i += 1) 
+      {
         elInput = findField(elForms[i], fieldSelector);
 
-        if (elInput !== null) {
+        if (elInput !== null) 
+        {
           return elInput;
         }
       }
@@ -129,8 +140,10 @@ window.Joomla = window.Joomla || {};
         .replace(/-/g, '+')
         .replace(/_/g, '/');
       const pad = output.length % 4;
-      if (pad) {
-        if (pad === 1) {
+      if (pad) 
+      {
+        if (pad === 1) 
+        {
           throw new Error('InvalidLengthError: Input base64url string is the wrong length to determine padding');
         }
         output += new Array(5 - pad).join('=');
@@ -138,7 +151,8 @@ window.Joomla = window.Joomla || {};
       return output;
     };
 
-    if (!publicKey.challenge) {
+    if (!publicKey.challenge) 
+    {
       handleLoginError(Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'));
 
       return;
@@ -146,7 +160,8 @@ window.Joomla = window.Joomla || {};
 
     publicKey.challenge = Uint8Array.from(window.atob(base64url2base64(publicKey.challenge)), (c) => c.charCodeAt(0));
 
-    if (publicKey.allowCredentials) {
+    if (publicKey.allowCredentials) 
+    {
       publicKey.allowCredentials = publicKey.allowCredentials.map((data) => {
         data.id = Uint8Array.from(window.atob(base64url2base64(data.id)), (c) => c.charCodeAt(0));
         return data;
@@ -196,7 +211,8 @@ window.Joomla = window.Joomla || {};
     const elUsername = lookForField(elFormContainer, 'input[name=username]');
     const elReturn = lookForField(elFormContainer, 'input[name=return]');
 
-    if (elUsername === null) {
+    if (elUsername === null) 
+    {
       Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_CANNOT_FIND_USERNAME')] });
 
       return false;
@@ -206,7 +222,8 @@ window.Joomla = window.Joomla || {};
     const returnUrl = elReturn ? elReturn.value : null;
 
     // No username? We cannot proceed. We need a username to find the acceptable public keys :(
-    if (username === '') {
+    if (username === '') 
+    {
       Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_EMPTY_USERNAME')] });
 
       return false;
@@ -236,9 +253,12 @@ window.Joomla = window.Joomla || {};
       onSuccess(rawResponse) {
         let jsonData = {};
 
-        try {
+        try 
+        {
           jsonData = JSON.parse(rawResponse);
-        } catch (e) {
+        } 
+        catch (e) 
+        {
           /**
            * In case of JSON decoding failure fall through; the error will be handled in the login
            * challenge handler called below.
@@ -257,7 +277,8 @@ window.Joomla = window.Joomla || {};
 
   // Initialization. Runs on DOM content loaded since this script is always loaded deferred.
   const loginButtons = [].slice.call(document.querySelectorAll('.plg_system_webauthn_login_button'));
-  if (loginButtons.length) {
+  if (loginButtons.length) 
+  {
     loginButtons.forEach((button) => {
       button.addEventListener('click', ({ currentTarget }) => {
         Joomla.plgSystemWebauthnLogin(currentTarget.getAttribute('data-webauthn-form'));

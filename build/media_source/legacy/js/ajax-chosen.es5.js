@@ -15,13 +15,16 @@
 (function($) {
   return $.fn.ajaxChosen = function(settings, callback, chosenOptions) {
     var chosenXhr, defaultOptions, options, select;
-    if (settings == null) {
+    if (settings == null) 
+    {
       settings = {};
     }
-    if (callback == null) {
+    if (callback == null) 
+    {
       callback = {};
     }
-    if (chosenOptions == null) {
+    if (chosenOptions == null) 
+    {
       chosenOptions = function() {};
     }
     defaultOptions = {
@@ -42,35 +45,44 @@
         val = $.trim($(this).val());
         msg = val.length < options.minTermLength ? options.keepTypingMsg : options.lookingForMsg + (" '" + val + "'");
         select.next('.chosen-container').find('.no-results').text(msg);
-        if (val === $(this).data('prevVal')) {
+        if (val === $(this).data('prevVal')) 
+        {
           return false;
         }
         $(this).data('prevVal', val);
-        if (this.timer) {
+        if (this.timer) 
+        {
           clearTimeout(this.timer);
         }
-        if (val.length < options.minTermLength) {
+        if (val.length < options.minTermLength) 
+        {
           return false;
         }
         field = $(this);
-        if (!(options.data != null)) {
+        if (!(options.data != null)) 
+        {
           options.data = {};
         }
         options.data[options.jsonTermKey] = val;
-        if (options.dataCallback != null) {
+        if (options.dataCallback != null) 
+        {
           options.data = options.dataCallback(options.data);
         }
         success = options.success;
         options.success = function(data) {
           var items, nbItems, selected_values;
-          if (!(data != null)) {
+          if (!(data != null)) 
+          {
             return;
           }
           selected_values = [];
           select.find('option').each(function() {
-            if (!$(this).is(":selected")) {
+            if (!$(this).is(":selected")) 
+            {
               return $(this).remove();
-            } else {
+            } 
+            else 
+            {
               return selected_values.push($(this).val() + "-" + $(this).text());
             }
           });
@@ -82,51 +94,68 @@
           $.each(items, function(i, element) {
             var group, text, value;
             nbItems++;
-            if (element.group) {
+            if (element.group) 
+            {
               group = select.find("optgroup[label='" + element.text + "']");
-              if (!group.size()) {
+              if (!group.size()) 
+              {
                 group = $("<optgroup />");
               }
               group.attr('label', element.text).appendTo(select);
               return $.each(element.items, function(i, element) {
                 var text, value;
-                if (typeof element === "string") {
+                if (typeof element === "string") 
+                {
                   value = i;
                   text = element;
-                } else {
+                } 
+                else 
+                {
                   value = element.value;
                   text = element.text;
                 }
-                if ($.inArray(value + "-" + text, selected_values) === -1) {
+                if ($.inArray(value + "-" + text, selected_values) === -1) 
+                {
                   return $("<option />").attr('value', value).html(text).appendTo(group);
                 }
               });
-            } else {
-              if (typeof element === "string") {
+            } 
+            else 
+            {
+              if (typeof element === "string") 
+              {
                 value = i;
                 text = element;
-              } else {
+              } 
+              else 
+              {
                 value = element.value;
                 text = element.text;
               }
-              if ($.inArray(value + "-" + text, selected_values) === -1) {
+              if ($.inArray(value + "-" + text, selected_values) === -1) 
+              {
                 return $("<option />").attr('value', value).html(text).appendTo(select);
               }
             }
           });
-          if (nbItems) {
+          if (nbItems) 
+          {
             select.trigger("chosen:updated");
-          } else {
+          } 
+          else 
+          {
             select.data().jchosen.no_results_clear();
             select.data().jchosen.no_results(field.val());
           }
-          if (success != null) {
+          if (success != null) 
+          {
             success(data);
           }
           return field.val(untrimmed_val);
         };
         return this.timer = setTimeout(function() {
-          if (chosenXhr) {
+          if (chosenXhr) 
+          {
             chosenXhr.abort();
           }
           return chosenXhr = $.ajax(options);
@@ -137,7 +166,8 @@
 })(jQuery);
 
 jQuery(document).ready(function ($) {
-  if (Joomla.getOptions('ajax-chosen')) {
+  if (Joomla.getOptions('ajax-chosen')) 
+  {
 
     var options = Joomla.getOptions('ajax-chosen');
 

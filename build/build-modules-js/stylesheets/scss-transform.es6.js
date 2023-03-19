@@ -11,9 +11,12 @@ module.exports.compile = async (file) => {
     .replace('.scss', '.css').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
 
   let compiled;
-  try {
+  try 
+  {
     compiled = Sass.renderSync({ file });
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     // eslint-disable-next-line no-console
     console.error(error.formatted);
     process.exit(1);

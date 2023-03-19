@@ -18,12 +18,15 @@ Joomla = window.Joomla || {};
      * Prevent clicks on buttons within a disabled fieldset
      */
     var fieldsets = target.querySelectorAll('fieldset.btn-group');
-    for (var i = 0; i < fieldsets.length; i++) {
+    for (var i = 0; i < fieldsets.length; i++) 
+    {
       var self = fieldsets[i];
-      if (self.getAttribute('disabled') ===  true) {
+      if (self.getAttribute('disabled') ===  true) 
+      {
         self.style.pointerEvents = 'none';
         var btns = self.querySelectorAll('.btn');
-        for (var ib = 0; ib < btns.length; ib++) {
+        for (var ib = 0; ib < btns.length; ib++) 
+        {
           btns[ib].classList.add('disabled');
         }
       }
@@ -38,12 +41,16 @@ Joomla = window.Joomla || {};
      */
     var backToTop = document.getElementById('back-top');
 
-    if (backToTop) {
+    if (backToTop) 
+    {
 
       function checkScrollPos() {
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) 
+        {
           backToTop.classList.add('visible');
-        } else {
+        } 
+        else 
+        {
           backToTop.classList.remove('visible')
         }
       }

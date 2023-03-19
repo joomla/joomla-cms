@@ -29,7 +29,8 @@ Joomla = window.Joomla || {};
 
     // Show details about the information being sent
     document.addEventListener('click', (event) => {
-      if (event.target.classList.contains('js-pstats-btn-details')) {
+      if (event.target.classList.contains('js-pstats-btn-details')) 
+      {
         event.preventDefault();
         detailsContainer.classList.toggle('d-none');
       }
@@ -37,7 +38,8 @@ Joomla = window.Joomla || {};
 
     // Always allow
     document.addEventListener('click', (event) => {
-      if (event.target.classList.contains('js-pstats-btn-allow-always')) {
+      if (event.target.classList.contains('js-pstats-btn-allow-always')) 
+      {
         event.preventDefault();
 
         // Remove message
@@ -49,7 +51,8 @@ Joomla = window.Joomla || {};
 
     // Never allow
     document.addEventListener('click', (event) => {
-      if (event.target.classList.contains('js-pstats-btn-allow-never')) {
+      if (event.target.classList.contains('js-pstats-btn-allow-never')) 
+      {
         event.preventDefault();
 
         // Remove message
@@ -69,14 +72,18 @@ Joomla = window.Joomla || {};
         'Content-Type': 'application/json',
       },
       onSuccess: (response) => {
-        try {
+        try 
+        {
           const json = JSON.parse(response);
-          if (json && json.html) {
+          if (json && json.html) 
+          {
             messageContainer.insertAdjacentHTML('beforeend', Joomla.sanitizeHtml(json.html, allowed));
             messageContainer.querySelector('.js-pstats-alert').classList.remove('hidden');
             initStatsEvents(getJson);
           }
-        } catch (e) {
+        } 
+        catch (e) 
+        {
           throw new Error(e);
         }
       },

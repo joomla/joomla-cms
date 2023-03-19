@@ -33,8 +33,10 @@ class Dispatcher extends ComponentDispatcher
      */
     public function dispatch()
     {
-        if ($this->input->get('view') === 'contacts' && $this->input->get('layout') === 'modal') {
-            if (!$this->app->getIdentity()->authorise('core.create', 'com_contact')) {
+        if ($this->input->get('view') === 'contacts' && $this->input->get('layout') === 'modal') 
+        {
+            if (!$this->app->getIdentity()->authorise('core.create', 'com_contact')) 
+            {
                 $this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 
                 return;

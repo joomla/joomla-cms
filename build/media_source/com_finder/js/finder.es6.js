@@ -5,13 +5,15 @@
 ((Awesomplete, Joomla, window, document) => {
   'use strict';
 
-  if (!Joomla) {
+  if (!Joomla) 
+  {
     throw new Error('core.js was not properly initialised');
   }
 
   // Handle the autocomplete
   const onInputChange = ({ target }) => {
-    if (target.value.length > 1) {
+    if (target.value.length > 1) 
+    {
       target.awesomplete.list = [];
 
       Joomla.request({
@@ -19,14 +21,18 @@
         promise: true,
       }).then((xhr) => {
         let response;
-        try {
+        try 
+        {
           response = JSON.parse(xhr.responseText);
-        } catch (e) {
+        } 
+        catch (e) 
+        {
           Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr, 'parsererror'));
           return;
         }
 
-        if (Object.prototype.toString.call(response.suggestions) === '[object Array]') {
+        if (Object.prototype.toString.call(response.suggestions) === '[object Array]') 
+        {
           target.awesomplete.list = response.suggestions;
         }
       }).catch((xhr) => {
@@ -41,11 +47,13 @@
     const advanced = event.target.querySelector('.js-finder-advanced');
 
     // Disable select boxes with no value selected.
-    if (advanced) {
+    if (advanced) 
+    {
       const fields = [].slice.call(advanced.querySelectorAll('select'));
 
       fields.forEach((field) => {
-        if (!field.value) {
+        if (!field.value) 
+        {
           field.setAttribute('disabled', 'disabled');
         }
       });
@@ -55,7 +63,8 @@
   // Submits the form programmatically
   const submitForm = (event) => {
     const form = event.target.closest('form');
-    if (form) {
+    if (form) 
+    {
       form.submit();
     }
   };
@@ -66,7 +75,8 @@
 
     searchWords.forEach((searchword) => {
       // Handle the auto suggestion
-      if (Joomla.getOptions('finder-search')) {
+      if (Joomla.getOptions('finder-search')) 
+      {
         searchword.awesomplete = new Awesomplete(searchword);
 
         // If the current value is empty, set the previous value.
@@ -75,7 +85,8 @@
         const advanced = searchword.closest('form').querySelector('.js-finder-advanced');
 
         // Do not submit the form on suggestion selection, in case of advanced form.
-        if (!advanced) {
+        if (!advanced) 
+        {
           searchword.addEventListener('awesomplete-selectcomplete', submitForm);
         }
       }

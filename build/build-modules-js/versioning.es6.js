@@ -26,27 +26,35 @@ const final = {};
  */
 const updateAsset = async (asset, directory) => {
   const currentDir = `${RootPath}${sep}media${sep}${directory}`;
-  if (!asset.type) {
+  if (!asset.type) 
+  {
     final[directory].push(asset);
     return;
   }
   let subDir;
-  if (asset.type === 'script') {
+  if (asset.type === 'script') 
+  {
     subDir = 'js';
   }
-  if (asset.type === 'style') {
+  if (asset.type === 'style') 
+  {
     subDir = 'css';
   }
-  if (!subDir) {
+  if (!subDir) 
+  {
     final[directory].push(asset);
     return;
   }
 
   let path = `${currentDir}${sep}${subDir}${sep}${basename(asset.uri)}`;
-  if (`${directory}/${basename(asset.uri)}` !== asset.uri) {
-    if (dirname(asset.uri) === 'system/fields') {
+  if (`${directory}/${basename(asset.uri)}` !== asset.uri) 
+  {
+    if (dirname(asset.uri) === 'system/fields') 
+    {
       path = `${currentDir}${sep}${subDir}${sep}fields${sep}${basename(asset.uri)}`;
-    } else {
+    } 
+    else 
+    {
       final[directory].push(asset);
       return;
     }
@@ -54,7 +62,8 @@ const updateAsset = async (asset, directory) => {
 
   const jAssetFile = await lstat(path);
 
-  if (!jAssetFile.isFile()) {
+  if (!jAssetFile.isFile()) 
+  {
     final[directory].push(asset);
     return;
   }
@@ -73,25 +82,33 @@ const updateAsset = async (asset, directory) => {
  */
 const fixVersion = async (directory) => {
   let jAssetFile;
-  try {
+  try 
+  {
     jAssetFile = await lstat(`${RootPath}${sep}media${sep}${directory}${sep}joomla.asset.json`);
-  } catch (err) {
+  } 
+  catch (err) 
+  {
     return;
   }
 
-  if (!jAssetFile.isFile()) {
+  if (!jAssetFile.isFile()) 
+  {
     return;
   }
 
   const jAssetFileContent = await readFile(`${RootPath}${sep}media${sep}${directory}${sep}joomla.asset.json`, { encoding: 'utf8' });
   let jsonData;
-  try {
+  try 
+  {
     jsonData = JSON.parse(jAssetFileContent);
-  } catch (err) {
+  } 
+  catch (err) 
+  {
     throw new Error(`media\\${directory}\\joomla.asset.json is not a valid JSON file!!!`);
   }
 
-  if (!jsonData || !jsonData.assets.length) {
+  if (!jsonData || !jsonData.assets.length) 
+  {
     return;
   }
 

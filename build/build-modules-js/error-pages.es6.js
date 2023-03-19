@@ -44,7 +44,8 @@ module.exports.createErrorPages = async (options) => {
     const languageStrings = Ini.parse(await readFile(file, { encoding: 'utf8' }));
 
     // Build the variables into json for the unsupported page
-    if (languageStrings.BUILD_MIN_PHP_ERROR_LANGUAGE) {
+    if (languageStrings.BUILD_MIN_PHP_ERROR_LANGUAGE)
+    {
       const name = dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
       global.unsupportedObj = {
         ...global.unsupportedObj,
@@ -58,7 +59,8 @@ module.exports.createErrorPages = async (options) => {
     }
 
     // Build the variables into json for the build incomplete page
-    if (languageStrings.BUILD_INCOMPLETE_LANGUAGE) {
+    if (languageStrings.BUILD_INCOMPLETE_LANGUAGE) 
+    {
       const name = dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
       global.incompleteObj = {
         ...global.incompleteObj,
@@ -72,7 +74,8 @@ module.exports.createErrorPages = async (options) => {
     }
 
     // Build the variables into json for the fatal error page
-    if (languageStrings.BUILD_FATAL_LANGUAGE) {
+    if (languageStrings.BUILD_FATAL_LANGUAGE) 
+    {
       const name = dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
       global.fatalObj = {
         ...global.fatalObj,
@@ -86,7 +89,8 @@ module.exports.createErrorPages = async (options) => {
     }
 
     // Build the variables into json for the missing XML error page
-    if (languageStrings.BUILD_NOXML_LANGUAGE) {
+    if (languageStrings.BUILD_NOXML_LANGUAGE) 
+    {
       const name = dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
       global.noxmlObj = {
         ...global.noxmlObj,
@@ -102,7 +106,8 @@ module.exports.createErrorPages = async (options) => {
 
   const files = await Recurs(dir);
   files.sort().forEach((file) => {
-    if (file.endsWith('langmetadata.xml')) {
+    if (file.endsWith('langmetadata.xml')) 
+    {
       return;
     }
     iniFilesProcess.push(processIni(file));
@@ -127,23 +132,29 @@ module.exports.createErrorPages = async (options) => {
     template = template.replace('{{Link}}', options.settings.errorPages[name].link);
     template = template.replace('{{LinkText}}', options.settings.errorPages[name].linkText);
 
-    if (cssContent) {
+    if (cssContent) 
+    {
       template = template.replace('{{cssContents}}', cssContent);
     }
 
-    if (jsContent) {
+    if (jsContent) 
+    {
       template = template.replace('{{jsContents}}', jsContent.code);
     }
 
     let mediaExists = false;
-    try {
+    try 
+    {
       await access(dirname(`${RootPath}${options.settings.errorPages[name].destFile}`));
       mediaExists = true;
-    } catch (err) {
+    } 
+    catch (err) 
+    {
       // Do nothing
     }
 
-    if (!mediaExists) {
+    if (!mediaExists) 
+    {
       await mkdir(dirname(`${RootPath}${options.settings.errorPages[name].destFile}`), { recursive: true, mode: 0o755 });
     }
 

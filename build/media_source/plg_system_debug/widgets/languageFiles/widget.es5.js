@@ -14,15 +14,18 @@
                     .append($('<th />').text('Extension'))
                     .append($('<th />').text('File'))
                 this.$el.append(head)
-                for (var extension in data.loaded) {
+                for (var extension in data.loaded) 
+                {
                     var ul = $('<ul />')
-                    for (var file in data.loaded[extension]) {
+                    for (var file in data.loaded[extension]) 
+                    {
                         var css = data.loaded[extension][file] ? 'alert-success' : 'alert-warning'
                         var status = data.loaded[extension][file] ? '+' : '-'
                         var relPath = status + ' ' + file.replace(data.jroot, '')
                         var li = $('<li />')
                             .addClass(css)
-                        if (data.xdebugLink) {
+                        if (data.xdebugLink) 
+                        {
                             var link = $('<a />')
                                 .text(relPath)
                                 .attr(
@@ -32,7 +35,9 @@
                                         .replace('%l', '1')
                                 )
                             li.append(link)
-                        } else {
+                        } 
+                        else 
+                        {
                             li.text(relPath)
                         }
 

@@ -11,10 +11,12 @@
             this.bindAttr('data', function (data) {
                 this.$el.empty()
 
-                for (var file of data.files) {
+                for (var file of data.files) 
+                {
                     var relPath = file[0].replace(data.jroot, '')
                     var li = $('<li />')
-                    if (data.xdebugLink) {
+                    if (data.xdebugLink) 
+                    {
                         var link = $('<a />')
                             .text(relPath + ':' + file[1])
                             .attr(
@@ -24,7 +26,9 @@
                                     .replace('%l', file[1])
                             )
                         li.append(link)
-                    } else {
+                    } 
+                    else 
+                    {
                         li.text(relPath + ':' + file[1])
                     }
                     this.$el.append(li)

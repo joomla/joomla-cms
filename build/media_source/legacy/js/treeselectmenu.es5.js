@@ -15,14 +15,16 @@ jQuery(function($)
 		// Add icons
 		$li.prepend('<span class="icon-"></span>');
 
-		if ($li.find('ul.treeselect-sub').length) {
+		if ($li.find('ul.treeselect-sub').length) 
+		{
 			// Add classes to Expand/Collapse icons
 			$li.find('span.icon-').addClass('treeselect-toggle icon-chevron-down');
 
 			// Append drop down menu in nodes
 			$div.find('label:first').after(treeselectmenu);
 
-			if (!$li.find('ul.treeselect-sub ul.treeselect-sub').length) {
+			if (!$li.find('ul.treeselect-sub ul.treeselect-sub').length) 
+			{
 				$li.find('div.treeselect-menu-expand').remove();
 			}
 		}
@@ -33,18 +35,24 @@ jQuery(function($)
 	{
 		$i = $(this);
 
-		if (direction === 'rtl') {
+		if (direction === 'rtl') 
+		{
 			var chevron = 'icon-chevron-left';
-		} else {
+		} 
+		else 
+		{
 			var chevron = 'icon-chevron-right';
 		}
 
 		// Take care of parent UL
-		if ($i.parent().find('ul.treeselect-sub').is(':visible')) {
+		if ($i.parent().find('ul.treeselect-sub').is(':visible')) 
+		{
 			$i.removeClass('icon-chevron-down').addClass(chevron);
 			$i.parent().find('ul.treeselect-sub').hide();
 			$i.parent().find('ul.treeselect-sub i.treeselect-toggle').removeClass('icon-chevron-down').addClass(chevron);
-		} else {
+		} 
+		else 
+		{
 			$i.removeClass(chevron).addClass('icon-chevron-down');
 			$i.parent().find('ul.treeselect-sub').show();
 			$i.parent().find('ul.treeselect-sub i.treeselect-toggle').removeClass(chevron).addClass('icon-chevron-down');
@@ -60,11 +68,13 @@ jQuery(function($)
 		var $list_elements = $('.treeselect li');
 		$list_elements.each(function()
 		{
-			if ($(this).text().toLowerCase().indexOf(text) == -1) {
+			if ($(this).text().toLowerCase().indexOf(text) == -1) 
+			{
 				$(this).hide();
 				hidden++;
 			}
-			else {
+			else 
+			{
 				$(this).show();
 			}
 		});

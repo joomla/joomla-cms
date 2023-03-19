@@ -2,7 +2,8 @@
  * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-if (!Joomla) {
+if (!Joomla) 
+{
   throw new Error('Joomla API is not properly initialised');
 }
 
@@ -237,9 +238,12 @@ const TinyMCEBuilder = (container, options) => {
     let content = '';
     let bclass = 'tox-mbtn';
 
-    if (type === 'menu') {
+    if (type === 'menu') 
+    {
       content = title;
-    } else if (info.text) {
+    } 
+    else if (info.text) 
+    {
       const text = tinymce.translate(info.text);
 
       bclass += ' tox-tbtn--bespoke';
@@ -247,7 +251,9 @@ const TinyMCEBuilder = (container, options) => {
       const chevron = tinymce.showIcon('chevron-down');
 
       content = info.text !== '|' ? `<span class="tox-tbtn__select-label">${text}</span><div class="tox-tbtn__select-chevron">${chevron}</div>` : text;
-    } else {
+    } 
+    else 
+    {
       content = tinymce.showIcon(name);
     }
 
@@ -272,22 +278,26 @@ const TinyMCEBuilder = (container, options) => {
     let item;
     let name;
 
-    for (let i = 0, l = value.length; i < l; i += 1) {
+    for (let i = 0, l = value.length; i < l; i += 1) 
+    {
       name = value[i];
       item = items[name];
 
-      if (item) {
+      if (item) 
+      {
         // Buttons are predefined in this file, so safe
         box.innerHTML += createButton(name, item, type);
         const newbutton = box.querySelector('.tox-mbtn:last-child');
 
         // Enable tooltip
-        if (newbutton && newbutton.tooltip) {
+        if (newbutton && newbutton.tooltip)
+        {
           newbutton.tooltip({ trigger: 'hover' });
         }
 
         // Add input
-        if (withInput) {
+        if (withInput) 
+        {
           appendInput(newbutton, group, set);
         }
       }
@@ -302,13 +312,15 @@ const TinyMCEBuilder = (container, options) => {
     const { set: item } = sets;
 
     $targetMenu.forEach((elem) => {
-      if (elem.getAttribute('data-set') === item) {
+      if (elem.getAttribute('data-set') === item) 
+      {
         elem.innerHTML = '';
       }
     });
 
     $targetToolbar.forEach((elem) => {
-      if (elem.getAttribute('data-set') === item) {
+      if (elem.getAttribute('data-set') === item) 
+      {
         elem.innerHTML = '';
       }
     });
@@ -322,7 +334,8 @@ const TinyMCEBuilder = (container, options) => {
     const { set: item } = attrib;
     const preset = options.toolbarPreset[attrib.preset] || null;
 
-    if (!preset) {
+    if (!preset) 
+    {
       throw new Error(`Unknown Preset "${attrib.preset}"`);
     }
 
@@ -332,15 +345,20 @@ const TinyMCEBuilder = (container, options) => {
       const type = group === 'menu' ? 'menu' : 'toolbar';
 
       // Find correct container for current set
-      if (group === 'menu') {
+      if (group === 'menu') 
+      {
         $targetMenu.forEach((target) => {
-          if (target.getAttribute('data-group') === group && target.getAttribute('data-set') === item) {
+          if (target.getAttribute('data-group') === group && target.getAttribute('data-set') === item) 
+          {
             renderBar(target, type, preset[group], true);
           }
         });
-      } else {
+      } 
+      else 
+      {
         $targetToolbar.forEach((target) => {
-          if (target.getAttribute('data-group') === group && target.getAttribute('data-set') === item) {
+          if (target.getAttribute('data-group') === group && target.getAttribute('data-set') === item) 
+          {
             renderBar(target, type, preset[group], true);
           }
         });
@@ -363,7 +381,8 @@ const TinyMCEBuilder = (container, options) => {
   }).on('dragend', () => {
     $targetMenu.forEach((target) => { target.classList.remove('drop-area-highlight'); });
   }).on('drop', (el, target) => {
-    if (target !== $sourceMenu) {
+    if (target !== $sourceMenu) 
+    {
       appendInput(el, target.getAttribute('data-group'), target.getAttribute('data-set'));
     }
   });
@@ -386,7 +405,8 @@ const TinyMCEBuilder = (container, options) => {
       target.classList.remove('drop-area-highlight');
     });
   }).on('drop', (el, target) => {
-    if (target !== $sourceToolbar) {
+    if (target !== $sourceToolbar) 
+    {
       appendInput(el, target.getAttribute('data-group'), target.getAttribute('data-set'));
     }
   });
@@ -406,7 +426,8 @@ const TinyMCEBuilder = (container, options) => {
       const actionoptions = {};
 
       [].forEach.call(target.attributes, (attrib) => {
-        if (/^data-/.test(attrib.name)) {
+        if (/^data-/.test(attrib.name)) 
+        {
           const key = attrib.name.substr(5);
 
           actionoptions[key] = attrib.value;
@@ -414,7 +435,8 @@ const TinyMCEBuilder = (container, options) => {
       });
 
       // Don't allow wild function calling
-      switch (action) {
+      switch (action) 
+      {
         case 'clearPane':
           clearPane(actionoptions);
           break;
@@ -450,7 +472,8 @@ const toggleAvailableOption = () => {
     const values = select.value;
 
     selects.forEach((select1) => {
-      if (select === select1) {
+      if (select === select1) 
+      {
         return;
       }
 

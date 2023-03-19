@@ -5,7 +5,8 @@
 
 window.addEventListener('DOMContentLoaded', () => {
   const versionsModal = document.getElementById('versionsModal');
-  if (versionsModal) {
+  if (versionsModal) 
+  {
     document.body.appendChild(versionsModal);
   }
 });

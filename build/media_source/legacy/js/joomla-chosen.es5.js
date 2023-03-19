@@ -1,19 +1,23 @@
 (function($, Chosen, AbstractChosen) {
     $.fn.jchosen = function (options) {
-        if (!AbstractChosen.browser_is_supported()) {
+        if (!AbstractChosen.browser_is_supported()) 
+        {
             return this;
         }
         return this.each(function (input_field) {
             var $this, chosen;
             $this = $(this);
             chosen = $this.data('chosen');
-            if (options === 'destroy') {
-                if (chosen instanceof JoomlaChosen) {
+            if (options === 'destroy') 
+            {
+                if (chosen instanceof JoomlaChosen) 
+                {
                     chosen.destroy();
                 }
                 return;
             }
-            if (!(chosen instanceof JoomlaChosen)) {
+            if (!(chosen instanceof JoomlaChosen)) 
+            {
                 $this.data('chosen', new JoomlaChosen(this, options));
             }
         });
@@ -47,14 +51,16 @@
         JoomlaChosen.prototype.result_select = function (evt) {
             var group, option, value;
 
-            if (!this.result_highlight && (!this.is_multiple) && this.allow_custom_value) {
+            if (!this.result_highlight && (!this.is_multiple) && this.allow_custom_value) 
+            {
                 value = this.search_field.val();
                 group = this.add_unique_custom_group();
                 option = $('<option value="' + this.custom_value_prefix + value + '">' + value + '</option>');
                 group.append(option);
                 this.form_field_jq.append(group);
                 this.form_field.options[this.form_field.options.length - 1].selected = true;
-                if (!evt.metaKey) {
+                if (!evt.metaKey) 
+                {
                     this.results_hide();
                 }
                 return this.results_build();
@@ -66,9 +72,11 @@
         JoomlaChosen.prototype.find_custom_group = function () {
             var found, group, _i, _len, _ref;
             _ref = $('optgroup', this.form_field);
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) 
+            {
                 group = _ref[_i];
-                if (group.getAttribute('label') === this.custom_group_text) {
+                if (group.getAttribute('label') === this.custom_group_text) 
+                {
                     found = group;
                 }
             }
@@ -78,7 +86,8 @@
         JoomlaChosen.prototype.add_unique_custom_group = function () {
             var group;
             group = this.find_custom_group();
-            if (!group) {
+            if (!group) 
+            {
                 group = $('<optgroup label="' + this.custom_group_text + '"></optgroup>');
             }
             return $(group);
@@ -88,9 +97,12 @@
          * We choose to override this function so deliberately don't call super
          */
         JoomlaChosen.prototype.container_width = function () {
-            if (this.options.width != null) {
+            if (this.options.width != null) 
+            {
                 return this.options.width;
-            } else {
+            } 
+            else 
+            {
                 // Original: return "" + this.form_field.offsetWidth + "px";
                 return this.form_field_jq.css("width") || "" + this.form_field.offsetWidth + "px";
             }

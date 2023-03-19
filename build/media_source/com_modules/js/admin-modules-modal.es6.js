@@ -20,11 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
       // Use the API
       if (window.parent.Joomla && window.parent.Joomla.editors
         && window.parent.Joomla.editors.instances
-        && Object.prototype.hasOwnProperty.call(window.parent.Joomla.editors.instances, editor)) {
+        && Object.prototype.hasOwnProperty.call(window.parent.Joomla.editors.instances, editor)) 
+      {
         window.parent.Joomla.editors.instances[editor].replaceSelection(`{loadmoduleid ${modid}}`);
       }
 
-      if (window.parent.Joomla.Modal) {
+      if (window.parent.Joomla.Modal) 
+      {
         window.parent.Joomla.Modal.getCurrent().close();
       }
     });
@@ -39,11 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Use the API
       if (window.Joomla && window.Joomla.editors && Joomla.editors.instances
-        && Object.prototype.hasOwnProperty.call(window.parent.Joomla.editors.instances, editor)) {
+        && Object.prototype.hasOwnProperty.call(window.parent.Joomla.editors.instances, editor)) 
+      {
         window.parent.Joomla.editors.instances[editor].replaceSelection(`{loadposition ${position}}`);
       }
 
-      if (window.parent.Joomla.Modal) {
+      if (window.parent.Joomla.Modal) 
+      {
         window.parent.Joomla.Modal.getCurrent().close();
       }
     });

@@ -9,7 +9,8 @@
   // Debounce ReInit per editor ID
   const reInitQueue = {};
   const debounceReInit = (editor, element, pluginOptions) => {
-    if (reInitQueue[element.id]) {
+    if (reInitQueue[element.id]) 
+    {
       clearTimeout(reInitQueue[element.id]);
     }
     reInitQueue[element.id] = setTimeout(() => {
@@ -42,12 +43,16 @@
         Joomla.JoomlaTinyMCE.setupEditor(currentEditor, pluginOptions);
 
         // Setup the toggle button
-        if (toggleButton) {
+        if (toggleButton) 
+        {
           toggleButton.removeAttribute('disabled');
           toggleButton.addEventListener('click', () => {
-            if (Joomla.editors.instances[currentEditor.id].instance.isHidden()) {
+            if (Joomla.editors.instances[currentEditor.id].instance.isHidden()) 
+            {
               Joomla.editors.instances[currentEditor.id].instance.show();
-            } else {
+            } 
+            else 
+            {
               Joomla.editors.instances[currentEditor.id].instance.hide();
             }
 
@@ -69,7 +74,8 @@
      */
     setupEditor: (element, pluginOptions) => {
       // Check whether the editor already has ben set
-      if (Joomla.editors.instances[element.id]) {
+      if (Joomla.editors.instances[element.id]) 
+      {
         return;
       }
 
@@ -80,13 +86,17 @@
       let options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions;
 
       // Avoid an unexpected changes, and copy the options object
-      if (options.joomlaMergeDefaults) {
+      if (options.joomlaMergeDefaults) 
+      {
         options = Joomla.extend(Joomla.extend({}, defaultOptions), options);
-      } else {
+      } 
+      else 
+      {
         options = Joomla.extend({}, options);
       }
 
-      if (element) {
+      if (element) 
+      {
         // We already have the Target, so reset the selector and assign given element as target
         options.selector = null;
         options.target = element;
@@ -106,15 +116,19 @@
         tmp.icon = xtdButton.icon;
         tmp.type = 'menuitem';
 
-        if (xtdButton.iconSVG) {
+        if (xtdButton.iconSVG) 
+        {
           icons[tmp.icon] = xtdButton.iconSVG;
         }
 
-        if (xtdButton.href) {
+        if (xtdButton.href) 
+        {
           tmp.onAction = () => {
             document.getElementById(`${xtdButton.id}_modal`).open();
           };
-        } else {
+        } 
+        else 
+        {
           tmp.onAction = () => {
             // eslint-disable-next-line no-new-func
             new Function(xtdButton.click)();
@@ -127,11 +141,13 @@
       // Ensure tinymce is initialised in readonly mode if the textarea has readonly applied
       let readOnlyMode = false;
 
-      if (element) {
+      if (element) 
+      {
         readOnlyMode = element.readOnly;
       }
 
-      if (buttonValues.length) {
+      if (buttonValues.length) 
+      {
         options.setup = (editor) => {
           editor.settings.readonly = readOnlyMode;
 
@@ -145,7 +161,9 @@
             fetch: (callback) => callback(buttonValues),
           });
         };
-      } else {
+      } 
+      else 
+      {
         options.setup = (editor) => {
           editor.settings.readonly = readOnlyMode;
         };
@@ -154,7 +172,8 @@
       // We'll take over the onSubmit event
       options.init_instance_callback = (editor) => {
         editor.on('submit', () => {
-          if (editor.isHidden()) {
+          if (editor.isHidden()) 
+          {
             editor.show();
           }
         }, true);
@@ -166,7 +185,8 @@
 
       // Work around iframe behavior, when iframe element changes location in DOM and losing its content.
       // Re init editor when iframe is reloaded.
-      if (!ed.inline) {
+      if (!ed.inline) 
+      {
         let isReady = false;
         let isRendered = false;
         const listenIframeReload = () => {
@@ -181,13 +201,15 @@
         // This works differently in different browsers, so have to listen both "load" and "PostRender" events.
         ed.on('load', () => {
           isReady = true;
-          if (isRendered) {
+          if (isRendered) 
+          {
             listenIframeReload();
           }
         });
         ed.on('PostRender', () => {
           isRendered = true;
-          if (isReady) {
+          if (isReady) 
+          {
             listenIframeReload();
           }
         });

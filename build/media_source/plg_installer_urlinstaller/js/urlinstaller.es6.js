@@ -13,7 +13,8 @@ Joomla = window.Joomla || {};
       const form = document.getElementById('adminForm');
 
       const loading = document.getElementById('loading');
-      if (loading) {
+      if (loading) 
+      {
         loading.classList.remove('hidden');
       }
 

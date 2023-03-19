@@ -76,7 +76,8 @@ class HtmlView extends BaseHtmlView
         $this->positions = $this->get('positions');
         $this->item      = $moduleData;
 
-        if ($this->form) {
+        if ($this->form) 
+        {
             $this->form->bind($moduleData);
         }
 

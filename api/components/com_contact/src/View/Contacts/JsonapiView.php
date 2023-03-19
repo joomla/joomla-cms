@@ -118,7 +118,8 @@ class JsonapiView extends BaseApiView
      */
     public function __construct($config = [])
     {
-        if (\array_key_exists('contentType', $config)) {
+        if (\array_key_exists('contentType', $config)) 
+        {
             $this->serializer = new ContactSerializer($config['contentType']);
         }
 
@@ -136,7 +137,8 @@ class JsonapiView extends BaseApiView
      */
     public function displayList(array $items = null)
     {
-        foreach (FieldsHelper::getFields('com_contact.contact') as $field) {
+        foreach (FieldsHelper::getFields('com_contact.contact') as $field) 
+        {
             $this->fieldsToRenderList[] = $field->name;
         }
 
@@ -154,11 +156,13 @@ class JsonapiView extends BaseApiView
      */
     public function displayItem($item = null)
     {
-        foreach (FieldsHelper::getFields('com_contact.contact') as $field) {
+        foreach (FieldsHelper::getFields('com_contact.contact') as $field) 
+        {
             $this->fieldsToRenderItem[] = $field->name;
         }
 
-        if (Multilanguage::isEnabled()) {
+        if (Multilanguage::isEnabled()) 
+        {
             $this->fieldsToRenderItem[] = 'languageAssociations';
             $this->relationship[]       = 'languageAssociations';
         }
@@ -177,14 +181,17 @@ class JsonapiView extends BaseApiView
      */
     protected function prepareItem($item)
     {
-        foreach (FieldsHelper::getFields('com_contact.contact', $item, true) as $field) {
+        foreach (FieldsHelper::getFields('com_contact.contact', $item, true) as $field) 
+        {
             $item->{$field->name} = $field->apivalue ?? $field->rawvalue;
         }
 
-        if (Multilanguage::isEnabled() && !empty($item->associations)) {
+        if (Multilanguage::isEnabled() && !empty($item->associations)) 
+        {
             $associations = [];
 
-            foreach ($item->associations as $language => $association) {
+            foreach ($item->associations as $language => $association) 
+            {
                 $itemId = explode(':', $association)[0];
 
                 $associations[] = (object) [
@@ -196,16 +203,20 @@ class JsonapiView extends BaseApiView
             $item->associations = $associations;
         }
 
-        if (!empty($item->tags->tags)) {
+        if (!empty($item->tags->tags)) 
+        {
             $tagsIds   = explode(',', $item->tags->tags);
             $tagsNames = $item->tagsHelper->getTagNames($tagsIds);
 
             $item->tags = array_combine($tagsIds, $tagsNames);
-        } else {
+        } 
+        else 
+        {
             $item->tags = [];
         }
 
-        if (isset($item->image)) {
+        if (isset($item->image)) 
+        {
             $item->image = ContentHelper::resolve($item->image);
         }
 

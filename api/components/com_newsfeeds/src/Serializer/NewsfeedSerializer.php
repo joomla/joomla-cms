@@ -46,7 +46,8 @@ class NewsfeedSerializer extends JoomlaSerializer
         // @todo: This can't be hardcoded in the future?
         $serializer = new JoomlaSerializer($this->type);
 
-        foreach ($model->associations as $association) {
+        foreach ($model->associations as $association) 
+        {
             $resources[] = (new Resource($association, $serializer))
                 ->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/newsfeeds/feeds/' . $association->id));
         }

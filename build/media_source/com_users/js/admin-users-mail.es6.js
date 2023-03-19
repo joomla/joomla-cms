@@ -11,22 +11,30 @@
       const form = document.adminForm;
       const html = document.createElement('joomla-alert');
 
-      if (pressbutton === 'mail.cancel') {
+      if (pressbutton === 'mail.cancel') 
+      {
         Joomla.submitform(pressbutton);
         return;
       }
 
       // do field validation
-      if (form.jform_subject.value === '') {
+      if (form.jform_subject.value === '') 
+      {
         html.innerText = Joomla.Text._('COM_USERS_MAIL_PLEASE_FILL_IN_THE_SUBJECT');
         form.insertAdjacentElement('afterbegin', html);
-      } else if (form.jform_group.value < 0) {
+      } 
+      else if (form.jform_group.value < 0) 
+      {
         html.innerText = Joomla.Text._('COM_USERS_MAIL_PLEASE_SELECT_A_GROUP');
         form.insertAdjacentElement('afterbegin', html);
-      } else if (form.jform_message.value === '') {
+      } 
+      else if (form.jform_message.value === '') 
+      {
         html.innerText = Joomla.Text._('COM_USERS_MAIL_PLEASE_FILL_IN_THE_MESSAGE');
         form.insertAdjacentElement('afterbegin', html);
-      } else {
+      } 
+      else 
+      {
         Joomla.submitform(pressbutton);
       }
     };

@@ -42,7 +42,8 @@ $context = stream_context_create([
 
 $rawJwt = @file_get_contents('https://mds.fidoalliance.org/', false, $context);
 
-if ($rawJwt === false) {
+if ($rawJwt === false) 
+{
     echo "Could not get an updated fido.jwt file.\n";
 
     return;

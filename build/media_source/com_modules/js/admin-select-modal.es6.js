@@ -15,17 +15,20 @@
 
         // There is some bug with events in iframe where currentTarget is "null"
         // => prevent this here by bubble up
-        if (!targetElem) {
+        if (!targetElem) 
+        {
           targetElem = target;
 
-          if (targetElem && !targetElem.classList.contains('select-link')) {
+          if (targetElem && !targetElem.classList.contains('select-link')) 
+          {
             targetElem = targetElem.parentNode;
           }
         }
 
         const functionName = targetElem.getAttribute('data-function');
 
-        if (functionName && typeof window.parent[functionName] === 'function') {
+        if (functionName && typeof window.parent[functionName] === 'function') 
+        {
           window.parent[functionName](targetElem);
         }
       });

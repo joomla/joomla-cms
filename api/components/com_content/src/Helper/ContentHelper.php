@@ -33,7 +33,8 @@ class ContentHelper
     public static function resolve(string $uri): string
     {
         // Check if external URL.
-        if (stripos($uri, 'http') !== 0) {
+        if (stripos($uri, 'http') !== 0) 
+        {
             return Uri::root() . $uri;
         }
 

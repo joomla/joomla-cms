@@ -16,7 +16,8 @@ jQuery(function ($) {
 	 * If no trailing equals sign in name, add one, allows for general reuse
 	 */
 	$.urlParam = function (name) {
-		if (!new RegExp("=$").exec(name)) {
+		if (!new RegExp("=$").exec(name)) 
+		{
 			name = name + '=';
 		}
 		var results = new RegExp("[\\?&](" + name + ")([^&#]*)").exec(window.location.href);
@@ -25,13 +26,16 @@ jQuery(function ($) {
 
 	// jQuery extension to get the XPATH of a DOM element
 	$.getXpath = function (el) {
-		if (typeof el == "string") {
+		if (typeof el == "string") 
+		{
 			return document.evaluate(el, document, null, 0, null);
 		}
-		if (!el || el.nodeType != 1) {
+		if (!el || el.nodeType != 1)
+		{
 			return "";
 		}
-		if (el.id) {
+		if (el.id) 
+		{
 			return "//*[@id='" + el.id + "']";
 		}
 		var a = [];
@@ -48,7 +52,8 @@ jQuery(function ($) {
 		var coll = [];
 		var result = document.evaluate(exp, ctxt || document, null, 5, null);
 
-		while (item = result.iterateNext()) {
+		while (item = result.iterateNext()) 
+		{
 			coll.push(item);
 		}
 
@@ -60,9 +65,12 @@ jQuery(function ($) {
 		/**
 		 * Remove an item from an array
 		 */
-		function remove_item(activeTabsHrefs, tabCollection) {
-			for (var i = 0; i < activeTabsHrefs.length; i++) {
-				if (activeTabsHrefs[i].indexOf(tabCollection) > -1) {
+		function remove_item(activeTabsHrefs, tabCollection) 
+		{
+			for (var i = 0; i < activeTabsHrefs.length; i++) 
+			{
+				if (activeTabsHrefs[i].indexOf(tabCollection) > -1) 
+				{
 					activeTabsHrefs.splice(i, 1);
 				}
 			}
@@ -74,16 +82,19 @@ jQuery(function ($) {
 		 * Generate the sessionStorage key we will use
 		 * This is the URL minus some cleanup
 		 */
-		function getStorageKey() {
+		function getStorageKey() 
+		{
 			return window.location.href.toString().split(window.location.host)[1].replace(/&return=[a-zA-Z0-9%]+/, "").split('#')[0];
 		}
 
 		/**
 		 * Save this tab to the storage in the form of a pseudo keyed array
 		 */
-		function saveActiveTab(event) {
+		function saveActiveTab(event) 
+		{
 
-			if (!window.sessionStorage) {
+			if (!window.sessionStorage) 
+			{
 				return;
 			}
 			// Get a new storage key, normally the full url we are on with some cleanup
@@ -96,7 +107,8 @@ jQuery(function ($) {
 			var tabCollection = $.getXpath($(event.target).closest(".nav-tabs").first().get(0));
 
 			// error handling
-			if (!tabCollection || typeof href == "undefined") {
+			if (!tabCollection || typeof href == "undefined") 
+			{
 				return;
 			}
 
@@ -107,9 +119,12 @@ jQuery(function ($) {
 			var activeTabsHrefs = JSON.parse(sessionStorage.getItem(storageKey));
 
 			// If none start a new array
-			if (!activeTabsHrefs) {
+			if (!activeTabsHrefs) 
+			{
 				var activeTabsHrefs = [];
-			} else {
+			} 
+			else 
+			{
 				// Avoid Duplicates in the storage
 				remove_item(activeTabsHrefs, tabCollection);
 			}
@@ -136,14 +151,16 @@ jQuery(function ($) {
 		alltabs.parent(".active").removeClass("active");
 
 		// If we cannot find a tab storage for this url, see if we are coming from a save of a new item
-		if (!activeTabsHrefs) {
+		if (!activeTabsHrefs) 
+		{
 			var unSavedStateUrl = getStorageKey().replace(/\&id=[0-9]*|[a-z]\&{1}_id=[0-9]*/, '');
 			activeTabsHrefs = JSON.parse(sessionStorage.getItem(unSavedStateUrl));
 			sessionStorage.removeItem(unSavedStateUrl);
 		}
 
 		// we have some tab states to restore, if we see a hash then let that trump the saved state
-		if (activeTabsHrefs !== null && !window.location.hash) {
+		if (activeTabsHrefs !== null && !window.location.hash) 
+		{
 
 			// When moving from tab area to a different view
 			$.each(activeTabsHrefs, function (index, tabFakexPath) {
@@ -154,13 +171,16 @@ jQuery(function ($) {
 
 			});
 
-		} else { // clean slate start
+		} 
+		else 
+		{ // clean slate start
 
 			// a list of tabs to click
 			var tabsToClick = [];
 
 			// If we are passing a hash then this trumps everything
-			if (window.location.hash) {
+			if (window.location.hash) 
+			{
 
 				// for each set of tabs on the page
 				alltabs.parents("ul").each(function (index, ul) {
@@ -169,14 +189,18 @@ jQuery(function ($) {
 					var tabToClick = $(ul).find("a[href='" + window.location.hash + "']");
 
 					// If we found some|one
-					if (tabToClick.length) {
+					if (tabToClick.length) 
+					{
 
 						// if we managed to locate its selector directly
-						if (tabToClick.selector) {
+						if (tabToClick.selector) 
+						{
 
 							// highlight tab of the tabs if the hash matches
 							tabsToClick.push(tabToClick);
-						} else {
+						} 
+						else
+					    {
 
 							// highlight first tab of the tabs
 							tabsToClick.push(tabToClick.first());
@@ -185,11 +209,14 @@ jQuery(function ($) {
 						var parentPane = tabToClick.closest('.tab-pane');
 
 						// bubble up for nested tabs (like permissions tabs in the permissions pane)
-						if (parentPane) {
+						if (parentPane) 
+						{
 							var id = parentPane.attr('id');
-							if (id) {
+							if (id) 
+							{
 								var parentTabToClick = $(parentPane).find("a[href='#" + id + "']");
-								if (parentTabToClick) {
+								if (parentTabToClick) 
+								{
 									tabsToClick.push(parentTabToClick);
 								}
 							}
@@ -207,7 +234,8 @@ jQuery(function ($) {
 				tabsToClick.reverse();
 
 				// for all queued tabs
-				for (var i = 0; i < tabsToClick.length; i++) {
+				for (var i = 0; i < tabsToClick.length; i++) 
+				{
 
 					// click the tabs, thus storing them
 					jQuery(tabsToClick[i].selector).click();
@@ -217,7 +245,8 @@ jQuery(function ($) {
 				var scrollV, scrollH, loc = window.location;
 				if ("pushState" in history)
 					history.pushState("", document.title, loc.pathname + loc.search);
-				else {
+				else 
+				{
 					// Prevent scrolling by storing the page's current scroll offset
 					scrollV = document.body.scrollTop;
 					scrollH = document.body.scrollLeft;
@@ -227,7 +256,9 @@ jQuery(function ($) {
 					document.body.scrollLeft = scrollH;
 				}
 
-			} else {
+			} 
+			else 
+			{
 				alltabs.parents("ul").each(function (index, ul) {
 					// If no tabs is saved, activate first tab from each tab set and save it
 					$(ul).find("a").first().click();

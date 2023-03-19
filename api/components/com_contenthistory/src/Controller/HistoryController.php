@@ -72,19 +72,22 @@ class HistoryController extends ApiController
         /** @var HistoryModel $model */
         $model = $this->getModel($this->contentType);
 
-        if (!$model) {
+        if (!$model) 
+        {
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
         }
 
         $recordId = $this->input->getInt('id');
 
-        if (!$recordId) {
+        if (!$recordId) 
+        {
             throw new Exception\ResourceNotFound(Text::_('JLIB_APPLICATION_ERROR_RECORD'), 404);
         }
 
         $cid = [$recordId];
 
-        if (!$model->keep($cid)) {
+        if (!$model->keep($cid)) 
+        {
             throw new Exception\Save(Text::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', \count($cid)));
         }
 

@@ -14,34 +14,43 @@
 
     const onChange = () => {
       if (!batchSelector.value
-          || (batchSelector.value && parseInt(batchSelector.value, 10) === 0)) {
+          || (batchSelector.value && parseInt(batchSelector.value, 10) === 0)) 
+      {
         batchCopyMove.classList.add('hidden');
-      } else {
+      } 
+      else 
+      {
         batchCopyMove.classList.remove('hidden');
       }
     };
 
-    if (batchCategory) {
+    if (batchCategory) 
+    {
       batchSelector = batchCategory;
     }
 
-    if (batchMenu) {
+    if (batchMenu) 
+    {
       batchSelector = batchMenu;
     }
 
-    if (batchPosition) {
+    if (batchPosition) 
+    {
       batchSelector = batchPosition;
     }
 
-    if (batchGroup) {
+    if (batchGroup) 
+    {
       batchSelector = batchGroup;
     }
 
-    if (batchCopyMove) {
+    if (batchCopyMove) 
+    {
       batchCopyMove.classList.add('hidden');
     }
 
-    if (batchCopyMove) {
+    if (batchCopyMove) 
+    {
       batchSelector.addEventListener('change', onChange);
     }
 

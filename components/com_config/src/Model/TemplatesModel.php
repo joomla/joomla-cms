@@ -55,7 +55,8 @@ class TemplatesModel extends FormModel
      */
     public function getForm($data = [], $loadData = true)
     {
-        try {
+        try 
+        {
             // Get the form.
             $form = $this->loadForm('com_config.templates', 'templates', ['load_data' => $loadData]);
 
@@ -64,13 +65,16 @@ class TemplatesModel extends FormModel
 
             // Load the data into the form
             $form->bind($data);
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) 
+        {
             Factory::getApplication()->enqueueMessage($e->getMessage());
 
             return false;
         }
 
-        if (empty($form)) {
+        if (empty($form)) 
+        {
             return false;
         }
 
@@ -102,18 +106,21 @@ class TemplatesModel extends FormModel
         // Look for com_config.xml, which contains fields to display
         $formFile = Path::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');
 
-        if (!file_exists($formFile)) {
+        if (!file_exists($formFile)) 
+        {
             // If com_config.xml not found, fall back to templateDetails.xml
             $formFile = Path::clean(JPATH_BASE . '/templates/' . $template . '/templateDetails.xml');
         }
 
         // Get the template form.
-        if (file_exists($formFile) && !$form->loadFile($formFile, false, '//config')) {
+        if (file_exists($formFile) && !$form->loadFile($formFile, false, '//config')) 
+        {
             throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
         }
 
         // Attempt to load the xml file.
-        if (!$xml = simplexml_load_file($formFile)) {
+        if (!$xml = simplexml_load_file($formFile)) 
+        {
             throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
         }
 

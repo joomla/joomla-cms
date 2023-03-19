@@ -3,7 +3,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-if (!Joomla || !Joomla.Text) {
+if (!Joomla || !Joomla.Text) 
+{
   throw new Error('core.js was not properly initialised');
 }
 

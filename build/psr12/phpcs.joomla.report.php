@@ -49,7 +49,8 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
      */
     public function generateFileReport($report, File $phpcsFile, $showSources = false, $width = 80)
     {
-        if ($report['errors'] === 0 && $report['warnings'] === 0) {
+        if ($report['errors'] === 0 && $report['warnings'] === 0) 
+        {
             return false;
         }
 
@@ -64,11 +65,15 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                         <p>{$template['text']}</p>
                     HTML;
 
-        foreach ($report['messages'] as $line => $lineErrors) {
-            foreach ($lineErrors as $column => $colErrors) {
-                foreach ($colErrors as $error) {
+        foreach ($report['messages'] as $line => $lineErrors) 
+        {
+            foreach ($lineErrors as $column => $colErrors) 
+            {
+                foreach ($colErrors as $error) 
+                {
                     $error['type'] = strtolower($error['type']);
-                    if ($phpcsFile->config->encoding !== 'utf-8') {
+                    if ($phpcsFile->config->encoding !== 'utf-8') 
+                    {
                         $error['message'] = iconv($phpcsFile->config->encoding, 'utf-8', $error['message']);
                     }
 
@@ -101,7 +106,8 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
     private function prepareProcessing($file, $phpcsFile, $line, $column, $error)
     {
 
-        switch ($error['source']) {
+        switch ($error['source']) 
+        {
             case 'PSR1.Files.SideEffects.FoundWithSymbols':
                 $fileContent = file_get_contents($file);
 
@@ -109,23 +115,28 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                     strpos($fileContent, "defined('_JEXEC')") !== false
                     || strpos($fileContent, "defined('JPATH_PLATFORM')") !== false
                     || strpos($fileContent, "defined('JPATH_BASE')") !== false
-                ) {
+                ) 
+                {
                     $this->preProcessing[] = [
                         'file' => $file,
                         'line' => $line,
                         'column' => $column,
                         'cleanup' => 'definedJEXEC'
                     ];
-                } else {
+                } 
+                else 
+                {
                     $targetFile = $this->tmpDir . '/' . $error['source'] . '.txt';
                     $fileContent = '';
-                    if (file_exists($targetFile)) {
+                    if (file_exists($targetFile)) 
+                    {
                         $fileContent = file_get_contents($targetFile);
                     }
 
                     static $replace = null;
 
-                    if ($replace === null) {
+                    if ($replace === null) 
+                    {
                         $replace = [
                             "\\" => '/',
                             dirname(dirname(__DIR__)) . '/' => '',
@@ -151,7 +162,8 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                 if (
                     strpos($file, 'localise') !== false
                     || strpos($file, 'recaptcha_invisible') !== false
-                ) {
+                ) 
+                {
                     $this->preProcessing[] = [
                         'file' => $file,
                         'line' => $line,
@@ -185,13 +197,15 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
             case 'PSR1.Methods.CamelCapsMethodName.NotCamelCaps':
                 $targetFile = $this->tmpDir . '/' . $error['source'] . '.txt';
                 $fileContent = '';
-                if (file_exists($targetFile)) {
+                if (file_exists($targetFile)) 
+                {
                     $fileContent = file_get_contents($targetFile);
                 }
 
                 static $replace = null;
 
-                if ($replace === null) {
+                if ($replace === null) 
+                {
                     $replace = [
                         "\\" => '/',
                         dirname(dirname(__DIR__)) . '/' => '',
@@ -234,7 +248,8 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
     ) {
 
         $preprocessing = [];
-        if (file_exists($this->tmpDir . '/cleanup.json')) {
+        if (file_exists($this->tmpDir . '/cleanup.json')) 
+        a{
             $preprocessing = json_decode(file_get_contents($this->tmpDir . '/cleanup.json'), JSON_OBJECT_AS_ARRAY);
         }
 
@@ -300,9 +315,12 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
     {
         $file = $this->tmpDir . '/result.html';
 
-        if (file_exists($file)) {
+        if (file_exists($file)) 
+        {
             $html = file_get_contents($file);
-        } else {
+        } 
+        else 
+        {
             $html = $this->getTemplate('header');
             $html .= '<span class="hidden">%PHPCS_NEXT_BLOCK%</span>';
             $html .= $this->getTemplate('footer');

@@ -72,7 +72,8 @@ class ConfigController extends BaseController
         $this->checkToken();
 
         // Check if the user is authorized to do this.
-        if (!$this->app->getIdentity()->authorise('core.admin')) {
+        if (!$this->app->getIdentity()->authorise('core.admin')) 
+        {
             $this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'));
             $this->app->redirect('index.php');
         }
@@ -89,7 +90,8 @@ class ConfigController extends BaseController
         $return = $model->validate($form, $data);
 
         // Check for validation errors.
-        if ($return === false) {
+        if ($return === false) 
+        {
             /*
              * The validate method enqueued all messages for us, so we just need to redirect back.
              */
@@ -120,7 +122,8 @@ class ConfigController extends BaseController
         $document->setType('html');
 
         // Check the return value.
-        if ($return === false) {
+        if ($return === false) 
+        {
             /*
              * The save method enqueued all messages for us, so we just need to redirect back.
              */
