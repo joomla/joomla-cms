@@ -150,8 +150,17 @@ function deleteInsertedItems(config) {
     promises.push(queryTestDB(`DELETE FROM ${item.table} WHERE id IN (${item.rows.join(',')})`, config).then(() => {
       // Cleanup some tables we do not have control over from inserted items
       if (item.table === `${config.env.db_prefix}users`) {
-        promises.push(queryTestDB('DELETE FROM #__user_usergroup_map WHERE user_id NOT IN (SELECT id FROM #__users)', config));
-        promises.push(queryTestDB('DELETE FROM #__user_profiles WHERE user_id NOT IN (SELECT id FROM #__users)', config));
+        promises.push(queryTestDB(`DELETE FROM #__user_usergroup_map WHERE user_id IN (${item.rows.join(',')})`, config));
+        promises.push(queryTestDB(`DELETE FROM #__user_profiles WHERE user_id IN (${item.rows.join(',')})`, config));
+      }
+
+      if (item.table === `${config.env.db_prefix}content`) {
+        promises.push(queryTestDB(`DELETE FROM #__content_frontpage WHERE content_id IN (${item.rows.join(',')})`, config));
+        promises.push(queryTestDB(`DELETE FROM #__workflow_associations WHERE item_id IN (${item.rows.join(',')}) AND extension = 'com_content.article'`, config));
+      }
+
+      if (item.table === `${config.env.db_prefix}modules`) {
+        promises.push(queryTestDB(`DELETE FROM #__modules_menu WHERE moduleid IN (${item.rows.join(',')})`, config));
       }
     }));
   });
