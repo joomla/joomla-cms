@@ -203,7 +203,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysql mysqli mysql
+      - bash tests/System/drone-system-run.sh "$(pwd)" cmysql mysqli mysql
 
   - name: phpmin-system-postgres
     depends_on:
@@ -215,7 +215,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
+      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
 
   - name: phpmax-system-mysql
     depends_on:
@@ -228,7 +228,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
+      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
 
   - name: phpmax-system-postgres
     depends_on:
@@ -241,7 +241,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres
+      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres
 
   - name: phpmin-system-mysql8
     depends_on:
@@ -254,7 +254,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysql8 mysqli mysql8
+      - bash tests/System/drone-system-run.sh "$(pwd)" cmysql8 mysqli mysql8
 
   - name: phpmax-system-mysql8
     depends_on:
@@ -267,7 +267,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysql8max mysqli mysql8
+      - bash tests/System/drone-system-run.sh "$(pwd)" cmysql8max mysqli mysql8
 
   - name: artifacts-system-tests
     image: joomlaprojects/docker-images:packager
@@ -290,7 +290,7 @@ steps:
       - echo https://ci.joomla.org$PLUGIN_DEST_DIR
       - rclone config create artifacts ftp host ci.joomla.org user $FTP_USERNAME port 21 pass $FTP_PASSWORD
       - rclone mkdir artifacts:$PLUGIN_DEST_DIR
-      - rclone copy tests/cypress/output/ artifacts:$PLUGIN_DEST_DIR
+      - rclone copy tests/System/output/ artifacts:$PLUGIN_DEST_DIR
       - 'curl -X POST "https://api.github.com/repos/$DRONE_REPO/statuses/$DRONE_COMMIT" -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -d "{\"state\":\"failure\", \"context\": \"Artifacts from Failure\", \"description\": \"You can find artifacts from the failure of the build here:\", \"target_url\": \"https://ci.joomla.org$PLUGIN_DEST_DIR\"}" > /dev/null'
     when:
       status:
@@ -453,6 +453,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 00d46134529cdb52d6a292038fb489695ea0acb00df2234eca7157c3e27a76cd
+hmac: 3457679ef0cd23bde8dd9900016aba663a279aa0c32049c8e37db56676cadd38
 
 ...

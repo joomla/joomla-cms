@@ -11,7 +11,7 @@ echo "[RUNNER] Prepare test environment"
 cd $JOOMLA_BASE
 
 echo "[RUNNER] Copy files to test installation"
-rsync -a --exclude-from=tests/cypress/exclude.txt $JOOMLA_BASE/ /tests/www/$TEST_GROUP/
+rsync -a --exclude-from=tests/System/exclude.txt $JOOMLA_BASE/ /tests/www/$TEST_GROUP/
 chown -R www-data /tests/www/$TEST_GROUP/
 
 # Required for media manager tests
@@ -23,4 +23,4 @@ apache2ctl -D FOREGROUND &
 echo "[RUNNER] Run cypress tests"
 chmod +rwx /root
 
-npx cypress run --browser=firefox --e2e --env cmsPath=/tests/www/$TEST_GROUP,db_type=$DB_ENGINE,db_host=$DB_HOST,db_password=joomla_ut,db_prefix="${TEST_GROUP}_" --config baseUrl=http://localhost/$TEST_GROUP,screenshotsFolder=$JOOMLA_BASE/tests/cypress/output/screenshots
+npx cypress run --browser=firefox --e2e --env cmsPath=/tests/www/$TEST_GROUP,db_type=$DB_ENGINE,db_host=$DB_HOST,db_password=joomla_ut,db_prefix="${TEST_GROUP}_" --config baseUrl=http://localhost/$TEST_GROUP,screenshotsFolder=$JOOMLA_BASE/tests/System/output/screenshots
