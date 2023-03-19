@@ -80,6 +80,27 @@ Cypress.Commands.add('db_createUser', (user) => {
   });
 });
 
+Cypress.Commands.add('db_createContact',(contact)=>{
+  const defaultContactOptions = {
+    name: 'test contact',
+    alias: 'test-contact',
+    catid:2,
+    address: '',
+    country: '',
+    access: 1,
+    language: '*',
+    created: '2023-01-01 20:00:00',
+    modified: '2023-01-01 20:00:00',
+    metadesc: '',
+    metadata: '',
+    featured: 1,
+    published: 1
+  };
+
+  return cy.task('queryDB', createInsertQuery('contact_details', { ...defaultContactOptions, ...contact })).then((info) => info.insertId);
+
+});
+
 /**
  * Returns an insert query for the given database and fields.
  *
