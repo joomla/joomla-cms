@@ -9,7 +9,6 @@
       // Bind events
       this.buttonClick = this.buttonClick.bind(this);
       this.iframeLoad = this.iframeLoad.bind(this);
-      this.modalClose = this.modalClose.bind(this);
       this.setValue = this.setValue.bind(this);
     }
 
@@ -20,10 +19,6 @@
     get url() { return this.getAttribute('url'); }
 
     set url(value) { this.setAttribute('url', value); }
-
-    get modalClass() { return this.getAttribute('modal'); }
-
-    set modalClass(value) { this.setAttribute('modal', value); }
 
     get modalWidth() { return this.getAttribute('modal-width'); }
 
@@ -47,23 +42,12 @@
 
     connectedCallback() {
       // Set up elements
-      this.modal = this.querySelector(this.modalClass);
-      this.modalBody = this.querySelector('.modal-body');
       this.input = this.querySelector(this.inputId);
       this.inputName = this.querySelector(this.inputNameClass);
       this.buttonSelect = this.querySelector(this.buttonSelectClass);
 
-      // Bootstrap modal init
-      if (this.modal
-        && window.bootstrap
-        && window.bootstrap.Modal
-        && !window.bootstrap.Modal.getInstance(this.modal)) {
-        Joomla.initialiseModal(this.modal, { isJoomla: true });
-      }
-
       if (this.buttonSelect) {
         this.buttonSelect.addEventListener('click', this.modalOpen.bind(this));
-        this.modal.addEventListener('hide', this.removeIframe.bind(this));
 
         // Check for onchange callback,
         this.onchangeStr = this.input.getAttribute('data-onchange');
@@ -84,55 +68,42 @@
       if (this.buttonSelect) {
         this.buttonSelect.removeEventListener('click', this);
       }
-
-      if (this.modal) {
-        this.modal.removeEventListener('hide', this);
-      }
     }
 
     buttonClick({ target }) {
       this.setValue(target.getAttribute('data-user-value'), target.getAttribute('data-user-name'));
-      this.modalClose();
+      Joomla.Modal.getCurrent().close();
     }
 
     iframeLoad() {
-      const iframeDoc = this.iframeEl.contentWindow.document;
-      const buttons = [].slice.call(iframeDoc.querySelectorAll('.button-select'));
+      const iframeDoc = this.dialog.querySelector('iframe').contentWindow.document;
 
-      buttons.forEach((button) => {
-        button.addEventListener('click', this.buttonClick);
-      });
+      iframeDoc.querySelectorAll('.button-select').forEach((button) => button.addEventListener('click', this.buttonClick));
     }
 
     // Opens the modal
     modalOpen() {
-      // Reconstruct the iframe
-      this.removeIframe();
-      const iframe = document.createElement('iframe');
-      iframe.setAttribute('name', 'field-user-modal');
-      iframe.src = this.url.replace('{field-user-id}', this.input.getAttribute('id'));
-      iframe.setAttribute('width', this.modalWidth);
-      iframe.setAttribute('height', this.modalHeight);
+      // eslint-disable-next-line
+      this.dialog = new JoomlaDialog({
+        popupType: 'iframe',
+        textHeader: Joomla.Text._('JLIB_FORM_CHANGE_IMAGE'),
+        src: this.url.replace('{field-user-id}', this.input.getAttribute('id')),
+      });
 
-      this.modalBody.appendChild(iframe);
+      // Optional sizing:
+      this.dialog.width = this.modalWidth;
+      this.dialog.height = this.modalHeight;
 
-      this.modal.open();
+      // Definig your own buttons:
+      this.dialog.popupButtons = [
+        { label: Joomla.Text._('JCANCEL'), onClick: () => this.dialog.close(), className: 'btn btn-outline-danger ms-2' },
+      ];
 
-      this.iframeEl = this.modalBody.querySelector('iframe');
+      Joomla.selectedMediaFile = {};
 
-      // handle the selection on the iframe
-      this.iframeEl.addEventListener('load', this.iframeLoad);
-    }
+      this.dialog.addEventListener('joomla-dialog:load', this.iframeLoad);
 
-    // Closes the modal
-    modalClose() {
-      Joomla.Modal.getCurrent().close();
-      this.modalBody.innerHTML = '';
-    }
-
-    // Remove the iframe
-    removeIframe() {
-      this.modalBody.innerHTML = '';
+      this.dialog.show();
     }
 
     // Sets the value
