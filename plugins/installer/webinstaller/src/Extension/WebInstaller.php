@@ -44,7 +44,7 @@ final class WebInstaller extends CMSPlugin
      *
      * @var    CMSApplication
      * @since  4.0.0
-     * @deprecated 5.0 Is needed for template overrides, use getApplication instead
+     * @deprecated 6.0 Is needed for template overrides, use getApplication instead
      */
     protected $app;
 
