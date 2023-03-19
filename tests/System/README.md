@@ -1,17 +1,17 @@
 # System tests in Joomla
 
-The CMS system tests are executed in real browsers and are using the [cypress.io](https://www.cypress.io) framework. This article describes how to setup your local development environment to execute the existing tests and add new ones.
+The CMS system tests are executed in real browsers and are using the [cypress.io](https://www.cypress.io) framework. This article describes how to setup a local development environment to execute the existing tests and add new ones.
 
 ## Installation
-A couple of steps are needed before the CMS system tests can be executed on your system.
+A couple of steps are needed before the CMS system tests can be executed on the system.
 
 1. Clone Joomla into a folder where it can be served by a web server
 2. Install the PHP and Javascript dependencies by running the following commands:
    1. `composer install`
    2. `npm ci`
-3. Copy the cypress.config.dist.js to cypress.config.js in the root of your joomla folder
+3. Copy the cypress.config.dist.js to cypress.config.js in the root of the joomla folder
 4. Adapt the env variables in the file cypress.config.js, they need to point to a database server where joomla can be installed
-5. Ensure your system has all the required dependencies according to their [docs article](https://docs.cypress.io/guides/getting-started/installing-cypress)
+5. Ensure the system has all the required dependencies according to their [docs article](https://docs.cypress.io/guides/getting-started/installing-cypress)
 6. Run the command `npm run cypress:install`
 
 ## Run the existing tests
@@ -19,15 +19,15 @@ Cypress has a nice gui which lists all the existing tests and is able to launch 
 
 `npm run cypress:open`
 
-## Add your own tests
-To add your own tests, create a cy.js file to a new folder which matches the following pattern (replace foo with your extension name):
+## Add new tests
+To add new tests, create a cy.js file to a new folder which matches the following pattern (replace foo with the extension name to test):
 
 - Component tests do belong to a folder {site or administrator}/components/com_foo
 - Module tests do belong to a folder {site or administrator}/modules/mod_foo
 - Plugins tests do belong to a folder plugins/{type}/foo
 - API tests do belong to a folder api/com_foo
 
-Probably the easiest way is to copy an existing file.
+Probably the easiest way is to copy an existing file and adapt it to the extension which should be tested.
 
 ## Some developer information
 Tests should be
@@ -45,15 +45,15 @@ The CMS tests do come with some convenient [cypress tasks](https://docs.cypress.
 - **writeFile** writes a file relative to the CMS root folder
 - **deleteFolder** deletes a folder relative to the CMS root folder
 
-With the following code can be run `cy.task('writeFile', { path: 'images/dummy.text', content: '1' })`. 
+With the following code in a test a task can be executed `cy.task('writeFile', { path: 'images/dummy.text', content: '1' })`. Each task is asynchronous and must be chained, so to get the result a `.then(() => {})` must follow when executing a task.
 
 ### Commands
-Commands are reusable code snippets which can be used in every test. Cypress allows to [add custom commands](https://docs.cypress.io/api/cypress-api/custom-commands) so we can use them across our tests. They can be used to perform queries in the database or to call an API. As cypress doesn't support namespaces for commands they must be prefixed with the file name and an underscore. So a database command starts always with db_ and an API one with api_.
+Commands are reusable code snippets which can be used in every test. Cypress allows to [add custom commands](https://docs.cypress.io/api/cypress-api/custom-commands) so we can use them across our tests. They can be used to create objects in the database or to call an API. As cypress doesn't support namespaces for commands they must be prefixed with the file name and an underscore. So a database command starts always with db_ and an API one with api_.
 
 Commands can be called like a normal function, for example there is a command `db_createArticle`. We can use it like `cy.db_createArticle({ title: 'automated test article' })`. These commands are executed in the browser where the `cy.` namespace is available.
 
 #### Database commands
-The database commands create items in the database like articles or users. They are asynchronous and must be called like `cy.db_createArticle({ title: 'automated test article' }).then((id) => ... your test)`. The following list of commands are available and are served by the file tests/System/support/commands/db.js:
+The database commands create items in the database like articles or users. They are asynchronous and must be chained like `cy.db_createArticle({ title: 'automated test article' }).then((id) => ... the test)`. The following list of commands are available and are served by the file tests/System/support/commands/db.js:
 
 - **db_createArticle** creates an article and returns the id
 - **db_createContact** creates a contact and returns the id
@@ -63,7 +63,7 @@ The database commands create items in the database like articles or users. They 
 - **db_createUser** creates a user and returns the id
 
 #### API commands
-The APi commands making API requests to the CMS API endpoint `/api/index.php/v1`. They are asynchronous and must be called like `cy.api_get('/content/articles').then((response) => ... your test)`. The response is an object from [the cypress request command](https://docs.cypress.io/api/commands/request). The following list of commands are available and are served by the file tests/System/support/commands/api.js:
+The API commands making API requests to the CMS API endpoint `/api/index.php/v1`. They are asynchronous and must be chained like `cy.api_get('/content/articles').then((response) => ... the test)`. The response is an object from [the cypress request command](https://docs.cypress.io/api/commands/request). The following list of commands are available and are served by the file tests/System/support/commands/api.js:
 
 - **api_get** add the path as argument
 - **api_post** add the path and content for the body as arguments
