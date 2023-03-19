@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
@@ -50,10 +49,10 @@ extract($displayData);
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
-$modalHTML = '';
+
 $uri = new Uri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
 
-$uri->setVar('field', $this->escape($id));
+$uri->setVar('field', '{field-user-id}');
 
 if ($required) {
     $uri->setVar('required', 1);
@@ -94,19 +93,20 @@ if (!$readonly) {
 
     Factory::getDocument()->getWebAssetManager()
         ->useStyle('joomla-dialog')
-        ->useScript('joomla-dialog')
         ->useScript('webcomponent.field-user');
 }
+
+$onchange = !empty($onchange) ? 'onchange="' . $this->escape($onchange) . '"' : '';
 ?>
-<?php // Create a dummy text field with the user name. ?>
-<joomla-field-user class="field-user-wrapper"
-        url="<?php echo (string) $uri; ?>"
-        modal=".modal"
-        modal-width="100%"
-        modal-height="400px"
-        input=".field-user-input"
-        input-name=".field-user-input-name"
-        button-select=".button-select">
+<?php /* Create a dummy text field with the user name. */ ?>
+<joomla-field-user
+    class="field-user-wrapper"
+    url="<?php echo (string) $uri; ?>"
+    modal-width="96vw"
+    modal-height="80vh"
+    input=".field-user-input"
+    input-name=".field-user-input-name"
+    button-select=".button-select">
     <div class="input-group">
         <input <?php echo ArrayHelper::toString($inputAttributes), $dataAttribute; ?> readonly>
         <?php if (!$readonly) : ?>
@@ -116,11 +116,10 @@ if (!$readonly) {
             </button>
         <?php endif; ?>
     </div>
-    <?php // Create the real field, hidden, that stored the user id. ?>
+    <?php /* Create the real field, hidden, that stored the user id. */ ?>
     <?php if (!$readonly) : ?>
         <input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo $this->escape($value); ?>"
             class="field-user-input <?php echo $class ? (string) $class : ''?>"
-            data-onchange="<?php echo $this->escape($onchange); ?>">
-        <?php echo $modalHTML; ?>
+            <?php echo $this->escape($onchange); ?>>
     <?php endif; ?>
 </joomla-field-user>

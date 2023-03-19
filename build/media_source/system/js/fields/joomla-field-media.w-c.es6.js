@@ -93,30 +93,32 @@ class JoomlaFieldMedia extends HTMLElement {
   // attributeChangedCallback(attr, oldValue, newValue) {}
 
   connectedCallback() {
-    this.button = this.querySelector(this.buttonSelect);
-    this.inputElement = this.querySelector(this.input);
-    this.buttonClearEl = this.querySelector(this.buttonClear);
-    this.previewElement = this.querySelector('.field-media-preview');
+    requestAnimationFrame(() => {
+      this.button = this.querySelector(this.buttonSelect);
+      this.inputElement = this.querySelector(this.input);
+      this.buttonClearEl = this.querySelector(this.buttonClear);
+      this.previewElement = this.querySelector('.field-media-preview');
 
-    if (!this.button || !this.inputElement || !this.buttonClearEl) {
-      throw new Error('Misconfiguaration...');
-    }
+      if (!this.button || !this.inputElement || !this.buttonClearEl) {
+        throw new Error('Misconfiguaration...');
+      }
 
-    this.button.addEventListener('click', this.show);
+      this.button.addEventListener('click', this.show);
 
-    if (this.buttonClearEl) {
-      this.buttonClearEl.addEventListener('click', this.clearValue);
-    }
+      if (this.buttonClearEl) {
+        this.buttonClearEl.addEventListener('click', this.clearValue);
+      }
 
-    this.supportedExtensions = Joomla.getOptions('media-picker', {});
+      this.supportedExtensions = Joomla.getOptions('media-picker', {});
 
-    if (!Object.keys(this.supportedExtensions).length) {
-      throw new Error('Joomla API is not properly initiated');
-    }
+      if (!Object.keys(this.supportedExtensions).length) {
+        throw new Error('Joomla API is not properly initiated');
+      }
 
-    this.inputElement.removeAttribute('readonly');
-    this.inputElement.addEventListener('change', this.validateValue);
-    this.updatePreview();
+      this.inputElement.removeAttribute('readonly');
+      this.inputElement.addEventListener('change', this.validateValue);
+      this.updatePreview();
+    });
   }
 
   disconnectedCallback() {

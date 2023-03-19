@@ -115,9 +115,7 @@ $url = ($readonly ? ''
 $url = Route::_($url);
 $doc = Factory::getDocument();
 
-$doc->getWebAssetManager()->useScript('webcomponent.media-select')
-    ->useScript('joomla-dialog')
-    ->useStyle('joomla-dialog')
+$doc->getWebAssetManager()
     ->useStyle('webcomponent.field-media')
     ->useScript('webcomponent.field-media');
 
@@ -164,8 +162,8 @@ if (count($doc->getScriptOptions('media-picker')) === 0) {
     root-folder="<?php echo ComponentHelper::getParams('com_media')->get('file_path', 'images'); ?>"
     url="<?php echo $url; ?>"
     modal-container=".modal"
-    modal-width="100%"
-    modal-height="400px"
+    modal-width="96vw"
+    modal-height="80vh"
     input=".field-media-input"
     button-select=".button-select"
     button-clear=".button-clear"

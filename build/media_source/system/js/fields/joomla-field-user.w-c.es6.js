@@ -7,13 +7,14 @@
       this.onchangeStr = '';
 
       // Bind events
+      this.modalOpen = this.modalOpen.bind(this)
       this.buttonClick = this.buttonClick.bind(this);
       this.iframeLoad = this.iframeLoad.bind(this);
       this.setValue = this.setValue.bind(this);
     }
 
     static get observedAttributes() {
-      return ['url', 'modal', 'modal-width', 'modal-height', 'input', 'input-name', 'button-select'];
+      return ['url', 'modal-width', 'modal-height', 'input', 'input-name', 'button-select'];
     }
 
     get url() { return this.getAttribute('url'); }
@@ -41,32 +42,21 @@
     set buttonSelectClass(value) { this.setAttribute('button-select', value); }
 
     connectedCallback() {
-      // Set up elements
-      this.input = this.querySelector(this.inputId);
-      this.inputName = this.querySelector(this.inputNameClass);
-      this.buttonSelect = this.querySelector(this.buttonSelectClass);
+      requestAnimationFrame(() => {
+        // Set up elements
+        this.input = this.querySelector(this.inputId);
+        this.inputName = this.querySelector(this.inputNameClass);
+        this.buttonSelect = this.querySelector(this.buttonSelectClass);
 
-      if (this.buttonSelect) {
-        this.buttonSelect.addEventListener('click', this.modalOpen.bind(this));
-
-        // Check for onchange callback,
-        this.onchangeStr = this.input.getAttribute('data-onchange');
-        if (this.onchangeStr) {
-          /* eslint-disable */
-          this.onUserSelect = new Function(this.onchangeStr);
-          this.input.addEventListener('change', this.onUserSelect);
-          /* eslint-enable */
+        if (this.buttonSelect) {
+          this.buttonSelect.addEventListener('click', this.modalOpen.bind(this));
         }
-      }
+      });
     }
 
     disconnectedCallback() {
-      if (this.onchangeStr && this.input) {
-        this.input.removeEventListener('change', this.onUserSelect);
-      }
-
       if (this.buttonSelect) {
-        this.buttonSelect.removeEventListener('click', this);
+        this.buttonSelect.removeEventListener('click', this.modalOpen);
       }
     }
 
