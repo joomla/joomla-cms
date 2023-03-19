@@ -595,9 +595,9 @@
       ]
     },
     {
-      "name": "popup",
+      "name": "dialog",
       "type": "script",
-      "uri": "system/joomla-popup.min.js",
+      "uri": "system/joomla-dialog.min.js",
       "attributes": {
         "type": "module"
       },

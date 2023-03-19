@@ -4,17 +4,17 @@
  */
 
 // Default template for the popup
-const popupTemplate = `<div class="joomla-popup-container">
-  <header class="joomla-popup-header"></header>
-  <section class="joomla-popup-body"></section>
-  <footer class="joomla-popup-footer"></footer>
+const popupTemplate = `<div class="joomla-dialog-container">
+  <header class="joomla-dialog-header"></header>
+  <section class="joomla-dialog-body"></section>
+  <footer class="joomla-dialog-footer"></footer>
 </div>`;
 
 /**
- * JoomlaPopup class for Joomla Dialog implementation.
- * With use of <joomla-popup> custom element as dialog holder.
+ * JoomlaDialog class for Joomla Dialog implementation.
+ * With use of <joomla-dialog> custom element as dialog holder.
  */
-class JoomlaPopup extends HTMLElement {
+class JoomlaDialog extends HTMLElement {
   /**
    * The popup type, supported: inline, iframe, image, ajax.
    * @type {string}
@@ -127,14 +127,14 @@ class JoomlaPopup extends HTMLElement {
 
   /**
    * Render a main layout, based on given template.
-   * @returns {JoomlaPopup}
+   * @returns {JoomlaDialog}
    */
   renderLayout() {
     if (this.dialog) return this;
 
     // On close callback
     const onClose = () => {
-      this.dispatchEvent(new CustomEvent('joomla-popup:close'));
+      this.dispatchEvent(new CustomEvent('joomla-dialog:close'));
     };
     const onCancel = (event) => {
       if (!this.cancelable) {
@@ -147,7 +147,7 @@ class JoomlaPopup extends HTMLElement {
       this.dialog = this.firstElementChild;
       this.dialog.addEventListener('cancel', onCancel);
       this.dialog.addEventListener('close', onClose);
-      this.popupTmplB = this.querySelector('.joomla-popup-body') || this.dialog;
+      this.popupTmplB = this.querySelector('.joomla-dialog-body') || this.dialog;
       this.popupContentElement = this.popupTmplB;
       return this;
     }
@@ -169,9 +169,9 @@ class JoomlaPopup extends HTMLElement {
     this.appendChild(this.dialog);
 
     // Get template parts
-    this.popupTmplH = this.dialog.querySelector('.joomla-popup-header');
-    this.popupTmplB = this.dialog.querySelector('.joomla-popup-body');
-    this.popupTmplF = this.dialog.querySelector('.joomla-popup-footer');
+    this.popupTmplH = this.dialog.querySelector('.joomla-dialog-header');
+    this.popupTmplB = this.dialog.querySelector('.joomla-dialog-body');
+    this.popupTmplF = this.dialog.querySelector('.joomla-dialog-footer');
     this.popupContentElement = null;
 
     if (!this.popupTmplB) {
@@ -278,7 +278,7 @@ class JoomlaPopup extends HTMLElement {
 
   /**
    * Render the body content, based on popupType.
-   * @returns {JoomlaPopup}
+   * @returns {JoomlaDialog}
    */
   renderBodyContent() {
     if (!this.popupTmplB || this.popupContentElement) return this;
@@ -288,7 +288,7 @@ class JoomlaPopup extends HTMLElement {
       this.classList.add('loaded');
       this.classList.remove('loading');
       this.popupContentElement.removeEventListener('load', onLoad);
-      this.dispatchEvent(new CustomEvent('joomla-popup:load'));
+      this.dispatchEvent(new CustomEvent('joomla-dialog:load'));
     };
 
     this.classList.add('loading');
@@ -394,7 +394,7 @@ class JoomlaPopup extends HTMLElement {
    * Open the popup as modal window.
    * Will append the element to Document body if not appended before.
    *
-   * @returns {JoomlaPopup}
+   * @returns {JoomlaDialog}
    */
   show() {
     if (!this.parentElement) {
@@ -402,13 +402,13 @@ class JoomlaPopup extends HTMLElement {
     }
 
     this.dialog.showModal();
-    this.dispatchEvent(new CustomEvent('joomla-popup:open'));
+    this.dispatchEvent(new CustomEvent('joomla-dialog:open'));
     return this;
   }
 
   /**
    * Alias for show() method.
-   * @returns {JoomlaPopup}
+   * @returns {JoomlaDialog}
    */
   open() {
     return this.show();
@@ -417,7 +417,7 @@ class JoomlaPopup extends HTMLElement {
   /**
    * Closes the popup
    *
-   * @returns {JoomlaPopup}
+   * @returns {JoomlaDialog}
    */
   close() {
     if (!this.dialog) {
@@ -430,7 +430,7 @@ class JoomlaPopup extends HTMLElement {
 
   /**
    * Alias for close() method.
-   * @returns {JoomlaPopup}
+   * @returns {JoomlaDialog}
    */
   hide() {
     return this.close();
@@ -472,8 +472,8 @@ class JoomlaPopup extends HTMLElement {
         onClick: () => popup.destroy(),
       }];
       popup.cancelable = false;
-      popup.classList.add('joomla-popup-alert');
-      popup.addEventListener('joomla-popup:close', () => resolve());
+      popup.classList.add('joomla-dialog-alert');
+      popup.addEventListener('joomla-dialog:close', () => resolve());
       popup.show();
     });
   }
@@ -510,26 +510,26 @@ class JoomlaPopup extends HTMLElement {
         },
       ];
       popup.cancelable = false;
-      popup.classList.add('joomla-popup-confirm');
-      popup.addEventListener('joomla-popup:close', () => resolve(result));
+      popup.classList.add('joomla-dialog-confirm');
+      popup.addEventListener('joomla-dialog:close', () => resolve(result));
       popup.show();
     });
   }
 }
 
-window.JoomlaPopup = JoomlaPopup;
-customElements.define('joomla-popup', JoomlaPopup);
+window.JoomlaDialog = JoomlaDialog;
+customElements.define('joomla-dialog', JoomlaDialog);
 
 /**
  * Auto create a popup dynamically on click, eg:
  *
- * <button type="button" data-joomla-popup='{"popupType": "iframe", "src": "content/url.html"}'>Click</button>
- * <button type="button" data-joomla-popup='{"popupType": "inline", "popupContent": "#id-of-content-element"}'>Click</button>
- * <a href="content/url.html" data-joomla-popup>Click</a>
+ * <button type="button" data-joomla-dialog='{"popupType": "iframe", "src": "content/url.html"}'>Click</button>
+ * <button type="button" data-joomla-dialog='{"popupType": "inline", "popupContent": "#id-of-content-element"}'>Click</button>
+ * <a href="content/url.html" data-joomla-dialog>Click</a>
  */
-const delegateSelector = '[data-joomla-popup]';
-const configDataAttr = 'joomlaPopup';
-const configCacheFlag = 'joomlaPopupCache';
+const delegateSelector = '[data-joomla-dialog]';
+const configDataAttr = 'joomlaDialog';
+const configCacheFlag = 'joomlaDialogCache';
 
 document.addEventListener('click', (event) => {
   const triggerEl = event.target.closest(delegateSelector);
@@ -538,14 +538,14 @@ document.addEventListener('click', (event) => {
 
   // Check for cached instance
   const cacheable = !!triggerEl.dataset[configCacheFlag];
-  if (cacheable && triggerEl.JoomlaPopupInstance) {
-    Joomla.Modal.setCurrent(triggerEl.JoomlaPopupInstance);
-    triggerEl.JoomlaPopupInstance.show();
+  if (cacheable && triggerEl.JoomlaDialogInstance) {
+    Joomla.Modal.setCurrent(triggerEl.JoomlaDialogInstance);
+    triggerEl.JoomlaDialogInstance.show();
     return;
   }
   // Parse config
   const config = triggerEl.dataset[configDataAttr] ? JSON.parse(triggerEl.dataset[configDataAttr]) : {};
-
+console.log(config, triggerEl.dataset, configDataAttr)
   // Check click on anchor
   if (triggerEl.nodeName === 'A') {
     if (!config.popupType) {
@@ -578,12 +578,12 @@ document.addEventListener('click', (event) => {
     config.popupTemplate = Joomla.sanitizeHtml(config.popupTemplate);
   }
 
-  const popup = new JoomlaPopup(config);
+  const popup = new JoomlaDialog(config);
   if (cacheable) {
-    triggerEl.JoomlaPopupInstance = popup;
+    triggerEl.JoomlaDialogInstance = popup;
   }
 
-  popup.addEventListener('joomla-popup:close', () => {
+  popup.addEventListener('joomla-dialog:close', () => {
     Joomla.Modal.setCurrent(null);
     if (!cacheable) {
       popup.destroy();
@@ -594,4 +594,4 @@ document.addEventListener('click', (event) => {
   popup.show();
 });
 
-export default JoomlaPopup;
+export default JoomlaDialog;

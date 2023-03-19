@@ -166,8 +166,8 @@
   }
 }
 
-// Styling for joomla-popup element
-joomla-popup {
+// Styling for joomla-dialog element
+joomla-dialog {
   dialog {
     width: 80vw;
     max-width: 1700px;
@@ -209,7 +209,7 @@ joomla-popup {
     }
   }
 }
-.joomla-popup-container {
+.joomla-dialog-container {
   position: relative;
   box-sizing: border-box;
   display: flex;
@@ -227,7 +227,7 @@ joomla-popup {
     }
   }
 }
-.joomla-popup-header {
+.joomla-dialog-header {
   position: relative;
   display: flex;
   align-items: center;
@@ -248,7 +248,7 @@ joomla-popup {
     display: none;
   }
 }
-.joomla-popup-body {
+.joomla-dialog-body {
   position: relative;
   box-sizing: border-box;
   flex: 1 1 auto;
@@ -260,21 +260,21 @@ joomla-popup {
   }
 
   // Apply overflow for potentially large content
-  joomla-popup[type="inline"],
-  joomla-popup[type="ajax"] & {
+  joomla-dialog[type="inline"],
+  joomla-dialog[type="ajax"] & {
     overflow: auto;
   }
 
   // Content basic loading animation
-  joomla-popup.loading & {
+  joomla-dialog.loading & {
     opacity: 0;
   }
-  joomla-popup.loaded & {
+  joomla-dialog.loaded & {
     opacity: 1;
     transition: opacity .4s ease;
   }
 }
-.joomla-popup-footer {
+.joomla-dialog-footer {
   position: relative;
   padding: 1rem;
   border-top: 1px solid var(--border-color);
@@ -288,15 +288,15 @@ joomla-popup {
   }
 }
 
-.joomla-popup-alert,
-.joomla-popup-confirm {
+.joomla-dialog-alert,
+.joomla-dialog-confirm {
   dialog {
     width: 600px;
     max-width: 80vw;
     height: fit-content;
   }
 
-  .joomla-popup-body {
+  .joomla-dialog-body {
     padding: 1rem;
   }
 }
