@@ -46,10 +46,11 @@ class JoomlaDialog extends HTMLElement {
   // src = '';
 
   /**
-   * An optional list of buttons, to be rendered in footer, or bottom of the popup body.
+   * An optional list of buttons, to be rendered in footer or header, or bottom or top of the popup body.
    * Example:
    *   [{label: 'Yes', onClick: () => popup.close()},
-   *   {label: 'No', onClick: () => popup.close(), className: 'btn btn-danger'}]
+   *   {label: 'No', onClick: () => popup.close(), className: 'btn btn-danger'},
+   *   {label: 'Click me', onClick: () => popup.close(), location: 'header'}]
    * @type {[]}
    */
   // popupButtons = [];
