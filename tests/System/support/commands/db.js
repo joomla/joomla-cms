@@ -35,8 +35,13 @@ Cypress.Commands.add('db_createArticle', (article) => {
     metadata: '',
   };
 
-  return cy.task('queryDB', createInsertQuery('content', { ...defaultArticleOptions, ...article })).then((info) => cy.task('queryDB', `INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('${info.insertId}', '1')`)
-    .then(() => cy.task('queryDB', `INSERT INTO #__workflow_associations (item_id, stage_id, extension) VALUES (${info.insertId}, 1, 'com_content.article')`)).then(() => info));
+  return cy.task('queryDB', createInsertQuery('content', { ...defaultArticleOptions, ...article }))
+    .then(async (info) => {
+      await cy.task('queryDB', `INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('${info.insertId}', '1')`);
+      await cy.task('queryDB', `INSERT INTO #__workflow_associations (item_id, stage_id, extension) VALUES (${info.insertId}, 1, 'com_content.article')`);
+
+      return info.insertId;
+    });
 });
 
 Cypress.Commands.add('db_createContact', (contact) => {
@@ -54,7 +59,8 @@ Cypress.Commands.add('db_createContact', (contact) => {
     params: '',
   };
 
-  return cy.task('queryDB', createInsertQuery('contact_details', { ...defaultContactOptions, ...contact }));
+  return cy.task('queryDB', createInsertQuery('contact_details', { ...defaultContactOptions, ...contact }))
+    .then(async (info) => info.insertId);
 });
 
 Cypress.Commands.add('db_createBanner', (banner) => {
@@ -71,7 +77,7 @@ Cypress.Commands.add('db_createBanner', (banner) => {
     params: '',
   };
 
-  return cy.task('queryDB', createInsertQuery('banners', { ...defaultBannerOptions, ...banner }));
+  return cy.task('queryDB', createInsertQuery('banners', { ...defaultBannerOptions, ...banner })).then(async (info) => info.insertId);
 });
 
 Cypress.Commands.add('db_createMenuItem', (menuItem) => {
@@ -92,7 +98,7 @@ Cypress.Commands.add('db_createMenuItem', (menuItem) => {
     img: '',
   };
 
-  return cy.task('queryDB', createInsertQuery('menu', { ...defaultMenuItemOptions, ...menuItem }));
+  return cy.task('queryDB', createInsertQuery('menu', { ...defaultMenuItemOptions, ...menuItem })).then(async (info) => info.insertId);
 });
 
 Cypress.Commands.add('db_createModule', (module) => {
@@ -107,7 +113,12 @@ Cypress.Commands.add('db_createModule', (module) => {
     params: '',
   };
 
-  return cy.task('queryDB', createInsertQuery('modules', { ...defaultModuleOptions, ...module })).then((info) => cy.task('queryDB', `INSERT INTO #__modules_menu (moduleid, menuid) VALUES ('${info.insertId}', '0')`).then(() => info));
+  return cy.task('queryDB', createInsertQuery('modules', { ...defaultModuleOptions, ...module }))
+    .then(async (info) => {
+      await cy.task('queryDB', `INSERT INTO #__modules_menu (moduleid, menuid) VALUES ('${info.insertId}', '0')`);
+
+      return info.insertId;
+    });
 });
 
 Cypress.Commands.add('db_createUser', (userData) => {
@@ -125,5 +136,9 @@ Cypress.Commands.add('db_createUser', (userData) => {
   const groupId = user.group_id ?? 2; // Default the group id to registered
   delete user.group_id;
 
-  return cy.task('queryDB', createInsertQuery('users', user)).then((info) => cy.task('queryDB', `INSERT INTO #__user_usergroup_map (user_id, group_id) VALUES ('${info.insertId}', '${groupId}')`).then(() => info));
+  return cy.task('queryDB', createInsertQuery('users', user)).then(async (info) => {
+    await cy.task('queryDB', `INSERT INTO #__user_usergroup_map (user_id, group_id) VALUES ('${info.insertId}', '${groupId}')`);
+
+    return info.insertId;
+  });
 });

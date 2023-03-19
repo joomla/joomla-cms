@@ -36,7 +36,9 @@ Tests should be
 - small
 - do one thing
 
-The CMS tests do come some some convenient cypress tasks which are executing actions on the server. The following tasks are available:
+### Tasks
+
+The CMS tests do come with some convenient [cypress tasks](https://docs.cypress.io/api/commands/task) which are executing actions on the server in a node environment. Thats why the `cy.` namespace is not available. The following tasks are available, served by the file tests/System/plugins/index.js:
 
 - **queryDB** Executes a query on the database
 - **cleanupDB** does some cleanup, is executed automatically after every test
@@ -44,3 +46,27 @@ The CMS tests do come some some convenient cypress tasks which are executing act
 - **deleteFolder** deletes a folder relative to the CMS root folder
 
 With the following code can be run `cy.task('writeFile', { path: 'images/dummy.text', content: '1' })`. 
+
+### Commands
+Commands are reusable code snippets which can be used in every test. Cypress allows to [add custom commands](https://docs.cypress.io/api/cypress-api/custom-commands) so we can use them across our tests. They can be used to perform queries in the database or to call an API. As cypress doesn't support namespaces for commands they must be prefixed with the file name and an underscore. So a database command starts always with db_ and an API one with api_.
+
+Commands can be called like a normal function, for example there is a command `db_createArticle`. We can use it like `cy.db_createArticle({ title: 'automated test article' })`. These commands are executed in the browser where the `cy.` namespace is available.
+
+#### Database commands
+The database commands create items in the database like articles or users. They are asynchronous and must be called like `cy.db_createArticle({ title: 'automated test article' }).then((id) => ... your test)`. The following list of commands are available and are served by the file tests/System/support/commands/db.js:
+
+- **db_createArticle** creates an article and returns the id
+- **db_createContact** creates a contact and returns the id
+- **db_createBanner** creates a banner and returns the id
+- **db_createMenuItem** creates a menu item and returns the id
+- **db_createModule** creates a module and returns the id
+- **db_createUser** creates a user and returns the id
+
+#### API commands
+The APi commands making API requests to the CMS API endpoint `/api/index.php/v1`. They are asynchronous and must be called like `cy.api_get('/content/articles').then((response) => ... your test)`. The response is an object from [the cypress request command](https://docs.cypress.io/api/commands/request). The following list of commands are available and are served by the file tests/System/support/commands/api.js:
+
+- **api_get** add the path as argument
+- **api_post** add the path and content for the body as arguments
+- **api_patch** add the path and content for the body as arguments
+- **api_delete** add the path as argument
+- **api_getBearerToken** returns the bearer token and no request object
