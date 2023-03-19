@@ -7,7 +7,7 @@
       this.onchangeStr = '';
 
       // Bind events
-      this.modalOpen = this.modalOpen.bind(this)
+      this.modalOpen = this.modalOpen.bind(this);
       this.buttonClick = this.buttonClick.bind(this);
       this.iframeLoad = this.iframeLoad.bind(this);
       this.setValue = this.setValue.bind(this);
