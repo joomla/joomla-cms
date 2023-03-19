@@ -296,7 +296,12 @@ class JoomlaDialog extends HTMLElement {
     switch (this.popupType) {
       // Create an Inline content
       case 'inline': {
-        this.popupTmplB.insertAdjacentHTML('afterbegin', this.popupContent);
+        if (this.popupContent instanceof HTMLElement) {
+          const inlineContent = this.popupContent.nodeName === 'TEMPLATE' ? this.popupContent.content : this.popupContent;
+          this.popupTmplB.appendChild(inlineContent);
+        } else {
+          this.popupTmplB.insertAdjacentHTML('afterbegin', Joomla.sanitizeHtml(this.popupContent));
+        }
         this.popupContentElement = this.popupTmplB;
         onLoad();
         break;
@@ -333,7 +338,7 @@ class JoomlaDialog extends HTMLElement {
             }
             return response.text();
           }).then((text) => {
-            this.popupTmplB.insertAdjacentHTML('afterbegin', text);
+            this.popupTmplB.insertAdjacentHTML('afterbegin', Joomla.sanitizeHtml(text));
             this.popupContentElement = this.popupTmplB;
             onLoad();
           }).catch((error) => {
@@ -545,7 +550,7 @@ document.addEventListener('click', (event) => {
   }
   // Parse config
   const config = triggerEl.dataset[configDataAttr] ? JSON.parse(triggerEl.dataset[configDataAttr]) : {};
-console.log(config, triggerEl.dataset, configDataAttr)
+
   // Check click on anchor
   if (triggerEl.nodeName === 'A') {
     if (!config.popupType) {
@@ -564,18 +569,18 @@ console.log(config, triggerEl.dataset, configDataAttr)
     config.popupContent = content ? content.innerHTML.trim() : config.popupContent;
   }
 
-  if (config.popupContent) {
-    config.popupContent = Joomla.sanitizeHtml(config.popupContent);
-  }
-
   // Check for template selector
   if (config.popupTemplate && (config.popupTemplate[0] === '.' || config.popupTemplate[0] === '#')) {
     const template = document.querySelector(config.popupTemplate);
     if (template && template.nodeName === 'TEMPLATE') {
       config.popupTemplate = template;
+    } else {
+      // Remove invalid template
+      delete config.popupTemplate;
     }
   } else if (config.popupTemplate) {
-    config.popupTemplate = Joomla.sanitizeHtml(config.popupTemplate);
+    // Template as string not allowed here
+    delete config.popupTemplate;
   }
 
   const popup = new JoomlaDialog(config);
