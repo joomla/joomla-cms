@@ -92,21 +92,6 @@ if (!$readonly) {
     Text::script('JLIB_FORM_CHANGE_USER');
     Text::script('JCANCEL');
 
-    // $modalHTML = HTMLHelper::_(
-    //     'bootstrap.renderModal',
-    //     'userModal_' . $id,
-    //     [
-    //         'url'         => $uri,
-    //         'title'       => Text::_('JLIB_FORM_CHANGE_USER'),
-    //         'closeButton' => true,
-    //         'height'      => '100%',
-    //         'width'       => '100%',
-    //         'modalWidth'  => 80,
-    //         'bodyHeight'  => 60,
-    //         'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
-    //     ]
-    // );
-
     Factory::getDocument()->getWebAssetManager()
         ->useStyle('joomla-dialog')
         ->useScript('joomla-dialog')
