@@ -604,6 +604,23 @@
       "dependencies": [
         "core"
       ]
-    }
+    },
+    {
+      "name": "joomla-dialog",
+      "type": "script",
+      "uri": "system/joomla-dialog.min.js",
+      "attributes": {
+         "type": "module"
+       },
+       "dependencies": [
+         "wcpolyfill",
+         "core"
+       ]
+     },
+     {
+       "name": "joomla-dialog",
+       "type": "style",
+       "uri": "system/joomla-dialog.min.css"
+     }
   ]
 }

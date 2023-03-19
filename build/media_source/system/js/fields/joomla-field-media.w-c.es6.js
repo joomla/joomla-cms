@@ -56,10 +56,6 @@ class JoomlaFieldMedia extends HTMLElement {
 
   set url(value) { this.setAttribute('url', value); }
 
-  get modalContainer() { return this.getAttribute('modal-container'); }
-
-  set modalContainer(value) { this.setAttribute('modal-container', value); }
-
   get input() { return this.getAttribute('input'); }
 
   set input(value) { this.setAttribute('input', value); }
@@ -71,10 +67,6 @@ class JoomlaFieldMedia extends HTMLElement {
   get buttonClear() { return this.getAttribute('button-clear'); }
 
   set buttonClear(value) { this.setAttribute('button-clear', value); }
-
-  get buttonSaveSelected() { return this.getAttribute('button-save-selected'); }
-
-  set buttonSaveSelected(value) { this.setAttribute('button-save-selected', value); }
 
   get modalWidth() { return parseInt(this.getAttribute('modal-width'), 10); }
 
@@ -104,24 +96,13 @@ class JoomlaFieldMedia extends HTMLElement {
     this.button = this.querySelector(this.buttonSelect);
     this.inputElement = this.querySelector(this.input);
     this.buttonClearEl = this.querySelector(this.buttonClear);
-    this.modalElement = this.querySelector('.joomla-modal');
-    this.buttonSaveSelectedElement = this.querySelector(this.buttonSaveSelected);
     this.previewElement = this.querySelector('.field-media-preview');
 
-    if (!this.button || !this.inputElement || !this.buttonClearEl || !this.modalElement
-      || !this.buttonSaveSelectedElement) {
+    if (!this.button || !this.inputElement || !this.buttonClearEl) {
       throw new Error('Misconfiguaration...');
     }
 
     this.button.addEventListener('click', this.show);
-
-    // Bootstrap modal init
-    if (this.modalElement
-      && window.bootstrap
-      && window.bootstrap.Modal
-      && !window.bootstrap.Modal.getInstance(this.modalElement)) {
-      Joomla.initialiseModal(this.modalElement, { isJoomla: true });
-    }
 
     if (this.buttonClearEl) {
       this.buttonClearEl.addEventListener('click', this.clearValue);
@@ -154,16 +135,30 @@ class JoomlaFieldMedia extends HTMLElement {
     event.preventDefault();
     event.stopPropagation();
 
-    this.modalClose();
-    return false;
+    return this.modalClose();
   }
 
   show() {
-    this.modalElement.open();
+    // eslint-disable-next-line
+    const dialog = new JoomlaDialog({
+      popupType: 'iframe',
+      textHeader: Joomla.Text._('JLIB_FORM_CHANGE_IMAGE'),
+      src: this.url,
+    });
+
+    // Optional sizing:
+    dialog.width = '80vw';
+    dialog.height = '80vh';
+
+    // Definig your own buttons:
+    dialog.popupButtons = [
+      { label: Joomla.Text._('JSELECT'), onClick: (event) => this.onSelected(event) },
+      { label: Joomla.Text._('JCANCEL'), onClick: () => dialog.close(), className: 'btn btn-outline-danger ms-2' },
+    ];
 
     Joomla.selectedMediaFile = {};
 
-    this.buttonSaveSelectedElement.addEventListener('click', this.onSelected);
+    dialog.show();
   }
 
   async modalClose() {
@@ -363,4 +358,5 @@ class JoomlaFieldMedia extends HTMLElement {
     }
   }
 }
+
 customElements.define('joomla-field-media', JoomlaFieldMedia);
