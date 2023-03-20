@@ -79,8 +79,6 @@
         popupType: 'iframe',
         textHeader: Joomla.Text._('JLIB_FORM_CHANGE_IMAGE'),
         src: this.url.replace('{field-user-id}', this.input.getAttribute('id')),
-        width: this.modalWidth,
-        height: this.modalHeight,
         popupButtons: [
           { label: Joomla.Text._('JCANCEL'), onClick: () => this.modalClose(), className: 'btn btn-outline-danger ms-2' },
         ],

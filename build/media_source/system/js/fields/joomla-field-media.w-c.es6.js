@@ -146,8 +146,6 @@ class JoomlaFieldMedia extends HTMLElement {
       popupType: 'iframe',
       textHeader: Joomla.Text._('JLIB_FORM_CHANGE_IMAGE'),
       iconHeader: 'icon-address',
-      width: '80vw',
-      height: '80vh',
       src: this.url,
       popupButtons: [
         { label: Joomla.Text._('JSELECT'), onClick: (event) => this.onSelected(event) },
