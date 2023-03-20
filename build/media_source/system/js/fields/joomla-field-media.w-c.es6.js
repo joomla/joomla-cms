@@ -148,8 +148,15 @@ class JoomlaFieldMedia extends HTMLElement {
       iconHeader: 'icon-address',
       src: this.url,
       popupButtons: [
-        { label: Joomla.Text._('JSELECT'), onClick: (event) => this.onSelected(event) },
-        { label: Joomla.Text._('JCANCEL'), onClick: () => this.modalClose(), className: 'btn btn-outline-danger ms-2' },
+        {
+          label: '', ariaLabel: Joomla.Text._('JCLOSE'), className: 'button-close btn-close', location: 'header', onClick: () => this.modalClose(),
+        },
+        {
+          label: Joomla.Text._('JSELECT'), onClick: (event) => this.onSelected(event),
+        },
+        {
+          label: Joomla.Text._('JCANCEL'), className: 'btn btn-outline-danger ms-2', onClick: () => this.modalClose(),
+        },
       ],
     });
 

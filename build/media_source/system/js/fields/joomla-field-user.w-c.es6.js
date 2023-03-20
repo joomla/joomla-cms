@@ -80,7 +80,12 @@
         textHeader: Joomla.Text._('JLIB_FORM_CHANGE_IMAGE'),
         src: this.url.replace('{field-user-id}', this.input.getAttribute('id')),
         popupButtons: [
-          { label: Joomla.Text._('JCANCEL'), onClick: () => this.modalClose(), className: 'btn btn-outline-danger ms-2' },
+          {
+            label: '', ariaLabel: Joomla.Text._('JCLOSE'), className: 'button-close btn-close', onClick: () => this.modalClose(), location: 'header'
+          },
+          {
+            label: Joomla.Text._('JCANCEL'), onClick: () => this.modalClose(), className: 'btn btn-outline-danger ms-2'
+          },
         ],
       });
 
