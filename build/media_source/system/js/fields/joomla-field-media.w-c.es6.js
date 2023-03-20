@@ -145,7 +145,6 @@ class JoomlaFieldMedia extends HTMLElement {
     this.dialog = new JoomlaDialog({
       popupType: 'iframe',
       textHeader: Joomla.Text._('JLIB_FORM_CHANGE_IMAGE'),
-      iconHeader: 'icon-address',
       src: this.url,
       popupButtons: [
         {
