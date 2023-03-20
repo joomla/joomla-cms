@@ -94,7 +94,8 @@ Cypress.Commands.add('db_createContact',(contact)=>{
     metadesc: '',
     metadata: '',
     featured: 1,
-    published: 1
+    published: 1,
+    params: ''
   };
 
   return cy.task('queryDB', createInsertQuery('contact_details', { ...defaultContactOptions, ...contact })).then((info) => info.insertId);
