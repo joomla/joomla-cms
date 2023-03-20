@@ -109,9 +109,9 @@ class LanguageHelper
      */
     public static function getLanguages($key = 'default')
     {
-        static $languages;
+        static $languages = [];
 
-        if (empty($languages)) {
+        if (!count($languages)) {
             // Installation uses available languages
             if (Factory::getApplication()->isClient('installation')) {
                 $languages[$key] = [];
