@@ -106,7 +106,6 @@ function queryTestDB(joomlaQuery, config) {
       password: config.env.db_password,
       database: config.env.db_name,
     });
-    connection.connect();
 
     // Perform the query
     connection.query(query, (error, results) => {
