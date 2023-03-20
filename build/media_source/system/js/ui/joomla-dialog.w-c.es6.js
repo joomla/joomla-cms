@@ -407,7 +407,6 @@ class JoomlaDialog extends HTMLElement {
     }
 
     this.dialog.showModal();
-    Joomla.Modal.setCurrent(this);
     this.dispatchEvent(new CustomEvent('joomla-dialog:open'));
     return this;
   }
@@ -431,7 +430,6 @@ class JoomlaDialog extends HTMLElement {
     }
 
     this.dialog.close();
-    Joomla.Modal.setCurrent(null);
     return this;
   }
 

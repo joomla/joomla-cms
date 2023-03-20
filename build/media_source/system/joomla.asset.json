@@ -326,7 +326,7 @@
       "type": "style",
       "uri": "system/fields/joomla-field-media.min.css",
       "dependencies": [
-        "joomla-dialog"
+        "dialog"
       ]
     },
     {
@@ -368,7 +368,7 @@
       "dependencies": [
         "core",
         "wcpolyfill",
-        "joomla-dialog",
+        "dialog",
         "webcomponent.media-select"
       ]
     },
@@ -382,7 +382,7 @@
       "dependencies": [
         "core",
         "wcpolyfill",
-        "joomla-dialog",
+        "dialog",
         "webcomponent.media-select",
         "webcomponent.field-media-legacy"
       ]
@@ -522,7 +522,7 @@
       },
       "dependencies": [
         "core",
-        "joomla-dialog",
+        "dialog",
         "wcpolyfill"
       ]
     },
@@ -535,7 +535,7 @@
       },
       "dependencies": [
         "core",
-        "joomla-dialog",
+        "dialog",
         "webcomponent.field-user-legacy"
       ]
     },
@@ -620,9 +620,9 @@
       ]
     },
     {
-      "name": "joomla-dialog",
+      "name": "dialog",
       "type": "script",
-      "uri": "system/joomla-dialog.min.js",
+      "uri": "system/ui/joomla-dialog.min.js",
       "attributes": {
          "type": "module"
        },
@@ -632,9 +632,9 @@
        ]
      },
      {
-       "name": "joomla-dialog",
+       "name": "dialog",
        "type": "style",
-       "uri": "system/joomla-dialog.min.css"
+       "uri": "system/ui/joomla-dialog.min.css"
      }
   ]
 }

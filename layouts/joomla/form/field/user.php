@@ -92,7 +92,7 @@ if (!$readonly) {
     Text::script('JCANCEL');
 
     Factory::getDocument()->getWebAssetManager()
-        ->useStyle('joomla-dialog')
+        ->useStyle('dialog')
         ->useScript('webcomponent.field-user');
 }
 

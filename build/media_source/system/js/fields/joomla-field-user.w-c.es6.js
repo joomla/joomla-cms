@@ -8,6 +8,7 @@
 
       // Bind events
       this.modalOpen = this.modalOpen.bind(this);
+      this.modalClose = this.modalClose.bind(this);
       this.buttonClick = this.buttonClick.bind(this);
       this.iframeLoad = this.iframeLoad.bind(this);
       this.setValue = this.setValue.bind(this);
@@ -78,22 +79,24 @@
         popupType: 'iframe',
         textHeader: Joomla.Text._('JLIB_FORM_CHANGE_IMAGE'),
         src: this.url.replace('{field-user-id}', this.input.getAttribute('id')),
+        width: this.modalWidth,
+        height: this.modalHeight,
+        popupButtons: [
+          { label: Joomla.Text._('JCANCEL'), onClick: () => this.modalClose(), className: 'btn btn-outline-danger ms-2' },
+        ],
       });
-
-      // Optional sizing:
-      this.dialog.width = this.modalWidth;
-      this.dialog.height = this.modalHeight;
-
-      // Definig your own buttons:
-      this.dialog.popupButtons = [
-        { label: Joomla.Text._('JCANCEL'), onClick: () => this.dialog.close(), className: 'btn btn-outline-danger ms-2' },
-      ];
 
       Joomla.selectedMediaFile = {};
 
       this.dialog.addEventListener('joomla-dialog:load', this.iframeLoad);
 
       this.dialog.show();
+      Joomla.Modal.setCurrent(this.dialog);
+    }
+
+    modalClose() {
+      this.dialog.destroy();
+      Joomla.Modal.setCurrent(null);
     }
 
     // Sets the value

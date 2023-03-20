@@ -142,25 +142,23 @@ class JoomlaFieldMedia extends HTMLElement {
 
   show() {
     // eslint-disable-next-line
-    const dialog = new JoomlaDialog({
+    this.dialog = new JoomlaDialog({
       popupType: 'iframe',
       textHeader: Joomla.Text._('JLIB_FORM_CHANGE_IMAGE'),
+      iconHeader: 'icon-address',
+      width: '80vw',
+      height: '80vh',
       src: this.url,
+      popupButtons: [
+        { label: Joomla.Text._('JSELECT'), onClick: (event) => this.onSelected(event) },
+        { label: Joomla.Text._('JCANCEL'), onClick: () => this.modalClose(), className: 'btn btn-outline-danger ms-2' },
+      ],
     });
-
-    // Optional sizing:
-    dialog.width = '80vw';
-    dialog.height = '80vh';
-
-    // Definig your own buttons:
-    dialog.popupButtons = [
-      { label: Joomla.Text._('JSELECT'), onClick: (event) => this.onSelected(event) },
-      { label: Joomla.Text._('JCANCEL'), onClick: () => dialog.close(), className: 'btn btn-outline-danger ms-2' },
-    ];
 
     Joomla.selectedMediaFile = {};
 
-    dialog.show();
+    this.dialog.show();
+    Joomla.Modal.setCurrent(this.dialog);
   }
 
   async modalClose() {
@@ -173,7 +171,8 @@ class JoomlaFieldMedia extends HTMLElement {
     }
 
     Joomla.selectedMediaFile = {};
-    Joomla.Modal.getCurrent().close();
+    this.dialog.destroy();
+    Joomla.Modal.setCurrent(null);
   }
 
   setValue(value) {

@@ -35,12 +35,13 @@ joomla-dialog {
         width: 66px;
         height: 66px;
         content: "";
-        background: url("../../../media/system/images/ajax-loader.gif") no-repeat center;
+        background: url("../../../../media/system/images/ajax-loader.gif") no-repeat center;
         transform: translate(-50%, -50%);
       }
     }
   }
 }
+
 .joomla-dialog-container {
   position: relative;
   box-sizing: border-box;
