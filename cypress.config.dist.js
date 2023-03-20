@@ -17,7 +17,7 @@ module.exports = defineConfig({
       'tests/System/integration/administrator/**/*.cy.{js,jsx,ts,tsx}',
       'tests/System/integration/site/**/*.cy.{js,jsx,ts,tsx}',
       'tests/System/integration/api/**/*.cy.{js,jsx,ts,tsx}',
-      'tests/cypress/integration/plugins/**/*.cy.{js,jsx,ts,tsx}',
+      'tests/System/integration/plugins/**/*.cy.{js,jsx,ts,tsx}',
     ],
     supportFile: 'tests/System/support/index.js',
     scrollBehavior: 'center',
