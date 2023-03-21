@@ -60,6 +60,17 @@
       ]
     },
     {
+      "name": "editors",
+      "type": "script",
+      "uri": "system/editors.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "core"
+      ]
+    },
+    {
       "name": "inlinehelp-legacy",
       "type": "script",
       "uri": "system/inlinehelp-es5.min.js",

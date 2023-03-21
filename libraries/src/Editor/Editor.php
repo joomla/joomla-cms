@@ -170,8 +170,11 @@ class Editor implements DispatcherAwareInterface
         if ($this->_editor === null) {
             Factory::getApplication()->enqueueMessage(Text::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
 
-            return;
+            return '';
         }
+
+        // Make sure editors api is loaded
+        Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('editors');
 
         // Backwards compatibility. Width and height should be passed without a semicolon from now on.
         // If editor plugins need a unit like "px" for CSS styling, they need to take care of that

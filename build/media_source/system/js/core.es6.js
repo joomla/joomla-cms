@@ -56,51 +56,6 @@ const DefaultAllowlist = {
 // Only define the Joomla namespace if not defined.
 window.Joomla = window.Joomla || {};
 
-// Only define editors if not defined
-window.Joomla.editors = window.Joomla.editors || {};
-
-// An object to hold each editor instance on page, only define if not defined.
-window.Joomla.editors.instances = window.Joomla.editors.instances || {
-  /**
-   * *****************************************************************
-   * All Editors MUST register, per instance, the following callbacks:
-   * *****************************************************************
-   *
-   * getValue         Type  Function  Should return the complete data from the editor
-   *                                  Example: () => { return this.element.value; }
-   * setValue         Type  Function  Should replace the complete data of the editor
-   *                                  Example: (text) => { return this.element.value = text; }
-   * getSelection     Type  Function  Should return the selected text from the editor
-   *                                  Example: function () { return this.selectedText; }
-   * disable          Type  Function  Toggles the editor into disabled mode. When the editor is
-   *                                  active then everything should be usable. When inactive the
-   *                                  editor should be unusable AND disabled for form validation
-   *                                  Example: (bool) => { return this.disable = value; }
-   * replaceSelection Type  Function  Should replace the selected text of the editor
-   *                                  If nothing selected, will insert the data at the cursor
-   *                                  Example:
-   *                                  (text) => {
-   *                                    return insertAtCursor(this.element, text);
-   *                                    }
-   *
-   * USAGE (assuming that jform_articletext is the textarea id)
-   * {
-   * To get the current editor value:
-   *  Joomla.editors.instances['jform_articletext'].getValue();
-   * To set the current editor value:
-   *  Joomla.editors.instances['jform_articletext'].setValue('Joomla! rocks');
-   * To replace(selection) or insert a value at  the current editor cursor (replaces the J3
-   * jInsertEditorText API):
-   *  replaceSelection:
-   *  Joomla.editors.instances['jform_articletext'].replaceSelection('Joomla! rocks')
-   * }
-   *
-   * *********************************************************
-   * ANY INTERACTION WITH THE EDITORS SHOULD USE THE ABOVE API
-   * *********************************************************
-   */
-};
-
 window.Joomla.Modal = window.Joomla.Modal || {
   /**
    * *****************************************************************
