@@ -205,6 +205,10 @@ const JoomlaEditor = {
       throw new Error('Unexpected editor instance or identifier');
     }
 
+    if (this.active && this.active === this.instances[id]) {
+      this.active = null;
+    }
+
     delete this.instances[id];
 
     // For backward compatibility
@@ -256,7 +260,54 @@ const JoomlaEditor = {
 /**
  * Editor Buttons API.
  */
-const JoomlaEditorButton = {};
+const JoomlaEditorButton = {
+  /**
+   * Internal! The property should not be accessed directly.
+   *
+   * A collection of button actions.
+   */
+  actions: {},
+
+  /**
+   * Register new button action, or override existing.
+   *
+   * @param {String} name Action name
+   * @param {Function} handler Callback that will be executed.
+   *
+   * @returns {JoomlaEditorButton}
+   */
+  registerAction(name, handler) {
+    return this;
+  },
+
+  /**
+   * Get registered handler by action name.
+   *
+   * @param {String} name Action name
+   *
+   * @returns {Function|false}
+   */
+  getActionHandler(name) {
+    return this.actions[name] || false;
+  },
+
+  /**
+   * Execute action.
+   *
+   * @param {String} name Action name
+   * @param {Object} options An options object
+   *
+   * @returns {*|boolean}
+   */
+  runAction(name, options) {
+    const handler = this.getActionHandler(name);
+    if (handler) {
+      throw new Error(`Handler for "${name}" action not found`);
+    }
+
+    return handler(options);
+  }
+};
 
 Joomla.Editor = JoomlaEditor;
 Joomla.EditorButton = JoomlaEditorButton;
