@@ -88,7 +88,7 @@ class JoomlaEditorDecorator {
    * Return the complete data from the editor.
    * Should be implemented by editor provider.
    *
-   * @returns {Promise}
+   * @returns {Promise<string>}
    */
   // eslint-disable-next-line class-methods-use-this
   getValue() {
@@ -112,7 +112,7 @@ class JoomlaEditorDecorator {
    * Return the selected text from the editor.
    * Should be implemented by editor provider.
    *
-   * @returns {Promise}
+   * @returns {Promise<string>}
    */
   // eslint-disable-next-line class-methods-use-this
   getSelection() {
@@ -143,6 +143,19 @@ class JoomlaEditorDecorator {
    */
   // eslint-disable-next-line class-methods-use-this, no-unused-vars
   disable(enable) {
+    throw new Error('Not implemented');
+  }
+
+  /**
+   * Toggles the editor visibility mode. Used by Toggle button.
+   * Should be implemented by editor provider.
+   *
+   * @param {boolean} show Optional. True to show, false to hide.
+   *
+   * @returns {JoomlaEditorDecorator}
+   */
+  // eslint-disable-next-line class-methods-use-this, no-unused-vars
+  toggle(show) {
     throw new Error('Not implemented');
   }
 }

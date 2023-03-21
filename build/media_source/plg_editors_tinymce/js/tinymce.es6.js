@@ -6,6 +6,8 @@
 ((tinyMCE, Joomla, window, document) => {
   'use strict';
 
+  /* global tinymce, JoomlaEditorDecorator */
+
   // Debounce ReInit per editor ID
   const reInitQueue = {};
   const debounceReInit = (editor, element, pluginOptions) => {
@@ -14,10 +16,61 @@
     }
     reInitQueue[element.id] = setTimeout(() => {
       editor.remove();
-      Joomla.editors.instances[element.id] = null;
+      Joomla.Editor.unregister(element.id);
       Joomla.JoomlaTinyMCE.setupEditor(element, pluginOptions);
     }, 500);
   };
+
+  /**
+   * TinyMCE Decorator for Joomla.Editor
+   */
+  class TinyMCEDecorator extends JoomlaEditorDecorator {
+    /**
+     * @returns {Promise<string>}
+     */
+    getValue() {
+      return new Promise((resolve) => {
+        resolve(this.instance.getContent());
+      });
+    }
+
+    /**
+     * @param {String} value
+     * @returns {TinyMCEDecorator}
+     */
+    setValue(value) {
+      this.instance.setContent(value);
+      return this;
+    }
+
+    /**
+     * @returns {Promise<string>}
+     */
+    getSelection() {
+      return new Promise((resolve) => {
+        resolve(this.instance.selection.getContent({ format: 'text' }));
+      });
+    }
+
+    replaceSelection(value) {
+      this.instance.execCommand('mceInsertContent', false, value);
+      return this;
+    }
+
+    disable(enable) {
+      this.instance.setMode(!enable ? 'readonly' : 'design');
+      return this;
+    }
+
+    toggle(show) {
+      if (show || this.instance.isHidden()) {
+        this.instance.show();
+      } else {
+        this.instance.hide();
+      }
+      return this;
+    }
+  }
 
   Joomla.JoomlaTinyMCE = {
     /**
@@ -161,8 +214,9 @@
       };
 
       // Create a new instance
-      // eslint-disable-next-line no-undef
       const ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
+      // Create a decorator
+      const jEditor = new TinyMCEDecorator(ed, 'tinymce', element.id);
 
       // Work around iframe behavior, when iframe element changes location in DOM and losing its content.
       // Re init editor when iframe is reloaded.
@@ -193,21 +247,10 @@
         });
       }
 
+      // Render the editor
       ed.render();
-
-      /** Register the editor's instance to Joomla Object */
-      Joomla.editors.instances[element.id] = {
-        // Required by Joomla's API for the XTD-Buttons
-        getValue: () => Joomla.editors.instances[element.id].instance.getContent(),
-        setValue: (text) => Joomla.editors.instances[element.id].instance.setContent(text),
-        getSelection: () => Joomla.editors.instances[element.id].instance.selection.getContent({ format: 'text' }),
-        replaceSelection: (text) => Joomla.editors.instances[element.id].instance.execCommand('mceInsertContent', false, text),
-        // Required by Joomla's API for Mail Component Integration
-        disable: (disabled) => Joomla.editors.instances[element.id].instance.setMode(disabled ? 'readonly' : 'design'),
-        // Some extra instance dependent
-        id: element.id,
-        instance: ed,
-      };
+      // Register the editor's instance to Joomla.Editor
+      Joomla.Editor.register(jEditor);
     },
   };
 
