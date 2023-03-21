@@ -62,6 +62,14 @@
       return this;
     }
 
+    /**
+     * Toggles the editor visibility mode. Used by Toggle button.
+     * Should be implemented by editor provider.
+     *
+     * @param {boolean} show Optional. True to show, false to hide.
+     *
+     * @returns {boolean} Return True when editor become visible, and false when become hidden.
+     */
     toggle(show) {
       let visible = false;
       if (show || this.instance.isHidden()) {
