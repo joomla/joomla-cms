@@ -152,7 +152,7 @@ class JoomlaEditorDecorator {
    *
    * @param {boolean} show Optional. True to show, false to hide.
    *
-   * @returns {JoomlaEditorDecorator}
+   * @returns {boolean} Return True when editor become visible, and false when become hidden.
    */
   // eslint-disable-next-line class-methods-use-this, no-unused-vars
   toggle(show) {

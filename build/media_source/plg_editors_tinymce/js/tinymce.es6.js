@@ -63,12 +63,14 @@
     }
 
     toggle(show) {
+      let visible = false;
       if (show || this.instance.isHidden()) {
         this.instance.show();
+        visible = true;
       } else {
         this.instance.hide();
       }
-      return this;
+      return visible;
     }
   }
 
@@ -82,33 +84,37 @@
      */
     setupEditors: (target) => {
       const container = target || document;
-      const pluginOptions = Joomla.getOptions ? Joomla.getOptions('plg_editor_tinymce', {})
-        : (Joomla.optionsStorage.plg_editor_tinymce || {});
-      const editors = [].slice.call(container.querySelectorAll('.js-editor-tinymce'));
+      const pluginOptions = Joomla.getOptions('plg_editor_tinymce', {});
+      const editors = container.querySelectorAll('.js-editor-tinymce');
 
       editors.forEach((editor) => {
         const currentEditor = editor.querySelector('textarea');
         const toggleButton = editor.querySelector('.js-tiny-toggler-button');
-        const toggleIcon = editor.querySelector('.icon-eye');
+        const toggleIcon = toggleButton.querySelector('.icon-eye');
 
-        // Setup the editor
+        // Set up the editor
         Joomla.JoomlaTinyMCE.setupEditor(currentEditor, pluginOptions);
 
-        // Setup the toggle button
+        // Set up the toggle button
         if (toggleButton) {
           toggleButton.removeAttribute('disabled');
-          toggleButton.addEventListener('click', () => {
-            if (Joomla.editors.instances[currentEditor.id].instance.isHidden()) {
-              Joomla.editors.instances[currentEditor.id].instance.show();
-            } else {
-              Joomla.editors.instances[currentEditor.id].instance.hide();
-            }
+        }
+
+        // Find out when editor is interacted
+        editor.addEventListener('click', (event) => {
+          Joomla.Editor.setActive(currentEditor.id);
+
+          // Check for the click on a toggle button
+          const toggler = event.target.closest('.js-tiny-toggler-button');
+          const ed = Joomla.Editor.getActive();
+          if (toggler && ed) {
+            const visible = ed.toggle();
 
             if (toggleIcon) {
-              toggleIcon.setAttribute('class', Joomla.editors.instances[currentEditor.id].instance.isHidden() ? 'icon-eye' : 'icon-eye-slash');
+              toggleIcon.setAttribute('class', visible ? 'icon-eye' : 'icon-eye-slash');
             }
-          });
-        }
+          }
+        });
       });
     },
 
@@ -165,10 +171,12 @@
 
         if (xtdButton.href) {
           tmp.onAction = () => {
+            Joomla.Editor.setActive(jEditor);
             document.getElementById(`${xtdButton.id}_modal`).open();
           };
         } else {
           tmp.onAction = () => {
+            Joomla.Editor.setActive(jEditor);
             // eslint-disable-next-line no-new-func
             new Function(xtdButton.click)();
           };
@@ -246,6 +254,11 @@
           }
         });
       }
+
+      // Find out when editor is interacted
+      ed.on('focus', () => {
+        Joomla.Editor.setActive(jEditor);
+      });
 
       // Render the editor
       ed.render();
