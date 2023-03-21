@@ -23,18 +23,21 @@ Joomla.editors.instances = Joomla.editors.instances || {};
  */
 class JoomlaEditorDecorator {
   /**
+   * Internal! The property should not be accessed directly.
    * The editor instance.
    * @type {Object}
    */
   // instance = null;
 
   /**
+   * Internal! The property should not be accessed directly.
    * The editor type/name, eg: tinymce, codemirror, none etc.
    * @type {string}
    */
   // type = '';
 
   /**
+   * Internal! The property should not be accessed directly.
    * HTML ID of the editor.
    * @type {string}
    */
