@@ -75,14 +75,15 @@ final class None extends CMSPlugin
                 'webcomponent.editor-none',
                 'plg_editors_none/joomla-editor-none.min.js',
                 [],
-                ['type' => 'module']
+                ['type' => 'module'],
+                ['editors']
             );
 
         return '<joomla-editor-none>'
             . '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row
             . '" style="width: ' . $width . '; height: ' . $height . ';"' . $readonly . '>' . $content . '</textarea>'
-            . '</joomla-editor-none>'
-            . $this->displayButtons($id, $buttons, $asset, $author);
+            . $this->displayButtons($id, $buttons, $asset, $author)
+            . '</joomla-editor-none>';
     }
 
     /**
