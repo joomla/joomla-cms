@@ -127,8 +127,8 @@
      * @since 3.7.0
      */
     setupEditor: (element, pluginOptions) => {
-      // Check whether the editor already has ben set
-      if (Joomla.editors.instances[element.id]) {
+      // Check whether the editor already has been set
+      if (Joomla.Editor.get[element.id]) {
         return;
       }
 
@@ -171,12 +171,12 @@
 
         if (xtdButton.href) {
           tmp.onAction = () => {
-            Joomla.Editor.setActive(jEditor);
+            Joomla.Editor.setActive(element.id);
             document.getElementById(`${xtdButton.id}_modal`).open();
           };
         } else {
           tmp.onAction = () => {
-            Joomla.Editor.setActive(jEditor);
+            Joomla.Editor.setActive(element.id);
             // eslint-disable-next-line no-new-func
             new Function(xtdButton.click)();
           };

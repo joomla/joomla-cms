@@ -48,7 +48,7 @@ Factory::getDocument()->getWebAssetManager()
     ->registerScript(
         'webcomponent.editor-codemirror-es5',
         'plg_editors_codemirror/joomla-editor-codemirror-es5.min.js',
-        ['dependencies' => ['wcpolyfill']],
+        [],
         ['defer' => true, 'nomodule' => true],
         ['wcpolyfill']
     )
@@ -57,7 +57,7 @@ Factory::getDocument()->getWebAssetManager()
         'plg_editors_codemirror/joomla-editor-codemirror.min.js',
         [],
         ['type' => 'module'],
-        ['webcomponent.editor-codemirror-es5']
+        ['webcomponent.editor-codemirror-es5', 'editors']
     );
 ?>
 <joomla-editor-codemirror <?php echo $editor . ' ' . $addons . ' ' . $modPath . ' ' . $fsCombo . ' ' . $option; ?>>
@@ -67,5 +67,5 @@ Factory::getDocument()->getWebAssetManager()
         <?php echo Text::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $fullScreenCombo); ?>
     </p>
 <?php }; ?>
+    <?php echo $displayData->buttons; ?>
 </joomla-editor-codemirror>
-<?php echo $displayData->buttons; ?>

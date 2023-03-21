@@ -1,3 +1,53 @@
+/**
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+/* global CodeMirror, JoomlaEditorDecorator */
+
+/**
+ * Codemirror Decorator for Joomla.Editor
+ */
+// eslint-disable-next-line max-classes-per-file
+class CodemirrorDecorator extends JoomlaEditorDecorator {
+  /**
+   * @returns {Promise<string>}
+   */
+  getValue() {
+    return new Promise((resolve) => {
+      resolve(this.instance.getValue());
+    });
+  }
+
+  /**
+   * @param {String} value
+   * @returns {CodemirrorDecorator}
+   */
+  setValue(value) {
+    this.instance.setValue(value);
+    return this;
+  }
+
+  /**
+   * @returns {Promise<string>}
+   */
+  getSelection() {
+    return new Promise((resolve) => {
+      resolve(this.instance.getSelection());
+    });
+  }
+
+  replaceSelection(value) {
+    this.instance.replaceSelection(value);
+    return this;
+  }
+
+  disable(enable) {
+    this.instance.setOption('readOnly', !enable ? 'nocursor' : false);
+    return this;
+  }
+}
+
 class CodemirrorEditor extends HTMLElement {
   constructor() {
     super();
@@ -49,15 +99,15 @@ class CodemirrorEditor extends HTMLElement {
     const that = this;
 
     // For mode autoloading.
-    window.CodeMirror.modeURL = this.getAttribute('mod-path');
+    CodeMirror.modeURL = this.getAttribute('mod-path');
 
     // Fire this function any time an editor is created.
-    window.CodeMirror.defineInitHook((editor) => {
+    CodeMirror.defineInitHook((editor) => {
       // Try to set up the mode
-      const mode = window.CodeMirror.findModeByName(editor.options.mode || '')
-        || window.CodeMirror.findModeByExtension(editor.options.mode || '');
+      const mode = CodeMirror.findModeByName(editor.options.mode || '')
+        || CodeMirror.findModeByExtension(editor.options.mode || '');
 
-      window.CodeMirror.autoLoadMode(editor, typeof mode === 'object' ? mode.mode : editor.options.mode);
+      CodeMirror.autoLoadMode(editor, typeof mode === 'object' ? mode.mode : editor.options.mode);
 
       if (mode && mode.mime) {
         // Fix the x-php error
@@ -129,25 +179,35 @@ class CodemirrorEditor extends HTMLElement {
       }
     });
 
-    // Register Editor
-    this.instance = window.CodeMirror.fromTextArea(this.element, this.options);
-    this.instance.disable = (disabled) => this.setOption('readOnly', disabled ? 'nocursor' : false);
-    Joomla.editors.instances[this.element.id] = this.instance;
+    // Create and register the Editor
+    this.instance = CodeMirror.fromTextArea(this.element, this.options);
+    this.jEditor = new CodemirrorDecorator(this.instance, 'codemirror', this.element.id);
+    Joomla.Editor.register(this.jEditor);
 
     // Watch when the element in viewport, and refresh the editor
     this.intersectionObserver.observe(this);
+
+    // Find out when editor is interacted
+    this.interactionCallback = () => {
+      Joomla.Editor.setActive(this.element.id);
+    };
+    this.addEventListener('click', this.interactionCallback);
   }
 
   disconnectedCallback() {
     // Remove from the Joomla API
-    delete Joomla.editors.instances[this.element.id];
+    Joomla.Editor.unregister(this.element.id);
 
     // Remove from observer
     this.intersectionObserver.unobserve(this);
+    this.removeEventListener('click', this.interactionCallback);
   }
 
   refresh(element) {
+    Joomla.Editor.unregister(this.element.id);
     this.instance.fromTextArea(element, this.options);
+    this.jEditor = new CodemirrorDecorator(this.instance, 'codemirror', this.element.id);
+    Joomla.Editor.register(this.jEditor);
   }
 }
 
