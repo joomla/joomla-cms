@@ -277,6 +277,7 @@ const JoomlaEditorButton = {
    * @returns {JoomlaEditorButton}
    */
   registerAction(name, handler) {
+    this.actions[name] = handler;
     return this;
   },
 
@@ -301,13 +302,29 @@ const JoomlaEditorButton = {
    */
   runAction(name, options) {
     const handler = this.getActionHandler(name);
-    if (handler) {
+    if (!handler) {
       throw new Error(`Handler for "${name}" action not found`);
     }
 
     return handler(options);
-  }
+  },
 };
+
+// Listen to click on Editor button, and run action.
+const btnDelegateSelector = '[data-joomla-editor-button-action]';
+const btnActionDataAttr = 'joomlaEditorButtonAction';
+const btnConfigDataAttr = 'joomlaEditorButtonOptions';
+
+document.addEventListener('click', (event) => {
+  const btn = event.target.closest(btnDelegateSelector);
+  if (!btn) return;
+  const action = btn.dataset[btnActionDataAttr];
+  const options = btn.dataset[btnConfigDataAttr] ? JSON.parse(btn.dataset[btnConfigDataAttr]) : {};
+
+  if (action) {
+    Joomla.EditorButton.runAction(action, options);
+  }
+});
 
 Joomla.Editor = JoomlaEditor;
 Joomla.EditorButton = JoomlaEditorButton;
