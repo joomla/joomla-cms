@@ -1,4 +1,4 @@
-describe('Test that the front page', () => {
+describe('Test that the featured articles menu item type', () => {
   it('can display an article', () => {
     cy.db_createArticle({ title: 'automated test article' }).then(() => {
       cy.visit('/');
