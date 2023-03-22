@@ -66,7 +66,7 @@ class StateTest extends UnitTestCase
      */
     public function testSetDirectPropertyAccess()
     {
-        $state = new State();
+        $state       = new State();
         $state->unit = 'test';
 
         $this->assertEquals('test', $state->unit);
@@ -82,7 +82,7 @@ class StateTest extends UnitTestCase
      */
     public function testIsSet()
     {
-        $state = new State();
+        $state       = new State();
         $state->unit = 'test';
 
         $this->assertTrue(isset($state->unit));
