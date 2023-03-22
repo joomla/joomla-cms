@@ -210,10 +210,8 @@ class Text
             }
         }
 
-        if (!$found) {
-            // Not found so revert to the original.
-            $key = $string;
-        }
+        // Not found so revert to the original.
+        $key = !$found ? $string : $key;
 
         if (\is_array($args[$count - 1])) {
             $args[0] = $lang->_(
