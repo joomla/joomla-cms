@@ -86,7 +86,7 @@ class UsersLatestHelper implements DatabaseAwareInterface
      * @since   1.6
      *
      * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
-     *             Use the none static method getLatestUsers
+     *             Use the non-static method getLatestUsers
      *             Example: Factory::getApplication()->bootModule('mod_users_latest', 'site')
      *                          ->getHelper('UsersLatestHelper')
      *                          ->getLatestUsers($params, Factory::getApplication())

@@ -501,7 +501,7 @@ class TourModel extends AdminModel
      *
      * @return  boolean
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected function setStepsLanguage(int $id, string $language = '*'): bool
     {
