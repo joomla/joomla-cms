@@ -25,13 +25,13 @@ use Joomla\Registry\Registry;
  */
 class State extends Registry
 {
-     /**
-     * Constructor
-     *
-     * @param  mixed  $data  The data to bind to the new Registry object.
-     *
-     * @since   __DEPLOY_VERSION__
-     */
+    /**
+    * Constructor
+    *
+    * @param  mixed  $data  The data to bind to the new Registry object.
+    *
+    * @since   __DEPLOY_VERSION__
+    */
     public function __construct($data = null)
     {
         parent::__construct($data);
@@ -40,15 +40,15 @@ class State extends Registry
         $this->separator = null;
     }
 
-   /**
-     * Returns an associative array of object properties.
-     *
-     * @return  array  The data array
-     *
-     * @since   __DEPLOY_VERSION__
-     *
-     * @deprecated  7.0 Use toArray instead
-     */
+    /**
+      * Returns an associative array of object properties.
+      *
+      * @return  array  The data array
+      *
+      * @since   __DEPLOY_VERSION__
+      *
+      * @deprecated  7.0 Use toArray instead
+      */
     public function getProperties()
     {
         return $this->toArray();
