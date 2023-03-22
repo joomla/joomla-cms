@@ -26,18 +26,33 @@ $icon    = $button->get('icon');
 $action  = $this->escape($button->get('action', ''));
 $options = (array) $button->get('options');
 
+// Correct the link
 if ($link) {
     $link = str_contains($link, '&amp;') ? htmlspecialchars_decode($link) : $link;
     $link = Uri::base(true) . '/' . $link;
     $options['src'] = $link;
 }
 
+// Set action to modal for legacy buttons, when possible
+if (!$action && empty($options['confirmCallback'])) {
+    $action = 'modal';
+
+    // Backward compatibility check, for older options
+    if (!empty($options['modalWidth'])) {
+        $options['width'] = $options['modalWidth'] . 'vw';
+    }
+    if (!empty($options['bodyHeight'])) {
+        $options['height'] = $options['bodyHeight'] . 'vh';
+    }
+}
+
+// Prepare default values for modal
 if ($action === 'modal') {
     Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('dialog');
 
-    $options['popupType'] = $popupOptions['popupType'] ?? 'iframe';
+    $options['popupType']  = $popupOptions['popupType'] ?? 'iframe';
     $options['textHeader'] = $popupOptions['textHeader'] ?? $title;
-    $options['iconHeader'] = 'icon-' . $icon;
+    $options['iconHeader'] = $popupOptions['iconHeader'] ?? 'icon-' . $icon;
 }
 
 $optStr = $options && $action ? $this->escape(json_encode($options)) : '';
