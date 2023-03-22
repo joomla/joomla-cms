@@ -15,6 +15,7 @@ describe('Test that the featured contacts menu item type', () => {
         cy.contains('automated test contact 4');
       });
   });
+  
   it('can not display not featured contacts', () => {
     cy.db_createContact({ name: 'automated test contact 1', featured: 0 })
       .then(() => cy.db_createContact({ name: 'automated test contact 2', featured: 0 }))
