@@ -1977,18 +1977,6 @@
         },
         {
             "name": "joomla/registry",
-<<<<<<< HEAD
-            "version": "2.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joomla-framework/registry.git",
-                "reference": "70d0fecd186f0ef1253fb3f7d27583a2b97da309"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/70d0fecd186f0ef1253fb3f7d27583a2b97da309",
-                "reference": "70d0fecd186f0ef1253fb3f7d27583a2b97da309",
-=======
             "version": "dev-3.x-dev",
             "source": {
                 "type": "git",
@@ -1999,7 +1987,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/joomla-framework/registry/zipball/cc8d87960440fbaa9df338e0b1c3c9ad3bb58aa7",
                 "reference": "cc8d87960440fbaa9df338e0b1c3c9ad3bb58aa7",
->>>>>>> upstream/5.0-dev
                 "shasum": ""
             },
             "require": {
@@ -2044,11 +2031,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/registry/issues",
-<<<<<<< HEAD
-                "source": "https://github.com/joomla-framework/registry/tree/2.0.3"
-=======
                 "source": "https://github.com/joomla-framework/registry/tree/3.x-dev"
->>>>>>> upstream/5.0-dev
             },
             "funding": [
                 {
@@ -2060,11 +2043,7 @@
                     "type": "github"
                 }
             ],
-<<<<<<< HEAD
-            "time": "2023-02-23T19:32:06+00:00"
-=======
             "time": "2023-02-02T09:54:58+00:00"
->>>>>>> upstream/5.0-dev
         },
         {
             "name": "joomla/router",
