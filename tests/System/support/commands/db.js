@@ -36,7 +36,7 @@ Cypress.Commands.add('db_createArticle', (articleData) => {
     metadata: '',
   };
 
-  const article = { ...defaultArticleOptions, ...articleData };cy.log(article);
+  const article = { ...defaultArticleOptions, ...articleData };
 
   return cy.task('queryDB', createInsertQuery('content', article))
     .then(async (info) => {
