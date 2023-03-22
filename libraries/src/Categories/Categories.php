@@ -342,7 +342,26 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
                 ->where($db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id'));
 
             if ($this->_options['published'] == 1) {
-                $subQuery->where($db->quoteName($db->escape('i.' . $this->_statefield)) . ' = 1');
+                $subQuery->where($db->quoteName($db->escape('i.' . $this->_statefield)) . ' = 1')
+                ->extendWhere(
+                    'AND',
+                    [
+                        $db->quoteName('i.publish_up') . ' IS NULL',
+                        $db->quoteName('i.publish_up') . ' <= :publishUp',
+                    ],
+                    'OR'
+                )
+                ->extendWhere(
+                    'AND',
+                    [
+                        $db->quoteName('i.publish_down') . ' IS NULL',
+                        $db->quoteName('i.publish_down') . ' >= :publishDown',
+                    ],
+                    'OR'
+                );
+
+                $query->bind(':publishUp', $now);
+                $query->bind(':publishDown', $now);
             }
 
             if ($this->_options['currentlang'] !== 0) {
