@@ -44,26 +44,23 @@ final class ReadMore extends CMSPlugin
      */
     public function onDisplay($name)
     {
-        $doc = $this->getApplication()->getDocument();
-        $doc->getWebAssetManager()
-            ->registerAndUseScript('com_content.admin-article-readmore', 'com_content/admin-article-readmore.min.js', [], ['defer' => true], ['core']);
+        $this->getApplication()->getDocument()->getWebAssetManager()
+            ->registerAndUseScript(
+                'com_content.admin-article-readmore',
+                'com_content/admin-article-readmore.min.js',
+                [],
+                ['type' => 'module'],
+                ['editors', 'dialog']
+            );
 
-        // Pass some data to javascript
-        $doc->addScriptOptions(
-            'xtd-readmore',
-            [
-                'exists' => Text::_('PLG_READMORE_ALREADY_EXISTS', true),
-            ]
-        );
+        Text::script('PLG_READMORE_ALREADY_EXISTS');
 
         $button          = new CMSObject();
-        $button->modal   = false;
-        $button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
+        $button->action  = 'insert-readmore';
         $button->text    = Text::_('PLG_READMORE_BUTTON_READMORE');
         $button->name    = $this->_type . '_' . $this->_name;
         $button->icon    = 'arrow-down';
         $button->iconSVG = '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M32 12l-6-6-10 10-10-10-6 6 16 16z"></path></svg>';
-        $button->link    = '#';
 
         return $button;
     }

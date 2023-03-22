@@ -31,7 +31,7 @@ if ($link) {
     $options['src'] = $link;
 }
 
-$optStr  = $this->escape(json_encode($options));
+$optStr  = $options ? $this->escape(json_encode($options)) : '';
 
 ?>
 <button type="button" data-joomla-editor-button-action="<?php echo $action; ?>" data-joomla-editor-button-options="<?php echo $optStr; ?>"
