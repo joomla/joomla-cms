@@ -1140,26 +1140,6 @@ class JoomlaInstallerScript
     }
 
     /**
-     * This method drops the #__utf8_conversion table
-     *
-     * @return  boolean  True on success
-     *
-     * @since   4.0.0
-     */
-    private function dropUtf8ConversionTable()
-    {
-        $db = Factory::getDbo();
-
-        try {
-            $db->setQuery('DROP TABLE ' . $db->quoteName('#__utf8_conversion') . ';')->execute();
-        } catch (Exception $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Called after any type of action
      *
      * @param   string     $action     Which action is happening (install|uninstall|discover_install|update)
