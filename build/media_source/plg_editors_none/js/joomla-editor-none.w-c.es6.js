@@ -11,16 +11,14 @@
 // eslint-disable-next-line max-classes-per-file
 class EditorNoneDecorator extends JoomlaEditorDecorator {
   /**
-   * @returns {Promise<string>}
+   * @returns {string}
    */
   getValue() {
-    return new Promise((resolve) => {
-      resolve(this.instance.value);
-    });
+    return this.instance.value;
   }
 
   /**
-   * @param {String} value
+   * @param {string} value
    * @returns {EditorNoneDecorator}
    */
   setValue(value) {
@@ -29,7 +27,7 @@ class EditorNoneDecorator extends JoomlaEditorDecorator {
   }
 
   /**
-   * @returns {Promise<string>}
+   * @returns {string}
    */
   getSelection() {
     const editor = this.instance;
@@ -39,9 +37,7 @@ class EditorNoneDecorator extends JoomlaEditorDecorator {
       val = editor.value.substring(editor.selectionStart, editor.selectionEnd);
     }
 
-    return new Promise((resolve) => {
-      resolve(val);
-    });
+    return val;
   }
 
   replaceSelection(value) {

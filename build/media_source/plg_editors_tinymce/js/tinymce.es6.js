@@ -26,12 +26,10 @@
    */
   class TinyMCEDecorator extends JoomlaEditorDecorator {
     /**
-     * @returns {Promise<string>}
+     * @returns {string}
      */
     getValue() {
-      return new Promise((resolve) => {
-        resolve(this.instance.getContent());
-      });
+      return this.instance.getContent();
     }
 
     /**
@@ -44,12 +42,10 @@
     }
 
     /**
-     * @returns {Promise<string>}
+     * @returns {string}
      */
     getSelection() {
-      return new Promise((resolve) => {
-        resolve(this.instance.selection.getContent({ format: 'text' }));
-      });
+      return this.instance.selection.getContent({ format: 'text' });
     }
 
     replaceSelection(value) {

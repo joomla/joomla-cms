@@ -11,12 +11,10 @@
 // eslint-disable-next-line max-classes-per-file
 class CodemirrorDecorator extends JoomlaEditorDecorator {
   /**
-   * @returns {Promise<string>}
+   * @returns {string}
    */
   getValue() {
-    return new Promise((resolve) => {
-      resolve(this.instance.getValue());
-    });
+    return this.instance.getValue();
   }
 
   /**
@@ -29,12 +27,10 @@ class CodemirrorDecorator extends JoomlaEditorDecorator {
   }
 
   /**
-   * @returns {Promise<string>}
+   * @returns {string}
    */
   getSelection() {
-    return new Promise((resolve) => {
-      resolve(this.instance.getSelection());
-    });
+    return this.instance.getSelection();
   }
 
   replaceSelection(value) {
