@@ -40,7 +40,7 @@ Cypress.Commands.add('db_createArticle', (articleData) => {
 
   return cy.task('queryDB', createInsertQuery('content', article))
     .then(async (info) => {
-      if (article.featured == 1) {
+      if (article.featured === 1) {
         await cy.task('queryDB', `INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('${info.insertId}', '1')`);
       }
       await cy.task('queryDB', `INSERT INTO #__workflow_associations (item_id, stage_id, extension) VALUES (${info.insertId}, 1, 'com_content.article')`);
