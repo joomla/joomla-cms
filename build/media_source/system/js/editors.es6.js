@@ -302,11 +302,15 @@ const JoomlaEditorButton = {
    */
   runAction(name, options) {
     const handler = this.getActionHandler(name);
+    const editor = Joomla.Editor.getActive();
     if (!handler) {
       throw new Error(`Handler for "${name}" action not found`);
     }
+    if (!editor) {
+      throw new Error('An active editor are not available');
+    }
 
-    return handler(options);
+    return handler(editor, options);
   },
 };
 

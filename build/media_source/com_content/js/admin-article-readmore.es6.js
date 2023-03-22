@@ -5,11 +5,7 @@
 
 /* global JoomlaDialog */
 
-const insertReadmoreHandler = () => {
-  const editor = Joomla.Editor.getActive();
-  if (!editor) {
-    throw new Error('An active editor are not available');
-  }
+const insertReadmoreHandler = (editor) => {
   const content = editor.getValue();
 
   if (!content) {
@@ -25,7 +21,11 @@ const insertReadmoreHandler = () => {
 window.insertReadmore = () => {
   // eslint-disable-next-line no-console
   console.warn('Method window.insertReadmore() is deprecated, use button action "insert-readmore."');
-  insertReadmoreHandler();
+  const editor = Joomla.Editor.getActive();
+  if (!editor) {
+    throw new Error('An active editor are not available');
+  }
+  insertReadmoreHandler(editor);
 };
 
 Joomla.EditorButton.registerAction('insert-readmore', insertReadmoreHandler);
