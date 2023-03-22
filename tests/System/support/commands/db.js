@@ -142,3 +142,11 @@ Cypress.Commands.add('db_createUser', (userData) => {
     return info.insertId;
   });
 });
+
+Cypress.Commands.add('db_getUserId',()=>{
+  cy.task('queryDB', `SELECT id FROM #__users WHERE username = '${Cypress.env('username')}'`)
+  .then(async (id) => {
+    
+      return cy.wrap(id[0].id);
+  });
+})
