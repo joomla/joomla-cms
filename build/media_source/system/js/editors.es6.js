@@ -3,6 +3,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+/* global JoomlaDialog */
+
 if (!window.Joomla) {
   throw new Error('JoomlaEditors API require Joomla to be loaded.');
 }
@@ -324,7 +326,7 @@ JoomlaEditorButton.registerAction('insert', (editor, options) => {
 JoomlaEditorButton.registerAction('modal', (editor, options) => {
   if (options.src) {
     // Replace editor parameter to actual editor ID
-    const url = options.src.indexOf('http') === 0 ? new URL(options.src) : new URL(options.src, location.origin);
+    const url = options.src.indexOf('http') === 0 ? new URL(options.src) : new URL(options.src, window.location.origin);
     url.searchParams.set('editor', editor.getId());
     options.src = url.toString();
   }
