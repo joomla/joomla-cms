@@ -26,7 +26,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 /**
  * View class for a list of guidedtours.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
 class HtmlView extends BaseHtmlView
 {
@@ -70,7 +70,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var   boolean
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     private $isEmptyState = false;
 
@@ -114,7 +114,7 @@ class HtmlView extends BaseHtmlView
      *
      * @return void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected function addToolbar()
     {

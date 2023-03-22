@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -129,7 +130,7 @@ class TagModel extends ListModel
     /**
      * Method to build an SQL query to load the list data of all items with a given tag.
      *
-     * @return  string  An SQL query
+     * @return  DatabaseQuery  An SQL query
      *
      * @since   3.1
      */
