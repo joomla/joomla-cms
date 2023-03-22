@@ -314,6 +314,29 @@ const JoomlaEditorButton = {
   },
 };
 
+// Register couple default actions for Editor Buttons
+// Insert static content on cursor
+JoomlaEditorButton.registerAction('insert', (editor, options) => {
+  const content = options.content || '';
+  editor.replaceSelection(content);
+});
+// Display modal dialog
+JoomlaEditorButton.registerAction('modal', (editor, options) => {
+  if (options.src) {
+    // Replace editor parameter to actual editor ID
+    const url = options.src.indexOf('http') === 0 ? new URL(options.src) : new URL(options.src, location.origin);
+    url.searchParams.set('editor', editor.getId());
+    options.src = url.toString();
+  }
+  const popup = new JoomlaDialog(options);
+  popup.addEventListener('joomla-dialog:close', () => {
+    Joomla.Modal.setCurrent(null);
+    popup.destroy();
+  });
+  Joomla.Modal.setCurrent(popup);
+  popup.show();
+});
+
 // Listen to click on Editor button, and run action.
 const btnDelegateSelector = '[data-joomla-editor-button-action]';
 const btnActionDataAttr = 'joomlaEditorButtonAction';

@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
 $button = $displayData;
@@ -31,7 +32,15 @@ if ($link) {
     $options['src'] = $link;
 }
 
-$optStr  = $options ? $this->escape(json_encode($options)) : '';
+if ($action === 'modal') {
+    Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('dialog');
+
+    $options['popupType'] = $popupOptions['popupType'] ?? 'iframe';
+    $options['textHeader'] = $popupOptions['textHeader'] ?? $title;
+    $options['iconHeader'] = 'icon-' . $icon;
+}
+
+$optStr = $options && $action ? $this->escape(json_encode($options)) : '';
 
 ?>
 <button type="button" data-joomla-editor-button-action="<?php echo $action; ?>" data-joomla-editor-button-options="<?php echo $optStr; ?>"
