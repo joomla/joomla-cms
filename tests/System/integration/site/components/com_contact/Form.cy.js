@@ -7,7 +7,6 @@ describe('Test that the Contact Form', () => {
           .then(() => {
             cy.visit('/');
             cy.get('a:contains(automated test)').click();
-            cy.get('a:contains(automated test)').click();
             cy.get('a:contains(contact 1)').click();
 
             cy.contains('Contact Form');
