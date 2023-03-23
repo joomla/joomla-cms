@@ -10,7 +10,7 @@ A couple of steps are needed before the CMS system tests can be executed on the 
    1. `composer install`
    2. `npm ci`
 3. Copy the cypress.config.dist.js to cypress.config.js in the root of the joomla folder
-4. Adapt the env variables in the file cypress.config.js, they need to point to a database server where joomla can be installed
+4. Adjust the baseUrl and adapt the env variables in the file cypress.config.js, they need to point to a database server where joomla can be installed
 5. Ensure the system has all the required dependencies according to the Cypress [documentation](https://docs.cypress.io/guides/getting-started/installing-cypress)
 6. Run the command `npm run cypress:install`
 
@@ -30,7 +30,7 @@ To Create new tests, create a cy.js file in a new folder which matches the follo
 Probably the easiest way is to copy an existing file and adapt it to the extension which should be tested.
 
 ## Some developer information
-Tests should be
+Tests should be:
 - repeatable
 - not depend on other tests
 - small
