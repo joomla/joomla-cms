@@ -153,6 +153,11 @@ Cypress.Commands.add('db_createCategory', (category) => {
     access: 1,
     params: '',
     parent_id: 1,
+    level: 1,
+    metadata: '',
+    metadesc: '',
+    created_time: '2023-01-01 20:00:00',
+    modified_time: '2023-01-01 20:00:00',
   };
 
   return cy.task('queryDB', createInsertQuery('categories', { ...defaultCategoryOptions, ...category })).then(async (info) => info.insertId);
