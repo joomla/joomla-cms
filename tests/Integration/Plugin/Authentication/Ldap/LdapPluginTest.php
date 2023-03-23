@@ -18,7 +18,6 @@ use Joomla\Event\Dispatcher;
 use Joomla\Plugin\Authentication\Ldap\Extension\Ldap as LdapPlugin;
 use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactory;
 use Joomla\Tests\Integration\IntegrationTestCase;
-use Symfony\Component\Ldap\Ldap;
 
 /**
  * Test class for Ldap plugin
@@ -69,7 +68,7 @@ class LdapPluginTest extends IntegrationTestCase
         $pluginObject = [
             'name'   => 'ldap',
             'params' => json_encode($options),
-            'type'   => 'authentication'
+            'type'   => 'authentication',
         ];
 
         $plugin = new LdapPlugin(new LdapFactory(), new Dispatcher(), $pluginObject);
@@ -98,31 +97,31 @@ class LdapPluginTest extends IntegrationTestCase
         // setUp is executed before every test
         $this->default_options = [
             /* fixed options for all tests */
-            'host' => JTEST_LDAP_HOST,
-            'use_ldapV3' => JTEST_LDAP_USEV3,
-            'no_referrals' => JTEST_LDAP_NOREFERRALS,
-            'base_dn' => JTEST_LDAP_BASE,
+            'host'          => JTEST_LDAP_HOST,
+            'use_ldapV3'    => JTEST_LDAP_USEV3,
+            'no_referrals'  => JTEST_LDAP_NOREFERRALS,
+            'base_dn'       => JTEST_LDAP_BASE,
             'search_string' => JTEST_LDAP_SEARCH,
-            'users_dn' => JTEST_LDAP_DIRECT_USERDN,
-            'username' => JTEST_LDAP_SEARCH_DN,
-            'password' => JTEST_LDAP_SEARCH_PASSWORD,
+            'users_dn'      => JTEST_LDAP_DIRECT_USERDN,
+            'username'      => JTEST_LDAP_SEARCH_DN,
+            'password'      => JTEST_LDAP_SEARCH_PASSWORD,
             'ldap_fullname' => JTEST_LDAP_FULLNAME,
-            'ldap_email' => JTEST_LDAP_EMAIL,
-            'ldap_uid' => JTEST_LDAP_UID,
-            'ldap_debug' => 0,
+            'ldap_email'    => JTEST_LDAP_EMAIL,
+            'ldap_uid'      => JTEST_LDAP_UID,
+            'ldap_debug'    => 0,
             /* the security options can only be set once, these are the best practice settings */
             'ignore_reqcert_tls' => 0,
-            'cacert' => JPATH_ROOT . '/' . JTEST_LDAP_CACERTFILE,
+            'cacert'             => JPATH_ROOT . '/' . JTEST_LDAP_CACERTFILE,
             /* changing options to test all code */
-            'port' => self::LDAPPORT,
-            'encryption' => "none",
+            'port'        => self::LDAPPORT,
+            'encryption'  => "none",
             'auth_method' => "bind",
         ];
 
         $this->default_credentials = [
-            'username' => JTEST_LDAP_TESTUSER,
-            'password' => JTEST_LDAP_TESTPASSWORD,
-            'secretkey' => null
+            'username'  => JTEST_LDAP_TESTUSER,
+            'password'  => JTEST_LDAP_TESTPASSWORD,
+            'secretkey' => null,
         ];
     }
 
@@ -146,7 +145,7 @@ class LdapPluginTest extends IntegrationTestCase
      */
     public function testOnUserAuthenticateBindAndSearch()
     {
-        $options = $this->default_options;
+        $options                = $this->default_options;
         $options["auth_method"] = "search";
         $this->skipIfAskedFor($options);
         $plugin = $this->getPlugin($options);
@@ -165,7 +164,7 @@ class LdapPluginTest extends IntegrationTestCase
      */
     public function testOnUserAuthenticateDirect()
     {
-        $options = $this->default_options;
+        $options                = $this->default_options;
         $options["auth_method"] = "bind";
         $this->skipIfAskedFor($options);
         $plugin = $this->getPlugin($options);
@@ -184,12 +183,12 @@ class LdapPluginTest extends IntegrationTestCase
      */
     public function testInvalidOnUserAuthenticateDirect()
     {
-        $options = $this->default_options;
+        $options                = $this->default_options;
         $options["auth_method"] = "bind";
         // this one should have the same result with or without LDAP server running
         $plugin = $this->getPlugin($options);
 
-        $credentials = $this->default_credentials;
+        $credentials             = $this->default_credentials;
         $credentials['password'] = "arandomverywrongpassword_à!joqf";
 
         $response = new AuthenticationResponse();
@@ -206,9 +205,9 @@ class LdapPluginTest extends IntegrationTestCase
      */
     public function testOnUserAuthenticateBindAndSearchTLS()
     {
-        $options = $this->default_options;
+        $options                = $this->default_options;
         $options["auth_method"] = "search";
-        $options["encryption"] = "tls";
+        $options["encryption"]  = "tls";
         $this->skipIfAskedFor($options);
         $plugin = $this->getPlugin($options);
 
@@ -226,10 +225,10 @@ class LdapPluginTest extends IntegrationTestCase
      */
     public function testOnUserAuthenticateBindAndSearchSSL()
     {
-        $options = $this->default_options;
+        $options                = $this->default_options;
         $options["auth_method"] = "search";
-        $options["encryption"] = "ssl";
-        $options["port"] = self::SSLPORT;
+        $options["encryption"]  = "ssl";
+        $options["port"]        = self::SSLPORT;
         $this->skipIfAskedFor($options);
         $plugin = $this->getPlugin($options);
 

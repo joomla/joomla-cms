@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -129,21 +130,21 @@ class TagModel extends ListModel
     /**
      * Method to build an SQL query to load the list data of all items with a given tag.
      *
-     * @return  string  An SQL query
+     * @return  DatabaseQuery  An SQL query
      *
      * @since   3.1
      */
     protected function getListQuery()
     {
-        $tagId  = $this->getState('tag.id') ? : '';
+        $tagId  = $this->getState('tag.id') ?: '';
 
-        $typesr = $this->getState('tag.typesr');
-        $orderByOption = $this->getState('list.ordering', 'c.core_title');
+        $typesr          = $this->getState('tag.typesr');
+        $orderByOption   = $this->getState('list.ordering', 'c.core_title');
         $includeChildren = $this->state->params->get('include_children', 0);
-        $orderDir = $this->getState('list.direction', 'ASC');
-        $matchAll = $this->getState('params')->get('return_any_or_all', 1);
-        $language = $this->getState('tag.language');
-        $stateFilter = $this->getState('tag.state');
+        $orderDir        = $this->getState('list.direction', 'ASC');
+        $matchAll        = $this->getState('params')->get('return_any_or_all', 1);
+        $language        = $this->getState('tag.language');
+        $stateFilter     = $this->getState('tag.state');
 
         // Optionally filter on language
         if (empty($language)) {
@@ -229,7 +230,7 @@ class TagModel extends ListModel
         $offset = $app->getInput()->get('limitstart', 0, 'uint');
         $this->setState('list.start', $offset);
 
-        $itemid = $pkString . ':' . $app->getInput()->get('Itemid', 0, 'int');
+        $itemid   = $pkString . ':' . $app->getInput()->get('Itemid', 0, 'int');
         $orderCol = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
         $orderCol = !$orderCol ? $this->state->params->get('tag_list_orderby', 'c.core_title') : $orderCol;
 
@@ -294,7 +295,7 @@ class TagModel extends ListModel
                     }
 
                     // Convert the Table to a clean CMSObject.
-                    $properties = $table->getProperties(1);
+                    $properties   = $table->getProperties(1);
                     $this->item[] = ArrayHelper::toObject($properties, CMSObject::class);
                 } catch (\RuntimeException $e) {
                     $this->setError($e->getMessage());

@@ -2,11 +2,42 @@
   <div
     ref="browserItems"
     class="media-browser"
+    :style="getHeight"
     @dragenter="onDragEnter"
     @drop="onDrop"
     @dragover="onDragOver"
     @dragleave="onDragLeave"
   >
+    <div
+      v-if="isEmptySearch"
+      class="pt-1"
+    >
+      <div
+        class="alert alert-info m-3"
+      >
+        <span
+          class="icon-info-circle"
+          aria-hidden="true"
+        />
+        <span
+          class="visually-hidden"
+        >
+          {{ translate('NOTICE') }}
+        </span>
+        {{ translate('JGLOBAL_NO_MATCHING_RESULTS') }}
+      </div>
+    </div>
+    <div
+      v-if="isEmpty"
+      class="text-center"
+      style="display: grid; justify-content: center; align-content: center; margin-top: -1rem; color: var(--gray-200); height: 100%;"
+    >
+      <span
+        class="fa-8x icon-cloud-upload upload-icon"
+        aria-hidden="true"
+      />
+      <p>{{ translate("COM_MEDIA_DROP_FILE") }}</p>
+    </div>
     <div class="media-dragoutline">
       <span
         class="icon-cloud-upload upload-icon"
@@ -15,13 +46,13 @@
       <p>{{ translate('COM_MEDIA_DROP_FILE') }}</p>
     </div>
     <MediaBrowserTable
-      v-if="listView === 'table'"
+      v-if="(listView === 'table' && !isEmpty && !isEmptySearch)"
       :local-items="localItems"
       :current-directory="currentDirectory"
       :style="mediaBrowserStyles"
     />
     <div
-      v-else-if="listView === 'grid'"
+      v-if="(listView === 'grid' && !isEmpty)"
       class="media-browser-grid"
     >
       <div
@@ -107,10 +138,23 @@ export default {
       ];
     },
     /* The styles for the media-browser element */
+    getHeight() {
+      return {
+        height: this.$store.state.listView === 'table' && !this.isEmpty ? 'unset' : '100%',
+      };
+    },
     mediaBrowserStyles() {
       return {
         width: this.$store.state.showInfoBar ? '75%' : '100%',
+        height: this.$store.state.listView === 'table' && !this.isEmpty ? 'unset' : '100%',
       };
+    },
+    isEmptySearch() {
+      return this.$store.state.search !== '' && this.localItems.length === 0;
+    },
+    isEmpty() {
+      return ![...this.$store.getters.getSelectedDirectoryDirectories, ...this.$store.getters.getSelectedDirectoryFiles].length
+       && !this.$store.state.isLoading;
     },
     /* The styles for the media-browser element */
     listView() {

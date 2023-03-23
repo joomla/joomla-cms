@@ -72,7 +72,7 @@ class ArticlesModel extends ListModel
                 'tag',
                 'rating_count', 'rating',
                 'stage', 'wa.stage_id',
-                'ws.title'
+                'ws.title',
             ];
 
             if (Associations::isEnabled()) {
@@ -393,8 +393,8 @@ class ArticlesModel extends ListModel
 
         // Case: Using both categories filter and by level filter
         if (count($categoryId)) {
-            $categoryId = ArrayHelper::toInteger($categoryId);
-            $categoryTable = Table::getInstance('Category', 'JTable');
+            $categoryId       = ArrayHelper::toInteger($categoryId);
+            $categoryTable    = Table::getInstance('Category', 'JTable');
             $subCatItemsWhere = [];
 
             foreach ($categoryId as $key => $filter_catid) {
@@ -431,13 +431,13 @@ class ArticlesModel extends ListModel
 
         if (is_numeric($authorId)) {
             $authorId = (int) $authorId;
-            $type = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
+            $type     = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
             $query->where($db->quoteName('a.created_by') . $type . ':authorId')
                 ->bind(':authorId', $authorId, ParameterType::INTEGER);
         } elseif (is_array($authorId)) {
             // Check to see if by_me is in the array
             if (\in_array('by_me', $authorId)) {
-            // Replace by_me with the current user id in the array
+                // Replace by_me with the current user id in the array
                 $authorId['by_me'] = $user->id;
             }
 
@@ -651,7 +651,7 @@ class ArticlesModel extends ListModel
             $item->typeAlias = 'com_content.article';
 
             if (isset($item->metadata)) {
-                $registry = new Registry($item->metadata);
+                $registry       = new Registry($item->metadata);
                 $item->metadata = $registry->toArray();
             }
         }

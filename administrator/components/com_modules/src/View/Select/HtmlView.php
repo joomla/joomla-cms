@@ -58,8 +58,8 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state = $this->get('State');
-        $this->items = $this->get('Items');
+        $this->state     = $this->get('State');
+        $this->items     = $this->get('Items');
         $this->modalLink = '';
 
         // Check for errors.

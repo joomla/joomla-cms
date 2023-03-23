@@ -11,14 +11,10 @@
 namespace Joomla\Plugin\System\Webauthn;
 
 use Exception;
-use Joomla\CMS\Date\Date;
-use Joomla\CMS\Http\HttpFactory;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Token\Plain;
 use Webauthn\MetadataService\MetadataStatement;
 use Webauthn\MetadataService\MetadataStatementRepository;
-
-use function defined;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

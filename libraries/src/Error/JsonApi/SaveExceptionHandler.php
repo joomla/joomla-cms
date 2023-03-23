@@ -59,7 +59,7 @@ class SaveExceptionHandler implements ExceptionHandlerInterface
 
         $error = [
             'title' => $e->getMessage(),
-            'code' => $status,
+            'code'  => $status,
         ];
 
         return new ResponseBag($status, [$error]);

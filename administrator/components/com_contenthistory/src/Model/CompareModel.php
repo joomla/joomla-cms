@@ -92,8 +92,8 @@ class CompareModel extends ListModel
         $nullDate = $this->getDatabase()->getNullDate();
 
         foreach ([$table1, $table2] as $table) {
-            $object = new \stdClass();
-            $object->data = ContenthistoryHelper::prepareData($table);
+            $object               = new \stdClass();
+            $object->data         = ContenthistoryHelper::prepareData($table);
             $object->version_note = $table->version_note;
 
             // Let's use custom calendars when present
@@ -172,11 +172,11 @@ class CompareModel extends ListModel
                 $contentTypeTable = $this->getTable('ContentType');
 
                 $typeAlias        = explode('.', $record->item_id);
-                $id = array_pop($typeAlias);
+                $id               = array_pop($typeAlias);
                 $typeAlias        = implode('.', $typeAlias);
                 $contentTypeTable->load(['type_alias' => $typeAlias]);
                 $typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
-                $result = in_array((int) $id, $typeEditables);
+                $result        = in_array((int) $id, $typeEditables);
             }
         }
 

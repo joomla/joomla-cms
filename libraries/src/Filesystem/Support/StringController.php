@@ -46,7 +46,7 @@ class StringController
      */
     public function createRef($reference, &$string)
     {
-        $ref = &self::_getArray();
+        $ref             = &self::_getArray();
         $ref[$reference] = & $string;
     }
 

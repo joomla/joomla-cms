@@ -122,10 +122,10 @@ final class EmailCloak extends CMSPlugin
         $pattern = str_replace('"mailto:', '"([\x20-\x7f][^<>]+/)', $pattern);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[3][0];
-            $mailText = $regs[5][0];
+            $mail          = $regs[3][0];
+            $mailText      = $regs[5][0];
             $attribsBefore = $regs[1][0];
-            $attribsAfter = $regs[4][0];
+            $attribsAfter  = $regs[4][0];
 
             // Check to see if mail text is different from mail addy
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 1, $attribsBefore, $attribsAfter);
@@ -143,10 +143,10 @@ final class EmailCloak extends CMSPlugin
         $pattern = str_replace('"mailto:', '"([\x20-\x7f][^<>]+/)', $pattern);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[3][0];
-            $mailText = $regs[5][0];
+            $mail          = $regs[3][0];
+            $mailText      = $regs[5][0];
             $attribsBefore = $regs[1][0];
-            $attribsAfter = $regs[4][0];
+            $attribsAfter  = $regs[4][0];
 
             // Check to see if mail text is different from mail addy
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
@@ -162,10 +162,10 @@ final class EmailCloak extends CMSPlugin
         $pattern = $this->getPattern($searchEmail, $searchEmail);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[2][0];
-            $mailText = $regs[4][0];
+            $mail          = $regs[2][0];
+            $mailText      = $regs[4][0];
             $attribsBefore = $regs[1][0];
-            $attribsAfter = $regs[3][0];
+            $attribsAfter  = $regs[3][0];
 
             // Check to see if mail text is different from mail addy
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 1, $attribsBefore, $attribsAfter);
@@ -181,10 +181,10 @@ final class EmailCloak extends CMSPlugin
         $pattern = $this->getPattern($searchEmail, $searchEmailSpan);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[2][0];
-            $mailText = $regs[4][0] . $regs[5][0] . $regs[6][0];
+            $mail          = $regs[2][0];
+            $mailText      = $regs[4][0] . $regs[5][0] . $regs[6][0];
             $attribsBefore = $regs[1][0];
-            $attribsAfter = $regs[3][0];
+            $attribsAfter  = $regs[3][0];
 
             // Check to see if mail text is different from mail addy
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 1, $attribsBefore, $attribsAfter);
@@ -200,10 +200,10 @@ final class EmailCloak extends CMSPlugin
         $pattern = $this->getPattern($searchEmail, $searchTextSpan);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[2][0];
-            $mailText = $regs[4][0] . $regs[5][0] . $regs[6][0];
+            $mail          = $regs[2][0];
+            $mailText      = $regs[4][0] . $regs[5][0] . $regs[6][0];
             $attribsBefore = $regs[1][0];
-            $attribsAfter = $regs[3][0];
+            $attribsAfter  = $regs[3][0];
 
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
@@ -218,10 +218,10 @@ final class EmailCloak extends CMSPlugin
         $pattern = $this->getPattern($searchEmail, $searchText);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[2][0];
-            $mailText = $regs[4][0];
+            $mail          = $regs[2][0];
+            $mailText      = $regs[4][0];
             $attribsBefore = $regs[1][0];
-            $attribsAfter = $regs[3][0];
+            $attribsAfter  = $regs[3][0];
 
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
@@ -236,10 +236,10 @@ final class EmailCloak extends CMSPlugin
         $pattern = $this->getPattern($searchEmail, $searchImage);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[2][0];
-            $mailText = $regs[4][0];
+            $mail          = $regs[2][0];
+            $mailText      = $regs[4][0];
             $attribsBefore = $regs[1][0];
-            $attribsAfter = $regs[3][0];
+            $attribsAfter  = $regs[3][0];
 
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
@@ -254,10 +254,10 @@ final class EmailCloak extends CMSPlugin
         $pattern = $this->getPattern($searchEmail, $searchImage . $searchEmail);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[2][0];
-            $mailText = $regs[4][0] . $regs[5][0];
+            $mail          = $regs[2][0];
+            $mailText      = $regs[4][0] . $regs[5][0];
             $attribsBefore = $regs[1][0];
-            $attribsAfter = $regs[3][0];
+            $attribsAfter  = $regs[3][0];
 
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 1, $attribsBefore, $attribsAfter);
 
@@ -272,10 +272,10 @@ final class EmailCloak extends CMSPlugin
         $pattern = $this->getPattern($searchEmail, $searchImage . $searchText);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[2][0];
-            $mailText = $regs[4][0] . $regs[5][0];
+            $mail          = $regs[2][0];
+            $mailText      = $regs[4][0] . $regs[5][0];
             $attribsBefore = $regs[1][0];
-            $attribsAfter = $regs[3][0];
+            $attribsAfter  = $regs[3][0];
 
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
@@ -290,10 +290,10 @@ final class EmailCloak extends CMSPlugin
         $pattern = $this->getPattern($searchEmailLink, $searchEmail);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[2][0] . $regs[3][0];
-            $mailText = $regs[5][0];
+            $mail          = $regs[2][0] . $regs[3][0];
+            $mailText      = $regs[5][0];
             $attribsBefore = $regs[1][0];
-            $attribsAfter = $regs[4][0];
+            $attribsAfter  = $regs[4][0];
 
             // Needed for handling of Body parameter
             $mail = str_replace('&amp;', '&', $mail);
@@ -312,10 +312,10 @@ final class EmailCloak extends CMSPlugin
         $pattern = $this->getPattern($searchEmailLink, $searchText);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[2][0] . $regs[3][0];
-            $mailText = $regs[5][0];
+            $mail          = $regs[2][0] . $regs[3][0];
+            $mailText      = $regs[5][0];
             $attribsBefore = $regs[1][0];
-            $attribsAfter = $regs[4][0];
+            $attribsAfter  = $regs[4][0];
 
             // Needed for handling of Body parameter
             $mail = str_replace('&amp;', '&', $mail);
@@ -333,10 +333,10 @@ final class EmailCloak extends CMSPlugin
         $pattern = $this->getPattern($searchEmailLink, $searchEmailSpan);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[2][0] . $regs[3][0];
-            $mailText = $regs[5][0] . $regs[6][0] . $regs[7][0];
+            $mail          = $regs[2][0] . $regs[3][0];
+            $mailText      = $regs[5][0] . $regs[6][0] . $regs[7][0];
             $attribsBefore = $regs[1][0];
-            $attribsAfter = $regs[4][0];
+            $attribsAfter  = $regs[4][0];
 
             // Check to see if mail text is different from mail addy
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 1, $attribsBefore, $attribsAfter);
@@ -352,10 +352,10 @@ final class EmailCloak extends CMSPlugin
         $pattern = $this->getPattern($searchEmailLink, $searchTextSpan);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[2][0] . $regs[3][0];
-            $mailText = $regs[5][0] . $regs[6][0] . $regs[7][0];
+            $mail          = $regs[2][0] . $regs[3][0];
+            $mailText      = $regs[5][0] . $regs[6][0] . $regs[7][0];
             $attribsBefore = $regs[1][0];
-            $attribsAfter = $regs[4][0];
+            $attribsAfter  = $regs[4][0];
 
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0, $attribsBefore, $attribsAfter);
 
@@ -370,10 +370,10 @@ final class EmailCloak extends CMSPlugin
         $pattern = $this->getPattern($searchEmailLink, $searchImage);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[2][0] . $regs[3][0];
-            $mailText = $regs[5][0];
+            $mail          = $regs[2][0] . $regs[3][0];
+            $mailText      = $regs[5][0];
             $attribsBefore = $regs[1][0];
-            $attribsAfter = $regs[4][0];
+            $attribsAfter  = $regs[4][0];
 
             // Needed for handling of Body parameter
             $mail = str_replace('&amp;', '&', $mail);
@@ -392,10 +392,10 @@ final class EmailCloak extends CMSPlugin
         $pattern = $this->getPattern($searchEmailLink, $searchImage . $searchEmail);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[2][0] . $regs[3][0];
-            $mailText = $regs[5][0] . $regs[6][0];
+            $mail          = $regs[2][0] . $regs[3][0];
+            $mailText      = $regs[5][0] . $regs[6][0];
             $attribsBefore = $regs[1][0];
-            $attribsAfter = $regs[4][0];
+            $attribsAfter  = $regs[4][0];
 
             // Needed for handling of Body parameter
             $mail = str_replace('&amp;', '&', $mail);
@@ -414,10 +414,10 @@ final class EmailCloak extends CMSPlugin
         $pattern = $this->getPattern($searchEmailLink, $searchImage . $searchText);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[2][0] . $regs[3][0];
-            $mailText = $regs[5][0] . $regs[6][0];
+            $mail          = $regs[2][0] . $regs[3][0];
+            $mailText      = $regs[5][0] . $regs[6][0];
             $attribsBefore = $regs[1][0];
-            $attribsAfter = $regs[4][0];
+            $attribsAfter  = $regs[4][0];
 
             // Needed for handling of Body parameter
             $mail = str_replace('&amp;', '&', $mail);
@@ -437,7 +437,7 @@ final class EmailCloak extends CMSPlugin
         $pattern = '~<[^<]*(?<!\/)>(*SKIP)(*F)|<[^>]+?(\w*=\"' . $searchEmail . '\")[^>]*\/>~i';
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[0][0];
+            $mail        = $regs[0][0];
             $replacement = HTMLHelper::_('email.cloak', $mail, 0, $mail);
 
             // Replace the found address with the js cloaked email
@@ -451,7 +451,7 @@ final class EmailCloak extends CMSPlugin
         $pattern = '(<[^>]+?(\w*=\"' . $searchEmail . '")[^>]*>[^<]+<[^<]+>)';
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[0][0];
+            $mail        = $regs[0][0];
             $replacement =  HTMLHelper::_('email.cloak', $mail, 0, $mail);
 
             // Replace the found address with the js cloaked email
@@ -462,12 +462,13 @@ final class EmailCloak extends CMSPlugin
         * Search for plain text email addresses, such as email@example.org but not within HTML tags:
         * <p>email@example.org</p>
         * The '<[^<]*>(*SKIP)(*F)|' trick is used to exclude this kind of occurrences
+        * The '<[^<]*(?<!\/(?:src))>(*SKIP)(*F)|' exclude image files with @ in filename
         */
 
-        $pattern = '~<[^<]*(?<!\/)>(*SKIP)(*F)|' . $searchEmail . '~i';
+        $pattern = '~<[^<]*(?<!\/(?:src))>(*SKIP)(*F)|' . $searchEmail . '~i';
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[1][0];
+            $mail        = $regs[1][0];
             $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mail);
 
             // Replace the found address with the js cloaked email
