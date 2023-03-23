@@ -1,9 +1,9 @@
 describe('Test that the Catagories of com_contact ', () => {
   it('can display a list of categories of contacts in menu item', () => {
-    cy.db_createCategories({ title: 'automated test category 1', extension: 'com_contact' }).then((id) => {
+    cy.db_createCategory({ title: 'automated test category 1', extension: 'com_contact' }).then((id) => {
       cy.db_createContact({ name: 'automated test contact 1', catid: id });
     });
-    cy.db_createCategories({ title: 'automated test category 2', extension: 'com_contact' }).then((id) => {
+    cy.db_createCategory({ title: 'automated test category 2', extension: 'com_contact' }).then((id) => {
       cy.db_createContact({ name: 'automated test contact 2', catid: id });
       cy.db_createContact({ name: 'automated test contact 3', catid: id });
     });

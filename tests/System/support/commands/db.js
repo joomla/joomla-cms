@@ -142,3 +142,18 @@ Cypress.Commands.add('db_createUser', (userData) => {
     return info.insertId;
   });
 });
+
+Cypress.Commands.add('db_createCategory', (Category) => {
+  const defaultCategoryOptions = {
+    title:'test category',
+    alias:'test-category',
+    path:'',
+    extension:'',
+    published: 1,
+    access: 1,
+    params: '',
+    parent_id: 1
+  }
+
+  return cy.task('queryDB', createInsertQuery('categories', { ...defaultCategoryOptions, ...Category })).then(async (info) => info.insertId);
+});
