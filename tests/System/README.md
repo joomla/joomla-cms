@@ -31,10 +31,10 @@ Probably the easiest way is to copy an existing file and adapt it to the extensi
 
 ## Some developer information
 Tests should be:
-- repeatable
-- not depend on other tests
-- small
-- do one thing
+- Repeatable
+- Not depend on other tests
+- Small
+- Do one thing
 
 ### Tasks
 
