@@ -17,7 +17,6 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\ParameterType;
-use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -48,29 +47,6 @@ class TourModel extends AdminModel
     public $typeAlias = 'com_guidedtours.tour';
 
     /**
-     * Method to change the title
-     *
-     * @param   integer  $categoryId  The id of the category.
-     * @param   string   $alias       The alias.
-     * @param   string   $title       The title.
-     *
-     * @return  array  Contains the modified title and alias.
-     *
-     * @since  4.3.0
-     */
-    protected function generateNewTitle($categoryId, $alias, $title)
-    {
-        // Alter the title
-        $table = $this->getTable();
-
-        while ($table->load(['title' => $title])) {
-            $title = StringHelper::increment($title);
-        }
-
-        return [$title, $alias];
-    }
-
-    /**
      * Method to save the form data.
      *
      * @param   array  $data  The form data.
@@ -91,11 +67,6 @@ class TourModel extends AdminModel
         if ($input->get('task') == 'save2copy') {
             $origTable = clone $this->getTable();
             $origTable->load($input->getInt('id'));
-
-            if ($data['title'] == $origTable->title) {
-                list($title)   = $this->generateNewTitle(0, '', $data['title']);
-                $data['title'] = $title;
-            }
 
             $data['published'] = 0;
         }
@@ -398,16 +369,6 @@ class TourModel extends AdminModel
                 // Reset the id to create a new record.
                 $table->id = 0;
 
-                // Alter the title.
-                $m = null;
-
-                if (preg_match('#\((\d+)\)$#', $table->title, $m)) {
-                    $table->title = preg_replace('#\(\d+\)$#', '(' . ($m[1] + 1) . ')', $table->title);
-                }
-
-                $data = $this->generateNewTitle(0, $table->title, $table->title);
-
-                $table->title       = $data[0];
                 $table->published   = 0;
 
                 if (!$table->check() || !$table->store()) {
@@ -540,7 +501,7 @@ class TourModel extends AdminModel
      *
      * @return  boolean
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected function setStepsLanguage(int $id, string $language = '*'): bool
     {

@@ -53,7 +53,7 @@ class Module implements ModuleInterface, HelperFactoryInterface
      *
      * @since   4.0.0
      */
-    public function __construct(ModuleDispatcherFactoryInterface $dispatcherFactory, HelperFactoryInterface $helperFactory)
+    public function __construct(ModuleDispatcherFactoryInterface $dispatcherFactory, ?HelperFactoryInterface $helperFactory)
     {
         $this->dispatcherFactory = $dispatcherFactory;
         $this->helperFactory     = $helperFactory;
