@@ -6,10 +6,12 @@
  *
  * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+namespace Joomla\Plugin\User\Profile\Extension;
+
+use Exception;
+use InvalidArgumentException;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
@@ -17,6 +19,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -29,21 +32,9 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class PlgUserProfile extends CMSPlugin
+final class Profile extends CMSPlugin
 {
-    /**
-     * @var    \Joomla\CMS\Application\CMSApplication
-     *
-     * @since  4.0.0
-     */
-    protected $app;
-
-    /**
-     * @var    \Joomla\Database\DatabaseDriver
-     *
-     * @since  4.0.0
-     */
-    protected $db;
+    use DatabaseAwareTrait;
 
     /**
      * Load the language file on instantiation.
@@ -85,7 +76,7 @@ class PlgUserProfile extends CMSPlugin
 
             if (!isset($data->profile) && $userId > 0) {
                 // Load the profile data from the database.
-                $db    = $this->db;
+                $db    = $this->getDatabase();
                 $query = $db->getQuery(true)
                     ->select(
                         [
@@ -320,23 +311,23 @@ class PlgUserProfile extends CMSPlugin
                 $this->date = $date->format('Y-m-d H:i:s');
             } catch (Exception $e) {
                 // Throw an exception if date is not valid.
-                throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
+                throw new InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
             }
 
             if (Date::getInstance('now') < $date) {
                 // Throw an exception if dob is greater than now.
-                throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
+                throw new InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
             }
         }
 
         // Check that the tos is checked if required ie only in registration from frontend.
-        $task       = $this->app->getInput()->getCmd('task');
-        $option     = $this->app->getInput()->getCmd('option');
+        $task       = $this->getApplication()->getInput()->getCmd('task');
+        $option     = $this->getApplication()->getInput()->getCmd('option');
         $tosEnabled = ($this->params->get('register-require_tos', 0) == 2);
 
         // Check that the tos is checked.
         if ($task === 'register' && $tosEnabled && $option === 'com_users' && !$data['profile']['tos']) {
-            throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
+            throw new InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
         }
 
         return true;
@@ -357,7 +348,7 @@ class PlgUserProfile extends CMSPlugin
         $userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
         if ($userId && $result && isset($data['profile']) && count($data['profile'])) {
-            $db = $this->db;
+            $db = $this->getDatabase();
 
             // Sanitize the date
             if (!empty($data['profile']['dob'])) {
@@ -441,7 +432,7 @@ class PlgUserProfile extends CMSPlugin
         $userId = ArrayHelper::getValue($user, 'id', 0, 'int');
 
         if ($userId) {
-            $db    = $this->db;
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__user_profiles'))
                 ->where($db->quoteName('user_id') . ' = :userid')

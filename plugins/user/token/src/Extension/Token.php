@@ -6,16 +6,17 @@
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+namespace Joomla\Plugin\User\Token\Extension;
+
+use Exception;
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -28,8 +29,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.9.0
  */
-class PlgUserToken extends CMSPlugin
+final class Token extends CMSPlugin
 {
+    use DatabaseAwareTrait;
+
     /**
      * Load the language file on instantiation.
      *
@@ -37,22 +40,6 @@ class PlgUserToken extends CMSPlugin
      * @since  4.0.0
      */
     protected $autoloadLanguage = true;
-
-    /**
-     * Application object.
-     *
-     * @var    \Joomla\CMS\Application\CMSApplication
-     * @since  4.0.0
-     */
-    protected $app;
-
-    /**
-     * Database object.
-     *
-     * @var    \Joomla\Database\DatabaseInterface
-     * @since  4.0.0
-     */
-    protected $db;
 
     /**
      * Joomla XML form contexts where we should inject our token management user interface.
@@ -130,7 +117,7 @@ class PlgUserToken extends CMSPlugin
 
         // Load the profile data from the database.
         try {
-            $db    = $this->db;
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->select([
                         $db->quoteName('profile_key'),
@@ -164,17 +151,17 @@ class PlgUserToken extends CMSPlugin
          * generic and we run the risk of creating naming clashes. Instead, we manipulate the data
          * directly.
          */
-        if (($context === 'com_users.profile') && ($this->app->getInput()->get('layout') !== 'edit')) {
+        if (($context === 'com_users.profile') && ($this->getApplication()->getInput()->get('layout') !== 'edit')) {
             $pluginData = $data->{$this->profileKeyPrefix} ?? [];
             $enabled    = $pluginData['enabled'] ?? false;
             $token      = $pluginData['token'] ?? '';
 
-            $pluginData['enabled'] = Text::_('JDISABLED');
+            $pluginData['enabled'] = $this->getApplication()->getLanguage()->_('JDISABLED');
             $pluginData['token']   = '';
 
             if ($enabled) {
                 $algo                  = $this->getAlgorithmFromFormFile();
-                $pluginData['enabled'] = Text::_('JENABLED');
+                $pluginData['enabled'] = $this->getApplication()->getLanguage()->_('JENABLED');
                 $pluginData['token']   = $this->getTokenForDisplay($userId, $token, $algo);
             }
 
@@ -208,7 +195,7 @@ class PlgUserToken extends CMSPlugin
         }
 
         // If we are on the save command, no data is passed to $data variable, we need to get it directly from request
-        $jformData = $this->app->getInput()->get('jform', [], 'array');
+        $jformData = $this->getApplication()->getInput()->get('jform', [], 'array');
 
         if ($jformData && !$data) {
             $data = $jformData;
@@ -255,7 +242,7 @@ class PlgUserToken extends CMSPlugin
         }
 
         // Remove the Reset field when displaying the user profile form
-        if (($form->getName() === 'com_users.profile') && ($this->app->getInput()->get('layout') !== 'edit')) {
+        if (($form->getName() === 'com_users.profile') && ($this->getApplication()->getInput()->get('layout') !== 'edit')) {
             $form->removeField('reset', 'joomlatoken');
         }
 
@@ -343,7 +330,7 @@ class PlgUserToken extends CMSPlugin
         }
 
         // Remove existing Joomla Token user profile values
-        $db    = $this->db;
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__user_profiles'))
             ->where($db->quoteName('user_id') . ' = :userId')
@@ -408,7 +395,7 @@ class PlgUserToken extends CMSPlugin
         }
 
         try {
-            $db    = $this->db;
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__user_profiles'))
                 ->where($db->quoteName('user_id') . ' = :userId')
@@ -452,7 +439,7 @@ class PlgUserToken extends CMSPlugin
     private function getTokenSeedForUser(int $userId): ?string
     {
         try {
-            $db    = $this->db;
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->select($db->quoteName('profile_value'))
                 ->from($db->quoteName('#__user_profiles'))
@@ -543,7 +530,7 @@ class PlgUserToken extends CMSPlugin
         }
 
         try {
-            $siteSecret = $this->app->get('secret');
+            $siteSecret = $this->getApplication()->get('secret');
         } catch (\Exception $e) {
             $siteSecret = '';
         }
@@ -557,7 +544,7 @@ class PlgUserToken extends CMSPlugin
         $tokenHash = hash_hmac($algorithm, $rawToken, $siteSecret);
         $message   = base64_encode("$algorithm:$userId:$tokenHash");
 
-        if ($userId !== $this->app->getIdentity()->id) {
+        if ($userId !== $this->getApplication()->getIdentity()->id) {
             $message = '';
         }
 
@@ -602,7 +589,7 @@ class PlgUserToken extends CMSPlugin
             return false;
         }
 
-        $db = $this->db;
+        $db = $this->getDatabase();
         $q  = $db->getQuery(true)
             ->select('COUNT(*)')
             ->from($db->quoteName('#__user_profiles'))

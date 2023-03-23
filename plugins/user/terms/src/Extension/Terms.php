@@ -6,13 +6,13 @@
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+namespace Joomla\Plugin\User\Terms\Extension;
+
+use InvalidArgumentException;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\Utilities\ArrayHelper;
@@ -26,7 +26,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.9.0
  */
-class PlgUserTerms extends CMSPlugin
+final class Terms extends CMSPlugin
 {
     /**
      * Load the language file on instantiation.
@@ -36,20 +36,6 @@ class PlgUserTerms extends CMSPlugin
      * @since  3.9.0
      */
     protected $autoloadLanguage = true;
-
-    /**
-     * @var    \Joomla\CMS\Application\CMSApplication
-     *
-     * @since  3.9.0
-     */
-    protected $app;
-
-    /**
-     * @var    \Joomla\Database\DatabaseDriver
-     *
-     * @since  3.9.0
-     */
-    protected $db;
 
     /**
      * Adds additional fields to the user registration form
@@ -98,7 +84,7 @@ class PlgUserTerms extends CMSPlugin
     public function onUserBeforeSave($user, $isNew, $data)
     {
         // // Only check for front-end user registration
-        if ($this->app->isClient('administrator')) {
+        if ($this->getApplication()->isClient('administrator')) {
             return true;
         }
 
@@ -110,13 +96,13 @@ class PlgUserTerms extends CMSPlugin
         }
 
         // Check that the terms is checked if required ie only in registration from frontend.
-        $input  = $this->app->getInput();
+        $input  = $this->getApplication()->getInput();
         $option = $input->get('option');
         $task   = $input->post->get('task');
         $form   = $input->post->get('jform', [], 'array');
 
         if ($option == 'com_users' && in_array($task, ['registration.register']) && empty($form['terms']['terms'])) {
-            throw new InvalidArgumentException(Text::_('PLG_USER_TERMS_FIELD_ERROR'));
+            throw new InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_USER_TERMS_FIELD_ERROR'));
         }
 
         return true;
@@ -153,7 +139,7 @@ class PlgUserTerms extends CMSPlugin
         ];
 
         /** @var ActionlogModel $model */
-        $model = $this->app
+        $model = $this->getApplication()
             ->bootComponent('com_actionlogs')
             ->getMVCFactory()
             ->createModel('Actionlog', 'Administrator');
