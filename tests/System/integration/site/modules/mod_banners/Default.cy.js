@@ -1,4 +1,4 @@
-describe('Test that the front page', () => {
+describe('Test that the banner module', () => {
   it('can display banners', () => {
     cy.db_createBanner({ custombannercode: 'automated test banner 1' })
       .then(() => cy.db_createBanner({ custombannercode: 'automated test banner 2' }))
