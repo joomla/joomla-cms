@@ -143,17 +143,17 @@ Cypress.Commands.add('db_createUser', (userData) => {
   });
 });
 
-Cypress.Commands.add('db_createCategory', (Category) => {
+Cypress.Commands.add('db_createCategory', (category) => {
   const defaultCategoryOptions = {
-    title:'test category',
-    alias:'test-category',
-    path:'',
-    extension:'',
+    title: 'test category',
+    alias: 'test-category',
+    path: '',
+    extension: '',
     published: 1,
     access: 1,
     params: '',
-    parent_id: 1
-  }
+    parent_id: 1,
+  };
 
-  return cy.task('queryDB', createInsertQuery('categories', { ...defaultCategoryOptions, ...Category })).then(async (info) => info.insertId);
+  return cy.task('queryDB', createInsertQuery('categories', { ...defaultCategoryOptions, ...category })).then(async (info) => info.insertId);
 });
