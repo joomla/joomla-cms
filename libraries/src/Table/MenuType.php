@@ -15,6 +15,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Menu Types table
  *
@@ -106,7 +110,7 @@ class MenuType extends Table
             $notIn  = [0, $userId];
 
             // Get the old value of the table
-            $table = Table::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));
+            $table = Table::getInstance('Menutype', 'JTable', ['dbo' => $this->getDbo()]);
             $table->load($this->id);
 
             // Verify that no items are checked out
@@ -198,7 +202,7 @@ class MenuType extends Table
             $star   = '*';
 
             // Get the old value of the table
-            $table = Table::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));
+            $table = Table::getInstance('Menutype', 'JTable', ['dbo' => $this->getDbo()]);
             $table->load($pk);
 
             // Verify that no items are checked out

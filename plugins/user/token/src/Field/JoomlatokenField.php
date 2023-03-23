@@ -13,6 +13,10 @@ namespace Joomla\Plugin\User\Token\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\TextField;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomlatoken field class
  *

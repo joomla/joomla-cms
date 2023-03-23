@@ -28,6 +28,10 @@ use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Template model class.
  *
@@ -200,7 +204,7 @@ class TemplateModel extends FormModel
             return $pks;
         }
 
-        $results = array();
+        $results = [];
 
         foreach ($pks as $pk) {
             $client = ApplicationHelper::getClientInfo($pk->client_id);
@@ -209,7 +213,7 @@ class TemplateModel extends FormModel
             if (file_exists($path)) {
                 $results[] = $pk;
             } elseif ($cleanup) {
-                $cleanupIds = array();
+                $cleanupIds = [];
                 $cleanupIds[] = $pk->hash_id;
                 $this->publish($cleanupIds, -3, $pk->extension_id);
             }
@@ -231,7 +235,7 @@ class TemplateModel extends FormModel
         $templates = $this->getTemplateList();
 
         // Initialize the array variable to store core file list.
-        $this->coreFileList = array();
+        $this->coreFileList = [];
 
         $app = Factory::getApplication();
 
@@ -272,7 +276,7 @@ class TemplateModel extends FormModel
         $dirFiles = scandir($dir);
 
         foreach ($dirFiles as $key => $value) {
-            if (in_array($value, array('.', '..', 'node_modules'))) {
+            if (in_array($value, ['.', '..', 'node_modules'])) {
                 continue;
             }
 
@@ -358,7 +362,7 @@ class TemplateModel extends FormModel
      */
     public function getFiles()
     {
-        $result = array();
+        $result = [];
 
         if ($template = $this->getTemplate()) {
             $app    = Factory::getApplication();
@@ -403,12 +407,12 @@ class TemplateModel extends FormModel
      */
     public function getDirectoryTree($dir)
     {
-        $result = array();
+        $result = [];
 
         $dirFiles = scandir($dir);
 
         foreach ($dirFiles as $key => $value) {
-            if (!in_array($value, array('.', '..', 'node_modules'))) {
+            if (!in_array($value, ['.', '..', 'node_modules'])) {
                 if (is_dir($dir . $value)) {
                     $relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? 'site' : 'administrator') . DIRECTORY_SEPARATOR . $this->template->element, '', $dir . $value);
                     $relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? '' : 'administrator' . DIRECTORY_SEPARATOR) . 'templates' . DIRECTORY_SEPARATOR . $this->template->element, '', $relativePath);
@@ -805,7 +809,7 @@ class TemplateModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         $app = Factory::getApplication();
 
@@ -828,7 +832,7 @@ class TemplateModel extends FormModel
         }
 
         // Get the form.
-        $form = $this->loadForm('com_templates.source', 'source', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_templates.source', 'source', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -952,7 +956,7 @@ class TemplateModel extends FormModel
         }
 
         // Make sure EOL is Unix
-        $data['source'] = str_replace(array("\r\n", "\r"), "\n", $data['source']);
+        $data['source'] = str_replace(["\r\n", "\r"], "\n", $data['source']);
 
         // If the asset file for the template ensure we have valid template so we don't instantly destroy it
         if ($fileName === '/joomla.asset.json' && json_decode($data['source']) === null) {
@@ -1686,7 +1690,7 @@ class TemplateModel extends FormModel
             $path = $this->getBasePath() . base64_decode($app->input->get('file'));
 
             if (file_exists(Path::clean($path))) {
-                $files = array();
+                $files = [];
                 $zip = new \ZipArchive();
 
                 if ($zip->open($path) === true) {
@@ -1871,6 +1875,9 @@ class TemplateModel extends FormModel
             }
         }
 
+        // Create the html folder
+        Folder::create($toPath . '/html');
+
         // Copy the template definition from the parent template
         if (!File::copy($fromPath, $toPath . '/templateDetails.xml')) {
             return false;
@@ -1928,6 +1935,7 @@ class TemplateModel extends FormModel
 
         $files = $xml->addChild('files');
         $files->addChild('filename', 'templateDetails.xml');
+        $files->addChild('folder', 'html');
 
         // Media folder
         $media = $xml->addChild('media');
@@ -1936,7 +1944,6 @@ class TemplateModel extends FormModel
         $media->addChild('folder', 'css');
         $media->addChild('folder', 'js');
         $media->addChild('folder', 'images');
-        $media->addChild('folder', 'html');
         $media->addChild('folder', 'scss');
 
         $xml->name = $template->element . '_' . $newName;
@@ -1962,7 +1969,6 @@ class TemplateModel extends FormModel
             || !Folder::create($toPath . '/media/css')
             || !Folder::create($toPath . '/media/js')
             || !Folder::create($toPath . '/media/images')
-            || !Folder::create($toPath . '/media/html/tinymce')
             || !Folder::create($toPath . '/media/scss')
         ) {
             return false;

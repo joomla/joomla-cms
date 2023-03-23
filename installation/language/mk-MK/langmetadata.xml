@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile client="installation">
+	<name>Macedonian (Macedonia)</name>
+	<version>4.2.9</version>
+	<creationDate>2023-02</creationDate>
+	<author>Joomla! Project</author>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<files>
+		<filename>joomla.ini</filename>
+	</files>
+	<metadata>
+		<name>Macedonian (mk-MK)</name>
+		<nativeName>Македонски (Macedonia)</nativeName>
+		<tag>mk-MK</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params/>
+</metafile>

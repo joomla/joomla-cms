@@ -15,6 +15,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class for implementing UCM
  *
@@ -133,7 +137,7 @@ class UCMContent extends UCMBase
 
         $fields = json_decode($contentType->type->field_mappings);
 
-        $ucmData = array();
+        $ucmData = [];
 
         $common = \is_object($fields->common) ? $fields->common : $fields->common[0];
 
@@ -185,7 +189,7 @@ class UCMContent extends UCMBase
 
         if (!$primaryKey) {
             // Store the core UCM mappings
-            $baseData = array();
+            $baseData = [];
             $baseData['ucm_type_id']     = $typeId;
             $baseData['ucm_item_id']     = $data['core_content_item_id'];
             $baseData['ucm_language_id'] = ContentHelper::getLanguageId($data['core_language']);

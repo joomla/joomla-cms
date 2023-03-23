@@ -23,6 +23,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command to add a user to group
  *
@@ -99,8 +103,8 @@ class AddUserToGroupCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
+        $this->ioStyle->title('Add User To Group');
         $this->username = $this->getStringFromOption('username', 'Please enter a username');
-        $this->ioStyle->title('Add user to group');
 
         $userId = $this->getUserId($this->username);
 

@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Encrypt;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base32 encryption class
  *
@@ -106,7 +110,7 @@ class Base32
         }
 
         preg_match_all('/.{8}/', $str, $chrs);
-        $chrs = array_map(array($this, '_mapcharset'), $chrs[0]);
+        $chrs = array_map([$this, '_mapcharset'], $chrs[0]);
 
         return implode('', $chrs);
     }
@@ -129,7 +133,7 @@ class Base32
         }
 
         // Convert the base32 string back to a binary string
-        $str = implode('', array_map(array($this, '_mapbin'), str_split($str)));
+        $str = implode('', array_map([$this, '_mapbin'], str_split($str)));
 
         // Remove the extra 0's we added
         $str = preg_replace('/000(.{5})/', '$1', $str);

@@ -17,6 +17,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Handle the versioning of content items
  *
@@ -89,7 +93,7 @@ class Versioning
     public static function store($typeAlias, $id, $data, $note = '')
     {
         $typeTable = Table::getInstance('Contenttype', 'JTable');
-        $typeTable->load(array('type_alias' => $typeAlias));
+        $typeTable->load(['type_alias' => $typeAlias]);
 
         $historyTable = Table::getInstance('Contenthistory', 'JTable');
         $historyTable->item_id = $typeAlias . '.' . $id;

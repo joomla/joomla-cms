@@ -14,6 +14,10 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugin to check the PHP version and display a warning about its support status
  *
@@ -108,34 +112,38 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
      */
     private function getPhpSupport()
     {
-        $phpSupportData = array(
-            '7.2' => array(
+        $phpSupportData = [
+            '7.2' => [
                 'security' => '2019-11-30',
                 'eos'      => '2020-11-30',
-            ),
-            '7.3' => array(
+            ],
+            '7.3' => [
                 'security' => '2020-12-06',
                 'eos'      => '2021-12-06',
-            ),
-            '7.4' => array(
+            ],
+            '7.4' => [
                 'security' => '2021-11-28',
                 'eos'      => '2022-11-28',
-            ),
-            '8.0' => array(
+            ],
+            '8.0' => [
                 'security' => '2022-11-26',
                 'eos'      => '2023-11-26',
-            ),
-            '8.1' => array(
+            ],
+            '8.1' => [
                 'security' => '2023-11-25',
                 'eos'      => '2024-11-25',
-            ),
-        );
+            ],
+            '8.2' => [
+                'security' => '2024-12-08',
+                'eos'      => '2025-12-08',
+            ],
+        ];
 
         // Fill our return array with default values
-        $supportStatus = array(
+        $supportStatus = [
             'status'  => self::PHP_SUPPORTED,
             'message' => null,
-        );
+        ];
 
         // Check the PHP version's support status using the minor version
         $activePhpVersion = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;

@@ -14,6 +14,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Exception\KeyNotFoundException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Route handling class
  *
@@ -48,7 +52,7 @@ class Route
      * @var    Router[]
      * @since  3.0.1
      */
-    private static $_router = array();
+    private static $_router = [];
 
     /**
      * Translates an internal Joomla URL to a humanly readable URL. This method builds links for the current active client.
@@ -135,7 +139,7 @@ class Route
 
         // Build route.
         $uri    = self::$_router[$client]->build($url);
-        $scheme = array('path', 'query', 'fragment');
+        $scheme = ['path', 'query', 'fragment'];
 
         /*
          * Get the secure/unsecure URLs.
@@ -156,7 +160,7 @@ class Route
 
             if (!\is_array($scheme_host_port)) {
                 $uri2             = Uri::getInstance();
-                $scheme_host_port = array($uri2->getScheme(), $uri2->getHost(), $uri2->getPort());
+                $scheme_host_port = [$uri2->getScheme(), $uri2->getHost(), $uri2->getPort()];
             }
 
             if (is_null($uri->getScheme())) {
@@ -166,7 +170,7 @@ class Route
             $uri->setHost($scheme_host_port[1]);
             $uri->setPort($scheme_host_port[2]);
 
-            $scheme = array_merge($scheme, array('host', 'port', 'scheme'));
+            $scheme = array_merge($scheme, ['host', 'port', 'scheme']);
         }
 
         $url = $uri->toString($scheme);

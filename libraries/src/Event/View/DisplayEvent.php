@@ -13,6 +13,10 @@ use BadMethodCallException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\MVC\View\ViewInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event class for WebAsset events
  *
@@ -30,7 +34,7 @@ class DisplayEvent extends AbstractImmutableEvent
      *
      * @since   4.0.0
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!isset($arguments['subject'])) {
             throw new BadMethodCallException("Argument 'subject' of event {$this->name} is required but has not been provided");

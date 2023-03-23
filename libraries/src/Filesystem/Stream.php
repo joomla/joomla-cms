@@ -12,6 +12,10 @@ namespace Joomla\CMS\Filesystem;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Stream Interface
  *
@@ -92,7 +96,7 @@ class Stream extends CMSObject
      * @var    array
      * @since  1.7.0
      */
-    protected $filters = array();
+    protected $filters = [];
 
     /**
      * File Handle
@@ -143,7 +147,7 @@ class Stream extends CMSObject
      *
      * @since   1.7.0
      */
-    public function __construct($writeprefix = '', $readprefix = '', $context = array())
+    public function __construct($writeprefix = '', $readprefix = '', $context = [])
     {
         $this->writeprefix = $writeprefix;
         $this->readprefix = $readprefix;
@@ -964,7 +968,7 @@ class Stream extends CMSObject
      * @link    https://www.php.net/manual/en/function.stream-filter-append.php
      * @since   1.7.0
      */
-    public function appendFilter($filterName, $readWrite = STREAM_FILTER_READ, $params = array())
+    public function appendFilter($filterName, $readWrite = STREAM_FILTER_READ, $params = [])
     {
         $res = false;
 
@@ -1001,7 +1005,7 @@ class Stream extends CMSObject
      * @link    https://www.php.net/manual/en/function.stream-filter-prepend.php
      * @since   1.7.0
      */
-    public function prependFilter($filterName, $readWrite = STREAM_FILTER_READ, $params = array())
+    public function prependFilter($filterName, $readWrite = STREAM_FILTER_READ, $params = [])
     {
         $res = false;
 

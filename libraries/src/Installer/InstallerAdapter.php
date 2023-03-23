@@ -27,6 +27,10 @@ use Joomla\DI\ContainerAwareTrait;
 use Joomla\DI\Exception\ContainerNotFoundException;
 use Joomla\DI\ServiceProviderInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Abstract adapter for the installer.
  *
@@ -146,7 +150,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      *
      * @since   3.4
      */
-    public function __construct(Installer $parent, DatabaseDriver $db, array $options = array())
+    public function __construct(Installer $parent, DatabaseDriver $db, array $options = [])
     {
         $this->parent = $parent;
         $this->setDatabase($db);
@@ -218,12 +222,12 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
     {
         try {
             $this->currentExtensionId = $this->extension->find(
-                array('element' => $this->element, 'type' => $this->type)
+                ['element' => $this->element, 'type' => $this->type]
             );
 
             // If it does exist, load it
             if ($this->currentExtensionId) {
-                $this->extension->load(array('element' => $this->element, 'type' => $this->type));
+                $this->extension->load(['element' => $this->element, 'type' => $this->type]);
             }
         } catch (\RuntimeException $e) {
             // Install failed, roll back changes
@@ -323,10 +327,10 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         if ($created) {
             $this->parent->pushStep(
-                array(
+                [
                     'type' => 'folder',
                     'path' => $this->parent->getPath('extension_root'),
-                )
+                ]
             );
         }
     }
@@ -475,7 +479,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
             // If installing with success and there is an uninstall script, add an installer rollback step to rollback if needed
             if ($route === 'install' && isset($this->getManifest()->uninstall->sql)) {
-                $this->parent->pushStep(array('type' => 'query', 'script' => $this->getManifest()->uninstall->sql));
+                $this->parent->pushStep(['type' => 'query', 'script' => $this->getManifest()->uninstall->sql]);
             }
         }
 
@@ -816,7 +820,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
     protected function parseQueries()
     {
         // Let's run the queries for the extension
-        if (\in_array($this->route, array('install', 'discover_install', 'uninstall'))) {
+        if (\in_array($this->route, ['install', 'discover_install', 'uninstall'])) {
             // This method may throw an exception, but it is caught by the parent caller
             if (!$this->doDatabaseTransactions()) {
                 throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
@@ -944,8 +948,6 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // The real location of the file
         $manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
 
-        $installer = null;
-
         // Load the installer from the file
         if (!file_exists($manifestScriptFile)) {
             @trigger_error(
@@ -956,7 +958,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
             return;
         }
 
-        require_once $manifestScriptFile;
+        $installer = require_once $manifestScriptFile;
 
         // When the instance is a service provider, then register the container with it
         if ($installer instanceof ServiceProviderInterface) {

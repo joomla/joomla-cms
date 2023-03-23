@@ -15,6 +15,10 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Language Code plugin class.
  *
@@ -53,17 +57,17 @@ class PlgSystemLanguagecode extends CMSPlugin
             // Replace the old code by the new code in the <html /> tag.
             if ($new_code) {
                 // Replace the new code in the HTML document.
-                $patterns = array(
+                $patterns = [
                     chr(1) . '(<html.*\s+xml:lang=")(' . $code . ')(".*>)' . chr(1) . 'i',
                     chr(1) . '(<html.*\s+lang=")(' . $code . ')(".*>)' . chr(1) . 'i',
-                );
-                $replace = array(
+                ];
+                $replace = [
                     '${1}' . strtolower($new_code) . '${3}',
                     '${1}' . strtolower($new_code) . '${3}',
-                );
+                ];
             } else {
-                $patterns = array();
-                $replace  = array();
+                $patterns = [];
+                $replace  = [];
             }
 
             // Replace codes in <link hreflang="" /> attributes.

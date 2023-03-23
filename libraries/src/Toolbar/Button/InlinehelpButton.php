@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Toolbar\Button;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Renders a button to show / hide the inline help text
  *

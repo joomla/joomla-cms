@@ -16,6 +16,10 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Search model class for the Finder package.
  *
@@ -47,7 +51,7 @@ class SearchModel extends ListModel
      * @var    array
      * @since  2.5
      */
-    protected $excludedTerms = array();
+    protected $excludedTerms = [];
 
     /**
      * An array of all included terms ids.
@@ -55,7 +59,7 @@ class SearchModel extends ListModel
      * @var    array
      * @since  2.5
      */
-    protected $includedTerms = array();
+    protected $includedTerms = [];
 
     /**
      * An array of all required terms ids.
@@ -63,7 +67,7 @@ class SearchModel extends ListModel
      * @var    array
      * @since  2.5
      */
-    protected $requiredTerms = array();
+    protected $requiredTerms = [];
 
     /**
      * Method to get the results of the query.
@@ -82,7 +86,7 @@ class SearchModel extends ListModel
             return null;
         }
 
-        $results = array();
+        $results = [];
 
         // Convert the rows to result objects.
         foreach ($items as $rk => $row) {
@@ -354,7 +358,7 @@ class SearchModel extends ListModel
         $this->setState('filter.language', Multilanguage::isEnabled());
 
         $request = $input->request;
-        $options = array();
+        $options = [];
 
         // Get the empty query setting.
         $options['empty'] = $params->get('allow_empty_query', 0);
@@ -363,7 +367,7 @@ class SearchModel extends ListModel
         $options['filter'] = $request->getInt('f', $params->get('f', ''));
 
         // Get the dynamic taxonomy filters.
-        $options['filters'] = $request->get('t', $params->get('t', array()), 'array');
+        $options['filters'] = $request->get('t', $params->get('t', []), 'array');
 
         // Get the query string.
         $options['input'] = $request->getString('q', $params->get('q', ''));

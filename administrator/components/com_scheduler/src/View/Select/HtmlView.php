@@ -20,6 +20,10 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The MVC View for the routine selection page (SelectView).
  * This view lets the user choose from a list of plugin defined task routines.
@@ -49,14 +53,6 @@ class HtmlView extends BaseHtmlView
      * @since  4.1.0
      */
     protected $items;
-
-    /**
-     * A suffix for links for modal use [?]
-     *
-     * @var  string
-     * @since  4.1.0
-     */
-    protected $modalLink;
 
     /**
      * HtmlView constructor.
@@ -93,7 +89,6 @@ class HtmlView extends BaseHtmlView
     {
         $this->state     = $this->get('State');
         $this->items     = $this->get('Items');
-        $this->modalLink = '';
 
         // Check for errors.
         if (\count($errors = $this->get('Errors'))) {

@@ -11,6 +11,10 @@ namespace Joomla\CMS\User;
 
 use Joomla\CMS\Factory;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Trait for classes which require a user to work with.
  *
@@ -41,7 +45,7 @@ trait CurrentUserTrait
                 sprintf('User must be set in %s. This will not be caught anymore in 5.0', __METHOD__),
                 E_USER_DEPRECATED
             );
-            $this->currentUser = Factory::getApplication()->getIdentity() ?: new User();
+            $this->currentUser = Factory::getApplication()->getIdentity() ?: Factory::getUser();
         }
 
         return $this->currentUser;

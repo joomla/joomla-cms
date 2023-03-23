@@ -12,6 +12,10 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Token class for the Finder indexer package.
  *
@@ -94,7 +98,7 @@ class Token
      * @var    array
      * @since  3.8.12
      */
-    public $matches = array();
+    public $matches = [];
 
     /**
      * Is derived token (from individual words)
@@ -111,6 +115,14 @@ class Token
      * @since  3.8.12
      */
     public $suggestion;
+
+    /**
+     * The token required flag
+     *
+     * @var    boolean
+     * @since  4.2.7
+     */
+    public $required;
 
     /**
      * Method to construct the token object.
@@ -133,7 +145,7 @@ class Token
         if (is_array($term)) {
             // Populate the token instance.
             $this->term = implode($spacer, $term);
-            $this->stem = implode($spacer, array_map(array(Helper::class, 'stem'), $term, array($lang)));
+            $this->stem = implode($spacer, array_map([Helper::class, 'stem'], $term, [$lang]));
             $this->numeric = false;
             $this->common = false;
             $this->phrase = true;

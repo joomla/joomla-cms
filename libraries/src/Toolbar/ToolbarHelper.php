@@ -15,6 +15,10 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class for the button bar.
  *
@@ -38,7 +42,7 @@ abstract class ToolbarHelper
     public static function title($title, $icon = 'generic.png')
     {
         $layout = new FileLayout('joomla.toolbar.title');
-        $html   = $layout->render(array('title' => $title, 'icon' => $icon));
+        $html   = $layout->render(['title' => $title, 'icon' => $icon]);
 
         $app = Factory::getApplication();
         $app->JComponentTitle = $html;
@@ -679,7 +683,7 @@ abstract class ToolbarHelper
         $typeId           = $contentTypeTable->getTypeId($typeAlias);
 
         // Options array for Layout
-        $options              = array();
+        $options              = [];
         $options['title']     = Text::_($alt);
         $options['height']    = $height;
         $options['width']     = $width;
@@ -700,14 +704,14 @@ abstract class ToolbarHelper
      *
      * @since   4.0.0
      */
-    public static function saveGroup($buttons = array(), $class = 'btn-success')
+    public static function saveGroup($buttons = [], $class = 'btn-success')
     {
-        $validOptions = array(
+        $validOptions = [
             'apply'     => 'JTOOLBAR_APPLY',
             'save'      => 'JTOOLBAR_SAVE',
             'save2new'  => 'JTOOLBAR_SAVE_AND_NEW',
             'save2copy' => 'JTOOLBAR_SAVE_AS_COPY'
-        );
+        ];
 
         $bar = Toolbar::getInstance('toolbar');
 

@@ -19,6 +19,10 @@ use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Tags Component Tag Model
  *
@@ -46,10 +50,10 @@ class TagModel extends AdminModel
      * @var    array
      * @since  3.7.0
      */
-    protected $batch_commands = array(
+    protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
         'language_id' => 'batchLanguage',
-    );
+    ];
 
     /**
      * Method to test whether a record can be deleted.
@@ -148,12 +152,12 @@ class TagModel extends AdminModel
      *
      * @since   3.1
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         $jinput = Factory::getApplication()->input;
 
         // Get the form.
-        $form = $this->loadForm('com_tags.tag', 'tag', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_tags.tag', 'tag', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -185,7 +189,7 @@ class TagModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_tags.edit.tag.data', array());
+        $data = Factory::getApplication()->getUserState('com_tags.edit.tag.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -263,7 +267,7 @@ class TagModel extends AdminModel
             }
 
             // Trigger the before save event.
-            $result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
+            $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
 
             if (in_array(false, $result, true)) {
                 $this->setError($table->getError());
@@ -279,7 +283,7 @@ class TagModel extends AdminModel
             }
 
             // Trigger the after save event.
-            Factory::getApplication()->triggerEvent($this->event_after_save, array($context, $table, $isNew));
+            Factory::getApplication()->triggerEvent($this->event_after_save, [$context, $table, $isNew]);
 
             // Rebuild the path for the tag:
             if (!$table->rebuildPath($table->id)) {
@@ -399,11 +403,11 @@ class TagModel extends AdminModel
 
         $table = $this->getTable();
 
-        while ($table->load(array('alias' => $alias, 'parent_id' => $parentId))) {
+        while ($table->load(['alias' => $alias, 'parent_id' => $parentId])) {
             $title = ($table->title != $title) ? $title : StringHelper::increment($title);
             $alias = StringHelper::increment($alias, 'dash');
         }
 
-        return array($title, $alias);
+        return [$title, $alias];
     }
 }

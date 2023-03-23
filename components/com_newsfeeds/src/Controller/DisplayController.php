@@ -12,6 +12,10 @@ namespace Joomla\Component\Newsfeeds\Site\Controller;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Newsfeeds Component Controller
  *
@@ -41,8 +45,8 @@ class DisplayController extends BaseController
             $cachable = false;
         }
 
-        $safeurlparams = array('id' => 'INT', 'limit' => 'UINT', 'limitstart' => 'UINT',
-                                'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'lang' => 'CMD');
+        $safeurlparams = ['id' => 'INT', 'limit' => 'UINT', 'limitstart' => 'UINT',
+                                'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'lang' => 'CMD'];
 
         return parent::display($cachable, $safeurlparams);
     }

@@ -17,6 +17,10 @@ use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Event\SubscriberInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * A demo task plugin. Offers 3 task routines and demonstrates the use of {@see TaskPluginTrait},
  * {@see ExecuteTaskEvent}.

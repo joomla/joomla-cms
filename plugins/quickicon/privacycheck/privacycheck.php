@@ -16,6 +16,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugin to check privacy requests older than 14 days
  *
@@ -55,38 +59,38 @@ class PlgQuickiconPrivacyCheck extends CMSPlugin
             || !$this->app->getIdentity()->authorise('core.admin', 'com_privacy')
             || !ComponentHelper::isEnabled('com_privacy')
         ) {
-            return array();
+            return [];
         }
 
         $token    = Session::getFormToken() . '=' . 1;
         $privacy  = 'index.php?option=com_privacy';
 
-        $options  = array(
+        $options  = [
             'plg_quickicon_privacycheck_url'      => Uri::base() . $privacy . '&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC',
             'plg_quickicon_privacycheck_ajax_url' => Uri::base() . $privacy . '&task=getNumberUrgentRequests&format=json&' . $token,
-            'plg_quickicon_privacycheck_text'     => array(
+            'plg_quickicon_privacycheck_text'     => [
                 "NOREQUEST"            => Text::_('PLG_QUICKICON_PRIVACYCHECK_NOREQUEST'),
                 "REQUESTFOUND"         => Text::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND'),
                 "ERROR"                => Text::_('PLG_QUICKICON_PRIVACYCHECK_ERROR'),
                 "REQUESTFOUND_MESSAGE" => Text::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND_MESSAGE'),
                 "REQUESTFOUND_BUTTON"  => Text::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND_BUTTON'),
-            ),
-        );
+            ],
+        ];
 
         $this->app->getDocument()->addScriptOptions('js-privacy-check', $options);
 
         $this->app->getDocument()->getWebAssetManager()
             ->registerAndUseScript('plg_quickicon_privacycheck', 'plg_quickicon_privacycheck/privacycheck.js', [], ['defer' => true], ['core']);
 
-        return array(
-            array(
+        return [
+            [
                 'link'  => $privacy . '&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC',
                 'image' => 'icon-users',
                 'icon'  => '',
                 'text'  => Text::_('PLG_QUICKICON_PRIVACYCHECK_CHECKING'),
                 'id'    => 'plg_quickicon_privacycheck',
                 'group' => 'MOD_QUICKICON_USERS',
-            ),
-        );
+            ],
+        ];
     }
 }

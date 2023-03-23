@@ -24,6 +24,10 @@ use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Component installer
  *
@@ -216,7 +220,7 @@ class ComponentAdapter extends InstallerAdapter
             $path['dest'] = $this->parent->getPath('extension_administrator') . '/' . $this->manifest_script;
 
             if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles(array($path))) {
+                if (!$this->parent->copyFiles([$path])) {
                     throw new \RuntimeException(
                         Text::sprintf(
                             'JLIB_INSTALLER_ABORT_MANIFEST',
@@ -259,10 +263,10 @@ class ComponentAdapter extends InstallerAdapter
          */
         if ($created) {
             $this->parent->pushStep(
-                array(
+                [
                     'type' => 'folder',
                     'path' => $this->parent->getPath('extension_site'),
-                )
+                ]
             );
         }
 
@@ -287,10 +291,10 @@ class ComponentAdapter extends InstallerAdapter
          */
         if ($created) {
             $this->parent->pushStep(
-                array(
+                [
                     'type' => 'folder',
                     'path' => $this->parent->getPath('extension_administrator'),
-                )
+                ]
             );
         }
 
@@ -315,10 +319,10 @@ class ComponentAdapter extends InstallerAdapter
          */
         if ($created) {
             $this->parent->pushStep(
-                array(
+                [
                     'type' => 'folder',
                     'path' => $this->parent->getPath('extension_api'),
-                )
+                ]
             );
         }
     }
@@ -338,11 +342,11 @@ class ComponentAdapter extends InstallerAdapter
 
         // Clobber any possible pending updates
         $uid = $update->find(
-            array(
+            [
                 'element'   => $this->element,
                 'type'      => $this->extension->type,
                 'client_id' => 1,
-            )
+            ]
         );
 
         if ($uid) {
@@ -451,12 +455,12 @@ class ComponentAdapter extends InstallerAdapter
         // Clobber any possible pending updates
         $update = Table::getInstance('update');
         $uid = $update->find(
-            array(
+            [
                 'element'   => $this->extension->element,
                 'type'      => 'component',
                 'client_id' => 1,
                 'folder'    => '',
-            )
+            ]
         );
 
         if ($uid) {
@@ -1001,12 +1005,12 @@ class ComponentAdapter extends InstallerAdapter
         }
 
         // If the menu item is hidden do nothing more, just return
-        if (\in_array((string) $menuElement['hidden'], array('true', 'hidden'))) {
+        if (\in_array((string) $menuElement['hidden'], ['true', 'hidden'])) {
             return true;
         }
 
         // Let's figure out what the menu item data should look like
-        $data = array();
+        $data = [];
 
         // I have a menu element, use this information
         $data['menutype']     = 'main';
@@ -1059,7 +1063,7 @@ class ComponentAdapter extends InstallerAdapter
         }
 
         foreach ($this->getManifest()->administration->submenu->menu as $child) {
-            $data                 = array();
+            $data                 = [];
             $data['menutype']     = 'main';
             $data['client_id']    = 1;
             $data['title']        = (string) trim($child);
@@ -1082,7 +1086,7 @@ class ComponentAdapter extends InstallerAdapter
             if ((string) $child->attributes()->link) {
                 $data['link'] = 'index.php?' . $child->attributes()->link;
             } else {
-                $request = array();
+                $request = [];
 
                 if ((string) $child->attributes()->act) {
                     $request[] = 'act=' . $child->attributes()->act;
@@ -1122,7 +1126,7 @@ class ComponentAdapter extends InstallerAdapter
              * Since we have created a menu item, we add it to the installation step stack
              * so that if we have to rollback the changes we can undo it.
              */
-            $this->parent->pushStep(array('type' => 'menu', 'id' => $componentId));
+            $this->parent->pushStep(['type' => 'menu', 'id' => $componentId]);
         }
 
         return true;
@@ -1273,7 +1277,7 @@ class ComponentAdapter extends InstallerAdapter
      */
     public function discover()
     {
-        $results          = array();
+        $results          = [];
         $site_components  = Folder::folders(JPATH_SITE . '/components');
         $admin_components = Folder::folders(JPATH_ADMINISTRATOR . '/components');
         $api_components = Folder::folders(JPATH_API . '/components');

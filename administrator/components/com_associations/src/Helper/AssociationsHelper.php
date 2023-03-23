@@ -21,6 +21,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Associations component helper.
  *
@@ -42,7 +46,7 @@ class AssociationsHelper extends ContentHelper
      * @var    array
      * @since  3.7.0
      */
-    public static $supportedExtensionsList = array();
+    public static $supportedExtensionsList = [];
 
     /**
      * Get the associated items for an item
@@ -58,7 +62,7 @@ class AssociationsHelper extends ContentHelper
     public static function getAssociationList($extensionName, $typeName, $itemId)
     {
         if (!self::hasSupport($extensionName)) {
-            return array();
+            return [];
         }
 
         // Get the extension specific helper method
@@ -214,7 +218,7 @@ class AssociationsHelper extends ContentHelper
         $titleFieldName = self::getTypeFieldName($extensionName, $typeName, 'title');
 
         // Get all content languages.
-        $languages = LanguageHelper::getContentLanguages(array(0, 1), false);
+        $languages = LanguageHelper::getContentLanguages([0, 1], false);
         $content_languages = array_column($languages, 'lang_code');
 
         // Display warning if Content Language is trashed or deleted
@@ -288,7 +292,7 @@ class AssociationsHelper extends ContentHelper
 
                 $additional .= $addLink && $allow ? Text::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
             } else {
-                $items[$langCode] = array();
+                $items[$langCode] = [];
 
                 $title      = Text::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
                 $additional = $addLink ? Text::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
@@ -298,7 +302,7 @@ class AssociationsHelper extends ContentHelper
             }
 
             // Generate item Html.
-            $options   = array(
+            $options   = [
                 'option'   => 'com_associations',
                 'view'     => 'association',
                 'layout'   => 'edit',
@@ -306,7 +310,7 @@ class AssociationsHelper extends ContentHelper
                 'task'     => 'association.edit',
                 'id'       => $itemId,
                 'target'   => $target,
-            );
+            ];
 
             $url     = Route::_('index.php?' . http_build_query($options));
             $url     = $allow && $addLink ? $url : '';
@@ -336,7 +340,7 @@ class AssociationsHelper extends ContentHelper
             return self::$extensionsSupport;
         }
 
-        self::$extensionsSupport = array();
+        self::$extensionsSupport = [];
 
         $extensions = self::getEnabledExtensions();
 
@@ -397,7 +401,7 @@ class AssociationsHelper extends ContentHelper
 
         // Get the supported types
         $types  = $helper->getItemTypes();
-        $rTypes = array();
+        $rTypes = [];
 
         foreach ($types as $typeName) {
             $details     = $helper->getType($typeName);
@@ -464,7 +468,7 @@ class AssociationsHelper extends ContentHelper
      */
     public static function getContentLanguages()
     {
-        return LanguageHelper::getContentLanguages(array(0, 1));
+        return LanguageHelper::getContentLanguages([0, 1]);
     }
 
     /**

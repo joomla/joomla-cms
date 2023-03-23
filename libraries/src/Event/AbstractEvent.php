@@ -14,6 +14,10 @@ use Joomla\Event\Event;
 use Joomla\Event\Event as BaseEvent;
 use Joomla\String\Normalise;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This class implements the base Event object used system-wide to offer orthogonality. Core objects such as Models,
  * Controllers, etc create such events on-the-fly and dispatch them through the application's Dispatcher (colloquially

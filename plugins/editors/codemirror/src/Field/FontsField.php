@@ -13,6 +13,10 @@ namespace Joomla\Plugin\Editors\CodeMirror\Field;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Supports an HTML select list of fonts
  *
@@ -40,7 +44,7 @@ class FontsField extends ListField
     protected function getOptions()
     {
         $fonts = json_decode(file_get_contents(JPATH_PLUGINS . '/editors/codemirror/fonts.json'));
-        $options = array();
+        $options = [];
 
         foreach ($fonts as $key => $info) {
             $options[] = HTMLHelper::_('select.option', $key, $info->name);

@@ -19,6 +19,10 @@ use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The article controller
  *
@@ -40,7 +44,7 @@ class ArticleController extends FormController
      *
      * @since   3.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -63,7 +67,7 @@ class ArticleController extends FormController
      *
      * @since   4.0.0
      */
-    protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
+    protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
     {
         if ($this->getTask() === 'save2menu') {
             $editState = [];
@@ -79,10 +83,10 @@ class ArticleController extends FormController
             $editState['type']  = $type;
             $editState['request']['id'] = $id;
 
-            $this->app->setUserState('com_menus.edit.item', array(
+            $this->app->setUserState('com_menus.edit.item', [
                 'data' => $editState,
                 'type' => $type,
-                'link' => $link));
+                'link' => $link]);
 
             $this->setRedirect(Route::_('index.php?option=com_menus&view=item&client_id=0&menutype=mainmenu&layout=edit', false));
         }
@@ -97,7 +101,7 @@ class ArticleController extends FormController
      *
      * @since   1.6
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         $categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
 
@@ -120,7 +124,7 @@ class ArticleController extends FormController
      *
      * @since   1.6
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
         $user = $this->app->getIdentity();
@@ -166,7 +170,7 @@ class ArticleController extends FormController
 
         // Set the model
         /** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
-        $model = $this->getModel('Article', 'Administrator', array());
+        $model = $this->getModel('Article', 'Administrator', []);
 
         // Preset the redirect
         $this->setRedirect(Route::_('index.php?option=com_content&view=articles' . $this->getRedirectToListAppend(), false));

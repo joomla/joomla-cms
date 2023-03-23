@@ -22,6 +22,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Extension Manager Install Model
  *
@@ -87,7 +91,7 @@ class InstallModel extends BaseDatabaseModel
 
         // This event allows an input pre-treatment, a custom pre-packing or custom installation.
         // (e.g. from a \JSON description).
-        $results = $app->triggerEvent('onInstallerBeforeInstallation', array($this, &$package));
+        $results = $app->triggerEvent('onInstallerBeforeInstallation', [$this, &$package]);
 
         if (in_array(true, $results, true)) {
             return true;
@@ -124,14 +128,14 @@ class InstallModel extends BaseDatabaseModel
         }
 
         // This event allows a custom installation of the package or a customization of the package:
-        $results = $app->triggerEvent('onInstallerBeforeInstaller', array($this, &$package));
+        $results = $app->triggerEvent('onInstallerBeforeInstaller', [$this, &$package]);
 
         if (in_array(true, $results, true)) {
             return true;
         }
 
         if (in_array(false, $results, true)) {
-            if (in_array($installType, array('upload', 'url'))) {
+            if (in_array($installType, ['upload', 'url'])) {
                 InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
             }
 
@@ -162,7 +166,7 @@ class InstallModel extends BaseDatabaseModel
                 // If a manifest isn't found at the source, this may be a Joomla package; check the package directory for the Joomla manifest
                 if (file_exists($package['dir'] . '/administrator/manifests/files/joomla.xml')) {
                     // We have a Joomla package
-                    if (in_array($installType, array('upload', 'url'))) {
+                    if (in_array($installType, ['upload', 'url'])) {
                         InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
                     }
 
@@ -178,7 +182,7 @@ class InstallModel extends BaseDatabaseModel
 
         // Was the package unpacked?
         if (empty($package['type'])) {
-            if (in_array($installType, array('upload', 'url'))) {
+            if (in_array($installType, ['upload', 'url'])) {
                 InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
             }
 
@@ -201,7 +205,7 @@ class InstallModel extends BaseDatabaseModel
         }
 
         // This event allows a custom a post-flight:
-        $app->triggerEvent('onInstallerAfterInstaller', array($this, &$package, $installer, &$result, &$msg));
+        $app->triggerEvent('onInstallerAfterInstaller', [$this, &$package, $installer, &$result, &$msg]);
 
         // Set some model state values.
         $app->enqueueMessage($msg, $msgType);

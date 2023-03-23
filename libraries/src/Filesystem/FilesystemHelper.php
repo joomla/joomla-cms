@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Filesystem;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * File system helper
  *
@@ -176,7 +180,7 @@ class FilesystemHelper
      */
     public static function getWriteModes()
     {
-        return array('w', 'w+', 'a', 'a+', 'r+', 'x', 'x+');
+        return ['w', 'w+', 'a', 'a+', 'r+', 'x', 'x+'];
     }
 
     /**
@@ -237,7 +241,7 @@ class FilesystemHelper
      */
     public static function getJStreams()
     {
-        static $streams = array();
+        static $streams = [];
 
         if (!$streams) {
             $files = new \DirectoryIterator(__DIR__ . '/Streams');
@@ -339,7 +343,7 @@ class FilesystemHelper
     private static function parseSizeUnit($maxSize)
     {
         $base     = log($maxSize) / log(1024);
-        $suffixes = array('', 'k', 'M', 'G', 'T');
+        $suffixes = ['', 'k', 'M', 'G', 'T'];
 
         return round(pow(1024, $base - floor($base)), 0) . $suffixes[floor($base)];
     }

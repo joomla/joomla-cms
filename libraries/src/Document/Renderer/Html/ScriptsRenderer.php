@@ -12,6 +12,10 @@ namespace Joomla\CMS\Document\Renderer\Html;
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\WebAsset\WebAssetItemInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * JDocument head renderer
  *
@@ -39,7 +43,7 @@ class ScriptsRenderer extends DocumentRenderer
      *
      * @since   4.0.0
      */
-    public function render($head, $params = array(), $content = null)
+    public function render($head, $params = [], $content = null)
     {
         // Get line endings
         $lnEnd        = $this->_doc->_getLineEnd();
@@ -266,8 +270,8 @@ class ScriptsRenderer extends DocumentRenderer
     {
         $buffer = '';
 
-        $defaultJsMimes         = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
-        $html5NoValueAttributes = array('defer', 'async', 'nomodule');
+        $defaultJsMimes         = ['text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript'];
+        $html5NoValueAttributes = ['defer', 'async', 'nomodule'];
 
         foreach ($attributes as $attrib => $value) {
             // Don't add the 'options' attribute. This attribute is for internal use (version, conditional, etc).
@@ -276,12 +280,12 @@ class ScriptsRenderer extends DocumentRenderer
             }
 
             // Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
-            if (\in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && \in_array($value, $defaultJsMimes)) {
+            if (\in_array($attrib, ['type', 'mime']) && $this->_doc->isHtml5() && \in_array($value, $defaultJsMimes)) {
                 continue;
             }
 
             // B/C: If defer and async is false or empty don't render the attribute. Also skip if value is bool:false.
-            if (\in_array($attrib, array('defer', 'async')) && !$value || $value === false) {
+            if (\in_array($attrib, ['defer', 'async']) && !$value || $value === false) {
                 continue;
             }
 

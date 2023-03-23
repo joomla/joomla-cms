@@ -15,6 +15,10 @@ use Joomla\CMS\Log\Log;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Class to turn CliApplication applications into daemons.  It requires CLI and PCNTL support built into PHP.
  *
@@ -29,7 +33,7 @@ abstract class DaemonApplication extends CliApplication
      * @link   https://www.php.net/manual/pcntl.constants.php
      * @since  1.7.0
      */
-    protected static $signals = array(
+    protected static $signals = [
         'SIGHUP',
         'SIGINT',
         'SIGQUIT',
@@ -66,7 +70,7 @@ abstract class DaemonApplication extends CliApplication
         'SIG_BLOCK',
         'SIG_UNBLOCK',
         'SIG_SETMASK',
-    );
+    ];
 
     /**
      * @var    boolean  True if the daemon is in the process of exiting.
@@ -159,7 +163,7 @@ abstract class DaemonApplication extends CliApplication
         }
 
         // Fire the onReceiveSignal event.
-        static::$instance->triggerEvent('onReceiveSignal', array($signal));
+        static::$instance->triggerEvent('onReceiveSignal', [$signal]);
 
         switch ($signal) {
             case SIGINT:
@@ -295,12 +299,12 @@ abstract class DaemonApplication extends CliApplication
 
         // The user id under which to run the daemon.
         $tmp = (int) $this->config->get('application_uid', 0);
-        $options = array('options' => array('min_range' => 0, 'max_range' => 65000));
+        $options = ['options' => ['min_range' => 0, 'max_range' => 65000]];
         $this->config->set('application_uid', filter_var($tmp, FILTER_VALIDATE_INT, $options));
 
         // The group id under which to run the daemon.
         $tmp = (int) $this->config->get('application_gid', 0);
-        $options = array('options' => array('min_range' => 0, 'max_range' => 65000));
+        $options = ['options' => ['min_range' => 0, 'max_range' => 65000]];
         $this->config->set('application_gid', filter_var($tmp, FILTER_VALIDATE_INT, $options));
 
         // Option to kill the daemon if it cannot switch to the chosen identity.
@@ -647,7 +651,7 @@ abstract class DaemonApplication extends CliApplication
             }
 
             // Attach the signal handler for the signal.
-            if (!$this->pcntlSignal(\constant($signal), array('DaemonApplication', 'signal'))) {
+            if (!$this->pcntlSignal(\constant($signal), ['DaemonApplication', 'signal'])) {
                 Log::add(sprintf('Unable to reroute signal handler: %s', $signal), Log::EMERGENCY);
 
                 return false;

@@ -19,6 +19,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Group Model
  *
@@ -38,10 +42,10 @@ class GroupModel extends AdminModel
      *
      * @var array
      */
-    protected $batch_commands = array(
+    protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
         'language_id'   => 'batchLanguage'
-    );
+    ];
 
     /**
      * Method to save the form data.
@@ -77,7 +81,7 @@ class GroupModel extends AdminModel
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function getTable($name = 'Group', $prefix = 'Administrator', $options = array())
+    public function getTable($name = 'Group', $prefix = 'Administrator', $options = [])
     {
         return parent::getTable($name, $prefix, $options);
     }
@@ -92,7 +96,7 @@ class GroupModel extends AdminModel
      *
      * @since   3.7.0
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         $context = $this->getState('filter.context');
         $jinput = Factory::getApplication()->input;
@@ -106,10 +110,10 @@ class GroupModel extends AdminModel
         $form = $this->loadForm(
             'com_fields.group.' . $context,
             'group',
-            array(
+            [
                 'control'   => 'jform',
                 'load_data' => $loadData,
-            )
+            ]
         );
 
         if (empty($form)) {
@@ -298,7 +302,7 @@ class GroupModel extends AdminModel
     {
         // Check the session for previously entered form data.
         $app = Factory::getApplication();
-        $data = $app->getUserState('com_fields.edit.group.data', array());
+        $data = $app->getUserState('com_fields.edit.group.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();

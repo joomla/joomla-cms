@@ -18,6 +18,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Supports a modal category picker.
  *
@@ -54,7 +58,7 @@ class CategoryField extends FormField
         $allowSelect    = ((string) $this->element['select'] != 'false');
         $allowPropagate = ((string) $this->element['propagate'] == 'true');
 
-        $languages = LanguageHelper::getContentLanguages(array(0, 1), false);
+        $languages = LanguageHelper::getContentLanguages([0, 1], false);
 
         // Load language.
         Factory::getLanguage()->load('com_categories', JPATH_ADMINISTRATOR);
@@ -76,7 +80,7 @@ class CategoryField extends FormField
             static $scriptSelect = null;
 
             if (is_null($scriptSelect)) {
-                $scriptSelect = array();
+                $scriptSelect = [];
             }
 
             if (!isset($scriptSelect[$this->id])) {
@@ -211,7 +215,7 @@ class CategoryField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalSelect' . $modalId,
-                array(
+                [
                     'title'       => $modalTitle,
                     'url'         => $urlSelect,
                     'height'      => '400px',
@@ -220,7 +224,7 @@ class CategoryField extends FormField
                     'modalWidth'  => 80,
                     'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
                                         . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
-                )
+                ]
             );
         }
 
@@ -229,7 +233,7 @@ class CategoryField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalNew' . $modalId,
-                array(
+                [
                     'title'       => Text::_('COM_CATEGORIES_NEW_CATEGORY'),
                     'backdrop'    => 'static',
                     'keyboard'    => false,
@@ -248,7 +252,7 @@ class CategoryField extends FormField
                             . '<button type="button" class="btn btn-success"'
                             . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'apply\', \'item-form\'); return false;">'
                             . Text::_('JAPPLY') . '</button>',
-                )
+                ]
             );
         }
 
@@ -257,7 +261,7 @@ class CategoryField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalEdit' . $modalId,
-                array(
+                [
                     'title'       => Text::_('COM_CATEGORIES_EDIT_CATEGORY'),
                     'backdrop'    => 'static',
                     'keyboard'    => false,
@@ -276,7 +280,7 @@ class CategoryField extends FormField
                             . '<button type="button" class="btn btn-success"'
                             . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'apply\', \'item-form\'); return false;">'
                             . Text::_('JAPPLY') . '</button>',
-                )
+                ]
             );
         }
 

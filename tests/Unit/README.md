@@ -8,7 +8,7 @@ When you are checking out the current development branch of 4.x and run `compose
 
 1. Checkout the current Joomla 4.x development branch from Github. (https://github.com/joomla/joomla-cms.git)
 2. Run `composer install` in the root of your checkout.
-3. Add the file `phpunit.xml` depending on your environment. You can use the files `phpunit.xml.dist` and/or `phpunit-pgsql.xml.dist` as an example.
+3. Add the file `phpunit.xml` and update the values dependent on your environment. You can use the files `phpunit.xml.dist` and/or `phpunit-pgsql.xml.dist` as an example.
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>

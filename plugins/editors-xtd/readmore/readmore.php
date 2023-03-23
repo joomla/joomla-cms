@@ -14,6 +14,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Editor Readmore button
  *
@@ -55,9 +59,9 @@ class PlgButtonReadmore extends CMSPlugin
         // Pass some data to javascript
         $doc->addScriptOptions(
             'xtd-readmore',
-            array(
+            [
                 'exists' => Text::_('PLG_READMORE_ALREADY_EXISTS', true),
-            )
+            ]
         );
 
         $button = new CMSObject();

@@ -18,6 +18,10 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Update class. It is used by Updater::update() to install an update. Use Updater::findUpdates() to find updates for
  * an extension.
@@ -104,7 +108,7 @@ class Update extends CMSObject
      * @var    DownloadSource[]
      * @since  3.8.3
      */
-    protected $downloadSources = array();
+    protected $downloadSources = [];
 
     /**
      * Update manifest `<tags>` element
@@ -176,7 +180,7 @@ class Update extends CMSObject
      * @var    array
      * @since  3.0.0
      */
-    protected $stack = array('base');
+    protected $stack = ['base'];
 
     /**
      * Unused state array
@@ -184,7 +188,7 @@ class Update extends CMSObject
      * @var    array
      * @since  3.0.0
      */
-    protected $stateStore = array();
+    protected $stateStore = [];
 
     /**
      * Object containing the current update data
@@ -223,7 +227,7 @@ class Update extends CMSObject
      * @var    array
      * @since  3.10.2
      */
-    protected $compatibleVersions = array();
+    protected $compatibleVersions = [];
 
     /**
      * Gets the reference to the current direct parent
@@ -261,7 +265,7 @@ class Update extends CMSObject
      * @note    This is public because it is called externally
      * @since   1.7.0
      */
-    public function _startElement($parser, $name, $attrs = array())
+    public function _startElement($parser, $name, $attrs = [])
     {
         $this->stack[] = $name;
         $tag           = $this->_getStackLocation();
@@ -398,6 +402,9 @@ class Update extends CMSObject
             case 'UPDATES':
                 // If the latest item is set then we transfer it to where we want to
                 if (isset($this->latest)) {
+                    // This is an optional tag and therefore we need to be sure that this is gone and only used when set by the update itself
+                    unset($this->downloadSources);
+
                     foreach (get_object_vars($this->latest) as $key => $val) {
                         $this->$key = $val;
                     }

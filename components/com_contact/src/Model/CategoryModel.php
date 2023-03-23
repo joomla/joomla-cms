@@ -21,6 +21,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Single item model for a contact
  *
@@ -36,13 +40,6 @@ class CategoryModel extends ListModel
      * @var    CategoryNode
      */
     protected $_item;
-
-    /**
-     * Array of contacts in the category
-     *
-     * @var    \stdClass[]
-     */
-    protected $_articles;
 
     /**
      * Category left and right of this one
@@ -86,10 +83,10 @@ class CategoryModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
                 'con_position', 'a.con_position',
@@ -102,7 +99,7 @@ class CategoryModel extends ListModel
                 'sortname2', 'a.sortname2',
                 'sortname3', 'a.sortname3',
                 'featuredordering', 'a.featured'
-            );
+            ];
         }
 
         parent::__construct($config);
@@ -305,7 +302,7 @@ class CategoryModel extends ListModel
 
         $listOrder = $app->input->get('filter_order_Dir', 'ASC');
 
-        if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+        if (!in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
@@ -350,7 +347,7 @@ class CategoryModel extends ListModel
                 $params = new Registry();
             }
 
-            $options = array();
+            $options = [];
             $options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
             $categories = Categories::getInstance('Contact', $options);
             $this->_item = $categories->get($this->getState('category.id', 'root'));
@@ -446,7 +443,7 @@ class CategoryModel extends ListModel
         return 'CASE WHEN '
             . $query->charLength($alias, '!=', '0')
             . ' THEN '
-            . $query->concatenate(array($query->castAsChar($id), $alias), ':')
+            . $query->concatenate([$query->castAsChar($id), $alias], ':')
             . ' ELSE '
             . $query->castAsChar($id) . ' END';
     }

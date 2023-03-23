@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Profiler;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class to assist in the process of benchmarking the execution
  * of sections of code to understand where time is being spent.
@@ -57,7 +61,7 @@ class Profiler
      * @var    array  JProfiler instances container.
      * @since  1.7.3
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Constructor
@@ -70,8 +74,8 @@ class Profiler
     {
         $this->start = microtime(1);
         $this->prefix = $prefix;
-        $this->marks = array();
-        $this->buffer = array();
+        $this->marks = [];
+        $this->buffer = [];
     }
 
     /**
@@ -107,14 +111,14 @@ class Profiler
         $current = microtime(1) - $this->start;
         $currentMem = memory_get_usage() / 1048576;
 
-        $m = (object) array(
+        $m = (object) [
             'prefix' => $this->prefix,
             'time' => ($current - $this->previousTime) * 1000,
             'totalTime' => ($current * 1000),
             'memory' => $currentMem - $this->previousMem,
             'totalMemory' => $currentMem,
             'label' => $label,
-        );
+        ];
         $this->marks[] = $m;
 
         $mark = sprintf(
