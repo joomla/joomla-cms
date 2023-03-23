@@ -347,21 +347,26 @@ trait WorkflowBehaviorTrait
 
         $key = $table->getKeyName();
 
-        $id = isset($data->$key) ? $data->$key : $form->getValue($key);
+        $id = $data->$key ?? $form->getValue($key);
 
+        // Transition field
         if ($id) {
-            // Transition field
             $assoc = $this->workflow->getAssociation($id);
 
             if (!empty($assoc->stage_id)) {
-                $form->setFieldAttribute('transition', 'workflow_stage', (int) $assoc->stage_id);
+                $stage_id = $assoc->stage_id;
+            } else {
+                // Create new association if it's missed for existing article
+                $stage_id = $this->getStageForNewItem($form, $data);
+
+                $this->workflow->createAssociation($id, $stage_id);
             }
         } else {
             $stage_id = $this->getStageForNewItem($form, $data);
+        }
 
-            if (!empty($stage_id)) {
-                $form->setFieldAttribute('transition', 'workflow_stage', (int) $stage_id);
-            }
+        if (!empty($stage_id)) {
+            $form->setFieldAttribute('transition', 'workflow_stage', (int) $stage_id);
         }
     }
 
