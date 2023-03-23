@@ -304,7 +304,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 $this->compress();
 
                 // Trigger the onAfterCompress event.
-                $this->triggerEvent('onAfterCompress');
+                $this->dispatchEvent('onAfterCompress');
             }
         } catch (\Throwable $throwable) {
             /** @var ErrorEvent $event */
@@ -318,19 +318,19 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             );
 
             // Trigger the onError event.
-            $this->triggerEvent('onError', $event);
+            $this->dispatchEvent('onError', $event);
 
             ExceptionHandler::handleException($event->getError());
         }
 
         // Trigger the onBeforeRespond event.
-        $this->triggerEvent('onBeforeRespond');
+        $this->dispatchEvent('onBeforeRespond');
 
         // Send the application response.
         $this->respond();
 
         // Trigger the onAfterRespond event.
-        $this->triggerEvent('onAfterRespond');
+        $this->dispatchEvent('onAfterRespond');
     }
 
     /**
