@@ -7,8 +7,9 @@ describe('Test that the Catagories of com_contact ', () => {
         cy.db_createContact({ name: 'automated test contact 2', catid: id });
         cy.db_createContact({ name: 'automated test contact 3', catid: id });
       })
-      . then(() => {
+      .then(() => {
         cy.visit('index.php?option=com_contact&view=categories');
+
         cy.contains('automated test category 1');
         cy.contains('automated test category 2');
         cy.get(':nth-child(2) > .page-header > .badge').contains('Contact Count: 1');

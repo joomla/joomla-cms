@@ -148,7 +148,7 @@ Cypress.Commands.add('db_createCategory', (category) => {
     title: 'test category',
     alias: 'test-category',
     path: '',
-    extension: '',
+    extension: 'com_content',
     published: 1,
     access: 1,
     params: '',
