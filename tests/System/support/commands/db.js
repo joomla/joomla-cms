@@ -161,7 +161,7 @@ Cypress.Commands.add('db_createCategory', (category) => {
   };
 
   return cy.task('queryDB', createInsertQuery('categories', { ...defaultCategoryOptions, ...category })).then(async (info) => info.insertId);
-));
+});
 
 Cypress.Commands.add('db_getUserId', () => {
   cy.task('queryDB', `SELECT id FROM #__users WHERE username = '${Cypress.env('username')}'`)
