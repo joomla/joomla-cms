@@ -248,7 +248,7 @@ final class Joomla extends CMSPlugin
      */
     public function onUserLogin($user, $options = [])
     {
-        $instance = $this->_getUser($user, $options);
+        $instance = $this->getUser($user, $options);
 
         // If _getUser returned an error, then pass it back.
         if ($instance instanceof Exception) {
@@ -456,7 +456,7 @@ final class Joomla extends CMSPlugin
      *
      * @since   1.5
      */
-    protected function _getUser($user, $options = [])
+    private function getUser($user, $options = [])
     {
         $instance = User::getInstance();
         $id       = (int) UserHelper::getUserId($user['username']);

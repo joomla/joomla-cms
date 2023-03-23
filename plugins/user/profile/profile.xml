@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_USER_PROFILE_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\User\Terms</namespace>
+	<namespace path="src">Joomla\Plugin\User\Profile</namespace>
 	<files>
 		<folder>forms</folder>
 		<folder plugin="profile">services</folder>

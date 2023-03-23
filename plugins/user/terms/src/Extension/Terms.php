@@ -58,7 +58,7 @@ final class Terms extends CMSPlugin
 
         // Add the terms and conditions fields to the form.
         FormHelper::addFieldPrefix('Joomla\\Plugin\\User\\Terms\\Field');
-        FormHelper::addFormPath(__DIR__ . '/forms');
+        FormHelper::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
         $form->loadFile('terms');
 
         $termsarticle = $this->params->get('terms_article');

@@ -213,7 +213,7 @@ final class Token extends CMSPlugin
         }
 
         // Add the registration fields to the form.
-        Form::addFormPath(__DIR__ . '/forms');
+        Form::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
         $form->loadFile('token', false);
 
         // No token: no reset
@@ -562,7 +562,7 @@ final class Token extends CMSPlugin
     {
         $algo = 'sha256';
 
-        $file     = __DIR__ . '/forms/token.xml';
+        $file     = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/token.xml';
         $contents = @file_get_contents($file);
 
         if ($contents === false) {

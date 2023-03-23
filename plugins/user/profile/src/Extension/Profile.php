@@ -218,7 +218,7 @@ final class Profile extends CMSPlugin
 
         // Add the registration fields to the form.
         FormHelper::addFieldPrefix('Joomla\\Plugin\\User\\Profile\\Field');
-        FormHelper::addFormPath(__DIR__ . '/forms');
+        FormHelper::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
         $form->loadFile('profile');
 
         $fields = [
@@ -284,7 +284,7 @@ final class Profile extends CMSPlugin
         $remainingfields = $form->getGroup('profile');
 
         if (!count($remainingfields)) {
-            $form->removeGroup('profile');
+            //$form->removeGroup('profile');
         }
 
         return true;
