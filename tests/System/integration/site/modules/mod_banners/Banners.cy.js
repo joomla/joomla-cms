@@ -4,7 +4,7 @@ describe('Test that the front page', () => {
       .then(() => cy.db_createBanner({ custombannercode: 'automated test banner 2', type: 1 }))
       .then(() => cy.db_createBanner({ custombannercode: 'automated test banner 3', type: 1 }))
       .then(() => cy.db_createBanner({ custombannercode: 'automated test banner 4', type: 1 }))
-      .then(() => cy.db_createModule({ title: 'automated test', module: 'mod_banners',params: '{"count":5 }'}))
+      .then(() => cy.db_createModule({ title: 'automated test', module: 'mod_banners', params: '{"count":5 }' }))
       .then(() => {
         cy.visit('/');
 
