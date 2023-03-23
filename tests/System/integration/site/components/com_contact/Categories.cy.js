@@ -3,9 +3,9 @@ describe('Test that the Catagories of com_contact ', () => {
     cy.db_createCategory({ title: 'automated test category 1', extension: 'com_contact' })
       .then((id) => cy.db_createContact({ name: 'automated test contact 1', catid: id }))
       .then(() => cy.db_createCategory({ title: 'automated test category 2', extension: 'com_contact' }))
-      .then((id) => {
-        cy.db_createContact({ name: 'automated test contact 2', catid: id });
-        cy.db_createContact({ name: 'automated test contact 3', catid: id });
+      .then(async (id) => {
+        await cy.db_createContact({ name: 'automated test contact 2', catid: id });
+        await cy.db_createContact({ name: 'automated test contact 3', catid: id });
       })
       .then(() => {
         cy.visit('index.php?option=com_contact&view=categories');
