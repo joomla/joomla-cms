@@ -2,15 +2,14 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Installer.packageInstaller
+ * @subpackage  Installer.packageinstaller
  *
  * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Language\Text;
+namespace Joomla\Plugin\Installer\Package\Extension;
+
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 
@@ -23,13 +22,14 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  3.6.0
  */
-class PlgInstallerPackageInstaller extends CMSPlugin
+final class PackageInstaller extends CMSPlugin
 {
     /**
      * Application object
      *
      * @var    \Joomla\CMS\Application\CMSApplication
      * @since  4.0.0
+     * @deprecated 6.0 Is needed for template overrides, use getApplication instead
      */
     protected $app;
 
@@ -47,7 +47,7 @@ class PlgInstallerPackageInstaller extends CMSPlugin
 
         $tab            = [];
         $tab['name']    = 'package';
-        $tab['label']   = Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE');
+        $tab['label']   = $this->getApplication()->getLanguage()->_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE');
 
         // Render the input
         ob_start();
