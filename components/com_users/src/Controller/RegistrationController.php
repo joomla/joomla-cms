@@ -16,6 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Registration controller class for Users.
  *
@@ -151,7 +155,7 @@ class RegistrationController extends BaseController
         $model = $this->getModel('Registration', 'Site');
 
         // Get the user data.
-        $requestData = $this->input->post->get('jform', array(), 'array');
+        $requestData = $this->input->post->get('jform', [], 'array');
 
         // Validate the posted data.
         $form = $model->getForm();
@@ -173,6 +177,29 @@ class RegistrationController extends BaseController
                     $app->enqueueMessage($errors[$i]->getMessage(), 'error');
                 } else {
                     $app->enqueueMessage($errors[$i], 'error');
+                }
+            }
+
+            /**
+             * We need the filtered value of calendar fields because the UTC normalisation is
+             * done in the filter and on output. This would apply the Timezone offset on
+             * reload. We set the calendar values we save to the processed date.
+             */
+            $filteredData = $form->filter($requestData);
+
+            foreach ($form->getFieldset() as $field) {
+                if ($field->type === 'Calendar') {
+                    $fieldName = $field->fieldname;
+
+                    if ($field->group) {
+                        if (isset($filteredData[$field->group][$fieldName])) {
+                            $requestData[$field->group][$fieldName] = $filteredData[$field->group][$fieldName];
+                        }
+                    } else {
+                        if (isset($filteredData[$fieldName])) {
+                            $requestData[$fieldName] = $filteredData[$fieldName];
+                        }
+                    }
                 }
             }
 

@@ -14,6 +14,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Languages Overrides Controller.
  *
@@ -42,7 +46,7 @@ class OverridesController extends AdminController
         $this->checkToken();
 
         // Get items to delete from the request.
-        $cid = (array) $this->input->get('cid', array(), 'string');
+        $cid = (array) $this->input->get('cid', [], 'string');
 
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);

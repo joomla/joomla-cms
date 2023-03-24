@@ -126,7 +126,7 @@ HTMLHelper::_('bootstrap.tooltip', '.plg_system_webauth-has-tooltip');
         <?php
         if (empty($credentials)) : ?>
             <tr>
-                <td colspan="2">
+                <td colspan="<?php echo $attestationSupport ? '3' : '2'; ?>">
                     <?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_HEADER_NOMETHODS_LABEL') ?>
                 </td>
             </tr>

@@ -19,6 +19,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper class for the Finder indexer package.
  *
@@ -61,13 +65,13 @@ class Helper
         static $defaultLanguage;
 
         if (!$tuplecount) {
-            $params = ComponentHelper::getParams('com_finder');
+            $params     = ComponentHelper::getParams('com_finder');
             $tuplecount = $params->get('tuplecount', 1);
         }
 
         if (is_null($multilingual)) {
             $multilingual = Multilanguage::isEnabled();
-            $config = ComponentHelper::getParams('com_finder');
+            $config       = ComponentHelper::getParams('com_finder');
 
             if ($config->get('language_default', '') == '') {
                 $defaultLang = '*';
@@ -82,8 +86,8 @@ class Helper
              * In order to not overwrite the language code of the language
              * object that we are using, we are cloning it here.
              */
-            $obj = Language::getInstance($defaultLang);
-            $defaultLanguage = clone $obj;
+            $obj                       = Language::getInstance($defaultLang);
+            $defaultLanguage           = clone $obj;
             $defaultLanguage->language = '*';
         }
 
@@ -97,8 +101,8 @@ class Helper
             $cache[$lang] = [];
         }
 
-        $tokens = array();
-        $terms = $language->tokenise($input);
+        $tokens = [];
+        $terms  = $language->tokenise($input);
 
         // @todo: array_filter removes any number 0's from the terms. Not sure this is entirely intended
         $terms = array_filter($terms);
@@ -118,8 +122,8 @@ class Helper
                 if (isset($cache[$lang][$terms[$i]])) {
                     $tokens[] = $cache[$lang][$terms[$i]];
                 } else {
-                    $token = new Token($terms[$i], $language->language);
-                    $tokens[] = $token;
+                    $token                    = new Token($terms[$i], $language->language);
+                    $tokens[]                 = $token;
                     $cache[$lang][$terms[$i]] = $token;
                 }
             }
@@ -127,7 +131,7 @@ class Helper
             // Create multi-word phrase tokens from the individual words.
             if ($tuplecount > 1) {
                 for ($i = 0, $n = count($tokens); $i < $n; $i++) {
-                    $temp = array($tokens[$i]->term);
+                    $temp = [$tokens[$i]->term];
 
                     // Create tokens for 2 to $tuplecount length phrases
                     for ($j = 1; $j < $tuplecount; $j++) {
@@ -136,14 +140,14 @@ class Helper
                         }
 
                         $temp[] = $tokens[$i + $j]->term;
-                        $key = implode('::', $temp);
+                        $key    = implode('::', $temp);
 
                         if (isset($cache[$lang][$key])) {
                             $tokens[] = $cache[$lang][$key];
                         } else {
-                            $token = new Token($temp, $language->language, $language->spacer);
-                            $token->derived = true;
-                            $tokens[] = $token;
+                            $token              = new Token($temp, $language->language, $language->spacer);
+                            $token->derived     = true;
+                            $tokens[]           = $token;
                             $cache[$lang][$key] = $token;
                         }
                     }
@@ -182,7 +186,7 @@ class Helper
 
         if (is_null($multilingual)) {
             $multilingual = Multilanguage::isEnabled();
-            $config = ComponentHelper::getParams('com_finder');
+            $config       = ComponentHelper::getParams('com_finder');
 
             if ($config->get('language_default', '') == '') {
                 $defaultStemmer = Language::getInstance('*');
@@ -239,7 +243,7 @@ class Helper
         // Add the type.
         $query->clear()
             ->insert($db->quoteName('#__finder_types'))
-            ->columns(array($db->quoteName('title'), $db->quoteName('mime')))
+            ->columns([$db->quoteName('title'), $db->quoteName('mime')])
             ->values($db->quote($title) . ', ' . $db->quote($mime));
         $db->setQuery($query);
         $db->execute();
@@ -264,7 +268,7 @@ class Helper
 
         if (is_null($multilingual)) {
             $multilingual = Multilanguage::isEnabled();
-            $config = ComponentHelper::getParams('com_finder');
+            $config       = ComponentHelper::getParams('com_finder');
 
             if ($config->get('language_default', '') == '') {
                 $default = '*';
@@ -348,7 +352,7 @@ class Helper
 
         // Only parse the identifier if necessary.
         if (!isset($data[$lang])) {
-            if (is_callable(array('Locale', 'getPrimaryLanguage'))) {
+            if (is_callable(['Locale', 'getPrimaryLanguage'])) {
                 // Get the language key using the Locale package.
                 $data[$lang] = \Locale::getPrimaryLanguage($lang);
             } else {
@@ -376,7 +380,7 @@ class Helper
         // Load the finder plugin group.
         PluginHelper::importPlugin('finder');
 
-        Factory::getApplication()->triggerEvent('onPrepareFinderContent', array(&$item));
+        Factory::getApplication()->triggerEvent('onPrepareFinderContent', [&$item]);
 
         return true;
     }
@@ -405,7 +409,7 @@ class Helper
         // Instantiate the parameter object if necessary.
         if (!($params instanceof Registry)) {
             $registry = new Registry($params);
-            $params = $registry;
+            $params   = $registry;
         }
 
         // Create a mock content object.
@@ -422,7 +426,7 @@ class Helper
         }
 
         // Fire the onContentPrepare event.
-        Factory::getApplication()->triggerEvent('onContentPrepare', array('com_finder.indexer', &$content, &$params, 0));
+        Factory::getApplication()->triggerEvent('onContentPrepare', ['com_finder.indexer', &$content, &$params, 0]);
 
         return $content->text;
     }

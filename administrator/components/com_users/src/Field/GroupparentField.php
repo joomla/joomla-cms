@@ -15,6 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Helper\UserGroupsHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * User Group Parent field..
  *
@@ -63,7 +67,7 @@ class GroupparentField extends ListField
     protected function getOptions()
     {
         $options        = UserGroupsHelper::getInstance()->getAll();
-        $currentGroupId = (int) Factory::getApplication()->input->get('id', 0, 'int');
+        $currentGroupId = (int) Factory::getApplication()->getInput()->get('id', 0, 'int');
 
         // Prevent to set yourself as parent
         if ($currentGroupId) {
@@ -84,7 +88,7 @@ class GroupparentField extends ListField
             // Show groups only if user is super admin or group is not super admin
             if ($isSuperAdmin || !Access::checkGroup($options[$i]->id, 'core.admin')) {
                 $options[$i]->value = $options[$i]->id;
-                $options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->title;
+                $options[$i]->text  = str_repeat('- ', $options[$i]->level) . $options[$i]->title;
             } else {
                 unset($options[$i]);
             }

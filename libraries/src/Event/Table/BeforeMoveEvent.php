@@ -12,6 +12,10 @@ namespace Joomla\CMS\Event\Table;
 use BadMethodCallException;
 use Joomla\Database\DatabaseQuery;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event class for JTable's onBeforeMove event
  *
@@ -33,7 +37,7 @@ class BeforeMoveEvent extends AbstractEvent
      *
      * @throws  BadMethodCallException
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('query', $arguments)) {
             throw new BadMethodCallException("Argument 'query' is required for event $name");

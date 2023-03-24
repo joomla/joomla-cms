@@ -19,6 +19,10 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! update notification plugin
  *
@@ -68,7 +72,7 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function __construct($subject, Document $document, $config = array())
+    public function __construct($subject, Document $document, $config = [])
     {
         parent::__construct($subject, $config);
 

@@ -13,6 +13,10 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Rule class for the Joomla Platform.
  * Requires the value entered be one of the options in a field of type="list"
@@ -49,7 +53,7 @@ class OptionsRule extends FormRule
         }
 
         // Make an array of all available option values.
-        $options = array();
+        $options = [];
 
         // Create the field
         $field = null;

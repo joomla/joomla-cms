@@ -12,6 +12,10 @@
 
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Contact Component Route Helper
  *

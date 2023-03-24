@@ -17,6 +17,10 @@ use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Featured View class
  *
@@ -102,9 +106,9 @@ class HtmlView extends BaseHtmlView
         // Prepare the data.
         // Compute the contact slug.
         for ($i = 0, $n = count($items); $i < $n; $i++) {
-            $item       = &$items[$i];
-            $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-            $temp       = $item->params;
+            $item         = &$items[$i];
+            $item->slug   = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+            $temp         = $item->params;
             $item->params = clone $params;
             $item->params->merge($temp);
 

@@ -14,6 +14,10 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The article controller
  *
@@ -63,6 +67,14 @@ class ArticlesController extends ApiController
 
         if (\array_key_exists('state', $apiFilterInfo)) {
             $this->modelState->set('filter.published', $filter->clean($apiFilterInfo['state'], 'INT'));
+        }
+
+        if (\array_key_exists('featured', $apiFilterInfo)) {
+            $this->modelState->set('filter.featured', $filter->clean($apiFilterInfo['featured'], 'INT'));
+        }
+
+        if (\array_key_exists('tag', $apiFilterInfo)) {
+            $this->modelState->set('filter.tag', $filter->clean($apiFilterInfo['tag'], 'INT'));
         }
 
         if (\array_key_exists('language', $apiFilterInfo)) {
