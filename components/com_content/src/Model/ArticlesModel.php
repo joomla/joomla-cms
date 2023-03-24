@@ -659,7 +659,7 @@ class ArticlesModel extends ListModel
         // Get the global params
         $globalParams = ComponentHelper::getParams('com_content', true);
 
-        $taggedItems = [];
+        $taggedItems     = [];
         $associatedItems = [];
 
         // Convert the parameter fields into objects.
@@ -759,7 +759,7 @@ class ArticlesModel extends ListModel
 
             // Some contexts may not use tags data at all, so we allow callers to disable loading tag data
             if ($this->getState('load_tags', $item->params->get('show_tags', '1'))) {
-                $item->tags = new TagsHelper();
+                $item->tags             = new TagsHelper();
                 $taggedItems[$item->id] = $i;
             }
 
@@ -781,7 +781,7 @@ class ArticlesModel extends ListModel
 
         // Load associations of all items.
         if ($associatedItems) {
-            $itemIds = \array_keys($associatedItems);
+            $itemIds      = \array_keys($associatedItems);
             $associations = AssociationHelper::displayAssociations($itemIds);
 
             foreach ($associatedItems as $itemId => $i) {
