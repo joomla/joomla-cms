@@ -32,7 +32,7 @@ steps:
       - echo $(date)
 
   - name: phan
-    image: joomlaprojects/docker-images:php7.4-ast
+    image: joomlaprojects/docker-images:php8.1-ast
     depends_on: [ phpcs ]
     failure: ignore
     commands:
@@ -363,6 +363,6 @@ trigger:
 
 ---
 kind: signature
-hmac: b4a80f053b47594d8c05c5ddf05050fbea3cfddf6abeac4dadfb540d1b24762e
+hmac: f83c3c7553096cfbd2d095fe4f0499af398bc596d2c1e31489e29c65745566af
 
 ...
