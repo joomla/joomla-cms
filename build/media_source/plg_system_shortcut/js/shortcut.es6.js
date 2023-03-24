@@ -102,14 +102,16 @@
 
     let dl = '<dl>';
     dlItems.forEach((titles, shortcut) => {
-      dl += '<dt><kbd>J</kbd>';
+      dl += '<div>';
+      dl += '<dt class="d-inline-block"><kbd>J</kbd>';
       shortcut.split('+').forEach((key) => {
-        dl += ` <kbd>${key.trim()}</kbd>`;
+        dl += ` ${Joomla.Text._('PLG_SYSTEM_SHORTCUT_THEN')} <kbd>${key.trim()}</kbd>`;
       });
       dl += '</dt>';
       titles.forEach((title) => {
-        dl += `<dd>${title}</dd>`;
+        dl += `<dd class="d-inline-block ms-1">${title}</dd>`;
       });
+      dl += '</div>';
     });
     dl += '</dl>';
 

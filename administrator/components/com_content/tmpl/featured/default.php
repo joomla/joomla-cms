@@ -76,7 +76,7 @@ $assoc = Associations::isEnabled();
             <div id="j-main-container" class="j-main-container">
                 <?php
                 // Search tools bar
-                echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+                echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
                 ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
@@ -375,10 +375,10 @@ $assoc = Associations::isEnabled();
                     <?php echo HTMLHelper::_(
                         'bootstrap.renderModal',
                         'stageModal',
-                        array(
+                        [
                             'title'  => Text::_('JTOOLBAR_CHANGE_STATUS'),
                             'footer' => $this->loadTemplate('stage_footer'),
-                        ),
+                        ],
                         $this->loadTemplate('stage_body')
                     ); ?>
 

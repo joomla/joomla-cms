@@ -13,6 +13,10 @@ namespace Joomla\CMS\Installation\Model;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Cleanup model for the Joomla Core Installer.
  *

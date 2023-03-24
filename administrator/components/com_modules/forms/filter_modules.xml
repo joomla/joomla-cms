@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Modules\Administrator\Field">
 	<field
 		name="client_id"
 		type="list"
 		label="JSITEADMIN"
 		filtermode="selector"
-		onchange="Joomla.resetFilters(this)"
+		class="js-select-reset-on-change"
 		validate="options"
 		>
 		<option value="0">JSITE</option>
@@ -26,7 +26,7 @@
 			type="status"
 			label="JSTATUS"
 			optionsFilter="*,-2,0,1"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
@@ -35,7 +35,7 @@
 			type="ModulesPosition"
 			label="COM_MODULES_FIELD_POSITION_LABEL"
 			client="site"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_MODULES_OPTION_SELECT_POSITION</option>
 		</field>
@@ -44,7 +44,7 @@
 			type="ModulesModule"
 			label="COM_MODULES_HEADING_MODULE"
 			client="site"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_MODULES_OPTION_SELECT_MODULE</option>
 		</field>
@@ -53,7 +53,7 @@
 			type="menuitem"
 			label="JGLOBAL_MENU_SELECTION"
 			disable="separator,alias,heading,url"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option	value="">COM_MODULES_OPTION_SELECT_MENU_ITEM</option>
 			<option	value="-1">COM_MODULES_NONE</option>
@@ -62,7 +62,7 @@
 			name="access"
 			type="accesslevel"
 			label="JGRID_HEADING_ACCESS"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
@@ -70,7 +70,7 @@
 			name="language"
 			type="contentlanguage"
 			label="JGRID_HEADING_LANGUAGE"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
@@ -82,7 +82,7 @@
 			type="list"
 			label="JGLOBAL_SORT_BY"
 			statuses="*,0,1,-2"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			default="a.position ASC"
 			validate="options"
 			>
@@ -111,7 +111,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 	</fields>
 </form>

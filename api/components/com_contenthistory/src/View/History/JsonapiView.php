@@ -12,6 +12,10 @@ namespace Joomla\Component\Contenthistory\Api\View\History;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The history view
  *

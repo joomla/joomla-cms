@@ -13,6 +13,10 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class for multilang
  *
@@ -32,8 +36,8 @@ class Multilanguage
      * Method to determine if the language filter plugin is enabled.
      * This works for both site and administrator.
      *
-     * @param   CMSApplication     $app  The application
-     * @param   DatabaseInterface  $db   The database
+     * @param   ?CMSApplication     $app  The application
+     * @param   ?DatabaseInterface  $db   The database
      *
      * @return  boolean  True if site is supporting multiple languages; false otherwise.
      *
@@ -76,7 +80,7 @@ class Multilanguage
             $db->setQuery($query);
 
             static::$enabled = (bool) $db->loadResult();
-            $tested = true;
+            $tested          = true;
         }
 
         return static::$enabled;
@@ -85,7 +89,7 @@ class Multilanguage
     /**
      * Method to return a list of language home page menu items.
      *
-     * @param   DatabaseInterface  $db  The database
+     * @param   ?DatabaseInterface  $db  The database
      *
      * @return  array of menu objects.
      *

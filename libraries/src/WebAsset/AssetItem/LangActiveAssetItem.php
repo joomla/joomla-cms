@@ -12,6 +12,10 @@ namespace Joomla\CMS\WebAsset\AssetItem;
 use Joomla\CMS\Factory;
 use Joomla\CMS\WebAsset\WebAssetItem;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Web Asset Item class for load asset file for active language.
  * Used in core templates.

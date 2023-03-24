@@ -16,6 +16,11 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\Database\DatabaseDriver;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Trait which supports state behavior
@@ -75,7 +80,14 @@ trait WorkflowBehaviorTrait
             $this->section = array_shift($parts);
         }
 
-        $this->workflow = new Workflow($extension);
+        if (method_exists($this, 'getDatabase')) {
+            $db = $this->getDatabase();
+        } else {
+            @trigger_error('In Joomla 6.0 will the getDatabase function be mandatory.', E_USER_DEPRECATED);
+            $db = Factory::getContainer()->get(DatabaseDriver::class);
+        }
+
+        $this->workflow = new Workflow($extension, Factory::getApplication(), $db);
 
         $params = ComponentHelper::getParams($this->extension);
 
@@ -165,7 +177,7 @@ trait WorkflowBehaviorTrait
     {
         // Regardless if workflow is active or not, we have to set the default stage
         // So we can work with the workflow, when the user activates it later
-        $id = $this->getState($this->getName() . '.id');
+        $id    = $this->getState($this->getName() . '.id');
         $isNew = $this->getState($this->getName() . '.new');
 
         // We save the first stage
@@ -326,7 +338,7 @@ trait WorkflowBehaviorTrait
 
         $field->addAttribute('name', 'transition');
         $field->addAttribute('type', $this->workflowEnabled ? 'transition' : 'hidden');
-        $field->addAttribute('label', 'COM_CONTENT_WORKFLOW');
+        $field->addAttribute('label', 'COM_CONTENT_WORKFLOW_STAGE');
         $field->addAttribute('extension', $extension);
 
         $form->setField($field);

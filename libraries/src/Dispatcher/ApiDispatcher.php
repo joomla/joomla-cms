@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Dispatcher;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * API Implementation for our dispatcher. It loads a component's administrator language files, and calls the API
  * Controller so that components that haven't implemented web services can add their own handling.
@@ -44,7 +48,7 @@ final class ApiDispatcher extends ComponentDispatcher
         $task = $this->input->getCmd('task', 'display');
 
         // Build controller config data
-        $config['option'] = $this->option;
+        $config = ['option' => $this->option];
 
         // Set name of controller if it is passed in the request
         if ($this->input->exists('controller')) {

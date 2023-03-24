@@ -15,6 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content Component Query Helper
  *
@@ -214,12 +218,12 @@ class QueryHelper
         if ($voting) {
             // Calculate voting count
             $select = ' , ROUND(v.rating_sum / v.rating_count) AS rating, v.rating_count';
-            $join = ' LEFT JOIN #__content_rating AS v ON a.id = v.content_id';
+            $join   = ' LEFT JOIN #__content_rating AS v ON a.id = v.content_id';
         } else {
             $select = '';
-            $join = '';
+            $join   = '';
         }
 
-        return array('select' => $select, 'join' => $join);
+        return ['select' => $select, 'join' => $join];
     }
 }

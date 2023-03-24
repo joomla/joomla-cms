@@ -44,6 +44,10 @@ use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
 use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Customised WebAuthn server object.
  *
@@ -176,11 +180,11 @@ final class Server extends \Webauthn\Server
         $this->coseAlgorithmManagerFactory->add('ES512', new ECDSA\ES512());
         $this->coseAlgorithmManagerFactory->add('Ed25519', new EdDSA\Ed25519());
 
-        $this->selectedAlgorithms = ['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512', 'Ed25519'];
+        $this->selectedAlgorithms                  = ['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512', 'Ed25519'];
         $this->publicKeyCredentialSourceRepository = $publicKeyCredentialSourceRepository;
-        $this->tokenBindingHandler = new TokenBindingNotSupportedHandler();
-        $this->extensionOutputCheckerHandler = new ExtensionOutputCheckerHandler();
-        $this->metadataStatementRepository = $metadataStatementRepository;
+        $this->tokenBindingHandler                 = new TokenBindingNotSupportedHandler();
+        $this->extensionOutputCheckerHandler       = new ExtensionOutputCheckerHandler();
+        $this->metadataStatementRepository         = $metadataStatementRepository;
     }
 
     /**
@@ -216,7 +220,7 @@ final class Server extends \Webauthn\Server
     {
         $this->coseAlgorithmManagerFactory->add($alias, $algorithm);
         $this->selectedAlgorithms[] = $alias;
-        $this->selectedAlgorithms = array_unique($this->selectedAlgorithms);
+        $this->selectedAlgorithms   = array_unique($this->selectedAlgorithms);
     }
 
     /**
@@ -272,7 +276,7 @@ final class Server extends \Webauthn\Server
         ?AuthenticatorSelectionCriteria $criteria = null,
         ?AuthenticationExtensionsClientInputs $extensions = null
     ): PublicKeyCredentialCreationOptions {
-        $coseAlgorithmManager = $this->coseAlgorithmManagerFactory->create($this->selectedAlgorithms);
+        $coseAlgorithmManager              = $this->coseAlgorithmManagerFactory->create($this->selectedAlgorithms);
         $publicKeyCredentialParametersList = [];
 
         foreach ($coseAlgorithmManager->all() as $algorithm) {
@@ -314,8 +318,8 @@ final class Server extends \Webauthn\Server
         ServerRequestInterface $serverRequest
     ): PublicKeyCredentialSource {
         $attestationStatementSupportManager = $this->getAttestationStatementSupportManager();
-        $attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager);
-        $publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader);
+        $attestationObjectLoader            = new AttestationObjectLoader($attestationStatementSupportManager);
+        $publicKeyCredentialLoader          = new PublicKeyCredentialLoader($attestationObjectLoader);
 
         $publicKeyCredential   = $publicKeyCredentialLoader->load($data);
         $authenticatorResponse = $publicKeyCredential->getResponse();
