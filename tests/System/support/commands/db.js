@@ -182,6 +182,6 @@ Cypress.Commands.add('db_createField', (field) => {
     params: '',
     fieldparams: '',
   };
-  
+
   return cy.task('queryDB', createInsertQuery('fields', { ...defaultFieldOptions, ...field })).then(async (info) => info.insertId);
 });

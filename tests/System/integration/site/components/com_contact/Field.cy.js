@@ -7,12 +7,10 @@ describe('Test that the Contact Field', () => {
         });
       });
     cy.db_getUserId().then((id) => cy.db_createContact({ name: 'automated test contact 1', user_id: id }))
-      .then((contactId) => {
-        cy.visit(`index.php?option=com_contact&view=contact&id='${contactId}'`);
+      .then((contactId) => cy.visit(`index.php?option=com_contact&view=contact&id='${contactId}'`));
 
-        cy.contains('automated test field group');
-        cy.get(':nth-child(2) > .control-group > .control-label').contains('test field');
-        cy.get('#jform_com_fields_test_field').contains('Facebook');
-      });
+    cy.contains('automated test field group');
+    cy.get(':nth-child(2) > .control-group > .control-label').contains('test field');
+    cy.get('#jform_com_fields_test_field').contains('Facebook');
   });
 });
