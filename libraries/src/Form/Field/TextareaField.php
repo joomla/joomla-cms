@@ -176,10 +176,10 @@ class TextareaField extends FormField
         $data = parent::getLayoutData();
 
         $extraData = [
-            'maxlength'    => $this->maxlength,
-            'rows'         => $this->rows,
-            'columns'      => $this->columns,
-            'charcounter'  => $this->charcounter,
+            'maxlength'   => $this->maxlength,
+            'rows'        => $this->rows,
+            'columns'     => $this->columns,
+            'charcounter' => $this->charcounter,
         ];
 
         return array_merge($data, $extraData);
