@@ -210,7 +210,7 @@ class AdministratorApplication extends CMSApplication
      *
      * @param   boolean  $params  True to return the template parameters
      *
-     * @return  string  The name of the template.
+     * @return  string|\stdClass  The name of the template if the params argument is false. The template object if the params argument is true.
      *
      * @since   3.2
      * @throws  \InvalidArgumentException
@@ -230,7 +230,7 @@ class AdministratorApplication extends CMSApplication
             ->createModel('Style', 'Administrator')->getAdminTemplate($adminStyle);
 
         $template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
-        $template->params = new Registry($template->params);
+        $template->params   = new Registry($template->params);
 
         // Fallback template
         if (
@@ -238,7 +238,7 @@ class AdministratorApplication extends CMSApplication
             && !is_file(JPATH_THEMES . '/' . $template->parent . '/index.php')
         ) {
             $this->getLogger()->error(Text::_('JERROR_ALERTNOTEMPLATE'), ['category' => 'system']);
-            $template->params = new Registry();
+            $template->params   = new Registry();
             $template->template = 'atum';
 
             // Check, the data were found and if template really exists
@@ -276,7 +276,7 @@ class AdministratorApplication extends CMSApplication
         // If the user is a guest we populate it with the guest user group.
         if ($user->guest) {
             $guestUsergroup = ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
-            $user->groups = [$guestUsergroup];
+            $user->groups   = [$guestUsergroup];
         }
 
         // If a language was specified it has priority, otherwise use user or default language settings
@@ -287,7 +287,7 @@ class AdministratorApplication extends CMSApplication
             if ($lang && LanguageHelper::exists($lang)) {
                 $options['language'] = $lang;
             } else {
-                $params = ComponentHelper::getParams('com_languages');
+                $params              = ComponentHelper::getParams('com_languages');
                 $options['language'] = $params->get('administrator', $this->get('language', 'en-GB'));
             }
         }
@@ -457,7 +457,7 @@ class AdministratorApplication extends CMSApplication
     {
         /** @var self $app */
         $app    = Factory::getApplication();
-        $option = strtolower($app->input->get('option', ''));
+        $option = strtolower($app->getInput()->get('option', ''));
         $user   = $app->getIdentity();
 
         /**
@@ -484,7 +484,7 @@ class AdministratorApplication extends CMSApplication
          * Force the option to the input object. This is necessary because we might have force-changed the component in
          * the two if-blocks above.
          */
-        $app->input->set('option', $option);
+        $app->getInput()->set('option', $option);
 
         return $option;
     }

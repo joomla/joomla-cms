@@ -71,11 +71,11 @@ class LanguageHelper
     {
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             $browserLangs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-            $systemLangs = self::getLanguages();
+            $systemLangs  = self::getLanguages();
 
             foreach ($browserLangs as $browserLang) {
                 // Slice out the part before ; on first step, the part before - on second, place into array
-                $browserLang = substr($browserLang, 0, strcspn($browserLang, ';'));
+                $browserLang         = substr($browserLang, 0, strcspn($browserLang, ';'));
                 $primary_browserLang = substr($browserLang, 0, 2);
 
                 foreach ($systemLangs as $systemLang) {
@@ -109,18 +109,18 @@ class LanguageHelper
      */
     public static function getLanguages($key = 'default')
     {
-        static $languages;
+        static $languages = [];
 
-        if (empty($languages)) {
+        if (!count($languages)) {
             // Installation uses available languages
             if (Factory::getApplication()->isClient('installation')) {
                 $languages[$key] = [];
-                $knownLangs = self::getKnownLanguages(JPATH_BASE);
+                $knownLangs      = self::getKnownLanguages(JPATH_BASE);
 
                 foreach ($knownLangs as $metadata) {
                     // Take off 3 letters iso code languages as they can't match browsers' languages and default them to en
-                    $obj = new \stdClass();
-                    $obj->lang_code = $metadata['tag'];
+                    $obj               = new \stdClass();
+                    $obj->lang_code    = $metadata['tag'];
                     $languages[$key][] = $obj;
                 }
             } else {
@@ -131,7 +131,7 @@ class LanguageHelper
                 if ($cache->contains('languages')) {
                     $languages = $cache->get('languages');
                 } else {
-                    $db = Factory::getDbo();
+                    $db    = Factory::getDbo();
                     $query = $db->getQuery(true)
                         ->select('*')
                         ->from($db->quoteName('#__languages'))
@@ -139,13 +139,13 @@ class LanguageHelper
                         ->order($db->quoteName('ordering') . ' ASC');
                     $db->setQuery($query);
 
-                    $languages['default'] = $db->loadObjectList();
-                    $languages['sef'] = [];
+                    $languages['default']   = $db->loadObjectList();
+                    $languages['sef']       = [];
                     $languages['lang_code'] = [];
 
                     if (isset($languages['default'][0])) {
                         foreach ($languages['default'] as $lang) {
-                            $languages['sef'][$lang->sef] = $lang;
+                            $languages['sef'][$lang->sef]             = $lang;
                             $languages['lang_code'][$lang->lang_code] = $lang;
                         }
                     }
@@ -415,12 +415,12 @@ class LanguageHelper
 
         // This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
         // issue it is solving
-        $disabledFunctions = explode(',', ini_get('disable_functions'));
+        $disabledFunctions      = explode(',', ini_get('disable_functions'));
         $isParseIniFileDisabled = \in_array('parse_ini_file', array_map('trim', $disabledFunctions));
 
         if (!\function_exists('parse_ini_file') || $isParseIniFileDisabled) {
             $contents = file_get_contents($fileName);
-            $strings = @parse_ini_string($contents);
+            $strings  = @parse_ini_string($contents);
         } else {
             $strings = @parse_ini_file($fileName);
         }

@@ -76,6 +76,7 @@ class JNamespacePsr4Map
         $extensions = array_merge(
             $this->getNamespaces('component'),
             $this->getNamespaces('module'),
+            $this->getNamespaces('template'),
             $this->getNamespaces('plugin'),
             $this->getNamespaces('library')
         );
@@ -231,7 +232,13 @@ class JNamespacePsr4Map
 
             // Add the application specific segment when a component or module
             $baseDir    = $isAdministrator ? 'JPATH_ADMINISTRATOR . \'' : 'JPATH_SITE . \'';
+            $realPath   = ($isAdministrator ? JPATH_ADMINISTRATOR : JPATH_SITE) . $path;
             $namespace .= $isAdministrator ? 'Administrator\\\\' : 'Site\\\\';
+
+            // Validate if the directory exists
+            if (!is_dir($realPath)) {
+                continue;
+            }
 
             // Set the namespace
             $extensions[$namespace] = $baseDir . $path . '\'';
@@ -248,7 +255,7 @@ class JNamespacePsr4Map
      *
      * @return  array
      *
-     * @since   4.2.7
+     * @since   4.3.0
      */
     private function getExtensions(string $type): array
     {
@@ -272,6 +279,8 @@ class JNamespacePsr4Map
             $directories = [JPATH_ADMINISTRATOR . '/components'];
         } elseif ($type === 'module') {
             $directories = [JPATH_SITE . '/modules', JPATH_ADMINISTRATOR . '/modules'];
+        } elseif ($type === 'template') {
+            $directories = [JPATH_SITE . '/templates', JPATH_ADMINISTRATOR . '/templates'];
         } else {
             try {
                 $directories = Folder::folders(JPATH_PLUGINS, '.', false, true);
@@ -298,6 +307,9 @@ class JNamespacePsr4Map
                     if (!is_file($file)) {
                         $file = $extensionPath . '/' . $extension . '.xml';
                     }
+                } elseif ($type === 'template') {
+                    // Template manifestfiles have a fix filename
+                    $file = $extensionPath . '/templateDetails.xml';
                 } else {
                     $file = $extensionPath . '/' . $extension . '.xml';
                 }

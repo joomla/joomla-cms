@@ -52,7 +52,7 @@ abstract class Folder
         }
 
         // Eliminate trailing directory separators, if any
-        $src = rtrim($src, DIRECTORY_SEPARATOR);
+        $src  = rtrim($src, DIRECTORY_SEPARATOR);
         $dest = rtrim($dest, DIRECTORY_SEPARATOR);
 
         if (!self::exists($src)) {
@@ -162,7 +162,7 @@ abstract class Folder
      */
     public static function create($path = '', $mode = 0755)
     {
-        $FTPOptions = ClientHelper::getCredentials('ftp');
+        $FTPOptions    = ClientHelper::getCredentials('ftp');
         static $nested = 0;
 
         // Check to make sure the path valid and clean
@@ -206,7 +206,7 @@ abstract class Folder
 
             // Translate path to FTP path
             $path = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
-            $ret = $ftp->mkdir($path);
+            $ret  = $ftp->mkdir($path);
             $ftp->chmod($path, $mode);
         } else {
             // We need to get and explode the open_basedir paths
@@ -221,7 +221,7 @@ abstract class Folder
                 }
 
                 // Create the array of open_basedir paths
-                $obdArray = explode($obdSeparator, $obd);
+                $obdArray  = explode($obdSeparator, $obd);
                 $inBaseDir = false;
 
                 // Iterate through open_basedir paths looking for a match
@@ -363,7 +363,7 @@ abstract class Folder
         $FTPOptions = ClientHelper::getCredentials('ftp');
 
         if ($path) {
-            $src = Path::clean($path . '/' . $src);
+            $src  = Path::clean($path . '/' . $src);
             $dest = Path::clean($path . '/' . $dest);
         }
 
@@ -389,7 +389,7 @@ abstract class Folder
                 $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
 
                 // Translate path for the FTP account
-                $src = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
+                $src  = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
                 $dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
                 // Use FTP rename to simulate move
@@ -617,17 +617,17 @@ abstract class Folder
 
             // First path, index foldernames
             foreach ($folders as $name) {
-                $id = ++$GLOBALS['_JFolder_folder_tree_index'];
+                $id       = ++$GLOBALS['_JFolder_folder_tree_index'];
                 $fullName = Path::clean($path . '/' . $name);
-                $dirs[] = [
-                    'id' => $id,
-                    'parent' => $parent,
-                    'name' => $name,
+                $dirs[]   = [
+                    'id'       => $id,
+                    'parent'   => $parent,
+                    'name'     => $name,
                     'fullname' => $fullName,
-                    'relname' => str_replace(JPATH_ROOT, '', $fullName),
+                    'relname'  => str_replace(JPATH_ROOT, '', $fullName),
                 ];
                 $dirs2 = self::listFolderTree($fullName, $filter, $maxLevel, $level + 1, $id);
-                $dirs = array_merge($dirs, $dirs2);
+                $dirs  = array_merge($dirs, $dirs2);
             }
         }
 
