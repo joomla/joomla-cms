@@ -27,7 +27,7 @@ $action  = $this->escape($button->get('action', ''));
 $options = (array) $button->get('options');
 
 // Correct the link
-if ($link) {
+if ($link && $link[0] !== '#') {
     $link = str_contains($link, '&amp;') ? htmlspecialchars_decode($link) : $link;
     $link = Uri::base(true) . '/' . $link;
     $options['src'] = $link;
