@@ -60,11 +60,11 @@ final class Fields extends CMSPlugin
             $context = $jinput->get('extension', 'com_content') . '.categories';
         }
 
-        $link = 'index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;tmpl=component&amp;context='
-            . $context . '&amp;editor=' . $name . '&amp;' . Session::getFormToken() . '=1';
+        $link = 'index.php?option=com_fields&view=fields&layout=modal&tmpl=component&context='
+            . $context . '&editor=' . $name . '&' . Session::getFormToken() . '=1';
 
         $button          = new CMSObject();
-        $button->modal   = true;
+        $button->action  = 'modal';
         $button->link    = $link;
         $button->text    = Text::_('PLG_EDITORS-XTD_FIELDS_BUTTON_FIELD');
         $button->name    = $this->_type . '_' . $this->_name;
@@ -76,12 +76,6 @@ final class Fields extends CMSPlugin
                             . '.788 19.216 61.788 54.717 0 39.735-36.288 50.158-36.288 85.985 0 60.803 129.675 25.73 181.23 25.73 0 0-34.725-120.1'
                             . '01 25.827-120.101 35.962 0 46.423 36.152 86.308 36.152C556.712 416 576 387.99 576 354.443c0-34.199-18.962-65.792-56'
                             . '.558-65.792z"></path></svg>';
-        $button->options = [
-            'height'     => '300px',
-            'width'      => '800px',
-            'bodyHeight' => '70',
-            'modalWidth' => '80',
-        ];
 
         return $button;
     }

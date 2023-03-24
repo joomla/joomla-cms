@@ -33,8 +33,10 @@ if ($link) {
     $options['src'] = $link;
 }
 
-// Set action to modal for legacy buttons, when possible
-if (!$action && empty($options['confirmCallback'])) {
+// Set action to "modal" for legacy buttons, when possible
+$legacyModal = $button->get('modal') && !empty($options['confirmCallback']);
+
+if (!$action && $button->get('modal') && !$legacyModal) {
     $action = 'modal';
 
     // Backward compatibility check, for older options
@@ -60,7 +62,7 @@ $optStr = $options && $action ? $this->escape(json_encode($options)) : '';
 ?>
 <button type="button" data-joomla-editor-button-action="<?php echo $action; ?>" data-joomla-editor-button-options="<?php echo $optStr; ?>"
     class="xtd-button btn btn-secondary <?php echo $class; ?>" title="<?php echo $title; ?>" <?php echo $onclick; ?>
-    <?php echo !$action && $button->get('modal') ? 'data-bs-toggle="modal" data-bs-target="' . $href . '"' : '' ?>>
+    <?php echo $legacyModal ? 'data-bs-toggle="modal" data-bs-target="' . $href . '"' : '' ?>>
     <?php if ($icon): ?>
     <span class="icon-<?php echo $icon; ?>" aria-hidden="true"></span>
     <?php endif; ?>
