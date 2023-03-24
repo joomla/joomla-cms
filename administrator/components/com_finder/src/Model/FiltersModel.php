@@ -14,6 +14,10 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Filters model class for Finder.
  *
@@ -30,17 +34,17 @@ class FiltersModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.7
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'filter_id', 'a.filter_id',
                 'title', 'a.title',
                 'state', 'a.state',
                 'created_by_alias', 'a.created_by_alias',
                 'created', 'a.created',
                 'map_count', 'a.map_count'
-            );
+            ];
         }
 
         parent::__construct($config, $factory);

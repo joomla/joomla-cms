@@ -20,6 +20,10 @@ use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Class for the Joomla Platform.
  *
@@ -344,7 +348,7 @@ class Form
                 // Only create it if it doesn't already exist.
                 if (empty($fieldsets[(string) $set['name']])) {
                     // Build the fieldset object.
-                    $fieldset = (object) array('name' => '', 'label' => '', 'description' => '');
+                    $fieldset = (object) ['name' => '', 'label' => '', 'description' => ''];
 
                     foreach ($set->attributes() as $name => $value) {
                         $fieldset->$name = (string) $value;
@@ -362,10 +366,10 @@ class Form
 
                     // If no element was found, build a very simple fieldset object.
                     if (empty($tmp)) {
-                        $fieldset = (object) array('name' => (string) $set, 'label' => '', 'description' => '');
+                        $fieldset = (object) ['name' => (string) $set, 'label' => '', 'description' => ''];
                     } else {
                         // Build the fieldset object from the element.
-                        $fieldset = (object) array('name' => '', 'label' => '', 'description' => '');
+                        $fieldset = (object) ['name' => '', 'label' => '', 'description' => ''];
 
                         foreach ($tmp[0]->attributes() as $name => $value) {
                             $fieldset->$name = (string) $value;
@@ -1334,7 +1338,7 @@ class Form
 
                             // If the field is in the specific group then add it to the return list.
                             if ($names == (array) $groupNames) {
-                                $fields = array_merge($fields, array($field));
+                                $fields = array_merge($fields, [$field]);
                             }
                         }
                     }

@@ -18,6 +18,10 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of newsfeed records.
  *
@@ -34,10 +38,10 @@ class NewsfeedsModel extends ListModel
      * @see    \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
                 'alias', 'a.alias',
@@ -57,7 +61,7 @@ class NewsfeedsModel extends ListModel
                 'tag',
                 'level', 'c.level',
                 'tag',
-            );
+            ];
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';

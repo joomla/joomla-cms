@@ -327,7 +327,7 @@
 			label="COM_USERS_CONFIG_REDIRECTURL_LABEL"
 			description="COM_USERS_CONFIG_REDIRECTURL_DESC"
 			default=""
-			showon="redirectonlogin:1"
+			showon="mfaredirectonlogin:1"
 		/>
 	</fieldset>
 

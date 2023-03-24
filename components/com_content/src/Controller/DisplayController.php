@@ -16,6 +16,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content Component Controller
  *
@@ -33,7 +37,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
      *
      * @since   3.0.1
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         $this->input = Factory::getApplication()->input;
 
@@ -81,7 +85,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
             $cachable = false;
         }
 
-        $safeurlparams = array(
+        $safeurlparams = [
             'catid' => 'INT',
             'id' => 'INT',
             'cid' => 'ARRAY',
@@ -97,7 +101,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
             'filter-search' => 'STRING',
             'print' => 'BOOLEAN',
             'lang' => 'CMD',
-            'Itemid' => 'INT');
+            'Itemid' => 'INT'];
 
         // Check for edit form.
         if ($vName === 'form' && !$this->checkEditId('com_content.edit.article', $id)) {

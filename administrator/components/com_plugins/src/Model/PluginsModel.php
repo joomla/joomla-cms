@@ -18,6 +18,10 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of plugin records.
  *
@@ -34,10 +38,10 @@ class PluginsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'extension_id', 'a.extension_id',
                 'name', 'a.name',
                 'folder', 'a.folder',
@@ -49,7 +53,7 @@ class PluginsModel extends ListModel
                 'access', 'a.access', 'access_level',
                 'ordering', 'a.ordering',
                 'client_id', 'a.client_id',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);

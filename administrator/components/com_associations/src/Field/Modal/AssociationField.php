@@ -16,6 +16,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Supports a modal item picker.
  *
@@ -51,7 +55,7 @@ class AssociationField extends FormField
         $wa->useScript('com_associations.admin-associations-modal');
 
         // Setup variables for display.
-        $html = array();
+        $html = [];
 
         $linkAssociations = 'index.php?option=com_associations&amp;view=associations&amp;layout=modal&amp;tmpl=component'
             . '&amp;forcedItemType=' . Factory::getApplication()->input->get('itemtype', '', 'string') . '&amp;function=jSelectAssociation_' . $this->id;
@@ -88,7 +92,7 @@ class AssociationField extends FormField
         $html[] = HTMLHelper::_(
             'bootstrap.renderModal',
             'associationSelect' . $this->id . 'Modal',
-            array(
+            [
                 'title'       => Text::_('COM_ASSOCIATIONS_SELECT_TARGET'),
                 'backdrop'    => 'static',
                 'url'         => $urlSelect,
@@ -98,7 +102,7 @@ class AssociationField extends FormField
                 'modalWidth'  => 80,
                 'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
                         . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
-            )
+            ]
         );
 
         return implode("\n", $html);

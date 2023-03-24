@@ -16,6 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * RssRenderer is a feed that implements RSS 2.0 Specification
  *
@@ -60,7 +64,7 @@ class RssRenderer extends DocumentRenderer
             $data->lastBuildDate->setTimezone(new \DateTimeZone($app->get('offset')));
         }
 
-        $url = Uri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+        $url = Uri::getInstance()->toString(['scheme', 'user', 'pass', 'host', 'port']);
         $syndicationURL = Route::_('&format=feed&type=rss');
 
         $title = $data->getTitle();

@@ -22,6 +22,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Modules\Administrator\Controller\ModuleController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Component Controller
  *
@@ -39,7 +43,7 @@ class ModulesController extends BaseController
      *
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -126,7 +130,7 @@ class ModulesController extends BaseController
         // Check the return value.
         if ($return === false) {
             // Save the data in the session.
-            $data = $this->input->post->get('jform', array(), 'array');
+            $data = $this->input->post->get('jform', [], 'array');
 
             $this->app->setUserState('com_config.modules.global.data', $data);
 
@@ -136,7 +140,7 @@ class ModulesController extends BaseController
         }
 
         // Redirect back to com_config display
-        $this->app->enqueueMessage(Text::_('COM_CONFIG_MODULES_SAVE_SUCCESS'));
+        $this->app->enqueueMessage(Text::_('COM_CONFIG_MODULES_SAVE_SUCCESS'), 'success');
 
         // Set the redirect based on the task.
         switch ($this->input->getCmd('task')) {

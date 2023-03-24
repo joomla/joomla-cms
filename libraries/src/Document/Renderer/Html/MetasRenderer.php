@@ -16,6 +16,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\WebAsset\WebAssetAttachBehaviorInterface;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * JDocument metas renderer
  *
@@ -34,7 +38,7 @@ class MetasRenderer extends DocumentRenderer
      *
      * @since   4.0.0
      */
-    public function render($head, $params = array(), $content = null)
+    public function render($head, $params = [], $content = null)
     {
         // Convert the tagids to titles
         if (isset($this->_doc->_metaTags['name']['tags'])) {

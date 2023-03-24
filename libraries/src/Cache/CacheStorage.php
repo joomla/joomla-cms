@@ -22,365 +22,373 @@ use Joomla\CMS\Filesystem\Path;
  */
 class CacheStorage
 {
-	/**
-	 * The raw object name
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	protected $rawname;
+    /**
+     * The raw object name
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $rawname;
 
-	/**
-	 * Time that the cache storage handler was instantiated
-	 *
-	 * @var    integer
-	 * @since  1.7.0
-	 */
-	public $_now;
+    /**
+     * Time that the cache storage handler was instantiated
+     *
+     * @var    integer
+     * @since  1.7.0
+     */
+    public $_now;
 
-	/**
-	 * Cache lifetime
-	 *
-	 * @var    integer
-	 * @since  1.7.0
-	 */
-	public $_lifetime;
+    /**
+     * Cache lifetime
+     *
+     * @var    integer
+     * @since  1.7.0
+     */
+    public $_lifetime;
 
-	/**
-	 * Flag if locking is enabled
-	 *
-	 * @var    boolean
-	 * @since  1.7.0
-	 */
-	public $_locking;
+    /**
+     * Flag if locking is enabled
+     *
+     * @var    boolean
+     * @since  1.7.0
+     */
+    public $_locking;
 
-	/**
-	 * Language code
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	public $_language;
+    /**
+     * Language code
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    public $_language;
 
-	/**
-	 * Application name
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	public $_application;
+    /**
+     * Application name
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    public $_application;
 
-	/**
-	 * Object hash
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	public $_hash;
+    /**
+     * Object hash
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    public $_hash;
 
-	/**
-	 * Constructor
-	 *
-	 * @param   array  $options  Optional parameters
-	 *
-	 * @since   1.7.0
-	 */
-	public function __construct($options = array())
-	{
-		$app = Factory::getApplication();
+    /**
+     * The threshold
+     *
+     * @var    integer
+     * @since  4.2.7
+     */
+    public $_threshold;
 
-		$this->_hash        = md5($app->get('secret'));
-		$this->_application = $options['application'] ?? md5(JPATH_CONFIGURATION);
-		$this->_language    = $options['language'] ?? 'en-GB';
-		$this->_locking     = $options['locking'] ?? true;
-		$this->_lifetime    = ($options['lifetime'] ?? $app->get('cachetime')) * 60;
-		$this->_now         = $options['now'] ?? time();
+    /**
+     * Constructor
+     *
+     * @param   array  $options  Optional parameters
+     *
+     * @since   1.7.0
+     */
+    public function __construct($options = [])
+    {
+        $app = Factory::getApplication();
 
-		// Set time threshold value.  If the lifetime is not set, default to 60 (0 is BAD)
-		// _threshold is now available ONLY as a legacy (it's deprecated).  It's no longer used in the core.
-		if (empty($this->_lifetime))
-		{
-			$this->_threshold = $this->_now - 60;
-			$this->_lifetime = 60;
-		}
-		else
-		{
-			$this->_threshold = $this->_now - $this->_lifetime;
-		}
-	}
+        $this->_hash        = md5($app->get('secret', ''));
+        $this->_application = $options['application'] ?? md5(JPATH_CONFIGURATION);
+        $this->_language    = $options['language'] ?? 'en-GB';
+        $this->_locking     = $options['locking'] ?? true;
+        $this->_lifetime    = ($options['lifetime'] ?? $app->get('cachetime')) * 60;
+        $this->_now         = $options['now'] ?? time();
 
-	/**
-	 * Returns a cache storage handler object.
-	 *
-	 * @param   string  $handler  The cache storage handler to instantiate
-	 * @param   array   $options  Array of handler options
-	 *
-	 * @return  CacheStorage
-	 *
-	 * @since   1.7.0
-	 * @throws  \UnexpectedValueException
-	 * @throws  UnsupportedCacheException
-	 */
-	public static function getInstance($handler = null, $options = array())
-	{
-		static $now = null;
+        // Set time threshold value.  If the lifetime is not set, default to 60 (0 is BAD)
+        // _threshold is now available ONLY as a legacy (it's deprecated).  It's no longer used in the core.
+        if (empty($this->_lifetime))
+        {
+            $this->_threshold = $this->_now - 60;
+            $this->_lifetime = 60;
+        }
+        else
+        {
+            $this->_threshold = $this->_now - $this->_lifetime;
+        }
+    }
 
-		if (!isset($handler))
-		{
-			$handler = Factory::getApplication()->get('cache_handler');
+    /**
+     * Returns a cache storage handler object.
+     *
+     * @param   string  $handler  The cache storage handler to instantiate
+     * @param   array   $options  Array of handler options
+     *
+     * @return  CacheStorage
+     *
+     * @since   1.7.0
+     * @throws  \UnexpectedValueException
+     * @throws  UnsupportedCacheException
+     */
+    public static function getInstance($handler = null, $options = [])
+    {
+        static $now = null;
 
-			if (empty($handler))
-			{
-				throw new \UnexpectedValueException('Cache Storage Handler not set.');
-			}
-		}
+        if (!isset($handler))
+        {
+            $handler = Factory::getApplication()->get('cache_handler');
 
-		if (\is_null($now))
-		{
-			$now = time();
-		}
+            if (empty($handler))
+            {
+                throw new \UnexpectedValueException('Cache Storage Handler not set.');
+            }
+        }
 
-		$options['now'] = $now;
+        if (\is_null($now))
+        {
+            $now = time();
+        }
 
-		// We can't cache this since options may change...
-		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
+        $options['now'] = $now;
 
-		/** @var CacheStorage $class */
-		$class = __NAMESPACE__ . '\\Storage\\' . ucfirst($handler) . 'Storage';
+        // We can't cache this since options may change...
+        $handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
 
-		if (!class_exists($class))
-		{
-			$class = 'JCacheStorage' . ucfirst($handler);
-		}
+        /** @var CacheStorage $class */
+        $class = __NAMESPACE__ . '\\Storage\\' . ucfirst($handler) . 'Storage';
 
-		if (!class_exists($class))
-		{
-			// Search for the class file in the JCacheStorage include paths.
-			$path = Path::find(self::addIncludePath(), strtolower($handler) . '.php');
+        if (!class_exists($class))
+        {
+            $class = 'JCacheStorage' . ucfirst($handler);
+        }
 
-			if ($path === false)
-			{
-				throw new UnsupportedCacheException(sprintf('Unable to load Cache Storage: %s', $handler));
-			}
+        if (!class_exists($class))
+        {
+            // Search for the class file in the JCacheStorage include paths.
+            $path = Path::find(self::addIncludePath(), strtolower($handler) . '.php');
 
-			\JLoader::register($class, $path);
+            if ($path === false)
+            {
+                throw new UnsupportedCacheException(sprintf('Unable to load Cache Storage: %s', $handler));
+            }
 
-			// The class should now be loaded
-			if (!class_exists($class))
-			{
-				throw new UnsupportedCacheException(sprintf('Unable to load Cache Storage: %s', $handler));
-			}
-		}
+            \JLoader::register($class, $path);
 
-		// Validate the cache storage is supported on this platform
-		if (!$class::isSupported())
-		{
-			throw new UnsupportedCacheException(sprintf('The %s Cache Storage is not supported on this platform.', $handler));
-		}
+            // The class should now be loaded
+            if (!class_exists($class))
+            {
+                throw new UnsupportedCacheException(sprintf('Unable to load Cache Storage: %s', $handler));
+            }
+        }
 
-		return new $class($options);
-	}
+        // Validate the cache storage is supported on this platform
+        if (!$class::isSupported())
+        {
+            throw new UnsupportedCacheException(sprintf('The %s Cache Storage is not supported on this platform.', $handler));
+        }
 
-	/**
-	 * Check if the cache contains data stored by ID and group
-	 *
-	 * @param   string  $id     The cache data ID
-	 * @param   string  $group  The cache data group
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.7.0
-	 */
-	public function contains($id, $group)
-	{
-		return false;
-	}
+        return new $class($options);
+    }
 
-	/**
-	 * Get cached data by ID and group
-	 *
-	 * @param   string   $id         The cache data ID
-	 * @param   string   $group      The cache data group
-	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
-	 *
-	 * @return  mixed  Boolean false on failure or a cached data object
-	 *
-	 * @since   1.7.0
-	 */
-	public function get($id, $group, $checkTime = true)
-	{
-		return false;
-	}
+    /**
+     * Check if the cache contains data stored by ID and group
+     *
+     * @param   string  $id     The cache data ID
+     * @param   string  $group  The cache data group
+     *
+     * @return  boolean
+     *
+     * @since   3.7.0
+     */
+    public function contains($id, $group)
+    {
+        return false;
+    }
 
-	/**
-	 * Get all cached data
-	 *
-	 * @return  mixed  Boolean false on failure or a cached data object
-	 *
-	 * @since   1.7.0
-	 */
-	public function getAll()
-	{
-		return false;
-	}
+    /**
+     * Get cached data by ID and group
+     *
+     * @param   string   $id         The cache data ID
+     * @param   string   $group      The cache data group
+     * @param   boolean  $checkTime  True to verify cache time expiration threshold
+     *
+     * @return  mixed  Boolean false on failure or a cached data object
+     *
+     * @since   1.7.0
+     */
+    public function get($id, $group, $checkTime = true)
+    {
+        return false;
+    }
 
-	/**
-	 * Store the data to cache by ID and group
-	 *
-	 * @param   string  $id     The cache data ID
-	 * @param   string  $group  The cache data group
-	 * @param   string  $data   The data to store in cache
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.7.0
-	 */
-	public function store($id, $group, $data)
-	{
-		return true;
-	}
+    /**
+     * Get all cached data
+     *
+     * @return  mixed  Boolean false on failure or a cached data object
+     *
+     * @since   1.7.0
+     */
+    public function getAll()
+    {
+        return false;
+    }
 
-	/**
-	 * Remove a cached data entry by ID and group
-	 *
-	 * @param   string  $id     The cache data ID
-	 * @param   string  $group  The cache data group
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.7.0
-	 */
-	public function remove($id, $group)
-	{
-		return true;
-	}
+    /**
+     * Store the data to cache by ID and group
+     *
+     * @param   string  $id     The cache data ID
+     * @param   string  $group  The cache data group
+     * @param   string  $data   The data to store in cache
+     *
+     * @return  boolean
+     *
+     * @since   1.7.0
+     */
+    public function store($id, $group, $data)
+    {
+        return true;
+    }
 
-	/**
-	 * Clean cache for a group given a mode.
-	 *
-	 * group mode    : cleans all cache in the group
-	 * notgroup mode : cleans all cache not in the group
-	 *
-	 * @param   string  $group  The cache data group
-	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.7.0
-	 */
-	public function clean($group, $mode = null)
-	{
-		return true;
-	}
+    /**
+     * Remove a cached data entry by ID and group
+     *
+     * @param   string  $id     The cache data ID
+     * @param   string  $group  The cache data group
+     *
+     * @return  boolean
+     *
+     * @since   1.7.0
+     */
+    public function remove($id, $group)
+    {
+        return true;
+    }
 
-	/**
-	 * Flush all existing items in storage.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.6.3
-	 */
-	public function flush()
-	{
-		return true;
-	}
+    /**
+     * Clean cache for a group given a mode.
+     *
+     * group mode    : cleans all cache in the group
+     * notgroup mode : cleans all cache not in the group
+     *
+     * @param   string  $group  The cache data group
+     * @param   string  $mode   The mode for cleaning cache [group|notgroup]
+     *
+     * @return  boolean
+     *
+     * @since   1.7.0
+     */
+    public function clean($group, $mode = null)
+    {
+        return true;
+    }
 
-	/**
-	 * Garbage collect expired cache data
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.7.0
-	 */
-	public function gc()
-	{
-		return true;
-	}
+    /**
+     * Flush all existing items in storage.
+     *
+     * @return  boolean
+     *
+     * @since   3.6.3
+     */
+    public function flush()
+    {
+        return true;
+    }
 
-	/**
-	 * Test to see if the storage handler is available.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.0.0
-	 */
-	public static function isSupported()
-	{
-		return true;
-	}
+    /**
+     * Garbage collect expired cache data
+     *
+     * @return  boolean
+     *
+     * @since   1.7.0
+     */
+    public function gc()
+    {
+        return true;
+    }
 
-	/**
-	 * Lock cached item
-	 *
-	 * @param   string   $id        The cache data ID
-	 * @param   string   $group     The cache data group
-	 * @param   integer  $locktime  Cached item max lock time
-	 *
-	 * @return  mixed  Boolean false if locking failed or an object containing properties lock and locklooped
-	 *
-	 * @since   1.7.0
-	 */
-	public function lock($id, $group, $locktime)
-	{
-		return false;
-	}
+    /**
+     * Test to see if the storage handler is available.
+     *
+     * @return  boolean
+     *
+     * @since   3.0.0
+     */
+    public static function isSupported()
+    {
+        return true;
+    }
 
-	/**
-	 * Unlock cached item
-	 *
-	 * @param   string  $id     The cache data ID
-	 * @param   string  $group  The cache data group
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.7.0
-	 */
-	public function unlock($id, $group = null)
-	{
-		return false;
-	}
+    /**
+     * Lock cached item
+     *
+     * @param   string   $id        The cache data ID
+     * @param   string   $group     The cache data group
+     * @param   integer  $locktime  Cached item max lock time
+     *
+     * @return  mixed  Boolean false if locking failed or an object containing properties lock and locklooped
+     *
+     * @since   1.7.0
+     */
+    public function lock($id, $group, $locktime)
+    {
+        return false;
+    }
 
-	/**
-	 * Get a cache ID string from an ID/group pair
-	 *
-	 * @param   string  $id     The cache data ID
-	 * @param   string  $group  The cache data group
-	 *
-	 * @return  string
-	 *
-	 * @since   1.7.0
-	 */
-	protected function _getCacheId($id, $group)
-	{
-		$name          = md5($this->_application . '-' . $id . '-' . $this->_language);
-		$this->rawname = $this->_hash . '-' . $name;
+    /**
+     * Unlock cached item
+     *
+     * @param   string  $id     The cache data ID
+     * @param   string  $group  The cache data group
+     *
+     * @return  boolean
+     *
+     * @since   1.7.0
+     */
+    public function unlock($id, $group = null)
+    {
+        return false;
+    }
 
-		return Cache::getPlatformPrefix() . $this->_hash . '-cache-' . $group . '-' . $name;
-	}
+    /**
+     * Get a cache ID string from an ID/group pair
+     *
+     * @param   string  $id     The cache data ID
+     * @param   string  $group  The cache data group
+     *
+     * @return  string
+     *
+     * @since   1.7.0
+     */
+    protected function _getCacheId($id, $group)
+    {
+        $name          = md5($this->_application . '-' . $id . '-' . $this->_language);
+        $this->rawname = $this->_hash . '-' . $name;
 
-	/**
-	 * Add a directory where CacheStorage should search for handlers. You may either pass a string or an array of directories.
-	 *
-	 * @param   array|string  $path  A path to search.
-	 *
-	 * @return  array  An array with directory elements
-	 *
-	 * @since   1.7.0
-	 */
-	public static function addIncludePath($path = '')
-	{
-		static $paths;
+        return Cache::getPlatformPrefix() . $this->_hash . '-cache-' . $group . '-' . $name;
+    }
 
-		if (!isset($paths))
-		{
-			$paths = array();
-		}
+    /**
+     * Add a directory where CacheStorage should search for handlers. You may either pass a string or an array of directories.
+     *
+     * @param   array|string  $path  A path to search.
+     *
+     * @return  array  An array with directory elements
+     *
+     * @since   1.7.0
+     */
+    public static function addIncludePath($path = '')
+    {
+        static $paths;
 
-		if (!empty($path) && !\in_array($path, $paths))
-		{
-			array_unshift($paths, Path::clean($path));
-		}
+        if (!isset($paths))
+        {
+            $paths = [];
+        }
 
-		return $paths;
-	}
+        if (!empty($path) && !\in_array($path, $paths))
+        {
+            array_unshift($paths, Path::clean($path));
+        }
+
+        return $paths;
+    }
 }

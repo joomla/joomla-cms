@@ -21,6 +21,10 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Model class to manage postinstall messages
  *
@@ -215,15 +219,15 @@ class MessagesModel extends BaseDatabaseModel
             /** @var CallbackController $cache */
             $cache = $this->getCacheControllerFactory()->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
 
-            $result = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
+            $result = $cache->get([$db, 'loadObjectList'], [], md5($cacheId), false);
         } catch (\RuntimeException $e) {
             $app = Factory::getApplication();
             $app->getLogger()->warning(
                 Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
-                array('category' => 'jerror')
+                ['category' => 'jerror']
             );
 
-            return array();
+            return [];
         }
 
         $this->onProcessList($result);
@@ -262,12 +266,12 @@ class MessagesModel extends BaseDatabaseModel
                 ->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
 
             // Get the resulting data object for cache ID 'all.1' from com_postinstall group.
-            $result = $cache->get(array($db, 'loadObjectList'), array(), md5('all.1'), false);
+            $result = $cache->get([$db, 'loadObjectList'], [], md5('all.1'), false);
         } catch (\RuntimeException $e) {
             $app = Factory::getApplication();
             $app->getLogger()->warning(
                 Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
-                array('category' => 'jerror')
+                ['category' => 'jerror']
             );
 
             return 0;
@@ -398,8 +402,8 @@ class MessagesModel extends BaseDatabaseModel
      */
     protected function onProcessList(&$resultArray)
     {
-        $unset_keys          = array();
-        $language_extensions = array();
+        $unset_keys          = [];
+        $language_extensions = [];
 
         // Order the results DESC so the newest is on the top.
         $resultArray = array_reverse($resultArray);
@@ -457,7 +461,7 @@ class MessagesModel extends BaseDatabaseModel
         $db->setQuery($query);
         $extension_ids = $db->loadColumn();
 
-        $options = array();
+        $options = [];
 
         Factory::getApplication()->getLanguage()->load('files_joomla.sys', JPATH_SITE, null, false, false);
 
@@ -544,7 +548,7 @@ class MessagesModel extends BaseDatabaseModel
         }
 
         // Initialise array keys
-        $defaultOptions = array(
+        $defaultOptions = [
             'extension_id'       => '',
             'type'               => '',
             'title_key'          => '',
@@ -558,7 +562,7 @@ class MessagesModel extends BaseDatabaseModel
             'condition_method'   => '',
             'version_introduced' => '',
             'enabled'            => '1',
-        );
+        ];
 
         $options = array_merge($defaultOptions, $options);
 
@@ -579,7 +583,7 @@ class MessagesModel extends BaseDatabaseModel
         $options['enabled']            = (int) $options['enabled'];
 
         // Normalisation of 0/1 values
-        foreach (array('language_client_id', 'enabled') as $key) {
+        foreach (['language_client_id', 'enabled'] as $key) {
             $options[$key] = $options[$key] ? 1 : 0;
         }
 
@@ -589,7 +593,7 @@ class MessagesModel extends BaseDatabaseModel
         }
 
         // Make sure there's a valid type
-        if (!in_array($options['type'], array('message', 'link', 'action'))) {
+        if (!in_array($options['type'], ['message', 'link', 'action'])) {
             throw new \Exception('Post-installation message definitions need to declare a type of message, link or action', 500);
         }
 

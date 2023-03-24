@@ -16,6 +16,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! update notification plugin
  *
@@ -53,15 +57,15 @@ class PlgQuickiconExtensionupdate extends CMSPlugin
     public function onGetIcons($context)
     {
         if ($context !== $this->params->get('context', 'update_quickicon') || !$this->app->getIdentity()->authorise('core.manage', 'com_installer')) {
-            return array();
+            return [];
         }
 
         $token    = Session::getFormToken() . '=1';
-        $options  = array(
+        $options  = [
             'url' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.find&' . $token,
             'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token
                 . '&cache_timeout=3600&eid=0&skip=' . ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id,
-        );
+        ];
 
         $this->app->getDocument()->addScriptOptions('js-extensions-update', $options);
 
@@ -82,15 +86,15 @@ class PlgQuickiconExtensionupdate extends CMSPlugin
                 ['core']
             );
 
-        return array(
-            array(
+        return [
+            [
                 'link'  => 'index.php?option=com_installer&view=update&task=update.find&' . $token,
                 'image' => 'icon-star',
                 'icon'  => '',
                 'text'  => Text::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
                 'id'    => 'plg_quickicon_extensionupdate',
                 'group' => 'MOD_QUICKICON_MAINTENANCE',
-            ),
-        );
+            ],
+        ];
     }
 }

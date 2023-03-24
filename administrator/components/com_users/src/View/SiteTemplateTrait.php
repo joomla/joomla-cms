@@ -16,6 +16,10 @@ use Joomla\CMS\Factory;
 use ReflectionException;
 use ReflectionObject;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Dynamically modify the frontend template when showing a MFA captive page.
  *

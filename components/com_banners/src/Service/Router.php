@@ -12,6 +12,10 @@ namespace Joomla\Component\Banners\Site\Service;
 
 use Joomla\CMS\Component\Router\RouterBase;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Routing class from com_banners
  *
@@ -30,7 +34,7 @@ class Router extends RouterBase
      */
     public function build(&$query)
     {
-        $segments = array();
+        $segments = [];
 
         if (isset($query['task'])) {
             $segments[] = $query['task'];
@@ -63,7 +67,7 @@ class Router extends RouterBase
     public function parse(&$segments)
     {
         $total = \count($segments);
-        $vars = array();
+        $vars = [];
 
         for ($i = 0; $i < $total; $i++) {
             $segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);

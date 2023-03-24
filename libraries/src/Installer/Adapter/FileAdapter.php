@@ -19,6 +19,10 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * File installer
  *
@@ -69,7 +73,7 @@ class FileAdapter extends InstallerAdapter
                 // Since we created a directory and will want to remove it if we have to roll back.
                 // The installation due to some errors, let's add it to the installation step stack.
                 if ($created) {
-                    $this->parent->pushStep(array('type' => 'folder', 'path' => $folder));
+                    $this->parent->pushStep(['type' => 'folder', 'path' => $folder]);
                 }
             }
         }
@@ -92,10 +96,10 @@ class FileAdapter extends InstallerAdapter
         $update = Table::getInstance('update');
 
         $uid = $update->find(
-            array(
+            [
                 'element' => $this->element,
                 'type' => $this->type,
-            )
+            ]
         );
 
         if ($uid) {
@@ -103,11 +107,11 @@ class FileAdapter extends InstallerAdapter
         }
 
         // Lastly, we will copy the manifest file to its appropriate place.
-        $manifest = array();
+        $manifest = [];
         $manifest['src'] = $this->parent->getPath('manifest');
         $manifest['dest'] = JPATH_MANIFESTS . '/files/' . basename($this->parent->getPath('manifest'));
 
-        if (!$this->parent->copyFiles(array($manifest), true)) {
+        if (!$this->parent->copyFiles([$manifest], true)) {
             // Install failed, rollback changes
             throw new \RuntimeException(
                 Text::sprintf(
@@ -128,7 +132,7 @@ class FileAdapter extends InstallerAdapter
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
             if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles(array($path))) {
+                if (!$this->parent->copyFiles([$path])) {
                     // Install failed, rollback changes
                     throw new \RuntimeException(
                         Text::sprintf(
@@ -409,7 +413,7 @@ class FileAdapter extends InstallerAdapter
 
             // Since we have created a module item, we add it to the installation step stack
             // so that if we have to rollback the changes we can undo it.
-            $this->parent->pushStep(array('type' => 'extension', 'extension_id' => $this->extension->extension_id));
+            $this->parent->pushStep(['type' => 'extension', 'extension_id' => $this->extension->extension_id]);
         }
     }
 
@@ -461,8 +465,8 @@ class FileAdapter extends InstallerAdapter
     protected function populateFilesAndFolderList()
     {
         // Initialise variable
-        $this->folderList = array();
-        $this->fileList = array();
+        $this->folderList = [];
+        $this->fileList = [];
 
         // Set root folder names
         $packagePath = $this->parent->getPath('source');

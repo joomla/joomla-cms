@@ -18,6 +18,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Class to create and parse routes for the site application
  *
@@ -65,31 +69,31 @@ class SiteRouter extends Router
 
         // Add core rules
         if ($this->app->get('force_ssl') === 2) {
-            $this->attachParseRule(array($this, 'parseCheckSSL'), self::PROCESS_BEFORE);
+            $this->attachParseRule([$this, 'parseCheckSSL'], self::PROCESS_BEFORE);
         }
 
-        $this->attachParseRule(array($this, 'parseInit'), self::PROCESS_BEFORE);
-        $this->attachBuildRule(array($this, 'buildInit'), self::PROCESS_BEFORE);
-        $this->attachBuildRule(array($this, 'buildComponentPreprocess'), self::PROCESS_BEFORE);
+        $this->attachParseRule([$this, 'parseInit'], self::PROCESS_BEFORE);
+        $this->attachBuildRule([$this, 'buildInit'], self::PROCESS_BEFORE);
+        $this->attachBuildRule([$this, 'buildComponentPreprocess'], self::PROCESS_BEFORE);
 
         if ($this->app->get('sef', 1)) {
             if ($this->app->get('sef_suffix')) {
-                $this->attachParseRule(array($this, 'parseFormat'), self::PROCESS_BEFORE);
-                $this->attachBuildRule(array($this, 'buildFormat'), self::PROCESS_AFTER);
+                $this->attachParseRule([$this, 'parseFormat'], self::PROCESS_BEFORE);
+                $this->attachBuildRule([$this, 'buildFormat'], self::PROCESS_AFTER);
             }
 
-            $this->attachParseRule(array($this, 'parseSefRoute'), self::PROCESS_DURING);
-            $this->attachBuildRule(array($this, 'buildSefRoute'), self::PROCESS_DURING);
-            $this->attachParseRule(array($this, 'parsePaginationData'), self::PROCESS_AFTER);
-            $this->attachBuildRule(array($this, 'buildPaginationData'), self::PROCESS_AFTER);
+            $this->attachParseRule([$this, 'parseSefRoute'], self::PROCESS_DURING);
+            $this->attachBuildRule([$this, 'buildSefRoute'], self::PROCESS_DURING);
+            $this->attachParseRule([$this, 'parsePaginationData'], self::PROCESS_AFTER);
+            $this->attachBuildRule([$this, 'buildPaginationData'], self::PROCESS_AFTER);
 
             if ($this->app->get('sef_rewrite')) {
-                $this->attachBuildRule(array($this, 'buildRewrite'), self::PROCESS_AFTER);
+                $this->attachBuildRule([$this, 'buildRewrite'], self::PROCESS_AFTER);
             }
         }
 
-        $this->attachParseRule(array($this, 'parseRawRoute'), self::PROCESS_DURING);
-        $this->attachBuildRule(array($this, 'buildBase'), self::PROCESS_AFTER);
+        $this->attachParseRule([$this, 'parseRawRoute'], self::PROCESS_DURING);
+        $this->attachBuildRule([$this, 'buildBase'], self::PROCESS_AFTER);
     }
 
     /**
@@ -403,7 +407,10 @@ class SiteRouter extends Router
         ) {
             // Get the active menu item
             $item = $this->menu->getItem($query['Itemid']);
-            $query = array_merge($item->query, $query);
+
+            if ($item !== null) {
+                $query = array_merge($item->query, $query);
+            }
         }
 
         $uri->setQuery($query);

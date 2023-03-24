@@ -15,6 +15,10 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Module Position field.
  *
@@ -129,7 +133,7 @@ class ModulepositionField extends TextField
     protected function getInput()
     {
         // Build the script.
-        $script = array();
+        $script = [];
         $script[] = '	function jSelectPosition_' . $this->id . '(name) {';
         $script[] = '		document.getElementById("' . $this->id . '").value = name;';
         $script[] = '		jModalClose();';
@@ -139,7 +143,7 @@ class ModulepositionField extends TextField
         Factory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
         // Setup variables for display.
-        $html = array();
+        $html = [];
         $link = 'index.php?option=com_modules&view=positions&layout=modal&tmpl=component&function=jSelectPosition_' . $this->id
             . '&amp;client_id=' . $this->clientId;
 
@@ -153,7 +157,7 @@ class ModulepositionField extends TextField
         $html[] = HTMLHelper::_(
             'bootstrap.renderModal',
             'modulePositionModal',
-            array(
+            [
                 'url'    => $link,
                 'title'  => Text::_('COM_MODULES_CHANGE_POSITION_BUTTON'),
                 'height' => '100%',
@@ -162,7 +166,7 @@ class ModulepositionField extends TextField
                 'bodyHeight'  => '450',
                 'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
                     . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-            )
+            ]
         );
         $html[] = '</div>';
 

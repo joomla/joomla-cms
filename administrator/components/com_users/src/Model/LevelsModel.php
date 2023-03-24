@@ -19,6 +19,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of user access level records.
  *
@@ -35,14 +39,14 @@ class LevelsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'ordering', 'a.ordering',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -189,7 +193,7 @@ class LevelsModel extends ListModel
     {
         $table = Table::getInstance('viewlevel', 'Joomla\\CMS\Table\\');
         $user = Factory::getUser();
-        $conditions = array();
+        $conditions = [];
 
         if (empty($pks)) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_ERROR_LEVELS_NOLEVELS_SELECTED'), 'error');

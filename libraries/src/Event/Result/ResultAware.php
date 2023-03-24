@@ -12,6 +12,10 @@ namespace Joomla\CMS\Event\Result;
 use BadMethodCallException;
 use Joomla\Event\Event as BaseEvent;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This Trait partially implements the ResultAwareInterface for mutable and immutable events.
  *

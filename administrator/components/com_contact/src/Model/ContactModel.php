@@ -24,6 +24,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Item Model for a Contact.
  *
@@ -61,12 +65,12 @@ class ContactModel extends AdminModel
      *
      * @var array
      */
-    protected $batch_commands = array(
+    protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
         'language_id'   => 'batchLanguage',
         'tag'           => 'batchTag',
         'user_id'       => 'batchUser',
-    );
+    ];
 
     /**
      * Name of the form
@@ -161,12 +165,12 @@ class ContactModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         Form::addFieldPath(JPATH_ADMINISTRATOR . '/components/com_users/models/fields');
 
         // Get the form.
-        $form = $this->loadForm('com_contact.' . $this->formName, $this->formName, array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_contact.' . $this->formName, $this->formName, ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -215,7 +219,7 @@ class ContactModel extends AdminModel
         $assoc = Associations::isEnabled();
 
         if ($assoc) {
-            $item->associations = array();
+            $item->associations = [];
 
             if ($item->id != null) {
                 $associations = Associations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $item->id);
@@ -247,7 +251,7 @@ class ContactModel extends AdminModel
         $app = Factory::getApplication();
 
         // Check the session for previously entered form data.
-        $data = $app->getUserState('com_contact.edit.contact.data', array());
+        $data = $app->getUserState('com_contact.edit.contact.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -328,7 +332,7 @@ class ContactModel extends AdminModel
             $data['published'] = 0;
         }
 
-        $links = array('linka', 'linkb', 'linkc', 'linkd', 'linke');
+        $links = ['linka', 'linkb', 'linkc', 'linkd', 'linke'];
 
         foreach ($links as $link) {
             if (!empty($data['params'][$link])) {

@@ -16,6 +16,10 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class for a Joomla List View
  *
@@ -176,7 +180,7 @@ class ListView extends HtmlView
 
         if ($this->getLayout() !== 'modal') {
             if (\is_callable($helperClass . '::addSubmenu')) {
-                \call_user_func(array($helperClass, 'addSubmenu'), $this->getName());
+                \call_user_func([$helperClass, 'addSubmenu'], $this->getName());
             }
 
             $this->sidebar = \JHtmlSidebar::render();
@@ -241,7 +245,7 @@ class ListView extends HtmlView
             // Instantiate a new LayoutFile instance and render the popup button
             $layout = new FileLayout('joomla.toolbar.popup');
 
-            $dhtml = $layout->render(array('title' => $title));
+            $dhtml = $layout->render(['title' => $title]);
             $bar->appendButton('Custom', $dhtml, 'batch');
         }
 

@@ -11,6 +11,10 @@ namespace Joomla\CMS\Schema\ChangeItem;
 
 use Joomla\CMS\Schema\ChangeItem;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Checks the database schema against one MySQL DDL query to see if it has been run.
  *
@@ -47,8 +51,8 @@ class MysqlChangeItem extends ChangeItem
         $this->updateQuery = str_replace("\n", '', $this->updateQuery);
 
         // Fix up extra spaces around () and in general
-        $find = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#');
-        $replace = array('($3)', '$1');
+        $find = ['#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#'];
+        $replace = ['($3)', '$1'];
         $updateQuery = preg_replace($find, $replace, $this->updateQuery);
         $wordArray = preg_split("~'[^']*'(*SKIP)(*F)|\s+~u", trim($updateQuery, "; \t\n\r\0\x0B"));
 
@@ -67,7 +71,7 @@ class MysqlChangeItem extends ChangeItem
 
             $this->checkQuery  = 'SHOW TABLES LIKE ' . $table;
             $this->queryType   = 'RENAME_TABLE';
-            $this->msgElements = array($table);
+            $this->msgElements = [$table];
             $this->checkStatus = 0;
 
             // Done with method
@@ -86,7 +90,7 @@ class MysqlChangeItem extends ChangeItem
             if ($alterCommand === 'ADD COLUMN') {
                 $result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[5]);
                 $this->queryType = 'ADD_COLUMN';
-                $this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
+                $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5])];
             } elseif ($alterCommand === 'ADD INDEX' || $alterCommand === 'ADD KEY') {
                 if ($pos = strpos($wordArray[5], '(')) {
                     $index = $this->fixQuote(substr($wordArray[5], 0, $pos));
@@ -96,7 +100,7 @@ class MysqlChangeItem extends ChangeItem
 
                 $result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
                 $this->queryType = 'ADD_INDEX';
-                $this->msgElements = array($this->fixQuote($wordArray[2]), $index);
+                $this->msgElements = [$this->fixQuote($wordArray[2]), $index];
             } elseif ($alterCommand === 'ADD UNIQUE') {
                 $idxIndexName = 5;
 
@@ -116,19 +120,19 @@ class MysqlChangeItem extends ChangeItem
 
                 $result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
                 $this->queryType = 'ADD_INDEX';
-                $this->msgElements = array($this->fixQuote($wordArray[2]), $index);
+                $this->msgElements = [$this->fixQuote($wordArray[2]), $index];
             } elseif ($alterCommand === 'DROP INDEX' || $alterCommand === 'DROP KEY') {
                 $index = $this->fixQuote($wordArray[5]);
                 $result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
                 $this->queryType = 'DROP_INDEX';
                 $this->checkQueryExpected = 0;
-                $this->msgElements = array($this->fixQuote($wordArray[2]), $index);
+                $this->msgElements = [$this->fixQuote($wordArray[2]), $index];
             } elseif ($alterCommand === 'DROP COLUMN') {
                 $index = $this->fixQuote($wordArray[5]);
                 $result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE Field = ' . $index;
                 $this->queryType = 'DROP_COLUMN';
                 $this->checkQueryExpected = 0;
-                $this->msgElements = array($this->fixQuote($wordArray[2]), $index);
+                $this->msgElements = [$this->fixQuote($wordArray[2]), $index];
             } elseif (strtoupper($wordArray[3]) === 'MODIFY') {
                 // Kludge to fix problem with "integer unsigned"
                 $type = $wordArray[5];
@@ -153,7 +157,7 @@ class MysqlChangeItem extends ChangeItem
                     . ($defaultCheck ? ' AND ' . $defaultCheck : '')
                     . ($nullCheck ? ' AND ' . $nullCheck : '');
                 $this->queryType = 'CHANGE_COLUMN_TYPE';
-                $this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]), $type);
+                $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]), $type];
             } elseif (strtoupper($wordArray[3]) === 'CHANGE') {
                 // Kludge to fix problem with "integer unsigned"
                 $type = $wordArray[6];
@@ -178,7 +182,7 @@ class MysqlChangeItem extends ChangeItem
                     . ($defaultCheck ? ' AND ' . $defaultCheck : '')
                     . ($nullCheck ? ' AND ' . $nullCheck : '');
                 $this->queryType = 'CHANGE_COLUMN_TYPE';
-                $this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $type);
+                $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $type];
             }
         }
 
@@ -191,7 +195,7 @@ class MysqlChangeItem extends ChangeItem
 
             $result = 'SHOW TABLES LIKE ' . $this->fixQuote($table);
             $this->queryType = 'CREATE_TABLE';
-            $this->msgElements = array($this->fixQuote($table));
+            $this->msgElements = [$this->fixQuote($table)];
         }
 
         // Set fields based on results

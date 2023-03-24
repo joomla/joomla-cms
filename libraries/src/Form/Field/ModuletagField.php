@@ -11,6 +11,10 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Module Tag field.
  *
@@ -35,8 +39,8 @@ class ModuletagField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
-        $tags    = array('address', 'article', 'aside', 'details', 'div', 'footer', 'header', 'main', 'nav', 'section', 'summary');
+        $options = [];
+        $tags    = ['address', 'article', 'aside', 'details', 'div', 'footer', 'header', 'main', 'nav', 'section', 'summary'];
 
         // Create one new option object for each tag
         foreach ($tags as $tag) {

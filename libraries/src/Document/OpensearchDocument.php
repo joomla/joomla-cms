@@ -15,6 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Opensearch class, provides an easy interface to display an Opensearch document
  *
@@ -41,7 +45,7 @@ class OpensearchDocument extends Document
      * @var    object
      * @since  1.7.0
      */
-    private $_images = array();
+    private $_images = [];
 
     /**
      * The url collection
@@ -49,7 +53,7 @@ class OpensearchDocument extends Document
      * @var    array
      * @since  1.7.0
      */
-    private $_urls = array();
+    private $_urls = [];
 
     /**
      * Class constructor
@@ -58,7 +62,7 @@ class OpensearchDocument extends Document
      *
      * @since  1.7.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         parent::__construct($options);
 
@@ -78,7 +82,7 @@ class OpensearchDocument extends Document
         // Add the favicon as the default image
         // Try to find a favicon by checking the template and root folder
         $app = Factory::getApplication();
-        $dirs = array(JPATH_THEMES . '/' . $app->getTemplate(), JPATH_BASE);
+        $dirs = [JPATH_THEMES . '/' . $app->getTemplate(), JPATH_BASE];
 
         foreach ($dirs as $dir) {
             if (is_file($dir . '/favicon.ico')) {
@@ -117,7 +121,7 @@ class OpensearchDocument extends Document
      *
      * @since   1.7.0
      */
-    public function render($cache = false, $params = array())
+    public function render($cache = false, $params = [])
     {
         $xml = new \DOMDocument('1.0', 'utf-8');
 

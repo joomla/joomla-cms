@@ -11,6 +11,10 @@ namespace Joomla\CMS\Http;
 
 use Joomla\Http\Response as FrameworkResponse;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTTP response data object class.
  *

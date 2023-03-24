@@ -17,6 +17,10 @@ use Joomla\Component\Privacy\Administrator\Export\Domain;
 use Joomla\Component\Privacy\Administrator\Export\Field;
 use Joomla\Component\Privacy\Administrator\Export\Item;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class for privacy plugins
  *
@@ -123,7 +127,7 @@ abstract class PrivacyPlugin extends CMSPlugin
      *
      * @since   3.9.0
      */
-    protected function createCustomFieldsDomain($context, $items = array())
+    protected function createCustomFieldsDomain($context, $items = [])
     {
         if (!is_array($items)) {
             $items = [$items];

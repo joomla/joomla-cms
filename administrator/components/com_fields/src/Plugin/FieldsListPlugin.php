@@ -13,6 +13,10 @@ namespace Joomla\Component\Fields\Administrator\Plugin;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base plugin for all list based plugins
  *
@@ -63,13 +67,13 @@ class FieldsListPlugin extends FieldsPlugin
      */
     public function getOptionsFromField($field)
     {
-        $data = array();
+        $data = [];
 
         // Fetch the options from the plugin
         $params = clone $this->params;
         $params->merge($field->fieldparams);
 
-        foreach ($params->get('options', array()) as $option) {
+        foreach ($params->get('options', []) as $option) {
             $op = (object) $option;
             $data[$op->value] = $op->name;
         }

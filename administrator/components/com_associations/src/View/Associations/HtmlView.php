@@ -18,6 +18,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View class for a list of articles.
  *
@@ -99,8 +103,8 @@ class HtmlView extends BaseHtmlView
             } else {
                 $this->extensionName = $extensionName;
                 $this->typeName      = $typeName;
-                $this->typeSupports  = array();
-                $this->typeFields    = array();
+                $this->typeSupports  = [];
+                $this->typeFields    = [];
 
                 $details = $type->get('details');
 
@@ -160,11 +164,11 @@ class HtmlView extends BaseHtmlView
                 $this->items      = $this->get('Items');
                 $this->pagination = $this->get('Pagination');
 
-                $linkParameters = array(
+                $linkParameters = [
                     'layout'     => 'edit',
                     'itemtype'   => $extensionName . '.' . $typeName,
                     'task'       => 'association.edit',
-                );
+                ];
 
                 $this->editUri = 'index.php?option=com_associations&view=association&' . http_build_query($linkParameters);
             }

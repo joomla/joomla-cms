@@ -1,14 +1,13 @@
 <?php
 
 /**
- * @package     Joomla.Plugin
- * @subpackage  Authentication.joomla
- *
- * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
- */
+* @package     Joomla.Plugin
+* @subpackage  Authentication.joomla
+*
+* @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
+* @license     GNU General Public License version 2 or later; see LICENSE.txt
+* @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+*/
 
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Helper\AuthenticationHelper;
@@ -17,6 +16,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla Authentication plugin
@@ -83,14 +86,24 @@ class PlgAuthenticationJoomla extends CMSPlugin
                 $response->email    = $user->email;
                 $response->fullname = $user->name;
 
+                // Set default status response to success
+                $_status       = Authentication::STATUS_SUCCESS;
+                $_errorMessage = '';
+
                 if ($this->app->isClient('administrator')) {
                     $response->language = $user->getParam('admin_language');
                 } else {
                     $response->language = $user->getParam('language');
+
+                    if ($this->app->get('offline') && !$user->authorise('core.login.offline')) {
+                        // User do not have access in offline mode
+                        $_status       = Authentication::STATUS_FAILURE;
+                        $_errorMessage = Text::_('JLIB_LOGIN_DENIED');
+                    }
                 }
 
-                $response->status        = Authentication::STATUS_SUCCESS;
-                $response->error_message = '';
+                $response->status        = $_status;
+                $response->error_message = $_errorMessage;
             } else {
                 // Invalid password
                 $response->status        = Authentication::STATUS_FAILURE;

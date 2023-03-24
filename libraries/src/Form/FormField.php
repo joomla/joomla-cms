@@ -23,6 +23,10 @@ use Joomla\Registry\Registry;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Abstract Form Field class for the Joomla Platform.
  *
@@ -391,7 +395,7 @@ abstract class FormField implements DatabaseAwareInterface
      *
      * @since 4.0.0
      */
-    protected $dataAttributes = array();
+    protected $dataAttributes = [];
 
     /**
      * Method to instantiate the form field object.
@@ -637,10 +641,10 @@ abstract class FormField implements DatabaseAwareInterface
         // Set the group of the field.
         $this->group = $group;
 
-        $attributes = array(
+        $attributes = [
             'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext',
             'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-            'translate_label', 'translateDescription', 'translate_description', 'size', 'showon');
+            'translate_label', 'translateDescription', 'translate_description', 'size', 'showon'];
 
         $this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -805,12 +809,12 @@ abstract class FormField implements DatabaseAwareInterface
         $position = $this->element['name'] === 'alias' ? ' data-bs-placement="bottom" ' : '';
 
         // Here mainly for B/C with old layouts. This can be done in the layouts directly
-        $extraData = array(
+        $extraData = [
             'text'        => $data['label'],
             'for'         => $this->id,
             'classes'     => explode(' ', $data['labelclass']),
             'position'    => $position,
-        );
+        ];
 
         return $this->getRenderer($this->renderLabelLayout)->render(array_merge($data, $extraData));
     }
@@ -967,7 +971,7 @@ abstract class FormField implements DatabaseAwareInterface
      *
      * @since   3.5
      */
-    public function render($layoutId, $data = array())
+    public function render($layoutId, $data = [])
     {
         $data = array_merge($this->getLayoutData(), $data);
 
@@ -983,7 +987,7 @@ abstract class FormField implements DatabaseAwareInterface
      *
      * @since   3.2
      */
-    public function renderField($options = array())
+    public function renderField($options = [])
     {
         if ($this->hidden) {
             return $this->getInput();
@@ -1021,11 +1025,11 @@ abstract class FormField implements DatabaseAwareInterface
             $options['showonEnabled'] = true;
         }
 
-        $data = array(
+        $data = [
             'input'   => $this->getInput(),
             'label'   => $this->getLabel(),
             'options' => $options,
-        );
+        ];
 
         $data = array_merge($this->getLayoutData(), $data);
 
@@ -1093,7 +1097,7 @@ abstract class FormField implements DatabaseAwareInterface
                 }
 
                 if ($this->multiple) {
-                    $return = array();
+                    $return = [];
 
                     if ($value) {
                         foreach ($value as $key => $val) {

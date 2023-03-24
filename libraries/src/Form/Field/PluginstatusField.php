@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Form\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugin Status field.
  *
@@ -30,8 +34,8 @@ class PluginstatusField extends PredefinedlistField
      * @var  array
      * @since  3.5
      */
-    protected $predefinedOptions = array(
+    protected $predefinedOptions = [
         '0'  => 'JDISABLED',
         '1'  => 'JENABLED',
-    );
+    ];
 }

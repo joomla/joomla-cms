@@ -13,6 +13,10 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Object\CMSObject;
 use ReflectionClass;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Trait for component workflow plugins.
  *
@@ -26,7 +30,7 @@ trait WorkflowPluginTrait
      * @param   Form      $form The form
      * @param   \stdClass $data The data
      *
-     * @return  boolean
+     * @return  boolean|\stdClass
      *
      * @since   4.0.0
      */

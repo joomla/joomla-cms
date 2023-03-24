@@ -14,6 +14,10 @@ use Joomla\CMS\User\User;
 use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Privacy plugin managing Joomla user content data
  *
@@ -38,10 +42,10 @@ class PlgPrivacyContent extends PrivacyPlugin
     public function onPrivacyExportRequest(RequestTable $request, User $user = null)
     {
         if (!$user) {
-            return array();
+            return [];
         }
 
-        $domains   = array();
+        $domains   = [];
         $domain    = $this->createDomain('user_content', 'joomla_user_content_data');
         $domains[] = $domain;
 

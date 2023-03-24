@@ -16,6 +16,10 @@ namespace Joomla\Component\Finder\Administrator\Indexer\Language;
 
 use Joomla\Component\Finder\Administrator\Indexer\Language;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Greek language support class for the Finder indexer package.
  *
@@ -337,7 +341,7 @@ class El extends Language
 
         // Step 1
         // step1list is used in Step 1. 41 stems
-        $step1list             = array();
+        $step1list             = [];
         $step1list["ΦΑΓΙΑ"]    = "ΦΑ";
         $step1list["ΦΑΓΙΟΥ"]   = "ΦΑ";
         $step1list["ΦΑΓΙΩΝ"]   = "ΦΑ";
@@ -768,7 +772,7 @@ class El extends Language
     protected function toUpperCase($token, &$wCase)
     {
         $wCase      = array_fill(0, mb_strlen($token, 'UTF-8'), 0);
-        $caseConvert = array(
+        $caseConvert = [
             "α" => 'Α',
             "β" => 'Β',
             "γ" => 'Γ',
@@ -805,7 +809,7 @@ class El extends Language
             "ϋ" => 'Ι',
             "ΐ" => 'Ι',
             "ΰ" => 'Υ',
-        );
+        ];
         $newToken    = '';
 
         for ($i = 0; $i < mb_strlen($token); $i++) {

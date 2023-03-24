@@ -16,6 +16,10 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Message configuration model.
  *
@@ -100,10 +104,10 @@ class ConfigModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_messages.config', 'config', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_messages.config', 'config', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;

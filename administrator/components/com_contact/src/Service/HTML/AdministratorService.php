@@ -19,6 +19,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Contact HTML helper class.
  *
@@ -75,7 +79,7 @@ class AdministratorService
             }
 
             if ($items) {
-                $languages = LanguageHelper::getContentLanguages(array(0, 1));
+                $languages = LanguageHelper::getContentLanguages([0, 1]);
                 $content_languages = array_column($languages, 'lang_code');
 
                 foreach ($items as &$item) {
@@ -115,10 +119,10 @@ class AdministratorService
     public function featured($value, $i, $canChange = true)
     {
         // Array of image, task, title, action
-        $states = array(
-            0 => array('unfeatured', 'contacts.featured', 'COM_CONTACT_UNFEATURED', 'JGLOBAL_ITEM_FEATURE'),
-            1 => array('featured', 'contacts.unfeatured', 'JFEATURED', 'JGLOBAL_ITEM_UNFEATURE'),
-        );
+        $states = [
+            0 => ['unfeatured', 'contacts.featured', 'COM_CONTACT_UNFEATURED', 'JGLOBAL_ITEM_FEATURE'],
+            1 => ['featured', 'contacts.unfeatured', 'JFEATURED', 'JGLOBAL_ITEM_UNFEATURE'],
+        ];
         $state = ArrayHelper::getValue($states, (int) $value, $states[1]);
         $icon = $state[0] === 'featured' ? 'star featured' : 'circle';
         $onclick = 'onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')"';

@@ -20,6 +20,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Template installer
  *
@@ -47,11 +51,11 @@ class TemplateAdapter extends InstallerAdapter
     {
         try {
             $this->currentExtensionId = $this->extension->find(
-                array(
+                [
                     'element'   => $this->element,
                     'type'      => $this->type,
                     'client_id' => $this->clientId,
-                )
+                ]
             );
         } catch (\RuntimeException $e) {
             // Install failed, roll back changes
@@ -111,7 +115,7 @@ class TemplateAdapter extends InstallerAdapter
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
             if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles(array($path))) {
+                if (!$this->parent->copyFiles([$path])) {
                     throw new \RuntimeException(
                         Text::sprintf(
                             'JLIB_INSTALLER_ABORT_MANIFEST',
@@ -138,11 +142,11 @@ class TemplateAdapter extends InstallerAdapter
         $update = Table::getInstance('update');
 
         $uid = $update->find(
-            array(
+            [
                 'element'   => $this->element,
                 'type'      => $this->type,
                 'client_id' => $this->clientId,
-            )
+            ]
         );
 
         if ($uid) {
@@ -223,6 +227,14 @@ class TemplateAdapter extends InstallerAdapter
         $db->setQuery($query);
         $db->execute();
 
+        // Remove any overrides
+        $query = $db->getQuery(true)
+            ->delete($db->quoteName('#__template_overrides'))
+            ->where($db->quoteName('template') . ' = :template')
+            ->bind(':template', $element);
+        $db->setQuery($query);
+        $db->execute();
+
         // Clobber any possible pending updates
         $update = Table::getInstance('update');
         $uid    = $update->find(
@@ -299,7 +311,7 @@ class TemplateAdapter extends InstallerAdapter
      */
     protected function parseQueries()
     {
-        if (\in_array($this->route, array('install', 'discover_install'))) {
+        if (\in_array($this->route, ['install', 'discover_install'])) {
             $db    = $this->getDatabase();
             $query = $db->getQuery(true);
             $lang  = Factory::getLanguage();
@@ -532,6 +544,7 @@ class TemplateAdapter extends InstallerAdapter
             $this->extension->name = $manifest_details['name'];
             $this->extension->enabled = 1;
             $this->extension->params = $this->parent->getParams();
+            $this->extension->changelogurl = (string) $this->manifest->changelogurl;
 
             if (!$this->extension->store()) {
                 // Install failed, roll back changes
@@ -593,7 +606,7 @@ class TemplateAdapter extends InstallerAdapter
      */
     public function discover()
     {
-        $results    = array();
+        $results    = [];
         $site_list  = Folder::folders(JPATH_SITE . '/templates');
         $admin_list = Folder::folders(JPATH_ADMINISTRATOR . '/templates');
         $site_info  = ApplicationHelper::getClientInfo('site', true);

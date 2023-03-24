@@ -21,6 +21,10 @@ use Joomla\CMS\Toolbar\Button\SeparatorButton;
 use Joomla\CMS\Toolbar\Button\StandardButton;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Enhance Toolbar class to add more pre-defined methods.
  *
@@ -515,7 +519,7 @@ trait CoreButtonsTrait
         $lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 
         // Options array for Layout
-        $options              = array();
+        $options              = [];
         $options['title']     = Text::_($text);
         $options['height']    = $height;
         $options['width']     = $width;

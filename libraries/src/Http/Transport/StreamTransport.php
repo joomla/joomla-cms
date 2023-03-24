@@ -19,6 +19,10 @@ use Joomla\Uri\Uri;
 use Joomla\Uri\UriInterface;
 use Laminas\Diactoros\Stream as StreamResponse;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTTP transport class for using PHP streams.
  *
@@ -44,7 +48,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
     public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
     {
         // Create the stream context options array with the required method offset.
-        $options = array('method' => strtoupper($method));
+        $options = ['method' => strtoupper($method)];
 
         // If data exists let's encode it and make sure our Content-Type header is set.
         if (isset($data)) {
@@ -81,7 +85,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
         $options['follow_location'] = (int) $this->getOption('follow_location', 1);
 
         // Set any custom transport options
-        foreach ($this->getOption('transport.stream', array()) as $key => $value) {
+        foreach ($this->getOption('transport.stream', []) as $key => $value) {
             $options[$key] = $value;
         }
 
@@ -102,7 +106,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
         }
 
         // Build the headers string for the request.
-        $headerEntries = array();
+        $headerEntries = [];
 
         if (isset($headers)) {
             foreach ($headers as $key => $value) {
@@ -121,15 +125,15 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 
         // Create the stream context for the request.
         $context = stream_context_create(
-            array(
+            [
                 'http' => $options,
-                'ssl' => array(
+                'ssl' => [
                     'verify_peer'      => true,
                     'cafile'           => $this->getOption('stream.certpath', CaBundle::getBundledCaBundlePath()),
                     'verify_depth'     => 5,
                     'verify_peer_name' => true,
-                ),
-            )
+                ],
+            ]
         );
 
         // Authentication, if needed
@@ -175,7 +179,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
         } elseif (isset($metadata['wrapper_data'])) {
             $headers = $metadata['wrapper_data'];
         } else {
-            $headers = array();
+            $headers = [];
         }
 
         return $this->getResponse($headers, $content);

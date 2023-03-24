@@ -22,6 +22,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Input\Input;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Controller tailored to suit most form-based admin operations.
  *
@@ -86,7 +90,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      * @since   3.0
      */
     public function __construct(
-        $config = array(),
+        $config = [],
         MVCFactoryInterface $factory = null,
         ?CMSApplication $app = null,
         ?Input $input = null,
@@ -120,7 +124,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
             }
 
             // Remove the backslashes and the suffix controller
-            $this->context = str_replace(array('\\', 'controller'), '', strtolower($r[2]));
+            $this->context = str_replace(['\\', 'controller'], '', strtolower($r[2]));
         }
 
         // Guess the item view as the context.
@@ -254,14 +258,14 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      */
     public function batch($model)
     {
-        $vars = $this->input->post->get('batch', array(), 'array');
-        $cid  = (array) $this->input->post->get('cid', array(), 'int');
+        $vars = $this->input->post->get('batch', [], 'array');
+        $cid  = (array) $this->input->post->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
 
         // Build an array of item contexts to check
-        $contexts = array();
+        $contexts = [];
 
         $option = $this->extension ?? $this->option;
 
@@ -359,7 +363,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
         $model = $this->getModel();
         $table = $model->getTable();
-        $cid   = (array) $this->input->post->get('cid', array(), 'int');
+        $cid   = (array) $this->input->post->get('cid', [], 'int');
         $context = "$this->option.edit.$this->context";
 
         // Determine the name of the primary key for the data.
@@ -377,7 +381,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         $checkin = $table->hasField('checked_out');
 
         // Access check.
-        if (!$this->allowEdit(array($key => $recordId), $key)) {
+        if (!$this->allowEdit([$key => $recordId], $key)) {
             $this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
 
             $this->setRedirect(
@@ -433,7 +437,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @since   1.6
      */
-    public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
+    public function getModel($name = '', $prefix = '', $config = ['ignore_request' => true])
     {
         if (empty($name)) {
             $name = $this->context;
@@ -516,7 +520,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @since   1.6
      */
-    protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
+    protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
     {
     }
 
@@ -538,7 +542,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         $app   = $this->app;
         $model = $this->getModel();
         $table = $model->getTable();
-        $data  = $this->input->post->get('jform', array(), 'array');
+        $data  = $this->input->post->get('jform', [], 'array');
         $checkin = $table->hasField('checked_out');
         $context = "$this->option.edit.$this->context";
         $task = $this->getTask();
@@ -578,7 +582,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
             // Reset the ID, the multilingual associations and then treat the request as for Apply.
             $data[$key] = 0;
-            $data['associations'] = array();
+            $data['associations'] = [];
             $task = 'apply';
         }
 
@@ -611,7 +615,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         $objData = (object) $data;
         $app->triggerEvent(
             'onContentNormaliseRequestData',
-            array($this->option . '.' . $this->context, $objData, $form)
+            [$this->option . '.' . $this->context, $objData, $form]
         );
         $data = (array) $objData;
 
@@ -665,7 +669,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         }
 
         if (!isset($validData['tags'])) {
-            $validData['tags'] = array();
+            $validData['tags'] = [];
         }
 
         // Attempt to save the data.
@@ -788,7 +792,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
         $app     = $this->app;
         $model   = $this->getModel();
-        $data    = $this->input->post->get('jform', array(), 'array');
+        $data    = $this->input->post->get('jform', [], 'array');
 
         // Determine the name of the primary key for the data.
         if (empty($key)) {
@@ -873,7 +877,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
         $input = $app->input;
         $model = $this->getModel();
 
-        $data = $input->get('jform', array(), 'array');
+        $data = $input->get('jform', [], 'array');
         $model->editAssociations($data);
     }
 }

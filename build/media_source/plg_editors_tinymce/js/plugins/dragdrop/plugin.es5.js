@@ -3,21 +3,31 @@
 
   /* eslint-disable no-undef */
   tinymce.PluginManager.add('jdragndrop', function (editor) {
-    var responseData; // Reset the drop area border
-
-    tinyMCE.DOM.bind(document, 'dragleave', function (e) {
+    // Reset the drop area border
+    var dragleaveCallback = function (e) {
+      if (!e.dataTransfer.types.includes('Files')) return;
       e.stopPropagation();
       e.preventDefault();
-      editor.contentAreaContainer.style.borderWidth = '1px 0 0';
+      editor.contentAreaContainer.style.borderWidth = '0';
       return false;
-    }); // Fix for Chrome
+    }
+    tinyMCE.DOM.bind(document, 'dragleave', dragleaveCallback);
 
+    // Remove listener when editor are removed
+    editor.on('remove', function () {
+      tinyMCE.DOM.unbind(document, 'dragleave', dragleaveCallback);
+    });
+
+    // Fix for Chrome
     editor.on('dragenter', function (e) {
+      if (!e.dataTransfer.types.includes('Files')) return;
       e.stopPropagation();
       return false;
-    }); // Notify user when file is over the drop area
+    });
 
+    // Notify user when file is over the drop area
     editor.on('dragover', function (e) {
+      if (!e.dataTransfer.types.includes('Files')) return;
       e.preventDefault();
       editor.contentAreaContainer.style.borderStyle = 'dashed';
       editor.contentAreaContainer.style.borderWidth = '5px';
@@ -27,7 +37,7 @@
     function uploadFile(name, content) {
       var _data;
 
-      var url = editor.settings.uploadUri + "&path=" + editor.settings.comMediaAdapter;
+      var url = editor.settings.uploadUri + "&path=" + editor.settings.comMediaAdapter + editor.settings.parentUploadFolder;
       var data = (_data = {}, _data[editor.settings.csrfToken] = '1', _data.name = name, _data.content = content, _data.parent = editor.settings.parentUploadFolder, _data);
       Joomla.request({
         url: url,
@@ -46,7 +56,7 @@
           }
 
           if (response.data && response.data.path) {
-            responseData = response.data;
+            var responseData = response.data;
             var urlPath; // For local adapters use relative paths
 
             var _Joomla$getOptions = Joomla.getOptions('system.paths'),
@@ -119,47 +129,39 @@
 
     function readFile(file) {
       // Create a new file reader instance
-      var reader = new FileReader(); // Add the on load callback
+      var reader = new FileReader();
 
+      // Add the on load callback
       reader.onload = function (progressEvent) {
         var result = progressEvent.target.result;
         var splitIndex = result.indexOf('base64') + 7;
-        var content = result.slice(splitIndex, result.length); // Upload the file
+        var content = result.slice(splitIndex, result.length);
 
+        // Upload the file
         uploadFile(file.name, content);
       };
 
       reader.readAsDataURL(file);
-    } // Listeners for drag and drop
-
-
-    if (typeof FormData !== 'undefined') {
-      // Logic for the dropped file
-      editor.on('drop', function (e) {
-        e.preventDefault(); // We override only for files
-
-        if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-          var files = [].slice.call(e.dataTransfer.files);
-          files.forEach(function (file) {
-            // Only images allowed
-            if (file.name.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/)) {
-              // Upload the file(s)
-              readFile(file);
-            }
-          });
-        }
-
-        editor.contentAreaContainer.style.borderWidth = '1px 0 0';
-      });
-    } else {
-      Joomla.renderMessages({
-        error: [Joomla.Text._('PLG_TINY_ERR_UNSUPPORTEDBROWSER')]
-      });
-      editor.on('drop', function (e) {
-        e.preventDefault();
-        return false;
-      });
     }
-  });
 
+    // Logic for the dropped file
+    editor.on('drop', function (e) {
+      if (!e.dataTransfer.types.includes('Files')) return;
+      e.preventDefault();
+
+      // Read and upload files
+      if (e.dataTransfer.files.length > 0) {
+        var files = [].slice.call(e.dataTransfer.files);
+        files.forEach(function (file) {
+          // Only images allowed
+          if (file.name.toLowerCase().match(/\.(jpg|jpeg|png|gif|webp)$/)) {
+            // Upload the file(s)
+            readFile(file);
+          }
+        });
+      }
+
+      editor.contentAreaContainer.style.borderWidth = '0';
+    });
+  });
 }());

@@ -23,6 +23,10 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Database\ParameterType;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Users mail model.
  *
@@ -40,10 +44,10 @@ class MailModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.mail', 'mail', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_users.mail', 'mail', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -63,7 +67,7 @@ class MailModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_users.display.mail.data', array());
+        $data = Factory::getApplication()->getUserState('com_users.display.mail.data', []);
 
         $this->preprocessData('com_users.mail', $data);
 
@@ -97,7 +101,7 @@ class MailModel extends AdminModel
     public function send()
     {
         $app      = Factory::getApplication();
-        $data     = $app->input->post->get('jform', array(), 'array');
+        $data     = $app->input->post->get('jform', [], 'array');
         $user     = Factory::getUser();
         $access   = new Access();
         $db       = $this->getDatabase();
@@ -125,11 +129,11 @@ class MailModel extends AdminModel
         }
 
         // Get users in the group out of the ACL, if group is provided.
-        $to = $grp !== 0 ? $access->getUsersByGroup($grp, $recurse) : array();
+        $to = $grp !== 0 ? $access->getUsersByGroup($grp, $recurse) : [];
 
         // When group is provided but no users are found in the group.
         if ($grp !== 0 && !$to) {
-            $rows = array();
+            $rows = [];
         } else {
             // Get all users email and group except for senders
             $uid = (int) $user->id;
@@ -231,7 +235,7 @@ class MailModel extends AdminModel
             $data['recurse'] = $recurse;
             $data['bcc']     = $bcc;
             $data['message'] = $message_body;
-            $app->setUserState('com_users.display.mail.data', array());
+            $app->setUserState('com_users.display.mail.data', []);
             $app->enqueueMessage(Text::plural('COM_USERS_MAIL_EMAIL_SENT_TO_N_USERS', count($rows)), 'message');
 
             return true;

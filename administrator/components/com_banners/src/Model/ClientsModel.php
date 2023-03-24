@@ -14,6 +14,10 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of banner records.
  *
@@ -28,10 +32,10 @@ class ClientsModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'name', 'a.name',
                 'contact', 'a.contact',
@@ -39,7 +43,7 @@ class ClientsModel extends ListModel
                 'checked_out', 'a.checked_out',
                 'checked_out_time', 'a.checked_out_time',
                 'purchase_type', 'a.purchase_type'
-            );
+            ];
         }
 
         parent::__construct($config);
@@ -210,7 +214,7 @@ class ClientsModel extends ListModel
 
         // If empty or an error, just return.
         if (empty($items)) {
-            return array();
+            return [];
         }
 
         // Getting the following metric by joins is WAY TOO SLOW.

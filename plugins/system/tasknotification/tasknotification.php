@@ -28,6 +28,10 @@ use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use PHPMailer\PHPMailer\Exception as MailerException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This plugin implements email notification functionality for Tasks configured through the Scheduler component.
  * Notification configuration is supported on a per-task basis, which can be set-up through the Task item form, made

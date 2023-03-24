@@ -16,6 +16,10 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Uri\UriHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Rule class for the Joomla Platform.
  *
@@ -54,8 +58,8 @@ class UrlRule extends FormRule
         // See https://www.w3.org/Addressing/URL/url-spec.txt
         // Use the full list or optionally specify a list of permitted schemes.
         if ($element['schemes'] == '') {
-            $scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'sftp', 'tn3270', 'wais',
-                'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git');
+            $scheme = ['http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'sftp', 'tn3270', 'wais',
+                'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git'];
         } else {
             $scheme = explode(',', $element['schemes']);
         }
@@ -95,7 +99,7 @@ class UrlRule extends FormRule
         }
 
         // For some schemes here must be two slashes.
-        $scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'wais', 'prospero', 'sftp', 'telnet', 'git');
+        $scheme = ['http', 'https', 'ftp', 'ftps', 'gopher', 'wais', 'prospero', 'sftp', 'telnet', 'git'];
 
         if (\in_array($urlScheme, $scheme) && substr($value, \strlen($urlScheme), 3) !== '://') {
             return false;

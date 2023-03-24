@@ -20,6 +20,10 @@ use Joomla\Component\Config\Administrator\Model\ComponentModel;
 use Joomla\Component\Config\Api\View\Component\JsonapiView;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The component controller
  *

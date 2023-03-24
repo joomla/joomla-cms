@@ -19,6 +19,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Input\Input;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The template controller
  *
@@ -39,7 +43,7 @@ class TemplateController extends FormController
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -84,7 +88,7 @@ class TemplateController extends FormController
         $language = $this->input->getCmd('language');
 
         // Access check.
-        if (!$this->allowEdit(array('template_id' => $template_id, 'language' => $language), $template_id)) {
+        if (!$this->allowEdit(['template_id' => $template_id, 'language' => $language], $template_id)) {
             $this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
 
             $this->setRedirect(
@@ -105,7 +109,7 @@ class TemplateController extends FormController
         $this->setRedirect(
             Route::_(
                 'index.php?option=' . $this->option . '&view=' . $this->view_item
-                . $this->getRedirectToItemAppend(array($template_id, $language), 'template_id'),
+                . $this->getRedirectToItemAppend([$template_id, $language], 'template_id'),
                 false
             )
         );
@@ -150,7 +154,7 @@ class TemplateController extends FormController
 
         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
         $model = $this->getModel();
-        $data  = $this->input->post->get('jform', array(), 'array');
+        $data  = $this->input->post->get('jform', [], 'array');
         $context = "$this->option.edit.$this->context";
         $task = $this->getTask();
 
@@ -190,7 +194,7 @@ class TemplateController extends FormController
         $objData = (object) $data;
         $this->app->triggerEvent(
             'onContentNormaliseRequestData',
-            array($this->option . '.' . $this->context, $objData, $form)
+            [$this->option . '.' . $this->context, $objData, $form]
         );
         $data = (array) $objData;
 
@@ -218,7 +222,7 @@ class TemplateController extends FormController
             $this->setRedirect(
                 Route::_(
                     'index.php?option=' . $this->option . '&view=' . $this->view_item
-                    . $this->getRedirectToItemAppend(array($recordId, $language), 'template_id'),
+                    . $this->getRedirectToItemAppend([$recordId, $language], 'template_id'),
                     false
                 )
             );
@@ -237,7 +241,7 @@ class TemplateController extends FormController
             $this->setRedirect(
                 Route::_(
                     'index.php?option=' . $this->option . '&view=' . $this->view_item
-                    . $this->getRedirectToItemAppend(array($recordId, $language), 'template_id'),
+                    . $this->getRedirectToItemAppend([$recordId, $language], 'template_id'),
                     false
                 )
             );
@@ -261,7 +265,7 @@ class TemplateController extends FormController
                 $this->setRedirect(
                     Route::_(
                         'index.php?option=' . $this->option . '&view=' . $this->view_item
-                        . $this->getRedirectToItemAppend(array($recordId, $language), 'template_id'),
+                        . $this->getRedirectToItemAppend([$recordId, $language], 'template_id'),
                         false
                     )
                 );

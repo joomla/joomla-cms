@@ -20,6 +20,10 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View class for a list of redirection links.
  *
@@ -179,7 +183,7 @@ class HtmlView extends BaseHtmlView
                 if ($state->get('filter.state') != 2) {
                     $childBar->archive('links.archive')->listCheck(true);
                 } elseif ($state->get('filter.state') == 2) {
-                    $childBar->unarchive('links.unarchive')->listCheck(true);
+                    $childBar->unarchive('links.unpublish')->listCheck(true);
                 }
             }
 

@@ -16,6 +16,10 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * List of Tags field.
  *
@@ -82,7 +86,7 @@ class TagField extends ListField
         if (!\is_array($this->value) && !empty($this->value)) {
             if ($this->value instanceof TagsHelper) {
                 if (empty($this->value->tags)) {
-                    $this->value = array();
+                    $this->value = [];
                 } else {
                     $this->value = $this->value->tags;
                 }
@@ -95,7 +99,7 @@ class TagField extends ListField
 
             // Integer is given
             if (\is_int($this->value)) {
-                $this->value = array($this->value);
+                $this->value = [$this->value];
             }
 
             $data['value'] = $this->value;
@@ -119,7 +123,7 @@ class TagField extends ListField
      */
     protected function getOptions()
     {
-        $published = (string) $this->element['published'] ?: array(0, 1);
+        $published = (string) $this->element['published'] ?: [0, 1];
         $app       = Factory::getApplication();
         $language  = null;
         $options   = [];
@@ -189,8 +193,7 @@ class TagField extends ListField
 
             // Merge the used values into the most used tags
             if (!empty($this->value) && is_array($this->value)) {
-                $topIds = array_merge($topIds, $this->value);
-                $topIds = array_keys(array_flip($topIds));
+                $topIds = array_unique(array_merge($topIds, $this->value));
             }
 
             // Set the default limit for the main query
@@ -199,14 +202,15 @@ class TagField extends ListField
             if (!empty($topIds)) {
                 // Filter the ids to the most used tags and the selected tags
                 $preQuery = clone $query;
-                $preQuery->whereIn($db->quoteName('a.id'), $topIds);
+                $preQuery->clear('limit')
+                    ->whereIn($db->quoteName('a.id'), $topIds);
 
                 $db->setQuery($preQuery);
 
                 try {
                     $options = $db->loadObjectList();
                 } catch (\RuntimeException $e) {
-                    return array();
+                    return [];
                 }
 
                 // Limit the main query to the missing amount of tags
@@ -229,7 +233,7 @@ class TagField extends ListField
             try {
                 $options = array_merge($options, $db->loadObjectList());
             } catch (\RuntimeException $e) {
-                return array();
+                return [];
             }
         }
 
@@ -307,7 +311,7 @@ class TagField extends ListField
      */
     public function allowCustom()
     {
-        if ($this->element['custom'] && \in_array((string) $this->element['custom'], array('0', 'false', 'deny'))) {
+        if ($this->element['custom'] && \in_array((string) $this->element['custom'], ['0', 'false', 'deny'])) {
             return false;
         }
 
@@ -324,7 +328,7 @@ class TagField extends ListField
     public function isRemoteSearch()
     {
         if ($this->element['remote-search']) {
-            return !\in_array((string) $this->element['remote-search'], array('0', 'false', ''));
+            return !\in_array((string) $this->element['remote-search'], ['0', 'false', '']);
         }
 
         return $this->comParams->get('tag_field_ajax_mode', 1) == 1;

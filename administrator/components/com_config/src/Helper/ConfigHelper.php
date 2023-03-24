@@ -15,6 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Components helper for com_config
  *
@@ -58,6 +62,26 @@ class ConfigHelper extends ContentHelper
     }
 
     /**
+     * Returns true if the current user has permission to access and change configuration options.
+     *
+     * @param   string  $component  Component name
+     *
+     * @return  boolean
+     *
+     * @since   4.2.9
+     */
+    public static function canChangeComponentConfig(string $component)
+    {
+        $user = Factory::getApplication()->getIdentity();
+
+        if (!in_array(strtolower($component), ['com_joomlaupdate', 'com_privacy'], true)) {
+            return $user->authorise('core.admin', $component) || $user->authorise('core.options', $component);
+        }
+
+        return $user->authorise('core.admin');
+    }
+
+    /**
      * Returns an array of all components with configuration options.
      * Optionally return only those components for which the current user has 'core.manage' rights.
      *
@@ -69,15 +93,14 @@ class ConfigHelper extends ContentHelper
      */
     public static function getComponentsWithConfig($authCheck = true)
     {
-        $result = array();
+        $result = [];
         $components = self::getAllComponents();
-        $user = Factory::getUser();
 
         // Remove com_config from the array as that may have weird side effects
-        $components = array_diff($components, array('com_config'));
+        $components = array_diff($components, ['com_config']);
 
         foreach ($components as $component) {
-            if (self::hasComponentConfig($component) && (!$authCheck || $user->authorise('core.manage', $component))) {
+            if (self::hasComponentConfig($component) && (!$authCheck || self::canChangeComponentConfig($component))) {
                 self::loadLanguageForComponent($component);
                 $result[$component] = ApplicationHelper::stringURLSafe(Text::_($component)) . '_' . $component;
             }

@@ -12,6 +12,10 @@ namespace Joomla\CMS\Error\JsonApi;
 use Exception;
 use Tobscure\JsonApi\Exception\Handler\ResponseBag;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Handler for invalid param
  *

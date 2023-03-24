@@ -13,6 +13,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Searchtools elements.
  *
@@ -24,7 +28,7 @@ abstract class SearchTools
      * @var    array  Array containing information for loaded files
      * @since  3.2
      */
-    protected static $loaded = array();
+    protected static $loaded = [];
 
     /**
      * Load searchtools for a specific form
@@ -36,9 +40,9 @@ abstract class SearchTools
      *
      * @since   3.2
      */
-    public static function form($selector = '.js-stools-form', $options = array())
+    public static function form($selector = '.js-stools-form', $options = [])
     {
-        $sig = md5(serialize(array($selector, $options)));
+        $sig = md5(serialize([$selector, $options]));
 
         // Only load once
         if (!isset(static::$loaded[__METHOD__][$sig])) {
@@ -107,7 +111,7 @@ abstract class SearchTools
         $formName = 'adminForm'
     ) {
         $direction = strtolower($direction);
-        $orderIcons = array('icon-caret-up', 'icon-caret-down');
+        $orderIcons = ['icon-caret-up', 'icon-caret-down'];
         $index = (int) ($direction === 'desc');
 
         if ($order !== $selected) {

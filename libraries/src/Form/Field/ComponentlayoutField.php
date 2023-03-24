@@ -19,6 +19,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field to display a list of the layouts for a component view from
  * the extension or template overrides.
@@ -129,10 +133,10 @@ class ComponentlayoutField extends FormField
             }
 
             // Prepare array of component layouts
-            $component_layouts = array();
+            $component_layouts = [];
 
             // Prepare the grouped list
-            $groups = array();
+            $groups = [];
 
             // Add a Use Global option if useglobal="true" in XML file
             if ((string) $this->element['useglobal'] === 'true') {
@@ -142,10 +146,10 @@ class ComponentlayoutField extends FormField
             // Add the layout options from the component path.
             if (is_dir($component_path) && ($component_layouts = Folder::files($component_path, '^[^_]*\.xml$', false, true))) {
                 // Create the group for the component
-                $groups['_'] = array();
+                $groups['_'] = [];
                 $groups['_']['id'] = $this->id . '__';
                 $groups['_']['text'] = Text::sprintf('JOPTION_FROM_COMPONENT');
-                $groups['_']['items'] = array();
+                $groups['_']['items'] = [];
 
                 foreach ($component_layouts as $i => $file) {
                     // Attempt to load the XML file.
@@ -200,10 +204,10 @@ class ComponentlayoutField extends FormField
 
                         if (\count($files)) {
                             // Create the group for the template
-                            $groups[$template->name] = array();
+                            $groups[$template->name] = [];
                             $groups[$template->name]['id'] = $this->id . '_' . $template->element;
                             $groups[$template->name]['text'] = Text::sprintf('JOPTION_FROM_TEMPLATE', $template->name);
-                            $groups[$template->name]['items'] = array();
+                            $groups[$template->name]['items'] = [];
 
                             foreach ($files as $file) {
                                 // Add an option to the template group
@@ -234,17 +238,17 @@ class ComponentlayoutField extends FormField
             $attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 
             // Prepare HTML code
-            $html = array();
+            $html = [];
 
             // Compute the current selected values
-            $selected = array($this->value);
+            $selected = [$this->value];
 
             // Add a grouped list
             $html[] = HTMLHelper::_(
                 'select.groupedlist',
                 $groups,
                 $this->name,
-                array('id' => $this->id, 'group.id' => 'id', 'list.attr' => $attr, 'list.select' => $selected)
+                ['id' => $this->id, 'group.id' => 'id', 'list.attr' => $attr, 'list.select' => $selected]
             );
 
             return implode($html);

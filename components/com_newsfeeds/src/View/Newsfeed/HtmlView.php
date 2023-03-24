@@ -19,6 +19,10 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML View class for the Newsfeeds component
  *
@@ -252,14 +256,14 @@ class HtmlView extends BaseHtmlView
                 $title = $this->item->name;
             }
 
-            $path = array(array('title' => $this->item->name, 'link' => ''));
+            $path = [['title' => $this->item->name, 'link' => '']];
             $category = Categories::getInstance('Newsfeeds')->get($this->item->catid);
 
             while (
                 (!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed'
                 || $id != $category->id) && $category->id > 1
             ) {
-                $path[] = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id));
+                $path[] = ['title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id)];
                 $category = $category->getParent();
             }
 
