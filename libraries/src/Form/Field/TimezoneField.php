@@ -36,7 +36,7 @@ class TimezoneField extends GroupedlistField
      * @var    array
      * @since  1.7.0
      */
-    protected static $zones = array('Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific');
+    protected static $zones = ['Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific'];
 
     /**
      * The keyField of timezone field.
@@ -120,7 +120,7 @@ class TimezoneField extends GroupedlistField
      */
     protected function getGroups()
     {
-        $groups = array();
+        $groups = [];
 
         // Get the list of time zones from the server.
         $zones = \DateTimeZone::listIdentifiers();
@@ -133,13 +133,13 @@ class TimezoneField extends GroupedlistField
             }
 
             // Get the group/locale from the timezone.
-            list ($group, $locale) = explode('/', $zone, 2);
+            list($group, $locale) = explode('/', $zone, 2);
 
             // Only use known groups.
             if (\in_array($group, self::$zones)) {
                 // Initialize the group if necessary.
                 if (!isset($groups[$group])) {
-                    $groups[$group] = array();
+                    $groups[$group] = [];
                 }
 
                 // Only add options where a locale exists.

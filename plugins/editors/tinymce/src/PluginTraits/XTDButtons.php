@@ -78,7 +78,7 @@ trait XTDButtons
 
             sort($btnsNames);
 
-            return ['names'  => $btnsNames];
+            return ['names' => $btnsNames];
         }
     }
 }

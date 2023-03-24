@@ -38,11 +38,11 @@ class MetasRenderer extends DocumentRenderer
      *
      * @since   4.0.0
      */
-    public function render($head, $params = array(), $content = null)
+    public function render($head, $params = [], $content = null)
     {
         // Convert the tagids to titles
         if (isset($this->_doc->_metaTags['name']['tags'])) {
-            $tagsHelper = new TagsHelper();
+            $tagsHelper                            = new TagsHelper();
             $this->_doc->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($this->_doc->_metaTags['name']['tags']));
         }
 
@@ -110,7 +110,7 @@ class MetasRenderer extends DocumentRenderer
             $template = $app->getTemplate(true);
 
             // Try to find a favicon by checking the template and root folder
-            $icon = '/favicon.ico';
+            $icon           = '/favicon.ico';
             $foldersToCheck = [
                 JPATH_BASE,
                 JPATH_ROOT . '/media/templates/' . $client . $template->template,

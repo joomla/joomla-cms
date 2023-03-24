@@ -11,6 +11,7 @@
 namespace Joomla\Component\Content\Api\View\Articles;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -220,10 +221,18 @@ class JsonapiView extends BaseApiView
             $item->tags = array_combine($tagsIds, $tagsNames);
         } else {
             $item->tags = [];
+            $tags       = new TagsHelper();
+            $tagsIds    = $tags->getTagIds($item->id, 'com_content.article');
+
+            if (!empty($tagsIds)) {
+                $tagsIds    = explode(',', $tagsIds);
+                $tagsNames  = $tags->getTagNames($tagsIds);
+                $item->tags = array_combine($tagsIds, $tagsNames);
+            }
         }
 
         if (isset($item->images)) {
-            $registry = new Registry($item->images);
+            $registry     = new Registry($item->images);
             $item->images = $registry->toArray();
 
             if (!empty($item->images['image_intro'])) {
