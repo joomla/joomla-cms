@@ -18,6 +18,10 @@ use Joomla\CMS\Component\Router\Rules\NomenuRules;
 use Joomla\CMS\Component\Router\Rules\StandardRules;
 use Joomla\CMS\Menu\AbstractMenu;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Routing class from com_finder
  *

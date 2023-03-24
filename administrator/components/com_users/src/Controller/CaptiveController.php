@@ -12,9 +12,7 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Event\MultiFactor\Validate;
 use Joomla\CMS\Factory;
@@ -27,8 +25,11 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\CaptiveModel;
 use Joomla\Input\Input;
-use ReflectionObject;
 use RuntimeException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Captive Multi-factor Authentication page controller

@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Pagination;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Pagination object representing a particular item in the pagination lists.
  *

@@ -14,8 +14,13 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View for the global configuration
@@ -105,14 +110,16 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
+        $toolbar    = Toolbar::getInstance();
+
         ToolbarHelper::title(Text::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'cog config');
-        ToolbarHelper::apply('application.apply');
-        ToolbarHelper::divider();
-        ToolbarHelper::save('application.save');
-        ToolbarHelper::divider();
-        ToolbarHelper::cancel('application.cancel', 'JTOOLBAR_CLOSE');
-        ToolbarHelper::divider();
-        ToolbarHelper::inlinehelp();
-        ToolbarHelper::help('Site_Global_Configuration');
+        $toolbar->apply('application.apply');
+        $toolbar->divider();
+        $toolbar->save('application.save');
+        $toolbar->divider();
+        $toolbar->cancel('application.cancel');
+        $toolbar->divider();
+        $toolbar->inlinehelp();
+        $toolbar->help('Site_Global_Configuration');
     }
 }

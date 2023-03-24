@@ -12,6 +12,10 @@ namespace Joomla\Component\Users\Administrator\DataShape;
 
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * @property  string  $name                Internal code of this MFA Method
  * @property  string  $display             User-facing name for this MFA Method

@@ -24,6 +24,10 @@ use Joomla\CMS\Tag\TagServiceTrait;
 use Joomla\Component\Newsfeeds\Administrator\Service\HTML\AdministratorService;
 use Psr\Container\ContainerInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Component class for com_newsfeeds
  *

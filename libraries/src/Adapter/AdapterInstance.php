@@ -13,6 +13,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Adapter Instance Class
  *
@@ -46,7 +50,7 @@ class AdapterInstance extends CMSObject
      *
      * @since   1.6
      */
-    public function __construct(Adapter $parent, DatabaseDriver $db, array $options = array())
+    public function __construct(Adapter $parent, DatabaseDriver $db, array $options = [])
     {
         // Set the properties from the options array that is passed in
         $this->setProperties($options);

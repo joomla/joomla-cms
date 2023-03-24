@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Form\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Supports an HTML select list of image
  *
@@ -36,6 +40,7 @@ class ImagelistField extends FilelistField
     {
         // Define the image file type filter.
         $this->fileFilter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$|\.jpeg$|\.psd$|\.eps$';
+        $this->fileFilter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$|\.jpeg$|\.psd$|\.eps$|\.avif$|\.webp$|\.heic$|\.wp2$';
 
         // Get the field options.
         return parent::getOptions();

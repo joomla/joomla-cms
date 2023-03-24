@@ -14,6 +14,10 @@ use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The styles controller
  *
@@ -87,7 +91,7 @@ class StylesController extends ApiController
                 throw new InvalidParameterException('The template property cannot be modified for an existing style');
             }
 
-            $model = $this->getModel(Inflector::singularize($this->contentType), '', ['ignore_request' => true]);
+            $model            = $this->getModel(Inflector::singularize($this->contentType), '', ['ignore_request' => true]);
             $data['template'] = $model->getItem($this->input->getInt('id'))->template;
         }
 

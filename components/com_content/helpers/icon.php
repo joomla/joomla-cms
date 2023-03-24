@@ -13,6 +13,10 @@
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content Component HTML Helper
  *
@@ -33,7 +37,7 @@ abstract class JHtmlIcon
      *
      * @deprecated 5.0 Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
      */
-    public static function create($category, $params, $attribs = array(), $legacy = false)
+    public static function create($category, $params, $attribs = [], $legacy = false)
     {
         return self::getIcon()->create($category, $params, $attribs, $legacy);
     }
@@ -55,7 +59,7 @@ abstract class JHtmlIcon
      *
      * @deprecated 5.0 Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
      */
-    public static function edit($article, $params, $attribs = array(), $legacy = false)
+    public static function edit($article, $params, $attribs = [], $legacy = false)
     {
         return self::getIcon()->edit($article, $params, $attribs, $legacy);
     }
@@ -72,7 +76,7 @@ abstract class JHtmlIcon
      *
      * @deprecated 5.0 Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
      */
-    public static function print_popup($article, $params, $attribs = array(), $legacy = false)
+    public static function print_popup($article, $params, $attribs = [], $legacy = false)
     {
         throw new \Exception(Text::_('COM_CONTENT_ERROR_PRINT_POPUP'));
     }
@@ -89,7 +93,7 @@ abstract class JHtmlIcon
      *
      * @deprecated 5.0 Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
      */
-    public static function print_screen($article, $params, $attribs = array(), $legacy = false)
+    public static function print_screen($article, $params, $attribs = [], $legacy = false)
     {
         return self::getIcon()->print_screen($params, $legacy);
     }

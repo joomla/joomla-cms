@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Application\CLI;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Class defining ANSI-color styles for command line output
  *

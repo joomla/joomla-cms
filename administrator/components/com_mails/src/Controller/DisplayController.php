@@ -14,6 +14,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Mail templates Controller
  *
@@ -39,7 +43,7 @@ class DisplayController extends BaseController
      *
      * @since   4.0.0
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         $view   = $this->input->get('view', 'templates');
         $layout = $this->input->get('layout', '');

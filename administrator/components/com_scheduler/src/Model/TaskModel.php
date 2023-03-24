@@ -33,6 +33,10 @@ use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * MVC Model to interact with the Scheduler DB.
  * Implements methods to add, remove, edit tasks.
@@ -112,7 +116,7 @@ class TaskModel extends AdminModel
      * @since  4.1.0
      * @throws \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
     {
         $config['events_map'] = $config['events_map'] ?? [];
 
@@ -154,7 +158,7 @@ class TaskModel extends AdminModel
      * @since  4.1.0
      * @throws \Exception
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         Form::addFieldPath(JPATH_ADMINISTRATOR . 'components/com_scheduler/src/Field');
 
@@ -250,7 +254,7 @@ class TaskModel extends AdminModel
      * @since  4.1.0
      * @throws \Exception
      */
-    public function getTable($name = 'Task', $prefix = 'Table', $options = array()): Table
+    public function getTable($name = 'Task', $prefix = 'Table', $options = []): Table
     {
         return parent::getTable($name, $prefix, $options);
     }
@@ -265,7 +269,7 @@ class TaskModel extends AdminModel
      */
     protected function loadFormData()
     {
-        $data = $this->app->getUserState('com_scheduler.edit.task.data', array());
+        $data = $this->app->getUserState('com_scheduler.edit.task.data', []);
 
         // If the data from UserState is empty, we fetch it with getItem()
         if (empty($data)) {
@@ -535,7 +539,7 @@ class TaskModel extends AdminModel
 
         // If a new entry, we'll have to put in place a pseudo-last_execution
         if ($isNew) {
-            $basisDayOfMonth = $data['execution_rules']['exec-day'];
+            $basisDayOfMonth           = $data['execution_rules']['exec-day'];
             [$basisHour, $basisMinute] = explode(':', $data['execution_rules']['exec-time']);
 
             $data['last_execution'] = Factory::getDate('now', 'GMT')->format('Y-m')

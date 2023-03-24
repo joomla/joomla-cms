@@ -19,6 +19,10 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML View class for the Newsfeeds component
  *
@@ -95,7 +99,7 @@ class HtmlView extends BaseHtmlView
         $user = $this->getCurrentUser();
 
         // Get view related request variables.
-        $print = $app->input->getBool('print');
+        $print = $app->getInput()->getBool('print');
 
         // Get model data.
         $state = $this->get('State');
@@ -108,16 +112,16 @@ class HtmlView extends BaseHtmlView
         }
 
         // Add router helpers.
-        $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-        $item->catslug = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
+        $item->slug        = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+        $item->catslug     = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
         $item->parent_slug = $item->category_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
         // Merge newsfeed params. If this is single-newsfeed view, menu params override newsfeed params
         // Otherwise, newsfeed params override menu item params
-        $params = $state->get('params');
+        $params          = $state->get('params');
         $newsfeed_params = clone $item->params;
-        $active = $app->getMenu()->getActive();
-        $temp = clone $params;
+        $active          = $app->getMenu()->getActive();
+        $temp            = clone $params;
 
         // Check to see which parameters should take priority
         if ($active) {
@@ -172,7 +176,7 @@ class HtmlView extends BaseHtmlView
         $params->merge($item->params);
 
         try {
-            $feed = new FeedFactory();
+            $feed         = new FeedFactory();
             $this->rssDoc = $feed->getFeed($item->link);
         } catch (\InvalidArgumentException $e) {
             $msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
@@ -252,14 +256,14 @@ class HtmlView extends BaseHtmlView
                 $title = $this->item->name;
             }
 
-            $path = array(array('title' => $this->item->name, 'link' => ''));
+            $path     = [['title' => $this->item->name, 'link' => '']];
             $category = Categories::getInstance('Newsfeeds')->get($this->item->catid);
 
             while (
                 (!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed'
                 || $id != $category->id) && $category->id > 1
             ) {
-                $path[] = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id));
+                $path[]   = ['title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id)];
                 $category = $category->getParent();
             }
 

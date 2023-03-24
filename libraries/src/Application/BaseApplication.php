@@ -15,6 +15,10 @@ use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla Platform Base Application Class
  *
@@ -43,7 +47,7 @@ abstract class BaseApplication extends AbstractApplication implements Dispatcher
      */
     public function __construct(Input $input = null, Registry $config = null)
     {
-        $this->input = $input instanceof Input ? $input : new Input();
+        $this->input  = $input instanceof Input ? $input : new Input();
         $this->config = $config instanceof Registry ? $config : new Registry();
 
         $this->initialise();
