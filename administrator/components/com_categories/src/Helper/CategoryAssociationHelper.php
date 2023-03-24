@@ -51,7 +51,7 @@ abstract class CategoryAssociationHelper
 
             foreach ($associations as $itemId => $itemAssociations) {
                 foreach ($itemAssociations as $tag => $item) {
-                    if (class_exists($helperClassname) && \is_callable(array($helperClassname, 'getCategoryRoute'))) {
+                    if (class_exists($helperClassname) && \is_callable([$helperClassname, 'getCategoryRoute'])) {
                         $return[$itemId][$tag] = $helperClassname::getCategoryRoute($item, $tag, $layout);
                     } else {
                         $link = 'index.php?option=' . $extension . '&view=category&id=' . $item;
@@ -63,7 +63,7 @@ abstract class CategoryAssociationHelper
                         if ($layout) {
                             $link .= '&layout=' . $layout;
                         }
-                        
+
                         $return[$itemId][$tag] = $link;
                     }
                 }
