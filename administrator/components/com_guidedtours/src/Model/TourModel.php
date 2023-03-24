@@ -16,9 +16,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Guidedtours\Administrator\Helper\GuidedtoursHelper;
 use Joomla\Database\ParameterType;
-use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -49,29 +47,6 @@ class TourModel extends AdminModel
     public $typeAlias = 'com_guidedtours.tour';
 
     /**
-     * Method to change the title
-     *
-     * @param   integer  $categoryId  The id of the category.
-     * @param   string   $alias       The alias.
-     * @param   string   $title       The title.
-     *
-     * @return  array  Contains the modified title and alias.
-     *
-     * @since  4.3.0
-     */
-    protected function generateNewTitle($categoryId, $alias, $title)
-    {
-        // Alter the title
-        $table = $this->getTable();
-
-        while ($table->load(['title' => $title])) {
-            $title = StringHelper::increment($title);
-        }
-
-        return [$title, $alias];
-    }
-
-    /**
      * Method to save the form data.
      *
      * @param   array  $data  The form data.
@@ -93,11 +68,6 @@ class TourModel extends AdminModel
             $origTable = clone $this->getTable();
             $origTable->load($input->getInt('id'));
 
-            if ($data['title'] == $origTable->title) {
-                list($title)   = $this->generateNewTitle(0, '', $data['title']);
-                $data['title'] = $title;
-            }
-
             $data['published'] = 0;
         }
 
@@ -105,20 +75,20 @@ class TourModel extends AdminModel
         $id   = $data['id'];
         $lang = $data['language'];
 
-        GuidedtoursHelper::setStepLanguage($id, $lang);
+        $this->setStepsLanguage($id, $lang);
 
         $result = parent::save($data);
 
         // Create default step for new tour
         if ($result && $input->getCmd('task') !== 'save2copy' && $this->getState($this->getName() . '.new')) {
-            $tour_id = (int) $this->getState($this->getName() . '.id');
+            $tourId = (int) $this->getState($this->getName() . '.id');
 
             $table = $this->getTable('Step');
 
             $table->id          = 0;
             $table->title       = 'COM_GUIDEDTOURS_BASIC_STEP';
             $table->description = '';
-            $table->tour_id     = $tour_id;
+            $table->tour_id     = $tourId;
             $table->published   = 1;
 
             $table->store();
@@ -194,19 +164,17 @@ class TourModel extends AdminModel
 
         $item = $this->getItem($id);
 
-        $canEditState = $this->canEditState((object) $item);
-
         // Modify the form based on access controls.
-        if (!$canEditState || !empty($item->default)) {
-            if (!$canEditState) {
-                $form->setFieldAttribute('published', 'disabled', 'true');
-                $form->setFieldAttribute('published', 'required', 'false');
-                $form->setFieldAttribute('published', 'filter', 'unset');
-            }
+        if (!$this->canEditState((object) $item)) {
+            $form->setFieldAttribute('published', 'disabled', 'true');
+            $form->setFieldAttribute('published', 'required', 'false');
+            $form->setFieldAttribute('published', 'filter', 'unset');
         }
 
-        $form->setFieldAttribute('created', 'default', Factory::getDate()->toSql());
-        $form->setFieldAttribute('modified', 'default', Factory::getDate()->toSql());
+        $currentDate = Factory::getDate()->toSql();
+
+        $form->setFieldAttribute('created', 'default', $currentDate);
+        $form->setFieldAttribute('modified', 'default', $currentDate);
 
         return $form;
     }
@@ -245,7 +213,7 @@ class TourModel extends AdminModel
     protected function canDelete($record)
     {
         if (!empty($record->id)) {
-            return Factory::getUser()->authorise('core.delete', 'com_guidedtours.tour.' . (int) $record->id);
+            return $this->getCurrentUser()->authorise('core.delete', 'com_guidedtours.tour.' . (int) $record->id);
         }
 
         return false;
@@ -263,11 +231,9 @@ class TourModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $user = Factory::getUser();
-
         // Check for existing tour.
         if (!empty($record->id)) {
-            return $user->authorise('core.edit.state', 'com_guidedtours.tour.' . (int) $record->id);
+            return $this->getCurrentUser()->authorise('core.edit.state', 'com_guidedtours.tour.' . (int) $record->id);
         }
 
         // Default to component settings if neither tour nor category known.
@@ -285,14 +251,13 @@ class TourModel extends AdminModel
      */
     public function getItem($pk = null)
     {
-        $lang = Factory::getLanguage();
-        $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
+        Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
-        if ($result = parent::getItem($pk)) {
-            if (!empty($result->id)) {
-                $result->title_translation       = Text::_($result->title);
-                $result->description_translation = Text::_($result->description);
-            }
+        $result = parent::getItem($pk);
+
+        if (!empty($result->id)) {
+            $result->title_translation       = Text::_($result->title);
+            $result->description_translation = Text::_($result->description);
         }
 
         return $result;
@@ -330,7 +295,7 @@ class TourModel extends AdminModel
                         return false;
                     }
 
-                    $tour_id = $table->id;
+                    $tourId = $table->id;
 
                     if (!$table->delete($pk)) {
                         $this->setError($table->getError());
@@ -342,7 +307,7 @@ class TourModel extends AdminModel
                     $db    = $this->getDatabase();
                     $query = $db->getQuery(true)
                         ->delete($db->quoteName('#__guidedtour_steps'))
-                        ->where($db->quoteName('tour_id') . '=' . $tour_id);
+                        ->where($db->quoteName('tour_id') . '=' . $tourId);
                     $db->setQuery($query);
                     $db->execute();
 
@@ -391,7 +356,7 @@ class TourModel extends AdminModel
         $db   = $this->getDatabase();
 
         // Access checks.
-        if (!$user->authorise('core.create', 'com_tours') || !$user->authorise('core.create', '__guidedtour_steps')) {
+        if (!$user->authorise('core.create', 'com_tours')) {
             throw new \Exception(Text::_('JERROR_CORE_CREATE_NOT_PERMITTED'));
         }
 
@@ -404,16 +369,6 @@ class TourModel extends AdminModel
                 // Reset the id to create a new record.
                 $table->id = 0;
 
-                // Alter the title.
-                $m = null;
-
-                if (preg_match('#\((\d+)\)$#', $table->title, $m)) {
-                    $table->title = preg_replace('#\(\d+\)$#', '(' . ($m[1] + 1) . ')', $table->title);
-                }
-
-                $data = $this->generateNewTitle(0, $table->title, $table->title);
-
-                $table->title       = $data[0];
                 $table->published   = 0;
 
                 if (!$table->check() || !$table->store()) {
@@ -536,5 +491,33 @@ class TourModel extends AdminModel
         $this->cleanCache();
 
         return true;
+    }
+
+    /**
+     * Sets a tour's steps language
+     *
+     * @param   int     $id        Id of a tour
+     * @param   string  $language  The language to apply to the steps belong the tour
+     *
+     * @return  boolean
+     *
+     * @since  4.3.0
+     */
+    protected function setStepsLanguage(int $id, string $language = '*'): bool
+    {
+        if ($id <= 0) {
+            return false;
+        }
+
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->update($db->quoteName('#__guidedtour_steps'))
+            ->set($db->quoteName('language') . ' = :language')
+            ->where($db->quoteName('tour_id') . ' = :tourId')
+            ->bind(':language', $language)
+            ->bind(':tourId', $id, ParameterType::INTEGER);
+
+        return $db->setQuery($query)
+            ->execute();
     }
 }
