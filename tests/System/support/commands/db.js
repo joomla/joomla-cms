@@ -154,9 +154,9 @@ Cypress.Commands.add('db_getUserId', () => {
     });
 });
 
-Cypress.Commands.add('db_createFieldGroup', (field_group) => {
+Cypress.Commands.add('db_createFieldGroup', (fieldGroup) => {
   const defaultFieldGroupOptions = {
-    title: 'test field_group',
+    title: 'test field group',
     state: 1,
     language: '*',
     context: '',
@@ -164,7 +164,7 @@ Cypress.Commands.add('db_createFieldGroup', (field_group) => {
     access: 1,
   };
 
-  return cy.task('queryDB', createInsertQuery('fields_groups', { ...defaultFieldGroupOptions, ...field_group })).then(async (info) => info.insertId);
+  return cy.task('queryDB', createInsertQuery('fields_groups', { ...defaultFieldGroupOptions, ...fieldGroup })).then(async (info) => info.insertId);
 });
 
 Cypress.Commands.add('db_createField', (field) => {
