@@ -328,6 +328,9 @@ JoomlaEditorButton.registerAction('modal', (editor, options) => {
     // Replace editor parameter to actual editor ID
     const url = options.src.indexOf('http') === 0 ? new URL(options.src) : new URL(options.src, window.location.origin);
     url.searchParams.set('editor', editor.getId());
+    if (url.searchParams.has('e_name')) {
+      url.searchParams.set('e_name', editor.getId());
+    }
     options.src = url.toString();
   }
   const popup = new JoomlaDialog(options);
