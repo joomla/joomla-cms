@@ -37,15 +37,15 @@ class CategoriesHelper
     public static function getAssociations($pk, $extension = 'com_content')
     {
         // To avoid doing duplicate database queries.
-        static $multilanguageAssociations = array();
+        static $multilanguageAssociations = [];
 
         // Multilanguage association array key. If the key is already in the array we don't need to run the query again, just return it.
-        $queryKey = md5(serialize(array_merge(array($extension, print_r($pk, true)))));
+        $queryKey = md5(serialize(array_merge([$extension, print_r($pk, true)])));
 
         if (!isset($multilanguageAssociations[$queryKey])) {
-            $multilanguageAssociations[$queryKey] = array();
+            $multilanguageAssociations[$queryKey] = [];
 
-            $user = Factory::getUser();
+            $user   = Factory::getUser();
             $groups = implode(',', $user->getAuthorisedViewLevels());
 
             $advClause = [];
