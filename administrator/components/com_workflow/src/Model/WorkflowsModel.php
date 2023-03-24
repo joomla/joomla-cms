@@ -13,6 +13,7 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -45,7 +46,7 @@ class WorkflowsModel extends ListModel
                 'created', 'w.created',
                 'ordering', 'w.ordering',
                 'modified', 'w.modified',
-                'description', 'w.description'
+                'description', 'w.description',
             ];
         }
 
@@ -70,7 +71,7 @@ class WorkflowsModel extends ListModel
      */
     protected function populateState($ordering = 'w.ordering', $direction = 'asc')
     {
-        $app = Factory::getApplication();
+        $app       = Factory::getApplication();
         $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
         $this->setState('filter.extension', $extension);
@@ -158,7 +159,7 @@ class WorkflowsModel extends ListModel
         foreach ($items as $item) {
             $ids[] = (int) $item->id;
 
-            $item->count_states = 0;
+            $item->count_states      = 0;
             $item->count_transitions = 0;
         }
 
@@ -206,7 +207,7 @@ class WorkflowsModel extends ListModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  string  The query to database.
+     * @return  DatabaseQuery  The query to database.
      *
      * @since  4.0.0
      */

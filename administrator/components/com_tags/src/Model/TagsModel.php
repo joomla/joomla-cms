@@ -140,7 +140,7 @@ class TagsModel extends ListModel
     /**
      * Method to create a query for a list of items.
      *
-     * @return  string
+     * @return  DatabaseQuery
      *
      * @since  3.1
      */
@@ -149,7 +149,7 @@ class TagsModel extends ListModel
         // Create a new query object.
         $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
 
         // Select the required fields from the table.
         $query->select(

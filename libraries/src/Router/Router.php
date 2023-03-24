@@ -64,11 +64,11 @@ class Router
      * @since  1.5
      */
     protected $rules = [
-        'buildpreprocess' => [],
-        'build' => [],
+        'buildpreprocess'  => [],
+        'build'            => [],
         'buildpostprocess' => [],
-        'parsepreprocess' => [],
-        'parse' => [],
+        'parsepreprocess'  => [],
+        'parse'            => [],
         'parsepostprocess' => [],
     ];
 

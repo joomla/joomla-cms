@@ -195,7 +195,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
                 [
                     'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
                     'subject'    => $this,
-                    'extension'  => $context
+                    'extension'  => $context,
                 ]
             )
         );
@@ -210,7 +210,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
                     'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
                     'subject'    => $this,
                     'extension'  => $context,
-                    'source'     => $result
+                    'source'     => $result,
                 ]
             )
         );
@@ -284,7 +284,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
             $this->_layout = $layout;
         } else {
             // Convert parameter to array based on :
-            $temp = explode(':', $layout);
+            $temp          = explode(':', $layout);
             $this->_layout = $temp[1];
 
             // Set layout template
@@ -357,8 +357,8 @@ class HtmlView extends AbstractView implements CurrentUserInterface
         // Clear prior output
         $this->_output = null;
 
-        $template = Factory::getApplication()->getTemplate(true);
-        $layout = $this->getLayout();
+        $template       = Factory::getApplication()->getTemplate(true);
+        $layout         = $this->getLayout();
         $layoutTemplate = $this->getLayoutTemplate();
 
         // Create the template file name based on the layout
@@ -366,7 +366,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
 
         // Clean the file name
         $file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
-        $tpl = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
+        $tpl  = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
 
         // Load the language file for the template
         $lang = Factory::getLanguage();
@@ -384,12 +384,12 @@ class HtmlView extends AbstractView implements CurrentUserInterface
         }
 
         // Load the template script
-        $filetofind = $this->_createFileName('template', ['name' => $file]);
+        $filetofind      = $this->_createFileName('template', ['name' => $file]);
         $this->_template = Path::find($this->_path['template'], $filetofind);
 
         // If alternate layout can't be found, fall back to default layout
         if ($this->_template == false) {
-            $filetofind = $this->_createFileName('', ['name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)]);
+            $filetofind      = $this->_createFileName('', ['name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)]);
             $this->_template = Path::find($this->_path['template'], $filetofind);
         }
 

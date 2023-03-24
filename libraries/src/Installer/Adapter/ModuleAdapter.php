@@ -95,6 +95,7 @@ class ModuleAdapter extends InstallerAdapter
 
         // If there is a manifest script, let's copy it.
         if ($this->manifest_script) {
+            $path         = [];
             $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
@@ -121,16 +122,16 @@ class ModuleAdapter extends InstallerAdapter
      */
     public function discover()
     {
-        $results = [];
-        $site_list = Folder::folders(JPATH_SITE . '/modules');
+        $results    = [];
+        $site_list  = Folder::folders(JPATH_SITE . '/modules');
         $admin_list = Folder::folders(JPATH_ADMINISTRATOR . '/modules');
-        $site_info = ApplicationHelper::getClientInfo('site', true);
+        $site_info  = ApplicationHelper::getClientInfo('site', true);
         $admin_info = ApplicationHelper::getClientInfo('administrator', true);
 
         foreach ($site_list as $module) {
             if (file_exists(JPATH_SITE . "/modules/$module/$module.xml")) {
                 $manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . "/modules/$module/$module.xml");
-                $extension = Table::getInstance('extension');
+                $extension        = Table::getInstance('extension');
                 $extension->set('type', 'module');
                 $extension->set('client_id', $site_info->id);
                 $extension->set('element', $module);
@@ -146,7 +147,7 @@ class ModuleAdapter extends InstallerAdapter
         foreach ($admin_list as $module) {
             if (file_exists(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml")) {
                 $manifest_details = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/modules/$module/$module.xml");
-                $extension = Table::getInstance('extension');
+                $extension        = Table::getInstance('extension');
                 $extension->set('type', 'module');
                 $extension->set('client_id', $admin_info->id);
                 $extension->set('element', $module);
@@ -394,8 +395,8 @@ class ModuleAdapter extends InstallerAdapter
      */
     public function prepareDiscoverInstall()
     {
-        $client = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
-        $manifestPath = $client->path . '/modules/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
+        $client                 = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
+        $manifestPath           = $client->path . '/modules/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
         $this->parent->manifest = $this->parent->isManifest($manifestPath);
         $this->parent->setPath('manifest', $manifestPath);
         $this->setManifest($this->parent->getManifest());
@@ -410,13 +411,13 @@ class ModuleAdapter extends InstallerAdapter
      */
     public function refreshManifestCache()
     {
-        $client = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
-        $manifestPath = $client->path . '/modules/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
+        $client                 = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
+        $manifestPath           = $client->path . '/modules/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
         $this->parent->manifest = $this->parent->isManifest($manifestPath);
         $this->parent->setPath('manifest', $manifestPath);
-        $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
+        $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
-        $this->parent->extension->name = $manifest_details['name'];
+        $this->parent->extension->name           = $manifest_details['name'];
 
         if ($this->parent->extension->store()) {
             return true;
@@ -468,11 +469,11 @@ class ModuleAdapter extends InstallerAdapter
                 );
             }
 
-            $basePath = $client->path;
+            $basePath       = $client->path;
             $this->clientId = $client->id;
         } else {
             // No client attribute was found so we assume the site as the client
-            $basePath = JPATH_SITE;
+            $basePath       = JPATH_SITE;
             $this->clientId = 0;
         }
 
@@ -539,11 +540,11 @@ class ModuleAdapter extends InstallerAdapter
             $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
             $this->extension->manifest_cache = json_encode($manifest_details);
-            $this->extension->state = 0;
-            $this->extension->name = $manifest_details['name'];
-            $this->extension->enabled = 1;
-            $this->extension->params = $this->parent->getParams();
-            $this->extension->changelogurl = (string) $this->manifest->changelogurl;
+            $this->extension->state          = 0;
+            $this->extension->name           = $manifest_details['name'];
+            $this->extension->enabled        = 1;
+            $this->extension->params         = $this->parent->getParams();
+            $this->extension->changelogurl   = (string) $this->manifest->changelogurl;
 
             if (!$this->extension->store()) {
                 // Install failed, roll back changes
@@ -624,7 +625,7 @@ class ModuleAdapter extends InstallerAdapter
             // so that if we have to rollback the changes we can undo it.
             $this->parent->pushStep(
                 [
-                    'type' => 'extension',
+                    'type'         => 'extension',
                     'extension_id' => $this->extension->extension_id,
                 ]
             );

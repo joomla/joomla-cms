@@ -95,7 +95,7 @@ class MailTemplate
     public function __construct($templateId, $language, Mail $mailer = null)
     {
         $this->template_id = $templateId;
-        $this->language = $language;
+        $this->language    = $language;
 
         if ($mailer) {
             $this->mailer = $mailer;
@@ -116,9 +116,9 @@ class MailTemplate
      */
     public function addAttachment($name, $file)
     {
-        $attachment = new \stdClass();
-        $attachment->name = $name;
-        $attachment->file = $file;
+        $attachment          = new \stdClass();
+        $attachment->name    = $name;
+        $attachment->file    = $file;
         $this->attachments[] = $attachment;
     }
 
@@ -135,10 +135,10 @@ class MailTemplate
      */
     public function addRecipient($mail, $name = null, $type = 'to')
     {
-        $recipient = new \stdClass();
-        $recipient->mail = $mail;
-        $recipient->name = $name ?? $mail;
-        $recipient->type = $type;
+        $recipient          = new \stdClass();
+        $recipient->mail    = $mail;
+        $recipient->name    = $name ?? $mail;
+        $recipient->type    = $type;
         $this->recipients[] = $recipient;
     }
 
@@ -154,9 +154,9 @@ class MailTemplate
      */
     public function setReplyTo($mail, $name = '')
     {
-        $reply = new \stdClass();
-        $reply->mail = $mail;
-        $reply->name = $name;
+        $reply         = new \stdClass();
+        $reply->mail   = $mail;
+        $reply->name   = $name;
         $this->replyto = $reply;
     }
 
@@ -203,12 +203,12 @@ class MailTemplate
 
         if ((int) $config->get('alternative_mailconfig', 0) === 1 && (int) $params->get('alternative_mailconfig', 0) === 1) {
             if ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp') {
-                $smtpauth = ($params->get('smtpauth', $app->get('smtpauth')) == 0) ? null : 1;
-                $smtpuser = $params->get('smtpuser', $app->get('smtpuser'));
-                $smtppass = $params->get('smtppass', $app->get('smtppass'));
-                $smtphost = $params->get('smtphost', $app->get('smtphost'));
+                $smtpauth   = ($params->get('smtpauth', $app->get('smtpauth')) == 0) ? null : 1;
+                $smtpuser   = $params->get('smtpuser', $app->get('smtpuser'));
+                $smtppass   = $params->get('smtppass', $app->get('smtppass'));
+                $smtphost   = $params->get('smtphost', $app->get('smtphost'));
                 $smtpsecure = $params->get('smtpsecure', $app->get('smtpsecure'));
-                $smtpport = $params->get('smtpport', $app->get('smtpport'));
+                $smtpport   = $params->get('smtpport', $app->get('smtpport'));
                 $this->mailer->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
             }
 
@@ -365,7 +365,7 @@ class MailTemplate
      */
     public static function getTemplate($key, $language)
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true);
         $query->select('*')
             ->from($db->quoteName('#__mail_templates'))
@@ -400,16 +400,16 @@ class MailTemplate
     {
         $db = Factory::getDbo();
 
-        $template = new \stdClass();
+        $template              = new \stdClass();
         $template->template_id = $key;
-        $template->language = '';
-        $template->subject = $subject;
-        $template->body = $body;
-        $template->htmlbody = $htmlbody;
+        $template->language    = '';
+        $template->subject     = $subject;
+        $template->body        = $body;
+        $template->htmlbody    = $htmlbody;
         $template->attachments = '';
-        $params = new \stdClass();
-        $params->tags = [$tags];
-        $template->params = json_encode($params);
+        $params                = new \stdClass();
+        $params->tags          = [$tags];
+        $template->params      = json_encode($params);
 
         return $db->insertObject('#__mail_templates', $template);
     }
@@ -431,15 +431,15 @@ class MailTemplate
     {
         $db = Factory::getDbo();
 
-        $template = new \stdClass();
+        $template              = new \stdClass();
         $template->template_id = $key;
-        $template->language = '';
-        $template->subject = $subject;
-        $template->body = $body;
-        $template->htmlbody = $htmlbody;
-        $params = new \stdClass();
-        $params->tags = [$tags];
-        $template->params = json_encode($params);
+        $template->language    = '';
+        $template->subject     = $subject;
+        $template->body        = $body;
+        $template->htmlbody    = $htmlbody;
+        $params                = new \stdClass();
+        $params->tags          = [$tags];
+        $template->params      = json_encode($params);
 
         return $db->updateObject('#__mail_templates', $template, ['template_id', 'language']);
     }
@@ -455,7 +455,7 @@ class MailTemplate
      */
     public static function deleteTemplate($key)
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true);
         $query->delete($db->quoteName('#__mail_templates'))
             ->where($db->quoteName('template_id') . ' = :key')

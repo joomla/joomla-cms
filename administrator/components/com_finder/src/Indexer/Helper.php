@@ -65,13 +65,13 @@ class Helper
         static $defaultLanguage;
 
         if (!$tuplecount) {
-            $params = ComponentHelper::getParams('com_finder');
+            $params     = ComponentHelper::getParams('com_finder');
             $tuplecount = $params->get('tuplecount', 1);
         }
 
         if (is_null($multilingual)) {
             $multilingual = Multilanguage::isEnabled();
-            $config = ComponentHelper::getParams('com_finder');
+            $config       = ComponentHelper::getParams('com_finder');
 
             if ($config->get('language_default', '') == '') {
                 $defaultLang = '*';
@@ -86,8 +86,8 @@ class Helper
              * In order to not overwrite the language code of the language
              * object that we are using, we are cloning it here.
              */
-            $obj = Language::getInstance($defaultLang);
-            $defaultLanguage = clone $obj;
+            $obj                       = Language::getInstance($defaultLang);
+            $defaultLanguage           = clone $obj;
             $defaultLanguage->language = '*';
         }
 
@@ -102,7 +102,7 @@ class Helper
         }
 
         $tokens = [];
-        $terms = $language->tokenise($input);
+        $terms  = $language->tokenise($input);
 
         // @todo: array_filter removes any number 0's from the terms. Not sure this is entirely intended
         $terms = array_filter($terms);
@@ -122,8 +122,8 @@ class Helper
                 if (isset($cache[$lang][$terms[$i]])) {
                     $tokens[] = $cache[$lang][$terms[$i]];
                 } else {
-                    $token = new Token($terms[$i], $language->language);
-                    $tokens[] = $token;
+                    $token                    = new Token($terms[$i], $language->language);
+                    $tokens[]                 = $token;
                     $cache[$lang][$terms[$i]] = $token;
                 }
             }
@@ -140,14 +140,14 @@ class Helper
                         }
 
                         $temp[] = $tokens[$i + $j]->term;
-                        $key = implode('::', $temp);
+                        $key    = implode('::', $temp);
 
                         if (isset($cache[$lang][$key])) {
                             $tokens[] = $cache[$lang][$key];
                         } else {
-                            $token = new Token($temp, $language->language, $language->spacer);
-                            $token->derived = true;
-                            $tokens[] = $token;
+                            $token              = new Token($temp, $language->language, $language->spacer);
+                            $token->derived     = true;
+                            $tokens[]           = $token;
                             $cache[$lang][$key] = $token;
                         }
                     }
@@ -186,7 +186,7 @@ class Helper
 
         if (is_null($multilingual)) {
             $multilingual = Multilanguage::isEnabled();
-            $config = ComponentHelper::getParams('com_finder');
+            $config       = ComponentHelper::getParams('com_finder');
 
             if ($config->get('language_default', '') == '') {
                 $defaultStemmer = Language::getInstance('*');
@@ -268,7 +268,7 @@ class Helper
 
         if (is_null($multilingual)) {
             $multilingual = Multilanguage::isEnabled();
-            $config = ComponentHelper::getParams('com_finder');
+            $config       = ComponentHelper::getParams('com_finder');
 
             if ($config->get('language_default', '') == '') {
                 $default = '*';
@@ -409,7 +409,7 @@ class Helper
         // Instantiate the parameter object if necessary.
         if (!($params instanceof Registry)) {
             $registry = new Registry($params);
-            $params = $registry;
+            $params   = $registry;
         }
 
         // Create a mock content object.

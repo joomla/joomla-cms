@@ -99,7 +99,7 @@ abstract class Dropdown
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">';
-        static::$dropDownList = $dropDownList;
+        static::$dropDownList       = $dropDownList;
         static::$loaded[__METHOD__] = true;
     }
 
@@ -115,7 +115,7 @@ abstract class Dropdown
         $dropDownList  = static::$dropDownList;
         $dropDownList .= '</ul></div>';
 
-        static::$dropDownList = null;
+        static::$dropDownList                  = null;
         static::$loaded[__CLASS__ . '::start'] = false;
 
         return $dropDownList;
@@ -137,8 +137,8 @@ abstract class Dropdown
         static::start();
 
         if (!$customLink) {
-            $option = Factory::getApplication()->input->getCmd('option');
-            $link = 'index.php?option=' . $option;
+            $option = Factory::getApplication()->getInput()->getCmd('option');
+            $link   = 'index.php?option=' . $option;
         } else {
             $link = $customLink;
         }

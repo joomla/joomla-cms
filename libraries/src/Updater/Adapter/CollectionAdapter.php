@@ -141,6 +141,8 @@ class CollectionAdapter extends UpdateAdapter
                     $attrs['CLIENT_ID'] = $client->id;
                 }
 
+                $values = [];
+
                 // Lower case all of the fields
                 foreach ($attrs as $key => $attr) {
                     $values[strtolower($key)] = $attr;

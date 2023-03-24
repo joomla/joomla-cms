@@ -37,13 +37,13 @@ class SyslogLogger extends Logger
      */
     protected $priorities = [
         Log::EMERGENCY => 'EMERG',
-        Log::ALERT => 'ALERT',
-        Log::CRITICAL => 'CRIT',
-        Log::ERROR => 'ERR',
-        Log::WARNING => 'WARNING',
-        Log::NOTICE => 'NOTICE',
-        Log::INFO => 'INFO',
-        Log::DEBUG => 'DEBUG',
+        Log::ALERT     => 'ALERT',
+        Log::CRITICAL  => 'CRIT',
+        Log::ERROR     => 'ERR',
+        Log::WARNING   => 'WARNING',
+        Log::NOTICE    => 'NOTICE',
+        Log::INFO      => 'INFO',
+        Log::DEBUG     => 'DEBUG',
     ];
 
     /**
