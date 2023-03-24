@@ -119,10 +119,10 @@ abstract class AssociationHelper extends CategoryAssociationHelper
         $return = [];
 
         if ($associations = self::getAssociations((array) $id, 'article')) {
-            $levels    = Factory::getUser()->getAuthorisedViewLevels();
-            $languages = LanguageHelper::getLanguages();
+            $levels             = Factory::getUser()->getAuthorisedViewLevels();
+            $languages          = LanguageHelper::getLanguages();
             $installedLanguages = LanguageHelper::getInstalledLanguages(0);
-            $siteHomePages = Multilanguage::getSiteHomePages();
+            $siteHomePages      = Multilanguage::getSiteHomePages();
 
             foreach ($associations as $itemId => $itemAssociations) {
                 foreach ($languages as $language) {
@@ -146,7 +146,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
                         continue;
                     }
 
-                    $return[$itemId][$language->lang_code] = array('item' => $itemAssociations[$language->lang_code], 'language' => $language);
+                    $return[$itemId][$language->lang_code] = ['item' => $itemAssociations[$language->lang_code], 'language' => $language];
                 }
 
                 $return[$language->lang_code] = ['item' => $associations[$language->lang_code], 'language' => $language];
