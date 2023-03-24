@@ -18,6 +18,8 @@ use Joomla\Event\Dispatcher;
 use Joomla\Plugin\Authentication\Ldap\Extension\Ldap;
 use Joomla\Plugin\Authentication\Ldap\Factory\LdapFactoryInterface;
 use Joomla\Tests\Unit\UnitTestCase;
+use Symfony\Component\Ldap\Adapter\CollectionInterface;
+use Symfony\Component\Ldap\Adapter\EntryManagerInterface;
 use Symfony\Component\Ldap\Adapter\QueryInterface;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\LdapException;
@@ -340,7 +342,7 @@ class LdapPluginTest extends UnitTestCase
                         }
                     }
 
-                    public function query(string $dn, string $query, array $options = [])
+                    public function query(string $dn, string $query, array $options = []): QueryInterface
                     {
                         if ($this->failQuery) {
                             throw new LdapException();
@@ -354,7 +356,7 @@ class LdapPluginTest extends UnitTestCase
                                 $this->hasEntry = $hasEntry;
                             }
 
-                            public function execute()
+                            public function execute(): CollectionInterface
                             {
                                 if (!$this->hasEntry) {
                                     return [];
@@ -365,11 +367,11 @@ class LdapPluginTest extends UnitTestCase
                         };
                     }
 
-                    public function getEntryManager()
+                    public function getEntryManager(): EntryManagerInterface
                     {
                     }
 
-                    public function escape(string $subject, string $ignore = '', int $flags = 0)
+                    public function escape(string $subject, string $ignore = '', int $flags = 0): string
                     {
                         return $subject;
                     }
