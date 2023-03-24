@@ -42,14 +42,14 @@ class FeedView extends BaseHtmlView
         $app = Factory::getApplication();
 
         // Adjust the list limit to the feed limit.
-        $app->input->set('limit', $app->get('feed_limit'));
+        $app->getInput()->set('limit', $app->get('feed_limit'));
 
         // Get view data.
-        $state = $this->get('State');
-        $params = $state->get('params');
-        $query = $this->get('Query');
+        $state   = $this->get('State');
+        $params  = $state->get('params');
+        $query   = $this->get('Query');
         $results = $this->get('Items');
-        $total = $this->get('Total');
+        $total   = $this->get('Total');
 
         // Push out the query data.
         $explained = HTMLHelper::_('query.explained', $query);

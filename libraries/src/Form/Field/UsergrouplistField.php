@@ -37,7 +37,7 @@ class UsergrouplistField extends ListField
      * @var    array
      * @since  3.2
      */
-    protected static $options = array();
+    protected static $options = [];
 
     /**
      * Method to attach a Form object to the field.
@@ -76,7 +76,7 @@ class UsergrouplistField extends ListField
         // Cache user groups base on checksuperusergroup attribute value
         if (!isset(static::$options[$checkSuperUser])) {
             $groups       = UserGroupsHelper::getInstance()->getAll();
-            $cacheOptions = array();
+            $cacheOptions = [];
 
             foreach ($groups as $group) {
                 // Don't list super user groups.
@@ -84,11 +84,11 @@ class UsergrouplistField extends ListField
                     continue;
                 }
 
-                $cacheOptions[] = (object) array(
+                $cacheOptions[] = (object) [
                     'text'  => str_repeat('- ', $group->level) . $group->title,
                     'value' => $group->id,
                     'level' => $group->level,
-                );
+                ];
             }
 
             static::$options[$checkSuperUser] = $cacheOptions;

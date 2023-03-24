@@ -42,7 +42,7 @@ abstract class CategoryAssociationHelper
      */
     public static function getCategoryAssociations($id, $extension = 'com_content', $layout = null)
     {
-        $return = array();
+        $return = [];
 
         if ($id) {
             $helperClassname = ucfirst(substr($extension, 4)) . 'HelperRoute';
@@ -54,9 +54,17 @@ abstract class CategoryAssociationHelper
                     if (class_exists($helperClassname) && \is_callable(array($helperClassname, 'getCategoryRoute'))) {
                         $return[$itemId][$tag] = $helperClassname::getCategoryRoute($item, $tag, $layout);
                     } else {
-                        $viewLayout = $layout ? '&layout=' . $layout : '';
+                        $link = 'index.php?option=' . $extension . '&view=category&id=' . $item;
 
-                        $return[$itemId][$tag] = 'index.php?option=' . $extension . '&view=category&id=' . $item . $viewLayout;
+                        if ($tag && $tag !== '*') {
+                            $link .= '&lang=' . $tag;
+                        }
+
+                        if ($layout) {
+                            $link .= '&layout=' . $layout;
+                        }
+                        
+                        $return[$itemId][$tag] = $link;
                     }
                 }
             }
