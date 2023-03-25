@@ -50,18 +50,6 @@ if (substr($className, -1) === 's') {
 }
 
 $tagsData = $category->tags->itemTags;
-
-$app->getDocument()->getWebAssetManager()->addInlineScript(
-    <<<JS
-document.querySelectorAll('.js-column-order').forEach((item) => item.addEventListener('click', (event) => {
-    event.preventDefault();
-    const element = event.target.tagName.toLowerCase() === 'span' ? event.target.parentNode : event.target;
-    Joomla.tableOrdering(element.getAttribute('data-ordering-order'), element.getAttribute('data-ordering-direction'), element.getAttribute('data-ordering-task'), element.closest('form'));
-}));
-JS,
-    [],
-    ['type' => 'module']
-);
 ?>
 <div class="<?php echo $className . '-category' . $displayData->pageclass_sfx; ?>">
     <?php if ($params->get('show_page_heading')) : ?>
