@@ -216,9 +216,9 @@ abstract class Grid
             $state,
             'filter_state',
             [
-                'list.attr' => 'class="form-select" size="1" onchange="Joomla.submitform();"',
+                'list.attr'   => 'class="form-select" size="1" onchange="Joomla.submitform();"',
                 'list.select' => $filterState,
-                'option.key' => null,
+                'option.key'  => null,
             ]
         );
     }
