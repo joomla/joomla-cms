@@ -310,10 +310,15 @@ const JoomlaEditorButton = {
       throw new Error(`Handler for "${name}" action not found`);
     }
     // Try to find a legacy editor
+    // @TODO: Remove this section in Joomla 6
     if (!editor && button) {
       const parent = button.closest('fieldset, div:not(.editor-xtd-buttons)');
       const textarea = parent ? parent.querySelector('textarea[id]') : false;
       editor = textarea && Joomla.editors.instances[textarea.id] ? Joomla.editors.instances[textarea.id] : false;
+      if (editor) {
+        // eslint-disable-next-line no-console
+        console.warn('Set active editor instance with Joomla.Editor.setActive(). Legacy editors is deprecated.');
+      }
     }
     if (!editor) {
       throw new Error('An active editor are not available');
