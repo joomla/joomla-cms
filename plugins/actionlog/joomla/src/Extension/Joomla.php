@@ -574,9 +574,17 @@ final class Joomla extends ActionLogPlugin
     public function onUserAfterSave($user, $isnew, $success, $msg): void
     {
         $context = $this->getApplication()->getInput()->get('option');
-        $task    = $this->getApplication()->getInput()->post->get('task');
+        $task    = $this->getApplication()->getInput()->get('task');
 
         if (!$this->checkLoggable($context)) {
+            return;
+        }
+
+        if ($task === 'request') {
+            return;
+        }
+
+        if ($task === 'complete') {
             return;
         }
 
@@ -586,20 +594,8 @@ final class Joomla extends ActionLogPlugin
             $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_REGISTERED';
             $action             = 'register';
 
-            // Reset request
-            if ($task === 'reset.request') {
-                $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_RESET_REQUEST';
-                $action             = 'resetrequest';
-            }
-
-            // Reset complete
-            if ($task === 'reset.complete') {
-                $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_RESET_COMPLETE';
-                $action             = 'resetcomplete';
-            }
-
             // Registration Activation
-            if ($task === 'registration.activate') {
+            if ($task === 'activate') {
                 $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_REGISTRATION_ACTIVATE';
                 $action             = 'activaterequest';
             }
@@ -1126,5 +1122,71 @@ final class Joomla extends ActionLogPlugin
         }
 
         return $component->getMVCFactory()->createModel('ActionlogConfig', 'Administrator')->getLogContentTypeParams($context);
+    }
+
+    /**
+     * On after Reset password request
+     *
+     * Method is called after user request to reset their password.
+     *
+     * @param   array  $user  Holds the user data.
+     *
+     * @return  void
+     *
+     * @since   4.2.9
+     */
+    public function onUserAfterResetRequest($user)
+    {
+        $context = $this->getApplication()->input->get('option');
+
+        if (!$this->checkLoggable($context)) {
+            return;
+        }
+
+        $message = [
+            'action'      => 'reset',
+            'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+            'id'          => $user->id,
+            'title'       => $user->name,
+            'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+            'userid'      => $user->id,
+            'username'    => $user->name,
+            'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+        ];
+
+        $this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_USER_RESET_REQUEST', $context, $user->id);
+    }
+
+    /**
+     * On after Completed reset request
+     *
+     * Method is called after user complete the reset of their password.
+     *
+     * @param   array  $user  Holds the user data.
+     *
+     * @return  void
+     *
+     * @since   4.2.9
+     */
+    public function onUserAfterResetComplete($user)
+    {
+        $context = $this->getApplication()->input->get('option');
+
+        if (!$this->checkLoggable($context)) {
+            return;
+        }
+
+        $message = [
+            'action'      => 'complete',
+            'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+            'id'          => $user->id,
+            'title'       => $user->name,
+            'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+            'userid'      => $user->id,
+            'username'    => $user->name,
+            'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+        ];
+
+        $this->addLog([$message], 'PLG_ACTIONLOG_JOOMLA_USER_RESET_COMPLETE', $context, $user->id);
     }
 }
