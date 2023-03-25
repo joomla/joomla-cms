@@ -159,14 +159,14 @@ const JoomlaEditor = {
   /**
    * Internal! The property should not be accessed directly.
    *
-   * List of registered instances.
+   * List of registered editors.
    */
   instances: {},
 
   /**
    * Internal! The property should not be accessed directly.
    *
-   * ID of an active editor instance.
+   * An active editor instance.
    */
   active: null,
 
