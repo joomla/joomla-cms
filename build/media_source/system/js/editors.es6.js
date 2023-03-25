@@ -299,14 +299,21 @@ const JoomlaEditorButton = {
    *
    * @param {String} name Action name
    * @param {Object} options An options object
+   * @param {HTMLElement} button An optional element, that triggers the action
    *
-   * @returns {*|boolean}
+   * @returns {*}
    */
-  runAction(name, options) {
+  runAction(name, options, button) {
     const handler = this.getActionHandler(name);
-    const editor = Joomla.Editor.getActive();
+    let editor = Joomla.Editor.getActive();
     if (!handler) {
       throw new Error(`Handler for "${name}" action not found`);
+    }
+    // Try to find a legacy editor
+    if (!editor && button) {
+      const parent = button.closest('fieldset, div:not(.editor-xtd-buttons)');
+      const textarea = parent ? parent.querySelector('textarea[id]') : false;
+      editor = textarea && Joomla.editors.instances[textarea.id] ? Joomla.editors.instances[textarea.id] : false;
     }
     if (!editor) {
       throw new Error('An active editor are not available');
@@ -354,12 +361,10 @@ document.addEventListener('click', (event) => {
   const options = btn.dataset[btnConfigDataAttr] ? JSON.parse(btn.dataset[btnConfigDataAttr]) : {};
 
   if (action) {
-    Joomla.EditorButton.runAction(action, options);
+    Joomla.EditorButton.runAction(action, options, btn);
   }
 });
 
 Joomla.Editor = JoomlaEditor;
 Joomla.EditorButton = JoomlaEditorButton;
 window.JoomlaEditorDecorator = JoomlaEditorDecorator;
-
-console.log('Editors', Joomla.editors, Joomla.Editor, Joomla.EditorButton);
