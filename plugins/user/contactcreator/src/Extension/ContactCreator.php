@@ -134,7 +134,7 @@ final class ContactCreator extends CMSPlugin
      *
      * @since   3.2.3
      */
-    protected function generateAliasAndName($alias, $name, $categoryId)
+    private function generateAliasAndName($alias, $name, $categoryId)
     {
         $table = $this->getContactTable();
 
@@ -156,7 +156,7 @@ final class ContactCreator extends CMSPlugin
      *
      * @since   3.2.3
      */
-    protected function getContactTable()
+    private function getContactTable()
     {
         return $this->getApplication()->bootComponent('com_contact')->getMVCFactory()->createTable('Contact', 'Administrator');
     }
