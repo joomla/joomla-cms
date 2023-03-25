@@ -69,6 +69,7 @@ Cypress.Commands.add('db_createBanner', (banner) => {
     alias: 'test-banner',
     catid: 3,
     state: 1,
+    type: 1,
     language: '*',
     created: '2023-01-01 20:00:00',
     modified: '2023-01-01 20:00:00',
