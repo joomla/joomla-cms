@@ -104,7 +104,7 @@ final class Joomla extends CMSPlugin
         $db = $this->getDatabase();
 
         try {
-            $this->getDatabase()->setQuery(
+            $db->setQuery(
                 $db->getQuery(true)
                     ->delete($db->quoteName('#__messages'))
                     ->where($db->quoteName('user_id_from') . ' = :userId')
