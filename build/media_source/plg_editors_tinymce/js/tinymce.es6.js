@@ -183,7 +183,7 @@
             // eslint-disable-next-line no-new-func
             new Function(xtdButton.click)();
           }
-        }
+        };
 
         buttonValues.push(tmp);
       });
