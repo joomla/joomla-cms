@@ -284,7 +284,7 @@ final class Profile extends CMSPlugin
         $remainingfields = $form->getGroup('profile');
 
         if (!count($remainingfields)) {
-            //$form->removeGroup('profile');
+            $form->removeGroup('profile');
         }
 
         return true;
