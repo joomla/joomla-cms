@@ -14,7 +14,7 @@ class EditorNoneDecorator extends JoomlaEditorDecorator {
    * @returns {string}
    */
   getValue() {
-    return this.instance.value;
+    return this.instance.getValue();
   }
 
   /**
@@ -22,7 +22,7 @@ class EditorNoneDecorator extends JoomlaEditorDecorator {
    * @returns {EditorNoneDecorator}
    */
   setValue(value) {
-    this.instance.value = value;
+    this.instance.setValue(value);
     return this;
   }
 
@@ -30,31 +30,19 @@ class EditorNoneDecorator extends JoomlaEditorDecorator {
    * @returns {string}
    */
   getSelection() {
-    const editor = this.instance;
-    let val = editor.value;
-
-    if (editor.selectionStart || editor.selectionStart === 0) {
-      val = editor.value.substring(editor.selectionStart, editor.selectionEnd);
-    }
-
-    return val;
+    return this.instance.getSelection();
   }
 
   replaceSelection(value) {
-    const editor = this.instance;
-    if (editor.selectionStart || editor.selectionStart === 0) {
-      editor.value = editor.value.substring(0, editor.selectionStart)
-        + value
-        + editor.value.substring(editor.selectionEnd, editor.value.length);
-    } else {
-      editor.value += value;
-    }
+    this.instance.replaceSelection(value);
     return this;
   }
 
   disable(enable) {
-    this.instance.disabled = !enable;
-    this.instance.readOnly = !enable;
+    if (this.instance.editor) {
+      this.instance.editor.disabled = !enable;
+      this.instance.editor.readOnly = !enable;
+    }
     return this;
   }
 }
@@ -104,6 +92,21 @@ class JoomlaEditorNone extends HTMLElement {
   }
 
   /**
+   * Get editor value
+   */
+  getValue() {
+    return this.editor.value;
+  }
+
+  /**
+   * Set editor value
+   * @param {string} text
+   */
+  setValue(text) {
+    this.editor.value = text;
+  }
+
+  /**
    * Get the selected text
    */
   getSelection() {
@@ -114,10 +117,25 @@ class JoomlaEditorNone extends HTMLElement {
   }
 
   /**
+   * Replace selected text
+   * @param {string} text
+   */
+  replaceSelection(text) {
+    const ed = this.editor;
+    if (ed.selectionStart || ed.selectionStart === 0) {
+      ed.value = ed.value.substring(0, ed.selectionStart)
+        + text
+        + ed.value.substring(ed.selectionEnd, ed.value.length);
+    } else {
+      ed.value += text;
+    }
+  }
+
+  /**
    * Register the editor
    */
   registerEditor() {
-    const jEditor = new EditorNoneDecorator(this.editor, 'none', this.editor.id);
+    const jEditor = new EditorNoneDecorator(this, 'none', this.editor.id);
     Joomla.Editor.register(jEditor);
   }
 
