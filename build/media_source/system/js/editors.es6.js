@@ -319,7 +319,7 @@ const JoomlaEditorButton = {
       throw new Error('An active editor are not available');
     }
 
-    return handler(editor, options, button);
+    return handler(editor, options);
   },
 };
 
