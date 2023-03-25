@@ -6543,6 +6543,11 @@ class JoomlaInstallerScript
             '/plugins/finder/tags/tags.php',
             // From 4.3.0-beta3 to 4.3.0-beta4
             '/layouts/joomla/content/categories_default_items.php',
+            // From 4.3.0-beta4 to 4.3.0-rc1
+            '/administrator/components/com_guidedtours/src/Helper/GuidedtoursHelper.php',
+            '/libraries/vendor/voku/portable-ascii/build/docs/base.md',
+            '/libraries/vendor/voku/portable-ascii/build/generate_docs.php',
+            '/libraries/vendor/voku/portable-ascii/build/generate_max_key_length.php',
         ];
 
         $folders = [
@@ -7923,6 +7928,10 @@ class JoomlaInstallerScript
             '/components/com_contact/layouts',
             // From 4.2.x to 4.3.0-alpha1
             '/libraries/vendor/paragonie/sodium_compat/dist',
+            // From 4.3.0-beta4 to 4.3.0-rc1
+            '/libraries/vendor/voku/portable-ascii/build/docs',
+            '/libraries/vendor/voku/portable-ascii/build',
+            '/administrator/components/com_guidedtours/src/Helper',
         ];
 
         $status['files_checked']   = $files;
