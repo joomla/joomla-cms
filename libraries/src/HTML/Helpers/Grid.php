@@ -56,7 +56,7 @@ abstract class Grid
             $direction = $direction === 'desc' ? 'asc' : 'desc';
         }
 
-        $html = '<a href="#" class="hasTooltip" title="' . htmlspecialchars(Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '"'
+        $html = '<a href="#" class="hasTooltip js-column-order" title="' . htmlspecialchars(Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '"'
             . ' data-ordering-order="' . $order . '"'
             . ' data-ordering-direction="' . $direction . '"'
             . ' data-ordering-task="' . $task . '"'
