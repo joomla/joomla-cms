@@ -250,7 +250,7 @@ final class Joomla extends CMSPlugin
     {
         $instance = $this->getUser($user, $options);
 
-        // If _getUser returned an error, then pass it back.
+        // If getUser returned an error, then pass it back.
         if ($instance instanceof Exception) {
             return false;
         }
