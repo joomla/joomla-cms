@@ -30,7 +30,7 @@ $options = (array) $button->get('options');
 if ($link && $link[0] !== '#') {
     $link = str_contains($link, '&amp;') ? htmlspecialchars_decode($link) : $link;
     $link = Uri::base(true) . '/' . $link;
-    $options['src'] = $link;
+    $options['src'] = $options['src'] ?? $link;
 }
 
 // Set action to "modal" for legacy buttons, when possible

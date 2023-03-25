@@ -173,17 +173,16 @@
           icons[tmp.icon] = xtdButton.iconSVG;
         }
 
-        if (xtdButton.href) {
-          tmp.onAction = () => {
-            Joomla.Editor.setActive(element.id);
+        tmp.onAction = () => {
+          Joomla.Editor.setActive(element.id);
+          if (xtdButton.action) {
+            Joomla.EditorButton.runAction(xtdButton.action, xtdButton.options || {});
+          } else if (xtdButton.bsModal) {
             document.getElementById(`${xtdButton.id}_modal`).open();
-          };
-        } else {
-          tmp.onAction = () => {
-            Joomla.Editor.setActive(element.id);
+          } else if (xtdButton.click) {
             // eslint-disable-next-line no-new-func
             new Function(xtdButton.click)();
-          };
+          }
         }
 
         buttonValues.push(tmp);

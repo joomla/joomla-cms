@@ -57,23 +57,64 @@ trait XTDButtons
             $btnsNames = [];
 
             // Build the script
-            foreach ($buttons as $i => $button) {
-                $button->id = $name . '_' . $button->name . '_modal';
+            foreach ($buttons as $button) {
+                $title   = $button->get('title') ?: $button->get('text', '');
+                $icon    = $button->get('icon');
+                $link    = $button->get('link');
+                $action  = $button->get('action', '');
+                $options = (array) $button->get('options');
 
-                echo LayoutHelper::render('joomla.editors.buttons.modal', $button);
-
-                if ($button->get('name')) {
-                    $coreButton            = [];
-                    $coreButton['name']    = $button->get('text');
-                    $coreButton['href']    = $button->get('link') !== '#' ? Uri::base() . $button->get('link') : null;
-                    $coreButton['id']      = $name . '_' . $button->name;
-                    $coreButton['icon']    = $button->get('icon');
-                    $coreButton['click']   = $button->get('onclick') ?: null;
-                    $coreButton['iconSVG'] = $button->get('iconSVG');
-
-                    // The array with the toolbar buttons
-                    $btnsNames[] = $coreButton;
+                // Correct the link
+                if ($link && $link[0] !== '#') {
+                    $link = str_contains($link, '&amp;') ? htmlspecialchars_decode($link) : $link;
+                    $link = Uri::base(true) . '/' . $link;
+                    $options['src'] = $options['src'] ?? $link;
                 }
+
+                // Set action to "modal" for legacy buttons, when possible
+                $legacyModal = $button->get('modal') && !empty($options['confirmCallback']);
+
+                if (!$action && $button->get('modal') && !$legacyModal) {
+                    $action = 'modal';
+
+                    // Backward compatibility check, for older options
+                    if (!empty($options['modalWidth'])) {
+                        $options['width'] = $options['modalWidth'] . 'vw';
+                    }
+                    if (!empty($options['bodyHeight'])) {
+                        $options['height'] = $options['bodyHeight'] . 'vh';
+                    }
+                }
+
+                // Prepare default values for modal
+                if ($action === 'modal') {
+                    $this->getApplication()->getDocument()
+                        ->getWebAssetManager()->useScript('dialog');
+
+                    $options['popupType']  = $popupOptions['popupType'] ?? 'iframe';
+                    $options['textHeader'] = $popupOptions['textHeader'] ?? $title;
+                    $options['iconHeader'] = $popupOptions['iconHeader'] ?? 'icon-' . $icon;
+                }
+
+                $coreButton            = [];
+                $coreButton['name']    = $title;
+                $coreButton['icon']    = $icon;
+                $coreButton['click']   = $button->get('onclick');
+                $coreButton['iconSVG'] = $button->get('iconSVG');
+                $coreButton['action']  = $action;
+                $coreButton['options'] = $options;
+
+                if ($legacyModal) {
+                    $coreButton['bsModal'] = true;
+                    $coreButton['id']      = $name . '_' . $button->name;
+
+                    $button->id = $name . '_' . $button->name . '_modal';
+
+                    echo LayoutHelper::render('joomla.editors.buttons.modal', $button);
+                }
+
+                // The array with the toolbar buttons
+                $btnsNames[] = $coreButton;
             }
 
             sort($btnsNames);
