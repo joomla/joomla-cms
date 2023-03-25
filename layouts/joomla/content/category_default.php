@@ -51,7 +51,8 @@ if (substr($className, -1) === 's') {
 
 $tagsData = $category->tags->itemTags;
 
-$app->getDocument()->getWebAssetManager()->addInlineScript(<<<JS
+$app->getDocument()->getWebAssetManager()->addInlineScript(
+    <<<JS
 document.querySelectorAll('.js-column-order').forEach((item) => item.addEventListener('click', (event) => {
     event.preventDefault();
     const element = event.target.tagName.toLowerCase() === 'span' ? event.target.parentNode : event.target;
