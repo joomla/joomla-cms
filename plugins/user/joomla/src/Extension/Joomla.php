@@ -240,7 +240,7 @@ final class Joomla extends CMSPlugin
             Factory::$language = $language;
 
             if (method_exists($app, 'loadLanguage')) {
-                $app->loadLanguage(Factory::$language);
+                $app->loadLanguage($language);
             }
         }
     }
