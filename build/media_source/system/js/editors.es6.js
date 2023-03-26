@@ -29,6 +29,11 @@ Joomla.editors.instances = new Proxy({}, {
     target[p] = editor;
     return true;
   },
+  get(target, p) {
+    // eslint-disable-next-line no-console
+    console.warn('Direct access to Joomla.editors.instances is deprecated. Use Joomla.Editor.getActive() or Joomla.Editor.get(id) to retrieve the editor instance.');
+    return target[p];
+  },
 });
 // === End of code for keep backward compatibility ===
 
