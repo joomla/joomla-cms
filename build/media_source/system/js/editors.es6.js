@@ -296,6 +296,13 @@ const JoomlaEditorButton = {
    * @returns {JoomlaEditorButton}
    */
   registerAction(name, handler) {
+    if (!name || !handler) {
+      throw new Error('Missed values for Action registration');
+    }
+    if (!(handler instanceof Function)) {
+      throw new Error(`Unexpected handler for action "${name}", expecting Function`);
+    }
+
     this.actions[name] = handler;
     return this;
   },
