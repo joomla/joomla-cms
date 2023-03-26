@@ -24,7 +24,7 @@ Joomla.editors.instances = new Proxy({}, {
       // Add missed method in Legacy editor
       editor.getId = () => p;
       // eslint-disable-next-line no-console
-      console.warn('Legacy editors is deprecated. Register the editor instance with Joomla.Editor.register().');
+      console.warn('Legacy editors is deprecated. Register the editor instance with Joomla.Editor.register().', p, editor);
     }
     target[p] = editor;
     return true;
