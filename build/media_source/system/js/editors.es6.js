@@ -316,8 +316,9 @@ const JoomlaEditorButton = {
       const textarea = parent ? parent.querySelector('textarea[id]') : false;
       editor = textarea && Joomla.editors.instances[textarea.id] ? Joomla.editors.instances[textarea.id] : false;
       if (editor) {
+        editor.getId = () => textarea.id;
         // eslint-disable-next-line no-console
-        console.warn('Set active editor instance with Joomla.Editor.setActive(). Legacy editors is deprecated.');
+        console.warn('Legacy editors is deprecated. Set active editor instance with Joomla.Editor.setActive().');
       }
     }
     if (!editor) {
