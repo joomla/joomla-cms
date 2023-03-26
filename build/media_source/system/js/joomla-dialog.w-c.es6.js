@@ -475,11 +475,13 @@ class JoomlaDialog extends HTMLElement {
       popup.textHeader = title || Joomla.Text._('INFO', 'Info');
       popup.popupButtons = [{
         label: Joomla.Text._('JOK', 'Okay'),
-        onClick: () => popup.destroy(),
+        onClick: () => popup.close(),
       }];
-      popup.cancelable = false;
       popup.classList.add('joomla-dialog-alert');
-      popup.addEventListener('joomla-dialog:close', () => resolve());
+      popup.addEventListener('joomla-dialog:close', () => {
+        popup.destroy();
+        resolve();
+      });
       popup.show();
     });
   }
@@ -601,3 +603,5 @@ document.addEventListener('click', (event) => {
 });
 
 export default JoomlaDialog;
+
+JoomlaDialog.alert('message')
