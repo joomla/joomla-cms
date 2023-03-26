@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Console;
 
-use Joomla\CMS\Factory;
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

@@ -20,7 +20,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Console\InstallCommand;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Version;
 use Joomla\Console\Application;
