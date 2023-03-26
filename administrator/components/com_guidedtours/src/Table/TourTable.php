@@ -127,7 +127,7 @@ class TourTable extends Table
     {
         return $this->title;
     }
-    
+
     /**
      * Method to get the parent asset under which to register this one.
      *
@@ -146,13 +146,13 @@ class TourTable extends Table
     {
         // We retrieve the parent-asset from the Asset-table
         $assetParent = Table::getInstance('Asset');
-        
+
         $assetParent->loadByName('com_guidedtours');
-        
+
         if ($assetParent->id) {
             return $assetParent->id;
         }
-        
+
         return parent::_getAssetParentId($table, $id);
     }
 }
