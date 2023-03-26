@@ -161,7 +161,7 @@ class ContenthistoryHelper
         // First, see if we have a file name in the $typesTable
         $options = json_decode($typesTable->content_history_options);
 
-        if (is_object($options) && isset($options->formFile) && File::exists(JPATH_ROOT . '/' . $options->formFile)) {
+        if (is_object($options) && isset($options->formFile) && is_file(JPATH_ROOT . '/' . $options->formFile)) {
             $result = JPATH_ROOT . '/' . $options->formFile;
         } else {
             $aliasArray = explode('.', $typesTable->type_alias);
@@ -169,7 +169,7 @@ class ContenthistoryHelper
             $path       = Folder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
             array_shift($aliasArray);
             $file   = File::makeSafe(implode('.', $aliasArray) . '.xml');
-            $result = File::exists($path . $file) ? $path . $file : false;
+            $result = is_file($path . $file) ? $path . $file : false;
         }
 
         return $result;
