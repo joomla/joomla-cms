@@ -63,7 +63,7 @@ $optStr = $options && $action ? $this->escape(json_encode($options)) : '';
 <button type="button" data-joomla-editor-button-action="<?php echo $action; ?>" data-joomla-editor-button-options="<?php echo $optStr; ?>"
     class="xtd-button btn btn-secondary <?php echo $class; ?>" title="<?php echo $title; ?>" <?php echo $onclick; ?>
     <?php echo $legacyModal ? 'data-bs-toggle="modal" data-bs-target="' . $href . '"' : '' ?>>
-    <?php if ($icon): ?>
+    <?php if ($icon) : ?>
     <span class="icon-<?php echo $icon; ?>" aria-hidden="true"></span>
     <?php endif; ?>
     <?php echo $button->get('text'); ?>

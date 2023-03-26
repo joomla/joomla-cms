@@ -57,7 +57,7 @@ final class Module extends CMSPlugin
             || $user->authorise('core.edit.own', 'com_modules')
         ) {
             $link = 'index.php?option=com_modules&view=modules&layout=modal&tmpl=component&'
-                . Session::getFormToken() . '=1&editor='. $name;
+                . Session::getFormToken() . '=1&editor=' . $name;
 
             $button          = new CMSObject();
             $button->action  = 'modal';
