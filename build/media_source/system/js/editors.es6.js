@@ -17,7 +17,19 @@ if (!window.Joomla) {
 Joomla.editors = Joomla.editors || {};
 
 // An object to hold each editor instance on page, only define if not defined.
-Joomla.editors.instances = Joomla.editors.instances || {};
+Joomla.editors.instances = new Proxy({}, {
+  set(target, p, editor) {
+    // eslint-disable-next-line no-use-before-define
+    if (!(editor instanceof JoomlaEditorDecorator)) {
+      // Add missed method in Legacy editor
+      editor.getId = () => p;
+      // eslint-disable-next-line no-console
+      console.warn('Legacy editors is deprecated. Register the editor instance with Joomla.Editor.register().');
+    }
+    target[p] = editor;
+    return true;
+  },
+});
 // === End of code for keep backward compatibility ===
 
 /**
@@ -316,7 +328,6 @@ const JoomlaEditorButton = {
       const textarea = parent ? parent.querySelector('textarea[id]') : false;
       editor = textarea && Joomla.editors.instances[textarea.id] ? Joomla.editors.instances[textarea.id] : false;
       if (editor) {
-        editor.getId = () => textarea.id;
         // eslint-disable-next-line no-console
         console.warn('Legacy editors is deprecated. Set active editor instance with Joomla.Editor.setActive().');
       }
