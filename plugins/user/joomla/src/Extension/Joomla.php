@@ -164,21 +164,24 @@ final class Joomla extends CMSPlugin
             return;
         }
 
+        $app           = $this->getApplication();
+        $language      = $app->getLanguage();
+        $defaultLocale = $language->getTag();
+
         // @todo: Suck in the frontend registration emails here as well. Job for a rainy day.
         // The method check here ensures that if running as a CLI Application we don't get any errors
-        if (method_exists($this->getApplication(), 'isClient') && ($this->getApplication()->isClient('site') || $this->getApplication()->isClient('cli'))) {
+        if (method_exists($app, 'isClient') && ($app->isClient('site') || $app->isClient('cli'))) {
             return;
         }
 
         // Check if we have a sensible from email address, if not bail out as mail would not be sent anyway
-        if (strpos($this->getApplication()->get('mailfrom'), '@') === false) {
-            $this->getApplication()->enqueueMessage($this->getApplication()->getLanguage()->_('JERROR_SENDING_EMAIL'), 'warning');
+        if (strpos($app->get('mailfrom'), '@') === false) {
+            $app->enqueueMessage($language->_('JERROR_SENDING_EMAIL'), 'warning');
 
             return;
         }
 
-        $defaultLanguage = Factory::getLanguage();
-        $defaultLocale   = $defaultLanguage->getTag();
+
 
         /**
          * Look for user language. Priority:
@@ -192,7 +195,11 @@ final class Joomla extends CMSPlugin
         if ($userLocale !== $defaultLocale) {
             Factory::$language = Factory::getContainer()
                 ->get(LanguageFactoryInterface::class)
-                ->createLanguage($userLocale, $this->getApplication()->get('debug_lang', false));
+                ->createLanguage($userLocale, $app->get('debug_lang', false));
+
+            if (method_exists($app, 'loadLanguage')) {
+                $app->loadLanguage(Factory::$language);
+            }
         }
 
         // Load plugin language files.
@@ -201,7 +208,7 @@ final class Joomla extends CMSPlugin
         // Collect data for mail
         $data = [
             'name'     => $user['name'],
-            'sitename' => $this->getApplication()->get('sitename'),
+            'sitename' => $app->get('sitename'),
             'url'      => Uri::root(),
             'username' => $user['username'],
             'password' => $user['password_clear'],
@@ -216,23 +223,27 @@ final class Joomla extends CMSPlugin
             $res = $mailer->send();
         } catch (\Exception $exception) {
             try {
-                Log::add($this->getApplication()->getLanguage()->_($exception->getMessage()), Log::WARNING, 'jerror');
+                Log::add($language->_($exception->getMessage()), Log::WARNING, 'jerror');
 
                 $res = false;
             } catch (\RuntimeException $exception) {
-                $this->getApplication()->enqueueMessage($this->getApplication()->getLanguage()->_($exception->getMessage()), 'warning');
+                $app->enqueueMessage($language->_($exception->getMessage()), 'warning');
 
                 $res = false;
             }
         }
 
         if ($res === false) {
-            $this->getApplication()->enqueueMessage($this->getApplication()->getLanguage()->_('JERROR_SENDING_EMAIL'), 'warning');
+            $app->enqueueMessage($language->_('JERROR_SENDING_EMAIL'), 'warning');
         }
 
         // Set application language back to default if we changed it
         if ($userLocale !== $defaultLocale) {
-            Factory::$language = $defaultLanguage;
+            Factory::$language = $language;
+
+            if (method_exists($app, 'loadLanguage')) {
+                $app->loadLanguage(Factory::$language);
+            }
         }
     }
 
