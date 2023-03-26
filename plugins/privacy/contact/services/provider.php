@@ -17,7 +17,7 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\Content\Contact\Extension\Contact;
+use Joomla\Plugin\Privacy\Contact\Extension\Contact;
 
 return new class () implements ServiceProviderInterface {
     /**
