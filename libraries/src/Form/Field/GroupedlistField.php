@@ -52,7 +52,7 @@ class GroupedlistField extends FormField
     protected function getGroups()
     {
         $groups = [];
-        $label = 0;
+        $label  = 0;
 
         foreach ($this->element->children() as $element) {
             switch ($element->getName()) {

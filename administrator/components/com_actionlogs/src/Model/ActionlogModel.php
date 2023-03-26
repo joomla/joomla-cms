@@ -145,16 +145,16 @@ class ActionlogModel extends BaseDatabaseModel
         $temp      = [];
 
         foreach ($messages as $message) {
-            $m = [];
+            $m              = [];
             $m['extension'] = Text::_($extension);
             $m['message']   = ActionlogsHelper::getHumanReadableLogMessage($message);
             $m['date']      = HTMLHelper::_('date', $message->log_date, 'Y-m-d H:i:s T', 'UTC');
             $m['username']  = $username;
-            $temp[] = $m;
+            $temp[]         = $m;
         }
 
         $templateData = [
-            'messages'     => $temp
+            'messages' => $temp,
         ];
 
         $mailer = new MailTemplate('com_actionlogs.notification', $app->getLanguage()->getTag());

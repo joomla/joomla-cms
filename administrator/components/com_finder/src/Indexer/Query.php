@@ -193,7 +193,7 @@ class Query
      * The dates Registry.
      *
      * @var    Registry
-     * @since  4.2.7
+     * @since  4.3.0
      */
     public $dates;
 
@@ -320,7 +320,7 @@ class Query
         }
 
         // Get the filters in the request.
-        $t = Factory::getApplication()->input->request->get('t', [], 'array');
+        $t = Factory::getApplication()->getInput()->request->get('t', [], 'array');
 
         // Add the dynamic taxonomy filters if present.
         if ((bool) $this->filters) {
@@ -523,7 +523,7 @@ class Query
 
         // Get a parameter object for the filter date options.
         $registry = new Registry($return->params);
-        $params = $registry;
+        $params   = $registry;
 
         // Set the dates if not already set.
         $this->dates->def('d1', $params->get('d1'));
@@ -883,7 +883,7 @@ class Query
                     $input = trim($input);
 
                     // Get the number of words in the phrase.
-                    $parts = explode(' ', $match);
+                    $parts      = explode(' ', $match);
                     $tuplecount = $params->get('tuplecount', 1);
 
                     // Check if the phrase is longer than our $tuplecount.
@@ -894,7 +894,7 @@ class Query
                         // If the chunk is not empty, add it as a phrase.
                         if (count($chunk)) {
                             $phrases[] = implode(' ', $chunk);
-                            $terms[] = implode(' ', $chunk);
+                            $terms[]   = implode(' ', $chunk);
                         }
 
                         /*
@@ -1253,8 +1253,8 @@ class Query
 
             $searchTerm = $token->term;
             $searchStem = $token->stem;
-            $term = $query->quoteName('t.term');
-            $stem = $query->quoteName('t.stem');
+            $term       = $db->quoteName('t.term');
+            $stem       = $db->quoteName('t.stem');
 
             if ($this->wordmode === 'begin') {
                 $searchTerm .= '%';

@@ -206,13 +206,13 @@ class UpdateModel extends ListModel
      * @param   int            $limitstart  Offset
      * @param   int            $limit       The number of records
      *
-     * @return  array
+     * @return  object[]
      *
      * @since   3.5
      */
     protected function _getList($query, $limitstart = 0, $limit = 0)
     {
-        $db = $this->getDatabase();
+        $db        = $this->getDatabase();
         $listOrder = $this->getState('list.ordering', 'u.name');
         $listDirn  = $this->getState('list.direction', 'asc');
 
@@ -222,7 +222,7 @@ class UpdateModel extends ListModel
             $result = $db->loadObjectList();
             $this->translate($result);
             $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
-            $total = count($result);
+            $total  = count($result);
 
             if ($total < $limitstart) {
                 $limitstart = 0;
@@ -330,7 +330,7 @@ class UpdateModel extends ListModel
         $result = true;
 
         foreach ($uids as $uid) {
-            $update = new Update();
+            $update   = new Update();
             $instance = new \Joomla\CMS\Table\Update($this->getDatabase());
 
             if (!$instance->load($uid)) {
@@ -576,7 +576,7 @@ class UpdateModel extends ListModel
             // Modules could have a helper which adds additional data
             case 'module':
                 $cname = str_replace('_', '', $table->element) . 'Helper';
-                $path = ($table->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $table->element . '/helper.php';
+                $path  = ($table->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $table->element . '/helper.php';
 
                 if (File::exists($path)) {
                     require_once $path;

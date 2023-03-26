@@ -130,7 +130,7 @@ class Language
     /**
      * Name of the transliterator function for this language.
      *
-     * @var    string
+     * @var    callable
      * @since  1.7.0
      */
     protected $transliterator = null;
@@ -191,7 +191,7 @@ class Language
             $lang = $this->default;
         }
 
-        $this->lang = $lang;
+        $this->lang     = $lang;
         $this->metadata = LanguageHelper::getMetadata($this->lang);
         $this->setDebug($debug);
 
@@ -321,7 +321,7 @@ class Language
 
             // Store debug information
             if ($this->debug) {
-                $value = Factory::getApplication()->get('debug_lang_const', true) ? $string : $key;
+                $value  = Factory::getApplication()->get('debug_lang_const', true) ? $string : $key;
                 $string = '**' . $value . '**';
 
                 $caller = $this->getCallerInfo();
@@ -334,9 +334,9 @@ class Language
             }
         } else {
             if ($this->debug) {
-                $info = [];
-                $info['trace'] = $this->getTrace();
-                $info['key'] = $key;
+                $info           = [];
+                $info['trace']  = $this->getTrace();
+                $info['key']    = $key;
                 $info['string'] = $string;
 
                 if (!\array_key_exists($key, $this->orphans)) {
@@ -422,7 +422,7 @@ class Language
      */
     public function setTransliterator(callable $function)
     {
-        $previous = $this->transliterator;
+        $previous             = $this->transliterator;
         $this->transliterator = $function;
 
         return $previous;
@@ -469,7 +469,7 @@ class Language
      */
     public function setPluralSuffixesCallback(callable $function)
     {
-        $previous = $this->pluralSuffixesCallback;
+        $previous                     = $this->pluralSuffixesCallback;
         $this->pluralSuffixesCallback = $function;
 
         return $previous;
@@ -514,7 +514,7 @@ class Language
      */
     public function setIgnoredSearchWordsCallback(callable $function)
     {
-        $previous = $this->ignoredSearchWordsCallback;
+        $previous                         = $this->ignoredSearchWordsCallback;
         $this->ignoredSearchWordsCallback = $function;
 
         return $previous;
@@ -559,7 +559,7 @@ class Language
      */
     public function setLowerLimitSearchWordCallback(callable $function)
     {
-        $previous = $this->lowerLimitSearchWordCallback;
+        $previous                           = $this->lowerLimitSearchWordCallback;
         $this->lowerLimitSearchWordCallback = $function;
 
         return $previous;
@@ -604,7 +604,7 @@ class Language
      */
     public function setUpperLimitSearchWordCallback(callable $function)
     {
-        $previous = $this->upperLimitSearchWordCallback;
+        $previous                           = $this->upperLimitSearchWordCallback;
         $this->upperLimitSearchWordCallback = $function;
 
         return $previous;
@@ -649,7 +649,7 @@ class Language
      */
     public function setSearchDisplayedCharactersNumberCallback(callable $function)
     {
-        $previous = $this->searchDisplayedCharactersNumberCallback;
+        $previous                                      = $this->searchDisplayedCharactersNumberCallback;
         $this->searchDisplayedCharactersNumberCallback = $function;
 
         return $previous;
@@ -735,7 +735,7 @@ class Language
 
         if ($strings !== []) {
             $this->strings = array_replace($this->strings, $strings, $this->override);
-            $result = true;
+            $result        = true;
         }
 
         // Record the result of loading the extension's file.
@@ -790,9 +790,9 @@ class Language
 
         // Initialise variables for manually parsing the file for common errors.
         $reservedWord = ['YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE'];
-        $debug = $this->getDebug();
-        $this->debug = false;
-        $errors = [];
+        $debug        = $this->getDebug();
+        $this->debug  = false;
+        $errors       = [];
         $php_errormsg = null;
 
         // Open the file as a stream.
@@ -900,20 +900,20 @@ class Language
         }
 
         $backtrace = debug_backtrace();
-        $info = [];
+        $info      = [];
 
         // Search through the backtrace to our caller
         $continue = true;
 
         while ($continue && next($backtrace)) {
-            $step = current($backtrace);
+            $step  = current($backtrace);
             $class = @ $step['class'];
 
             // We're looking for something outside of language.php
             if ($class != self::class && $class != Text::class) {
                 $info['function'] = @ $step['function'];
-                $info['class'] = $class;
-                $info['step'] = prev($backtrace);
+                $info['class']    = $class;
+                $info['step']     = prev($backtrace);
 
                 // Determine the file and name of the file
                 $info['file'] = @ $step['file'];
@@ -1023,7 +1023,7 @@ class Language
      */
     public function setDebug($debug)
     {
-        $previous = $this->debug;
+        $previous    = $this->debug;
         $this->debug = (bool) $debug;
 
         return $previous;
@@ -1064,7 +1064,7 @@ class Language
      */
     public function setDefault($lang)
     {
-        $previous = $this->default;
+        $previous      = $this->default;
         $this->default = $lang;
 
         return $previous;

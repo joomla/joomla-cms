@@ -133,13 +133,13 @@ class PlgUserToken extends CMSPlugin
             $db    = $this->db;
             $query = $db->getQuery(true)
                 ->select([
-                        $db->qn('profile_key'),
-                        $db->qn('profile_value'),
+                        $db->quoteName('profile_key'),
+                        $db->quoteName('profile_value'),
                     ])
-                ->from($db->qn('#__user_profiles'))
-                ->where($db->qn('user_id') . ' = :userId')
-                ->where($db->qn('profile_key') . ' LIKE :profileKey')
-                ->order($db->qn('ordering'));
+                ->from($db->quoteName('#__user_profiles'))
+                ->where($db->quoteName('user_id') . ' = :userId')
+                ->where($db->quoteName('profile_key') . ' LIKE :profileKey')
+                ->order($db->quoteName('ordering'));
 
             $profileKey = $this->profileKeyPrefix . '.%';
             $query->bind(':userId', $userId, ParameterType::INTEGER);
@@ -164,7 +164,7 @@ class PlgUserToken extends CMSPlugin
          * generic and we run the risk of creating naming clashes. Instead, we manipulate the data
          * directly.
          */
-        if (($context === 'com_users.profile') && ($this->app->input->get('layout') !== 'edit')) {
+        if (($context === 'com_users.profile') && ($this->app->getInput()->get('layout') !== 'edit')) {
             $pluginData = $data->{$this->profileKeyPrefix} ?? [];
             $enabled    = $pluginData['enabled'] ?? false;
             $token      = $pluginData['token'] ?? '';
@@ -208,7 +208,7 @@ class PlgUserToken extends CMSPlugin
         }
 
         // If we are on the save command, no data is passed to $data variable, we need to get it directly from request
-        $jformData = $this->app->input->get('jform', [], 'array');
+        $jformData = $this->app->getInput()->get('jform', [], 'array');
 
         if ($jformData && !$data) {
             $data = $jformData;
@@ -255,7 +255,7 @@ class PlgUserToken extends CMSPlugin
         }
 
         // Remove the Reset field when displaying the user profile form
-        if (($form->getName() === 'com_users.profile') && ($this->app->input->get('layout') !== 'edit')) {
+        if (($form->getName() === 'com_users.profile') && ($this->app->getInput()->get('layout') !== 'edit')) {
             $form->removeField('reset', 'joomlatoken');
         }
 
@@ -345,9 +345,9 @@ class PlgUserToken extends CMSPlugin
         // Remove existing Joomla Token user profile values
         $db    = $this->db;
         $query = $db->getQuery(true)
-            ->delete($db->qn('#__user_profiles'))
-            ->where($db->qn('user_id') . ' = :userId')
-            ->where($db->qn('profile_key') . ' LIKE :profileKey');
+            ->delete($db->quoteName('#__user_profiles'))
+            ->where($db->quoteName('user_id') . ' = :userId')
+            ->where($db->quoteName('profile_key') . ' LIKE :profileKey');
 
         $profileKey = $this->profileKeyPrefix . '.%';
         $query->bind(':userId', $userId, ParameterType::INTEGER);
@@ -363,12 +363,12 @@ class PlgUserToken extends CMSPlugin
         // Save the new Joomla Token user profile values
         $order = 1;
         $query = $db->getQuery(true)
-            ->insert($db->qn('#__user_profiles'))
+            ->insert($db->quoteName('#__user_profiles'))
             ->columns([
-                    $db->qn('user_id'),
-                    $db->qn('profile_key'),
-                    $db->qn('profile_value'),
-                    $db->qn('ordering'),
+                    $db->quoteName('user_id'),
+                    $db->quoteName('profile_key'),
+                    $db->quoteName('profile_value'),
+                    $db->quoteName('ordering'),
                 ]);
 
         foreach ($data[$this->profileKeyPrefix] as $k => $v) {
@@ -410,9 +410,9 @@ class PlgUserToken extends CMSPlugin
         try {
             $db    = $this->db;
             $query = $db->getQuery(true)
-                ->delete($db->qn('#__user_profiles'))
-                ->where($db->qn('user_id') . ' = :userId')
-                ->where($db->qn('profile_key') . ' LIKE :profileKey');
+                ->delete($db->quoteName('#__user_profiles'))
+                ->where($db->quoteName('user_id') . ' = :userId')
+                ->where($db->quoteName('profile_key') . ' LIKE :profileKey');
 
             $profileKey = $this->profileKeyPrefix . '.%';
             $query->bind(':userId', $userId, ParameterType::INTEGER);
@@ -454,10 +454,10 @@ class PlgUserToken extends CMSPlugin
         try {
             $db    = $this->db;
             $query = $db->getQuery(true)
-                ->select($db->qn('profile_value'))
-                ->from($db->qn('#__user_profiles'))
-                ->where($db->qn('profile_key') . ' = :profileKey')
-                ->where($db->qn('user_id') . ' = :userId');
+                ->select($db->quoteName('profile_value'))
+                ->from($db->quoteName('#__user_profiles'))
+                ->where($db->quoteName('profile_key') . ' = :profileKey')
+                ->where($db->quoteName('user_id') . ' = :userId');
 
             $profileKey = $this->profileKeyPrefix . '.token';
             $query->bind(':profileKey', $profileKey, ParameterType::STRING);
@@ -605,9 +605,9 @@ class PlgUserToken extends CMSPlugin
         $db = $this->db;
         $q  = $db->getQuery(true)
             ->select('COUNT(*)')
-            ->from($db->qn('#__user_profiles'))
-            ->where($db->qn('user_id') . ' = ' . $userId)
-            ->where($db->qn('profile_key') . ' = ' . $db->q($this->profileKeyPrefix . '.token'));
+            ->from($db->quoteName('#__user_profiles'))
+            ->where($db->quoteName('user_id') . ' = ' . $userId)
+            ->where($db->quoteName('profile_key') . ' = ' . $db->quote($this->profileKeyPrefix . '.token'));
 
         try {
             $numRows = $db->setQuery($q)->loadResult() ?? 0;

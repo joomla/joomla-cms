@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Content\Administrator\Extension;
 
-use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Categories\CategoryServiceInterface;
@@ -64,7 +63,7 @@ class ContentComponent extends MVCComponent implements
     /** @var array Supported functionality */
     protected $supportedFunctionality = [
         'core.featured' => true,
-        'core.state' => true,
+        'core.state'    => true,
     ];
 
     /**
@@ -175,7 +174,7 @@ class ContentComponent extends MVCComponent implements
 
         $contexts = [
             'com_content.article'    => Text::_('COM_CONTENT'),
-            'com_content.categories' => Text::_('JCATEGORY')
+            'com_content.categories' => Text::_('JCATEGORY'),
         ];
 
         return $contexts;
@@ -193,7 +192,7 @@ class ContentComponent extends MVCComponent implements
         Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
         $contexts = [
-            'com_content.article'    => Text::_('COM_CONTENT')
+            'com_content.article' => Text::_('COM_CONTENT'),
         ];
 
         return $contexts;
@@ -299,12 +298,12 @@ class ContentComponent extends MVCComponent implements
     public function countItems(array $items, string $section)
     {
         $config = (object) [
-            'related_tbl'    => 'content',
-            'state_col'      => 'state',
-            'group_col'      => 'catid',
-            'relation_type'  => 'category_or_group',
-            'uses_workflows' => true,
-            'workflows_component' => 'com_content'
+            'related_tbl'         => 'content',
+            'state_col'           => 'state',
+            'group_col'           => 'catid',
+            'relation_type'       => 'category_or_group',
+            'uses_workflows'      => true,
+            'workflows_component' => 'com_content',
         ];
 
         LibraryContentHelper::countRelations($items, $config);

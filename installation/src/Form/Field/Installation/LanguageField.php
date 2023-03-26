@@ -119,6 +119,12 @@ class LanguageField extends ListField
 
         $app = Factory::getApplication();
 
+        if ($app->isClient('cli_installation')) {
+            $native = 'en-GB';
+
+            return $native;
+        }
+
         // Detect the native language.
         $native = LanguageHelper::detectLanguage();
 

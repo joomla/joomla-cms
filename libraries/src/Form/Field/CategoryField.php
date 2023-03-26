@@ -46,7 +46,7 @@ class CategoryField extends ListField
      */
     protected function getOptions()
     {
-        $options = [];
+        $options   = [];
         $extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $this->element['scope'];
         $published = (string) $this->element['published'];
         $language  = (string) $this->element['language'];

@@ -30,7 +30,7 @@ class RequestDataCollector extends \DebugBar\DataCollector\RequestDataCollector
      */
     public function collect()
     {
-        $vars = ['_GET', '_POST', '_SESSION', '_COOKIE', '_SERVER'];
+        $vars       = ['_GET', '_POST', '_SESSION', '_COOKIE', '_SERVER'];
         $returnData = [];
 
         foreach ($vars as $var) {
