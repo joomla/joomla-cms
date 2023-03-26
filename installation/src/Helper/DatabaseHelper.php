@@ -273,7 +273,7 @@ abstract class DatabaseHelper
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL'));
                 }
 
-                if (!File::exists(Path::clean($options->db_sslca))) {
+                if (!is_file(Path::clean($options->db_sslca))) {
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL'));
                 }
             } else {
@@ -290,7 +290,7 @@ abstract class DatabaseHelper
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_KEY_LABEL'));
                 }
 
-                if (!File::exists(Path::clean($options->db_sslkey))) {
+                if (!is_file(Path::clean($options->db_sslkey))) {
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_KEY_LABEL'));
                 }
 
@@ -298,7 +298,7 @@ abstract class DatabaseHelper
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_CERT_LABEL'));
                 }
 
-                if (!File::exists(Path::clean($options->db_sslcert))) {
+                if (!is_file(Path::clean($options->db_sslcert))) {
                     return Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CERT_LABEL'));
                 }
             } else {
@@ -403,7 +403,7 @@ abstract class DatabaseHelper
 
                 if (
                     Factory::getSession()->get('remoteDbFileWrittenByJoomla', false) === true
-                    && File::exists(JPATH_INSTALLATION . '/' . $remoteDbFile)
+                    && is_file(JPATH_INSTALLATION . '/' . $remoteDbFile)
                 ) {
                     // Add the general message
                     Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
@@ -422,7 +422,7 @@ abstract class DatabaseHelper
                     return false;
                 }
 
-                if (Factory::getSession()->get('remoteDbFileUnwritable', false) === true && !File::exists(JPATH_INSTALLATION . '/' . $remoteDbFile)) {
+                if (Factory::getSession()->get('remoteDbFileUnwritable', false) === true && !is_file(JPATH_INSTALLATION . '/' . $remoteDbFile)) {
                     // Add the general message
                     Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
 
