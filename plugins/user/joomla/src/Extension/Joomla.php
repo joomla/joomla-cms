@@ -181,8 +181,6 @@ final class Joomla extends CMSPlugin
             return;
         }
 
-
-
         /**
          * Look for user language. Priority:
          *  1. User frontend language
