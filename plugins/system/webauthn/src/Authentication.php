@@ -321,7 +321,7 @@ final class Authentication
 
         // Retrieve the stored user ID and make sure it's the same one in the request.
         $storedUserId = $this->session->get('plg_system_webauthn.registration_user_id', 0);
-        $myUser       = $this->app->getIdentity() ?? new User();
+        $myUser       = $this->getApplication()->getIdentity() ?? new User();
         $myUserId     = $myUser->id;
 
         if (($myUser->guest) || ($myUserId != $storedUserId)) {
@@ -392,7 +392,7 @@ final class Authentication
                 '/images/',
                 '/media/',
                 '/templates/',
-                '/templates/' . $this->app->getTemplate(),
+                '/templates/' . $this->getApplication()->getTemplate(),
             ];
         } catch (Exception $e) {
             return null;
@@ -526,7 +526,7 @@ final class Authentication
      */
     private function getWebauthnServer(): \Webauthn\Server
     {
-        $siteName = $this->app->get('sitename');
+        $siteName = $this->getApplication()->get('sitename');
 
         // Credentials repository
         $repository = $this->credentialsRepository;
