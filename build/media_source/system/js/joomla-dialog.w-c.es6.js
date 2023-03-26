@@ -297,10 +297,21 @@ class JoomlaDialog extends HTMLElement {
     switch (this.popupType) {
       // Create an Inline content
       case 'inline': {
+        // Check for content selector: src: '#content-selector' or src: '.content-selector'
+        if (!this.popupContent && this.src && (this.src[0] === '.' || this.src[0] === '#')) {
+          const srcContent = document.querySelector(this.src);
+          if (srcContent) {
+            // Use <template> content, or an innerHTML for other nodes
+            this.popupContent = srcContent.nodeName === 'TEMPLATE' ? srcContent : srcContent.innerHTML.trim();
+          }
+        }
+
         if (this.popupContent instanceof HTMLElement) {
+          // Render content provided as HTMLElement
           const inlineContent = this.popupContent.nodeName === 'TEMPLATE' ? this.popupContent.content : this.popupContent;
           this.popupTmplB.appendChild(inlineContent);
         } else {
+          // Render content string
           this.popupTmplB.insertAdjacentHTML('afterbegin', Joomla.sanitizeHtml(this.popupContent));
         }
         this.popupContentElement = this.popupTmplB;
@@ -554,22 +565,16 @@ document.addEventListener('click', (event) => {
   // Parse config
   const config = triggerEl.dataset[configDataAttr] ? JSON.parse(triggerEl.dataset[configDataAttr]) : {};
 
-  // Check click on anchor
+  // Check if the click is on anchor
   if (triggerEl.nodeName === 'A') {
     if (!config.popupType) {
       config.popupType = triggerEl.hash ? 'inline' : 'iframe';
     }
     if (!config.src && config.popupType === 'iframe') {
       config.src = triggerEl.href;
-    } else if (!config.popupContent && config.popupType === 'inline') {
-      config.popupContent = triggerEl.hash;
+    } else if (!config.src && config.popupType === 'inline') {
+      config.src = triggerEl.hash;
     }
-  }
-
-  // Check for content selector
-  if (config.popupContent && (config.popupContent[0] === '.' || config.popupContent[0] === '#')) {
-    const content = document.querySelector(config.popupContent);
-    config.popupContent = content ? content.innerHTML.trim() : config.popupContent;
   }
 
   // Check for template selector
@@ -603,5 +608,3 @@ document.addEventListener('click', (event) => {
 });
 
 export default JoomlaDialog;
-
-JoomlaDialog.alert('message')
