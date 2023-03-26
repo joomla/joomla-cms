@@ -10,11 +10,9 @@
 
 namespace Joomla\Plugin\Editors\CodeMirror\Extension;
 
-use Joomla\CMS\Editor\EditorRegistry;
+use Joomla\CMS\Editor\EditorsRegistry;
 use Joomla\CMS\Event\Editor\EditorSetupEvent;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\Editors\CodeMirror\Provider\CodeMirrorProvider;
 
@@ -54,7 +52,7 @@ final class Codemirror extends CMSPlugin implements SubscriberInterface
     {
         $this->loadLanguage();
 
-        /** @var EditorRegistry $subject */
+        /** @var EditorsRegistry $subject */
         $subject = $event['subject'];
         $subject->add(new CodeMirrorProvider($this->params, $this->getApplication(), $this->getDispatcher()));
     }

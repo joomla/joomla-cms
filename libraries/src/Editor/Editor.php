@@ -103,7 +103,10 @@ class Editor implements DispatcherAwareInterface
             $this->provider = $registry->get($editor);
         } else {
             // Fallback to legacy editor logic
-            // @todo: Remove in 6.0
+            @trigger_error(
+                '6.0 Discovering an editor "' . $this->_name . '" outside of EditorsRegistry is deprecated.',
+                \E_USER_DEPRECATED
+            );
 
             // Set the dispatcher
             if (!\is_object($dispatcher)) {
