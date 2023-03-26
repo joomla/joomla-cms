@@ -183,7 +183,6 @@ Cypress.Commands.add('db_createField', (field) => {
     required: 1,
     state: 1,
     context: '',
-    note: '',
     access: 1,
     language: '*',
     created_time: '2023-01-01 20:00:00',
