@@ -127,4 +127,32 @@ class TourTable extends Table
     {
         return $this->title;
     }
+    
+    /**
+     * Method to get the parent asset under which to register this one.
+     *
+     * By default, all assets are registered to the ROOT node with ID, which will default to 1 if none exists.
+     * The extended class can define a table and id to lookup.  If the asset does not exist it will be created.
+     *
+     * @param   Table    $table  A Table object for the asset parent.
+     * @param   integer  $id     Id to look up
+     *
+     * @return  integer
+     *
+     * @since   4.3.0
+     */
+    // phpcs:ignore
+    protected function _getAssetParentId(Table $table = null, $id = null)
+    {
+        // We retrieve the parent-asset from the Asset-table
+        $assetParent = Table::getInstance('Asset');
+        
+        $assetParent->loadByName('com_guidedtours');
+        
+        if ($assetParent->id) {
+            return $assetParent->id;
+        }
+        
+        return parent::_getAssetParentId($table, $id);
+    }
 }
