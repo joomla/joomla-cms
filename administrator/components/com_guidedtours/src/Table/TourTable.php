@@ -144,7 +144,7 @@ class TourTable extends Table
     // phpcs:ignore
     protected function _getAssetParentId(Table $table = null, $id = null)
     {
-        // We retrieve the parent-asset from the Asset-table
+        // We retrieve the parent asset from the Asset table
         $assetParent = Table::getInstance('Asset');
 
         $assetParent->loadByName('com_guidedtours');
