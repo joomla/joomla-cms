@@ -17,7 +17,7 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\Privacy\Content\Extension\Message;
+use Joomla\Plugin\Privacy\Message\Extension\Message;
 
 return new class () implements ServiceProviderInterface {
     /**
