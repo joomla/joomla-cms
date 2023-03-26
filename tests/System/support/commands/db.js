@@ -161,7 +161,10 @@ Cypress.Commands.add('db_createFieldGroup', (fieldGroup) => {
     language: '*',
     context: '',
     note: '',
+    description: '',
     access: 1,
+    created: '2023-01-01 20:00:00',
+    modified: '2023-01-01 20:00:00',
   };
 
   return cy.task('queryDB', createInsertQuery('fields_groups', { ...defaultFieldGroupOptions, ...fieldGroup })).then(async (info) => info.insertId);
@@ -172,6 +175,9 @@ Cypress.Commands.add('db_createField', (field) => {
     title: 'test field',
     name: 'test-field',
     label: 'test field',
+    default_value: '',
+    note: '',
+    description: '',
     group_id: '',
     type: '',
     required: 1,
@@ -179,6 +185,9 @@ Cypress.Commands.add('db_createField', (field) => {
     context: '',
     note: '',
     access: 1,
+    language: '*',
+    created_time: '2023-01-01 20:00:00',
+    modified_time: '2023-01-01 20:00:00',
     params: '',
     fieldparams: '',
   };
