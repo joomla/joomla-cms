@@ -49,7 +49,9 @@ abstract class WebApplication extends AbstractWebApplication
      * The item associations
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0 as this property is not used anymore
      */
     public $item_associations;
 

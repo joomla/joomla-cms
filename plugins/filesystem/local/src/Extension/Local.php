@@ -40,7 +40,7 @@ final class Local extends CMSPlugin implements ProviderInterface
      * The root directory path
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     private $rootDirectory;
 
@@ -51,7 +51,7 @@ final class Local extends CMSPlugin implements ProviderInterface
      * @param   array                $config         An optional associative array of configuration settings
      * @param   string               $rootDirectory  The root directory to look for images
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function __construct(DispatcherInterface $dispatcher, array $config, string $rootDirectory)
     {

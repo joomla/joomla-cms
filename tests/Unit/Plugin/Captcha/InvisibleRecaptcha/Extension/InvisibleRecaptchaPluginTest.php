@@ -4,11 +4,11 @@
  * @package     Joomla.UnitTest
  * @subpackage  Extension
  *
- * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Plugin\Task\Checkfiles\Extension;
+namespace Joomla\Tests\Unit\Plugin\Captcha\InvisibleRecaptcha\Extension;
 
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Captcha\CaptchaRegistry;
@@ -34,7 +34,7 @@ use SimpleXMLElement;
  *
  * @testdox     The InvisibleReCaptcha plugin
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.3.0
  */
 class InvisibleRecaptchaPluginTest extends UnitTestCase
 {
@@ -43,7 +43,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function setUp(): void
     {
@@ -57,7 +57,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function tearDown(): void
     {
@@ -93,12 +93,12 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can display the captcha
-      *
-      * @return  void
-      *
-      * @since   __DEPLOY_VERSION__
-      */
+     * @testdox  can display the captcha
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testDisplay()
     {
         $document = new HtmlDocument();
@@ -145,12 +145,12 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can check successful answer
-      *
-      * @return  void
-      *
-      * @since   __DEPLOY_VERSION__
-      */
+     * @testdox  can check successful answer
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testResponse()
     {
         $language = $this->createStub(Language::class);
@@ -171,12 +171,12 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can check answer with an empty private key
-      *
-      * @return  void
-      *
-      * @since   __DEPLOY_VERSION__
-      */
+     * @testdox  can check answer with an empty private key
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testResponseEmptyPrivateKey()
     {
         $language = $this->createStub(Language::class);
@@ -194,12 +194,12 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can detect spam
-      *
-      * @return  void
-      *
-      * @since   __DEPLOY_VERSION__
-      */
+     * @testdox  can detect spam
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testResponseSpam()
     {
         $language = $this->createStub(Language::class);
@@ -218,12 +218,12 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can check successful answer
-      *
-      * @return  void
-      *
-      * @since   __DEPLOY_VERSION__
-      */
+     * @testdox  can check successful answer
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testFailedResponse()
     {
         $language = $this->createStub(Language::class);
@@ -246,12 +246,12 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can setup field
-      *
-      * @return  void
-      *
-      * @since   __DEPLOY_VERSION__
-      */
+     * @testdox  can setup field
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testSetupField()
     {
         $params  = new Registry(['private_key' => 'test']);
@@ -264,12 +264,12 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-      * @testdox  can return admin capabilities
-      *
-      * @return  void
-      *
-      * @since   __DEPLOY_VERSION__
-      */
+     * @testdox  can return admin capabilities
+     *
+     * @return  void
+     *
+     * @since   4.3.0
+     */
     public function testPrivacy()
     {
         $language = $this->createStub(Language::class);
