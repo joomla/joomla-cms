@@ -24,6 +24,7 @@ use Symfony\Component\Ldap\Adapter\QueryInterface;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\LdapException;
 use Symfony\Component\Ldap\LdapInterface;
+use Traversable;
 
 /**
  * Test class for Ldap plugin
@@ -359,10 +360,88 @@ class LdapPluginTest extends UnitTestCase
                             public function execute(): CollectionInterface
                             {
                                 if (!$this->hasEntry) {
-                                    return [];
+                                    return new class () implements CollectionInterface {
+                                        public function toArray(): array {
+                                            return [];
+                                        }
+
+                                        public function getIterator(): Traversable
+                                        {
+                                            return null;
+                                        }
+
+                                        public function offsetExists(mixed $offset): bool
+                                        {
+                                            return false;
+                                        }
+
+                                        public function offsetGet(mixed $offset): mixed
+                                        {
+                                            return null;
+                                        }
+
+                                        public function offsetSet(mixed $offset, mixed $value): void
+                                        {
+                                            return;
+                                        }
+
+                                        public function offsetUnset(mixed $offset): void
+                                        {
+                                            return;
+                                        }
+
+                                        public function count(): int
+                                        {
+                                            return 0;
+                                        }
+                                    };
                                 }
 
-                                return [new Entry('')];
+                                return new class () implements CollectionInterface {
+                                    public $entry;
+
+                                    public function __construct() {
+                                        $this->entry = new Entry('');
+                                    }
+
+                                    public function toArray(): array {
+                                        return [$this->entry];
+                                    }
+
+                                    public function getIterator(): Traversable
+                                    {
+                                        yield $this->entry;
+                                    }
+
+                                    public function offsetExists(mixed $offset): bool
+                                    {
+                                        return false;
+                                    }
+
+                                    public function offsetGet(mixed $offset): mixed
+                                    {
+                                        if ($offset === 0) {
+                                            return $this->entry;
+                                        }
+
+                                        return null;
+                                    }
+
+                                    public function offsetSet(mixed $offset, mixed $value): void
+                                    {
+                                        return;
+                                    }
+
+                                    public function offsetUnset(mixed $offset): void
+                                    {
+                                        return;
+                                    }
+
+                                    public function count(): int
+                                    {
+                                        return 1;
+                                    }
+                                };
                             }
                         };
                     }
