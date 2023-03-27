@@ -136,9 +136,10 @@ if ($saveOrder && !empty($this->items)) {
                     class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php
                        endif; ?>>
                 <?php foreach ($this->items as $i => $item) :
-                    $canEdit = $user->authorise('core.edit', 'com_guidedtours' . '.step.' . $item->id);
+                    $canEdit    = $user->authorise('core.edit', 'com_guidedtours.tour.' . $item->tour_id);
+                    $canEditOwn = $user->authorise('core.edit.own', 'com_guidedtours.tour.' . $item->tour_id) && $item->created_by == $userId;
                     $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
-                    $canChange = $user->authorise('core.edit.state', 'com_guidedtours' . '.step.' . $item->id) && $canCheckin;
+                    $canChange  = $user->authorise('core.edit.state', 'com_guidedtours' . '.step.' . $item->id) && $canCheckin;
                     ?>
 
                     <!-- Row begins -->
@@ -186,7 +187,7 @@ if ($saveOrder && !empty($this->items)) {
                                 <?php if ($item->checked_out) : ?>
                                     <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'steps.', $canCheckin); ?>
                                 <?php endif; ?>
-                                <?php if ($canEdit) : ?>
+                                <?php if ($canEdit || $canEditOwn) : ?>
                                     <a href="<?php echo Route::_('index.php?option=com_guidedtours&task=step.edit&id=' . $item->id); ?> " title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
                                         <?php echo $this->escape($item->title); ?>
                                     </a>

@@ -122,7 +122,7 @@ class HtmlView extends BaseHtmlView
         // Get the toolbar object instance
         $toolbar = Toolbar::getInstance('toolbar');
 
-        $canDo = ContentHelper::getActions('com_guidedtours');
+        $canDo = ContentHelper::getActions('com_guidedtours', 'tour', $this->state->get('filter.tour_id', 0));
         $app   = Factory::getApplication();
         $user  = $app->getIdentity();
 

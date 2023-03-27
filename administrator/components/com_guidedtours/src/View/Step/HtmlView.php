@@ -97,7 +97,7 @@ class HtmlView extends BaseHtmlView
         $userId     = $user->id;
         $isNew      = empty($this->item->id);
 
-        $canDo = ContentHelper::getActions('com_guidedtours');
+        $canDo = ContentHelper::getActions('com_guidedtours', 'tour', $this->item->tour_id);
 
         ToolbarHelper::title(Text::_('COM_GUIDEDTOURS') . ' - ' . ($isNew ? Text::_('COM_GUIDEDTOURS_MANAGER_STEP_NEW') : Text::_('COM_GUIDEDTOURS_MANAGER_STEP_EDIT')), 'map-signs');
 
