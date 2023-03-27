@@ -23,8 +23,15 @@ describe('Install Joomla', () => {
     cy.setErrorReportingToDevelopment();
     cy.doAdministratorLogout();
 
-    // Update to the correct secret for the API tests because of the bearer token
-    cy.readFile(`${Cypress.env('cmsPath')}/configuration.php`)
-      .then((content) => cy.task('writeFile', { path: 'configuration.php', content: content.replace(/^.*\$secret.*$/mg, "public $secret = 'tEstValue';") }));
+    cy.readFile(`${Cypress.env('cmsPath')}/configuration.php`).then((fileContent) => {
+      // Update to the correct secret for the API tests because of the bearer token
+      let content = fileContent.replace(/^.*\$secret.*$/mg, "public $secret = 'tEstValue';");
+
+      // Turn off mailing
+      content = content.replace(/^.*\$mailonline.*$/mg, 'public $mailonline = false;');
+
+      // Write the modified content back to the configuration file
+      cy.task('writeFile', { path: 'configuration.php', content: content });
+    });
   });
 });
