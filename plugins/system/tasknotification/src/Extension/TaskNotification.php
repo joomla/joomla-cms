@@ -254,7 +254,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
      */
     private function getDataFromTask(Task $task): array
     {
-        $lockOrExecTime = Factory::getDate($task->get('locked') ?? $task->get('last_execution'))->format(Text::_('DATE_FORMAT_LC2'));
+        $lockOrExecTime = Factory::getDate($task->get('locked') ?? $task->get('last_execution'))->format($this->getApplication()->getLanguage()->_('DATE_FORMAT_LC2'));
 
         return [
             'TASK_ID'        => $task->get('id'),
@@ -297,7 +297,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
         }
 
         if ($users === null) {
-            Log::add(Text::_('PLG_SYSTEM_TASK_NOTIFICATION_USER_FETCH_FAIL'), Log::ERROR);
+            Log::add($this->getApplication()->getLanguage()->_('PLG_SYSTEM_TASK_NOTIFICATION_USER_FETCH_FAIL'), Log::ERROR);
 
             return;
         }
@@ -326,13 +326,13 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
                     $mailer->send();
                     $mailSent = true;
                 } catch (MailerException $exception) {
-                    Log::add(Text::_('PLG_SYSTEM_TASK_NOTIFICATION_NOTIFY_SEND_EMAIL_FAIL'), Log::ERROR);
+                    Log::add($this->getApplication()->getLanguage()->_('PLG_SYSTEM_TASK_NOTIFICATION_NOTIFY_SEND_EMAIL_FAIL'), Log::ERROR);
                 }
             }
         }
 
         if (!$mailSent) {
-            Log::add(Text::_('PLG_SYSTEM_TASK_NOTIFICATION_NO_MAIL_SENT'), Log::WARNING);
+            Log::add($this->getApplication()->getLanguage()->_('PLG_SYSTEM_TASK_NOTIFICATION_NO_MAIL_SENT'), Log::WARNING);
         }
     }
 }

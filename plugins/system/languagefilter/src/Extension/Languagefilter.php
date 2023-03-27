@@ -507,8 +507,8 @@ final class LanguageFilter extends CMSPlugin
         $this->loadLanguage();
 
         return [
-            Text::_('PLG_SYSTEM_LANGUAGEFILTER') => [
-                Text::_('PLG_SYSTEM_LANGUAGEFILTER_PRIVACY_CAPABILITY_LANGUAGE_COOKIE'),
+            $this->getApplication()->getLanguage()->_('PLG_SYSTEM_LANGUAGEFILTER') => [
+                $this->getApplication()->getLanguage()->_('PLG_SYSTEM_LANGUAGEFILTER_PRIVACY_CAPABILITY_LANGUAGE_COOKIE'),
             ],
         ];
     }

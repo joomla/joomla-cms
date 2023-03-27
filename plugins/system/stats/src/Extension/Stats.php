@@ -150,7 +150,7 @@ final class Stats extends CMSPlugin
     public function onAjaxSendAlways()
     {
         if (!$this->isAllowedUser() || !$this->isAjaxRequest()) {
-            throw new Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
+            throw new Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
         }
 
         $this->params->set('mode', static::MODE_ALLOW_ALWAYS);
@@ -175,7 +175,7 @@ final class Stats extends CMSPlugin
     public function onAjaxSendNever()
     {
         if (!$this->isAllowedUser() || !$this->isAjaxRequest()) {
-            throw new Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
+            throw new Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
         }
 
         $this->params->set('mode', static::MODE_ALLOW_NEVER);
@@ -205,7 +205,7 @@ final class Stats extends CMSPlugin
     public function onAjaxSendStats()
     {
         if (!$this->isAllowedUser() || !$this->isAjaxRequest()) {
-            throw new Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
+            throw new Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
         }
 
         // User has not selected the mode. Show message.

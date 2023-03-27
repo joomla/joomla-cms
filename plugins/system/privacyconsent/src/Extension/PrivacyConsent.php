@@ -133,7 +133,7 @@ final class PrivacyConsent extends CMSPlugin
             $option == 'com_users' && in_array($task, ['registration.register', 'profile.save'])
             && empty($form['privacyconsent']['privacy'])
         ) {
-            throw new InvalidArgumentException(Text::_('PLG_SYSTEM_PRIVACYCONSENT_FIELD_ERROR'));
+            throw new InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_SYSTEM_PRIVACYCONSENT_FIELD_ERROR'));
         }
 
         return true;
@@ -368,7 +368,7 @@ final class PrivacyConsent extends CMSPlugin
         $messageOnRedirect = trim($this->params->get('messageOnRedirect', ''));
 
         if (empty($messageOnRedirect)) {
-            return Text::_('PLG_SYSTEM_PRIVACYCONSENT_REDIRECT_MESSAGE_DEFAULT');
+            return $this->getApplication()->getLanguage()->_('PLG_SYSTEM_PRIVACYCONSENT_REDIRECT_MESSAGE_DEFAULT');
         }
 
         return $messageOnRedirect;
@@ -659,7 +659,7 @@ final class PrivacyConsent extends CMSPlugin
             }
 
             $messageModel->notifySuperUsers(
-                Text::_('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_SUBJECT'),
+                $this->getApplication()->getLanguage()->_('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_SUBJECT'),
                 Text::sprintf('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_MESSAGE', Factory::getUser($user->user_id)->username)
             );
         }

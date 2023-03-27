@@ -204,12 +204,12 @@ final class Schedulerunner extends CMSPlugin implements SubscriberInterface
         $hash   = $config->get('webcron.key', '');
 
         if (!$config->get('webcron.enabled', false)) {
-            Log::add(Text::_('PLG_SYSTEM_SCHEDULE_RUNNER_WEBCRON_DISABLED'));
-            throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            Log::add($this->getApplication()->getLanguage()->_('PLG_SYSTEM_SCHEDULE_RUNNER_WEBCRON_DISABLED'));
+            throw new Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         if (!strlen($hash) || $hash !== $this->getApplication()->getInput()->get('hash')) {
-            throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         $id = (int) $this->getApplication()->getInput()->getInt('id', 0);
@@ -246,7 +246,7 @@ final class Schedulerunner extends CMSPlugin implements SubscriberInterface
         $user = $this->getApplication()->getIdentity();
 
         if (empty($id) || !$user->authorise('core.testrun', 'com_scheduler.task.' . $id)) {
-            throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         /**

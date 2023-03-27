@@ -162,7 +162,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
         try {
             $redirects = $this->getDatabase()->loadAssocList();
         } catch (Exception $e) {
-            $event->setError(new Exception(Text::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+            $event->setError(new Exception($this->getApplication()->getLanguage()->_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
 
             return;
         }
@@ -252,7 +252,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
                 try {
                     $this->getDatabase()->insertObject('#__redirect_links', $data, 'id');
                 } catch (Exception $e) {
-                    $event->setError(new Exception(Text::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+                    $event->setError(new Exception($this->getApplication()->getLanguage()->_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
 
                     return;
                 }
@@ -264,7 +264,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
             try {
                 $this->getDatabase()->updateObject('#__redirect_links', $redirect, ['id']);
             } catch (Exception $e) {
-                $event->setError(new Exception(Text::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+                $event->setError(new Exception($this->getApplication()->getLanguage()->_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
 
                 return;
             }

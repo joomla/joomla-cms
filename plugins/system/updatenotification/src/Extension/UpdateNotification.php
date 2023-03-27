@@ -244,9 +244,9 @@ final class UpdateNotification extends CMSPlugin
                 $mailer->send();
             } catch (MailDisabledException | phpMailerException $exception) {
                 try {
-                    Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+                    Log::add($this->getApplication()->getLanguage()->_($exception->getMessage()), Log::WARNING, 'jerror');
                 } catch (\RuntimeException $exception) {
-                    $this->getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                    $this->getApplication()->enqueueMessage($this->getApplication()->getLanguage()->_($exception->errorMessage()), 'warning');
                 }
             }
         }
