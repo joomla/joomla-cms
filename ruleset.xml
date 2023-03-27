@@ -38,8 +38,8 @@
         <exclude-pattern type="relative">administrator/components/com_fields/src/Table/GroupTable\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_finder/src/Table/FilterTable\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_finder/src/Table/LinkTable\.php</exclude-pattern>
-		<exclude-pattern type="relative">administrator/components/com_guidedtours/src/Table/StepTable\.php</exclude-pattern>
-		<exclude-pattern type="relative">administrator/components/com_guidedtours/src/Table/TourTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_guidedtours/src/Table/StepTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_guidedtours/src/Table/TourTable\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_installer/src/Model/DatabaseModel\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_installer/src/Model/InstallModel\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_installer/src/Table/UpdatesiteTable\.php</exclude-pattern>
@@ -158,8 +158,8 @@
         <exclude-pattern type="relative">administrator/components/com_fields/src/Table/FieldTable\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_fields/src/Table/GroupTable\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_finder/src/Model/MapsModel\.php</exclude-pattern>
-		<exclude-pattern type="relative">administrator/components/com_guidedtours/src/Table/StepTable\.php</exclude-pattern>
-		<exclude-pattern type="relative">administrator/components/com_guidedtours/src/Table/TourTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_guidedtours/src/Table/StepTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_guidedtours/src/Table/TourTable\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_installer/src/Model/InstallerModel\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_installer/src/Model/InstallModel\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_installer/src/Model/LanguagesModel\.php</exclude-pattern>
