@@ -11,6 +11,13 @@ before(() => {
     console.log(`runnable :${runnable}`);
     return false;
   });
+
+  // Turn off mailing
+  cy.readFile(`${Cypress.env('cmsPath')}/configuration.php`)
+    .then((content) => cy.task('writeFile', { path: 'configuration.php', content: content.replace(/^.*\$mailonline.*$/mg, 'public $mailonline = false;') }));
 });
 
-afterEach(() => cy.task('cleanupDB'));
+afterEach(() => {
+  cy.checkForPhpNoticesOrWarnings();
+  cy.task('cleanupDB');
+});
