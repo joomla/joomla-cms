@@ -31,7 +31,7 @@ describe('Install Joomla', () => {
       content = content.replace(/^.*\$mailonline.*$/mg, 'public $mailonline = false;');
 
       // Write the modified content back to the configuration file
-      cy.task('writeFile', { path: 'configuration.php', content: content });
+      cy.task('writeFile', { path: 'configuration.php', content });
     });
   });
 });
