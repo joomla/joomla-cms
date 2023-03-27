@@ -20,8 +20,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Component\Content\Site\Model\ArticlesModel;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
