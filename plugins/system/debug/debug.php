@@ -152,9 +152,9 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onBeforeCompileHead'            => 'onBeforeCompileHead',
-            'onAjaxDebug'                    => 'onAjaxDebug',
-            'onBeforeRespond'                => 'onBeforeRespond',
+            'onBeforeCompileHead' => 'onBeforeCompileHead',
+            'onAjaxDebug'         => 'onAjaxDebug',
+            'onBeforeRespond'     => 'onBeforeRespond',
             'onAfterRespond'      => [
                 'onAfterRespond',
                 PHP_INT_MIN,
@@ -163,7 +163,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
                 'onAfterRespond',
                 PHP_INT_MIN,
             ],
-            'onAfterDisconnect'              => 'onAfterDisconnect',
+            'onAfterDisconnect' => 'onAfterDisconnect',
         ];
     }
 
