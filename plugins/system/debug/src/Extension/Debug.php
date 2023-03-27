@@ -162,14 +162,14 @@ final class Debug extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * @param   CMSApplicationInterface  $app         The app
-     * @param   DatabaseInterface        $db          The db
      * @param   DispatcherInterface      $dispatcher  The object to observe -- event dispatcher.
      * @param   array                    $config      An optional associative array of configuration settings.
+     * @param   CMSApplicationInterface  $app         The app
+     * @param   DatabaseInterface        $db          The db
      *
      * @since   1.5
      */
-    public function __construct(CMSApplicationInterface $app, DatabaseInterface $db, DispatcherInterface $dispatcher, $config)
+    public function __construct(DispatcherInterface $dispatcher, $config, CMSApplicationInterface $app, DatabaseInterface $db)
     {
         parent::__construct($dispatcher, $config);
 

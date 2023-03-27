@@ -35,9 +35,9 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $plugin     = new Httpheaders(
-                    Factory::getApplication(),
                     $container->get(DispatcherInterface::class),
-                    (array) PluginHelper::getPlugin('system', 'httpheaders')
+                    (array) PluginHelper::getPlugin('system', 'httpheaders'),
+                    Factory::getApplication()
                 );
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
 

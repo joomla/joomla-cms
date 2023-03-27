@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\SiteRouter;
 use Joomla\DI\Container;
@@ -34,12 +35,12 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
-                $plugin     = new LanguageFilter(
-                    $dispatcher,
-                    (array) PluginHelper::getPlugin('system', 'languagefilter')
+                $plugin = new LanguageFilter(
+                    $container->get(DispatcherInterface::class),
+                    (array) PluginHelper::getPlugin('system', 'languagefilter'),
+                    Factory::getApplication(),
+                    $container->get(LanguageFactoryInterface::class)
                 );
-                $plugin->setApplication(Factory::getApplication());
                 $plugin->setSiteRouter($container->get(SiteRouter::class));
 
                 return $plugin;

@@ -8,11 +8,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Plugin\System\SessionGc\Extension;
+namespace Joomla\Plugin\System\SessionGC\Extension;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\MetadataManager;
+use Joomla\Event\DispatcherInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,8 +23,33 @@ use Joomla\CMS\Session\MetadataManager;
  *
  * @since  3.8.6
  */
-final class SessionGc extends CMSPlugin
+final class SessionGC extends CMSPlugin
 {
+    /**
+     * The meta data manager
+     *
+     * @var   MetadataManager
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    private $metadataManager;
+
+    /**
+     * Constructor.
+     *
+     * @param   DispatcherInterface  $dispatcher       The dispatcher
+     * @param   array                $config           An optional associative array of configuration settings
+     * @param   MetadataManager      $metadataManager  The user factory
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct(DispatcherInterface $dispatcher, array $config, MetadataManager $metadataManager)
+    {
+        parent::__construct($dispatcher, $config);
+
+        $this->metadataManager = $metadataManager;
+    }
+
     /**
      * Runs after the HTTP response has been sent to the client and performs garbage collection tasks
      *
@@ -52,9 +77,7 @@ final class SessionGc extends CMSPlugin
             $random = $divisor * lcg_value();
 
             if ($probability > 0 && $random < $probability) {
-                /** @var MetadataManager $metadataManager */
-                $metadataManager = Factory::getContainer()->get(MetadataManager::class);
-                $metadataManager->deletePriorTo(time() - $this->getApplication()->getSession()->getExpire());
+                $this->metadataManager->deletePriorTo(time() - $this->getApplication()->getSession()->getExpire());
             }
         }
     }

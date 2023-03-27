@@ -43,12 +43,12 @@ final class Remember extends CMSPlugin
     public function onAfterInitialise()
     {
         // No remember me for admin.
-        if ($this->getApplication()->isClient('administrator')) {
+        if (!$this->getApplication()->isClient('site')) {
             return;
         }
 
         // Check for a cookie if user is not logged in
-        if ($this->getApplication()->getIdentity()->get('guest')) {
+        if ($this->getApplication()->getIdentity()->guest) {
             $cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
 
             // Check for the cookie
@@ -69,7 +69,7 @@ final class Remember extends CMSPlugin
     public function onUserLogout($user, $options)
     {
         // No remember me for admin
-        if ($this->getApplication()->isClient('administrator')) {
+        if (!$this->getApplication()->isClient('site')) {
             return true;
         }
 

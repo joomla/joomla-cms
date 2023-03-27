@@ -12,12 +12,14 @@ namespace Joomla\Plugin\System\LanguageFilter\Extension;
 
 use JLoader;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -27,6 +29,7 @@ use Joomla\CMS\Router\Router;
 use Joomla\CMS\Router\SiteRouterAwareTrait;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -93,16 +96,30 @@ final class LanguageFilter extends CMSPlugin
     private $user_lang_code;
 
     /**
+     * The language factory
+     *
+     * @var   LanguageFactoryInterface
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    private $languageFactory;
+
+    /**
      * Constructor.
      *
-     * @param   object  &$subject  The object to observe
-     * @param   array   $config    An optional associative array of configuration settings.
+     * @param   DispatcherInterface   $dispatcher   The dispatcher
+     * @param   array                 $config       An optional associative array of configuration settings
+     * @param   UserFactoryInterface  $userFactory  The user factory
      *
-     * @since   1.6
+     * @since   1.6.0
      */
-    public function __construct(&$subject, $config)
+    public function __construct(DispatcherInterface $dispatcher, array $config,CMSApplicationInterface $app, LanguageFactoryInterface $languageFactory)
     {
-        parent::__construct($subject, $config);
+        parent::__construct($dispatcher, $config);
+
+        $this->languageFactory = $languageFactory;
+
+        $this->setApplication($app);
 
         // Setup language data.
         $this->mode_sef     = $this->getApplication()->get('sef', 0);
@@ -450,7 +467,7 @@ final class LanguageFilter extends CMSPlugin
         $language = $this->getApplication()->getLanguage();
 
         if ($language->getTag() !== $lang_code) {
-            $language_new = Language::getInstance($lang_code, (bool) $this->getApplication()->get('debug_lang'));
+            $language_new = $this->languageFactory->createLanguage($lang_code, (bool) $this->getApplication()->get('debug_lang'));
 
             foreach ($language->getPaths() as $extension => $files) {
                 if (strpos($extension, 'plg_system') !== false) {
@@ -652,7 +669,7 @@ final class LanguageFilter extends CMSPlugin
                     $this->setLanguageCookie($lang_code);
 
                     // Change the language code.
-                    Factory::getContainer()->get(\Joomla\CMS\Language\LanguageFactoryInterface::class)->createLanguage($lang_code);
+                    $this->languageFactory->createLanguage($lang_code);
                 }
             } else {
                 if ($this->getApplication()->getUserState('users.login.form.return')) {

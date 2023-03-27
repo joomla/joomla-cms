@@ -35,10 +35,10 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 return new Debug(
-                    Factory::getApplication(),
-                    $container->get(DatabaseInterface::class),
                     $container->get(DispatcherInterface::class),
-                    (array) PluginHelper::getPlugin('system', 'debug')
+                    (array) PluginHelper::getPlugin('system', 'debug'),
+                    Factory::getApplication(),
+                    $container->get(DatabaseInterface::class)
                 );
             }
         );

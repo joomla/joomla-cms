@@ -17,7 +17,7 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\System\Privacyconsent\Extension\Privacyconsent;
+use Joomla\Plugin\System\PrivacyConsent\Extension\PrivacyConsent;
 
 return new class () implements ServiceProviderInterface {
     /**
@@ -35,7 +35,7 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $dispatcher = $container->get(DispatcherInterface::class);
-                $plugin     = new Privacyconsent(
+                $plugin     = new PrivacyConsent(
                     $dispatcher,
                     (array) PluginHelper::getPlugin('system', 'privacyconsent')
                 );

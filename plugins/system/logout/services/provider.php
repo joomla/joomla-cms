@@ -34,9 +34,9 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 return new Logout(
-                    Factory::getApplication(),
                     $container->get(DispatcherInterface::class),
-                    (array) PluginHelper::getPlugin('system', 'logout')
+                    (array) PluginHelper::getPlugin('system', 'logout'),
+                    Factory::getApplication()
                 );
             }
         );

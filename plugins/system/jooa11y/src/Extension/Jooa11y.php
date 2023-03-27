@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\Jooa11y\Extension;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
@@ -45,14 +44,7 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        $mapping = [];
-
-        // Only trigger in frontend
-        if (Factory::getApplication()->isClient('site')) {
-            $mapping['onBeforeCompileHead'] = 'initJooa11y';
-        }
-
-        return $mapping;
+        return ['onBeforeCompileHead' => 'initJooa11y'];
     }
 
     /**
@@ -97,6 +89,10 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
      */
     public function initJooa11y()
     {
+        if (!$this->getApplication()->isClient('site')) {
+            return;
+        }
+
         // Check if we are in a preview modal or the plugin has enforced loading
         $showJooa11y = $this->getApplication()->getInput()->get('jooa11y', $this->params->get('showAlways', 0));
 
@@ -107,12 +103,6 @@ final class Jooa11y extends CMSPlugin implements SubscriberInterface
 
         // Get the document object.
         $document = $this->getApplication()->getDocument();
-
-        // Determine if it is an LTR or RTL language
-        $direction = Factory::getLanguage()->isRtl() ? 'right' : 'left';
-
-        // Detect the current active language
-        $lang = Factory::getLanguage()->getTag();
 
         // Add plugin settings from the xml
         $document->addScriptOptions(

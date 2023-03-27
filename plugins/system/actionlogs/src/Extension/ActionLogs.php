@@ -52,12 +52,13 @@ final class ActionLogs extends CMSPlugin
     /**
      * Constructor.
      *
-     * @param   object  $subject  The object to observe.
-     * @param   array   $config   An optional associative array of configuration settings.
+     * @param   DispatcherInterface   $dispatcher   The dispatcher
+     * @param   array                 $config       An optional associative array of configuration settings
+     * @param   UserFactoryInterface  $userFactory  The user factory
      *
      * @since   3.9.0
      */
-    public function __construct(UserFactoryInterface $userFactory, DispatcherInterface $dispatcher, array $config)
+    public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory)
     {
         parent::__construct($dispatcher, $config);
 

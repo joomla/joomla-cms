@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Plugin\System\Tasknotification\Extension;
+namespace Joomla\Plugin\System\TaskNotification\Extension;
 
 use Exception;
 use Joomla\CMS\Factory;
@@ -22,6 +22,7 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
@@ -43,7 +44,7 @@ use RuntimeException;
  *
  * @since 4.1.0
  */
-final class Tasknotification extends CMSPlugin implements SubscriberInterface
+final class TaskNotification extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
 
@@ -61,6 +62,15 @@ final class Tasknotification extends CMSPlugin implements SubscriberInterface
      * @since 4.1.0
      */
     protected $autoloadLanguage = true;
+
+    /**
+     * The user factory
+     *
+     * @var   UserFactoryInterface
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    private $userFactory;
 
     /**
      * @inheritDoc
@@ -81,6 +91,22 @@ final class Tasknotification extends CMSPlugin implements SubscriberInterface
     }
 
     /**
+     * Constructor.
+     *
+     * @param   DispatcherInterface   $dispatcher   The dispatcher
+     * @param   array                 $config       An optional associative array of configuration settings
+     * @param   UserFactoryInterface  $userFactory  The user factory
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory)
+    {
+        parent::__construct($dispatcher, $config);
+
+        $this->userFactory = $userFactory;
+    }
+
+    /**
      * Inject fields to support configuration of post-execution notifications into the task item form.
      *
      * @param   EventInterface  $event  The onContentPrepareForm event.
@@ -98,7 +124,7 @@ final class Tasknotification extends CMSPlugin implements SubscriberInterface
             return true;
         }
 
-        $formFile = __DIR__ . "/forms/" . self::TASK_NOTIFICATION_FORM . '.xml';
+        $formFile = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/' . self::TASK_NOTIFICATION_FORM . '.xml';
 
         try {
             $formFile = Path::check($formFile);
@@ -254,9 +280,6 @@ final class Tasknotification extends CMSPlugin implements SubscriberInterface
         $app = $this->getApplication();
         $db  = $this->getDatabase();
 
-        /** @var UserFactoryInterface $userFactory */
-        $userFactory = Factory::getContainer()->get('user.factory');
-
         // Get all users who are not blocked and have opted in for system mails.
         $query = $db->getQuery(true);
 
@@ -283,7 +306,7 @@ final class Tasknotification extends CMSPlugin implements SubscriberInterface
 
         // Mail all matching users who also have the `core.manage` privilege for com_scheduler.
         foreach ($users as $user) {
-            $user = $userFactory->loadUserById($user->id);
+            $user = $this->userFactory->loadUserById($user->id);
 
             if ($user->authorise('core.manage', 'com_scheduler')) {
                 try {

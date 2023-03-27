@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.8.6</version>
 	<description>PLG_SYSTEM_SESSIONGC_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\System\SessionGc</namespace>
+	<namespace path="src">Joomla\Plugin\System\SessionGC</namespace>
 	<files>
 		<folder plugin="sessiongc">services</folder>
 		<folder>src</folder>

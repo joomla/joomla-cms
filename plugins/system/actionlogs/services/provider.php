@@ -36,9 +36,9 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $plugin = new ActionLogs(
-                    $container->get(UserFactoryInterface::class),
                     $container->get(DispatcherInterface::class),
-                    (array) PluginHelper::getPlugin('system', 'actionlogs')
+                    (array) PluginHelper::getPlugin('system', 'actionlogs'),
+                    $container->get(UserFactoryInterface::class)
                 );
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));

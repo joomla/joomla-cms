@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.1</version>
 	<description>PLG_SYSTEM_TASK_NOTIFICATION_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\System\Tasknotification</namespace>
+	<namespace path="src">Joomla\Plugin\System\TaskNotification</namespace>
 	<files>
 		<folder>forms</folder>
 		<folder plugin="tasknotification">services</folder>

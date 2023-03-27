@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Plugin\System\Privacyconsent\Extension;
+namespace Joomla\Plugin\System\PrivacyConsent\Extension;
 
 use Exception;
 use InvalidArgumentException;
@@ -43,7 +43,7 @@ use RuntimeException;
  *
  * @since  3.9.0
  */
-final class Privacyconsent extends CMSPlugin
+final class PrivacyConsent extends CMSPlugin
 {
     use DatabaseAwareTrait;
 
@@ -85,7 +85,7 @@ final class Privacyconsent extends CMSPlugin
 
         // Add the privacy policy fields to the form.
         FormHelper::addFieldPrefix('Joomla\\Plugin\\System\\PrivacyConsent\\Field');
-        FormHelper::addFormPath(__DIR__ . '/forms');
+        FormHelper::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
         $form->loadFile('privacyconsent');
 
         $privacyType = $this->params->get('privacy_type', 'article');
@@ -259,11 +259,11 @@ final class Privacyconsent extends CMSPlugin
     public function onAfterRoute()
     {
         // Run this in frontend only
-        if ($this->getApplication()->isClient('administrator')) {
+        if (!$this->getApplication()->isClient('site')) {
             return;
         }
 
-        $userId = Factory::getUser()->id;
+        $userId = $this->getApplication()->getIdentity()->id;
 
         // Check to see whether user already consented, if not, redirect to user profile page
         if ($userId > 0) {
@@ -414,7 +414,7 @@ final class Privacyconsent extends CMSPlugin
 
         if ($privacyArticleId > 0 && Associations::isEnabled()) {
             $privacyAssociated = Associations::getAssociations('com_content', '#__content', 'com_content.item', $privacyArticleId);
-            $currentLang       = Factory::getLanguage()->getTag();
+            $currentLang       = $this->getApplication()->getLanguage()->getTag();
 
             if (isset($privacyAssociated[$currentLang])) {
                 $privacyArticleId = $privacyAssociated[$currentLang]->id;
@@ -438,7 +438,7 @@ final class Privacyconsent extends CMSPlugin
 
         if ($itemId > 0 && Associations::isEnabled()) {
             $privacyAssociated = Associations::getAssociations('com_menus', '#__menu', 'com_menus.item', $itemId, 'id', '', '');
-            $currentLang       = Factory::getLanguage()->getTag();
+            $currentLang       = $this->getApplication()->getTag();
 
             if (isset($privacyAssociated[$currentLang])) {
                 $itemId = $privacyAssociated[$currentLang]->id;

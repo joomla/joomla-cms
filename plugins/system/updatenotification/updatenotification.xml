@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.5.0</version>
 	<description>PLG_SYSTEM_UPDATENOTIFICATION_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\System\Updatenotification</namespace>
+	<namespace path="src">Joomla\Plugin\System\UpdateNotification</namespace>
 	<files>
 		<folder>postinstall</folder>
 		<folder plugin="updatenotification">services</folder>

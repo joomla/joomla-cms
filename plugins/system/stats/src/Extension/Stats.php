@@ -12,13 +12,11 @@ namespace Joomla\Plugin\System\Stats\Extension;
 
 use Exception;
 use Joomla\CMS\Cache\Cache;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use RuntimeException;
@@ -98,7 +96,7 @@ final class Stats extends CMSPlugin
             return;
         }
 
-        if (Uri::getInstance()->getVar('tmpl') === 'component') {
+        if ($this->getApplication()->getInput()->getVar('tmpl') === 'component') {
             return;
         }
 
@@ -127,7 +125,7 @@ final class Stats extends CMSPlugin
             return;
         }
 
-        if (Uri::getInstance()->getVar('tmpl') === 'component') {
+        if ($this->getApplication()->getInput()->getVar('tmpl') === 'component') {
             return;
         }
 
@@ -362,7 +360,7 @@ final class Stats extends CMSPlugin
      */
     private function isAllowedUser()
     {
-        return Factory::getUser()->authorise('core.admin');
+        return $this->getApplication()->getIdentity() && $this->getApplication()->getIdentity()->authorise('core.admin');
     }
 
     /**

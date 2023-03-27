@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\System\Highlight\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
@@ -77,10 +76,11 @@ final class Highlight extends CMSPlugin
             $cleanTerms[] = htmlspecialchars($filter->clean($term, 'string'));
         }
 
+        /** @var \Joomla\CMS\Document\HtmlDocument $doc */
+        $doc = $this->getApplication()->getDocument();
+
         // Activate the highlighter.
         if (!empty($cleanTerms)) {
-            $doc = Factory::getDocument();
-
             $doc->getWebAssetManager()->useScript('highlight');
             $doc->addScriptOptions(
                 'highlight',
@@ -92,8 +92,6 @@ final class Highlight extends CMSPlugin
         }
 
         // Adjust the component buffer.
-        /** @var \Joomla\CMS\Document\HtmlDocument $doc */
-        $doc = $this->getApplication()->getDocument();
         $buf = $doc->getBuffer('component');
         $buf = '<div class="js-highlight">' . $buf . '</div>';
         $doc->setBuffer($buf, 'component');
@@ -103,7 +101,7 @@ final class Highlight extends CMSPlugin
      * Method to catch the onFinderResult event.
      *
      * @param   Result  $item   The search result
-     * @param   array   $query  The search query of this result
+     * @param   object  $query  The search query of this result
      *
      * @return  void
      *

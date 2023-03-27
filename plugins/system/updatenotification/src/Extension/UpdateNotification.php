@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Plugin\System\Updatenotification\Extension;
+namespace Joomla\Plugin\System\UpdateNotification\Extension;
 
 use Exception;
 use Joomla\CMS\Access\Access;
@@ -47,7 +47,7 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  *
  * @since  3.5
  */
-final class Updatenotification extends CMSPlugin
+final class UpdateNotification extends CMSPlugin
 {
     use DatabaseAwareTrait;
 

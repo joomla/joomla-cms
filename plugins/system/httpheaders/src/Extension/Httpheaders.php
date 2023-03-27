@@ -119,14 +119,13 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
     ];
 
     /**
-     * @param   CMSApplicationInterface  $app         The app
-     * @param   DatabaseInterface        $db          The db
      * @param   DispatcherInterface      $dispatcher  The object to observe -- event dispatcher.
      * @param   array                    $config      An optional associative array of configuration settings.
+     * @param   CMSApplicationInterface  $app         The app
      *
      * @since   4.0.0
      */
-    public function __construct(CMSApplicationInterface $app, DispatcherInterface $dispatcher, $config)
+    public function __construct(DispatcherInterface $dispatcher, $config, CMSApplicationInterface $app)
     {
         parent::__construct($dispatcher, $config);
 
