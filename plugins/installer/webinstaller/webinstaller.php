@@ -19,6 +19,10 @@ use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Support for the "Install from Web" tab
  *
@@ -149,7 +153,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
     private function getInstallFrom()
     {
         if ($this->installfrom === null) {
-            $installfrom = base64_decode($this->app->input->getBase64('installfrom', ''));
+            $installfrom = base64_decode($this->app->getInput()->getBase64('installfrom', ''));
 
             $field = new SimpleXMLElement('<field></field>');
 

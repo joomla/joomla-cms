@@ -12,6 +12,10 @@ namespace Joomla\CMS\Filesystem;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Stream Interface
  *
@@ -92,7 +96,7 @@ class Stream extends CMSObject
      * @var    array
      * @since  1.7.0
      */
-    protected $filters = array();
+    protected $filters = [];
 
     /**
      * File Handle
@@ -143,10 +147,10 @@ class Stream extends CMSObject
      *
      * @since   1.7.0
      */
-    public function __construct($writeprefix = '', $readprefix = '', $context = array())
+    public function __construct($writeprefix = '', $readprefix = '', $context = [])
     {
-        $this->writeprefix = $writeprefix;
-        $this->readprefix = $readprefix;
+        $this->writeprefix    = $writeprefix;
+        $this->readprefix     = $readprefix;
         $this->contextOptions = $context;
         $this->_buildContext();
     }
@@ -202,7 +206,7 @@ class Stream extends CMSObject
         $this->filename = $filename;
         $this->openmode = $mode;
 
-        $url = parse_url($filename);
+        $url    = parse_url($filename);
         $retval = false;
 
         if (isset($url['scheme'])) {
@@ -327,7 +331,7 @@ class Stream extends CMSObject
         } else {
             // Reset this
             $this->fh = null;
-            $retval = true;
+            $retval   = true;
         }
 
         // If we wrote, chmod the file after it's closed
@@ -429,11 +433,11 @@ class Stream extends CMSObject
                 }
             } else {
                 $this->filesize = $res;
-                $retval = $res;
+                $retval         = $res;
             }
         } else {
             $this->filesize = $res;
-            $retval = $res;
+            $retval         = $res;
         }
 
         // Restore error tracking to what it was before.
@@ -567,7 +571,7 @@ class Stream extends CMSObject
                 } else {
                     // If it's the end of the file then we've nothing left to read; reset remaining and len
                     $remaining = 0;
-                    $length = \strlen($retval);
+                    $length    = \strlen($retval);
                 }
             }
         } while ($remaining || !$length);
@@ -722,18 +726,18 @@ class Stream extends CMSObject
         $track_errors = ini_get('track_errors');
         ini_set('track_errors', true);
         $remaining = $length;
-        $start = 0;
+        $start     = 0;
 
         do {
             // If the amount remaining is greater than the chunk size, then use the chunk
             $amount = ($remaining > $chunk) ? $chunk : $remaining;
-            $res = fwrite($this->fh, substr($string, $start), $amount);
+            $res    = fwrite($this->fh, substr($string, $start), $amount);
 
             // Returns false on error or the number of bytes written
             if ($res === false) {
                 // Returned error
                 $this->setError($php_errormsg);
-                $retval = false;
+                $retval    = false;
                 $remaining = 0;
             } elseif ($res === 0) {
                 // Wrote nothing?
@@ -964,7 +968,7 @@ class Stream extends CMSObject
      * @link    https://www.php.net/manual/en/function.stream-filter-append.php
      * @since   1.7.0
      */
-    public function appendFilter($filterName, $readWrite = STREAM_FILTER_READ, $params = array())
+    public function appendFilter($filterName, $readWrite = STREAM_FILTER_READ, $params = [])
     {
         $res = false;
 
@@ -1001,7 +1005,7 @@ class Stream extends CMSObject
      * @link    https://www.php.net/manual/en/function.stream-filter-prepend.php
      * @since   1.7.0
      */
-    public function prependFilter($filterName, $readWrite = STREAM_FILTER_READ, $params = array())
+    public function prependFilter($filterName, $readWrite = STREAM_FILTER_READ, $params = [])
     {
         $res = false;
 
@@ -1085,7 +1089,7 @@ class Stream extends CMSObject
 
         // Since we're going to open the file directly we need to get the filename.
         // We need to use the same prefix so force everything to write.
-        $src = $this->_getFilename($src, 'w', $usePrefix, $relative);
+        $src  = $this->_getFilename($src, 'w', $usePrefix, $relative);
         $dest = $this->_getFilename($dest, 'w', $usePrefix, $relative);
 
         if ($context) {
@@ -1131,7 +1135,7 @@ class Stream extends CMSObject
         $track_errors = ini_get('track_errors');
         ini_set('track_errors', true);
 
-        $src = $this->_getFilename($src, 'w', $usePrefix, $relative);
+        $src  = $this->_getFilename($src, 'w', $usePrefix, $relative);
         $dest = $this->_getFilename($dest, 'w', $usePrefix, $relative);
 
         if ($context) {

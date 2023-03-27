@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Templates\Administrator\Field">
 	<field
 		name="client_id"
 		type="list"
 		label="JSITEADMIN"
 		filtermode="selector"
-		onchange="Joomla.resetFilters(this)"
+		class="js-select-reset-on-change"
 		validate="options"
 		>
 		<option value="0">JSITE</option>
@@ -27,7 +27,7 @@
 			label="COM_TEMPLATES_OPTION_SELECT_MENU_ITEM"
 			disable="separator,alias,heading,url"
 			showon="client_id:0"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option	value="">COM_TEMPLATES_OPTION_SELECT_MENU_ITEM</option>
 			<option	value="-1">COM_TEMPLATES_OPTION_NONE</option>
@@ -36,7 +36,7 @@
 			name="template"
 			type="templatename"
 			label="JOPTION_SELECT_TEMPLATE"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_TEMPLATE</option>
 		</field>
@@ -46,7 +46,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			default="a.template ASC"
 			validate="options"
 			>
@@ -65,7 +65,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 	</fields>
 </form>

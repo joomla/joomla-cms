@@ -19,6 +19,10 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * File installer
  *
@@ -69,7 +73,7 @@ class FileAdapter extends InstallerAdapter
                 // Since we created a directory and will want to remove it if we have to roll back.
                 // The installation due to some errors, let's add it to the installation step stack.
                 if ($created) {
-                    $this->parent->pushStep(array('type' => 'folder', 'path' => $folder));
+                    $this->parent->pushStep(['type' => 'folder', 'path' => $folder]);
                 }
             }
         }
@@ -92,10 +96,10 @@ class FileAdapter extends InstallerAdapter
         $update = Table::getInstance('update');
 
         $uid = $update->find(
-            array(
+            [
                 'element' => $this->element,
-                'type' => $this->type,
-            )
+                'type'    => $this->type,
+            ]
         );
 
         if ($uid) {
@@ -103,11 +107,11 @@ class FileAdapter extends InstallerAdapter
         }
 
         // Lastly, we will copy the manifest file to its appropriate place.
-        $manifest = array();
-        $manifest['src'] = $this->parent->getPath('manifest');
+        $manifest         = [];
+        $manifest['src']  = $this->parent->getPath('manifest');
         $manifest['dest'] = JPATH_MANIFESTS . '/files/' . basename($this->parent->getPath('manifest'));
 
-        if (!$this->parent->copyFiles(array($manifest), true)) {
+        if (!$this->parent->copyFiles([$manifest], true)) {
             // Install failed, rollback changes
             throw new \RuntimeException(
                 Text::sprintf(
@@ -124,11 +128,12 @@ class FileAdapter extends InstallerAdapter
                 Folder::create($this->parent->getPath('extension_root'));
             }
 
-            $path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
+            $path         = [];
+            $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
             if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles(array($path))) {
+                if (!$this->parent->copyFiles([$path])) {
                     // Install failed, rollback changes
                     throw new \RuntimeException(
                         Text::sprintf(
@@ -196,7 +201,7 @@ class FileAdapter extends InstallerAdapter
     {
         if (!$element) {
             $manifestPath = Path::clean($this->parent->getPath('manifest'));
-            $element = preg_replace('/\.xml/', '', basename($manifestPath));
+            $element      = preg_replace('/\.xml/', '', basename($manifestPath));
         }
 
         return $element;
@@ -409,7 +414,7 @@ class FileAdapter extends InstallerAdapter
 
             // Since we have created a module item, we add it to the installation step stack
             // so that if we have to rollback the changes we can undo it.
-            $this->parent->pushStep(array('type' => 'extension', 'extension_id' => $this->extension->extension_id));
+            $this->parent->pushStep(['type' => 'extension', 'extension_id' => $this->extension->extension_id]);
         }
     }
 
@@ -461,12 +466,12 @@ class FileAdapter extends InstallerAdapter
     protected function populateFilesAndFolderList()
     {
         // Initialise variable
-        $this->folderList = array();
-        $this->fileList = array();
+        $this->folderList = [];
+        $this->fileList   = [];
 
         // Set root folder names
         $packagePath = $this->parent->getPath('source');
-        $jRootPath = Path::clean(JPATH_ROOT);
+        $jRootPath   = Path::clean(JPATH_ROOT);
 
         // Loop through all elements and get list of files and folders
         foreach ($this->getManifest()->fileset->files as $eFiles) {
@@ -510,7 +515,8 @@ class FileAdapter extends InstallerAdapter
             if (\count($eFiles->children())) {
                 // Loop through all filenames elements
                 foreach ($eFiles->children() as $eFileName) {
-                    $path['src'] = $sourceFolder . '/' . $eFileName;
+                    $path         = [];
+                    $path['src']  = $sourceFolder . '/' . $eFileName;
                     $path['dest'] = $targetFolder . '/' . $eFileName;
                     $path['type'] = 'file';
 
@@ -526,7 +532,8 @@ class FileAdapter extends InstallerAdapter
                 $files = Folder::files($sourceFolder);
 
                 foreach ($files as $file) {
-                    $path['src'] = $sourceFolder . '/' . $file;
+                    $path         = [];
+                    $path['src']  = $sourceFolder . '/' . $file;
                     $path['dest'] = $targetFolder . '/' . $file;
 
                     $this->fileList[] = $path;
@@ -545,13 +552,13 @@ class FileAdapter extends InstallerAdapter
     public function refreshManifestCache()
     {
         // Need to find to find where the XML file is since we don't store this normally
-        $manifestPath = JPATH_MANIFESTS . '/files/' . $this->parent->extension->element . '.xml';
+        $manifestPath           = JPATH_MANIFESTS . '/files/' . $this->parent->extension->element . '.xml';
         $this->parent->manifest = $this->parent->isManifest($manifestPath);
         $this->parent->setPath('manifest', $manifestPath);
 
-        $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
+        $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
-        $this->parent->extension->name = $manifest_details['name'];
+        $this->parent->extension->name           = $manifest_details['name'];
 
         try {
             return $this->parent->extension->store();

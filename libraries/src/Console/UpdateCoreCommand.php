@@ -20,6 +20,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command for updating Joomla! core
  *
@@ -125,7 +129,7 @@ class UpdateCoreCommand extends AbstractCommand
         $this->progressBar->setFormat('custom');
 
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
+        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 
     /**
@@ -142,6 +146,7 @@ class UpdateCoreCommand extends AbstractCommand
     public function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
+        $this->ioStyle->title('Updating Joomla');
 
         $this->progressBar->setMessage("Starting up ...");
         $this->progressBar->start();
@@ -276,7 +281,7 @@ class UpdateCoreCommand extends AbstractCommand
      */
     public function setUpdateModel(): void
     {
-        $app = $this->getApplication();
+        $app         = $this->getApplication();
         $updatemodel = $app->bootComponent('com_joomlaupdate')->getMVCFactory($app)->createModel('Update', 'Administrator');
 
         if (is_bool($updatemodel)) {
@@ -310,7 +315,7 @@ class UpdateCoreCommand extends AbstractCommand
         $this->progressBar->setMessage("Downloading update package ...");
         $file = $this->downloadFile($updateInformation['object']->downloadurl->_data);
 
-        $tmpPath    = $this->getApplication()->get('tmp_path');
+        $tmpPath       = $this->getApplication()->get('tmp_path');
         $updatePackage = $tmpPath . '/' . $file;
 
         $this->progressBar->advance();

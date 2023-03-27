@@ -16,9 +16,14 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Database\DatabaseDriver;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View class for a list of users.
@@ -134,8 +139,8 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($canDo->get('core.edit.state') || $canDo->get('core.admin')) {
-            $dropdown = $toolbar->dropdownButton('status-group')
-                ->text('JTOOLBAR_CHANGE_STATUS')
+            /** @var DropdownButton $dropdown */
+            $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
                 ->icon('icon-ellipsis-h')
                 ->buttonClass('btn btn-action')
@@ -145,9 +150,7 @@ class HtmlView extends BaseHtmlView
 
             $childBar->publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
             $childBar->unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
-            $childBar->standardButton('unblock')
-                ->text('COM_USERS_TOOLBAR_UNBLOCK')
-                ->task('users.unblock')
+            $childBar->standardButton('unblock', 'COM_USERS_TOOLBAR_UNBLOCK', 'users.unblock')
                 ->listCheck(true);
 
             // Add a batch button
@@ -156,15 +159,13 @@ class HtmlView extends BaseHtmlView
                 && $user->authorise('core.edit', 'com_users')
                 && $user->authorise('core.edit.state', 'com_users')
             ) {
-                $childBar->popupButton('batch')
-                    ->text('JTOOLBAR_BATCH')
+                $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
                     ->selector('collapseModal')
                     ->listCheck(true);
             }
 
             if ($canDo->get('core.delete')) {
-                $childBar->delete('users.delete')
-                    ->text('JTOOLBAR_DELETE')
+                $childBar->delete('users.delete', 'JTOOLBAR_DELETE')
                     ->message('JGLOBAL_CONFIRM_DELETE')
                     ->listCheck(true);
             }

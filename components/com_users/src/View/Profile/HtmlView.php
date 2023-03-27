@@ -21,6 +21,10 @@ use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\Mfa;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Profile view class for Users.
  *
@@ -129,7 +133,7 @@ class HtmlView extends BaseHtmlView
 
         PluginHelper::importPlugin('content');
         $this->data->text = '';
-        Factory::getApplication()->triggerEvent('onContentPrepare', array ('com_users.user', &$this->data, &$this->data->params, 0));
+        Factory::getApplication()->triggerEvent('onContentPrepare', ['com_users.user', &$this->data, &$this->data->params, 0]);
         unset($this->data->text);
 
         // Check for layout from menu item.

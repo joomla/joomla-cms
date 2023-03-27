@@ -18,6 +18,10 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Plugin\System\Webauthn\Extension\Webauthn;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Custom Joomla Form Field to display the WebAuthn interface
  *
@@ -67,7 +71,7 @@ class WebauthnField extends FormField
         $layoutFile  = new FileLayout('plugins.system.webauthn.manage');
 
         return $layoutFile->render([
-                'user'                => Factory::getContainer()
+                'user' => Factory::getContainer()
                     ->get(UserFactoryInterface::class)
                     ->loadUserById($userId),
                 'allow_add'           => $userId == $app->getIdentity()->id,

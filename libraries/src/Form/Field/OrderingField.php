@@ -15,6 +15,10 @@ use Joomla\CMS\UCM\UCMType;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Ordering field.
  *
@@ -112,7 +116,7 @@ class OrderingField extends FormField
      */
     protected function getInput()
     {
-        $html = array();
+        $html = [];
         $attr = '';
 
         // Initialize some field attributes.

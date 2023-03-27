@@ -15,6 +15,10 @@ use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Menu Parent field.
  *
@@ -39,9 +43,9 @@ class MenuParentField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select(
                 [

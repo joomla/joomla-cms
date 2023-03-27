@@ -16,6 +16,10 @@ use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Controller\RequestController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View to edit a template style.
  *
@@ -77,12 +81,12 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $user = $this->getCurrentUser();
+        $user                   = $this->getCurrentUser();
         $this->userIsSuperAdmin = $user->authorise('core.admin');
 
         $app   = Factory::getApplication();
 
-        $app->input->set('id', $app->getTemplate(true)->id);
+        $app->getInput()->set('id', $app->getTemplate(true)->id);
 
         /** @var MVCFactory $factory */
         $factory = $app->bootComponent('com_templates')->getMVCFactory();

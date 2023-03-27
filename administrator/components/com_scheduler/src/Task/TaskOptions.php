@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Task;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The TaskOptions class.
  * Used as the subject argument for the `onTaskOptionsList` event, plugins that support tasks must add them to the

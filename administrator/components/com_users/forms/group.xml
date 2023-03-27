@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Users\Administrator\Field">
 	<fieldset name="group_details">
 		<field
@@ -21,7 +21,9 @@
 			type="groupparent"
 			label="COM_USERS_GROUP_FIELD_PARENT_LABEL"
 			validate="options"
-		/>
+			>
+			<option value="0" disabled="disabled">COM_USERS_GROUP_FIELD_PARENT_SELECT</option>
+		</field>
 
 		<field
 			name="actions"

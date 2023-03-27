@@ -13,6 +13,10 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFilterInterface;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Filter class for rules
  *
@@ -37,11 +41,11 @@ class RulesFilter implements FormFilterInterface
      */
     public function filter(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
     {
-        $return = array();
+        $return = [];
 
         foreach ((array) $value as $action => $ids) {
             // Build the rules array.
-            $return[$action] = array();
+            $return[$action] = [];
 
             foreach ($ids as $id => $p) {
                 if ($p !== '') {

@@ -11,6 +11,10 @@ namespace Joomla\CMS\Encrypt\AES;
 
 use Joomla\CMS\Encrypt\Randval;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Mcrypt implementation
  *
