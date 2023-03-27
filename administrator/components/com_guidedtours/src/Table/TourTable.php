@@ -31,7 +31,6 @@ class TourTable extends Table
      * @var    boolean
      * @since  4.3.0
      */
-    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
     protected $_supportNullValue = true;
 
     /**
@@ -40,7 +39,6 @@ class TourTable extends Table
      * @var    array
      * @since  4.3.0
      */
-    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
     protected $_jsonEncode = ['extensions'];
 
     /**
@@ -107,7 +105,6 @@ class TourTable extends Table
      *
      * @since   4.3.0
      */
-    // phpcs:ignore
     protected function _getAssetName(): string
     {
         $k = $this->_tbl_key;
@@ -122,7 +119,6 @@ class TourTable extends Table
      *
      * @since   4.3.0
      */
-    // phpcs:ignore
     protected function _getAssetTitle()
     {
         return $this->title;
@@ -141,7 +137,6 @@ class TourTable extends Table
      *
      * @since   4.3.0
      */
-    // phpcs:ignore
     protected function _getAssetParentId(Table $table = null, $id = null)
     {
         // We retrieve the parent asset from the Asset table
