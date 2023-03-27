@@ -13,7 +13,7 @@ describe('Test that the field back end form', () => {
 
   it('can edit a field', () => {
     cy.db_createField({ title: 'Test field' }).then((id) => {
-      cy.visit(`administrator/index.php?option=com_fields&task=field.edit&context=com_content.article&id=${id}`);
+      cy.visit(`administrator/index.php?option=com_fields&task=field.edit&id=${id}&context=com_content.article`);
       cy.get('#jform_title').clear().type('Test field edited');
       cy.clickToolbarButton('Save & Close');
 
