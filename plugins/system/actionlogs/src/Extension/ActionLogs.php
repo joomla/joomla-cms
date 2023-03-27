@@ -57,7 +57,7 @@ final class ActionLogs extends CMSPlugin
      *
      * @since   3.9.0
      */
-    public function __construct(UserFactoryInterface $userFactory, DispatcherInterface $dispatcher,array $config)
+    public function __construct(UserFactoryInterface $userFactory, DispatcherInterface $dispatcher, array $config)
     {
         parent::__construct($dispatcher, $config);
 
