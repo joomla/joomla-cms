@@ -54,9 +54,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return [
-            'onError' => 'handleError',
-        ];
+        return ['onError' => 'handleError'];
     }
 
     /**
