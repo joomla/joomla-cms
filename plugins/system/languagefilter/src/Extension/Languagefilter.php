@@ -18,7 +18,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -113,8 +112,12 @@ final class LanguageFilter extends CMSPlugin
      *
      * @since   1.6.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config,CMSApplicationInterface $app, LanguageFactoryInterface $languageFactory)
-    {
+    public function __construct(
+        DispatcherInterface $dispatcher,
+        array $config,
+        CMSApplicationInterface $app,
+        LanguageFactoryInterface $languageFactory
+    ) {
         parent::__construct($dispatcher, $config);
 
         $this->languageFactory = $languageFactory;
