@@ -361,7 +361,8 @@ class LdapPluginTest extends UnitTestCase
                             {
                                 if (!$this->hasEntry) {
                                     return new class () implements CollectionInterface {
-                                        public function toArray(): array {
+                                        public function toArray(): array
+                                        {
                                             return [];
                                         }
 
@@ -400,11 +401,13 @@ class LdapPluginTest extends UnitTestCase
                                 return new class () implements CollectionInterface {
                                     public $entry;
 
-                                    public function __construct() {
+                                    public function __construct()
+                                    {
                                         $this->entry = new Entry('');
                                     }
 
-                                    public function toArray(): array {
+                                    public function toArray(): array
+                                    {
                                         return [$this->entry];
                                     }
 
