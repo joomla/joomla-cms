@@ -50,5 +50,13 @@
       "error",
       "as-needed"
     ]
-  }
+  },
+  "overrides": [
+	{
+	  "files": ["tests/**/*.cy.js"],
+	  "rules": {
+		"no-undef": ["off"]
+	  }
+	}
+  ]
 }
