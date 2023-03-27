@@ -449,7 +449,7 @@ class TasksModel extends ListModel
      */
     public function hasDueTasks(Date $time)
     {
-        $db  = $this->getDatabase();
+        $db  = $this->getDbo();
         $now = $time->toSql();
 
         $query = $db->getQuery(true)
