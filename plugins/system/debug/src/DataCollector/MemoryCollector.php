@@ -1,11 +1,11 @@
 <?php
 
 /**
- * This file is part of the DebugBar package.
+ * @package     Joomla.Plugin
+ * @subpackage  System.Debug
  *
- * @copyright  (c) 2013 Maxime Bouroumeau-Fuseau
- * @license    For the full copyright and license information, please view the LICENSE
- *             file that was distributed with this source code.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Debug\DataCollector;

@@ -360,7 +360,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
         // No debug for Safari and Chrome redirection.
         if (
             strpos($contents, '<html><head><meta http-equiv="refresh" content="0;') === 0
-            && stripos($_SERVER['HTTP_USER_AGENT'] ?? '', 'webkit') !== false
+            && strpos(strtolower($_SERVER['HTTP_USER_AGENT'] ?? ''), 'webkit') !== false
         ) {
             $this->debugBar->stackData();
 
