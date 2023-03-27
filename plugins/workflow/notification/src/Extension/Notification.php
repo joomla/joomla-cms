@@ -35,7 +35,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 final class Notification extends CMSPlugin implements SubscriberInterface
 {
-    use WorkflowPluginTrait, DatabaseAwareTrait;
+    use WorkflowPluginTrait;
+    use DatabaseAwareTrait;
 
     /**
      * Load the language file on instantiation.
