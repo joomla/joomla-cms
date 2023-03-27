@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\System\ActionLogs\Extension;
 
 use Exception;
-use JLoader;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -19,12 +18,14 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Event\DispatcherInterface;
 use RuntimeException;
+use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -40,6 +41,15 @@ final class ActionLogs extends CMSPlugin
     use DatabaseAwareTrait;
 
     /**
+     * The user factory
+     *
+     * @var   UserFactoryInterface
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    private $userFactory;
+
+    /**
      * Constructor.
      *
      * @param   object  $subject  The object to observe.
@@ -47,9 +57,11 @@ final class ActionLogs extends CMSPlugin
      *
      * @since   3.9.0
      */
-    public function __construct(&$subject, $config)
+    public function __construct(UserFactoryInterface $userFactory, DispatcherInterface $dispatcher,array $config)
     {
-        parent::__construct($subject, $config);
+        parent::__construct($dispatcher, $config);
+
+        $this->userFactory = $userFactory;
 
         // Import actionlog plugin group so that these plugins will be triggered for events
         PluginHelper::importPlugin('actionlog');
@@ -97,10 +109,9 @@ final class ActionLogs extends CMSPlugin
          * We only allow users who have Super User permission to change this setting for themselves or for other
          * users who have the same Super User permission
          */
+        $user = $this->getApplication()->getIdentity();
 
-        $user = Factory::getUser();
-
-        if (!$user->authorise('core.admin')) {
+        if (!$user || !$user->authorise('core.admin')) {
             return true;
         }
 
@@ -115,11 +126,11 @@ final class ActionLogs extends CMSPlugin
             $data = (object) $data;
         }
 
-        if (empty($data->id) || !User::getInstance($data->id)->authorise('core.admin')) {
+        if (empty($data->id) || !$this->userFactory->loadUserById($data->id)->authorise('core.admin')) {
             return true;
         }
 
-        Form::addFormPath(__DIR__ . '/forms');
+        Form::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
 
         if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && ($this->getApplication()->isClient('administrator'))) {
             $form->loadFile('information', false);
@@ -156,7 +167,7 @@ final class ActionLogs extends CMSPlugin
             $data = (object) $data;
         }
 
-        if (!User::getInstance($data->id)->authorise('core.admin')) {
+        if (!$this->userFactory->loadUserById($data->id)->authorise('core.admin')) {
             return true;
         }
 
@@ -336,7 +347,7 @@ final class ActionLogs extends CMSPlugin
         }
 
         // Clear access rights in case user groups were changed.
-        $userObject = new User($user['id']);
+        $userObject = $this->userFactory->loadUserById($user['id']);
         $userObject->clearAccessRights();
 
         $authorised = $userObject->authorise('core.admin');
@@ -472,9 +483,6 @@ final class ActionLogs extends CMSPlugin
         if (!$extensions) {
             return Text::_('JNONE');
         }
-
-        // Load the helper.
-        JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
         foreach ($extensions as &$extension) {
             // Load extension language files and translate extension name.
