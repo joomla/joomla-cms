@@ -112,7 +112,7 @@ steps:
   - name: phpmin-system-mysql
     depends_on:
       - prepare_system_tests
-    image: joomlaprojects/docker-images:cypress
+    image: joomlaprojects/docker-images:cypress8.1
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -363,6 +363,6 @@ trigger:
 
 ---
 kind: signature
-hmac: f83c3c7553096cfbd2d095fe4f0499af398bc596d2c1e31489e29c65745566af
+hmac: 8cf1bf21cd6ed0fb836683510df6a44fe8b096704593aa2f30478b3d41bb0fdf
 
 ...
