@@ -191,10 +191,9 @@ steps:
     environment:
       CYPRESS_VERIFY_TIMEOUT: 100000
     commands:
-      - env
       - mv cypress.config.dist.js cypress.config.js
-      - npx cypress install
-      - npx cypress verify
+      - cypress install
+      - cypress verify
 
   - name: phpmin-system-mysql
     depends_on:
@@ -456,6 +455,6 @@ trigger:
 
 ---
 kind: signature
-hmac: e81bd49df3124dcde928c2473bd63899a0b2f28342798393efc7f09a06fb0ac0
+hmac: 55944c92a9ca2c9662eb6b405e60b10f55fd1a6ac4cc119ff31631347208b049
 
 ...
