@@ -105,6 +105,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
           resolve();
         }
       }).catch((error) => {
+        // eslint-disable-next-line no-console
         console.log(`Exception error - ${error.message} - Bypass Shepherd target`);
       });
     },

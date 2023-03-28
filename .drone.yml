@@ -20,7 +20,7 @@ steps:
         path: /tmp/composer-cache
     commands:
       - composer validate --no-check-all --strict
-      - composer install --no-progress --no-suggest
+      - composer install --no-progress --ignore-platform-reqs
 
   - name: phpcs
     image: joomlaprojects/docker-images:php8.1
@@ -49,68 +49,12 @@ steps:
     commands:
       - npm ci --unsafe-perm
 
-  - name: php72-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php7.2
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
-  - name: php73-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php7.3
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
-  - name: php74-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php7.4
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
-  - name: php80-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php8.0
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
   - name: php81-unit
     depends_on: [ phpcs ]
     image: joomlaprojects/docker-images:php8.1
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
-
-  - name: php72-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.2
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php73-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.3
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php74-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.4
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php80-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.0
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
 
   - name: php81-integration
     depends_on: [ npm ]
@@ -125,34 +69,6 @@ steps:
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php72-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.2
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-
-  - name: php73-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.3
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-
-  - name: php74-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.4
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-
-  - name: php80-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.0
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
   - name: php81-integration-pgsql
     depends_on: [ npm ]
@@ -183,7 +99,7 @@ steps:
   - name: prepare_system_tests
     depends_on:
       - npm
-    image: joomlaprojects/docker-images:systemtests
+    image: joomlaprojects/docker-images:systemtests8.1
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -197,46 +113,70 @@ steps:
   - name: phpmin-api-mysql
     depends_on:
       - prepare_system_tests
-    image: joomlaprojects/docker-images:systemtests
+    image: joomlaprojects/docker-images:systemtests8.1
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql mysqli mysql jos_
 
-  - name: phpmin-api-postgres
-    depends_on:
-      - prepare_system_tests
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres pgsql postgres jos_
-
   - name: phpmax-api-mysql
     depends_on:
-      - phpmin-api-mysql
-      - phpmin-api-postgres
-    image: joomlaprojects/docker-images:systemtests8.1
+      - prepare_system_tests
+    image: joomlaprojects/docker-images:systemtests8.2
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax mysqli mysql phpmax_
 
-  - name: phpmax-api-postgres
+  - name: phpnext-api-mysql
+    depends_on:
+      - prepare_system_tests
+    image: joomlaprojects/docker-images:systemtests8.2
+    failure: ignore
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - echo "This test is disabled because php next is not stable yet"
+      - exit 1
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext mysqli mysql phpnext_
+
+  - name: phpmin-api-postgres
     depends_on:
       - phpmin-api-mysql
-      - phpmin-api-postgres
     image: joomlaprojects/docker-images:systemtests8.1
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres pgsql postgres jos_
+
+  - name: phpmax-api-postgres
+    depends_on:
+      - phpmax-api-mysql
+    image: joomlaprojects/docker-images:systemtests8.2
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpmax pgsql postgres phpmax_
 
+  - name: phpnext-api-postgres
+    depends_on:
+      - phpnext-api-mysql
+    image: joomlaprojects/docker-images:systemtests8.2
+    failure: ignore
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - echo "This test is disabled because php next is not stable yet"
+      - exit 1
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext pgsql postgres phpnext_
+
   - name: phpmin-system-mysql
     depends_on:
-      - phpmax-api-mysql
-      - phpmax-api-postgres
-    image: joomlaprojects/docker-images:cypress
+      - phpnext-api-mysql
+    image: joomlaprojects/docker-images:cypress8.1
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -245,24 +185,10 @@ steps:
     commands:
       - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysql mysqli mysql
 
-  - name: phpmin-system-postgres
-    depends_on:
-      - phpmax-api-mysql
-      - phpmax-api-postgres
-    image: joomlaprojects/docker-images:cypress
-    volumes:
-      - name: cypress-cache
-        path: /root/.cache/Cypress
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
-
   - name: phpmax-system-mysql
     depends_on:
       - phpmin-system-mysql
-      - phpmin-system-postgres
-    image: joomlaprojects/docker-images:cypress8.1
+    image: joomlaprojects/docker-images:cypress8.2
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -271,11 +197,37 @@ steps:
     commands:
       - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
 
+  - name: phpnext-system-mysql
+    depends_on:
+      - phpmax-system-mysql
+    image: joomlaprojects/docker-images:cypress8.2
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    failure: ignore
+    commands:
+      - echo "This test is disabled because php next is not stable yet"
+      - exit 1
+      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysqlnext mysqli mysql
+
+  - name: phpmin-system-postgres
+    depends_on:
+      - phpnext-api-postgres
+    image: joomlaprojects/docker-images:cypress8.1
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/cypress/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
+
   - name: phpmax-system-postgres
     depends_on:
-      - phpmin-system-mysql
       - phpmin-system-postgres
-    image: joomlaprojects/docker-images:cypress8.1
+    image: joomlaprojects/docker-images:cypress8.2
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
@@ -284,40 +236,32 @@ steps:
     commands:
       - bash tests/cypress/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres
 
-  - name: phpmin-system-mysql8
+  - name: phpnext-system-postgres
     depends_on:
-      - phpmax-system-mysql
       - phpmax-system-postgres
-    image: joomlaprojects/docker-images:cypress
+    image: joomlaprojects/docker-images:cypress8.2
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    failure: ignore
     commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysql8 mysqli mysql8
-
-  - name: phpmax-system-mysql8
-    depends_on:
-      - phpmin-system-mysql8
-    image: joomlaprojects/docker-images:cypress8.1
-    volumes:
-      - name: cypress-cache
-        path: /root/.cache/Cypress
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysql8max mysqli mysql8
+      - echo "This test is disabled because php next is not stable yet"
+      - exit 1
+      - bash tests/cypress/drone-system-run.sh "$(pwd)" cpostgresnext pgsql postgres
 
   - name: artifacts-system-tests
-    image: joomlaprojects/docker-images:packager
+    image: cschlosser/drone-ftps
     depends_on:
+      - phpnext-system-mysql
+      - phpnext-system-postgres
       - phpmax-system-mysql
-      - phpmax-system-mysql8
       - phpmax-system-postgres
       - phpmin-system-mysql
-      - phpmin-system-mysql8
       - phpmin-system-postgres
+      - phpnext-api-mysql
+      - phpnext-api-postgres
       - phpmax-api-mysql
       - phpmax-api-postgres
       - phpmin-api-mysql
@@ -327,14 +271,17 @@ steps:
         from_secret: ftpusername
       FTP_PASSWORD:
         from_secret: ftppassword
+      PLUGIN_HOSTNAME: ci.joomla.org:21
+      PLUGIN_SRC_DIR: /tests/cypress/output/
+      PLUGIN_DEST_DIR: /artifacts
+      PLUGIN_SECURE: false
+      PLUGIN_EXCLUDE: ^\.git/$
       GITHUB_TOKEN:
         from_secret: github_token
     commands:
-      - export PLUGIN_DEST_DIR=/artifacts/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
+      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
       - echo https://ci.joomla.org$PLUGIN_DEST_DIR
-      - rclone config create artifacts ftp host ci.joomla.org user $FTP_USERNAME port 21 pass $FTP_PASSWORD
-      - rclone mkdir artifacts:$PLUGIN_DEST_DIR
-      - rclone copy tests/cypress/output/ artifacts:$PLUGIN_DEST_DIR
+      - /bin/upload.sh
       - 'curl -X POST "https://api.github.com/repos/$DRONE_REPO/statuses/$DRONE_COMMIT" -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -d "{\"state\":\"failure\", \"context\": \"Artifacts from Failure\", \"description\": \"You can find artifacts from the failure of the build here:\", \"target_url\": \"https://ci.joomla.org$PLUGIN_DEST_DIR\"}" > /dev/null'
     when:
       status:
@@ -356,14 +303,6 @@ volumes:
 
 services:
   - name: mysql
-    image: mysql:5.7
-    environment:
-      MYSQL_USER: joomla_ut
-      MYSQL_PASSWORD: joomla_ut
-      MYSQL_ROOT_PASSWORD: joomla_ut
-      MYSQL_DATABASE: test_joomla
-
-  - name: mysql8
     image: mysql:8
     command: ["--default-authentication-plugin=mysql_native_password"]
     environment:
@@ -373,7 +312,7 @@ services:
       MYSQL_DATABASE: test_joomla
 
   - name: postgres
-    image: postgres:11-alpine
+    image: postgres:12-alpine
     ports:
       - 5432
     environment:
@@ -432,8 +371,8 @@ steps:
       - name: reference
         path: /reference
     when:
-      branch:
-        - 4.3-dev
+      repo:
+        - joomla/joomla-cms
 
 ---
 kind: pipeline
@@ -448,7 +387,7 @@ steps:
       - mkdir -p transfer
       - date +%s > transfer/$MINORVERSION-time.txt
       - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
-      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --exclude-bzip2
+      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --exclude-bzip2 --disable-patch-packages
       - mv build/tmp/packages/* transfer/
 
   - name: upload
@@ -497,6 +436,6 @@ trigger:
 
 ---
 kind: signature
-hmac: c9d665d46d44aaa66798ce2e9bf7122e7824ba6dd5ebe4a4e7aff05e4e7c7816
+hmac: aba444991fd9c8f79fa8d477af9bde0ff2d6f9831e3b71d69f55367cfdad2e5b
 
 ...
