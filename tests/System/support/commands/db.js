@@ -174,6 +174,7 @@ Cypress.Commands.add('db_createFieldGroup', (fieldGroup) => {
     access: 1,
     created: '2023-01-01 20:00:00',
     modified: '2023-01-01 20:00:00',
+    params: '',
   };
 
   return cy.task('queryDB', createInsertQuery('fields_groups', { ...defaultFieldGroupOptions, ...fieldGroup })).then(async (info) => info.insertId);
