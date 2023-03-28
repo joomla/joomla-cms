@@ -183,6 +183,11 @@ class StandardRules implements RulesInterface
             return;
         }
 
+        // Hide the filter_tag parameter
+        if ($item->query['filter_tag'] === $query['filter_tag']) {
+            unset($query['filter_tag']);
+        }
+ 
         // Get menu item layout
         $mLayout = isset($item->query['layout']) ? $item->query['layout'] : null;
 
