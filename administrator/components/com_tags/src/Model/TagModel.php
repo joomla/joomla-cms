@@ -157,7 +157,7 @@ class TagModel extends AdminModel
         $assoc = Associations::isEnabled();
 
         if ($assoc) {
-            $result->associations = array();
+            $result->associations = [];
 
             if ($result->id != null) {
                 $associations = Associations::getAssociations('com_tags', '#__tags', 'com_tags.tag', $result->id, 'id', 'alias', null);
