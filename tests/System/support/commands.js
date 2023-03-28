@@ -30,6 +30,14 @@ Cypress.Commands.overwrite('doFrontendLogin', (originalFn, username, password, u
   return cy.session([user, pw, 'front'], () => originalFn(user, pw), { cacheAcrossSpecs: true });
 });
 
+Cypress.Commands.overwrite('doFrontendLogout', (originalFn) => {
+  // Call the login function
+  originalFn();
+
+  // Clear the session data
+  Cypress.session.clearAllSavedSessions();
+});
+
 Cypress.Commands.overwrite('doAdministratorLogin', (originalFn, username, password, useSnapshot = true) => {
   // Ensure there are valid credentials
   const user = username ?? Cypress.env('username');
@@ -46,4 +54,12 @@ Cypress.Commands.overwrite('doAdministratorLogin', (originalFn, username, passwo
 
   // Do login through the session
   return cy.session([user, pw, 'back'], () => originalFn(user, pw), { cacheAcrossSpecs: true });
+});
+
+Cypress.Commands.overwrite('doAdministratorLogout', (originalFn) => {
+  // Call the login function
+  originalFn();
+
+  // Clear the session data
+  Cypress.session.clearAllSavedSessions();
 });
