@@ -130,7 +130,7 @@ class Language
     /**
      * Name of the transliterator function for this language.
      *
-     * @var    string
+     * @var    callable
      * @since  1.7.0
      */
     protected $transliterator = null;
