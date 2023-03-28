@@ -52,7 +52,7 @@ class DatabaseModel extends BaseInstallationModel
      *
      * @since   3.1
      */
-    public function initialise(array $options, $select = true)
+    public function initialise(array $options, bool $select = true)
     {
         // Get the options as an object for easier handling.
         $options = ArrayHelper::toObject($options);
