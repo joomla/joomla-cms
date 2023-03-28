@@ -11,12 +11,12 @@
 namespace Joomla\Module\ArticlesArchive\Site\Helper;
 
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
@@ -35,26 +35,6 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
     use DatabaseAwareTrait;
 
     /**
-     * The module instance
-     *
-     * @var    \stdClass
-     * @since  __DEPLOY_VERSION__
-     */
-    protected $module;
-
-    /**
-     * Constructor.
-     *
-     * @param  array  $config   An optional associative array of configuration settings.
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public function __construct($config = [])
-    {
-        $this->module = $config['module'];
-    }
-
-    /**
      * Retrieve a list of months with archived articles
      *
      * @param   Registry         $moduleParams  The module parameters.
@@ -64,70 +44,56 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getArticlesByMonths(Registry $moduleParams, SiteApplication $app)
+    public function getArticlesByMonths(Registry $moduleParams, SiteApplication $app): array
     {
-        $cacheKey = md5(serialize([$moduleParams->toString(), $this->module->module, $this->module->id]));
+        $mvcContentFactory = $app->bootComponent('com_content')->getMVCFactory();
 
-        /** @var \Joomla\CMS\Cache\Controller\OutputController $cache */
-        $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
-            ->createCacheController('output', ['defaultgroup' => 'mod_articles_archive']);
+        /** @var ArticlesModel $articlesModel */
+        $articlesModel = $mvcContentFactory->createModel('Articles', 'Site', ['ignore_request' => true]);
 
-        if (!$cache->contains($cacheKey)) {
-            $mvcContentFactory = $app->bootComponent('com_content')->getMVCFactory();
+        // Set application parameters in model
+        $appParams = $app->getParams();
+        $articlesModel->setState('params', $appParams);
 
-            /** @var \Joomla\Component\Content\Site\Model\ArticlesModel $articlesModel */
-            $articlesModel = $mvcContentFactory->createModel('Articles', 'Site', ['ignore_request' => true]);
+        // Filter on archived articles
+        $articlesModel->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
 
-            // Set application parameters in model
-            $appParams = $app->getParams();
-            $articlesModel->setState('params', $appParams);
+        $articlesModel->setState('list.start', 0);
 
-            // Filter on archived articles
-            $articlesModel->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
+        // Set the filters based on the module params
+        $articlesModel->setState('list.limit', (int) $moduleParams->get('count', 1));
 
-            $articlesModel->setState('list.start', 0);
+        // This module does not use tags data
+        $articlesModel->setState('load_tags', false);
 
-            // Set the filters based on the module params
-            $articlesModel->setState('list.limit', (int) $moduleParams->get('count', 1));
+        // Filter by language
+        $articlesModel->setState('filter.language', $app->getLanguageFilter());
 
-            // This module does not use tags data
-            $articlesModel->setState('load_tags', false);
+        // Prepare the module output
+        $items  = [];
+        $menu   = $app->getMenu();
 
-            // Filter by language
-            $articlesModel->setState('filter.language', $app->getLanguageFilter());
+        $menuItem       = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
+        $urlParamItemid = (isset($menuItem) && !empty($menuItem->id)) ? '&Itemid=' . $menuItem->id : '';
 
-            // Prepare the module output
-            $items  = [];
-            $menu   = $app->getMenu();
-
-            $menuItem       = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
-            $urlParamItemid = (isset($menuItem) && !empty($menuItem->id)) ? '&Itemid=' . $menuItem->id : '';
-
-            foreach ($articlesModel->countItemsByMonth() as $month) {
-                $items[] = $this->prepareItem($month, $urlParamItemid);
-            }
-
-            // Cache the output and return
-            $cache->store($items, $cacheKey);
-
-            return $items;
+        foreach ($articlesModel->countItemsByMonth() as $month) {
+            $items[] = $this->prepareItem($month, $urlParamItemid);
         }
 
-        // Return the cached output
-        return $cache->get($cacheKey);
+        return $items;
     }
 
     /**
      * Prepare the month before render.
      *
-     * @param  object  $month           The month to prepare
-     * @param  string  $urlParamItemid  The Itemid param of the URL
+     * @param   object  $month           The month to prepare
+     * @param   string  $urlParamItemid  The Itemid param of the URL
      *
      * @return  \stdClass
      *
      * @since  __DEPLOY_VERSION__
      */
-    private function prepareItem($month, $urlParamItemid): \stdClass
+    private function prepareItem(object $month, string $urlParamItemid): \stdClass
     {
         $date = Factory::getDate($month->d);
 
@@ -149,17 +115,21 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
     /**
      * Retrieve list of archived articles
      *
-     * @param  \Joomla\Registry\Registry  &$params  module parameters
+     * @param Registry &$params module parameters
      *
-     * @return  mixed
+     * @return \stdClass[]
      *
-     * @since  __DEPLOY_VERSION__
+     * @since 1.6
      *
-     * @deprecated  5.0 Use the none static function getArticles
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *             Use the non-static method getArticlesByMonths
+     *             Example: Factory::getApplication()->bootModule('mod_articles_archive', 'site')
+     *                          ->getHelper('ArticlesArchiveHelper')
+     *                          ->getArticlesByMonths($params, Factory::getApplication())
      */
-    public static function getList(&$params)
+    public static function getList(&$params): array
     {
-        /** @var \Joomla\CMS\Application\SiteApplication $app */
+        /** @var SiteApplication $app */
         $app = Factory::getApplication();
 
         return (new self())->getArticlesByMonths($params, $app);
