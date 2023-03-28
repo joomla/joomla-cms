@@ -1,7 +1,7 @@
 describe('Test that the categories back end list', () => {
   beforeEach(() => {
-    cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password'));
-    cy.visit('administrator/index.php?option=com_categories&view=categories&extension=com_content');
+    cy.doAdministratorLogin();
+    cy.visit('administrator/index.php?option=com_categories&view=categories&extension=com_content&filter=');
   });
 
   it('has a title', () => {

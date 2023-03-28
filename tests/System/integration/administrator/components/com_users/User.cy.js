@@ -1,5 +1,5 @@
 describe('Test that the user back end form', () => {
-  beforeEach(() => cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password')));
+  beforeEach(() => cy.doAdministratorLogin());
   afterEach(() => cy.task('queryDB', "DELETE FROM #__users WHERE username = 'test'"));
 
   it('can create a new user', () => {

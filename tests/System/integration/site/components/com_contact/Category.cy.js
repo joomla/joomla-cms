@@ -35,7 +35,7 @@ describe('Test that the list view ', () => {
     cy.db_createContact({ name: 'contact 1' })
       .then(() => cy.db_createMenuItem({ title: 'automated test', link: 'index.php?option=com_contact&view=category&id=4', path: '?option=com_contact&view=category&id=4' }))
       .then(() => {
-        cy.doFrontendLogin(Cypress.env('username'), Cypress.env('password'));
+        cy.doFrontendLogin();
         cy.visit('/');
         cy.get('a:contains(automated test)').click();
         cy.get('a:contains(New Contact)').click();

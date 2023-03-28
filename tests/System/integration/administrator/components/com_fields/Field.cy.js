@@ -1,5 +1,5 @@
 describe('Test that the field back end form', () => {
-  beforeEach(() => cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password')));
+  beforeEach(() => cy.doAdministratorLogin());
   afterEach(() => cy.task('queryDB', "DELETE FROM #__fields WHERE title = 'Test field'"));
 
   it('can create a field', () => {

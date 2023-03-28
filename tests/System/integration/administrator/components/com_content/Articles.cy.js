@@ -1,7 +1,7 @@
 describe('Test that the articles back end list', () => {
   beforeEach(() => {
-    cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password'));
-    cy.visit('administrator/index.php?option=com_content&view=articles');
+    cy.doAdministratorLogin();
+    cy.visit('administrator/index.php?option=com_content&view=articles&filter=');
   });
 
   it('has a title', () => {

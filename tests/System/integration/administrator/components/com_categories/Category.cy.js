@@ -1,5 +1,5 @@
 describe('Test that the category back end form', () => {
-  beforeEach(() => cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password')));
+  beforeEach(() => cy.doAdministratorLogin());
   afterEach(() => cy.task('queryDB', "DELETE FROM #__categories WHERE title = 'Test category'"));
 
   it('can create a category', () => {

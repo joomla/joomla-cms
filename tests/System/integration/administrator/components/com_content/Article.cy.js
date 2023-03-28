@@ -1,5 +1,5 @@
 describe('Test that the article back end form', () => {
-  beforeEach(() => cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password')));
+  beforeEach(() => cy.doAdministratorLogin());
   afterEach(() => cy.task('queryDB', "DELETE FROM #__content WHERE title = 'Test article'"));
 
   it('can create a article', () => {

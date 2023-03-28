@@ -1,7 +1,7 @@
 describe('Test that the custom fields back end list', () => {
   beforeEach(() => {
-    cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password'));
-    cy.visit('administrator/index.php?option=com_fields&view=fields&context=com_content.article');
+    cy.doAdministratorLogin();
+    cy.visit('administrator/index.php?option=com_fields&view=fields&context=com_content.article&filter=');
   });
 
   it('has a title', () => {

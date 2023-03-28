@@ -1,6 +1,6 @@
 describe('Test that the menu back end list', () => {
   beforeEach(() => {
-    cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password'));
+    cy.doAdministratorLogin();
     cy.visit('administrator/index.php?option=com_menus&view=items&menutype=mainmenu');
   });
 
