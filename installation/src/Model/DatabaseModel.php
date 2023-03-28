@@ -305,7 +305,7 @@ class DatabaseModel extends BaseInstallationModel
      *
      * @since   3.1
      */
-    public function createTables($schema, array $options)
+    public function createTables(string $schema, array $options)
     {
         if (!$db = $this->initialise($options)) {
             return false;
