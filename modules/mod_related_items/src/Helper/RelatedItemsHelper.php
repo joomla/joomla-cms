@@ -12,12 +12,15 @@ namespace Joomla\Module\RelatedItems\Site\Helper;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Component\Content\Site\Model\ArticleModel;
+use Joomla\Component\Content\Site\Model\ArticlesModel;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
@@ -31,17 +34,9 @@ use Joomla\Registry\Registry;
  *
  * @since  __DEPLOY_VERSION__
  */
-class RelatedItemsHelper implements \Joomla\Database\DatabaseAwareInterface
+class RelatedItemsHelper implements DatabaseAwareInterface
 {
-    use \Joomla\Database\DatabaseAwareTrait;
-
-    /**
-     * The module instance
-     *
-     * @var    \stdClass
-     * @since  __DEPLOY_VERSION__
-     */
-    protected $module;
+    use DatabaseAwareTrait;
 
     /**
      * The input instance
@@ -54,14 +49,13 @@ class RelatedItemsHelper implements \Joomla\Database\DatabaseAwareInterface
     /**
      * Constructor.
      *
-     * @param  array  $config   An optional associative array of configuration settings.
+     * @param array $config An optional associative array of configuration settings.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since __DEPLOY_VERSION__
      */
-    public function __construct($config = [])
+    public function __construct(array $config = [])
     {
-        $this->module = $config['module'];
-        $this->input  = $config['input'];
+        $this->input = array_key_exists('input', $config) ? $config['input'] : Factory::getApplication()->getInput();
     }
 
     /**
@@ -76,7 +70,7 @@ class RelatedItemsHelper implements \Joomla\Database\DatabaseAwareInterface
      */
     public function getRelatedArticles(Registry $moduleParams, SiteApplication $app): array
     {
-        // Check if we are in a article view
+        // Check if we are in an article view
         $option = $this->input->getString('option');
         $view   = $this->input->getString('view');
 
@@ -84,80 +78,62 @@ class RelatedItemsHelper implements \Joomla\Database\DatabaseAwareInterface
             return [];
         }
 
-        $cacheKey = md5(serialize([$moduleParams->toString(), $this->module->module, $this->module->id]));
+        // Get the main article object
+        $mvcContentFactory = $app->bootComponent('com_content')->getMVCFactory();
 
-        /** @var \Joomla\CMS\Cache\Controller\OutputController $cache */
-        $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
-            ->createCacheController('output', ['defaultgroup' => 'mod_related_items']);
+        /** @var ArticleModel $articleModel */
+        $articleModel   = $mvcContentFactory->createModel('Article', 'Site', ['ignore_request' => true]);
 
-        if (!$cache->contains($cacheKey)) {
-            // Get the main article object
-            $mvcContentFactory = $app->bootComponent('com_content')->getMVCFactory();
+        $urlId          = $this->input->getString('id');
+        $currentArticle = explode(':', $urlId)[0];
+        $appParams      = $app->getParams();
 
-            /** @var \Joomla\Component\Content\Site\Model\ArticleModel $articleModel */
-            $articleModel   = $mvcContentFactory->createModel('Article', 'Site', ['ignore_request' => true]);
+        $articleModel->setState('params', $appParams);
+        $articleModel->setState('filter.published', 1);
+        $articleModel->setState('article.id', (int) $currentArticle);
 
-            $urlId          = $this->input->getString('id');
-            $currentArticle = explode(':', $urlId)[0];
-            $appParams      = $app->getParams();
+        $mainArticle = $articleModel->getItem();
 
-            $articleModel->setState('params', $appParams);
-            $articleModel->setState('filter.published', 1);
-            $articleModel->setState('article.id', (int) $currentArticle);
-
-            $mainArticle = $articleModel->getItem();
-
-            if (!$mainArticle || empty($mainArticle->metakey)) {
-                return [];
-            }
-
-            $props      = new \stdClass();
-
-            $props->mainArticle = $mainArticle;
-            $props->params      = $appParams->merge($moduleParams, true);
-            $props->app         = $app;
-            $props->factory     = $mvcContentFactory;
-
-            // We can now relate the articles by other modes
-            $items      = $this->getRelatedArticlesByMetakeys($props);
-
-            // Cache the output and return
-            $cache->store($items, $cacheKey);
-
-            return $items;
+        if (!$mainArticle || empty($mainArticle->metakey)) {
+            return [];
         }
 
-        // Return the cached output
-        return $cache->get($cacheKey);
+        $props = new \stdClass();
+
+        $props->mainArticle = $mainArticle;
+        $props->params      = $appParams->merge($moduleParams, true);
+        $props->app         = $app;
+        $props->factory     = $mvcContentFactory;
+
+        return $this->getRelatedArticlesByMetakeys($props);
     }
     /**
      * Get the related articles matching by metakeys
      *
-     * @param  \stdClass  $props
+     * @param   \stdClass  $props
      *
-     * @return  \stdClass[]
+     * @return \stdClass[]
      *
-     * @since   __DEPLOY_VERSION__
+     * @since __DEPLOY_VERSION__
      */
-    private function getRelatedArticlesByMetakeys($props): array
+    private function getRelatedArticlesByMetakeys(\stdClass $props): array
     {
-        $keys       = explode(',', $props->mainArticle->metakey);
+        $keys = explode(',', $props->mainArticle->metakey);
 
-        // Clean the article metakeys and add wildcards for the SQL LIKE Operator
-        $metaKeys   = array_map(function ($item) {
-            if ($key = \trim($item)) {
-                return '%' . $key . '%';
-            }
+        // Clean the article meta-keys and add wildcards for the SQL LIKE Operator
+        $metaKeys = array_map(function ($k) {
+            $keyTrimmed = \trim($k);
+            return $keyTrimmed ? '%' . $keyTrimmed . '%' : '';
         }, $keys);
 
         // Select other articles based on the metakey field 'like' the keys found
-        $db         = $this->getDatabase();
-        $query      = $db->getQuery(true);
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true);
 
         $user       = $props->app->getIdentity();
         $authorised = Access::getAuthorisedViewLevels($user->get('id'));
 
-        $id         = (int) $props->mainArticle->id;
+        $id = (int) $props->mainArticle->id;
 
         $query->select($db->quoteName('a.id'))
             ->from($db->quoteName('#__content', 'a'))
@@ -180,7 +156,7 @@ class RelatedItemsHelper implements \Joomla\Database\DatabaseAwareInterface
                 'AND',
                 [
                     $db->quoteName('a.publish_up') . ' IS NULL',
-                    $db->quoteName('a.publish_up') . ' <= :nowDate1'
+                    $db->quoteName('a.publish_up') . ' <= :nowDate1',
                 ],
                 'OR'
             )
@@ -188,7 +164,7 @@ class RelatedItemsHelper implements \Joomla\Database\DatabaseAwareInterface
                 'AND',
                 [
                     $db->quoteName('a.publish_down') . ' IS NULL',
-                    $db->quoteName('a.publish_down') . ' >= :nowDate2'
+                    $db->quoteName('a.publish_down') . ' >= :nowDate2',
                 ],
                 'OR'
             )
@@ -213,7 +189,7 @@ class RelatedItemsHelper implements \Joomla\Database\DatabaseAwareInterface
         $relatedArticles = [];
 
         if (\count($articlesIds)) {
-            /** @var \Joomla\Component\Content\Site\Model\ArticlesModel $articlesModel */
+            /** @var ArticlesModel $articlesModel */
             $articlesModel = $props->factory->createModel('Articles', 'Site', ['ignore_request' => true]);
 
             // Set application parameters in model
@@ -243,17 +219,21 @@ class RelatedItemsHelper implements \Joomla\Database\DatabaseAwareInterface
     /**
      * Get a list of related articles
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
+     * @param Registry &$params module parameters
      *
-     * @return  array
+     * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since 1.6
      *
-     * @deprecated 5.0 Use the none static function getRelatedArticles
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *             Use the non-static method getRelatedArticles
+     *             Example: Factory::getApplication()->bootModule('mod_related_items', 'site')
+     *                          ->getHelper('RelatedItemsHelper')
+     *                          ->getRelatedArticles($params, Factory::getApplication())
      */
-    public static function getList(&$params)
+    public static function getList(Registry &$params): array
     {
-        /** @var \Joomla\CMS\Application\SiteApplication $app */
+        /** @var SiteApplication $app */
         $app = Factory::getApplication();
 
         return (new self())->getRelatedArticles($params, $app);
