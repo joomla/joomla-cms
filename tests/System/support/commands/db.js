@@ -148,13 +148,14 @@ Cypress.Commands.add('db_createCategory', (category) => {
   const defaultCategoryOptions = {
     title: 'test category',
     alias: 'test-category',
-    path: '',
+    path: 'test-category',
     extension: 'com_content',
     published: 1,
     access: 1,
     params: '',
     parent_id: 1,
     level: 1,
+    lft: 1,
     metadata: '',
     metadesc: '',
     created_time: '2023-01-01 20:00:00',
@@ -163,6 +164,7 @@ Cypress.Commands.add('db_createCategory', (category) => {
 
   return cy.task('queryDB', createInsertQuery('categories', { ...defaultCategoryOptions, ...category })).then(async (info) => info.insertId);
 });
+
 Cypress.Commands.add('db_createFieldGroup', (fieldGroup) => {
   const defaultFieldGroupOptions = {
     title: 'test field group',
@@ -174,6 +176,7 @@ Cypress.Commands.add('db_createFieldGroup', (fieldGroup) => {
     access: 1,
     created: '2023-01-01 20:00:00',
     modified: '2023-01-01 20:00:00',
+    params: '',
   };
 
   return cy.task('queryDB', createInsertQuery('fields_groups', { ...defaultFieldGroupOptions, ...fieldGroup })).then(async (info) => info.insertId);
