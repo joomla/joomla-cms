@@ -1,7 +1,6 @@
 import './commands';
 import 'joomla-cypress';
 
-
 before(() => {
   Cypress.on('uncaught:exception', (err, runnable) => {
     console.log(`err :${err}`);

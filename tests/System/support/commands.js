@@ -9,9 +9,10 @@ import './commands/db';
 import './commands/api';
 
 const { registerCommands } = require('../../../node_modules/joomla-cypress/src/index.js');
+
 registerCommands();
 
-Cypress.Commands.overwrite('doFrontendLogin', (originalFn, username, password, useSnapshot = true, options) => {
+Cypress.Commands.overwrite('doFrontendLogin', (originalFn, username, password, useSnapshot = true) => {
   // Ensure there are valid credentials
   const user = username ?? Cypress.env('username');
   const pw = password ?? Cypress.env('password');
@@ -29,7 +30,7 @@ Cypress.Commands.overwrite('doFrontendLogin', (originalFn, username, password, u
   return cy.session([user, pw, 'front'], () => originalFn(user, pw), { cacheAcrossSpecs: true });
 });
 
-Cypress.Commands.overwrite('doAdministratorLogin', (originalFn, username, password, useSnapshot = true, options) => {
+Cypress.Commands.overwrite('doAdministratorLogin', (originalFn, username, password, useSnapshot = true) => {
   // Ensure there are valid credentials
   const user = username ?? Cypress.env('username');
   const pw = password ?? Cypress.env('password');
