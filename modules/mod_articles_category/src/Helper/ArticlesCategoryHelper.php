@@ -410,7 +410,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
 
         if ($params->show_introtext) {
             $item->introtext = HTMLHelper::_('content.prepare', $item->introtext, '', 'mod_articles_category.content');
-            $item->introtext = static::cleanIntrotext($item->introtext);
+            $item->introtext = static::_cleanIntrotext($item->introtext);
         }
 
         $item->displayIntrotext = $params->show_introtext
@@ -424,18 +424,19 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
     /**
      * Get a list of articles from a specific category
      *
-     * @param   Registry &$params  object holding the models parameters
+     * @param Registry &$params  object holding the models parameters
      *
-     * @return object[]
+     * @return array The array of users
      *
-     * @throws \Exception
+     * @since 1.6
      *
-     * @deprecated 5.0 Use the none static function getArticles
-     *
-     * @since      __DEPLOY_VERSION__
-     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *             Use the non-static method getArticles
+     *             Example: Factory::getApplication()->bootModule('mod_articles_category', 'site')
+     *                          ->getHelper('ArticlesCategoryHelper')
+     *                          ->getArticles($params, Factory::getApplication())
      */
-    public static function getList(Registry $params): array
+    public static function getList(Registry &$params): array
     {
         /* @var SiteApplication $app */
         $app = Factory::getApplication();
@@ -452,7 +453,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      *
      * @since 1.6
      */
-    public static function cleanIntrotext(string $introtext): string
+    public static function _cleanIntrotext(string $introtext): string
     {
         $introtext = str_replace(['<p>', '</p>'], ' ', $introtext);
         $introtext = strip_tags($introtext, '<a><em><strong><joomla-hidden-mail>');
