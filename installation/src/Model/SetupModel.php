@@ -213,7 +213,7 @@ class SetupModel extends BaseInstallationModel
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function validateDbConnection($options)
+    public function validateDbConnection(array $options)
     {
         // Get the options as an object for easier handling.
         $options = ArrayHelper::toObject($options);

@@ -66,7 +66,7 @@ class InstallationController extends JSONController
 
         /** @var \Joomla\CMS\Installation\Model\SetupModel $model */
         $model = $this->getModel('Setup');
-        $data  = Factory::getApplication()->input->post->get('jform', array(), 'array');
+        $data  = Factory::getApplication()->input->post->get('jform', [], 'array');
 
         if ($model->validate($data, 'setup') === false) {
             $this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
@@ -110,7 +110,7 @@ class InstallationController extends JSONController
 
         /** @var \Joomla\CMS\Installation\Model\DatabaseModel $databaseModel */
         $databaseModel = $this->getModel('Database');
-        $options = $databaseModel->getOptions();
+        $options       = $databaseModel->getOptions();
 
         // Create Db
         try {
@@ -146,10 +146,10 @@ class InstallationController extends JSONController
         /** @var \Joomla\CMS\Installation\Model\DatabaseModel $model */
         $model = $this->getModel('Database');
 
-        $r = new \stdClass();
+        $r       = new \stdClass();
         $options = $model->getOptions();
-        $db = $model->initialise($options);
-        $files = [
+        $db      = $model->initialise($options);
+        $files   = [
             'populate1' => 'base',
             'populate2' => 'supports',
             'populate3' => 'extensions',

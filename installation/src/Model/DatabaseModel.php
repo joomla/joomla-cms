@@ -52,7 +52,7 @@ class DatabaseModel extends BaseInstallationModel
      *
      * @since   3.1
      */
-    public function initialise($options, $select = true)
+    public function initialise(array $options, $select = true)
     {
         // Get the options as an object for easier handling.
         $options = ArrayHelper::toObject($options);
@@ -113,7 +113,7 @@ class DatabaseModel extends BaseInstallationModel
      * @since   3.1
      * @throws  \RuntimeException
      */
-    public function createDatabase($options)
+    public function createDatabase(array $options)
     {
         $db = $this->initialise($options, false);
 
@@ -270,7 +270,7 @@ class DatabaseModel extends BaseInstallationModel
      *
      * @since   3.1
      */
-    public function handleOldDatabase($options)
+    public function handleOldDatabase(array $options)
     {
         if (!isset($options['db_created']) || !$options['db_created']) {
             return $this->createDatabase($options);
@@ -305,7 +305,7 @@ class DatabaseModel extends BaseInstallationModel
      *
      * @since   3.1
      */
-    public function createTables($schema, $options)
+    public function createTables($schema, array $options)
     {
         if (!$db = $this->initialise($options)) {
             return false;
