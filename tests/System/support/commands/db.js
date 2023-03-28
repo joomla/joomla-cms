@@ -16,13 +16,14 @@ function createInsertQuery(table, values) {
   return query;
 }
 
-Cypress.Commands.add('db_createArticle', (article) => {
+Cypress.Commands.add('db_createArticle', (articleData) => {
   const defaultArticleOptions = {
     title: 'test article',
     alias: 'test-article',
     catid: 2,
     introtext: '',
     fulltext: '',
+    featured: 0,
     state: 1,
     access: 1,
     language: '*',
@@ -35,9 +36,13 @@ Cypress.Commands.add('db_createArticle', (article) => {
     metadata: '',
   };
 
-  return cy.task('queryDB', createInsertQuery('content', { ...defaultArticleOptions, ...article }))
+  const article = { ...defaultArticleOptions, ...articleData };
+
+  return cy.task('queryDB', createInsertQuery('content', article))
     .then(async (info) => {
-      await cy.task('queryDB', `INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('${info.insertId}', '1')`);
+      if (article.featured === 1) {
+        await cy.task('queryDB', `INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('${info.insertId}', '1')`);
+      }
       await cy.task('queryDB', `INSERT INTO #__workflow_associations (item_id, stage_id, extension) VALUES (${info.insertId}, 1, 'com_content.article')`);
 
       return info.insertId;
