@@ -151,7 +151,7 @@ if ($saveOrder && !empty($this->items)) {
                     $canEdit    = $user->authorise('core.edit', 'com_guidedtours.tour.' . $item->id);
                     $canEditOwn = $user->authorise('core.edit.own', 'com_guidedtours.tour.' . $item->id) && $item->created_by == $userId;
                     $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
-                    $canChange  = $user->authorise('core.edit.state', 'com_guidedtours' . '.tour.' . $item->id) && $canCheckin;
+                    $canChange  = $user->authorise('core.edit.state', 'com_guidedtours.tour.' . $item->id) && $canCheckin;
                     ?>
 
                     <!-- Row begins -->

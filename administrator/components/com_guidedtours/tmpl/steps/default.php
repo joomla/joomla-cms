@@ -27,15 +27,19 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
-$app       = Factory::getApplication();
-$user      = $app->getIdentity();
+$user      = Factory::getApplication()->getIdentity();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 $section   = null;
 $mode      = false;
-$tour_id   = $this->state->get('filter.tour_id');
+$tourId    = $this->state->get('filter.tour_id');
+
+$canEdit              = $user->authorise('core.edit', 'com_guidedtours.tour.' . $tourId);
+$canEditOwnTour       = $user->authorise('core.edit.own', 'com_guidedtours.tour.' . $tourId);
+$canEditStateTour     = $user->authorise('core.edit.state', 'com_guidedtours.tour.' . $tourId);
+$hasCheckinPermission = $user->authorise('core.manage', 'com_checkin');
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_guidedtours&task=steps.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
@@ -43,7 +47,7 @@ if ($saveOrder && !empty($this->items)) {
 }
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_guidedtours&view=steps&tour_id=' . $tour_id); ?>"
+<form action="<?php echo Route::_('index.php?option=com_guidedtours&view=steps&tour_id=' . $tourId); ?>"
       method="post" name="adminForm" id="adminForm">
     <div id="j-main-container" class="j-main-container">
         <?php
@@ -136,10 +140,9 @@ if ($saveOrder && !empty($this->items)) {
                     class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php
                        endif; ?>>
                 <?php foreach ($this->items as $i => $item) :
-                    $canEdit    = $user->authorise('core.edit', 'com_guidedtours.tour.' . $item->tour_id);
-                    $canEditOwn = $user->authorise('core.edit.own', 'com_guidedtours.tour.' . $item->tour_id) && $item->created_by == $userId;
-                    $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
-                    $canChange  = $user->authorise('core.edit.state', 'com_guidedtours' . '.step.' . $item->id) && $canCheckin;
+                    $canEditOwn = $canEditOwnTour && $item->created_by == $userId;
+                    $canCheckin = $hasCheckinPermission || $item->checked_out == $userId || is_null($item->checked_out);
+                    $canChange  = $canEditStateTour && $canCheckin;
                     ?>
 
                     <!-- Row begins -->
