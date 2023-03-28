@@ -6,16 +6,16 @@
  *
  * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
+
+namespace Joomla\Plugin\Content\PageNavigation\Extension;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -27,8 +27,10 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.5
  */
-class PlgContentPagenavigation extends CMSPlugin
+final class PageNavigation extends CMSPlugin
 {
+    use DatabaseAwareTrait;
+
     /**
      * If in the article view and the parameter is enabled shows the page navigation
      *
@@ -43,7 +45,7 @@ class PlgContentPagenavigation extends CMSPlugin
      */
     public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
     {
-        $app   = Factory::getApplication();
+        $app   = $this->getApplication();
         $view  = $app->getInput()->get('view');
         $print = $app->getInput()->getBool('print');
 
@@ -52,9 +54,9 @@ class PlgContentPagenavigation extends CMSPlugin
         }
 
         if ($context === 'com_content.article' && $view === 'article' && $params->get('show_item_navigation')) {
-            $db         = Factory::getDbo();
-            $user       = Factory::getUser();
-            $lang       = Factory::getLanguage();
+            $db         = $this->getDatabase();
+            $user       = $app->getIdentity();
+            $lang       = $app->getLanguage();
             $now        = Factory::getDate()->toSql();
             $query      = $db->getQuery(true);
             $uid        = $row->id;
@@ -210,7 +212,7 @@ class PlgContentPagenavigation extends CMSPlugin
             }
 
             if ($row->prev) {
-                $row->prev_label = ($this->params->get('display', 0) == 0) ? Text::_('JPREV') : $row->prev->title;
+                $row->prev_label = ($this->params->get('display', 0) == 0) ? $lang->_('JPREV') : $row->prev->title;
                 $row->prev       = RouteHelper::getArticleRoute($row->prev->slug, $row->prev->catid, $row->prev->language);
             } else {
                 $row->prev_label = '';
@@ -218,7 +220,7 @@ class PlgContentPagenavigation extends CMSPlugin
             }
 
             if ($row->next) {
-                $row->next_label = ($this->params->get('display', 0) == 0) ? Text::_('JNEXT') : $row->next->title;
+                $row->next_label = ($this->params->get('display', 0) == 0) ? $lang->_('JNEXT') : $row->next->title;
                 $row->next       = RouteHelper::getArticleRoute($row->next->slug, $row->next->catid, $row->next->language);
             } else {
                 $row->next_label = '';

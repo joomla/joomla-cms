@@ -74,6 +74,7 @@ Cypress.Commands.add('db_createBanner', (banner) => {
     alias: 'test-banner',
     catid: 3,
     state: 1,
+    type: 1,
     language: '*',
     created: '2023-01-01 20:00:00',
     modified: '2023-01-01 20:00:00',
@@ -146,4 +147,14 @@ Cypress.Commands.add('db_createUser', (userData) => {
 
     return info.insertId;
   });
+});
+
+Cypress.Commands.add('db_getUserId', () => {
+  cy.task('queryDB', `SELECT id FROM #__users WHERE username = '${Cypress.env('username')}'`)
+    .then((id) => {
+      if (id.length === 0) {
+        return 0;
+      }
+      return id[0].id;
+    });
 });
