@@ -11,7 +11,12 @@
 namespace Joomla\Module\ArticlesCategories\Site\Helper;
 
 use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Categories\CategoryInterface;
+use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
+use Joomla\Component\Content\Site\Service\Category;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -23,17 +28,17 @@ use Joomla\Registry\Registry;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ArticlesCategoriesHelper implements \Joomla\Database\DatabaseAwareInterface
+class ArticlesCategoriesHelper implements DatabaseAwareInterface
 {
-    use \Joomla\Database\DatabaseAwareTrait;
+    use DatabaseAwareTrait;
 
     /**
-     * Given a parent category, return a list of children cateories
+     * Given a parent category, return a list of children categories
      *
-     * @param   Registry         $params  The module parameters.
-     * @param   SiteApplication  $app     The current application.
+     * @param   Registry         $moduleParams  The module parameters.
+     * @param   SiteApplication  $app           The current application.
      *
-     * @return  \Joomla\CMS\Categories\CategoryNode[]
+     * @return  CategoryNode[]
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -46,16 +51,16 @@ class ArticlesCategoriesHelper implements \Joomla\Database\DatabaseAwareInterfac
         // descendants of this category at the expense of performance.
         $options['countItems'] = $moduleParams->get('numitems', 0);
 
-        /** @var \Joomla\CMS\Categories\CategoryInterface $contentCategoryService */
-        $contentCategoryService = new \Joomla\Component\Content\Site\Service\Category($options);
+        /** @var CategoryInterface $contentCategoryService */
+        $contentCategoryService = new Category($options);
 
-        /** @var \Joomla\CMS\Categories\CategoryNode $parentCategory */
+        /** @var CategoryNode $parentCategory */
         $parentCategory = $contentCategoryService->get($moduleParams->get('parent', 'root'));
 
         $childrenCategories = [];
 
         if ($parentCategory !== null) {
-            // Get all the childrens categories of this node
+            // Get all the children categories of this node
             $childrenCategories = $parentCategory->getChildren(true);
 
             $count = $moduleParams->get('count', 0);
@@ -69,18 +74,25 @@ class ArticlesCategoriesHelper implements \Joomla\Database\DatabaseAwareInterfac
     }
 
     /**
-     * Get list of articles
+     * Get list of categories
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
+     * @param Registry &$params module parameters
      *
-     * @return  array
+     * @return array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since 1.6
      *
-     * @deprecated 5.0 Use the none static function getChildrenCategories
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *             Use the non-static method getChildrenCategories
+     *             Example: Factory::getApplication()->bootModule('mod_articles_categories', 'site')
+     *                          ->getHelper('ArticlesCategoriesHelper')
+     *                          ->getChildrenCategories($params, Factory::getApplication())
      */
-    public static function getList(&$params)
+    public static function getList(Registry &$params): array
     {
-        return (new self())->getChildrenCategories($params, Factory::getApplication());
+        /** @var SiteApplication $app */
+        $app = Factory::getApplication();
+
+        return (new self())->getChildrenCategories($params, $app);
     }
 }
