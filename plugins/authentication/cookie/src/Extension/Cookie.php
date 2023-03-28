@@ -105,8 +105,8 @@ final class Cookie extends CMSPlugin
         $now    = time();
 
         // Remove expired tokens
-        $db = $this->getDatabase();
-        $query    = $db->getQuery(true)
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
             ->delete($db->quoteName('#__user_keys'))
             ->where($db->quoteName('time') . ' < :now')
             ->bind(':now', $now);
@@ -231,7 +231,7 @@ final class Cookie extends CMSPlugin
             return false;
         }
 
-        $db       = $this->getDatabase();
+        $db = $this->getDatabase();
         if (isset($options['responseType']) && $options['responseType'] === 'Cookie') {
             // Logged in using a cookie
             $cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
@@ -381,8 +381,8 @@ final class Cookie extends CMSPlugin
         $series = $filter->clean($cookieArray[1], 'ALNUM');
 
         // Remove the record from the database
-        $db = $this->getDatabase();
-        $query    = $db->getQuery(true)
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
             ->delete($db->quoteName('#__user_keys'))
             ->where($db->quoteName('series') . ' = :series')
             ->bind(':series', $series);
