@@ -144,8 +144,8 @@ class AssociationsHelper extends AssociationExtensionHelper
     public function getType($typeName = '')
     {
         $fields  = $this->getFieldsTemplate();
-        $tables  = array();
-        $joins   = array();
+        $tables  = [];
+        $joins   = [];
         $support = $this->getSupportTemplate();
         $title   = '';
 
@@ -161,21 +161,21 @@ class AssociationsHelper extends AssociationExtensionHelper
                     $support['category'] = true;
                     $support['save2copy'] = true;
 
-                    $tables = array(
+                    $tables = [
                         'a' => '#__tags'
-                    );
+                    ];
 
                     $title = 'tag';
                     break;
             }
         }
 
-        return array(
+        return [
             'fields'  => $fields,
             'support' => $support,
             'tables'  => $tables,
             'joins'   => $joins,
             'title'   => $title
-        );
+        ];
     }
 }
