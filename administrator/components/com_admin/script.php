@@ -538,7 +538,7 @@ class JoomlaInstallerScript
         $extensions = ExtensionHelper::getCoreExtensions();
 
         // If we have the search package around, it may not have a manifest cache entry after upgrades from 3.x, so add it to the list
-        if (File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml')) {
+        if (is_file(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml')) {
             $extensions[] = ['package', 'pkg_search', '', 0];
         }
 
@@ -6543,6 +6543,11 @@ class JoomlaInstallerScript
             '/plugins/finder/tags/tags.php',
             // From 4.3.0-beta3 to 4.3.0-beta4
             '/layouts/joomla/content/categories_default_items.php',
+            // From 4.3.0-beta4 to 4.3.0-rc1
+            '/administrator/components/com_guidedtours/src/Helper/GuidedtoursHelper.php',
+            '/libraries/vendor/voku/portable-ascii/build/docs/base.md',
+            '/libraries/vendor/voku/portable-ascii/build/generate_docs.php',
+            '/libraries/vendor/voku/portable-ascii/build/generate_max_key_length.php',
         ];
 
         $folders = [
@@ -7923,13 +7928,17 @@ class JoomlaInstallerScript
             '/components/com_contact/layouts',
             // From 4.2.x to 4.3.0-alpha1
             '/libraries/vendor/paragonie/sodium_compat/dist',
+            // From 4.3.0-beta4 to 4.3.0-rc1
+            '/libraries/vendor/voku/portable-ascii/build/docs',
+            '/libraries/vendor/voku/portable-ascii/build',
+            '/administrator/components/com_guidedtours/src/Helper',
         ];
 
         $status['files_checked']   = $files;
         $status['folders_checked'] = $folders;
 
         foreach ($files as $file) {
-            if ($fileExists = File::exists(JPATH_ROOT . $file)) {
+            if ($fileExists = is_file(JPATH_ROOT . $file)) {
                 $status['files_exist'][] = $file;
 
                 if ($dryRun === false) {
@@ -7967,8 +7976,8 @@ class JoomlaInstallerScript
          * but an update has put the files back. In that case it exists even if they don't believe in it!
          */
         if (
-            !File::exists(JPATH_ROOT . '/administrator/components/com_search/search.php')
-            && File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml')
+            !is_file(JPATH_ROOT . '/administrator/components/com_search/search.php')
+            && is_file(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml')
         ) {
             File::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml');
         }
