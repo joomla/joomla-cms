@@ -77,13 +77,6 @@ function addStepToTourButton(tour, stepObj, buttons) {
           for (let i = 0; i < targets.length; i += 1) {
             const t = document.querySelector(targets[i]);
             if (t != null) {
-              // Use TinyMCE in code source to keep the step accessible
-              if (t.parentElement.querySelector('.js-tiny-toggler-button') != null) {
-                t.parentElement.querySelector('.js-tiny-toggler-button').click();
-                tour.currentStep.options.attachTo.element = targets[i];
-                tour.currentStep.options.attachTo.on = position;
-                break;
-              }
               if (!t.disabled && !t.readonly && t.style.display !== 'none') {
                 tour.currentStep.options.attachTo.element = targets[i];
                 tour.currentStep.options.attachTo.on = position;
@@ -109,42 +102,69 @@ function addStepToTourButton(tour, stepObj, buttons) {
       });
     },
     when: {
-      hide() {
-        if (this.getTarget()) {
-          const toggleButton = this.getTarget().parentElement.querySelector('.js-tiny-toggler-button');
-          if (toggleButton != null) {
-            // Switch back to the full TinyMCE editor
-            toggleButton.click();
-          }
-        }
-      },
       show() {
+        const element = this.getElement();
+        const target = this.getTarget();
+
         // Force the screen reader to only read the content of the popup after a refresh
-        this.getElement().setAttribute('aria-live', 'assertive');
+        element.setAttribute('aria-live', 'assertive');
 
         sessionStorage.setItem('currentStepId', this.id);
-        addProgressIndicator(this.getElement(), this.id + 1, sessionStorage.getItem('stepCount'));
+        addProgressIndicator(element, this.id + 1, sessionStorage.getItem('stepCount'));
 
-        if (this.getTarget()) {
-          this.getElement().querySelector('.shepherd-cancel-icon').addEventListener('keydown', (event) => {
+        if (target && this.options.attachTo.type === 'interactive') {
+          const cancelButton = element.querySelector('.shepherd-cancel-icon');
+          const primaryButton = element.querySelector('.shepherd-button-primary');
+          const secondaryButton = element.querySelector('.shepherd-button-secondary');
+
+          // The 'next' button should always be enabled if the target input field of type 'text' has a value
+          if (
+            target.tagName.toLowerCase() === 'input'
+            && target.hasAttribute('required')
+            && (['email', 'password', 'search', 'tel', 'text', 'url'].includes(target.type))
+          ) {
+            if (target.value.trim().length) {
+              primaryButton.removeAttribute('disabled');
+              primaryButton.classList.remove('disabled');
+            } else {
+              primaryButton.setAttribute('disabled', 'disabled');
+              primaryButton.classList.add('disabled');
+            }
+          }
+
+          cancelButton.addEventListener('keydown', (event) => {
             if (event.key === 'Tab') {
-              this.getTarget().focus();
+              target.focus();
               event.preventDefault();
             }
           });
-          this.getTarget().addEventListener('blur', (event) => {
-            const cancelButton = this.getElement().querySelector('.shepherd-cancel-icon');
-            const primaryButton = this.getElement().querySelector('.shepherd-button-primary');
-            const secondaryButton = this.getElement().querySelector('.shepherd-button-secondary');
-            if (primaryButton && !primaryButton.disabled) {
-              primaryButton.focus();
-            } else if (secondaryButton && !secondaryButton.disabled) {
-              secondaryButton.focus();
-            } else {
-              cancelButton.focus();
-            }
-            event.preventDefault();
-          });
+
+          if (target.tagName.toLowerCase() === 'iframe') {
+            // Give blur to the content of the iframe, as iframes don't have blur events
+            target.contentWindow.document.body.addEventListener('blur', (event) => {
+              setTimeout(() => {
+                if (primaryButton && !primaryButton.disabled) {
+                  primaryButton.focus();
+                } else if (secondaryButton && !secondaryButton.disabled) {
+                  secondaryButton.focus();
+                } else {
+                  cancelButton.focus();
+                }
+              }, 1);
+              event.preventDefault();
+            });
+          } else {
+            target.addEventListener('blur', (event) => {
+              if (primaryButton && !primaryButton.disabled) {
+                primaryButton.focus();
+              } else if (secondaryButton && !secondaryButton.disabled) {
+                secondaryButton.focus();
+              } else {
+                cancelButton.focus();
+              }
+              event.preventDefault();
+            });
+          }
         }
       },
     },
@@ -326,13 +346,15 @@ function startTour(obj) {
 
             case 'text':
               ele.step_id = index;
-              ele.addEventListener('input', (event) => {
-                if (event.target.value.trim().length) {
-                  enableButton(event);
-                } else {
-                  disableButton(event);
-                }
-              });
+              if (ele.hasAttribute('required') && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(ele.type)) {
+                ['input', 'focus'].forEach((eventName) => ele.addEventListener(eventName, (event) => {
+                  if (event.target.value.trim().length) {
+                    enableButton(event);
+                  } else {
+                    disableButton(event);
+                  }
+                }));
+              }
               break;
 
             case 'button':
@@ -348,16 +370,12 @@ function startTour(obj) {
     }
 
     if (index < len - 1) {
-      let disabled = false;
-      if (obj && obj.steps[index].interactive_type === 'text') {
-        disabled = true;
-      }
       if (
         (obj && obj.steps[index].type !== 'interactive')
         || (obj && obj.steps[index].interactive_type === 'text')
         || (obj && obj.steps[index].interactive_type === 'other')
       ) {
-        pushNextButton(buttons, obj.steps[index], disabled, disabled ? 'disabled' : '');
+        pushNextButton(buttons, obj.steps[index]);
       }
     } else {
       pushCompleteButton(buttons);
@@ -387,6 +405,12 @@ function loadTour(tourId) {
         startTour(result.data);
       })
       .catch((error) => {
+        // Kill the tour if there is a problem with selector validation
+        emptyStorage();
+
+        const messages = { error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR')] };
+        Joomla.renderMessages(messages);
+
         throw new Error(error);
       });
   }
