@@ -6548,6 +6548,15 @@ class JoomlaInstallerScript
             '/libraries/vendor/voku/portable-ascii/build/docs/base.md',
             '/libraries/vendor/voku/portable-ascii/build/generate_docs.php',
             '/libraries/vendor/voku/portable-ascii/build/generate_max_key_length.php',
+            // From 4.3.x to 4.4.0-alpha1
+            '/modules/mod_footer/mod_footer.php',
+            '/modules/mod_users_latest/mod_users_latest.php',
+            '/plugins/content/pagenavigation/pagenavigation.php',
+            '/plugins/installer/folderinstaller/folderinstaller.php',
+            '/plugins/installer/override/override.php',
+            '/plugins/installer/packageinstaller/packageinstaller.php',
+            '/plugins/installer/urlinstaller/urlinstaller.php',
+            '/plugins/installer/webinstaller/webinstaller.php',
         ];
 
         $folders = [
