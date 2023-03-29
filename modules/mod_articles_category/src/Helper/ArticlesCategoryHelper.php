@@ -443,10 +443,10 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      * The goal is to get the proper length plain text string with as much of
      * the html intact as possible with all tags properly closed.
      *
-     * @param string  $html      The content of the introtext to be truncated
-     * @param integer $maxLength The maximum number of characters to render
+     * @param string  $html       The content of the introtext to be truncated
+     * @param int     $maxLength  The maximum number of characters to render
      *
-     * @return string  The truncated string
+     * @return string The truncated string
      *
      * @since 1.6
      */
