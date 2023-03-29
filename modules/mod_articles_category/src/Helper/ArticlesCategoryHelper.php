@@ -42,28 +42,6 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
     use DatabaseAwareTrait;
 
     /**
-     * The input instance
-     *
-     * @var   Input
-     * @since __DEPLOY_VERSION__
-     */
-    protected $input;
-
-    /**
-     * Constructor.
-     *
-     * @param array $config An optional associative array of configuration settings.
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    public function __construct(array $config = [])
-    {
-        $this->input  = array_key_exists('input', $config)
-            ? $config['input']
-            : Factory::getApplication()->getInput();
-    }
-
-    /**
      * Retrieve a list of article
      *
      * @param Registry        $moduleParams The module parameters.
@@ -99,14 +77,15 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
         $articlesModel->setState('filter.access', $access);
 
         // Get the component and view name
-        $option = $this->input->get('option');
-        $view   = $this->input->get('view');
+        $input  = $app->getInput();
+        $option = $input->get('option');
+        $view   = $input->get('view');
 
         // Preparation for Normal or Dynamic Modes
         $mode = $moduleParams->get('mode', 'normal');
 
         // If we inside an article view, get the article id
-        $active_article_id = $view === 'article' ? $this->input->getInt('id') : '';
+        $active_article_id = $view === 'article' ? $input->getInt('id') : '';
 
         switch ($mode) {
             case 'dynamic':
@@ -114,11 +93,11 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
                     switch ($view) {
                         case 'category':
                         case 'categories':
-                            $catids = [$this->input->getInt('id')];
+                            $catids = [$input->getInt('id')];
                             break;
                         case 'article':
                             if ($moduleParams->get('show_on_article_page', 1)) {
-                                $catid = $this->input->getInt('catid');
+                                $catid = $input->getInt('catid');
 
                                 if (!$catid) {
                                     // Get an instance of the generic article model
@@ -295,7 +274,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
         $itemParams->active_article_id = $active_article_id;
         $itemParams->authorised        = Access::getAuthorisedViewLevels($app->getIdentity()->get('id'));
         $itemParams->access            = $access;
-        $itemParams->url_param_itemid  = $this->input->getInt('Itemid');
+        $itemParams->url_param_itemid  = $input->getInt('Itemid');
         $itemParams->menu              = $app->getMenu();
 
         foreach ($articlesModel->getItems() as $item) {

@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @package     Joomla.Site
- * @subpackage  mod_articles_category
+ * @package         Joomla.Site
+ * @subpackage      mod_articles_category
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Module\ArticlesCategory\Site\Dispatcher;
@@ -39,10 +39,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
         $data   = parent::getLayoutData();
         $params = $data['params'];
 
-        $data['list']    = $this->getHelperFactory()->getHelper(
-            'ArticlesCategoryHelper',
-            $data
-        )->getArticles($params, $data['app']);
+        $data['list'] = $this->getHelperFactory()->getHelper('ArticlesCategoryHelper')->getArticles($params, $data['app']);
 
         $data['grouped'] = $params->get('article_grouping', 'none') !== 'none';
 
