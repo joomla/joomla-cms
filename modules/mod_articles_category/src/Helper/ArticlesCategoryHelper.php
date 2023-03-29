@@ -109,62 +109,63 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
         $active_article_id = $view === 'article' ? $this->input->getInt('id') : '';
 
         switch ($mode) {
-        case 'dynamic':
-            if ($option === 'com_content') {
-                switch ($view) {
-                case 'category':
-                case 'categories':
-                        $catids = [$this->input->getInt('id')];
-                    break;
-                case 'article':
-                    if ($moduleParams->get('show_on_article_page', 1)) {
-                        $catid = $this->input->getInt('catid');
+            case 'dynamic':
+                if ($option === 'com_content') {
+                    switch ($view) {
+                        case 'category':
+                        case 'categories':
+                            $catids = [$this->input->getInt('id')];
+                            break;
+                        case 'article':
+                            if ($moduleParams->get('show_on_article_page', 1)) {
+                                $catid = $this->input->getInt('catid');
 
-                        if (!$catid) {
-                            // Get an instance of the generic article model
-                            $articleModel = $mvcContentFactory->createModel(
-                                'Article',
-                                'Site',
-                                ['ignore_request' => true]
-                            );
+                                if (!$catid) {
+                                    // Get an instance of the generic article model
+                                    $articleModel = $mvcContentFactory->createModel(
+                                        'Article',
+                                        'Site',
+                                        ['ignore_request' => true]
+                                    );
 
-                            $articleModel->setState('params', $appParams);
-                            $articleModel->setState('filter.published', 1);
-                            $articleModel->setState('article.id', (int) $active_article_id);
-                            $item   = $articleModel->getItem();
-                            $catids = [$item->catid];
-                        } else {
-                            $catids = [$catid];
-                        }
-                    } else {
-                        // Return right away if show_on_article_page option is off
-                        return;
+                                    $articleModel->setState('params', $appParams);
+                                    $articleModel->setState('filter.published', 1);
+                                    $articleModel->setState('article.id', (int) $active_article_id);
+                                    $item   = $articleModel->getItem();
+                                    $catids = [$item->catid];
+                                } else {
+                                    $catids = [$catid];
+                                }
+                            } else {
+                                // Return right away if show_on_article_page option is off
+                                return;
+                            }
+                            break;
+
+                        default:
+                            // Return right away if not on the category or article views
+                            return;
                     }
-                    break;
-
-                default:
-                    // Return right away if not on the category or article views
+                } else {
+                    // Return right away if not on a com_content page
                     return;
                 }
-            } else {
-                // Return right away if not on a com_content page
-                return;
-            }
 
-            break;
+                break;
 
-        default:
-            $catids = $moduleParams->get('catid');
-            $articlesModel->setState(
-                'filter.category_id.include',
-                (bool) $moduleParams->get('category_filtering_type', 1)
-            );
-            break;
+            default:
+                $catids = $moduleParams->get('catid');
+                $articlesModel->setState(
+                    'filter.category_id.include',
+                    (bool) $moduleParams->get('category_filtering_type', 1)
+                );
+                break;
         }
 
         // Category filter
         if (isset($catids)) {
-            if ($moduleParams->get('show_child_category_articles', 0)
+            if (
+                $moduleParams->get('show_child_category_articles', 0)
                 && (int) $moduleParams->get('levels', 0) > 0
             ) {
                 /* @var CategoriesModel $categoriesModel */
@@ -207,25 +208,25 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
         $ordering = $moduleParams->get('article_ordering', 'a.ordering');
 
         switch ($ordering) {
-        case 'random':
-            $articlesModel->setState('list.ordering', $this->getDatabase()->getQuery(true)->rand());
-            break;
+            case 'random':
+                $articlesModel->setState('list.ordering', $this->getDatabase()->getQuery(true)->rand());
+                break;
 
-        case 'rating_count':
-        case 'rating':
-            $articlesModel->setState('list.ordering', $ordering);
-            $articlesModel->setState('list.direction', $moduleParams->get('article_ordering_direction', 'ASC'));
+            case 'rating_count':
+            case 'rating':
+                $articlesModel->setState('list.ordering', $ordering);
+                $articlesModel->setState('list.direction', $moduleParams->get('article_ordering_direction', 'ASC'));
 
-            if (!PluginHelper::isEnabled('content', 'vote')) {
-                $articlesModel->setState('list.ordering', 'a.ordering');
-            }
+                if (!PluginHelper::isEnabled('content', 'vote')) {
+                    $articlesModel->setState('list.ordering', 'a.ordering');
+                }
 
-            break;
+                break;
 
-        default:
-            $articlesModel->setState('list.ordering', $ordering);
-            $articlesModel->setState('list.direction', $moduleParams->get('article_ordering_direction', 'ASC'));
-            break;
+            default:
+                $articlesModel->setState('list.ordering', $ordering);
+                $articlesModel->setState('list.direction', $moduleParams->get('article_ordering_direction', 'ASC'));
+                break;
         }
 
         // Filter by multiple tags
@@ -307,23 +308,23 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
 
         if ($groupBy !== 'none') {
             switch ($groupBy) {
-            case 'year':
-            case 'month_year':
-                $items = static::groupByDate(
-                    $items,
-                    $groupDirection,
-                    $groupBy,
-                    $moduleParams->get('month_year_format', 'F Y'),
-                    $moduleParams->get('date_grouping_field', 'created')
-                );
-                break;
-            case 'author':
-            case 'category_title':
-                $items = static::groupBy($items, $groupBy, $groupDirection);
-                break;
-            case 'tags':
-                $items = static::groupByTags($items, $groupDirection);
-                break;
+                case 'year':
+                case 'month_year':
+                    $items = static::groupByDate(
+                        $items,
+                        $groupDirection,
+                        $groupBy,
+                        $moduleParams->get('month_year_format', 'F Y'),
+                        $moduleParams->get('date_grouping_field', 'created')
+                    );
+                    break;
+                case 'author':
+                case 'category_title':
+                    $items = static::groupBy($items, $groupBy, $groupDirection);
+                    break;
+                case 'tags':
+                    $items = static::groupByTags($items, $groupDirection);
+                    break;
             }
         }
 
@@ -548,25 +549,25 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
 
         foreach ($list as $key => $item) {
             switch ($type) {
-            case 'month_year':
-                $month_year = StringHelper::substr($item->$field, 0, 7);
+                case 'month_year':
+                    $month_year = StringHelper::substr($item->$field, 0, 7);
 
-                if (!isset($grouped[$month_year])) {
-                    $grouped[$month_year] = [];
-                }
+                    if (!isset($grouped[$month_year])) {
+                        $grouped[$month_year] = [];
+                    }
 
-                $grouped[$month_year][$key] = $item;
-                break;
+                    $grouped[$month_year][$key] = $item;
+                    break;
 
-            default:
-                $year = StringHelper::substr($item->$field, 0, 4);
+                default:
+                    $year = StringHelper::substr($item->$field, 0, 4);
 
-                if (!isset($grouped[$year])) {
-                    $grouped[$year] = [];
-                }
+                    if (!isset($grouped[$year])) {
+                        $grouped[$year] = [];
+                    }
 
-                $grouped[$year][$key] = $item;
-                break;
+                    $grouped[$year][$key] = $item;
+                    break;
             }
 
             unset($list[$key]);
