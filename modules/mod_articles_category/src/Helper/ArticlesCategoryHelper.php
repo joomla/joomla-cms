@@ -67,10 +67,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
 
         // Set the filters based on the module params
         $articlesModel->setState('list.limit', (int) $moduleParams->get('count', 0));
-        $articlesModel->setState(
-            'load_tags',
-            $moduleParams->get('show_tags', 0) || $moduleParams->get('article_grouping', 'none') === 'tags'
-        );
+        $articlesModel->setState('load_tags', $moduleParams->get('show_tags', 0) || $moduleParams->get('article_grouping', 'none') === 'tags');
 
         // Access filter
         $access = !ComponentHelper::getParams('com_content')->get('show_noauth');
@@ -101,11 +98,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
 
                                 if (!$catid) {
                                     // Get an instance of the generic article model
-                                    $articleModel = $mvcContentFactory->createModel(
-                                        'Article',
-                                        'Site',
-                                        ['ignore_request' => true]
-                                    );
+                                    $articleModel = $mvcContentFactory->createModel('Article', 'Site', ['ignore_request' => true]);
 
                                     $articleModel->setState('params', $appParams);
                                     $articleModel->setState('filter.published', 1);
@@ -134,25 +127,15 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
 
             default:
                 $catids = $moduleParams->get('catid');
-                $articlesModel->setState(
-                    'filter.category_id.include',
-                    (bool) $moduleParams->get('category_filtering_type', 1)
-                );
+                $articlesModel->setState('filter.category_id.include', (bool) $moduleParams->get('category_filtering_type', 1));
                 break;
         }
 
         // Category filter
         if (isset($catids)) {
-            if (
-                $moduleParams->get('show_child_category_articles', 0)
-                && (int) $moduleParams->get('levels', 0) > 0
-            ) {
+            if ($moduleParams->get('show_child_category_articles', 0) && (int) $moduleParams->get('levels', 0) > 0) {
                 /* @var CategoriesModel $categoriesModel */
-                $categoriesModel = $mvcContentFactory->createModel(
-                    'Categories',
-                    'Site',
-                    ['ignore_request' => true]
-                );
+                $categoriesModel = $mvcContentFactory->createModel('Categories', 'Site', ['ignore_request' => true]);
 
                 $categoriesModel->setState('params', $appParams);
                 $levels = $moduleParams->get('levels', 1) ?: 9999;
@@ -218,10 +201,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
         $articlesModel->setState('filter.author_id', $moduleParams->get('created_by', []));
         $articlesModel->setState('filter.author_id.include', $moduleParams->get('author_filtering_type', 1));
         $articlesModel->setState('filter.author_alias', $moduleParams->get('created_by_alias', []));
-        $articlesModel->setState(
-            'filter.author_alias.include',
-            $moduleParams->get('author_alias_filtering_type', 1)
-        );
+        $articlesModel->setState('filter.author_alias.include', $moduleParams->get('author_alias_filtering_type', 1));
 
         $excluded_articles = $moduleParams->get('excluded_articles', '');
 
@@ -237,22 +217,10 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
 
         if ($date_filtering !== 'off') {
             $articlesModel->setState('filter.date_filtering', $date_filtering);
-            $articlesModel->setState(
-                'filter.date_field',
-                $moduleParams->get('date_field', 'a.created')
-            );
-            $articlesModel->setState(
-                'filter.start_date_range',
-                $moduleParams->get('start_date_range', '1000-01-01 00:00:00')
-            );
-            $articlesModel->setState(
-                'filter.end_date_range',
-                $moduleParams->get('end_date_range', '9999-12-31 23:59:59')
-            );
-            $articlesModel->setState(
-                'filter.relative_date',
-                $moduleParams->get('relative_date', 30)
-            );
+            $articlesModel->setState('filter.date_field', $moduleParams->get('date_field', 'a.created'));
+            $articlesModel->setState('filter.start_date_range', $moduleParams->get('start_date_range', '1000-01-01 00:00:00'));
+            $articlesModel->setState('filter.end_date_range', $moduleParams->get('end_date_range', '9999-12-31 23:59:59'));
+            $articlesModel->setState('filter.relative_date', $moduleParams->get('relative_date', 30));
         }
 
         // Filter by language
