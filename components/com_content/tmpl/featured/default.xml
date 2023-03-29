@@ -56,7 +56,7 @@
 				label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
 				filter="integer"
 				validate="number"
-				 min="0"
+				min="0"
 				useglobal="true"
 				parentclass="stack span-1"
 			/>
