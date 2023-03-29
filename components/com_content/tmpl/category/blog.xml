@@ -179,7 +179,7 @@
 				label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
 				filter="integer"
 				validate="number"
-                min="0"
+				min="0"
 				useglobal="true"
 				parentclass="stack span-1"
 			/>
@@ -199,7 +199,7 @@
 				label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
 				filter="integer"
 				validate="number"
-                min="0"
+				min="0"
 				useglobal="true"
 				parentclass="stack span-1"
 			/>
@@ -220,7 +220,7 @@
 				label="JGLOBAL_NUM_COLUMNS_LABEL"
 				filter="integer"
 				validate="number"
-                min="0"
+				min="0"
 				parentclass="stack span-1-inline"
 				useglobal="true"
 			/>
@@ -243,7 +243,7 @@
 				label="JGLOBAL_NUM_LINKS_LABEL"
 				filter="integer"
 				validate="number"
-                min="0"
+				min="0"
 				parentclass="stack span-1"
 				useglobal="true"
 			/>
