@@ -73,7 +73,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      *
      * @since __DEPLOY_VERSION__
      */
-    public function getArticles(Registry $moduleParams, SiteApplication $app): array
+    public function getArticles(Registry $moduleParams, SiteApplication $app)
     {
         $mvcContentFactory = $app->bootComponent('com_content')->getMVCFactory();
 
