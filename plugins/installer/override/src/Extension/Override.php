@@ -6,14 +6,14 @@
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Application\CMSApplicationInterface;
+namespace Joomla\Plugin\Installer\Override\Extension;
+
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -25,14 +25,9 @@ use Joomla\Database\ParameterType;
  *
  * @since  4.0.0
  */
-class PlgInstallerOverride extends CMSPlugin
+final class Override extends CMSPlugin
 {
-    /**
-     * Application object.
-     *
-     * @var    CMSApplicationInterface
-     */
-    protected $app;
+    use DatabaseAwareTrait;
 
     /**
      * Load the language file on instantiation.
@@ -42,14 +37,6 @@ class PlgInstallerOverride extends CMSPlugin
      * @since  4.0.0
      */
     protected $autoloadLanguage = true;
-
-    /**
-     * Database object
-     *
-     * @var    \Joomla\Database\DatabaseInterface
-     * @since  4.0.0
-     */
-    protected $db;
 
     /**
      * Method to get com_templates model instance.
@@ -66,7 +53,7 @@ class PlgInstallerOverride extends CMSPlugin
     public function getModel($name = 'Template', $prefix = 'Administrator')
     {
         /** @var \Joomla\Component\Templates\Administrator\Extension\TemplatesComponent $templateProvider */
-        $templateProvider = $this->app->bootComponent('com_templates');
+        $templateProvider = $this->getApplication()->bootComponent('com_templates');
 
         /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
         $model = $templateProvider->getMVCFactory()->createModel($name, $prefix);
@@ -84,7 +71,7 @@ class PlgInstallerOverride extends CMSPlugin
     public function purge()
     {
         // Delete stored session value.
-        $session = $this->app->getSession();
+        $session = $this->getApplication()->getSession();
         $session->remove('override.beforeEventFiles');
         $session->remove('override.afterEventFiles');
     }
@@ -103,7 +90,7 @@ class PlgInstallerOverride extends CMSPlugin
 
         // Get list and store in session.
         $list = $this->getOverrideCoreList();
-        $this->app->getSession()->set('override.beforeEventFiles', $list);
+        $this->getApplication()->getSession()->set('override.beforeEventFiles', $list);
     }
 
     /**
@@ -117,7 +104,7 @@ class PlgInstallerOverride extends CMSPlugin
     {
         // Get list and store in session.
         $list = $this->getOverrideCoreList();
-        $this->app->getSession()->set('override.afterEventFiles', $list);
+        $this->getApplication()->getSession()->set('override.afterEventFiles', $list);
     }
 
     /**
@@ -131,7 +118,7 @@ class PlgInstallerOverride extends CMSPlugin
      */
     public function getUpdatedFiles($action)
     {
-        $session = $this->app->getSession();
+        $session = $this->getApplication()->getSession();
 
         $after  = $session->get('override.afterEventFiles');
         $before = $session->get('override.beforeEventFiles');
@@ -190,7 +177,7 @@ class PlgInstallerOverride extends CMSPlugin
         $link = 'index.php?option=com_templates&view=templates';
 
         if ($num != 0) {
-            $this->app->enqueueMessage(Text::plural('PLG_INSTALLER_OVERRIDE_N_FILE_UPDATED', $num, $link), 'notice');
+            $this->getApplication()->enqueueMessage(Text::plural('PLG_INSTALLER_OVERRIDE_N_FILE_UPDATED', $num, $link), 'notice');
             $this->saveOverrides($result);
         }
 
@@ -288,7 +275,7 @@ class PlgInstallerOverride extends CMSPlugin
      */
     public function load($id, $exid)
     {
-        $db = $this->db;
+        $db = $this->getDatabase();
 
         // Create a new query object.
         $query = $db->getQuery(true);
@@ -335,10 +322,12 @@ class PlgInstallerOverride extends CMSPlugin
             'client_id',
         ];
 
+        $db = $this->getDatabase();
+
         // Create an insert query.
-        $insertQuery = $this->db->getQuery(true)
-            ->insert($this->db->quoteName('#__template_overrides'))
-            ->columns($this->db->quoteName($columns));
+        $insertQuery = $db->getQuery(true)
+            ->insert($db->quoteName('#__template_overrides'))
+            ->columns($db->quoteName($columns));
 
         foreach ($pks as $pk) {
             $date        = new Date('now');
@@ -351,25 +340,25 @@ class PlgInstallerOverride extends CMSPlugin
             }
 
             if ($this->load($pk->id, $pk->extension_id)) {
-                $updateQuery = $this->db->getQuery(true)
-                    ->update($this->db->quoteName('#__template_overrides'))
+                $updateQuery = $db->getQuery(true)
+                    ->update($db->quoteName('#__template_overrides'))
                     ->set(
                         [
-                            $this->db->quoteName('modified_date') . ' = :modifiedDate',
-                            $this->db->quoteName('action') . ' = :pkAction',
-                            $this->db->quoteName('state') . ' = 0',
+                            $db->quoteName('modified_date') . ' = :modifiedDate',
+                            $db->quoteName('action') . ' = :pkAction',
+                            $db->quoteName('state') . ' = 0',
                         ]
                     )
-                    ->where($this->db->quoteName('hash_id') . ' = :pkId')
-                    ->where($this->db->quoteName('extension_id') . ' = :exId')
+                    ->where($db->quoteName('hash_id') . ' = :pkId')
+                    ->where($db->quoteName('extension_id') . ' = :exId')
                     ->bind(':modifiedDate', $modifiedDate)
                     ->bind(':pkAction', $pk->action)
                     ->bind(':pkId', $pk->id)
                     ->bind(':exId', $pk->extension_id, ParameterType::INTEGER);
 
                 // Set the query using our newly populated query object and execute it.
-                $this->db->setQuery($updateQuery);
-                $this->db->execute();
+                $db->setQuery($updateQuery);
+                $db->execute();
 
                 continue;
             }
@@ -402,8 +391,8 @@ class PlgInstallerOverride extends CMSPlugin
         }
 
         if (!empty($bindArray)) {
-            $this->db->setQuery($insertQuery);
-            $this->db->execute();
+            $db->setQuery($insertQuery);
+            $db->execute();
         }
     }
 }

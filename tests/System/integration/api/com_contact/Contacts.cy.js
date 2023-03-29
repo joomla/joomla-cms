@@ -1,8 +1,6 @@
-afterEach(() => {
-  cy.task('queryDB', 'DELETE FROM #__contact_details');
-});
-
 describe('Test that contacts API endpoint', () => {
+  afterEach(() => cy.task('queryDB', 'DELETE FROM #__contact_details'));
+
   it('can deliver a list of contacts', () => {
     cy.db_createContact({ name: 'automated test contact' })
       .then(() => cy.api_get('/contacts'))

@@ -1,11 +1,7 @@
 import './commands';
 import 'joomla-cypress';
 
-const { registerCommands } = require('../../../node_modules/joomla-cypress/src/index.js');
-
 before(() => {
-  registerCommands();
-
   Cypress.on('uncaught:exception', (err, runnable) => {
     console.log(`err :${err}`);
     console.log(`runnable :${runnable}`);
@@ -13,4 +9,7 @@ before(() => {
   });
 });
 
-afterEach(() => cy.task('cleanupDB'));
+afterEach(() => {
+  cy.checkForPhpNoticesOrWarnings();
+  cy.task('cleanupDB');
+});
