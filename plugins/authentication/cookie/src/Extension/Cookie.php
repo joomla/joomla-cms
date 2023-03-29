@@ -66,8 +66,9 @@ final class Cookie extends CMSPlugin
      */
     public function onUserAuthenticate($credentials, $options, &$response)
     {
-        // No remember me for admin
         $app = $this->getApplication();
+
+        // No remember me for admin
         if ($app->isClient('administrator')) {
             return false;
         }
@@ -225,8 +226,9 @@ final class Cookie extends CMSPlugin
      */
     public function onUserAfterLogin($options)
     {
-        // No remember me for admin
         $app = $this->getApplication();
+
+        // No remember me for admin
         if ($app->isClient('administrator')) {
             return false;
         }
@@ -360,8 +362,9 @@ final class Cookie extends CMSPlugin
      */
     public function onUserAfterLogout($options)
     {
-        // No remember me for admin
         $app = $this->getApplication();
+
+        // No remember me for admin
         if ($app->isClient('administrator')) {
             return false;
         }
