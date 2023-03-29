@@ -39,8 +39,8 @@ describe('Test that the articles category menu item type ', () => {
       .then(() => {
         cy.doFrontendLogin();
         cy.visit('/');
-        cy.get('a:contains(article 1)').click();
-        cy.get('.com-content-article a:contains(Edit)').click();
+        cy.get('a:contains(automated test)').click();
+        cy.get('a:contains(New Article)').click();
 
         cy.get('#adminForm').should('exist');
       });
