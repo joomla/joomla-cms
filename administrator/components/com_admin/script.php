@@ -6557,6 +6557,17 @@ class JoomlaInstallerScript
             '/plugins/installer/packageinstaller/packageinstaller.php',
             '/plugins/installer/urlinstaller/urlinstaller.php',
             '/plugins/installer/webinstaller/webinstaller.php',
+            '/plugins/privacy/actionlogs/actionlogs.php',
+            '/plugins/privacy/consents/consents.php',
+            '/plugins/privacy/contact/contact.php',
+            '/plugins/privacy/content/content.php',
+            '/plugins/privacy/message/message.php',
+            '/plugins/privacy/user/user.php',
+            '/plugins/user/contactcreator/contactcreator.php',
+            '/plugins/user/joomla/joomla.php',
+            '/plugins/user/profile/profile.php',
+            '/plugins/user/terms/terms.php',
+            '/plugins/user/token/token.php',
         ];
 
         $folders = [
