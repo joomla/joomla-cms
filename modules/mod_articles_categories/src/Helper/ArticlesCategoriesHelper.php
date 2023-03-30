@@ -26,7 +26,7 @@ use Joomla\Registry\Registry;
 /**
  * Helper for mod_articles_categories
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5
  */
 class ArticlesCategoriesHelper implements DatabaseAwareInterface
 {
@@ -47,15 +47,14 @@ class ArticlesCategoriesHelper implements DatabaseAwareInterface
         // Joomla\CMS\Categories\Categories options to set
         $options = [];
 
-        // Get the number of items in this category or
-        // descendants of this category at the expense of performance.
+        // Get the number of items in this category or descendants of this category at the expense of performance.
         $options['countItems'] = $moduleParams->get('numitems', 0);
 
-        /** @var CategoryInterface $contentCategoryService */
-        $contentCategoryService = new Category($options);
+        /** @var CategoryInterface $categoryFactory */
+        $categoryFactory = $app->bootComponent('com_content')->getCategory($options);
 
         /** @var CategoryNode $parentCategory */
-        $parentCategory = $contentCategoryService->get($moduleParams->get('parent', 'root'));
+        $parentCategory = $categoryFactory->get($moduleParams->get('parent', 'root'));
 
         $childrenCategories = [];
 
@@ -76,19 +75,19 @@ class ArticlesCategoriesHelper implements DatabaseAwareInterface
     /**
      * Get list of categories
      *
-     * @param Registry &$params module parameters
+     * @param   Registry  &$params  module parameters
      *
-     * @return array
+     * @return  array
      *
-     * @since 1.6
+     * @since   1.6
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
-     *             Use the non-static method getChildrenCategories
-     *             Example: Factory::getApplication()->bootModule('mod_articles_categories', 'site')
-     *                          ->getHelper('ArticlesCategoriesHelper')
-     *                          ->getChildrenCategories($params, Factory::getApplication())
+     * @deprecated  __DEPLOY_VERSION__  will be removed in 6.0
+     *              Use the non-static method getChildrenCategories
+     *              Example: Factory::getApplication()->bootModule('mod_articles_categories', 'site')
+     *                           ->getHelper('ArticlesCategoriesHelper')
+     *                           ->getChildrenCategories($params, Factory::getApplication())
      */
-    public static function getList(Registry &$params): array
+    public static function getList(&$params)
     {
         /** @var SiteApplication $app */
         $app = Factory::getApplication();
