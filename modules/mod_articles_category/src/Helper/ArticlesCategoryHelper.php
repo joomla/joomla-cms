@@ -82,7 +82,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
         $mode = $moduleParams->get('mode', 'normal');
 
         // If we inside an article view, get the article id
-        $active_article_id = $view === 'article' ? $input->getInt('id') : '';
+        $activeArticleId = $view === 'article' ? $input->getInt('id') : '';
 
         switch ($mode) {
             case 'dynamic':
@@ -102,7 +102,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
 
                                     $articleModel->setState('params', $appParams);
                                     $articleModel->setState('filter.published', 1);
-                                    $articleModel->setState('article.id', (int) $active_article_id);
+                                    $articleModel->setState('article.id', (int) $activeArticleId);
                                     $item   = $articleModel->getItem();
                                     $catids = [$item->catid];
                                 } else {
@@ -239,7 +239,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
         $itemParams->show_introtext   = $moduleParams->get('show_introtext', 0);
         $itemParams->introtext_limit  = $moduleParams->get('introtext_limit', 100);
 
-        $itemParams->active_article_id = $active_article_id;
+        $itemParams->active_article_id = $activeArticleId;
         $itemParams->authorised        = Access::getAuthorisedViewLevels($app->getIdentity()->get('id'));
         $itemParams->access            = $access;
         $itemParams->url_param_itemid  = $input->getInt('Itemid');
@@ -360,7 +360,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      *                          ->getHelper('ArticlesCategoryHelper')
      *                          ->getArticles($params, Factory::getApplication())
      */
-    public static function getList(Registry &$params): array
+    public static function getList(&$params)
     {
         /* @var SiteApplication $app */
         $app = Factory::getApplication();
@@ -377,7 +377,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      *
      * @since 1.6
      */
-    public static function _cleanIntrotext(string $introtext): string
+    public static function _cleanIntrotext($introtext)
     {
         $introtext = str_replace(['<p>', '</p>'], ' ', $introtext);
         $introtext = strip_tags($introtext, '<a><em><strong><joomla-hidden-mail>');
@@ -398,7 +398,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      *
      * @since 1.6
      */
-    public static function truncate(string $html, int $maxLength = 0): string
+    public static function truncate($html, $maxLength = 0)
     {
         $baseLength = \strlen($html);
 
@@ -449,7 +449,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      *
      * @since 1.6
      */
-    public static function groupBy(array $list, string $fieldName, string $direction, $fieldNameToKeep = null): array
+    public static function groupBy($list, $fieldName, $direction, $fieldNameToKeep = null)
     {
         $grouped = [];
 
@@ -485,13 +485,8 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      *
      * @since 1.6
      */
-    public static function groupByDate(
-        array $list,
-        string $direction = 'ksort',
-        string $type = 'year',
-        string $monthYearFormat = 'F Y',
-        string $field = 'created'
-    ): array {
+    public static function groupByDate($list, $direction = 'ksort', $type = 'year', $monthYearFormat = 'F Y', $field = 'created')
+    {
         $grouped = [];
 
         foreach ($list as $key => $item) {
@@ -545,7 +540,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      *
      * @since 3.9.0
      */
-    public static function groupByTags(array $list, string $direction = 'ksort'): array
+    public static function groupByTags($list, $direction = 'ksort')
     {
         $grouped  = [];
         $untagged = [];
