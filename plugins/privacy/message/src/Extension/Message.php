@@ -2,35 +2,34 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Privacy.content
+ * @subpackage  Privacy.message
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
+
+namespace Joomla\Plugin\Privacy\Message\Extension;
 
 use Joomla\CMS\User\User;
 use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
+use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Privacy plugin managing Joomla user content data
+ * Privacy plugin managing Joomla user messages
  *
  * @since  3.9.0
  */
-class PlgPrivacyContent extends PrivacyPlugin
+final class Message extends PrivacyPlugin
 {
     /**
-     * Processes an export request for Joomla core user content data
+     * Processes an export request for Joomla core user message
      *
-     * This event will collect data for the content core table
-     *
-     * - Content custom fields
+     * This event will collect data for the message table
      *
      * @param   RequestTable  $request  The request record being processed
      * @param   User          $user     The user account associated with this request if available
@@ -45,24 +44,23 @@ class PlgPrivacyContent extends PrivacyPlugin
             return [];
         }
 
-        $domains   = [];
-        $domain    = $this->createDomain('user_content', 'joomla_user_content_data');
-        $domains[] = $domain;
+        $domain = $this->createDomain('user_messages', 'joomla_user_messages_data');
+        $db     = $this->getDatabase();
 
-        $query = $this->db->getQuery(true)
+        $query = $db->getQuery(true)
             ->select('*')
-            ->from($this->db->quoteName('#__content'))
-            ->where($this->db->quoteName('created_by') . ' = ' . (int) $user->id)
-            ->order($this->db->quoteName('ordering') . ' ASC');
+            ->from($db->quoteName('#__messages'))
+            ->where($db->quoteName('user_id_from') . ' = :useridfrom')
+            ->extendWhere('OR', $db->quoteName('user_id_to') . ' = :useridto')
+            ->order($db->quoteName('date_time') . ' ASC')
+            ->bind([':useridfrom', ':useridto'], $user->id, ParameterType::INTEGER);
 
-        $items = $this->db->setQuery($query)->loadObjectList();
+        $items = $db->setQuery($query)->loadAssocList();
 
         foreach ($items as $item) {
-            $domain->addItem($this->createItemFromArray((array) $item));
+            $domain->addItem($this->createItemFromArray($item));
         }
 
-        $domains[] = $this->createCustomFieldsDomain('com_content.article', $items);
-
-        return $domains;
+        return [$domain];
     }
 }
