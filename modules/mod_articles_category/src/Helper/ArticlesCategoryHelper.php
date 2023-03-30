@@ -35,7 +35,7 @@ use Joomla\String\StringHelper;
 /**
  * Helper for mod_articles_category
  *
- * @since __DEPLOY_VERSION__
+ * @since 1.6
  */
 class ArticlesCategoryHelper implements DatabaseAwareInterface
 {
