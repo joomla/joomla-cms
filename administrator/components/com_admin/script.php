@@ -99,7 +99,6 @@ class JoomlaInstallerScript
         $this->updateDatabase();
         $this->updateAssets($installer);
         $this->clearStatsCache();
-        $this->addUserAuthProviderColumn();
         $this->cleanJoomlaCache();
     }
 
@@ -1346,38 +1345,6 @@ class JoomlaInstallerScript
                     File::delete(JPATH_ROOT . $old);
                 }
             }
-        }
-    }
-
-    /**
-     * Add the user Auth Provider Column as it could be present from 3.10 already
-     *
-     * @return  void
-     *
-     * @since   4.1.1
-     */
-    protected function addUserAuthProviderColumn(): void
-    {
-        $db = Factory::getContainer()->get('DatabaseDriver');
-
-        // Check if the column already exists
-        $fields = $db->getTableColumns('#__users');
-
-        // Column exists, skip
-        if (isset($fields['authProvider'])) {
-            return;
-        }
-
-        $query = 'ALTER TABLE ' . $db->quoteName('#__users')
-            . ' ADD COLUMN ' . $db->quoteName('authProvider') . ' varchar(100) DEFAULT ' . $db->quote('') . ' NOT NULL';
-
-        // Add column
-        try {
-            $db->setQuery($query)->execute();
-        } catch (Exception $e) {
-            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
-
-            return;
         }
     }
 }
