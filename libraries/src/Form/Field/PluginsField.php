@@ -119,6 +119,8 @@ class PluginsField extends ListField
 
         if (empty($folder)) {
             Log::add(Text::_('JFRAMEWORK_FORM_FIELDS_PLUGINS_ERROR_FOLDER_EMPTY'), Log::WARNING, 'jerror');
+
+            return $parentOptions;
         }
 
         // Get list of plugins
