@@ -537,7 +537,7 @@ class JoomlaInstallerScript
         $extensions = ExtensionHelper::getCoreExtensions();
 
         // If we have the search package around, it may not have a manifest cache entry after upgrades from 3.x, so add it to the list
-        if (File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml')) {
+        if (is_file(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml')) {
             $extensions[] = ['package', 'pkg_search', '', 0];
         }
 
@@ -1045,7 +1045,7 @@ class JoomlaInstallerScript
         $status['folders_checked'] = $folders;
 
         foreach ($files as $file) {
-            if ($fileExists = File::exists(JPATH_ROOT . $file)) {
+            if ($fileExists = is_file(JPATH_ROOT . $file)) {
                 $status['files_exist'][] = $file;
 
                 if ($dryRun === false) {
@@ -1083,8 +1083,8 @@ class JoomlaInstallerScript
          * but an update has put the files back. In that case it exists even if they don't believe in it!
          */
         if (
-            !File::exists(JPATH_ROOT . '/administrator/components/com_search/search.php')
-            && File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml')
+            !is_file(JPATH_ROOT . '/administrator/components/com_search/search.php')
+            && is_file(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml')
         ) {
             File::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml');
         }
@@ -1160,26 +1160,6 @@ class JoomlaInstallerScript
         // Clean admin cache
         $model->setState('client_id', 1);
         $model->clean();
-    }
-
-    /**
-     * This method drops the #__utf8_conversion table
-     *
-     * @return  boolean  True on success
-     *
-     * @since   4.0.0
-     */
-    private function dropUtf8ConversionTable()
-    {
-        $db = Factory::getDbo();
-
-        try {
-            $db->setQuery('DROP TABLE ' . $db->quoteName('#__utf8_conversion') . ';')->execute();
-        } catch (Exception $e) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
