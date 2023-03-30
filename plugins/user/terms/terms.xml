@@ -11,8 +11,8 @@
 	<description>PLG_USER_TERMS_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\User\Terms</namespace>
 	<files>
-		<filename plugin="terms">terms.php</filename>
 		<folder>forms</folder>
+		<folder plugin="terms">services</folder>
 		<folder>src</folder>
 	</files>
 	<languages>

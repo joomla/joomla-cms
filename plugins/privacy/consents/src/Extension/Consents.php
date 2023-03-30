@@ -6,9 +6,9 @@
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
+
+namespace Joomla\Plugin\Privacy\Consents\Extension;
 
 use Joomla\CMS\User\User;
 use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
@@ -24,7 +24,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  3.9.0
  */
-class PlgPrivacyConsents extends PrivacyPlugin
+final class Consents extends PrivacyPlugin
 {
     /**
      * Processes an export request for Joomla core user consent data
@@ -45,7 +45,7 @@ class PlgPrivacyConsents extends PrivacyPlugin
         }
 
         $domain = $this->createDomain('consents', 'joomla_consent_data');
-        $db     = $this->db;
+        $db     = $this->getDatabase();
 
         $query = $db->getQuery(true)
             ->select('*')
