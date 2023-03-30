@@ -104,7 +104,7 @@ class Banner
             1 => [
                 'sticky_unpublish',
                 'COM_BANNERS_BANNERS_PINNED',
-                'COM_BANNERS_BANNERS_HTML_PIN_BANNER',
+                'COM_BANNERS_BANNERS_HTML_UNPIN_BANNER',
                 'COM_BANNERS_BANNERS_PINNED',
                 true,
                 'publish',
@@ -113,7 +113,7 @@ class Banner
             0 => [
                 'sticky_publish',
                 'COM_BANNERS_BANNERS_UNPINNED',
-                'COM_BANNERS_BANNERS_HTML_UNPIN_BANNER',
+                'COM_BANNERS_BANNERS_HTML_PIN_BANNER',
                 'COM_BANNERS_BANNERS_UNPINNED',
                 true,
                 'unpublish',

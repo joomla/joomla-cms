@@ -187,7 +187,7 @@ class ApplicationModel extends FormModel
                     return false;
                 }
 
-                if (!File::exists(Path::clean($data['dbsslca']))) {
+                if (!is_file(Path::clean($data['dbsslca']))) {
                     Factory::getApplication()->enqueueMessage(
                         Text::sprintf(
                             'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
@@ -219,7 +219,7 @@ class ApplicationModel extends FormModel
                     return false;
                 }
 
-                if (!File::exists(Path::clean($data['dbsslkey']))) {
+                if (!is_file(Path::clean($data['dbsslkey']))) {
                     Factory::getApplication()->enqueueMessage(
                         Text::sprintf(
                             'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
@@ -243,7 +243,7 @@ class ApplicationModel extends FormModel
                     return false;
                 }
 
-                if (!File::exists(Path::clean($data['dbsslcert']))) {
+                if (!is_file(Path::clean($data['dbsslcert']))) {
                     Factory::getApplication()->enqueueMessage(
                         Text::sprintf(
                             'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
