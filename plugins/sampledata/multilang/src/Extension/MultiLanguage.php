@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\SampleData\MultiLanguage\Extension;
 
+use Exception;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
@@ -25,6 +26,7 @@ use Joomla\CMS\Workflow\Workflow;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use RuntimeException;
 use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
