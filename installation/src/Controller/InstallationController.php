@@ -11,7 +11,6 @@
 namespace Joomla\CMS\Installation\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Session\Session;
@@ -66,7 +65,7 @@ class InstallationController extends JSONController
 
         /** @var \Joomla\CMS\Installation\Model\SetupModel $model */
         $model = $this->getModel('Setup');
-        $data  = Factory::getApplication()->input->post->get('jform', [], 'array');
+        $data  = $this->app->input->post->get('jform', [], 'array');
 
         if ($model->validate($data, 'setup') === false) {
             $this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
@@ -168,7 +167,7 @@ class InstallationController extends JSONController
 
         if (!isset($files[$step])) {
             $r->view = 'setup';
-            Factory::getApplication()->enqueueMessage(Text::_('INSTL_SAMPLE_DATA_NOT_FOUND'), 'error');
+            $this->app->enqueueMessage(Text::_('INSTL_SAMPLE_DATA_NOT_FOUND'), 'error');
             $this->sendJsonResponse($r);
         }
 
