@@ -6,23 +6,25 @@
  *
  * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+namespace Joomla\Plugin\User\Joomla\Extension;
+
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryInterface;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
+use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -33,21 +35,9 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-class PlgUserJoomla extends CMSPlugin
+final class Joomla extends CMSPlugin
 {
-    /**
-     * @var    \Joomla\CMS\Application\CMSApplication
-     *
-     * @since  3.2
-     */
-    protected $app;
-
-    /**
-     * @var    \Joomla\Database\DatabaseDriver
-     *
-     * @since  3.2
-     */
-    protected $db;
+    use DatabaseAwareTrait;
 
     /**
      * Set as required the passwords fields when mail to user is set to No
@@ -68,7 +58,7 @@ class PlgUserJoomla extends CMSPlugin
             // In case there is a validation error (like duplicated user), $data is an empty array on save.
             // After returning from error, $data is an array but populated
             if (!$data) {
-                $data = Factory::getApplication()->getInput()->get('jform', [], 'array');
+                $data = $this->getApplication()->getInput()->get('jform', [], 'array');
             }
 
             if (is_array($data)) {
@@ -107,15 +97,17 @@ class PlgUserJoomla extends CMSPlugin
         $userId = (int) $user['id'];
 
         // Only execute this if the session metadata is tracked
-        if ($this->app->get('session_metadata', true)) {
+        if ($this->getApplication()->get('session_metadata', true)) {
             UserHelper::destroyUserSessions($userId, true);
         }
 
+        $db = $this->getDatabase();
+
         try {
-            $this->db->setQuery(
-                $this->db->getQuery(true)
-                    ->delete($this->db->quoteName('#__messages'))
-                    ->where($this->db->quoteName('user_id_from') . ' = :userId')
+            $db->setQuery(
+                $db->getQuery(true)
+                    ->delete($db->quoteName('#__messages'))
+                    ->where($db->quoteName('user_id_from') . ' = :userId')
                     ->bind(':userId', $userId, ParameterType::INTEGER)
             )->execute();
         } catch (ExecutionFailureException $e) {
@@ -124,27 +116,27 @@ class PlgUserJoomla extends CMSPlugin
 
         // Delete Multi-factor Authentication user profile records
         $profileKey = 'mfa.%';
-        $query      = $this->db->getQuery(true)
-            ->delete($this->db->quoteName('#__user_profiles'))
-            ->where($this->db->quoteName('user_id') . ' = :userId')
-            ->where($this->db->quoteName('profile_key') . ' LIKE :profileKey')
+        $query      = $db->getQuery(true)
+            ->delete($db->quoteName('#__user_profiles'))
+            ->where($db->quoteName('user_id') . ' = :userId')
+            ->where($db->quoteName('profile_key') . ' LIKE :profileKey')
             ->bind(':userId', $userId, ParameterType::INTEGER)
             ->bind(':profileKey', $profileKey, ParameterType::STRING);
 
         try {
-            $this->db->setQuery($query)->execute();
+            $db->setQuery($query)->execute();
         } catch (Exception $e) {
             // Do nothing
         }
 
         // Delete Multi-factor Authentication records
-        $query = $this->db->getQuery(true)
-            ->delete($this->db->quoteName('#__user_mfa'))
-            ->where($this->db->quoteName('user_id') . ' = :userId')
+        $query = $db->getQuery(true)
+            ->delete($db->quoteName('#__user_mfa'))
+            ->where($db->quoteName('user_id') . ' = :userId')
             ->bind(':userId', $userId, ParameterType::INTEGER);
 
         try {
-            $this->db->setQuery($query)->execute();
+            $db->setQuery($query)->execute();
         } catch (Exception $e) {
             // Do nothing
         }
@@ -172,21 +164,22 @@ class PlgUserJoomla extends CMSPlugin
             return;
         }
 
+        $app           = $this->getApplication();
+        $language      = $app->getLanguage();
+        $defaultLocale = $language->getTag();
+
         // @todo: Suck in the frontend registration emails here as well. Job for a rainy day.
         // The method check here ensures that if running as a CLI Application we don't get any errors
-        if (method_exists($this->app, 'isClient') && ($this->app->isClient('site') || $this->app->isClient('cli'))) {
+        if (method_exists($app, 'isClient') && ($app->isClient('site') || $app->isClient('cli'))) {
             return;
         }
 
         // Check if we have a sensible from email address, if not bail out as mail would not be sent anyway
-        if (strpos($this->app->get('mailfrom'), '@') === false) {
-            $this->app->enqueueMessage(Text::_('JERROR_SENDING_EMAIL'), 'warning');
+        if (strpos($app->get('mailfrom'), '@') === false) {
+            $app->enqueueMessage($language->_('JERROR_SENDING_EMAIL'), 'warning');
 
             return;
         }
-
-        $defaultLanguage = Factory::getLanguage();
-        $defaultLocale   = $defaultLanguage->getTag();
 
         /**
          * Look for user language. Priority:
@@ -200,7 +193,11 @@ class PlgUserJoomla extends CMSPlugin
         if ($userLocale !== $defaultLocale) {
             Factory::$language = Factory::getContainer()
                 ->get(LanguageFactoryInterface::class)
-                ->createLanguage($userLocale, $this->app->get('debug_lang', false));
+                ->createLanguage($userLocale, $app->get('debug_lang', false));
+
+            if (method_exists($app, 'loadLanguage')) {
+                $app->loadLanguage(Factory::$language);
+            }
         }
 
         // Load plugin language files.
@@ -209,7 +206,7 @@ class PlgUserJoomla extends CMSPlugin
         // Collect data for mail
         $data = [
             'name'     => $user['name'],
-            'sitename' => $this->app->get('sitename'),
+            'sitename' => $app->get('sitename'),
             'url'      => Uri::root(),
             'username' => $user['username'],
             'password' => $user['password_clear'],
@@ -224,23 +221,27 @@ class PlgUserJoomla extends CMSPlugin
             $res = $mailer->send();
         } catch (\Exception $exception) {
             try {
-                Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+                Log::add($language->_($exception->getMessage()), Log::WARNING, 'jerror');
 
                 $res = false;
             } catch (\RuntimeException $exception) {
-                $this->app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                $app->enqueueMessage($language->_($exception->getMessage()), 'warning');
 
                 $res = false;
             }
         }
 
         if ($res === false) {
-            $this->app->enqueueMessage(Text::_('JERROR_SENDING_EMAIL'), 'warning');
+            $app->enqueueMessage($language->_('JERROR_SENDING_EMAIL'), 'warning');
         }
 
         // Set application language back to default if we changed it
         if ($userLocale !== $defaultLocale) {
-            Factory::$language = $defaultLanguage;
+            Factory::$language = $language;
+
+            if (method_exists($app, 'loadLanguage')) {
+                $app->loadLanguage($language);
+            }
         }
     }
 
@@ -256,16 +257,16 @@ class PlgUserJoomla extends CMSPlugin
      */
     public function onUserLogin($user, $options = [])
     {
-        $instance = $this->_getUser($user, $options);
+        $instance = $this->getUser($user, $options);
 
-        // If _getUser returned an error, then pass it back.
+        // If getUser returned an error, then pass it back.
         if ($instance instanceof Exception) {
             return false;
         }
 
         // If the user is blocked, redirect with an error
         if ($instance->block == 1) {
-            $this->app->enqueueMessage(Text::_('JERROR_NOLOGIN_BLOCKED'), 'warning');
+            $this->getApplication()->enqueueMessage($this->getApplication()->getLanguage()->_('JERROR_NOLOGIN_BLOCKED'), 'warning');
 
             return false;
         }
@@ -279,7 +280,7 @@ class PlgUserJoomla extends CMSPlugin
         $result = $instance->authorise($options['action']);
 
         if (!$result) {
-            $this->app->enqueueMessage(Text::_('JERROR_LOGIN_DENIED'), 'warning');
+            $this->getApplication()->enqueueMessage($this->getApplication()->getLanguage()->_('JERROR_LOGIN_DENIED'), 'warning');
 
             return false;
         }
@@ -288,9 +289,9 @@ class PlgUserJoomla extends CMSPlugin
         $instance->guest = 0;
 
         // Load the logged in user to the application
-        $this->app->loadIdentity($instance);
+        $this->getApplication()->loadIdentity($instance);
 
-        $session = $this->app->getSession();
+        $session = $this->getApplication()->getSession();
 
         // Grab the current session ID
         $oldSessionId = $session->getId();
@@ -302,18 +303,20 @@ class PlgUserJoomla extends CMSPlugin
         $session->set('user', $instance);
 
         // Update the user related fields for the Joomla sessions table if tracking session metadata.
-        if ($this->app->get('session_metadata', true)) {
-            $this->app->checkSession();
+        if ($this->getApplication()->get('session_metadata', true)) {
+            $this->getApplication()->checkSession();
         }
 
+        $db = $this->getDatabase();
+
         // Purge the old session
-        $query = $this->db->getQuery(true)
-            ->delete($this->db->quoteName('#__session'))
-            ->where($this->db->quoteName('session_id') . ' = :sessionid')
+        $query = $db->getQuery(true)
+            ->delete($db->quoteName('#__session'))
+            ->where($db->quoteName('session_id') . ' = :sessionid')
             ->bind(':sessionid', $oldSessionId);
 
         try {
-            $this->db->setQuery($query)->execute();
+            $db->setQuery($query)->execute();
         } catch (RuntimeException $e) {
             // The old session is already invalidated, don't let this block logging in
         }
@@ -322,14 +325,14 @@ class PlgUserJoomla extends CMSPlugin
         $instance->setLastVisit();
 
         // Add "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
-        if ($this->app->isClient('site')) {
-            $this->app->getInput()->cookie->set(
+        if ($this->getApplication()->isClient('site')) {
+            $this->getApplication()->getInput()->cookie->set(
                 'joomla_user_state',
                 'logged_in',
                 0,
-                $this->app->get('cookie_path', '/'),
-                $this->app->get('cookie_domain', ''),
-                $this->app->isHttpsForced(),
+                $this->getApplication()->get('cookie_path', '/'),
+                $this->getApplication()->get('cookie_domain', ''),
+                $this->getApplication()->isHttpsForced(),
                 true
             );
         }
@@ -359,10 +362,10 @@ class PlgUserJoomla extends CMSPlugin
             return true;
         }
 
-        $sharedSessions = $this->app->get('shared_session', '0');
+        $sharedSessions = $this->getApplication()->get('shared_session', '0');
 
         // Check to see if we're deleting the current session
-        if ($my->id == $userid && ($sharedSessions || (!$sharedSessions && $options['clientid'] == $this->app->getClientId()))) {
+        if ($my->id == $userid && ($sharedSessions || (!$sharedSessions && $options['clientid'] == $this->getApplication()->getClientId()))) {
             // Hit the user last visit field
             $my->setLastVisit();
 
@@ -371,7 +374,7 @@ class PlgUserJoomla extends CMSPlugin
         }
 
         // Enable / Disable Forcing logout all users with same userid, but only if session metadata is tracked
-        $forceLogout = $this->params->get('forceLogout', 1) && $this->app->get('session_metadata', true);
+        $forceLogout = $this->params->get('forceLogout', 1) && $this->getApplication()->get('session_metadata', true);
 
         if ($forceLogout) {
             $clientId = $sharedSessions ? null : (int) $options['clientid'];
@@ -379,8 +382,8 @@ class PlgUserJoomla extends CMSPlugin
         }
 
         // Delete "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
-        if ($this->app->isClient('site')) {
-            $this->app->getInput()->cookie->set('joomla_user_state', '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+        if ($this->getApplication()->isClient('site')) {
+            $this->getApplication()->getInput()->cookie->set('joomla_user_state', '', 1, $this->getApplication()->get('cookie_path', '/'), $this->getApplication()->get('cookie_domain', ''));
         }
 
         return true;
@@ -402,7 +405,7 @@ class PlgUserJoomla extends CMSPlugin
      */
     public function onUserAfterLogin(array $options): void
     {
-        if (!($this->app->isClient('administrator')) && !($this->app->isClient('site'))) {
+        if (!($this->getApplication()->isClient('administrator')) && !($this->getApplication()->isClient('site'))) {
             return;
         }
 
@@ -447,7 +450,7 @@ class PlgUserJoomla extends CMSPlugin
         }
 
         // Set the flag indicating that MFA is already checked.
-        $this->app->getSession()->set('com_users.mfa_checked', 1);
+        $this->getApplication()->getSession()->set('com_users.mfa_checked', 1);
     }
 
     /**
@@ -462,7 +465,7 @@ class PlgUserJoomla extends CMSPlugin
      *
      * @since   1.5
      */
-    protected function _getUser($user, $options = [])
+    private function getUser($user, $options = [])
     {
         $instance = User::getInstance();
         $id       = (int) UserHelper::getUserId($user['username']);
