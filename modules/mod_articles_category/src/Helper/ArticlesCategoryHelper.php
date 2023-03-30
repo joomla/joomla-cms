@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @package    Joomla.Site
- * @subpackage mod_articles_category
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_category
  *
- * @copyright (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
- * @license   GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Module\ArticlesCategory\Site\Helper;
@@ -24,7 +24,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -35,7 +34,7 @@ use Joomla\String\StringHelper;
 /**
  * Helper for mod_articles_category
  *
- * @since 1.6
+ * @since  1.6
  */
 class ArticlesCategoryHelper implements DatabaseAwareInterface
 {
@@ -44,12 +43,12 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
     /**
      * Retrieve a list of article
      *
-     * @param Registry        $moduleParams The module parameters.
-     * @param SiteApplication $app          The current application.
+     * @param   Registry         $moduleParams  The module parameters.
+     * @param   SiteApplication  $app           The current application.
      *
-     * @return object[]
+     * @return  object[]
      *
-     * @since __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function getArticles(Registry $moduleParams, SiteApplication $app)
     {
@@ -281,12 +280,12 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
     /**
      * Prepare the article before render.
      *
-     * @param object    $item   The article to prepare
-     * @param \stdClass $params The model item
+     * @param   object     $item    The article to prepare
+     * @param   \stdClass  $params  The model item
      *
-     * @return object
+     * @return  object
      *
-     * @since __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     private function prepareItem(object $item, \stdClass $params): object
     {
@@ -348,17 +347,17 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
     /**
      * Get a list of articles from a specific category
      *
-     * @param Registry &$params object holding the models parameters
+     * @param   Registry  &$params  object holding the models parameters
      *
-     * @return array The array of users
+     * @return  array  The array of users
      *
-     * @since 1.6
+     * @since   1.6
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
-     *             Use the non-static method getArticles
-     *             Example: Factory::getApplication()->bootModule('mod_articles_category', 'site')
-     *                          ->getHelper('ArticlesCategoryHelper')
-     *                          ->getArticles($params, Factory::getApplication())
+     * @deprecated  __DEPLOY_VERSION__  will be removed in 6.0
+     *              Use the non-static method getArticles
+     *              Example: Factory::getApplication()->bootModule('mod_articles_category', 'site')
+     *                           ->getHelper('ArticlesCategoryHelper')
+     *                           ->getArticles($params, Factory::getApplication())
      */
     public static function getList(&$params)
     {
@@ -371,11 +370,11 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
     /**
      * Strips unnecessary tags from the introtext
      *
-     * @param string $introtext introtext to sanitize
+     * @param   string  $introtext  introtext to sanitize
      *
-     * @return string
+     * @return  string
      *
-     * @since 1.6
+     * @since   1.6
      */
     public static function _cleanIntrotext($introtext)
     {
@@ -391,12 +390,12 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      * The goal is to get the proper length plain text string with as much of
      * the html intact as possible with all tags properly closed.
      *
-     * @param string $html      The content of the introtext to be truncated
-     * @param int    $maxLength The maximum number of characters to render
+     * @param   string  $html       The content of the introtext to be truncated
+     * @param   int     $maxLength  The maximum number of characters to render
      *
-     * @return string The truncated string
+     * @return  string  The truncated string
      *
-     * @since 1.6
+     * @since   1.6
      */
     public static function truncate($html, $maxLength = 0)
     {
@@ -440,14 +439,14 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
     /**
      * Groups items by field
      *
-     * @param array  $list            list of items
-     * @param string $fieldName       name of field that is used for grouping
-     * @param string $direction       ordering direction
-     * @param null   $fieldNameToKeep field name to keep
+     * @param   array   $list             list of items
+     * @param   string  $fieldName        name of field that is used for grouping
+     * @param   string  $direction        ordering direction
+     * @param   null    $fieldNameToKeep  field name to keep
      *
-     * @return array
+     * @return  array
      *
-     * @since 1.6
+     * @since   1.6
      */
     public static function groupBy($list, $fieldName, $direction, $fieldNameToKeep = null)
     {
@@ -475,15 +474,15 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
     /**
      * Groups items by date
      *
-     * @param array  $list            list of items
-     * @param string $direction       ordering direction
-     * @param string $type            type of grouping
-     * @param string $monthYearFormat date format to use
-     * @param string $field           date field to group by
+     * @param   array   $list             list of items
+     * @param   string  $direction        ordering direction
+     * @param   string  $type             type of grouping
+     * @param   string  $monthYearFormat  date format to use
+     * @param   string  $field            date field to group by
      *
-     * @return array
+     * @return  array
      *
-     * @since 1.6
+     * @since   1.6
      */
     public static function groupByDate($list, $direction = 'ksort', $type = 'year', $monthYearFormat = 'F Y', $field = 'created')
     {
@@ -533,12 +532,12 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
     /**
      * Groups items by tags
      *
-     * @param array  $list      list of items
-     * @param string $direction ordering direction
+     * @param   array   $list       list of items
+     * @param   string  $direction  ordering direction
      *
-     * @return array
+     * @return  array
      *
-     * @since 3.9.0
+     * @since   3.9.0
      */
     public static function groupByTags($list, $direction = 'ksort')
     {
