@@ -848,16 +848,6 @@ ENDDATA;
             File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/update.php');
         }
 
-        // Remove the legacy restoration.php file (when updating from Joomla 4.0.2 and earlier).
-        if (is_file(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php')) {
-            File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php');
-        }
-
-        // Remove the legacy restore_finalisation.php file used in Joomla 4.0.2 and earlier.
-        if (is_file(JPATH_COMPONENT_ADMINISTRATOR . '/restore_finalisation.php')) {
-            File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restore_finalisation.php');
-        }
-
         // Remove joomla.xml from the site's root.
         if (is_file(JPATH_ROOT . '/joomla.xml')) {
             File::delete(JPATH_ROOT . '/joomla.xml');
