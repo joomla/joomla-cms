@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\Skipto\Extension;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 // phpcs:disable PSR1.Files.SideEffects
