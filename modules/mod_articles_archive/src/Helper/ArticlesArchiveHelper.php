@@ -71,9 +71,8 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
 
         // Prepare the module output
         $items  = [];
-        $menu   = $app->getMenu();
 
-        $menuItem       = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
+        $menuItem       = $app->getMenu()->getItems('link', 'index.php?option=com_content&view=archive', true);
         $urlParamItemid = (isset($menuItem) && !empty($menuItem->id)) ? '&Itemid=' . $menuItem->id : '';
 
         foreach ($articlesModel->countItemsByMonth() as $month) {
@@ -106,7 +105,7 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
         $archivedArticlesMonth = new \stdClass();
 
         $archivedArticlesMonth->link        = Route::_('index.php?option=com_content&view=archive&year=' . $createdYear . '&month=' . $createdMonth . $urlParamItemid);
-        $archivedArticlesMonth->name        = Text::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $monthNameCal, $createdYearCal);
+        $archivedArticlesMonth->text        = Text::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $monthNameCal, $createdYearCal);
         $archivedArticlesMonth->numarticles = $month->c;
 
         return $archivedArticlesMonth;
