@@ -360,6 +360,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
                     'OR'
                 );
 
+                $now = Factory::getDate()->toSql();
                 $query->bind(':publishUp', $now);
                 $query->bind(':publishDown', $now);
             }
