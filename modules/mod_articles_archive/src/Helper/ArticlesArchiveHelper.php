@@ -59,7 +59,7 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
 
         // Filter by language
         if ($app->getLanguageFilter()) {
-            $query->whereIn($db->quoteName('language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
+            $query->whereIn($db->quoteName('language'), [$app->getLanguage()->getTag(), '*'], ParameterType::STRING);
         }
 
         $query->setLimit((int) $moduleParams->get('count'));
