@@ -265,7 +265,7 @@ final class Stats extends CMSPlugin
      *
      * @since   3.5
      */
-    protected function getLayoutData()
+    private function getLayoutData()
     {
         return [
             'plugin'       => $this,
@@ -281,7 +281,7 @@ final class Stats extends CMSPlugin
      *
      * @since   3.5
      */
-    protected function getLayoutPaths()
+    private function getLayoutPaths()
     {
         $template = $this->getApplication()->getTemplate();
 
@@ -300,7 +300,7 @@ final class Stats extends CMSPlugin
      *
      * @since   3.5
      */
-    protected function getRenderer($layoutId = 'default')
+    private function getRenderer($layoutId = 'default')
     {
         $renderer = new FileLayout($layoutId);
 

@@ -14,7 +14,6 @@ use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
@@ -290,7 +289,7 @@ final class Schedulerunner extends CMSPlugin implements SubscriberInterface
      * @since 4.1.0
      * @throws RuntimeException
      */
-    protected function runScheduler(int $id = 0): ?Task
+    private function runScheduler(int $id = 0): ?Task
     {
         return (new Scheduler())->runTask(['id' => $id]);
     }
