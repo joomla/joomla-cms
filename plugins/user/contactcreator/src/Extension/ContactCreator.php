@@ -6,11 +6,10 @@
  *
  * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Language\Text;
+namespace Joomla\Plugin\User\ContactCreator\Extension;
+
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Contact\Administrator\Table\ContactTable;
 use Joomla\String\StringHelper;
@@ -26,7 +25,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-class PlgUserContactCreator extends CMSPlugin
+final class ContactCreator extends CMSPlugin
 {
     /**
      * Load the language file on instantiation.
@@ -35,22 +34,6 @@ class PlgUserContactCreator extends CMSPlugin
      * @since  3.1
      */
     protected $autoloadLanguage = true;
-
-    /**
-     * Application Instance
-     *
-     * @var    \Joomla\CMS\Application\CMSApplication
-     * @since  4.0.0
-     */
-    protected $app;
-
-    /**
-     * Database Driver Instance
-     *
-     * @var    \Joomla\Database\DatabaseDriver
-     * @since  4.0.0
-     */
-    protected $db;
 
     /**
      * Utility method to act on a user after it has been saved.
@@ -89,7 +72,7 @@ class PlgUserContactCreator extends CMSPlugin
         $categoryId = $this->params->get('category', 0);
 
         if (empty($categoryId)) {
-            $this->app->enqueueMessage(Text::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'), 'error');
+            $this->getApplication()->enqueueMessage($this->getApplication()->getLanguage()->_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'), 'error');
 
             return;
         }
@@ -107,7 +90,7 @@ class PlgUserContactCreator extends CMSPlugin
             $contact->user_id  = $user_id;
             $contact->email_to = $user['email'];
             $contact->catid    = $categoryId;
-            $contact->access   = (int) $this->app->get('access');
+            $contact->access   = (int) $this->getApplication()->get('access');
             $contact->language = '*';
             $contact->generateAlias();
 
@@ -137,7 +120,7 @@ class PlgUserContactCreator extends CMSPlugin
             }
         }
 
-        $this->app->enqueueMessage(Text::_('PLG_CONTACTCREATOR_ERR_FAILED_CREATING_CONTACT'), 'error');
+        $this->getApplication()->enqueueMessage($this->getApplication()->getLanguage()->_('PLG_CONTACTCREATOR_ERR_FAILED_CREATING_CONTACT'), 'error');
     }
 
     /**
@@ -151,7 +134,7 @@ class PlgUserContactCreator extends CMSPlugin
      *
      * @since   3.2.3
      */
-    protected function generateAliasAndName($alias, $name, $categoryId)
+    private function generateAliasAndName($alias, $name, $categoryId)
     {
         $table = $this->getContactTable();
 
@@ -173,8 +156,8 @@ class PlgUserContactCreator extends CMSPlugin
      *
      * @since   3.2.3
      */
-    protected function getContactTable()
+    private function getContactTable()
     {
-        return $this->app->bootComponent('com_contact')->getMVCFactory()->createTable('Contact', 'Administrator', ['dbo' => $this->db]);
+        return $this->getApplication()->bootComponent('com_contact')->getMVCFactory()->createTable('Contact', 'Administrator');
     }
 }
