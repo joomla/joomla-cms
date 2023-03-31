@@ -16,9 +16,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
-use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -46,69 +46,58 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
      */
     public function getArticlesByMonths(Registry $moduleParams, SiteApplication $app): array
     {
-        $mvcContentFactory = $app->bootComponent('com_content')->getMVCFactory();
+        $db        = $this->getDatabase();
+        $query     = $db->getQuery(true);
 
-        /** @var ArticlesModel $articlesModel */
-        $articlesModel = $mvcContentFactory->createModel('Articles', 'Site', ['ignore_request' => true]);
-
-        // Set application parameters in model
-        $appParams = $app->getParams();
-        $articlesModel->setState('params', $appParams);
-
-        // Filter on archived articles
-        $articlesModel->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
-
-        $articlesModel->setState('list.start', 0);
-
-        // Set the filters based on the module params
-        $articlesModel->setState('list.limit', (int) $moduleParams->get('count', 1));
-
-        // This module does not use tags data
-        $articlesModel->setState('load_tags', false);
+        $query->select($query->month($db->quoteName('created')) . ' AS created_month')
+            ->select('MIN(' . $db->quoteName('created') . ') AS created')
+            ->select($query->year($db->quoteName('created')) . ' AS created_year')
+            ->from($db->quoteName('#__content', 'c'))
+            ->where($db->quoteName('c.state') . ' = ' . ContentComponent::CONDITION_ARCHIVED)
+            ->group($query->year($db->quoteName('c.created')) . ', ' . $query->month($db->quoteName('c.created')))
+            ->order($query->year($db->quoteName('c.created')) . ' DESC, ' . $query->month($db->quoteName('c.created')) . ' DESC');
 
         // Filter by language
-        $articlesModel->setState('filter.language', $app->getLanguageFilter());
-
-        // Prepare the module output
-        $items  = [];
-
-        $menuItem       = $app->getMenu()->getItems('link', 'index.php?option=com_content&view=archive', true);
-        $urlParamItemid = (isset($menuItem) && !empty($menuItem->id)) ? '&Itemid=' . $menuItem->id : '';
-
-        foreach ($articlesModel->countItemsByMonth() as $month) {
-            $items[] = $this->prepareItem($month, $urlParamItemid);
+        if ($app->getLanguageFilter()) {
+            $query->whereIn($db->quoteName('language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
         }
 
-        return $items;
-    }
+        $query->setLimit((int) $moduleParams->get('count'));
+        $db->setQuery($query);
 
-    /**
-     * Prepare the month before render.
-     *
-     * @param   object  $month           The month to prepare
-     * @param   string  $urlParamItemid  The Itemid param of the URL
-     *
-     * @return  \stdClass
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    private function prepareItem(object $month, string $urlParamItemid): \stdClass
-    {
-        $date = Factory::getDate($month->d);
+        try {
+            $rows = (array) $db->loadObjectList();
+        } catch (\RuntimeException $e) {
+            $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-        $createdMonth = $date->format('n');
-        $createdYear  = $date->format('Y');
+            return [];
+        }
 
-        $createdYearCal = HTMLHelper::_('date', $month->d, 'Y');
-        $monthNameCal   = HTMLHelper::_('date', $month->d, 'F');
+        $menu   = $app->getMenu();
+        $item   = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
+        $itemid = (isset($item) && !empty($item->id)) ? '&Itemid=' . $item->id : '';
 
-        $archivedArticlesMonth = new \stdClass();
+        $i     = 0;
+        $lists = [];
 
-        $archivedArticlesMonth->link        = Route::_('index.php?option=com_content&view=archive&year=' . $createdYear . '&month=' . $createdMonth . $urlParamItemid);
-        $archivedArticlesMonth->text        = Text::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $monthNameCal, $createdYearCal);
-        $archivedArticlesMonth->numarticles = $month->c;
+        foreach ($rows as $row) {
+            $date = Factory::getDate($row->created);
 
-        return $archivedArticlesMonth;
+            $createdMonth = $date->format('n');
+            $createdYear  = $date->format('Y');
+
+            $createdYearCal = HTMLHelper::_('date', $row->created, 'Y');
+            $monthNameCal   = HTMLHelper::_('date', $row->created, 'F');
+
+            $lists[$i] = new \stdClass();
+
+            $lists[$i]->link = Route::_('index.php?option=com_content&view=archive&year=' . $createdYear . '&month=' . $createdMonth . $itemid);
+            $lists[$i]->text = Text::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $monthNameCal, $createdYearCal);
+
+            $i++;
+        }
+
+        return $lists;
     }
 
     /**
