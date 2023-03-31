@@ -14,7 +14,6 @@ use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Categories\CategoryInterface;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
-use Joomla\Component\Content\Site\Service\Category;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
@@ -56,17 +55,17 @@ class ArticlesCategoriesHelper implements DatabaseAwareInterface
         /** @var CategoryNode $parentCategory */
         $parentCategory = $categoryFactory->get($moduleParams->get('parent', 'root'));
 
-        $childrenCategories = [];
+        if ($parentCategory === null) {
+            return [];
+        }
 
-        if ($parentCategory !== null) {
-            // Get all the children categories of this node
-            $childrenCategories = $parentCategory->getChildren(true);
+        // Get all the children categories of this node
+        $childrenCategories = $parentCategory->getChildren(true);
 
-            $count = $moduleParams->get('count', 0);
+        $count = $moduleParams->get('count', 0);
 
-            if ($count > 0 && \count($childrenCategories) > $count) {
-                $childrenCategories = \array_slice($childrenCategories, 0, $count);
-            }
+        if ($count > 0 && \count($childrenCategories) > $count) {
+            $childrenCategories = \array_slice($childrenCategories, 0, $count);
         }
 
         return $childrenCategories;
