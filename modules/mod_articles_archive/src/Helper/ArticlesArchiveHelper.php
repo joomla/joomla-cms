@@ -28,7 +28,7 @@ use Joomla\Registry\Registry;
 /**
  * Helper for mod_articles_archive
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5
  */
 class ArticlesArchiveHelper implements DatabaseAwareInterface
 {
@@ -91,7 +91,7 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
      *
      * @return  \stdClass
      *
-     * @since  __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     private function prepareItem(object $month, string $urlParamItemid): \stdClass
     {
@@ -115,19 +115,19 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
     /**
      * Retrieve list of archived articles
      *
-     * @param Registry &$params module parameters
+     * @param   Registry  &$params module parameters
      *
-     * @return \stdClass[]
+     * @return  \stdClass[]
      *
-     * @since 1.6
+     * @since   1.6
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
-     *             Use the non-static method getArticlesByMonths
-     *             Example: Factory::getApplication()->bootModule('mod_articles_archive', 'site')
-     *                          ->getHelper('ArticlesArchiveHelper')
-     *                          ->getArticlesByMonths($params, Factory::getApplication())
+     * @deprecated  __DEPLOY_VERSION__  will be removed in 6.0
+     *              Use the non-static method getArticlesByMonths
+     *              Example: Factory::getApplication()->bootModule('mod_articles_archive', 'site')
+     *                           ->getHelper('ArticlesArchiveHelper')
+     *                           ->getArticlesByMonths($params, Factory::getApplication())
      */
-    public static function getList(&$params): array
+    public static function getList(&$params)
     {
         /** @var SiteApplication $app */
         $app = Factory::getApplication();
