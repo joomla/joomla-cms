@@ -18,7 +18,8 @@ describe('Test the Login module for test user ', () => {
       cy.get('#modlgn-passwd-16').type('test');
       cy.get('input[name="remember"]').check();
       cy.get('.mod-login__submit > .btn').click();
-      cy.get('.alert-wrapper').should('contain.text', 'You have been logged in.');
+
+       cy.get('.alert-wrapper').should('contain.text', 'You have been logged in.');
     });
   });
 });
