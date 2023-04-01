@@ -72,7 +72,7 @@ foreach (file($rulesetFile) as $line => $text) {
             echo 'Line no. ' . $line + 1 . ': Folder "' . $path . '" doesn\'t exist.' . PHP_EOL;
         }
     } elseif (!is_file(dirname(__DIR__) . '/' . $path)) {
-            echo 'Line no. ' . $line + 1 . ': File "' . $path . '" doesn\'t exist.' . PHP_EOL;
+        echo 'Line no. ' . $line + 1 . ': File "' . $path . '" doesn\'t exist.' . PHP_EOL;
     }
 }
 
