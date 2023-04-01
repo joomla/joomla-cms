@@ -886,9 +886,6 @@ class JoomlaInstallerScript
             return true;
         }
 
-        // Update UCM content types.
-        $this->updateContentTypes();
-
         $db = Factory::getDbo();
         Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
 
@@ -1207,90 +1204,6 @@ class JoomlaInstallerScript
         ];
 
         return $menuItems;
-    }
-
-    /**
-     * Updates content type table classes.
-     *
-     * @return  void
-     *
-     * @since   4.0.0
-     */
-    private function updateContentTypes(): void
-    {
-        // Content types to update.
-        $contentTypes = [
-            'com_content.article',
-            'com_contact.contact',
-            'com_newsfeeds.newsfeed',
-            'com_tags.tag',
-            'com_banners.banner',
-            'com_banners.client',
-            'com_users.note',
-            'com_content.category',
-            'com_contact.category',
-            'com_newsfeeds.category',
-            'com_banners.category',
-            'com_users.category',
-            'com_users.user',
-        ];
-
-        // Get table definitions.
-        $db    = Factory::getDbo();
-        $query = $db->getQuery(true)
-            ->select(
-                [
-                    $db->quoteName('type_alias'),
-                    $db->quoteName('table'),
-                ]
-            )
-            ->from($db->quoteName('#__content_types'))
-            ->whereIn($db->quoteName('type_alias'), $contentTypes, ParameterType::STRING);
-
-        $db->setQuery($query);
-        $contentTypes = $db->loadObjectList();
-
-        // Prepare the update query.
-        $query = $db->getQuery(true)
-            ->update($db->quoteName('#__content_types'))
-            ->set($db->quoteName('table') . ' = :table')
-            ->where($db->quoteName('type_alias') . ' = :typeAlias')
-            ->bind(':table', $table)
-            ->bind(':typeAlias', $typeAlias);
-
-        $db->setQuery($query);
-
-        foreach ($contentTypes as $contentType) {
-            list($component, $tableType) = explode('.', $contentType->type_alias);
-
-            // Special case for core table classes.
-            if ($contentType->type_alias === 'com_users.users' || $tableType === 'category') {
-                $tablePrefix = 'Joomla\\CMS\Table\\';
-                $tableType   = ucfirst($tableType);
-            } else {
-                $tablePrefix = 'Joomla\\Component\\' . ucfirst(substr($component, 4)) . '\\Administrator\\Table\\';
-                $tableType   = ucfirst($tableType) . 'Table';
-            }
-
-            // Bind type alias.
-            $typeAlias = $contentType->type_alias;
-
-            $table = json_decode($contentType->table);
-
-            // Update table definitions.
-            $table->special->type   = $tableType;
-            $table->special->prefix = $tablePrefix;
-
-            // Some content types don't have this property.
-            if (!empty($table->common->prefix)) {
-                $table->common->prefix  = 'Joomla\\CMS\\Table\\';
-            }
-
-            $table = json_encode($table);
-
-            // Execute the query.
-            $db->execute();
-        }
     }
 
     /**
