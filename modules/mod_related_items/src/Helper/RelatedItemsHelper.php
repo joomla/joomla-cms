@@ -22,7 +22,6 @@ use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
-use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -32,31 +31,11 @@ use Joomla\Registry\Registry;
 /**
  * Helper for mod_related_items
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5
  */
 class RelatedItemsHelper implements DatabaseAwareInterface
 {
     use DatabaseAwareTrait;
-
-    /**
-     * The input instance
-     *
-     * @var    Input
-     * @since  __DEPLOY_VERSION__
-     */
-    protected $input;
-
-    /**
-     * Constructor.
-     *
-     * @param array $config An optional associative array of configuration settings.
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    public function __construct(array $config = [])
-    {
-        $this->input = array_key_exists('input', $config) ? $config['input'] : Factory::getApplication()->getInput();
-    }
 
     /**
      * Retrieve a list of related articles based on the metakey field
@@ -71,8 +50,9 @@ class RelatedItemsHelper implements DatabaseAwareInterface
     public function getRelatedArticles(Registry $moduleParams, SiteApplication $app): array
     {
         // Check if we are in an article view
-        $option = $this->input->getString('option');
-        $view   = $this->input->getString('view');
+        $input  = $app->getInput();
+        $option = $input->getString('option');
+        $view   = $input->getString('view');
 
         if (!($option === 'com_content' && $view === 'article')) {
             return [];
@@ -84,7 +64,7 @@ class RelatedItemsHelper implements DatabaseAwareInterface
         /** @var ArticleModel $articleModel */
         $articleModel   = $mvcContentFactory->createModel('Article', 'Site', ['ignore_request' => true]);
 
-        $urlId          = $this->input->getString('id');
+        $urlId          = $input->getString('id');
         $currentArticle = explode(':', $urlId)[0];
         $appParams      = $app->getParams();
 
@@ -112,9 +92,9 @@ class RelatedItemsHelper implements DatabaseAwareInterface
      *
      * @param   \stdClass  $props
      *
-     * @return \stdClass[]
+     * @return  \stdClass[]
      *
-     * @since __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     private function getRelatedArticlesByMetakeys(\stdClass $props): array
     {
@@ -219,19 +199,19 @@ class RelatedItemsHelper implements DatabaseAwareInterface
     /**
      * Get a list of related articles
      *
-     * @param Registry &$params module parameters
+     * @param   Registry  &$params  module parameters
      *
-     * @return array
+     * @return  array
      *
-     * @since 1.6
+     * @since   1.6
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
-     *             Use the non-static method getRelatedArticles
-     *             Example: Factory::getApplication()->bootModule('mod_related_items', 'site')
-     *                          ->getHelper('RelatedItemsHelper')
-     *                          ->getRelatedArticles($params, Factory::getApplication())
+     * @deprecated  __DEPLOY_VERSION__  will be removed in 6.0
+     *              Use the non-static method getRelatedArticles
+     *              Example: Factory::getApplication()->bootModule('mod_related_items', 'site')
+     *                           ->getHelper('RelatedItemsHelper')
+     *                           ->getRelatedArticles($params, Factory::getApplication())
      */
-    public static function getList(Registry &$params): array
+    public static function getList(&$params)
     {
         /** @var SiteApplication $app */
         $app = Factory::getApplication();
