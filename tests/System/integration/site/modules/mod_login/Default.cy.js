@@ -11,7 +11,7 @@ describe('Test that the login module', () => {
       email: 'test@example.com',
       password: '098f6bcd4621d373cade4e832627b4f6',
     }).then(() => {
-      cy.visit('http://localhost/joomla-cms/');
+      cy.visit('/');
       cy.get('#modlgn-username-16').type('test');
       cy.get('#modlgn-passwd-16').type('test');
       cy.get('input[name="remember"]').check();
