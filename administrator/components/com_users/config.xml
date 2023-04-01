@@ -117,7 +117,7 @@
 		       type="user"
 		       label="COM_USERS_CONFIG_FIELD_FALLBACK_USER_LABEL"
 		       description="COM_USERS_CONFIG_FIELD_FALLBACK_USER_DESC"
-		       default="CURRENT"
+		       validate="UserId"
 		/>
 		<field name="setAliasOnDelete"
 		       type="radio"
