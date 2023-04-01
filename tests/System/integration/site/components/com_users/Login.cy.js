@@ -13,5 +13,5 @@ describe('Test the Login view for test user ', () => {
       cy.get('.controls > .btn').click();
       cy.get('.alert-wrapper').should('contain.text', 'You have been logged in.');
     });
-  }); 
+  });
 });
