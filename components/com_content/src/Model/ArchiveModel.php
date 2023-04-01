@@ -166,27 +166,28 @@ class ArchiveModel extends ArticlesModel
      */
     public function getYears()
     {
-        $db      = $this->getDatabase();
-        $nowDate = Factory::getDate()->toSql();
-        $query   = $db->getQuery(true);
-        $years   = $query->year($db->quoteName('c.created'));
+        $db        = $this->getDatabase();
+        $nowDate   = Factory::getDate()->toSql();
+        $query     = $db->getQuery(true);
+        $queryDate = QueryHelper::getQueryDate($this->state->params->get('order_date'), $db);
+        $years     = $query->year($queryDate);
 
         $query->select('DISTINCT ' . $years)
-            ->from($db->quoteName('#__content', 'c'))
-            ->where($db->quoteName('c.state') . ' = ' . ContentComponent::CONDITION_ARCHIVED)
+            ->from($db->quoteName('#__content', 'a'))
+            ->where($db->quoteName('a.state') . ' = ' . ContentComponent::CONDITION_ARCHIVED)
             ->extendWhere(
                 'AND',
                 [
-                    $db->quoteName('c.publish_up') . ' IS NULL',
-                    $db->quoteName('c.publish_up') . ' <= :publishUp',
+                    $db->quoteName('a.publish_up') . ' IS NULL',
+                    $db->quoteName('a.publish_up') . ' <= :publishUp',
                 ],
                 'OR'
             )
             ->extendWhere(
                 'AND',
                 [
-                    $db->quoteName('c.publish_down') . ' IS NULL',
-                    $db->quoteName('c.publish_down') . ' >= :publishDown',
+                    $db->quoteName('a.publish_down') . ' IS NULL',
+                    $db->quoteName('a.publish_down') . ' >= :publishDown',
                 ],
                 'OR'
             )

@@ -118,6 +118,8 @@ class AdministratorService
      */
     public function featured($value, $i, $canChange = true)
     {
+        Factory::getDocument()->getWebAssetManager()->useScript('list-view');
+
         // Array of image, task, title, action
         $states = [
             0 => ['unfeatured', 'contacts.featured', 'COM_CONTACT_UNFEATURED', 'JGLOBAL_ITEM_FEATURE'],
@@ -125,16 +127,14 @@ class AdministratorService
         ];
         $state       = ArrayHelper::getValue($states, (int) $value, $states[1]);
         $icon        = $state[0] === 'featured' ? 'star featured' : 'circle';
-        $onclick     = 'onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')"';
         $tooltipText = Text::_($state[3]);
 
         if (!$canChange) {
-            $onclick     = 'disabled';
             $tooltipText = Text::_($state[2]);
         }
 
-        $html = '<button type="submit" class="tbody-icon' . ($value == 1 ? ' active' : '') . '"'
-            . ' aria-labelledby="cb' . $i . '-desc" ' . $onclick . '>'
+        $html = '<button type="button" class="js-grid-item-action tbody-icon' . ($value == 1 ? ' active' : '') . '"'
+            . ' aria-labelledby="cb' . $i . '-desc" data-item-id="cb' . $i . '" data-item-task="' .  $state[1] . '">'
             . '<span class="icon-' . $icon . '" aria-hidden="true"></span>'
             . '</button>'
             . '<div role="tooltip" id="cb' . $i . '-desc">' . $tooltipText . '</div>';
