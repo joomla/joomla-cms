@@ -34,13 +34,13 @@ abstract class ArticlesCategoriesHelper
      */
     public static function getList($params)
     {
-        $items = [];
+        $items   = [];
         $options = [
             'countItems' => $params->get('numitems', 0),
         ];
 
         $categories = Categories::getInstance('Content', $options);
-        $category = $categories->get($params->get('parent', 'root'));
+        $category   = $categories->get($params->get('parent', 'root'));
 
         if ($category !== null) {
             $items = $category->getChildren();

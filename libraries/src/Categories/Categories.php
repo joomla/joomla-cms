@@ -121,7 +121,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $options['published']   = $options['published'] ?? 1;
         $options['countItems']  = $options['countItems'] ?? 0;
         $options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
-        $options['preload']  = $options['preload'] ?? false;
+        $options['preload']     = $options['preload'] ?? false;
 
         $this->_options = $options;
 
@@ -244,8 +244,8 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
-        $app  = Factory::getApplication();
-        $user = Factory::getUser();
+        $app       = Factory::getApplication();
+        $user      = Factory::getUser();
         $extension = $this->_extension;
 
         if ($id !== 'root') {
@@ -375,7 +375,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
 
         // Get the results
         $db->setQuery($query);
-        $results = $db->loadObjectList('id');
+        $results        = $db->loadObjectList('id');
         $childrenLoaded = false;
 
         if (\count($results)) {
