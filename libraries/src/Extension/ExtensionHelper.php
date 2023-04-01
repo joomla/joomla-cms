@@ -173,6 +173,18 @@ class ExtensionHelper
         ['plugin', 'joomla', 'authentication', 0],
         ['plugin', 'ldap', 'authentication', 0],
 
+        // Core plugin extensions - beforedeleteuser
+        ['plugin', 'banners', 'beforedeleteuser', 0],
+        ['plugin', 'categories', 'beforedeleteuser', 0],
+        ['plugin', 'contact', 'beforedeleteuser', 0],
+        ['plugin', 'content', 'beforedeleteuser', 0],
+        ['plugin', 'fields', 'beforedeleteuser', 0],
+        ['plugin', 'finder', 'beforedeleteuser', 0],
+        ['plugin', 'newsfeeds', 'beforedeleteuser', 0],
+        ['plugin', 'scheduler', 'beforedeleteuser', 0],
+        ['plugin', 'tags', 'beforedeleteuser', 0],
+        ['plugin', 'workflow', 'beforedeleteuser', 0],
+
         // Core plugin extensions - behaviour
         ['plugin', 'taggable', 'behaviour', 0],
         ['plugin', 'versionable', 'behaviour', 0],
@@ -315,6 +327,7 @@ class ExtensionHelper
         ['plugin', 'sitestatus', 'task', 0],
 
         // Core plugin extensions - user
+        ['plugin', 'beforedelete', 'user', 0],
         ['plugin', 'contactcreator', 'user', 0],
         ['plugin', 'joomla', 'user', 0],
         ['plugin', 'profile', 'user', 0],
