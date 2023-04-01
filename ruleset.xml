@@ -239,7 +239,6 @@
         <exclude-pattern type="relative">plugins/content/loadmodule/loadmodule\.php</exclude-pattern>
         <exclude-pattern type="relative">plugins/content/pagebreak/pagebreak\.php</exclude-pattern>
         <exclude-pattern type="relative">plugins/editors/none/none\.php</exclude-pattern>
-        <exclude-pattern type="relative">plugins/user/joomla/joomla\.php</exclude-pattern>
         <exclude-pattern type="relative">tests/</exclude-pattern>
     </rule>
 
