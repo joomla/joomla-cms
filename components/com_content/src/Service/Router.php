@@ -81,9 +81,9 @@ class Router extends RouterView
         $this->categoryFactory = $categoryFactory;
         $this->db              = $db;
 
-        $params      = ComponentHelper::getParams('com_content');
+        $params = ComponentHelper::getParams('com_content');
         $this->noIDs = (bool) $params->get('sef_ids');
-        $categories  = new RouterViewConfiguration('categories');
+        $categories = new RouterViewConfiguration('categories');
         $categories->setKey('id');
         $this->registerView($categories);
         $category = new RouterViewConfiguration('category');
@@ -115,10 +115,10 @@ class Router extends RouterView
      */
     public function getCategorySegment($id, $query)
     {
-        $category = $this->getCategories(['access' => true])->get($id);
+        $category = $this->getCategories(['access' => true, 'preload' => true])->get($id);
 
         if ($category) {
-            $path    = array_reverse($category->getPath(), true);
+            $path = array_reverse($category->getPath(), true);
             $path[0] = '1:root';
 
             if ($this->noIDs) {
@@ -203,7 +203,7 @@ class Router extends RouterView
     public function getCategoryId($segment, $query)
     {
         if (isset($query['id'])) {
-            $category = $this->getCategories(['access' => false])->get($query['id']);
+            $category = $this->getCategories(['access' => false, 'preload' => true])->get($query['id']);
 
             if ($category) {
                 foreach ($category->getChildren() as $child) {

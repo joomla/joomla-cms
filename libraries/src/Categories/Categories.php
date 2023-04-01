@@ -60,7 +60,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      * @var    string
      * @since  1.6
      */
-    protected $_extension = null;
+    protected $_extension;
 
     /**
      * Name of the linked content table to get category content count
@@ -68,7 +68,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      * @var    string
      * @since  1.6
      */
-    protected $_table = null;
+    protected $_table;
 
     /**
      * Name of the category field
@@ -76,7 +76,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      * @var    string
      * @since  1.6
      */
-    protected $_field = null;
+    protected $_field;
 
     /**
      * Name of the key field
@@ -84,7 +84,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      * @var    string
      * @since  1.6
      */
-    protected $_key = null;
+    protected $_key;
 
     /**
      * Name of the items state field
@@ -92,7 +92,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      * @var    string
      * @since  1.6
      */
-    protected $_statefield = null;
+    protected $_statefield;
 
     /**
      * Array of options
@@ -115,14 +115,20 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $this->_table      = $options['table'];
         $this->_field      = isset($options['field']) && $options['field'] ? $options['field'] : 'catid';
         $this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
-        $this->_statefield = isset($options['statefield']) ? $options['statefield'] : 'state';
+        $this->_statefield = $options['statefield'] ?? 'state';
 
-        $options['access']      = isset($options['access']) ? $options['access'] : 'true';
-        $options['published']   = isset($options['published']) ? $options['published'] : 1;
-        $options['countItems']  = isset($options['countItems']) ? $options['countItems'] : 0;
+        $options['access']      = $options['access'] ?? 'true';
+        $options['published']   = $options['published'] ?? 1;
+        $options['countItems']  = $options['countItems'] ?? 0;
         $options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
+        $options['preload']  = $options['preload'] ?? false;
 
         $this->_options = $options;
+
+        // Preload all categories
+        if ($options['preload']) {
+            $this->get();
+        }
     }
 
     /**
@@ -209,9 +215,21 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
     }
 
     /**
+     * Returns options.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getOptions()
+    {
+        return $this->_options;
+    }
+
+    /**
      * Load method
      *
-     * @param   integer  $id  Id of category to load
+     * @param   int|string  $id  Id of category to load
      *
      * @return  void
      *
@@ -226,8 +244,8 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
-        $app       = Factory::getApplication();
-        $user      = Factory::getUser();
+        $app  = Factory::getApplication();
+        $user = Factory::getUser();
         $extension = $this->_extension;
 
         if ($id !== 'root') {
@@ -310,20 +328,20 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
                     'INNER',
                     $db->quoteName('#__categories', 'c'),
                     '(' . $db->quoteName('s.lft') . ' < ' . $db->quoteName('c.lft')
-                        . ' AND ' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.rgt')
-                        . ' AND ' . $db->quoteName('c.language')
-                        . ' IN (' . implode(',', $query->bindArray([Factory::getLanguage()->getTag(), '*'], ParameterType::STRING)) . '))'
-                        . ' OR (' . $db->quoteName('c.lft') . ' <= ' . $db->quoteName('s.lft')
-                        . ' AND ' . $db->quoteName('s.rgt') . ' <= ' . $db->quoteName('c.rgt') . ')'
+                    . ' AND ' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.rgt')
+                    . ' AND ' . $db->quoteName('c.language')
+                    . ' IN (' . implode(',', $query->bindArray([Factory::getLanguage()->getTag(), '*'], ParameterType::STRING)) . '))'
+                    . ' OR (' . $db->quoteName('c.lft') . ' <= ' . $db->quoteName('s.lft')
+                    . ' AND ' . $db->quoteName('s.rgt') . ' <= ' . $db->quoteName('c.rgt') . ')'
                 );
             } else {
                 $query->join(
                     'INNER',
                     $db->quoteName('#__categories', 'c'),
                     '(' . $db->quoteName('s.lft') . ' <= ' . $db->quoteName('c.lft')
-                        . ' AND ' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.rgt') . ')'
-                        . ' OR (' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.lft')
-                        . ' AND ' . $db->quoteName('s.rgt') . ' < ' . $db->quoteName('c.rgt') . ')'
+                    . ' AND ' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.rgt') . ')'
+                    . ' OR (' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.lft')
+                    . ' AND ' . $db->quoteName('s.rgt') . ' < ' . $db->quoteName('c.rgt') . ')'
                 );
             }
         } else {
@@ -348,7 +366,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
             if ($this->_options['currentlang'] !== 0) {
                 $subQuery->where(
                     $db->quoteName('i.language')
-                        . ' IN (' . implode(',', $query->bindArray([$this->_options['currentlang'], '*'], ParameterType::STRING)) . ')'
+                    . ' IN (' . implode(',', $query->bindArray([$this->_options['currentlang'], '*'], ParameterType::STRING)) . ')'
                 );
             }
 
@@ -357,7 +375,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
 
         // Get the results
         $db->setQuery($query);
-        $results        = $db->loadObjectList('id');
+        $results = $db->loadObjectList('id');
         $childrenLoaded = false;
 
         if (\count($results)) {
