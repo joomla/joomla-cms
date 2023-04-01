@@ -370,7 +370,7 @@ class CategoryNode extends CMSObject implements NodeInterface
     public function getSibling($right = true)
     {
         if (!$this->_allChildrenloaded) {
-            $temp = $this->_constructor->get($this->id, true);
+            $temp                = $this->_constructor->get($this->id, true);
             $this->_children     = $temp->getChildren();
             $this->_leftSibling  = $temp->getSibling(false);
             $this->_rightSibling = $temp->getSibling(true);
