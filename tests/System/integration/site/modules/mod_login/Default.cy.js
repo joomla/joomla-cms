@@ -5,8 +5,8 @@ describe('Test that the login module', () => {
   });
 });
 
-describe('Test the Login View of com_users ', () => {
-  it('can display the login form for a user', () => {
+describe('Test the Login module for test user ', () => {
+  it('can display the login module for a user', () => {
     cy.db_createUser({
       name: 'automated test user',
       username: 'test',
