@@ -205,7 +205,7 @@ class AdminController extends BaseController
             try {
                 $model->publish($cid, $value);
                 $errors = $model->getErrors();
-                $ntext = null;
+                $ntext  = null;
 
                 if ($value === 1) {
                     if ($errors) {
@@ -256,7 +256,7 @@ class AdminController extends BaseController
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
 
-        $model = $this->getModel();
+        $model  = $this->getModel();
         $return = $model->reorder($ids, $inc);
 
         $redirect = Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false);
@@ -340,7 +340,7 @@ class AdminController extends BaseController
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
 
-        $model = $this->getModel();
+        $model  = $this->getModel();
         $return = $model->checkin($ids);
 
         if ($return === false) {

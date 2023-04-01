@@ -142,7 +142,7 @@ class ContactsController extends AdminController
 
         $result['amount'] = $amount;
         $result['sronly'] = Text::plural('COM_CONTACT_N_QUICKICON_SRONLY', $amount);
-        $result['name'] = Text::plural('COM_CONTACT_N_QUICKICON', $amount);
+        $result['name']   = Text::plural('COM_CONTACT_N_QUICKICON', $amount);
 
         echo new JsonResponse($result);
     }

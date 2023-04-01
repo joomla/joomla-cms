@@ -84,13 +84,13 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $tagsHelper = new TagsHelper();
+        $tagsHelper            = new TagsHelper();
         $tagsHelper->typeAlias = $table->typeAlias;
         $table->setTagsHelper($tagsHelper);
 
         // This is required because getTagIds overrides the tags property of the Tags Helper.
         $cloneHelper = clone $table->getTagsHelper();
-        $tagIds = $cloneHelper->getTagIds($table->getId(), $table->getTypeAlias());
+        $tagIds      = $cloneHelper->getTagIds($table->getId(), $table->getTypeAlias());
 
         if (!empty($tagIds)) {
             $table->getTagsHelper()->tags = explode(',', $tagIds);
@@ -274,7 +274,7 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
         }
 
         // Parse the type alias
-        $tagsHelper = new TagsHelper();
+        $tagsHelper            = new TagsHelper();
         $tagsHelper->typeAlias = $table->getTypeAlias();
         $table->setTagsHelper($tagsHelper);
     }
@@ -306,7 +306,7 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
 
         // This is required because getTagIds overrides the tags property of the Tags Helper.
         $cloneHelper = clone $table->getTagsHelper();
-        $tagIds = $cloneHelper->getTagIds($table->getId(), $table->getTypeAlias());
+        $tagIds      = $cloneHelper->getTagIds($table->getId(), $table->getTypeAlias());
 
         if (!empty($tagIds)) {
             $table->getTagsHelper()->tags = explode(',', $tagIds);

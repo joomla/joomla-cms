@@ -203,7 +203,7 @@ class ContentHelper
      */
     public static function getCurrentLanguage($detectBrowser = true)
     {
-        $app = Factory::getApplication();
+        $app      = Factory::getApplication();
         $langCode = null;
 
         // Get the languagefilter parameters

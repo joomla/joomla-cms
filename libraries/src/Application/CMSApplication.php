@@ -12,7 +12,6 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\SessionAwareWebApplicationTrait;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
@@ -718,7 +717,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $this->loadLibraryLanguage();
 
         // Set user specific editor.
-        $user = Factory::getUser();
+        $user   = Factory::getUser();
         $editor = $user->getParam('editor', $this->get('editor'));
 
         if (!PluginHelper::isEnabled('editors', $editor)) {
@@ -813,7 +812,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     {
         // Get the global Authentication object.
         $authenticate = Authentication::getInstance($this->authenticationPluginType);
-        $response = $authenticate->authenticate($credentials, $options);
+        $response     = $authenticate->authenticate($credentials, $options);
 
         // Import the user plugin group.
         PluginHelper::importPlugin('user');
@@ -824,7 +823,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
              * This permits authentication plugins blocking the user.
              */
             $authorisations = $authenticate->authorise($response, $options);
-            $denied_states = Authentication::STATUS_EXPIRED | Authentication::STATUS_DENIED;
+            $denied_states  = Authentication::STATUS_EXPIRED | Authentication::STATUS_DENIED;
 
             foreach ($authorisations as $authorisation) {
                 if ((int) $authorisation->status & $denied_states) {
@@ -873,7 +872,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             }
 
             if (\in_array(false, $results, true) == false) {
-                $options['user'] = $user;
+                $options['user']         = $user;
                 $options['responseType'] = $response->type;
 
                 // The user is successfully logged in. Run the after login events
@@ -922,8 +921,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $user = Factory::getUser($userid);
 
         // Build the credentials array.
-        $parameters['username'] = $user->get('username');
-        $parameters['id'] = $user->get('id');
+        $parameters = [
+            'username' => $user->get('username'),
+            'id'       => $user->get('id'),
+        ];
 
         // Set clientid in the options array if it hasn't been set already and shared sessions are not enabled.
         if (!$this->get('shared_session', '0') && !isset($options['clientid'])) {
@@ -1065,8 +1066,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                     $oldUri->setVar('Itemid', $item->id);
                 }
 
-                $base = Uri::base(true);
-                $oldPath = StringHelper::strtolower(substr($oldUri->getPath(), \strlen($base) + 1));
+                $base             = Uri::base(true);
+                $oldPath          = StringHelper::strtolower(substr($oldUri->getPath(), \strlen($base) + 1));
                 $activePathPrefix = StringHelper::strtolower($active->route);
 
                 $position = strpos($oldPath, $activePathPrefix);
@@ -1099,7 +1100,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @param   string  $key    The path of the state.
      * @param   mixed   $value  The value of the variable.
      *
-     * @return  mixed|void  The previous state, if one existed.
+     * @return  mixed  The previous state, if one existed. Null otherwise.
      *
      * @since   3.2
      */
@@ -1111,6 +1112,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         if ($registry !== null) {
             return $registry->set($key, $value);
         }
+
+        return null;
     }
 
     /**

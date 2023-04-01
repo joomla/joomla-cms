@@ -8,6 +8,8 @@ const persistedStateOptions = {
     listView: state.listView,
     gridSize: state.gridSize,
     search: state.search,
+    sortBy: state.sortBy,
+    sortDirection: state.sortDirection,
   }),
 };
 export default persistedStateOptions;

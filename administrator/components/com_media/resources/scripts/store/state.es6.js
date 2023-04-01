@@ -100,4 +100,8 @@ export default {
   previewItem: null,
   // The Search Query
   search: '',
+  // The sorting by
+  sortBy: storedState && storedState.sortBy ? storedState.sortBy : 'name',
+  // The sorting direction
+  sortDirection: storedState && storedState.sortDirection ? storedState.sortDirection : 'asc',
 };

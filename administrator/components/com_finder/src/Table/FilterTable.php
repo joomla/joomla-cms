@@ -119,7 +119,7 @@ class FilterTable extends Table
      */
     public function store($updateNulls = true)
     {
-        $date = Factory::getDate()->toSql();
+        $date   = Factory::getDate()->toSql();
         $userId = Factory::getUser()->id;
 
         // Set created date if not set.
@@ -147,10 +147,10 @@ class FilterTable extends Table
 
         if (is_array($this->data)) {
             $this->map_count = count($this->data);
-            $this->data = implode(',', $this->data);
+            $this->data      = implode(',', $this->data);
         } else {
             $this->map_count = 0;
-            $this->data = implode(',', []);
+            $this->data      = implode(',', []);
         }
 
         // Verify that the alias is unique

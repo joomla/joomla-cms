@@ -104,7 +104,7 @@ class MenusHelper extends ContentHelper
      */
     public static function getMenuTypes($clientId = 0)
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select($db->quoteName('a.menutype'))
             ->from($db->quoteName('#__menu_types', 'a'));
@@ -140,7 +140,7 @@ class MenusHelper extends ContentHelper
         $hasClientId = $clientId !== null;
         $clientId    = (int) $clientId;
 
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -246,7 +246,7 @@ class MenusHelper extends ContentHelper
 
             foreach ($menuTypes as &$type) {
                 $rlu[$type->menutype] = & $type;
-                $type->links = [];
+                $type->links          = [];
             }
 
             // Loop through the list of menu links.
@@ -689,7 +689,7 @@ class MenusHelper extends ContentHelper
         while ($obj->type == 'alias') {
             $aliasTo = (int) $obj->getParams()->get('aliasoptions');
 
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true);
             $query->select(
                 [
@@ -891,7 +891,7 @@ class MenusHelper extends ContentHelper
             $item->link    = str_replace("{sql:$var}", $val, $item->link);
             $item->class   = str_replace("{sql:$var}", $val, $item->class);
             $item->icon    = str_replace("{sql:$var}", $val, $item->icon);
-            $params->set('menu-quicktask', str_replace("{sql:$var}", $val, $params->get('menu-quicktask')));
+            $params->set('menu-quicktask', str_replace("{sql:$var}", $val, $params->get('menu-quicktask', '')));
         }
 
         $item->setParams($params);

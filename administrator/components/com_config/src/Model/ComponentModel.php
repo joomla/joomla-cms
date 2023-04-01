@@ -70,7 +70,7 @@ class ComponentModel extends FormModel
      */
     public function getForm($data = [], $loadData = true)
     {
-        $state = $this->getState();
+        $state  = $this->getState();
         $option = $state->get('component.option');
 
         if ($path = $state->get('component.path')) {
@@ -131,7 +131,7 @@ class ComponentModel extends FormModel
      */
     public function getComponent()
     {
-        $state = $this->getState();
+        $state  = $this->getState();
         $option = $state->get('component.option');
 
         // Load common and local language files.
@@ -189,7 +189,7 @@ class ComponentModel extends FormModel
             if (!$asset->loadByName($data['option'])) {
                 $root = Table::getInstance('asset');
                 $root->loadByName('root.1');
-                $asset->name = $data['option'];
+                $asset->name  = $data['option'];
                 $asset->title = $data['option'];
                 $asset->setLocation($root->id, 'last-child');
             }

@@ -222,7 +222,7 @@ abstract class Behavior
         $jsscript = 1;
 
         // To keep the code simple here, run strings through Text::_() using array_map()
-        $callback = ['Text', '_'];
+        $callback      = ['Text', '_'];
         $weekdays_full = array_map(
             $callback,
             [
@@ -252,9 +252,9 @@ abstract class Behavior
 
         // This will become an object in Javascript but define it first in PHP for readability
         $today = " " . Text::_('JLIB_HTML_BEHAVIOR_TODAY') . " ";
-        $text = [
-            'INFO'           => Text::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR'),
-            'ABOUT'          => "DHTML Date/Time Selector\n"
+        $text  = [
+            'INFO'  => Text::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR'),
+            'ABOUT' => "DHTML Date/Time Selector\n"
                 . "(c) dynarch.com 20022005 / Author: Mihai Bazon\n"
                 . "For latest version visit: http://www.dynarch.com/projects/calendar/\n"
                 . "Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details."
@@ -263,7 +263,7 @@ abstract class Behavior
                 . Text::_('JLIB_HTML_BEHAVIOR_YEAR_SELECT')
                 . Text::_('JLIB_HTML_BEHAVIOR_MONTH_SELECT')
                 . Text::_('JLIB_HTML_BEHAVIOR_HOLD_MOUSE'),
-            'ABOUT_TIME'      => "\n\n"
+            'ABOUT_TIME' => "\n\n"
                 . "Time selection:\n"
                 . " Click on any of the time parts to increase it\n"
                 . " or Shiftclick to decrease it\n"

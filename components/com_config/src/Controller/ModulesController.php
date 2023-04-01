@@ -91,7 +91,7 @@ class ModulesController extends BaseController
 
         // Get returnUri
         $returnUri = $this->input->post->get('return', null, 'base64');
-        $redirect = '';
+        $redirect  = '';
 
         if (!empty($returnUri)) {
             $redirect = '&return=' . $returnUri;
@@ -140,7 +140,7 @@ class ModulesController extends BaseController
         }
 
         // Redirect back to com_config display
-        $this->app->enqueueMessage(Text::_('COM_CONFIG_MODULES_SAVE_SUCCESS'));
+        $this->app->enqueueMessage(Text::_('COM_CONFIG_MODULES_SAVE_SUCCESS'), 'success');
 
         // Set the redirect based on the task.
         switch ($this->input->getCmd('task')) {
