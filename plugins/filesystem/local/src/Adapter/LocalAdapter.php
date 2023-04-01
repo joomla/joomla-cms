@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Filesystem.Local
+ * @subpackage  Filesystem.local
  *
  * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -288,7 +288,7 @@ class LocalAdapter implements AdapterInterface
     {
         $localPath = $this->getLocalPath($path . '/' . $name);
 
-        if (!File::exists($localPath)) {
+        if (!is_file($localPath)) {
             throw new FileNotFoundException();
         }
 
@@ -324,10 +324,6 @@ class LocalAdapter implements AdapterInterface
         $thumbnailPaths = $this->getLocalThumbnailPaths($localPath);
 
         if (is_file($localPath)) {
-            if (!File::exists($localPath)) {
-                throw new FileNotFoundException();
-            }
-
             if ($this->thumbnails && !empty($thumbnailPaths['fs']) && is_file($thumbnailPaths['fs'])) {
                 File::delete($thumbnailPaths['fs']);
             }

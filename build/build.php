@@ -395,12 +395,11 @@ $doNotPackage = [
     'appveyor-phpunit.xml',
     'build',
     'build.xml',
-    'codeception.yml',
     'CODE_OF_CONDUCT.md',
     'composer.json',
     'composer.lock',
     'crowdin.yml',
-    'cypress.config.js',
+    'cypress.config.dist.js',
     'package-lock.json',
     'package.json',
     'phpunit-pgsql.xml.dist',
@@ -412,7 +411,6 @@ $doNotPackage = [
     'README.md',
     'renovate.json',
     'ruleset.xml',
-    'selenium.log',
     'tests',
 ];
 

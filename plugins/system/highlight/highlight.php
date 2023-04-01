@@ -49,7 +49,7 @@ class PlgSystemHighlight extends CMSPlugin
     public function onAfterDispatch()
     {
         // Check that we are in the site application.
-        if ($this->app->isClient('administrator')) {
+        if (!$this->app->isClient('site')) {
             return;
         }
 

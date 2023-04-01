@@ -13,13 +13,13 @@ use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Ldap\LdapInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Factory to create Ldap clients.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.3.0
  */
 class LdapFactory implements LdapFactoryInterface
 {
@@ -30,7 +30,7 @@ class LdapFactory implements LdapFactoryInterface
      *
      * @return  LdapInterface
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      *
      * @throws  \Exception
      */
