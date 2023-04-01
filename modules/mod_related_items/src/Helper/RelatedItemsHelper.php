@@ -40,7 +40,7 @@ class RelatedItemsHelper implements DatabaseAwareInterface
      * Retrieve a list of related articles based on the metakey field
      *
      * @param   Registry         $params  The module parameters.
-     * @param   SiteApplication  $app           The current application.
+     * @param   SiteApplication  $app     The current application.
      *
      * @return  \stdClass[]
      *
