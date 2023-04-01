@@ -115,7 +115,7 @@ class Router extends RouterView
      */
     public function getCategorySegment($id, $query)
     {
-        $category = $this->getCategories(['access' => true])->get($id);
+        $category = $this->getCategories(['access' => true, 'preload' => true])->get($id);
 
         if ($category) {
             $path    = array_reverse($category->getPath(), true);
@@ -203,7 +203,7 @@ class Router extends RouterView
     public function getCategoryId($segment, $query)
     {
         if (isset($query['id'])) {
-            $category = $this->getCategories(['access' => false])->get($query['id']);
+            $category = $this->getCategories(['access' => false, 'preload' => true])->get($query['id']);
 
             if ($category) {
                 foreach ($category->getChildren() as $child) {
