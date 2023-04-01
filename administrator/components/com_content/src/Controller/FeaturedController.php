@@ -103,7 +103,7 @@ class FeaturedController extends ArticlesController
     /**
      * Method to get the number of published featured articles for quickicons
      *
-     * @return  string  The JSON-encoded amount of published featured articles
+     * @return  void
      *
      * @since   4.3.0
      */

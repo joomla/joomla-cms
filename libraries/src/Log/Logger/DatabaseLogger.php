@@ -70,6 +70,14 @@ class DatabaseLogger extends Logger
     protected $database = 'logging';
 
     /**
+     * The database table prefix of the database store logging entries.
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    protected $prefix;
+
+    /**
      * The database table to use for logging entries.
      *
      * @var    string

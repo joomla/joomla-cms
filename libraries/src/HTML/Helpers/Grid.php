@@ -43,8 +43,7 @@ abstract class Grid
      */
     public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $newDirection = 'asc', $tip = '', $form = null)
     {
-        HTMLHelper::_('behavior.core');
-        HTMLHelper::_('bootstrap.popover', '.hasPopover', ['trigger' => 'hover focus']);
+        HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
         $direction = strtolower($direction);
         $icon      = ['arrow-up-3', 'arrow-down-3'];
@@ -61,8 +60,7 @@ abstract class Grid
         }
 
         $html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\'' . $form . ');return false;"'
-            . ' class="hasPopover" title="' . htmlspecialchars(Text::_($tip ?: $title)) . '"'
-            . ' data-bs-content="' . htmlspecialchars(Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-bs-placement="top">';
+        . ' class="hasTooltip" title="' . htmlspecialchars(Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-bs-placement="top">';
 
         if (isset($title['0']) && $title['0'] === '<') {
             $html .= $title;
@@ -115,14 +113,14 @@ abstract class Grid
     {
         if ($formId !== null) {
             return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="visually-hidden">' . Text::_('JSELECT')
-                . ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
-                . '<input class="form-check-input" type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
+            . ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
+            . '<input class="form-check-input" type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
                 . '" onclick="Joomla.isChecked(this.checked, \'' . $formId . '\');">';
         }
 
         return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="visually-hidden">' . Text::_('JSELECT')
-            . ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
-            . '<input class="form-check-input" autocomplete="off" type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
+        . ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
+        . '<input class="form-check-input" autocomplete="off" type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
             . '" onclick="Joomla.isChecked(this.checked);">';
     }
 

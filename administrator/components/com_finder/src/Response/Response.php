@@ -27,6 +27,110 @@ use Joomla\CMS\Log\Log;
 class Response
 {
     /**
+     * The buffer
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $buffer;
+
+    /**
+     * The memory
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $memory;
+
+    /**
+     * If it has an error
+     *
+     * @var    bool
+     * @since  4.3.0
+     */
+    public $error;
+
+    /**
+     * The header
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $header;
+
+    /**
+     * The message
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $message;
+
+    /**
+     * The batch size
+     *
+     * @var    int
+     * @since  4.3.0
+     */
+    public $batchSize;
+
+    /**
+     * The batch offset
+     *
+     * @var    int
+     * @since  4.3.0
+     */
+    public $batchOffset;
+
+    /**
+     * The total items
+     *
+     * @var    int
+     * @since  4.3.0
+     */
+    public $totalItems;
+
+    /**
+     * The plugin state
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $pluginState;
+
+    /**
+     * The start time
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $startTime;
+
+    /**
+     * The end time
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    public $endTime;
+
+    /**
+     * The start
+     *
+     * @var    int
+     * @since  4.3.0
+     */
+    public $start;
+
+    /**
+     * The complete
+     *
+     * @var    int
+     * @since  4.3.0
+     */
+    public $complete;
+
+    /**
      * Class Constructor
      *
      * @param   mixed  $state  The processing state for the indexer
