@@ -19,6 +19,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseDriver;
@@ -438,14 +439,17 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
         $extensionList = Folder::folders(JPATH_PLUGINS . '/beforedeleteuser');
 
         foreach ($extensionList as $extension) {
-                /** @var BeforeDeleteUserInterface $extensionClass */
-                $extensionClass = $this->loadExtensionClass($extension);
+            if (PluginHelper::isEnabled('beforedeleteuser', $extension) === false) {
+                continue;
+            }
+            /** @var BeforeDeleteUserInterface $extensionClass */
+            $extensionClass = $this->loadExtensionClass($extension);
 
-                if ($extensionClass instanceof BeforeDeleteUserInterface
-                    && !isset(self::$extensions[$extensionClass->getExtensionBaseContext()])
-                ) {
-                    self::$extensions[$extensionClass->getExtensionBaseContext()] = $extensionClass;
-                }
+            if ($extensionClass instanceof BeforeDeleteUserInterface
+                && !isset(self::$extensions[$extensionClass->getExtensionBaseContext()])
+            ) {
+                self::$extensions[$extensionClass->getExtensionBaseContext()] = $extensionClass;
+            }
         }
     }
 
