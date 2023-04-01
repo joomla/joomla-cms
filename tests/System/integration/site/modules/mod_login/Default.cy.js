@@ -1,12 +1,10 @@
 describe('Test that the login module', () => {
-  it('can login and logout in Frontend', () => {
+  it('can login and logout in frontend with the default credentials', () => {
     cy.doFrontendLogin(null, null, false);
     cy.doFrontendLogout();
   });
-});
 
-describe('Test the Login module for test user ', () => {
-  it('can display the login module for a user', () => {
+  it('can login with a test user', () => {
     cy.db_createUser({
       name: 'automated test user',
       username: 'test',
