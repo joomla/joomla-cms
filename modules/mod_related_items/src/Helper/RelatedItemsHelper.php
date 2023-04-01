@@ -10,14 +10,13 @@
 
 namespace Joomla\Module\RelatedItems\Site\Helper;
 
-use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
-use Joomla\Component\Content\Site\Model\ArticleModel;
 use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
@@ -40,160 +39,142 @@ class RelatedItemsHelper implements DatabaseAwareInterface
     /**
      * Retrieve a list of related articles based on the metakey field
      *
-     * @param   Registry         $moduleParams  The module parameters.
+     * @param   Registry         $params  The module parameters.
      * @param   SiteApplication  $app           The current application.
      *
      * @return  \stdClass[]
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getRelatedArticles(Registry $moduleParams, SiteApplication $app): array
+    public function getRelatedArticles(Registry $params, SiteApplication $app): array
     {
-        // Check if we are in an article view
-        $input  = $app->getInput();
-        $option = $input->getString('option');
-        $view   = $input->getString('view');
+        $db        = $this->getDatabase();
+        $input     = $app->getInput();
+        $groups    = $app->getIdentity()->getAuthorisedViewLevels();
+        $maximum   = (int) $params->get('maximum', 5);
+        $factory   = $app->bootComponent('com_content')->getMVCFactory();
+
+        // Get an instance of the generic articles model
+        /** @var ArticlesModel $articles */
+        $articles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
+
+        // Set application parameters in model
+        $articles->setState('params', $app->getParams());
+
+        $option = $input->get('option');
+        $view   = $input->get('view');
 
         if (!($option === 'com_content' && $view === 'article')) {
             return [];
         }
 
-        // Get the main article object
-        $mvcContentFactory = $app->bootComponent('com_content')->getMVCFactory();
+        $temp = $input->getString('id');
+        $temp = explode(':', $temp);
+        $id   = (int) $temp[0];
 
-        /** @var ArticleModel $articleModel */
-        $articleModel   = $mvcContentFactory->createModel('Article', 'Site', ['ignore_request' => true]);
+        $now      = Factory::getDate()->toSql();
+        $related  = [];
+        $query    = $db->getQuery(true);
 
-        $urlId          = $input->getString('id');
-        $currentArticle = explode(':', $urlId)[0];
-        $appParams      = $app->getParams();
+        if ($id) {
+            // Select the meta keywords from the item
+            $query->select($db->quoteName('metakey'))
+                ->from($db->quoteName('#__content'))
+                ->where($db->quoteName('id') . ' = :id')
+                ->bind(':id', $id, ParameterType::INTEGER);
+            $db->setQuery($query);
 
-        $articleModel->setState('params', $appParams);
-        $articleModel->setState('filter.published', 1);
-        $articleModel->setState('article.id', (int) $currentArticle);
+            try {
+                $metakey = trim($db->loadResult());
+            } catch (\RuntimeException $e) {
+                $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-        $mainArticle = $articleModel->getItem();
+                return [];
+            }
 
-        if (!$mainArticle || empty($mainArticle->metakey)) {
-            return [];
-        }
+            // Explode the meta keys on a comma
+            $keys  = explode(',', $metakey);
+            $likes = [];
 
-        $props = new \stdClass();
+            // Assemble any non-blank word(s)
+            foreach ($keys as $key) {
+                $key = trim($key);
 
-        $props->mainArticle = $mainArticle;
-        $props->params      = $appParams->merge($moduleParams, true);
-        $props->app         = $app;
-        $props->factory     = $mvcContentFactory;
+                if ($key) {
+                    $likes[] = $db->escape($key);
+                }
+            }
 
-        return $this->getRelatedArticlesByMetakeys($props);
-    }
-    /**
-     * Get the related articles matching by metakeys
-     *
-     * @param   \stdClass  $props
-     *
-     * @return  \stdClass[]
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    private function getRelatedArticlesByMetakeys(\stdClass $props): array
-    {
-        $keys = explode(',', $props->mainArticle->metakey);
+            if (\count($likes)) {
+                // Select other items based on the metakey field 'like' the keys found
+                $query->clear()
+                    ->select($db->quoteName('a.id'))
+                    ->from($db->quoteName('#__content', 'a'))
+                    ->where($db->quoteName('a.id') . ' != :id')
+                    ->where($db->quoteName('a.state') . ' = ' . ContentComponent::CONDITION_PUBLISHED)
+                    ->whereIn($db->quoteName('a.access'), $groups)
+                    ->bind(':id', $id, ParameterType::INTEGER);
 
-        // Clean the article meta-keys and add wildcards for the SQL LIKE Operator
-        $metaKeys = array_map(function ($k) {
-            $keyTrimmed = \trim($k);
-            return $keyTrimmed ? '%' . $keyTrimmed . '%' : '';
-        }, $keys);
+                $binds  = [];
+                $wheres = [];
 
-        // Select other articles based on the metakey field 'like' the keys found
-        $db    = $this->getDatabase();
-        $query = $db->getQuery(true);
+                foreach ($likes as $keyword) {
+                    $binds[] = '%' . $keyword . '%';
+                }
 
-        $user       = $props->app->getIdentity();
-        $authorised = Access::getAuthorisedViewLevels($user->get('id'));
+                $bindNames = $query->bindArray($binds, ParameterType::STRING);
 
-        $id = (int) $props->mainArticle->id;
+                foreach ($bindNames as $keyword) {
+                    $wheres[] = $db->quoteName('a.metakey') . ' LIKE ' . $keyword;
+                }
 
-        $query->select($db->quoteName('a.id'))
-            ->from($db->quoteName('#__content', 'a'))
-            ->where($db->quoteName('a.id') . ' != :id')
-            ->where($db->quoteName('a.state') . ' = ' . ContentComponent::CONDITION_PUBLISHED)
-            ->whereIn($db->quoteName('a.access'), $authorised)
-            ->bind(':id', $id, ParameterType::INTEGER);
+                $query->extendWhere('AND', $wheres, 'OR')
+                    ->extendWhere('AND', [ $db->quoteName('a.publish_up') . ' IS NULL', $db->quoteName('a.publish_up') . ' <= :nowDate1'], 'OR')
+                    ->extendWhere(
+                        'AND',
+                        [
+                            $db->quoteName('a.publish_down') . ' IS NULL',
+                            $db->quoteName('a.publish_down') . ' >= :nowDate2',
+                        ],
+                        'OR'
+                    )
+                    ->bind([':nowDate1', ':nowDate2'], $now);
 
-        $bindWords = $query->bindArray($metaKeys, ParameterType::STRING);
-        $wheres    = [];
+                // Filter by language
+                if (Multilanguage::isEnabled()) {
+                    $query->whereIn($db->quoteName('a.language'), [$app->getLanguage()->getTag(), '*'], ParameterType::STRING);
+                }
 
-        foreach ($bindWords as $keyword) {
-            $wheres[] = $db->quoteName('a.metakey') . ' LIKE ' . $keyword;
-        }
+                $query->setLimit($maximum);
+                $db->setQuery($query);
 
-        $now = Factory::getDate()->toSql();
+                try {
+                    $articleIds = $db->loadColumn();
+                } catch (\RuntimeException $e) {
+                    $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-        $query->extendWhere('AND', $wheres, 'OR')
-            ->extendWhere(
-                'AND',
-                [
-                    $db->quoteName('a.publish_up') . ' IS NULL',
-                    $db->quoteName('a.publish_up') . ' <= :nowDate1',
-                ],
-                'OR'
-            )
-            ->extendWhere(
-                'AND',
-                [
-                    $db->quoteName('a.publish_down') . ' IS NULL',
-                    $db->quoteName('a.publish_down') . ' >= :nowDate2',
-                ],
-                'OR'
-            )
-            ->bind([':nowDate1', ':nowDate2'], $now);
+                    return [];
+                }
 
-        // Filter by language
-        if ($props->app->getLanguageFilter()) {
-            $query->whereIn($db->quoteName('a.language'), [Factory::getApplication()->getLanguage()->getTag(), '*'], ParameterType::STRING);
-        }
+                if (\count($articleIds)) {
+                    $articles->setState('filter.article_id', $articleIds);
+                    $articles->setState('filter.published', 1);
+                    $related = $articles->getItems();
+                }
 
-        $query->setLimit((int) $props->params->get('maximum', 5));
-        $db->setQuery($query);
-
-        try {
-            $articlesIds = $db->loadColumn();
-        } catch (\RuntimeException $e) {
-            $props->app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-
-            return [];
-        }
-
-        $relatedArticles = [];
-
-        if (\count($articlesIds)) {
-            /** @var ArticlesModel $articlesModel */
-            $articlesModel = $props->factory->createModel('Articles', 'Site', ['ignore_request' => true]);
-
-            // Set application parameters in model
-            $articlesModel->setState('params', $props->params);
-
-            // This module does not use tags data
-            $articlesModel->setState('load_tags', false);
-
-            // Filter only for the related articles ID found
-            $articlesModel->setState('filter.article_id', $articlesIds);
-            $articlesModel->setState('filter.published', 1);
-
-            $relatedArticles = $articlesModel->getItems();
-        }
-
-        if (\count($relatedArticles)) {
-            // Prepare data for display using display options
-            foreach ($relatedArticles as &$article) {
-                $article->slug  = $article->id . ':' . $article->alias;
-                $article->route = Route::_(RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language));
+                unset($articleIds);
             }
         }
 
-        return $relatedArticles;
+        if (\count($related)) {
+            // Prepare data for display using display options
+            foreach ($related as &$item) {
+                $item->slug  = $item->id . ':' . $item->alias;
+                $item->route = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
+            }
+        }
+
+        return $related;
     }
 
     /**
