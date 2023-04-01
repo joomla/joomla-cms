@@ -137,6 +137,7 @@ class HtmlView extends BaseHtmlView
                     'btn-success'
                 );
             }
+        }
 
             ToolbarHelper::cancel(
                 'step.cancel',
@@ -151,6 +152,5 @@ class HtmlView extends BaseHtmlView
                 ToolbarHelper::inlinehelp($targetClass);
             }
             ToolbarHelper::help('Guided_Tours:_New_or_Edit_Step');
-        }
     }
 }
