@@ -15,4 +15,3 @@ describe('Test the Login view for test user ', () => {
       });
     });
   });
-  
