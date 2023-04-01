@@ -121,14 +121,8 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $options['published']   = $options['published'] ?? 1;
         $options['countItems']  = $options['countItems'] ?? 0;
         $options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
-        $options['preload']     = $options['preload'] ?? false;
 
         $this->_options = $options;
-
-        // Preload all categories
-        if ($options['preload']) {
-            $this->get();
-        }
     }
 
     /**
