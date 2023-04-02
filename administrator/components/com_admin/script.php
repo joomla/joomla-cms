@@ -882,9 +882,11 @@ class JoomlaInstallerScript
             return true;
         }
 
-        if (empty($this->fromVersion) || version_compare($this->fromVersion, '4.0.0', 'ge')) {
+        if (empty($this->fromVersion) || version_compare($this->fromVersion, '5.0.0', 'ge')) {
             return true;
         }
+
+        // Add here code which shall be executed only when updating from an older version than 5.0.0
 
         return true;
     }
