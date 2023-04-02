@@ -441,7 +441,7 @@ document.querySelector('body').addEventListener('click', (event) => {
 
   // Click button but missing data-id
   if (typeof event.target.getAttribute('data-id') === 'undefined' || event.target.getAttribute('data-id') <= 0) {
-    Joomla.renderMessages([Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR')]);
+    Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR')] });
     return;
   }
 
