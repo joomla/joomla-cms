@@ -27,7 +27,7 @@ $app->getDocument()
 
 $lang = $app->getLanguage();
 
-$extension = $app->input->get('option');
+$extension = $app->getInput()->get('option');
 
 $listTours = [];
 $allTours = [];
