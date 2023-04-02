@@ -20,6 +20,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseDriver;
@@ -29,6 +30,7 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Filesystem\Folder;
 use Joomla\Plugin\User\BeforeDelete\BeforeDeleteUserInterface;
 use Joomla\Registry\Registry;
+use RuntimeException;
 
 /**
  * Guided Tours plugin to add interactive tours to the administrator interface.
@@ -285,27 +287,58 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
         /** @var   array $user The user to be altered. */
         [$user] = $event->getArguments();
 
-        $componentParams = self::$componentParams;
-        $fallbackUser = $componentParams->get('fallbackUserOnDelete', 'CURRENT');
+        $this->validateFallbackUser($user['id']);
 
-        if ($user['id'] == $fallbackUser) {
+        $this->changeUser($user);
+    }
+
+    /**
+     * Check if the fallback user is set and should not be deleted.
+     *
+     * @param   int  $userIdToDelete
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function validateFallbackUser($userIdToDelete)
+    {
+        $componentParams = self::$componentParams;
+
+        if (empty($fallbackUser = $componentParams->get('fallbackUserOnDelete'))) {
             $this->app->enqueueMessage(
-                Text::_('PLG_USER_BEFOREDELETE_ERROR_FALLBACK_USER_CONNECTED_MSG'),
-                'error'
+                Text::sprintf(
+                    'PLG_USER_BEFOREDELETE_ERROR_FALLBACK_USER_NOT_SET_MSG',
+                    Text::_('COM_USERS_CONFIG_BEFORE_DELETE_USER')
+                ),
+                'warning'
             );
 
-            $url = Uri::getInstance()->toString(array('path', 'query', 'fragment'));
-            $this->app->redirect($url, 500);
-        }
-
-        if (!$this->changeUser($user)) {
             $this->app->enqueueMessage(
                 Text::_('PLG_USER_BEFOREDELETE_ERROR_USER_NOT_DELETED_MSG'),
-                'error'
+                'warning'
             );
 
-            $url = Uri::getInstance()->toString(array('path', 'query', 'fragment'));
-            $this->app->redirect($url, 500);
+            $url = Route::_('/administrator/index.php?option=com_config&view=component&component=com_users');
+            $this->app->redirect($url, 200);
+        }
+
+        if ($userIdToDelete == $fallbackUser) {
+            $this->app->enqueueMessage(
+                Text::sprintf(
+                    'PLG_USER_BEFOREDELETE_ERROR_FALLBACK_USER_CONNECTED_MSG',
+                    Text::_('COM_USERS_CONFIG_BEFORE_DELETE_USER')
+                ),
+                'warning'
+            );
+
+            $this->app->enqueueMessage(
+                Text::_('PLG_USER_BEFOREDELETE_ERROR_USER_NOT_DELETED_MSG'),
+                'warning'
+            );
+
+            $url = Route::_('/administrator/index.php?option=com_config&view=component&component=com_users');
+            $this->app->redirect($url, 200);
         }
     }
 
@@ -320,20 +353,19 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
      */
     private function changeUser($user)
     {
-        $return         = true;
         $userId         = $user['id'];
         $aliasName      = $user['name'];
         $componentParams = self::$componentParams;
-        $fallbackUserId = $componentParams->get('fallbackUserOnDelete', 'CURRENT');
-        $setAuthorAlias = $componentParams->get('setAliasOnDeleteOnDelete', '1');
+        $fallbackUserId = $componentParams->get('fallbackUserOnDelete');
+        $setAuthorAlias = $componentParams->get('setAliasOnDelete', '1');
 
         if (empty($fallbackUserId) || !is_numeric($fallbackUserId)) {
             $fallbackUserId = $this->app->getIdentity()->id;
         }
 
         if (empty($extensions = $this->getExtensionClass())) {
-            // TODO: Add error handling and/or message and return false
-            return true;
+            // TODO: Add error handling and/or message and return it
+            return;
         }
 
         foreach ($extensions as $extensionBaseContext => $extensionClass) {
@@ -419,12 +451,16 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
                         'error'
                     );
 
-                    $return = false;
+                    $this->app->enqueueMessage(
+                        Text::_('PLG_USER_BEFOREDELETE_ERROR_USER_NOT_DELETED_MSG'),
+                        'error'
+                    );
+
+                    $url = Uri::getInstance()->toString(array('path', 'query', 'fragment'));
+                    $this->app->redirect($url, 500);
                 }
             }
         }
-
-        return $return;
     }
 
     /**
@@ -439,10 +475,7 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
         $extensionList = Folder::folders(JPATH_PLUGINS . '/beforedeleteuser');
 
         foreach ($extensionList as $extension) {
-            if (PluginHelper::isEnabled('beforedeleteuser', $extension) === false) {
-                continue;
-            }
-            /** @var BeforeDeleteUserInterface $extensionClass */
+            /** @var BeforeDeleteUserInterface|null $extensionClass */
             $extensionClass = $this->loadExtensionClass($extension);
 
             if ($extensionClass instanceof BeforeDeleteUserInterface
@@ -465,6 +498,10 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
     private function loadExtensionClass($extensionName)
     {
         $error = false;
+
+        if (PluginHelper::isEnabled('beforedeleteuser', $extensionName) === false) {
+            return;
+        }
 
         try {
             /** @var BeforeDeleteUserInterface $extensionClass */
