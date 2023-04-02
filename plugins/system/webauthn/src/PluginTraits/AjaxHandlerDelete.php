@@ -13,7 +13,6 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 use Exception;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxDelete;
 use Joomla\CMS\User\User;
-use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
