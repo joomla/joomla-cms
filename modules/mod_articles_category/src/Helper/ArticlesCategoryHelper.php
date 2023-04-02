@@ -286,6 +286,19 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
             $item->displayReadmore  = $item->alternative_readmore;
         }
 
+        // Check if items need be grouped
+        $article_grouping           = $params->get('article_grouping', 'none');
+        $article_grouping_direction = $params->get('article_grouping_direction', 'ksort');
+        $grouped                    = $article_grouping !== 'none';
+
+        if ($items && $grouped) {
+            $items = match ($article_grouping) {
+                'year', 'month_year' => ArticlesCategoryHelper::groupByDate($items, $article_grouping_direction, $article_grouping, $params->get('month_year_format', 'F Y'), $params->get('date_grouping_field', 'created')),
+                'author', 'category_title' => ArticlesCategoryHelper::groupBy($items, $article_grouping, $article_grouping_direction),
+                'tags' => ArticlesCategoryHelper::groupByTags($items, $article_grouping_direction),
+            };
+        }
+
         return $items;
     }
 
