@@ -429,6 +429,11 @@ class BannerModel extends AdminModel
             $data['state'] = 0;
         }
 
+        if ($input->get('task') == 'save2copy' || $input->get('task') == 'copy') {
+            $data['clicks'] = 0;
+            $data['impmade'] = 0;
+        }
+
         return parent::save($data);
     }
 
