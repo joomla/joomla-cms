@@ -90,6 +90,11 @@ class TourModel extends AdminModel
             $table->description = '';
             $table->tour_id     = $tourId;
             $table->published   = 1;
+            $table->position    = 'center';
+            $table->target      = '';
+            $table->type        = 0;
+            $table->url         = '';
+            $table->language    = '*';
 
             $table->store();
         }
