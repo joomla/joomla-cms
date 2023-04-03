@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Plugin\System\Languagecode\Extension;
+namespace Joomla\Plugin\System\LanguageCode\Extension;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageHelper;
@@ -24,7 +24,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
  *
  * @since  2.5
  */
-final class Languagecode extends CMSPlugin
+final class LanguageCode extends CMSPlugin
 {
     /**
      * Plugin that changes the language code used in the <html /> tag.
