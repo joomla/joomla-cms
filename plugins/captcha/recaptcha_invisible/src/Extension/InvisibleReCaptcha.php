@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\Captcha\InvisibleReCaptcha\Extension;
 
 use Joomla\CMS\Application\CMSWebApplicationInterface;
-use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
 use Joomla\CMS\Form\Field\CaptchaField;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
