@@ -181,6 +181,16 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
         if ($this->getApplication()) {
             $lang = $this->getApplication()->getLanguage();
+        } else {
+            // @TODO: Throw an exception in Joomla 6
+            @trigger_error(
+                sprintf(
+                    'Trying to load language without Application is discouraged. This will throw an exception in 6.0. Plugin "%s/%s"',
+                    $this->_type,
+                    $this->_name
+                ),
+                E_USER_DEPRECATED
+            );
         }
 
         if (!$lang) {
