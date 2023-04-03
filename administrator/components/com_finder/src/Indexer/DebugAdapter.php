@@ -11,7 +11,6 @@
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
 use Exception;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
@@ -176,7 +175,7 @@ abstract class DebugAdapter extends CMSPlugin
         $iState->totalItems += $total;
 
         // Populate the indexer state information for the adapter.
-        $iState->pluginState[$this->context]['total'] = $total;
+        $iState->pluginState[$this->context]['total']  = $total;
         $iState->pluginState[$this->context]['offset'] = 0;
 
         // Set the indexer state.
@@ -231,7 +230,7 @@ abstract class DebugAdapter extends CMSPlugin
 
         // Get the batch offset and size.
         $offset = (int) $aState['offset'];
-        $limit = (int) ($iState->batchSize - $iState->batchOffset);
+        $limit  = (int) ($iState->batchSize - $iState->batchOffset);
 
         // Get the content items to index.
         $items = $this->getItems($offset, $limit);
@@ -248,7 +247,7 @@ abstract class DebugAdapter extends CMSPlugin
         }
 
         // Update the indexer state.
-        $aState['offset'] = $offset;
+        $aState['offset']                    = $offset;
         $iState->pluginState[$this->context] = $aState;
         Indexer::setState($iState);
 
@@ -264,10 +263,10 @@ abstract class DebugAdapter extends CMSPlugin
      */
     public function onFinderGarbageCollection()
     {
-        $db = $this->db;
+        $db      = $this->db;
         $type_id = $this->getTypeId();
 
-        $query = $db->getQuery(true);
+        $query    = $db->getQuery(true);
         $subquery = $db->getQuery(true);
         $subquery->select('CONCAT(' . $db->quote($this->getUrl('', $this->extension, $this->layout)) . ', id)')
             ->from($db->quoteName($this->table));
@@ -386,7 +385,7 @@ abstract class DebugAdapter extends CMSPlugin
 
         // Check the items.
         if (empty($items)) {
-            Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', array($id));
+            $this->getApplication()->triggerEvent('onFinderIndexAfterDelete', [$id]);
 
             return true;
         }
@@ -766,7 +765,7 @@ abstract class DebugAdapter extends CMSPlugin
         $return = null;
 
         // Set variables
-        $user = Factory::getUser();
+        $user   = $this->getApplication()->getIdentity();
         $groups = implode(',', $user->getAuthorisedViewLevels());
 
         // Build a query to get the menu params.

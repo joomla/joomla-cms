@@ -342,7 +342,7 @@ class IndexerController extends BaseController
                 2 => 'Text context',
                 3 => 'Meta context',
                 4 => 'Path context',
-                5 => 'Misc context'
+                5 => 'Misc context',
             ];
 
             foreach (DebugIndexer::$item->getInstructions() as $key => $element) {
@@ -363,8 +363,8 @@ class IndexerController extends BaseController
             $output .= '</fieldset>';
 
             // Get the indexer state.
-            $state = Indexer::getState();
-            $state->start = 0;
+            $state           = Indexer::getState();
+            $state->start    = 0;
             $state->complete = 0;
             $state->rendered = $output;
 
