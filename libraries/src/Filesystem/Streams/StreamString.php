@@ -20,6 +20,8 @@ use Joomla\Filesystem\Stream\StringWrapper as FilesystemStringWrapper;
  * you would normally use a regular stream wrapper
  *
  * @since  1.7.0
+ * @deprecated  4.4 will be removed in 6.0
+ *              Use Joomla\Filesystem\Stream\StringWrapper instead.
  */
 class StreamString extends FilesystemStringWrapper
 {

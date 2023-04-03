@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Fields\Administrator\Model;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;

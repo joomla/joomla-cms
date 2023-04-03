@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Content\Administrator\Service\HTML;
 
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;

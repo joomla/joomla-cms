@@ -249,7 +249,7 @@ class JNamespacePsr4Map
     }
 
     /**
-     * Returns an array of with extension paths as keys and manifest paths as values.
+     * Returns an array of extensions with their respective paths as keys and manifest paths as values.
      *
      * @param   string  $type  The extension type
      *

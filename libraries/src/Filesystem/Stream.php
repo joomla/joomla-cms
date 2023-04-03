@@ -29,6 +29,8 @@ use Joomla\Filesystem\Stream as FilesystemStream;
  * @link   https://www.php.net/manual/en/filters.php Stream Filters
  * @link   https://www.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
  * @since  1.7.0
+ * @deprecated  4.4 will be removed in 6.0
+ *              Use Joomla\Filesystem\Stream instead.
  */
 class Stream extends FilesystemStream
 {
