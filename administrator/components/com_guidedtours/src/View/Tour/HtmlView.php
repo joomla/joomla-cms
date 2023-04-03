@@ -94,15 +94,13 @@ class HtmlView extends BaseHtmlView
     {
         Factory::getApplication()->input->set('hidemainmenu', true);
 
-        $user       = Factory::getUser();
+        $user       = Factory::getApplication()->getIdentity();
         $userId     = $user->id;
         $isNew      = empty($this->item->id);
 
         $canDo = ContentHelper::getActions('com_guidedtours');
 
-        $toolbar = Toolbar::getInstance();
-
-        ToolbarHelper::title(Text::_('COM_GUIDEDTOURS') . ' - ' . ($isNew ? Text::_('COM_GUIDEDTOURS_MANAGER_TOUR_NEW') : Text::_('COM_GUIDEDTOURS_MANAGER_TOUR_EDIT')), 'map-signs');
+        ToolbarHelper::title(Text::_($isNew ? 'COM_GUIDEDTOURS_MANAGER_TOUR_NEW' : 'COM_GUIDEDTOURS_MANAGER_TOUR_EDIT'), 'map-signs');
 
         $toolbarButtons = [];
 
