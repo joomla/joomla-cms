@@ -367,13 +367,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
             $htmlString = HTMLHelper::_('string.truncate', $html, $maxLength, true, true);
 
             // Now get the plain text from the html string.
-            $htmlStringToPtString = HTMLHelper::_(
-                'string.truncate',
-                $htmlString,
-                $maxLength,
-                true,
-                false
-            );
+            $htmlStringToPtString = HTMLHelper::_('string.truncate', $htmlString, $maxLength, true, false);
 
             // If the new plain text string matches the original plain text string we are done.
             if ($ptString === $htmlStringToPtString) {
