@@ -188,6 +188,8 @@ steps:
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
+    environment:
+      CYPRESS_VERIFY_TIMEOUT: 100000
     commands:
       - mv cypress.config.dist.js cypress.config.js
       - npx cypress install
@@ -453,6 +455,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 3457679ef0cd23bde8dd9900016aba663a279aa0c32049c8e37db56676cadd38
+hmac: 7abf75de936f722f96087502541c671a0ea093bc7022efe933003353505d30be
 
 ...
