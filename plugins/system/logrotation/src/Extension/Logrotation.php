@@ -12,11 +12,10 @@ namespace Joomla\Plugin\System\Logrotation\Extension;
 
 use Exception;
 use Joomla\CMS\Cache\Cache;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
