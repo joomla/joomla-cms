@@ -108,7 +108,7 @@ class TagsHelper extends CMSHelper
         $typeId = $ucm->getTypeId();
 
         // Insert the new tag maps
-        if (strpos(implode(',', $tags), '#') === false) {
+        if (strpos(implode(',', $tags), '#') !== false) {
             $tags = self::createTagsFromField($tags);
         }
 
