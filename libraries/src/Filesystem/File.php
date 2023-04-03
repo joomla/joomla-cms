@@ -35,57 +35,6 @@ class File extends FilesystemFile
     protected static $canFlushFileCache;
 
     /**
-     * Gets the extension of a file name
-     *
-     * @param   string  $file  The file name
-     *
-     * @return  string  The file extension
-     *
-     * @since   1.7.0
-     */
-    public static function getExt($file)
-    {
-        // String manipulation should be faster than pathinfo() on newer PHP versions.
-        $dot = strrpos($file, '.');
-
-        if ($dot === false) {
-            return '';
-        }
-
-        $ext = substr($file, $dot + 1);
-
-        // Extension cannot contain slashes.
-        if (strpos($ext, '/') !== false || (DIRECTORY_SEPARATOR === '\\' && strpos($ext, '\\') !== false)) {
-            return '';
-        }
-
-        return $ext;
-    }
-
-    /**
-     * Makes file name safe to use
-     *
-     * @param   string    $file        The name of the file [not full path]
-     * @param   string[]  $stripChars  Array of regex (by default will remove any leading periods)
-     *
-     * @return  string  The sanitised string
-     *
-     * @since   1.7.0
-     * @deprecated  4.4 will be removed in 6.0
-     *              Use Joomla\Filesystem\File::makeSafe() instead.
-     */
-    public static function makeSafe($file, array $stripChars = ['#^\.#'])
-    {
-        // Try transliterating the file name using the native php function
-        if (function_exists('transliterator_transliterate') && function_exists('iconv')) {
-            // Using iconv to ignore characters that can't be transliterated
-            $file = iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII', $file));
-        }
-
-        return parent::makeSafe($file, $stripChars);
-    }
-
-    /**
      * First we check if opcache is enabled
      * Then we check if the opcache_invalidate function is available
      * Lastly we check if the host has restricted which scripts can use opcache_invalidate using opcache.restrict_api.
@@ -131,40 +80,10 @@ class File extends FilesystemFile
      * @return  boolean  True on success
      *
      * @since   3.6.0
-     *
      */
     public static function append($file, $buffer, $useStreams = false)
     {
-        @set_time_limit(ini_get('max_execution_time'));
-
-        // If the file doesn't exist, just write instead of append
-        if (!file_exists($file)) {
-            return self::write($file, $buffer, $useStreams);
-        }
-
-        if ($useStreams) {
-            $stream = Factory::getStream();
-
-            // Beef up the chunk size to a meg
-            $stream->set('chunksize', (1024 * 1024));
-
-            if ($stream->open($file, 'ab') && $stream->write($buffer) && $stream->close()) {
-                self::invalidateFileCache($file);
-
-                return true;
-            }
-
-            Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_WRITE_STREAMS', __METHOD__, $file, $stream->getError()), Log::WARNING, 'jerror');
-
-            return false;
-        } else {
-            $file = Path::clean($file);
-            $ret  = \is_int(file_put_contents($file, $buffer, FILE_APPEND));
-
-            self::invalidateFileCache($file);
-
-            return $ret;
-        }
+        return static::write($file, $buffer, $useStreams, true);
     }
 
     /**
