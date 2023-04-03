@@ -6,9 +6,9 @@
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
+
+namespace Joomla\Plugin\Privacy\Actionlogs\Extension;
 
 use Joomla\CMS\User\User;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
@@ -25,7 +25,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  3.9.0
  */
-class PlgPrivacyActionlogs extends PrivacyPlugin
+final class Actionlogs extends PrivacyPlugin
 {
     /**
      * Processes an export request for Joomla core actionlog data
@@ -44,7 +44,7 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
         }
 
         $domain = $this->createDomain('user_action_logs', 'joomla_user_action_logs_data');
-        $db     = $this->db;
+        $db     = $this->getDatabase();
         $userId = (int) $user->id;
 
         $query = $db->getQuery(true)

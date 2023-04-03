@@ -6,11 +6,10 @@
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Application\CMSApplicationInterface;
+namespace Joomla\Plugin\Privacy\User\Extension;
+
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\User as TableUser;
 use Joomla\CMS\User\User;
@@ -30,16 +29,8 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.9.0
  */
-class PlgPrivacyUser extends PrivacyPlugin
+final class UserPlugin extends PrivacyPlugin
 {
-    /**
-     * Application object
-     *
-     * @var    CMSApplicationInterface
-     * @since  4.0.0
-     */
-    protected $app;
-
     /**
      * Performs validation to determine if the data associated with a remove information request can be processed
      *
@@ -150,7 +141,7 @@ class PlgPrivacyUser extends PrivacyPlugin
     private function createNotesDomain(TableUser $user)
     {
         $domain = $this->createDomain('user_notes', 'joomla_user_notes_data');
-        $db     = $this->db;
+        $db     = $this->getDatabase();
 
         $query = $db->getQuery(true)
             ->select('*')
@@ -184,7 +175,7 @@ class PlgPrivacyUser extends PrivacyPlugin
     private function createProfileDomain(TableUser $user)
     {
         $domain = $this->createDomain('user_profile', 'joomla_user_profile_data');
-        $db     = $this->db;
+        $db     = $this->getDatabase();
 
         $query = $db->getQuery(true)
             ->select('*')
