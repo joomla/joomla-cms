@@ -25,7 +25,7 @@ foreach ($list as $item) : ?>
         echo ' class="active"';
        } ?>> <?php $levelup = $item->level - $startLevel - 1; ?>
         <a href="<?php echo Route::_(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>">
-            <?php echo $item->title; ?>
+        <?php echo $item->title; ?>
             <?php if ($params->get('numitems')) : ?>
                 (<?php echo $item->numitems; ?>)
             <?php endif; ?>
@@ -37,7 +37,7 @@ foreach ($list as $item) : ?>
         <?php
         if (
             $params->get('show_children', 0) && (($params->get('maxlevel', 0) == 0)
-                || ($params->get('maxlevel') >= ($item->level - $startLevel)))
+            || ($params->get('maxlevel') >= ($item->level - $startLevel)))
             && count($item->getChildren())
         ) : ?>
             <?php echo '<ul>'; ?>
