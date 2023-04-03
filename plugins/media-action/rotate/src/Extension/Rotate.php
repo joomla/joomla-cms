@@ -6,9 +6,11 @@
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
+
+namespace Joomla\Plugin\MediaAction\Rotate\Extension;
+
+use Joomla\Component\Media\Administrator\Plugin\MediaActionPlugin;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -19,6 +21,6 @@
  *
  * @since  4.0.0
  */
-class PlgMediaActionRotate extends \Joomla\Component\Media\Administrator\Plugin\MediaActionPlugin
+final class Rotate extends MediaActionPlugin
 {
 }
