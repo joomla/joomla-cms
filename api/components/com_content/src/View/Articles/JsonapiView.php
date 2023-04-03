@@ -189,6 +189,10 @@ class JsonapiView extends BaseApiView
      */
     protected function prepareItem($item)
     {
+        if (!$item) {
+            return $item;
+        }
+
         $item->text = $item->introtext . ' ' . $item->fulltext;
 
         // Process the content plugins.

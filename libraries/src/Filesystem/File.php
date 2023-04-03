@@ -23,6 +23,8 @@ use Joomla\Filesystem\File as FilesystemFile;
  * A File handling class
  *
  * @since  1.7.0
+ * @deprecated  4.4 will be removed in 6.0
+ *              Use Joomla\Filesystem\File instead.
  */
 class File extends FilesystemFile
 {
@@ -69,6 +71,8 @@ class File extends FilesystemFile
      * @return  string  The sanitised string
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::makeSafe() instead.
      */
     public static function makeSafe($file, array $stripChars = ['#^\.#'])
     {
@@ -94,6 +98,9 @@ class File extends FilesystemFile
      * @return boolean TRUE if we can proceed to use opcache_invalidate to flush a file from the OPCache
      *
      * @since 4.0.1
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::invalidateFileCache() instead.
+     *              This method will be removed without replacement.
      */
     public static function canFlushFileCache()
     {
@@ -124,6 +131,7 @@ class File extends FilesystemFile
      * @return  boolean  True on success
      *
      * @since   3.6.0
+     *
      */
     public static function append($file, $buffer, $useStreams = false)
     {
@@ -171,6 +179,9 @@ class File extends FilesystemFile
      * @return  bool  True on success
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\File::upload() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function upload($src, $dest, $useStreams = false, $allowUnsafe = false, $safeFileOptions = [])
     {
@@ -203,6 +214,8 @@ class File extends FilesystemFile
      * @return  boolean  True if path is a file
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use is_file() instead.
      */
     public static function exists($file)
     {
