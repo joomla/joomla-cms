@@ -25,7 +25,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 /**
  * View to edit an tour.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
 class HtmlView extends BaseHtmlView
 {
@@ -65,7 +65,7 @@ class HtmlView extends BaseHtmlView
      * @return  void
      *
      * @throws \Exception
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public function display($tpl = null)
     {
@@ -88,7 +88,7 @@ class HtmlView extends BaseHtmlView
      * @return void
      *
      * @throws \Exception
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected function addToolbar()
     {
@@ -102,7 +102,7 @@ class HtmlView extends BaseHtmlView
 
         $toolbar = Toolbar::getInstance();
 
-        ToolbarHelper::title(Text::_('COM_GUIDEDTOURS') . ' - ' . ($isNew ? Text::_('COM_GUIDEDTOURS_MANAGER_TOUR_NEW') : Text::_('COM_GUIDEDTOURS_MANAGER_TOUR_EDIT')), 'map-signs');
+        ToolbarHelper::title(Text::_($isNew ? 'COM_GUIDEDTOURS_MANAGER_TOUR_NEW' : 'COM_GUIDEDTOURS_MANAGER_TOUR_EDIT'), 'map-signs');
 
         $toolbarButtons = [];
 
