@@ -70,7 +70,7 @@ class JsonapiRenderer extends JsonRenderer
 
             $response = $errors->handle($error);
         } else {
-            $code = 500;
+            $code      = 500;
             $errorInfo = ['code' => $code, 'title' => 'Internal server error'];
 
             if (JDEBUG) {

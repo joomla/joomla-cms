@@ -12,7 +12,6 @@
 
 use DebugBar\DataCollector\MemoryCollector;
 use DebugBar\DataCollector\MessagesCollector;
-use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
 use Joomla\Application\ApplicationEvents;
@@ -34,7 +33,9 @@ use Joomla\Plugin\System\Debug\DataCollector\LanguageFilesCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageStringsCollector;
 use Joomla\Plugin\System\Debug\DataCollector\ProfileCollector;
 use Joomla\Plugin\System\Debug\DataCollector\QueryCollector;
+use Joomla\Plugin\System\Debug\DataCollector\RequestDataCollector;
 use Joomla\Plugin\System\Debug\DataCollector\SessionCollector;
+use Joomla\Plugin\System\Debug\DataCollector\UserCollector;
 use Joomla\Plugin\System\Debug\JavascriptRenderer;
 use Joomla\Plugin\System\Debug\JoomlaHttpDriver;
 use Joomla\Plugin\System\Debug\Storage\FileStorage;
@@ -50,6 +51,13 @@ use Joomla\Plugin\System\Debug\Storage\FileStorage;
  */
 class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 {
+    /**
+     * List of protected keys that will be redacted in multiple data collected
+     *
+     * @since  4.2.4
+     */
+    public const PROTECTED_COLLECTOR_KEYS = "/password|passwd|pwd|secret|token|server_auth|_pass|smtppass|otpKey|otep/i";
+
     /**
      * True if debug lang is on.
      *
@@ -154,12 +162,12 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onBeforeCompileHead' => 'onBeforeCompileHead',
-            'onAjaxDebug'         => 'onAjaxDebug',
-            'onBeforeRespond'     => 'onBeforeRespond',
-            'onAfterRespond'      => 'onAfterRespond',
+            'onBeforeCompileHead'            => 'onBeforeCompileHead',
+            'onAjaxDebug'                    => 'onAjaxDebug',
+            'onBeforeRespond'                => 'onBeforeRespond',
+            'onAfterRespond'                 => 'onAfterRespond',
             ApplicationEvents::AFTER_RESPOND => 'onAfterRespond',
-            'onAfterDisconnect'   => 'onAfterDisconnect',
+            'onAfterDisconnect'              => 'onAfterDisconnect',
         ];
     }
 
@@ -194,10 +202,14 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
             $this->db->setMonitor(null);
         }
 
-        $storagePath = JPATH_CACHE . '/plg_system_debug_' . $this->app->getName();
-
         $this->debugBar = new DebugBar();
-        $this->debugBar->setStorage(new FileStorage($storagePath));
+
+        // Check whether we want to track the request history for future use.
+        if ($this->params->get('track_request_history', false)) {
+            $storagePath = JPATH_CACHE . '/plg_system_debug_' . $this->app->getName();
+            $this->debugBar->setStorage(new FileStorage($storagePath));
+        }
+
         $this->debugBar->setHttpDriver(new JoomlaHttpDriver($this->app));
 
         $this->isAjax = $this->app->getInput()->get('option') === 'com_ajax'
@@ -280,6 +292,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
         $this->loadLanguage();
 
         $this->debugBar->addCollector(new InfoCollector($this->params, $this->debugBar->getCurrentRequestId()));
+        $this->debugBar->addCollector(new UserCollector());
 
         if (JDEBUG) {
             if ($this->params->get('memory', 1)) {
@@ -324,7 +337,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 
         $debugBarRenderer = new JavascriptRenderer($this->debugBar, Uri::root(true) . '/media/vendor/debugbar/');
         $openHandlerUrl   = Uri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
-        $openHandlerUrl  .= '&' . Session::getFormToken() . '=1';
+        $openHandlerUrl .= '&' . Session::getFormToken() . '=1';
 
         $debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
 
@@ -383,7 +396,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
                 $result  = $event['result'] ?: [];
                 $handler = new OpenHandler($this->debugBar);
 
-                $result[] = $handler->handle($this->app->getInput()->request->getArray(), false, false);
+                $result[]        = $handler->handle($this->app->getInput()->request->getArray(), false, false);
                 $event['result'] = $result;
         }
     }
@@ -543,7 +556,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
             $logEntries = array_merge($logEntries, $this->logEntries);
         }
 
-        $logDeprecated = $this->app->get('log_deprecated', 0);
+        $logDeprecated     = $this->app->get('log_deprecated', 0);
         $logDeprecatedCore = $this->params->get('log-deprecated-core', 0);
 
         $this->debugBar->addCollector(new MessagesCollector('log'));
@@ -609,7 +622,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 
                     $message = [
                         'message' => $entry->message,
-                        'caller' => $file . ':' . $line,
+                        'caller'  => $file . ':' . $line,
                         // @todo 'stack' => $entry->callStack;
                     ];
                     $this->debugBar[$category]->addMessage($message, 'warning');

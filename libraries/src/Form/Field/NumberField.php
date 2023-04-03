@@ -204,12 +204,12 @@ class NumberField extends FormField
         $data = parent::getLayoutData();
 
         // Initialize some field attributes.
-        $extraData = array(
+        $extraData = [
             'max'   => $this->max,
             'min'   => $this->min,
             'step'  => $this->step,
             'value' => $this->value,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

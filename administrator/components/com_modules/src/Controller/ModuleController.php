@@ -65,7 +65,7 @@ class ModuleController extends FormController
         $app->setUserState('com_modules.add.module.params', null);
 
         // Parameters could be coming in for a new item, so let's set them.
-        $params = $this->input->get('params', array(), 'array');
+        $params = $this->input->get('params', [], 'array');
         $app->setUserState('com_modules.add.module.params', $params);
     }
 
@@ -133,7 +133,7 @@ class ModuleController extends FormController
      *
      * @since   3.2
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         // Initialise variables.
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
@@ -165,7 +165,7 @@ class ModuleController extends FormController
         $this->checkToken();
 
         // Set the model
-        $model = $this->getModel('Module', 'Administrator', array());
+        $model = $this->getModel('Module', 'Administrator', []);
 
         // Preset the redirect
         $redirectUrl = 'index.php?option=com_modules&view=modules' . $this->getRedirectToListAppend();
@@ -185,7 +185,7 @@ class ModuleController extends FormController
      *
      * @since   1.6
      */
-    protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
+    protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
     {
         $task = $this->getTask();
 
@@ -215,9 +215,9 @@ class ModuleController extends FormController
         $this->checkToken();
 
         if ($this->app->getDocument()->getType() == 'json') {
-            $model = $this->getModel();
-            $data  = $this->input->post->get('jform', array(), 'array');
-            $item = $model->getItem($this->input->get('id'));
+            $model      = $this->getModel();
+            $data       = $this->input->post->get('jform', [], 'array');
+            $item       = $model->getItem($this->input->get('id'));
             $properties = $item->getProperties();
 
             if (isset($data['params'])) {
@@ -279,9 +279,9 @@ class ModuleController extends FormController
             $app->close();
         }
 
-        $db    = Factory::getDbo();
+        $db       = Factory::getDbo();
         $clientId = (int) $clientId;
-        $query = $db->getQuery(true)
+        $query    = $db->getQuery(true)
             ->select($db->quoteName(['position', 'ordering', 'title']))
             ->from($db->quoteName('#__modules'))
             ->where($db->quoteName('client_id') . ' = :clientid')
@@ -300,8 +300,8 @@ class ModuleController extends FormController
             return '';
         }
 
-        $orders2 = array();
-        $n = count($orders);
+        $orders2 = [];
+        $n       = count($orders);
 
         if ($n > 0) {
             for ($i = 0; $i < $n; $i++) {
@@ -310,7 +310,7 @@ class ModuleController extends FormController
                 }
 
                 $orders2[$orders[$i]->position]++;
-                $ord = $orders2[$orders[$i]->position];
+                $ord   = $orders2[$orders[$i]->position];
                 $title = Text::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($orders[$i]->title, ENT_QUOTES, 'UTF-8'));
 
                 $html[] = $orders[$i]->position . ',' . $ord . ',' . $title;

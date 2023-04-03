@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Scheduler\Administrator\Field">
 	<fields name="filter">
 		<field
@@ -13,7 +13,7 @@
 			name="state"
 			type="taskState"
 			label="JSTATUS"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			validate="options"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -22,7 +22,7 @@
 			name="type"
 			type="taskType"
 			label="COM_SCHEDULER_HEADING_TASK_TYPE"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_SCHEDULER_SELECT_TYPE</option>
 		</field>
@@ -31,7 +31,7 @@
 			type="list"
 			label="COM_SCHEDULER_FIELD_LABEL_SHOW_ORPHANED"
 			default="-1"
-			onchange="this.form.submit()"
+			class="js-select-submit-on-change"
 			>
 			<option value="-1">COM_SCHEDULER_OPTION_ORPHANED_HIDE</option>
 			<option value="0">COM_SCHEDULER_OPTION_ORPHANED_SHOW</option>
@@ -44,7 +44,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			default="a.title ASC"
 			validate="options"
 			>
@@ -69,7 +69,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 	</fields>
 </form>

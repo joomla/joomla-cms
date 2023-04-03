@@ -53,7 +53,7 @@ class UrlFilter implements FormFilterInterface
         $value = trim($value);
 
         // <>" are never valid in a uri see https://www.ietf.org/rfc/rfc1738.txt
-        $value = str_replace(array('<', '>', '"'), '', $value);
+        $value = str_replace(['<', '>', '"'], '', $value);
 
         // Check for a protocol
         $protocol = parse_url($value, PHP_URL_SCHEME);
@@ -62,7 +62,7 @@ class UrlFilter implements FormFilterInterface
         // we assume that it is an external URL and prepend http://
         if (
             ((string) $element['type'] === 'url' && !$protocol && !$element['relative'])
-            || (!(string) $element['type'] === 'url' && !$protocol)
+            || ((string) $element['type'] !== 'url' && !$protocol)
         ) {
             $protocol = 'http';
 

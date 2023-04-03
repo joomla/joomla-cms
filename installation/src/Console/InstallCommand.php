@@ -12,11 +12,11 @@ namespace Joomla\CMS\Installation\Console;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Installation\Application\CliInstallationApplication;
 use Joomla\CMS\Installation\Model\ChecksModel;
 use Joomla\CMS\Installation\Model\CleanupModel;
 use Joomla\CMS\Installation\Model\DatabaseModel;
 use Joomla\CMS\Installation\Model\SetupModel;
-use Joomla\CMS\Installation\Application\CliInstallationApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Version;
 use Joomla\Console\Command\AbstractCommand;
@@ -29,7 +29,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command for installing Joomla
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.3.0
  */
 class InstallCommand extends AbstractCommand
 {
@@ -37,19 +37,19 @@ class InstallCommand extends AbstractCommand
      * The default command name
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected static $defaultName = 'install';
 
     /**
      * @var  SymfonyStyle
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $ioStyle;
 
     /**
      * @var  InputInterface
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $cliInput;
 
@@ -61,7 +61,7 @@ class InstallCommand extends AbstractCommand
      *
      * @return  integer  The command exit code
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
@@ -194,7 +194,7 @@ class InstallCommand extends AbstractCommand
      * @return  array  Array of configuration options
      *
      * @throws  \Exception
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected function getCLIOptions()
     {
@@ -261,7 +261,7 @@ class InstallCommand extends AbstractCommand
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected function configure(): void
     {
@@ -305,7 +305,7 @@ class InstallCommand extends AbstractCommand
                 }
 
                 // Add in the underscore.
-                $prefix  .= '_';
+                $prefix .= '_';
                 $default = $prefix;
             }
 
@@ -331,7 +331,7 @@ class InstallCommand extends AbstractCommand
      * @return  string
      *
      * @throws  \Exception
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     protected function getStringFromOption($option, $question, FormField $field): string
     {
