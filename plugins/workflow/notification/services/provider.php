@@ -37,7 +37,7 @@ return new class () implements ServiceProviderInterface {
                 $dispatcher = $container->get(DispatcherInterface::class);
                 $plugin     = new Notification(
                     $dispatcher,
-                    (array) PluginHelper::getPlugin('workflow', 'featuring')
+                    (array) PluginHelper::getPlugin('workflow', 'notification')
                 );
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
