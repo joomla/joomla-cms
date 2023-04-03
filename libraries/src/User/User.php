@@ -221,14 +221,6 @@ class User extends CMSObject
     protected static $instances = [];
 
     /**
-     * The access level id
-     *
-     * @var    integer
-     * @since  4.3.0
-     */
-    public $aid = null;
-
-    /**
      * Constructor activating the default information of the language
      *
      * @param   integer  $identifier  The primary key of the user to load (optional).
@@ -247,7 +239,6 @@ class User extends CMSObject
             // Initialise
             $this->id        = 0;
             $this->sendEmail = 0;
-            $this->aid       = 0;
             $this->guest     = 1;
         }
     }
