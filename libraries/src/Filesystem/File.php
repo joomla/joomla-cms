@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Filesystem;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
