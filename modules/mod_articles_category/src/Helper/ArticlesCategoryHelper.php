@@ -292,11 +292,25 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
         $grouped                    = $article_grouping !== 'none';
 
         if ($items && $grouped) {
-            $items = match ($article_grouping) {
-                'year', 'month_year' => ArticlesCategoryHelper::groupByDate($items, $article_grouping_direction, $article_grouping, $params->get('month_year_format', 'F Y'), $params->get('date_grouping_field', 'created')),
-                'author', 'category_title' => ArticlesCategoryHelper::groupBy($items, $article_grouping, $article_grouping_direction),
-                'tags' => ArticlesCategoryHelper::groupByTags($items, $article_grouping_direction),
-            };
+            switch ($article_grouping) {
+                case 'year':
+                case 'month_year':
+                    $items = ArticlesCategoryHelper::groupByDate(
+                        $items,
+                        $article_grouping_direction,
+                        $article_grouping,
+                        $params->get('month_year_format', 'F Y'),
+                        $params->get('date_grouping_field', 'created')
+                    );
+                    break;
+                case 'author':
+                case 'category_title':
+                    $items = ArticlesCategoryHelper::groupBy($items, $article_grouping, $article_grouping_direction);
+                    break;
+                case 'tags':
+                    $items = ArticlesCategoryHelper::groupByTags($items, $article_grouping_direction);
+                    break;
+            }
         }
 
         return $items;
@@ -410,6 +424,14 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
     {
         $grouped = [];
 
+        if (!\is_array($list)) {
+            if ($list === '') {
+                return $grouped;
+            }
+
+            $list = [$list];
+        }
+
         foreach ($list as $key => $item) {
             if (!isset($grouped[$item->$fieldName])) {
                 $grouped[$item->$fieldName] = [];
@@ -445,6 +467,14 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
     public static function groupByDate($list, $direction = 'ksort', $type = 'year', $monthYearFormat = 'F Y', $field = 'created')
     {
         $grouped = [];
+
+        if (!\is_array($list)) {
+            if ($list === '') {
+                return $grouped;
+            }
+
+            $list = [$list];
+        }
 
         foreach ($list as $key => $item) {
             switch ($type) {
