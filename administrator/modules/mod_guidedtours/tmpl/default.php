@@ -55,7 +55,7 @@ endforeach;
 ksort($allTours);
 
 ?>
-<div class="header-item-content dropdown header-tours">
+<div class="header-item-content dropdown header-tours d-none d-sm-block">
     <button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button" title="<?php echo Text::_('MOD_GUIDEDTOURS_MENU'); ?>">
         <div class="header-item-icon">
             <span class="icon-map-signs" aria-hidden="true"></span>

@@ -26,7 +26,7 @@ use Joomla\CMS\Router\Route;
 /**
  * View class for a list of guidedtour_steps.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
 class HtmlView extends BaseHtmlView
 {
@@ -70,7 +70,7 @@ class HtmlView extends BaseHtmlView
      *
      * @var   boolean
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     private $isEmptyState = false;
 
@@ -115,7 +115,7 @@ class HtmlView extends BaseHtmlView
      *
      * @return void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected function addToolbar()
     {
@@ -188,7 +188,7 @@ class HtmlView extends BaseHtmlView
      *
      * @return array  Array containing the field name to sort by as the key and display text as value
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected function getSortFields()
     {

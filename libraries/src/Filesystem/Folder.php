@@ -19,6 +19,8 @@ use Joomla\Filesystem\Folder as FilesystemFolder;
  * A Folder handling class
  *
  * @since  1.7.0
+ * @deprecated  4.4 will be removed in 6.0
+ *              Use Joomla\Filesystem\Folder instead.
  */
 abstract class Folder extends FilesystemFolder
 {
@@ -30,6 +32,8 @@ abstract class Folder extends FilesystemFolder
      * @return  boolean  True if path is a folder
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use is_dir() instead.
      */
     public static function exists($path)
     {
@@ -50,6 +54,9 @@ abstract class Folder extends FilesystemFolder
      * @return  array|boolean  Files in the given folder.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Folder::files() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function files(
         $path,
