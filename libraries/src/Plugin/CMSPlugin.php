@@ -62,6 +62,8 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
      *
      * @var    boolean
      * @since  3.1
+     *
+     * @deprecated
      */
     protected $autoloadLanguage = false;
 
@@ -121,6 +123,16 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
         // Load the language files if needed.
         if ($this->autoloadLanguage) {
+            // @TODO: Remove this in Joomla 6
+            @trigger_error(
+                sprintf(
+                    'Plugin Language autoload is deprecated, and will be disabled in 6.0. Use loadLanguage() method when translation is needed for plugin "%s/%s"',
+                    $this->_type,
+                    $this->_name
+                ),
+                E_USER_DEPRECATED
+            );
+
             $this->loadLanguage();
         }
 
@@ -165,7 +177,25 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
         }
 
         $extension = strtolower($extension);
-        $lang      = $this->getApplication() ? $this->getApplication()->getLanguage() : Factory::getLanguage();
+        $lang      = false;
+
+        if ($this->getApplication()) {
+            $lang = $this->getApplication()->getLanguage();
+        }
+
+        if (!$lang) {
+            // @TODO: Throw an exception in Joomla 6
+            @trigger_error(
+                sprintf(
+                    'Trying to load language before Application initialised is discouraged. This will throw an exception in 6.0. Plugin "%s/%s"',
+                    $this->_type,
+                    $this->_name
+                ),
+                E_USER_DEPRECATED
+            );
+
+            $lang = Factory::getLanguage();
+        }
 
         // If language already loaded, don't load it again.
         if ($lang->getPaths($extension)) {
