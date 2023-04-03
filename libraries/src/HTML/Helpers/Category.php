@@ -115,7 +115,7 @@ abstract class Category
             static::$items[$hash] = [];
 
             foreach ($items as &$item) {
-                $repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
+                $repeat      = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
                 $item->title = str_repeat('- ', $repeat) . $item->title;
 
                 if ($item->language !== '*') {
@@ -145,9 +145,9 @@ abstract class Category
 
         if (!isset(static::$items[$hash])) {
             $config = (array) $config;
-            $user = Factory::getUser();
-            $db = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $user   = Factory::getUser();
+            $db     = Factory::getDbo();
+            $query  = $db->getQuery(true)
                 ->select(
                     [
                         $db->quoteName('a.id'),
@@ -188,7 +188,7 @@ abstract class Category
             static::$items[$hash] = [];
 
             foreach ($items as &$item) {
-                $repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
+                $repeat      = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
                 $item->title = str_repeat('- ', $repeat) . $item->title;
 
                 if ($item->language !== '*') {

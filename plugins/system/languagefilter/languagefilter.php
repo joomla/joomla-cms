@@ -11,8 +11,7 @@
  */
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -93,7 +92,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
     /**
      * Application object.
      *
-     * @var    CMSApplicationInterface
+     * @var    CMSWebApplicationInterface
      * @since  3.3
      */
     protected $app;
@@ -287,7 +286,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
         // Are we in SEF mode or not?
         if ($this->mode_sef) {
-            $path = $uri->getPath();
+            $path  = $uri->getPath();
             $parts = explode('/', $path);
 
             $sef = StringHelper::strtolower($parts[0]);
@@ -321,7 +320,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
                 }
             } else {
                 // We found our language
-                $found = true;
+                $found     = true;
                 $lang_code = $this->sefs[$sef]->lang_code;
 
                 // If we found our language, but it's the default language and we don't want a prefix for that, we are on a wrong URL.
@@ -364,17 +363,17 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
         if (isset($this->sefs[$lang])) {
             // We found our language
-            $found = true;
+            $found     = true;
             $lang_code = $this->sefs[$lang]->lang_code;
         }
 
         // We are called via POST or the nolangfilter url parameter was set. We don't care about the language
         // and simply set the default language as our current language.
         if (
-            $this->app->input->getMethod() === 'POST'
-            || $this->app->input->get('nolangfilter', 0) == 1
-            || count($this->app->input->post) > 0
-            || count($this->app->input->files) > 0
+            $this->app->getInput()->getMethod() === 'POST'
+            || $this->app->getInput()->get('nolangfilter', 0) == 1
+            || count($this->app->getInput()->post) > 0
+            || count($this->app->getInput()->files) > 0
         ) {
             $found = true;
 
@@ -450,11 +449,10 @@ class PlgSystemLanguageFilter extends CMSPlugin
         }
 
         // We have found our language and now need to set the cookie and the language value in our system
-        $array = ['lang' => $lang_code];
         $this->current_lang = $lang_code;
 
         // Set the request var.
-        $this->app->input->set('language', $lang_code);
+        $this->app->getInput()->set('language', $lang_code);
         $this->app->set('language', $lang_code);
         $language = $this->app->getLanguage();
 
@@ -482,8 +480,6 @@ class PlgSystemLanguageFilter extends CMSPlugin
         if ($this->getLanguageCookie() !== $lang_code) {
             $this->setLanguageCookie($lang_code);
         }
-
-        return $array;
     }
 
     /**
@@ -520,7 +516,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
     public function onUserBeforeSave($user, $isnew, $new)
     {
         if (array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1) {
-            $registry = new Registry($user['params']);
+            $registry             = new Registry($user['params']);
             $this->user_lang_code = $registry->get('language');
 
             if (empty($this->user_lang_code)) {
@@ -546,7 +542,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
     public function onUserAfterSave($user, $isnew, $success, $msg): void
     {
         if ($success && array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1) {
-            $registry = new Registry($user['params']);
+            $registry  = new Registry($user['params']);
             $lang_code = $registry->get('language');
 
             if (empty($lang_code)) {
@@ -575,7 +571,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
      * @param   array  $user     Holds the user data.
      * @param   array  $options  Array holding options (remember, autoregister, group).
      *
-     * @return  boolean  True on success.
+     * @return  null
      *
      * @since   1.5
      */
@@ -585,7 +581,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
             $menu = $this->app->getMenu();
 
             if ($this->params->get('automatic_change', 1)) {
-                $assoc = Associations::isEnabled();
+                $assoc     = Associations::isEnabled();
                 $lang_code = $user['language'];
 
                 // If no language is specified for this user, we set it to the site default language
@@ -712,7 +708,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
             }
 
             // Load component associations.
-            $option = $this->app->input->get('option');
+            $option = $this->app->getInput()->get('option');
 
             $component = $this->app->bootComponent($option);
 
@@ -804,14 +800,16 @@ class PlgSystemLanguageFilter extends CMSPlugin
         // If is set to use language cookie for a year in plugin params, save the user language in a new cookie.
         if ((int) $this->params->get('lang_cookie', 0) === 1) {
             // Create a cookie with one year lifetime.
-            $this->app->input->cookie->set(
+            $this->app->getInput()->cookie->set(
                 ApplicationHelper::getHash('language'),
                 $languageCode,
-                time() + 365 * 86400,
-                $this->app->get('cookie_path', '/'),
-                $this->app->get('cookie_domain', ''),
-                $this->app->isHttpsForced(),
-                true
+                [
+                    'expires'  => time() + 365 * 86400,
+                    'path'     => $this->app->get('cookie_path', '/'),
+                    'domain'   => $this->app->get('cookie_domain', ''),
+                    'secure'   => $this->app->isHttpsForced(),
+                    'httponly' => true,
+                ]
             );
         } else {
             // If not, set the user language in the session (that is already saved in a cookie).
@@ -830,7 +828,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
     {
         // Is is set to use a year language cookie in plugin params, get the user language from the cookie.
         if ((int) $this->params->get('lang_cookie', 0) === 1) {
-            $languageCode = $this->app->input->cookie->get(ApplicationHelper::getHash('language'));
+            $languageCode = $this->app->getInput()->cookie->get(ApplicationHelper::getHash('language'));
         } else {
             // Else get the user language from the session.
             $languageCode = $this->app->getSession()->get('plg_system_languagefilter.language');

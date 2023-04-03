@@ -18,7 +18,6 @@ use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -163,7 +162,7 @@ class Editor implements DispatcherAwareInterface
      */
     public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = [])
     {
-        $this->asset = $asset;
+        $this->asset  = $asset;
         $this->author = $author;
         $this->_loadEditor($params);
 
@@ -176,20 +175,22 @@ class Editor implements DispatcherAwareInterface
 
         // Backwards compatibility. Width and height should be passed without a semicolon from now on.
         // If editor plugins need a unit like "px" for CSS styling, they need to take care of that
-        $width = str_replace(';', '', $width);
+        $width  = str_replace(';', '', $width);
         $height = str_replace(';', '', $height);
 
-        $args['name'] = $name;
-        $args['content'] = $html;
-        $args['width'] = $width;
-        $args['height'] = $height;
-        $args['col'] = $col;
-        $args['row'] = $row;
-        $args['buttons'] = $buttons;
-        $args['id'] = $id ?: $name;
-        $args['asset'] = $asset;
-        $args['author'] = $author;
-        $args['params'] = $params;
+        $args = [
+            'name'    => $name,
+            'content' => $html,
+            'width'   => $width,
+            'height'  => $height,
+            'col'     => $col,
+            'row'     => $row,
+            'buttons' => $buttons,
+            'id'      => ($id ?: $name),
+            'asset'   => $asset,
+            'author'  => $author,
+            'params'  => $params,
+        ];
 
         return \call_user_func_array([$this->_editor, 'onDisplay'], $args);
     }
@@ -221,16 +222,10 @@ class Editor implements DispatcherAwareInterface
                 continue;
             }
 
-            PluginHelper::importPlugin('editors-xtd', $plugin->name, false);
-            $className = 'PlgEditorsXtd' . $plugin->name;
+            $plugin = Factory::getApplication()->bootPlugin($plugin->name, 'editors-xtd');
 
-            if (!class_exists($className)) {
-                $className = 'PlgButton' . $plugin->name;
-            }
-
-            if (class_exists($className)) {
-                $dispatcher = $this->getDispatcher();
-                $plugin = new $className($dispatcher, (array) $plugin);
+            if (!$plugin) {
+                return $result;
             }
 
             // Try to authenticate
@@ -275,38 +270,22 @@ class Editor implements DispatcherAwareInterface
 
         // Build the path to the needed editor plugin
         $name = InputFilter::getInstance()->clean($this->_name, 'cmd');
-        $path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
 
-        if (!is_file($path)) {
+        // Boot the editor plugin
+        $this->_editor = Factory::getApplication()->bootPlugin($name, 'editors');
+
+        // Check if the editor can be loaded
+        if (!$this->_editor) {
             Log::add(Text::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), Log::WARNING, 'jerror');
 
             return false;
         }
 
-        // Require plugin file
-        require_once $path;
+        $this->_editor->params->loadArray($config);
 
-        // Get the plugin
-        $plugin = PluginHelper::getPlugin('editors', $this->_name);
+        $this->initialise();
+        PluginHelper::importPlugin('editors-xtd');
 
-        // If no plugin is published we get an empty array and there not so much to do with it
-        if (empty($plugin)) {
-            return false;
-        }
-
-        $params = new Registry($plugin->params);
-        $params->loadArray($config);
-        $plugin->params = $params;
-
-        // Build editor plugin classname
-        $name = 'PlgEditor' . $this->_name;
-
-        $dispatcher = $this->getDispatcher();
-
-        if ($this->_editor = new $name($dispatcher, (array) $plugin)) {
-            // Load plugin parameters
-            $this->initialise();
-            PluginHelper::importPlugin('editors-xtd');
-        }
+        return true;
     }
 }

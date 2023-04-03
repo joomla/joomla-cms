@@ -1,5 +1,5 @@
 <template>
-  <media-modal
+  <MediaModal
     v-if="$store.state.showPreviewModal && item"
     :size="'md'"
     class="media-preview-modal"
@@ -42,6 +42,7 @@
           v-if="isImage()"
           :src="getHashedURL"
           :type="item.mime_type"
+          :style="style"
         >
       </div>
     </template>
@@ -54,20 +55,24 @@
         <span class="icon-times" />
       </button>
     </template>
-  </media-modal>
+  </MediaModal>
 </template>
 
 <script>
-import { api } from '../../app/Api.es6';
+import api from '../../app/Api.es6';
 import * as types from '../../store/mutation-types.es6';
+import MediaModal from './modal.vue';
 
 export default {
   name: 'MediaPreviewModal',
+  components: {
+    MediaModal,
+  },
   computed: {
     /* Get the item to show in the modal */
     item() {
       // Use the currently selected directory as a fallback
-      return this.$store.state.previewItem;
+      return this.$store.state.selectedItem ? this.$store.state.selectedItem : this.$store.state.previewItem;
     },
     /* Get the hashed URL */
     getHashedURL() {
@@ -75,6 +80,9 @@ export default {
         return `${this.item.url}?${api.mediaVersion}`;
       }
       return this.item.url;
+    },
+    style() {
+      return (this.item.mime_type !== 'image/svg+xml') ? null : 'width: clamp(300px, 1000px, 75vw)';
     },
   },
   methods: {

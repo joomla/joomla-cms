@@ -88,7 +88,7 @@ class LinkButton extends ToolbarButton
             parent::getAccessors(),
             [
                 'url',
-                'target'
+                'target',
             ]
         );
     }

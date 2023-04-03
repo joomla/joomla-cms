@@ -72,7 +72,7 @@ class Dispatcher extends ComponentDispatcher
     {
         if ($this->input->get('task') === 'orderPosition') {
             $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
-            $client = 'Administrator';
+            $client              = 'Administrator';
         }
 
         return parent::getController($name, $client, $config);

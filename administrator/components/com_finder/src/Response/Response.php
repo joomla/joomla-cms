@@ -30,7 +30,7 @@ class Response
      * The buffer
      *
      * @var    string
-     * @since  4.2.9
+     * @since  4.3.0
      */
     public $buffer;
 
@@ -38,7 +38,7 @@ class Response
      * The memory
      *
      * @var    string
-     * @since  4.2.9
+     * @since  4.3.0
      */
     public $memory;
 
@@ -46,7 +46,7 @@ class Response
      * If it has an error
      *
      * @var    bool
-     * @since  4.2.9
+     * @since  4.3.0
      */
     public $error;
 
@@ -54,7 +54,7 @@ class Response
      * The header
      *
      * @var    string
-     * @since  4.2.9
+     * @since  4.3.0
      */
     public $header;
 
@@ -62,7 +62,7 @@ class Response
      * The message
      *
      * @var    string
-     * @since  4.2.9
+     * @since  4.3.0
      */
     public $message;
 
@@ -70,7 +70,7 @@ class Response
      * The batch size
      *
      * @var    int
-     * @since  4.2.9
+     * @since  4.3.0
      */
     public $batchSize;
 
@@ -78,7 +78,7 @@ class Response
      * The batch offset
      *
      * @var    int
-     * @since  4.2.9
+     * @since  4.3.0
      */
     public $batchOffset;
 
@@ -86,7 +86,7 @@ class Response
      * The total items
      *
      * @var    int
-     * @since  4.2.9
+     * @since  4.3.0
      */
     public $totalItems;
 
@@ -94,7 +94,7 @@ class Response
      * The plugin state
      *
      * @var    string
-     * @since  4.2.9
+     * @since  4.3.0
      */
     public $pluginState;
 
@@ -102,7 +102,7 @@ class Response
      * The start time
      *
      * @var    string
-     * @since  4.2.9
+     * @since  4.3.0
      */
     public $startTime;
 
@@ -110,7 +110,7 @@ class Response
      * The end time
      *
      * @var    string
-     * @since  4.2.9
+     * @since  4.3.0
      */
     public $endTime;
 
@@ -118,7 +118,7 @@ class Response
      * The start
      *
      * @var    int
-     * @since  4.2.9
+     * @since  4.3.0
      */
     public $start;
 
@@ -126,7 +126,7 @@ class Response
      * The complete
      *
      * @var    int
-     * @since  4.2.9
+     * @since  4.3.0
      */
     public $complete;
 
@@ -142,7 +142,7 @@ class Response
         $params = ComponentHelper::getParams('com_finder');
 
         if ($params->get('enable_logging', '0')) {
-            $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+            $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
             $options['text_file'] = 'indexer.php';
             Log::addLogger($options);
         }
@@ -157,31 +157,31 @@ class Response
             }
 
             // Prepare the error response.
-            $this->error = true;
-            $this->header = Text::_('COM_FINDER_INDEXER_HEADER_ERROR');
+            $this->error   = true;
+            $this->header  = Text::_('COM_FINDER_INDEXER_HEADER_ERROR');
             $this->message = $state->getMessage();
         } else {
             // Prepare the response data.
-            $this->batchSize = (int) $state->batchSize;
+            $this->batchSize   = (int) $state->batchSize;
             $this->batchOffset = (int) $state->batchOffset;
-            $this->totalItems = (int) $state->totalItems;
+            $this->totalItems  = (int) $state->totalItems;
             $this->pluginState = $state->pluginState;
 
             $this->startTime = $state->startTime;
-            $this->endTime = Factory::getDate()->toSql();
+            $this->endTime   = Factory::getDate()->toSql();
 
-            $this->start = !empty($state->start) ? (int) $state->start : 0;
+            $this->start    = !empty($state->start) ? (int) $state->start : 0;
             $this->complete = !empty($state->complete) ? (int) $state->complete : 0;
 
             // Set the appropriate messages.
             if ($this->totalItems <= 0 && $this->complete) {
-                $this->header = Text::_('COM_FINDER_INDEXER_HEADER_COMPLETE');
+                $this->header  = Text::_('COM_FINDER_INDEXER_HEADER_COMPLETE');
                 $this->message = Text::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE');
             } elseif ($this->totalItems <= 0) {
-                $this->header = Text::_('COM_FINDER_INDEXER_HEADER_OPTIMIZE');
+                $this->header  = Text::_('COM_FINDER_INDEXER_HEADER_OPTIMIZE');
                 $this->message = Text::_('COM_FINDER_INDEXER_MESSAGE_OPTIMIZE');
             } else {
-                $this->header = Text::_('COM_FINDER_INDEXER_HEADER_RUNNING');
+                $this->header  = Text::_('COM_FINDER_INDEXER_HEADER_RUNNING');
                 $this->message = Text::_('COM_FINDER_INDEXER_MESSAGE_RUNNING');
             }
         }
