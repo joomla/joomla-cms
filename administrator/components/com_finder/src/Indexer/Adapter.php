@@ -350,9 +350,6 @@ abstract class Adapter extends CMSPlugin
         // Run the setup method.
         $this->setup();
 
-        // Remove the old item.
-        $this->remove($id, false);
-
         // Get the item.
         $item = $this->getItem($id);
 
