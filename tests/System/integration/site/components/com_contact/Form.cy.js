@@ -1,6 +1,6 @@
 describe('Test that the form view ', () => {
   afterEach(() => cy.task('queryDB', 'DELETE FROM #__contact_details'));
-  it('can create a form view of contact', () => {
+  it('Can create contact through form view', () => {
     cy.doFrontendLogin();
     cy.visit('index.php?option=com_contact&view=form&layout=edit');
     cy.get('#jform_name').type('test contact 1');
