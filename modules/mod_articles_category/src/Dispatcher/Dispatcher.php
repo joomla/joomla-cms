@@ -13,7 +13,7 @@ namespace Joomla\Module\ArticlesCategory\Site\Dispatcher;
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
 use Joomla\CMS\Helper\HelperFactoryAwareInterface;
 use Joomla\CMS\Helper\HelperFactoryAwareTrait;
-use Joomla\Registry\Registry;
+use Joomla\CMS\Helper\ModuleHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -68,14 +68,14 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
                 break;
         }
 
-        $cacheParams = new Registry();
-        $cacheParams->set('cachemode', 'id');
-        $cacheParams->set('class', $this->getHelperFactory()->getHelper('ArticlesCategoryHelper'));
-        $cacheParams->set('method', 'getArticles');
-        $cacheParams->set('methodparams', [$params, $data['app']]);
-        $cacheParams->set('modeparams', md5(serialize([$idBase, $this->module->module, $this->module->id])));
+        $cacheParams               = new \stdClass();
+        $cacheParams->cachemode    = 'id';
+        $cacheParams->class        = $this->getHelperFactory()->getHelper('ArticlesCategoryHelper');
+        $cacheParams->method       = 'getArticles';
+        $cacheParams->methodparams = [$params, $data['app']];
+        $cacheParams->modeparams   = md5(serialize([$idBase, $this->module->module, $this->module->id]));
 
-        $data['list'] = $this->loadFromCache($params, $cacheParams);
+        $data['list'] = ModuleHelper::moduleCache($this->module, $params, $cacheParams);
 
         $data['grouped'] = $params->get('article_grouping', 'none') !== 'none';
 

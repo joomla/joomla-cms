@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Extension\Service\Provider;
 
-use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
-use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Dispatcher\ModuleDispatcherFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -61,13 +59,7 @@ class ModuleDispatcherFactory implements ServiceProviderInterface
         $container->set(
             ModuleDispatcherFactoryInterface::class,
             function (Container $container) {
-                $factory = new \Joomla\CMS\Dispatcher\ModuleDispatcherFactory($this->namespace);
-
-                if ($factory instanceof CacheControllerFactoryAwareInterface) {
-                    $factory->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
-                }
-
-                return $factory;
+                return new \Joomla\CMS\Dispatcher\ModuleDispatcherFactory($this->namespace);
             }
         );
     }

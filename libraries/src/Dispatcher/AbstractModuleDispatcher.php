@@ -10,13 +10,9 @@
 namespace Joomla\CMS\Dispatcher;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
-use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -27,10 +23,8 @@ use stdClass;
  *
  * @since  4.0.0
  */
-abstract class AbstractModuleDispatcher extends Dispatcher implements CacheControllerFactoryAwareInterface
+abstract class AbstractModuleDispatcher extends Dispatcher
 {
-    use CacheControllerFactoryAwareTrait;
-
     /**
      * The module instance
      *
@@ -139,108 +133,5 @@ abstract class AbstractModuleDispatcher extends Dispatcher implements CacheContr
             $language->load($this->module->module, $coreLanguageDirectory) ||
             $language->load($this->module->module, $extensionLanguageDirectory);
         }
-    }
-
-    /**
-     * Module cache helper function.
-     *
-     * Caching modes:
-     * To be set in XML:
-     * 'static'      One cache file for all pages with the same module parameters
-     * 'itemid'      Changes on itemid change, to be called from inside the module:
-     * 'safeuri'     Id created from $cacheParams->get('modeparams')
-     * 'id'          Module sets own cache id's
-     *
-     * @param   Registry  $cacheParams   The cache parameters - id or URL parameters, depending on the cache mode
-     * @param   Registry  $params        The parameters
-     *
-     * @return  mixed
-     *
-     * @see     InputFilter::clean()
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function loadFromCache(Registry $params, Registry $cacheParams)
-    {
-        $user = $this->app->getIdentity();
-
-        /** @var CallbackController $cache */
-        $cache = $this->getCacheControllerFactory()->createCacheController('callback', ['defaultgroup' => $cacheParams->get('cachegroup')]);
-
-        // Turn cache off for internal callers if parameters are set to off and for all logged in users
-        $ownCacheDisabled = $params->get('owncache') === 0 || $params->get('owncache') === '0';
-        $cacheDisabled    = $params->get('cache') === 0 || $params->get('cache') === '0';
-
-        if ($ownCacheDisabled || $cacheDisabled || $this->app->get('caching') == 0 || $user->id) {
-            $cache->setCaching(false);
-        }
-
-        // Module cache is set in seconds, global cache in minutes, setLifeTime works in minutes
-        $cache->setLifeTime($params->get('cache_time', $this->app->get('cachetime') * 60) / 60);
-
-        $workAroundOptions = ['nopathway' => 1, 'nohead' => 0, 'nomodules' => 1, 'modulemode' => 1, 'mergehead' => 1];
-
-        $workArounds = true;
-        $viewLevels  = md5(serialize($user->getAuthorisedViewLevels()));
-
-        switch ($cacheParams->get('cachemode')) {
-            case 'id':
-                $ret = $cache->get(
-                    [$cacheParams->get('class'), $cacheParams->get('method')],
-                    $cacheParams->get('methodparams'),
-                    $cacheParams->get('modeparams') . $cacheParams->get('cachesuffix'),
-                    $workArounds,
-                    $workAroundOptions
-                );
-                break;
-
-            case 'safeuri':
-                $secureid = null;
-
-                if (\is_array($cacheParams->get('modeparams'))) {
-                    $uri          = $this->input->getArray();
-                    $safeuri      = new \stdClass();
-                    $noHtmlFilter = InputFilter::getInstance();
-
-                    foreach ($cacheParams->get('modeparams') as $key => $value) {
-                        // Use int filter for id/catid to clean out spamy slugs
-                        if (isset($uri[$key])) {
-                            $safeuri->$key = $noHtmlFilter->clean($uri[$key], $value);
-                        }
-                    }
-                }
-
-                $secureid = md5(serialize([$safeuri, $cacheParams->get('method'), $params]));
-                $ret      = $cache->get(
-                    [$cacheParams->get('class'), $cacheParams->get('method')],
-                    $cacheParams->get('methodparams'),
-                    $this->module->id . $viewLevels . $secureid . $cacheParams->get('cachesuffix'),
-                    $workArounds,
-                    $workAroundOptions
-                );
-                break;
-
-            case 'static':
-                $ret = $cache->get(
-                    [$cacheParams->get('class'), $cacheParams->get('method')],
-                    $cacheParams->get('methodparams'),
-                    $this->module->module . md5(serialize($cacheParams->get('methodparams'))) . $cacheParams->get('cachesuffix'),
-                    $workArounds,
-                    $workAroundOptions
-                );
-                break;
-
-            case 'itemid':
-            default:
-                $ret = $cache->get(
-                    [$cacheParams->get('class'), $cacheParams->get('method')],
-                    $cacheParams->get('methodparams'),
-                    $this->module->id . $viewLevels . $this->input->getInt('Itemid', null) . $cacheParams->get('cachesuffix'),
-                    $workArounds,
-                    $workAroundOptions
-                );
-                break;
-        }
-
-        return $ret;
     }
 }
