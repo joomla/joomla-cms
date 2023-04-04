@@ -180,12 +180,12 @@ class TextareaField extends FormField
         $rows         = $this->rows ? ' rows="' . $this->rows . '"' : '';
         $maxlength    = $this->maxlength ? ' maxlength="' . $this->maxlength . '"' : '';
 
-        $extraData = array(
-            'maxlength'    => $maxlength,
-            'rows'         => $rows,
-            'columns'      => $columns,
-            'charcounter'  => $this->charcounter
-        );
+        $extraData = [
+            'maxlength'   => $maxlength,
+            'rows'        => $rows,
+            'columns'     => $columns,
+            'charcounter' => $this->charcounter,
+        ];
 
         return array_merge($data, $extraData);
     }

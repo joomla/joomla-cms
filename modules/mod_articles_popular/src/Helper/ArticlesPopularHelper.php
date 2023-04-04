@@ -20,8 +20,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Component\Content\Site\Model\ArticlesModel;
-use Joomla\Database\DatabaseAwareInterface;
-use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -31,7 +29,7 @@ use Joomla\Registry\Registry;
 /**
  * Helper for mod_articles_popular
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.3.0
  */
 class ArticlesPopularHelper
 {
@@ -40,7 +38,7 @@ class ArticlesPopularHelper
      *
      * @var    \stdClass
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $module;
 
@@ -49,7 +47,7 @@ class ArticlesPopularHelper
      *
      * @param  array  $config   An optional associative array of configuration settings.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public function __construct($config = [])
     {
@@ -64,7 +62,7 @@ class ArticlesPopularHelper
      *
      * @return  object[]
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getArticles(Registry $moduleParams, SiteApplication $app)
     {
@@ -148,7 +146,7 @@ class ArticlesPopularHelper
      *
      * @return  object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     private function prepareItem($item, $params): object
     {
@@ -171,9 +169,13 @@ class ArticlesPopularHelper
      *
      * @return  mixed
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      *
-     * @deprecated 5.0 Use the none static function getArticles
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *             Use the non-static method getArticles
+     *             Example: Factory::getApplication()->bootModule('mod_articles_popular', 'site')
+     *                          ->getHelper('ArticlesPopularHelper')
+     *                          ->getArticles($params, Factory::getApplication())
      */
     public static function getList(&$params)
     {

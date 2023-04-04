@@ -37,11 +37,11 @@ class MediaHelper
      * @var    string[]
      * @since  4.0.0
      */
-    public const EXECUTABLES = array(
+    public const EXECUTABLES = [
         'js', 'exe', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta',
         'ins', 'isp', 'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
-        'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm', 'msi'
-    );
+        'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm', 'msi',
+    ];
 
     /**
      * Checks if the file is an image
@@ -146,7 +146,7 @@ class MediaHelper
             );
 
             // Get the mime type configuration
-            $allowedMime = array_map('trim', explode(',', $allowedMime));
+            $allowedMime = array_map('trim', explode(',', str_replace('\\', '', $allowedMime)));
 
             // Mime should be available and in the allowed list
             return !empty($mime) && \in_array($mime, $allowedMime);
@@ -166,7 +166,7 @@ class MediaHelper
      *
      * @since   4.0.0
      */
-    public static function checkFileExtension($extension, $component = 'com_media', $allowedExecutables = array()): bool
+    public static function checkFileExtension($extension, $component = 'com_media', $allowedExecutables = []): bool
     {
         $params = ComponentHelper::getParams($component);
 
@@ -196,15 +196,15 @@ class MediaHelper
     /**
      * Checks if the file can be uploaded
      *
-     * @param   array   $file                File information
-     * @param   string  $component           The option name for the component storing the parameters
-     * @param   string  $allowedExecutables  Array of executable file types that shall be whitelisted
+     * @param   array     $file                File information
+     * @param   string    $component           The option name for the component storing the parameters
+     * @param   string[]  $allowedExecutables  Array of executable file types that shall be whitelisted
      *
      * @return  boolean
      *
      * @since   3.2
      */
-    public function canUpload($file, $component = 'com_media', $allowedExecutables = array())
+    public function canUpload($file, $component = 'com_media', $allowedExecutables = [])
     {
         $app    = Factory::getApplication();
         $params = ComponentHelper::getParams($component);
@@ -361,7 +361,7 @@ class MediaHelper
         $width  = round($width * $percentage);
         $height = round($height * $percentage);
 
-        return array($width, $height);
+        return [$width, $height];
     }
 
     /**
@@ -394,7 +394,7 @@ class MediaHelper
             $d->close();
         }
 
-        return array($total_file, $total_dir);
+        return [$total_file, $total_dir];
     }
 
     /**
@@ -486,7 +486,7 @@ class MediaHelper
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     private static function isValidSvg($file, $shouldLogErrors = true): bool
     {
