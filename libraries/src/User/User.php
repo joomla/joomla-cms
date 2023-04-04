@@ -545,13 +545,22 @@ class User extends CMSObject
      */
     public static function getTable($type = null, $prefix = 'JTable')
     {
-        // Create custom table object
-        if (isset($type)) {
-            return Table::getInstance($type, $prefix);
+        static $tabletype;
+
+        // Set the default tabletype;
+        if (!isset($tabletype)) {
+            $tabletype['name']   = 'user';
+            $tabletype['prefix'] = 'JTable';
         }
 
-        // Create the default user table object
-        return Table::getInstance('user', 'JTable');
+        // Set a custom table type is defined
+        if (isset($type)) {
+            $tabletype['name']   = $type;
+            $tabletype['prefix'] = $prefix;
+        }
+
+        // Create the user table object
+        return Table::getInstance($tabletype['name'], $tabletype['prefix']);
     }
 
     /**
