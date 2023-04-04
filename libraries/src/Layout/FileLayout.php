@@ -421,7 +421,7 @@ class FileLayout extends BaseLayout
     }
 
     /**
-     * Method to change the component where search for layouts
+     * Change the component for the search paths for layouts
      *
      * @param   string  $option  URL Option of the component. Example: com_content
      *
