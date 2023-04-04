@@ -12,7 +12,6 @@
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -118,7 +117,9 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
             return false;
         }
 
-        if (!File::exists($formFile)) {
+        $formFile = Path::clean($formFile);
+
+        if (!is_file($formFile)) {
             return false;
         }
 
@@ -269,7 +270,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
         // Get all users who are not blocked and have opted in for system mails.
         $query = $db->getQuery(true);
 
-        $query->select($db->qn(['name', 'email', 'sendEmail', 'id']))
+        $query->select($db->quoteName(['name', 'email', 'sendEmail', 'id']))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('sendEmail') . ' = 1')
             ->where($db->quoteName('block') . ' = 0');
@@ -302,7 +303,6 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 
                     if (
                         !empty($attachment)
-                        && File::exists($attachment)
                         && is_file($attachment)
                     ) {
                         // @todo we allow multiple files [?]

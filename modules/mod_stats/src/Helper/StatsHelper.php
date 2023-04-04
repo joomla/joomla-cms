@@ -38,7 +38,7 @@ class StatsHelper
     {
         $app        = Factory::getApplication();
         $db         = Factory::getDbo();
-        $rows       = array();
+        $rows       = [];
         $query      = $db->getQuery(true);
         $serverinfo = $params->get('serverinfo', 0);
         $siteinfo   = $params->get('siteinfo', 0);
@@ -48,32 +48,32 @@ class StatsHelper
         $i = 0;
 
         if ($serverinfo) {
-            $rows[$i] = new \stdClass();
+            $rows[$i]        = new \stdClass();
             $rows[$i]->title = Text::_('MOD_STATS_OS');
             $rows[$i]->data  = substr(php_uname(), 0, 7);
             $i++;
 
-            $rows[$i] = new \stdClass();
+            $rows[$i]        = new \stdClass();
             $rows[$i]->title = Text::_('MOD_STATS_PHP');
             $rows[$i]->data  = PHP_VERSION;
             $i++;
 
-            $rows[$i] = new \stdClass();
+            $rows[$i]        = new \stdClass();
             $rows[$i]->title = Text::_($db->name);
             $rows[$i]->data  = $db->getVersion();
             $i++;
 
-            $rows[$i] = new \stdClass();
+            $rows[$i]        = new \stdClass();
             $rows[$i]->title = Text::_('MOD_STATS_TIME');
             $rows[$i]->data  = HTMLHelper::_('date', 'now', 'H:i');
             $i++;
 
-            $rows[$i] = new \stdClass();
+            $rows[$i]        = new \stdClass();
             $rows[$i]->title = Text::_('MOD_STATS_CACHING');
             $rows[$i]->data  = $app->get('caching') ? Text::_('JENABLED') : Text::_('JDISABLED');
             $i++;
 
-            $rows[$i] = new \stdClass();
+            $rows[$i]        = new \stdClass();
             $rows[$i]->title = Text::_('MOD_STATS_GZIP');
             $rows[$i]->data  = $app->get('gzip') ? Text::_('JENABLED') : Text::_('JDISABLED');
             $i++;
@@ -103,14 +103,14 @@ class StatsHelper
             }
 
             if ($users) {
-                $rows[$i] = new \stdClass();
+                $rows[$i]        = new \stdClass();
                 $rows[$i]->title = Text::_('MOD_STATS_USERS');
                 $rows[$i]->data  = $users;
                 $i++;
             }
 
             if ($items) {
-                $rows[$i] = new \stdClass();
+                $rows[$i]        = new \stdClass();
                 $rows[$i]->title = Text::_('MOD_STATS_ARTICLES');
                 $rows[$i]->data  = $items;
                 $i++;
@@ -131,7 +131,7 @@ class StatsHelper
             }
 
             if ($hits) {
-                $rows[$i] = new \stdClass();
+                $rows[$i]        = new \stdClass();
                 $rows[$i]->title = Text::_('MOD_STATS_ARTICLES_VIEW_HITS');
                 $rows[$i]->data  = $hits + $increase;
                 $i++;
@@ -141,7 +141,7 @@ class StatsHelper
         // Include additional data defined by published system plugins
         PluginHelper::importPlugin('system');
 
-        $arrays = (array) $app->triggerEvent('onGetStats', array('mod_stats'));
+        $arrays = (array) $app->triggerEvent('onGetStats', ['mod_stats']);
 
         foreach ($arrays as $response) {
             foreach ($response as $row) {

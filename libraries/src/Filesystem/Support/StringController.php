@@ -17,6 +17,8 @@ namespace Joomla\CMS\Filesystem\Support;
  * String Controller
  *
  * @since  1.7.0
+ * @deprecated  4.4 will be removed in 6.0
+ *              Use Joomla\Filesystem\Support\StringController instead.
  */
 class StringController
 {
@@ -26,10 +28,12 @@ class StringController
      * @return  array
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Support\StringController::getArray() instead.
      */
     public function _getArray()
     {
-        static $strings = array();
+        static $strings = [];
 
         return $strings;
     }
@@ -43,10 +47,12 @@ class StringController
      * @return  void
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Support\StringController::createRef() instead.
      */
     public function createRef($reference, &$string)
     {
-        $ref = &self::_getArray();
+        $ref             = &self::_getArray();
         $ref[$reference] = & $string;
     }
 
@@ -58,6 +64,8 @@ class StringController
      * @return  mixed  False if not set, reference if it exists
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Support\StringController::getRef() instead.
      */
     public function getRef($reference)
     {
