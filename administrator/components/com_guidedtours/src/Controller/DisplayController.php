@@ -54,7 +54,9 @@ class DisplayController extends BaseController
             $this->setRedirect(Route::_('index.php?option=com_guidedtours&view=tours', false));
 
             return false;
-        } elseif ($view === 'step' && $layout === 'edit' && !$this->checkEditId('com_guidedtours.edit.step', $id)) {
+        }
+
+        if ($view === 'step' && $layout === 'edit' && !$this->checkEditId('com_guidedtours.edit.step', $id)) {
             $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
             $this->setRedirect(Route::_('index.php?option=com_guidedtours&view=steps', false));
 
