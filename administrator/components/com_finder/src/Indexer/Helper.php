@@ -390,7 +390,7 @@ class Helper
      *
      * @param   string    $text    The content to process.
      * @param   Registry  $params  The parameters object. [optional]
-     * @param   Result    $item    The item which get prepared. [optional]
+     * @param   ?Result   $item    The item which get prepared. [optional]
      *
      * @return  string  The processed content.
      *

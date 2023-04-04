@@ -173,11 +173,13 @@ class SearchModel extends ListModel
             ->where('l.published = 1');
 
         // Get the current date, minus seconds.
-        $nowDate = $db->quote(substr_replace(Factory::getDate()->toSql(), '00', -2));
+        $nowDate = Factory::getDate()->toSql();
 
         // Add the publish up and publish down filters.
-        $query->where('(l.publish_start_date IS NULL OR l.publish_start_date <= ' . $nowDate . ')')
-            ->where('(l.publish_end_date IS NULL OR l.publish_end_date >= ' . $nowDate . ')');
+        $query->where('(l.publish_start_date IS NULL OR l.publish_start_date <= :publishStartDate)')
+            ->where('(l.publish_end_date IS NULL OR l.publish_end_date >= :publishEndDate)')
+            ->bind(':publishStartDate', $nowDate)
+            ->bind(':publishEndDate', $nowDate);
 
         $query->group('l.link_id');
         $query->group('l.object');
@@ -234,7 +236,7 @@ class SearchModel extends ListModel
 
         // Filter by language
         if ($this->getState('filter.language')) {
-            $query->where('l.language IN (' . $db->quote(Factory::getLanguage()->getTag()) . ', ' . $db->quote('*') . ')');
+            $query->where('l.language IN (' . $db->quote($this->searchquery->language) . ', ' . $db->quote('*') . ')');
         }
 
         // Get the result ordering and direction.
@@ -348,7 +350,7 @@ class SearchModel extends ListModel
             foreach ($sortOrderFieldValues as $sortOrderFieldValue) {
                 foreach ($directions as $direction) {
                     // The relevance has only descending direction. Except if ascending is set in the parameters.
-                    if ($sortOrderFieldValue === 'relevance' && $direction === 'asc' && $app->getParams()->get('sort_direction', 'desc') === 'desc') {
+                    if ($sortOrderFieldValue === 'relevance' && $direction === 'asc' && $params->get('sort_direction', 'desc') === 'desc') {
                         continue;
                     }
 
@@ -469,7 +471,7 @@ class SearchModel extends ListModel
         $input    = $app->getInput();
         $params   = $app->getParams();
         $user     = $this->getCurrentUser();
-        $language = Factory::getLanguage();
+        $language = $app->getLanguage();
 
         $this->setState('filter.language', Multilanguage::isEnabled());
 
