@@ -177,10 +177,10 @@ abstract class AbstractModuleDispatcher extends Dispatcher implements CacheContr
         // Module cache is set in seconds, global cache in minutes, setLifeTime works in minutes
         $cache->setLifeTime($params->get('cache_time', $this->app->get('cachetime') * 60) / 60);
 
-        $workAroundoptions = ['nopathway' => 1, 'nohead' => 0, 'nomodules' => 1, 'modulemode' => 1, 'mergehead' => 1];
+        $workAroundOptions = ['nopathway' => 1, 'nohead' => 0, 'nomodules' => 1, 'modulemode' => 1, 'mergehead' => 1];
 
-        $workArounds  = true;
-        $view_levels = md5(serialize($user->getAuthorisedViewLevels()));
+        $workArounds = true;
+        $viewLevels  = md5(serialize($user->getAuthorisedViewLevels()));
 
         switch ($cacheParams->get('cachemode')) {
             case 'id':
@@ -189,7 +189,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher implements CacheContr
                     $cacheParams->get('methodparams'),
                     $cacheParams->get('modeparams') . $cacheParams->get('cachesuffix'),
                     $workArounds,
-                    $workAroundoptions
+                    $workAroundOptions
                 );
                 break;
 
@@ -213,9 +213,9 @@ abstract class AbstractModuleDispatcher extends Dispatcher implements CacheContr
                 $ret      = $cache->get(
                     [$cacheParams->get('class'), $cacheParams->get('method')],
                     $cacheParams->get('methodparams'),
-                    $this->module->id . $view_levels . $secureid . $cacheParams->get('cachesuffix'),
+                    $this->module->id . $viewLevels . $secureid . $cacheParams->get('cachesuffix'),
                     $workArounds,
-                    $workAroundoptions
+                    $workAroundOptions
                 );
                 break;
 
@@ -225,7 +225,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher implements CacheContr
                     $cacheParams->get('methodparams'),
                     $this->module->module . md5(serialize($cacheParams->get('methodparams'))) . $cacheParams->get('cachesuffix'),
                     $workArounds,
-                    $workAroundoptions
+                    $workAroundOptions
                 );
                 break;
 
@@ -234,9 +234,9 @@ abstract class AbstractModuleDispatcher extends Dispatcher implements CacheContr
                 $ret = $cache->get(
                     [$cacheParams->get('class'), $cacheParams->get('method')],
                     $cacheParams->get('methodparams'),
-                    $this->module->id . $view_levels . $this->input->getInt('Itemid', null) . $cacheParams->get('cachesuffix'),
+                    $this->module->id . $viewLevels . $this->input->getInt('Itemid', null) . $cacheParams->get('cachesuffix'),
                     $workArounds,
-                    $workAroundoptions
+                    $workAroundOptions
                 );
                 break;
         }
