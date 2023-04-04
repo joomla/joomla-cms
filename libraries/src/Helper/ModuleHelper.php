@@ -549,6 +549,9 @@ abstract class ModuleHelper
      *
      * @see     InputFilter::clean()
      * @since   1.6
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *             Convert the module to service provider and use $this->loadFromCache
      */
     public static function moduleCache($module, $moduleparams, $cacheparams)
     {

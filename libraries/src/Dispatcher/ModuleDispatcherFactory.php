@@ -10,6 +10,8 @@
 namespace Joomla\CMS\Dispatcher;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -21,8 +23,10 @@ use Joomla\Input\Input;
  *
  * @since  4.0.0
  */
-class ModuleDispatcherFactory implements ModuleDispatcherFactoryInterface
+class ModuleDispatcherFactory implements ModuleDispatcherFactoryInterface, CacheControllerFactoryAwareInterface
 {
+    use CacheControllerFactoryAwareTrait;
+
     /**
      * The extension namespace
      *
@@ -69,6 +73,12 @@ class ModuleDispatcherFactory implements ModuleDispatcherFactoryInterface
             $className = ModuleDispatcher::class;
         }
 
-        return new $className($module, $application, $input ?: $application->input);
+        $dispatcher = new $className($module, $application, $input ?: $application->input);
+
+        if ($dispatcher instanceof CacheControllerFactoryAwareInterface) {
+            $dispatcher->setCacheControllerFactory($this->getCacheControllerFactory());
+        }
+
+        return $dispatcher;
     }
 }
