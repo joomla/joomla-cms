@@ -1,6 +1,6 @@
 describe('Test that the form view ', () => {
   it('can display a form view of contact', () => {
-    cy.doFrontendLogin(Cypress.env('username'), Cypress.env('password'));
+    cy.doFrontendLogin();
     cy.visit('index.php?option=com_contact&view=form&layout=edit');
     cy.get('#jform_name').type('test contact 1');
     cy.get('.mb-2 > .btn-primary').click();
