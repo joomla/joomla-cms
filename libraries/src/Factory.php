@@ -740,7 +740,7 @@ abstract class Factory
 
         $lang = self::getLanguage();
 
-        $input = self::getApplication()->input;
+        $input = self::getApplication()->getInput();
         $type  = $input->get('format', 'html', 'cmd');
 
         $version = new Version();
