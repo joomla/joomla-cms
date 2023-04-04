@@ -64,7 +64,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      * @var    DatabaseQuery|string
      * @since  1.6
      */
-    protected $query = null;
+    protected $query = [];
 
     /**
      * The cache ID used when last populating $this->query
