@@ -1073,17 +1073,31 @@ abstract class HTMLHelper
         if ($value && $value !== Factory::getDbo()->getNullDate() && strtotime($value) !== false) {
             $tz = date_default_timezone_get();
             date_default_timezone_set('UTC');
-            $inputvalue = strftime($format, strtotime($value));
+
+            /**
+             * Try to convert strftime format to date format, if success, use DateTimeImmutable to format
+             * the passed datetime to avoid deprecated warnings on PHP 8.1. We only support converting most
+             * common used format here.
+             */
+            $dateFormat = self::strftimeFormatToDateFormat($format);
+
+            if ($dateFormat !== false) {
+                $date       = \DateTimeImmutable::createFromFormat('U', strtotime($value));
+                $inputValue = $date->format($dateFormat);
+            } else {
+                $inputValue = strftime($format, strtotime($value));
+            }
+
             date_default_timezone_set($tz);
         } else {
-            $inputvalue = '';
+            $inputValue = '';
         }
 
         $data = [
             'id'             => $id,
             'name'           => $name,
             'class'          => $class,
-            'value'          => $inputvalue,
+            'value'          => $inputValue,
             'format'         => $format,
             'filter'         => $filter,
             'required'       => $required,
@@ -1216,5 +1230,48 @@ abstract class HTMLHelper
         }
 
         return '';
+    }
+
+    /**
+     * Convert most popular strftime format to php date format as strftime is deprecated and we have
+     * to be able to provide same backward compatibility with existing format strings.
+     *
+     * @param   $strftimeformat   string The format compatible with strftime.
+     *
+     * @return  mixed The format compatible with PHP's Date functions if success, false otherwise
+     *
+     * @since   4.2.9
+     */
+    public static function strftimeFormatToDateFormat(string $strftimeformat)
+    {
+        $format = str_replace(
+            [
+                '%Y',
+                '%m',
+                '%d',
+                '%H',
+                '%M',
+                '%S',
+            ],
+            [
+                'Y',
+                'm',
+                'd',
+                'H',
+                'i',
+                's',
+            ],
+            $strftimeformat
+        );
+
+        /**
+         * If there is % character left after replacing, that mean one of unsupported format is used
+         * the conversion false
+         */
+        if (strpos($format, '%') !== false) {
+            return false;
+        }
+
+        return $format;
     }
 }
