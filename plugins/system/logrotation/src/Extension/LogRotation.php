@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Plugin\System\Logrotation\Extension;
+namespace Joomla\Plugin\System\LogRotation\Extension;
 
 use Exception;
 use Joomla\CMS\Cache\Cache;
@@ -29,7 +29,7 @@ use Joomla\Filesystem\Path;
  *
  * @since  3.9.0
  */
-final class Logrotation extends CMSPlugin
+final class LogRotation extends CMSPlugin
 {
     use DatabaseAwareTrait;
 

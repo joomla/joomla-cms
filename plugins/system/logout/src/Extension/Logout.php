@@ -42,7 +42,7 @@ final class Logout extends CMSPlugin
      *
      * @since   1.6
      */
-    public function __construct(DispatcherInterface $dispatcher, $config, CMSApplicationInterface $app)
+    public function __construct(DispatcherInterface $dispatcher, array $config, CMSApplicationInterface $app)
     {
         parent::__construct($dispatcher, $config);
 

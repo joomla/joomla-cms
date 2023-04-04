@@ -17,7 +17,7 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\System\Logrotation\Extension\Logrotation;
+use Joomla\Plugin\System\LogRotation\Extension\LogRotation;
 
 return new class () implements ServiceProviderInterface {
     /**
@@ -35,7 +35,7 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $dispatcher = $container->get(DispatcherInterface::class);
-                $plugin     = new Logrotation(
+                $plugin     = new LogRotation(
                     $dispatcher,
                     (array) PluginHelper::getPlugin('system', 'logrotation')
                 );

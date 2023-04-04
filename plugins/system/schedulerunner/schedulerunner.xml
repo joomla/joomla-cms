@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.1</version>
 	<description>PLG_SYSTEM_SCHEDULERUNNER_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\System\Schedulerunner</namespace>
+	<namespace path="src">Joomla\Plugin\System\ScheduleRunner</namespace>
 	<media destination="plg_system_schedulerunner" folder="media">
 		<folder>js</folder>
 		<filename>joomla.asset.json</filename>

@@ -13,7 +13,6 @@ namespace Joomla\Plugin\System\Stats\Extension;
 use Exception;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Http\HttpFactory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;

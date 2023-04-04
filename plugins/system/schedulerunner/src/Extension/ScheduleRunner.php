@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Plugin\System\Schedulerunner\Extension;
+namespace Joomla\Plugin\System\ScheduleRunner\Extension;
 
 use Exception;
 use Joomla\CMS\Component\ComponentHelper;
@@ -34,15 +34,15 @@ use Joomla\Registry\Registry;
 /**
  * This plugin implements listeners to support a visitor-triggered lazy-scheduling pattern.
  * If `com_scheduler` is installed/enabled and its configuration allows unprotected lazy scheduling, this plugin
- * injects into each response with an HTML context a JS file {@see PlgSystemSchedulerunner::injectScheduleRunner()} that
- * sets up an AJAX callback to trigger the scheduler {@see PlgSystemSchedulerunner::runScheduler()}. This is achieved
+ * injects into each response with an HTML context a JS file {@see PlgSystemScheduleRunner::injectScheduleRunner()} that
+ * sets up an AJAX callback to trigger the scheduler {@see PlgSystemScheduleRunner::runScheduler()}. This is achieved
  * through a call to the `com_ajax` component.
  * Also supports the scheduler component configuration form through auto-generation of the webcron key and injection
  * of JS of usability enhancement.
  *
  * @since 4.1.0
  */
-final class Schedulerunner extends CMSPlugin implements SubscriberInterface
+final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
 {
     /**
      * Length of auto-generated webcron key.

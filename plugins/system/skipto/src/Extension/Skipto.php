@@ -95,7 +95,7 @@ final class Skipto extends CMSPlugin
             ]
         );
 
-        /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
         $wa = $document->getWebAssetManager();
         $wa->useScript('skipto');
     }
