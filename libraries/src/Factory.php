@@ -55,7 +55,7 @@ abstract class Factory
      * @var    Cache
      * @since  1.7.0
      */
-    public static $cache = [];
+    public static $cache = null;
 
     /**
      * Global configuration object
