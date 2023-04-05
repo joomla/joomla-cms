@@ -49,7 +49,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
      *
      * @since   3.9.0
      */
-    public function addLog($messages, $messageLanguageKey, $context, $userId = null)
+    public function addLog($messages, $messageLanguageKey, $context, $userId = 0)
     {
         $user   = $this->getUserFactory()->loadUserById($userId);
         $db     = $this->getDatabase();
