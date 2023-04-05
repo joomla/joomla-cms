@@ -112,7 +112,7 @@ Cypress.Commands.add('db_createMenuItem', (menuItemData) => {
 
   // Search for the component
   return cy.task('queryDB', `SELECT extension_id FROM #__extensions WHERE name = '${component}'`).then((id) => {
-    // Set the correct component id from the extensions record
+    // Get the correct component id from the extensions record
     menuItem.component_id = id[0].extension_id;
 
     // Create the menu item
