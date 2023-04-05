@@ -51,7 +51,7 @@ class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterf
      */
     public function addLog($messages, $messageLanguageKey, $context, $userId = 0)
     {
-        $user   = $this->getUserFactory()->loadUserById($userId);
+        $user   = $this->getUserFactory()->loadUserById($userId ?: 0);
         $db     = $this->getDatabase();
         $date   = Factory::getDate();
         $params = ComponentHelper::getComponent('com_actionlogs')->getParams();
