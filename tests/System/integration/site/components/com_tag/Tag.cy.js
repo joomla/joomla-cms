@@ -4,7 +4,7 @@ describe('Test that the tag view ', () => {
       .then(() => cy.db_createTag({ title: 'automated test tag 2' }))
       .then(() => cy.db_createTag({ title: 'automated test tag 3' }))
       .then(() => cy.db_createTag({ title: 'automated test tag 4' }))
-      .then(() => cy.db_createMenuItem({ title: 'automated test tags', link: 'index.php?option=com_tags&view=tags', path: '?option=com_tags&view=tags' }))
+      .then(() => cy.db_createMenuItem({ title: 'automated test tags', link: 'index.php?option=com_tags&view=tags' }))
       .then(() => {
         cy.visit('/');
         cy.get('a:contains(automated test tags)').click();
