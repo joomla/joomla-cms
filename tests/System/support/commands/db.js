@@ -86,7 +86,7 @@ Cypress.Commands.add('db_createBanner', (banner) => {
   return cy.task('queryDB', createInsertQuery('banners', { ...defaultBannerOptions, ...banner })).then(async (info) => info.insertId);
 });
 
-Cypress.Commands.add('db_createMenuItem', (menuItem) => {
+Cypress.Commands.add('db_createMenuItem', (menuItemData) => {
   const defaultMenuItemOptions = {
     title: 'test menu item',
     alias: 'test-menu-item',
@@ -94,7 +94,7 @@ Cypress.Commands.add('db_createMenuItem', (menuItem) => {
     type: 'component',
     link: 'index.php?option=com_content',
     component_id: 19,
-    path: 'test-menu-item/root',
+    path: 'test-menu-item',
     parent_id: 1,
     level: 1,
     published: 1,
@@ -104,7 +104,20 @@ Cypress.Commands.add('db_createMenuItem', (menuItem) => {
     img: '',
   };
 
-  return cy.task('queryDB', createInsertQuery('menu', { ...defaultMenuItemOptions, ...menuItem })).then(async (info) => info.insertId);
+  // Create the data to insert
+  const menuItem = { ...defaultMenuItemOptions, ...menuItemData };
+
+  // Extract the component from the link
+  const component = (new URLSearchParams(menuItem.link.replace('index.php', ''))).get('option');
+
+  // Search for the component
+  return cy.task('queryDB', `SELECT extension_id FROM #__extensions WHERE name = '${component}'`).then((id) => {
+    // Get the correct component id from the extensions record
+    menuItem.component_id = id[0].extension_id;
+
+    // Create the menu item
+    return cy.task('queryDB', createInsertQuery('menu', menuItem)).then(async (info) => info.insertId);
+  });
 });
 
 Cypress.Commands.add('db_createModule', (module) => {
