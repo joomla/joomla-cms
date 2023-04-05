@@ -236,6 +236,7 @@ Cypress.Commands.add('db_getUserId', () => {
       if (id.length === 0) {
         return 0;
       }
+
       return id[0].id;
     });
 });
