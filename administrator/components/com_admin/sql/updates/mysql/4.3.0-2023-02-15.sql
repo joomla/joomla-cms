@@ -209,6 +209,6 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_system_guidedtours', 'plugin', 'guidedtours', 'system', 0, 1, 1, 0, 1, '', '{}', '', 0, 0);
 
 INSERT INTO `#__modules` (`title`, `note`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `publish_up`, `publish_down`, `published`, `module`, `access`, `showtitle`, `params`, `client_id`, `language`) VALUES
-('Guided Tours', '', '', 1, 'status', 0, NULL, NULL, NULL, 1, 'mod_guidedtours', 1, 1, '', 1, '*');
+('Guided Tours', '', '', 1, 'status', NULL, NULL, NULL, NULL, 1, 'mod_guidedtours', 1, 1, '', 1, '*');
 
 INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES (LAST_INSERT_ID(), 0);
