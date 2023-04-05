@@ -1,6 +1,6 @@
 describe('Test that the tag view ', () => {
   it('can display a list of tags in menu item', () => {
-    cy.db_createTag({ title: 'automated test tag 1', published: 1 })
+    cy.db_createTag({ title: 'automated test tag 1' })
       .then(() => cy.db_createTag({ title: 'automated test tag 2' }))
       .then(() => cy.db_createTag({ title: 'automated test tag 3' }))
       .then(() => cy.db_createTag({ title: 'automated test tag 4' }))
@@ -17,7 +17,7 @@ describe('Test that the tag view ', () => {
   });
 
   it('can display a list of tags without menu item', () => {
-    cy.db_createTag({ title: 'automated test tag 1', published: 1 })
+    cy.db_createTag({ title: 'automated test tag 1' })
       .then(() => cy.db_createTag({ title: 'automated test tag 2' }))
       .then(() => cy.db_createTag({ title: 'automated test tag 3' }))
       .then(() => cy.db_createTag({ title: 'automated test tag 4' }))
