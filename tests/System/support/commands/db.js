@@ -260,6 +260,6 @@ Cypress.Commands.add('db_createTag', (tag) => {
     language: '*',
     params: '',
   };
-  
+
   return cy.task('queryDB', createInsertQuery('tags', { ...defaultTagOptions, ...tag })).then(async (info) => info.insertId);
 });
