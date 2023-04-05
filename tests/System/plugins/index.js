@@ -83,6 +83,11 @@ function queryTestDB(joomlaQuery, config) {
     query = query.replaceAll('\`', '"');
 
     return connection.unsafe(query).then((result) => {
+      // Select query should always return an array
+      if (query.indexOf('SELECT') === 0 && !Array.isArray(result)) {
+        return [result];
+      }
+
       if (!insertItem || result.length === 0) {
         return result;
       }
