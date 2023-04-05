@@ -17,6 +17,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Utilities\IpHelper;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
@@ -30,8 +32,10 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  *
  * @since  3.9.0
  */
-class ActionlogModel extends BaseDatabaseModel
+class ActionlogModel extends BaseDatabaseModel implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Function to add logs to the database
      * This method adds a record to #__action_logs contains (message_language_key, message, date, context, user)
@@ -47,7 +51,7 @@ class ActionlogModel extends BaseDatabaseModel
      */
     public function addLog($messages, $messageLanguageKey, $context, $userId = null)
     {
-        $user   = Factory::getUser($userId);
+        $user   = $this->getUserFactory()->loadUserById($userId);
         $db     = $this->getDatabase();
         $date   = Factory::getDate();
         $params = ComponentHelper::getComponent('com_actionlogs')->getParams();
