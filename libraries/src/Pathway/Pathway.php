@@ -31,7 +31,7 @@ class Pathway
      * @var    array
      * @since  4.0.0
      */
-    protected $pathway = array();
+    protected $pathway = [];
 
     /**
      * Integer number of items in the pathway
@@ -47,7 +47,7 @@ class Pathway
      * @var    Pathway[]
      * @since  1.7
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Returns a Pathway object
@@ -117,7 +117,7 @@ class Pathway
      */
     public function getPathwayNames()
     {
-        $names = array();
+        $names = [];
 
         // Build the names array using just the names of each pathway item
         foreach ($this->pathway as $item) {

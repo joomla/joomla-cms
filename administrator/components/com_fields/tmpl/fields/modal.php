@@ -33,7 +33,7 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 
     <form action="<?php echo Route::_('index.php?option=com_fields&view=fields&layout=modal&tmpl=component&editor=' . $editor . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
 
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
                 <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -73,12 +73,12 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
                 </thead>
                 <tbody>
                     <?php
-                    $iconStates = array(
+                    $iconStates = [
                         -2 => 'icon-trash',
                         0  => 'icon-times',
                         1  => 'icon-check',
                         2  => 'icon-folder',
-                    );
+                    ];
                     foreach ($this->items as $i => $item) :
                         ?>
                     <tr class="row<?php echo $i % 2; ?>">

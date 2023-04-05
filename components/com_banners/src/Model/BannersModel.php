@@ -184,7 +184,7 @@ class BannersModel extends ListModel
                 // No keywords, select nothing.
                 $query->where('0 != 0');
             } else {
-                $temp   = array();
+                $temp   = [];
                 $config = ComponentHelper::getParams('com_banners');
                 $prefix = $config->get('metakey_prefix');
 
@@ -263,7 +263,7 @@ class BannersModel extends ListModel
 
             // If no keywords are provided, avoid running the query.
             if (!$keywords) {
-                $this->cache['items'] = array();
+                $this->cache['items'] = [];
 
                 return $this->cache['items'];
             }

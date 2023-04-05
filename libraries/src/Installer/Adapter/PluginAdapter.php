@@ -32,6 +32,14 @@ use Joomla\Database\ParameterType;
 class PluginAdapter extends InstallerAdapter
 {
     /**
+     * Group of the plugin
+     *
+     * @var    string
+     * @since  4.2.7
+     */
+    protected $group;
+
+    /**
      * `<scriptfile>` element of the extension manifest
      *
      * @var    object
@@ -59,7 +67,7 @@ class PluginAdapter extends InstallerAdapter
     {
         try {
             $this->currentExtensionId = $this->extension->find(
-                array('type' => $this->type, 'element' => $this->element, 'folder' => $this->group)
+                ['type' => $this->type, 'element' => $this->element, 'folder' => $this->group]
             );
         } catch (\RuntimeException $e) {
             // Install failed, roll back changes
@@ -101,7 +109,7 @@ class PluginAdapter extends InstallerAdapter
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
             if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles(array($path))) {
+                if (!$this->parent->copyFiles([$path])) {
                     // Install failed, rollback changes
                     throw new \RuntimeException(
                         Text::sprintf(
@@ -157,11 +165,11 @@ class PluginAdapter extends InstallerAdapter
         /** @var Update $update */
         $update = Table::getInstance('update');
         $uid = $update->find(
-            array(
+            [
                 'element' => $this->element,
                 'type'    => $this->type,
                 'folder'  => $this->group,
-            )
+            ]
         );
 
         if ($uid) {
@@ -506,7 +514,7 @@ class PluginAdapter extends InstallerAdapter
 
             // Since we have created a plugin item, we add it to the installation step stack
             // so that if we have to rollback the changes we can undo it.
-            $this->parent->pushStep(array('type' => 'extension', 'id' => $this->extension->extension_id));
+            $this->parent->pushStep(['type' => 'extension', 'id' => $this->extension->extension_id]);
         }
     }
 
@@ -519,7 +527,7 @@ class PluginAdapter extends InstallerAdapter
      */
     public function discover()
     {
-        $results = array();
+        $results = [];
         $folder_list = Folder::folders(JPATH_SITE . '/plugins');
 
         foreach ($folder_list as $folder) {
