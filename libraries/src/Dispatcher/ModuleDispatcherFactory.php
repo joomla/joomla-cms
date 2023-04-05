@@ -73,7 +73,7 @@ class ModuleDispatcherFactory implements ModuleDispatcherFactoryInterface, Cache
             $className = ModuleDispatcher::class;
         }
 
-        $dispatcher = new $className($module, $application, $input ?: $application->input);
+        $dispatcher = new $className($module, $application, $input ?: $application->getInput());
 
         if ($dispatcher instanceof CacheControllerFactoryAwareInterface) {
             $dispatcher->setCacheControllerFactory($this->getCacheControllerFactory());
