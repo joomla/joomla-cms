@@ -4,7 +4,7 @@ describe('Test that the list view ', () => {
       .then(() => cy.db_createContact({ name: 'automated test contact 2', featured: 1 }))
       .then(() => cy.db_createContact({ name: 'automated test contact 3', featured: 1 }))
       .then(() => cy.db_createContact({ name: 'automated test contact 4', featured: 1 }))
-      .then(() => cy.db_createMenuItem({ title: 'automated test', link: 'index.php?option=com_contact&view=featured', path: '?option=com_contact&view=featured' }))
+      .then(() => cy.db_createMenuItem({ title: 'automated test', link: 'index.php?option=com_contact&view=featured' }))
       .then(() => {
         cy.visit('/');
         cy.get('a:contains(automated test)').click();
@@ -33,7 +33,7 @@ describe('Test that the list view ', () => {
 
   it('can open the contact form in the default layout', () => {
     cy.db_createContact({ name: 'contact 1' })
-      .then(() => cy.db_createMenuItem({ title: 'automated test', link: 'index.php?option=com_contact&view=category&id=4', path: '?option=com_contact&view=category&id=4' }))
+      .then(() => cy.db_createMenuItem({ title: 'automated test', link: 'index.php?option=com_contact&view=category&id=4' }))
       .then(() => {
         cy.doFrontendLogin();
         cy.visit('/');
