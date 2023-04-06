@@ -40,7 +40,6 @@ steps:
 
   - name: npm
     image: node:16-bullseye-slim
-    depends_on: [ phpcs ]
     volumes:
       - name: npm-cache
         path: /tmp/npm-cache
@@ -455,6 +454,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 9c5f5c7597b1ef865b0225ae3ed9693efc8d36ccc3bbffd195f374f19e073189
+hmac: cfbe1b3da0f73f4e43276cc5f8614ae8dd23cc1abd8cfac93627254b9f740bfa
 
 ...
