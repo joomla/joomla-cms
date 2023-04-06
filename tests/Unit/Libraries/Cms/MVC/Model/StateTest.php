@@ -101,4 +101,19 @@ class StateTest extends UnitTestCase
 
         $this->assertFalse(isset($state->unit));
     }
+
+    /**
+     * @testdox  can set and get an empty value
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function testEmptyValue()
+    {
+        $state = new State();
+        $state->set('unit', '');
+
+        $this->assertEquals('', $state->get('unit', 'test'));
+    }
 }

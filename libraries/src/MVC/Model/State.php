@@ -41,6 +41,30 @@ class State extends Registry
     }
 
     /**
+     * Get a registry value.
+     *
+     * @param  string  $path     Registry path (e.g. joomla.content.showauthor)
+     * @param  mixed   $default  Optional default value, returned if the internal value is null.
+     *
+     * @return  mixed  Value of entry or null
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function get($path, $default = null)
+    {
+        if (isset($this->data->$path) && empty($this->data->$path))
+        {
+            @trigger_error(
+                sprintf('Instead of an empty value, the default value will be returned in 7.0 in %s::%s.', __METHOD__, __CLASS__),
+                E_USER_DEPRECATED
+            );
+            return $this->data->$path;
+        }
+
+        return parent::get($path, $default);
+    }
+
+    /**
       * Returns an associative array of object properties.
       *
       * @return  array  The data array
