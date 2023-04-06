@@ -52,8 +52,7 @@ class State extends Registry
      */
     public function get($path, $default = null)
     {
-        if (isset($this->data->$path) && empty($this->data->$path))
-        {
+        if (isset($this->data->$path) && empty($this->data->$path)) {
             @trigger_error(
                 sprintf('Instead of an empty value, the default value will be returned in 7.0 in %s::%s.', __METHOD__, __CLASS__),
                 E_USER_DEPRECATED
