@@ -599,12 +599,11 @@ abstract class ModuleHelper
                 break;
 
             case 'safeuri':
-                $secureid = null;
+                $safeuri = new \stdClass();
 
                 if (\is_array($cacheparams->modeparams)) {
                     $input        = $app->getInput();
                     $uri          = $input->getArray();
-                    $safeuri      = new \stdClass();
                     $noHtmlFilter = InputFilter::getInstance();
 
                     foreach ($cacheparams->modeparams as $key => $value) {
