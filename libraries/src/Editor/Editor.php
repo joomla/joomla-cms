@@ -208,11 +208,11 @@ class Editor implements DispatcherAwareInterface
             $params['author']  = $params['author'] ?? $author;
 
             return $this->provider->display($name, $html, [
-                'width'   => $width,
-                'height'  => $height,
-                'col'     => $col,
-                'row'     => $row,
-                'id'      => $id,
+                'width'  => $width,
+                'height' => $height,
+                'col'    => $col,
+                'row'    => $row,
+                'id'     => $id,
             ], $params);
         }
 
