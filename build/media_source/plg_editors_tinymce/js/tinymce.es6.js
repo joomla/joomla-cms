@@ -197,7 +197,7 @@
 
       if (buttonValues.length) {
         options.setup = (editor) => {
-          editor.settings.readonly = readOnlyMode;
+          editor.mode.set(readOnlyMode ? 'readonly' : 'design');
 
           Object.keys(icons).forEach((icon) => {
             editor.ui.registry.addIcon(icon, icons[icon]);
@@ -211,7 +211,7 @@
         };
       } else {
         options.setup = (editor) => {
-          editor.settings.readonly = readOnlyMode;
+          editor.mode.set(readOnlyMode ? 'readonly' : 'design');
         };
       }
 
