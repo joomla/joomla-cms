@@ -203,15 +203,16 @@ class Editor implements DispatcherAwareInterface
     public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = [])
     {
         if ($this->provider) {
+            $params['buttons'] = $params['buttons'] ?? $buttons;
+            $params['asset']   = $params['asset'] ?? $asset;
+            $params['author']  = $params['author'] ?? $author;
+
             return $this->provider->display($name, $html, [
                 'width'   => $width,
                 'height'  => $height,
                 'col'     => $col,
                 'row'     => $row,
-                'buttons' => $buttons,
                 'id'      => $id,
-                'asset'   => $asset,
-                'author'  => $author,
             ], $params);
         }
 
