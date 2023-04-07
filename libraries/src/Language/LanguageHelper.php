@@ -416,7 +416,7 @@ class LanguageHelper
             $strings = @parse_ini_file($fileName);
         }
 
-        return \is_array($strings) ? $strings : array();
+        return \is_array($strings) ? $strings : [];
     }
 
     /**
