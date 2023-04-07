@@ -186,7 +186,7 @@ class Input extends \Joomla\Input\Input
      *
      * @param   string  $input  The serialized input.
      *
-     * @return  Input  The input object.
+     * @return  void
      *
      * @since   3.0.0
      * @deprecated  5.0  Use Joomla\Input\Input instead
