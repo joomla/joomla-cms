@@ -225,12 +225,12 @@ class LibraryAdapter extends InstallerAdapter
         $source = $this->parent->getPath('source');
 
         if (!$source) {
-            $this->parent->setPath('source', _JEXEC . '/' . $this->getElement());
+            $this->parent->setPath('source', JPATH_LIBRARIES . '/' . $this->getElement());
         }
 
         $extension   = 'lib_' . str_replace('/', '_', $this->getElement());
         $librarypath = (string) $this->getManifest()->libraryname;
-        $source      = $path ?: _JEXEC . '/' . $librarypath;
+        $source      = $path ?: JPATH_LIBRARIES . '/' . $librarypath;
 
         $this->doLoadLanguage($extension, $source, JPATH_SITE);
     }
@@ -295,11 +295,11 @@ class LibraryAdapter extends InstallerAdapter
 
         // Delete empty vendor folders
         if (2 === \count($elementParts)) {
-            $folders = Folder::folders(_JEXEC . '/' . $elementParts[0]);
+            $folders = Folder::folders(JPATH_LIBRARIES . '/' . $elementParts[0]);
 
             if (empty($folders)) {
                 Folder::delete(JPATH_MANIFESTS . '/libraries/' . $elementParts[0]);
-                Folder::delete(_JEXEC . '/' . $elementParts[0]);
+                Folder::delete(JPATH_LIBRARIES . '/' . $elementParts[0]);
             }
         }
     }
@@ -327,7 +327,7 @@ class LibraryAdapter extends InstallerAdapter
             throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_CORE_FOLDER'));
         }
 
-        $this->parent->setPath('extension_root', _JEXEC . '/' . implode(DIRECTORY_SEPARATOR, explode('/', $group)));
+        $this->parent->setPath('extension_root', JPATH_LIBRARIES . '/' . implode(DIRECTORY_SEPARATOR, explode('/', $group)));
     }
 
     /**
@@ -352,7 +352,7 @@ class LibraryAdapter extends InstallerAdapter
         $manifest = new LibraryManifest($manifestFile);
 
         // Set the library root path
-        $this->parent->setPath('extension_root', _JEXEC . '/' . $manifest->libraryname);
+        $this->parent->setPath('extension_root', JPATH_LIBRARIES . '/' . $manifest->libraryname);
 
         // Set the source path to the library root, the manifest script may be found
         $this->parent->setPath('source', $this->parent->getPath('extension_root'));

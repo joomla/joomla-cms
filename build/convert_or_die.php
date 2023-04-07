@@ -179,7 +179,7 @@ foreach ($output as $file) {
             // we only test the first 200 lines for a jexec die
             break;
         }
-        if (preg_match('/^[ \t\\\]*(defined).*(_JEXEC|_JEXEC|JPATH_BASE).*/', $line, $matches)) {
+        if (preg_match('/^[ \t\\\]*(defined).*(_JEXEC|JPATH_BASE).*/', $line, $matches)) {
             $keyword = $matches[2];
             break;
         }
