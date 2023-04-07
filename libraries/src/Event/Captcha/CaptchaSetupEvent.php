@@ -46,16 +46,22 @@ class CaptchaSetupEvent extends AbstractImmutableEvent
      *
      * @return  CaptchaRegistry
      *
-     * @throws  BadMethodCallException  if the argument is not of the expected type
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function setSubject(CaptchaRegistry $value)
+    {
+        return $value;
+    }
+
+    /**
+     * Getter for the subject argument
+     *
+     * @return  CaptchaRegistry
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected function setSubject($value)
+    public function getSubject(): CaptchaRegistry
     {
-        if (!$value || !($value instanceof CaptchaRegistry)) {
-            throw new BadMethodCallException("Argument 'subject' of event {$this->name} is not of the expected type");
-        }
-
-        return $value;
+        return $this->arguments['subject'];
     }
 }
