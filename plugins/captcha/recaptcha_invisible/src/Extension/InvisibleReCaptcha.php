@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Captcha\InvisibleReCaptcha\Extension;
 
-use Joomla\CMS\Captcha\CaptchaRegistry;
 use Joomla\CMS\Event\Captcha\CaptchaSetupEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
