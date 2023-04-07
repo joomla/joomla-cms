@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Filesystem\Streams;
 
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Support\StringController;
 

@@ -85,7 +85,7 @@ if (!defined('JDEBUG')) {
 
 // Import the library loader if necessary.
 if (!class_exists('JLoader')) {
-    require_once JPATH_PLATFORM . '/loader.php';
+    require_once JPATH_ROOT . '/loader.php';
 
     // If JLoader still does not exist panic.
     if (!class_exists('JLoader')) {
