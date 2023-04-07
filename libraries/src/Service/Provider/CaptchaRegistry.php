@@ -49,7 +49,8 @@ class CaptchaRegistry implements ServiceProviderInterface
                     $registry->initRegistry();
 
                     return $registry;
-                }
+                },
+                true
             );
     }
 }
