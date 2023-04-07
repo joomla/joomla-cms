@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Utility\Utility;
 
-$input = Factory::getApplication()->input;
+$input = Factory::getApplication()->getInput();
 ?>
 <div id="#template-manager-file" class="container-fluid">
     <div class="mt-2 p-2">

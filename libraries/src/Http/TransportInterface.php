@@ -11,6 +11,10 @@ namespace Joomla\CMS\Http;
 
 use Joomla\Http\TransportInterface as FrameworkTransportInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTTP transport class interface.
  *

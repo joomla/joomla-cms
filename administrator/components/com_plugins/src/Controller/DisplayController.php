@@ -14,6 +14,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugins master display controller.
  *
@@ -39,7 +43,7 @@ class DisplayController extends BaseController
      *
      * @since   1.5
      */
-    public function display($cachable = false, $urlparams = false)
+    public function display($cachable = false, $urlparams = [])
     {
         $view   = $this->input->get('view', 'plugins');
         $layout = $this->input->get('layout', 'default');
@@ -57,6 +61,6 @@ class DisplayController extends BaseController
             return false;
         }
 
-        parent::display();
+        return parent::display($cachable, $urlparams);
     }
 }

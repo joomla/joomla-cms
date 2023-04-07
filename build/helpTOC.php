@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package    Joomla.Build
  *
@@ -28,193 +29,171 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 const JOOMLA_MINIMUM_PHP = '7.2.5';
 
-if (!defined('_JDEFINES'))
-{
-	define('JPATH_BASE', dirname(__DIR__));
-	require_once JPATH_BASE . '/includes/defines.php';
+if (!defined('_JDEFINES')) {
+    define('JPATH_BASE', dirname(__DIR__));
+    require_once JPATH_BASE . '/includes/defines.php';
 }
 
 // Get the framework.
 require_once JPATH_BASE . '/includes/framework.php';
 
-$command = new class extends AbstractCommand
-{
-	/**
-	 * The default command name
-	 *
-	 * @var  string
-	 */
-	protected static $defaultName = 'build-help-toc';
+$command = new class () extends AbstractCommand {
+    /**
+     * The default command name
+     *
+     * @var  string
+     */
+    protected static $defaultName = 'build-help-toc';
 
-	/**
-	 * Initialise the command.
-	 *
-	 * @return  void
-	 */
-	protected function configure(): void
-	{
-		$this->setDescription('Generates the help system table of contents file');
-	}
+    /**
+     * Initialise the command.
+     *
+     * @return  void
+     */
+    protected function configure(): void
+    {
+        $this->setDescription('Generates the help system table of contents file');
+    }
 
-	/**
-	 * Internal function to execute the command.
-	 *
-	 * @param   InputInterface   $input   The input to inject into the command.
-	 * @param   OutputInterface  $output  The output to inject into the command.
-	 *
-	 * @return  integer  The command exit code
-	 */
-	protected function doExecute(InputInterface $input, OutputInterface $output): int
-	{
-		$io = new SymfonyStyle($input, $output);
+    /**
+     * Internal function to execute the command.
+     *
+     * @param   InputInterface   $input   The input to inject into the command.
+     * @param   OutputInterface  $output  The output to inject into the command.
+     *
+     * @return  integer  The command exit code
+     */
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
+    {
+        $io = new SymfonyStyle($input, $output);
 
-		if (!class_exists(Http::class))
-		{
-			$io->error(
-				'The `joomla/mediawiki` package is not installed. To use this script, you must run `composer install` to install development'
-				. ' dependencies not tracked in this repo.'
-			);
+        if (!class_exists(Http::class)) {
+            $io->error(
+                'The `joomla/mediawiki` package is not installed. To use this script, you must run `composer install` to install development'
+                . ' dependencies not tracked in this repo.'
+            );
 
-			return 1;
-		}
+            return 1;
+        }
 
-		// Set up HTTP driver for MediaWiki
-		$http = new Http([], HttpFactory::getAvailableDriver());
+        // Set up HTTP driver for MediaWiki
+        $http = new Http([], HttpFactory::getAvailableDriver());
 
-		// Set up options for the Mediawiki class
-		$options = new Registry;
-		$options->set('api.url', 'https://docs.joomla.org');
+        // Set up options for the Mediawiki class
+        $options = new Registry();
+        $options->set('api.url', 'https://docs.joomla.org');
 
-		$mediawiki = new Mediawiki($options, $http);
+        $mediawiki = new Mediawiki($options, $http);
 
-		$io->comment('Fetching data from docs wiki');
+        $io->comment('Fetching data from docs wiki');
 
-		// Get the category members (local hack)
-		$categoryMembers = $mediawiki->categories->getCategoryMembers(
-			sprintf('Category:Help_screen_%s.%s', Version::MAJOR_VERSION, Version::MINOR_VERSION),
-			null,
-			'max'
-		);
+        // Get the category members (local hack)
+        $categoryMembers = $mediawiki->categories->getCategoryMembers(
+            sprintf('Category:Help_screen_%s.%s', Version::MAJOR_VERSION, Version::MINOR_VERSION),
+            null,
+            'max'
+        );
 
-		$members = [];
+        $members = [];
 
-		// Loop through the result objects to get every document
-		foreach ($categoryMembers->query->categorymembers as $catmembers)
-		{
-			foreach ($catmembers as $member)
-			{
-				$members[] = (string) $member['title'];
-			}
-		}
+        // Loop through the result objects to get every document
+        foreach ($categoryMembers->query->categorymembers as $catmembers) {
+            foreach ($catmembers as $member) {
+                $members[] = (string) $member['title'];
+            }
+        }
 
-		// Get the language object
-		$language = Factory::getLanguage();
+        // Get the language object
+        $language = Factory::getLanguage();
 
-		/*
-		 * Now we start fancy processing so we can get the language key for the titles
-		 */
+        /*
+         * Now we start fancy processing so we can get the language key for the titles
+         */
 
-		$cleanMembers = [];
+        $cleanMembers = [];
 
-		// Strip the namespace prefix off the titles and replace spaces with underscores
-		$namespace = sprintf('Help%d.x:', Version::MAJOR_VERSION);
+        // Strip the namespace prefix off the titles and replace spaces with underscores
+        $namespace = sprintf('Help%d.x:', Version::MAJOR_VERSION);
 
-		foreach ($members as $member)
-		{
-			$cleanMembers[] = str_replace([$namespace, ' '], ['', '_'], $member);
-		}
+        foreach ($members as $member) {
+            $cleanMembers[] = str_replace([$namespace, ' '], ['', '_'], $member);
+        }
 
-		// Make sure we only have an array of unique values before continuing
+        // Make sure we only have an array of unique values before continuing
 
-		$cleanMembers = array_unique($cleanMembers);
+        $cleanMembers = array_unique($cleanMembers);
 
-		// Load the admin com_admin language file
-		$language->load('com_admin', JPATH_ADMINISTRATOR);
+        // Load the admin com_admin language file
+        $language->load('com_admin', JPATH_ADMINISTRATOR);
 
-		$toc = [];
+        $toc = [];
 
-		foreach ($cleanMembers as $key => $value)
-		{
-			$string = strtoupper($value);
+        foreach ($cleanMembers as $key => $value) {
+            $string = strtoupper($value);
 
-			// Validate the key exists
-			$io->comment(sprintf('Validating key COM_ADMIN_HELP_%s', $string));
+            // Validate the key exists
+            $io->comment(sprintf('Validating key COM_ADMIN_HELP_%s', $string));
 
-			if ($language->hasKey('COM_ADMIN_HELP_' . $string))
-			{
-				$io->comment(sprintf('Adding %s', $string));
+            if ($language->hasKey('COM_ADMIN_HELP_' . $string)) {
+                $io->comment(sprintf('Adding %s', $string));
 
-				$toc[$value] = $string;
-			}
-			// We check the string for words in singular/plural form and check again
-			else
-			{
-				$io->comment(sprintf('Inflecting %s', $string));
+                $toc[$value] = $string;
+            } else {
+                // We check the string for words in singular/plural form and check again
+                $io->comment(sprintf('Inflecting %s', $string));
 
-				if (strpos($string, '_CATEGORIES') !== false)
-				{
-					$inflected = str_replace('_CATEGORIES', '_CATEGORY', $string);
-				}
-				elseif (strpos($string, '_USERS') !== false)
-				{
-					$inflected = str_replace('_USERS', '_USER', $string);
-				}
-				elseif (strpos($string, '_CATEGORY') !== false)
-				{
-					$inflected = str_replace('_CATEGORY', '_CATEGORIES', $string);
-				}
-				elseif (strpos($string, '_USER') !== false)
-				{
-					$inflected = str_replace('_USER', '_USERS', $string);
-				}
-				else
-				{
-					$inflected = '';
-				}
+                if (strpos($string, '_CATEGORIES') !== false) {
+                    $inflected = str_replace('_CATEGORIES', '_CATEGORY', $string);
+                } elseif (strpos($string, '_USERS') !== false) {
+                    $inflected = str_replace('_USERS', '_USER', $string);
+                } elseif (strpos($string, '_CATEGORY') !== false) {
+                    $inflected = str_replace('_CATEGORY', '_CATEGORIES', $string);
+                } elseif (strpos($string, '_USER') !== false) {
+                    $inflected = str_replace('_USER', '_USERS', $string);
+                } else {
+                    $inflected = '';
+                }
 
-				// Now try to validate the key
-				if ($inflected !== '')
-				{
-					$io->comment(sprintf('Validating key COM_ADMIN_HELP_%s', $inflected));
+                // Now try to validate the key
+                if ($inflected !== '') {
+                    $io->comment(sprintf('Validating key COM_ADMIN_HELP_%s', $inflected));
 
-					if ($language->hasKey('COM_ADMIN_HELP_' . $inflected))
-					{
-						$io->comment(sprintf('Adding %s', $inflected));
+                    if ($language->hasKey('COM_ADMIN_HELP_' . $inflected)) {
+                        $io->comment(sprintf('Adding %s', $inflected));
 
-						$toc[$value] = $inflected;
-					}
-				}
-			}
-		}
+                        $toc[$value] = $inflected;
+                    }
+                }
+            }
+        }
 
-		$io->comment(sprintf('Number of strings: %d', count($toc)));
+        $io->comment(sprintf('Number of strings: %d', count($toc)));
 
-		// JSON encode the file and write it to JPATH_ADMINISTRATOR/help/en-GB/toc.json
-		file_put_contents(JPATH_ADMINISTRATOR . '/help/en-GB/toc.json', json_encode($toc));
+        // JSON encode the file and write it to JPATH_ADMINISTRATOR/help/en-GB/toc.json
+        file_put_contents(JPATH_ADMINISTRATOR . '/help/en-GB/toc.json', json_encode($toc));
 
-		$io->success('Help Screen TOC written');
+        $io->success('Help Screen TOC written');
 
-		return 0;
-	}
+        return 0;
+    }
 };
 
 $input = new ArrayInput(
-	[
-		'command' => $command::getDefaultName(),
-	]
+    [
+        'command' => $command::getDefaultName(),
+    ]
 );
 
-$app = new class($input) extends Application
-{
-	/**
-	 * Retrieve the application configuration object.
-	 *
-	 * @return  Registry
-	 */
-	public function getConfig()
-	{
-		return $this->config;
-	}
+$app = new class ($input) extends Application {
+    /**
+     * Retrieve the application configuration object.
+     *
+     * @return  Registry
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
 };
 $app->addCommand($command);
 

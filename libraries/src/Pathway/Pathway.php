@@ -12,6 +12,10 @@ namespace Joomla\CMS\Pathway;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Class to maintain a pathway.
  *
@@ -27,7 +31,7 @@ class Pathway
      * @var    array
      * @since  4.0.0
      */
-    protected $pathway = array();
+    protected $pathway = [];
 
     /**
      * Integer number of items in the pathway
@@ -43,7 +47,7 @@ class Pathway
      * @var    Pathway[]
      * @since  1.7
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Returns a Pathway object
@@ -113,7 +117,7 @@ class Pathway
      */
     public function getPathwayNames()
     {
-        $names = array();
+        $names = [];
 
         // Build the names array using just the names of each pathway item
         foreach ($this->pathway as $item) {
@@ -162,7 +166,7 @@ class Pathway
 
         if (isset($this->pathway[$id])) {
             $this->pathway[$id]->name = $name;
-            $ret = true;
+            $ret                      = true;
         }
 
         return $ret;
@@ -180,7 +184,7 @@ class Pathway
      */
     protected function makeItem($name, $link)
     {
-        $item = new \stdClass();
+        $item       = new \stdClass();
         $item->name = html_entity_decode($name, ENT_COMPAT, 'UTF-8');
         $item->link = $link;
 

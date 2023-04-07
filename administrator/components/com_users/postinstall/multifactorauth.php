@@ -13,6 +13,10 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Post-installation message about the new Multi-factor Authentication: condition check.
  *
@@ -21,7 +25,6 @@ use Joomla\Database\ParameterType;
  * @return  boolean
  * @since   4.2.0
  */
-// phpcs:ignore
 function com_users_postinstall_mfa_condition(): bool
 {
     return count(PluginHelper::getPlugin('multifactorauth')) < 1;
@@ -35,7 +38,6 @@ function com_users_postinstall_mfa_condition(): bool
  * @return  void
  * @since   4.2.0
  */
-// phpcs:ignore
 function com_users_postinstall_mfa_action(): void
 {
     /** @var DatabaseDriver $db */

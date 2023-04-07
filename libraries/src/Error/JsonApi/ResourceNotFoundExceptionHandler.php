@@ -14,6 +14,10 @@ use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
 use Tobscure\JsonApi\Exception\Handler\ExceptionHandlerInterface;
 use Tobscure\JsonApi\Exception\Handler\ResponseBag;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Handler for invalid resource requests that should give a 404
  *
@@ -48,7 +52,7 @@ class ResourceNotFoundExceptionHandler implements ExceptionHandlerInterface
     public function handle(Exception $e)
     {
         $status = 404;
-        $error = ['title' => 'Resource not found'];
+        $error  = ['title' => 'Resource not found'];
 
         $code = $e->getCode();
 

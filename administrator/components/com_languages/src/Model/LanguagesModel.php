@@ -14,7 +14,12 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Languages Model Class
@@ -32,10 +37,10 @@ class LanguagesModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'lang_id', 'a.lang_id',
                 'lang_code', 'a.lang_code',
                 'title', 'a.title',
@@ -46,7 +51,7 @@ class LanguagesModel extends ListModel
                 'ordering', 'a.ordering',
                 'access', 'a.access', 'access_level',
                 'home', 'l.home',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -100,14 +105,14 @@ class LanguagesModel extends ListModel
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return  string    An SQL query
+     * @return  DatabaseQuery    An SQL query
      *
      * @since   1.6
      */
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select all fields from the languages table.

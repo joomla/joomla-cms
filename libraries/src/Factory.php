@@ -30,6 +30,10 @@ use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla Platform Factory class.
  *
@@ -76,7 +80,7 @@ abstract class Factory
      * @var    array
      * @since  1.7.3
      */
-    public static $dates = array();
+    public static $dates = [];
 
     /**
      * Global session object
@@ -231,7 +235,7 @@ abstract class Factory
      * @since       1.7.0
      * @deprecated  5.0  Load the session service from the dependency injection container or via $app->getSession()
      */
-    public static function getSession(array $options = array())
+    public static function getSession(array $options = [])
     {
         @trigger_error(
             sprintf(
@@ -374,7 +378,7 @@ abstract class Factory
 
         $handler = ($handler === 'function') ? 'callback' : $handler;
 
-        $options = array('defaultgroup' => $group);
+        $options = ['defaultgroup' => $group];
 
         if (isset($storage)) {
             $options['storage'] = $storage;
@@ -457,7 +461,7 @@ abstract class Factory
         static $mainLocale;
 
         $language = self::getLanguage();
-        $locale = $language->getTag();
+        $locale   = $language->getTag();
 
         if (!isset($classname) || $locale != $mainLocale) {
             // Store the locale for future reference
@@ -590,14 +594,14 @@ abstract class Factory
 
         $conf = self::getConfig();
 
-        $host = $conf->get('host');
-        $user = $conf->get('user');
+        $host     = $conf->get('host');
+        $user     = $conf->get('user');
         $password = $conf->get('password');
         $database = $conf->get('db');
-        $prefix = $conf->get('dbprefix');
-        $driver = $conf->get('dbtype');
+        $prefix   = $conf->get('dbprefix');
+        $driver   = $conf->get('dbtype');
 
-        $options = array('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
+        $options = ['driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix];
 
         if ((int) $conf->get('dbencryption') !== 0) {
             $options['ssl'] = [
@@ -639,15 +643,15 @@ abstract class Factory
     {
         $conf = self::getConfig();
 
-        $smtpauth = ($conf->get('smtpauth') == 0) ? null : 1;
-        $smtpuser = $conf->get('smtpuser');
-        $smtppass = $conf->get('smtppass');
-        $smtphost = $conf->get('smtphost');
+        $smtpauth   = ($conf->get('smtpauth') == 0) ? null : 1;
+        $smtpuser   = $conf->get('smtpuser');
+        $smtppass   = $conf->get('smtppass');
+        $smtphost   = $conf->get('smtphost');
         $smtpsecure = $conf->get('smtpsecure');
-        $smtpport = $conf->get('smtpport');
-        $mailfrom = $conf->get('mailfrom');
-        $fromname = $conf->get('fromname');
-        $mailer = $conf->get('mailer');
+        $smtpport   = $conf->get('smtpport');
+        $mailfrom   = $conf->get('mailfrom');
+        $fromname   = $conf->get('fromname');
+        $mailer     = $conf->get('mailer');
 
         // Create a Mail object
         $mail = Mail::getInstance();
@@ -706,10 +710,10 @@ abstract class Factory
             E_USER_DEPRECATED
         );
 
-        $conf = self::getConfig();
+        $conf   = self::getConfig();
         $locale = $conf->get('language');
-        $debug = $conf->get('debug_lang');
-        $lang = self::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
+        $debug  = $conf->get('debug_lang');
+        $lang   = self::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
 
         return $lang;
     }
@@ -736,19 +740,19 @@ abstract class Factory
 
         $lang = self::getLanguage();
 
-        $input = self::getApplication()->input;
-        $type = $input->get('format', 'html', 'cmd');
+        $input = self::getApplication()->getInput();
+        $type  = $input->get('format', 'html', 'cmd');
 
         $version = new Version();
 
-        $attributes = array(
+        $attributes = [
             'charset'      => 'utf-8',
             'lineend'      => 'unix',
             'tab'          => "\t",
             'language'     => $lang->getTag(),
             'direction'    => $lang->isRtl() ? 'rtl' : 'ltr',
             'mediaversion' => $version->getMediaVersion(),
-        );
+        ];
 
         return self::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
     }
@@ -769,12 +773,12 @@ abstract class Factory
     public static function getStream($usePrefix = true, $useNetwork = true, $userAgentSuffix = 'Joomla', $maskUserAgent = false)
     {
         // Setup the context; Joomla! UA and overwrite
-        $context = array();
+        $context = [];
         $version = new Version();
 
         // Set the UA for HTTP and overwrite for FTP
         $context['http']['user_agent'] = $version->getUserAgent($userAgentSuffix, $maskUserAgent);
-        $context['ftp']['overwrite'] = true;
+        $context['ftp']['overwrite']   = true;
 
         if ($usePrefix) {
             $FTPOptions = ClientHelper::getCredentials('ftp');

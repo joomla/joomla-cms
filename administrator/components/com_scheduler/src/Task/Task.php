@@ -31,6 +31,10 @@ use Psr\Log\InvalidArgumentException;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The Task class defines methods for the execution, logging and
  * related properties of Tasks as supported by `com_scheduler`,
@@ -227,7 +231,7 @@ class Task implements LoggerAwareInterface
             // Suppress the exception for now, we'll throw it again once it's safe
             $this->log(Text::sprintf('COM_SCHEDULER_TASK_ROUTINE_EXCEPTION', $e->getMessage()), 'error');
             $this->snapshot['exception'] = $e;
-            $this->snapshot['status'] = Status::KNOCKOUT;
+            $this->snapshot['status']    = Status::KNOCKOUT;
         }
 
         $resultSnapshot = $event->getResultSnapshot();
@@ -312,14 +316,14 @@ class Task implements LoggerAwareInterface
         $now              = $now->toSql();
 
         // @todo update or remove this method
-        $query->update($db->qn('#__scheduler_tasks'))
+        $query->update($db->quoteName('#__scheduler_tasks'))
             ->set('locked = :now')
-            ->where($db->qn('id') . ' = :taskId')
+            ->where($db->quoteName('id') . ' = :taskId')
             ->extendWhere(
                 'AND',
                 [
-                    $db->qn('locked') . ' < :threshold',
-                    $db->qn('locked') . 'IS NULL',
+                    $db->quoteName('locked') . ' < :threshold',
+                    $db->quoteName('locked') . 'IS NULL',
                 ],
                 'OR'
             )
@@ -361,10 +365,10 @@ class Task implements LoggerAwareInterface
         $query = $db->getQuery(true);
         $id    = $this->get('id');
 
-        $query->update($db->qn('#__scheduler_tasks', 't'))
+        $query->update($db->quoteName('#__scheduler_tasks', 't'))
             ->set('locked = NULL')
-            ->where($db->qn('id') . ' = :taskId')
-            ->where($db->qn('locked') . ' IS NOT NULL')
+            ->where($db->quoteName('id') . ' = :taskId')
+            ->where($db->quoteName('locked') . ' IS NOT NULL')
             ->bind(':taskId', $id, ParameterType::INTEGER);
 
         if ($update) {
@@ -435,7 +439,7 @@ class Task implements LoggerAwareInterface
         $id       = $this->get('id');
         $nextExec = (new ExecRuleHelper($this->taskRegistry->toObject()))->nextExec(true, true);
 
-        $query->update($db->qn('#__scheduler_tasks', 't'))
+        $query->update($db->quoteName('#__scheduler_tasks', 't'))
             ->set('t.next_execution = :nextExec')
             ->where('t.id = :id')
             ->bind(':nextExec', $nextExec)

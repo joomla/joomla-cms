@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="media-action" method="upgrade">
 	<name>plg_media-action_crop</name>
 	<author>Joomla! Project</author>
@@ -9,9 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_MEDIA-ACTION_CROP_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\MediaAction\Crop</namespace>
 	<files>
-		<filename plugin="crop">crop.php</filename>
 		<folder>form</folder>
+		<folder plugin="crop">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_media-action_crop.ini</language>

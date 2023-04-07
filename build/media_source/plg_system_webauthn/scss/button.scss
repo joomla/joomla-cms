@@ -20,6 +20,6 @@ button[class*=plg_system_webauthn_login_button] {
   }
 
   span[class*=icon]:not(:last-child) {
-    margin-right: .5em;
+    margin-inline-end: .5em;
   }
 }

@@ -18,6 +18,10 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Prototype adapter class for the Finder indexer package.
  *
@@ -174,7 +178,7 @@ abstract class Adapter extends CMSPlugin
         $iState->totalItems += $total;
 
         // Populate the indexer state information for the adapter.
-        $iState->pluginState[$this->context]['total'] = $total;
+        $iState->pluginState[$this->context]['total']  = $total;
         $iState->pluginState[$this->context]['offset'] = 0;
 
         // Set the indexer state.
@@ -229,7 +233,7 @@ abstract class Adapter extends CMSPlugin
 
         // Get the batch offset and size.
         $offset = (int) $aState['offset'];
-        $limit = (int) ($iState->batchSize - $iState->batchOffset);
+        $limit  = (int) ($iState->batchSize - $iState->batchOffset);
 
         // Get the content items to index.
         $items = $this->getItems($offset, $limit);
@@ -246,7 +250,7 @@ abstract class Adapter extends CMSPlugin
         }
 
         // Update the indexer state.
-        $aState['offset'] = $offset;
+        $aState['offset']                    = $offset;
         $iState->pluginState[$this->context] = $aState;
         Indexer::setState($iState);
 
@@ -262,10 +266,10 @@ abstract class Adapter extends CMSPlugin
      */
     public function onFinderGarbageCollection()
     {
-        $db = $this->db;
+        $db      = $this->db;
         $type_id = $this->getTypeId();
 
-        $query = $db->getQuery(true);
+        $query    = $db->getQuery(true);
         $subquery = $db->getQuery(true);
         $subquery->select('CONCAT(' . $db->quote($this->getUrl('', $this->extension, $this->layout)) . ', id)')
             ->from($db->quoteName($this->table));
@@ -346,9 +350,6 @@ abstract class Adapter extends CMSPlugin
         // Run the setup method.
         $this->setup();
 
-        // Remove the old item.
-        $this->remove($id, false);
-
         // Get the item.
         $item = $this->getItem($id);
 
@@ -384,7 +385,7 @@ abstract class Adapter extends CMSPlugin
 
         // Check the items.
         if (empty($items)) {
-            Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', array($id));
+            Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', [$id]);
 
             return true;
         }
@@ -764,7 +765,7 @@ abstract class Adapter extends CMSPlugin
         $return = null;
 
         // Set variables
-        $user = Factory::getUser();
+        $user   = Factory::getUser();
         $groups = implode(',', $user->getAuthorisedViewLevels());
 
         // Build a query to get the menu params.

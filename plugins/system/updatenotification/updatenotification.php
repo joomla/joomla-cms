@@ -26,6 +26,10 @@ use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 // Uncomment the following line to enable debug mode (update notification email sent every single time)
 // define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG', 1);
 
@@ -273,7 +277,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
      */
     private function getSuperUsers($email = null)
     {
-        $db = $this->db;
+        $db     = $this->db;
         $emails = [];
 
         // Convert the email list to an array

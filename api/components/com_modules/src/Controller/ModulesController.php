@@ -15,6 +15,10 @@ use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Modules\Administrator\Model\SelectModel;
 use Joomla\Component\Modules\Api\View\Modules\JsonapiView;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The modules controller
  *

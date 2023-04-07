@@ -11,6 +11,10 @@ namespace Joomla\CMS\MVC\Model;
 
 use Joomla\Database\DatabaseInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Database aware trait.
  *
@@ -52,7 +56,7 @@ trait DatabaseAwareTrait
     /**
      * Set the database driver.
      *
-     * @param   DatabaseInterface  $db  The database driver.
+     * @param   ?DatabaseInterface  $db  The database driver.
      *
      * @return  void
      *

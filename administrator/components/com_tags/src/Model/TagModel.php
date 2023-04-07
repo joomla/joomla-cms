@@ -19,6 +19,10 @@ use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Tags Component Tag Model
  *
@@ -46,10 +50,10 @@ class TagModel extends AdminModel
      * @var    array
      * @since  3.7.0
      */
-    protected $batch_commands = array(
+    protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
-        'language_id' => 'batchLanguage',
-    );
+        'language_id'   => 'batchLanguage',
+    ];
 
     /**
      * Method to test whether a record can be deleted.
@@ -82,11 +86,11 @@ class TagModel extends AdminModel
     {
         $app = Factory::getApplication();
 
-        $parentId = $app->input->getInt('parent_id');
+        $parentId = $app->getInput()->getInt('parent_id');
         $this->setState('tag.parent_id', $parentId);
 
         // Load the User state.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
         $this->setState($this->getName() . '.id', $pk);
 
         // Load the parameters.
@@ -112,15 +116,15 @@ class TagModel extends AdminModel
             }
 
             // Convert the metadata field to an array.
-            $registry = new Registry($result->metadata);
+            $registry         = new Registry($result->metadata);
             $result->metadata = $registry->toArray();
 
             // Convert the images field to an array.
-            $registry = new Registry($result->images);
+            $registry       = new Registry($result->images);
             $result->images = $registry->toArray();
 
             // Convert the urls field to an array.
-            $registry = new Registry($result->urls);
+            $registry     = new Registry($result->urls);
             $result->urls = $registry->toArray();
 
             // Convert the modified date to local user time for display in the form.
@@ -148,18 +152,18 @@ class TagModel extends AdminModel
      *
      * @since   3.1
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
-        $jinput = Factory::getApplication()->input;
+        $jinput = Factory::getApplication()->getInput();
 
         // Get the form.
-        $form = $this->loadForm('com_tags.tag', 'tag', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_tags.tag', 'tag', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
         }
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if (!$user->authorise('core.edit.state', 'com_tags' . $jinput->get('id'))) {
             // Disable fields for display.
@@ -185,7 +189,7 @@ class TagModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_tags.edit.tag.data', array());
+        $data = Factory::getApplication()->getUserState('com_tags.edit.tag.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -209,7 +213,7 @@ class TagModel extends AdminModel
     {
         /** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
         $table      = $this->getTable();
-        $input      = Factory::getApplication()->input;
+        $input      = Factory::getApplication()->getInput();
         $pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
         $isNew      = true;
         $context    = $this->option . '.' . $this->name;
@@ -236,8 +240,8 @@ class TagModel extends AdminModel
 
                 if ($data['title'] == $origTable->title) {
                     list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-                    $data['title'] = $title;
-                    $data['alias'] = $alias;
+                    $data['title']       = $title;
+                    $data['alias']       = $alias;
                 } elseif ($data['alias'] == $origTable->alias) {
                     $data['alias'] = '';
                 }
@@ -263,7 +267,7 @@ class TagModel extends AdminModel
             }
 
             // Trigger the before save event.
-            $result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
+            $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
 
             if (in_array(false, $result, true)) {
                 $this->setError($table->getError());
@@ -279,7 +283,7 @@ class TagModel extends AdminModel
             }
 
             // Trigger the after save event.
-            Factory::getApplication()->triggerEvent($this->event_after_save, array($context, $table, $isNew));
+            Factory::getApplication()->triggerEvent($this->event_after_save, [$context, $table, $isNew]);
 
             // Rebuild the path for the tag:
             if (!$table->rebuildPath($table->id)) {
@@ -399,11 +403,11 @@ class TagModel extends AdminModel
 
         $table = $this->getTable();
 
-        while ($table->load(array('alias' => $alias, 'parent_id' => $parentId))) {
+        while ($table->load(['alias' => $alias, 'parent_id' => $parentId])) {
             $title = ($table->title != $title) ? $title : StringHelper::increment($title);
             $alias = StringHelper::increment($alias, 'dash');
         }
 
-        return array($title, $alias);
+        return [$title, $alias];
     }
 }

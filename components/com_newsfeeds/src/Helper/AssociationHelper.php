@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\Component\Categories\Administrator\Helper\CategoryAssociationHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Newsfeeds Component Association Helper
  *
@@ -33,7 +37,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
      */
     public static function getAssociations($id = 0, $view = null)
     {
-        $jinput = Factory::getApplication()->input;
+        $jinput = Factory::getApplication()->getInput();
         $view   = $view ?? $jinput->get('view');
         $id     = empty($id) ? $jinput->getInt('id') : $id;
 
@@ -41,7 +45,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
             if ($id) {
                 $associations = Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $id);
 
-                $return = array();
+                $return = [];
 
                 foreach ($associations as $tag => $item) {
                     $return[$tag] = RouteHelper::getNewsfeedRoute($item->id, (int) $item->catid, $item->language);
@@ -55,6 +59,6 @@ abstract class AssociationHelper extends CategoryAssociationHelper
             return self::getCategoryAssociations($id, 'com_newsfeeds');
         }
 
-        return array();
+        return [];
     }
 }
