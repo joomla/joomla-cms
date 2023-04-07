@@ -16,13 +16,14 @@ function createInsertQuery(table, values) {
   return query;
 }
 
-Cypress.Commands.add('db_createArticle', (article) => {
+Cypress.Commands.add('db_createArticle', (articleData) => {
   const defaultArticleOptions = {
     title: 'test article',
     alias: 'test-article',
     catid: 2,
     introtext: '',
     fulltext: '',
+    featured: 0,
     state: 1,
     access: 1,
     language: '*',
@@ -35,9 +36,13 @@ Cypress.Commands.add('db_createArticle', (article) => {
     metadata: '',
   };
 
-  return cy.task('queryDB', createInsertQuery('content', { ...defaultArticleOptions, ...article }))
+  const article = { ...defaultArticleOptions, ...articleData };
+
+  return cy.task('queryDB', createInsertQuery('content', article))
     .then(async (info) => {
-      await cy.task('queryDB', `INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('${info.insertId}', '1')`);
+      if (article.featured === 1) {
+        await cy.task('queryDB', `INSERT INTO #__content_frontpage (content_id, ordering) VALUES ('${info.insertId}', '1')`);
+      }
       await cy.task('queryDB', `INSERT INTO #__workflow_associations (item_id, stage_id, extension) VALUES (${info.insertId}, 1, 'com_content.article')`);
 
       return info.insertId;
@@ -143,6 +148,74 @@ Cypress.Commands.add('db_createUser', (userData) => {
     return info.insertId;
   });
 });
+
+Cypress.Commands.add('db_createCategory', (category) => {
+  const defaultCategoryOptions = {
+    title: 'test category',
+    alias: 'test-category',
+    path: 'test-category',
+    extension: 'com_content',
+    published: 1,
+    access: 1,
+    params: '',
+    parent_id: 1,
+    level: 1,
+    lft: 1,
+    metadata: '',
+    metadesc: '',
+    created_time: '2023-01-01 20:00:00',
+    modified_time: '2023-01-01 20:00:00',
+  };
+
+  return cy.task('queryDB', createInsertQuery('categories', { ...defaultCategoryOptions, ...category })).then(async (info) => info.insertId);
+});
+
+Cypress.Commands.add('db_createFieldGroup', (fieldGroup) => {
+  const defaultFieldGroupOptions = {
+    title: 'test field group',
+    state: 1,
+    language: '*',
+    context: '',
+    note: '',
+    description: '',
+    access: 1,
+    created: '2023-01-01 20:00:00',
+    modified: '2023-01-01 20:00:00',
+    params: '',
+  };
+
+  return cy.task('queryDB', createInsertQuery('fields_groups', { ...defaultFieldGroupOptions, ...fieldGroup })).then(async (info) => info.insertId);
+});
+
+Cypress.Commands.add('db_createField', (field) => {
+  const defaultFieldOptions = {
+    title: 'test field',
+    name: 'test-field',
+    label: 'test field',
+    default_value: '',
+    note: '',
+    description: '',
+    group_id: 0,
+    type: 'text',
+    required: 1,
+    state: 1,
+    context: 'com_content.article',
+    access: 1,
+    language: '*',
+    created_time: '2023-01-01 20:00:00',
+    modified_time: '2023-01-01 20:00:00',
+    params: '',
+    fieldparams: '',
+  };
+
+  return cy.task('queryDB', createInsertQuery('fields', { ...defaultFieldOptions, ...field })).then(async (info) => info.insertId);
+});
+
+Cypress.Commands.add('db_updateExtensionParameter', (key, value, extension) => cy.task('queryDB', `SELECT params FROM #__extensions WHERE name = '${extension}'`).then((paramsString) => {
+  const params = JSON.parse(paramsString[0].params);
+  params[key] = value;
+  return cy.task('queryDB', `UPDATE #__extensions SET params = '${JSON.stringify(params)}' WHERE name = '${extension}'`);
+}));
 
 Cypress.Commands.add('db_getUserId', () => {
   cy.task('queryDB', `SELECT id FROM #__users WHERE username = '${Cypress.env('username')}'`)
