@@ -28,7 +28,7 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function register(Container $container)
     {
@@ -36,13 +36,15 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $dispatcher = $container->get(DispatcherInterface::class);
+                $app        = Factory::getApplication();
 
                 $plugin = new GuidedTours(
                     $dispatcher,
-                    (array) PluginHelper::getPlugin('system', 'guidedtours')
+                    (array) PluginHelper::getPlugin('system', 'guidedtours'),
+                    $app->isClient('administrator')
                 );
 
-                $plugin->setApplication(Factory::getApplication());
+                $plugin->setApplication($app);
 
                 $wa = $container->get(WebAssetRegistry::class);
 
