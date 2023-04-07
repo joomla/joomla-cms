@@ -56,23 +56,21 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected function setSubject(ButtonsRegistryInterface $value)
+    protected function setSubject(ButtonsRegistryInterface $value): ButtonsRegistryInterface
     {
         return $value;
     }
 
     /**
-     * Setter for the Editor ID argument
+     * Getter for the subject argument
      *
-     * @param   string  $value  The value to set
-     *
-     * @return  string
+     * @return  ButtonsRegistryInterface
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected function setEditorId(string $value)
+    public function getSubject(): ButtonsRegistryInterface
     {
-        return $value;
+        return $this->arguments['subject'];
     }
 
     /**
@@ -84,9 +82,21 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected function setEditorType(string $value)
+    protected function setEditorType(string $value): string
     {
         return $value;
+    }
+
+    /**
+     * Getter for the Editor Type argument
+     *
+     * @return  string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getEditorType(): string
+    {
+        return $this->arguments['editorType'];
     }
 
     /**
@@ -98,9 +108,47 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected function setDisabledButtons(array $value)
+    protected function setDisabledButtons(array $value): array
     {
         return $value;
+    }
+
+    /**
+     * Getter for the disabled buttons argument
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getDisabledButtons(): array
+    {
+        return $this->arguments['disabledButtons'];
+    }
+
+    /**
+     * Setter for the Editor ID argument
+     *
+     * @param   string  $value  The value to set
+     *
+     * @return  string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function setEditorId(string $value): string
+    {
+        return $value;
+    }
+
+    /**
+     * Getter for the Editor ID argument
+     *
+     * @return  string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getEditorId(): string
+    {
+        return $this->arguments['editorId'] ?? '';
     }
 
     /**
@@ -112,9 +160,21 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected function setAsset(int $value)
+    protected function setAsset(int $value): int
     {
         return $value;
+    }
+
+    /**
+     * Getter for the asset argument
+     *
+     * @return  int
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getAsset(): int
+    {
+        return $this->arguments['asset'] ?? 0;
     }
 
     /**
@@ -126,8 +186,20 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
      *
      * @since  __DEPLOY_VERSION__
      */
-    protected function setAuthor(int $value)
+    protected function setAuthor(int $value): int
     {
         return $value;
+    }
+
+    /**
+     * Getter for the author argument
+     *
+     * @return  int
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getAuthor(): int
+    {
+        return $this->arguments['author'] ?? 0;
     }
 }

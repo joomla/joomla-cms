@@ -58,14 +58,14 @@ final class Article extends CMSPlugin implements SubscriberInterface
     public function onEditorButtonsSetup(EditorButtonsSetupEvent $event)
     {
         /** @var ButtonsRegistry $subject */
-        $subject  = $event['subject'];
-        $disabled = $event['disabledButtons'];
+        $subject  = $event->getSubject();
+        $disabled = $event->getDisabledButtons();
 
         if (\in_array($this->_name, $disabled)) {
             return;
         }
 
-        $button = $this->onDisplay($event['editorId']);
+        $button = $this->onDisplay($event->getEditorId());
 
         if ($button) {
             $subject->add($button);
