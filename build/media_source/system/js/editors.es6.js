@@ -360,7 +360,7 @@ JoomlaEditorButton.registerAction('insert', (editor, options) => {
 });
 // Display modal dialog
 JoomlaEditorButton.registerAction('modal', (editor, options) => {
-  if (options.src) {
+  if (options.src && options.src[0] !== '#' && options.src[0] !== '.') {
     // Replace editor parameter to actual editor ID
     const url = options.src.indexOf('http') === 0 ? new URL(options.src) : new URL(options.src, window.location.origin);
     url.searchParams.set('editor', editor.getId());
