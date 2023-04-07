@@ -49,7 +49,8 @@ class EditorsRegistry implements ServiceProviderInterface
                     $registry->initRegistry();
 
                     return $registry;
-                }
+                },
+                true
             );
     }
 }
