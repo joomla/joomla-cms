@@ -92,10 +92,7 @@ class HelpButton extends BasicButton
     protected function _getCommand()
     {
         // Get Help URL
-        $url = Help::createUrl($this->getRef(), $this->getUseComponent(), $this->getUrl(), $this->getComponent());
-        $url = json_encode(htmlspecialchars($url, ENT_QUOTES), JSON_HEX_APOS);
-
-        return substr($url, 1, -1);
+        return Help::createUrl($this->getRef(), $this->getUseComponent(), $this->getUrl(), $this->getComponent());
     }
 
     /**
