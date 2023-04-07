@@ -52,4 +52,16 @@ final class EditorSetupEvent extends AbstractImmutableEvent
     {
         return $value;
     }
+
+    /**
+     * Getter for the subject argument
+     *
+     * @return  EditorsRegistryInterface
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getSubject(): EditorsRegistryInterface
+    {
+        return $this->arguments['subject'];
+    }
 }
