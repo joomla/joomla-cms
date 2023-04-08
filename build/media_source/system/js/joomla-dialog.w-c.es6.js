@@ -82,10 +82,17 @@ class JoomlaDialog extends HTMLElement {
   // iconHeader = '';
 
   /**
-   * A template for the popup
+   * A template for the popup.
    * @type {string|HTMLTemplateElement}
    */
   // popupTemplate = popupTemplate;
+
+  /**
+   * The element where to attach the dialog, for cases when no parentElement exist, see show().
+   * This allows to keep the dialog in the same branch of DOM as the popupContent.
+   * @type {string|HTMLElement}
+   */
+  // preferredParent = null;
 
   /**
    * Class constructor
@@ -106,12 +113,15 @@ class JoomlaDialog extends HTMLElement {
     this.width = '';
     this.height = '';
     this.popupTemplate = popupTemplate;
+    this.preferredParent = null;
+    // @internal. Parent of the popupContent for cases when it is HTMLElement. Need for recovery on destroy().
+    this.popupContentSrcLocation = null;
 
     if (!config) return;
 
     // Check configurable properties
-    ['popupType', 'textHeader', 'textClose', 'popupContent', 'src',
-      'popupButtons', 'cancelable', 'width', 'height', 'popupTemplate', 'iconHeader', 'id'].forEach((key) => {
+    ['popupType', 'textHeader', 'textClose', 'popupContent', 'src', 'popupButtons', 'cancelable',
+      'width', 'height', 'popupTemplate', 'iconHeader', 'id', 'preferredParent'].forEach((key) => {
       if (config[key] !== undefined) {
         this[key] = config[key];
       }
@@ -297,22 +307,31 @@ class JoomlaDialog extends HTMLElement {
     switch (this.popupType) {
       // Create an Inline content
       case 'inline': {
+        let inlineContent = this.popupContent;
+
         // Check for content selector: src: '#content-selector' or src: '.content-selector'
-        if (!this.popupContent && this.src && (this.src[0] === '.' || this.src[0] === '#')) {
-          const srcContent = document.querySelector(this.src);
-          if (srcContent) {
-            // Use <template> content, or an innerHTML for other nodes
-            this.popupContent = srcContent.nodeName === 'TEMPLATE' ? srcContent : srcContent.innerHTML.trim();
-          }
+        if (!inlineContent && this.src && (this.src[0] === '.' || this.src[0] === '#')) {
+          inlineContent = document.querySelector(this.src);
+          this.popupContent = inlineContent;
         }
 
-        if (this.popupContent instanceof HTMLElement) {
+        if (inlineContent instanceof HTMLElement) {
           // Render content provided as HTMLElement
-          const inlineContent = this.popupContent.nodeName === 'TEMPLATE' ? this.popupContent.content : this.popupContent;
-          this.popupTmplB.appendChild(inlineContent);
+          // Store preferred parent, if not defined
+          this.preferredParent = this.preferredParent || inlineContent.parentElement;
+          if (inlineContent.nodeName === 'TEMPLATE') {
+            this.popupTmplB.appendChild(inlineContent.content.cloneNode(true));
+          } else {
+            // Store parent reference to be able to recover after the popup is destroyed
+            this.popupContentSrcLocation = {
+              parent: inlineContent.parentElement,
+              nextSibling: inlineContent.nextSibling,
+            };
+            this.popupTmplB.appendChild(inlineContent);
+          }
         } else {
           // Render content string
-          this.popupTmplB.insertAdjacentHTML('afterbegin', Joomla.sanitizeHtml(this.popupContent));
+          this.popupTmplB.insertAdjacentHTML('afterbegin', Joomla.sanitizeHtml(inlineContent));
         }
         this.popupContentElement = this.popupTmplB;
         onLoad();
@@ -414,8 +433,16 @@ class JoomlaDialog extends HTMLElement {
    * @returns {JoomlaDialog}
    */
   show() {
+    // Check whether the element already attached to DOM
     if (!this.parentElement) {
-      document.body.appendChild(this);
+      this.renderLayout();
+      // Check for preferred parent to attach to DOM
+      let parent = this.preferredParent;
+      if (!(parent instanceof HTMLElement)) {
+        parent = document.querySelector(parent);
+      }
+
+      (parent || document.body).appendChild(this);
     }
 
     this.dialog.showModal();
@@ -464,11 +491,19 @@ class JoomlaDialog extends HTMLElement {
     this.dialog.close();
     this.removeChild(this.dialog);
     this.parentElement.removeChild(this);
+
+    // Restore original location of the popup content element
+    if (this.popupContentSrcLocation && this.popupContent) {
+      const { parent, nextSibling } = this.popupContentSrcLocation;
+      parent.insertBefore(this.popupContent, nextSibling);
+    }
+
     this.dialog = null;
     this.popupTmplH = null;
     this.popupTmplB = null;
     this.popupTmplF = null;
     this.popupContentElement = null;
+    this.popupContentSrcLocation = null;
   }
 
   /**
