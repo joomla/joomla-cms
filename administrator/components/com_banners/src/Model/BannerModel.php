@@ -15,8 +15,10 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -63,6 +65,34 @@ class BannerModel extends AdminModel
         'client_id'   => 'batchClient',
         'language_id' => 'batchLanguage',
     ];
+
+    /**
+     * Function that can be overridden to do any data cleanup after batch copying data
+     *
+     * @param   TableInterface  $table  The table object containing the newly created item
+     * @param   integer         $newId  The id of the new item
+     * @param   integer         $oldId  The original item id
+     *
+     * @return  void
+     *
+     * @since  3.8.12
+     */
+    protected function cleanupPostBatchCopy(TableInterface $table, $newId, $oldId)
+    {
+        // Initialise clicks and impmade
+        $db    = $this->getDatabase();
+
+        $query = $db->getQuery(true)
+                ->update($db->quoteName('#__banners'))
+                ->set($db->quoteName('clicks') . ' = 0')
+                ->set($db->quoteName('impmade') . ' = 0')
+                ->where($db->quoteName('id') . ' = :newId')
+                ->bind(':newId', $newId, ParameterType::INTEGER);
+
+        $db->setQuery($query);
+        $db->execute();
+    }
+
 
     /**
      * Batch client changes for a group of banners.
