@@ -16,7 +16,6 @@ use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\OutputFilter;
@@ -32,6 +31,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
@@ -106,7 +106,7 @@ class ApplicationModel extends FormModel
 
         // If no filter data found, get from com_content (update of 1.6/1.7 site)
         if (empty($data['filters'])) {
-            $contentParams = ComponentHelper::getParams('com_content');
+            $contentParams   = ComponentHelper::getParams('com_content');
             $data['filters'] = ArrayHelper::fromObject($contentParams->get('filters'));
         }
 
@@ -187,7 +187,7 @@ class ApplicationModel extends FormModel
                     return false;
                 }
 
-                if (!File::exists(Path::clean($data['dbsslca']))) {
+                if (!is_file(Path::clean($data['dbsslca']))) {
                     Factory::getApplication()->enqueueMessage(
                         Text::sprintf(
                             'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
@@ -219,7 +219,7 @@ class ApplicationModel extends FormModel
                     return false;
                 }
 
-                if (!File::exists(Path::clean($data['dbsslkey']))) {
+                if (!is_file(Path::clean($data['dbsslkey']))) {
                     Factory::getApplication()->enqueueMessage(
                         Text::sprintf(
                             'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
@@ -243,7 +243,7 @@ class ApplicationModel extends FormModel
                     return false;
                 }
 
-                if (!File::exists(Path::clean($data['dbsslcert']))) {
+                if (!is_file(Path::clean($data['dbsslcert']))) {
                     Factory::getApplication()->enqueueMessage(
                         Text::sprintf(
                             'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
@@ -347,8 +347,8 @@ class ApplicationModel extends FormModel
                     [
                         CURLOPT_SSL_VERIFYPEER => false,
                         CURLOPT_SSL_VERIFYHOST => false,
-                        CURLOPT_PROXY => null,
-                        CURLOPT_PROXYUSERPWD => null,
+                        CURLOPT_PROXY          => null,
+                        CURLOPT_PROXYUSERPWD   => null,
                     ]
                 );
                 $response = HttpFactory::getHttp($options)->get('https://' . $host . Uri::root(true) . '/', ['Host' => $host], 10);
@@ -715,7 +715,7 @@ class ApplicationModel extends FormModel
                     );
                 }
 
-                $error = false;
+                $error            = false;
                 $data['log_path'] = $defaultLogPath;
             }
 
@@ -845,9 +845,9 @@ class ApplicationModel extends FormModel
      */
     public function storePermissions($permission = null)
     {
-        $app  = Factory::getApplication();
+        $app   = Factory::getApplication();
         $input = $app->getInput();
-        $user = $this->getCurrentUser();
+        $user  = $this->getCurrentUser();
 
         if (is_null($permission)) {
             // Get data from input.
@@ -856,7 +856,7 @@ class ApplicationModel extends FormModel
                 'action'    => $input->json->get('action'),
                 'rule'      => $input->json->get('rule'),
                 'value'     => $input->json->get('value'),
-                'title'     => $input->json->get('title', '', 'RAW')
+                'title'     => $input->json->get('title', '', 'RAW'),
             ];
         }
 
@@ -1003,9 +1003,9 @@ class ApplicationModel extends FormModel
 
         // All checks done.
         $result = [
-            'text'    => '',
-            'class'   => '',
-            'result'  => true,
+            'text'   => '',
+            'class'  => '',
+            'result' => true,
         ];
 
         // Show the current effective calculated permission considering current group, path and cascade.
@@ -1100,7 +1100,7 @@ class ApplicationModel extends FormModel
         // Current group is a Super User group, so calculated setting is "Allowed (Super User)".
         if ($isSuperUserGroupAfter) {
             $result['class'] = 'badge bg-success';
-            $result['text'] = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
+            $result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
         } else {
             // Not super user.
             // First get the real recursive calculated setting and add (Inherited) to it.
@@ -1173,9 +1173,9 @@ class ApplicationModel extends FormModel
     public function sendTestMail()
     {
         // Set the new values to test with the current settings
-        $app = Factory::getApplication();
-        $user = $this->getCurrentUser();
-        $input = $app->getInput()->json;
+        $app      = Factory::getApplication();
+        $user     = $this->getCurrentUser();
+        $input    = $app->getInput()->json;
         $smtppass = $input->get('smtppass', null, 'RAW');
 
         $app->set('smtpauth', $input->get('smtpauth'));
@@ -1200,7 +1200,7 @@ class ApplicationModel extends FormModel
         $mailer->addTemplateData(
             [
                 'sitename' => $app->get('sitename'),
-                'method' => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer))
+                'method'   => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)),
             ]
         );
         $mailer->addRecipient($app->get('mailfrom'), $app->get('fromname'));

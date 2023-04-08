@@ -237,9 +237,9 @@ class HtmlView extends BaseHtmlView
         $app->getInput()->set('hidemainmenu', true);
 
         // User is global SuperUser
-        $isSuperUser = $user->authorise('core.admin');
+        $isSuperUser  = $user->authorise('core.admin');
         $explodeArray = explode('.', $this->fileName);
-        $ext = end($explodeArray);
+        $ext          = end($explodeArray);
 
         ToolbarHelper::title(Text::sprintf('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE', ucfirst($this->template->name)), 'icon-code thememanager');
 

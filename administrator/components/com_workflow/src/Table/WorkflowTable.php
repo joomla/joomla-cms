@@ -207,7 +207,7 @@ class WorkflowTable extends Table
                 $table->load(
                     [
                     'default' => '1',
-                    'extension' => $this->extension
+                    'extension' => $this->extension,
                     ]
                 )
             ) {

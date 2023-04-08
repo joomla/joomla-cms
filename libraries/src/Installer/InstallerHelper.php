@@ -11,7 +11,6 @@ namespace Joomla\CMS\Installer;
 
 use Joomla\Archive\Archive;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Http\HttpFactory;
@@ -20,6 +19,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Version;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -105,7 +105,7 @@ abstract class InstallerHelper
             !empty($headers['content-disposition'])
             && preg_match("/\s*filename\s?=\s?(.*)/", $headers['content-disposition'][0], $parts)
         ) {
-            $flds = explode(';', $parts[1]);
+            $flds   = explode(';', $parts[1]);
             $target = trim($flds[0], '"');
         }
 
@@ -151,7 +151,7 @@ abstract class InstallerHelper
         $tmpdir = uniqid('install_');
 
         // Clean the paths to use for archive extraction
-        $extractdir = Path::clean(\dirname($packageFilename) . '/' . $tmpdir);
+        $extractdir  = Path::clean(\dirname($packageFilename) . '/' . $tmpdir);
         $archivename = Path::clean($archivename);
 
         // Do the unpacking of the archive
@@ -186,7 +186,8 @@ abstract class InstallerHelper
          * Let's set the extraction directory and package file in the result array so we can
          * cleanup everything properly later on.
          */
-        $retval['extractdir'] = $extractdir;
+        $retval                = [];
+        $retval['extractdir']  = $extractdir;
         $retval['packagefile'] = $archivename;
 
         /*

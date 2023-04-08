@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\CoreContent;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
@@ -124,7 +123,7 @@ class PlgContentJoomla extends CMSPlugin
             return;
         }
 
-        $db = $this->db;
+        $db    = $this->db;
         $query = $db->getQuery(true)
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
@@ -142,18 +141,18 @@ class PlgContentJoomla extends CMSPlugin
         // Messaging for new items
 
         $default_language = ComponentHelper::getParams('com_languages')->get('administrator');
-        $debug = $this->app->get('debug_lang');
+        $debug            = $this->app->get('debug_lang');
 
         foreach ($users as $user_id) {
             if ($user_id != $user->id) {
                 // Load language for messaging
                 $receiver = User::getInstance($user_id);
-                $lang = Language::getInstance($receiver->getParam('admin_language', $default_language), $debug);
+                $lang     = Language::getInstance($receiver->getParam('admin_language', $default_language), $debug);
                 $lang->load('com_content');
                 $message = [
                     'user_id_to' => $user_id,
-                    'subject' => $lang->_('COM_CONTENT_NEW_ARTICLE'),
-                    'message' => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title),
+                    'subject'    => $lang->_('COM_CONTENT_NEW_ARTICLE'),
+                    'message'    => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title),
                 ];
                 $model_message = $this->app->bootComponent('com_messages')->getMVCFactory()
                     ->createModel('Message', 'Administrator');
@@ -245,12 +244,12 @@ class PlgContentJoomla extends CMSPlugin
         $result = true;
 
         $tableInfo = [
-            'com_banners' => ['table_name' => '#__banners'],
-            'com_contact' => ['table_name' => '#__contact_details'],
-            'com_content' => ['table_name' => '#__content'],
+            'com_banners'   => ['table_name' => '#__banners'],
+            'com_contact'   => ['table_name' => '#__contact_details'],
+            'com_content'   => ['table_name' => '#__content'],
             'com_newsfeeds' => ['table_name' => '#__newsfeeds'],
-            'com_users' => ['table_name' => '#__user_notes'],
-            'com_weblinks' => ['table_name' => '#__weblinks'],
+            'com_users'     => ['table_name' => '#__user_notes'],
+            'com_weblinks'  => ['table_name' => '#__weblinks'],
         ];
 
         // Now check to see if this is a known core extension
@@ -417,7 +416,7 @@ class PlgContentJoomla extends CMSPlugin
      */
     private function _countItemsInCategory($table, $catid)
     {
-        $db = $this->db;
+        $db    = $this->db;
         $query = $db->getQuery(true);
 
         // Count the items in this category
@@ -534,8 +533,7 @@ class PlgContentJoomla extends CMSPlugin
             }
 
             return $count;
-        } else // If we didn't have any categories to check, return 0
-        {
+        } else { // If we didn't have any categories to check, return 0
             return 0;
         }
     }
@@ -565,7 +563,7 @@ class PlgContentJoomla extends CMSPlugin
             return true;
         }
 
-        $db = $this->db;
+        $db    = $this->db;
         $query = $db->getQuery(true)
             ->select($db->quoteName('core_content_id'))
             ->from($db->quoteName('#__ucm_content'))

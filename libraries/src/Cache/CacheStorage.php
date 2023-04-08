@@ -100,7 +100,7 @@ class CacheStorage
     {
         $app = Factory::getApplication();
 
-        $this->_hash        = md5($app->get('secret'));
+        $this->_hash        = md5($app->get('secret', ''));
         $this->_application = $options['application'] ?? md5(JPATH_CONFIGURATION);
         $this->_language    = $options['language'] ?? 'en-GB';
         $this->_locking     = $options['locking'] ?? true;
@@ -111,7 +111,7 @@ class CacheStorage
         // _threshold is now available ONLY as a legacy (it's deprecated).  It's no longer used in the core.
         if (empty($this->_lifetime)) {
             $this->_threshold = $this->_now - 60;
-            $this->_lifetime = 60;
+            $this->_lifetime  = 60;
         } else {
             $this->_threshold = $this->_now - $this->_lifetime;
         }

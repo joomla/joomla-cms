@@ -49,7 +49,7 @@ class CacheController
      */
     public function __construct($options)
     {
-        $this->cache = new Cache($options);
+        $this->cache   = new Cache($options);
         $this->options = & $this->cache->_options;
 
         // Overwrite default options with given options

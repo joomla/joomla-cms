@@ -95,7 +95,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
     /**
      * The name of the controller
      *
-     * @var    array
+     * @var    string
      * @since  3.0
      */
     protected $name;
@@ -277,7 +277,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
         $filter = InputFilter::getInstance();
 
         if (\is_array($command)) {
-            $keys = array_keys($command);
+            $keys    = array_keys($command);
             $command = $filter->clean(array_pop($keys), 'cmd');
         } else {
             $command = $filter->clean($command, 'cmd');
@@ -286,11 +286,11 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
         // Check for a controller.task command.
         if (strpos($command, '.') !== false) {
             // Explode the controller.task command.
-            list ($type, $task) = explode('.', $command);
+            list($type, $task) = explode('.', $command);
 
             // Define the controller filename and path.
-            $file = self::createFileName('controller', ['name' => $type, 'format' => $format]);
-            $path = $basePath . '/controllers/' . $file;
+            $file       = self::createFileName('controller', ['name' => $type, 'format' => $format]);
+            $path       = $basePath . '/controllers/' . $file;
             $backuppath = $basePath . '/controller/' . $file;
 
             // Reset the task without the controller context.
@@ -339,23 +339,23 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     *                                         Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                         'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    Input
+     * @param   array                 $config   An optional associative array of configuration settings.
+     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                          'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since   3.0
      */
     public function __construct($config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
     {
-        $this->methods = [];
-        $this->message = null;
+        $this->methods     = [];
+        $this->message     = null;
         $this->messageType = 'message';
-        $this->paths = [];
-        $this->redirect = null;
-        $this->taskMap = [];
+        $this->paths       = [];
+        $this->redirect    = null;
+        $this->taskMap     = [];
 
         $this->app   = $app ?: Factory::getApplication();
         $this->input = $input ?: $this->app->getInput();
@@ -368,7 +368,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
         $xMethods = get_class_methods('\\Joomla\\CMS\\MVC\\Controller\\BaseController');
 
         // Get the public methods in this class using reflection.
-        $r = new \ReflectionClass($this);
+        $r        = new \ReflectionClass($this);
         $rMethods = $r->getMethods(\ReflectionMethod::IS_PUBLIC);
 
         foreach ($rMethods as $rMethod) {
@@ -439,7 +439,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
             $this->default_view = $this->getName();
         }
 
-        $this->factory = $factory ? : new LegacyFactory();
+        $this->factory = $factory ?: new LegacyFactory();
     }
 
     /**
@@ -594,9 +594,9 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      */
     public function display($cachable = false, $urlparams = [])
     {
-        $document = $this->app->getDocument();
-        $viewType = $document->getType();
-        $viewName = $this->input->get('view', $this->default_view);
+        $document   = $this->app->getDocument();
+        $viewType   = $document->getType();
+        $viewName   = $this->input->get('view', $this->default_view);
         $viewLayout = $this->input->get('layout', 'default', 'string');
 
         $view = $this->getView($viewName, $viewType, '', ['base_path' => $this->basePath, 'layout' => $viewLayout]);
@@ -972,8 +972,8 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      */
     public function setMessage($text, $type = 'message')
     {
-        $previous = $this->message;
-        $this->message = $text;
+        $previous          = $this->message;
+        $this->message     = $text;
         $this->messageType = $type;
 
         return $previous;

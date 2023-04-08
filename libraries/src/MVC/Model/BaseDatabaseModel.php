@@ -78,8 +78,8 @@ abstract class BaseDatabaseModel extends BaseModel implements
     /**
      * Constructor
      *
-     * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   3.0
      * @throws  \Exception
@@ -144,9 +144,9 @@ abstract class BaseDatabaseModel extends BaseModel implements
     /**
      * Gets an array of objects from the results of database query.
      *
-     * @param   string   $query       The query.
-     * @param   integer  $limitstart  Offset.
-     * @param   integer  $limit       The number of records.
+     * @param   DatabaseQuery|string   $query       The query.
+     * @param   integer                $limitstart  Offset.
+     * @param   integer                $limit       The number of records.
      *
      * @return  object[]  An array of results.
      *
@@ -279,7 +279,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      */
     public function isCheckedOut($item)
     {
-        $table = $this->getTable();
+        $table           = $this->getTable();
         $checkedOutField = $table->getColumnAlias('checked_out');
 
         if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != $this->getCurrentUser()->id) {
@@ -374,7 +374,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     /**
      * Set the database driver.
      *
-     * @param   DatabaseInterface  $db  The database driver.
+     * @param   ?DatabaseInterface  $db  The database driver.
      *
      * @return  void
      *

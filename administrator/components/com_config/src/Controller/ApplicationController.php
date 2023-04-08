@@ -90,14 +90,14 @@ class ApplicationController extends BaseController
 
         // Complete data array if needed
         $oldData = $model->getData();
-        $data = array_replace($oldData, $data);
+        $data    = array_replace($oldData, $data);
 
         // Get request type
         $saveFormat = $this->app->getDocument()->getType();
 
         // Handle service requests
         if ($saveFormat == 'json') {
-            $form = $model->getForm();
+            $form   = $model->getForm();
             $return = $model->validate($form, $data);
 
             if ($return === false) {

@@ -14,7 +14,7 @@ use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\File as FileCMS;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\Http;
 use Joomla\CMS\Http\HttpFactory;
@@ -28,6 +28,7 @@ use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -98,8 +99,8 @@ class UpdateModel extends BaseDatabaseModel
                 $updateURL = 'https://update.joomla.org/core/list.xml';
         }
 
-        $id = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
-        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $id    = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
+        $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName('us') . '.*')
             ->from($db->quoteName('#__update_sites_extensions', 'map'))
@@ -116,7 +117,7 @@ class UpdateModel extends BaseDatabaseModel
         if ($update_site->location != $updateURL) {
             // Modify the database record.
             $update_site->last_check_timestamp = 0;
-            $update_site->location = $updateURL;
+            $update_site->location             = $updateURL;
             $db->updateObject('#__update_sites', $update_site, 'update_site_id');
 
             // Remove cached updates.
@@ -156,7 +157,7 @@ class UpdateModel extends BaseDatabaseModel
             $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
         }
 
-        $reflection = new \ReflectionObject($updater);
+        $reflection       = new \ReflectionObject($updater);
         $reflectionMethod = $reflection->getMethod('findUpdates');
         $methodParameters = $reflectionMethod->getParameters();
 
@@ -243,12 +244,12 @@ class UpdateModel extends BaseDatabaseModel
             'latest'    => null,
             'object'    => null,
             'hasUpdate' => false,
-            'current'   => JVERSION // This is deprecated please use 'installed' or JVERSION directly
+            'current'   => JVERSION, // This is deprecated please use 'installed' or JVERSION directly
         ];
 
         // Fetch the update information from the database.
-        $id = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
-        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $id    = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
+        $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->quoteName('#__updates'))
@@ -307,10 +308,10 @@ class UpdateModel extends BaseDatabaseModel
         $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
 
         // Modify the database record
-        $update_site = new \stdClass();
+        $update_site                       = new \stdClass();
         $update_site->last_check_timestamp = 0;
-        $update_site->enabled = 1;
-        $update_site->update_site_id = 1;
+        $update_site->enabled              = 1;
+        $update_site->update_site_id       = 1;
         $db->updateObject('#__update_sites', $update_site, 'update_site_id');
 
         $query = $db->getQuery(true)
@@ -388,7 +389,7 @@ class UpdateModel extends BaseDatabaseModel
         $response = [];
 
         // Do we have a cached file?
-        $exists = File::exists($target);
+        $exists = is_file($target);
 
         if (!$exists) {
             // Not there, let's fetch it.
@@ -532,7 +533,7 @@ class UpdateModel extends BaseDatabaseModel
 
         // Get a password
         $password = UserHelper::genRandomPassword(32);
-        $app = Factory::getApplication();
+        $app      = Factory::getApplication();
 
         // Trigger event before joomla update.
         $app->triggerEvent('onJoomlaBeforeUpdate');
@@ -544,7 +545,7 @@ class UpdateModel extends BaseDatabaseModel
         if (empty($basename)) {
             $updateInfo = $this->getUpdateInformation();
             $packageURL = $updateInfo['object']->downloadurl->_data;
-            $basename = basename($packageURL);
+            $basename   = basename($packageURL);
         }
 
         // Get the package name.
@@ -569,7 +570,7 @@ ENDDATA;
         // Remove the old file, if it's there...
         $configpath = JPATH_COMPONENT_ADMINISTRATOR . '/update.php';
 
-        if (File::exists($configpath)) {
+        if (is_file($configpath)) {
             if (!File::delete($configpath)) {
                 File::invalidateFileCache($configpath);
                 @unlink($configpath);
@@ -636,7 +637,7 @@ ENDDATA;
         $installer->setUpgrade(true);
         $installer->setOverwrite(true);
 
-        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db                   = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $installer->extension = new \Joomla\CMS\Table\Extension($db);
         $installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
 
@@ -698,7 +699,7 @@ ENDDATA;
             return false;
         }
 
-        $id = $db->loadResult();
+        $id  = $db->loadResult();
         $row = new \Joomla\CMS\Table\Extension($db);
 
         if ($id) {
@@ -785,7 +786,7 @@ ENDDATA;
 
         // Clobber any possible pending updates.
         $update = new \Joomla\CMS\Table\Update($db);
-        $uid = $update->find(
+        $uid    = $update->find(
             ['element' => 'joomla', 'type' => 'file', 'client_id' => '0', 'folder' => '']
         );
 
@@ -844,22 +845,22 @@ ENDDATA;
         File::delete($tempdir . '/' . $file);
 
         // Remove the update.php file used in Joomla 4.0.3 and later.
-        if (File::exists(JPATH_COMPONENT_ADMINISTRATOR . '/update.php')) {
+        if (is_file(JPATH_COMPONENT_ADMINISTRATOR . '/update.php')) {
             File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/update.php');
         }
 
         // Remove the legacy restoration.php file (when updating from Joomla 4.0.2 and earlier).
-        if (File::exists(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php')) {
+        if (is_file(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php')) {
             File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php');
         }
 
         // Remove the legacy restore_finalisation.php file used in Joomla 4.0.2 and earlier.
-        if (File::exists(JPATH_COMPONENT_ADMINISTRATOR . '/restore_finalisation.php')) {
+        if (is_file(JPATH_COMPONENT_ADMINISTRATOR . '/restore_finalisation.php')) {
             File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restore_finalisation.php');
         }
 
         // Remove joomla.xml from the site's root.
-        if (File::exists(JPATH_ROOT . '/joomla.xml')) {
+        if (is_file(JPATH_ROOT . '/joomla.xml')) {
             File::delete(JPATH_ROOT . '/joomla.xml');
         }
 
@@ -930,7 +931,7 @@ ENDDATA;
         $tmp_src  = $userfile['tmp_name'];
 
         // Move uploaded file.
-        $result = File::upload($tmp_src, $tmp_dest, false, true);
+        $result = FileCMS::upload($tmp_src, $tmp_dest, false, true);
 
         if (!$result) {
             throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
@@ -985,7 +986,7 @@ ENDDATA;
     {
         $file = Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
 
-        if (empty($file) || !File::exists($file)) {
+        if (empty($file) || !is_file($file)) {
             return false;
         }
 
@@ -1007,7 +1008,7 @@ ENDDATA;
         ];
 
         foreach ($files as $file) {
-            if ($file !== null && File::exists($file)) {
+            if ($file !== null && is_file($file)) {
                 File::delete($file);
             }
         }
@@ -1053,40 +1054,40 @@ ENDDATA;
         // Check for mbstring options.
         if (extension_loaded('mbstring')) {
             // Check for default MB language.
-            $option = new \stdClass();
+            $option         = new \stdClass();
             $option->label  = Text::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
             $option->state  = strtolower(ini_get('mbstring.language')) === 'neutral';
             $option->notice = $option->state ? null : Text::_('INSTL_NOTICEMBLANGNOTDEFAULT');
-            $options[] = $option;
+            $options[]      = $option;
 
             // Check for MB function overload.
-            $option = new \stdClass();
+            $option         = new \stdClass();
             $option->label  = Text::_('INSTL_MB_STRING_OVERLOAD_OFF');
             $option->state  = ini_get('mbstring.func_overload') == 0;
             $option->notice = $option->state ? null : Text::_('INSTL_NOTICEMBSTRINGOVERLOAD');
-            $options[] = $option;
+            $options[]      = $option;
         }
 
         // Check for a missing native parse_ini_file implementation.
-        $option = new \stdClass();
+        $option         = new \stdClass();
         $option->label  = Text::_('INSTL_PARSE_INI_FILE_AVAILABLE');
         $option->state  = $this->getIniParserAvailability();
         $option->notice = null;
-        $options[] = $option;
+        $options[]      = $option;
 
         // Check for missing native json_encode / json_decode support.
-        $option = new \stdClass();
-        $option->label  = Text::_('INSTL_JSON_SUPPORT_AVAILABLE');
-        $option->state  = function_exists('json_encode') && function_exists('json_decode');
-        $option->notice = null;
-        $options[] = $option;
+        $option            = new \stdClass();
+        $option->label     = Text::_('INSTL_JSON_SUPPORT_AVAILABLE');
+        $option->state     = function_exists('json_encode') && function_exists('json_decode');
+        $option->notice    = null;
+        $options[]         = $option;
         $updateInformation = $this->getUpdateInformation();
 
         // Check if configured database is compatible with the next major version of Joomla
         $nextMajorVersion = Version::MAJOR_VERSION + 1;
 
         if (version_compare($updateInformation['latest'], (string) $nextMajorVersion, '>=')) {
-            $option = new \stdClass();
+            $option         = new \stdClass();
             $option->label  = Text::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
             $option->state  = $this->isDatabaseTypeSupported();
             $option->notice = null;
@@ -1094,11 +1095,11 @@ ENDDATA;
         }
 
         // Check if database structure is up to date
-        $option = new \stdClass();
+        $option         = new \stdClass();
         $option->label  = Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DATABASE_STRUCTURE_TITLE');
         $option->state  = $this->getDatabaseSchemaCheck();
         $option->notice = $option->state ? null : Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DATABASE_STRUCTURE_NOTICE');
-        $options[] = $option;
+        $options[]      = $option;
 
         return $options;
     }
@@ -1116,60 +1117,60 @@ ENDDATA;
         $settings = [];
 
         // Check for display errors.
-        $setting = new \stdClass();
-        $setting->label = Text::_('INSTL_DISPLAY_ERRORS');
-        $setting->state = (bool) ini_get('display_errors');
+        $setting              = new \stdClass();
+        $setting->label       = Text::_('INSTL_DISPLAY_ERRORS');
+        $setting->state       = (bool) ini_get('display_errors');
         $setting->recommended = false;
-        $settings[] = $setting;
+        $settings[]           = $setting;
 
         // Check for file uploads.
-        $setting = new \stdClass();
-        $setting->label = Text::_('INSTL_FILE_UPLOADS');
-        $setting->state = (bool) ini_get('file_uploads');
+        $setting              = new \stdClass();
+        $setting->label       = Text::_('INSTL_FILE_UPLOADS');
+        $setting->state       = (bool) ini_get('file_uploads');
         $setting->recommended = true;
-        $settings[] = $setting;
+        $settings[]           = $setting;
 
         // Check for output buffering.
-        $setting = new \stdClass();
-        $setting->label = Text::_('INSTL_OUTPUT_BUFFERING');
-        $setting->state = (int) ini_get('output_buffering') !== 0;
+        $setting              = new \stdClass();
+        $setting->label       = Text::_('INSTL_OUTPUT_BUFFERING');
+        $setting->state       = (int) ini_get('output_buffering') !== 0;
         $setting->recommended = false;
-        $settings[] = $setting;
+        $settings[]           = $setting;
 
         // Check for session auto-start.
-        $setting = new \stdClass();
-        $setting->label = Text::_('INSTL_SESSION_AUTO_START');
-        $setting->state = (bool) ini_get('session.auto_start');
+        $setting              = new \stdClass();
+        $setting->label       = Text::_('INSTL_SESSION_AUTO_START');
+        $setting->state       = (bool) ini_get('session.auto_start');
         $setting->recommended = false;
-        $settings[] = $setting;
+        $settings[]           = $setting;
 
         // Check for native ZIP support.
-        $setting = new \stdClass();
-        $setting->label = Text::_('INSTL_ZIP_SUPPORT_AVAILABLE');
-        $setting->state = function_exists('zip_open') && function_exists('zip_read');
+        $setting              = new \stdClass();
+        $setting->label       = Text::_('INSTL_ZIP_SUPPORT_AVAILABLE');
+        $setting->state       = function_exists('zip_open') && function_exists('zip_read');
         $setting->recommended = true;
-        $settings[] = $setting;
+        $settings[]           = $setting;
 
         // Check for GD support
-        $setting = new \stdClass();
-        $setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'GD');
-        $setting->state = extension_loaded('gd');
+        $setting              = new \stdClass();
+        $setting->label       = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'GD');
+        $setting->state       = extension_loaded('gd');
         $setting->recommended = true;
-        $settings[] = $setting;
+        $settings[]           = $setting;
 
         // Check for iconv support
-        $setting = new \stdClass();
-        $setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'iconv');
-        $setting->state = function_exists('iconv');
+        $setting              = new \stdClass();
+        $setting->label       = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'iconv');
+        $setting->state       = function_exists('iconv');
         $setting->recommended = true;
-        $settings[] = $setting;
+        $settings[]           = $setting;
 
         // Check for intl support
-        $setting = new \stdClass();
-        $setting->label = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'intl');
-        $setting->state = function_exists('transliterator_transliterate');
+        $setting              = new \stdClass();
+        $setting->label       = Text::sprintf('INSTL_EXTENSION_AVAILABLE', 'intl');
+        $setting->state       = function_exists('transliterator_transliterate');
         $setting->recommended = true;
-        $settings[] = $setting;
+        $settings[]           = $setting;
 
         return $settings;
     }
@@ -1202,7 +1203,7 @@ ENDDATA;
         // Check if configured database is compatible with Joomla 4
         if (version_compare($updateInformation['latest'], (string) $nextMajorVersion, '>=')) {
             $unsupportedDatabaseTypes = ['sqlsrv', 'sqlazure'];
-            $currentDatabaseType = $this->getConfiguredDatabaseType();
+            $currentDatabaseType      = $this->getConfiguredDatabaseType();
 
             return !in_array($currentDatabaseType, $unsupportedDatabaseTypes);
         }
@@ -1254,7 +1255,7 @@ ENDDATA;
 
         if (!empty($disabledFunctions)) {
             // Attempt to detect them in the PHP INI disable_functions variable.
-            $disabledFunctions = explode(',', trim($disabledFunctions));
+            $disabledFunctions         = explode(',', trim($disabledFunctions));
             $numberOfDisabledFunctions = count($disabledFunctions);
 
             for ($i = 0; $i < $numberOfDisabledFunctions; $i++) {
@@ -1291,7 +1292,7 @@ ENDDATA;
         }
 
         $coreExtensionInfo = \Joomla\CMS\Extension\ExtensionHelper::getExtensionRecord('joomla', 'file');
-        $cache = new \Joomla\Registry\Registry($coreExtensionInfo->manifest_cache);
+        $cache             = new \Joomla\Registry\Registry($coreExtensionInfo->manifest_cache);
 
         $updateVersion = $cache->get('version');
 
@@ -1330,7 +1331,7 @@ ENDDATA;
      */
     public function getNonCoreExtensions()
     {
-        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->select(
@@ -1380,7 +1381,7 @@ ENDDATA;
      */
     public function getNonCorePlugins($folderFilter = ['system','user','authentication','actionlog','multifactorauth'])
     {
-        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->select(
@@ -1480,8 +1481,8 @@ ENDDATA;
      */
     private function getUpdateSitesInfo($extensionID)
     {
-        $id = (int) $extensionID;
-        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $id    = (int) $extensionID;
+        $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->select(
@@ -1490,7 +1491,7 @@ ENDDATA;
                 $db->quoteName('us.location'),
                 $db->quoteName('e.element', 'ext_element'),
                 $db->quoteName('e.type', 'ext_type'),
-                $db->quoteName('e.folder', 'ext_folder')
+                $db->quoteName('e.folder', 'ext_folder'),
             ]
         )
             ->from($db->quoteName('#__update_sites', 'us'))
@@ -1593,7 +1594,7 @@ ENDDATA;
 
         // Check if old version of the updater library
         if (!isset($compatibleVersions)) {
-            $downloadUrl = $update->get('downloadurl');
+            $downloadUrl   = $update->get('downloadurl');
             $updateVersion = $update->get('version');
 
             return empty($downloadUrl) || empty($downloadUrl->_data) || empty($updateVersion) ? [] : [$updateVersion->_data];
@@ -1620,16 +1621,16 @@ ENDDATA;
         $path = $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
         $extension = $item->element;
-        $source = JPATH_SITE;
+        $source    = JPATH_SITE;
 
         switch ($item->type) {
             case 'component':
                 $extension = $item->element;
-                $source = $path . '/components/' . $extension;
+                $source    = $path . '/components/' . $extension;
                 break;
             case 'module':
                 $extension = $item->element;
-                $source = $path . '/modules/' . $extension;
+                $source    = $path . '/modules/' . $extension;
                 break;
             case 'file':
                 $extension = 'files_' . $item->element;
@@ -1639,11 +1640,11 @@ ENDDATA;
                 break;
             case 'plugin':
                 $extension = 'plg_' . $item->folder . '_' . $item->element;
-                $source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
+                $source    = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
                 break;
             case 'template':
                 $extension = 'tpl_' . $item->element;
-                $source = $path . '/templates/' . $item->element;
+                $source    = $path . '/templates/' . $item->element;
         }
 
         $lang->load("$extension.sys", JPATH_ADMINISTRATOR)
@@ -1666,14 +1667,14 @@ ENDDATA;
      */
     public function isTemplateActive($template)
     {
-        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->select(
             $db->quoteName(
                 [
                     'id',
-                    'home'
+                    'home',
                 ]
             )
         )->from(

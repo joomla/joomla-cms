@@ -12,7 +12,6 @@ namespace Joomla\Component\Tags\Site\View\Tag;
 
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 
@@ -32,7 +31,7 @@ class FeedView extends BaseHtmlView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  mixed  A string if successful, otherwise an Error object.
+     * @return  void
      */
     public function display($tpl = null)
     {

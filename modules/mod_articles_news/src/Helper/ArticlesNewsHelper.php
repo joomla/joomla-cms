@@ -143,9 +143,9 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
 
             // Show the Intro/Full image field of the article
             if ($params->get('img_intro_full') !== 'none') {
-                $images = json_decode($item->images);
-                $item->imageSrc = '';
-                $item->imageAlt = '';
+                $images             = json_decode($item->images);
+                $item->imageSrc     = '';
+                $item->imageAlt     = '';
                 $item->imageCaption = '';
 
                 if ($params->get('img_intro_full') === 'intro' && !empty($images->image_intro)) {
@@ -196,7 +196,11 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
      *
      * @since 1.6
      *
-     * @deprecated 5.0 Use the none static function getArticles
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *             Use the non-static method getArticles
+     *             Example: Factory::getApplication()->bootModule('mod_articles_news', 'site')
+     *                          ->getHelper('ArticlesNewsHelper')
+     *                          ->getArticles($params, Factory::getApplication())
      */
     public static function getList(&$params)
     {

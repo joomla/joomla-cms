@@ -102,7 +102,7 @@ trait WorkflowServiceTrait
                     'eventClass'    => 'Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent',
                     'subject'       => $this,
                     'extension'     => $extension,
-                    'functionality' => $functionality
+                    'functionality' => $functionality,
                 ]
             )
         );

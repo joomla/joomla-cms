@@ -161,9 +161,9 @@ class CategoriesModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user = $this->getCurrentUser();
+        $user  = $this->getCurrentUser();
 
         // Select the required fields from the table.
         $query->select(
@@ -345,7 +345,7 @@ class CategoriesModel extends ListModel
 
         // Add the list ordering clause
         $listOrdering = $this->getState('list.ordering', 'a.lft');
-        $listDirn = $db->escape($this->getState('list.direction', 'ASC'));
+        $listDirn     = $db->escape($this->getState('list.direction', 'ASC'));
 
         if ($listOrdering == 'a.access') {
             $query->order('a.access ' . $listDirn . ', a.lft ' . $listDirn);
@@ -394,9 +394,9 @@ class CategoriesModel extends ListModel
         $extension = $this->getState('filter.extension');
 
         $this->hasAssociation = Associations::isEnabled();
-        $extension = explode('.', $extension);
-        $component = array_shift($extension);
-        $cname = str_replace('com_', '', $component);
+        $extension            = explode('.', $extension);
+        $component            = array_shift($extension);
+        $cname                = str_replace('com_', '', $component);
 
         if (!$this->hasAssociation || !$component || !$cname) {
             $this->hasAssociation = false;
