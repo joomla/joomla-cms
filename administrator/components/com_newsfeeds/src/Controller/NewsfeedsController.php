@@ -44,7 +44,7 @@ class NewsfeedsController extends AdminController
     /**
      * Method to get the number of published newsfeeds for quickicons
      *
-     * @return  string  The JSON-encoded amount of published newsfeeds
+     * @return  void
      *
      * @since   4.3.0
      */
@@ -60,7 +60,7 @@ class NewsfeedsController extends AdminController
 
         $result['amount'] = $amount;
         $result['sronly'] = Text::plural('COM_NEWSFEEDS_N_QUICKICON_SRONLY', $amount);
-        $result['name'] = Text::plural('COM_NEWSFEEDS_N_QUICKICON', $amount);
+        $result['name']   = Text::plural('COM_NEWSFEEDS_N_QUICKICON', $amount);
 
         echo new JsonResponse($result);
     }

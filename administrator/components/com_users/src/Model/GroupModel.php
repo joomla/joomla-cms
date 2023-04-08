@@ -50,7 +50,7 @@ class GroupModel extends AdminModel
                 'event_after_save'    => 'onUserAfterSaveGroup',
                 'event_before_delete' => 'onUserBeforeDeleteGroup',
                 'event_before_save'   => 'onUserBeforeSaveGroup',
-                'events_map'          => ['delete' => 'user', 'save' => 'user']
+                'events_map'          => ['delete' => 'user', 'save' => 'user'],
             ],
             $config
         );
@@ -199,7 +199,7 @@ class GroupModel extends AdminModel
 
             if (in_array($data['id'], $myGroups)) {
                 // Now, would we have super admin permissions without the current group?
-                $otherGroups = array_diff($myGroups, [$data['id']]);
+                $otherGroups     = array_diff($myGroups, [$data['id']]);
                 $otherSuperAdmin = false;
 
                 foreach ($otherGroups as $otherGroup) {

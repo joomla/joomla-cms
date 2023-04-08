@@ -97,7 +97,7 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         // Get the results for each action
-        $canDo = ContentHelper::getActions('com_languages');
+        $canDo   = ContentHelper::getActions('com_languages');
         $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_OVERRIDES_TITLE'), 'comments langmanager');

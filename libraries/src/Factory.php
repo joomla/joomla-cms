@@ -461,7 +461,7 @@ abstract class Factory
         static $mainLocale;
 
         $language = self::getLanguage();
-        $locale = $language->getTag();
+        $locale   = $language->getTag();
 
         if (!isset($classname) || $locale != $mainLocale) {
             // Store the locale for future reference
@@ -594,12 +594,12 @@ abstract class Factory
 
         $conf = self::getConfig();
 
-        $host = $conf->get('host');
-        $user = $conf->get('user');
+        $host     = $conf->get('host');
+        $user     = $conf->get('user');
         $password = $conf->get('password');
         $database = $conf->get('db');
-        $prefix = $conf->get('dbprefix');
-        $driver = $conf->get('dbtype');
+        $prefix   = $conf->get('dbprefix');
+        $driver   = $conf->get('dbtype');
 
         $options = ['driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix];
 
@@ -643,15 +643,15 @@ abstract class Factory
     {
         $conf = self::getConfig();
 
-        $smtpauth = ($conf->get('smtpauth') == 0) ? null : 1;
-        $smtpuser = $conf->get('smtpuser');
-        $smtppass = $conf->get('smtppass');
-        $smtphost = $conf->get('smtphost');
+        $smtpauth   = ($conf->get('smtpauth') == 0) ? null : 1;
+        $smtpuser   = $conf->get('smtpuser');
+        $smtppass   = $conf->get('smtppass');
+        $smtphost   = $conf->get('smtphost');
         $smtpsecure = $conf->get('smtpsecure');
-        $smtpport = $conf->get('smtpport');
-        $mailfrom = $conf->get('mailfrom');
-        $fromname = $conf->get('fromname');
-        $mailer = $conf->get('mailer');
+        $smtpport   = $conf->get('smtpport');
+        $mailfrom   = $conf->get('mailfrom');
+        $fromname   = $conf->get('fromname');
+        $mailer     = $conf->get('mailer');
 
         // Create a Mail object
         $mail = Mail::getInstance();
@@ -710,10 +710,10 @@ abstract class Factory
             E_USER_DEPRECATED
         );
 
-        $conf = self::getConfig();
+        $conf   = self::getConfig();
         $locale = $conf->get('language');
-        $debug = $conf->get('debug_lang');
-        $lang = self::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
+        $debug  = $conf->get('debug_lang');
+        $lang   = self::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
 
         return $lang;
     }
@@ -740,8 +740,8 @@ abstract class Factory
 
         $lang = self::getLanguage();
 
-        $input = self::getApplication()->input;
-        $type = $input->get('format', 'html', 'cmd');
+        $input = self::getApplication()->getInput();
+        $type  = $input->get('format', 'html', 'cmd');
 
         $version = new Version();
 
@@ -778,7 +778,7 @@ abstract class Factory
 
         // Set the UA for HTTP and overwrite for FTP
         $context['http']['user_agent'] = $version->getUserAgent($userAgentSuffix, $maskUserAgent);
-        $context['ftp']['overwrite'] = true;
+        $context['ftp']['overwrite']   = true;
 
         if ($usePrefix) {
             $FTPOptions = ClientHelper::getCredentials('ftp');

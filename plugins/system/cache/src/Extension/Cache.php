@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\System\Cache\Extension;
 
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\CacheController;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Document\FactoryInterface as DocumentFactoryInterface;
@@ -208,7 +206,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
     private function appStateSupportsCaching(): bool
     {
         static $isSite = null;
-        static $isGET = null;
+        static $isGET  = null;
 
         if ($isSite === null) {
             $isSite = $this->getApplication()->isClient('site');

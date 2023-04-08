@@ -100,7 +100,7 @@ trait WorkflowPluginTrait
      */
     protected function checkAllowedAndForbiddenlist($context)
     {
-        $allowedlist = \array_filter((array) $this->params->get('allowedlist', []));
+        $allowedlist   = \array_filter((array) $this->params->get('allowedlist', []));
         $forbiddenlist = \array_filter((array) $this->params->get('forbiddenlist', []));
 
         if (!empty($allowedlist)) {

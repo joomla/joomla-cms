@@ -373,7 +373,7 @@ abstract class HTMLHelper
 
                 if (\strlen($strip) > 4 && preg_match('#\.min$#', $strip)) {
                     $minExt    = '.min';
-                    $strip = preg_replace('#\.min$#', '', $strip);
+                    $strip     = preg_replace('#\.min$#', '', $strip);
                 }
 
                 // Try to include files named filename.ext, filename_browser.ext, filename_browser_major.ext, filename_browser_major_minor.ext
@@ -401,7 +401,7 @@ abstract class HTMLHelper
 
                 // For each potential files
                 foreach ($potential as $strip) {
-                    $files = [];
+                    $files   = [];
                     $files[] = $strip . '.' . $ext;
 
                     /**
@@ -933,7 +933,7 @@ abstract class HTMLHelper
         }
 
         if (!$text) {
-            $alt = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
+            $alt  = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
             $text = static::image($image, $alt, null, true);
         }
 
@@ -948,7 +948,7 @@ abstract class HTMLHelper
             $tooltip = htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8');
 
             if ($title) {
-                $title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
+                $title   = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
                 $tooltip = $title . '::' . $tooltip;
             }
         } else {
@@ -984,7 +984,7 @@ abstract class HTMLHelper
 
             // Pass texts through Text if required.
             if ($translate) {
-                $title = Text::_($title);
+                $title   = Text::_($title);
                 $content = Text::_($content);
             }
 
@@ -1073,17 +1073,31 @@ abstract class HTMLHelper
         if ($value && $value !== Factory::getDbo()->getNullDate() && strtotime($value) !== false) {
             $tz = date_default_timezone_get();
             date_default_timezone_set('UTC');
-            $inputvalue = strftime($format, strtotime($value));
+
+            /**
+             * Try to convert strftime format to date format, if success, use DateTimeImmutable to format
+             * the passed datetime to avoid deprecated warnings on PHP 8.1. We only support converting most
+             * common used format here.
+             */
+            $dateFormat = self::strftimeFormatToDateFormat($format);
+
+            if ($dateFormat !== false) {
+                $date       = \DateTimeImmutable::createFromFormat('U', strtotime($value));
+                $inputValue = $date->format($dateFormat);
+            } else {
+                $inputValue = strftime($format, strtotime($value));
+            }
+
             date_default_timezone_set($tz);
         } else {
-            $inputvalue = '';
+            $inputValue = '';
         }
 
         $data = [
             'id'             => $id,
             'name'           => $name,
             'class'          => $class,
-            'value'          => $inputvalue,
+            'value'          => $inputValue,
             'format'         => $format,
             'filter'         => $filter,
             'required'       => $required,
@@ -1216,5 +1230,48 @@ abstract class HTMLHelper
         }
 
         return '';
+    }
+
+    /**
+     * Convert most popular strftime format to php date format as strftime is deprecated and we have
+     * to be able to provide same backward compatibility with existing format strings.
+     *
+     * @param   $strftimeformat   string The format compatible with strftime.
+     *
+     * @return  mixed The format compatible with PHP's Date functions if success, false otherwise
+     *
+     * @since   4.2.9
+     */
+    public static function strftimeFormatToDateFormat(string $strftimeformat)
+    {
+        $format = str_replace(
+            [
+                '%Y',
+                '%m',
+                '%d',
+                '%H',
+                '%M',
+                '%S',
+            ],
+            [
+                'Y',
+                'm',
+                'd',
+                'H',
+                'i',
+                's',
+            ],
+            $strftimeformat
+        );
+
+        /**
+         * If there is % character left after replacing, that mean one of unsupported format is used
+         * the conversion false
+         */
+        if (strpos($format, '%') !== false) {
+            return false;
+        }
+
+        return $format;
     }
 }

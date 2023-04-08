@@ -103,7 +103,7 @@ class FeaturedController extends ArticlesController
     /**
      * Method to get the number of published featured articles for quickicons
      *
-     * @return  string  The JSON-encoded amount of published featured articles
+     * @return  void
      *
      * @since   4.3.0
      */
@@ -120,7 +120,7 @@ class FeaturedController extends ArticlesController
 
         $result['amount'] = $amount;
         $result['sronly'] = Text::plural('COM_CONTENT_FEATURED_N_QUICKICON_SRONLY', $amount);
-        $result['name'] = Text::plural('COM_CONTENT_FEATURED_N_QUICKICON', $amount);
+        $result['name']   = Text::plural('COM_CONTENT_FEATURED_N_QUICKICON', $amount);
 
         echo new JsonResponse($result);
     }

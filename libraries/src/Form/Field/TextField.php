@@ -135,7 +135,7 @@ class TextField extends FormField
                 break;
 
             case 'dirname':
-                $value = (string) $value;
+                $value         = (string) $value;
                 $this->dirname = ($value == $name || $value === 'true' || $value === '1');
                 break;
 
@@ -180,11 +180,11 @@ class TextField extends FormField
 
         if ($result == true) {
             $inputmode = (string) $this->element['inputmode'];
-            $dirname = (string) $this->element['dirname'];
+            $dirname   = (string) $this->element['dirname'];
 
             $this->inputmode = '';
-            $inputmode = preg_replace('/\s+/', ' ', trim($inputmode));
-            $inputmode = explode(' ', $inputmode);
+            $inputmode       = preg_replace('/\s+/', ' ', trim($inputmode));
+            $inputmode       = explode(' ', $inputmode);
 
             if (!empty($inputmode)) {
                 $defaultInputmode = \in_array('default', $inputmode) ? Text::_('JLIB_FORM_INPUTMODE') . ' ' : '';
@@ -197,10 +197,10 @@ class TextField extends FormField
             }
 
             // Set the dirname.
-            $dirname = ($dirname === 'dirname' || $dirname === 'true' || $dirname === '1');
+            $dirname       = ($dirname === 'dirname' || $dirname === 'true' || $dirname === '1');
             $this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
 
-            $this->maxLength = (int) $this->element['maxlength'];
+            $this->maxLength   = (int) $this->element['maxlength'];
             $this->charcounter = isset($this->element['charcounter']) ? strtolower($this->element['charcounter']) === 'true' : false;
 
             $this->addonBefore = (string) $this->element['addonBefore'];

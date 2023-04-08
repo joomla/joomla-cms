@@ -261,17 +261,17 @@ class PasswordField extends FormField
 
         // Initialize some field attributes.
         $extraData = [
-            'lock'           => $this->lock,
-            'maxLength'      => $this->maxLength,
-            'meter'          => $this->meter,
-            'threshold'      => $this->threshold,
-            'minLength'      => $this->minLength,
-            'minIntegers'    => $this->minIntegers,
-            'minSymbols'     => $this->minSymbols,
-            'minUppercase'   => $this->minUppercase,
-            'minLowercase'   => $this->minLowercase,
-            'forcePassword'  => $this->force,
-            'rules'          => $this->rules,
+            'lock'          => $this->lock,
+            'maxLength'     => $this->maxLength,
+            'meter'         => $this->meter,
+            'threshold'     => $this->threshold,
+            'minLength'     => $this->minLength,
+            'minIntegers'   => $this->minIntegers,
+            'minSymbols'    => $this->minSymbols,
+            'minUppercase'  => $this->minUppercase,
+            'minLowercase'  => $this->minLowercase,
+            'forcePassword' => $this->force,
+            'rules'         => $this->rules,
         ];
 
         return array_merge($data, $extraData);

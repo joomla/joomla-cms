@@ -61,7 +61,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
     /**
      * An internal cache for the last query used.
      *
-     * @var    DatabaseQuery[]
+     * @var    DatabaseQuery|string
      * @since  1.6
      */
     protected $query = [];
@@ -127,8 +127,8 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
     /**
      * Constructor
      *
-     * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
      * @throws  Exception
@@ -274,7 +274,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
     /**
      * Method to get a DatabaseQuery object for retrieving the data set from a database.
      *
-     * @return  DatabaseQuery  A DatabaseQuery object to retrieve the data set.
+     * @return  DatabaseQuery|string  A DatabaseQuery object to retrieve the data set.
      *
      * @since   1.6
      */
@@ -564,8 +564,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
                         $this->setState('list.' . $name, $value);
                     }
                 }
-            } else // Keep B/C for components previous to jform forms for filters
-            {
+            } else { // Keep B/C for components previous to jform forms for filters
                 // Pre-fill the limits
                 $limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
                 $this->setState('list.limit', $limit);
@@ -605,7 +604,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
                 $this->setState('list.direction', $oldDirection);
             }
 
-            $value = $app->getUserStateFromRequest($this->context . '.limitstart', 'limitstart', 0, 'int');
+            $value      = $app->getUserStateFromRequest($this->context . '.limitstart', 'limitstart', 0, 'int');
             $limitstart = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
             $this->setState('list.start', $limitstart);
         } else {

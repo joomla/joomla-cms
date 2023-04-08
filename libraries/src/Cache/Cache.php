@@ -135,8 +135,8 @@ class Cache
             // Sweet!  Our class exists, so now we just need to know if it passes its test method.
             if ($class::isSupported()) {
                 // Connector names should not have file extensions.
-                $handler = str_ireplace('Storage.php', '', $fileName);
-                $handler = str_ireplace('.php', '', $handler);
+                $handler    = str_ireplace('Storage.php', '', $fileName);
+                $handler    = str_ireplace('.php', '', $handler);
                 $handlers[] = strtolower($handler);
             }
         }
@@ -173,7 +173,7 @@ class Cache
     /**
      * Set cache lifetime
      *
-     * @param   integer  $lt  Cache lifetime
+     * @param   integer  $lt  Cache lifetime in minutes
      *
      * @return  void
      *
@@ -356,7 +356,7 @@ class Cache
      */
     public function lock($id, $group = null, $locktime = null)
     {
-        $returning = new \stdClass();
+        $returning             = new \stdClass();
         $returning->locklooped = false;
 
         if (!$this->getCaching()) {
@@ -407,7 +407,7 @@ class Cache
             // Loop until you find that the lock has been released. That implies that data get from other thread has finished
             while ($data_lock !== false) {
                 if ($lock_counter > $looptime) {
-                    $returning->locked = false;
+                    $returning->locked     = false;
                     $returning->locklooped = true;
                     break;
                 }
@@ -600,7 +600,7 @@ class Cache
         }
 
         // View body data
-        $cached['body'] = $data;
+        $cached = ['body' => $data];
 
         // Document head data
         if ($loptions['nohead'] != 1 && method_exists($document, 'getHeadData')) {

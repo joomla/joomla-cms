@@ -46,6 +46,16 @@ abstract class WebApplication extends AbstractWebApplication
     public $JComponentTitle;
 
     /**
+     * The item associations
+     *
+     * @var    integer
+     * @since  4.3.0
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0 as this property is not used anymore
+     */
+    public $item_associations;
+
+    /**
      * The application document object.
      *
      * @var    Document
@@ -355,7 +365,7 @@ abstract class WebApplication extends AbstractWebApplication
         $siteUri = trim($this->get('site_uri', ''));
 
         if ($siteUri !== '') {
-            $uri = Uri::getInstance($siteUri);
+            $uri  = Uri::getInstance($siteUri);
             $path = $uri->toString(['path']);
         } else {
             // No explicit base URI was set so we need to detect it.

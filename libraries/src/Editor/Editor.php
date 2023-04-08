@@ -162,7 +162,7 @@ class Editor implements DispatcherAwareInterface
      */
     public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = [])
     {
-        $this->asset = $asset;
+        $this->asset  = $asset;
         $this->author = $author;
         $this->_loadEditor($params);
 
@@ -175,20 +175,22 @@ class Editor implements DispatcherAwareInterface
 
         // Backwards compatibility. Width and height should be passed without a semicolon from now on.
         // If editor plugins need a unit like "px" for CSS styling, they need to take care of that
-        $width = str_replace(';', '', $width);
+        $width  = str_replace(';', '', $width);
         $height = str_replace(';', '', $height);
 
-        $args['name'] = $name;
-        $args['content'] = $html;
-        $args['width'] = $width;
-        $args['height'] = $height;
-        $args['col'] = $col;
-        $args['row'] = $row;
-        $args['buttons'] = $buttons;
-        $args['id'] = $id ?: $name;
-        $args['asset'] = $asset;
-        $args['author'] = $author;
-        $args['params'] = $params;
+        $args = [
+            'name'    => $name,
+            'content' => $html,
+            'width'   => $width,
+            'height'  => $height,
+            'col'     => $col,
+            'row'     => $row,
+            'buttons' => $buttons,
+            'id'      => ($id ?: $name),
+            'asset'   => $asset,
+            'author'  => $author,
+            'params'  => $params,
+        ];
 
         return \call_user_func_array([$this->_editor, 'onDisplay'], $args);
     }

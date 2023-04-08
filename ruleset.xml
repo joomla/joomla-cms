@@ -38,6 +38,8 @@
         <exclude-pattern type="relative">administrator/components/com_fields/src/Table/GroupTable\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_finder/src/Table/FilterTable\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_finder/src/Table/LinkTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_guidedtours/src/Table/StepTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_guidedtours/src/Table/TourTable\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_installer/src/Model/DatabaseModel\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_installer/src/Model/InstallModel\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_installer/src/Table/UpdatesiteTable\.php</exclude-pattern>
@@ -93,6 +95,7 @@
         <exclude-pattern type="relative">libraries/src/Encrypt/Totp\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Form/Field/CaptchaField\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Input/Json\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Installer/Manifest\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/MVC/Model/DatabaseAwareTrait\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/MVC/Model/FormBehaviorTrait\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/MVC/Model/ItemModel\.php</exclude-pattern>

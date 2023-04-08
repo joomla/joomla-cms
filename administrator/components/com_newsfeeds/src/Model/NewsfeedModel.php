@@ -220,8 +220,8 @@ class NewsfeedModel extends AdminModel
 
             if ($data['name'] == $origTable->name) {
                 list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
-                $data['name'] = $name;
-                $data['alias'] = $alias;
+                $data['name']       = $name;
+                $data['alias']      = $alias;
             } else {
                 if ($data['alias'] == $origTable->alias) {
                     $data['alias'] = '';
@@ -247,11 +247,11 @@ class NewsfeedModel extends AdminModel
     {
         if ($item = parent::getItem($pk)) {
             // Convert the params field to an array.
-            $registry = new Registry($item->metadata);
+            $registry       = new Registry($item->metadata);
             $item->metadata = $registry->toArray();
 
             // Convert the images field to an array.
-            $registry = new Registry($item->images);
+            $registry     = new Registry($item->images);
             $item->images = $registry->toArray();
         }
 
@@ -295,7 +295,7 @@ class NewsfeedModel extends AdminModel
         $date = Factory::getDate();
         $user = $this->getCurrentUser();
 
-        $table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
+        $table->name  = htmlspecialchars_decode($table->name, ENT_QUOTES);
         $table->alias = ApplicationHelper::stringURLSafe($table->alias, $table->language);
 
         if (empty($table->alias)) {
@@ -308,7 +308,7 @@ class NewsfeedModel extends AdminModel
 
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
-                $db = $this->getDatabase();
+                $db    = $this->getDatabase();
                 $query = $db->getQuery(true)
                     ->select('MAX(' . $db->quoteName('ordering') . ')')
                     ->from($db->quoteName('#__newsfeeds'));
@@ -319,7 +319,7 @@ class NewsfeedModel extends AdminModel
             }
         } else {
             // Set the values
-            $table->modified = $date->toSql();
+            $table->modified    = $date->toSql();
             $table->modified_by = $user->get('id');
         }
 
@@ -370,7 +370,7 @@ class NewsfeedModel extends AdminModel
      * @param   array   $data   The data to be injected into the form
      * @param   string  $group  The plugin group to process
      *
-     * @return  array  An array of conditions to add to ordering queries.
+     * @return  void
      *
      * @since   1.6
      */
@@ -389,7 +389,7 @@ class NewsfeedModel extends AdminModel
 
             if (count($languages) > 1) {
                 $addform = new \SimpleXMLElement('<form />');
-                $fields = $addform->addChild('fields');
+                $fields  = $addform->addChild('fields');
                 $fields->addAttribute('name', 'associations');
                 $fieldset = $fields->addChild('fieldset');
                 $fieldset->addAttribute('name', 'item_associations');
