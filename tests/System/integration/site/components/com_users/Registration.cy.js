@@ -1,5 +1,5 @@
-describe('Test the registration view',() => {
-  it('can display the registration view for test user', () =>{
+describe('Test the registration view', () => {
+  it('can display the registration view for test user', () => {
     cy.db_createUser({
       name: 'test user', username: 'test', email: 'test@example.com', password: '098f6bcd4621d373cade4e832627b4f6',
     })
@@ -32,4 +32,4 @@ describe('Test the registration view',() => {
         cy.get('.alert-wrapper').should('contain.text', 'You have been logged in.');
       });
   });
-})
+});
