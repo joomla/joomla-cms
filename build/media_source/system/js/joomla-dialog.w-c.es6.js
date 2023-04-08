@@ -612,19 +612,8 @@ document.addEventListener('click', (event) => {
     }
   }
 
-  // Check for template selector
-  if (config.popupTemplate && (config.popupTemplate[0] === '.' || config.popupTemplate[0] === '#')) {
-    const template = document.querySelector(config.popupTemplate);
-    if (template && template.nodeName === 'TEMPLATE') {
-      config.popupTemplate = template;
-    } else {
-      // Remove invalid template
-      delete config.popupTemplate;
-    }
-  } else if (config.popupTemplate) {
-    // Template as string not allowed here
-    delete config.popupTemplate;
-  }
+  // Template not allowed here
+  delete config.popupTemplate;
 
   const popup = new JoomlaDialog(config);
   if (cacheable) {
