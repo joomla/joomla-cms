@@ -59,7 +59,9 @@ abstract class AbstractMenu
      *
      * @since  1.7
      *
-     * @deprecated 5.0 Use the MenuFactoryInterface from the container instead
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the MenuFactoryInterface from the container instead
+     *              Example: Factory::getContainer()->get(MenuFactoryInterface::class)->createMenu($client, $options)
      */
     public static $instances = [];
 
@@ -115,7 +117,9 @@ abstract class AbstractMenu
      *
      * @throws      \Exception
      *
-     * @deprecated  5.0 Use the MenuFactoryInterface from the container instead
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the MenuFactoryInterface from the container instead
+     *              Example: Factory::getContainer()->get(MenuFactoryInterface::class)->createMenu($client, $options)
      */
     public static function getInstance($client, $options = [])
     {
