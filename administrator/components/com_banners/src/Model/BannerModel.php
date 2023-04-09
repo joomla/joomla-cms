@@ -67,7 +67,7 @@ class BannerModel extends AdminModel
     ];
 
     /**
-     * Function that can be overridden to do any data cleanup after batch copying data
+     * Data cleanup after batch copying data
      *
      * @param   TableInterface  $table  The table object containing the newly created item
      * @param   integer         $newId  The id of the new item
@@ -75,7 +75,7 @@ class BannerModel extends AdminModel
      *
      * @return  void
      *
-     * @since  3.8.12
+     * @since  __DEPLOY_VERSION__
      */
     protected function cleanupPostBatchCopy(TableInterface $table, $newId, $oldId)
     {
