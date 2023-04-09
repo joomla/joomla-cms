@@ -1,3 +1,4 @@
+#!/user/bin/env php
 <?php
 
 /**
