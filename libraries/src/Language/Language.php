@@ -282,7 +282,10 @@ class Language
      * @return  Language  The Language object.
      *
      * @since       1.7.0
-     * @deprecated  5.0 Use the language factory instead
+     *
+     * #deprecated  4.3 will be removed in 6.0
+     *              Use the language factory instead
+     *              Example: Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($lang, $debug);
      */
     public static function getInstance($lang, $debug = false)
     {

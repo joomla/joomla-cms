@@ -189,7 +189,9 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      * @return  void
      *
      * @since   3.0
-     * @deprecated  5.0 See \Joomla\CMS\MVC\Model\LegacyModelLoaderTrait::getInstance
+     *
+     * #deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement. Get the model through the MVCFactory instead
      */
     public static function addModelPath($path, $prefix = '')
     {
@@ -248,7 +250,11 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      * @return  static
      *
      * @since       3.0
-     * @deprecated  5.0 Get the controller through the MVCFactory instead
+     *
+     * #deprecated  4.3 will be removed in 6.0
+     *              Get the controller through the MVCFactory instead
+     *              Example: Factory::getApplication()->bootComponent($option)->getMVCFactory()->createController(...);
+     *
      * @throws      \Exception if the controller cannot be loaded.
      */
     public static function getInstance($prefix, $config = [])

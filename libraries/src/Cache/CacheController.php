@@ -85,7 +85,10 @@ class CacheController
      *
      * @since       1.7.0
      * @throws      \RuntimeException
-     * @deprecated  5.0 Use the cache controller factory instead
+     *
+     * #deprecated  4.2 will be removed in 6.0
+     *              Use the cache controller factory instead
+     *              Example: Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
      */
     public static function getInstance($type = 'output', $options = [])
     {
@@ -136,7 +139,10 @@ class CacheController
      * @return  array  An array with directory elements
      *
      * @since       1.7.0
-     * @deprecated  5.0 Use the cache controller factory instead
+     *
+     * #deprecated  4.2 will be removed in 6.0
+     *              Use the cache controller factory instead
+     *              Example: Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
      */
     public static function addIncludePath($path = '')
     {

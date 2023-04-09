@@ -867,7 +867,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
      *
      * @since   3.9.0
      *
-     * @deprecated 5.0  It is handled by regular save method now.
+     * #deprecated  4.3 will be removed in 6.0
+     *              It is handled by regular save method now.
      */
     public function editAssociations()
     {

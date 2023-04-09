@@ -595,7 +595,10 @@ abstract class Bootstrap
      * @return  void
      *
      * @since   3.0
-     * @deprecated 5.0
+     *
+     * #deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacement
+     *              Load the different scripts with their individual method calls
      */
     public static function framework($debug = null): void
     {

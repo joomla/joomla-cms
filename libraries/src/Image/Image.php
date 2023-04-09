@@ -385,7 +385,8 @@ class Image
      * @throws  \LogicException
      * @throws  \InvalidArgumentException
      *
-     * @deprecated 6.0 Use \Joomla\CMS\Image\createThumbnails instead
+     * #deprecated  4.0 will be removed in 6.0
+     *              Use \Joomla\CMS\Image\createThumbnails instead
      */
     public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null)
     {

@@ -66,7 +66,7 @@ abstract class Factory
      * #deprecated  4.3 will be removed in 6.0
      *              Use the configuration object within the application
      *              Example:
-     *              $app->getConfig();
+     *              Factory::getApplication()->getConfig();
      */
     public static $config = null;
 
@@ -95,7 +95,7 @@ abstract class Factory
      * #deprecated  4.3 will be removed in 6.0
      *              Use the session service in the DI container or get from the application object
      *              Example:
-     *              $app->getSession();
+     *              Factory::getApplication()->getSession();
      */
     public static $session = null;
 
@@ -108,7 +108,7 @@ abstract class Factory
      * #deprecated  4.3 will be removed in 6.0
      *              Use the language service in the DI container or get from the application object
      *              Example:
-     *              $app->getLanguage();
+     *              Factory::getApplication()->getLanguage();
      */
     public static $language = null;
 
@@ -121,7 +121,7 @@ abstract class Factory
      * #deprecated  4.3 will be removed in 6.0
      *               Use the document service in the DI container or get from the application object
      *               Example:
-     *               $app->getDocument();
+     *               Factory::getApplication()->getDocument();
      */
     public static $document = null;
 
@@ -180,7 +180,7 @@ abstract class Factory
      * #deprecated  4.3 will be removed in 6.0
      *              Use the configuration object within the application
      *              Example:
-     *              $app->getConfig();
+     *              Factory::getApplication->getConfig();
      */
     public static function getConfig($file = null, $type = 'PHP', $namespace = '')
     {
@@ -261,7 +261,7 @@ abstract class Factory
      * #deprecated  4.3 will be removed in 6.0
      *              Use the session service in the DI container or get from the application object
      *              Example:
-     *              $app->getSession();
+     *              Factory::getApplication()->getSession();
      */
     public static function getSession(array $options = [])
     {
@@ -290,7 +290,7 @@ abstract class Factory
      * #deprecated  4.3 will be removed in 6.0
      *              Use the language service in the DI container or get from the application object
      *              Example:
-     *              $app->getLanguage();
+     *              Factory::getApplication()->getLanguage();
      */
     public static function getLanguage()
     {
@@ -323,7 +323,7 @@ abstract class Factory
      * #deprecated  4.3 will be removed in 6.0
      *              Use the document service in the DI container or get from the application object
      *              Example:
-     *              $app->getDocument();
+     *              Factory::getApplication()->getDocument();
      */
     public static function getDocument()
     {
@@ -358,7 +358,7 @@ abstract class Factory
      * #deprecated  4.3 will be removed in 6.0
      *              Load the user service from the dependency injection container or get from the application object
      *              Example:
-     *              $app->getIdentity();
+     *              Factory::getApplication()->getIdentity();
      */
     public static function getUser($id = null)
     {
@@ -550,7 +550,10 @@ abstract class Factory
      *
      * @see         Registry
      * @since       1.7.0
-     * @deprecated  5.0  Use the configuration object within the application.
+     *
+     * #deprecated  4.0 will be removed in 6.0
+     *              Use the configuration object within the application.
+     *              Example: Factory::getApplication->getConfig();
      */
     protected static function createConfig($file, $type = 'PHP', $namespace = '')
     {
@@ -627,7 +630,11 @@ abstract class Factory
      *
      * @see         DatabaseDriver
      * @since       1.7.0
-     * @deprecated  5.0  Use the database service in the DI container
+     *
+     * #deprecated  4.3 will be removed in 6.0
+     *              Use the database service in the DI container
+     *              Example:
+     *              Factory::getContainer()->get(DatabaseInterface::class);
      */
     protected static function createDbo()
     {
@@ -745,7 +752,10 @@ abstract class Factory
      *
      * @see         Language
      * @since       1.7.0
-     * @deprecated  5.0  Load the language service from the dependency injection container or via $app->getLanguage()
+     *
+     * #deprecated  4.0 will be removed in 6.0
+     *              Load the language service from the dependency injection container or via $app->getLanguage()
+     *              Example: Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug)
      */
     protected static function createLanguage()
     {
@@ -773,7 +783,10 @@ abstract class Factory
      *
      * @see         Document
      * @since       1.7.0
-     * @deprecated  5.0  Load the document service from the dependency injection container or via $app->getDocument()
+     *
+     * #deprecated  4.0 will be removed in 6.0
+     *              Load the document service from the dependency injection container or via $app->getDocument()
+     *              Example: Factory::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
      */
     protected static function createDocument()
     {

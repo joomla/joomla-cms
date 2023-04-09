@@ -416,7 +416,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @return  mixed  The user state.
      *
      * @since   3.2
-     * @deprecated  5.0  Use get() instead
+     *
+     * #deprecated  4.0 will be removed in 6.0
+     *              Use get() instead
+     *              Example: Factory::getApplication()->get($varname, $default);
      */
     public function getCfg($varname, $default = null)
     {
@@ -600,7 +603,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since      3.2
      *
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     * #deprecated  4.3 will be removed in 6.0
+     *              Inject the router or load it from the dependency injection container
+     *              Example: Factory::getContainer()->get($name);
      */
     public static function getRouter($name = null, array $options = [])
     {
