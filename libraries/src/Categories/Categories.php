@@ -135,7 +135,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      *
      * @since       1.6
      *
-     * #deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 6.0
      *              Use the ComponentInterface to get the categories
      *              Example: Factory::getApplication()->bootComponent($component)->getCategory($options, $section);
      */

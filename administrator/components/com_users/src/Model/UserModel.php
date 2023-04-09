@@ -700,18 +700,18 @@ class UserModel extends AdminModel
         $db = $this->getDatabase();
 
         switch ($action) {
-            // Sets users to a selected group
+                // Sets users to a selected group
             case 'set':
                 $doDelete = 'all';
                 $doAssign = true;
                 break;
 
-            // Remove users from a selected group
+                // Remove users from a selected group
             case 'del':
                 $doDelete = 'group';
                 break;
 
-            // Add users to a selected group
+                // Add users to a selected group
             case 'add':
             default:
                 $doAssign = true;
@@ -897,7 +897,7 @@ class UserModel extends AdminModel
      *
      * @since   3.2
      *
-     * #deprecated   4.2 will be removed in 6.0.
+     * @deprecated   4.2 will be removed in 6.0.
      *               Will be removed without replacement
      */
     public function getOtpConfig($userId = null)
@@ -928,7 +928,7 @@ class UserModel extends AdminModel
      *
      * @since   3.2
      *
-     * #deprecated   4.2 will be removed in 5.0.
+     * @deprecated   4.2 will be removed in 5.0.
      *               Will be removed without replacement
      */
     public function setOtpConfig($userId, $otpConfig)
@@ -951,7 +951,7 @@ class UserModel extends AdminModel
      *
      * @since   3.2
      *
-     * #deprecated   4.2 will be removed in 6.0.
+     * @deprecated   4.2 will be removed in 6.0.
      *               Use \Joomla\CMS\Factory::getApplication()->get('secret') instead'
      */
     public function getOtpConfigEncryptionKey()
@@ -977,7 +977,7 @@ class UserModel extends AdminModel
      * @since   3.2
      * @throws  \Exception
      *
-     * #deprecated   4.2 will be removed in 5.0.
+     * @deprecated   4.2 will be removed in 5.0.
      *               Will be removed without replacement
      */
     public function getTwofactorform($userId = null)
@@ -1003,7 +1003,7 @@ class UserModel extends AdminModel
      *
      * @since   3.2
      *
-     * #deprecated   4.2 will be removed in 5.0
+     * @deprecated   4.2 will be removed in 5.0
      *               Will be removed without replacement
      */
     public function generateOteps($userId, $count = 10)
@@ -1031,7 +1031,7 @@ class UserModel extends AdminModel
      * @since   3.2
      * @throws  \Exception
      *
-     * #deprecated   4.2 will be removed in 5.0
+     * @deprecated   4.2 will be removed in 5.0
      *               Will be removed without replacement
      */
     public function isValidSecretKey($userId, $secretKey, $options = [])
@@ -1058,7 +1058,7 @@ class UserModel extends AdminModel
      *
      * @since   3.2
      *
-     * #deprecated   4.2 will be removed in 5.0
+     * @deprecated   4.2 will be removed in 5.0
      *               Will be removed without replacement
      */
     public function isValidOtep($userId, $otep, $otpConfig = null)

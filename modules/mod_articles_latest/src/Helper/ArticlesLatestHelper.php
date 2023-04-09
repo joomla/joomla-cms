@@ -156,7 +156,7 @@ class ArticlesLatestHelper implements DatabaseAwareInterface
      *
      * @since   1.6
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Use the none static function getArticles
      *              Example: (new ArticlesLatestHelper())->getArticles($params, Factory::getApplication());
      */

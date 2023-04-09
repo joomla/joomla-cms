@@ -61,7 +61,7 @@ abstract class UserHelper
      * @var    integer
      * @since  4.0.0
      *
-     * #deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 6.0
      *              Use UserHelper::HASH_ARGON2I instead
      */
     public const HASH_ARGON2I_BC = 2;
@@ -84,7 +84,7 @@ abstract class UserHelper
      * @var    integer
      * @since  4.0.0
      *
-     * #deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 6.0
      *              Use UserHelper::HASH_ARGON2ID instead
      */
     public const HASH_ARGON2ID_BC = 3;
@@ -103,7 +103,7 @@ abstract class UserHelper
      * @var    integer
      * @since  4.0.0
      *
-     * #deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 6.0
      *              Use UserHelper::HASH_BCRYPT instead
      */
     public const HASH_BCRYPT_BC = 1;
@@ -114,7 +114,7 @@ abstract class UserHelper
      * @var    string
      * @since  4.0.0
      *
-     * #deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 6.0
      *              Support for MD5 hashed passwords will be removed use any of the other hashing methods
      */
     public const HASH_MD5 = 'md5';
@@ -125,7 +125,7 @@ abstract class UserHelper
      * @var    string
      * @since  4.0.0
      *
-     * #deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 6.0
      *              Support for PHPass hashed passwords will be removed use any of the other hashing methods
      */
     public const HASH_PHPASS = 'phpass';

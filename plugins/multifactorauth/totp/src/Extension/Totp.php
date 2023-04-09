@@ -68,7 +68,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
      * @var    boolean
      * @since  4.2.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Implement your plugin methods accepting an AbstractEvent object
      *              Example:
      *              onEventTriggerName(AbstractEvent $event) {
@@ -230,7 +230,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
                         Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_KEY') => $key,
                         Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_QR')  => "<span id=\"users-mfa-totp-qrcode\" />",
                         Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_LINK')
-                            => Text::sprintf('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_LINK_TEXT', $otpURL) .
+                        => Text::sprintf('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_LINK_TEXT', $otpURL) .
                             '<br/><small>' . Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_LINK_NOTE') . '</small>',
                     ],
                     'hidden_data' => [

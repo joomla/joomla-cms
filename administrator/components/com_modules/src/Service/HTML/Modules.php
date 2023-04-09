@@ -223,7 +223,7 @@ class Modules
      *
      * @since   2.5
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Will be removed with no replacement
      */
     public function positionList($clientId = 0)

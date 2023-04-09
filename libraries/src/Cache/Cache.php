@@ -87,7 +87,7 @@ class Cache
      *
      * @since       1.7.0
      *
-     * #deprecated  4.2 will be removed in 6.0
+     * @deprecated  4.2 will be removed in 6.0
      *              Use the cache controller factory instead
      *              Example: Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
      */

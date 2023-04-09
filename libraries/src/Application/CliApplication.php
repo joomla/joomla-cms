@@ -34,7 +34,7 @@ use Joomla\Session\SessionInterface;
  *
  * @since       2.5.0
  *
- * #deprecated  4.0 will be removed in 6.0
+ * @deprecated  4.0 will be removed in 6.0
  *              Use the ConsoleApplication instead
  */
 abstract class CliApplication extends AbstractApplication implements DispatcherAwareInterface, CMSApplicationInterface
@@ -161,7 +161,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
      *
      * @since       4.0.0
      *
-     * #deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 6.0
      *              This is a B/C proxy for deprecated read accesses
      *              Example: Factory::getApplication()->getInput();
      */
@@ -225,7 +225,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
      *
      * @since       1.7.0
      *
-     * #deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 6.0
      *              Load the app through the container or via the Factory
      *              Example: Factory::getContainer()->get(CliApplication::class)
      *
@@ -413,7 +413,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
      * @return  boolean
      *
      * @since       4.0.0
-     * #deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 6.0
      *              Will be removed without replacements
      */
     public function isCli()

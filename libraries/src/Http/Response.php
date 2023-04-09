@@ -20,7 +20,7 @@ use Joomla\Http\Response as FrameworkResponse;
  *
  * @since       1.7.3
  *
- * #deprecated  4.0 will be removed in 6.0
+ * @deprecated  4.0 will be removed in 6.0
  *              Use Joomla\Http\Response instead
  */
 class Response extends FrameworkResponse

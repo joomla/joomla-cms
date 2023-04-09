@@ -20,7 +20,7 @@ use Joomla\Database\DatabaseInterface;
  *
  * @since  4.0.0
  *
- * #deprecated  4.3 will be removed in 6.0
+ * @deprecated  4.3 will be removed in 6.0
  *              Use the trait from the database package
  *              Example: \Joomla\Database\DatabaseAwareTrait
  */
@@ -32,7 +32,7 @@ trait DatabaseAwareTrait
      * @var    DatabaseInterface
      * @since  4.0.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Use the trait from the database package
      *              Example: \Joomla\Database\DatabaseAwareTrait::$databaseAwareTraitDatabase
      */
@@ -46,7 +46,7 @@ trait DatabaseAwareTrait
      * @since   4.0.0
      * @throws  \UnexpectedValueException
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Use the trait from the database package
      *              Example: \Joomla\Database\DatabaseAwareTrait::getDatabase()
      */
@@ -68,7 +68,7 @@ trait DatabaseAwareTrait
      *
      * @since   4.0.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Use the trait from the database package
      *              Example: \Joomla\Database\DatabaseAwareTrait::setDatabase()
      */

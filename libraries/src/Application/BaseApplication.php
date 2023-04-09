@@ -26,7 +26,7 @@ use Joomla\Registry\Registry;
  *
  * @since       3.0.0
  *
- * #deprecated  4.3 will be removed in 6.0
+ * @deprecated  4.3 will be removed in 6.0
  *              Application classes should directly be based on \Joomla\Application\AbstractApplication
  *              don't use this class anymore
  */

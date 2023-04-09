@@ -63,7 +63,7 @@ abstract class Factory
      * @var         \JConfig
      * @since       1.7.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Use the configuration object within the application
      *              Example:
      *              Factory::getApplication()->getConfig();
@@ -92,7 +92,7 @@ abstract class Factory
      * @var         Session
      * @since       1.7.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Use the session service in the DI container or get from the application object
      *              Example:
      *              Factory::getApplication()->getSession();
@@ -105,7 +105,7 @@ abstract class Factory
      * @var         Language
      * @since       1.7.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Use the language service in the DI container or get from the application object
      *              Example:
      *              Factory::getApplication()->getLanguage();
@@ -118,7 +118,7 @@ abstract class Factory
      * @var         Document
      * @since       1.7.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *               Use the document service in the DI container or get from the application object
      *               Example:
      *               Factory::getApplication()->getDocument();
@@ -131,7 +131,7 @@ abstract class Factory
      * @var         DatabaseDriver
      * @since       1.7.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Use the database service in the DI container
      *              Example:
      *              Factory::getContainer()->get(DatabaseInterface::class);
@@ -177,7 +177,7 @@ abstract class Factory
      * @see         Registry
      * @since       1.7.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Use the configuration object within the application
      *              Example:
      *              Factory::getApplication->getConfig();
@@ -258,7 +258,7 @@ abstract class Factory
      * @see         Session
      * @since       1.7.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Use the session service in the DI container or get from the application object
      *              Example:
      *              Factory::getApplication()->getSession();
@@ -287,7 +287,7 @@ abstract class Factory
      * @see         Language
      * @since       1.7.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Use the language service in the DI container or get from the application object
      *              Example:
      *              Factory::getApplication()->getLanguage();
@@ -320,7 +320,7 @@ abstract class Factory
      * @see         Document
      * @since       1.7.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Use the document service in the DI container or get from the application object
      *              Example:
      *              Factory::getApplication()->getDocument();
@@ -355,7 +355,7 @@ abstract class Factory
      * @see         User
      * @since       1.7.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Load the user service from the dependency injection container or get from the application object
      *              Example:
      *              Factory::getApplication()->getIdentity();
@@ -399,7 +399,7 @@ abstract class Factory
      * @see         Cache
      * @since       1.7.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Use the cache controller factory instead
      *              Example:
      *              Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($handler, $options);
@@ -445,7 +445,7 @@ abstract class Factory
      * @see         DatabaseDriver
      * @since       1.7.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Use the database service in the DI container
      *              Example:
      *              Factory::getContainer()->get(DatabaseInterface::class);
@@ -551,7 +551,7 @@ abstract class Factory
      * @see         Registry
      * @since       1.7.0
      *
-     * #deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 6.0
      *              Use the configuration object within the application.
      *              Example: Factory::getApplication->getConfig();
      */
@@ -631,7 +631,7 @@ abstract class Factory
      * @see         DatabaseDriver
      * @since       1.7.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Use the database service in the DI container
      *              Example:
      *              Factory::getContainer()->get(DatabaseInterface::class);
@@ -753,7 +753,7 @@ abstract class Factory
      * @see         Language
      * @since       1.7.0
      *
-     * #deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 6.0
      *              Load the language service from the dependency injection container or via $app->getLanguage()
      *              Example: Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug)
      */
@@ -784,7 +784,7 @@ abstract class Factory
      * @see         Document
      * @since       1.7.0
      *
-     * #deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 6.0
      *              Load the document service from the dependency injection container or via $app->getDocument()
      *              Example: Factory::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
      */

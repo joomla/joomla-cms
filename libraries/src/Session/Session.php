@@ -150,7 +150,7 @@ class Session extends BaseSession
      *
      * @since   1.5
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Load the session service from the dependency injection container or via $app->getSession()
      *              Example: Factory::getApplication()->getSession();
      */
@@ -183,7 +183,7 @@ class Session extends BaseSession
             if (!empty($args[2])) {
                 @trigger_error(
                     'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
-                    . 'The namespace should be prepended to the name instead.',
+                        . 'The namespace should be prepended to the name instead.',
                     E_USER_DEPRECATED
                 );
 
@@ -234,7 +234,7 @@ class Session extends BaseSession
             if (!empty($args[2])) {
                 @trigger_error(
                     'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
-                    . 'The namespace should be prepended to the name instead.',
+                        . 'The namespace should be prepended to the name instead.',
                     E_USER_DEPRECATED
                 );
 
@@ -263,7 +263,7 @@ class Session extends BaseSession
             if (!empty($args[1])) {
                 @trigger_error(
                     'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
-                    . 'The namespace should be prepended to the name instead.',
+                        . 'The namespace should be prepended to the name instead.',
                     E_USER_DEPRECATED
                 );
 
@@ -315,7 +315,7 @@ class Session extends BaseSession
                 if (\func_num_args() > 1 && !empty($args[1])) {
                     @trigger_error(
                         'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
-                         . 'The namespace should be prepended to the name instead.',
+                            . 'The namespace should be prepended to the name instead.',
                         E_USER_DEPRECATED
                     );
 

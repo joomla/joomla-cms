@@ -65,18 +65,11 @@ $attributes = [
 ];
 
 /**
- * #deprecated  4.3 will be removed in 6.0
+ * @deprecated  4.3 will be removed in 6.0
  *              The unicode conversion of the URL will be moved to \Joomla\CMS\Form\Field\UrlField::getLayoutData
  */
 if ($value !== null) {
     $value = $this->escape(PunycodeHelper::urlToUTF8($value));
 }
 ?>
-<input
-    <?php echo $inputType; ?>
-    inputmode="url"
-    name="<?php echo $name; ?>"
-    <?php echo !empty($class) ? ' class="form-control ' . $class . '"' : 'class="form-control"'; ?>
-    id="<?php echo $id; ?>"
-    value="<?php echo $value; ?>"
-    <?php echo implode(' ', $attributes); ?>>
+<input <?php echo $inputType; ?> inputmode="url" name="<?php echo $name; ?>" <?php echo !empty($class) ? ' class="form-control ' . $class . '"' : 'class="form-control"'; ?> id="<?php echo $id; ?>" value="<?php echo $value; ?>" <?php echo implode(' ', $attributes); ?>>

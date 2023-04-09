@@ -22,7 +22,7 @@ use Joomla\CMS\Filter\InputFilter;
  *
  * @since       1.7.0
  *
- * #deprecated   4.3 will be removed in 6.0.
+ * @deprecated   4.3 will be removed in 6.0.
  *               Use Joomla\Input\Input instead
  *
  * @property-read   Input   $get
@@ -42,7 +42,7 @@ class Input extends \Joomla\Input\Input
      * @var    array
      * @since  3.8.9
      *
-     * #deprecated   4.3 will be removed in 6.0.
+     * @deprecated   4.3 will be removed in 6.0.
      *               Use Joomla\Input\Input instead
      */
     private static $allowedGlobals = ['REQUEST', 'GET', 'POST', 'FILES', 'SERVER', 'ENV'];
@@ -53,7 +53,7 @@ class Input extends \Joomla\Input\Input
      * @var    Input[]
      * @since  1.7.0
      *
-     * #deprecated   4.3 will be removed in 6.0.
+     * @deprecated   4.3 will be removed in 6.0.
      *               Use Joomla\Input\Input instead
      */
     protected $inputs = [];
@@ -66,7 +66,7 @@ class Input extends \Joomla\Input\Input
      *
      * @since   1.7.0
      *
-     * #deprecated   4.3 will be removed in 6.0.
+     * @deprecated   4.3 will be removed in 6.0.
      *               Use Joomla\Input\Input instead
      */
     public function __construct($source = null, array $options = [])
@@ -87,7 +87,7 @@ class Input extends \Joomla\Input\Input
      *
      * @since   1.7.0
      *
-     * #deprecated   4.3 will be removed in 6.0.
+     * @deprecated   4.3 will be removed in 6.0.
      *               Use Joomla\Input\Input instead
      */
     public function __get($name)
@@ -132,7 +132,7 @@ class Input extends \Joomla\Input\Input
      *
      * @since   1.7.0
      *
-     * #deprecated   4.3 will be removed in 6.0.
+     * @deprecated   4.3 will be removed in 6.0.
      *               Use Joomla\Input\Input instead
      */
     public function getArray(array $vars = [], $datasource = null, $defaultFilter = 'unknown')
@@ -157,7 +157,7 @@ class Input extends \Joomla\Input\Input
      *
      * @since   3.4.2
      *
-     * #deprecated   4.3 will be removed in 6.0.
+     * @deprecated   4.3 will be removed in 6.0.
      *               Use Joomla\Input\Input instead
      */
     protected function getArrayRecursive(array $vars = [], $datasource = null, $defaultFilter = 'unknown', $recursion = false)
@@ -204,7 +204,7 @@ class Input extends \Joomla\Input\Input
      *
      * @since   3.0.0
      *
-     * #deprecated   4.3 will be removed in 6.0.
+     * @deprecated   4.3 will be removed in 6.0.
      *               Use Joomla\Input\Input instead
      */
     public function unserialize($input)

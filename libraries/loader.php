@@ -94,7 +94,7 @@ abstract class JLoader
      *
      * @since       1.7.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to
      *              register an autoloader for your files.
      */
@@ -176,7 +176,7 @@ abstract class JLoader
      *
      * @since       1.7.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to
      *              register an autoloader for your files.
      */
@@ -257,7 +257,7 @@ abstract class JLoader
             // If the class doesn't exists, we probably have a class alias available
             if (!class_exists($class, false)) {
                 // Search the alias class, first none namespaced and then namespaced
-                $original = array_search($class, self::$classAliases) ? : array_search('\\' . $class, self::$classAliases);
+                $original = array_search($class, self::$classAliases) ?: array_search('\\' . $class, self::$classAliases);
 
                 // When we have an original and the class exists an alias should be created
                 if ($original && class_exists($original, false)) {
@@ -282,7 +282,7 @@ abstract class JLoader
      *
      * @since       1.7.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to
      *              register an autoloader for your files.
      */
@@ -466,7 +466,7 @@ abstract class JLoader
      *
      * @since       3.7.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Use JLoader::loadByPsr instead
      */
     public static function loadByPsr4($class)
@@ -720,7 +720,7 @@ if (!function_exists('jexit')) {
  *
  * @since       1.7.0
  *
- * #deprecated  4.3 will be removed in 6.0
+ * @deprecated  4.3 will be removed in 6.0
  *              Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to
  *              register an autoloader for your files.
  */

@@ -190,7 +190,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      *
      * @since   3.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Will be removed without replacement. Get the model through the MVCFactory instead
      */
     public static function addModelPath($path, $prefix = '')
@@ -251,7 +251,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      *
      * @since       3.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Get the controller through the MVCFactory instead
      *              Example: Factory::getApplication()->bootComponent($option)->getMVCFactory()->createController(...);
      *
@@ -817,7 +817,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 
         if (empty(self::$views[$name][$type][$prefix])) {
             if ($view = $this->createView($name, $prefix, $type, $config)) {
-                self::$views[$name][$type][$prefix] = & $view;
+                self::$views[$name][$type][$prefix] = &$view;
             } else {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), 404);
             }

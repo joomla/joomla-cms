@@ -20,7 +20,7 @@ use Joomla\CMS\Application\CLI\Output\Processor\ProcessorInterface;
  *
  * @since       4.0.0
  *
- * #deprecated  4.3 will be removed in 6.0
+ * @deprecated  4.3 will be removed in 6.0
  *              Use the `joomla/console` package instead
  */
 abstract class CliOutput

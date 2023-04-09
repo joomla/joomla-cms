@@ -24,7 +24,7 @@ if (!\defined('JCOMPAT_UNICODE_PROPERTIES')) {
      * @var    boolean
      * @since  1.6
      *
-     * #deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 6.0
      *              Will be removed without replacement (Also remove phpcs exception)
      */
     \define('JCOMPAT_UNICODE_PROPERTIES', (bool) @preg_match('/\pL/u', 'a'));

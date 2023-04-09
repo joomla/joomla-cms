@@ -397,9 +397,9 @@ class StyleModel extends AdminModel
 
         // Load the core and/or local language file(s).
         $lang->load('tpl_' . $template, $client->path)
-        || (!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path))
-        || (!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent))
-        || $lang->load('tpl_' . $template, $client->path . '/templates/' . $template);
+            || (!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path))
+            || (!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent))
+            || $lang->load('tpl_' . $template, $client->path . '/templates/' . $template);
 
         if (file_exists($formFile)) {
             // Get the template form.
@@ -776,7 +776,7 @@ class StyleModel extends AdminModel
      *
      * @param   string   $group     The cache group
      * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              #deprecated   4.3 will be removed in 6.0
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *

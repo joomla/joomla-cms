@@ -51,7 +51,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
     public function __construct(DatabaseDriver $db)
     {
         /**
-         * #deprecated  4.0 will be removed in 6.0
+         * @deprecated  4.0 will be removed in 6.0
          *              This format was used by tags and versioning before 4.0 before
          *              the introduction of the getTypeAlias function.
          */

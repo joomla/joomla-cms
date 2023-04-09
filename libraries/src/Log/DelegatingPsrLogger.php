@@ -22,7 +22,7 @@ use Psr\Log\LogLevel;
  *
  * @since  3.8.0
  *
- * #deprecated  4.3 will be become final in 6.0
+ * @deprecated  4.3 will be become final in 6.0
  *              Don't extend this class anymore
  * @internal
  */

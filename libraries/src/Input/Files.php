@@ -20,7 +20,7 @@ use Joomla\CMS\Filter\InputFilter;
  *
  * @since       1.7.0
  *
- * #deprecated   4.3 will be removed in 6.0.
+ * @deprecated   4.3 will be removed in 6.0.
  *               Use Joomla\Input\Files instead
  */
 class Files extends Input
@@ -31,7 +31,7 @@ class Files extends Input
      * @var    array
      * @since  1.7.0
      *
-     * #deprecated   4.3 will be removed in 6.0.
+     * @deprecated   4.3 will be removed in 6.0.
      *               Use Joomla\Input\Files instead
      */
     protected $decodedData = [];
@@ -45,7 +45,7 @@ class Files extends Input
      *
      * @since   3.0.0
      *
-     * #deprecated   4.3 will be removed in 6.0.
+     * @deprecated   4.3 will be removed in 6.0.
      *               Use Joomla\Input\Files instead
      */
     public function __construct(array $source = null, array $options = [])
@@ -57,7 +57,7 @@ class Files extends Input
         }
 
         // Set the data source.
-        $this->data = & $_FILES;
+        $this->data = &$_FILES;
 
         // Set the options for the class.
         $this->options = $options;
@@ -75,7 +75,7 @@ class Files extends Input
      * @see     InputFilter::clean()
      * @since   1.7.0
      *
-     * #deprecated   4.3 will be removed in 6.0.
+     * @deprecated   4.3 will be removed in 6.0.
      *               Use Joomla\Input\Files instead
      */
     public function get($name, $default = null, $filter = 'cmd')
@@ -115,7 +115,7 @@ class Files extends Input
      *
      * @since   1.7.0
      *
-     * #deprecated   4.3 will be removed in 6.0.
+     * @deprecated   4.3 will be removed in 6.0.
      *               Use Joomla\Input\Files instead
      */
     protected function decodeData(array $data)
@@ -143,7 +143,7 @@ class Files extends Input
      *
      * @since   1.7.0
      *
-     * #deprecated   4.3 will be removed in 6.0.
+     * @deprecated   4.3 will be removed in 6.0.
      *               Use Joomla\Input\Files instead
      */
     public function set($name, $value)

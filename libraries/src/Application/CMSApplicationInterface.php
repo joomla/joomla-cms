@@ -24,7 +24,7 @@ use Joomla\Input\Input;
  *
  * @since  4.0.0
  * @note   In Joomla 5 this interface will no longer extend EventAwareInterface
- * @property-read   Input  $input  {#deprecated 4.0 will be removed in 6.0} The Joomla Input property. Deprecated in favour of getInput()
+ * @property-read   Input  $input  {@deprecated 4.0 will be removed in 6.0} The Joomla Input property. Deprecated in favour of getInput()
  */
 interface CMSApplicationInterface extends ExtensionManagerInterface, ConfigurationAwareApplicationInterface, EventAwareInterface
 {
@@ -133,7 +133,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      *
      * @since       4.0.0
      *
-     * #deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 6.0
      *              Will be removed without replacement. CLI will be handled by the joomla/console package instead
      */
     public function isCli();

@@ -1009,8 +1009,7 @@ class FieldModel extends AdminModel
         }
 
         // Get the categories for this component (and optionally this section, if available)
-        $cat = (
-            function () use ($component, $section) {
+        $cat = (function () use ($component, $section) {
                 // Get the CategoryService for this component
                 $componentObject = $this->bootComponent($component);
 
@@ -1078,7 +1077,7 @@ class FieldModel extends AdminModel
      *
      * @param   string   $group     The cache group
      * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              #deprecated   4.3 will be removed in 6.0
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *

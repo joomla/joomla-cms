@@ -162,7 +162,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
         $data['custom']        = $this->_custom;
 
         /**
-         * #deprecated  4.0 will be removed in 6.0
+         * @deprecated  4.0 will be removed in 6.0
          *              This property is for backwards compatibility. Pass text through script options in the future
          */
         $data['scriptText']    = Text::getScriptStrings();

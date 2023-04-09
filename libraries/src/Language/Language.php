@@ -283,7 +283,7 @@ class Language
      *
      * @since       1.7.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Use the language factory instead
      *              Example: Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($lang, $debug);
      */
@@ -910,17 +910,17 @@ class Language
 
         while ($continue && next($backtrace)) {
             $step  = current($backtrace);
-            $class = @ $step['class'];
+            $class = @$step['class'];
 
             // We're looking for something outside of language.php
             if ($class != self::class && $class != Text::class) {
-                $info['function'] = @ $step['function'];
+                $info['function'] = @$step['function'];
                 $info['class']    = $class;
                 $info['step']     = prev($backtrace);
 
                 // Determine the file and name of the file
-                $info['file'] = @ $step['file'];
-                $info['line'] = @ $step['line'];
+                $info['file'] = @$step['file'];
+                $info['line'] = @$step['line'];
 
                 $continue = false;
             }

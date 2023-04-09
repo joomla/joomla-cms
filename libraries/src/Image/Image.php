@@ -385,7 +385,7 @@ class Image
      * @throws  \LogicException
      * @throws  \InvalidArgumentException
      *
-     * #deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 6.0
      *              Use \Joomla\CMS\Image\createThumbnails instead
      */
     public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null)
@@ -548,7 +548,7 @@ class Image
          */
         if (
             !((\is_object($this->handle) && get_class($this->handle) == 'GdImage')
-            || (\is_resource($this->handle) && get_resource_type($this->handle) == 'gd'))
+                || (\is_resource($this->handle) && get_resource_type($this->handle) == 'gd'))
         ) {
             return false;
         }

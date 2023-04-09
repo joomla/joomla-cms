@@ -171,7 +171,7 @@ class ArticlesPopularHelper
      *
      * @since  4.3.0
      *
-     * #deprecated 4.3 will be removed in 6.0
+     * @deprecated 4.3 will be removed in 6.0
      *             Use a call via a ArticlesPopularHelper instance instead
      *             Example: (new ArticlesPopularHelper())->getArticles($params, Factory::getApplication())
      */

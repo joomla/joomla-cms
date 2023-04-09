@@ -86,7 +86,7 @@ class StubGenerator extends CliApplication
             if ($deprecatedVersion !== false) {
                 $fileContents = <<<PHP
 	/**
-	 * #deprecated $deprecatedVersion Use $newName instead.
+	 * @deprecated $deprecatedVersion Use $newName instead.
 	 */
 
 PHP;

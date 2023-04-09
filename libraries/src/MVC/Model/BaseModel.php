@@ -84,7 +84,7 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
      *
      * @since       3.0
      *
-     * #deprecated  4.3 will be removed in 6.0
+     * @deprecated  4.3 will be removed in 6.0
      *              Will be removed without replacement. Get the model through the MVCFactory + namespace instead
      *
      * @see LegacyModelLoaderTrait::getInstance(...)

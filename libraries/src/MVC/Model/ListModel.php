@@ -95,7 +95,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      *
      * @var        array
      * @since      3.4.5
-     * #deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 6.0
      *              Use $filterForbiddenList instead
      */
     protected $filterBlacklist = [];
@@ -113,7 +113,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      *
      * @var        array
      * @since      3.4.5
-     * #deprecated  4.0 will be removed in 6.0
+     * @deprecated  4.0 will be removed in 6.0
      *              Use $listForbiddenList instead
      */
     protected $listBlacklist = ['select'];
@@ -150,7 +150,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
         }
 
         /**
-         * #deprecated  4.0 will be removed in 6.0
+         * @deprecated  4.0 will be removed in 6.0
          *              Use $this->filterForbiddenList instead
          */
         if (!empty($this->filterBlacklist)) {
@@ -158,7 +158,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
         }
 
         /**
-         * #deprecated  4.0 will be removed in 6.0
+         * @deprecated  4.0 will be removed in 6.0
          *              Use $this->listForbiddenList instead
          */
         if (!empty($this->listBlacklist)) {

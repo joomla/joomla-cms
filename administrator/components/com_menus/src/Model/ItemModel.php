@@ -700,7 +700,7 @@ class ItemModel extends AdminModel
                     // Load the language file for the component.
                     $lang = Factory::getLanguage();
                     $lang->load($args['option'], JPATH_ADMINISTRATOR)
-                    || $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option']);
+                        || $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option']);
 
                     // Determine the component id.
                     $component = ComponentHelper::getComponent($args['option']);
@@ -1752,7 +1752,7 @@ class ItemModel extends AdminModel
      *
      * @param   string   $group     Cache group name.
      * @param   integer  $clientId  No longer used, will be removed without replacement
-     *                              #deprecated   4.3 will be removed in 6.0
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *
