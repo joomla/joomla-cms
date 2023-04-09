@@ -1011,32 +1011,32 @@ class FieldModel extends AdminModel
         // Get the categories for this component (and optionally this section, if available)
         $cat = (
             function () use ($component, $section) {
-            // Get the CategoryService for this component
-            $componentObject = $this->bootComponent($component);
+                // Get the CategoryService for this component
+                $componentObject = $this->bootComponent($component);
 
-            if (!$componentObject instanceof CategoryServiceInterface) {
-                // No CategoryService -> no categories
-                return null;
-            }
-
-            $cat = null;
-
-            // Try to get the categories for this component and section
-            try {
-                $cat = $componentObject->getCategory([], $section ?: '');
-            } catch (SectionNotFoundException $e) {
-                // Not found for component and section -> Now try once more without the section, so only component
-                try {
-                    $cat = $componentObject->getCategory();
-                } catch (SectionNotFoundException $e) {
-                    // If we haven't found it now, return (no categories available for this component)
+                if (!$componentObject instanceof CategoryServiceInterface) {
+                    // No CategoryService -> no categories
                     return null;
                 }
-            }
 
-            // So we found categories for at least the component, return them
-            return $cat;
-        }
+                $cat = null;
+
+                // Try to get the categories for this component and section
+                try {
+                    $cat = $componentObject->getCategory([], $section ?: '');
+                } catch (SectionNotFoundException $e) {
+                    // Not found for component and section -> Now try once more without the section, so only component
+                    try {
+                        $cat = $componentObject->getCategory();
+                    } catch (SectionNotFoundException $e) {
+                        // If we haven't found it now, return (no categories available for this component)
+                        return null;
+                    }
+                }
+
+                // So we found categories for at least the component, return them
+                return $cat;
+            }
         )();
 
         // If we found categories, and if the root category has children, set them in the form
