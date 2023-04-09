@@ -129,7 +129,13 @@ class Toolbar
      * @return  Toolbar  The Toolbar object.
      *
      * @since       1.5
-     * @deprecated  5.0 Use the ToolbarFactoryInterface instead
+     *
+     * #deprecated  4.0 will be removed in 6.0
+     *              Use the ToolbarFactoryInterface instead
+     *              Example:
+     *              Factory::getContainer()->get(ToolbarFactoryInterface::class)->createToolbar($name)
+     *
+     * @todo Needs a proper replacement before removal as ToolbarFactoryInterface alone does not share the object everywhere
      *
      * @throws \Joomla\DI\Exception\KeyNotFoundException
      */
@@ -384,7 +390,9 @@ class Toolbar
      * @return  void
      *
      * @since       1.5
-     * @deprecated  5.0  ToolbarButton classes should be autoloaded
+     *
+     * #deprecated  4.0 will be removed in 6.0
+     *              ToolbarButton classes should be autoloaded via namespaces
      */
     public function addButtonPath($path)
     {
@@ -420,7 +428,8 @@ class Toolbar
      * @return  array
      *
      * @since   4.0.0
-     * @deprecated  5.0  ToolbarButton classes should be autoloaded
+     * #deprecated  4.0 will be removed in 6.0
+     *              ToolbarButton buttons should be autoloaded via namespaces
      */
     public function getButtonPath(): array
     {
