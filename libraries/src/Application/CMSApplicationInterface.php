@@ -24,7 +24,6 @@ use Joomla\Input\Input;
  *
  * @since  4.0.0
  * @note   In Joomla 5 this interface will no longer extend EventAwareInterface
- * 
  * @property-read   Input  $input  {#deprecated 4.0 will be removed in 6.0} The Joomla Input property. Deprecated in favour of getInput()
  */
 interface CMSApplicationInterface extends ExtensionManagerInterface, ConfigurationAwareApplicationInterface, EventAwareInterface

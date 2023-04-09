@@ -22,7 +22,6 @@ use Joomla\CMS\Filter\InputFilter;
  * the standard JInput interface.
  *
  * @since       3.0.1
- * 
  *
  * #deprecated   4.3 will be removed in 6.0.
  *               Use Joomla\Input\Json instead
