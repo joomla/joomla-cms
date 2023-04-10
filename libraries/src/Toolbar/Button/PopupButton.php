@@ -26,7 +26,8 @@ use Joomla\CMS\Uri\Uri;
  * @method self    iframeWidth(int $value)
  * @method self    iframeHeight(int $value)
  * @method self    bodyHeight(int $value)
- * @method self    modalWidth(int $value)
+ * @method self    modalWidth(string $value)
+ * @method self    modalHeight(string $value)
  * @method self    onclose(string $value)
  * @method self    title(string $value)
  * @method self    footer(string $value)
@@ -38,7 +39,8 @@ use Joomla\CMS\Uri\Uri;
  * @method int     getIframeWidth()
  * @method int     getIframeHeight()
  * @method int     getBodyHeight()
- * @method int     getModalWidth()
+ * @method string  getModalWidth()
+ * @method string  getModalHeight()
  * @method string  getOnclose()
  * @method string  getTitle()
  * @method string  getFooter()
@@ -245,6 +247,7 @@ JS
                 'iframeHeight',
                 'bodyHeight',
                 'modalWidth',
+                'modalHeight',
                 'onclose',
                 'title',
                 'footer',

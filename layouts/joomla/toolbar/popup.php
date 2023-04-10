@@ -27,6 +27,8 @@ extract($displayData);
  * @var   string  $tagName
  * @var   bool    $listCheck
  * @var   string  $htmlAttributes
+ * @var   string  $modalWidth
+ * @var   string  $modalHeight
  * @var   string  $popupType
  * @var   string  $url
  * @var   string  $textHeader
@@ -46,6 +48,8 @@ if (!empty($popupType)) {
         'popupType'  => $popupType,
         'src'        => $url,
         'textHeader' => $textHeader ?? '',
+        'width'      => $modalWidth ?? null,
+        'height'     => $modalHeight ?? null,
     ];
 
     $modalAttrs['data-joomla-dialog'] = $this->escape(json_encode($popupOptions));

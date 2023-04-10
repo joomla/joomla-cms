@@ -175,9 +175,11 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::title(Text::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'search-plus finder');
 
         $toolbar->popupButton('archive', 'COM_FINDER_INDEX')
+            ->popupType('iframe')
+            ->textHeader(Text::_('COM_FINDER_HEADING_INDEXER'))
             ->url('index.php?option=com_finder&view=indexer&tmpl=component')
-            ->iframeWidth(550)
-            ->iframeHeight(210)
+            ->modalWidth('800px')
+            ->modalHeight('400px')
             ->onclose('window.parent.location.reload()')
             ->icon('icon-archive')
             ->title(Text::_('COM_FINDER_HEADING_INDEXER'));
@@ -221,9 +223,11 @@ class HtmlView extends BaseHtmlView
             }
 
             $toolbar->popupButton('bars', 'COM_FINDER_STATISTICS')
+                ->popupType('iframe')
+                ->textHeader(Text::_('COM_FINDER_STATISTICS_TITLE'))
                 ->url('index.php?option=com_finder&view=statistics&tmpl=component')
-                ->iframeWidth(550)
-                ->iframeHeight(350)
+                ->modalWidth('800px')
+                ->modalHeight('500px')
                 ->title(Text::_('COM_FINDER_STATISTICS_TITLE'))
                 ->icon('icon-bars');
         }
