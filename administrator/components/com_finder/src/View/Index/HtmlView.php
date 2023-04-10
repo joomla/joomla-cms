@@ -180,7 +180,6 @@ class HtmlView extends BaseHtmlView
             ->url('index.php?option=com_finder&view=indexer&tmpl=component')
             ->modalWidth('800px')
             ->modalHeight('400px')
-            ->onclose('window.parent.location.reload()')
             ->icon('icon-archive')
             ->title(Text::_('COM_FINDER_HEADING_INDEXER'));
 
