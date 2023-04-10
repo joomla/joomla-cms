@@ -269,7 +269,7 @@ Cypress.Commands.add('db_getUserId', () => {
     });
 });
 
-Cypress.Commands.add('db_createNewsfeed', (feed) => {
+Cypress.Commands.add('db_createNewsFeed', (feed) => {
   const defaultNewsfeedOptions = {
     name: 'test feed',
     alias: 'test-feed',
@@ -291,6 +291,6 @@ Cypress.Commands.add('db_createNewsfeed', (feed) => {
     params: '',
     images: '',
   };
-  
+
   return cy.task('queryDB', createInsertQuery('newsfeeds', { ...defaultNewsfeedOptions, ...feed })).then(async (info) => info.insertId);
 });
