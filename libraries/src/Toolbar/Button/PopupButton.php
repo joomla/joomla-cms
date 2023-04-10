@@ -32,6 +32,8 @@ use Joomla\CMS\Uri\Uri;
  * @method self    footer(string $value)
  * @method self    selector(string $value)
  * @method self    listCheck(bool $value)
+ * @method self    popupType(string $value)
+ * @method self    textHeader(string $value)
  * @method string  getUrl()
  * @method int     getIframeWidth()
  * @method int     getIframeHeight()
@@ -42,6 +44,8 @@ use Joomla\CMS\Uri\Uri;
  * @method string  getFooter()
  * @method string  getSelector()
  * @method bool    getListCheck()
+ * @method string  getPopupType()
+ * @method string  getTextHeader()
  *
  * @since  3.0
  */
@@ -138,6 +142,15 @@ class PopupButton extends ToolbarButton
         $html = [];
 
         $html[] = parent::renderButton($options);
+
+        if ($this->getPopupType()) {
+            return $html[0];
+        }
+
+        @trigger_error(
+            'Use of BS Modal is deprecated in Joomla\CMS\Toolbar\Button\PopupButton, and will be removed in 6.0',
+            E_USER_DEPRECATED
+        );
 
         if ((string) $this->getUrl() !== '') {
             // Build the options array for the modal
@@ -237,6 +250,8 @@ JS
                 'footer',
                 'selector',
                 'listCheck',
+                'popupType',
+                'textHeader',
             ]
         );
     }

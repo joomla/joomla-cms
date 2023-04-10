@@ -375,7 +375,10 @@ $assoc = Associations::isEnabled();
                         && $user->authorise('core.edit', 'com_content')
                         && $user->authorise('core.edit.state', 'com_content')
                     ) : ?>
-                        <?php echo HTMLHelper::_(
+                        <template id="joomla-dialog-batch">
+                            <?php echo $this->loadTemplate('batch_body'); ?>
+                        </template>
+                        <?php /*echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'collapseModal',
                             [
@@ -383,7 +386,7 @@ $assoc = Associations::isEnabled();
                                 'footer' => $this->loadTemplate('batch_footer'),
                             ],
                             $this->loadTemplate('batch_body')
-                        ); ?>
+                        );*/ ?>
                     <?php endif; ?>
                 <?php endif; ?>
 
