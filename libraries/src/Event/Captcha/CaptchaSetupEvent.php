@@ -54,14 +54,14 @@ class CaptchaSetupEvent extends AbstractImmutableEvent
     }
 
     /**
-     * Getter for the subject argument
+     * Returns Captcha Registry instance.
      *
      * @return  CaptchaRegistry
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getSubject(): CaptchaRegistry
+    public function getCaptchaRegistry(): CaptchaRegistry
     {
-        return $this->arguments['subject'];
+        return $this->getArgument('subject');
     }
 }

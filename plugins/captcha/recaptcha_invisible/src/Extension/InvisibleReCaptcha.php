@@ -55,7 +55,7 @@ final class InvisibleReCaptcha extends CMSPlugin implements SubscriberInterface
     {
         $this->loadLanguage();
 
-        $event->getSubject()->add(new InvisibleReCaptchaProvider($this->params, $this->getApplication()));
+        $event->getCaptchaRegistry()->add(new InvisibleReCaptchaProvider($this->params, $this->getApplication()));
     }
 
     /**
