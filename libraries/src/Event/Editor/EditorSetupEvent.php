@@ -40,7 +40,7 @@ final class EditorSetupEvent extends AbstractImmutableEvent
     }
 
     /**
-     * Setter for the subject argument
+     * Setter for the subject argument.
      *
      * @param   EditorsRegistryInterface  $value  The value to set
      *
@@ -54,14 +54,14 @@ final class EditorSetupEvent extends AbstractImmutableEvent
     }
 
     /**
-     * Getter for the subject argument
+     * Returns Editors Registry instance.
      *
      * @return  EditorsRegistryInterface
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getSubject(): EditorsRegistryInterface
+    public function getEditorsRegistry(): EditorsRegistryInterface
     {
-        return $this->arguments['subject'];
+        return $this->getArgument('subject');
     }
 }

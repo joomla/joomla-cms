@@ -51,6 +51,7 @@ final class Codemirror extends CMSPlugin implements SubscriberInterface
     {
         $this->loadLanguage();
 
-        $event->getSubject()->add(new CodeMirrorProvider($this->params, $this->getApplication(), $this->getDispatcher()));
+        $event->getEditorsRegistry()
+            ->add(new CodeMirrorProvider($this->params, $this->getApplication(), $this->getDispatcher()));
     }
 }

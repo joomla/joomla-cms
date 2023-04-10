@@ -48,7 +48,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
     }
 
     /**
-     * Setter for the subject argument
+     * Setter for the subject argument.
      *
      * @param   ButtonsRegistryInterface  $value  The value to set
      *
@@ -62,19 +62,19 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
     }
 
     /**
-     * Getter for the subject argument
+     * Returns Buttons Registry instance.
      *
      * @return  ButtonsRegistryInterface
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getSubject(): ButtonsRegistryInterface
+    public function getButtonsRegistry(): ButtonsRegistryInterface
     {
-        return $this->arguments['subject'];
+        return $this->getArgument('subject');
     }
 
     /**
-     * Setter for the Editor Type argument
+     * Setter for the Editor Type argument.
      *
      * @param   string  $value  The value to set
      *
@@ -88,7 +88,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
     }
 
     /**
-     * Getter for the Editor Type argument
+     * Getter for the Editor Type argument.
      *
      * @return  string
      *
@@ -100,7 +100,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
     }
 
     /**
-     * Setter for the disabled buttons argument
+     * Setter for the disabled buttons argument.
      *
      * @param   array  $value  The value to set
      *
@@ -114,7 +114,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
     }
 
     /**
-     * Getter for the disabled buttons argument
+     * Getter for the disabled buttons argument.
      *
      * @return  array
      *
@@ -126,7 +126,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
     }
 
     /**
-     * Setter for the Editor ID argument
+     * Setter for the Editor ID argument.
      *
      * @param   string  $value  The value to set
      *
@@ -140,7 +140,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
     }
 
     /**
-     * Getter for the Editor ID argument
+     * Getter for the Editor ID argument.
      *
      * @return  string
      *
@@ -152,7 +152,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
     }
 
     /**
-     * Setter for the asset argument
+     * Setter for the asset argument.
      *
      * @param   int  $value  The value to set
      *
@@ -166,7 +166,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
     }
 
     /**
-     * Getter for the asset argument
+     * Getter for the asset argument.
      *
      * @return  int
      *
@@ -178,7 +178,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
     }
 
     /**
-     * Setter for the author argument
+     * Setter for the author argument.
      *
      * @param   int  $value  The value to set
      *
@@ -192,7 +192,7 @@ final class EditorButtonsSetupEvent extends AbstractImmutableEvent
     }
 
     /**
-     * Getter for the author argument
+     * Getter for the author argument.
      *
      * @return  int
      *

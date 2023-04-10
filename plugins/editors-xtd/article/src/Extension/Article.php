@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\EditorsXtd\Article\Extension;
 
 use Joomla\CMS\Editor\Button\Button;
-use Joomla\CMS\Editor\Button\ButtonsRegistry;
 use Joomla\CMS\Event\Editor\EditorButtonsSetupEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -57,8 +56,7 @@ final class Article extends CMSPlugin implements SubscriberInterface
      */
     public function onEditorButtonsSetup(EditorButtonsSetupEvent $event)
     {
-        /** @var ButtonsRegistry $subject */
-        $subject  = $event->getSubject();
+        $subject  = $event->getButtonsRegistry();
         $disabled = $event->getDisabledButtons();
 
         if (\in_array($this->_name, $disabled)) {
