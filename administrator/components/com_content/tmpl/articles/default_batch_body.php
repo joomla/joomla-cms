@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
 $params = ComponentHelper::getParams('com_content');
@@ -59,3 +60,8 @@ $user = Factory::getUser();
         <?php endif; ?>
     </div>
 </div>
+ <div class="btn-toolbar p-2">
+     <joomla-toolbar-button task="article.batch" class="ms-auto">
+         <button type="button" class="btn btn-success"><?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?></button>
+     </joomla-toolbar-button>
+ </div>

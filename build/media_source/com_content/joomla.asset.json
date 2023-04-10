@@ -73,7 +73,8 @@
       ],
       "attributes": {
         "type": "module"
-      }
+      },
+      "deprecated": "Without replacement"
     },
     {
       "name": "com_content.admin-articles-stage.es5",
