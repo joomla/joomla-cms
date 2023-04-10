@@ -64,14 +64,6 @@ class PlgSystemUpdatenotification extends CMSPlugin
     protected $db;
 
     /**
-     * Load plugin language files automatically
-     *
-     * @var    boolean
-     * @since  3.6.3
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * The update check and notification email code is triggered after the page has fully rendered.
      *
      * @return  void
@@ -96,6 +88,9 @@ class PlgSystemUpdatenotification extends CMSPlugin
         if (!defined('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG') && (abs($now - $last) < $cache_timeout)) {
             return;
         }
+
+        // Load translations
+        $this->loadLanguage();
 
         // Update last run status
         // If I have the time of the last run, I can update, otherwise insert

@@ -36,14 +36,6 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
     protected $app;
 
     /**
-     * Affects constructor behavior. If true, language files will be loaded automatically.
-     *
-     * @var    boolean
-     * @since  4.1.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Subscribe to certain events
      *
      * @return string[]  An array of event mappings
@@ -113,6 +105,9 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
         if (!$showJooa11y || !$this->isAuthorisedDisplayChecker()) {
             return;
         }
+
+        // Load translations
+        $this->loadLanguage();
 
         // Get the document object.
         $document = $this->app->getDocument();
