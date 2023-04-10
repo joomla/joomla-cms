@@ -11,7 +11,7 @@ describe('Test that the feed view ', () => {
       });
   });
 
-  it('can display a list of feeds without menu item', () => {
+  it('can display a feed without menu item', () => {
     cy.db_createNewsfeed({ name: 'automated test feed 1', link: 'https://www.joomla.org/announcements.feed?type=rss' })
       .then((id) => {
         cy.visit(`index.php?option=com_newsfeeds&view=newsfeed&id=${id}`);
