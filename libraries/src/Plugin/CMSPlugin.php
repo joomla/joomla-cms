@@ -119,11 +119,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
             $this->_type = $config['type'];
         }
 
-        // Load the language files if needed.
-        if ($this->autoloadLanguage) {
-            $this->loadLanguage();
-        }
-
         if (property_exists($this, 'app')) {
             @trigger_error('The application should be injected through setApplication() and requested through getApplication().', E_USER_DEPRECATED);
             $reflection  = new \ReflectionClass($this);
@@ -165,7 +160,22 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
         }
 
         $extension = strtolower($extension);
-        $lang      = $this->getApplication() ? $this->getApplication()->getLanguage() : Factory::getLanguage();
+        $app       = $this->getApplication() ?: Factory::getApplication();
+        $lang      = $app->getLanguage();
+
+        if (!$lang) {
+            // @TODO: Throw an exception in Joomla 6
+            @trigger_error(
+                sprintf(
+                    'Trying to load language before Application is initialised is discouraged. This will throw an exception in 6.0. Plugin "%s/%s"',
+                    $this->_type,
+                    $this->_name
+                ),
+                E_USER_DEPRECATED
+            );
+
+            return false;
+        }
 
         // If language already loaded, don't load it again.
         if ($lang->getPaths($extension)) {
@@ -193,6 +203,20 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
      */
     public function registerListeners()
     {
+        // Handle language autoload
+        if ($this->autoloadLanguage) {
+            $app = $this->getApplication() ?: Factory::getApplication();
+
+            // Check whether language already loaded in the Application, otherwise wait for it
+            if (!$app->getLanguage()) {
+                $this->getDispatcher()->addListener('onAfterInitialise', function () {
+                    $this->loadLanguage();
+                });
+            } else {
+                $this->loadLanguage();
+            }
+        }
+
         // Plugins which are SubscriberInterface implementations are handled without legacy layer support
         if ($this instanceof SubscriberInterface) {
             $this->getDispatcher()->addSubscriber($this);
