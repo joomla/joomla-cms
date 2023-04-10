@@ -224,6 +224,8 @@ class HtmlView extends BaseHtmlView
                     ->popupType('inline')
                     ->textHeader(Text::_('COM_CONTENT_BATCH_OPTIONS'))
                     ->url('#joomla-dialog-batch')
+                    ->modalWidth('800px')
+                    ->modalHeight('fit-content')
                     ->listCheck(true);
             }
         }
