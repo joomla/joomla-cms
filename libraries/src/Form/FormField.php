@@ -806,7 +806,7 @@ abstract class FormField implements DatabaseAwareInterface
         $data = $this->getLayoutData();
 
         // Forcing the Alias field to display the tip below
-        $position = $this->element['name'] == 'alias' ? ' data-bs-placement="bottom" ' : '';
+        $position = ((string) $this->element['name']) === 'alias' ? ' data-bs-placement="bottom" ' : '';
 
         // Here mainly for B/C with old layouts. This can be done in the layouts directly
         $extraData = [
