@@ -92,7 +92,7 @@ abstract class ToolbarHelper
      *
      * @param   string  $task        The task to perform (picked up by the switch($task) blocks).
      * @param   string  $icon        The image to display.
-     * @param   string  $iconOver    @deprecated 5.0
+     * @param   string  $iconOver    @deprecated 4.3 will be removed in 6.0
      * @param   string  $alt         The alt text for the icon image.
      * @param   bool    $listSelect  True if required to check that a standard list item is checked.
      * @param   string  $formId      The id of action form.

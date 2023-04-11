@@ -35,7 +35,8 @@ trait ResultAware
      * @var    boolean
      * @since  4.2.0
      *
-     * @deprecated 5.0 Using setArgument() for the result argument will always be disallowed.
+     * @deprecated  4.3 will be removed in 6.0
+     *              Using setResult() for the result argument will always be disallowed.
      */
     protected $preventSetArgumentResult = false;
 
