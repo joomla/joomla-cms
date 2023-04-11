@@ -794,7 +794,7 @@ class ModuleModel extends AdminModel
 
         // Load the core and/or local language file(s).
         $lang->load($module, $client->path)
-        || $lang->load($module, $client->path . '/modules/' . $module);
+            || $lang->load($module, $client->path . '/modules/' . $module);
 
         if (file_exists($formFile)) {
             // Get the module form.
@@ -1036,7 +1036,7 @@ class ModuleModel extends AdminModel
             ->join(
                 'LEFT',
                 $db->quoteName('#__modules', 'm') . ' ON ' . $db->quoteName('e.client_id') . ' = ' . (int) $table->client_id .
-                ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('m.module')
+                    ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('m.module')
             )
             ->where($db->quoteName('m.id') . ' = :id')
             ->bind(':id', $table->id, ParameterType::INTEGER);
@@ -1085,7 +1085,8 @@ class ModuleModel extends AdminModel
      * Custom clean cache method for different clients
      *
      * @param   string   $group     The name of the plugin group to import (defaults to null).
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *
