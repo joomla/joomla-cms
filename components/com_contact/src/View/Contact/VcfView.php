@@ -37,7 +37,7 @@ class VcfView extends AbstractView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  string  A string if successful
+     * @return  void
      *
      * @throws  GenericDataException
      */
