@@ -93,7 +93,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
         $app = Factory::getApplication();
 
         if ($app->get('proxy_enable')) {
-            $options['proxy'] = $app->get('proxy_host') . ':' . $app->get('proxy_port');
+            $options['proxy']           = $app->get('proxy_host') . ':' . $app->get('proxy_port');
             $options['request_fulluri'] = true;
 
             // Put any required authorization into the headers array to be handled later
@@ -127,7 +127,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
         $context = stream_context_create(
             [
                 'http' => $options,
-                'ssl' => [
+                'ssl'  => [
                     'verify_peer'      => true,
                     'cafile'           => $this->getOption('stream.certpath', CaBundle::getBundledCaBundlePath()),
                     'verify_depth'     => 5,

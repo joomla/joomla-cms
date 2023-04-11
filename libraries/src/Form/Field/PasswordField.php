@@ -47,7 +47,7 @@ class PasswordField extends FormField
      * The allowable minimum length of password.
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $minLength;
 
@@ -63,7 +63,7 @@ class PasswordField extends FormField
      * The allowable minimum length of integers.
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $minIntegers;
 
@@ -71,7 +71,7 @@ class PasswordField extends FormField
      * The allowable minimum length of symbols.
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $minSymbols;
 
@@ -79,7 +79,7 @@ class PasswordField extends FormField
      * The allowable minimum length of upper case characters.
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $minUppercase;
 
@@ -87,7 +87,7 @@ class PasswordField extends FormField
      * The allowable minimum length of lower case characters.
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $minLowercase;
 
@@ -111,7 +111,7 @@ class PasswordField extends FormField
      * The rules flag.
      *
      * @var    bool
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $rules = false;
 
@@ -261,17 +261,17 @@ class PasswordField extends FormField
 
         // Initialize some field attributes.
         $extraData = [
-            'lock'           => $this->lock,
-            'maxLength'      => $this->maxLength,
-            'meter'          => $this->meter,
-            'threshold'      => $this->threshold,
-            'minLength'      => $this->minLength,
-            'minIntegers'    => $this->minIntegers,
-            'minSymbols'     => $this->minSymbols,
-            'minUppercase'   => $this->minUppercase,
-            'minLowercase'   => $this->minLowercase,
-            'forcePassword'  => $this->force,
-            'rules'          => $this->rules,
+            'lock'          => $this->lock,
+            'maxLength'     => $this->maxLength,
+            'meter'         => $this->meter,
+            'threshold'     => $this->threshold,
+            'minLength'     => $this->minLength,
+            'minIntegers'   => $this->minIntegers,
+            'minSymbols'    => $this->minSymbols,
+            'minUppercase'  => $this->minUppercase,
+            'minLowercase'  => $this->minLowercase,
+            'forcePassword' => $this->force,
+            'rules'         => $this->rules,
         ];
 
         return array_merge($data, $extraData);

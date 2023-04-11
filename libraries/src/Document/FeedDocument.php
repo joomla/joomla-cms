@@ -243,7 +243,7 @@ class FeedDocument extends Document
      */
     public function addItem(FeedItem $item)
     {
-        $item->source = $this->link;
+        $item->source  = $this->link;
         $this->items[] = $item;
 
         return $this;

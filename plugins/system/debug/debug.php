@@ -162,12 +162,12 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onBeforeCompileHead' => 'onBeforeCompileHead',
-            'onAjaxDebug'         => 'onAjaxDebug',
-            'onBeforeRespond'     => 'onBeforeRespond',
-            'onAfterRespond'      => 'onAfterRespond',
+            'onBeforeCompileHead'            => 'onBeforeCompileHead',
+            'onAjaxDebug'                    => 'onAjaxDebug',
+            'onBeforeRespond'                => 'onBeforeRespond',
+            'onAfterRespond'                 => 'onAfterRespond',
             ApplicationEvents::AFTER_RESPOND => 'onAfterRespond',
-            'onAfterDisconnect'   => 'onAfterDisconnect',
+            'onAfterDisconnect'              => 'onAfterDisconnect',
         ];
     }
 
@@ -337,7 +337,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 
         $debugBarRenderer = new JavascriptRenderer($this->debugBar, Uri::root(true) . '/media/vendor/debugbar/');
         $openHandlerUrl   = Uri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
-        $openHandlerUrl  .= '&' . Session::getFormToken() . '=1';
+        $openHandlerUrl .= '&' . Session::getFormToken() . '=1';
 
         $debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
 
@@ -396,7 +396,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
                 $result  = $event['result'] ?: [];
                 $handler = new OpenHandler($this->debugBar);
 
-                $result[] = $handler->handle($this->app->getInput()->request->getArray(), false, false);
+                $result[]        = $handler->handle($this->app->getInput()->request->getArray(), false, false);
                 $event['result'] = $result;
         }
     }
@@ -524,7 +524,8 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
      *
      * @since   3.1
      *
-     * @deprecated  5.0  Use Log::add(LogEntry $entry);
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use \Joomla\CMS\Log\Log::add(LogEntry $entry) instead
      */
     public function logger(LogEntry $entry)
     {
@@ -556,7 +557,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
             $logEntries = array_merge($logEntries, $this->logEntries);
         }
 
-        $logDeprecated = $this->app->get('log_deprecated', 0);
+        $logDeprecated     = $this->app->get('log_deprecated', 0);
         $logDeprecatedCore = $this->params->get('log-deprecated-core', 0);
 
         $this->debugBar->addCollector(new MessagesCollector('log'));
@@ -622,7 +623,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 
                     $message = [
                         'message' => $entry->message,
-                        'caller' => $file . ':' . $line,
+                        'caller'  => $file . ':' . $line,
                         // @todo 'stack' => $entry->callStack;
                     ];
                     $this->debugBar[$category]->addMessage($message, 'warning');

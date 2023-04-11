@@ -75,7 +75,9 @@ class HtmlView extends BaseHtmlView
      *
      * @since  3.6.3
      *
-     * @deprecated 5.0 Will be removed without replacement
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement use database from the container instead
+     *              Example: Factory::getContainer()->get(DatabaseInterface::class);
      */
     protected $db;
 
@@ -159,13 +161,13 @@ class HtmlView extends BaseHtmlView
             // Old plugins: Use processed text as introtext
             $item->introtext = $item->text;
 
-            $results = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_content.featured', &$item, &$item->params, 0]);
+            $results                        = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_content.featured', &$item, &$item->params, 0]);
             $item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-            $results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_content.featured', &$item, &$item->params, 0]);
+            $results                           = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_content.featured', &$item, &$item->params, 0]);
             $item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-            $results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_content.featured', &$item, &$item->params, 0]);
+            $results                          = Factory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_content.featured', &$item, &$item->params, 0]);
             $item->event->afterDisplayContent = trim(implode("\n", $results));
         }
 

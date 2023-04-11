@@ -249,13 +249,13 @@ class JNamespacePsr4Map
     }
 
     /**
-     * Returns an array of with extension paths as keys and manifest paths as values.
+     * Returns an array of extensions with their respective paths as keys and manifest paths as values.
      *
      * @param   string  $type  The extension type
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     private function getExtensions(string $type): array
     {

@@ -190,7 +190,7 @@ class HtmlView extends BaseHtmlView
             $itemElement->event = new \stdClass();
 
             // For some plugins.
-            $itemElement->text = !empty($itemElement->core_body) ? $itemElement->core_body : null;
+            $itemElement->text = !empty($itemElement->core_body) ? $itemElement->core_body : '';
 
             $itemElement->core_params = new Registry($itemElement->core_params);
 
@@ -223,8 +223,8 @@ class HtmlView extends BaseHtmlView
             if ($itemElement->type_alias === 'com_content.category') {
                 $itemElement->core_images = json_encode(
                     [
-                        'image_intro' => $itemElement->core_params->get('image', ''),
-                        'image_intro_alt' => $itemElement->core_params->get('image_alt', '')
+                        'image_intro'     => $itemElement->core_params->get('image', ''),
+                        'image_intro_alt' => $itemElement->core_params->get('image_alt', ''),
                     ]
                 );
             }

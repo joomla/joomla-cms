@@ -187,7 +187,7 @@ class ModulesModel extends ListModel
             $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, true, true);
 
             // Process pagination.
-            $total = count($result);
+            $total                                      = count($result);
             $this->cache[$this->getStoreId('getTotal')] = $total;
 
             if ($total < $limitstart) {
@@ -223,16 +223,16 @@ class ModulesModel extends ListModel
      *
      * @param   array  &$items  The array of objects
      *
-     * @return  array The array of translated objects
+     * @return  void
      */
     protected function translate(&$items)
     {
-        $lang = Factory::getLanguage();
+        $lang       = Factory::getLanguage();
         $clientPath = $this->getState('client_id') ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
         foreach ($items as $item) {
             $extension = $item->module;
-            $source = $clientPath . "/modules/$extension";
+            $source    = $clientPath . "/modules/$extension";
             $lang->load("$extension.sys", $clientPath)
                 || $lang->load("$extension.sys", $source);
             $item->name = Text::_($item->name);
@@ -257,7 +257,7 @@ class ModulesModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields.

@@ -107,7 +107,7 @@ class ScriptsRenderer extends DocumentRenderer
             foreach ($contents as $content) {
                 $buffer .= $this->renderInlineElement(
                     [
-                        'type' => $type,
+                        'type'    => $type,
                         'content' => $content,
                     ]
                 );

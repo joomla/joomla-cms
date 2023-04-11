@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="multifactorauth" method="upgrade">
 	<name>plg_multifactorauth_yubikey</name>
 	<author>Joomla! Project</author>
@@ -11,8 +11,8 @@
 	<description>PLG_MULTIFACTORAUTH_YUBIKEY_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Multifactorauth\Yubikey</namespace>
 	<files>
-		<folder>services</folder>
-		<folder plugin="yubikey">src</folder>
+		<folder plugin="yubikey">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_multifactorauth_yubikey.ini</language>

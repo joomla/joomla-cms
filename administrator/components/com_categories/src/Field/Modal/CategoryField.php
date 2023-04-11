@@ -108,8 +108,8 @@ class CategoryField extends FormField
 
         if (isset($this->element['language'])) {
             $linkCategories .= '&amp;forcedLanguage=' . $this->element['language'];
-            $linkCategory   .= '&amp;forcedLanguage=' . $this->element['language'];
-            $modalTitle     .= ' &#8212; ' . $this->element['label'];
+            $linkCategory .= '&amp;forcedLanguage=' . $this->element['language'];
+            $modalTitle .= ' &#8212; ' . $this->element['label'];
         }
 
         $urlSelect = $linkCategories . '&amp;function=jSelectCategory_' . $this->id;
@@ -193,7 +193,7 @@ class CategoryField extends FormField
         // Propagate category button
         if ($allowPropagate && \count($languages) > 2) {
             // Strip off language tag at the end
-            $tagLength = (int) \strlen($this->element['language']);
+            $tagLength            = (int) \strlen($this->element['language']);
             $callbackFunctionStem = substr("jSelectCategory_" . $this->id, 0, -$tagLength);
 
             $html .= '<button'
@@ -216,13 +216,13 @@ class CategoryField extends FormField
                 'bootstrap.renderModal',
                 'ModalSelect' . $modalId,
                 [
-                    'title'       => $modalTitle,
-                    'url'         => $urlSelect,
-                    'height'      => '400px',
-                    'width'       => '800px',
-                    'bodyHeight'  => 70,
-                    'modalWidth'  => 80,
-                    'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+                    'title'      => $modalTitle,
+                    'url'        => $urlSelect,
+                    'height'     => '400px',
+                    'width'      => '800px',
+                    'bodyHeight' => 70,
+                    'modalWidth' => 80,
+                    'footer'     => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
                                         . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
                 ]
             );

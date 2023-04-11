@@ -46,9 +46,9 @@ abstract class ModuleHelper
      */
     public static function &getModule($name, $title = null)
     {
-        $result = null;
+        $result  = null;
         $modules =& static::load();
-        $total = \count($modules);
+        $total   = \count($modules);
 
         for ($i = 0; $i < $total; $i++) {
             // Match the name of the module
@@ -64,7 +64,7 @@ abstract class ModuleHelper
 
         // If we didn't find it, and the name is mod_something, create a dummy object
         if ($result === null && strpos($name, 'mod_') === 0) {
-            $result = static::createDummyModule();
+            $result         = static::createDummyModule();
             $result->module = $name;
         }
 
@@ -96,10 +96,10 @@ abstract class ModuleHelper
 
         // Prepend a dummy module for template preview if no module is published in the position
         if (empty($result) && $input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display')) {
-            $dummy = static::createDummyModule();
-            $dummy->title = $position;
-            $dummy->position = $position;
-            $dummy->content = $position;
+            $dummy                  = static::createDummyModule();
+            $dummy->title           = $position;
+            $dummy->position        = $position;
+            $dummy->content         = $position;
             $dummy->contentRendered = true;
 
             array_unshift($result, $dummy);
@@ -313,9 +313,9 @@ abstract class ModuleHelper
 
         if (strpos($layout, ':') !== false) {
             // Get the template and file name from the string
-            $temp = explode(':', $layout);
-            $template = $temp[0] === '_' ? $template : $temp[0];
-            $layout = $temp[1];
+            $temp          = explode(':', $layout);
+            $template      = $temp[0] === '_' ? $template : $temp[0];
+            $layout        = $temp[1];
             $defaultLayout = $temp[1] ?: 'default';
         }
 
@@ -493,9 +493,9 @@ abstract class ModuleHelper
     {
         // Apply negative selections and eliminate duplicates
         $Itemid = Factory::getApplication()->getInput()->getInt('Itemid');
-        $negId = $Itemid ? -(int) $Itemid : false;
-        $clean = [];
-        $dupes = [];
+        $negId  = $Itemid ? -(int) $Itemid : false;
+        $clean  = [];
+        $dupes  = [];
 
         foreach ($modules as $i => $module) {
             // The module is excluded if there is an explicit prohibition
@@ -518,8 +518,8 @@ abstract class ModuleHelper
                 continue;
             }
 
-            $module->name = substr($module->module, 4);
-            $module->style = null;
+            $module->name     = substr($module->module, 4);
+            $module->style    = null;
             $module->position = strtolower($module->position);
 
             $clean[$module->id] = $module;
@@ -573,7 +573,7 @@ abstract class ModuleHelper
 
         // Turn cache off for internal callers if parameters are set to off and for all logged in users
         $ownCacheDisabled = $moduleparams->get('owncache') === 0 || $moduleparams->get('owncache') === '0';
-        $cacheDisabled = $moduleparams->get('cache') === 0 || $moduleparams->get('cache') === '0';
+        $cacheDisabled    = $moduleparams->get('cache') === 0 || $moduleparams->get('cache') === '0';
 
         if ($ownCacheDisabled || $cacheDisabled || $app->get('caching') == 0 || $user->get('id')) {
             $cache->setCaching(false);
@@ -584,7 +584,7 @@ abstract class ModuleHelper
 
         $wrkaroundoptions = ['nopathway' => 1, 'nohead' => 0, 'nomodules' => 1, 'modulemode' => 1, 'mergehead' => 1];
 
-        $wrkarounds = true;
+        $wrkarounds  = true;
         $view_levels = md5(serialize($user->getAuthorisedViewLevels()));
 
         switch ($cacheparams->cachemode) {
@@ -599,12 +599,11 @@ abstract class ModuleHelper
                 break;
 
             case 'safeuri':
-                $secureid = null;
+                $safeuri = new \stdClass();
 
                 if (\is_array($cacheparams->modeparams)) {
-                    $input   = $app->getInput();
-                    $uri     = $input->getArray();
-                    $safeuri = new \stdClass();
+                    $input        = $app->getInput();
+                    $uri          = $input->getArray();
                     $noHtmlFilter = InputFilter::getInstance();
 
                     foreach ($cacheparams->modeparams as $key => $value) {
@@ -616,7 +615,7 @@ abstract class ModuleHelper
                 }
 
                 $secureid = md5(serialize([$safeuri, $cacheparams->method, $moduleparams]));
-                $ret = $cache->get(
+                $ret      = $cache->get(
                     [$cacheparams->class, $cacheparams->method],
                     $cacheparams->methodparams,
                     $module->id . $view_levels . $secureid . $cacheparams->cachesuffix,

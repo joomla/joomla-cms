@@ -39,11 +39,11 @@ class Feed implements \ArrayAccess, \Countable
      * @since  3.1.4
      */
     protected $properties = [
-        'uri' => '',
-        'title' => '',
-        'updatedDate' => '',
-        'description' => '',
-        'categories' => [],
+        'uri'          => '',
+        'title'        => '',
+        'updatedDate'  => '',
+        'description'  => '',
+        'categories'   => [],
         'contributors' => [],
     ];
 
