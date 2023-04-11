@@ -60,12 +60,12 @@ class AdminController extends BaseController
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     *                                         Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                         'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    The Input object for the request
+     * @param   array                 $config   An optional associative array of configuration settings.
+     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                          'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    The Input object for the request
      *
      * @since   3.0
      */
@@ -164,7 +164,7 @@ class AdminController extends BaseController
      * after the item has been deleted.
      *
      * @param   BaseDatabaseModel  $model  The data model object.
-     * @param   integer            $id     The validated data.
+     * @param   integer[]          $id     An array of deleted IDs.
      *
      * @return  void
      *
