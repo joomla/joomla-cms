@@ -1,8 +1,6 @@
 describe('Test the reset view', () => {
   it('can display the reset view for test user', () => {
-    cy.db_createUser({
-      email: 'test@example.com',
-    })
+    cy.db_createUser({ email: 'test@example.com' })
       .then(() => {
         cy.visit('index.php?option=com_users&view=reset');
 
@@ -14,10 +12,8 @@ describe('Test the reset view', () => {
   });
 
   it('testing reset form for test user through menu item', () => {
-    cy.db_createUser({
-      name: 'test user', username: 'test', email: 'test@example.com', password: '098f6bcd4621d373cade4e832627b4f6',
-    })
-      .then(() => cy.db_createMenuItem({ title: 'Automated test reset', link: 'index.php?option=com_users&view=reset&id=1&layout=default', path: '?option=com_users&view=reset&id=1&layout=default' }))
+    cy.db_createUser({ email: 'test@example.com' })
+      .then(() => cy.db_createMenuItem({ title: 'Automated test reset', link: 'index.php?option=com_users&view=reset' }))
       .then(() => {
         cy.visit('/');
 
