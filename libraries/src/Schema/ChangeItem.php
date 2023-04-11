@@ -127,8 +127,8 @@ abstract class ChangeItem
     public function __construct($db, $file, $query)
     {
         $this->updateQuery = $query;
-        $this->file = $file;
-        $this->db = $db;
+        $this->file        = $file;
+        $this->db          = $db;
         $this->buildCheckQuery();
     }
 

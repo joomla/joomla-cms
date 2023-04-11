@@ -141,7 +141,7 @@ class PopupButton extends ToolbarButton
 
         if ((string) $this->getUrl() !== '') {
             // Build the options array for the modal
-            $params = [];
+            $params               = [];
             $params['title']      = $options['title'] ?? $options['text'];
             $params['url']        = $this->getUrl();
             $params['height']     = $options['iframeHeight'] ?? 480;

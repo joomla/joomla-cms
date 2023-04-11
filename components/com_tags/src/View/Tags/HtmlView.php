@@ -82,7 +82,7 @@ class HtmlView extends BaseHtmlView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  mixed   A string if successful, otherwise an Error object.
+     * @return  void
      */
     public function display($tpl = null)
     {
@@ -103,7 +103,7 @@ class HtmlView extends BaseHtmlView
         if (!empty($this->items)) {
             foreach ($this->items as $itemElement) {
                 // Prepare the data.
-                $temp = new Registry($itemElement->params);
+                $temp                = new Registry($itemElement->params);
                 $itemElement->params = clone $this->params;
                 $itemElement->params->merge($temp);
                 $itemElement->params = (array) json_decode($itemElement->params);

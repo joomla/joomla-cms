@@ -71,7 +71,7 @@ class RulesField extends FormField
      * The flag which indicates if it is the global config
      *
      * @var    bool
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $isGlobalConfig;
 
@@ -79,7 +79,7 @@ class RulesField extends FormField
      * The asset rules
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $assetRules;
 
@@ -87,7 +87,7 @@ class RulesField extends FormField
      * The actions
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $actions;
 
@@ -95,7 +95,7 @@ class RulesField extends FormField
      * The groups
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $groups;
 
@@ -103,7 +103,7 @@ class RulesField extends FormField
      * The asset Id
      *
      * @var    int
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $assetId;
 
@@ -111,7 +111,7 @@ class RulesField extends FormField
      * The parent asset Id
      *
      * @var    int
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $parentAssetId;
 
@@ -119,7 +119,7 @@ class RulesField extends FormField
      * The flag to indicate that it is a new item
      *
      * @var    bool
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected $newItem;
 
@@ -236,8 +236,8 @@ class RulesField extends FormField
         foreach ($this->element->children() as $el) {
             if ($el->getName() === 'action') {
                 $this->actions[] = (object) [
-                    'name' => (string) $el['name'],
-                    'title' => (string) $el['title'],
+                    'name'        => (string) $el['name'],
+                    'title'       => (string) $el['title'],
                     'description' => (string) $el['description'],
                 ];
             }
@@ -251,7 +251,7 @@ class RulesField extends FormField
         // If the asset id is empty (component or new item).
         if (empty($this->assetId)) {
             // Get the component asset id as fallback.
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->select($db->quoteName('id'))
                 ->from($db->quoteName('#__assets'))

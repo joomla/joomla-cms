@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="user" method="upgrade">
 	<name>plg_user_profile</name>
 	<author>Joomla! Project</author>
@@ -11,8 +11,8 @@
 	<description>PLG_USER_PROFILE_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\User\Profile</namespace>
 	<files>
-		<filename plugin="profile">profile.php</filename>
 		<folder>forms</folder>
+		<folder plugin="profile">services</folder>
 		<folder>src</folder>
 	</files>
 	<languages>

@@ -42,8 +42,8 @@ class QuickIconHelper
      * This method returns the array by reference so it can be
      * used to add custom buttons or remove default ones.
      *
-     * @param   Registry        $params       The module parameters
-     * @param   CMSApplication  $application  The application
+     * @param   Registry         $params       The module parameters
+     * @param   ?CMSApplication  $application  The application
      *
      * @return  array  An array of buttons
      *
@@ -166,7 +166,7 @@ class QuickIconHelper
                     'linkadd' => Route::_('index.php?option=com_modules&view=select&client_id=0'),
                     'name'    => 'MOD_QUICKICON_MODULE_MANAGER',
                     'access'  => ['core.manage', 'com_modules'],
-                    'group'   => 'MOD_QUICKICON_SITE'
+                    'group'   => 'MOD_QUICKICON_SITE',
                 ];
 
                 if ($params->get('show_modules') == 2) {
@@ -182,7 +182,7 @@ class QuickIconHelper
                     'link'   => Route::_('index.php?option=com_plugins'),
                     'name'   => 'MOD_QUICKICON_PLUGIN_MANAGER',
                     'access' => ['core.manage', 'com_plugins'],
-                    'group'  => 'MOD_QUICKICON_SITE'
+                    'group'  => 'MOD_QUICKICON_SITE',
                 ];
 
                 if ($params->get('show_plugins') == 2) {
@@ -214,11 +214,11 @@ class QuickIconHelper
 
             if ($params->get('show_checkin')) {
                 $tmp = [
-                    'image'   => 'icon-unlock-alt',
-                    'link'    => Route::_('index.php?option=com_checkin'),
-                    'name'    => 'MOD_QUICKICON_CHECKINS',
-                    'access'  => ['core.admin', 'com_checkin'],
-                    'group'   => 'MOD_QUICKICON_SYSTEM'
+                    'image'  => 'icon-unlock-alt',
+                    'link'   => Route::_('index.php?option=com_checkin'),
+                    'name'   => 'MOD_QUICKICON_CHECKINS',
+                    'access' => ['core.admin', 'com_checkin'],
+                    'group'  => 'MOD_QUICKICON_SYSTEM',
                 ];
 
                 if ($params->get('show_checkin') == 2) {
@@ -230,11 +230,11 @@ class QuickIconHelper
 
             if ($params->get('show_cache')) {
                 $tmp = [
-                    'image'   => 'icon-cloud',
-                    'link'    => Route::_('index.php?option=com_cache'),
-                    'name'    => 'MOD_QUICKICON_CACHE',
-                    'access'  => ['core.admin', 'com_cache'],
-                    'group'   => 'MOD_QUICKICON_SYSTEM'
+                    'image'  => 'icon-cloud',
+                    'link'   => Route::_('index.php?option=com_cache'),
+                    'name'   => 'MOD_QUICKICON_CACHE',
+                    'access' => ['core.admin', 'com_cache'],
+                    'group'  => 'MOD_QUICKICON_SYSTEM',
                 ];
 
                 if ($params->get('show_cache') == 2) {
@@ -256,11 +256,11 @@ class QuickIconHelper
 
             if ($params->get('show_featured')) {
                 $tmp = [
-                    'image'   => 'icon-star featured',
-                    'link'    => Route::_('index.php?option=com_content&view=featured'),
-                    'name'    => 'MOD_QUICKICON_FEATURED_MANAGER',
-                    'access'  => array('core.manage', 'com_content'),
-                    'group'   => 'MOD_QUICKICON_SITE',
+                    'image'  => 'icon-star featured',
+                    'link'   => Route::_('index.php?option=com_content&view=featured'),
+                    'name'   => 'MOD_QUICKICON_FEATURED_MANAGER',
+                    'access' => ['core.manage', 'com_content'],
+                    'group'  => 'MOD_QUICKICON_SITE',
                 ];
 
                 if ($params->get('show_featured') == 2) {
@@ -276,7 +276,7 @@ class QuickIconHelper
                     'link'    => Route::_('index.php?option=com_workflow&view=workflows&extension=com_content.article'),
                     'linkadd' => Route::_('index.php?option=com_workflow&view=workflow&layout=edit&extension=com_content.article'),
                     'name'    => 'MOD_QUICKICON_WORKFLOW_MANAGER',
-                    'access'  => array('core.manage', 'com_workflow', 'core.create', 'com_workflow'),
+                    'access'  => ['core.manage', 'com_workflow', 'core.create', 'com_workflow'],
                     'group'   => 'MOD_QUICKICON_SITE',
                 ];
             }
@@ -287,7 +287,7 @@ class QuickIconHelper
                     'link'    => Route::_('index.php?option=com_banners&view=banners'),
                     'linkadd' => Route::_('index.php?option=com_banners&view=banner&layout=edit'),
                     'name'    => 'MOD_QUICKICON_BANNER_MANAGER',
-                    'access'  => array('core.manage', 'com_banners', 'core.create', 'com_banners'),
+                    'access'  => ['core.manage', 'com_banners', 'core.create', 'com_banners'],
                     'group'   => 'MOD_QUICKICON_SITE',
                 ];
 
@@ -304,7 +304,7 @@ class QuickIconHelper
                     'link'    => Route::_('index.php?option=com_contact&view=contacts'),
                     'linkadd' => Route::_('index.php?option=com_contact&view=contact&layout=edit'),
                     'name'    => 'MOD_QUICKICON_CONTACT_MANAGER',
-                    'access'  => array('core.manage', 'com_contact', 'core.create', 'com_contact'),
+                    'access'  => ['core.manage', 'com_contact', 'core.create', 'com_contact'],
                     'group'   => 'MOD_QUICKICON_SITE',
                 ];
 
@@ -321,7 +321,7 @@ class QuickIconHelper
                     'link'    => Route::_('index.php?option=com_newsfeeds&view=newsfeeds'),
                     'linkadd' => Route::_('index.php?option=com_newsfeeds&view=newsfeed&layout=edit'),
                     'name'    => 'MOD_QUICKICON_NEWSFEEDS_MANAGER',
-                    'access'  => array('core.manage', 'com_newsfeeds', 'core.create', 'com_newsfeeds'),
+                    'access'  => ['core.manage', 'com_newsfeeds', 'core.create', 'com_newsfeeds'],
                     'group'   => 'MOD_QUICKICON_SITE',
                 ];
 
@@ -338,28 +338,28 @@ class QuickIconHelper
                     'link'    => Route::_('index.php?option=com_redirect&view=links'),
                     'linkadd' => Route::_('index.php?option=com_redirect&view=link&layout=edit'),
                     'name'    => 'MOD_QUICKICON_REDIRECT_MANAGER',
-                    'access'  => array('core.manage', 'com_redirect', 'core.create', 'com_redirect'),
+                    'access'  => ['core.manage', 'com_redirect', 'core.create', 'com_redirect'],
                     'group'   => 'MOD_QUICKICON_SITE',
                 ];
             }
 
             if ($params->get('show_associations')) {
                 $this->buttons[$key][] = [
-                    'image'   => 'icon-language',
-                    'link'    => Route::_('index.php?option=com_associations&view=associations'),
-                    'name'    => 'MOD_QUICKICON_ASSOCIATIONS_MANAGER',
-                    'access'  => array('core.manage', 'com_associations'),
-                    'group'   => 'MOD_QUICKICON_SITE',
+                    'image'  => 'icon-language',
+                    'link'   => Route::_('index.php?option=com_associations&view=associations'),
+                    'name'   => 'MOD_QUICKICON_ASSOCIATIONS_MANAGER',
+                    'access' => ['core.manage', 'com_associations'],
+                    'group'  => 'MOD_QUICKICON_SITE',
                 ];
             }
 
             if ($params->get('show_finder')) {
                 $this->buttons[$key][] = [
-                    'image'   => 'icon-search-plus finder',
-                    'link'    => Route::_('index.php?option=com_finder&view=index'),
-                    'name'    => 'MOD_QUICKICON_FINDER_MANAGER',
-                    'access'  => array('core.manage', 'com_finder'),
-                    'group'   => 'MOD_QUICKICON_SITE',
+                    'image'  => 'icon-search-plus finder',
+                    'link'   => Route::_('index.php?option=com_finder&view=index'),
+                    'name'   => 'MOD_QUICKICON_FINDER_MANAGER',
+                    'access' => ['core.manage', 'com_finder'],
+                    'group'  => 'MOD_QUICKICON_SITE',
                 ];
             }
 
@@ -369,7 +369,7 @@ class QuickIconHelper
                     'link'    => Route::_('index.php?option=com_languages&view=installed'),
                     'linkadd' => Route::_('index.php?option=com_installer&view=languages'),
                     'name'    => 'MOD_QUICKICON_LANGUAGES_MANAGER',
-                    'access'  => array('core.manage', 'com_languages'),
+                    'access'  => ['core.manage', 'com_languages'],
                     'group'   => 'MOD_QUICKICON_SITE',
                 ];
 

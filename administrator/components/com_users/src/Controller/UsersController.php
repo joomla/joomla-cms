@@ -166,7 +166,7 @@ class UsersController extends AdminController
 
         $result['amount'] = $amount;
         $result['sronly'] = Text::plural('COM_USERS_N_QUICKICON_SRONLY', $amount);
-        $result['name'] = Text::plural('COM_USERS_N_QUICKICON', $amount);
+        $result['name']   = Text::plural('COM_USERS_N_QUICKICON', $amount);
 
         echo new JsonResponse($result);
     }

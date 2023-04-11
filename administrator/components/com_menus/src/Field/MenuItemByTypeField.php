@@ -122,7 +122,7 @@ class MenuItemByTypeField extends GroupedlistField
             case 'language':
             case 'published':
             case 'disable':
-                $value = (string) $value;
+                $value       = (string) $value;
                 $this->$name = $value ? explode(',', $value) : [];
                 break;
 
@@ -153,7 +153,7 @@ class MenuItemByTypeField extends GroupedlistField
             $menuType = (string) $this->element['menu_type'];
 
             if (!$menuType) {
-                $app = Factory::getApplication();
+                $app             = Factory::getApplication();
                 $currentMenuType = $app->getUserState('com_menus.items.menutype', '');
                 $menuType        = $app->getInput()->getString('menutype', $currentMenuType);
             }

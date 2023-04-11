@@ -416,9 +416,9 @@ class PlgSystemFields extends CMSPlugin
                 $context,
                 'fields.render',
                 [
-                    'item'            => $item,
-                    'context'         => $context,
-                    'fields'          => $fields,
+                    'item'    => $item,
+                    'context' => $context,
+                    'fields'  => $fields,
                 ]
             );
         }

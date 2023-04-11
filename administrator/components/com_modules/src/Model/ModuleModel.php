@@ -81,7 +81,7 @@ class ModuleModel extends AdminModel
      */
     protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
-        'language_id' => 'batchLanguage',
+        'language_id'   => 'batchLanguage',
     ];
 
     /**
@@ -99,8 +99,8 @@ class ModuleModel extends AdminModel
                 'event_before_save'   => 'onExtensionBeforeSave',
                 'events_map'          => [
                     'save'   => 'extension',
-                    'delete' => 'extension'
-                ]
+                    'delete' => 'extension',
+                ],
             ],
             $config
         );
@@ -151,8 +151,8 @@ class ModuleModel extends AdminModel
     protected function batchCopy($value, $pks, $contexts)
     {
         // Set the variables
-        $user = $this->getCurrentUser();
-        $table = $this->getTable();
+        $user   = $this->getCurrentUser();
+        $table  = $this->getTable();
         $newIds = [];
 
         foreach ($pks as $pk) {
@@ -175,7 +175,7 @@ class ModuleModel extends AdminModel
                 $oldAssetId = $table->asset_id;
 
                 // Alter the title if necessary
-                $data = $this->generateNewTitle(0, $table->title, $table->position);
+                $data         = $this->generateNewTitle(0, $table->title, $table->position);
                 $table->title = $data['0'];
 
                 // Reset the ID because we are making a copy
@@ -197,7 +197,7 @@ class ModuleModel extends AdminModel
                 $newIds[$pk] = $newId;
 
                 // Now we need to handle the module assignments
-                $db = $this->getDatabase();
+                $db    = $this->getDatabase();
                 $query = $db->getQuery(true)
                     ->select($db->quoteName('menuid'))
                     ->from($db->quoteName('#__modules_menu'))
@@ -254,7 +254,7 @@ class ModuleModel extends AdminModel
     protected function batchMove($value, $pks, $contexts)
     {
         // Set the variables
-        $user = $this->getCurrentUser();
+        $user  = $this->getCurrentUser();
         $table = $this->getTable();
 
         foreach ($pks as $pk) {
@@ -409,7 +409,7 @@ class ModuleModel extends AdminModel
                     $table->title = preg_replace('#\(\d+\)$#', '(' . ($m[1] + 1) . ')', $table->title);
                 }
 
-                $data = $this->generateNewTitle(0, $table->title, $table->position);
+                $data         = $this->generateNewTitle(0, $table->title, $table->position);
                 $table->title = $data[0];
 
                 // Unpublish duplicate module
@@ -683,7 +683,7 @@ class ModuleModel extends AdminModel
             $this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
 
             // Convert the params field to an array.
-            $registry = new Registry($table->params);
+            $registry                  = new Registry($table->params);
             $this->_cache[$pk]->params = $registry->toArray();
 
             // Determine the page assignment mode.
@@ -794,7 +794,7 @@ class ModuleModel extends AdminModel
 
         // Load the core and/or local language file(s).
         $lang->load($module, $client->path)
-        ||  $lang->load($module, $client->path . '/modules/' . $module);
+            || $lang->load($module, $client->path . '/modules/' . $module);
 
         if (file_exists($formFile)) {
             // Get the module form.
@@ -1036,7 +1036,7 @@ class ModuleModel extends AdminModel
             ->join(
                 'LEFT',
                 $db->quoteName('#__modules', 'm') . ' ON ' . $db->quoteName('e.client_id') . ' = ' . (int) $table->client_id .
-                ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('m.module')
+                    ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('m.module')
             )
             ->where($db->quoteName('m.id') . ' = :id')
             ->bind(':id', $table->id, ParameterType::INTEGER);
@@ -1085,7 +1085,8 @@ class ModuleModel extends AdminModel
      * Custom clean cache method for different clients
      *
      * @param   string   $group     The name of the plugin group to import (defaults to null).
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *

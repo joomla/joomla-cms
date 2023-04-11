@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields name="filter">
 		<field
@@ -12,7 +12,7 @@
 			name="published"
 			type="status"
 			label="JSTATUS"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			optionsFilter="-2,0,1"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -25,7 +25,7 @@
 			type="list"
 			label="JGLOBAL_SORT_BY"
 			default="s.ordering ASC"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
@@ -43,7 +43,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 	</fields>
 </form>

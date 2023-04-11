@@ -44,7 +44,7 @@ class GroupModel extends AdminModel
      */
     protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
-        'language_id'   => 'batchLanguage'
+        'language_id'   => 'batchLanguage',
     ];
 
     /**
@@ -99,7 +99,7 @@ class GroupModel extends AdminModel
     public function getForm($data = [], $loadData = true)
     {
         $context = $this->getState('filter.context');
-        $jinput = Factory::getApplication()->getInput();
+        $jinput  = Factory::getApplication()->getInput();
 
         if (empty($context) && isset($data['context'])) {
             $context = $data['context'];
@@ -363,7 +363,8 @@ class GroupModel extends AdminModel
      * Clean the cache
      *
      * @param   string   $group     The cache group
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *

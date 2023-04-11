@@ -11,11 +11,11 @@
 namespace Joomla\Component\Languages\Administrator\Model;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -83,10 +83,10 @@ class OverridesModel extends ListModel
         $search = $this->getState('filter.search');
 
         if ($search != '') {
-            $search = preg_quote($search, '~');
+            $search    = preg_quote($search, '~');
             $matchvals = preg_grep('~' . $search . '~i', $strings);
             $matchkeys = array_intersect_key($strings, array_flip(preg_grep('~' . $search . '~i', array_keys($strings))));
-            $strings = array_merge($matchvals, $matchkeys);
+            $strings   = array_merge($matchvals, $matchkeys);
         }
 
         // Consider the ordering
@@ -202,11 +202,11 @@ class OverridesModel extends ListModel
         $app = Factory::getApplication();
 
         if ($app->isClient('api')) {
-            $cids = (array) $cids;
+            $cids   = (array) $cids;
             $client = $this->getState('filter.client');
         } else {
             $filterclient = Factory::getApplication()->getUserState('com_languages.overrides.filter.client');
-            $client = $filterclient == 0 ? 'site' : 'administrator';
+            $client       = $filterclient == 0 ? 'site' : 'administrator';
         }
 
         // Parse the override.ini file in order to get the keys and strings.

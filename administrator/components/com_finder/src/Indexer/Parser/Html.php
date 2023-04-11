@@ -115,10 +115,10 @@ class Html extends Parser
      */
     private function removeBlocks($input, $startTag, $endTag)
     {
-        $return = '';
-        $offset = 0;
+        $return         = '';
+        $offset         = 0;
         $startTagLength = strlen($startTag);
-        $endTagLength = strlen($endTag);
+        $endTagLength   = strlen($endTag);
 
         // Find the first start tag.
         $start = stripos($input, $startTag);

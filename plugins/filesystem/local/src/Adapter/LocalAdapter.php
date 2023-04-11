@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Filesystem.Local
+ * @subpackage  Filesystem.local
  *
  * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -60,7 +60,7 @@ class LocalAdapter implements AdapterInterface
      *
      * @var boolean
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     private $thumbnails = false;
 
@@ -69,7 +69,7 @@ class LocalAdapter implements AdapterInterface
      *
      * @var array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     private $thumbnailSize = [200, 200];
 
@@ -89,8 +89,8 @@ class LocalAdapter implements AdapterInterface
             throw new \InvalidArgumentException(Text::_('COM_MEDIA_ERROR_MISSING_DIR'));
         }
 
-        $this->rootPath  = Path::clean(realpath($rootPath), '/');
-        $this->filePath  = $filePath;
+        $this->rootPath      = Path::clean(realpath($rootPath), '/');
+        $this->filePath      = $filePath;
         $this->thumbnails    = $thumbnails;
         $this->thumbnailSize = $thumbnailSize;
 
@@ -251,7 +251,7 @@ class LocalAdapter implements AdapterInterface
      */
     public function createFile(string $name, string $path, $data): string
     {
-        $name =      $this->getSafeName($name);
+        $name      =      $this->getSafeName($name);
         $localPath = $this->getLocalPath($path . '/' . $name);
 
         $this->checkContent($localPath, $data);
@@ -288,7 +288,7 @@ class LocalAdapter implements AdapterInterface
     {
         $localPath = $this->getLocalPath($path . '/' . $name);
 
-        if (!File::exists($localPath)) {
+        if (!is_file($localPath)) {
             throw new FileNotFoundException();
         }
 
@@ -320,14 +320,10 @@ class LocalAdapter implements AdapterInterface
      */
     public function delete(string $path)
     {
-        $localPath =  $this->getLocalPath($path);
+        $localPath      =  $this->getLocalPath($path);
         $thumbnailPaths = $this->getLocalThumbnailPaths($localPath);
 
         if (is_file($localPath)) {
-            if (!File::exists($localPath)) {
-                throw new FileNotFoundException();
-            }
-
             if ($this->thumbnails && !empty($thumbnailPaths['fs']) && is_file($thumbnailPaths['fs'])) {
                 File::delete($thumbnailPaths['fs']);
             }
@@ -888,7 +884,7 @@ class LocalAdapter implements AdapterInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      * @throws  InvalidPathException
      */
     private function getLocalThumbnailPaths(string $path): array
@@ -917,7 +913,7 @@ class LocalAdapter implements AdapterInterface
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     private function getThumbnail(string $path): string
     {
@@ -949,7 +945,7 @@ class LocalAdapter implements AdapterInterface
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     private function createThumbnail(string $path, string $thumbnailPath): bool
     {

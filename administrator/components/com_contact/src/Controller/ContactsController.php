@@ -126,7 +126,7 @@ class ContactsController extends AdminController
     /**
      * Method to get the number of published contacts for quickicons
      *
-     * @return  string  The JSON-encoded amount of published contacts
+     * @return  void
      *
      * @since   4.3.0
      */
@@ -142,7 +142,7 @@ class ContactsController extends AdminController
 
         $result['amount'] = $amount;
         $result['sronly'] = Text::plural('COM_CONTACT_N_QUICKICON_SRONLY', $amount);
-        $result['name'] = Text::plural('COM_CONTACT_N_QUICKICON', $amount);
+        $result['name']   = Text::plural('COM_CONTACT_N_QUICKICON', $amount);
 
         echo new JsonResponse($result);
     }
