@@ -1,11 +1,11 @@
 describe('Test that the Categories of com_newsfeeds ', () => {
   it('can display a list of categories of newsfeeds', () => {
     cy.db_createCategory({ title: 'automated test category 1', extension: 'com_newsfeeds' })
-      .then((id) => cy.db_createNewsfeed({ name: 'automated test feed 1', catid: id }))
+      .then((id) => cy.db_createNewsFeed({ name: 'automated test feed 1', catid: id }))
       .then(() => cy.db_createCategory({ title: 'automated test category 2', extension: 'com_newsfeeds' }))
       .then(async (id) => {
-        await cy.db_createNewsfeed({ name: 'automated test feed 2', catid: id });
-        await cy.db_createNewsfeed({ name: 'automated test contact 3', catid: id });
+        await cy.db_createNewsFeed({ name: 'automated test feed 2', catid: id });
+        await cy.db_createNewsFeed({ name: 'automated test contact 3', catid: id });
       })
       .then(() => {
         cy.visit('index.php?option=com_newsfeeds&view=categories');
