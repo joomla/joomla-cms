@@ -20,7 +20,7 @@ trigger_error(
 /**
  * Set the platform root path as a constant if necessary.
  *
- * @deprecated __DEPLOY_VERSION__ will be remove in 6.0
+ * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
  *             Use defined('_JEXEC') or die; if the CMS is correctly loaded
  **/
 if (!defined('JPATH_PLATFORM')) {
