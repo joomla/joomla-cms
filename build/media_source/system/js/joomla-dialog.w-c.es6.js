@@ -132,12 +132,15 @@ class JoomlaDialog extends HTMLElement {
     }
   }
 
+  /**
+   * Internal. Connected Callback.
+   */
   connectedCallback() {
     this.renderLayout();
   }
 
   /**
-   * Render a main layout, based on given template.
+   * Internal. Render a main layout, based on given template.
    * @returns {JoomlaDialog}
    */
   renderLayout() {
@@ -288,7 +291,7 @@ class JoomlaDialog extends HTMLElement {
   }
 
   /**
-   * Render the body content, based on popupType.
+   * Internal. Render the body content, based on popupType.
    * @returns {JoomlaDialog}
    */
   renderBodyContent() {
@@ -325,8 +328,6 @@ class JoomlaDialog extends HTMLElement {
 
         if (inlineContent instanceof HTMLElement) {
           // Render content provided as HTMLElement
-          // Store preferred parent, if not defined
-          this.preferredParent = this.preferredParent || inlineContent.parentElement;
           if (inlineContent.nodeName === 'TEMPLATE') {
             this.popupTmplB.appendChild(inlineContent.content.cloneNode(true));
           } else {
@@ -395,6 +396,33 @@ class JoomlaDialog extends HTMLElement {
   }
 
   /**
+   * Internal. Find an Element to be used as parent element,
+   * for cases when Dialog does not have one already. See show().
+   *
+   * @returns {HTMLElement|boolean}
+   */
+  findPreferredParent() {
+    let parent;
+    if (this.preferredParent instanceof HTMLElement) {
+      // We have configured one already
+      parent = this.preferredParent;
+    } else if (this.preferredParent) {
+      // Query Document
+      parent = document.querySelector(this.preferredParent);
+    } else if (this.popupType === 'inline') {
+      // Pick the parent element of the Content
+      let inlineContent = this.popupContent;
+      // Check for content selector: src: '#content-selector' or src: '.content-selector'
+      if (!inlineContent && this.src && (this.src[0] === '.' || this.src[0] === '#')) {
+        inlineContent = document.querySelector(this.src);
+        parent = inlineContent ? inlineContent.parentElement : false;
+      }
+    }
+
+    return parent || false;
+  }
+
+  /**
    * Return the popup header element.
    * @returns {HTMLElement|boolean}
    */
@@ -443,13 +471,8 @@ class JoomlaDialog extends HTMLElement {
   show() {
     // Check whether the element already attached to DOM
     if (!this.parentElement) {
-      this.renderLayout();
       // Check for preferred parent to attach to DOM
-      let parent = this.preferredParent;
-      if (!(parent instanceof HTMLElement)) {
-        parent = document.querySelector(parent);
-      }
-
+      const parent = this.findPreferredParent();
       (parent || document.body).appendChild(this);
     }
 
