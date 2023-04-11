@@ -26,7 +26,7 @@ class Microdata
      * @var    array
      * @since  3.2
      */
-    protected static $types = [];
+    protected static $types = null;
 
     /**
      * The Type
