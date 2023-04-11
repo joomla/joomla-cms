@@ -252,23 +252,6 @@ Cypress.Commands.add('db_createTag', (tag) => {
   return cy.task('queryDB', createInsertQuery('tags', { ...defaultTagOptions, ...tag })).then(async (info) => info.insertId);
 });
 
-Cypress.Commands.add('db_updateExtensionParameter', (key, value, extension) => cy.task('queryDB', `SELECT params FROM #__extensions WHERE name = '${extension}'`).then((paramsString) => {
-  const params = JSON.parse(paramsString[0].params);
-  params[key] = value;
-  return cy.task('queryDB', `UPDATE #__extensions SET params = '${JSON.stringify(params)}' WHERE name = '${extension}'`);
-}));
-
-Cypress.Commands.add('db_getUserId', () => {
-  cy.task('queryDB', `SELECT id FROM #__users WHERE username = '${Cypress.env('username')}'`)
-    .then((id) => {
-      if (id.length === 0) {
-        return 0;
-      }
-
-      return id[0].id;
-    });
-});
-
 Cypress.Commands.add('db_createNewsFeed', (feed) => {
   const defaultNewsfeedOptions = {
     name: 'test feed',
@@ -293,4 +276,21 @@ Cypress.Commands.add('db_createNewsFeed', (feed) => {
   };
 
   return cy.task('queryDB', createInsertQuery('newsfeeds', { ...defaultNewsfeedOptions, ...feed })).then(async (info) => info.insertId);
+});
+
+Cypress.Commands.add('db_updateExtensionParameter', (key, value, extension) => cy.task('queryDB', `SELECT params FROM #__extensions WHERE name = '${extension}'`).then((paramsString) => {
+  const params = JSON.parse(paramsString[0].params);
+  params[key] = value;
+  return cy.task('queryDB', `UPDATE #__extensions SET params = '${JSON.stringify(params)}' WHERE name = '${extension}'`);
+}));
+
+Cypress.Commands.add('db_getUserId', () => {
+  cy.task('queryDB', `SELECT id FROM #__users WHERE username = '${Cypress.env('username')}'`)
+    .then((id) => {
+      if (id.length === 0) {
+        return 0;
+      }
+
+      return id[0].id;
+    });
 });
