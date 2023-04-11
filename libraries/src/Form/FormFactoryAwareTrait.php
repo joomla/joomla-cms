@@ -48,7 +48,7 @@ trait FormFactoryAwareTrait
     /**
      * Set the form factory to use.
      *
-     * @param   FormFactoryInterface  $formFactory  The form factory to use.
+     * @param   ?FormFactoryInterface  $formFactory  The form factory to use.
      *
      * @return  $this
      *
