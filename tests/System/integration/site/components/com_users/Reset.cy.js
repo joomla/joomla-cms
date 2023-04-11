@@ -1,7 +1,7 @@
 describe('Test the reset view', () => {
   it('can display the reset view for test user', () => {
     cy.db_createUser({
-      name: 'test user', username: 'test', email: 'test@example.com', password: '098f6bcd4621d373cade4e832627b4f6',
+      email: 'test@example.com',
     })
       .then(() => {
         cy.visit('index.php?option=com_users&view=reset');
