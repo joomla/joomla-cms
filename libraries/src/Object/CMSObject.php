@@ -20,7 +20,10 @@ namespace Joomla\CMS\Object;
  * and an internal error handler.
  *
  * @since       1.7.0
- * @deprecated  4.0.0  Use \stdClass or \Joomla\Registry\Registry instead.
+ *
+ * @deprecated  4.3 will be removed in 6.0
+ *              Use \stdClass or \Joomla\Registry\Registry instead.
+ *              Example: new \Joomla\Registry\Registry();
  */
 #[\AllowDynamicProperties]
 class CMSObject
@@ -49,7 +52,9 @@ class CMSObject
      * @return  string  The classname.
      *
      * @since   1.7.0
-     * @deprecated 3.1.4  Classes should provide their own __toString() implementation.
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Classes should provide their own __toString() implementation.
      */
     public function __toString()
     {

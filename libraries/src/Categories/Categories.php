@@ -134,7 +134,10 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      * @return  Categories|boolean  Categories object on success, boolean false if an object does not exist
      *
      * @since       1.6
-     * @deprecated  5.0 Use the ComponentInterface to get the categories
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the ComponentInterface to get the categories
+     *              Example: Factory::getApplication()->bootComponent($component)->getCategory($options, $section);
      */
     public static function getInstance($extension, $options = [])
     {
