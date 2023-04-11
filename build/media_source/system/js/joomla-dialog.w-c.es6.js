@@ -300,6 +300,14 @@ class JoomlaDialog extends HTMLElement {
       this.classList.remove('loading');
       this.popupContentElement.removeEventListener('load', onLoad);
       this.dispatchEvent(new CustomEvent('joomla-dialog:load'));
+
+      if (this.popupType === 'inline' || this.popupType === 'ajax') {
+        // Dispatch joomla:updated for inline content
+        this.popupContentElement.dispatchEvent(new CustomEvent('joomla:updated', {
+          bubbles: true,
+          cancelable: true,
+        }));
+      }
     };
 
     this.classList.add('loading');
