@@ -2,14 +2,15 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Sampledata.Blog
+ * @subpackage  Sampledata.blog
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+namespace Joomla\Plugin\SampleData\Blog\Extension;
+
+use Exception;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
@@ -19,7 +20,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -30,21 +33,9 @@ use Joomla\Database\ParameterType;
  *
  * @since  3.8.0
  */
-class PlgSampledataBlog extends CMSPlugin
+final class Blog extends CMSPlugin
 {
-    /**
-     * @var    \Joomla\Database\DatabaseDriver
-     *
-     * @since  3.8.0
-     */
-    protected $db;
-
-    /**
-     * @var    \Joomla\CMS\Application\CMSApplication
-     *
-     * @since  3.8.0
-     */
-    protected $app;
+    use DatabaseAwareTrait;
 
     /**
      * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -73,14 +64,14 @@ class PlgSampledataBlog extends CMSPlugin
      */
     public function onSampledataGetOverview()
     {
-        if (!$this->app->getIdentity()->authorise('core.create', 'com_content')) {
+        if (!$this->getApplication()->getIdentity()->authorise('core.create', 'com_content')) {
             return;
         }
 
         $data              = new stdClass();
         $data->name        = $this->_name;
-        $data->title       = Text::_('PLG_SAMPLEDATA_BLOG_OVERVIEW_TITLE');
-        $data->description = Text::_('PLG_SAMPLEDATA_BLOG_OVERVIEW_DESC');
+        $data->title       = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_OVERVIEW_TITLE');
+        $data->description = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_OVERVIEW_DESC');
         $data->icon        = 'wifi';
         $data->steps       = 4;
 
@@ -96,7 +87,7 @@ class PlgSampledataBlog extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep1()
     {
-        if (!Session::checkToken('get') || $this->app->getInput()->get('type') != $this->_name) {
+        if (!Session::checkToken('get') || $this->getApplication()->getInput()->get('type') != $this->_name) {
             return;
         }
 
@@ -109,22 +100,22 @@ class PlgSampledataBlog extends CMSPlugin
         }
 
         // Get some metadata.
-        $access = (int) $this->app->get('access', 1);
-        $user   = $this->app->getIdentity();
+        $access = (int) $this->getApplication()->get('access', 1);
+        $user   = $this->getApplication()->getIdentity();
 
         // Detect language to be used.
-        $language   = Multilanguage::isEnabled() ? $this->app->getLanguage()->getTag() : '*';
+        $language   = Multilanguage::isEnabled() ? $this->getApplication()->getLanguage()->getTag() : '*';
         $langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
         /** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
-        $modelTag = $this->app->bootComponent('com_tags')->getMVCFactory()
+        $modelTag = $this->getApplication()->bootComponent('com_tags')->getMVCFactory()
             ->createModel('Tag', 'Administrator', ['ignore_request' => true]);
 
         $tagIds = [];
 
         // Create first three tags.
         for ($i = 0; $i <= 3; $i++) {
-            $title = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_TAG_' . $i . '_TITLE') . $langSuffix;
+            $title = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_TAG_' . $i . '_TITLE') . $langSuffix;
 
             $tag   = [
                 'id'    => 0,
@@ -141,8 +132,8 @@ class PlgSampledataBlog extends CMSPlugin
 
             try {
                 if (!$modelTag->save($tag)) {
-                    $this->app->getLanguage()->load('com_tags');
-                    throw new Exception(Text::_($modelTag->getError()));
+                    $this->getApplication()->getLanguage()->load('com_tags');
+                    throw new Exception($this->getApplication()->getLanguage()->_($modelTag->getError()));
                 }
             } catch (Exception $e) {
                 $response            = [];
@@ -155,7 +146,7 @@ class PlgSampledataBlog extends CMSPlugin
             $tagIds[] = $modelTag->getItem()->id;
         }
 
-        if (!ComponentHelper::isEnabled('com_content') || !$this->app->getIdentity()->authorise('core.create', 'com_content')) {
+        if (!ComponentHelper::isEnabled('com_content') || !$this->getApplication()->getIdentity()->authorise('core.create', 'com_content')) {
             $response            = [];
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_content');
@@ -164,14 +155,14 @@ class PlgSampledataBlog extends CMSPlugin
         }
 
         if (ComponentHelper::isEnabled('com_fields') && $user->authorise('core.create', 'com_fields')) {
-            $this->app->getLanguage()->load('com_fields');
+            $this->getApplication()->getLanguage()->load('com_fields');
 
-            $mvcFactory = $this->app->bootComponent('com_fields')->getMVCFactory();
+            $mvcFactory = $this->getApplication()->bootComponent('com_fields')->getMVCFactory();
 
             $groupModel = $mvcFactory->createModel('Group', 'Administrator', ['ignore_request' => true]);
 
             $group = [
-                'title'           => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_FIELDS_GROUP_TITLE') . $langSuffix,
+                'title'           => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_FIELDS_GROUP_TITLE') . $langSuffix,
                 'id'              => 0,
                 'published'       => 1,
                 'ordering'        => 0,
@@ -218,7 +209,7 @@ class PlgSampledataBlog extends CMSPlugin
 
             foreach ($articleFields as $i => $cf) {
                 // Set values from language strings.
-                $cfTitle                = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_FIELDS_FIELD_' . $i . '_TITLE') . $langSuffix;
+                $cfTitle                = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_FIELDS_FIELD_' . $i . '_TITLE') . $langSuffix;
 
                 $cf['id']               = 0;
                 $cf['name']             = $cfTitle;
@@ -265,15 +256,15 @@ class PlgSampledataBlog extends CMSPlugin
             }
         }
 
-        if (ComponentHelper::isEnabled('com_workflow') && $this->app->getIdentity()->authorise('core.create', 'com_workflow')) {
-            $this->app->bootComponent('com_workflow');
+        if (ComponentHelper::isEnabled('com_workflow') && $this->getApplication()->getIdentity()->authorise('core.create', 'com_workflow')) {
+            $this->getApplication()->bootComponent('com_workflow');
 
             // Create workflow
-            $workflowTable = new \Joomla\Component\Workflow\Administrator\Table\WorkflowTable($this->db);
+            $workflowTable = new \Joomla\Component\Workflow\Administrator\Table\WorkflowTable($this->getDatabase());
 
             $workflowTable->default         = 0;
-            $workflowTable->title           = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_SAMPLE_TITLE') . $langSuffix;
-            $workflowTable->description     = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_SAMPLE_DESCRIPTION');
+            $workflowTable->title           = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_SAMPLE_TITLE') . $langSuffix;
+            $workflowTable->description     = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_SAMPLE_DESCRIPTION');
             $workflowTable->published       = 1;
             $workflowTable->access          = $access;
             $workflowTable->created_user_id = $user->id;
@@ -282,7 +273,7 @@ class PlgSampledataBlog extends CMSPlugin
             if (!$workflowTable->store()) {
                 $response            = [];
                 $response['success'] = false;
-                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, Text::_($workflowTable->getError()));
+                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($workflowTable->getError()));
 
                 return $response;
             }
@@ -292,11 +283,11 @@ class PlgSampledataBlog extends CMSPlugin
 
             // Create Stages.
             for ($i = 1; $i <= 9; $i++) {
-                $stageTable = new \Joomla\Component\Workflow\Administrator\Table\StageTable($this->db);
+                $stageTable = new \Joomla\Component\Workflow\Administrator\Table\StageTable($this->getDatabase());
 
                 // Set values from language strings.
-                $stageTable->title       = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE' . $i . '_TITLE');
-                $stageTable->description = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE' . $i . '_DESCRIPTION');
+                $stageTable->title       = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE' . $i . '_TITLE');
+                $stageTable->description = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE' . $i . '_DESCRIPTION');
 
                 // Set values which are always the same.
                 $stageTable->id          = 0;
@@ -308,21 +299,21 @@ class PlgSampledataBlog extends CMSPlugin
                 if (!$stageTable->store()) {
                     $response            = [];
                     $response['success'] = false;
-                    $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, Text::_($stageTable->getError()));
+                    $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($stageTable->getError()));
 
                     return $response;
                 }
             }
 
             // Get the stage Ids of the new stages
-            $query = $this->db->getQuery(true);
+            $query = $this->getDatabase()->getQuery(true);
 
-            $query->select([$this->db->quoteName('title'), $this->db->quoteName('id')])
-                ->from($this->db->quoteName('#__workflow_stages'))
-                ->where($this->db->quoteName('workflow_id') . ' = :workflow_id')
+            $query->select([$this->getDatabase()->quoteName('title'), $this->getDatabase()->quoteName('id')])
+                ->from($this->getDatabase()->quoteName('#__workflow_stages'))
+                ->where($this->getDatabase()->quoteName('workflow_id') . ' = :workflow_id')
                 ->bind(':workflow_id', $workflowId, ParameterType::INTEGER);
 
-            $stages = $this->db->setQuery($query)->loadAssocList('title', 'id');
+            $stages = $this->getDatabase()->setQuery($query)->loadAssocList('title', 'id');
 
             // Prepare Transitions
 
@@ -337,44 +328,44 @@ class PlgSampledataBlog extends CMSPlugin
             $fromTo = [
                 [
                     // Idea to Copywriting
-                    'from_stage_id' => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE1_TITLE')],
-                    'to_stage_id'   => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE2_TITLE')],
+                    'from_stage_id' => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE1_TITLE')],
+                    'to_stage_id'   => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE2_TITLE')],
                     'options'       => $defaultOptions,
                 ],
                 [
                     // Copywriting to Graphic Design
-                    'from_stage_id' => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE2_TITLE')],
-                    'to_stage_id'   => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE3_TITLE')],
+                    'from_stage_id' => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE2_TITLE')],
+                    'to_stage_id'   => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE3_TITLE')],
                     'options'       => $defaultOptions,
                 ],
                 [
                     // Graphic Design to Fact Check
-                    'from_stage_id' => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE3_TITLE')],
-                    'to_stage_id'   => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE4_TITLE')],
+                    'from_stage_id' => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE3_TITLE')],
+                    'to_stage_id'   => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE4_TITLE')],
                     'options'       => $defaultOptions,
                 ],
                 [
                     // Fact Check to Review
-                    'from_stage_id' => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE4_TITLE')],
-                    'to_stage_id'   => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE5_TITLE')],
+                    'from_stage_id' => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE4_TITLE')],
+                    'to_stage_id'   => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE5_TITLE')],
                     'options'       => $defaultOptions,
                 ],
                 [
                     // Edit article - revision to copy writer
-                    'from_stage_id' => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE5_TITLE')],
-                    'to_stage_id'   => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE2_TITLE')],
+                    'from_stage_id' => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE5_TITLE')],
+                    'to_stage_id'   => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE2_TITLE')],
                     'options'       => $defaultOptions,
                 ],
                 [
                     // Revision to published and featured
-                    'from_stage_id' => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE5_TITLE')],
-                    'to_stage_id'   => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TITLE')],
+                    'from_stage_id' => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE5_TITLE')],
+                    'to_stage_id'   => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TITLE')],
                     'options'       => json_encode(
                         [
                             'publishing'             => 1,
                             'featuring'              => 1,
                             'notification_send_mail' => true,
-                            'notification_text'      => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TEXT'),
+                            'notification_text'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TEXT'),
                             'notification_groups'    => ["7"],
                         ]
                     ),
@@ -382,7 +373,7 @@ class PlgSampledataBlog extends CMSPlugin
                 [
                     // All to on Hold
                     'from_stage_id' => -1,
-                    'to_stage_id'   => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE7_TITLE')],
+                    'to_stage_id'   => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE7_TITLE')],
                     'options'       => json_encode(
                         [
                             'publishing'             => 2,
@@ -393,8 +384,8 @@ class PlgSampledataBlog extends CMSPlugin
                 ],
                 [
                     // Idea to trash
-                    'from_stage_id' => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE1_TITLE')],
-                    'to_stage_id'   => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE8_TITLE')],
+                    'from_stage_id' => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE1_TITLE')],
+                    'to_stage_id'   => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE8_TITLE')],
                     'options'       => json_encode(
                         [
                             'publishing'             => -2,
@@ -405,32 +396,32 @@ class PlgSampledataBlog extends CMSPlugin
                 ],
                 [
                     // On Hold to Idea (Re-activate an idea)
-                    'from_stage_id' => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE7_TITLE')],
-                    'to_stage_id'   => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE1_TITLE')],
+                    'from_stage_id' => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE7_TITLE')],
+                    'to_stage_id'   => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE1_TITLE')],
                     'options'       => $defaultOptions,
                 ],
                 [
                     // Unpublish a published article
-                    'from_stage_id' => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TITLE')],
-                    'to_stage_id'   => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE9_TITLE')],
+                    'from_stage_id' => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TITLE')],
+                    'to_stage_id'   => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE9_TITLE')],
                     'options'       => $defaultOptions,
                 ],
                 [
                     // Trash a published article
-                    'from_stage_id' => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TITLE')],
-                    'to_stage_id'   => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE8_TITLE')],
+                    'from_stage_id' => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TITLE')],
+                    'to_stage_id'   => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE8_TITLE')],
                     'options'       => $defaultOptions,
                 ],
                 [
                     // From unpublished back to published
-                    'from_stage_id' => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE9_TITLE')],
-                    'to_stage_id'   => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TITLE')],
+                    'from_stage_id' => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE9_TITLE')],
+                    'to_stage_id'   => $stages[$this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TITLE')],
                     'options'       => json_encode(
                         [
                             'publishing'             => 1,
                             'featuring'              => 0,
                             'notification_send_mail' => true,
-                            'notification_text'      => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TEXT'),
+                            'notification_text'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TEXT'),
                             'notification_groups'    => ["7"],
                         ]
                     ),
@@ -439,15 +430,15 @@ class PlgSampledataBlog extends CMSPlugin
 
             // Create Transitions.
             for ($i = 0; $i < count($fromTo); $i++) {
-                $trTable = new \Joomla\Component\Workflow\Administrator\Table\TransitionTable($this->db);
+                $trTable = new \Joomla\Component\Workflow\Administrator\Table\TransitionTable($this->getDatabase());
 
                 $trTable->from_stage_id = $fromTo[$i]['from_stage_id'];
                 $trTable->to_stage_id   = $fromTo[$i]['to_stage_id'];
                 $trTable->options       = $fromTo[$i]['options'];
 
                 // Set values from language strings.
-                $trTable->title       = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_TRANSITION' . ($i + 1) . '_TITLE');
-                $trTable->description = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_TRANSITION' . ($i + 1) . '_DESCRIPTION');
+                $trTable->title       = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_TRANSITION' . ($i + 1) . '_TITLE');
+                $trTable->description = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_TRANSITION' . ($i + 1) . '_DESCRIPTION');
 
                 // Set values which are always the same.
                 $trTable->id          = 0;
@@ -458,7 +449,7 @@ class PlgSampledataBlog extends CMSPlugin
                 if (!$trTable->store()) {
                     $response            = [];
                     $response['success'] = false;
-                    $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, Text::_($trTable->getError()));
+                    $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($trTable->getError()));
 
                     return $response;
                 }
@@ -469,17 +460,17 @@ class PlgSampledataBlog extends CMSPlugin
         $catIds        = [];
 
         for ($i = 0; $i <= 3; $i++) {
-            $categoryModel = $this->app->bootComponent('com_categories')
+            $categoryModel = $this->getApplication()->bootComponent('com_categories')
                 ->getMVCFactory()->createModel('Category', 'Administrator');
 
-            $categoryTitle = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_' . $i . '_TITLE');
+            $categoryTitle = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_' . $i . '_TITLE');
             $categoryAlias = ApplicationHelper::stringURLSafe($categoryTitle);
 
             // Set unicodeslugs if alias is empty
             if (trim(str_replace('-', '', $categoryAlias) == '')) {
-                $unicode       = $this->app->set('unicodeslugs', 1);
+                $unicode       = $this->getApplication()->set('unicodeslugs', 1);
                 $categoryAlias = ApplicationHelper::stringURLSafe($categoryTitle);
-                $this->app->set('unicodeslugs', $unicode);
+                $this->getApplication()->set('unicodeslugs', $unicode);
             }
 
             // Category 0 gets the workflow from above
@@ -503,7 +494,7 @@ class PlgSampledataBlog extends CMSPlugin
 
             try {
                 if (!$categoryModel->save($category)) {
-                    $this->app->getLanguage()->load('com_categories');
+                    $this->getApplication()->getLanguage()->load('com_categories');
                     throw new Exception($categoryModel->getError());
                 }
             } catch (Exception $e) {
@@ -542,7 +533,7 @@ class PlgSampledataBlog extends CMSPlugin
                     'image_intro' => 'images/sampledata/cassiopeia/nasa1-1200.jpg#'
                                                 . 'joomlaImage://local-images/sampledata/cassiopeia/nasa1-1200.jpg?width=1200&height=400',
                     'float_intro'           => '',
-                    'image_intro_alt'       => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_2_INTROIMAGE_ALT'),
+                    'image_intro_alt'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_2_INTROIMAGE_ALT'),
                     'image_intro_alt_empty' => '',
                     'image_intro_caption'   => '',
                     'image_fulltext'        => 'images/sampledata/cassiopeia/nasa1-400.jpg#'
@@ -572,7 +563,7 @@ class PlgSampledataBlog extends CMSPlugin
                     'image_fulltext_alt_empty' => 1,
                     'image_fulltext_caption'   => 'www.nasa.gov/multimedia/imagegallery',
                 ],
-                'authorValue' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_3_FIELD_0'),
+                'authorValue' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_3_FIELD_0'),
             ],
             [
                 // Article 4 - Your Modules
@@ -589,7 +580,7 @@ class PlgSampledataBlog extends CMSPlugin
                     'image_fulltext'        => 'images/sampledata/cassiopeia/nasa3-400.jpg#'
                                                 . 'joomlaImage://local-images/sampledata/cassiopeia/nasa3-400.jpg?width=400&height=400',
                     'float_fulltext'           => 'float-start',
-                    'image_fulltext_alt'       => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_4_FULLTEXTIMAGE_ALT'),
+                    'image_fulltext_alt'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_4_FULLTEXTIMAGE_ALT'),
                     'image_fulltext_alt_empty' => '',
                     'image_fulltext_caption'   => 'www.nasa.gov/multimedia/imagegallery',
                 ],
@@ -667,7 +658,7 @@ class PlgSampledataBlog extends CMSPlugin
                     'image_fulltext_alt_empty' => 1,
                     'image_fulltext_caption'   => 'www.nasa.gov/multimedia/imagegallery',
                 ],
-                'authorValue' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_9_FIELD_0'),
+                'authorValue' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_9_FIELD_0'),
             ],
             // Category 3 - Typography
             [
@@ -676,18 +667,18 @@ class PlgSampledataBlog extends CMSPlugin
             ],
         ];
 
-        $mvcFactory = $this->app->bootComponent('com_content')->getMVCFactory();
+        $mvcFactory = $this->getApplication()->bootComponent('com_content')->getMVCFactory();
 
         // Store the articles
         foreach ($articles as $i => $article) {
             $articleModel = $mvcFactory->createModel('Article', 'Administrator', ['ignore_request' => true]);
 
             // Set values from language strings.
-            $title                = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_TITLE');
+            $title                = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_TITLE');
             $alias                = ApplicationHelper::stringURLSafe($title);
             $article['title']     = $title . $langSuffix;
-            $article['introtext'] = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_INTROTEXT');
-            $article['fulltext']  = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_FULLTEXT');
+            $article['introtext'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_INTROTEXT');
+            $article['fulltext']  = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_FULLTEXT');
 
             // Set values which are always the same.
             $article['id']               = 0;
@@ -698,9 +689,9 @@ class PlgSampledataBlog extends CMSPlugin
 
             // Set unicodeslugs if alias is empty
             if (trim(str_replace('-', '', $alias) == '')) {
-                $unicode          = $this->app->set('unicodeslugs', 1);
+                $unicode          = $this->getApplication()->set('unicodeslugs', 1);
                 $article['alias'] = ApplicationHelper::stringURLSafe($article['title']);
-                $this->app->set('unicodeslugs', $unicode);
+                $this->getApplication()->set('unicodeslugs', $unicode);
             }
 
             $article['language']        = $language;
@@ -727,7 +718,7 @@ class PlgSampledataBlog extends CMSPlugin
             if (!$articleModel->save($article)) {
                 $response            = [];
                 $response['success'] = false;
-                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, Text::_($articleModel->getError()));
+                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $this->getApplication()->getLanguage()->_($articleModel->getError()));
 
                 return $response;
             }
@@ -742,7 +733,7 @@ class PlgSampledataBlog extends CMSPlugin
                 && ComponentHelper::getParams('com_content')->get('workflow_enabled')
             ) {
                 // Set the article featured in #__content_frontpage
-                $this->db->getQuery(true);
+                $this->getDatabase()->getQuery(true);
 
                 $featuredItem = (object) [
                     'content_id'    => $articleModel->getItem()->id,
@@ -751,11 +742,11 @@ class PlgSampledataBlog extends CMSPlugin
                     'featured_down' => null,
                 ];
 
-                $this->db->insertObject('#__content_frontpage', $featuredItem);
+                $this->getDatabase()->insertObject('#__content_frontpage', $featuredItem);
             }
 
             // Add a value to the custom field if a value is given
-            if (ComponentHelper::isEnabled('com_fields') && $this->app->getIdentity()->authorise('core.create', 'com_fields')) {
+            if (ComponentHelper::isEnabled('com_fields') && $this->getApplication()->getIdentity()->authorise('core.create', 'com_fields')) {
                 if (!empty($article['authorValue'])) {
                     // Store a field value
 
@@ -765,17 +756,17 @@ class PlgSampledataBlog extends CMSPlugin
                         'value'    => $article['authorValue'],
                     ];
 
-                    $this->db->insertObject('#__fields_values', $valueAuthor);
+                    $this->getDatabase()->insertObject('#__fields_values', $valueAuthor);
                 }
             }
         }
 
-        $this->app->setUserState('sampledata.blog.articles', $ids);
-        $this->app->setUserState('sampledata.blog.articles.catIds', $catIds);
+        $this->getApplication()->setUserState('sampledata.blog.articles', $ids);
+        $this->getApplication()->setUserState('sampledata.blog.articles.catIds', $catIds);
 
         $response            = [];
         $response['success'] = true;
-        $response['message'] = Text::_('PLG_SAMPLEDATA_BLOG_STEP1_SUCCESS');
+        $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_STEP1_SUCCESS');
 
         return $response;
     }
@@ -789,11 +780,11 @@ class PlgSampledataBlog extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep2()
     {
-        if (!Session::checkToken('get') || $this->app->getInput()->get('type') != $this->_name) {
+        if (!Session::checkToken('get') || $this->getApplication()->getInput()->get('type') != $this->_name) {
             return;
         }
 
-        if (!ComponentHelper::isEnabled('com_menus') || !$this->app->getIdentity()->authorise('core.create', 'com_menus')) {
+        if (!ComponentHelper::isEnabled('com_menus') || !$this->getApplication()->getIdentity()->authorise('core.create', 'com_menus')) {
             $response            = [];
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 2, 'com_menus');
@@ -802,18 +793,18 @@ class PlgSampledataBlog extends CMSPlugin
         }
 
         // Detect language to be used.
-        $language   = Multilanguage::isEnabled() ? $this->app->getLanguage()->getTag() : '*';
+        $language   = Multilanguage::isEnabled() ? $this->getApplication()->getLanguage()->getTag() : '*';
         $langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
         // Create the menu types.
-        $menuTable = new \Joomla\Component\Menus\Administrator\Table\MenuTypeTable($this->db);
+        $menuTable = new \Joomla\Component\Menus\Administrator\Table\MenuTypeTable($this->getDatabase());
         $menuTypes = [];
 
         for ($i = 0; $i <= 2; $i++) {
             $menu = [
                 'id'          => 0,
-                'title'       => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_TITLE') . $langSuffix,
-                'description' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_DESCRIPTION'),
+                'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_TITLE') . $langSuffix,
+                'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_DESCRIPTION'),
             ];
 
             // Calculate menutype. The number of characters allowed is 24.
@@ -826,7 +817,7 @@ class PlgSampledataBlog extends CMSPlugin
                 $menuTable->bind($menu);
 
                 if (!$menuTable->check()) {
-                    $this->app->getLanguage()->load('com_menu');
+                    $this->getApplication()->getLanguage()->load('com_menu');
                     throw new Exception($menuTable->getError());
                 }
 
@@ -843,20 +834,20 @@ class PlgSampledataBlog extends CMSPlugin
         }
 
         // Storing IDs in UserState for later usage.
-        $this->app->setUserState('sampledata.blog.menutypes', $menuTypes);
+        $this->getApplication()->setUserState('sampledata.blog.menutypes', $menuTypes);
 
         // Get previously entered Data from UserStates.
-        $articleIds = $this->app->getUserState('sampledata.blog.articles');
+        $articleIds = $this->getApplication()->getUserState('sampledata.blog.articles');
 
         // Get MenuItemModel.
-        $this->menuItemModel = $this->app->bootComponent('com_menus')->getMVCFactory()
+        $this->menuItemModel = $this->getApplication()->bootComponent('com_menus')->getMVCFactory()
             ->createModel('Item', 'Administrator', ['ignore_request' => true]);
 
         // Get previously entered categories ids
-        $catIds = $this->app->getUserState('sampledata.blog.articles.catIds');
+        $catIds = $this->getApplication()->getUserState('sampledata.blog.articles.catIds');
 
         // Link to the homepage from logout
-        $home = $this->app->getMenu('site')->getDefault()->id;
+        $home = $this->getApplication()->getMenu('site')->getDefault()->id;
 
         if (Multilanguage::isEnabled()) {
             $homes = Multilanguage::getSiteHomePages();
@@ -871,7 +862,7 @@ class PlgSampledataBlog extends CMSPlugin
             [
                 // Blog
                 'menutype'     => $menuTypes[0],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_0_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_0_TITLE'),
                 'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catIds[0],
                 'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
                 'params'       => [
@@ -891,7 +882,7 @@ class PlgSampledataBlog extends CMSPlugin
             [
                 // Help
                 'menutype'     => $menuTypes[0],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_1_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_1_TITLE'),
                 'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catIds[1],
                 'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
                 'params'       => [
@@ -926,7 +917,7 @@ class PlgSampledataBlog extends CMSPlugin
             [
                 // Login
                 'menutype'     => $menuTypes[0],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_2_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_2_TITLE'),
                 'link'         => 'index.php?option=com_users&view=login',
                 'component_id' => ExtensionHelper::getExtensionRecord('com_users', 'component')->extension_id,
                 'access'       => 5,
@@ -943,7 +934,7 @@ class PlgSampledataBlog extends CMSPlugin
             [
                 // Logout
                 'menutype'     => $menuTypes[0],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_16_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_16_TITLE'),
                 'link'         => 'index.php?option=com_users&view=login&layout=logout&task=user.menulogout',
                 'component_id' => ExtensionHelper::getExtensionRecord('com_users', 'component')->extension_id,
                 'access'       => 2,
@@ -955,7 +946,7 @@ class PlgSampledataBlog extends CMSPlugin
             [
                 // Sample metismenu (heading)
                 'menutype'     => $menuTypes[0],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_11_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_11_TITLE'),
                 'type'         => 'heading',
                 'link'         => '',
                 'component_id' => 0,
@@ -969,7 +960,7 @@ class PlgSampledataBlog extends CMSPlugin
             [
                 // Typography
                 'menutype'     => $menuTypes[0],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_14_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_14_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . (int) $articleIds[10] . '&catid=' . (int) $catIds[3],
                 'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
                 'params'       => [
@@ -994,7 +985,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[1],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_3_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_3_TITLE'),
                 'link'         => 'index.php?option=com_content&view=form&layout=edit',
                 'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
                 'access'       => 3,
@@ -1008,7 +999,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[1],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_4_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_4_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[1],
                 'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
                 'params'       => [
@@ -1019,7 +1010,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[1],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_5_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_5_TITLE'),
                 'link'         => 'administrator',
                 'type'         => 'url',
                 'component_id' => 0,
@@ -1032,7 +1023,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[1],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_6_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_6_TITLE'),
                 'link'         => 'index.php?option=com_users&view=profile&layout=edit',
                 'component_id' => ExtensionHelper::getExtensionRecord('com_users', 'component')->extension_id,
                 'access'       => 2,
@@ -1044,7 +1035,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[1],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_7_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_7_TITLE'),
                 'link'         => 'index.php?option=com_users&view=login',
                 'component_id' => ExtensionHelper::getExtensionRecord('com_users', 'component')->extension_id,
                 'params'       => [
@@ -1071,7 +1062,7 @@ class PlgSampledataBlog extends CMSPlugin
         $menuItems = [
             [
                 'menutype' => $menuTypes[2],
-                'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_8_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_8_TITLE'),
                 'link'     => 'index.php?Itemid=',
                 'type'     => 'alias',
                 'access'   => 5,
@@ -1089,7 +1080,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 'menutype' => $menuTypes[2],
-                'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_16_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_16_TITLE'),
                 'link'     => 'index.php?Itemid=',
                 'type'     => 'alias',
                 'access'   => 2,
@@ -1108,7 +1099,7 @@ class PlgSampledataBlog extends CMSPlugin
                 [
                     // Hidden menuItem search
                 'menutype'     => $menuTypes[2],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_15_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_15_TITLE'),
                 'link'         => 'index.php?option=com_finder&view=search',
                 'type'         => 'component',
                 'component_id' => ExtensionHelper::getExtensionRecord('com_finder', 'component')->extension_id,
@@ -1136,13 +1127,13 @@ class PlgSampledataBlog extends CMSPlugin
             return $response;
         }
 
-        $this->app->setUserState('sampledata.blog.menuIdsLevel1', $menuIdsLevel1);
+        $this->getApplication()->setUserState('sampledata.blog.menuIdsLevel1', $menuIdsLevel1);
 
         // Insert menuitems level 2.
         $menuItems = [
             [
                 'menutype'     => $menuTypes[1],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_9_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_9_TITLE'),
                 'link'         => 'index.php?option=com_config&view=config',
                 'parent_id'    => $menuIdsLevel1[6],
                 'component_id' => ExtensionHelper::getExtensionRecord('com_config', 'component')->extension_id,
@@ -1155,7 +1146,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[1],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_10_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_10_TITLE'),
                 'link'         => 'index.php?option=com_config&view=templates',
                 'parent_id'    => $menuIdsLevel1[6],
                 'component_id' => ExtensionHelper::getExtensionRecord('com_config', 'component')->extension_id,
@@ -1169,7 +1160,7 @@ class PlgSampledataBlog extends CMSPlugin
             [
                 // Blog
                 'menutype'     => $menuTypes[0],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_0_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_0_TITLE'),
                 'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catIds[0],
                 'parent_id'    => $menuIdsLevel1[4],
                 'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
@@ -1198,7 +1189,7 @@ class PlgSampledataBlog extends CMSPlugin
             [
                 // Category List
                 'menutype'     => $menuTypes[0],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_12_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_12_TITLE'),
                 'link'         => 'index.php?option=com_content&view=category&id=' . $catIds[0],
                 'parent_id'    => $menuIdsLevel1[4],
                 'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
@@ -1211,7 +1202,7 @@ class PlgSampledataBlog extends CMSPlugin
             [
                 // Articles (menu header)
                 'menutype'     => $menuTypes[0],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_13_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_13_TITLE'),
                 'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catIds[2],
                 'parent_id'    => $menuIdsLevel1[4],
                 'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
@@ -1239,7 +1230,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[0],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_3_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_3_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . (int) $articleIds[3],
                 'parent_id'    => $menuIdsLevel1[1],
                 'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
@@ -1251,7 +1242,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[0],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_9_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_9_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . (int) $articleIds[9],
                 'parent_id'    => $menuIdsLevel1[1],
                 'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
@@ -1277,7 +1268,7 @@ class PlgSampledataBlog extends CMSPlugin
         $menuItems = [
             [
                 'menutype'     => $menuTypes[0],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_6_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_6_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . (int) $articleIds[6],
                 'parent_id'    => $menuIdsLevel2[4],
                 'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
@@ -1288,7 +1279,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[0],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_7_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_7_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . (int) $articleIds[7],
                 'parent_id'    => $menuIdsLevel2[4],
                 'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
@@ -1299,7 +1290,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[0],
-                'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_8_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_8_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . (int) $articleIds[8],
                 'parent_id'    => $menuIdsLevel2[4],
                 'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
@@ -1322,7 +1313,7 @@ class PlgSampledataBlog extends CMSPlugin
 
         $response            = [];
         $response['success'] = true;
-        $response['message'] = Text::_('PLG_SAMPLEDATA_BLOG_STEP2_SUCCESS');
+        $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_STEP2_SUCCESS');
 
         return $response;
     }
@@ -1336,13 +1327,13 @@ class PlgSampledataBlog extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep3()
     {
-        if (!Session::checkToken('get') || $this->app->getInput()->get('type') != $this->_name) {
+        if (!Session::checkToken('get') || $this->getApplication()->getInput()->get('type') != $this->_name) {
             return;
         }
 
-        $this->app->getLanguage()->load('com_modules');
+        $this->getApplication()->getLanguage()->load('com_modules');
 
-        if (!ComponentHelper::isEnabled('com_modules') || !$this->app->getIdentity()->authorise('core.create', 'com_modules')) {
+        if (!ComponentHelper::isEnabled('com_modules') || !$this->getApplication()->getIdentity()->authorise('core.create', 'com_modules')) {
             $response            = [];
             $response['success'] = true;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 3, 'com_modules');
@@ -1351,23 +1342,23 @@ class PlgSampledataBlog extends CMSPlugin
         }
 
         // Detect language to be used.
-        $language   = Multilanguage::isEnabled() ? $this->app->getLanguage()->getTag() : '*';
+        $language   = Multilanguage::isEnabled() ? $this->getApplication()->getLanguage()->getTag() : '*';
         $langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
         // Add Include Paths.
         /** @var \Joomla\Component\Modules\Administrator\Model\ModuleModel $model */
-        $model = $this->app->bootComponent('com_modules')->getMVCFactory()
+        $model = $this->getApplication()->bootComponent('com_modules')->getMVCFactory()
             ->createModel('Module', 'Administrator', ['ignore_request' => true]);
-        $access = (int) $this->app->get('access', 1);
+        $access = (int) $this->getApplication()->get('access', 1);
 
         // Get previously entered Data from UserStates.
-        $articleIds = $this->app->getUserState('sampledata.blog.articles');
+        $articleIds = $this->getApplication()->getUserState('sampledata.blog.articles');
 
         // Get previously entered Data from UserStates
-        $menuTypes = $this->app->getUserState('sampledata.blog.menutypes');
+        $menuTypes = $this->getApplication()->getUserState('sampledata.blog.menutypes');
 
         // Get previously entered categories ids
-        $catIds = $this->app->getUserState('sampledata.blog.articles.catIds');
+        $catIds = $this->getApplication()->getUserState('sampledata.blog.articles.catIds');
 
         // Link to article "typography" in banner module
         $headerLink = 'index.php?option=com_content&view=article&id=' . (int) $articleIds[10] . '&catid=' . (int) $catIds[3];
@@ -1375,7 +1366,7 @@ class PlgSampledataBlog extends CMSPlugin
         $modules = [
             [
                 // The main menu Blog
-                'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_0_TITLE'),
+                'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_0_TITLE'),
                 'ordering'  => 1,
                 'position'  => 'menu',
                 'module'    => 'mod_menu',
@@ -1398,7 +1389,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 // The author Menu, for registered users
-                'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_1_TITLE'),
+                'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_1_TITLE'),
                 'ordering'  => 1,
                 'position'  => 'sidebar-right',
                 'module'    => 'mod_menu',
@@ -1422,14 +1413,14 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 // Syndication
-                'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_2_TITLE'),
+                'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_2_TITLE'),
                 'ordering'  => 6,
                 'position'  => 'sidebar-right',
                 'module'    => 'mod_syndicate',
                 'showtitle' => 0,
                 'params'    => [
                     'display_text' => 1,
-                    'text'         => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_NEWSFEEDS_TITLE'),
+                    'text'         => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_NEWSFEEDS_TITLE'),
                     'format'       => 'rss',
                     'layout'       => '_:default',
                     'cache'        => 0,
@@ -1438,7 +1429,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 // Archived Articles
-                'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_3_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_3_TITLE'),
                 'ordering' => 4,
                 'position' => 'sidebar-right',
                 'module'   => 'mod_articles_archive',
@@ -1453,7 +1444,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 // Latest Posts
-                'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_4_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_4_TITLE'),
                 'ordering' => 6,
                 'position' => 'top-a',
                 'module'   => 'mod_articles_news',
@@ -1490,7 +1481,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 // Older Posts (from category 0 = blog)
-                'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_5_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_5_TITLE'),
                 'ordering' => 2,
                 'position' => 'bottom-b',
                 'module'   => 'mod_articles_category',
@@ -1517,7 +1508,7 @@ class PlgSampledataBlog extends CMSPlugin
                     'link_titles'                  => 1,
                     'show_date'                    => 0,
                     'show_date_field'              => 'created',
-                    'show_date_format'             => Text::_('DATE_FORMAT_LC5'),
+                    'show_date_format'             => $this->getApplication()->getLanguage()->_('DATE_FORMAT_LC5'),
                     'show_category'                => 0,
                     'show_hits'                    => 0,
                     'show_author'                  => 0,
@@ -1537,7 +1528,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 // Bottom Menu
-                'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_6_TITLE'),
+                'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_6_TITLE'),
                 'ordering'  => 1,
                 'position'  => 'footer',
                 'module'    => 'mod_menu',
@@ -1560,7 +1551,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 // Search
-                'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_7_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_7_TITLE'),
                 'ordering' => 1,
                 'position' => 'search',
                 'module'   => 'mod_finder',
@@ -1569,7 +1560,7 @@ class PlgSampledataBlog extends CMSPlugin
                     'show_autosuggest' => 1,
                     'show_advanced'    => 0,
                     'show_label'       => 0,
-                    'alt_label'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_7_TITLE'),
+                    'alt_label'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_7_TITLE'),
                     'show_button'      => 1,
                     'opensearch'       => 1,
                     'opensearch_name'  => '',
@@ -1580,7 +1571,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 // Header image
-                'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_TITLE'),
                 'content'  => '<p>' . Text::sprintf('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_CONTENT', $headerLink) . '</p>',
                 'ordering' => 1,
                 'position' => 'banner',
@@ -1605,7 +1596,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 // Popular Tags
-                'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_9_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_9_TITLE'),
                 'ordering' => 1,
                 'position' => 'bottom-b',
                 'module'   => 'mod_tags_popular',
@@ -1628,7 +1619,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 // Similar Items
-                'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_10_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_10_TITLE'),
                 'ordering' => 0,
                 'module'   => 'mod_tags_similar',
                 'position' => 'bottom-b',
@@ -1645,7 +1636,7 @@ class PlgSampledataBlog extends CMSPlugin
             ],
             [
                 // Backend - Site Information
-                'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_11_TITLE'),
+                'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_11_TITLE'),
                 'ordering'  => 4,
                 'position'  => 'cpanel',
                 'module'    => 'mod_stats_admin',
@@ -1678,7 +1669,7 @@ class PlgSampledataBlog extends CMSPlugin
         }
 
         if (!isset($home)) {
-            $home = $this->app->getMenu('site')->getDefault()->id;
+            $home = $this->getApplication()->getMenu('site')->getDefault()->id;
         }
 
         foreach ($modules as $module) {
@@ -1717,17 +1708,17 @@ class PlgSampledataBlog extends CMSPlugin
             if (!$model->save($module)) {
                 $response            = [];
                 $response['success'] = false;
-                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 3, Text::_($model->getError()));
+                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 3, $this->getApplication()->getLanguage()->_($model->getError()));
 
                 return $response;
             }
         }
 
         // Get previously entered categories ids
-        $menuIdsLevel1 = $this->app->getUserState('sampledata.blog.menuIdsLevel1');
+        $menuIdsLevel1 = $this->getApplication()->getUserState('sampledata.blog.menuIdsLevel1');
 
         // Get the login modules there could be more than one
-        $MVCFactory   = $this->app->bootComponent('com_modules')->getMVCFactory();
+        $MVCFactory   = $this->getApplication()->bootComponent('com_modules')->getMVCFactory();
         $modelModules = $MVCFactory->createModel('Modules', 'Administrator', ['ignore_request' => true]);
 
         $modelModules->setState('filter.module', 'mod_login');
@@ -1749,7 +1740,7 @@ class PlgSampledataBlog extends CMSPlugin
                 if (!$modelModule->save($lm)) {
                     $response            = [];
                     $response['success'] = false;
-                    $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 3, Text::_($model->getError()));
+                    $response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 3, $this->getApplication()->getLanguage()->_($model->getError()));
 
                     return $response;
                 }
@@ -1758,7 +1749,7 @@ class PlgSampledataBlog extends CMSPlugin
 
         $response            = [];
         $response['success'] = true;
-        $response['message'] = Text::_('PLG_SAMPLEDATA_BLOG_STEP3_SUCCESS');
+        $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_STEP3_SUCCESS');
 
         return $response;
     }
@@ -1772,12 +1763,12 @@ class PlgSampledataBlog extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep4()
     {
-        if ($this->app->getInput()->get('type') != $this->_name) {
+        if ($this->getApplication()->getInput()->get('type') != $this->_name) {
             return;
         }
 
         $response['success'] = true;
-        $response['message'] = Text::_('PLG_SAMPLEDATA_BLOG_STEP4_SUCCESS');
+        $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_BLOG_STEP4_SUCCESS');
 
         return $response;
     }
@@ -1797,11 +1788,11 @@ class PlgSampledataBlog extends CMSPlugin
     private function addMenuItems(array $menuItems, $level)
     {
         $itemIds = [];
-        $access  = (int) $this->app->get('access', 1);
-        $user    = $this->app->getIdentity();
+        $access  = (int) $this->getApplication()->get('access', 1);
+        $user    = $this->getApplication()->getIdentity();
 
         // Detect language to be used.
-        $language   = Multilanguage::isEnabled() ? $this->app->getLanguage()->getTag() : '*';
+        $language   = Multilanguage::isEnabled() ? $this->getApplication()->getLanguage()->getTag() : '*';
         $langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
         foreach ($menuItems as $menuItem) {
@@ -1815,9 +1806,9 @@ class PlgSampledataBlog extends CMSPlugin
 
             // Set unicodeslugs if alias is empty
             if (trim(str_replace('-', '', $menuItem['alias']) == '')) {
-                $unicode           = $this->app->set('unicodeslugs', 1);
+                $unicode           = $this->getApplication()->set('unicodeslugs', 1);
                 $menuItem['alias'] = ApplicationHelper::stringURLSafe($menuItem['title']);
-                $this->app->set('unicodeslugs', $unicode);
+                $this->getApplication()->set('unicodeslugs', $unicode);
             }
 
             // Append language suffix to title.
