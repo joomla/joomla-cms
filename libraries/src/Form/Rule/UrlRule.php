@@ -111,7 +111,7 @@ class UrlRule extends FormRule
             return false;
         }
 
-        if (\array_key_exists('port', $urlParts) && 0 == (int) $urlParts['port']) {
+        if (\array_key_exists('port', $urlParts) && 0 === (int) $urlParts['port']) {
             return false;
         }
 
