@@ -8,6 +8,7 @@ describe('Test that the feed view ', () => {
 
         cy.contains('automated test feed 1');
         cy.get('.com-newsfeeds-newsfeed__items').should('exist');
+        cy.get('.com-newsfeeds-newsfeed__items').children().should('have.length', 5);
       });
   });
 
@@ -18,6 +19,7 @@ describe('Test that the feed view ', () => {
 
         cy.contains('automated test feed 1');
         cy.get('.com-newsfeeds-newsfeed__items').should('exist');
+        cy.get('.com-newsfeeds-newsfeed__items').children().should('have.length', 5);
       });
   });
 });
