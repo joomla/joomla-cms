@@ -264,7 +264,7 @@ class Helper
      */
     public static function isCommon($token, $lang)
     {
-        static $data, $default, $multilingual;
+        static $data = [], $default, $multilingual;
 
         if (is_null($multilingual)) {
             $multilingual = Multilanguage::isEnabled();
@@ -348,7 +348,7 @@ class Helper
      */
     public static function getPrimaryLanguage($lang)
     {
-        static $data;
+        static $data = [];
 
         // Only parse the identifier if necessary.
         if (!isset($data[$lang])) {
