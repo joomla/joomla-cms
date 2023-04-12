@@ -1,6 +1,6 @@
 describe('Test the user profile view', () => {
   it('can display user profile for test user', () => {
-    cy.db_createUser({ name:'automated test user', username: 'test', password: '098f6bcd4621d373cade4e832627b4f6' })
+    cy.db_createUser({ name: 'automated test user', username: 'test', password: '098f6bcd4621d373cade4e832627b4f6' })
       .then(() => {
         cy.visit('index.php?option=com_users&view=profile');
 
