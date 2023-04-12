@@ -419,7 +419,7 @@ abstract class AdminModel extends FormModel
         }
 
         $newIds = [];
-        $db     = $this->getDbo();
+        $db     = $this->getDatabase();
 
         // Parent exists so let's proceed
         while (!empty($pks)) {
@@ -844,7 +844,7 @@ abstract class AdminModel extends FormModel
 
                     // Multilanguage: if associated, delete the item in the _associations table
                     if ($this->associationsContext && Associations::isEnabled()) {
-                        $db    = $this->getDbo();
+                        $db    = $this->getDatabase();
                         $query = $db->getQuery(true)
                             ->select(
                                 [
@@ -1309,7 +1309,7 @@ abstract class AdminModel extends FormModel
             }
 
             // Get associationskey for edited item
-            $db    = $this->getDbo();
+            $db    = $this->getDatabase();
             $id    = (int) $table->$key;
             $query = $db->getQuery(true)
                 ->select($db->quoteName('key'))
@@ -1571,7 +1571,8 @@ abstract class AdminModel extends FormModel
      *
      * @since   3.9.0
      *
-     * @deprecated 5.0  It is handled by regular save method now.
+     * @deprecated  4.3 will be removed in 6.0
+     *              It is handled by regular save method now.
      */
     public function editAssociations($data)
     {
@@ -1658,7 +1659,7 @@ abstract class AdminModel extends FormModel
         $app->redirect(
             Route::_(
                 'index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
-                . '&task=association.edit&id=' . $id . $target,
+                    . '&task=association.edit&id=' . $id . $target,
                 false
             )
         );
