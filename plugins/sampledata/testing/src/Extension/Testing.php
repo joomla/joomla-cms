@@ -2,22 +2,22 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Sampledata.Testing
+ * @subpackage  Sampledata.testing
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Application\AdministratorApplication;
+namespace Joomla\Plugin\SampleData\Testing\Extension;
+
+use Exception;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseAwareTrait;
+use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -28,25 +28,9 @@ use Joomla\Database\DatabaseDriver;
  *
  * @since  3.8.0
  */
-class PlgSampledataTesting extends CMSPlugin
+final class Testing extends CMSPlugin
 {
-    /**
-     * Database object
-     *
-     * @var    DatabaseDriver
-     *
-     * @since  3.8.0
-     */
-    protected $db;
-
-    /**
-     * Application object
-     *
-     * @var    AdministratorApplication
-     *
-     * @since  3.8.0
-     */
-    protected $app;
+    use DatabaseAwareTrait;
 
     /**
      * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -86,8 +70,8 @@ class PlgSampledataTesting extends CMSPlugin
     {
         $data              = new stdClass();
         $data->name        = $this->_name;
-        $data->title       = Text::_('PLG_SAMPLEDATA_TESTING_OVERVIEW_TITLE');
-        $data->description = Text::_('PLG_SAMPLEDATA_TESTING_OVERVIEW_DESC');
+        $data->title       = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_OVERVIEW_TITLE');
+        $data->description = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_OVERVIEW_DESC');
         $data->icon        = 'bolt';
         $data->steps       = 9;
 
@@ -103,7 +87,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep1()
     {
-        if ($this->app->getInput()->get('type') !== $this->_name) {
+        if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -116,14 +100,14 @@ class PlgSampledataTesting extends CMSPlugin
         }
 
         /** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
-        $model  = $this->app->bootComponent('com_tags')->getMVCFactory()->createModel('Tag', 'Administrator', ['ignore_request' => true]);
-        $access = (int) $this->app->get('access', 1);
-        $user   = Factory::getUser();
+        $model  = $this->getApplication()->bootComponent('com_tags')->getMVCFactory()->createModel('Tag', 'Administrator', ['ignore_request' => true]);
+        $access = (int) $this->getApplication()->get('access', 1);
+        $user   = $this->getApplication()->getIdentity();
         $tagIds = [];
 
         // Create first three tags.
         for ($i = 0; $i <= 2; $i++) {
-            $title = Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_TAG_' . $i . '_TITLE');
+            $title = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_TAG_' . $i . '_TITLE');
             $tag   = [
                 'id'              => 0,
                 'title'           => $title,
@@ -138,8 +122,8 @@ class PlgSampledataTesting extends CMSPlugin
 
             try {
                 if (!$model->save($tag)) {
-                    Factory::getLanguage()->load('com_tags');
-                    throw new Exception(Text::_($model->getError()));
+                    $this->getApplication()->getLanguage()->load('com_tags');
+                    throw new Exception($this->getApplication()->getLanguage()->_($model->getError()));
                 }
             } catch (Exception $e) {
                 $response            = [];
@@ -153,7 +137,7 @@ class PlgSampledataTesting extends CMSPlugin
         }
 
         // Create fourth tag as child of the third.
-        $title = Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_TAG_3_TITLE');
+        $title = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_TAG_3_TITLE');
         $tag   = [
             'id'              => 0,
             'title'           => $title,
@@ -168,8 +152,8 @@ class PlgSampledataTesting extends CMSPlugin
 
         try {
             if (!$model->save($tag)) {
-                Factory::getLanguage()->load('com_tags');
-                throw new Exception(Text::_($model->getError()));
+                $this->getApplication()->getLanguage()->load('com_tags');
+                throw new Exception($this->getApplication()->getLanguage()->_($model->getError()));
             }
         } catch (Exception $e) {
             $response            = [];
@@ -182,11 +166,11 @@ class PlgSampledataTesting extends CMSPlugin
         $tagIds[] = $model->getState('tag.id');
 
         // Storing IDs in UserState for later usage.
-        $this->app->setUserState('sampledata.testing.tags', $tagIds);
+        $this->getApplication()->setUserState('sampledata.testing.tags', $tagIds);
 
         $response            = [];
         $response['success'] = true;
-        $response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP1_SUCCESS');
+        $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_STEP1_SUCCESS');
 
         return $response;
     }
@@ -200,7 +184,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep2()
     {
-        if ($this->app->getInput()->get('type') !== $this->_name) {
+        if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -212,7 +196,7 @@ class PlgSampledataTesting extends CMSPlugin
             return $response;
         }
 
-        $factory = $this->app->bootComponent('com_banners')->getMVCFactory();
+        $factory = $this->getApplication()->bootComponent('com_banners')->getMVCFactory();
 
         /** @var Joomla\Component\Banners\Administrator\Model\ClientModel $clientModel */
         $clientModel = $factory->createModel('Client', 'Administrator', ['ignore_request' => true]);
@@ -220,12 +204,12 @@ class PlgSampledataTesting extends CMSPlugin
         /** @var Joomla\Component\Banners\Administrator\Model\BannerModel $bannerModel */
         $bannerModel = $factory->createModel('Banner', 'Administrator', ['ignore_request' => true]);
 
-        $user = Factory::getUser();
+        $user = $this->getApplication()->getIdentity();
 
         // Add categories.
         $categories   = [];
         $categories[] = [
-            'title'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_CATEGORY_0_TITLE'),
+            'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_CATEGORY_0_TITLE'),
             'parent_id' => 1,
         ];
 
@@ -239,28 +223,28 @@ class PlgSampledataTesting extends CMSPlugin
             return $response;
         }
 
-        $this->app->setUserState('sampledata.testing.banners.catids', $catIds);
+        $this->getApplication()->setUserState('sampledata.testing.banners.catids', $catIds);
 
         // Add Clients.
         $clients     = [];
         $clients[]   = [
-            'name'              => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_CLIENT_1_NAME'),
-            'contact'           => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_CLIENT_1_CONTACT'),
+            'name'              => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_CLIENT_1_NAME'),
+            'contact'           => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_CLIENT_1_CONTACT'),
             'purchase_type'     => -1,
             'track_clicks'      => -1,
             'track_impressions' => -1,
         ];
         $clients[]   = [
-            'name'              => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_CLIENT_2_NAME'),
-            'contact'           => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_CLIENT_2_CONTACT'),
+            'name'              => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_CLIENT_2_NAME'),
+            'contact'           => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_CLIENT_2_CONTACT'),
             'email'             => 'banner@example.com',
             'purchase_type'     => -1,
             'track_clicks'      => 0,
             'track_impressions' => 0,
         ];
         $clients[]   = [
-            'name'              => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_CLIENT_3_NAME'),
-            'contact'           => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_CLIENT_3_CONTACT'),
+            'name'              => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_CLIENT_3_NAME'),
+            'contact'           => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_CLIENT_3_CONTACT'),
             'purchase_type'     => -1,
             'track_clicks'      => 0,
             'track_impressions' => 0,
@@ -277,8 +261,8 @@ class PlgSampledataTesting extends CMSPlugin
 
             try {
                 if (!$clientModel->save($client)) {
-                    Factory::getLanguage()->load('com_banners');
-                    throw new Exception(Text::_($clientModel->getError()));
+                    $this->getApplication()->getLanguage()->load('com_banners');
+                    throw new Exception($this->getApplication()->getLanguage()->_($clientModel->getError()));
                 }
             } catch (Exception $e) {
                 $response            = [];
@@ -295,28 +279,28 @@ class PlgSampledataTesting extends CMSPlugin
         $banners   = [];
         $banners[] = [
             'cid'         => $clientIds[2],
-            'name'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_1_NAME'),
+            'name'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_1_NAME'),
             'clickurl'    => 'https://community.joomla.org/the-joomla-shop.html',
             'catid'       => $catIds[0],
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_1_DESC'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_1_DESC'),
             'ordering'    => 1,
             'params'      => '{"imageurl":"images/banners/white.png","width":"","height":"","alt":"Joomla! Books"}',
         ];
         $banners[] = [
             'cid'         => $clientIds[1],
-            'name'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_2_NAME'),
+            'name'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_2_NAME'),
             'clickurl'    => 'https://shop.joomla.org',
             'catid'       => $catIds[0],
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_2_DESC'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_2_DESC'),
             'ordering'    => 2,
             'params'      => '{"imageurl":"images/banners/white.png","width":"","height":"","alt":"Joomla! Shop"}',
         ];
         $banners[] = [
             'cid'         => $clientIds[0],
-            'name'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_3_NAME'),
+            'name'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_3_NAME'),
             'clickurl'    => 'https://www.joomla.org/sponsor.html',
             'catid'       => $catIds[0],
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_3_DESC'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_3_DESC'),
             'ordering'    => 3,
             'params'      => '{"imageurl":"images/banners/white.png","width":"","height":"","alt":""}',
         ];
@@ -336,8 +320,8 @@ class PlgSampledataTesting extends CMSPlugin
 
             try {
                 if (!$bannerModel->save($banner)) {
-                    Factory::getLanguage()->load('com_banners');
-                    throw new Exception(Text::_($bannerModel->getError()));
+                    $this->getApplication()->getLanguage()->load('com_banners');
+                    throw new Exception($this->getApplication()->getLanguage()->_($bannerModel->getError()));
                 }
             } catch (Exception $e) {
                 $response            = [];
@@ -350,7 +334,7 @@ class PlgSampledataTesting extends CMSPlugin
 
         $response            = [];
         $response['success'] = true;
-        $response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP2_SUCCESS');
+        $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_STEP2_SUCCESS');
 
         return $response;
     }
@@ -364,7 +348,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep3()
     {
-        if ($this->app->getInput()->get('type') !== $this->_name) {
+        if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -379,7 +363,7 @@ class PlgSampledataTesting extends CMSPlugin
         // Insert first level of categories.
         $categories   = [];
         $categories[] = [
-            'title'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_TITLE'),
+            'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_TITLE'),
             'parent_id' => 1,
         ];
 
@@ -396,16 +380,16 @@ class PlgSampledataTesting extends CMSPlugin
         // Insert second level of categories.
         $categories   = [];
         $categories[] = [
-            'title'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_TITLE'),
+            'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_TITLE'),
             'parent_id' => $catIdsLevel1[0],
         ];
         $categories[] = [
-            'title'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_1_TITLE'),
+            'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_1_TITLE'),
             'parent_id' => $catIdsLevel1[0],
             'language'  => 'en-GB',
         ];
         $categories[] = [
-            'title'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_2_TITLE'),
+            'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_2_TITLE'),
             'parent_id' => $catIdsLevel1[0],
         ];
 
@@ -422,31 +406,31 @@ class PlgSampledataTesting extends CMSPlugin
         // Insert third level of categories.
         $categories   = [];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_DESC'),
             'parent_id'   => $catIdsLevel2[0],
         ];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_1_1_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_1_1_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_1_1_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_1_1_DESC'),
             'parent_id'   => $catIdsLevel2[1],
             'params'      => '{"category_layout":"","image":"images/sampledata/parks/banner_cradle.jpg"}',
             'language'    => 'en-GB',
         ];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_1_2_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_1_2_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_1_2_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_1_2_DESC'),
             'parent_id'   => $catIdsLevel2[1],
             'language'    => 'en-GB',
         ];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_2_3_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_2_3_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_2_3_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_2_3_DESC'),
             'parent_id'   => $catIdsLevel2[2],
         ];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_2_4_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_2_4_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_2_4_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_2_4_DESC'),
             'parent_id'   => $catIdsLevel2[2],
         ];
 
@@ -463,37 +447,37 @@ class PlgSampledataTesting extends CMSPlugin
         // Insert fourth level of categories.
         $categories   = [];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_0_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_0_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_0_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_0_DESC'),
             'parent_id'   => $catIdsLevel3[0],
         ];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_DESC'),
             'parent_id'   => $catIdsLevel3[0],
         ];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_2_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_2_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_2_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_2_DESC'),
             'parent_id'   => $catIdsLevel3[0],
         ];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_3_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_3_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_3_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_3_DESC'),
             'parent_id'   => $catIdsLevel3[0],
         ];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_4_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_4_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_4_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_4_DESC'),
             'parent_id'   => $catIdsLevel3[0],
         ];
         $categories[] = [
-            'title'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_1_2_5_TITLE'),
+            'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_1_2_5_TITLE'),
             'parent_id' => $catIdsLevel3[2],
             'language'  => 'en-GB',
         ];
         $categories[] = [
-            'title'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_1_2_6_TITLE'),
+            'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_1_2_6_TITLE'),
             'parent_id' => $catIdsLevel3[2],
             'language'  => 'en-GB',
         ];
@@ -511,43 +495,43 @@ class PlgSampledataTesting extends CMSPlugin
         // Insert fifth level of categories.
         $categories   = [];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_0_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_0_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_0_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_0_DESC'),
             'parent_id'   => $catIdsLevel4[1],
         ];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_1_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_1_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_1_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_1_DESC'),
             'parent_id'   => $catIdsLevel4[1],
         ];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_2_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_2_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_2_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_2_DESC'),
             'parent_id'   => $catIdsLevel4[1],
         ];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_3_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_3_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_3_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_3_DESC'),
             'parent_id'   => $catIdsLevel4[1],
         ];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_4_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_4_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_4_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_1_4_DESC'),
             'parent_id'   => $catIdsLevel4[1],
         ];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_2_5_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_2_5_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_2_5_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_2_5_DESC'),
             'parent_id'   => $catIdsLevel4[2],
         ];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_2_6_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_2_6_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_2_6_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_2_6_DESC'),
             'parent_id'   => $catIdsLevel4[2],
         ];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_2_7_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_2_7_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_2_7_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_CATEGORY_0_0_0_2_7_DESC'),
             'parent_id'   => $catIdsLevel4[2],
         ];
 
@@ -561,15 +545,15 @@ class PlgSampledataTesting extends CMSPlugin
             return $response;
         }
 
-        $this->app->setUserState('sampledata.testing.articles.catids1', $catIdsLevel1);
-        $this->app->setUserState('sampledata.testing.articles.catids2', $catIdsLevel2);
-        $this->app->setUserState('sampledata.testing.articles.catids3', $catIdsLevel3);
-        $this->app->setUserState('sampledata.testing.articles.catids4', $catIdsLevel4);
-        $this->app->setUserState('sampledata.testing.articles.catids5', $catIdsLevel5);
+        $this->getApplication()->setUserState('sampledata.testing.articles.catids1', $catIdsLevel1);
+        $this->getApplication()->setUserState('sampledata.testing.articles.catids2', $catIdsLevel2);
+        $this->getApplication()->setUserState('sampledata.testing.articles.catids3', $catIdsLevel3);
+        $this->getApplication()->setUserState('sampledata.testing.articles.catids4', $catIdsLevel4);
+        $this->getApplication()->setUserState('sampledata.testing.articles.catids5', $catIdsLevel5);
 
         $response            = [];
         $response['success'] = true;
-        $response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP3_SUCCESS');
+        $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_STEP3_SUCCESS');
 
         return $response;
     }
@@ -583,7 +567,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep4()
     {
-        if ($this->app->getInput()->get('type') !== $this->_name) {
+        if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -597,12 +581,12 @@ class PlgSampledataTesting extends CMSPlugin
 
         ComponentHelper::getParams('com_content')->set('workflow_enabled', 0);
 
-        $catIdsLevel1 = $this->app->getUserState('sampledata.testing.articles.catids1');
-        $catIdsLevel2 = $this->app->getUserState('sampledata.testing.articles.catids2');
-        $catIdsLevel3 = $this->app->getUserState('sampledata.testing.articles.catids3');
-        $catIdsLevel4 = $this->app->getUserState('sampledata.testing.articles.catids4');
-        $catIdsLevel5 = $this->app->getUserState('sampledata.testing.articles.catids5');
-        $tagIds       = $this->app->getUserState('sampledata.testing.tags', []);
+        $catIdsLevel1 = $this->getApplication()->getUserState('sampledata.testing.articles.catids1');
+        $catIdsLevel2 = $this->getApplication()->getUserState('sampledata.testing.articles.catids2');
+        $catIdsLevel3 = $this->getApplication()->getUserState('sampledata.testing.articles.catids3');
+        $catIdsLevel4 = $this->getApplication()->getUserState('sampledata.testing.articles.catids4');
+        $catIdsLevel5 = $this->getApplication()->getUserState('sampledata.testing.articles.catids5');
+        $tagIds       = $this->getApplication()->getUserState('sampledata.testing.tags', []);
 
         $articles = [
             // Articles 0 - 9
@@ -973,12 +957,12 @@ class PlgSampledataTesting extends CMSPlugin
             return $response;
         }
 
-        $articleNamespace = (array) $this->app->getUserState('sampledata.testing.articles');
-        $this->app->setUserState('sampledata.testing.articles', array_merge($ids, $articleNamespace));
+        $articleNamespace = (array) $this->getApplication()->getUserState('sampledata.testing.articles');
+        $this->getApplication()->setUserState('sampledata.testing.articles', array_merge($ids, $articleNamespace));
 
         $response            = [];
         $response['success'] = true;
-        $response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP4_SUCCESS');
+        $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_STEP4_SUCCESS');
 
         return $response;
     }
@@ -992,7 +976,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep5()
     {
-        if ($this->app->getInput()->get('type') !== $this->_name) {
+        if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -1004,14 +988,14 @@ class PlgSampledataTesting extends CMSPlugin
             return $response;
         }
 
-        $model  = $this->app->bootComponent('com_contact')->getMVCFactory()->createModel('Contact', 'Administrator', ['ignore_request' => true]);
-        $access = (int) $this->app->get('access', 1);
-        $user   = Factory::getUser();
+        $model  = $this->getApplication()->bootComponent('com_contact')->getMVCFactory()->createModel('Contact', 'Administrator', ['ignore_request' => true]);
+        $access = (int) $this->getApplication()->get('access', 1);
+        $user   = $this->getApplication()->getIdentity();
 
         // Insert first level of categories.
         $categories   = [];
         $categories[] = [
-            'title'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CATEGORY_0_TITLE'),
+            'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CATEGORY_0_TITLE'),
             'parent_id' => 1,
         ];
 
@@ -1028,11 +1012,11 @@ class PlgSampledataTesting extends CMSPlugin
         // Insert second level of categories.
         $categories   = [];
         $categories[] = [
-            'title'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CATEGORY_0_0_TITLE'),
+            'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CATEGORY_0_0_TITLE'),
             'parent_id' => $catIdsLevel1[0],
         ];
         $categories[] = [
-            'title'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CATEGORY_0_1_TITLE'),
+            'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CATEGORY_0_1_TITLE'),
             'parent_id' => $catIdsLevel1[0],
         ];
 
@@ -1049,13 +1033,13 @@ class PlgSampledataTesting extends CMSPlugin
         // Insert third level of categories.
         $categories   = [];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CATEGORY_0_1_0_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CATEGORY_0_1_0_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CATEGORY_0_1_0_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CATEGORY_0_1_0_DESC'),
             'parent_id'   => $catIdsLevel2[1],
         ];
         $categories[] = [
-            'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CATEGORY_0_1_1_TITLE'),
-            'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CATEGORY_0_1_1_DESC'),
+            'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CATEGORY_0_1_1_TITLE'),
+            'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CATEGORY_0_1_1_DESC'),
             'parent_id'   => $catIdsLevel2[1],
         ];
 
@@ -1092,19 +1076,19 @@ class PlgSampledataTesting extends CMSPlugin
 
         $contacts   = [
             [
-                'name'         => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_NAME'),
-                'con_position' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_POSITION'),
-                'address'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_ADDRESS'),
-                'suburb'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_SUBURB'),
-                'state'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_STATE'),
-                'country'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_COUNTRY'),
-                'postcode'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_POSTCODE'),
-                'telephone'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_TELEPHONE'),
-                'fax'          => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_FAX'),
-                'misc'         => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_MISC'),
-                'sortname1'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_SORTNAME1'),
-                'sortname2'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_SORTNAME2'),
-                'sortname3'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_SORTNAME3'),
+                'name'         => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_NAME'),
+                'con_position' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_POSITION'),
+                'address'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_ADDRESS'),
+                'suburb'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_SUBURB'),
+                'state'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_STATE'),
+                'country'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_COUNTRY'),
+                'postcode'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_POSTCODE'),
+                'telephone'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_TELEPHONE'),
+                'fax'          => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_FAX'),
+                'misc'         => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_MISC'),
+                'sortname1'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_SORTNAME1'),
+                'sortname2'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_SORTNAME2'),
+                'sortname3'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_0_SORTNAME3'),
                 'image'        => 'images/powered_by.png',
                 'email_to'     => 'email@example.com',
                 'default_con'  => 1,
@@ -1125,27 +1109,27 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'name'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_1_NAME'),
+                'name'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_1_NAME'),
                 'email_to' => 'webmaster@example.com',
                 'featured' => 1,
                 'catid'    => $catIdsLevel2[0],
             ],
             [
-                'name'  => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_2_NAME'),
-                'misc'  => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_2_MISC'),
+                'name'  => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_2_NAME'),
+                'misc'  => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_2_MISC'),
                 'catid' => $catIdsLevel3[0],
             ],
             [
-                'name'  => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_3_NAME'),
-                'misc'  => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_3_MISC'),
+                'name'  => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_3_NAME'),
+                'misc'  => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_3_MISC'),
                 'catid' => $catIdsLevel3[0],
             ],
             [
-                'name'         => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_4_NAME'),
-                'con_position' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_4_POSITION'),
-                'address'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_4_ADDRESS'),
-                'state'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_4_STATE'),
-                'misc'         => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_4_MISC'),
+                'name'         => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_4_NAME'),
+                'con_position' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_4_POSITION'),
+                'address'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_4_ADDRESS'),
+                'state'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_4_STATE'),
+                'misc'         => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_4_MISC'),
                 'image'        => 'images/sampledata/fruitshop/bananas_2.jpg',
                 'catid'        => $catIdsLevel4[1],
                 'params'       => [
@@ -1169,11 +1153,11 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'name'         => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_5_NAME'),
-                'con_position' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_5_POSITION'),
-                'address'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_5_ADDRESS'),
-                'state'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_5_STATE'),
-                'misc'         => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_5_MISC'),
+                'name'         => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_5_NAME'),
+                'con_position' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_5_POSITION'),
+                'address'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_5_ADDRESS'),
+                'state'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_5_STATE'),
+                'misc'         => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_5_MISC'),
                 'image'        => 'images/sampledata/fruitshop/apple.jpg',
                 'catid'        => $catIdsLevel4[0],
                 'params'       => [
@@ -1193,11 +1177,11 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'name'         => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_6_NAME'),
-                'con_position' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_6_POSITION'),
-                'address'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_6_ADDRESS'),
-                'state'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_6_STATE'),
-                'misc'         => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_6_MISC'),
+                'name'         => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_6_NAME'),
+                'con_position' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_6_POSITION'),
+                'address'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_6_ADDRESS'),
+                'state'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_6_STATE'),
+                'misc'         => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_6_MISC'),
                 'image'        => 'images/sampledata/fruitshop/tamarind.jpg',
                 'catid'        => $catIdsLevel4[19],
                 'params'       => [
@@ -1217,12 +1201,12 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'name'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_7_NAME'),
-                'suburb'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_7_SUBURB'),
-                'country'   => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_7_COUNTRY'),
-                'address'   => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_7_ADDRESS'),
-                'telephone' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_7_TELEPHONE'),
-                'misc'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_7_MISC'),
+                'name'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_7_NAME'),
+                'suburb'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_7_SUBURB'),
+                'country'   => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_7_COUNTRY'),
+                'address'   => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_7_ADDRESS'),
+                'telephone' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_7_TELEPHONE'),
+                'misc'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTACT_CONTACT_7_MISC'),
                 'catid'     => $catIdsLevel2[1],
             ],
         ];
@@ -1281,8 +1265,8 @@ class PlgSampledataTesting extends CMSPlugin
 
             try {
                 if (!$model->save($contact)) {
-                    Factory::getLanguage()->load('com_contact');
-                    throw new Exception(Text::_($model->getError()));
+                    $this->getApplication()->getLanguage()->load('com_contact');
+                    throw new Exception($this->getApplication()->getLanguage()->_($model->getError()));
                 }
             } catch (Exception $e) {
                 $response            = [];
@@ -1297,15 +1281,15 @@ class PlgSampledataTesting extends CMSPlugin
         }
 
         // Storing IDs in UserState for later usage.
-        $this->app->setUserState('sampledata.testing.contacts', $contactIds);
-        $this->app->setUserState('sampledata.testing.contacts.catids1', $catIdsLevel1);
-        $this->app->setUserState('sampledata.testing.contacts.catids2', $catIdsLevel2);
-        $this->app->setUserState('sampledata.testing.contacts.catids3', $catIdsLevel3);
-        $this->app->setUserState('sampledata.testing.contacts.catids4', $catIdsLevel4);
+        $this->getApplication()->setUserState('sampledata.testing.contacts', $contactIds);
+        $this->getApplication()->setUserState('sampledata.testing.contacts.catids1', $catIdsLevel1);
+        $this->getApplication()->setUserState('sampledata.testing.contacts.catids2', $catIdsLevel2);
+        $this->getApplication()->setUserState('sampledata.testing.contacts.catids3', $catIdsLevel3);
+        $this->getApplication()->setUserState('sampledata.testing.contacts.catids4', $catIdsLevel4);
 
         $response            = [];
         $response['success'] = true;
-        $response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP5_SUCCESS');
+        $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_STEP5_SUCCESS');
 
         return $response;
     }
@@ -1319,7 +1303,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep6()
     {
-        if ($this->app->getInput()->get('type') !== $this->_name) {
+        if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -1332,14 +1316,14 @@ class PlgSampledataTesting extends CMSPlugin
         }
 
         /** @var \Joomla\Component\Newsfeeds\Administrator\Model\NewsfeedModel $model */
-        $model  = $this->app->bootComponent('com_newsfeeds')->getMVCFactory()->createModel('Newsfeed', 'Administrator', ['ignore_request' => true]);
-        $access = (int) $this->app->get('access', 1);
-        $user   = Factory::getUser();
+        $model  = $this->getApplication()->bootComponent('com_newsfeeds')->getMVCFactory()->createModel('Newsfeed', 'Administrator', ['ignore_request' => true]);
+        $access = (int) $this->getApplication()->get('access', 1);
+        $user   = $this->getApplication()->getIdentity();
 
         // Insert first level of categories.
         $categories   = [];
         $categories[] = [
-            'title'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_CATEGORY_0_TITLE'),
+            'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_CATEGORY_0_TITLE'),
             'parent_id' => 1,
         ];
 
@@ -1355,22 +1339,22 @@ class PlgSampledataTesting extends CMSPlugin
 
         $newsfeeds    = [
             [
-                'name'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_NEWSFEED_0_NAME'),
+                'name'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_NEWSFEED_0_NAME'),
                 'link'     => 'https://www.joomla.org/announcements.feed?type=rss',
                 'ordering' => 1,
             ],
             [
-                'name'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_NEWSFEED_1_NAME'),
+                'name'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_NEWSFEED_1_NAME'),
                 'link'     => 'https://extensions.joomla.org/browse/new?format=feed&type=rss',
                 'ordering' => 4,
             ],
             [
-                'name'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_NEWSFEED_2_NAME'),
+                'name'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_NEWSFEED_2_NAME'),
                 'link'     => 'https://developer.joomla.org/security-centre.feed?type=rss',
                 'ordering' => 2,
             ],
             [
-                'name'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_NEWSFEED_3_NAME'),
+                'name'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_NEWSFEEDS_NEWSFEED_3_NAME'),
                 'link'     => 'https://community.joomla.org/blogs/community.feed',
                 'ordering' => 3,
             ],
@@ -1402,8 +1386,8 @@ class PlgSampledataTesting extends CMSPlugin
 
             try {
                 if (!$model->save($newsfeed)) {
-                    Factory::getLanguage()->load('com_newsfeeds');
-                    throw new Exception(Text::_($model->getError()));
+                    $this->getApplication()->getLanguage()->load('com_newsfeeds');
+                    throw new Exception($this->getApplication()->getLanguage()->_($model->getError()));
                 }
             } catch (Exception $e) {
                 $response            = [];
@@ -1418,12 +1402,12 @@ class PlgSampledataTesting extends CMSPlugin
         }
 
         // Storing IDs in UserState for later usage.
-        $this->app->setUserState('sampledata.testing.newsfeeds', $newsfeedsIds);
-        $this->app->setUserState('sampledata.testing.newsfeeds.catids', $catIdsLevel1);
+        $this->getApplication()->setUserState('sampledata.testing.newsfeeds', $newsfeedsIds);
+        $this->getApplication()->setUserState('sampledata.testing.newsfeeds.catids', $catIdsLevel1);
 
         $response            = [];
         $response['success'] = true;
-        $response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP6_SUCCESS');
+        $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_STEP6_SUCCESS');
 
         return $response;
     }
@@ -1437,7 +1421,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep7()
     {
-        if ($this->app->getInput()->get('type') !== $this->_name) {
+        if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -1450,7 +1434,7 @@ class PlgSampledataTesting extends CMSPlugin
         }
 
         /** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
-        $factory   = $this->app->bootComponent('com_menus')->getMVCFactory();
+        $factory   = $this->getApplication()->bootComponent('com_menus')->getMVCFactory();
         $model     = $factory->createModel('Menu', 'Administrator', ['ignore_request' => true]);
         $modelItem = $factory->createModel('Item', 'Administrator', ['ignore_request' => true]);
         $menuTypes = [];
@@ -1458,8 +1442,8 @@ class PlgSampledataTesting extends CMSPlugin
         for ($i = 0; $i <= 7; $i++) {
             $menu = [
                 'id'          => 0,
-                'title'       => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_MENU_' . $i . '_TITLE'),
-                'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_MENU_' . $i . '_DESCRIPTION'),
+                'title'       => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_MENU_' . $i . '_TITLE'),
+                'description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_MENU_' . $i . '_DESCRIPTION'),
             ];
 
             // Calculate menutype.
@@ -1468,7 +1452,7 @@ class PlgSampledataTesting extends CMSPlugin
             try {
                 $model->save($menu);
             } catch (Exception $e) {
-                Factory::getLanguage()->load('com_menus');
+                $this->getApplication()->getLanguage()->load('com_menus');
                 $response            = [];
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
@@ -1480,21 +1464,21 @@ class PlgSampledataTesting extends CMSPlugin
         }
 
         // Storing IDs in UserState for later usage.
-        $this->app->setUserState('sampledata.testing.menutypes', $menuTypes);
+        $this->getApplication()->setUserState('sampledata.testing.menutypes', $menuTypes);
 
         // Get previously entered Data from UserStates
-        $contactIds      = $this->app->getUserState('sampledata.testing.contacts');
-        $contactCatids1  = $this->app->getUserState('sampledata.testing.contacts.catids1');
-        $contactCatids3  = $this->app->getUserState('sampledata.testing.contacts.catids3');
-        $articleIds      = $this->app->getUserState('sampledata.testing.articles');
-        $articleCatids1  = $this->app->getUserState('sampledata.testing.articles.catids1');
-        $articleCatids2  = $this->app->getUserState('sampledata.testing.articles.catids2');
-        $articleCatids3  = $this->app->getUserState('sampledata.testing.articles.catids3');
-        $articleCatids4  = $this->app->getUserState('sampledata.testing.articles.catids4');
-        $articleCatids5  = $this->app->getUserState('sampledata.testing.articles.catids5');
-        $tagIds          = $this->app->getUserState('sampledata.testing.tags');
-        $newsfeedsIds    = $this->app->getUserState('sampledata.testing.newsfeeds');
-        $newsfeedsCatids = $this->app->getUserState('sampledata.testing.newsfeeds.catids');
+        $contactIds      = $this->getApplication()->getUserState('sampledata.testing.contacts');
+        $contactCatids1  = $this->getApplication()->getUserState('sampledata.testing.contacts.catids1');
+        $contactCatids3  = $this->getApplication()->getUserState('sampledata.testing.contacts.catids3');
+        $articleIds      = $this->getApplication()->getUserState('sampledata.testing.articles');
+        $articleCatids1  = $this->getApplication()->getUserState('sampledata.testing.articles.catids1');
+        $articleCatids2  = $this->getApplication()->getUserState('sampledata.testing.articles.catids2');
+        $articleCatids3  = $this->getApplication()->getUserState('sampledata.testing.articles.catids3');
+        $articleCatids4  = $this->getApplication()->getUserState('sampledata.testing.articles.catids4');
+        $articleCatids5  = $this->getApplication()->getUserState('sampledata.testing.articles.catids5');
+        $tagIds          = $this->getApplication()->getUserState('sampledata.testing.tags');
+        $newsfeedsIds    = $this->getApplication()->getUserState('sampledata.testing.newsfeeds');
+        $newsfeedsCatids = $this->getApplication()->getUserState('sampledata.testing.newsfeeds.catids');
 
         // Unset current "Home" menuitem since we set a new one.
         $menuItemTable = $modelItem->getTable();
@@ -1511,7 +1495,7 @@ class PlgSampledataTesting extends CMSPlugin
         $menuItems = [
             [
                 'menutype'     => $menuTypes[0],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_0_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_0_TITLE'),
                 'link'         => 'index.php?option=com_users&view=profile',
                 'component_id' => ComponentHelper::getComponent('com_users')->id,
                 'access'       => 2,
@@ -1523,14 +1507,14 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[1],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_1_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_1_TITLE'),
                 'link'         => 'https://joomla.org',
                 'type'         => 'url',
                 'component_id' => 0,
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_2_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_2_TITLE'),
                 'link'         => 'index.php?option=com_contact&view=contact&id=' . $contactIds[0],
                 'component_id' => ComponentHelper::getComponent('com_contact')->id,
                 'params'       => [
@@ -1540,7 +1524,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[4],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_3_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_3_TITLE'),
                 'link'         => 'index.php?option=com_users&view=login',
                 'component_id' => ComponentHelper::getComponent('com_users')->id,
                 'params'       => [
@@ -1550,7 +1534,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'          => $menuTypes[3],
-                'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_4_TITLE'),
+                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_4_TITLE'),
                 'link'              => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids3[1],
                 'component_id'      => ComponentHelper::getComponent('com_content')->id,
                 'template_style_id' => 114,
@@ -1569,7 +1553,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[4],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_5_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_5_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[37],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1587,7 +1571,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'          => $menuTypes[3],
-                'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_6_TITLE'),
+                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_6_TITLE'),
                 'link'              => 'index.php?option=com_content&view=form&layout=edit',
                 'component_id'      => ComponentHelper::getComponent('com_content')->id,
                 'access'            => 3,
@@ -1599,7 +1583,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'          => $menuTypes[3],
-                'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_7_TITLE'),
+                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_7_TITLE'),
                 'link'              => 'index.php?option=com_content&view=article&id=' . $articleIds[5],
                 'component_id'      => ComponentHelper::getComponent('com_content')->id,
                 'template_style_id' => 114,
@@ -1621,7 +1605,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'          => $menuTypes[3],
-                'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_8_TITLE'),
+                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_8_TITLE'),
                 'link'              => 'index.php?option=com_content&view=categories&id=' . $articleCatids3[2],
                 'component_id'      => ComponentHelper::getComponent('com_content')->id,
                 'template_style_id' => 114,
@@ -1641,7 +1625,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_9_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_9_TITLE'),
                 'link'         => 'index.php?option=com_contact&view=categories&id=' . $contactCatids1[0],
                 'component_id' => ComponentHelper::getComponent('com_contact')->id,
                 'params'       => [
@@ -1654,12 +1638,12 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_10_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_10_TITLE'),
                 'link'         => 'index.php?option=com_newsfeeds&view=categories&id=0',
                 'component_id' => ComponentHelper::getComponent('com_newsfeeds')->id,
                 'params'       => [
                     'show_base_description'  => 1,
-                    'categories_description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_10_PARAM_CATEGORIES_DESCRIPTION'),
+                    'categories_description' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_10_PARAM_CATEGORIES_DESCRIPTION'),
                     'maxLevel'               => -1,
                     'show_empty_categories'  => 1,
                     'show_description'       => 1,
@@ -1672,7 +1656,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_11_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_11_TITLE'),
                 'link'         => 'index.php?option=com_newsfeeds&view=category&id=' . $newsfeedsCatids[0],
                 'component_id' => ComponentHelper::getComponent('com_newsfeeds')->id,
                 'params'       => [
@@ -1684,7 +1668,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_12_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_12_TITLE'),
                 'link'         => 'index.php?option=com_newsfeeds&view=newsfeed&id=' . $newsfeedsIds[0],
                 'component_id' => ComponentHelper::getComponent('com_newsfeeds')->id,
                 'params'       => [
@@ -1695,7 +1679,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_14_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_14_TITLE'),
                 'link'         => 'index.php?option=com_content&view=archive',
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1710,7 +1694,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_15_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_15_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[5],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1720,7 +1704,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_16_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_16_TITLE'),
                 'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids3[1],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1738,7 +1722,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_17_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_17_TITLE'),
                 'link'         => 'index.php?option=com_content&view=category&id=' . $articleCatids2[0],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1751,7 +1735,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_18_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_18_TITLE'),
                 'link'         => 'index.php?option=com_content&view=featured',
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1769,7 +1753,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_19_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_19_TITLE'),
                 'link'         => 'index.php?option=com_content&view=form&layout=edit',
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'access'       => 3,
@@ -1780,7 +1764,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_20_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_20_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[9],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1790,18 +1774,18 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_21_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_21_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[57],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
                     'show_page_heading' => 1,
-                    'page_title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_21_PARAM_PAGE_TITLE'),
+                    'page_title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_21_PARAM_PAGE_TITLE'),
                     'secure'            => 0,
                 ],
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_22_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_22_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[8],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1811,7 +1795,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_23_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_23_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[51],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1821,7 +1805,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_24_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_24_TITLE'),
                 'link'         => 'index.php?option=com_content&view=categories&id=' . $articleCatids1[0],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1836,7 +1820,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_25_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_25_TITLE'),
                 'link'         => 'index.php?option=com_contact&view=category&id=' . $contactCatids3[0],
                 'component_id' => ComponentHelper::getComponent('com_contact')->id,
                 'params'       => [
@@ -1851,7 +1835,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_26_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_26_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[38],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1862,7 +1846,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[2],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[52],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1884,7 +1868,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_28_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_28_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[62],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1894,7 +1878,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_29_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_29_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[55],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1904,7 +1888,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_30_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_30_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[29],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1914,7 +1898,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_31_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_31_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[28],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1924,7 +1908,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_32_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_32_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[43],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1934,7 +1918,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_33_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_33_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[6],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1945,7 +1929,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_34_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_34_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[39],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1956,7 +1940,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_35_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_35_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[35],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1966,7 +1950,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_36_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_36_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[30],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1976,7 +1960,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_37_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_37_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[26],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1986,7 +1970,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_38_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_38_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[44],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -1996,7 +1980,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_39_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_39_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[27],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -2007,7 +1991,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_40_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_40_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[56],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -2018,7 +2002,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_41_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_41_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[18],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -2028,7 +2012,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_42_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_42_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[1],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -2038,7 +2022,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_43_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_43_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[36],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -2048,7 +2032,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_44_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_44_TITLE'),
                 'link'         => 'index.php?option=com_users&view=login',
                 'component_id' => ComponentHelper::getComponent('com_users')->id,
                 'params'       => [
@@ -2060,7 +2044,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_45_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_45_TITLE'),
                 'link'         => 'index.php?option=com_users&view=profile',
                 'component_id' => ComponentHelper::getComponent('com_users')->id,
                 'params'       => [
@@ -2070,7 +2054,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_46_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_46_TITLE'),
                 'link'         => 'index.php?option=com_users&view=profile&layout=edit',
                 'component_id' => ComponentHelper::getComponent('com_users')->id,
                 'params'       => [
@@ -2080,7 +2064,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_47_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_47_TITLE'),
                 'link'         => 'index.php?option=com_users&view=registration',
                 'component_id' => ComponentHelper::getComponent('com_users')->id,
                 'params'       => [
@@ -2090,7 +2074,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_48_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_48_TITLE'),
                 'link'         => 'index.php?option=com_users&view=remind',
                 'component_id' => ComponentHelper::getComponent('com_users')->id,
                 'params'       => [
@@ -2100,7 +2084,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_49_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_49_TITLE'),
                 'link'         => 'index.php?option=com_users&view=reset',
                 'component_id' => ComponentHelper::getComponent('com_users')->id,
                 'params'       => [
@@ -2110,7 +2094,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_50_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_50_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[15],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -2120,7 +2104,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_51_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_51_TITLE'),
                 'link'         => 'index.php?option=com_content&view=category&id=' . $articleCatids5[0],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -2143,7 +2127,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_52_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_52_TITLE'),
                 'link'         => 'index.php?option=com_content&view=category&id=' . $articleCatids5[1],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -2164,7 +2148,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_53_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_53_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[58],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -2175,7 +2159,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_54_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_54_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[11],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -2185,7 +2169,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'          => $menuTypes[5],
-                'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_55_TITLE'),
+                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_55_TITLE'),
                 'link'              => 'index.php?option=com_contact&view=categories&id=' . $contactCatids3[1],
                 'component_id'      => ComponentHelper::getComponent('com_contact')->id,
                 'template_style_id' => 7,
@@ -2210,7 +2194,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'          => $menuTypes[5],
-                'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_56_TITLE'),
+                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_56_TITLE'),
                 'link'              => 'index.php?option=com_content&view=article&id=' . $articleIds[19],
                 'component_id'      => ComponentHelper::getComponent('com_content')->id,
                 'template_style_id' => 7,
@@ -2236,7 +2220,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'          => $menuTypes[5],
-                'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_57_TITLE'),
+                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_57_TITLE'),
                 'link'              => 'index.php?option=com_contact&view=category&id=' . $contactCatids3[0],
                 'component_id'      => ComponentHelper::getComponent('com_contact')->id,
                 'template_style_id' => 7,
@@ -2252,7 +2236,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'          => $menuTypes[5],
-                'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_58_TITLE'),
+                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_58_TITLE'),
                 'link'              => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids3[3],
                 'component_id'      => ComponentHelper::getComponent('com_content')->id,
                 'template_style_id' => 7,
@@ -2282,7 +2266,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'          => $menuTypes[5],
-                'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_59_TITLE'),
+                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_59_TITLE'),
                 'link'              => 'index.php?option=com_users&view=login',
                 'component_id'      => ComponentHelper::getComponent('com_users')->id,
                 'template_style_id' => 7,
@@ -2296,7 +2280,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'          => $menuTypes[5],
-                'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_60_TITLE'),
+                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_60_TITLE'),
                 'link'              => 'index.php?option=com_content&view=article&id=' . $articleIds[12],
                 'component_id'      => ComponentHelper::getComponent('com_content')->id,
                 'template_style_id' => 7,
@@ -2308,7 +2292,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[4],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_61_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_61_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[23],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -2335,7 +2319,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[2],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_62_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_62_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[21],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -2355,7 +2339,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_63_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_63_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[2],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -2365,7 +2349,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_64_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_64_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[25],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -2375,7 +2359,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[4],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_65_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_65_TITLE'),
                 'link'         => 'administrator',
                 'type'         => 'url',
                 'component_id' => 0,
@@ -2383,7 +2367,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[0],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_66_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_66_TITLE'),
                 'link'         => 'index.php?option=com_content&view=form&layout=edit',
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'access'       => 3,
@@ -2395,7 +2379,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_67_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_67_TITLE'),
                 'link'         => 'index.php?option=com_contact&view=featured',
                 'component_id' => ComponentHelper::getComponent('com_contact')->id,
                 'params'       => [
@@ -2408,7 +2392,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_68_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_68_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[3],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -2418,7 +2402,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'          => $menuTypes[5],
-                'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_69_TITLE'),
+                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_69_TITLE'),
                 'link'              => 'index.php?option=com_content&view=form&layout=edit',
                 'component_id'      => ComponentHelper::getComponent('com_content')->id,
                 'access'            => 4,
@@ -2433,7 +2417,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'          => $menuTypes[5],
-                'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_70_TITLE'),
+                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_70_TITLE'),
                 'link'              => 'index.php?option=com_content&view=category&id=' . $articleCatids3[4],
                 'component_id'      => ComponentHelper::getComponent('com_content')->id,
                 'template_style_id' => 7,
@@ -2450,7 +2434,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_71_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_71_TITLE'),
                 'link'         => 'index.php?option=com_finder&view=search&q=&f=',
                 'component_id' => ComponentHelper::getComponent('com_finder')->id,
                 'params'       => [
@@ -2465,7 +2449,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_72_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_72_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[66],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -2476,7 +2460,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_73_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_73_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[67],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -2487,7 +2471,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[7],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_74_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_74_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[68],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
                 'params'       => [
@@ -2498,7 +2482,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_75_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_75_TITLE'),
                 'link'         => 'index.php?option=com_tags&view=tag&layout=list&id[0]=' . $tagIds[2],
                 'component_id' => ComponentHelper::getComponent('com_tags')->id,
                 'params'       => [
@@ -2511,7 +2495,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_76_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_76_TITLE'),
                 'link'         => 'index.php?option=com_tags&view=tag&id[0]=' . $tagIds[1],
                 'component_id' => ComponentHelper::getComponent('com_tags')->id,
                 'params'       => [
@@ -2524,7 +2508,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_77_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_77_TITLE'),
                 'link'         => 'index.php?option=com_tags&view=tags',
                 'component_id' => ComponentHelper::getComponent('com_tags')->id,
                 'params'       => [
@@ -2538,7 +2522,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_78_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_78_TITLE'),
                 'link'         => 'index.php?option=com_config&view=config',
                 'component_id' => ComponentHelper::getComponent('com_config')->id,
                 'access'       => 6,
@@ -2550,7 +2534,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[6],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_79_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_79_TITLE'),
                 'link'         => 'index.php?option=com_config&view=templates',
                 'component_id' => ComponentHelper::getComponent('com_config')->id,
                 'access'       => 6,
@@ -2576,7 +2560,7 @@ class PlgSampledataTesting extends CMSPlugin
         $menuItems = [
             [
                 'menutype'     => $menuTypes[1],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_100_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_100_TITLE'),
                 'link'         => 'index.php?Itemid=',
                 'type'         => 'alias',
                 'component_id' => 0,
@@ -2586,7 +2570,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[1],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_101_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_101_TITLE'),
                 'link'         => 'index.php?Itemid=',
                 'type'         => 'alias',
                 'component_id' => 0,
@@ -2596,7 +2580,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[1],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_102_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_102_TITLE'),
                 'link'         => 'index.php?Itemid=',
                 'type'         => 'alias',
                 'component_id' => 0,
@@ -2607,7 +2591,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[1],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_103_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_103_TITLE'),
                 'link'         => 'index.php?Itemid=',
                 'type'         => 'alias',
                 'component_id' => 0,
@@ -2632,7 +2616,7 @@ class PlgSampledataTesting extends CMSPlugin
         $menuItems = [
             [
                 'menutype'     => $menuTypes[2],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_TITLE'),
                 'link'         => 'index.php?option=com_content&view=categories&id=' . $articleCatids3[0],
                 'parent_id'    => $menuIdsLevel1[27],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
@@ -2655,7 +2639,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'          => $menuTypes[3],
-                'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_8_1_TITLE'),
+                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_8_1_TITLE'),
                 'link'              => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids4[5],
                 'parent_id'         => $menuIdsLevel1[8],
                 'component_id'      => ComponentHelper::getComponent('com_content')->id,
@@ -2684,7 +2668,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'          => $menuTypes[3],
-                'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_8_2_TITLE'),
+                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_8_2_TITLE'),
                 'link'              => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids4[5],
                 'parent_id'         => $menuIdsLevel1[8],
                 'component_id'      => ComponentHelper::getComponent('com_content')->id,
@@ -2734,7 +2718,7 @@ class PlgSampledataTesting extends CMSPlugin
         $menuItems = [
             [
                 'menutype'     => $menuTypes[4],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_103_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_103_TITLE'),
                 'link'         => 'index.php?Itemid=',
                 'type'         => 'alias',
                 'parent_id'    => $menuIdsLevel1[5],
@@ -2745,7 +2729,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[4],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_104_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_104_TITLE'),
                 'link'         => 'index.php?Itemid=',
                 'type'         => 'alias',
                 'parent_id'    => $menuIdsLevel1[5],
@@ -2770,7 +2754,7 @@ class PlgSampledataTesting extends CMSPlugin
         $menuItems = [
             [
                 'menutype'     => $menuTypes[2],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_TITLE'),
                 'link'         => 'index.php?option=com_content&view=category&id=' . $articleCatids4[2],
                 'parent_id'    => $menuIdsLevel2[0],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
@@ -2797,7 +2781,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[2],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_1_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_1_TITLE'),
                 'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids4[3],
                 'parent_id'    => $menuIdsLevel2[0],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
@@ -2815,7 +2799,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[2],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_TITLE'),
                 'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids4[4],
                 'parent_id'    => $menuIdsLevel2[0],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
@@ -2859,7 +2843,7 @@ class PlgSampledataTesting extends CMSPlugin
         $menuItems = [
             [
                 'menutype'     => $menuTypes[2],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_0_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_0_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[45],
                 'parent_id'    => $menuIdsLevel3[2],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
@@ -2870,7 +2854,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[2],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_1_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_1_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[4],
                 'parent_id'    => $menuIdsLevel3[2],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
@@ -2881,7 +2865,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[2],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_2_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_2_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[59],
                 'parent_id'    => $menuIdsLevel3[2],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
@@ -2892,7 +2876,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[2],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_3_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_3_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[13],
                 'parent_id'    => $menuIdsLevel3[2],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
@@ -2903,7 +2887,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[2],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_4_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_4_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[14],
                 'parent_id'    => $menuIdsLevel3[2],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
@@ -2914,7 +2898,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[2],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_5_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_5_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[40],
                 'parent_id'    => $menuIdsLevel3[2],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
@@ -2925,7 +2909,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[2],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_6_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_2_6_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[50],
                 'parent_id'    => $menuIdsLevel3[2],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
@@ -2936,7 +2920,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[2],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_7_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_7_TITLE'),
                 'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids5[6],
                 'parent_id'    => $menuIdsLevel3[0],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
@@ -2952,7 +2936,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[2],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_8_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_8_TITLE'),
                 'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids5[5],
                 'parent_id'    => $menuIdsLevel3[0],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
@@ -2968,7 +2952,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[2],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_9_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_9_TITLE'),
                 'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $articleCatids5[7],
                 'parent_id'    => $menuIdsLevel3[0],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
@@ -2998,7 +2982,7 @@ class PlgSampledataTesting extends CMSPlugin
         $menuItems = [
             [
                 'menutype'          => $menuTypes[2],
-                'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_8_0_TITLE'),
+                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_8_0_TITLE'),
                 'link'              => 'index.php?option=com_content&view=article&id=' . $articleIds[48],
                 'parent_id'         => $menuIdsLevel4[8],
                 'component_id'      => ComponentHelper::getComponent('com_content')->id,
@@ -3010,7 +2994,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'          => $menuTypes[2],
-                'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_8_1_TITLE'),
+                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_8_1_TITLE'),
                 'link'              => 'index.php?option=com_content&view=featured',
                 'parent_id'         => $menuIdsLevel4[8],
                 'component_id'      => ComponentHelper::getComponent('com_content')->id,
@@ -3030,7 +3014,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'          => $menuTypes[2],
-                'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_7_2_TITLE'),
+                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_7_2_TITLE'),
                 'link'              => 'index.php?option=com_content&view=article&id=' . $articleIds[48],
                 'parent_id'         => $menuIdsLevel4[7],
                 'component_id'      => ComponentHelper::getComponent('com_content')->id,
@@ -3042,7 +3026,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'          => $menuTypes[2],
-                'title'             => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_7_3_TITLE'),
+                'title'             => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_7_3_TITLE'),
                 'link'              => 'index.php?option=com_content&view=featured',
                 'parent_id'         => $menuIdsLevel4[7],
                 'component_id'      => ComponentHelper::getComponent('com_content')->id,
@@ -3063,7 +3047,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[2],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_9_4_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_9_4_TITLE'),
                 'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[48],
                 'parent_id'    => $menuIdsLevel4[9],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
@@ -3074,7 +3058,7 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             [
                 'menutype'     => $menuTypes[2],
-                'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_9_5_TITLE'),
+                'title'        => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_27_0_0_9_5_TITLE'),
                 'link'         => 'index.php?option=com_content&view=featured',
                 'parent_id'    => $menuIdsLevel4[9],
                 'component_id' => ComponentHelper::getComponent('com_content')->id,
@@ -3100,15 +3084,15 @@ class PlgSampledataTesting extends CMSPlugin
             return $response;
         }
 
-        $this->app->setUserState('sampledata.testing.menus.menuids1', $menuIdsLevel1);
-        $this->app->setUserState('sampledata.testing.menus.menuids2', $menuIdsLevel2);
-        $this->app->setUserState('sampledata.testing.menus.menuids3', $menuIdsLevel3);
-        $this->app->setUserState('sampledata.testing.menus.menuids4', $menuIdsLevel4);
-        $this->app->setUserState('sampledata.testing.menus.menuids5', $menuIdsLevel5);
+        $this->getApplication()->setUserState('sampledata.testing.menus.menuids1', $menuIdsLevel1);
+        $this->getApplication()->setUserState('sampledata.testing.menus.menuids2', $menuIdsLevel2);
+        $this->getApplication()->setUserState('sampledata.testing.menus.menuids3', $menuIdsLevel3);
+        $this->getApplication()->setUserState('sampledata.testing.menus.menuids4', $menuIdsLevel4);
+        $this->getApplication()->setUserState('sampledata.testing.menus.menuids5', $menuIdsLevel5);
 
         $response            = [];
         $response['success'] = true;
-        $response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP7_SUCCESS');
+        $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_STEP7_SUCCESS');
 
         return $response;
     }
@@ -3122,7 +3106,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep8()
     {
-        if ($this->app->getInput()->get('type') !== $this->_name) {
+        if ($this->getApplication()->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -3134,24 +3118,24 @@ class PlgSampledataTesting extends CMSPlugin
             return $response;
         }
 
-        $model  = $this->app->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
-        $access = (int) $this->app->get('access', 1);
+        $model  = $this->getApplication()->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
+        $access = (int) $this->getApplication()->get('access', 1);
 
         // Get previously entered Data from UserStates
-        $menuTypes      = $this->app->getUserState('sampledata.testing.menutypes');
-        $articleCatids1 = $this->app->getUserState('sampledata.testing.articles.catids1');
-        $articleCatids2 = $this->app->getUserState('sampledata.testing.articles.catids2');
-        $articleCatids3 = $this->app->getUserState('sampledata.testing.articles.catids3');
-        $articleCatids4 = $this->app->getUserState('sampledata.testing.articles.catids4');
-        $articleCatids5 = $this->app->getUserState('sampledata.testing.articles.catids5');
-        $bannerCatids   = $this->app->getUserState('sampledata.testing.banners.catids');
-        $menuIdsLevel1  = $this->app->getUserState('sampledata.testing.menus.menuids1');
-        $menuIdsLevel2  = $this->app->getUserState('sampledata.testing.menus.menuids2');
-        $menuIdsLevel5  = $this->app->getUserState('sampledata.testing.menus.menuids5');
+        $menuTypes      = $this->getApplication()->getUserState('sampledata.testing.menutypes');
+        $articleCatids1 = $this->getApplication()->getUserState('sampledata.testing.articles.catids1');
+        $articleCatids2 = $this->getApplication()->getUserState('sampledata.testing.articles.catids2');
+        $articleCatids3 = $this->getApplication()->getUserState('sampledata.testing.articles.catids3');
+        $articleCatids4 = $this->getApplication()->getUserState('sampledata.testing.articles.catids4');
+        $articleCatids5 = $this->getApplication()->getUserState('sampledata.testing.articles.catids5');
+        $bannerCatids   = $this->getApplication()->getUserState('sampledata.testing.banners.catids');
+        $menuIdsLevel1  = $this->getApplication()->getUserState('sampledata.testing.menus.menuids1');
+        $menuIdsLevel2  = $this->getApplication()->getUserState('sampledata.testing.menus.menuids2');
+        $menuIdsLevel5  = $this->getApplication()->getUserState('sampledata.testing.menus.menuids5');
 
         $modules = [
             [
-                'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_0_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_0_TITLE'),
                 'ordering' => 1,
                 'position' => 'sidebar-right',
                 'module'   => 'mod_menu',
@@ -3168,7 +3152,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_1_TITLE'),
+                'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_1_TITLE'),
                 'ordering'  => 1,
                 'position'  => 'bottom-a',
                 'module'    => 'mod_banners',
@@ -3181,13 +3165,13 @@ class PlgSampledataTesting extends CMSPlugin
                     'catid'       => [],
                     'tag_search'  => 0,
                     'ordering'    => 0,
-                    'footer_text' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_1_FOOTEER_TEXT'),
+                    'footer_text' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_1_FOOTEER_TEXT'),
                     'cache'       => 1,
                     'cache_time'  => 900,
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_2_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_2_TITLE'),
                 'ordering'   => 3,
                 'position'   => 'sidebar-right',
                 'module'     => 'mod_menu',
@@ -3221,7 +3205,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_3_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_3_TITLE'),
                 'ordering' => 1,
                 'position' => 'menu',
                 'module'   => 'mod_menu',
@@ -3238,7 +3222,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_4_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_4_TITLE'),
                 'ordering'   => 2,
                 'position'   => 'sidebar-left',
                 'module'     => 'mod_menu',
@@ -3264,7 +3248,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_5_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_5_TITLE'),
                 'ordering'   => 4,
                 'position'   => 'sidebar-right',
                 'module'     => 'mod_menu',
@@ -3299,7 +3283,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_6_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_6_TITLE'),
                 'ordering'   => 1,
                 'position'   => 'sitemapload',
                 'module'     => 'mod_menu',
@@ -3318,7 +3302,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_7_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_7_TITLE'),
                 'ordering'   => 5,
                 'position'   => 'sidebar-right',
                 'module'     => 'mod_menu',
@@ -3353,7 +3337,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_8_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_8_TITLE'),
                 'ordering'   => 1,
                 'module'     => 'mod_articles_archive',
                 'access'     => $access,
@@ -3369,7 +3353,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_9_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_9_TITLE'),
                 'ordering'   => 1,
                 'module'     => 'mod_articles_latest',
                 'access'     => $access,
@@ -3388,7 +3372,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_10_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_10_TITLE'),
                 'ordering'   => 1,
                 'module'     => 'mod_articles_popular',
                 'access'     => $access,
@@ -3406,7 +3390,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_11_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_11_TITLE'),
                 'ordering'   => 1,
                 'module'     => 'mod_feed',
                 'access'     => $access,
@@ -3428,7 +3412,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_12_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_12_TITLE'),
                 'ordering'   => 1,
                 'module'     => 'mod_articles_news',
                 'access'     => $access,
@@ -3451,7 +3435,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_13_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_13_TITLE'),
                 'ordering'   => 1,
                 'module'     => 'mod_random_image',
                 'access'     => $access,
@@ -3467,7 +3451,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_14_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_14_TITLE'),
                 'ordering'   => 1,
                 'module'     => 'mod_related_items',
                 'access'     => $access,
@@ -3481,7 +3465,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_15_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_15_TITLE'),
                 'ordering'   => 1,
                 'module'     => 'mod_search',
                 'access'     => $access,
@@ -3499,7 +3483,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_16_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_16_TITLE'),
                 'ordering'   => 1,
                 'module'     => 'mod_stats',
                 'access'     => $access,
@@ -3518,7 +3502,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_17_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_17_TITLE'),
                 'ordering'   => 1,
                 'position'   => 'syndicateload',
                 'module'     => 'mod_syndicate',
@@ -3534,7 +3518,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_18_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_18_TITLE'),
                 'ordering'   => 1,
                 'module'     => 'mod_users_latest',
                 'access'     => $access,
@@ -3551,7 +3535,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_19_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_19_TITLE'),
                 'ordering'   => 1,
                 'module'     => 'mod_whosonline',
                 'access'     => $access,
@@ -3566,7 +3550,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_20_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_20_TITLE'),
                 'ordering'   => 1,
                 'module'     => 'mod_wrapper',
                 'access'     => $access,
@@ -3587,7 +3571,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_21_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_21_TITLE'),
                 'ordering'   => 1,
                 'module'     => 'mod_footer',
                 'access'     => $access,
@@ -3602,7 +3586,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_22_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_22_TITLE'),
                 'ordering'   => 1,
                 'module'     => 'mod_login',
                 'access'     => $access,
@@ -3620,7 +3604,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_23_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_23_TITLE'),
                 'ordering'   => 1,
                 'module'     => 'mod_menu',
                 'access'     => $access,
@@ -3639,7 +3623,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_24_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_24_TITLE'),
                 'ordering'   => 6,
                 'position'   => 'sidebar-right',
                 'module'     => 'mod_articles_latest',
@@ -3664,8 +3648,8 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_25_TITLE'),
-                'content'  => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_25_CONTENT'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_25_TITLE'),
+                'content'  => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_25_CONTENT'),
                 'ordering' => 1,
                 'module'   => 'mod_custom',
                 'access'   => $access,
@@ -3680,7 +3664,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_26_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_26_TITLE'),
                 'ordering' => 1,
                 'module'   => 'mod_breadcrumbs',
                 'access'   => $access,
@@ -3690,7 +3674,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'params' => [
                     'showHere'   => 1,
                     'showHome'   => 1,
-                    'homeText'   => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_26_HOMETEXT'),
+                    'homeText'   => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_26_HOMETEXT'),
                     'showLast'   => 1,
                     'cache'      => 0,
                     'cache_time' => 900,
@@ -3698,7 +3682,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_27_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_27_TITLE'),
                 'ordering' => 1,
                 'module'   => 'mod_banners',
                 'access'   => $access,
@@ -3717,7 +3701,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_28_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_28_TITLE'),
                 'ordering'   => 3,
                 'position'   => 'sidebar-left',
                 'module'     => 'mod_menu',
@@ -3745,8 +3729,8 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_29_TITLE'),
-                'content'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_29_CONTENT'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_29_TITLE'),
+                'content'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_29_CONTENT'),
                 'ordering'   => 1,
                 'position'   => 'main-top',
                 'module'     => 'mod_custom',
@@ -3770,7 +3754,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_30_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_30_TITLE'),
                 'ordering'   => 1,
                 'module'     => 'mod_articles_categories',
                 'access'     => $access,
@@ -3790,7 +3774,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_31_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_31_TITLE'),
                 'ordering'   => 3,
                 'position'   => 'sidebar-left',
                 'published'  => 0,
@@ -3813,7 +3797,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_32_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_32_TITLE'),
                 'ordering' => 1,
                 'position' => 'search',
                 'module'   => 'mod_search',
@@ -3828,7 +3812,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_33_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_33_TITLE'),
                 'ordering'   => 1,
                 'position'   => 'languageswitcherload',
                 'published'  => 0,
@@ -3846,8 +3830,8 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_34_TITLE'),
-                'content'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_34_CONTENT'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_34_TITLE'),
+                'content'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_34_CONTENT'),
                 'ordering'   => 1,
                 'position'   => 'sidebar-left',
                 'module'     => 'mod_custom',
@@ -3870,7 +3854,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_35_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_35_TITLE'),
                 'ordering'   => 2,
                 'position'   => 'sidebar-right',
                 'published'  => 0,
@@ -3889,8 +3873,8 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_36_TITLE'),
-                'content'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_36_CONTENT'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_36_TITLE'),
+                'content'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_36_CONTENT'),
                 'ordering'   => 2,
                 'position'   => 'sidebar-left',
                 'module'     => 'mod_custom',
@@ -3907,7 +3891,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_37_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_37_TITLE'),
                 'ordering'   => 1,
                 'module'     => 'mod_articles_category',
                 'access'     => $access,
@@ -3954,7 +3938,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_38_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_38_TITLE'),
                 'ordering'   => 1,
                 'position'   => 'atomic-search',
                 'module'     => 'mod_search',
@@ -3974,7 +3958,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_39_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_39_TITLE'),
                 'ordering'   => 1,
                 'position'   => 'atomic-topmenu',
                 'module'     => 'mod_menu',
@@ -3996,8 +3980,8 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_40_TITLE'),
-                'content'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_40_CONTENT'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_40_TITLE'),
+                'content'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_40_CONTENT'),
                 'ordering'   => 1,
                 'position'   => 'atomic-topquote',
                 'module'     => 'mod_custom',
@@ -4016,8 +4000,8 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_41_TITLE'),
-                'content'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_41_CONTENT'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_41_TITLE'),
+                'content'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_41_CONTENT'),
                 'ordering'   => 1,
                 'position'   => 'atomic-bottomleft',
                 'module'     => 'mod_custom',
@@ -4036,8 +4020,8 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_42_TITLE'),
-                'content'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_42_CONTENT'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_42_TITLE'),
+                'content'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_42_CONTENT'),
                 'ordering'   => 1,
                 'position'   => 'atomic-bottommiddle',
                 'module'     => 'mod_custom',
@@ -4056,8 +4040,8 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_43_TITLE'),
-                'content'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_43_CONTENT'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_43_TITLE'),
+                'content'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_43_CONTENT'),
                 'ordering'   => 1,
                 'position'   => 'atomic-sidebar',
                 'module'     => 'mod_custom',
@@ -4076,7 +4060,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_44_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_44_TITLE'),
                 'ordering'   => 2,
                 'position'   => 'atomic-sidebar',
                 'module'     => 'mod_login',
@@ -4095,7 +4079,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_45_TITLE'),
+                'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_45_TITLE'),
                 'ordering'  => 1,
                 'position'  => 'bottom-a',
                 'module'    => 'mod_banners',
@@ -4108,13 +4092,13 @@ class PlgSampledataTesting extends CMSPlugin
                     'catid'       => [$bannerCatids[0]],
                     'tag_search'  => 0,
                     'ordering'    => 0,
-                    'footer_text' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_45_FOOTER_TEXT'),
+                    'footer_text' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_45_FOOTER_TEXT'),
                     'cache'       => 1,
                     'cache_time'  => 900,
                 ],
             ],
             [
-                'title'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_46_TITLE'),
+                'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_46_TITLE'),
                 'ordering'  => 1,
                 'position'  => 'bottom-a',
                 'module'    => 'mod_banners',
@@ -4127,13 +4111,13 @@ class PlgSampledataTesting extends CMSPlugin
                     'catid'       => [$bannerCatids[0]],
                     'tag_search'  => 0,
                     'ordering'    => 0,
-                    'footer_text' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_46_FOOTER_TEXT'),
+                    'footer_text' => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_46_FOOTER_TEXT'),
                     'cache'       => 1,
                     'cache_time'  => 900,
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_47_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_47_TITLE'),
                 'ordering'   => 2,
                 'module'     => 'mod_finder',
                 'access'     => $access,
@@ -4153,7 +4137,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_48_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_48_TITLE'),
                 'ordering' => '2',
                 'position' => 'sidebar-right',
                 'module'   => 'mod_menu',
@@ -4169,7 +4153,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_49_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_49_TITLE'),
                 'ordering' => 1,
                 'position' => 'sidebar-left',
                 'module'   => 'mod_menu',
@@ -4185,7 +4169,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_50_TITLE'),
+                'title'      => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_50_TITLE'),
                 'ordering'   => 1,
                 'position'   => 'sidebar-right',
                 'module'     => 'mod_menu',
@@ -4213,7 +4197,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_51_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_51_TITLE'),
                 'ordering' => 1,
                 'module'   => 'mod_tags_popular',
                 'access'   => $access,
@@ -4230,7 +4214,7 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_52_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_52_TITLE'),
                 'ordering' => 1,
                 'module'   => 'mod_tags_similar',
                 'access'   => $access,
@@ -4241,20 +4225,20 @@ class PlgSampledataTesting extends CMSPlugin
                 ],
             ],
             [
-                'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_53_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_53_TITLE'),
                 'ordering' => 1,
                 'position' => 'sidebar-left',
                 'module'   => 'mod_syndicate',
                 'access'   => $access,
                 'params'   => [
                     'display_text' => 1,
-                    'text'         => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_53_TEXT'),
+                    'text'         => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_53_TEXT'),
                     'format'       => 'rss',
                     'cache'        => 0,
                 ],
             ],
             [
-                'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_54_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_54_TITLE'),
                 'ordering' => 1,
                 'position' => 'sidebar-left',
                 'module'   => 'mod_tags_similar',
@@ -4267,8 +4251,8 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             // Admin modules
             [
-                'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_55_TITLE'),
-                'content'  => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_55_CONTENT'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_55_TITLE'),
+                'content'  => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_55_CONTENT'),
                 'ordering' => 5,
                 'position' => 'cpanel',
                 'module'   => 'mod_custom',
@@ -4282,7 +4266,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'client_id' => 1,
             ],
             [
-                'title'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_56_TITLE'),
+                'title'     => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_56_TITLE'),
                 'ordering'  => 6,
                 'position'  => 'cpanel',
                 'published' => 0,
@@ -4304,7 +4288,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'client_id' => 1,
             ],
             [
-                'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_57_TITLE'),
+                'title'    => $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_57_TITLE'),
                 'ordering' => 3,
                 'position' => 'cpanel',
                 'module'   => 'mod_stats_admin',
@@ -4390,10 +4374,10 @@ class PlgSampledataTesting extends CMSPlugin
             }
 
             if (!$model->save($module)) {
-                Factory::getLanguage()->load('com_modules');
+                $this->getApplication()->getLanguage()->load('com_modules');
                 $response            = [];
                 $response['success'] = false;
-                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 8, Text::_($model->getError()));
+                $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 8, $this->getApplication()->getLanguage()->_($model->getError()));
 
                 return $response;
             }
@@ -4401,7 +4385,7 @@ class PlgSampledataTesting extends CMSPlugin
 
         $response            = [];
         $response['success'] = true;
-        $response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP8_SUCCESS');
+        $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_STEP8_SUCCESS');
 
         return $response;
     }
@@ -4416,7 +4400,7 @@ class PlgSampledataTesting extends CMSPlugin
     public function onAjaxSampledataApplyStep9()
     {
         $response['success'] = true;
-        $response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP9_SUCCESS');
+        $response['message'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_STEP9_SUCCESS');
 
         return $response;
     }
@@ -4437,14 +4421,14 @@ class PlgSampledataTesting extends CMSPlugin
     private function addCategories(array $categories, $extension, $level)
     {
         if (!$this->categoryModel) {
-            $this->categoryModel = $this->app->bootComponent('com_categories')
+            $this->categoryModel = $this->getApplication()->bootComponent('com_categories')
                 ->getMVCFactory()
                 ->createModel('Category', 'Administrator', ['ignore_request' => true]);
         }
 
         $catIds = [];
-        $access = (int) $this->app->get('access', 1);
-        $user   = Factory::getUser();
+        $access = (int) $this->getApplication()->get('access', 1);
+        $user   = $this->getApplication()->getIdentity();
 
         foreach ($categories as $category) {
             // Set values which are always the same.
@@ -4494,18 +4478,18 @@ class PlgSampledataTesting extends CMSPlugin
     {
         $ids = [];
 
-        $access     = (int) $this->app->get('access', 1);
-        $user       = Factory::getUser();
-        $mvcFactory = $this->app->bootComponent('com_content')->getMVCFactory();
+        $access     = (int) $this->getApplication()->get('access', 1);
+        $user       = $this->getApplication()->getIdentity();
+        $mvcFactory = $this->getApplication()->bootComponent('com_content')->getMVCFactory();
 
         foreach ($articles as $i => $article) {
             /** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
             $model = $mvcFactory->createModel('Article', 'Administrator', ['ignore_request' => true]);
 
             // Set values from language strings.
-            $article['title']     = Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_ARTICLE_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_TITLE');
-            $article['introtext'] = Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_ARTICLE_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_INTROTEXT');
-            $article['fulltext']  = Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_ARTICLE_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_FULLTEXT');
+            $article['title']     = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_ARTICLE_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_TITLE');
+            $article['introtext'] = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_ARTICLE_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_INTROTEXT');
+            $article['fulltext']  = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_ARTICLE_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_FULLTEXT');
 
             // Set values which are always the same.
             $article['id']              = 0;
@@ -4537,8 +4521,8 @@ class PlgSampledataTesting extends CMSPlugin
             }
 
             if (!$model->save($article)) {
-                Factory::getLanguage()->load('com_content');
-                throw new Exception(Text::_($model->getError()));
+                $this->getApplication()->getLanguage()->load('com_content');
+                throw new Exception($this->getApplication()->getLanguage()->_($model->getError()));
             }
 
             // Get ID from category we just added
@@ -4563,14 +4547,14 @@ class PlgSampledataTesting extends CMSPlugin
     private function addMenuItems(array $menuItems, $level)
     {
         if (!$this->menuItemModel) {
-            $this->menuItemModel = $this->app->bootComponent('com_menus')
+            $this->menuItemModel = $this->getApplication()->bootComponent('com_menus')
                 ->getMVCFactory()
                 ->createModel('Item', 'Administrator', ['ignore_request' => true]);
         }
 
         $itemIds = [];
-        $access  = (int) $this->app->get('access', 1);
-        $user    = Factory::getUser();
+        $access  = (int) $this->getApplication()->get('access', 1);
+        $user    = $this->getApplication()->getIdentity();
 
         foreach ($menuItems as $menuItem) {
             // Reset item.id in model state.

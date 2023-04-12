@@ -10,15 +10,17 @@ describe('Test that contacts API endpoint', () => {
   });
 
   it('can create a contact', () => {
-    cy.api_post('/contacts', {
-      name: 'automated test contact',
-      alias: 'test-contact',
-      catid: 4,
-      published: 1,
-      language: '*',
-    }).then((response) => cy.wrap(response).its('body').its('data').its('attributes')
-      .its('name')
-      .should('include', 'automated test contact'));
+    cy.db_createCategory({ extension: 'com_contacts' })
+      .then((categoryId) => cy.api_post('/contacts', {
+        name: 'automated test contact',
+        alias: 'test-contact',
+        catid: categoryId,
+        published: 1,
+        language: '*',
+      }))
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+        .its('name')
+        .should('include', 'automated test contact'));
   });
 
   it('can update a contact', () => {
