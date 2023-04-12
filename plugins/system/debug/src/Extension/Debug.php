@@ -517,7 +517,8 @@ final class Debug extends CMSPlugin implements SubscriberInterface
      *
      * @since   3.1
      *
-     * @deprecated  5.0  Use Log::add(LogEntry $entry);
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use \Joomla\CMS\Log\Log::add(LogEntry $entry) instead
      */
     public function logger(LogEntry $entry)
     {
