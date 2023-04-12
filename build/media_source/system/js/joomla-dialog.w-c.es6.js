@@ -243,6 +243,18 @@ class JoomlaDialog extends HTMLElement {
         btn.classList.add('button', 'button-primary', 'btn', 'btn-primary');
       }
 
+      if (btnData.data) {
+        Object.entries(btnData.data).forEach(([k, v]) => {
+          btn.dataset[k] = v;
+        });
+        if (btnData.data.dialogClose !== undefined) {
+          btnData.onClick = () => this.close();
+        }
+        if (btnData.data.dialogDestroy !== undefined) {
+          btnData.onClick = () => this.destroy();
+        }
+      }
+
       if (btnData.onClick) {
         btn.addEventListener('click', btnData.onClick);
       }
