@@ -11,6 +11,12 @@ describe('Test the user profile view', () => {
 
         cy.get('#system-message-container').should('contain.text', 'You have been logged in.');
         cy.get('#users-profile-core').should('contain.text', 'Profile');
+        cy.get('#users-profile-core').should('contain.text', 'Name');
+        cy.get('#users-profile-core').should('contain.text', 'test user');
+        cy.get('#users-profile-core').should('contain.text', 'Username');
+        cy.get('#users-profile-core').should('contain.text', 'test');
+        cy.get('#users-profile-core').should('contain.text', 'Registered Date');
+        cy.get('#users-profile-core').should('contain.text', 'Wednesday, 01 March 2023');
       });
   });
 
@@ -28,6 +34,12 @@ describe('Test the user profile view', () => {
 
         cy.get('#system-message-container').should('contain.text', 'You have been logged in.');
         cy.get('#users-profile-core').should('contain.text', 'Profile');
+        cy.get('#users-profile-core').should('contain.text', 'Name');
+        cy.get('#users-profile-core').should('contain.text', 'test user');
+        cy.get('#users-profile-core').should('contain.text', 'Username');
+        cy.get('#users-profile-core').should('contain.text', 'test');
+        cy.get('#users-profile-core').should('contain.text', 'Registered Date');
+        cy.get('#users-profile-core').should('contain.text', 'Wednesday, 01 March 2023');
       });
   });
 });
