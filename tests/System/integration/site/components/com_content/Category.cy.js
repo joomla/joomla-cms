@@ -1,11 +1,16 @@
-describe('Test that the list view ', () => {
+describe('Test that the articles category menu item type ', () => {
   ['default', 'blog'].forEach((layout) => {
     it(`can display a list of articles in the ${layout} layout in a menu item`, () => {
       cy.db_createArticle({ title: 'article 1' })
         .then(() => cy.db_createArticle({ title: 'article 2' }))
         .then(() => cy.db_createArticle({ title: 'article 3' }))
         .then(() => cy.db_createArticle({ title: 'article 4' }))
-        .then(() => cy.db_createMenuItem({ title: 'automated test', link: `index.php?option=com_content&view=category&id=2&layout=${layout}` }))
+        .then(() => cy.db_createMenuItem({
+          title: 'automated test',
+          alias: 'automated-test',
+          link: `index.php?option=com_content&view=category&id=2&layout=${layout}`,
+          path: 'automated-test/root',
+        }))
         .then(() => {
           cy.visit('/');
           cy.get('a:contains(automated test)').click();
@@ -35,9 +40,14 @@ describe('Test that the list view ', () => {
 
   it('can open the article form in the default layout', () => {
     cy.db_createArticle({ title: 'article 1' })
-      .then(() => cy.db_createMenuItem({ title: 'automated test', link: 'index.php?option=com_content&view=category&id=2&layout=default' }))
+      .then(() => cy.db_createMenuItem({
+        title: 'automated test',
+        alias: 'automated-test',
+        link: 'index.php?option=com_content&view=category&id=2&layout=default',
+        path: 'automated-test/root',
+      }))
       .then(() => {
-        cy.doFrontendLogin(Cypress.env('username'), Cypress.env('password'));
+        cy.doFrontendLogin();
         cy.visit('/');
         cy.get('a:contains(automated test)').click();
         cy.get('a:contains(New Article)').click();
