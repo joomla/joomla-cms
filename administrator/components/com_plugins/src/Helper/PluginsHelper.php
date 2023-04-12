@@ -47,7 +47,7 @@ class PluginsHelper
     /**
      * Returns a list of folders filter options.
      *
-     * @return  string    The HTML code for the select tag
+     * @return  object[]   The HTML code for the select tag
      */
     public static function folderOptions()
     {
@@ -72,7 +72,7 @@ class PluginsHelper
     /**
      * Returns a list of elements filter options.
      *
-     * @return  string    The HTML code for the select tag
+     * @return  object[]    The HTML code for the select tag
      */
     public static function elementOptions()
     {

@@ -6,11 +6,12 @@
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+namespace Joomla\Plugin\MediaAction\Resize\Extension;
+
 use Joomla\CMS\Image\Image;
+use Joomla\Component\Media\Administrator\Plugin\MediaActionPlugin;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -21,7 +22,7 @@ use Joomla\CMS\Image\Image;
  *
  * @since  4.0.0
  */
-class PlgMediaActionResize extends \Joomla\Component\Media\Administrator\Plugin\MediaActionPlugin
+final class Resize extends MediaActionPlugin
 {
     /**
      * The save event.
@@ -51,10 +52,7 @@ class PlgMediaActionResize extends \Joomla\Component\Media\Administrator\Plugin\
 
         $imgObject = new Image(imagecreatefromstring($item->data));
 
-        if (
-            $imgObject->getWidth() < $this->params->get('batch_width', 0)
-            && $imgObject->getHeight() < $this->params->get('batch_height', 0)
-        ) {
+        if ($imgObject->getWidth() < $this->params->get('batch_width', 0) && $imgObject->getHeight() < $this->params->get('batch_height', 0)) {
             return;
         }
 
