@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * Set the platform root path as a constant if necessary.
  *
  * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
- *             Use defined('_JEXEC') or die; to detect if the CMS is correctly loaded
+ *             Use defined('_JEXEC') or die; to detect if the CMS is loaded correctly
  **/
 defined('JPATH_PLATFORM') or define('JPATH_PLATFORM', __DIR__);
 
