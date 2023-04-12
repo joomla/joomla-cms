@@ -1,6 +1,8 @@
 describe('Test the user profile view', () => {
   it('can display user profile for test user', () => {
-    cy.db_createUser({ name: 'automated test user', username: 'test', password: '098f6bcd4621d373cade4e832627b4f6', registerDate: '2023-03-01 20:00:00' })
+    cy.db_createUser({
+      name: 'automated test user', username: 'test', password: '098f6bcd4621d373cade4e832627b4f6', registerDate: '2023-03-01 20:00:00'
+    })
       .then(() => {
         cy.visit('index.php?option=com_users&view=profile');
 
@@ -21,7 +23,9 @@ describe('Test the user profile view', () => {
   });
 
   it('testing user profile display for test user through menu item', () => {
-    cy.db_createUser({ name: 'automated test user', username: 'test', password: '098f6bcd4621d373cade4e832627b4f6', registerDate: '2023-03-01 20:00:00' })
+    cy.db_createUser({
+      name: 'automated test user', username: 'test', password: '098f6bcd4621d373cade4e832627b4f6', registerDate: '2023-03-01 20:00:00'
+    })
       .then(() => cy.db_createMenuItem({ title: 'Automated test user profile', link: 'index.php?option=com_users&view=profile' }))
       .then(() => {
         cy.visit('/');
