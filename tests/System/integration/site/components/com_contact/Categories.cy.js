@@ -1,4 +1,4 @@
-describe('Test that the Catagories of com_contact ', () => {
+describe('Test that the Categories of com_contact ', () => {
   it('can display a list of categories of contacts in menu item', () => {
     cy.db_createCategory({ title: 'automated test category 1', extension: 'com_contact' })
       .then((id) => cy.db_createContact({ name: 'automated test contact 1', catid: id }))
