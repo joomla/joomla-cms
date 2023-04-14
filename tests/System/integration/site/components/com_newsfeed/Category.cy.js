@@ -1,5 +1,5 @@
-describe('Test that the feed view ', () => {
-  it('can display a list of feeds in menu item', () => {
+describe('Test that the newsfeeds category view', () => {
+  it('can display a list of feeds in a menu item', () => {
     cy.db_createNewsFeed({ name: 'automated test feed 1' })
       .then(() => cy.db_createNewsFeed({ name: 'automated test feed 2' }))
       .then(() => cy.db_createNewsFeed({ name: 'automated test feed 3' }))
@@ -16,7 +16,7 @@ describe('Test that the feed view ', () => {
       });
   });
 
-  it('can display a list of feeds without menu item', () => {
+  it('can display a list of feeds without a menu item', () => {
     cy.db_createNewsFeed({ name: 'automated test feed 1' })
       .then(() => cy.db_createNewsFeed({ name: 'automated test feed 2' }))
       .then(() => cy.db_createNewsFeed({ name: 'automated test feed 3' }))

@@ -1,10 +1,9 @@
-describe('Test the remind view', () => {
-  it('can open the reminder form for test user through menu item', () => {
+describe('Test that the users remind view', () => {
+  it('can send a reminder mail for a test user in a menu item', () => {
     cy.db_createUser({ name: 'test user', email: 'test@example.com' })
       .then(() => cy.db_createMenuItem({ title: 'Automated test reminder', link: 'index.php?option=com_users&view=remind' }))
       .then(() => {
         cy.visit('/');
-
         cy.get('a:contains(Automated test reminder)').click();
         cy.get('#jform_email').type('test@example.com');
         cy.get('.controls > .btn').click();
@@ -13,11 +12,10 @@ describe('Test the remind view', () => {
       });
   });
 
-  it('can display the remind view for test user', () => {
+  it('can send a reminder mail for a test user without a menu item', () => {
     cy.db_createUser({ name: 'test user', email: 'test@example.com' })
       .then(() => {
         cy.visit('index.php?option=com_users&view=remind');
-
         cy.get('#jform_email').type('test@example.com');
         cy.get('.controls > .btn').click();
 
