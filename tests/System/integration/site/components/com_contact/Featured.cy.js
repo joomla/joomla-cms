@@ -1,4 +1,4 @@
-describe('Test that the contact featured view', () => {
+describe('Test in frontend that the contact featured view', () => {
   it('can display featured contacts', () => {
     cy.db_createContact({ name: 'automated test contact 1', featured: 1 })
       .then(() => cy.db_createContact({ name: 'automated test contact 2', featured: 1 }))

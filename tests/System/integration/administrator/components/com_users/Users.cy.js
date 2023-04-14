@@ -1,4 +1,4 @@
-describe('Test that the user back end list', () => {
+describe('Test in backend that the user back end list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
     cy.visit('administrator/index.php?option=com_users&view=users&filter=');

@@ -1,4 +1,4 @@
-describe('Test that the users registration view', () => {
+describe('Test in frontend that the users registration view', () => {
   it('can display a registration form', () => {
     cy.db_createUser({
       name: 'test user', username: 'test', email: 'test@example.com', password: '098f6bcd4621d373cade4e832627b4f6',

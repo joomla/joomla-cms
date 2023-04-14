@@ -1,4 +1,4 @@
-describe('Test that the menu back end list', () => {
+describe('Test in backend that the menu back end list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
     cy.visit('administrator/index.php?option=com_menus&view=menus&filter=');

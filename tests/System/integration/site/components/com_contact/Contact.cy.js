@@ -1,4 +1,4 @@
-describe('Test that the contact details view', () => {
+describe('Test in frontend that the contact details view', () => {
   it('can display a form', () => {
     cy.db_getUserId().then((id) => cy.db_createContact({ name: 'contact 1', user_id: id }))
       .then((contactId) => {

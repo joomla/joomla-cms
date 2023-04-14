@@ -1,4 +1,4 @@
-describe('Test that the content featured view', () => {
+describe('Test in frontend that the content featured view', () => {
   it('can display an article', () => {
     cy.db_createArticle({ title: 'automated test article', featured: 1 }).then(() => {
       cy.visit('/');

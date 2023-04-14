@@ -1,4 +1,4 @@
-describe('Test that the users login view', () => {
+describe('Test in frontend that the users login view', () => {
   it('can log in a test user without a menu item', () => {
     cy.db_createUser({ username: 'test', password: '098f6bcd4621d373cade4e832627b4f6' })
       .then(() => {

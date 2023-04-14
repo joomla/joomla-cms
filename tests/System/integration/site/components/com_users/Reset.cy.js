@@ -1,4 +1,4 @@
-describe('Test that the users reset view', () => {
+describe('Test in frontend that the users reset view', () => {
   it('can send out a reset mail for a test user without a menu item', () => {
     cy.db_createUser({ email: 'test@example.com' })
       .then(() => {

@@ -1,4 +1,4 @@
-describe('Test that the contact form view', () => {
+describe('Test in frontend that the contact form view', () => {
   afterEach(() => cy.task('queryDB', 'DELETE FROM #__contact_details'));
 
   it('can create a contact through a form', () => {

@@ -1,4 +1,4 @@
-describe('Test that the article back end form', () => {
+describe('Test in backend that the article back end form', () => {
   beforeEach(() => cy.doAdministratorLogin());
   afterEach(() => cy.task('queryDB', "DELETE FROM #__content WHERE title = 'Test article'"));
 

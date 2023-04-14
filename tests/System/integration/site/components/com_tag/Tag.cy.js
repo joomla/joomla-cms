@@ -1,4 +1,4 @@
-describe('Test that the tags tag view', () => {
+describe('Test in frontend that the tags tag view', () => {
   it('can display a list of tags in a menu item', () => {
     cy.db_createTag({ title: 'automated test tag 1' })
       .then(() => cy.db_createTag({ title: 'automated test tag 2' }))

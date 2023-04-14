@@ -1,4 +1,4 @@
-describe('Test that the newsfeeds details view', () => {
+describe('Test in frontend that the newsfeeds details view', () => {
   ['joomla.org'].forEach((file) => {
     it(`can display a feed in a menu item from ${file}`, () => {
       cy.db_createNewsFeed({ name: 'automated test feed 1', link: `${Cypress.config('baseUrl')}/tests/System/data/com_newsfeeds/${file}.xml` })

@@ -1,4 +1,4 @@
-describe('Test that the custom fields back end list', () => {
+describe('Test in backend that the custom fields back end list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
     cy.visit('administrator/index.php?option=com_fields&view=fields&context=com_content.article&filter=');

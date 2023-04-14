@@ -1,4 +1,4 @@
-describe('Test that the field back end form', () => {
+describe('Test in backend that the field back end form', () => {
   beforeEach(() => cy.doAdministratorLogin());
   afterEach(() => cy.task('queryDB', "DELETE FROM #__fields WHERE title = 'Test field'"));
 

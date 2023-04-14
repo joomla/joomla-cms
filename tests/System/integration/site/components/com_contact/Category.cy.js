@@ -1,4 +1,4 @@
-describe('Test that the contact category view', () => {
+describe('Test in frontend that the contact category view', () => {
   it('can display a list of contacts in a menu item', () => {
     cy.db_createContact({ name: 'automated test contact 1', featured: 1 })
       .then(() => cy.db_createContact({ name: 'automated test contact 2', featured: 1 }))

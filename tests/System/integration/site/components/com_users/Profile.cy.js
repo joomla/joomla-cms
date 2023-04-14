@@ -1,4 +1,4 @@
-describe('Test that the users profile view', () => {
+describe('Test in frontend that the users profile view', () => {
   it('can display a user profile for a test user without a menu item', () => {
     cy.db_createUser({
       name: 'automated test user', username: 'automatedtestuser', password: '098f6bcd4621d373cade4e832627b4f6', registerDate: '2023-03-01 20:00:00',

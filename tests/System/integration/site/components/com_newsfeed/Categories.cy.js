@@ -1,4 +1,4 @@
-describe('Test that the newsfeeds categories view', () => {
+describe('Test in frontend that the newsfeeds categories view', () => {
   it('can display a list of categories', () => {
     cy.db_createCategory({ title: 'automated test category 1', extension: 'com_newsfeeds' })
       .then((id) => cy.db_createNewsFeed({ name: 'automated test feed 1', catid: id }))
