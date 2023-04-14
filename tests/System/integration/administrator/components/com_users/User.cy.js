@@ -1,4 +1,4 @@
-describe('Test in backend that the user back end form', () => {
+describe('Test in backend that the user form', () => {
   beforeEach(() => cy.doAdministratorLogin());
   afterEach(() => cy.task('queryDB', "DELETE FROM #__users WHERE username = 'test'"));
 

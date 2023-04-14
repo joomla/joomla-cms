@@ -1,4 +1,4 @@
-describe('Test in backend that the categories back end list', () => {
+describe('Test in backend that the categories list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
     cy.visit('administrator/index.php?option=com_categories&view=categories&extension=com_content&filter=');

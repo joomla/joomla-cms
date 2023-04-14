@@ -1,4 +1,4 @@
-describe('Test in backend that the articles back end list', () => {
+describe('Test in backend that the articles list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
     cy.visit('administrator/index.php?option=com_content&view=articles&filter=');

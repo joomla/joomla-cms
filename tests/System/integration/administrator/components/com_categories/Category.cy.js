@@ -1,4 +1,4 @@
-describe('Test in backend that the category back end form', () => {
+describe('Test in backend that the category form', () => {
   beforeEach(() => cy.doAdministratorLogin());
   afterEach(() => cy.task('queryDB', "DELETE FROM #__categories WHERE title = 'Test category'"));
 
