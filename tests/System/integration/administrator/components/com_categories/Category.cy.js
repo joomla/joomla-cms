@@ -13,9 +13,9 @@ describe('Test that the category back end form', () => {
 
   it('check redirection to list view', () => {
     cy.visit('administrator/index.php?option=com_categories&task=category.add&extension=com_content');
-    cy.intercept('index.php?option=com_categories&view=categories&extension=com_content').as('listview')
+    cy.intercept('index.php?option=com_categories&view=categories&extension=com_content').as('listview');
     cy.clickToolbarButton('Cancel');
 
-    cy.wait('@listview')
+    cy.wait('@listview');
   });
 });

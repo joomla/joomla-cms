@@ -23,9 +23,9 @@ describe('Test that the article back end form', () => {
 
   it('check redirection to list view', () => {
     cy.visit('administrator/index.php?option=com_content&task=article.add');
-    cy.intercept('index.php?option=com_content&view=articles').as('listview')
+    cy.intercept('index.php?option=com_content&view=articles').as('listview');
     cy.clickToolbarButton('Cancel');
 
-    cy.wait('@listview')
+    cy.wait('@listview');
   });
 });
