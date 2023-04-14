@@ -1,5 +1,5 @@
 describe('Test in frontend that the users reset view', () => {
-  it('can send out a reset mail for a test user without a menu item', () => {
+  it('can send out a reset email for a test user without a menu item', () => {
     cy.db_createUser({ email: 'test@example.com' })
       .then(() => {
         cy.visit('index.php?option=com_users&view=reset');
@@ -10,7 +10,7 @@ describe('Test in frontend that the users reset view', () => {
       });
   });
 
-  it('can send out a reset mail for a test user in a menu item', () => {
+  it('can send out a reset email for a test user in a menu item', () => {
     cy.db_createUser({ email: 'test@example.com' })
       .then(() => cy.db_createMenuItem({ title: 'Automated test reset', link: 'index.php?option=com_users&view=reset' }))
       .then(() => {

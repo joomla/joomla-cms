@@ -1,5 +1,5 @@
 describe('Test in frontend that the users remind view', () => {
-  it('can send a reminder mail for a test user in a menu item', () => {
+  it('can send a reminder email for a test user in a menu item', () => {
     cy.db_createUser({ name: 'test user', email: 'test@example.com' })
       .then(() => cy.db_createMenuItem({ title: 'Automated test reminder', link: 'index.php?option=com_users&view=remind' }))
       .then(() => {
@@ -12,7 +12,7 @@ describe('Test in frontend that the users remind view', () => {
       });
   });
 
-  it('can send a reminder mail for a test user without a menu item', () => {
+  it('can send a reminder email for a test user without a menu item', () => {
     cy.db_createUser({ name: 'test user', email: 'test@example.com' })
       .then(() => {
         cy.visit('index.php?option=com_users&view=remind');
