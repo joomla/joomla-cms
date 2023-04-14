@@ -5,8 +5,8 @@ describe('Test the related items module', () => {
       .then(() => cy.db_createModule({ module: 'mod_related_items' }))
       .then(() => {
         cy.visit('/');
-
         cy.contains('a', 'Main Article').click();
+
         cy.contains('li', 'article with joomla keyword');
       });
   });
