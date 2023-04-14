@@ -48,11 +48,16 @@ class UserFactoryAwareTraitTest extends UnitTestCase
 
         $trait = new class () {
             use UserFactoryAwareTrait;
+
+            public function getFactory(): UserFactoryInterface
+            {
+                return $this->getUserFactory();
+            }
         };
 
         $trait->setUserFactory($userFactory);
 
-        $this->assertEquals($userFactory, $trait->getUserFactory());
+        $this->assertEquals($userFactory, $trait->getFactory());
     }
 
     /**
@@ -68,8 +73,13 @@ class UserFactoryAwareTraitTest extends UnitTestCase
 
         $trait = new class () {
             use UserFactoryAwareTrait;
+
+            public function getFactory(): UserFactoryInterface
+            {
+                return $this->getUserFactory();
+            }
         };
 
-        $trait->getUserFactory();
+        $trait->getFactory();
     }
 }
