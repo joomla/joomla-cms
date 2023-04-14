@@ -36,7 +36,7 @@ trait UserFactoryAwareTrait
      * @since   __DEPLOY_VERSION__
      * @throws  \UnexpectedValueException May be thrown if the UserFactory has not been set.
      */
-    public function getUserFactory(): UserFactoryInterface
+    protected function getUserFactory(): UserFactoryInterface
     {
         if ($this->userFactory) {
             return $this->userFactory;
