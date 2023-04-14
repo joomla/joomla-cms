@@ -47,7 +47,7 @@ class Form implements ServiceProviderInterface
 
                     return $factory;
                 },
-                true
+                false
             );
     }
 }

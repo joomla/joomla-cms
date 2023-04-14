@@ -40,7 +40,7 @@ class HTMLRegistry implements ServiceProviderInterface
             function (Container $container) {
                 return new Registry();
             },
-            true
+            false
         );
     }
 }

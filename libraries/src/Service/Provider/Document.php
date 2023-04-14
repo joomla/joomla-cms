@@ -47,7 +47,7 @@ class Document implements ServiceProviderInterface
 
                     return $factory;
                 },
-                true
+                false
             );
     }
 }

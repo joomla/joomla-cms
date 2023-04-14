@@ -42,7 +42,7 @@ class Logger implements ServiceProviderInterface
                 function (Container $container) {
                     return Log::createDelegatedLogger();
                 },
-                true
+                false
             );
     }
 }

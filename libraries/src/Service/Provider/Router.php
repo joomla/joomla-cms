@@ -46,7 +46,7 @@ class Router implements ServiceProviderInterface
                 function (Container $container) {
                     return new SiteRouter($container->get(SiteApplication::class));
                 },
-                true
+                false
             );
 
         $container->alias('AdministratorRouter', AdministratorRouter::class)
@@ -56,7 +56,7 @@ class Router implements ServiceProviderInterface
                 function (Container $container) {
                     return new AdministratorRouter();
                 },
-                true
+                false
             );
 
         $container->alias('ApiRouter', ApiRouter::class)
@@ -65,7 +65,7 @@ class Router implements ServiceProviderInterface
                 function (Container $container) {
                     return new ApiRouter($container->get(ApiApplication::class));
                 },
-                true
+                false
             );
     }
 }

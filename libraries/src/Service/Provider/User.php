@@ -44,7 +44,7 @@ class User implements ServiceProviderInterface
                 function (Container $container) {
                     return new UserFactory($container->get(DatabaseInterface::class));
                 },
-                true
+                false
             );
     }
 }

@@ -43,7 +43,7 @@ class Language implements ServiceProviderInterface
                 function (Container $container) {
                     return new CachingLanguageFactory();
                 },
-                true
+                false
             );
     }
 }

@@ -50,7 +50,7 @@ class Authentication implements ServiceProviderInterface
                 function (Container $container) {
                     return new Argon2iHandler();
                 },
-                true
+                false
             );
 
         $container->alias('password.handler.argon2id', Argon2idHandler::class)
@@ -60,7 +60,7 @@ class Authentication implements ServiceProviderInterface
                 function (Container $container) {
                     return new Argon2idHandler();
                 },
-                true
+                false
             );
 
         $container->alias('password.handler.chained', ChainedHandler::class)
@@ -85,7 +85,7 @@ class Authentication implements ServiceProviderInterface
 
                     return $handler;
                 },
-                true
+                false
             );
 
         // The Joomla default is BCrypt so alias this service
@@ -97,7 +97,7 @@ class Authentication implements ServiceProviderInterface
                 function (Container $container) {
                     return new BCryptHandler();
                 },
-                true
+                false
             );
 
         $container->alias('password.handler.md5', MD5Handler::class)
@@ -115,7 +115,7 @@ class Authentication implements ServiceProviderInterface
 
                     return new MD5Handler();
                 },
-                true
+                false
             );
 
         $container->alias('password.handler.phpass', PHPassHandler::class)
@@ -133,7 +133,7 @@ class Authentication implements ServiceProviderInterface
 
                     return new PHPassHandler();
                 },
-                true
+                false
             );
     }
 }

@@ -44,7 +44,7 @@ class Pathway implements ServiceProviderInterface
                 function (Container $container) {
                     return new SitePathway($container->get(SiteApplication::class));
                 },
-                true
+                false
             );
 
         $container->alias('Pathway', \Joomla\CMS\Pathway\Pathway::class)
@@ -55,7 +55,7 @@ class Pathway implements ServiceProviderInterface
                 function (Container $container) {
                     return new \Joomla\CMS\Pathway\Pathway();
                 },
-                true
+                false
             );
     }
 }

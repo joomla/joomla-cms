@@ -68,7 +68,7 @@ class Console implements ServiceProviderInterface
 
                 return $command;
             },
-            true
+            false
         );
 
         $container->share(
@@ -76,7 +76,7 @@ class Console implements ServiceProviderInterface
             function (Container $container) {
                 return new SessionMetadataGcCommand($container->get('session'), $container->get(MetadataManager::class));
             },
-            true
+            false
         );
 
         $container->share(
@@ -84,7 +84,7 @@ class Console implements ServiceProviderInterface
             function (Container $container) {
                 return new ExportCommand($container->get('db'));
             },
-            true
+            false
         );
 
         $container->share(
@@ -92,7 +92,7 @@ class Console implements ServiceProviderInterface
             function (Container $container) {
                 return new ImportCommand($container->get('db'));
             },
-            true
+            false
         );
 
         $container->share(
@@ -100,7 +100,7 @@ class Console implements ServiceProviderInterface
             function (Container $container) {
                 return new SiteDownCommand();
             },
-            true
+            false
         );
 
         $container->share(
@@ -108,7 +108,7 @@ class Console implements ServiceProviderInterface
             function (Container $container) {
                 return new SiteUpCommand();
             },
-            true
+            false
         );
 
         $container->share(
@@ -116,7 +116,7 @@ class Console implements ServiceProviderInterface
             function (Container $container) {
                 return new SetConfigurationCommand();
             },
-            true
+            false
         );
 
         $container->share(
@@ -124,7 +124,7 @@ class Console implements ServiceProviderInterface
             function (Container $container) {
                 return new GetConfigurationCommand();
             },
-            true
+            false
         );
 
         $container->share(
@@ -132,7 +132,7 @@ class Console implements ServiceProviderInterface
             function (Container $container) {
                 return new ExtensionsListCommand($container->get('db'));
             },
-            true
+            false
         );
 
         $container->share(
@@ -140,7 +140,7 @@ class Console implements ServiceProviderInterface
             function (Container $container) {
                 return new CheckJoomlaUpdatesCommand();
             },
-            true
+            false
         );
 
         $container->share(
@@ -148,7 +148,7 @@ class Console implements ServiceProviderInterface
             function (Container $container) {
                 return new ExtensionRemoveCommand($container->get(DatabaseInterface::class));
             },
-            true
+            false
         );
 
         $container->share(
@@ -156,7 +156,7 @@ class Console implements ServiceProviderInterface
             function (Container $container) {
                 return new ExtensionInstallCommand();
             },
-            true
+            false
         );
 
         $container->share(
@@ -164,7 +164,7 @@ class Console implements ServiceProviderInterface
             function (Container $container) {
                 return new ExtensionDiscoverCommand();
             },
-            true
+            false
         );
 
         $container->share(
@@ -172,7 +172,7 @@ class Console implements ServiceProviderInterface
             function (Container $container) {
                 return new ExtensionDiscoverInstallCommand($container->get('db'));
             },
-            true
+            false
         );
 
         $container->share(
@@ -180,7 +180,7 @@ class Console implements ServiceProviderInterface
             function (Container $container) {
                 return new ExtensionDiscoverListCommand($container->get('db'));
             },
-            true
+            false
         );
 
         $container->share(
@@ -188,7 +188,7 @@ class Console implements ServiceProviderInterface
             function (Container $container) {
                 return new UpdateCoreCommand($container->get('db'));
             },
-            true
+            false
         );
 
         $container->share(
@@ -196,7 +196,7 @@ class Console implements ServiceProviderInterface
             function (Container $container) {
                 return new FinderIndexCommand($container->get('db'));
             },
-            true
+            false
         );
 
         $container->share(
@@ -204,7 +204,7 @@ class Console implements ServiceProviderInterface
             function (Container $container) {
                 return new TasksListCommand();
             },
-            true
+            false
         );
 
         $container->share(

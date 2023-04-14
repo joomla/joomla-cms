@@ -93,7 +93,7 @@ class Session implements ServiceProviderInterface
                     $options
                 );
             },
-            true
+            false
         );
 
         $container->share(
@@ -138,7 +138,7 @@ class Session implements ServiceProviderInterface
                     $options
                 );
             },
-            true
+            false
         );
 
         $container->share(
@@ -177,7 +177,7 @@ class Session implements ServiceProviderInterface
                     $options
                 );
             },
-            true
+            false
         );
 
         $container->share(
@@ -217,7 +217,7 @@ class Session implements ServiceProviderInterface
                     $options
                 );
             },
-            true
+            false
         );
 
         $container->alias(SessionFactory::class, 'session.factory')
@@ -229,7 +229,7 @@ class Session implements ServiceProviderInterface
 
                     return $factory;
                 },
-                true
+                false
             );
 
         $container->alias(SessionManager::class, 'session.manager')
@@ -244,7 +244,7 @@ class Session implements ServiceProviderInterface
 
                     return new SessionManager($container->get('session.handler'));
                 },
-                true
+                false
             );
 
         $container->alias(MetadataManager::class, 'session.metadata_manager')
@@ -267,7 +267,7 @@ class Session implements ServiceProviderInterface
 
                     return new MetadataManager(Factory::$application, $container->get(DatabaseInterface::class));
                 },
-                true
+                false
             );
 
         $container->alias(MetadataManagerListener::class, 'session.event_listener.metadata_manager')
@@ -276,7 +276,7 @@ class Session implements ServiceProviderInterface
                 function (Container $container) {
                     return new MetadataManagerListener($container->get(MetadataManager::class), $container->get('config'));
                 },
-                true
+                false
             );
 
         $listener = new LazyServiceEventListener($container, 'session.event_listener.metadata_manager', 'onAfterSessionStart');
@@ -332,7 +332,7 @@ class Session implements ServiceProviderInterface
             ->share(
                 'session.handler',
                 $sessionHandler,
-                true
+                false
             );
 
         // If the session handler implements the extended interface, register an alias for that as well

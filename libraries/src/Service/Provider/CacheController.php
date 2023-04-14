@@ -43,7 +43,7 @@ class CacheController implements ServiceProviderInterface
                 function (Container $container) {
                     return new CacheControllerFactory();
                 },
-                true
+                false
             );
     }
 }

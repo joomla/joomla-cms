@@ -49,7 +49,7 @@ class Menu implements ServiceProviderInterface
 
                     return $factory;
                 },
-                true
+                false
             );
     }
 }

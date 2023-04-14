@@ -46,7 +46,7 @@ class Toolbar implements ServiceProviderInterface
 
                     return $factory;
                 },
-                true
+                false
             );
     }
 }

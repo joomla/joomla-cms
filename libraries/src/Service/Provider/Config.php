@@ -51,7 +51,7 @@ class Config implements ServiceProviderInterface
 
                     return new Registry(new \JConfig());
                 },
-                true
+                false
             );
     }
 }

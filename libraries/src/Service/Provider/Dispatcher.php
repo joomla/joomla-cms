@@ -43,7 +43,7 @@ class Dispatcher implements ServiceProviderInterface
                 function (Container $container) {
                     return new EventDispatcher();
                 },
-                true
+                false
             );
     }
 }

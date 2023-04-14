@@ -49,7 +49,7 @@ class WebAssetRegistry implements ServiceProviderInterface
 
                     return $registry;
                 },
-                true
+                false
             );
     }
 }
