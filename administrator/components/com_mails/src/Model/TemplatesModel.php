@@ -13,6 +13,7 @@ namespace Joomla\Component\Mails\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -34,17 +35,17 @@ class TemplatesModel extends ListModel
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'template_id', 'a.template_id',
                 'language', 'a.language',
                 'subject', 'a.subject',
                 'body', 'a.body',
                 'htmlbody', 'a.htmlbody',
-                'extension'
-            );
+                'extension',
+            ];
         }
 
         parent::__construct($config);
@@ -88,7 +89,7 @@ class TemplatesModel extends ListModel
         $items = parent::getItems();
         $id    = '';
 
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName('language'))
             ->from($db->quoteName('#__mail_templates'))
@@ -109,14 +110,14 @@ class TemplatesModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  QueryInterface
+     * @return  DatabaseQuery
      *
      * @since   4.0.0
      */
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.
@@ -214,6 +215,6 @@ class TemplatesModel extends ListModel
      */
     public function getLanguages()
     {
-        return LanguageHelper::getContentLanguages(array(0,1));
+        return LanguageHelper::getContentLanguages([0, 1]);
     }
 }

@@ -75,14 +75,14 @@ class NomenuRules implements RulesInterface
 
             if (isset($views[$segments[0]])) {
                 $vars['view'] = array_shift($segments);
-                $view = $views[$vars['view']];
+                $view         = $views[$vars['view']];
 
                 if (isset($view->key) && isset($segments[0])) {
-                    if (\is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Id'))) {
-                        $input = $this->app->getInput();
+                    if (\is_callable([$this->router, 'get' . ucfirst($view->name) . 'Id'])) {
+                        $input = $this->router->app->getInput();
                         if ($view->parent_key && $input->get($view->parent_key)) {
                             $vars[$view->parent->key] = $input->get($view->parent_key);
-                            $vars[$view->parent_key] = $input->get($view->parent_key);
+                            $vars[$view->parent_key]  = $input->get($view->parent_key);
                         }
 
                         if ($view->nestable) {
@@ -90,7 +90,7 @@ class NomenuRules implements RulesInterface
 
                             while (count($segments)) {
                                 $segment = array_shift($segments);
-                                $result  = \call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Id'), array($segment, $vars));
+                                $result  = \call_user_func_array([$this->router, 'get' . ucfirst($view->name) . 'Id'], [$segment, $vars]);
 
                                 if (!$result) {
                                     array_unshift($segments, $segment);
@@ -101,7 +101,7 @@ class NomenuRules implements RulesInterface
                             }
                         } else {
                             $segment = array_shift($segments);
-                            $result  = \call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Id'), array($segment, $vars));
+                            $result  = \call_user_func_array([$this->router, 'get' . ucfirst($view->name) . 'Id'], [$segment, $vars]);
 
                             $vars[$view->key] = preg_replace('/-/', ':', $result, 1);
                         }
@@ -142,12 +142,12 @@ class NomenuRules implements RulesInterface
             $views = $this->router->getViews();
 
             if (isset($views[$query['view']])) {
-                $view = $views[$query['view']];
+                $view       = $views[$query['view']];
                 $segments[] = $query['view'];
 
                 if ($view->key && isset($query[$view->key])) {
-                    if (\is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Segment'))) {
-                        $result = \call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Segment'), array($query[$view->key], $query));
+                    if (\is_callable([$this->router, 'get' . ucfirst($view->name) . 'Segment'])) {
+                        $result = \call_user_func_array([$this->router, 'get' . ucfirst($view->name) . 'Segment'], [$query[$view->key], $query]);
 
                         if ($view->nestable) {
                             array_pop($result);
