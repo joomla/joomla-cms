@@ -11,7 +11,7 @@ describe('Test in backend that the article form', () => {
     cy.contains('Test article');
   });
 
-  it('can change access level of the test article', () => {
+  it('can change access level of a test article', () => {
     cy.db_createArticle({ title: 'Test article' }).then((id) => {
       cy.visit(`administrator/index.php?option=com_content&task=article.edit&id=${id}`);
       cy.get('#jform_access').select('Special');
