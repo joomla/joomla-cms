@@ -15,15 +15,15 @@ use Joomla\CMS\Language\Text;
 
 ?>
 <ul class="mod-relateditems relateditems mod-list">
-    <?php foreach ($list as $item) : ?>
-    <li>
-        <a href="<?php echo $item->route; ?>">
-            <?php if ($showDate) : ?>
-                <?php echo HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')) . ' - '; ?>
-            <?php endif; ?>
+<?php foreach ($list as $item) : ?>
+<li>
+    <a href="<?php echo $item->route; ?>">
+        <?php if ($showDate) : ?>
+            <?php echo HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')) . ' - '; ?>
+        <?php endif; ?>
 
-            <?php echo $item->title; ?>
-        </a>
-    </li>
-    <?php endforeach; ?>
+        <?php echo $item->title; ?>
+    </a>
+</li>
+<?php endforeach; ?>
 </ul>
