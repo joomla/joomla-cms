@@ -20,4 +20,12 @@ describe('Test that the article back end form', () => {
       cy.get('td').contains('Special').should('exist');
     });
   });
+
+  it('check redirection to list view', () => {
+    cy.visit('administrator/index.php?option=com_content&task=article.add');
+    cy.intercept('index.php?option=com_content&view=articles').as('listview')
+    cy.clickToolbarButton('Cancel');
+
+    cy.wait('@listview')
+  });
 });
