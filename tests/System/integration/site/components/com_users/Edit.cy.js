@@ -1,5 +1,5 @@
 describe('Test that the users profile view', () => {
-  it('can display a edit user profile form without a menu item', () => {
+  it('can display an edit user profile form without a menu item', () => {
     cy.doFrontendLogin();
     cy.visit('index.php?option=com_users&view=profile&layout=edit');
 
