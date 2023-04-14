@@ -41,7 +41,8 @@ trait ResultTypeObjectAware
      * @var    boolean
      * @since  4.2.0
      *
-     * @deprecated 5.0 You should use nullable values or exceptions instead of returning boolean false results.
+     * @deprecated  4.3 will be removed in 6.0
+     *              You should use nullable values or exceptions instead of returning boolean false results.
      */
     protected $resultIsFalseable = false;
 
