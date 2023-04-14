@@ -43,7 +43,7 @@ class AjaxInitCreate extends AbstractImmutableEvent implements ResultAwareInterf
 
         $this->resultAcceptableClasses = [
             \stdClass::class,
-            PublicKeyCredentialCreationOptions::class
+            PublicKeyCredentialCreationOptions::class,
         ];
     }
 }

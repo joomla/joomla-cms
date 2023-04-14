@@ -113,7 +113,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
    *
    * USAGE (assuming that exampleId is the modal id)
    * To get the current modal element:
-   *   Joomla.Modal.current; // Returns node element, eg: document.getElementById('exampleId')
+   *   Joomla.Modal.getCurrent(); // Returns node element, eg: document.getElementById('exampleId')
    * To set the current modal element:
    *   Joomla.Modal.setCurrent(document.getElementById('exampleId'));
    *
@@ -127,9 +127,9 @@ window.Joomla.Modal = window.Joomla.Modal || {
    */
   current: '',
   setCurrent: (element) => {
-    window.Joomla.current = element;
+    window.Joomla.Modal.current = element;
   },
-  getCurrent: () => window.Joomla.current,
+  getCurrent: () => window.Joomla.Modal.current,
 };
 
 ((Joomla) => {
@@ -299,7 +299,9 @@ window.Joomla.Modal = window.Joomla.Modal || {
    *
    * @type {{}}
    *
-   * @deprecated 5.0
+   * @deprecated   4.0 will be removed in 6.0
+   *               Example: Joomla.Text._('...');
+   *                        Joomla.Text.load(...);
    */
   Joomla.JText = Joomla.Text;
 
@@ -622,7 +624,13 @@ window.Joomla.Modal = window.Joomla.Modal || {
       if (newOptions.method !== 'GET') {
         const token = Joomla.getOptions('csrf.token', '');
 
-        if (token) {
+        // Use the CSRF only on the site's domain
+        if (
+          token && (
+            (!newOptions.url.startsWith('http:') && !newOptions.url.startsWith('https:'))
+            || newOptions.url.startsWith(window.location.origin)
+          )
+        ) {
           xhr.setRequestHeader('X-CSRF-Token', token);
         }
 

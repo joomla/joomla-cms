@@ -37,7 +37,7 @@ class FeaturedController extends ArticlesController
         $this->checkToken();
 
         $user = $this->app->getIdentity();
-        $ids  = (array) $this->input->get('cid', array(), 'int');
+        $ids  = (array) $this->input->get('cid', [], 'int');
 
         // Access checks.
         foreach ($ids as $i => $id) {
@@ -95,7 +95,7 @@ class FeaturedController extends ArticlesController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Feature', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Feature', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -103,9 +103,9 @@ class FeaturedController extends ArticlesController
     /**
      * Method to get the number of published featured articles for quickicons
      *
-     * @return  string  The JSON-encoded amount of published featured articles
+     * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getQuickiconContent()
     {
@@ -120,7 +120,7 @@ class FeaturedController extends ArticlesController
 
         $result['amount'] = $amount;
         $result['sronly'] = Text::plural('COM_CONTENT_FEATURED_N_QUICKICON_SRONLY', $amount);
-        $result['name'] = Text::plural('COM_CONTENT_FEATURED_N_QUICKICON', $amount);
+        $result['name']   = Text::plural('COM_CONTENT_FEATURED_N_QUICKICON', $amount);
 
         echo new JsonResponse($result);
     }

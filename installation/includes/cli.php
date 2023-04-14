@@ -31,8 +31,8 @@ require_once __DIR__ . '/framework.php';
 if (is_writable(JPATH_ADMINISTRATOR . '/logs')) {
     \Joomla\CMS\Log\Log::addLogger(
         [
-            'format' => '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}',
-            'text_file' => 'error.php'
+            'format'    => '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}',
+            'text_file' => 'error.php',
         ],
         \Joomla\CMS\Log\Log::ALL,
         ['error']
