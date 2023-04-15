@@ -994,6 +994,7 @@ class Indexer
                 $db->execute();
             } catch (\Joomla\Database\Exception\ExecutionFailureException $e) {
                 $supported = false;
+                return true;
             }
 
             // Set the internal state.
