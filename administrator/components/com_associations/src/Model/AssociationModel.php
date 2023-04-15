@@ -12,6 +12,10 @@ namespace Joomla\Component\Associations\Administrator\Model;
 
 use Joomla\CMS\MVC\Model\ListModel;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of article records.
  *
@@ -29,10 +33,10 @@ class AssociationModel extends ListModel
      *
      * @since  3.7.0
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_associations.association', 'association', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_associations.association', 'association', ['control' => 'jform', 'load_data' => $loadData]);
 
         return !empty($form) ? $form : false;
     }

@@ -17,6 +17,10 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Model class to display postinstall messages
  *
@@ -53,7 +57,7 @@ class HtmlView extends BaseHtmlView
 
         $this->toolbar();
 
-        $this->token = Factory::getSession()->getFormToken();
+        $this->token             = Factory::getSession()->getFormToken();
         $this->extension_options = $model->getComponentOptions();
 
         ToolbarHelper::title(Text::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)), 'bell');
@@ -70,7 +74,7 @@ class HtmlView extends BaseHtmlView
      */
     private function toolbar()
     {
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar = Toolbar::getInstance();
 
         if (!empty($this->items)) {
             $toolbar->unpublish('message.hideAll', 'COM_POSTINSTALL_HIDE_ALL_MESSAGES');

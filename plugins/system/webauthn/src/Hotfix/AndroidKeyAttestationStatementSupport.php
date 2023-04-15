@@ -30,6 +30,10 @@ use Webauthn\MetadataService\MetadataStatementRepository;
 use Webauthn\StringStream;
 use Webauthn\TrustPath\CertificateTrustPath;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * We had to fork the key attestation support object from the WebAuthn server package to address an
  * issue with PHP 8.
@@ -49,7 +53,9 @@ use Webauthn\TrustPath\CertificateTrustPath;
  *
  * @since   4.2.0
  *
- * @deprecated 5.0 We will upgrade the WebAuthn library to version 3 or later and this will go away.
+ * @deprecated  4.2 will be removed in 6.0
+ *              Will be removed without replacement
+ *              We will upgrade the WebAuthn library to version 3 or later and this will go away.
  */
 final class AndroidKeyAttestationStatementSupport implements AttestationStatementSupport
 {
@@ -86,7 +92,7 @@ final class AndroidKeyAttestationStatementSupport implements AttestationStatemen
             );
         }
 
-        $this->decoder = $decoder ?? new Decoder(new TagObjectManager(), new OtherObjectManager());
+        $this->decoder                     = $decoder ?? new Decoder(new TagObjectManager(), new OtherObjectManager());
         $this->metadataStatementRepository = $metadataStatementRepository;
     }
 
@@ -158,7 +164,7 @@ final class AndroidKeyAttestationStatementSupport implements AttestationStatemen
         $this->checkCertificateAndGetPublicKey($leaf, $clientDataJSONHash, $authenticatorData);
 
         $signedData = $authenticatorData->getAuthData() . $clientDataJSONHash;
-        $alg = $attestationStatement->get('alg');
+        $alg        = $attestationStatement->get('alg');
 
         return openssl_verify($signedData, $attestationStatement->get('sig'), $leaf, Algorithms::getOpensslAlgorithmFor((int) $alg)) === 1;
     }
@@ -196,7 +202,7 @@ final class AndroidKeyAttestationStatementSupport implements AttestationStatemen
         $publicKeyData = $attestedCredentialData->getCredentialPublicKey();
         Assertion::notNull($publicKeyData, 'No attested public key found');
         $publicDataStream = new StringStream($publicKeyData);
-        $coseKey = $this->decoder->decode($publicDataStream)->getNormalizedData(false);
+        $coseKey          = $this->decoder->decode($publicDataStream)->getNormalizedData(false);
         Assertion::true($publicDataStream->isEOF(), 'Invalid public key data. Presence of extra bytes.');
         $publicDataStream->close();
         $publicKey = Key::createFromData($coseKey);
@@ -214,7 +220,7 @@ final class AndroidKeyAttestationStatementSupport implements AttestationStatemen
             '1.3.6.1.4.1.11129.2.1.17',
             'The certificate extension "1.3.6.1.4.1.11129.2.1.17" is missing'
         );
-        $extension = $certDetails['extensions']['1.3.6.1.4.1.11129.2.1.17'];
+        $extension       = $certDetails['extensions']['1.3.6.1.4.1.11129.2.1.17'];
         $extensionAsAsn1 = ASNObject::fromBinary($extension);
         Assertion::isInstanceOf($extensionAsAsn1, Sequence::class, 'The certificate extension "1.3.6.1.4.1.11129.2.1.17" is invalid');
         $objects = $extensionAsAsn1->getChildren();

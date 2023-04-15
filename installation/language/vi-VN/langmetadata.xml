@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metafile client="installation">
+	<name>Tiếng Việt (Việt Nam)</name>
+	<version>4.3.0</version>
+	<creationDate>2023-04</creationDate>
+	<author>Joomla! Project</author>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<files>
+		<filename>joomla.ini</filename>
+	</files>
+	<metadata>
+		<name>Vietnamese (vi-VN)</name>
+		<nativeName>Tiếng Việt (Việt Nam)</nativeName>
+		<tag>vi-VN</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params/>
+</metafile>

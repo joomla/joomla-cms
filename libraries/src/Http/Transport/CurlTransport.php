@@ -19,6 +19,10 @@ use Joomla\Http\Exception\InvalidResponseCodeException;
 use Joomla\Uri\UriInterface;
 use Laminas\Diactoros\Stream as StreamResponse;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTTP transport class for using cURL.
  *
@@ -46,7 +50,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         // Setup the cURL handle.
         $ch = curl_init();
 
-        $options = array();
+        $options = [];
 
         // Set the request method.
         switch (strtoupper($method)) {
@@ -91,7 +95,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         }
 
         // Build the headers string for the request.
-        $headerArray = array();
+        $headerArray = [];
 
         if (isset($headers)) {
             foreach ($headers as $key => $value) {
@@ -109,7 +113,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 
         // If an explicit timeout is given user it.
         if (isset($timeout)) {
-            $options[CURLOPT_TIMEOUT] = (int) $timeout;
+            $options[CURLOPT_TIMEOUT]        = (int) $timeout;
             $options[CURLOPT_CONNECTTIMEOUT] = (int) $timeout;
         }
 
@@ -148,13 +152,13 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         }
 
         // Set any custom transport options
-        foreach ($this->getOption('transport.curl', array()) as $key => $value) {
+        foreach ($this->getOption('transport.curl', []) as $key => $value) {
             $options[$key] = $value;
         }
 
         // Authentication, if needed
         if ($this->getOption('userauth') && $this->getOption('passwordauth')) {
-            $options[CURLOPT_USERPWD] = $this->getOption('userauth') . ':' . $this->getOption('passwordauth');
+            $options[CURLOPT_USERPWD]  = $this->getOption('userauth') . ':' . $this->getOption('passwordauth');
             $options[CURLOPT_HTTPAUTH] = CURLAUTH_BASIC;
         }
 
@@ -188,7 +192,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         if ($response->code >= 301 && $response->code < 400 && isset($response->headers['Location']) && (bool) $this->getOption('follow_location', true)) {
             $redirect_uri = new Uri($response->headers['Location']);
 
-            if (\in_array($redirect_uri->getScheme(), array('file', 'scp'))) {
+            if (\in_array($redirect_uri->getScheme(), ['file', 'scp'])) {
                 throw new \RuntimeException('Curl redirect cannot be used in file or scp requests.');
             }
 

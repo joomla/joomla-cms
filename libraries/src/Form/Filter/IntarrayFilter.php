@@ -14,6 +14,10 @@ use Joomla\CMS\Form\FormFilterInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Filter class for integer arrays
  *
@@ -29,8 +33,8 @@ class IntarrayFilter implements FormFilterInterface
      * @param   string             $group    The field name group control value. This acts as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
-     * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
-     * @param   Form               $form     The form object for which the field is being tested.
+     * @param   ?Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
+     * @param   ?Form              $form     The form object for which the field is being tested.
      *
      * @return  mixed   The filtered value.
      *
@@ -46,7 +50,7 @@ class IntarrayFilter implements FormFilterInterface
             $value = get_object_vars($value);
         }
 
-        $value = \is_array($value) ? $value : array($value);
+        $value = \is_array($value) ? $value : [$value];
 
         $value = ArrayHelper::toInteger($value);
 
