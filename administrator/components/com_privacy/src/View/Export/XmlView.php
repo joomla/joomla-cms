@@ -15,6 +15,10 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
 use Joomla\Component\Privacy\Administrator\Model\ExportModel;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Export view class
  *
@@ -29,7 +33,7 @@ class XmlView extends AbstractView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  mixed  A string if successful, otherwise an Error object.
+     * @return  void
      *
      * @since   3.9.0
      * @throws  \Exception

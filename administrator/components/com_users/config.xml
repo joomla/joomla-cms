@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<help key="Users:_Options"/>
 	<inlinehelp button="show"/>
@@ -327,7 +327,7 @@
 			label="COM_USERS_CONFIG_REDIRECTURL_LABEL"
 			description="COM_USERS_CONFIG_REDIRECTURL_DESC"
 			default=""
-			showon="redirectonlogin:1"
+			showon="mfaredirectonlogin:1"
 		/>
 	</fieldset>
 

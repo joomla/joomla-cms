@@ -15,6 +15,10 @@ use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\MVC\View\CategoryView;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML View class for the Contacts component
  *
@@ -65,8 +69,8 @@ class HtmlView extends CategoryView
         // Prepare the data.
         // Compute the contact slug.
         foreach ($this->items as $item) {
-            $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-            $temp       = $item->params;
+            $item->slug   = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+            $temp         = $item->params;
             $item->params = clone $this->params;
             $item->params->merge($temp);
 

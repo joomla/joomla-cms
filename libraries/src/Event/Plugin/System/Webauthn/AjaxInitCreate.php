@@ -15,6 +15,10 @@ use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Event\Result\ResultTypeObjectAware;
 use Webauthn\PublicKeyCredentialCreationOptions;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Concrete event class for the onAjaxWebauthnInitcreate event
  *
@@ -39,7 +43,7 @@ class AjaxInitCreate extends AbstractImmutableEvent implements ResultAwareInterf
 
         $this->resultAcceptableClasses = [
             \stdClass::class,
-            PublicKeyCredentialCreationOptions::class
+            PublicKeyCredentialCreationOptions::class,
         ];
     }
 }

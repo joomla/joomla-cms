@@ -10,12 +10,16 @@
 
 namespace Joomla\Component\Languages\Administrator\View\Overrides;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View for language overrides list.
@@ -93,27 +97,31 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         // Get the results for each action
-        $canDo = ContentHelper::getActions('com_languages');
+        $canDo   = ContentHelper::getActions('com_languages');
+        $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_OVERRIDES_TITLE'), 'comments langmanager');
 
         if ($canDo->get('core.create')) {
-            ToolbarHelper::addNew('override.add');
+            $toolbar->addNew('override.add');
         }
 
         if ($canDo->get('core.delete') && $this->pagination->total) {
-            ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'overrides.delete', 'JTOOLBAR_DELETE');
+            $toolbar->delete('overrides.delete')
+                ->message('JGLOBAL_CONFIRM_DELETE');
         }
 
         if ($this->getCurrentUser()->authorise('core.admin')) {
-            ToolbarHelper::custom('overrides.purge', 'refresh', '', 'COM_LANGUAGES_VIEW_OVERRIDES_PURGE', false);
+            $toolbar->standardButton('purge', 'COM_LANGUAGES_VIEW_OVERRIDES_PURGE', 'overrides.purge')
+                ->listCheck(false)
+                ->icon('icon-refresh');
         }
 
         if ($canDo->get('core.admin')) {
-            ToolbarHelper::preferences('com_languages');
+            $toolbar->preferences('com_languages');
         }
 
-        ToolbarHelper::divider();
-        ToolbarHelper::help('Languages:_Overrides');
+        $toolbar->divider();
+        $toolbar->help('Languages:_Overrides');
     }
 }

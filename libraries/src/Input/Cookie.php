@@ -11,11 +11,17 @@ namespace Joomla\CMS\Input;
 
 use Joomla\CMS\Filter\InputFilter;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Input Cookie Class
  *
  * @since       1.7.0
- * @deprecated  5.0  Use Joomla\Input\Cookie instead
+ *
+ * @deprecated   4.3 will be removed in 6.0.
+ *               Use Joomla\Input\Cookie instead
  */
 class Cookie extends Input
 {
@@ -26,9 +32,11 @@ class Cookie extends Input
      * @param   array  $options  Array of configuration parameters (Optional)
      *
      * @since   1.7.0
-     * @deprecated  5.0  Use Joomla\Input\Cookie instead
+     *
+     * @deprecated   4.3 will be removed in 6.0.
+     *               Use Joomla\Input\Cookie instead
      */
-    public function __construct(array $source = null, array $options = array())
+    public function __construct(array $source = null, array $options = [])
     {
         if (isset($options['filter'])) {
             $this->filter = $options['filter'];
@@ -37,7 +45,7 @@ class Cookie extends Input
         }
 
         // Set the data source.
-        $this->data = & $_COOKIE;
+        $this->data = &$_COOKIE;
 
         // Set the options for the class.
         $this->options = $options;
@@ -80,7 +88,9 @@ class Cookie extends Input
      * @link    http://www.ietf.org/rfc/rfc2109.txt
      * @see     setcookie()
      * @since   1.7.0
-     * @deprecated  5.0  Use Joomla\Input\Cookie instead
+     *
+     * @deprecated   4.3 will be removed in 6.0.
+     *               Use Joomla\Input\Cookie instead
      */
     public function set($name, $value, $expire = 0, $path = '', $domain = '', $secure = false, $httpOnly = false)
     {

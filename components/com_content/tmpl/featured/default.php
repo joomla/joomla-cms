@@ -20,7 +20,6 @@ defined('_JEXEC') or die;
     </div>
     <?php endif; ?>
 
-    <?php $leadingcount = 0; ?>
     <?php if (!empty($this->lead_items)) : ?>
         <div class="blog-items items-leading <?php echo $this->params->get('blog_class_leading'); ?>">
             <?php foreach ($this->lead_items as &$item) : ?>
@@ -31,7 +30,6 @@ defined('_JEXEC') or die;
                         echo $this->loadTemplate('item');
                         ?>
                 </div>
-                <?php $leadingcount++; ?>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>

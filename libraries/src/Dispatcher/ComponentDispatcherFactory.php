@@ -13,6 +13,10 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Input\Input;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Namespace based implementation of the ComponentDispatcherFactoryInterface
  *
@@ -76,6 +80,6 @@ class ComponentDispatcherFactory implements ComponentDispatcherFactoryInterface
             }
         }
 
-        return new $className($application, $input ?: $application->input, $this->mvcFactory);
+        return new $className($application, $input ?: $application->getInput(), $this->mvcFactory);
     }
 }

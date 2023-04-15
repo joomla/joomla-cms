@@ -15,6 +15,10 @@ use Joomla\CMS\Profiler\Profiler;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Collects info about the request duration as well as providing
  * a way to log duration of any operations
@@ -245,9 +249,9 @@ class ProfileCollector extends AbstractDataCollector
         $marks = Profiler::getInstance('Application')->getMarks();
 
         foreach ($marks as $mark) {
-            $mem = $this->getDataFormatter()->formatBytes(abs($mark->memory) * 1048576);
+            $mem   = $this->getDataFormatter()->formatBytes(abs($mark->memory) * 1048576);
             $label = $mark->label . " ($mem)";
-            $end = $start + $mark->time / 1000;
+            $end   = $start + $mark->time / 1000;
             $this->addMeasure($label, $start, $end);
             $start = $end;
         }
@@ -304,7 +308,7 @@ class ProfileCollector extends AbstractDataCollector
                 'map'     => 'profile.duration_str',
                 'default' => "'0ms'",
             ],
-            'profile'     => [
+            'profile' => [
                 'icon'    => 'clock-o',
                 'widget'  => 'PhpDebugBar.Widgets.TimelineWidget',
                 'map'     => 'profile',

@@ -20,6 +20,10 @@ use Joomla\Component\Privacy\Administrator\Model\RemoveModel;
 use Joomla\Component\Privacy\Administrator\Model\RequestModel;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Request management controller class.
  *

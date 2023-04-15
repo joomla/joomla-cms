@@ -13,6 +13,10 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class for a Joomla Model
  *
@@ -47,7 +51,7 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         // Set the view name
         if (empty($this->name)) {
@@ -79,20 +83,24 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
      * @return  array  An array with directory elements. If prefix is equal to '', all directories are returned.
      *
      * @since       3.0
-     * @deprecated  5.0 See LegacyModelLoaderTrait\getInstance
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement. Get the model through the MVCFactory + namespace instead
+     *
+     * @see LegacyModelLoaderTrait::getInstance(...)
      */
     public static function addIncludePath($path = '', $prefix = '')
     {
         if (!isset(self::$paths)) {
-            self::$paths = array();
+            self::$paths = [];
         }
 
         if (!isset(self::$paths[$prefix])) {
-            self::$paths[$prefix] = array();
+            self::$paths[$prefix] = [];
         }
 
         if (!isset(self::$paths[''])) {
-            self::$paths[''] = array();
+            self::$paths[''] = [];
         }
 
         if (!empty($path)) {

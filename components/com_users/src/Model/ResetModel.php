@@ -11,6 +11,7 @@
 namespace Joomla\Component\Users\Site\Model;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -21,6 +22,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Reset model class for Users.
@@ -42,10 +47,10 @@ class ResetModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.reset_request', 'reset_request', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_users.reset_request', 'reset_request', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -64,10 +69,10 @@ class ResetModel extends FormModel
      *
      * @since   1.6
      */
-    public function getResetCompleteForm($data = array(), $loadData = true)
+    public function getResetCompleteForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.reset_complete', 'reset_complete', $options = array('control' => 'jform'));
+        $form = $this->loadForm('com_users.reset_complete', 'reset_complete', $options = ['control' => 'jform']);
 
         if (empty($form)) {
             return false;
@@ -87,15 +92,15 @@ class ResetModel extends FormModel
      * @since   1.6
      * @throws  \Exception
      */
-    public function getResetConfirmForm($data = array(), $loadData = true)
+    public function getResetConfirmForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.reset_confirm', 'reset_confirm', $options = array('control' => 'jform'));
+        $form = $this->loadForm('com_users.reset_confirm', 'reset_confirm', $options = ['control' => 'jform']);
 
         if (empty($form)) {
             return false;
         } else {
-            $form->setValue('token', '', Factory::getApplication()->input->get('token'));
+            $form->setValue('token', '', Factory::getApplication()->getInput()->get('token'));
         }
 
         return $form;
@@ -159,7 +164,7 @@ class ResetModel extends FormModel
         }
 
         // Filter and validate the form data.
-        $data = $form->filter($data);
+        $data   = $form->filter($data);
         $return = $form->validate($data);
 
         // Check for an error.
@@ -178,8 +183,8 @@ class ResetModel extends FormModel
         }
 
         // Get the token and user id from the confirmation process.
-        $app = Factory::getApplication();
-        $token = $app->getUserState('com_users.reset.token', null);
+        $app    = Factory::getApplication();
+        $token  = $app->getUserState('com_users.reset.token', null);
         $userId = $app->getUserState('com_users.reset.user', null);
 
         // Check the token and user id.
@@ -189,6 +194,14 @@ class ResetModel extends FormModel
 
         // Get the user object.
         $user = User::getInstance($userId);
+
+        $event = AbstractEvent::create(
+            'onUserBeforeResetComplete',
+            [
+                'subject' => $user,
+            ]
+        );
+        $app->getDispatcher()->dispatch($event->getName(), $event);
 
         // Check for a user and that the tokens match.
         if (empty($user) || $user->activation !== $token) {
@@ -232,6 +245,14 @@ class ResetModel extends FormModel
         $app->setUserState('com_users.reset.token', null);
         $app->setUserState('com_users.reset.user', null);
 
+        $event = AbstractEvent::create(
+            'onUserAfterResetComplete',
+            [
+                'subject' => $user,
+            ]
+        );
+        $app->getDispatcher()->dispatch($event->getName(), $event);
+
         return true;
     }
 
@@ -256,7 +277,7 @@ class ResetModel extends FormModel
         }
 
         // Filter and validate the form data.
-        $data = $form->filter($data);
+        $data   = $form->filter($data);
         $return = $form->validate($data);
 
         // Check for an error.
@@ -275,7 +296,7 @@ class ResetModel extends FormModel
         }
 
         // Find the user id for the given token.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName(['activation', 'id', 'block']))
             ->from($db->quoteName('#__users'))
@@ -351,7 +372,7 @@ class ResetModel extends FormModel
         }
 
         // Filter and validate the form data.
-        $data = $form->filter($data);
+        $data   = $form->filter($data);
         $return = $form->validate($data);
 
         // Check for an error.
@@ -370,7 +391,7 @@ class ResetModel extends FormModel
         }
 
         // Find the user id for the given email address.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
@@ -421,10 +442,18 @@ class ResetModel extends FormModel
         }
 
         // Set the confirmation token.
-        $token = ApplicationHelper::getHash(UserHelper::genRandomPassword());
+        $token       = ApplicationHelper::getHash(UserHelper::genRandomPassword());
         $hashedToken = UserHelper::hashPassword($token);
 
         $user->activation = $hashedToken;
+
+        $event = AbstractEvent::create(
+            'onUserBeforeResetRequest',
+            [
+                'subject' => $user,
+            ]
+        );
+        $app->getDispatcher()->dispatch($event->getName(), $event);
 
         // Save the user to the database.
         if (!$user->save(true)) {
@@ -436,11 +465,11 @@ class ResetModel extends FormModel
         $link = 'index.php?option=com_users&view=reset&layout=confirm&token=' . $token;
 
         // Put together the email template data.
-        $data = $user->getProperties();
-        $data['sitename'] = $app->get('sitename');
+        $data              = $user->getProperties();
+        $data['sitename']  = $app->get('sitename');
         $data['link_text'] = Route::_($link, false, $mode);
         $data['link_html'] = Route::_($link, true, $mode);
-        $data['token'] = $token;
+        $data['token']     = $token;
 
         $mailer = new MailTemplate('com_users.password_reset', $app->getLanguage()->getTag());
         $mailer->addTemplateData($data);
@@ -455,7 +484,7 @@ class ResetModel extends FormModel
 
                 $return = false;
             } catch (\RuntimeException $exception) {
-                Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                $app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
 
                 $return = false;
             }
@@ -464,9 +493,17 @@ class ResetModel extends FormModel
         // Check for an error.
         if ($return !== true) {
             return new \Exception(Text::_('COM_USERS_MAIL_FAILED'), 500);
-        } else {
-            return true;
         }
+
+        $event = AbstractEvent::create(
+            'onUserAfterResetRequest',
+            [
+                'subject' => $user,
+            ]
+        );
+        $app->getDispatcher()->dispatch($event->getName(), $event);
+
+        return true;
     }
 
     /**
@@ -481,18 +518,18 @@ class ResetModel extends FormModel
      */
     public function checkResetLimit($user)
     {
-        $params = Factory::getApplication()->getParams();
-        $maxCount = (int) $params->get('reset_count');
+        $params     = Factory::getApplication()->getParams();
+        $maxCount   = (int) $params->get('reset_count');
         $resetHours = (int) $params->get('reset_time');
-        $result = true;
+        $result     = true;
 
-        $lastResetTime = strtotime($user->lastResetTime) ?: 0;
+        $lastResetTime       = strtotime($user->lastResetTime) ?: 0;
         $hoursSinceLastReset = (strtotime(Factory::getDate()->toSql()) - $lastResetTime) / 3600;
 
         if ($hoursSinceLastReset > $resetHours) {
             // If it's been long enough, start a new reset count
             $user->lastResetTime = Factory::getDate()->toSql();
-            $user->resetCount = 1;
+            $user->resetCount    = 1;
         } elseif ($user->resetCount < $maxCount) {
             // If we are under the max count, just increment the counter
             ++$user->resetCount;

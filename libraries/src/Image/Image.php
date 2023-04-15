@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Image;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Class to manipulate an image.
  *
@@ -114,7 +118,7 @@ class Image
 
         // Determine which image types are supported by GD, but only once.
         if (empty(static::$formats)) {
-            $info = gd_info();
+            $info                            = gd_info();
             static::$formats[IMAGETYPE_JPEG] = $info['JPEG Support'];
             static::$formats[IMAGETYPE_PNG]  = $info['PNG Support'];
             static::$formats[IMAGETYPE_GIF]  = $info['GIF Read Support'];
@@ -301,17 +305,18 @@ class Image
     /**
      * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing or cropping the original image.
      *
-     * @param   mixed    $thumbSizes      string or array of strings. Example: $thumbSizes = array('150x75','250x150');
-     * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create cropping
-     * @param   string   $thumbsFolder    destination thumbs folder. null generates a thumbs folder in the image folder
+     * @param   mixed    $thumbSizes       string or array of strings. Example: $thumbSizes = ['150x75','250x150'];
+     * @param   integer  $creationMethod   1-3 resize $scaleMethod | 4 create cropping
+     * @param   string   $thumbsFolder     destination thumbs folder. null generates a thumbs folder in the image folder
+     * @param   boolean  $useOriginalName  Shall we use the original image name? Defaults is false, {filename}_{width}x{height}.{ext}
      *
      * @return  array
      *
-     * @since   2.5.0
+     * @since   4.3.0
      * @throws  \LogicException
      * @throws  \InvalidArgumentException
      */
-    public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null)
+    public function createThumbnails($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null, $useOriginalName = false)
     {
         // Make sure the resource handle is valid.
         if (!$this->isLoaded()) {
@@ -345,21 +350,47 @@ class Image
                 $thumbWidth  = $thumb->getWidth();
                 $thumbHeight = $thumb->getHeight();
 
-                // Generate thumb name
-                $thumbFileName = $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
+                if ($useOriginalName) {
+                    // Generate thumb name
+                    $thumbFileName = $filename . '.' . $fileExtension;
+                } else {
+                    // Generate thumb name
+                    $thumbFileName = $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
+                }
 
                 // Save thumb file to disk
                 $thumbFileName = $thumbsFolder . '/' . $thumbFileName;
 
                 if ($thumb->toFile($thumbFileName, $imgProperties->type)) {
                     // Return Image object with thumb path to ease further manipulation
-                    $thumb->path = $thumbFileName;
+                    $thumb->path     = $thumbFileName;
                     $thumbsCreated[] = $thumb;
                 }
             }
         }
 
         return $thumbsCreated;
+    }
+
+    /**
+     * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing or cropping the original image.
+     *
+     * @param   mixed    $thumbSizes       string or array of strings. Example: $thumbSizes = ['150x75','250x150'];
+     * @param   integer  $creationMethod   1-3 resize $scaleMethod | 4 create cropping
+     * @param   string   $thumbsFolder     destination thumbs folder. null generates a thumbs folder in the image folder
+     *
+     * @return  array
+     *
+     * @since   2.5.0
+     * @throws  \LogicException
+     * @throws  \InvalidArgumentException
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use \Joomla\CMS\Image\createThumbnails instead
+     */
+    public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null)
+    {
+        return $this->createThumbnails($thumbSizes, $creationMethod, $thumbsFolder, false);
     }
 
     /**
@@ -517,7 +548,7 @@ class Image
          */
         if (
             !((\is_object($this->handle) && get_class($this->handle) == 'GdImage')
-            || (\is_resource($this->handle) && get_resource_type($this->handle) == 'gd'))
+                || (\is_resource($this->handle) && get_resource_type($this->handle) == 'gd'))
         ) {
             return false;
         }
@@ -572,7 +603,7 @@ class Image
 
                 // Attempt to create the image handle.
                 $handle = imagecreatefromgif($path);
-                $type = 'GIF';
+                $type   = 'GIF';
 
                 break;
 
@@ -584,7 +615,7 @@ class Image
 
                 // Attempt to create the image handle.
                 $handle = imagecreatefromjpeg($path);
-                $type = 'JPEG';
+                $type   = 'JPEG';
 
                 break;
 
@@ -596,7 +627,7 @@ class Image
 
                 // Attempt to create the image handle.
                 $handle = imagecreatefrompng($path);
-                $type = 'PNG';
+                $type   = 'PNG';
 
                 break;
 
@@ -608,7 +639,7 @@ class Image
 
                 // Attempt to create the image handle.
                 $handle = imagecreatefromwebp($path);
-                $type = 'WebP';
+                $type   = 'WebP';
 
                 break;
 
@@ -656,7 +687,7 @@ class Image
         $dimensions = $this->prepareDimensions($width, $height, $scaleMethod);
 
         // Instantiate offset.
-        $offset = new \stdClass();
+        $offset    = new \stdClass();
         $offset->x = $offset->y = 0;
 
         // Center image if needed and create the new truecolor image handle.
@@ -682,7 +713,7 @@ class Image
 
         if ($this->isTransparent()) {
             // Get the transparent color values for the current image.
-            $rgba = imagecolorsforindex($this->getHandle(), imagecolortransparent($this->getHandle()));
+            $rgba  = imagecolorsforindex($this->getHandle(), imagecolortransparent($this->getHandle()));
             $color = imagecolorallocatealpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
             // Set the transparent color values for the new image.
@@ -749,7 +780,7 @@ class Image
         $width   = $this->sanitizeWidth($width, $height);
         $height  = $this->sanitizeHeight($height, $width);
 
-        $resizewidth = $width;
+        $resizewidth  = $width;
         $resizeheight = $height;
 
         if (($this->getWidth() / $width) < ($this->getHeight() / $height)) {
@@ -970,7 +1001,7 @@ class Image
 
         switch ($scaleMethod) {
             case self::SCALE_FILL:
-                $dimensions->width = (int) round($width);
+                $dimensions->width  = (int) round($width);
                 $dimensions->height = (int) round($height);
                 break;
 
@@ -986,7 +1017,7 @@ class Image
                     $ratio = min($rx, $ry);
                 }
 
-                $dimensions->width = (int) round($this->getWidth() / $ratio);
+                $dimensions->width  = (int) round($this->getWidth() / $ratio);
                 $dimensions->height = (int) round($this->getHeight() / $ratio);
                 break;
 
@@ -1015,8 +1046,7 @@ class Image
         // If we were given a percentage, calculate the integer value.
         if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $height)) {
             $height = (int) round($this->getHeight() * (float) str_replace('%', '', $height) / 100);
-        } else // Else do some rounding so we come out with a sane integer value.
-        {
+        } else { // Else do some rounding so we come out with a sane integer value.
             $height = (int) round((float) $height);
         }
 
@@ -1055,8 +1085,7 @@ class Image
         // If we were given a percentage, calculate the integer value.
         if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $width)) {
             $width = (int) round($this->getWidth() * (float) str_replace('%', '', $width) / 100);
-        } else // Else do some rounding so we come out with a sane integer value.
-        {
+        } else { // Else do some rounding so we come out with a sane integer value.
             $width = (int) round((float) $width);
         }
 

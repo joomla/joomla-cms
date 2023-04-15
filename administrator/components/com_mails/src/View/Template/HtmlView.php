@@ -18,6 +18,10 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View to edit a mail template.
  *
@@ -71,10 +75,10 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $this->state = $this->get('State');
-        $this->item = $this->get('Item');
+        $this->state  = $this->get('State');
+        $this->item   = $this->get('Item');
         $this->master = $this->get('Master');
-        $this->form = $this->get('Form');
+        $this->form   = $this->get('Form');
 
         // Check for errors.
         if (count($errors = $this->get('Errors'))) {
@@ -82,9 +86,9 @@ class HtmlView extends BaseHtmlView
         }
 
         list($component, $template_id) = explode('.', $this->item->template_id, 2);
-        $fields = array('subject', 'body', 'htmlbody');
-        $this->templateData = array();
-        $language = Factory::getLanguage();
+        $fields                        = ['subject', 'body', 'htmlbody'];
+        $this->templateData            = [];
+        $language                      = Factory::getLanguage();
         $language->load($component, JPATH_SITE, $this->item->language, true);
         $language->load($component, JPATH_SITE . '/components/' . $component, $this->item->language, true);
         $language->load($component, JPATH_ADMINISTRATOR, $this->item->language, true);
@@ -126,7 +130,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
         $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(

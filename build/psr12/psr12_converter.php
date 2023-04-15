@@ -32,7 +32,7 @@ if (empty($argv)) {
 
         Description:
             The converter has several tasks which can be run separately.
-            You can combine them seperated by a comma (,).
+            You can combine them separated by a comma (,).
 
             --tasks:
               * CBF
@@ -65,7 +65,7 @@ if (empty($argv)) {
             Path:
               Providing a path will only check the directories or files
               specified. It's possible to add multiple files and folder
-              seperated by a comma (,).
+              separated by a comma (,).
 
 
         TEXT;
@@ -149,6 +149,7 @@ if ($checkPath) {
         'modules',
         'plugins',
         'templates',
+        'tests',
     ];
 
     foreach ($baseFolders as $folder) {
