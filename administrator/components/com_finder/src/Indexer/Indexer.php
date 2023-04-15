@@ -966,14 +966,15 @@ class Indexer
      */
     protected function toggleTables($memory)
     {
-        static $supported;
+        static $supported = true;
 
-        if (is_bool($supported) && !$supported) {
+        if (!$supported) {
             return true;
         }
 
         if (strtolower($this->db->getServerType()) != 'mysql') {
             $supported = false;
+
             return true;
         }
 
@@ -992,10 +993,10 @@ class Indexer
                 // Set the tokens aggregate table to Memory.
                 $db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MEMORY');
                 $db->execute();
-
-                $supported = true;
             } catch (\Joomla\Database\Exception\ExecutionFailureException $e) {
                 $supported = false;
+
+                return true;
             }
 
             // Set the internal state.
