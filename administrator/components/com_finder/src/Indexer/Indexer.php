@@ -993,7 +993,7 @@ class Indexer
                 // Set the tokens aggregate table to Memory.
                 $db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MEMORY');
                 $db->execute();
-            } catch (\Joomla\Database\Exception\ExecutionFailureException $e) {
+            } catch (\RuntimeException $e) {
                 $supported = false;
 
                 return true;
