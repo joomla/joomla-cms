@@ -1,4 +1,4 @@
-describe('Test that the users profile view ', () => {
+describe('Test that the users logout view ', () => {
   it('can logout the user without menu item', () => {
     cy.doFrontendLogin();
     cy.visit('index.php?option=com_users&view=login&layout=logout&task=user.menulogout');
