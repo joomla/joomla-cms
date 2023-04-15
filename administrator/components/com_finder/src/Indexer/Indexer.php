@@ -974,6 +974,7 @@ class Indexer
 
         if (strtolower($this->db->getServerType()) != 'mysql') {
             $supported = false;
+
             return true;
         }
 
@@ -994,6 +995,7 @@ class Indexer
                 $db->execute();
             } catch (\Joomla\Database\Exception\ExecutionFailureException $e) {
                 $supported = false;
+
                 return true;
             }
 
