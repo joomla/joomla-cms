@@ -1,5 +1,5 @@
 describe('Test in frontend that the users logout view ', () => {
-  it('can log out the user without menu item', () => {
+  it('can log out the user without a menu item', () => {
     cy.doFrontendLogin();
     cy.visit('index.php?option=com_users&view=login&layout=logout&task=user.menulogout');
 
