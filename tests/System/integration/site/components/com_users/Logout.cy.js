@@ -13,7 +13,7 @@ describe('Test in frontend that the users logout view', () => {
         cy.visit('/');
         cy.get('a:contains(Automated logout)').click();
 
-        cy.get('#system-message-container').should('contain.text', 'You have been logged out.'); 
+        cy.get('#system-message-container').should('contain.text', 'You have been logged out.');
       });
   });
 });
