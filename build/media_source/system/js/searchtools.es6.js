@@ -303,6 +303,9 @@ Joomla = window.Joomla || {};
       let activeFilterCount = 0;
 
       this.getFilterFields().forEach((item) => {
+        if (!item.closest(this.filterContainerSelector)) {
+          return;
+        }
         if (item.classList.contains('active')) {
           activeFilterCount += 1;
           if (cont.filterButton) {
