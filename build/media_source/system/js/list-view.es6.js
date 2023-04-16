@@ -23,12 +23,10 @@ function gridItemAction(event) {
   const { itemFormId } = item.dataset;
 
   if (itemFormId) {
-    Joomla.listItemTask(itemId, itemTask);
+    Joomla.listItemTask(itemId, itemTask, itemFormId);
   } else {
     Joomla.listItemTask(itemId, itemTask);
   }
-
-  Joomla.submitform(itemTask, item.form);
 }
 
 /*
@@ -50,12 +48,10 @@ function gridTransitionItemAction(event) {
   item.form.transition_id.value = item.value;
 
   if (itemFormId) {
-    Joomla.listItemTask(itemId, itemTask);
+    Joomla.listItemTask(itemId, itemTask, itemFormId);
   } else {
     Joomla.listItemTask(itemId, itemTask);
   }
-
-  Joomla.submitform(itemTask, item.form);
 }
 
 /*
@@ -98,3 +94,4 @@ document.querySelectorAll('.js-grid-item-is-checked').forEach((element) => eleme
 document.querySelectorAll('.js-grid-item-action').forEach((element) => element.addEventListener('click', gridItemAction));
 document.querySelectorAll('.js-grid-item-transition-action').forEach((element) => element.addEventListener('change', gridTransitionItemAction));
 document.querySelectorAll('.js-grid-button-transition-action').forEach((element) => element.addEventListener('click', gridTransitionButtonAction));
+
