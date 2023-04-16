@@ -94,4 +94,3 @@ document.querySelectorAll('.js-grid-item-is-checked').forEach((element) => eleme
 document.querySelectorAll('.js-grid-item-action').forEach((element) => element.addEventListener('click', gridItemAction));
 document.querySelectorAll('.js-grid-item-transition-action').forEach((element) => element.addEventListener('change', gridTransitionItemAction));
 document.querySelectorAll('.js-grid-button-transition-action').forEach((element) => element.addEventListener('click', gridTransitionButtonAction));
-
