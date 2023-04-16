@@ -303,7 +303,7 @@ Joomla = window.Joomla || {};
       let activeFilterCount = 0;
 
       this.getFilterFields().forEach((item) => {
-        if (!item.closest(this.filterContainerSelector)) {
+        if (!item.closest(this.options.filterContainerSelector)) {
           return;
         }
         if (item.classList.contains('active')) {
