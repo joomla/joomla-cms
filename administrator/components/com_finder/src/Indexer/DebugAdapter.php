@@ -23,6 +23,7 @@ use Joomla\Utilities\ArrayHelper;
  * USE IT FOR PRODUCTIVE USE!
  *
  * @since  __DEPLOY_VERSION__
+ * @internal
  */
 abstract class DebugAdapter extends CMSPlugin
 {
