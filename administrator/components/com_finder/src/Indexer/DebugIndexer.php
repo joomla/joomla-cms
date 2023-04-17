@@ -14,6 +14,7 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
  * Debugging indexer class for the Finder indexer package.
  *
  * @since  __DEPLOY_VERSION__
+ * @internal
  */
 class DebugIndexer extends Indexer
 {
