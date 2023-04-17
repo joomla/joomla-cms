@@ -1,5 +1,4 @@
 describe('Test that the users profile view', () => {
-  Cypress.session.clearAllSavedSessions();
   it('can display an edit user profile form without a menu item', () => {
     cy.doFrontendLogin();
     cy.visit('index.php?option=com_users&view=profile&layout=edit');
@@ -20,10 +19,10 @@ describe('Test that the users profile view', () => {
 
   it('can edit an edit user profile form for a test user without a menu item', () => {
     cy.db_createUser({
-      name: 'automated test user', username: 'automatedtestuser', password: '098f6bcd4621d373cade4e832627b4f6',
+      name: 'automated test user 2', username: 'automatedtestuser2', password: '098f6bcd4621d373cade4e832627b4f6',
     })
       .then(() => {
-        cy.doFrontendLogin('automatedtestuser', 'test');
+        cy.doFrontendLogin('automatedtestuser2', 'test');
         cy.visit('index.php?option=com_users&view=profile&layout=edit');
 
         cy.get('#member-profile > :nth-child(1) > legend').should('contain.text', 'Edit Your Profile');
