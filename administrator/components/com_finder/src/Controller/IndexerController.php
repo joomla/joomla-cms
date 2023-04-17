@@ -275,6 +275,7 @@ class IndexerController extends BaseController
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
+     * @internal
      */
     public function debug()
     {
