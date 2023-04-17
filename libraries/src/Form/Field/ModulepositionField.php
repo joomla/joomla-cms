@@ -74,7 +74,7 @@ class ModulepositionField extends TextField
     {
         switch ($name) {
             case 'clientId':
-                $this->clientId = (string) $value;
+                $this->clientId = (int) $value;
                 break;
 
             default:
