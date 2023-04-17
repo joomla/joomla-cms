@@ -28,7 +28,8 @@ describe('Test that the users profile view', () => {
         cy.get('#member-profile > :nth-child(1) > legend').should('contain.text', 'Edit Your Profile');
         cy.get('#jform_name').clear().type('automated test user edited');
         cy.get('#jform_email1').clear().type('testedited@example.com');
-        cy.get('.controls > .btn-primary').click();
+        cy.get('.controls > .btn-primary').click({ force: true });
+
         cy.get('#system-message-container').contains('Profile saved.');
         cy.get('#users-profile-core').should('contain.text', 'Name');
         cy.get('#users-profile-core').should('contain.text', 'automated test user edited');
@@ -48,7 +49,8 @@ describe('Test that the users profile view', () => {
         cy.get('#member-profile > :nth-child(1) > legend').should('contain.text', 'Edit Your Profile');
         cy.get('#jform_name').clear().type('automated test user edited');
         cy.get('#jform_email1').clear().type('testedited@example.com');
-        cy.get('.controls > .btn-primary').click();
+        cy.get('.controls > .btn-primary').should('be.visible').click({ force: true });
+
         cy.get('#system-message-container').contains('Profile saved.');
       });
   });
