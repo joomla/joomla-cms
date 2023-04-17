@@ -6,7 +6,7 @@ describe('Test in backend that the menu list', () => {
 
   it('has a title', () => cy.get('h1.page-title').should('contain.text', 'Menus: Items'));
 
-  it('can show a list of menu items', () => {
+  it('can display a list of menu items', () => {
     cy.db_createMenuItem({ title: 'Test menu item' }).then(() => {
       cy.reload();
 

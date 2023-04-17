@@ -8,7 +8,7 @@ describe('Test in backend that the categories list', () => {
     cy.contains('h1', 'Categories').should('exist');
   });
 
-  it('can show a list of categories', () => {
+  it('can display a list of categories', () => {
     cy.db_createCategory({ title: 'Test category' }).then(() => {
       cy.reload();
 

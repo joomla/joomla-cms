@@ -6,7 +6,7 @@ describe('Test in backend that the menu list', () => {
 
   it('has a title', () => cy.get('h1.page-title').should('contain.text', 'Menus'));
 
-  it('can show a list of menus', () => cy.contains('Main Menu'));
+  it('can display a list of menus', () => cy.contains('Main Menu'));
 
   it('can open the menu form', () => {
     cy.clickToolbarButton('New');

@@ -8,7 +8,7 @@ describe('Test in backend that the custom fields list', () => {
     cy.get('h1.page-title').should('contain.text', 'Fields');
   });
 
-  it('can show a list of fields', () => {
+  it('can display a list of fields', () => {
     cy.db_createField({ title: 'Test field' }).then(() => {
       cy.reload();
 

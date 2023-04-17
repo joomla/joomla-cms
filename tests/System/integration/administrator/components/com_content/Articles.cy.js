@@ -8,7 +8,7 @@ describe('Test in backend that the articles list', () => {
     cy.get('h1.page-title').should('contain.text', 'Articles');
   });
 
-  it('can show a list of articles', () => {
+  it('can display a list of articles', () => {
     cy.db_createArticle({ title: 'Test article' }).then(() => {
       cy.reload();
 

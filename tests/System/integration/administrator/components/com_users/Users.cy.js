@@ -8,7 +8,7 @@ describe('Test in backend that the user list', () => {
     cy.get('h1.page-title').should('contain.text', 'Users');
   });
 
-  it('can show a list of users', () => {
+  it('can display a list of users', () => {
     cy.db_createUser({ name: 'Test user' }).then(() => {
       cy.reload();
 
