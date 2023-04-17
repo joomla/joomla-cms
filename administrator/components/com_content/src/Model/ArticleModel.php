@@ -1038,7 +1038,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      * Custom clean the cache of com_content and content modules
      *
      * @param   string   $group     The cache group
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *
