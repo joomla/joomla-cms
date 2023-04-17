@@ -13,8 +13,8 @@ namespace Joomla\Plugin\System\Webauthn;
 use Exception;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Token\Plain;
-use Webauthn\MetadataService\MetadataStatement;
 use Webauthn\MetadataService\MetadataStatementRepository;
+use Webauthn\MetadataService\Statement\MetadataStatement;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;

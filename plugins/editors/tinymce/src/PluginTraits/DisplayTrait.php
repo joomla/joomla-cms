@@ -380,7 +380,7 @@ trait DisplayTrait
         }
 
         // Convert pt to px in dropdown
-        $scriptOptions['fontsize_formats'] = '8px 10px 12px 14px 18px 24px 36px';
+        $scriptOptions['font_size_formats'] = '8px 10px 12px 14px 18px 24px 36px';
 
         // select the languages for the "language of parts" menu
         if (isset($extraOptions->content_languages) && $extraOptions->content_languages) {
@@ -401,6 +401,11 @@ trait DisplayTrait
             $plugins   = array_merge($plugins, explode(strpos($custom_plugin, ',') !== false ? ',' : ' ', $custom_plugin));
         }
 
+        // Version 6 unload removed plugins
+        $plugins = array_filter($plugins, function ($plugin) {
+            return !in_array($plugin, ['hr', 'paste', 'print']);
+        });
+
         if ($custom_button) {
             $toolbar1  = array_merge($toolbar1, explode(strpos($custom_button, ',') !== false ? ',' : ' ', $custom_button));
         }
@@ -412,7 +417,6 @@ trait DisplayTrait
         $scriptOptions   = array_merge(
             $scriptOptions,
             [
-                'deprecation_warnings'        => JDEBUG ? true : false,
                 'suffix'                      => JDEBUG ? '' : '.min',
                 'baseURL'                     => Uri::root(true) . '/media/vendor/tinymce',
                 'directionality'              => $language->isRtl() ? 'rtl' : 'ltr',
@@ -477,7 +481,8 @@ trait DisplayTrait
                 'dndEnabled' => $dragdrop,
 
                 // Disable TinyMCE Branding
-                'branding' => false,
+                'branding'  => false,
+                'promotion' => false,
             ]
         );
 
