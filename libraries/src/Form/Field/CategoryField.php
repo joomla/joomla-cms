@@ -40,7 +40,7 @@ class CategoryField extends ListField
      * which categories should be displayed.
      * Use the show_root attribute to specify whether to show the global category root in the list.
      *
-     * @return  array    The field option objects.
+     * @return  object[]    The field option objects.
      *
      * @since   1.6
      */
