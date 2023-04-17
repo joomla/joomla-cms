@@ -1,4 +1,4 @@
-describe('Test that the categories back end list', () => {
+describe('Test in backend that the categories list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
     cy.visit('administrator/index.php?option=com_categories&view=categories&extension=com_content&filter=');
@@ -8,7 +8,7 @@ describe('Test that the categories back end list', () => {
     cy.contains('h1', 'Categories').should('exist');
   });
 
-  it('can show a list of categories', () => {
+  it('can display a list of categories', () => {
     cy.db_createCategory({ title: 'Test category' }).then(() => {
       cy.reload();
 
