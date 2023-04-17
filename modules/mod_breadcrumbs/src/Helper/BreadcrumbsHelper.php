@@ -55,7 +55,7 @@ class BreadcrumbsHelper
         }
 
         if ($params->get('showHome', 1)) {
-            array_unshift($crumbs, $this->getHome($params, $app));
+            array_unshift($crumbs, $this->getHomeItem($params, $app));
         }
 
         return $crumbs;
