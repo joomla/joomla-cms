@@ -1,4 +1,5 @@
 describe('Test that the users profile view', () => {
+  Cypress.session.clearAllSavedSessions();
   it('can display an edit user profile form without a menu item', () => {
     cy.doFrontendLogin();
     cy.visit('index.php?option=com_users&view=profile&layout=edit');
@@ -18,7 +19,6 @@ describe('Test that the users profile view', () => {
   });
 
   it('can edit an edit user profile form for a test user without a menu item', () => {
-    Cypress.session.clearAllSavedSessions()
     cy.db_createUser({
       name: 'automated test user', username: 'automatedtestuser', password: '098f6bcd4621d373cade4e832627b4f6',
     })
