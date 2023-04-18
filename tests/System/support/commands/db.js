@@ -224,6 +224,60 @@ Cypress.Commands.add('db_createField', (field) => {
   return cy.task('queryDB', createInsertQuery('fields', { ...defaultFieldOptions, ...field })).then(async (info) => info.insertId);
 });
 
+Cypress.Commands.add('db_createTag', (tag) => {
+  const defaultTagOptions = {
+    title: 'test tag',
+    alias: 'test-tag',
+    note: '',
+    description: '',
+    published: 1,
+    parent_id: 1,
+    level: 1,
+    path: 'test-tag',
+    access: 1,
+    lft: 1,
+    metadata: '',
+    metadesc: '',
+    checked_out: 0,
+    checked_out_time: '2023-01-01 20:00:00',
+    metakey: '',
+    urls: '',
+    created_time: '2023-01-01 20:00:00',
+    modified_time: '2023-01-01 20:00:00',
+    language: '*',
+    params: '',
+    images: '',
+  };
+
+  return cy.task('queryDB', createInsertQuery('tags', { ...defaultTagOptions, ...tag })).then(async (info) => info.insertId);
+});
+
+Cypress.Commands.add('db_createNewsFeed', (feed) => {
+  const defaultNewsfeedOptions = {
+    name: 'test feed',
+    alias: 'test-feed',
+    catid: 5,
+    link: '',
+    published: 1,
+    numarticles: 5,
+    checked_out: 0,
+    checked_out_time: '2023-01-01 20:00:00',
+    rtl: 0,
+    access: 1,
+    language: '*',
+    created: '2023-01-01 20:00:00',
+    modified: '2023-01-01 20:00:00',
+    metakey: '',
+    metadata: '',
+    metadesc: '',
+    description: '',
+    params: '',
+    images: '',
+  };
+
+  return cy.task('queryDB', createInsertQuery('newsfeeds', { ...defaultNewsfeedOptions, ...feed })).then(async (info) => info.insertId);
+});
+
 Cypress.Commands.add('db_updateExtensionParameter', (key, value, extension) => cy.task('queryDB', `SELECT params FROM #__extensions WHERE name = '${extension}'`).then((paramsString) => {
   const params = JSON.parse(paramsString[0].params);
   params[key] = value;
@@ -236,6 +290,7 @@ Cypress.Commands.add('db_getUserId', () => {
       if (id.length === 0) {
         return 0;
       }
+
       return id[0].id;
     });
 });
