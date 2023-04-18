@@ -52,7 +52,7 @@ class InvalidRouteExceptionHandler implements ExceptionHandlerInterface
     public function handle(Exception $e)
     {
         $status = 404;
-        $error = ['title' => 'Resource not found'];
+        $error  = ['title' => 'Resource not found'];
 
         $code = $e->getCode();
 

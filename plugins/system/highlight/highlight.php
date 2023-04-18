@@ -49,12 +49,12 @@ class PlgSystemHighlight extends CMSPlugin
     public function onAfterDispatch()
     {
         // Check that we are in the site application.
-        if ($this->app->isClient('administrator')) {
+        if (!$this->app->isClient('site')) {
             return;
         }
 
         // Set the variables.
-        $input     = $this->app->input;
+        $input     = $this->app->getInput();
         $extension = $input->get('option', '', 'cmd');
 
         // Check if the highlighter is enabled.
@@ -79,7 +79,7 @@ class PlgSystemHighlight extends CMSPlugin
         // Clean the terms array.
         $filter     = InputFilter::getInstance();
 
-        $cleanTerms = array();
+        $cleanTerms = [];
 
         foreach ($terms as $term) {
             $cleanTerms[] = htmlspecialchars($filter->clean($term, 'string'));
@@ -93,8 +93,8 @@ class PlgSystemHighlight extends CMSPlugin
             $doc->addScriptOptions(
                 'highlight',
                 [[
-                    'class'      => 'js-highlight',
-                    'highLight'  => $cleanTerms,
+                    'class'     => 'js-highlight',
+                    'highLight' => $cleanTerms,
                 ]]
             );
         }

@@ -15,6 +15,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -90,57 +91,58 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
         $canDo      = $this->canDo;
+        $toolbar    = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::sprintf('COM_MODULES_MANAGER_MODULE', Text::_($this->item->module)), 'cube module');
 
         // For new records, check the create permission.
         if ($isNew && $canDo->get('core.create')) {
-            ToolbarHelper::apply('module.apply');
+            $toolbar->apply('module.apply');
 
-            ToolbarHelper::saveGroup(
-                [
-                    ['save', 'module.save'],
-                    ['save2new', 'module.save2new']
-                ],
-                'btn-success'
+            $saveGroup = $toolbar->dropdownButton('save-group');
+
+            $saveGroup->configure(
+                function (Toolbar $childBar) {
+                    $childBar->save('module.save');
+                    $childBar->save2new('module.save2new');
+                }
             );
 
-            ToolbarHelper::cancel('module.cancel');
+            $toolbar->cancel('module.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            $toolbarButtons = [];
-
             // Can't save the record if it's checked out.
-            if (!$checkedOut) {
-                // Since it's an existing record, check the edit permission.
-                if ($canDo->get('core.edit')) {
-                    ToolbarHelper::apply('module.apply');
+            if (!$checkedOut && $canDo->get('core.edit')) {
+                $toolbar->apply('module.apply');
+            }
 
-                    $toolbarButtons[] = ['save', 'module.save'];
+            $saveGroup = $toolbar->dropdownButton('save-group');
 
-                    // We can save this record, but check the create permission to see if we can return to make a new one.
+            $saveGroup->configure(
+                function (Toolbar $childBar) use ($checkedOut, $canDo) {
+                    // Can't save the record if it's checked out. Since it's an existing record, check the edit permission.
+                    if (!$checkedOut && $canDo->get('core.edit')) {
+                        $childBar->save('module.save');
+
+                        // We can save this record, but check the create permission to see if we can return to make a new one.
+                        if ($canDo->get('core.create')) {
+                            $childBar->save2new('module.save2new');
+                        }
+                    }
+
+                    // If checked out, we can still save
                     if ($canDo->get('core.create')) {
-                        $toolbarButtons[] = ['save2new', 'module.save2new'];
+                        $childBar->save2copy('module.save2copy');
                     }
                 }
-            }
-
-            // If checked out, we can still save
-            if ($canDo->get('core.create')) {
-                $toolbarButtons[] = ['save2copy', 'module.save2copy'];
-            }
-
-            ToolbarHelper::saveGroup(
-                $toolbarButtons,
-                'btn-success'
             );
 
-            ToolbarHelper::cancel('module.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('module.cancel');
         }
 
         // Get the help information for the menu item.
@@ -150,13 +152,13 @@ class HtmlView extends BaseHtmlView
 
         if ($lang->hasKey($help->url)) {
             $debug = $lang->setDebug(false);
-            $url = Text::_($help->url);
+            $url   = Text::_($help->url);
             $lang->setDebug($debug);
         } else {
             $url = null;
         }
 
-        ToolbarHelper::inlinehelp();
-        ToolbarHelper::help($help->key, false, $url);
+        $toolbar->inlinehelp();
+        $toolbar->help($help->key, false, $url);
     }
 }

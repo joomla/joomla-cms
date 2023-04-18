@@ -39,7 +39,7 @@ class ImagelistField extends FilelistField
     protected function getOptions()
     {
         // Define the image file type filter.
-        $this->fileFilter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$|\.jpeg$|\.psd$|\.eps$';
+        $this->fileFilter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$|\.jpeg$|\.psd$|\.eps$|\.avif$|\.webp$|\.heic$|\.wp2$';
 
         // Get the field options.
         return parent::getOptions();

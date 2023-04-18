@@ -11,8 +11,6 @@ const { minifyJs } = require('./minify.es6.js');
  * @param file the full path to the file + filename + extension
  */
 module.exports.handleESMToLegacy = async (file) => {
-  // eslint-disable-next-line no-console
-  console.log(`Transpiling ES5 file: ${basename(file).replace('.js', '-es5.js')}...`);
   const bundleLegacy = await rollup.rollup({
     input: resolve(file),
     plugins: [
@@ -46,10 +44,10 @@ module.exports.handleESMToLegacy = async (file) => {
     format: 'iife',
     sourcemap: false,
     file: resolve(`${file.replace(/\.js$/, '')}-es5.js`),
+  }).then(() => {
+    // eslint-disable-next-line no-console
+    console.log(`✅ ES5 file: ${basename(file).replace('.js', '-es5.js')}: transpiled`);
+
+    minifyJs(resolve(`${file.replace(/\.js$/, '')}-es5.js`));
   });
-
-  // eslint-disable-next-line no-console
-  console.log(`ES5 file: ${basename(file).replace('.js', '-es5.js')}: ✅ transpiled`);
-
-  minifyJs(resolve(`${file.replace(/\.js$/, '')}-es5.js`));
 };

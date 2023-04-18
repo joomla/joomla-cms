@@ -98,7 +98,7 @@ class UpdatesiteModel extends AdminModel
                         'extensions.element',
                         'extensions.folder',
                         'extensions.client_id',
-                        'extensions.checked_out'
+                        'extensions.checked_out',
                     ]
                 )
             )
@@ -154,7 +154,7 @@ class UpdatesiteModel extends AdminModel
         }
 
         // Delete update records forcing Joomla to fetch them again, applying the new extra_query.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__updates'))
             ->where($db->quoteName('update_site_id') . ' = :updateSiteId');

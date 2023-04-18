@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Associations\Administrator\Field">
 	<field
 		name="itemtype"
 		type="itemtype"
 		label="COM_ASSOCIATIONS_FILTER_SELECT_ITEM"
 		filtermode="selector"
-		onchange="Joomla.resetFilters(this)"
+		class="js-select-reset-on-change"
 		>
 		<option value="">COM_ASSOCIATIONS_FILTER_SELECT_ITEM_TYPE</option>
 	</field>
@@ -15,7 +15,7 @@
 		type="contentlanguage"
 		label="COM_ASSOCIATIONS_FILTER_SELECT_LANGUAGE"
 		filtermode="selector"
-		onchange="this.form.submit();"
+		class="js-select-submit-on-change"
 		>
 		<option value="">JOPTION_SELECT_LANGUAGE</option>
 	</field>
@@ -34,7 +34,7 @@
 			name="state"
 			type="status"
 			label="JSTATUS"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
@@ -45,7 +45,7 @@
 			label="JCATEGORY"
 			published="0,1,2"
 			extension="dynamic"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
 		</field>
@@ -55,7 +55,7 @@
 			type="menu"
 			label="COM_ASSOCIATIONS_HEADING_MENUTYPE"
 			clientid="0"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_ASSOCIATIONS_SELECT_MENU</option>
 		</field>
@@ -64,7 +64,7 @@
 			name="access"
 			type="accesslevel"
 			label="JGRID_HEADING_ACCESS"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
@@ -76,7 +76,7 @@
 			first="1"
 			last="10"
 			step="1"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
 		</field>
@@ -88,7 +88,7 @@
 			type="list"
 			label="JGLOBAL_SORT_BY"
 			default="id ASC"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
@@ -107,7 +107,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 	</fields>
 </form>
