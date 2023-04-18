@@ -115,7 +115,7 @@ class ContentType extends Table
      */
     public function getTypeId($typeAlias)
     {
-        $db = $this->_db;
+        $db    = $this->_db;
         $query = $db->getQuery(true);
         $query->select($db->quoteName('type_id'))
             ->from($db->quoteName($this->_tbl))
@@ -137,7 +137,7 @@ class ContentType extends Table
      */
     public function getContentTable()
     {
-        $result = false;
+        $result    = false;
         $tableInfo = json_decode($this->table);
 
         if (\is_object($tableInfo) && isset($tableInfo->special)) {

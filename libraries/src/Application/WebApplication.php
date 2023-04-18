@@ -41,9 +41,17 @@ abstract class WebApplication extends AbstractWebApplication
      * The application component title.
      *
      * @var    string
-     * @since  4.2.7
+     * @since  4.3.0
      */
     public $JComponentTitle;
+
+    /**
+     * The item associations
+     *
+     * @var    integer
+     * @since  4.3.0
+     */
+    public $item_associations;
 
     /**
      * The application document object.
@@ -114,7 +122,10 @@ abstract class WebApplication extends AbstractWebApplication
      *
      * @since       1.7.3
      * @throws      \RuntimeException
-     * @deprecated  5.0 Use \Joomla\CMS\Factory::getContainer()->get($name) instead
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the application service in the DI container instead
+     *              Example: \Joomla\CMS\Factory::getContainer()->get($name)
      */
     public static function getInstance($name = null)
     {
@@ -299,7 +310,9 @@ abstract class WebApplication extends AbstractWebApplication
      * @return  WebApplication This method is chainable.
      *
      * @since   1.7.3
-     * @deprecated  5.0  The session should be injected as a service.
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              The session should be injected as a service.
      */
     public function loadSession(Session $session = null)
     {
@@ -355,7 +368,7 @@ abstract class WebApplication extends AbstractWebApplication
         $siteUri = trim($this->get('site_uri', ''));
 
         if ($siteUri !== '') {
-            $uri = Uri::getInstance($siteUri);
+            $uri  = Uri::getInstance($siteUri);
             $path = $uri->toString(['path']);
         } else {
             // No explicit base URI was set so we need to detect it.

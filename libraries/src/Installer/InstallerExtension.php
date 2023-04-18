@@ -26,6 +26,14 @@ use Joomla\CMS\Object\CMSObject;
 class InstallerExtension extends CMSObject
 {
     /**
+     * Client ID of the extension
+     *
+     * @var    int
+     * @since  4.3.0
+     */
+    public $client_id;
+
+    /**
      * Filename of the extension
      *
      * @var    string
@@ -109,7 +117,7 @@ class InstallerExtension extends CMSObject
     {
         if ($element) {
             $this->type = (string) $element->attributes()->type;
-            $this->id = (string) $element->attributes()->id;
+            $this->id   = (string) $element->attributes()->id;
 
             switch ($this->type) {
                 case 'component':
@@ -119,7 +127,7 @@ class InstallerExtension extends CMSObject
                 case 'module':
                 case 'template':
                 case 'language':
-                    $this->client = (string) $element->attributes()->client;
+                    $this->client  = (string) $element->attributes()->client;
                     $tmp_client_id = ApplicationHelper::getClientInfo($this->client, 1);
 
                     if ($tmp_client_id == null) {
