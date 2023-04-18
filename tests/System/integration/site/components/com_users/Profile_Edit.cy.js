@@ -1,7 +1,7 @@
 describe('Test in frontend that the users profile view', () => {
   it('can display a user form without a menu item', () => {
     cy.doFrontendLogin();
-    cy.visit('index.php?option=com_users&view=profile&layout=edit');
+    cy.visit('/index.php?option=com_users&view=profile&layout=edit');
 
     cy.get('#member-profile > :nth-child(1) > legend').should('contain.text', 'Edit Your Profile');
   });
@@ -23,7 +23,7 @@ describe('Test in frontend that the users profile view', () => {
     })
       .then(() => {
         cy.doFrontendLogin('automatedtestuser2', 'test', false);
-        cy.visit('index.php?option=com_users&view=profile&layout=edit');
+        cy.visit('/index.php?option=com_users&view=profile&layout=edit');
 
         cy.get('#jform_name').clear().type('automated test user edited');
         cy.get('#jform_email1').clear().type('testedited@example.com');

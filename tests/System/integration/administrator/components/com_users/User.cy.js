@@ -3,7 +3,7 @@ describe('Test in backend that the user form', () => {
   afterEach(() => cy.task('queryDB', "DELETE FROM #__users WHERE username = 'test'"));
 
   it('can create a new user', () => {
-    cy.visit('administrator/index.php?option=com_users&task=user.add');
+    cy.visit('/administrator/index.php?option=com_users&task=user.add');
 
     cy.get('#jform_name').clear().type('test user');
     cy.get('#jform_username').clear().type('test');

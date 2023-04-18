@@ -1,7 +1,7 @@
 describe('Test in backend that the custom fields list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
-    cy.visit('administrator/index.php?option=com_fields&view=fields&context=com_content.article&filter=');
+    cy.visit('/administrator/index.php?option=com_fields&view=fields&context=com_content.article&filter=');
   });
 
   it('has a title', () => {

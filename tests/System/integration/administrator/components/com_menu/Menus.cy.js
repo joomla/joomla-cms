@@ -1,7 +1,7 @@
 describe('Test in backend that the menu list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
-    cy.visit('administrator/index.php?option=com_menus&view=menus&filter=');
+    cy.visit('/administrator/index.php?option=com_menus&view=menus&filter=');
   });
 
   it('has a title', () => cy.get('h1.page-title').should('contain.text', 'Menus'));

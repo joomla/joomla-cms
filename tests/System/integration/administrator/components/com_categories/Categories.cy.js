@@ -1,7 +1,7 @@
 describe('Test in backend that the categories list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
-    cy.visit('administrator/index.php?option=com_categories&view=categories&extension=com_content&filter=');
+    cy.visit('/administrator/index.php?option=com_categories&view=categories&extension=com_content&filter=');
   });
 
   it('has a title', () => {

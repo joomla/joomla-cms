@@ -15,7 +15,7 @@ describe('Test in frontend that the users remind view', () => {
   it('can send a reminder email for a test user without a menu item', () => {
     cy.db_createUser({ name: 'test user', email: 'test@example.com' })
       .then(() => {
-        cy.visit('index.php?option=com_users&view=remind');
+        cy.visit('/index.php?option=com_users&view=remind');
         cy.get('#jform_email').type('test@example.com');
         cy.get('.controls > .btn').click();
 
