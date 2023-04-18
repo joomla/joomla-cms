@@ -8,7 +8,7 @@ describe('Test in frontend that the contact categories view', () => {
         await cy.db_createContact({ name: 'automated test contact 3', catid: id });
       })
       .then(() => {
-        cy.visit('index.php?option=com_contact&view=categories');
+        cy.visit('/index.php?option=com_contact&view=categories');
 
         cy.contains('automated test category 1');
         cy.contains('automated test category 2');

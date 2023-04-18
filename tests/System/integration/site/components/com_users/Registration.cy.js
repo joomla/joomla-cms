@@ -2,7 +2,7 @@ describe('Test in frontend that the users registration view', () => {
   it('can display a registration form for a test user without a menu item', () => {
     cy.db_createUser({ username: 'test', password: '098f6bcd4621d373cade4e832627b4f6' })
       .then(() => {
-        cy.visit('index.php?option=com_users&view=registration');
+        cy.visit('/index.php?option=com_users&view=registration');
         cy.get('#username').type('test');
         cy.get('#password').type('test');
         cy.get('#remember').check();
