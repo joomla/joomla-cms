@@ -17,7 +17,7 @@ describe('Test in backend that the module form', () => {
       cy.get('#jform_title').clear().type('Test module edited');
       cy.clickToolbarButton('Save & Close');
 
-      // This is needed as it can be that the backend list has still a filter active
+      // This is needed as it can be that the backend list still has a filter active
       cy.visit('/administrator/index.php?option=com_modules&view=modules&filter=');
       cy.reload();
 
