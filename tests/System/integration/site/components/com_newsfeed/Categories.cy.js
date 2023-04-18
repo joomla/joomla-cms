@@ -8,7 +8,7 @@ describe('Test in frontend that the newsfeeds categories view', () => {
         await cy.db_createNewsFeed({ name: 'automated test feed 3', catid: id });
       })
       .then(() => {
-        cy.visit('index.php?option=com_newsfeeds&view=categories');
+        cy.visit('/index.php?option=com_newsfeeds&view=categories');
 
         cy.contains('automated test category 1');
         cy.contains('automated test category 2');

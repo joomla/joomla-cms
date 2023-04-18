@@ -22,7 +22,7 @@ describe('Test in frontend that the newsfeeds category view', () => {
       .then(() => cy.db_createNewsFeed({ name: 'automated test feed 3' }))
       .then(() => cy.db_createNewsFeed({ name: 'automated test feed 4' }))
       .then(() => {
-        cy.visit('index.php?option=com_newsfeeds&view=category&id=5');
+        cy.visit('/index.php?option=com_newsfeeds&view=category&id=5');
 
         cy.contains('automated test feed 1');
         cy.contains('automated test feed 2');
