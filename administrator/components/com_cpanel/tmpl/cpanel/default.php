@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -30,7 +29,7 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_cpanel.admin-cpanel')
     ->useScript('com_cpanel.admin-addmodule');
 
-$user = Factory::getUser();
+$user = $this->getCurrentUser();
 
 // Set up the bootstrap modal that will be used for all module editors
 echo HTMLHelper::_(

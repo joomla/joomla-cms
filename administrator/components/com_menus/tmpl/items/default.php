@@ -24,7 +24,7 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
-$user      = Factory::getUser();
+$user      = $this->getCurrentUser();
 $app       = Factory::getApplication();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));

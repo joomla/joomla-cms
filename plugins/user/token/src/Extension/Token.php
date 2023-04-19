@@ -218,7 +218,7 @@ final class Token extends CMSPlugin
 
         // No token: no reset
         $userTokenSeed = $this->getTokenSeedForUser($userId);
-        $currentUser   = Factory::getUser();
+        $currentUser   = $this->getApplication()->getIdentity();
 
         if (empty($userTokenSeed)) {
             $form->removeField('notokenforotherpeople', 'joomlatoken');

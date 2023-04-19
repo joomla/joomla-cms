@@ -352,7 +352,7 @@ final class Joomla extends CMSPlugin
      */
     public function onUserLogout($user, $options = [])
     {
-        $my      = Factory::getUser();
+        $my      = $this->getApplication()->getIdentity();
         $session = Factory::getSession();
 
         $userid = (int) $user['id'];

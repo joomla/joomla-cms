@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 
@@ -19,7 +18,7 @@ $params = ComponentHelper::getParams('com_content');
 
 $published = (int) $this->state->get('filter.published');
 
-$user = Factory::getUser();
+$user = $this->getCurrentUser();
 ?>
 
 <div class="p-3">
