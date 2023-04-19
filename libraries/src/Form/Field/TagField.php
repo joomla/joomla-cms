@@ -315,7 +315,7 @@ class TagField extends ListField
             return false;
         }
 
-        return Factory::getUser()->authorise('core.create', 'com_tags');
+        return $this->getCurrentUser()->authorise('core.create', 'com_tags');
     }
 
     /**

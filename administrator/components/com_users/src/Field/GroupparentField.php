@@ -81,7 +81,7 @@ class GroupparentField extends ListField
         }
 
         $options      = array_values($options);
-        $isSuperAdmin = Factory::getUser()->authorise('core.admin');
+        $isSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
 
         // Pad the option text with spaces using depth level as a multiplier.
         for ($i = 0, $n = count($options); $i < $n; $i++) {

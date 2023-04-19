@@ -64,7 +64,7 @@ class FrontendlanguageField extends ListField
         } catch (\RuntimeException $e) {
             $languages = [];
 
-            if (Factory::getUser()->authorise('core.admin')) {
+            if ($this->getCurrentUser()->authorise('core.admin')) {
                 Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
             }
         }
