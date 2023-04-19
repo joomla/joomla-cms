@@ -16,13 +16,13 @@ use InvalidArgumentException;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
+use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -39,12 +39,12 @@ class ActionlogsController extends AdminController
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     *                                         Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                         'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    Input
+     * @param   array                 $config   An optional associative array of configuration settings.
+     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                          'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since   3.9.0
      *

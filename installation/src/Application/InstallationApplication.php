@@ -19,13 +19,13 @@ use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 
@@ -45,16 +45,16 @@ final class InstallationApplication extends CMSApplication
     /**
      * Class constructor.
      *
-     * @param   Input|null      $input      An optional argument to provide dependency injection for the application's input
-     *                                      object.  If the argument is a JInput object that object will become the
-     *                                      application's input object, otherwise a default input object is created.
-     * @param   Registry|null   $config     An optional argument to provide dependency injection for the application's
-     *                                      config object.  If the argument is a Registry object that object will become
-     *                                      the application's config object, otherwise a default config object is created.
-     * @param   WebClient|null  $client     An optional argument to provide dependency injection for the application's
-     *                                      client object.  If the argument is a WebClient object that object will become the
-     *                                      application's client object, otherwise a default client object is created.
-     * @param   Container|null  $container  Dependency injection container.
+     * @param   ?Input      $input      An optional argument to provide dependency injection for the application's input
+     *                                  object.  If the argument is a Input object that object will become the
+     *                                  application's input object, otherwise a default input object is created.
+     * @param   ?Registry   $config     An optional argument to provide dependency injection for the application's
+     *                                  config object.  If the argument is a Registry object that object will become
+     *                                  the application's config object, otherwise a default config object is created.
+     * @param   ?WebClient  $client     An optional argument to provide dependency injection for the application's
+     *                                  client object.  If the argument is a WebClient object that object will become the
+     *                                  application's client object, otherwise a default client object is created.
+     * @param   ?Container  $container  Dependency injection container.
      *
      * @since   3.1
      */

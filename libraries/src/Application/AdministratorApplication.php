@@ -13,7 +13,6 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -21,6 +20,7 @@ use Joomla\CMS\Router\Router;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -56,7 +56,7 @@ class AdministratorApplication extends CMSApplication
      * Class constructor.
      *
      * @param   Input      $input      An optional argument to provide dependency injection for the application's input
-     *                                 object.  If the argument is a JInput object that object will become the
+     *                                 object.  If the argument is a Input object that object will become the
      *                                 application's input object, otherwise a default input object is created.
      * @param   Registry   $config     An optional argument to provide dependency injection for the application's config
      *                                 object.  If the argument is a Registry object that object will become the
@@ -385,7 +385,7 @@ class AdministratorApplication extends CMSApplication
      */
     protected function render()
     {
-        // Get the \JInput object
+        // Get the Input object
         $input = $this->input;
 
         $component = $input->getCmd('option', 'com_login');
