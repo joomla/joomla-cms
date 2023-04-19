@@ -1,14 +1,14 @@
-describe('Test that the custom fields back end list', () => {
+describe('Test in backend that the custom fields list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
-    cy.visit('administrator/index.php?option=com_fields&view=fields&context=com_content.article&filter=');
+    cy.visit('/administrator/index.php?option=com_fields&view=fields&context=com_content.article&filter=');
   });
 
   it('has a title', () => {
     cy.get('h1.page-title').should('contain.text', 'Fields');
   });
 
-  it('can show a list of fields', () => {
+  it('can display a list of fields', () => {
     cy.db_createField({ title: 'Test field' }).then(() => {
       cy.reload();
 
