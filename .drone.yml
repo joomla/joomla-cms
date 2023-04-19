@@ -39,7 +39,7 @@ steps:
       - ./libraries/vendor/bin/phan
 
   - name: npm
-    image: node:16-bullseye-slim
+    image: node:18-bullseye-slim
     depends_on: [ phpcs ]
     volumes:
       - name: npm-cache
