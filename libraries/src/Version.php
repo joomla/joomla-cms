@@ -82,7 +82,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const CODENAME = 'Bora';
+    public const CODENAME = 'Pamoja';
 
     /**
      * Release date.
