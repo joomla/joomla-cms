@@ -14,6 +14,7 @@ const folders = [
   'media/vendor/qrcode/js',
   'media/vendor/short-and-sweet/js',
   'media/vendor/webcomponentsjs/js',
+  'media/vendor/tinymce/langs',
 ];
 
 let allFiles = [];
@@ -55,7 +56,7 @@ const minifyJS = async (file) => {
   }
 
   // eslint-disable-next-line no-console
-  console.log(`Processing Vendor file: ${file}`);
+  // console.log(`Processing Vendor file: ${file}`);
 
   let minified;
   const fileExists = await minifiedExists(file);

@@ -4,7 +4,7 @@ const {
 const CssNano = require('cssnano');
 const Postcss = require('postcss');
 const { minify } = require('terser');
-
+const AdmZip = require('adm-zip');
 const { join } = require('path');
 
 const { copyAllFiles } = require('../common/copy-all-files.es6.js');
@@ -89,6 +89,20 @@ module.exports.tinyMCE = async (packageName, version) => {
   <body style="height: 100vh"></body>
 </html>
 `;
+
+  // Get the languages
+  await fetch('https://download.tiny.cloud/tinymce/community/languagepacks/6/langs.zip')
+    .then(async (response) => {
+      if (!response.ok) {
+        throw new Error('Broken tinymce languages url');
+      }
+
+      return response.arrayBuffer();
+    })
+    .then((zipped) => new AdmZip(Buffer.from(zipped)))
+    .then((zip) => zip.extractAllTo('media/vendor/tinymce', true))
+    // eslint-disable-next-line
+    .catch((error) => console.log(error));
 
   await writeFile('media/plg_editors_tinymce/js/plugins/highlighter/source.html', htmlContent, { encoding: 'utf8', mode: 0o644 });
 
