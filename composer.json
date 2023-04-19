@@ -57,6 +57,7 @@
         "joomla/filesystem": "~3.0.x-dev",
         "joomla/http": "~3.0.x-dev",
         "joomla/input": "~3.0.x-dev",
+        "joomla/language": "~3.0.x-dev",
         "joomla/oauth1": "~3.0.x-dev",
         "joomla/oauth2": "~3.0.x-dev",
         "joomla/registry": "~3.0.x-dev",
