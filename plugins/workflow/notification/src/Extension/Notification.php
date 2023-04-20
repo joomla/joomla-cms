@@ -11,12 +11,12 @@
 namespace Joomla\Plugin\Workflow\Notification\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Database\DatabaseAwareTrait;
@@ -37,6 +37,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
 {
     use WorkflowPluginTrait;
     use DatabaseAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * Load the language file on instantiation.
@@ -45,6 +46,14 @@ final class Notification extends CMSPlugin implements SubscriberInterface
      * @since  4.0.0
      */
     protected $autoloadLanguage = true;
+
+    /**
+     * The language factory.
+     *
+     * @var    LanguageFactoryInterface
+     * @since  __DEPLOY_VERSION__
+     */
+    private $languageFactory;
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -59,6 +68,23 @@ final class Notification extends CMSPlugin implements SubscriberInterface
             'onContentPrepareForm'      => 'onContentPrepareForm',
             'onWorkflowAfterTransition' => 'onWorkflowAfterTransition',
         ];
+    }
+
+
+    /**
+     * Constructor.
+     *
+     * @param   DispatcherInterface       $dispatcher       The dispatcher
+     * @param   array                     $config           An optional associative array of configuration settings
+     * @param   LanguageFactoryInterface  $languageFactory  The language factory
+     *
+     * @since   4.2.0
+     */
+    public function __construct(DispatcherInterface $dispatcher, array $config, LanguageFactoryInterface $languageFactory)
+    {
+        parent::__construct($dispatcher, $config);
+
+        $this->languageFactory = $languageFactory;
     }
 
     /**
@@ -169,7 +195,6 @@ final class Notification extends CMSPlugin implements SubscriberInterface
         $transitionName = $model_transition->getItem($transition->id)->title;
 
         $hasGetItem = method_exists($model, 'getItem');
-        $container  = Factory::getContainer();
 
         foreach ($pks as $pk) {
             // Get the title of the item which has changed, unknown as fallback
@@ -182,12 +207,11 @@ final class Notification extends CMSPlugin implements SubscriberInterface
 
             // Send Email to receivers
             foreach ($userIds as $user_id) {
-                $receiver = $container->get(UserFactoryInterface::class)->loadUserById($user_id);
+                $receiver = $this->getUserFactory()->loadUserById($user_id);
 
                 if ($receiver->authorise('core.manage', 'com_message')) {
                     // Load language for messaging
-                    $lang = $container->get(LanguageFactoryInterface::class)
-                        ->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
+                    $lang = $this->languageFactory->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
                     $lang->load('plg_workflow_notification');
                     $messageText = sprintf(
                         $lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'),
