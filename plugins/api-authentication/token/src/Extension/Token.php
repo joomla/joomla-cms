@@ -13,7 +13,8 @@ namespace Joomla\Plugin\ApiAuthentication\Token\Extension;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Plugins\Administrator\Model\PluginModel;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
@@ -29,9 +30,10 @@ use Joomla\Filter\InputFilter;
  *
  * @since  4.0.0
  */
-final class Token extends CMSPlugin
+final class Token extends CMSPlugin implements UserFactoryAwareInterface
 {
     use DatabaseAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * The prefix of the user profile keys, without the dot.
@@ -50,14 +52,6 @@ final class Token extends CMSPlugin
     private $allowedAlgos = ['sha256', 'sha512'];
 
     /**
-     * The user factory
-     *
-     * @var    UserFactoryInterface
-     * @since  4.2.0
-     */
-    private $userFactory;
-
-    /**
      * The input filter
      *
      * @var    InputFilter
@@ -70,17 +64,15 @@ final class Token extends CMSPlugin
      *
      * @param   DispatcherInterface   $dispatcher   The dispatcher
      * @param   array                 $config       An optional associative array of configuration settings
-     * @param   UserFactoryInterface  $userFactory  The user factory
      * @param   InputFilter           $filter       The input filter
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory, InputFilter $filter)
+    public function __construct(DispatcherInterface $dispatcher, array $config, InputFilter $filter)
     {
         parent::__construct($dispatcher, $config);
 
-        $this->userFactory = $userFactory;
-        $this->filter      = $filter;
+        $this->filter = $filter;
     }
 
     /**
@@ -228,7 +220,7 @@ final class Token extends CMSPlugin
         }
 
         // Get the actual user record
-        $user = $this->userFactory->loadUserById($userId);
+        $user = $this->getUserFactory()->loadUserById($userId);
 
         // Disallow login for blocked, inactive or password reset required users
         if ($user->block || !empty(trim($user->activation)) || $user->requireReset) {
@@ -365,7 +357,7 @@ final class Token extends CMSPlugin
     {
         $allowedUserGroups = $this->getAllowedUserGroups();
 
-        $user = $this->userFactory->loadUserById($userId);
+        $user = $this->getUserFactory()->loadUserById($userId);
 
         if ($user->id != $userId) {
             return false;
