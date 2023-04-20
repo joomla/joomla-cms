@@ -198,7 +198,11 @@ class AdministratorApplication extends CMSApplication
      * @return  Router
      *
      * @since      3.2
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Inject the router or load it from the dependency injection container
+     *              Example:
+     *              Factory::getContainer()->get(AdministratorRouter::class);
      */
     public static function getRouter($name = 'administrator', array $options = [])
     {
@@ -358,7 +362,11 @@ class AdministratorApplication extends CMSApplication
      *
      * @since   3.2
      *
-     * @deprecated  5.0 Purge the messages through the model
+     * @deprecated  4.3 will be removed in 6.0
+     *              Purge the messages through the messages model
+     *              Example:
+     *              Factory::getApplication()->bootComponent('messages')->getMVCFactory()
+     *                ->createModel('Messages', 'Administrator')->purge(Factory::getApplication()->getIdentity()->id);
      */
     public static function purgeMessages()
     {
