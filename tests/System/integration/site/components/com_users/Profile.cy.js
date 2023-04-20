@@ -1,11 +1,10 @@
-describe('Test the user profile view', () => {
-  it('can display user profile for test user', () => {
+describe('Test in frontend that the users profile view', () => {
+  it('can display a user profile for a test user without a menu item', () => {
     cy.db_createUser({
       name: 'automated test user', username: 'automatedtestuser', password: '098f6bcd4621d373cade4e832627b4f6', registerDate: '2023-03-01 20:00:00',
     })
       .then(() => {
-        cy.visit('index.php?option=com_users&view=profile');
-
+        cy.visit('/index.php?option=com_users&view=profile');
         cy.get('#username').type('automatedtestuser');
         cy.get('#password').type('test');
         cy.get('#remember').check();
@@ -22,14 +21,13 @@ describe('Test the user profile view', () => {
       });
   });
 
-  it('testing user profile display for test user through menu item', () => {
+  it('can display a user profile for a test user in a menu item', () => {
     cy.db_createUser({
       name: 'automated test user', username: 'automatedtestuser', password: '098f6bcd4621d373cade4e832627b4f6', registerDate: '2023-03-01 20:00:00',
     })
       .then(() => cy.db_createMenuItem({ title: 'Automated test user profile', link: 'index.php?option=com_users&view=profile' }))
       .then(() => {
         cy.visit('/');
-
         cy.get('a:contains(Automated test user profile)').click();
         cy.get('#username').type('automatedtestuser');
         cy.get('#password').type('test');
