@@ -28,7 +28,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
@@ -53,7 +52,7 @@ use function count;
  *
  * @since 4.2.0
  */
-class Email extends CMSPlugin implements SubscriberInterface, UserFactoryAwareInterface
+class Email extends CMSPlugin implements SubscriberInterface
 {
     use UserFactoryAwareTrait;
 

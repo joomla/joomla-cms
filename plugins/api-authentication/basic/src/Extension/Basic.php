@@ -12,7 +12,6 @@ namespace Joomla\Plugin\ApiAuthentication\Basic\Extension;
 
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
@@ -26,7 +25,7 @@ use Joomla\Database\DatabaseAwareTrait;
  *
  * @since  4.0.0
  */
-final class Basic extends CMSPlugin implements UserFactoryAwareInterface
+final class Basic extends CMSPlugin
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;

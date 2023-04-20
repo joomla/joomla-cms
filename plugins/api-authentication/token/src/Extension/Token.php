@@ -13,7 +13,6 @@ namespace Joomla\Plugin\ApiAuthentication\Token\Extension;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Plugins\Administrator\Model\PluginModel;
 use Joomla\Database\DatabaseAwareTrait;
@@ -30,7 +29,7 @@ use Joomla\Filter\InputFilter;
  *
  * @since  4.0.0
  */
-final class Token extends CMSPlugin implements UserFactoryAwareInterface
+final class Token extends CMSPlugin
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;

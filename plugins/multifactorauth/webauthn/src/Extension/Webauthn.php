@@ -22,7 +22,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
@@ -43,7 +42,7 @@ use Webauthn\PublicKeyCredentialRequestOptions;
  *
  * @since 4.2.0
  */
-class Webauthn extends CMSPlugin implements SubscriberInterface, UserFactoryAwareInterface
+class Webauthn extends CMSPlugin implements SubscriberInterface
 {
     use UserFactoryAwareTrait;
 

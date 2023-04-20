@@ -20,7 +20,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
@@ -39,7 +38,7 @@ use RuntimeException;
  *
  * @since  3.2
  */
-class Totp extends CMSPlugin implements SubscriberInterface, UserFactoryAwareInterface
+class Totp extends CMSPlugin implements SubscriberInterface
 {
     use UserFactoryAwareTrait;
 
