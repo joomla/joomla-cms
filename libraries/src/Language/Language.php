@@ -695,7 +695,7 @@ class Language extends BaseLanguage
      * @since   3.6.3
      * @throws  \InvalidArgumentException
      */
-    public function debugFile(string $filename) : int
+    public function debugFile(string $filename): int
     {
         // Make sure our file actually exists
         if (!is_file($filename)) {
