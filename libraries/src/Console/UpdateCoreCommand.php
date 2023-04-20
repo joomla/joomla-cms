@@ -233,8 +233,45 @@ class UpdateCoreCommand extends AbstractCommand
 
                 $updatemodel->purge();
 
+                // Remove the administrator/cache/autoload_psr4.php file
+                $filename = JPATH_BASE . 'administrator/cache/autoload_psr4.php';
+
+                if (file_exists($filename)) {
+                    $this->clearFileInOPCache($filename);
+                    \clearstatcache(true, $filename);
+
+                    @unlink($filename);
+                }
+
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    /**
+     * Invalidate a file in OPcache.
+     *
+     * Only applies if the file has a .php extension.
+     *
+     * @param   string  $file  The filepath to clear from OPcache
+     *
+     * @return  boolean
+     * @since   4.3.1
+     */
+    private function clearFileInOPCache(string $file): bool
+    {
+        static $hasOpCache = null;
+
+        if (is_null($hasOpCache)) {
+            $hasOpCache = ini_get('opcache.enable')
+                && function_exists('opcache_invalidate')
+                && (!ini_get('opcache.restrict_api') || stripos(realpath($_SERVER['SCRIPT_FILENAME']), ini_get('opcache.restrict_api')) === 0);
+        }
+
+        if ($hasOpCache && (strtolower(substr($file, -4)) === '.php')) {
+            return opcache_invalidate($file, true);
         }
 
         return false;
