@@ -18,7 +18,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
@@ -39,30 +39,19 @@ use stdClass;
 final class ActionLogs extends CMSPlugin
 {
     use DatabaseAwareTrait;
-
-    /**
-     * The user factory
-     *
-     * @var   UserFactoryInterface
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    private $userFactory;
+    use UserFactoryAwareTrait;
 
     /**
      * Constructor.
      *
-     * @param   DispatcherInterface   $dispatcher   The dispatcher
-     * @param   array                 $config       An optional associative array of configuration settings
-     * @param   UserFactoryInterface  $userFactory  The user factory
+     * @param   DispatcherInterface  $dispatcher   The dispatcher
+     * @param   array                $config       An optional associative array of configuration settings
      *
      * @since   3.9.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory)
+    public function __construct(DispatcherInterface $dispatcher, array $config)
     {
         parent::__construct($dispatcher, $config);
-
-        $this->userFactory = $userFactory;
 
         // Import actionlog plugin group so that these plugins will be triggered for events
         PluginHelper::importPlugin('actionlog');
@@ -127,7 +116,7 @@ final class ActionLogs extends CMSPlugin
             $data = (object) $data;
         }
 
-        if (empty($data->id) || !$this->userFactory->loadUserById($data->id)->authorise('core.admin')) {
+        if (empty($data->id) || !$this->getUserFactory()->loadUserById($data->id)->authorise('core.admin')) {
             return true;
         }
 
@@ -168,7 +157,7 @@ final class ActionLogs extends CMSPlugin
             $data = (object) $data;
         }
 
-        if (!$this->userFactory->loadUserById($data->id)->authorise('core.admin')) {
+        if (!$this->getUserFactory()->loadUserById($data->id)->authorise('core.admin')) {
             return true;
         }
 
@@ -348,7 +337,7 @@ final class ActionLogs extends CMSPlugin
         }
 
         // Clear access rights in case user groups were changed.
-        $userObject = $this->userFactory->loadUserById($user['id']);
+        $userObject = $this->getUserFactory()->loadUserById($user['id']);
         $userObject->clearAccessRights();
 
         $authorised = $userObject->authorise('core.admin');

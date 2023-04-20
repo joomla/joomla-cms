@@ -13,9 +13,8 @@ namespace Joomla\Plugin\System\Fields\Extension;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 use stdClass;
 
@@ -30,6 +29,8 @@ use stdClass;
  */
 final class Fields extends CMSPlugin
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Load the language file on instantiation.
      *
@@ -37,31 +38,6 @@ final class Fields extends CMSPlugin
      * @since  3.7.0
      */
     protected $autoloadLanguage = true;
-
-    /**
-     * The user factory
-     *
-     * @var   UserFactoryInterface
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    private $userFactory;
-
-    /**
-     * Constructor.
-     *
-     * @param   DispatcherInterface   $dispatcher   The dispatcher
-     * @param   array                 $config       An optional associative array of configuration settings
-     * @param   UserFactoryInterface  $userFactory  The user factory
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory)
-    {
-        parent::__construct($dispatcher, $config);
-
-        $this->userFactory = $userFactory;
-    }
 
     /**
      * Normalizes the request data.
@@ -202,7 +178,7 @@ final class Fields extends CMSPlugin
             return;
         }
 
-        $user = $this->userFactory->loadUserById($userData['id']);
+        $user = $this->getUserFactory()->loadUserById($userData['id']);
 
         $task = $this->getApplication()->getInput()->getCmd('task');
 

@@ -14,15 +14,13 @@ use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
@@ -47,6 +45,7 @@ use RuntimeException;
 final class TaskNotification extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * The task notification form. This form is merged into the task item form by {@see
@@ -64,15 +63,6 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
     protected $autoloadLanguage = true;
 
     /**
-     * The user factory
-     *
-     * @var   UserFactoryInterface
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    private $userFactory;
-
-    /**
      * @inheritDoc
      *
      * @return array
@@ -88,22 +78,6 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
             'onTaskRoutineNotFound' => 'notifyOrphan',
             'onTaskRecoverFailure'  => 'notifyFatalRecovery',
         ];
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param   DispatcherInterface   $dispatcher   The dispatcher
-     * @param   array                 $config       An optional associative array of configuration settings
-     * @param   UserFactoryInterface  $userFactory  The user factory
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory)
-    {
-        parent::__construct($dispatcher, $config);
-
-        $this->userFactory = $userFactory;
     }
 
     /**
@@ -306,7 +280,7 @@ final class TaskNotification extends CMSPlugin implements SubscriberInterface
 
         // Mail all matching users who also have the `core.manage` privilege for com_scheduler.
         foreach ($users as $user) {
-            $user = $this->userFactory->loadUserById($user->id);
+            $user = $this->getUserFactory()->loadUserById($user->id);
 
             if ($user->authorise('core.manage', 'com_scheduler')) {
                 try {

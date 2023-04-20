@@ -35,13 +35,14 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $plugin = new TaskNotification(
-                    $container->get(DispatcherInterface::class),
+                $dispatcher = $container->get(DispatcherInterface::class);
+                $plugin     = new TaskNotification(
+                    $dispatcher,
                     (array) PluginHelper::getPlugin('system', 'tasknotification'),
-                    $container->get(UserFactoryInterface::class)
                 );
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
+                $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
             }

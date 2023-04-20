@@ -38,10 +38,10 @@ return new class () implements ServiceProviderInterface {
                 $plugin = new ActionLogs(
                     $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('system', 'actionlogs'),
-                    $container->get(UserFactoryInterface::class)
                 );
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
+                $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
             }

@@ -34,12 +34,13 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $plugin = new Fields(
-                    $container->get(DispatcherInterface::class),
+                $dispatcher = $container->get(DispatcherInterface::class),
+                $plugin     = new Fields(
+                    $dispatcher,
                     (array) PluginHelper::getPlugin('system', 'fields'),
-                    $container->get(UserFactoryInterface::class)
                 );
                 $plugin->setApplication(Factory::getApplication());
+                $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 
                 return $plugin;
             }
