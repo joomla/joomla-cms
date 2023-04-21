@@ -67,7 +67,7 @@ ksort($allTours);
     </button>
     <div class="dropdown-menu dropdown-menu-end">
     <?php $count = 0; ?>
-        <?php while ($count <= count($listTours) && $count <= $params->get('tourscount', 7)) { ?>
+        <?php while ($count < count($listTours) && $count < $params->get('tourscount', 7)) { ?>
             <?php $tour = $listTours[$count]; ?>
                 <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
                     <span class="icon-map-signs" aria-hidden="true"></span>
