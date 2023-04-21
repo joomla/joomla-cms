@@ -11,6 +11,10 @@ namespace Joomla\CMS\Event;
 
 use DomainException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * A Trait to reshape arguments maintaining b/c with legacy plugin events.
  *
@@ -50,7 +54,8 @@ use DomainException;
  *
  * @since  4.2.0
  *
- * @deprecated 5.0
+ * @deprecated  4.3 will be removed in 6.0
+ *              Will be removed without replacement
  */
 trait ReshapeArgumentsAware
 {

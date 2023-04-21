@@ -15,6 +15,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class for categories
  *
@@ -28,7 +32,7 @@ abstract class Category
      * @var    array
      * @since  1.5
      */
-    protected static $items = array();
+    protected static $items = [];
 
     /**
      * Returns an array of categories for the given extension.
@@ -41,7 +45,7 @@ abstract class Category
      *
      * @since   1.5
      */
-    public static function options($extension, $config = array('filter.published' => array(0, 1)))
+    public static function options($extension, $config = ['filter.published' => [0, 1]])
     {
         $hash = md5($extension . '.' . serialize($config));
 
@@ -108,10 +112,10 @@ abstract class Category
             $items = $db->loadObjectList();
 
             // Assemble the list options.
-            static::$items[$hash] = array();
+            static::$items[$hash] = [];
 
             foreach ($items as &$item) {
-                $repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
+                $repeat      = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
                 $item->title = str_repeat('- ', $repeat) . $item->title;
 
                 if ($item->language !== '*') {
@@ -135,15 +139,15 @@ abstract class Category
      *
      * @since   1.6
      */
-    public static function categories($extension, $config = array('filter.published' => array(0, 1)))
+    public static function categories($extension, $config = ['filter.published' => [0, 1]])
     {
         $hash = md5($extension . '.' . serialize($config));
 
         if (!isset(static::$items[$hash])) {
             $config = (array) $config;
-            $user = Factory::getUser();
-            $db = Factory::getDbo();
-            $query = $db->getQuery(true)
+            $user   = Factory::getUser();
+            $db     = Factory::getDbo();
+            $query  = $db->getQuery(true)
                 ->select(
                     [
                         $db->quoteName('a.id'),
@@ -181,10 +185,10 @@ abstract class Category
             $items = $db->loadObjectList();
 
             // Assemble the list options.
-            static::$items[$hash] = array();
+            static::$items[$hash] = [];
 
             foreach ($items as &$item) {
-                $repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
+                $repeat      = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
                 $item->title = str_repeat('- ', $repeat) . $item->title;
 
                 if ($item->language !== '*') {

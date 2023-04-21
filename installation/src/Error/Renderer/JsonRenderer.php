@@ -13,6 +13,10 @@ namespace Joomla\CMS\Installation\Error\Renderer;
 use Joomla\CMS\Error\AbstractRenderer;
 use Joomla\CMS\Installation\Response\JsonResponse;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * JSON error page renderer for the installation application
  *

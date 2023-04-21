@@ -25,11 +25,17 @@ use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class for a Joomla! command line application.
  *
  * @since       2.5.0
- * @deprecated  5.0  Use the ConsoleApplication instead
+ *
+ * @deprecated  4.0 will be removed in 6.0
+ *              Use the ConsoleApplication instead
  */
 abstract class CliApplication extends AbstractApplication implements DispatcherAwareInterface, CMSApplicationInterface
 {
@@ -154,7 +160,10 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
      * @return  mixed   A value if the property name is valid, null otherwise.
      *
      * @since       4.0.0
-     * @deprecated  5.0  This is a B/C proxy for deprecated read accesses
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              This is a B/C proxy for deprecated read accesses
+     *              Example: Factory::getApplication()->getInput();
      */
     public function __get($name)
     {
@@ -215,7 +224,11 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
      * @return  CliApplication
      *
      * @since       1.7.0
-     * @deprecated  5.0 Load the app through the container
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Load the app through the container or via the Factory
+     *              Example: Factory::getContainer()->get(CliApplication::class)
+     *
      * @throws  \RuntimeException
      */
     public static function getInstance($name = null)
@@ -400,7 +413,8 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
      * @return  boolean
      *
      * @since       4.0.0
-     * @deprecated  5.0  Will be removed without replacements
+     * @deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacements
      */
     public function isCli()
     {

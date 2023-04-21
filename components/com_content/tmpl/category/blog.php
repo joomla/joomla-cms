@@ -19,16 +19,16 @@ use Joomla\CMS\Layout\LayoutHelper;
 $app = Factory::getApplication();
 
 $this->category->text = $this->category->description;
-$app->triggerEvent('onContentPrepare', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
+$app->triggerEvent('onContentPrepare', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
 $this->category->description = $this->category->text;
 
-$results = $app->triggerEvent('onContentAfterTitle', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
+$results = $app->triggerEvent('onContentAfterTitle', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
 $afterDisplayTitle = trim(implode("\n", $results));
 
-$results = $app->triggerEvent('onContentBeforeDisplay', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
+$results = $app->triggerEvent('onContentBeforeDisplay', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
 $beforeDisplayContent = trim(implode("\n", $results));
 
-$results = $app->triggerEvent('onContentAfterDisplay', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
+$results = $app->triggerEvent('onContentAfterDisplay', [$this->category->extension . '.categories', &$this->category, &$this->params, 0]);
 $afterDisplayContent = trim(implode("\n", $results));
 
 $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
@@ -81,7 +81,6 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
         <?php endif; ?>
     <?php endif; ?>
 
-    <?php $leadingcount = 0; ?>
     <?php if (!empty($this->lead_items)) : ?>
         <div class="com-content-category-blog__items blog-items items-leading <?php echo $this->params->get('blog_class_leading'); ?>">
             <?php foreach ($this->lead_items as &$item) : ?>
@@ -91,15 +90,9 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
                     echo $this->loadTemplate('item');
                     ?>
                 </div>
-                <?php $leadingcount++; ?>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-
-    <?php
-    $introcount = count($this->intro_items);
-    $counter = 0;
-    ?>
 
     <?php if (!empty($this->intro_items)) : ?>
         <?php $blogClass = $this->params->get('blog_class', ''); ?>

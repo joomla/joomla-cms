@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of template style records.
  *
@@ -33,16 +37,16 @@ class StylesModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'template', 'a.template',
                 'home', 'a.home',
                 'menuitem',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -116,7 +120,7 @@ class StylesModel extends ListModel
         $clientId = (int) $this->getState('client_id');
 
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.
@@ -200,7 +204,7 @@ class StylesModel extends ListModel
             } else {
                 // If user selected the templates styles assigned to particular pages.
                 // Subquery to get the language of the selected menu item.
-                $menuItemId = (int) $menuItemId;
+                $menuItemId               = (int) $menuItemId;
                 $menuItemLanguageSubQuery = $db->getQuery(true);
                 $menuItemLanguageSubQuery->select($db->quoteName('language'))
                     ->from($db->quoteName('#__menu'))

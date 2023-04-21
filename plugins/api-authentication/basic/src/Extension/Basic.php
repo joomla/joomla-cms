@@ -17,6 +17,10 @@ use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\DispatcherInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla Authentication plugin
  *
@@ -65,12 +69,12 @@ final class Basic extends CMSPlugin
     {
         $response->type = 'Basic';
 
-        $username = $this->getApplication()->input->server->get('PHP_AUTH_USER', '', 'USERNAME');
-        $password = $this->getApplication()->input->server->get('PHP_AUTH_PW', '', 'RAW');
+        $username = $this->getApplication()->getInput()->server->get('PHP_AUTH_USER', '', 'USERNAME');
+        $password = $this->getApplication()->getInput()->server->get('PHP_AUTH_PW', '', 'RAW');
 
         if ($password === '') {
             $response->status        = Authentication::STATUS_FAILURE;
-            $response->error_message = $this->translate('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
+            $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
 
             return;
         }
@@ -106,7 +110,7 @@ final class Basic extends CMSPlugin
             } else {
                 // Invalid password
                 $response->status        = Authentication::STATUS_FAILURE;
-                $response->error_message = $this->translate('JGLOBAL_AUTH_INVALID_PASS');
+                $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_INVALID_PASS');
             }
         } else {
             // Let's hash the entered password even if we don't have a matching user for some extra response time
@@ -115,7 +119,7 @@ final class Basic extends CMSPlugin
 
             // Invalid user
             $response->status        = Authentication::STATUS_FAILURE;
-            $response->error_message = $this->translate('JGLOBAL_AUTH_NO_USER');
+            $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_NO_USER');
         }
     }
 }
