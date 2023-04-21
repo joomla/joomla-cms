@@ -66,15 +66,15 @@ ksort($allTours);
         <span class="icon-angle-down" aria-hidden="true"></span>
     </button>
     <div class="dropdown-menu dropdown-menu-end">
-        <?php foreach ($listTours as $i => $tour) : ?>
-            <?php if ($i >= $params->get('tourscount', 7)) : ?>
-                <?php break; ?>
-            <?php endif; ?>
-            <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
-                <span class="icon-map-signs" aria-hidden="true"></span>
-                <?php echo $tour->title; ?>
-            </button>
-        <?php endforeach; ?>
+    <?php $count = 0; ?>
+        <?php while ($count <= count($listTours) && $count <= $params->get('tourscount', 7)) { ?>
+            <?php $tour = $listTours[$count]; ?>
+                <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
+                    <span class="icon-map-signs" aria-hidden="true"></span>
+                    <?php echo $tour->title; ?>
+                </button>
+            <?php $count++; ?>
+        <?php } ?>
         <button type="button" class="dropdown-item text-center" data-bs-toggle="modal" data-bs-target="#modGuidedTours-modal">
             <?php echo Text::_('MOD_GUIDEDTOURS_SHOW_ALL'); ?>
         </button>
