@@ -51,7 +51,7 @@ class DisplayController extends BaseController
         $id     = $this->input->getInt('id');
 
         // Show messages about the disabled plugin
-        if ($view === 'tours' && !PluginHelper::isEnabled('system', 'guidedtours')) {;
+        if ($view === 'tours' && !PluginHelper::isEnabled('system', 'guidedtours')) {
             $this->app->enqueueMessage(Text::_('COM_GUIDEDTOURS_PLUGIN_DISABLED'), 'error');
         }
 
