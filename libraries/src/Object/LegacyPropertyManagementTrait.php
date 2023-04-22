@@ -20,6 +20,7 @@ namespace Joomla\CMS\Object;
  * @since       4.3.0
  *
  * @deprecated  4.3.0 will be removed in 6.0
+ *              Will be removed without replacement
  *              Create proper setter functions for the individual properties or use a \Joomla\Registry\Registry
  */
 trait LegacyPropertyManagementTrait
@@ -112,7 +113,7 @@ trait LegacyPropertyManagementTrait
      */
     public function set($property, $value = null)
     {
-        $previous = $this->$property ?? null;
+        $previous        = $this->$property ?? null;
         $this->$property = $value;
 
         return $previous;

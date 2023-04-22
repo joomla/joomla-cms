@@ -52,7 +52,7 @@ class NotAllowedExceptionHandler implements ExceptionHandlerInterface
     public function handle(Exception $e)
     {
         $status = 403;
-        $error = ['title' => 'Access Denied'];
+        $error  = ['title' => 'Access Denied'];
 
         $code = $e->getCode();
 

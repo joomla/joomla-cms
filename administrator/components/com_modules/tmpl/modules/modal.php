@@ -38,7 +38,7 @@ if (!empty($editor)) {
 
     <form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm">
 
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
 
         <?php if ($this->total > 0) : ?>
         <table class="table" id="moduleList">
@@ -77,12 +77,12 @@ if (!empty($editor)) {
             </thead>
             <tbody>
                 <?php
-                $iconStates = array(
+                $iconStates = [
                     -2 => 'icon-trash',
                     0  => 'icon-times',
                     1  => 'icon-check',
                     2  => 'icon-folder',
-                );
+                ];
                 foreach ($this->items as $i => $item) :
                     ?>
                 <tr class="row<?php echo $i % 2; ?>">

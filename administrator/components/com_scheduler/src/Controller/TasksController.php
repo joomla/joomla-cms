@@ -65,7 +65,7 @@ class TasksController extends AdminController
 
         if (empty($cid)) {
             $this->app->getLogger()
-                ->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+                ->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), ['category' => 'jerror']);
         } else {
             /** @var TaskModel $model */
             $model = $this->getModel();

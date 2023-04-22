@@ -43,8 +43,8 @@ use Joomla\Database\DatabaseDriver;
  */
 class Date extends \DateTime
 {
-    public const DAY_ABBR = "\x021\x03";
-    public const DAY_NAME = "\x022\x03";
+    public const DAY_ABBR   = "\x021\x03";
+    public const DAY_NAME   = "\x022\x03";
     public const MONTH_ABBR = "\x023\x03";
     public const MONTH_NAME = "\x024\x03";
 
@@ -62,7 +62,8 @@ class Date extends \DateTime
      * @var    object
      * @since  1.7.0
      *
-     * @deprecated  5.0 Without replacement
+     * @deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacement
      */
     protected static $gmt;
 
@@ -73,7 +74,8 @@ class Date extends \DateTime
      * @var    object
      * @since  1.7.0
      *
-     * @deprecated  5.0 Without replacement
+     * @deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacement
      */
     protected static $stz;
 
