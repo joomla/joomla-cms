@@ -53,13 +53,18 @@
         fancySelect.choicesInstance.clearChoices();
         fancySelect.choicesInstance.setChoices([{ id: '1', text: Joomla.Text._('JGLOBAL_ROOT_PARENT') }], 'id', 'text', false);
 
+        const options = [];
+
         data.forEach((value) => {
           const option = {};
           option.innerText = value.title;
           option.id = value.id;
-
-          fancySelect.choicesInstance.setChoices([option], 'id', 'innerText', false);
+          options.push(option);
         });
+
+        if (options.length) {
+          fancySelect.choicesInstance.setChoices([options], 'id', 'innerText', false);
+        }
 
         fancySelect.choicesInstance.setChoiceByValue('1');
 
