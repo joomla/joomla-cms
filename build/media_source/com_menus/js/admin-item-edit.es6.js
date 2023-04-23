@@ -63,7 +63,7 @@
         });
 
         if (options.length) {
-          fancySelect.choicesInstance.setChoices([options], 'id', 'innerText', false);
+          fancySelect.choicesInstance.setChoices(options, 'id', 'innerText', false);
         }
 
         fancySelect.choicesInstance.setChoiceByValue('1');
