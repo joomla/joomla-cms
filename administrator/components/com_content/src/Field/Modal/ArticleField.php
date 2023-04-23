@@ -69,19 +69,19 @@ class ArticleField extends ModalSelectField
         // Prepare Urls
         $linkArticles = (new Uri())->setPath(Uri::base(true) . '/index.php');
         $linkArticles->setQuery([
-            'option' => 'com_content',
-            'view'   => 'articles',
-            'layout' => 'modal',
-            'tmpl'   => 'component',
+            'option'                => 'com_content',
+            'view'                  => 'articles',
+            'layout'                => 'modal',
+            'tmpl'                  => 'component',
             Session::getFormToken() => 1,
         ]);
         $linkArticle = clone $linkArticles;
         $linkArticle->setVar('view', 'article');
         $linkCheckin = (new Uri())->setPath(Uri::base(true) . '/index.php');
         $linkCheckin->setQuery([
-            'option' => 'com_content',
-            'task'   => 'articles.checkin',
-            'format' => 'json',
+            'option'                => 'com_content',
+            'task'                  => 'articles.checkin',
+            'format'                => 'json',
             Session::getFormToken() => 1,
         ]);
 
