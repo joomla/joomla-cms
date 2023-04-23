@@ -55,7 +55,7 @@ extract($displayData);
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->useScript('field.modal-fields');
 $wa->addInlineScript(
-'window.jSelectArticle_' . $id . ' = function (id, title, catid, object, url, language) {
+    'window.jSelectArticle_' . $id . ' = function (id, title, catid, object, url, language) {
   window.processModalSelect("Article", "' . $id . '", id, title, catid, object, url, language);
 }',
     ['name' => 'inline.select_article_' . $id],
