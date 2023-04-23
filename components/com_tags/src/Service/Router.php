@@ -261,9 +261,7 @@ class Router extends RouterBase
         $component = ComponentHelper::getComponent('com_tags');
         $items     = $this->app->getMenu()->getItems(['component_id', 'language'], [$component->id, [$language, '*']]);
 
-        if (!isset($this->lookup[$language])) {
-            $this->lookup[$language] = ['tags' => [], 'tag' => []];
-        }
+        $this->lookup[$language] = ['tags' => [], 'tag' => []];
 
         foreach ($items as $item) {
             if ($item->query['view'] == 'tag') {
