@@ -66,7 +66,7 @@ $modalEdit = [
 ];
 
 ?>
-<?php if ($modalSelect['src'] && $canDo['select'] ?? true): ?>
+<?php if ($modalSelect['src'] && $canDo['select'] ?? true) : ?>
 <button type="button" class="btn btn-primary" <?php echo $value ? 'hidden' : ''; ?>
         data-button-action="select" data-show-when-value=""
         data-modal-config="<?php echo $this->escape(json_encode($modalSelect)); ?>">
@@ -74,7 +74,7 @@ $modalEdit = [
 </button>
 <?php endif; ?>
 
-<?php if ($modalNew['src'] && $canDo['new'] ?? false): ?>
+<?php if ($modalNew['src'] && $canDo['new'] ?? false) : ?>
 <button type="button" class="btn btn-secondary" <?php echo $value ? 'hidden' : ''; ?>
         data-button-action="create" data-show-when-value=""
         data-modal-config="<?php echo $this->escape(json_encode($modalNew)); ?>">
@@ -82,7 +82,7 @@ $modalEdit = [
 </button>
 <?php endif; ?>
 
-<?php if ($modalEdit['src'] && $canDo['edit'] ?? false): ?>
+<?php if ($modalEdit['src'] && $canDo['edit'] ?? false) : ?>
 <button type="button" class="btn btn-primary" <?php echo $value ? '' : 'hidden'; ?>
         data-button-action="edit" data-show-when-value="1"
         data-modal-config="<?php echo $this->escape(json_encode($modalEdit)); ?>"
@@ -91,7 +91,7 @@ $modalEdit = [
 </button>
 <?php endif; ?>
 
-<?php if ($canDo['clear'] ?? true): ?>
+<?php if ($canDo['clear'] ?? true) : ?>
 <button type="button" class="btn btn-secondary" <?php echo $value ? '' : 'hidden'; ?>
         data-button-action="clear" data-show-when-value="1">
     <span class="icon-times" aria-hidden="true"></span> <?php echo Text::_('JCLEAR'); ?>

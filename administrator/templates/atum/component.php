@@ -53,7 +53,7 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], t
     <jdoc:include type="scripts" />
 </head>
 <body class="contentpane component">
-    <?php if ($this->countModules('toolbar', true)): ?>
+    <?php if ($this->countModules('toolbar', true)) : ?>
     <div class="subhead noshadow mb-3">
         <jdoc:include type="modules" name="toolbar" style="none" />
     </div>
