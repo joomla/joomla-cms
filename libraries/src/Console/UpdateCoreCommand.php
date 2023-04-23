@@ -10,9 +10,11 @@
 namespace Joomla\CMS\Console;
 
 use Joomla\Application\Cli\CliInput;
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\InstallerHelper;
+use Joomla\CMS\Schema\ChangeSet;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -161,6 +163,16 @@ class UpdateCoreCommand extends AbstractCommand
         if (!$this->updateInfo['hasUpdate']) {
             $this->progressBar->finish();
             $this->ioStyle->note('You already have the latest Joomla! version. ' . $this->updateInfo['latest']);
+
+            return self::ERR_CHECKS_FAILED;
+        }
+
+        $this->progressBar->advance();
+        $this->progressBar->setMessage('Check Database Table Structure...');
+
+        if (!$this->checkSchema()) {
+            $this->progressBar->finish();
+            $this->ioStyle->error('Database Table Structure not Up to Date');
 
             return self::ERR_CHECKS_FAILED;
         }
@@ -385,5 +397,28 @@ class UpdateCoreCommand extends AbstractCommand
     public function copyFileTo($file, $dir): void
     {
         Folder::copy($file, $dir, '', true);
+    }
+
+     /**
+     * Check the schema version
+     *
+     * @return boolean | string
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function checkSchema() : bool
+    {
+        $app       = $this->getApplication();
+        $changeSet = new ChangeSet($this->db);
+        $schema    = $changeSet->getSchema();
+        $coreId    = ExtensionHelper::getExtensionRecord('joomla', 'file');
+        $dbmodel   = $app->bootComponent('com_installer')->getMVCFactory($app)->createModel('Database', 'Administrator');
+        $current   = $dbmodel->getSchemaVersion($coreId->extension_id);
+
+        if ($schema === $current) {
+            return true;
+        }
+
+        return false;
     }
 }
