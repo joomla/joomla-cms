@@ -406,7 +406,7 @@ class UpdateCoreCommand extends AbstractCommand
      *
      * @since __DEPLOY_VERSION__
      */
-    public function checkSchema() : bool
+    public function checkSchema(): bool
     {
         $app       = $this->getApplication();
         $changeSet = new ChangeSet($this->db);
