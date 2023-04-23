@@ -96,6 +96,10 @@ class Router extends RouterBase
             $language = $this->app->get('language');
         }
 
+        if (!isset($this->lookup[$language])) {
+            $this->buildLookup($language);
+        }
+
         if (isset($query['view']) && $query['view'] == 'tags') {
             if (isset($query['parent_id']) && isset($this->lookup[$language]['tags'][$query['parent_id']])) {
                 $query['Itemid'] = $this->lookup[$language]['tags'][$query['parent_id']];
@@ -248,25 +252,29 @@ class Router extends RouterBase
      *
      * @since   4.3.0
      */
-    protected function buildLookup()
+    protected function buildLookup(string $language = '*')
     {
+        if (isset($this->lookup[$language])) {
+            return;
+        }
+
         $component = ComponentHelper::getComponent('com_tags');
-        $items     = $this->app->getMenu()->getItems(['component_id'], [$component->id]);
+        $items     = $this->app->getMenu()->getItems(['component_id', 'language'], [$component->id, [$language, '*']]);
+
+        if (!isset($this->lookup[$language])) {
+            $this->lookup[$language] = ['tags' => [], 'tag' => []];
+        }
 
         foreach ($items as $item) {
-            if (!isset($this->lookup[$item->language])) {
-                $this->lookup[$item->language] = ['tags' => [], 'tag' => []];
-            }
-
             if ($item->query['view'] == 'tag') {
                 $id = $item->query['id'];
                 sort($id);
-                $this->lookup[$item->language]['tag'][implode(',', $id)] = $item->id;
+                $this->lookup[$language]['tag'][implode(',', $id)] = $item->id;
             }
 
             if ($item->query['view'] == 'tags') {
-                $id                                         = (int) (isset($item->query['parent_id']) ? $item->query['parent_id'] : 0);
-                $this->lookup[$item->language]['tags'][$id] = $item->id;
+                $id                                   = (int) (isset($item->query['parent_id']) ? $item->query['parent_id'] : 0);
+                $this->lookup[$language]['tags'][$id] = $item->id;
             }
         }
     }
