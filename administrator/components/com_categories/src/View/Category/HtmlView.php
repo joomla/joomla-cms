@@ -118,7 +118,9 @@ class HtmlView extends BaseHtmlView
             $this->form->setFieldAttribute('tags', 'language', '*,' . $forcedLanguage);
         }
 
-        $this->addToolbar();
+        if ($this->getLayout() !== 'modal') {
+            $this->addToolbar();
+        }
 
         parent::display($tpl);
     }
