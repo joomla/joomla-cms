@@ -64,6 +64,29 @@ class AssociationsModel extends ListModel
     }
 
     /**
+     * Get the filter form
+     *
+     * @param   array    $data      data
+     * @param   boolean  $loadData  load current data
+     *
+     * @return  Form|null  The \JForm object or null if the form can't be found
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getFilterForm($data = [], $loadData = true)
+    {
+        $form = parent::getFilterForm($data, $loadData);
+
+        if ($form && $this->state->get('itemtype') === 'com_menus.item') {
+            $field = $form->getField('fullordering', 'list');
+            $field->addOption(Text::_('COM_ASSOCIATIONS_HEADING_MENUTYPE_ASC'), ['value' => 'menutype_title ASC']);
+            $field->addOption(Text::_('COM_ASSOCIATIONS_HEADING_MENUTYPE_DESC'), ['value' => 'menutype_title DESC']);
+        }
+
+        return $form;
+    }
+
+    /**
      * Method to auto-populate the model state.
      *
      * Note. Calling getState in this method will result in recursion.
