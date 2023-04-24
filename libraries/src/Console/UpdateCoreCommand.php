@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Console;
 
 use Joomla\Application\Cli\CliInput;
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\InstallerHelper;
@@ -413,9 +414,14 @@ class UpdateCoreCommand extends AbstractCommand
         $app       = $this->getApplication();
         $app->getLanguage()->load('com_installer', JPATH_ADMINISTRATOR);
         $errors  = 0;
+        $coreExtensionInfo = ExtensionHelper::getExtensionRecord('joomla', 'file');
+
         $dbmodel = $app->bootComponent('com_installer')->getMVCFactory($app)->createModel('Database', 'Administrator');
 
+        // Ensure we only get information for core
+        $dbmodel->setState('filter.extension_id', $coreExtensionInfo->extension_id);
         $changeSet = $dbmodel->getItems();
+
         foreach ($changeSet as $i => $item) {
             $errors = $item['errorsCount'];
             foreach ($item['errorsMessage'] as $msg) {
