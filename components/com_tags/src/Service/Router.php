@@ -89,32 +89,38 @@ class Router extends RouterBase
         }
 
         // Get query language
-        $language = isset($query['lang']) ? $query['lang'] : '*';
+        $lang = isset($query['lang']) ? $query['lang'] : '*';
 
         // Set the language to the current one when multilang is enabled and item is tagged to ALL
-        if (Multilanguage::isEnabled() && $language === '*') {
-            $language = $this->app->get('language');
+        if (Multilanguage::isEnabled() && $lang === '*') {
+            $lang = $this->app->get('language');
         }
 
-        if (isset($query['view']) && $query['view'] == 'tags') {
-            if (isset($query['parent_id']) && isset($this->lookup[$language]['tags'][$query['parent_id']])) {
-                $query['Itemid'] = $this->lookup[$language]['tags'][$query['parent_id']];
-            } elseif (isset($this->lookup[$language]['tags'][0])) {
-                $query['Itemid'] = $this->lookup[$language]['tags'][0];
-            }
-        } elseif (isset($query['view']) && $query['view'] == 'tag') {
-            if (isset($query['id'])) {
-                if (!is_array($query['id'])) {
-                    $query['id'] = [$query['id']];
-                }
-
-                $id = ArrayHelper::toInteger($query['id']);
-                sort($id);
-
-                if (isset($this->lookup[$language]['tag'][implode(',', $id)])) {
-                    $query['Itemid'] = $this->lookup[$language]['tag'][implode(',', $id)];
+        foreach ([$lang, '*'] as $language) {
+            if (isset($query['view']) && $query['view'] == 'tags') {
+                if (isset($query['parent_id']) && isset($this->lookup[$language]['tags'][$query['parent_id']])) {
+                    $query['Itemid'] = $this->lookup[$language]['tags'][$query['parent_id']];
+                    break;
                 } elseif (isset($this->lookup[$language]['tags'][0])) {
                     $query['Itemid'] = $this->lookup[$language]['tags'][0];
+                    break;
+                }
+            } elseif (isset($query['view']) && $query['view'] == 'tag') {
+                if (isset($query['id'])) {
+                    if (!is_array($query['id'])) {
+                        $query['id'] = [$query['id']];
+                    }
+
+                    $id = ArrayHelper::toInteger($query['id']);
+                    sort($id);
+
+                    if (isset($this->lookup[$language]['tag'][implode(',', $id)])) {
+                        $query['Itemid'] = $this->lookup[$language]['tag'][implode(',', $id)];
+                        break;
+                    } elseif (isset($this->lookup[$language]['tags'][0])) {
+                        $query['Itemid'] = $this->lookup[$language]['tags'][0];
+                        break;
+                    }
                 }
             }
         }
