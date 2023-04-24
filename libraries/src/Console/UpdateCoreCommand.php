@@ -172,7 +172,6 @@ class UpdateCoreCommand extends AbstractCommand
         $errors = $this->checkSchema();
 
         if ($errors > 0) {
-
             $this->ioStyle->error('Database Table Structure not Up to Date');
             $this->progressBar->finish();
             $this->ioStyle->info('There were ' . $errors . ' errors');
