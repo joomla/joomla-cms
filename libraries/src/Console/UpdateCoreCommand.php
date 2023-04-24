@@ -175,7 +175,7 @@ class UpdateCoreCommand extends AbstractCommand
 
             $this->ioStyle->error('Database Table Structure not Up to Date');
             $this->progressBar->finish();
-            $this->ioStyle->info('There were ' . $errors . ' errors' );
+            $this->ioStyle->info('There were ' . $errors . ' errors');
 
             return self::ERR_CHECKS_FAILED;
         }
@@ -413,7 +413,7 @@ class UpdateCoreCommand extends AbstractCommand
     {
         $app       = $this->getApplication();
         $app->getLanguage()->load('com_installer', JPATH_ADMINISTRATOR);
-        $errors  = 0;
+        $errors            = 0;
         $coreExtensionInfo = ExtensionHelper::getExtensionRecord('joomla', 'file');
 
         $dbmodel = $app->bootComponent('com_installer')->getMVCFactory($app)->createModel('Database', 'Administrator');
