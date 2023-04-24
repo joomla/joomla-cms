@@ -115,8 +115,10 @@ class Router extends RouterBase
                 $id = ArrayHelper::toInteger($query['id']);
                 sort($id);
 
-                if (isset($this->lookup[$language]['tag'][implode(',', $id)])) {
-                    $query['Itemid'] = $this->lookup[$language]['tag'][implode(',', $id)];
+                $lookupKey = implode(',', $id);
+
+                if (isset($this->lookup[$language]['tag'][$lookupKey])) {
+                    $query['Itemid'] = $this->lookup[$language]['tag'][$lookupKey];
                 } elseif (isset($this->lookup[$language]['tags'][0])) {
                     $query['Itemid'] = $this->lookup[$language]['tags'][0];
                 }
@@ -267,7 +269,16 @@ class Router extends RouterBase
             if ($item->query['view'] == 'tag') {
                 $id = $item->query['id'];
                 sort($id);
+
+                // Create a lookup for all ids
                 $this->lookup[$language]['tag'][implode(',', $id)] = $item->id;
+
+                // Create a lookup for each id
+                if (count($id) > 1) {
+                    foreach ($id as $idOne) {
+                        $this->lookup[$language]['tag'][$idOne] = $item->id;
+                    }
+                }
             }
 
             if ($item->query['view'] == 'tags') {
