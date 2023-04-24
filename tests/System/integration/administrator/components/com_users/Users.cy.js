@@ -1,7 +1,7 @@
 describe('Test in backend that the user list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
-    cy.visit('administrator/index.php?option=com_users&view=users&filter=');
+    cy.visit('/administrator/index.php?option=com_users&view=users&filter=');
   });
 
   it('has a title', () => {

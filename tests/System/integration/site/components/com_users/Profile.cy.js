@@ -4,7 +4,7 @@ describe('Test in frontend that the users profile view', () => {
       name: 'automated test user', username: 'automatedtestuser', password: '098f6bcd4621d373cade4e832627b4f6', registerDate: '2023-03-01 20:00:00',
     })
       .then(() => {
-        cy.visit('index.php?option=com_users&view=profile');
+        cy.visit('/index.php?option=com_users&view=profile');
         cy.get('#username').type('automatedtestuser');
         cy.get('#password').type('test');
         cy.get('#remember').check();

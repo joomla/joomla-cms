@@ -2,7 +2,7 @@ describe('Test in frontend that the users reset view', () => {
   it('can send a reset email for a test user without a menu item', () => {
     cy.db_createUser({ email: 'test@example.com' })
       .then(() => {
-        cy.visit('index.php?option=com_users&view=reset');
+        cy.visit('/index.php?option=com_users&view=reset');
         cy.get('#jform_email').type('test@example.com');
         cy.get('.controls > .btn').click();
 
