@@ -26,12 +26,9 @@ libraries/src/Updater/*  @rdeutz @zero-24
 
 # Automated Testing
 tests/*  @hackwar @fancyFranci
-tests/Codeception/*  @rdeutz
-tests/javascript/*  @rdeutz
-tests/Unit/*  @rdeutz
+tests/Unit/*  @rdeutz @fancyFranci
 .appveyor.yml  @rdeutz @hackwar @fancyFranci
 .drone.yml  @rdeutz @hackwar @fancyFranci
-codeception.yml  @rdeutz @hackwar @fancyFranci
 phpunit.xml.dist  @rdeutz @hackwar @fancyFranci
 phpunit-pgsql.xml.dist  @rdeutz @hackwar @fancyFranci
 
