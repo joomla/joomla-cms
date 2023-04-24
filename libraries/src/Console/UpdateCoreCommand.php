@@ -402,7 +402,7 @@ class UpdateCoreCommand extends AbstractCommand
     }
 
     /**
-     * Check the schema version
+     * Check Database Table Structure
      *
      * @return  integer the number of errors
      *
