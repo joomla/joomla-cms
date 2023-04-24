@@ -133,6 +133,15 @@ class Router extends RouterBase
             $query['Itemid'] = $active->id;
         }
 
+        // If not found, return language specific home link
+        if (!isset($query['Itemid'])) {
+            $default = $this->menu->getDefault($language);
+
+            if (!empty($default->id)) {
+                $query['Itemid'] = $default->id;
+            }
+        }
+
         return $query;
     }
 
@@ -179,7 +188,7 @@ class Router extends RouterBase
             unset($query['view']);
         } else {
             $segments[] = $query['view'];
-            unset($query['view']);
+            unset($query['view'], $query['Itemid']);
 
             if (isset($query['id']) && is_array($query['id'])) {
                 foreach ($query['id'] as $id) {
