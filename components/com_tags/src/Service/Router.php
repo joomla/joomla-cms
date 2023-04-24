@@ -127,15 +127,6 @@ class Router extends RouterBase
             $query['Itemid'] = $active->id;
         }
 
-        // If not found, return language specific home link
-        if (!isset($query['Itemid'])) {
-            $default = $this->menu->getDefault($language);
-
-            if (!empty($default->id)) {
-                $query['Itemid'] = $default->id;
-            }
-        }
-
         return $query;
     }
 
@@ -152,9 +143,9 @@ class Router extends RouterBase
     {
         $segments = [];
 
-        $menuItem = $this->menu->getItem($query['Itemid']);
+        $menuItem = !empty($query['Itemid']) ? $this->menu->getItem($query['Itemid']) : false;
 
-        if ($menuItem->query['option'] == 'com_tags') {
+        if ($menuItem && $menuItem->query['option'] == 'com_tags') {
             if ($menuItem->query['view'] == 'tags' && isset($query['id'])) {
                 $ids = $query['id'];
 
