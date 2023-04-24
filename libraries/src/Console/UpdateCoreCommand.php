@@ -166,6 +166,20 @@ class UpdateCoreCommand extends AbstractCommand
         }
 
         $this->progressBar->advance();
+        $this->progressBar->setMessage('Check Database Table Structure...');
+
+        $errors = $this->checkSchema();
+
+        if ($errors > 0) {
+
+            $this->ioStyle->error('Database Table Structure not Up to Date');
+            $this->progressBar->finish();
+            $this->ioStyle->info('There were ' . $errors . ' errors' );
+
+            return self::ERR_CHECKS_FAILED;
+        }
+
+        $this->progressBar->advance();
         $this->progressBar->setMessage('Starting Joomla! update ...');
 
         if ($this->updateJoomlaCore($model)) {
@@ -385,5 +399,30 @@ class UpdateCoreCommand extends AbstractCommand
     public function copyFileTo($file, $dir): void
     {
         Folder::copy($file, $dir, '', true);
+    }
+
+    /**
+     * Check the schema version
+     *
+     * @return  integer the number of errors
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function checkSchema(): int
+    {
+        $app       = $this->getApplication();
+        $app->getLanguage()->load('com_installer', JPATH_ADMINISTRATOR);
+        $errors  = 0;
+        $dbmodel = $app->bootComponent('com_installer')->getMVCFactory($app)->createModel('Database', 'Administrator');
+
+        $changeSet = $dbmodel->getItems();
+        foreach ($changeSet as $i => $item) {
+            $errors = $item['errorsCount'];
+            foreach ($item['errorsMessage'] as $msg) {
+                $this->ioStyle->info($msg);
+            }
+        }
+
+        return $errors;
     }
 }
