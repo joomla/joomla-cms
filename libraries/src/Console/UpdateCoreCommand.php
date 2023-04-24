@@ -410,7 +410,7 @@ class UpdateCoreCommand extends AbstractCommand
      */
     public function checkSchema(): int
     {
-        $app       = $this->getApplication();
+        $app = $this->getApplication();
         $app->getLanguage()->load('com_installer', JPATH_ADMINISTRATOR);
         $errors            = 0;
         $coreExtensionInfo = ExtensionHelper::getExtensionRecord('joomla', 'file');
