@@ -269,16 +269,7 @@ class Router extends RouterBase
             if ($item->query['view'] == 'tag') {
                 $id = $item->query['id'];
                 sort($id);
-
-                // Create a lookup for all ids
                 $this->lookup[$language]['tag'][implode(',', $id)] = $item->id;
-
-                // Create a lookup for each id
-                if (count($id) > 1) {
-                    foreach ($id as $idOne) {
-                        $this->lookup[$language]['tag'][$idOne] = $item->id;
-                    }
-                }
             }
 
             if ($item->query['view'] == 'tags') {
