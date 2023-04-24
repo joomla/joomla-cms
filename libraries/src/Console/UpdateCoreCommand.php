@@ -410,7 +410,7 @@ class UpdateCoreCommand extends AbstractCommand
      */
     public function checkSchema(): int
     {
-        $app = $this->getApplication();
+        $app       = $this->getApplication();
         $app->getLanguage()->load('com_installer', JPATH_ADMINISTRATOR);
         $errors            = 0;
         $coreExtensionInfo = ExtensionHelper::getExtensionRecord('joomla', 'file');
@@ -419,13 +419,13 @@ class UpdateCoreCommand extends AbstractCommand
 
         // Ensure we only get information for core
         $dbmodel->setState('filter.extension_id', $coreExtensionInfo->extension_id);
-        $changeSet = $dbmodel->getItems();
 
-        foreach ($changeSet as $i => $item) {
-            $errors = $item['errorsCount'];
-            foreach ($item['errorsMessage'] as $msg) {
-                $this->ioStyle->info($msg);
-            }
+        // We're filtering by a single extension which must always exist - so can safely access this through element 0 of the array
+        $changeInformation = $dbmodel->getItems()[0];
+        $errors            = $changeInformation['errorsCount'];
+
+        foreach ($changeInformation['errorsMessage'] as $msg) {
+            $this->ioStyle->info($msg);
         }
 
         return $errors;
