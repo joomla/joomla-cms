@@ -137,9 +137,18 @@ class Router extends RouterBase
         // Check if the active menuitem matches the requested language
         if (
             !isset($query['Itemid']) && ($active && $active->component === 'com_tags'
-            && ($language === '*' || \in_array($active->language, ['*', $language]) || !Multilanguage::isEnabled()))
+            && ($lang === '*' || \in_array($active->language, ['*', $lang]) || !Multilanguage::isEnabled()))
         ) {
             $query['Itemid'] = $active->id;
+        }
+
+        // If not found, return language specific home link
+        if (!isset($query['Itemid'])) {
+            $default = $this->menu->getDefault($lang);
+
+            if (!empty($default->id)) {
+                $query['Itemid'] = $default->id;
+            }
         }
 
         return $query;
@@ -188,7 +197,7 @@ class Router extends RouterBase
             unset($query['view']);
         } else {
             $segments[] = $query['view'];
-            unset($query['view']);
+            unset($query['view'], $query['Itemid']);
 
             if (isset($query['id']) && is_array($query['id'])) {
                 foreach ($query['id'] as $id) {
