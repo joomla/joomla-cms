@@ -258,7 +258,7 @@ Joomla = window.Joomla || {};
       }
 
       self.getFilterFields().forEach((i) => {
-        if (exceptElement && i === exceptElement) {
+        if ((exceptElement && i === exceptElement) || i.closest(this.options.filterContainerSelector)) {
           return;
         }
 
