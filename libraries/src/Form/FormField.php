@@ -1015,7 +1015,7 @@ abstract class FormField implements DatabaseAwareInterface
             }
         }
 
-        $options['inlineHelp'] = isset($this->form->getXml()->config->inlinehelp['button'])
+        $options['inlineHelp'] = isset($this->form, $this->form->getXml()->config->inlinehelp['button'])
             ? ((string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false)
             : false;
 
