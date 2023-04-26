@@ -189,7 +189,6 @@ class HtmlView extends BaseHtmlView
                 . ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-category-' . ($isNew ? 'add' : 'edit')
         );
 
-        // For new records, check the create permission.
         if ($isNew) {
             $toolbar->apply('category.apply');
             $saveGroup = $toolbar->dropdownButton('save-group');
