@@ -184,11 +184,11 @@ class Router extends RouterBase
                 unset($query['id']);
             } elseif ($menuItem->query['view'] == 'tag') {
                 $ids = $query['id'];
-                $ids = ArrayHelper::toInteger($ids);
-                $ids = array_diff($ids, $menuItem->query['id']);
 
                 foreach ($ids as $id) {
-                    $segments[] = $id;
+                    if (!in_array((int) $id, $menuItem->query['id'])) {
+                        $segments[] = $id;
+                    }
                 }
 
                 unset($query['id']);
