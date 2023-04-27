@@ -16,7 +16,6 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\Model\UpdatesitesModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
@@ -68,7 +67,7 @@ class HtmlView extends InstallerViewDefault
      *
      * @param   string  $tpl  Template
      *
-     * @return  mixed|void
+     * @return  void
      *
      * @since   3.4
      *

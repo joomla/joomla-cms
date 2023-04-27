@@ -1145,12 +1145,16 @@
 	document.addEventListener("joomla:updated", _initCalendars);
 
 		/** B/C related code
-		 *  @deprecated 4.0.0
+		 *
+		 *  @deprecated   4.0 will be removed in 6.0
+		 *                Use JoomlaCalendar.init instead
 		 */
 		window.Calendar = {};
 
 		/** B/C related code
-		 *  @deprecated 4.0.0
+		 *
+		 *  @deprecated   4.0 will be removed in 6.0
+		 *                Use JoomlaCalendar.init instead
 		 */
 		Calendar.setup = function(obj) {
 

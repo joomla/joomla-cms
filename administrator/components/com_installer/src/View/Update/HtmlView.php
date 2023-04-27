@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper as CmsInstallerHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
@@ -129,7 +128,7 @@ class HtmlView extends InstallerViewDefault
                 ->icon('icon-upload');
         }
 
-        $toolbar->standardButton('search', 'COM_INSTALLER_TOOLBAR_UPDATE', 'update.find')
+        $toolbar->standardButton('search', 'COM_INSTALLER_TOOLBAR_FIND_UPDATES', 'update.find')
             ->listCheck(false)
             ->icon('icon-refresh');
 

@@ -299,7 +299,9 @@ window.Joomla.Modal = window.Joomla.Modal || {
    *
    * @type {{}}
    *
-   * @deprecated 5.0
+   * @deprecated   4.0 will be removed in 6.0
+   *               Example: Joomla.Text._('...');
+   *                        Joomla.Text.load(...);
    */
   Joomla.JText = Joomla.Text;
 
@@ -623,8 +625,12 @@ window.Joomla.Modal = window.Joomla.Modal || {
         const token = Joomla.getOptions('csrf.token', '');
 
         // Use the CSRF only on the site's domain
-        // eslint-disable-next-line no-restricted-globals
-        if (token && (newOptions.url.startsWith('/') || newOptions.url.startsWith(location.origin))) {
+        if (
+          token && (
+            (!newOptions.url.startsWith('http:') && !newOptions.url.startsWith('https:'))
+            || newOptions.url.startsWith(window.location.origin)
+          )
+        ) {
           xhr.setRequestHeader('X-CSRF-Token', token);
         }
 
