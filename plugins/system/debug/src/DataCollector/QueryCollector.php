@@ -107,7 +107,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
         $statements = $this->getStatements();
 
         return [
-            'data'       => [
+            'data' => [
                 'statements'               => $statements,
                 'nb_statements'            => \count($statements),
                 'accumulated_duration_str' => $this->getDataFormatter()->formatDuration($this->accumulatedDuration),
@@ -115,7 +115,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
                 'xdebug_link'              => $this->getXdebugLinkTemplate(),
                 'root_path'                => JPATH_ROOT,
             ],
-            'count'      => \count($this->queryMonitor->getLogs()),
+            'count' => \count($this->queryMonitor->getLogs()),
         ];
     }
 
@@ -142,7 +142,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
     public function getWidgets(): array
     {
         return [
-            'queries'       => [
+            'queries' => [
                 'icon'    => 'database',
                 'widget'  => 'PhpDebugBar.Widgets.SQLQueriesWidget',
                 'map'     => $this->name . '.data',
@@ -166,7 +166,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
     {
         return [
             'css' => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.css',
-            'js' => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.js',
+            'js'  => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.js',
         ];
     }
 

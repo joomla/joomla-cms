@@ -27,7 +27,7 @@ class PackageManifest extends Manifest
      * Author url of the package
      *
      * @var    string
-     * @since  4.2.9
+     * @since  4.3.0
      */
     public $authorurl;
 
@@ -35,7 +35,7 @@ class PackageManifest extends Manifest
      * Author of the package
      *
      * @var    string
-     * @since  4.2.9
+     * @since  4.3.0
      */
     public $author;
 
@@ -43,7 +43,7 @@ class PackageManifest extends Manifest
      * Author email of the package
      *
      * @var    string
-     * @since  4.2.9
+     * @since  4.3.0
      */
     public $authoremail;
 

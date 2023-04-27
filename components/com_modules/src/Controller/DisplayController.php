@@ -39,7 +39,7 @@ class DisplayController extends BaseController
      */
     public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
-        $this->input = Factory::getApplication()->input;
+        $this->input = Factory::getApplication()->getInput();
 
         // Modules frontpage Editor Module proxying.
         if ($this->input->get('view') === 'modules' && $this->input->get('layout') === 'modal') {

@@ -131,7 +131,7 @@ class StageTable extends Table
                 return false;
             }
         } else {
-            $db = $this->getDbo();
+            $db    = $this->getDbo();
             $query = $db->getQuery(true);
 
             $query
@@ -221,7 +221,7 @@ class StageTable extends Table
      */
     protected function _getAssetName()
     {
-        $k = $this->_tbl_key;
+        $k        = $this->_tbl_key;
         $workflow = new WorkflowTable($this->getDbo());
         $workflow->load($this->workflow_id);
 

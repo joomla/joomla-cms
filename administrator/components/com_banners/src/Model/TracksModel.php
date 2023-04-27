@@ -13,11 +13,11 @@ namespace Joomla\Component\Banners\Administrator\Model;
 use Joomla\Archive\Archive;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -94,7 +94,7 @@ class TracksModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.
@@ -186,7 +186,7 @@ class TracksModel extends ListModel
      */
     public function delete()
     {
-        $user       = Factory::getUser();
+        $user       = $this->getCurrentUser();
         $categoryId = (int) $this->getState('category_id');
 
         // Access checks.
@@ -276,7 +276,7 @@ class TracksModel extends ListModel
                 }
 
                 $categoryName = $this->getCategoryName();
-                $basename = str_replace('__CATNAME__', $categoryName, $basename);
+                $basename     = str_replace('__CATNAME__', $categoryName, $basename);
             } else {
                 $basename = str_replace(['__CATID__', '__CATNAME__'], '', $basename);
             }
@@ -291,7 +291,7 @@ class TracksModel extends ListModel
                 }
 
                 $clientName = $this->getClientName();
-                $basename = str_replace('__CLIENTNAME__', $clientName, $basename);
+                $basename   = str_replace('__CLIENTNAME__', $clientName, $basename);
             } else {
                 $basename = str_replace(['__CLIENTID__', '__CLIENTNAME__'], '', $basename);
             }
@@ -453,8 +453,8 @@ class TracksModel extends ListModel
                     'track' => [
                         'name' => $this->getBaseName() . '.csv',
                         'data' => $this->content,
-                        'time' => time()
-                    ]
+                        'time' => time(),
+                    ],
                 ];
                 $ziproot = $app->get('tmp_path') . '/' . uniqid('banners_tracks_') . '.zip';
 

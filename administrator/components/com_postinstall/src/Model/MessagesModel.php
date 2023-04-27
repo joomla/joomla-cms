@@ -14,7 +14,6 @@ use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -48,7 +47,7 @@ class MessagesModel extends BaseDatabaseModel
     {
         parent::populateState();
 
-        $eid = (int) Factory::getApplication()->input->getInt('eid');
+        $eid = (int) Factory::getApplication()->getInput()->getInt('eid');
 
         if ($eid) {
             $this->setState('eid', $eid);
@@ -187,7 +186,7 @@ class MessagesModel extends BaseDatabaseModel
         // Build a cache ID for the resulting data object
         $cacheId = 'postinstall_messages.' . $eid;
 
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
         $query->select(
             [
@@ -244,7 +243,7 @@ class MessagesModel extends BaseDatabaseModel
      */
     public function getItemsCount()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
         $query->select(
             [
@@ -412,9 +411,9 @@ class MessagesModel extends BaseDatabaseModel
             // Filter out messages based on dynamically loaded programmatic conditions.
             if (!empty($item->condition_file) && !empty($item->condition_method)) {
                 $helper = new PostinstallHelper();
-                $file = $helper->parsePath($item->condition_file);
+                $file   = $helper->parsePath($item->condition_file);
 
-                if (File::exists($file)) {
+                if (is_file($file)) {
                     require_once $file;
 
                     $result = call_user_func($item->condition_method);
@@ -475,8 +474,9 @@ class MessagesModel extends BaseDatabaseModel
     /**
      * Adds or updates a post-installation message (PIM) definition. You can use this in your post-installation script using this code:
      *
-     * require_once JPATH_LIBRARIES . '/fof/include.php';
-     * FOFModel::getTmpInstance('Messages', 'PostinstallModel')->addPostInstallationMessage($options);
+     * Factory::getApplication()->bootComponent('com_postinstall')
+     * ->getMVCFactory()->createModel('Messages', 'Administrator', ['ignore_request' => true])
+     * ->addPostInstallationMessage($options);
      *
      * The $options array contains the following mandatory keys:
      *
@@ -526,8 +526,8 @@ class MessagesModel extends BaseDatabaseModel
      *
      * When type=action the following additional keys are required:
      *
-     * action_file  The RAD path to a PHP file containing a PHP function which performs the action of this PIM. @see FOFTemplateUtils::parsePath()
-     *              for RAD path format. Joomla! will include this file before calling the function defined in the action key below.
+     * action_file  The RAD path to a PHP file containing a PHP function which performs the action of this PIM.
+     *              Joomla! will include this file before calling the function defined in the action key below.
      *              Example:   admin://components/com_foobar/helpers/postinstall.php
      *
      * action       The name of a PHP function which will be used to run the action of this PIM. This must be a simple PHP user function
@@ -623,7 +623,7 @@ class MessagesModel extends BaseDatabaseModel
                 throw new \Exception('Post-installation message definitions need an action file when they are of type "action"', 500);
             }
 
-            $helper = new PostinstallHelper();
+            $helper    = new PostinstallHelper();
             $file_path = $helper->parsePath($options['action_file']);
 
             if (!@is_file($file_path)) {
@@ -647,7 +647,7 @@ class MessagesModel extends BaseDatabaseModel
                 throw new \Exception('Post-installation message definitions need a condition file when they are of type "' . $options['type'] . '"', 500);
             }
 
-            $helper = new PostinstallHelper();
+            $helper    = new PostinstallHelper();
             $file_path = $helper->parsePath($options['condition_file']);
 
             if (!@is_file($file_path)) {
