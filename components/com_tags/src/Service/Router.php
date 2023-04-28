@@ -126,6 +126,11 @@ class Router extends RouterBase
                         }
                     }
 
+                    if (isset($this->lookup[$language]['tags'][implode(',', $id)])) {
+                        $query['Itemid'] = $this->lookup[$language]['tags'][implode(',', $id)];
+                        break;
+                    }
+
                     if (isset($this->lookup[$language]['tags'][0])) {
                         $query['Itemid'] = $this->lookup[$language]['tags'][0];
                         break;
@@ -295,6 +300,37 @@ class Router extends RouterBase
             if ($item->query['view'] == 'tags') {
                 $id                                         = (int) (isset($item->query['parent_id']) ? $item->query['parent_id'] : 0);
                 $this->lookup[$item->language]['tags'][$id] = $item->id;
+            }
+        }
+
+        foreach ($this->lookup as $language => $items) {
+            // We have tags views with parent_id set and need to load child tags to be assigned to this menu item
+            if (
+                count($this->lookup[$language]['tags']) > 1
+                || (count($this->lookup[$language]['tags']) == 1 && !isset($this->lookup[$language]['tags'][0]))
+            ) {
+                foreach ($this->lookup[$language]['tags'] as $id => $menu) {
+                    if ($id === 0) {
+                        continue;
+                    }
+
+                    $query = $this->db->getQuery(true);
+                    $query->select($this->db->quoteName('a.id'))
+                        ->from($this->db->quoteName('#__tags', 'a'))
+                        ->leftJoin(
+                            $this->db->quoteName('#__tags', 'b')
+                            . ' ON ' . $this->db->quoteName('b.lft') . ' < ' . $this->db->quoteName('a.lft')
+                            . ' AND ' . $this->db->quoteName('a.rgt') . ' < ' . $this->db->quoteName('b.rgt')
+                        )
+                        ->where($this->db->quoteName('b.id') . ' = :id')
+                        ->bind(':id', $id);
+                    $this->db->setQuery($query);
+                    $ids = (array) $this->db->loadColumn();
+
+                    foreach ($ids as $i) {
+                        $this->lookup[$language]['tags'][$i] = $menu;
+                    }
+                }
             }
         }
     }
