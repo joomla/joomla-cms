@@ -50,11 +50,11 @@ $comUserParams = ComponentHelper::getParams('com_users');
             </div>
         </div>
         <div class="col-lg-3">
+            <?php echo $this->form->renderField('group'); ?>
             <?php echo $this->form->renderField('recurse'); ?>
             <?php echo $this->form->renderField('mode'); ?>
             <?php echo $this->form->renderField('disabled'); ?>
             <?php echo $this->form->renderField('bcc'); ?>
-            <?php echo $this->form->renderField('group'); ?>
         </div>
     </div>
     <input type="hidden" name="task" value="">
