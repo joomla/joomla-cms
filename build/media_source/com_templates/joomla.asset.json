@@ -27,7 +27,9 @@
       ],
       "attributes": {
         "type": "module"
-      }
+      },
+      "deprecated": true,
+      "deprecatedMsg": "To be removed in Joomla 5.0"
     },
     {
       "name": "com_templates.admin-template-toggle-assignment.es5",
