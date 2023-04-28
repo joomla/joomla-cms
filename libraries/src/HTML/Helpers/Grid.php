@@ -44,7 +44,7 @@ abstract class Grid
     public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $newDirection = 'asc', $tip = '', $form = null)
     {
         HTMLHelper::_('behavior.core');
-        HTMLHelper::_('bootstrap.popover', '.hasPopover', ['trigger' => 'hover focus']);
+        HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
         $direction = strtolower($direction);
         $icon = ['arrow-up-3', 'arrow-down-3'];
@@ -61,8 +61,7 @@ abstract class Grid
         }
 
         $html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\'' . $form . ');return false;"'
-            . ' class="hasPopover" title="' . htmlspecialchars(Text::_($tip ?: $title)) . '"'
-            . ' data-bs-content="' . htmlspecialchars(Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-bs-placement="top">';
+            . ' class="hasTooltip" title="' . htmlspecialchars(Text::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-bs-placement="top">';
 
         if (isset($title['0']) && $title['0'] === '<') {
             $html .= $title;
