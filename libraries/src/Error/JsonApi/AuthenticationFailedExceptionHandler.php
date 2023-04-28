@@ -52,7 +52,7 @@ class AuthenticationFailedExceptionHandler implements ExceptionHandlerInterface
     public function handle(Exception $e)
     {
         $status = 401;
-        $error = ['title' => 'Forbidden'];
+        $error  = ['title' => 'Forbidden'];
 
         $code = $e->getCode();
 

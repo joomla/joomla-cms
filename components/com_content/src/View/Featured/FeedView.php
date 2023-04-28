@@ -48,7 +48,7 @@ class FeedView extends AbstractView
         $this->document->link = Route::_('index.php?option=com_content&view=featured');
 
         // Get some data from the model
-        $app->input->set('limit', $app->get('feed_limit'));
+        $app->getInput()->set('limit', $app->get('feed_limit'));
         $categories = Categories::getInstance('Content');
         $rows       = $this->get('Items');
 
@@ -64,7 +64,7 @@ class FeedView extends AbstractView
             $link = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language);
 
             $description = '';
-            $obj = json_decode($row->images);
+            $obj         = json_decode($row->images);
 
             if (!empty($obj->image_intro)) {
                 $description = '<p>' . HTMLHelper::_('image', $obj->image_intro, $obj->image_intro_alt) . '</p>';

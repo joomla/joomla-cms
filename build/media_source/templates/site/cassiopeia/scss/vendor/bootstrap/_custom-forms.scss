@@ -7,21 +7,19 @@
 .form-select {
   max-width: $input-max-width;
   cursor: pointer;
-  background: $form-select-background;
+  background: $form-select-background #{"/* rtl:"}$form-select-background-rtl#{"*/"};
   background-color: $form-select-bg;
-  border: $input-border;
-  // var needed
-  box-shadow: $input-box-shadow;
+  border: $input-border-width solid $input-border-color;
+  @include box-shadow($form-select-box-shadow);
 
   &:focus {
     border-color: #000;
-    box-shadow: $cassiopeia-input-focus-shadow;
-  }
-
-  [dir=rtl] & {
-    padding: $form-select-padding-y $form-select-padding-x $form-select-padding-y ($form-select-padding-x + $form-select-indicator-padding);
-    background: $form-select-background-rtl;
-    background-color: $form-select-bg;
+    @if $enable-shadows {
+      @include box-shadow($form-select-box-shadow, $form-select-focus-box-shadow);
+    } @else {
+      // Avoid using mixin so we can pass custom focus shadow properly
+      box-shadow: $form-select-focus-box-shadow;
+    }
   }
 
   &[multiple] {

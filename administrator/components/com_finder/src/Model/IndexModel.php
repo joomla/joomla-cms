@@ -90,7 +90,7 @@ class IndexModel extends ListModel
      */
     protected function canDelete($record)
     {
-        return Factory::getUser()->authorise('core.delete', $this->option);
+        return $this->getCurrentUser()->authorise('core.delete', $this->option);
     }
 
     /**
@@ -104,7 +104,7 @@ class IndexModel extends ListModel
      */
     protected function canEditState($record)
     {
-        return Factory::getUser()->authorise('core.edit.state', $this->option);
+        return $this->getCurrentUser()->authorise('core.edit.state', $this->option);
     }
 
     /**
@@ -118,7 +118,7 @@ class IndexModel extends ListModel
      */
     public function delete(&$pks)
     {
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
         $table = $this->getTable();
 
         // Include the content plugins for the on delete events.
@@ -180,7 +180,7 @@ class IndexModel extends ListModel
      */
     protected function getListQuery()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('l.*')
             ->select($db->quoteName('t.title', 't_title'))
@@ -257,7 +257,7 @@ class IndexModel extends ListModel
      */
     public function getPluginState()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('name, enabled')
             ->from($db->quoteName('#__extensions'))
@@ -302,7 +302,7 @@ class IndexModel extends ListModel
      */
     public function getTotalIndexed()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('COUNT(link_id)')
             ->from($db->quoteName('#__finder_links'));
@@ -354,17 +354,17 @@ class IndexModel extends ListModel
         // Truncate the taxonomy table and insert the root node.
         $db->truncateTable('#__finder_taxonomy');
         $root = (object) [
-            'id' => 1,
+            'id'        => 1,
             'parent_id' => 0,
-            'lft' => 0,
-            'rgt' => 1,
-            'level' => 0,
-            'path' => '',
-            'title' => 'ROOT',
-            'alias' => 'root',
-            'state' => 1,
-            'access' => 1,
-            'language' => '*'
+            'lft'       => 0,
+            'rgt'       => 1,
+            'level'     => 0,
+            'path'      => '',
+            'title'     => 'ROOT',
+            'alias'     => 'root',
+            'state'     => 1,
+            'access'    => 1,
+            'language'  => '*',
         ];
         $db->insertObject('#__finder_taxonomy', $root);
 
@@ -420,9 +420,9 @@ class IndexModel extends ListModel
      */
     public function publish(&$pks, $value = 1)
     {
-        $user = Factory::getUser();
+        $user  = $this->getCurrentUser();
         $table = $this->getTable();
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
 
         // Include the content plugins for the change of state event.
         PluginHelper::importPlugin('content');

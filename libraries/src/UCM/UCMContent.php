@@ -189,7 +189,7 @@ class UCMContent extends UCMBase
 
         if (!$primaryKey) {
             // Store the core UCM mappings
-            $baseData = [];
+            $baseData                    = [];
             $baseData['ucm_type_id']     = $typeId;
             $baseData['ucm_item_id']     = $data['core_content_item_id'];
             $baseData['ucm_language_id'] = ContentHelper::getLanguageId($data['core_language']);
@@ -214,7 +214,7 @@ class UCMContent extends UCMBase
      */
     public function getPrimaryKey($typeId, $contentItemId)
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select($db->quoteName('ucm_id'))
             ->from($db->quoteName('#__ucm_base'))

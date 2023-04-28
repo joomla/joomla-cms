@@ -78,7 +78,7 @@ class ActionlogsHelper
                 'extension'  => self::escapeCsvFormula(Text::_($extension)),
                 'date'       => (new Date($log->log_date, new \DateTimeZone('UTC')))->format('Y-m-d H:i:s T'),
                 'name'       => self::escapeCsvFormula($log->name),
-                'ip_address' => self::escapeCsvFormula($log->ip_address === 'COM_ACTIONLOGS_DISABLED' ? $disabledText : $log->ip_address)
+                'ip_address' => self::escapeCsvFormula($log->ip_address === 'COM_ACTIONLOGS_DISABLED' ? $disabledText : $log->ip_address),
             ];
         }
     }
@@ -95,7 +95,7 @@ class ActionlogsHelper
     public static function loadTranslationFiles($extension)
     {
         static $cache = [];
-        $extension = strtolower($extension);
+        $extension    = strtolower($extension);
 
         if (isset($cache[$extension])) {
             return;
@@ -155,7 +155,10 @@ class ActionlogsHelper
      *
      * @since   3.9.0
      *
-     * @deprecated  5.0 Use the action log config model instead
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the action log config model instead
+     *              Example: Factory::getApplication()->bootComponent('actionlogs')->getMVCFactory()
+     *                       ->createModel('ActionlogConfig', 'Administrator')->getLogContentTypeParams($context);
      */
     public static function getLogContentTypeParams($context)
     {
@@ -277,13 +280,13 @@ class ActionlogsHelper
                         'folder',
                         'element',
                         'params',
-                        'extension_id'
+                        'extension_id',
                     ],
                     [
                         'type',
                         'name',
                         'params',
-                        'id'
+                        'id',
                     ]
                 )
             )
@@ -316,7 +319,7 @@ class ActionlogsHelper
             }
 
             $lang->load($extension, JPATH_ADMINISTRATOR)
-            || $lang->load($extension, JPATH_PLUGINS . '/' . $type . '/' . $name);
+                || $lang->load($extension, JPATH_PLUGINS . '/' . $type . '/' . $name);
         }
 
         // Load plg_system_actionlogs too

@@ -61,7 +61,7 @@ class LimitboxField extends ListField
             static::$options[$hash] = parent::getOptions();
 
             $options = [];
-            $limits = $this->defaultLimits;
+            $limits  = $this->defaultLimits;
 
             // Limits manually specified
             if (isset($this->element['limits'])) {
@@ -92,7 +92,7 @@ class LimitboxField extends ListField
                 foreach ($limits as $value) {
                     $options[] = (object) [
                         'value' => $value,
-                        'text' => ($value != 0) ? Text::_('J' . $value) : Text::_('JALL'),
+                        'text'  => ($value != 0) ? Text::_('J' . $value) : Text::_('JALL'),
                     ];
                 }
 
