@@ -208,7 +208,7 @@ class FtpClient
      */
     public function __destruct()
     {
-        if (\is_resource($this->_conn)) {
+        if ($this->_conn !== false) {
             $this->quit();
         }
     }
@@ -293,7 +293,7 @@ class FtpClient
         $err   = null;
 
         // If already connected, return
-        if (\is_resource($this->_conn)) {
+        if ($this->_conn !== false) {
             return true;
         }
 
@@ -344,7 +344,7 @@ class FtpClient
      */
     public function isConnected()
     {
-        return \is_resource($this->_conn);
+        return ($this->_conn !== false);
     }
 
     /**
@@ -1580,7 +1580,7 @@ class FtpClient
     protected function _putCmd($cmd, $expectedResponse)
     {
         // Make sure we have a connection to the server
-        if (!\is_resource($this->_conn)) {
+        if ($this->_conn === false) {
             Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_PUTCMD_UNCONNECTED', __METHOD__), Log::WARNING, 'jerror');
 
             return false;
@@ -1659,7 +1659,7 @@ class FtpClient
         $err   = null;
 
         // Make sure we have a connection to the server
-        if (!\is_resource($this->_conn)) {
+        if ($this->_conn === false) {
             Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_NO_CONNECT', __METHOD__), Log::WARNING, 'jerror');
 
             return false;
