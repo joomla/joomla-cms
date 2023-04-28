@@ -64,7 +64,7 @@ class ApcuStorage extends CacheStorage
         $keys    = $allinfo['cache_list'];
         $secret  = $this->_hash;
 
-        $data = array();
+        $data = [];
 
         foreach ($keys as $key)
         {
