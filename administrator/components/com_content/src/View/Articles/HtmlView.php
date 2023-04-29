@@ -115,7 +115,7 @@ class HtmlView extends BaseHtmlView
         $this->filterForm    = $this->get('FilterForm');
         $this->activeFilters = $this->get('ActiveFilters');
         $this->vote          = PluginHelper::isEnabled('content', 'vote');
-        $this->hits          = (ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1);
+        $this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1;
 
         if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');
