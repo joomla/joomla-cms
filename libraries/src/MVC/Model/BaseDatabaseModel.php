@@ -50,8 +50,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     DatabaseModelInterface,
     DispatcherAwareInterface,
     CurrentUserInterface,
-    CacheControllerFactoryAwareInterface,
-    DatabaseAwareInterface
+    CacheControllerFactoryAwareInterface
 {
     use DatabaseAwareTrait;
     use MVCFactoryAwareTrait;
@@ -157,13 +156,13 @@ abstract class BaseDatabaseModel extends BaseModel implements
     protected function _getList($query, $limitstart = 0, $limit = 0)
     {
         if (\is_string($query)) {
-            $query = $this->getDbo()->getQuery(true)->setQuery($query);
+            $query = $this->getDatabase()->getQuery(true)->setQuery($query);
         }
 
         $query->setLimit($limit, $limitstart);
-        $this->getDbo()->setQuery($query);
+        $this->getDatabase()->setQuery($query);
 
-        return $this->getDbo()->loadObjectList();
+        return $this->getDatabase()->loadObjectList();
     }
 
     /**
@@ -194,9 +193,9 @@ abstract class BaseDatabaseModel extends BaseModel implements
             $query = clone $query;
             $query->clear('select')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
 
-            $this->getDbo()->setQuery($query);
+            $this->getDatabase()->setQuery($query);
 
-            return (int) $this->getDbo()->loadResult();
+            return (int) $this->getDatabase()->loadResult();
         }
 
         // Otherwise fall back to inefficient way of counting all results.
@@ -207,10 +206,10 @@ abstract class BaseDatabaseModel extends BaseModel implements
             $query->clear('limit')->clear('offset')->clear('order');
         }
 
-        $this->getDbo()->setQuery($query);
-        $this->getDbo()->execute();
+        $this->getDatabase()->setQuery($query);
+        $this->getDatabase()->execute();
 
-        return (int) $this->getDbo()->getNumRows();
+        return (int) $this->getDatabase()->getNumRows();
     }
 
     /**
@@ -229,7 +228,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     {
         // Make sure we are returning a DBO object
         if (!\array_key_exists('dbo', $config)) {
-            $config['dbo'] = $this->getDbo();
+            $config['dbo'] = $this->getDatabase();
         }
 
         $table = $this->getMVCFactory()->createTable($name, $prefix, $config);
@@ -411,7 +410,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     public function __get($name)
     {
         if ($name === '_db') {
-            return $this->getDbo();
+            return $this->getDatabase();
         }
 
         // Default the variable
