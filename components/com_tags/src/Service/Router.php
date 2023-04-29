@@ -121,7 +121,7 @@ class Router extends RouterBase
                         foreach ($id as $i) {
                             if (isset($this->lookup[$language]['tag'][$i])) {
                                 $query['Itemid'] = $this->lookup[$language]['tag'][$i];
-                                break;
+                                break 2;
                             }
                         }
                     }
