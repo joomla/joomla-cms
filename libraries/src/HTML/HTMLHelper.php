@@ -558,7 +558,7 @@ abstract class HTMLHelper
                      * This MD5SUM file must represent the signature of the folder content
                      */
                     foreach ($files as $file) {
-                        $path = JPATH_ROOT . "/$file";
+                        $path = JPATH_ROOT . (defined('JPATH_PUBLIC') ? '/public' : '/') . $file;
 
                         $found = static::addFileToBuffer($path, $ext, $debugMode);
 
