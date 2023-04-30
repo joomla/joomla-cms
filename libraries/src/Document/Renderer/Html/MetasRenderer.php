@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Document\Renderer\Html;
 
 use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Event\Document\BeforeCompileHeadEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Uri\Uri;
@@ -58,7 +59,8 @@ class MetasRenderer extends DocumentRenderer
         }
 
         // Trigger the onBeforeCompileHead event
-        $app->triggerEvent('onBeforeCompileHead');
+        $event = new BeforeCompileHeadEvent('onBeforeCompileHead', ['subject' => $this->_doc]);
+        $app->triggerEvent('onBeforeCompileHead', $event);
 
         // Add Script Options as inline asset
         $scriptOptions = $this->_doc->getScriptOptions();
