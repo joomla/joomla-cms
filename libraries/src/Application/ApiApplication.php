@@ -12,6 +12,7 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Access\Exception\AuthenticationFailed;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Document\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\ApiRouter;
@@ -415,11 +416,17 @@ final class ApiApplication extends CMSApplication
         // Register the document object with Factory
         Factory::$document = $document;
 
+        // Trigger the onAfterInitialiseDocument event.
+        PluginHelper::importPlugin('system');
+        $eventDocInit = new AfterInitialiseDocumentEvent('onAfterInitialiseDocument', [
+            'subject' => $document,
+        ]);
+        $this->triggerEvent('onAfterInitialiseDocument', $eventDocInit);
+
         $contents = ComponentHelper::renderComponent($component);
         $document->setBuffer($contents, 'component');
 
         // Trigger the onAfterDispatch event.
-        PluginHelper::importPlugin('system');
         $this->triggerEvent('onAfterDispatch');
     }
 }

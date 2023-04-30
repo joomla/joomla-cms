@@ -11,6 +11,7 @@ namespace Joomla\CMS\Application;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Document\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
@@ -140,11 +141,17 @@ class AdministratorApplication extends CMSApplication
         $document->setDescription($this->get('MetaDesc'));
         $document->setGenerator('Joomla! - Open Source Content Management');
 
+        // Trigger the onAfterInitialiseDocument event.
+        PluginHelper::importPlugin('system');
+        $eventDocInit = new AfterInitialiseDocumentEvent('onAfterInitialiseDocument', [
+            'subject' => $document,
+        ]);
+        $this->triggerEvent('onAfterInitialiseDocument', $eventDocInit);
+
         $contents = ComponentHelper::renderComponent($component);
         $document->setBuffer($contents, 'component');
 
         // Trigger the onAfterDispatch event.
-        PluginHelper::importPlugin('system');
         $this->triggerEvent('onAfterDispatch');
     }
 

@@ -14,9 +14,9 @@ namespace Joomla\CMS\Event\Document;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for onBeforeCompileHead event
+ * Event class for onAfterInitialiseDocument event
  *
  * @since  __DEPLOY_VERSION__
  */
-final class BeforeCompileHeadEvent extends AbstractEvent
+final class AfterInitialiseDocumentEvent extends AbstractEvent
 {}
