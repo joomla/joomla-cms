@@ -19,4 +19,5 @@ namespace Joomla\CMS\Event\Document;
  * @since  __DEPLOY_VERSION__
  */
 final class BeforeCompileHeadEvent extends AbstractEvent
-{}
+{
+}
