@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event;
 
-use Joomla\CMS\Event\Document\AfterInitialiseDocumentEvent;
-use Joomla\CMS\Event\Document\BeforeCompileHeadEvent;
 use Joomla\CMS\Event\Model\BeforeBatchEvent;
 use Joomla\CMS\Event\Plugin\System\Webauthn\Ajax as PlgSystemWebauthnAjax;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxChallenge as PlgSystemWebauthnAjaxChallenge;
