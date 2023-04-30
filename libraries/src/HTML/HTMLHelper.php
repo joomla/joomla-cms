@@ -401,7 +401,7 @@ abstract class HTMLHelper
 
                 if ($template->inheritable || !empty($template->parent)) {
                     $client     = $app->isClient('administrator') === true ? 'administrator' : 'site';
-                    $templaPath = JPATH_ROOT . "/public/media/templates/$client";
+                    $templaPath = JPATH_ROOT . (defined('JPATH_PUBLIC') ? '/public' : '') . "/media/templates/$client";
                 }
 
                 // For each potential files
@@ -441,7 +441,7 @@ abstract class HTMLHelper
                                     list($element, $file) = explode('/', $file, 2);
 
                                     // Try to deal with plugins group in the media folder
-                                    $found = static::addFileToBuffer(JPATH_ROOT . "/public/media/$extension/$element/$folder/$file", $ext, $debugMode);
+                                    $found = static::addFileToBuffer(JPATH_ROOT . (defined('JPATH_PUBLIC') ? '/public' : '') . "/media/$extension/$element/$folder/$file", $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
@@ -450,7 +450,7 @@ abstract class HTMLHelper
                                     }
 
                                     // Try to deal with classical file in a media subfolder called element
-                                    $found = static::addFileToBuffer(JPATH_ROOT . "/public/media/$extension/$folder/$element/$file", $ext, $debugMode);
+                                    $found = static::addFileToBuffer(JPATH_ROOT . (defined('JPATH_PUBLIC') ? '/public' : '') . "/media/$extension/$folder/$element/$file", $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
@@ -477,7 +477,7 @@ abstract class HTMLHelper
                                         }
                                     } else {
                                         // Try to deal with system files in the media folder
-                                        $found = static::addFileToBuffer(JPATH_ROOT . "/public/media/system/$folder/$element/$file", $ext, $debugMode);
+                                        $found = static::addFileToBuffer(JPATH_ROOT . (defined('JPATH_PUBLIC') ?'/public' : '') . "/media/system/$folder/$element/$file", $ext, $debugMode);
 
                                         if (!empty($found)) {
                                             $includes[] = $found;
@@ -487,7 +487,7 @@ abstract class HTMLHelper
                                     }
                                 } else {
                                     // Try to deal with files in the extension's media folder
-                                    $found = static::addFileToBuffer(JPATH_ROOT . "/public/media/$extension/$folder/$file", $ext, $debugMode);
+                                    $found = static::addFileToBuffer(JPATH_ROOT . (defined('JPATH_PUBLIC') ? '/public' : '') . "/media/$extension/$folder/$file", $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
@@ -524,7 +524,7 @@ abstract class HTMLHelper
                                     }
 
                                     // Try to deal with system files in the media folder
-                                    $found = static::addFileToBuffer(JPATH_ROOT . "/public/media/system/$folder/$file", $ext, $debugMode);
+                                    $found = static::addFileToBuffer(JPATH_ROOT . (defined('JPATH_PUBLIC') ? '/public' : '') . "/media/system/$folder/$file", $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
@@ -534,7 +534,7 @@ abstract class HTMLHelper
                                 }
                             } else {
                                 // Try to deal with system files in the media folder
-                                $found = static::addFileToBuffer(JPATH_ROOT . "/public/media/system/$folder/$file", $ext, $debugMode);
+                                $found = static::addFileToBuffer(JPATH_ROOT . (defined('JPATH_PUBLIC') ? '/public' : '') . "/media/system/$folder/$file", $ext, $debugMode);
 
                                 if (!empty($found)) {
                                     $includes[] = $found;

@@ -261,8 +261,8 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
         if (is_file(JPATH_ROOT . '/' . $path)) {
             $this->dataFilesNew[$path] = $path;
         }
-        if (is_file(JPATH_ROOT . '/public/' . $path)) {
-            $this->dataFilesNew['public/' . $path] = 'public/' . $path;
+        if (is_file(JPATH_ROOT . (defined('JPATH_PUBLIC') ? '/public/' : '/') . $path)) {
+            $this->dataFilesNew[(defined('JPATH_PUBLIC') ? 'public/' : '/') . $path] = (defined('JPATH_PUBLIC') ? 'public/' : '/') . $path;
         }
 
         return $this;
@@ -317,7 +317,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
      */
     public function addExtensionRegistryFile(string $name): self
     {
-        $this->addRegistryFile('public/media/' . $name . '/joomla.asset.json');
+        $this->addRegistryFile((defined('JPATH_PUBLIC') ? '/public' : '') . '/media/' . $name . '/joomla.asset.json');
 
         return $this;
     }
