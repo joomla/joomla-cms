@@ -43,6 +43,14 @@ if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT
     exit;
 }
 
+if (!defined('JPATH_PUBLIC')) {
+    define('JPATH_PUBLIC', JPATH_ROOT);
+}
+
+if (!defined('JPATH_PUBLICNAME')) {
+    define('JPATH_PUBLICNAME', '');
+}
+
 // Check if installed
 if (
     !file_exists(JPATH_CONFIGURATION . '/configuration.php')
