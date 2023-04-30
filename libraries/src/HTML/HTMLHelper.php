@@ -477,7 +477,7 @@ abstract class HTMLHelper
                                         }
                                     } else {
                                         // Try to deal with system files in the media folder
-                                        $found = static::addFileToBuffer(JPATH_ROOT . (defined('JPATH_PUBLIC') ?'/public' : '') . "/media/system/$folder/$element/$file", $ext, $debugMode);
+                                        $found = static::addFileToBuffer(JPATH_ROOT . (defined('JPATH_PUBLIC') ? '/public' : '') . "/media/system/$folder/$element/$file", $ext, $debugMode);
 
                                         if (!empty($found)) {
                                             $includes[] = $found;
