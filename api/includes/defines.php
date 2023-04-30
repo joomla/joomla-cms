@@ -16,7 +16,6 @@ array_pop($parts);
 // Defines.
 define('JPATH_ROOT', implode(DIRECTORY_SEPARATOR, $parts));
 define('JPATH_SITE', JPATH_ROOT);
-define('JPATH_PUBLICNAME', '');
 define('JPATH_PUBLIC', JPATH_ROOT);
 define('JPATH_CONFIGURATION', JPATH_ROOT);
 define('JPATH_ADMINISTRATOR', JPATH_ROOT . DIRECTORY_SEPARATOR . 'administrator');
