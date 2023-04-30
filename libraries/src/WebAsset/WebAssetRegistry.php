@@ -259,7 +259,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
         }
 
         if (is_file(JPATH_PUBLIC . '/' . $path)) {
-            $publicFolderName = JPATH_PUBLIC !== JPATH_ROOT ? str_replace(JPATH_ROOT, JPATH_PUBLIC, '') . '/' : '';
+            $publicFolderName                              = JPATH_PUBLIC !== JPATH_ROOT ? str_replace(JPATH_ROOT, JPATH_PUBLIC, '') . '/' : '';
             $this->dataFilesNew[$publicFolderName . $path] = $publicFolderName . $path;
         } elseif (is_file(JPATH_ROOT . '/' . $path)) {
             $this->dataFilesNew[$path] = $path;
