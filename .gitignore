@@ -107,7 +107,3 @@ cypress.config.js
 
 # WebAuthn FIDO metadata cache
 /plugins/system/webauthn/fido.jwt
-
-# Ignore the symlinks in the public folder
-/public/media
-/public/images
