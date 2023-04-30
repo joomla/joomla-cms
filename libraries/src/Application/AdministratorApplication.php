@@ -11,7 +11,6 @@ namespace Joomla\CMS\Application;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\Document\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
@@ -143,10 +142,7 @@ class AdministratorApplication extends CMSApplication
 
         // Trigger the onAfterInitialiseDocument event.
         PluginHelper::importPlugin('system');
-        $eventDocInit = new AfterInitialiseDocumentEvent('onAfterInitialiseDocument', [
-            'subject' => $document,
-        ]);
-        $this->triggerEvent('onAfterInitialiseDocument', $eventDocInit);
+        $this->triggerEvent('onAfterInitialiseDocument');
 
         $contents = ComponentHelper::renderComponent($component);
         $document->setBuffer($contents, 'component');
