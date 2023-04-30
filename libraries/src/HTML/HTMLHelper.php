@@ -1209,7 +1209,7 @@ abstract class HTMLHelper
      */
     protected static function convertToRelativePath($path)
     {
-        $relativeFilePath = Uri::root(true) . str_replace((defined('JPATH_PUBLIC') ? JPATH_PUBLIC . '/' : JPATH_ROOT . '/'), '', $path);
+        $relativeFilePath = Uri::root(true) . str_replace(JPATH_PUBLIC . '/', '', $path);
 
         // On windows devices we need to replace "\" with "/" otherwise some browsers will not load the asset
         return str_replace(DIRECTORY_SEPARATOR, '/', $relativeFilePath);
