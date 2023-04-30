@@ -39,10 +39,6 @@ if (!defined('JPATH_PUBLIC')) {
     define('JPATH_PUBLIC', JPATH_ROOT);
 }
 
-if (!defined('JPATH_PUBLICNAME')) {
-    define('JPATH_PUBLICNAME', '');
-}
-
 if (!defined('JPATH_PLATFORM')) {
     define('JPATH_PLATFORM', JPATH_BASE . DIRECTORY_SEPARATOR . 'libraries');
 }
