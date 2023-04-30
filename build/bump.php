@@ -59,13 +59,14 @@ $languagePackXmlFile = '/administrator/manifests/packages/pkg_en-GB.xml';
 
 $antJobFile = '/build.xml';
 
+$packageJsonFile = '/package.json';
+
 $readMeFiles = [
     '/README.md',
     '/README.txt',
 ];
 
 /*
- * Change copyright date exclusions.
  * Some systems may try to scan the .git directory, exclude it.
  * Also exclude build resources such as the packaging space or the API documentation build
  * as well as external libraries.
@@ -243,6 +244,13 @@ if (file_exists($rootPath . $antJobFile)) {
     $fileContents = file_get_contents($rootPath . $antJobFile);
     $fileContents = preg_replace('#<arg value="Joomla! CMS [^ ]* API" />#', '<arg value="Joomla! CMS ' . $version['main'] . ' API" />', $fileContents);
     file_put_contents($rootPath . $antJobFile, $fileContents);
+}
+
+// Updates the version in the package.json file.
+if (file_exists($rootPath . $packageJsonFile)) {
+    $fileContents = file_get_contents($rootPath . $packageJsonFile);
+    $fileContents = preg_replace('#"version": "[^ ]*"#', '"version": "' . $version['release'] . '"', $fileContents);
+    file_put_contents($rootPath . $packageJsonFile, $fileContents);
 }
 
 // Updates the version in readme files.
