@@ -401,7 +401,7 @@ abstract class HTMLHelper
 
                 if ($template->inheritable || !empty($template->parent)) {
                     $client     = $app->isClient('administrator') === true ? 'administrator' : 'site';
-                    $templaPath = (defined('JPATH_PUBLIC') ? JPATH_PUBLIC : JPATH_ROOT) . '/' . "media/templates/$client";
+                    $templaPath = (defined('JPATH_PUBLIC') ? JPATH_PUBLIC : JPATH_ROOT) . "/media/templates/$client";
                 }
 
                 // For each potential files
@@ -1209,7 +1209,7 @@ abstract class HTMLHelper
      */
     protected static function convertToRelativePath($path)
     {
-        $relativeFilePath = Uri::root(true) . str_replace(JPATH_ROOT . (defined('JPATH_PUBLIC') ? '/public/' : '/'), '/', $path);
+        $relativeFilePath = Uri::root(true) . str_replace(JPATH_ROOT . (defined('JPATH_PUBLIC') ? '/' . JPATH_PUBLIC . '/' : '/'), '/', $path);
 
         // On windows devices we need to replace "\" with "/" otherwise some browsers will not load the asset
         return str_replace(DIRECTORY_SEPARATOR, '/', $relativeFilePath);
