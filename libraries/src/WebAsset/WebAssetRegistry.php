@@ -258,10 +258,10 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
             return $this;
         }
 
-        if (is_file(JPATH_ROOT . '/' . $path)) {
+        if (is_file(JPATH_ROOT . '/' . $path) && !defined('JPATH_PUBLIC')) {
             $this->dataFilesNew[$path] = $path;
         }
-        if (is_file(JPATH_ROOT . (defined('JPATH_PUBLIC') ? '/public/' : '/') . $path)) {
+        if (defined('JPATH_PUBLIC') && is_file(JPATH_ROOT . (defined('JPATH_PUBLIC') ? '/public/' : '/') . $path)) {
             $this->dataFilesNew[(defined('JPATH_PUBLIC') ? 'public/' : '') . $path] = (defined('JPATH_PUBLIC') ? 'public/' : '') . $path;
         }
 
