@@ -317,7 +317,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
      */
     public function addExtensionRegistryFile(string $name): self
     {
-        $this->addRegistryFile((defined('JPATH_PUBLIC') ? '/public' : '') . '/media/' . $name . '/joomla.asset.json');
+        $this->addRegistryFile((defined('JPATH_PUBLIC') ? 'public/' : '') . 'media/' . $name . '/joomla.asset.json');
 
         return $this;
     }
