@@ -59,13 +59,10 @@ class MetasRenderer extends DocumentRenderer
         }
 
         // Trigger the onBeforeCompileHead event
-        $app->getDispatcher()->dispatch('onBeforeCompileHead', AbstractEvent::create(
+        $app->getDispatcher()->dispatch(
             'onBeforeCompileHead',
-            [
-                'subject'  => $app,
-                'document' => $this->_doc,
-            ]
-        ));
+            AbstractEvent::create('onBeforeCompileHead', ['subject' => $app, 'document' => $this->_doc])
+        );
 
         // Add Script Options as inline asset
         $scriptOptions = $this->_doc->getScriptOptions();
