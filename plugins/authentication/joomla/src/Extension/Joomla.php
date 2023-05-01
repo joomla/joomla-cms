@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\Authentication\Joomla\Extension;
 
 use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
