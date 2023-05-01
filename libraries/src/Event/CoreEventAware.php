@@ -41,6 +41,8 @@ trait CoreEventAware
      */
     private static $eventNameToConcreteClass = [
         // Application
+        'onBeforeExecute'     => Application\BeforeExecuteEvent::class,
+        'onAfterExecute'      => Application\AfterExecuteEvent::class,
         'onAfterInitialise'   => Application\AfterInitialiseEvent::class,
         'onAfterRoute'        => Application\AfterRouteEvent::class,
         'onAfterDispatch'     => Application\AfterDispatchEvent::class,

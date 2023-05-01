@@ -154,13 +154,23 @@ abstract class WebApplication extends AbstractWebApplication
     public function execute()
     {
         // Trigger the onBeforeExecute event.
-        $this->triggerEvent('onBeforeExecute');
+        $this->dispatchEvent('onBeforeExecute', AbstractEvent::create(
+            'onBeforeExecute',
+            [
+                'subject' => $this,
+            ]
+        ));
 
         // Perform application routines.
         $this->doExecute();
 
         // Trigger the onAfterExecute event.
-        $this->triggerEvent('onAfterExecute');
+        $this->dispatchEvent('onAfterExecute', AbstractEvent::create(
+            'onAfterExecute',
+            [
+                'subject' => $this,
+            ]
+        ));
 
         // If we have an application document object, render it.
         if ($this->document instanceof Document) {

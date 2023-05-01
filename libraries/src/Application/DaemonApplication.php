@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Application;
 
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Log\Log;
@@ -345,7 +346,13 @@ abstract class DaemonApplication extends CliApplication
     public function execute()
     {
         // Trigger the onBeforeExecute event
-        $this->triggerEvent('onBeforeExecute');
+        $this->dispatchEvent('onBeforeExecute', AbstractEvent::create(
+            'onBeforeExecute',
+            [
+                'subject'   => $this,
+                'container' => $this->getContainer(),
+            ]
+        ));
 
         // Enable basic garbage collection.
         gc_enable();
@@ -375,7 +382,12 @@ abstract class DaemonApplication extends CliApplication
         }
 
         // Trigger the onAfterExecute event.
-        $this->triggerEvent('onAfterExecute');
+        $this->dispatchEvent('onAfterExecute', AbstractEvent::create(
+            'onAfterExecute',
+            [
+                'subject' => $this,
+            ]
+        ));
     }
 
     /**
