@@ -86,7 +86,7 @@ Cypress.Commands.add('db_createBanner', (banner) => {
   return cy.task('queryDB', createInsertQuery('banners', { ...defaultBannerOptions, ...banner })).then(async (info) => info.insertId);
 });
 
-Cypress.Commands.add('db_createMenuItem', (menuItem) => {
+Cypress.Commands.add('db_createMenuItem', (menuItemData) => {
   const defaultMenuItemOptions = {
     title: 'test menu item',
     alias: 'test-menu-item',
@@ -94,7 +94,7 @@ Cypress.Commands.add('db_createMenuItem', (menuItem) => {
     type: 'component',
     link: 'index.php?option=com_content',
     component_id: 19,
-    path: 'test-menu-item/root',
+    path: 'test-menu-item',
     parent_id: 1,
     level: 1,
     published: 1,
@@ -104,7 +104,20 @@ Cypress.Commands.add('db_createMenuItem', (menuItem) => {
     img: '',
   };
 
-  return cy.task('queryDB', createInsertQuery('menu', { ...defaultMenuItemOptions, ...menuItem })).then(async (info) => info.insertId);
+  // Create the data to insert
+  const menuItem = { ...defaultMenuItemOptions, ...menuItemData };
+
+  // Extract the component from the link
+  const component = (new URLSearchParams(menuItem.link.replace('index.php', ''))).get('option');
+
+  // Search for the component
+  return cy.task('queryDB', `SELECT extension_id FROM #__extensions WHERE name = '${component}'`).then((id) => {
+    // Get the correct component id from the extensions record
+    menuItem.component_id = id[0].extension_id;
+
+    // Create the menu item
+    return cy.task('queryDB', createInsertQuery('menu', menuItem)).then(async (info) => info.insertId);
+  });
 });
 
 Cypress.Commands.add('db_createModule', (module) => {
@@ -211,6 +224,60 @@ Cypress.Commands.add('db_createField', (field) => {
   return cy.task('queryDB', createInsertQuery('fields', { ...defaultFieldOptions, ...field })).then(async (info) => info.insertId);
 });
 
+Cypress.Commands.add('db_createTag', (tag) => {
+  const defaultTagOptions = {
+    title: 'test tag',
+    alias: 'test-tag',
+    note: '',
+    description: '',
+    published: 1,
+    parent_id: 1,
+    level: 1,
+    path: 'test-tag',
+    access: 1,
+    lft: 1,
+    metadata: '',
+    metadesc: '',
+    checked_out: 0,
+    checked_out_time: '2023-01-01 20:00:00',
+    metakey: '',
+    urls: '',
+    created_time: '2023-01-01 20:00:00',
+    modified_time: '2023-01-01 20:00:00',
+    language: '*',
+    params: '',
+    images: '',
+  };
+
+  return cy.task('queryDB', createInsertQuery('tags', { ...defaultTagOptions, ...tag })).then(async (info) => info.insertId);
+});
+
+Cypress.Commands.add('db_createNewsFeed', (feed) => {
+  const defaultNewsfeedOptions = {
+    name: 'test feed',
+    alias: 'test-feed',
+    catid: 5,
+    link: '',
+    published: 1,
+    numarticles: 5,
+    checked_out: 0,
+    checked_out_time: '2023-01-01 20:00:00',
+    rtl: 0,
+    access: 1,
+    language: '*',
+    created: '2023-01-01 20:00:00',
+    modified: '2023-01-01 20:00:00',
+    metakey: '',
+    metadata: '',
+    metadesc: '',
+    description: '',
+    params: '',
+    images: '',
+  };
+
+  return cy.task('queryDB', createInsertQuery('newsfeeds', { ...defaultNewsfeedOptions, ...feed })).then(async (info) => info.insertId);
+});
+
 Cypress.Commands.add('db_updateExtensionParameter', (key, value, extension) => cy.task('queryDB', `SELECT params FROM #__extensions WHERE name = '${extension}'`).then((paramsString) => {
   const params = JSON.parse(paramsString[0].params);
   params[key] = value;
@@ -223,6 +290,7 @@ Cypress.Commands.add('db_getUserId', () => {
       if (id.length === 0) {
         return 0;
       }
+
       return id[0].id;
     });
 });

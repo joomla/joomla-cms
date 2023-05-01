@@ -82,7 +82,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const CODENAME = 'Bora';
+    public const CODENAME = 'Pamoja';
 
     /**
      * Release date.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '2-April-2023';
+    public const RELDATE = '18-April-2023';
 
     /**
      * Release time.

@@ -33,7 +33,7 @@ class TimezoneField extends GroupedlistField
     /**
      * The list of available timezone groups to use.
      *
-     * @var    array
+     * @var    string[]
      * @since  1.7.0
      */
     protected static $zones = ['Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific'];
@@ -114,7 +114,7 @@ class TimezoneField extends GroupedlistField
     /**
      * Method to get the time zone field option groups.
      *
-     * @return  array  The field option objects as a nested array in groups.
+     * @return  array[]  The field option objects as a nested array in groups.
      *
      * @since   1.7.0
      */
