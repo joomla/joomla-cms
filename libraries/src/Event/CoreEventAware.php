@@ -115,6 +115,9 @@ trait CoreEventAware
         'onAjaxWebauthnInitcreate' => PlgSystemWebauthnAjaxInitCreate::class,
         'onAjaxWebauthnLogin'      => PlgSystemWebauthnAjaxLogin::class,
         'onAjaxWebauthnSavelabel'  => PlgSystemWebauthnAjaxSaveLabel::class,
+        // Extensions
+        'onBeforeExtensionBoot' => BeforeExtensionBootEvent::class,
+        'onAfterExtensionBoot'  => AfterExtensionBootEvent::class,
     ];
 
     /**
