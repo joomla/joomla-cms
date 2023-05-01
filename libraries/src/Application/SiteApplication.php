@@ -13,6 +13,7 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
@@ -210,7 +211,12 @@ final class SiteApplication extends CMSApplication
 
         // Trigger the onAfterDispatch event.
         PluginHelper::importPlugin('system');
-        $this->triggerEvent('onAfterDispatch');
+        $this->dispatchEvent('onAfterDispatch', AbstractEvent::create(
+            'onAfterDispatch',
+            [
+                'subject' => $this,
+            ]
+        ));
     }
 
     /**
