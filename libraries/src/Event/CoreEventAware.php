@@ -47,6 +47,10 @@ trait CoreEventAware
         'onBeforeRender'      => Application\BeforeRenderEvent::class,
         'onAfterRender'       => Application\AfterRenderEvent::class,
         'onBeforeCompileHead' => Document\BeforeCompileHeadEvent::class,
+        'onAfterCompress'     => Application\AfterCompressEvent::class,
+        'onBeforeRespond'     => Application\BeforeRespondEvent::class,
+        'onAfterRespond'      => Application\AfterRespondEvent::class,
+        'onError'             => ErrorEvent::class,
         // Model
         'onBeforeBatch' => Model\BeforeBatchEvent::class,
         // Quickicon

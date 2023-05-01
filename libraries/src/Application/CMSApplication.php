@@ -13,7 +13,6 @@ use Joomla\Application\SessionAwareWebApplicationTrait;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Event\AbstractEvent;
-use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
@@ -303,33 +302,47 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 $this->compress();
 
                 // Trigger the onAfterCompress event.
-                $this->triggerEvent('onAfterCompress');
+                $this->dispatchEvent('onAfterCompress', AbstractEvent::create(
+                    'onAfterCompress',
+                    [
+                        'subject' => $this,
+                    ]
+                ));
             }
         } catch (\Throwable $throwable) {
-            /** @var ErrorEvent $event */
+            /** @var \Joomla\CMS\Event\ErrorEvent $event */
             $event = AbstractEvent::create(
                 'onError',
                 [
                     'subject'     => $throwable,
-                    'eventClass'  => ErrorEvent::class,
                     'application' => $this,
                 ]
             );
 
             // Trigger the onError event.
-            $this->triggerEvent('onError', $event);
+            $this->dispatchEvent('onError', $event);
 
             ExceptionHandler::handleException($event->getError());
         }
 
         // Trigger the onBeforeRespond event.
-        $this->getDispatcher()->dispatch('onBeforeRespond');
+        $this->dispatchEvent('onBeforeRespond', AbstractEvent::create(
+            'onBeforeRespond',
+            [
+                'subject' => $this,
+            ]
+        ));
 
         // Send the application response.
         $this->respond();
 
         // Trigger the onAfterRespond event.
-        $this->getDispatcher()->dispatch('onAfterRespond');
+        $this->dispatchEvent('onAfterRespond', AbstractEvent::create(
+            'onAfterRespond',
+            [
+                'subject' => $this,
+            ]
+        ));
     }
 
     /**

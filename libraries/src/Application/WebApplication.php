@@ -190,13 +190,23 @@ abstract class WebApplication extends AbstractWebApplication
         }
 
         // Trigger the onBeforeRespond event.
-        $this->triggerEvent('onBeforeRespond');
+        $this->dispatchEvent('onBeforeRespond', AbstractEvent::create(
+            'onBeforeRespond',
+            [
+                'subject' => $this,
+            ]
+        ));
 
         // Send the application response.
         $this->respond();
 
         // Trigger the onAfterRespond event.
-        $this->triggerEvent('onAfterRespond');
+        $this->dispatchEvent('onAfterRespond', AbstractEvent::create(
+            'onAfterRespond',
+            [
+                'subject' => $this,
+            ]
+        ));
     }
 
     /**
