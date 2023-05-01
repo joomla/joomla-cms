@@ -259,10 +259,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
         }
 
         if (is_file(JPATH_PUBLIC . '/' . $path)) {
-            $publicFolderName                              = JPATH_PUBLIC !== JPATH_ROOT ? str_replace(JPATH_ROOT, JPATH_PUBLIC, '') . '/' : '';
-            $this->dataFilesNew[$publicFolderName . $path] = $publicFolderName . $path;
-        } elseif (is_file(JPATH_ROOT . '/' . $path)) {
-            $this->dataFilesNew[$path] = $path;
+            $this->dataFilesNew[JPATH_PUBLIC . '/' . $path] = JPATH_PUBLIC . '/' . $path;
         }
 
         return $this;
@@ -292,16 +289,13 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
      */
     public function addTemplateRegistryFile(string $template, int $client): self
     {
-        switch ($client) {
-            case 0:
-                $this->addRegistryFile('templates/' . $template . '/joomla.asset.json');
-                break;
-            case 1:
-                $this->addRegistryFile('administrator/templates/' . $template . '/joomla.asset.json');
-                break;
-            default:
-                break;
+        $path = Path::clean(($client === 0 ? '' : 'administrator/') .'templates/' . $template . '/joomla.asset.json');
+
+        if (isset($this->dataFilesNew[$path]) || isset($this->dataFilesParsed[$path])) {
+            return $this;
         }
+
+        $this->dataFilesNew[$path] = JPATH_PUBLIC.  '/' . $path;
 
         return $this;
     }
@@ -317,9 +311,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
      */
     public function addExtensionRegistryFile(string $name): self
     {
-        $publicFolderName = JPATH_PUBLIC !== JPATH_ROOT ? str_replace(JPATH_ROOT, JPATH_PUBLIC, '') . '/' : '';
-
-        $this->addRegistryFile($publicFolderName . 'media/' . $name . '/joomla.asset.json');
+        $this->addRegistryFile(JPATH_PUBLIC . '/media/' . $name . '/joomla.asset.json');
 
         return $this;
     }
@@ -364,7 +356,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
      */
     protected function parseRegistryFile($path)
     {
-        $data = file_get_contents(JPATH_ROOT . '/' . $path);
+        $data = file_get_contents($path);
         $data = $data ? json_decode($data, true) : null;
 
         if ($data === null) {
