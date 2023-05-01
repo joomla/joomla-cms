@@ -6550,8 +6550,12 @@ class JoomlaInstallerScript
             '/libraries/vendor/voku/portable-ascii/build/generate_max_key_length.php',
             // From 4.3.x to 4.4.0-alpha1
             '/modules/mod_articles_archive/mod_articles_archive.php',
+            '/modules/mod_articles_categories/mod_articles_categories.php',
             '/modules/mod_articles_category/mod_articles_category.php',
+            '/modules/mod_breadcrumbs/mod_breadcrumbs.php',
+            '/modules/mod_custom/mod_custom.php',
             '/modules/mod_footer/mod_footer.php',
+            '/modules/mod_related_items/mod_related_items.php',
             '/modules/mod_users_latest/mod_users_latest.php',
             '/plugins/content/pagenavigation/pagenavigation.php',
             '/plugins/installer/folderinstaller/folderinstaller.php',
