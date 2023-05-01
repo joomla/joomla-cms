@@ -154,44 +154,36 @@ abstract class WebApplication extends AbstractWebApplication
     public function execute()
     {
         // Trigger the onBeforeExecute event.
-        $this->dispatchEvent('onBeforeExecute', AbstractEvent::create(
+        $this->dispatchEvent(
             'onBeforeExecute',
-            [
-                'subject' => $this,
-            ]
-        ));
+            AbstractEvent::create('onBeforeExecute', ['subject' => $this])
+        );
 
         // Perform application routines.
         $this->doExecute();
 
         // Trigger the onAfterExecute event.
-        $this->dispatchEvent('onAfterExecute', AbstractEvent::create(
+        $this->dispatchEvent(
             'onAfterExecute',
-            [
-                'subject' => $this,
-            ]
-        ));
+            AbstractEvent::create('onAfterExecute', ['subject' => $this])
+        );
 
         // If we have an application document object, render it.
         if ($this->document instanceof Document) {
             // Trigger the onBeforeRender event.
-            $this->dispatchEvent('onBeforeRender', AbstractEvent::create(
+            $this->dispatchEvent(
                 'onBeforeRender',
-                [
-                    'subject' => $this,
-                ]
-            ));
+                AbstractEvent::create('onBeforeRender', ['subject' => $this])
+            );
 
             // Render the application output.
             $this->render();
 
             // Trigger the onAfterRender event.
-            $this->dispatchEvent('onAfterRender', AbstractEvent::create(
+            $this->dispatchEvent(
                 'onAfterRender',
-                [
-                    'subject' => $this,
-                ]
-            ));
+                AbstractEvent::create('onAfterRender', ['subject' => $this])
+            );
         }
 
         // If gzip compression is enabled in configuration and the server is compliant, compress the output.
@@ -200,23 +192,19 @@ abstract class WebApplication extends AbstractWebApplication
         }
 
         // Trigger the onBeforeRespond event.
-        $this->dispatchEvent('onBeforeRespond', AbstractEvent::create(
+        $this->dispatchEvent(
             'onBeforeRespond',
-            [
-                'subject' => $this,
-            ]
-        ));
+            AbstractEvent::create('onBeforeRespond', ['subject' => $this])
+        );
 
         // Send the application response.
         $this->respond();
 
         // Trigger the onAfterRespond event.
-        $this->dispatchEvent('onAfterRespond', AbstractEvent::create(
+        $this->dispatchEvent(
             'onAfterRespond',
-            [
-                'subject' => $this,
-            ]
-        ));
+            AbstractEvent::create('onAfterRespond', ['subject' => $this])
+        );
     }
 
     /**

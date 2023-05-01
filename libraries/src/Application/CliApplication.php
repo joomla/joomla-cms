@@ -258,24 +258,19 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
         $this->createExtensionNamespaceMap();
 
         // Trigger the onBeforeExecute event
-        $this->dispatchEvent('onBeforeExecute', AbstractEvent::create(
+        $this->dispatchEvent(
             'onBeforeExecute',
-            [
-                'subject'   => $this,
-                'container' => $this->getContainer(),
-            ]
-        ));
+            AbstractEvent::create('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
+        );
 
         // Perform application routines.
         $this->doExecute();
 
         // Trigger the onAfterExecute event.
-        $this->dispatchEvent('onAfterExecute', AbstractEvent::create(
+        $this->dispatchEvent(
             'onAfterExecute',
-            [
-                'subject' => $this,
-            ]
-        ));
+            AbstractEvent::create('onAfterExecute', ['subject' => $this])
+        );
     }
 
     /**

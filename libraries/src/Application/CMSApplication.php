@@ -302,12 +302,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 $this->compress();
 
                 // Trigger the onAfterCompress event.
-                $this->dispatchEvent('onAfterCompress', AbstractEvent::create(
+                $this->dispatchEvent(
                     'onAfterCompress',
-                    [
-                        'subject' => $this,
-                    ]
-                ));
+                    AbstractEvent::create('onAfterCompress', ['subject' => $this])
+                );
             }
         } catch (\Throwable $throwable) {
             /** @var \Joomla\CMS\Event\ErrorEvent $event */
@@ -326,23 +324,19 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         // Trigger the onBeforeRespond event.
-        $this->dispatchEvent('onBeforeRespond', AbstractEvent::create(
+        $this->dispatchEvent(
             'onBeforeRespond',
-            [
-                'subject' => $this,
-            ]
-        ));
+            AbstractEvent::create('onBeforeRespond', ['subject' => $this])
+        );
 
         // Send the application response.
         $this->respond();
 
         // Trigger the onAfterRespond event.
-        $this->dispatchEvent('onAfterRespond', AbstractEvent::create(
+        $this->dispatchEvent(
             'onAfterRespond',
-            [
-                'subject' => $this,
-            ]
-        ));
+            AbstractEvent::create('onAfterRespond', ['subject' => $this])
+        );
     }
 
     /**
@@ -755,12 +749,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         // Trigger the onAfterInitialise event.
         PluginHelper::importPlugin('system');
-        $this->dispatchEvent('onAfterInitialise', AbstractEvent::create(
+        $this->dispatchEvent(
             'onAfterInitialise',
-            [
-                'subject' => $this,
-            ]
-        ));
+            AbstractEvent::create('onAfterInitialise', ['subject' => $this])
+        );
     }
 
     /**
@@ -1031,12 +1023,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         // Trigger the onBeforeRender event.
         PluginHelper::importPlugin('system');
-        $this->dispatchEvent('onBeforeRender', AbstractEvent::create(
+        $this->dispatchEvent(
             'onBeforeRender',
-            [
-                'subject' => $this,
-            ]
-        ));
+            AbstractEvent::create('onBeforeRender', ['subject' => $this])
+        );
 
         $caching = false;
 
@@ -1051,12 +1041,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $this->setBody($data);
 
         // Trigger the onAfterRender event.
-        $this->dispatchEvent('onAfterRender', AbstractEvent::create(
+        $this->dispatchEvent(
             'onAfterRender',
-            [
-                'subject' => $this,
-            ]
-        ));
+            AbstractEvent::create('onAfterRender', ['subject' => $this])
+        );
 
         // Mark afterRender in the profiler.
         JDEBUG ? $this->profiler->mark('afterRender') : null;
@@ -1127,12 +1115,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         // Trigger the onAfterRoute event.
         PluginHelper::importPlugin('system');
-        $this->dispatchEvent('onAfterRoute', AbstractEvent::create(
+        $this->dispatchEvent(
             'onAfterRoute',
-            [
-                'subject' => $this,
-            ]
-        ));
+            AbstractEvent::create('onAfterRoute', ['subject' => $this])
+        );
     }
 
     /**

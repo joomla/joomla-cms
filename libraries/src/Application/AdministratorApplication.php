@@ -146,12 +146,10 @@ class AdministratorApplication extends CMSApplication
 
         // Trigger the onAfterDispatch event.
         PluginHelper::importPlugin('system');
-        $this->dispatchEvent('onAfterDispatch', AbstractEvent::create(
+        $this->dispatchEvent(
             'onAfterDispatch',
-            [
-                'subject' => $this,
-            ]
-        ));
+            AbstractEvent::create('onAfterDispatch', ['subject' => $this])
+        );
     }
 
     /**
@@ -457,12 +455,10 @@ class AdministratorApplication extends CMSApplication
 
         // Trigger the onAfterRoute event.
         PluginHelper::importPlugin('system');
-        $this->dispatchEvent('onAfterRoute', AbstractEvent::create(
+        $this->dispatchEvent(
             'onAfterRoute',
-            [
-                'subject' => $this,
-            ]
-        ));
+            AbstractEvent::create('onAfterRoute', ['subject' => $this])
+        );
     }
 
     /**

@@ -346,13 +346,10 @@ abstract class DaemonApplication extends CliApplication
     public function execute()
     {
         // Trigger the onBeforeExecute event
-        $this->dispatchEvent('onBeforeExecute', AbstractEvent::create(
+        $this->dispatchEvent(
             'onBeforeExecute',
-            [
-                'subject'   => $this,
-                'container' => $this->getContainer(),
-            ]
-        ));
+            AbstractEvent::create('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
+        );
 
         // Enable basic garbage collection.
         gc_enable();
@@ -382,12 +379,10 @@ abstract class DaemonApplication extends CliApplication
         }
 
         // Trigger the onAfterExecute event.
-        $this->dispatchEvent('onAfterExecute', AbstractEvent::create(
+        $this->dispatchEvent(
             'onAfterExecute',
-            [
-                'subject' => $this,
-            ]
-        ));
+            AbstractEvent::create('onAfterExecute', ['subject' => $this])
+        );
     }
 
     /**
