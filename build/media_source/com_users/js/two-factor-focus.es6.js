@@ -22,7 +22,7 @@
         elValidateButton.focus();
       }
       if (elToolbarButton) {
-        elToolbarButton.focus();
+        elToolbarButton.querySelector('button').focus();
       }
     }
 
