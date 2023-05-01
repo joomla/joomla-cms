@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Event;
 
-use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Event\Model\BeforeBatchEvent;
 use Joomla\CMS\Event\Plugin\System\Webauthn\Ajax as PlgSystemWebauthnAjax;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxChallenge as PlgSystemWebauthnAjaxChallenge;
@@ -72,7 +71,11 @@ trait CoreEventAware
      */
     private static $eventNameToConcreteClass = [
         // Application
-        'onAfterDispatch' => AfterDispatchEvent::class,
+        'onAfterInitialise' => Application\AfterInitialiseEvent::class,
+        'onAfterRoute'      => Application\AfterRouteEvent::class,
+        'onAfterDispatch'   => Application\AfterDispatchEvent::class,
+        'onBeforeRender'    => Application\BeforeRenderEvent::class,
+        'onAfterRender'     => Application\AfterRenderEvent::class,
         // Model
         'onBeforeBatch' => BeforeBatchEvent::class,
         // Quickicon

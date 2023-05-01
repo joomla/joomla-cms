@@ -14,10 +14,10 @@ namespace Joomla\CMS\Event\Application;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for AfterDispatch event
+ * Class for AfterRender event
  *
  * @since  __DEPLOY_VERSION__
  */
-class AfterDispatchEvent extends ApplicationEvent
+class AfterRenderEvent extends ApplicationEvent
 {
 }

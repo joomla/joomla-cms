@@ -17,7 +17,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Base class for Application events
+ * Class for Application events
  *
  * @since  __DEPLOY_VERSION__
  */

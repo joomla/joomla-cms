@@ -12,6 +12,7 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
@@ -164,13 +165,23 @@ abstract class WebApplication extends AbstractWebApplication
         // If we have an application document object, render it.
         if ($this->document instanceof Document) {
             // Trigger the onBeforeRender event.
-            $this->triggerEvent('onBeforeRender');
+            $this->dispatchEvent('onBeforeRender', AbstractEvent::create(
+                'onBeforeRender',
+                [
+                    'subject' => $this,
+                ]
+            ));
 
             // Render the application output.
             $this->render();
 
             // Trigger the onAfterRender event.
-            $this->triggerEvent('onAfterRender');
+            $this->dispatchEvent('onAfterRender', AbstractEvent::create(
+                'onAfterRender',
+                [
+                    'subject' => $this,
+                ]
+            ));
         }
 
         // If gzip compression is enabled in configuration and the server is compliant, compress the output.

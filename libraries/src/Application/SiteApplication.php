@@ -793,7 +793,12 @@ final class SiteApplication extends CMSApplication
 
         // Trigger the onAfterRoute event.
         PluginHelper::importPlugin('system');
-        $this->triggerEvent('onAfterRoute');
+        $this->dispatchEvent('onAfterRoute', AbstractEvent::create(
+            'onAfterRoute',
+            [
+                'subject' => $this,
+            ]
+        ));
 
         $Itemid = $this->input->getInt('Itemid', null);
         $this->authorise($Itemid);

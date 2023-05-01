@@ -11,6 +11,7 @@ namespace Joomla\CMS\Application;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
@@ -145,7 +146,12 @@ class AdministratorApplication extends CMSApplication
 
         // Trigger the onAfterDispatch event.
         PluginHelper::importPlugin('system');
-        $this->triggerEvent('onAfterDispatch');
+        $this->dispatchEvent('onAfterDispatch', AbstractEvent::create(
+            'onAfterDispatch',
+            [
+                'subject' => $this,
+            ]
+        ));
     }
 
     /**
@@ -451,7 +457,12 @@ class AdministratorApplication extends CMSApplication
 
         // Trigger the onAfterRoute event.
         PluginHelper::importPlugin('system');
-        $this->triggerEvent('onAfterRoute');
+        $this->dispatchEvent('onAfterRoute', AbstractEvent::create(
+            'onAfterRoute',
+            [
+                'subject' => $this,
+            ]
+        ));
     }
 
     /**
