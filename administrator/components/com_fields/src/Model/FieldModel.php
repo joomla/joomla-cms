@@ -70,17 +70,17 @@ class FieldModel extends AdminModel
      *
      * @var array
      */
-    protected $batch_commands = array(
+    protected $batch_commands = [
         'assetgroup_id' => 'batchAccess',
-        'language_id'   => 'batchLanguage'
-    );
+        'language_id'   => 'batchLanguage',
+    ];
 
     /**
      * @var array
      *
      * @since   3.7.0
      */
-    private $valueCache = array();
+    private $valueCache = [];
 
     /**
      * Constructor
@@ -91,11 +91,11 @@ class FieldModel extends AdminModel
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         parent::__construct($config, $factory);
 
-        $this->typeAlias = Factory::getApplication()->input->getCmd('context', 'com_content.article') . '.field';
+        $this->typeAlias = Factory::getApplication()->getInput()->getCmd('context', 'com_content.article') . '.field';
     }
 
     /**
@@ -122,7 +122,7 @@ class FieldModel extends AdminModel
         }
 
         // Alter the title for save as copy
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         if ($input->get('task') == 'save2copy') {
             $origTable = clone $this->getTable();
@@ -130,9 +130,9 @@ class FieldModel extends AdminModel
 
             if ($data['title'] == $origTable->title) {
                 list($title, $name) = $this->generateNewTitle($data['group_id'], $data['name'], $data['title']);
-                $data['title'] = $title;
-                $data['label'] = $title;
-                $data['name'] = $name;
+                $data['title']      = $title;
+                $data['label']      = $title;
+                $data['name']       = $name;
             } else {
                 if ($data['name'] == $origTable->name) {
                     $data['name'] = '';
@@ -168,16 +168,16 @@ class FieldModel extends AdminModel
         if (!empty($data['only_use_in_subform'])) {
             $cats = [-1];
         } else {
-            $cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
+            $cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : [];
             $cats = ArrayHelper::toInteger($cats);
         }
 
-        $assignedCatIds = array();
+        $assignedCatIds = [];
 
         foreach ($cats as $cat) {
             // If we have found the 'JNONE' category, remove all other from the result and break.
             if ($cat == '-1') {
-                $assignedCatIds = array('-1');
+                $assignedCatIds = ['-1'];
                 break;
             }
 
@@ -196,7 +196,7 @@ class FieldModel extends AdminModel
         $db->execute();
 
         // Inset new assigned categories
-        $tuple = new \stdClass();
+        $tuple           = new \stdClass();
         $tuple->field_id = $id;
 
         foreach ($assignedCatIds as $catId) {
@@ -213,7 +213,7 @@ class FieldModel extends AdminModel
          * when the options of a subfields field are getting changed.
          */
         if (
-            $field && in_array($field->type, array('list', 'checkboxes', 'radio'), true)
+            $field && in_array($field->type, ['list', 'checkboxes', 'radio'], true)
             && isset($data['fieldparams']['options']) && isset($field->fieldparams['options'])
         ) {
             $oldParams = $this->getParams($field->fieldparams['options']);
@@ -224,7 +224,7 @@ class FieldModel extends AdminModel
                 $names = array_column((array) $newParams, 'value');
 
                 $fieldId = (int) $field->id;
-                $query = $db->getQuery(true);
+                $query   = $db->getQuery(true);
                 $query->delete($db->quoteName('#__fields_values'))
                     ->where($db->quoteName('field_id') . ' = :fieldid')
                     ->bind(':fieldid', $fieldId, ParameterType::INTEGER);
@@ -280,7 +280,7 @@ class FieldModel extends AdminModel
         // Create the fields object
         $obj              = (object) $data;
         $obj->params      = new Registry($obj->params);
-        $obj->fieldparams = new Registry(!empty($obj->fieldparams) ? $obj->fieldparams : array());
+        $obj->fieldparams = new Registry(!empty($obj->fieldparams) ? $obj->fieldparams : []);
 
         // Prepare the dom
         $dom  = new \DOMDocument();
@@ -289,7 +289,7 @@ class FieldModel extends AdminModel
         // Trigger the event to create the field dom node
         $form = new Form($data['context']);
         $form->setDatabase($this->getDatabase());
-        Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($obj, $node, $form));
+        Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', [$obj, $node, $form]);
 
         // Check if a node is created
         if (!$node->firstChild) {
@@ -297,7 +297,7 @@ class FieldModel extends AdminModel
         }
 
         // Define the type either from the field or from the data
-        $type = $node->firstChild->getAttribute('validate') ? : $data['type'];
+        $type = $node->firstChild->getAttribute('validate') ?: $data['type'];
 
         // Load the rule
         $rule = FormHelper::loadRuleType($type);
@@ -317,11 +317,20 @@ class FieldModel extends AdminModel
         }
 
         try {
+            $element = simplexml_import_dom($node->firstChild);
+            $value   = $data['default_value'];
+
+            if ($data['type'] === 'checkboxes') {
+                $value = explode(',', $value);
+            } elseif ($element['multiple'] && \is_string($value) && \is_array(json_decode($value, true))) {
+                $value = (array)json_decode($value);
+            }
+
             // Perform the check
-            $result = $rule->test(simplexml_import_dom($node->firstChild), $data['default_value']);
+            $result = $rule->test($element, $value);
 
             // Check if the test succeeded
-            return $result === true ? : Text::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
+            return $result === true ?: Text::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
         } catch (\UnexpectedValueException $e) {
             return $e->getMessage();
         }
@@ -365,7 +374,7 @@ class FieldModel extends AdminModel
         if ($result) {
             // Prime required properties.
             if (empty($result->id)) {
-                $result->context = Factory::getApplication()->input->getCmd('context', $this->getState('field.context'));
+                $result->context = Factory::getApplication()->getInput()->getCmd('context', $this->getState('field.context'));
             }
 
             if (property_exists($result, 'fieldparams') && $result->fieldparams !== null) {
@@ -378,8 +387,8 @@ class FieldModel extends AdminModel
                 $result->fieldparams = $registry->toArray();
             }
 
-            $db = $this->getDatabase();
-            $query = $db->getQuery(true);
+            $db      = $this->getDatabase();
+            $query   = $db->getQuery(true);
             $fieldId = (int) $result->id;
             $query->select($db->quoteName('category_id'))
                 ->from($db->quoteName('#__fields_categories'))
@@ -387,7 +396,7 @@ class FieldModel extends AdminModel
                 ->bind(':fieldid', $fieldId, ParameterType::INTEGER);
 
             $db->setQuery($query);
-            $result->assigned_cat_ids = $db->loadColumn() ?: array(0);
+            $result->assigned_cat_ids = $db->loadColumn() ?: [0];
         }
 
         return $result;
@@ -405,7 +414,7 @@ class FieldModel extends AdminModel
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function getTable($name = 'Field', $prefix = 'Administrator', $options = array())
+    public function getTable($name = 'Field', $prefix = 'Administrator', $options = [])
     {
         // Default to text type
         $table       = parent::getTable($name, $prefix, $options);
@@ -430,15 +439,15 @@ class FieldModel extends AdminModel
         // Alter the title & name
         $table = $this->getTable();
 
-        while ($table->load(array('name' => $name))) {
+        while ($table->load(['name' => $name])) {
             $title = StringHelper::increment($title);
-            $name = StringHelper::increment($name, 'dash');
+            $name  = StringHelper::increment($name, 'dash');
         }
 
-        return array(
+        return [
             $title,
             $name,
-        );
+        ];
     }
 
     /**
@@ -452,6 +461,8 @@ class FieldModel extends AdminModel
      */
     public function delete(&$pks)
     {
+        $db = $this->getDatabase();
+
         $success = parent::delete($pks);
 
         if ($success) {
@@ -461,20 +472,20 @@ class FieldModel extends AdminModel
 
             if (!empty($pks)) {
                 // Delete Values
-                $query = $this->getDatabase()->getQuery(true);
+                $query = $db->getQuery(true);
 
-                $query->delete($query->quoteName('#__fields_values'))
-                    ->whereIn($query->quoteName('field_id'), $pks);
+                $query->delete($db->quoteName('#__fields_values'))
+                    ->whereIn($db->quoteName('field_id'), $pks);
 
-                $this->getDatabase()->setQuery($query)->execute();
+                $db->setQuery($query)->execute();
 
                 // Delete Assigned Categories
-                $query = $this->getDatabase()->getQuery(true);
+                $query = $db->getQuery(true);
 
-                $query->delete($query->quoteName('#__fields_categories'))
-                    ->whereIn($query->quoteName('field_id'), $pks);
+                $query->delete($db->quoteName('#__fields_categories'))
+                    ->whereIn($db->quoteName('field_id'), $pks);
 
-                $this->getDatabase()->setQuery($query)->execute();
+                $db->setQuery($query)->execute();
             }
         }
 
@@ -491,10 +502,10 @@ class FieldModel extends AdminModel
      *
      * @since   3.7.0
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         $context = $this->getState('field.context');
-        $jinput  = Factory::getApplication()->input;
+        $jinput  = Factory::getApplication()->getInput();
 
         // A workaround to get the context into the model for save requests.
         if (empty($context) && isset($data['context'])) {
@@ -521,10 +532,10 @@ class FieldModel extends AdminModel
         $form = $this->loadForm(
             'com_fields.field.' . $context,
             'field',
-            array(
+            [
                 'control'   => 'jform',
                 'load_data' => true,
-            )
+            ]
         );
 
         if (empty($form)) {
@@ -539,7 +550,7 @@ class FieldModel extends AdminModel
         $fieldId  = $jinput->get('id');
         $assetKey = $this->state->get('field.component') . '.field.' . $fieldId;
 
-        if (!Factory::getUser()->authorise('core.edit.state', $assetKey)) {
+        if (!$this->getCurrentUser()->authorise('core.edit.state', $assetKey)) {
             // Disable fields for display.
             $form->setFieldAttribute('ordering', 'disabled', 'true');
             $form->setFieldAttribute('state', 'disabled', 'true');
@@ -550,7 +561,7 @@ class FieldModel extends AdminModel
         }
 
         // Don't allow to change the created_user_id user if not allowed to access com_users.
-        if (!Factory::getUser()->authorise('core.manage', 'com_users')) {
+        if (!$this->getCurrentUser()->authorise('core.manage', 'com_users')) {
             $form->setFieldAttribute('created_user_id', 'filter', 'unset');
         }
 
@@ -620,15 +631,16 @@ class FieldModel extends AdminModel
             $fieldId = (int) $fieldId;
 
             // Deleting the existing record as it is a reset
-            $query = $this->getDatabase()->getQuery(true);
+            $db    = $this->getDatabase();
+            $query = $db->getQuery(true);
 
-            $query->delete($query->quoteName('#__fields_values'))
-                ->where($query->quoteName('field_id') . ' = :fieldid')
-                ->where($query->quoteName('item_id') . ' = :itemid')
+            $query->delete($db->quoteName('#__fields_values'))
+                ->where($db->quoteName('field_id') . ' = :fieldid')
+                ->where($db->quoteName('item_id') . ' = :itemid')
                 ->bind(':fieldid', $fieldId, ParameterType::INTEGER)
                 ->bind(':itemid', $itemId);
 
-            $this->getDatabase()->setQuery($query)->execute();
+            $db->setQuery($query)->execute();
         }
 
         if ($needsInsert) {
@@ -651,10 +663,10 @@ class FieldModel extends AdminModel
             $updateObj->item_id  = $itemId;
             $updateObj->value    = reset($value);
 
-            $this->getDatabase()->updateObject('#__fields_values', $updateObj, array('field_id', 'item_id'));
+            $this->getDatabase()->updateObject('#__fields_values', $updateObj, ['field_id', 'item_id']);
         }
 
-        $this->valueCache = array();
+        $this->valueCache = [];
         FieldsHelper::clearFieldsCache();
 
         return true;
@@ -672,7 +684,7 @@ class FieldModel extends AdminModel
      */
     public function getFieldValue($fieldId, $itemId)
     {
-        $values = $this->getFieldValues(array($fieldId), $itemId);
+        $values = $this->getFieldValues([$fieldId], $itemId);
 
         if (array_key_exists($fieldId, $values)) {
             return $values[$fieldId];
@@ -694,7 +706,7 @@ class FieldModel extends AdminModel
     public function getFieldValues(array $fieldIds, $itemId)
     {
         if (!$fieldIds) {
-            return array();
+            return [];
         }
 
         // Create a unique key for the cache
@@ -703,18 +715,19 @@ class FieldModel extends AdminModel
         // Fill the cache when it doesn't exist
         if (!array_key_exists($key, $this->valueCache)) {
             // Create the query
-            $query = $this->getDatabase()->getQuery(true);
+            $db    = $this->getDatabase();
+            $query = $db->getQuery(true);
 
-            $query->select($query->quoteName(['field_id', 'value']))
-                ->from($query->quoteName('#__fields_values'))
-                ->whereIn($query->quoteName('field_id'), ArrayHelper::toInteger($fieldIds))
-                ->where($query->quoteName('item_id') . ' = :itemid')
+            $query->select($db->quoteName(['field_id', 'value']))
+                ->from($db->quoteName('#__fields_values'))
+                ->whereIn($db->quoteName('field_id'), ArrayHelper::toInteger($fieldIds))
+                ->where($db->quoteName('item_id') . ' = :itemid')
                 ->bind(':itemid', $itemId);
 
             // Fetch the row from the database
-            $rows = $this->getDatabase()->setQuery($query)->loadObjectList();
+            $rows = $db->setQuery($query)->loadObjectList();
 
-            $data = array();
+            $data = [];
 
             // Fill the data container from the database rows
             foreach ($rows as $row) {
@@ -722,7 +735,7 @@ class FieldModel extends AdminModel
                 if (array_key_exists($row->field_id, $data)) {
                     // Transform it to an array
                     if (!is_array($data[$row->field_id])) {
-                        $data[$row->field_id] = array($data[$row->field_id]);
+                        $data[$row->field_id] = [$data[$row->field_id]];
                     }
 
                     // Set the value in the array
@@ -757,20 +770,21 @@ class FieldModel extends AdminModel
     public function cleanupValues($context, $itemId)
     {
         // Delete with inner join is not possible so we need to do a subquery
-        $fieldsQuery = $this->getDatabase()->getQuery(true);
-        $fieldsQuery->select($fieldsQuery->quoteName('id'))
-            ->from($fieldsQuery->quoteName('#__fields'))
-            ->where($fieldsQuery->quoteName('context') . ' = :context');
+        $db          = $this->getDatabase();
+        $fieldsQuery = $db->getQuery(true);
+        $fieldsQuery->select($db->quoteName('id'))
+            ->from($db->quoteName('#__fields'))
+            ->where($db->quoteName('context') . ' = :context');
 
-        $query = $this->getDatabase()->getQuery(true);
+        $query = $db->getQuery(true);
 
-        $query->delete($query->quoteName('#__fields_values'))
-            ->where($query->quoteName('field_id') . ' IN (' . $fieldsQuery . ')')
-            ->where($query->quoteName('item_id') . ' = :itemid')
+        $query->delete($db->quoteName('#__fields_values'))
+            ->where($db->quoteName('field_id') . ' IN (' . $fieldsQuery . ')')
+            ->where($db->quoteName('item_id') . ' = :itemid')
             ->bind(':itemid', $itemId)
             ->bind(':context', $context);
 
-        $this->getDatabase()->setQuery($query)->execute();
+        $db->setQuery($query)->execute();
     }
 
     /**
@@ -790,7 +804,7 @@ class FieldModel extends AdminModel
 
         $parts = FieldsHelper::extract($record->context);
 
-        return Factory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
+        return $this->getCurrentUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
     }
 
     /**
@@ -805,7 +819,7 @@ class FieldModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
         $parts = FieldsHelper::extract($record->context);
 
         // Check for existing field.
@@ -828,10 +842,10 @@ class FieldModel extends AdminModel
         $app = Factory::getApplication();
 
         // Load the User state.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
         $this->setState($this->getName() . '.id', $pk);
 
-        $context = $app->input->get('context', 'com_content.article');
+        $context = $app->getInput()->get('context', 'com_content.article');
         $this->setState('field.context', $context);
         $parts = FieldsHelper::extract($context);
 
@@ -874,8 +888,9 @@ class FieldModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $app  = Factory::getApplication();
-        $data = $app->getUserState('com_fields.edit.field.data', array());
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
+        $data  = $app->getUserState('com_fields.edit.field.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -887,16 +902,24 @@ class FieldModel extends AdminModel
                 // get selected fields
                 $filters = (array) $app->getUserState('com_fields.fields.filter');
 
-                $data->set('state', $app->input->getInt('state', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
-                $data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-                $data->set('group_id', $app->input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
+                $data->set('state', $input->getInt('state', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
+                $data->set('language', $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+                $data->set('group_id', $input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
+                $data->set(
+                    'assigned_cat_ids',
+                    $input->get(
+                        'assigned_cat_ids',
+                        (!empty($filters['assigned_cat_ids']) ? (array)$filters['assigned_cat_ids'] : [0]),
+                        'array'
+                    )
+                );
                 $data->set(
                     'access',
-                    $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
+                    $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
                 );
 
                 // Set the type if available from the request
-                $data->set('type', $app->input->getWord('type', $this->state->get('field.type', $data->get('type'))));
+                $data->set('type', $input->getWord('type', $this->state->get('field.type', $data->get('type'))));
             }
 
             if ($data->label && !isset($data->params['label'])) {
@@ -924,7 +947,7 @@ class FieldModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
-        if (!Factory::getUser()->authorise('core.admin', 'com_fields')) {
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_fields')) {
             if (isset($data['rules'])) {
                 unset($data['rules']);
             }
@@ -1054,7 +1077,8 @@ class FieldModel extends AdminModel
      * Clean the cache
      *
      * @param   string   $group     The cache group
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *
@@ -1062,7 +1086,7 @@ class FieldModel extends AdminModel
      */
     protected function cleanCache($group = null, $clientId = 0)
     {
-        $context = Factory::getApplication()->input->get('context');
+        $context = Factory::getApplication()->getInput()->get('context');
 
         switch ($context) {
             case 'com_content':
@@ -1094,9 +1118,9 @@ class FieldModel extends AdminModel
     protected function batchCopy($value, $pks, $contexts)
     {
         // Set the variables
-        $user      = Factory::getUser();
+        $user      = $this->getCurrentUser();
         $table     = $this->getTable();
-        $newIds    = array();
+        $newIds    = [];
         $component = $this->state->get('filter.component');
         $value     = (int) $value;
 
@@ -1157,7 +1181,7 @@ class FieldModel extends AdminModel
     protected function batchMove($value, $pks, $contexts)
     {
         // Set the variables
-        $user      = Factory::getUser();
+        $user      = $this->getCurrentUser();
         $table     = $this->getTable();
         $context   = explode('.', Factory::getApplication()->getUserState('com_fields.fields.context'));
         $value     = (int) $value;

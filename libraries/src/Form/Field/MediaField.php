@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Uri\Uri;
@@ -107,6 +108,14 @@ class MediaField extends FormField
     protected $previewHeight;
 
     /**
+     * The folder.
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    protected $folder;
+
+    /**
      * Comma separated types of files for Media Manager
      * Possible values: images,audios,videos,documents
      *
@@ -152,6 +161,7 @@ class MediaField extends FormField
             case 'directory':
             case 'previewWidth':
             case 'previewHeight':
+            case 'folder':
             case 'types':
                 return $this->$name;
         }
@@ -179,6 +189,7 @@ class MediaField extends FormField
             case 'height':
             case 'preview':
             case 'directory':
+            case 'folder':
             case 'types':
                 $this->$name = (string) $value;
                 break;
@@ -259,7 +270,7 @@ class MediaField extends FormField
         $asset = $this->asset;
 
         if ($asset === '') {
-            $asset = Factory::getApplication()->input->get('option');
+            $asset = Factory::getApplication()->getInput()->get('option');
         }
 
         // Value in new format such as images/headers/blue-flower.jpg#joomlaImage://local-images/headers/blue-flower.jpg?width=700&height=180
@@ -286,7 +297,7 @@ class MediaField extends FormField
              * the top level folder is one of the directory configured in filesystem local plugin to avoid error message
              * displayed in manage when users click on Select button to select a new image
              */
-            $paths = explode('/', $this->value);
+            $paths = explode('/', Path::clean($this->value, '/'));
 
             // Remove filename from $paths array
             array_pop($paths);
@@ -303,7 +314,7 @@ class MediaField extends FormField
              * configured in filesystem local plugin
              */
             $path  = ComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory;
-            $paths = explode('/', $path);
+            $paths = explode('/', Path::clean($path, '/'));
 
             if (MediaHelper::isValidLocalDirectory($paths[0])) {
                 $adapterName  = array_shift($paths);
@@ -396,7 +407,7 @@ class MediaField extends FormField
 
         sort($types);
 
-        $extraData = array(
+        $extraData = [
             'asset'               => $asset,
             'authorField'         => $this->authorField,
             'authorId'            => $this->form->getValue($this->authorField),
@@ -414,7 +425,7 @@ class MediaField extends FormField
             'audiosAllowedExt'    => $audiosAllowedExt,
             'videosAllowedExt'    => $videosAllowedExt,
             'documentsAllowedExt' => $documentsAllowedExt,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

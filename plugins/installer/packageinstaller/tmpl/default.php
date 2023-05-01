@@ -32,7 +32,7 @@ $this->app->getDocument()->getWebAssetManager()
         ['core']
     );
 
-$return = $this->app->input->getBase64('return');
+$return = $this->app->getInput()->getBase64('return');
 $maxSizeBytes = FilesystemHelper::fileUploadMaxSize(false);
 $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
 ?>
