@@ -7,10 +7,10 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Joomla\CMS\Event\Application;
+namespace Joomla\CMS\Event\Document;
 
-use Joomla\Application\AbstractApplication;
-use Joomla\CMS\Event\AbstractImmutableEvent;
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Event\Application\ApplicationEvent;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -21,7 +21,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
  *
  * @since  __DEPLOY_VERSION__
  */
-abstract class ApplicationEvent extends AbstractImmutableEvent
+abstract class ApplicationDocumentEvent extends ApplicationEvent
 {
     /**
      * Constructor.
@@ -35,36 +35,36 @@ abstract class ApplicationEvent extends AbstractImmutableEvent
      */
     public function __construct($name, array $arguments = [])
     {
-        if (!\array_key_exists('subject', $arguments)) {
-            throw new \BadMethodCallException("Argument 'subject' of event {$name} is required but has not been provided");
+        if (!\array_key_exists('document', $arguments)) {
+            throw new \BadMethodCallException("Argument 'document' of event {$name} is required but has not been provided");
         }
 
         parent::__construct($name, $arguments);
     }
 
     /**
-     * Setter for the subject argument.
+     * Setter for the document argument.
      *
-     * @param   AbstractApplication  $value  The value to set
+     * @param   Document  $value  The value to set
      *
-     * @return  AbstractApplication
+     * @return  Document
      *
      * @since  __DEPLOY_VERSION__
      */
-    final protected function setSubject(AbstractApplication $value): AbstractApplication
+    protected function setDocument(Document $value): Document
     {
         return $value;
     }
 
     /**
-     * Get the event's application object
+     * Get the event's document object
      *
-     * @return  AbstractApplication
+     * @return  Document
      *
      * @since  __DEPLOY_VERSION__
      */
-    final public function getApplication(): AbstractApplication
+    public function getDocument(): Document
     {
-        return $this->getArgument('subject');
+        return $this->arguments['document'];
     }
 }

@@ -71,11 +71,12 @@ trait CoreEventAware
      */
     private static $eventNameToConcreteClass = [
         // Application
-        'onAfterInitialise' => Application\AfterInitialiseEvent::class,
-        'onAfterRoute'      => Application\AfterRouteEvent::class,
-        'onAfterDispatch'   => Application\AfterDispatchEvent::class,
-        'onBeforeRender'    => Application\BeforeRenderEvent::class,
-        'onAfterRender'     => Application\AfterRenderEvent::class,
+        'onAfterInitialise'   => Application\AfterInitialiseEvent::class,
+        'onAfterRoute'        => Application\AfterRouteEvent::class,
+        'onAfterDispatch'     => Application\AfterDispatchEvent::class,
+        'onBeforeRender'      => Application\BeforeRenderEvent::class,
+        'onAfterRender'       => Application\AfterRenderEvent::class,
+        'onBeforeCompileHead' => Document\BeforeCompileHeadEvent::class,
         // Model
         'onBeforeBatch' => BeforeBatchEvent::class,
         // Quickicon
