@@ -45,6 +45,8 @@ trait CoreEventAware
         'onAfterExecute'      => Application\AfterExecuteEvent::class,
         'onAfterInitialise'   => Application\AfterInitialiseEvent::class,
         'onAfterRoute'        => Application\AfterRouteEvent::class,
+        'onBeforeApiRoute'    => Application\BeforeApiRouteEvent::class,
+        'onAfterApiRoute'     => Application\AfterApiRouteEvent::class,
         'onAfterDispatch'     => Application\AfterDispatchEvent::class,
         'onBeforeRender'      => Application\BeforeRenderEvent::class,
         'onAfterRender'       => Application\AfterRenderEvent::class,

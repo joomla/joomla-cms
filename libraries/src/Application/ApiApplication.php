@@ -229,7 +229,14 @@ final class ApiApplication extends CMSApplication
 
         // Trigger the onBeforeApiRoute event.
         PluginHelper::importPlugin('webservices');
-        $this->triggerEvent('onBeforeApiRoute', [&$router, $this]);
+        $this->dispatchEvent('onBeforeApiRoute', AbstractEvent::create(
+            'onBeforeApiRoute',
+            [
+                'router'  => $router,
+                'subject' => $this,
+            ]
+        ));
+
         $caught404 = false;
         $method    = $this->input->getMethod();
 
@@ -300,7 +307,12 @@ final class ApiApplication extends CMSApplication
             }
         }
 
-        $this->triggerEvent('onAfterApiRoute', [$this]);
+        $this->dispatchEvent('onAfterApiRoute', AbstractEvent::create(
+            'onAfterApiRoute',
+            [
+                'subject' => $this,
+            ]
+        ));
 
         if (!isset($route['vars']['public']) || $route['vars']['public'] === false) {
             if (!$this->login(['username' => ''], ['silent' => true, 'action' => 'core.login.api'])) {
