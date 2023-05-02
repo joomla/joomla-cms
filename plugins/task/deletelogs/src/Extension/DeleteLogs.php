@@ -198,7 +198,7 @@ final class DeleteLogs extends CMSPlugin implements SubscriberInterface
      *
      * @param   string  $path  The folder to get log files
      *
-     * @return  array   The log files in the given path grouped by version number (not rotated files has number 0)
+     * @return  array   The log files in the given path grouped by version number (not rotated files have number 0)
      *
      * @since   __DEPLOY_VERSION__
      */
