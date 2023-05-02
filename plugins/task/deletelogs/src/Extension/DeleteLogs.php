@@ -86,9 +86,6 @@ final class DeleteLogs extends CMSPlugin implements SubscriberInterface
      */
     private function deleteLogs(ExecuteTaskEvent $event): int
     {
-        /** @var Task $task */
-        $task    = $event->getArgument('subject');
-
         $daysToDeleteAfter = (int) $event->getArgument('params')->logDeletePeriod ?? 0;
         $this->logTask(sprintf('Delete Logs after %d days', $daysToDeleteAfter));
         $now               = Factory::getDate()->toSql();
@@ -129,8 +126,6 @@ final class DeleteLogs extends CMSPlugin implements SubscriberInterface
      */
     private function rotateLogs(ExecuteTaskEvent $event): int
     {
-        /** @var Task $task */
-        $task       = $event->getArgument('subject');
         $logsToKeep = (int) $event->getArgument('params')->logstokeep ?? 1;
 
         // Get the log path
