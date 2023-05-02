@@ -228,7 +228,7 @@ final class ApiApplication extends CMSApplication
         $router = $this->getContainer()->get(ApiRouter::class);
 
         // Trigger the onBeforeApiRoute event.
-        PluginHelper::importPlugin('webservices');
+        PluginHelper::importPlugin('webservices', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onBeforeApiRoute',
             AbstractEvent::create('onBeforeApiRoute', ['router' => $router, 'subject' => $this])
@@ -427,7 +427,7 @@ final class ApiApplication extends CMSApplication
         $document->setBuffer($contents, 'component');
 
         // Trigger the onAfterDispatch event.
-        PluginHelper::importPlugin('system');
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onAfterDispatch',
             AbstractEvent::create('onAfterDispatch', ['subject' => $this])

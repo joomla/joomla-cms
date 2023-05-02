@@ -145,7 +145,7 @@ class AdministratorApplication extends CMSApplication
         $document->setBuffer($contents, 'component');
 
         // Trigger the onAfterDispatch event.
-        PluginHelper::importPlugin('system');
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onAfterDispatch',
             AbstractEvent::create('onAfterDispatch', ['subject' => $this])
@@ -454,7 +454,7 @@ class AdministratorApplication extends CMSApplication
         $this->isHandlingMultiFactorAuthentication();
 
         // Trigger the onAfterRoute event.
-        PluginHelper::importPlugin('system');
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onAfterRoute',
             AbstractEvent::create('onAfterRoute', ['subject' => $this])

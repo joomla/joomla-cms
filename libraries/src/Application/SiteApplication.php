@@ -210,7 +210,7 @@ final class SiteApplication extends CMSApplication
         $document->setBuffer($contents, 'component');
 
         // Trigger the onAfterDispatch event.
-        PluginHelper::importPlugin('system');
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onAfterDispatch',
             AbstractEvent::create('onAfterDispatch', ['subject' => $this])
@@ -790,7 +790,7 @@ final class SiteApplication extends CMSApplication
         }
 
         // Trigger the onAfterRoute event.
-        PluginHelper::importPlugin('system');
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onAfterRoute',
             AbstractEvent::create('onAfterRoute', ['subject' => $this])

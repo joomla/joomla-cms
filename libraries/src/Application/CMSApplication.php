@@ -745,10 +745,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $this->set('editor', $editor);
 
         // Load the behaviour plugins
-        PluginHelper::importPlugin('behaviour');
+        PluginHelper::importPlugin('behaviour', null, true, $this->getDispatcher());
 
         // Trigger the onAfterInitialise event.
-        PluginHelper::importPlugin('system');
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onAfterInitialise',
             AbstractEvent::create('onAfterInitialise', ['subject' => $this])
@@ -832,7 +832,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $response     = $authenticate->authenticate($credentials, $options);
 
         // Import the user plugin group.
-        PluginHelper::importPlugin('user');
+        PluginHelper::importPlugin('user', null, true, $this->getDispatcher());
 
         if ($response->status === Authentication::STATUS_SUCCESS) {
             /*
@@ -949,7 +949,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         // Import the user plugin group.
-        PluginHelper::importPlugin('user');
+        PluginHelper::importPlugin('user', null, true, $this->getDispatcher());
 
         // OK, the credentials are built. Lets fire the onLogout event.
         $results = $this->triggerEvent('onUserLogout', [$parameters, $options]);
@@ -1022,7 +1022,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $this->document->parse($this->docOptions);
 
         // Trigger the onBeforeRender event.
-        PluginHelper::importPlugin('system');
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onBeforeRender',
             AbstractEvent::create('onBeforeRender', ['subject' => $this])
@@ -1114,7 +1114,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         // Trigger the onAfterRoute event.
-        PluginHelper::importPlugin('system');
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onAfterRoute',
             AbstractEvent::create('onAfterRoute', ['subject' => $this])
