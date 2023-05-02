@@ -34,8 +34,8 @@ use Joomla\Filesystem\Path;
  */
 final class DeleteLogs extends CMSPlugin implements SubscriberInterface
 {
-    use TaskPluginTrait;
     use DatabaseAwareTrait;
+    use TaskPluginTrait;
 
     /**
      * @var string[]
