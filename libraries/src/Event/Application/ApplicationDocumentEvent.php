@@ -7,17 +7,16 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Joomla\CMS\Event\Document;
+namespace Joomla\CMS\Event\Application;
 
 use Joomla\CMS\Document\Document;
-use Joomla\CMS\Event\Application\ApplicationEvent;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Class for Application events
+ * Class for Application's Document events
  *
  * @since  __DEPLOY_VERSION__
  */

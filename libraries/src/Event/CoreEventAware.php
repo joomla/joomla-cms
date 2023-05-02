@@ -50,7 +50,7 @@ trait CoreEventAware
         'onAfterDispatch'     => Application\AfterDispatchEvent::class,
         'onBeforeRender'      => Application\BeforeRenderEvent::class,
         'onAfterRender'       => Application\AfterRenderEvent::class,
-        'onBeforeCompileHead' => Document\BeforeCompileHeadEvent::class,
+        'onBeforeCompileHead' => Application\BeforeCompileHeadEvent::class,
         'onAfterCompress'     => Application\AfterCompressEvent::class,
         'onBeforeRespond'     => Application\BeforeRespondEvent::class,
         'onAfterRespond'      => Application\AfterRespondEvent::class,

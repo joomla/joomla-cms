@@ -7,7 +7,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Joomla\CMS\Event\Document;
+namespace Joomla\CMS\Event\Application;
 
 // phpcs:disable PSR1.Files.SideEffects
 
