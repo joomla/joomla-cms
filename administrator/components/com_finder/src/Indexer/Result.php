@@ -35,7 +35,7 @@ class Result implements \Serializable
      * @var    array
      * @since  2.5
      */
-    protected $elements = array();
+    protected $elements = [];
 
     /**
      * This array tells the indexer which properties should be indexed and what
@@ -44,13 +44,13 @@ class Result implements \Serializable
      * @var    array
      * @since  2.5
      */
-    protected $instructions = array(
-        Indexer::TITLE_CONTEXT => array('title', 'subtitle', 'id'),
-        Indexer::TEXT_CONTEXT  => array('summary', 'body'),
-        Indexer::META_CONTEXT  => array('meta', 'list_price', 'sale_price'),
-        Indexer::PATH_CONTEXT  => array('path', 'alias'),
-        Indexer::MISC_CONTEXT  => array('comments'),
-    );
+    protected $instructions = [
+        Indexer::TITLE_CONTEXT => ['title', 'subtitle', 'id'],
+        Indexer::TEXT_CONTEXT  => ['summary', 'body'],
+        Indexer::META_CONTEXT  => ['meta', 'list_price', 'sale_price'],
+        Indexer::PATH_CONTEXT  => ['path', 'alias'],
+        Indexer::MISC_CONTEXT  => ['comments'],
+    ];
 
     /**
      * The indexer will use this data to create taxonomy mapping entries for
@@ -60,7 +60,7 @@ class Result implements \Serializable
      * @var    array
      * @since  2.5
      */
-    protected $taxonomy = array();
+    protected $taxonomy = [];
 
     /**
      * The content URL.
@@ -394,16 +394,21 @@ class Result implements \Serializable
      */
     public function addTaxonomy($branch, $title, $state = 1, $access = 1, $language = '')
     {
+        // We can't add taxonomies with empty titles
+        if (!trim($title)) {
+            return;
+        }
+
         // Filter the input.
         $branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
 
         // Create the taxonomy node.
-        $node = new \stdClass();
-        $node->title = $title;
-        $node->state = (int) $state;
-        $node->access = (int) $access;
+        $node           = new \stdClass();
+        $node->title    = $title;
+        $node->state    = (int) $state;
+        $node->access   = (int) $access;
         $node->language = $language;
-        $node->nested = false;
+        $node->nested   = false;
 
         // Add the node to the taxonomy branch.
         $this->taxonomy[$branch][] = $node;
@@ -424,17 +429,22 @@ class Result implements \Serializable
      */
     public function addNestedTaxonomy($branch, ImmutableNodeInterface $contentNode, $state = 1, $access = 1, $language = '')
     {
+        // We can't add taxonomies with empty titles
+        if (!trim($contentNode->title)) {
+            return;
+        }
+
         // Filter the input.
         $branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
 
         // Create the taxonomy node.
-        $node = new \stdClass();
-        $node->title = $contentNode->title;
-        $node->state = (int) $state;
-        $node->access = (int) $access;
+        $node           = new \stdClass();
+        $node->title    = $contentNode->title;
+        $node->state    = (int) $state;
+        $node->access   = (int) $access;
         $node->language = $language;
-        $node->nested = true;
-        $node->node = $contentNode;
+        $node->nested   = true;
+        $node->node     = $contentNode;
 
         // Add the node to the taxonomy branch.
         $this->taxonomy[$branch][] = $node;
@@ -523,7 +533,7 @@ class Result implements \Serializable
             $taxonomy,
             $this->title,
             $this->type_id,
-            $this->url
+            $this->url,
         ];
     }
 
@@ -563,8 +573,8 @@ class Result implements \Serializable
 
         foreach ($this->taxonomy as $nodes) {
             foreach ($nodes as $node) {
-                $curTaxonomy = Taxonomy::getTaxonomy($node->id);
-                $node->state = $curTaxonomy->state;
+                $curTaxonomy  = Taxonomy::getTaxonomy($node->id);
+                $node->state  = $curTaxonomy->state;
                 $node->access = $curTaxonomy->access;
             }
         }

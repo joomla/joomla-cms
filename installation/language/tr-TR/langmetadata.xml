@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <metafile client="installation">
-	<name>Turkish (Turkey)</name>
-	<version>4.2.5</version>
-	<creationDate>2022-10</creationDate>
-	<author>Joomla! Turkey</author>
+	<name>Turkish (Türkiye)</name>
+	<version>4.3.0</version>
+	<creationDate>2023-04</creationDate>
+	<author>Joomla! Türkiye</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
@@ -11,7 +11,7 @@
 	</files>
 	<metadata>
 		<name>Turkish (tr-TR)</name>
-		<nativeName>Turkish (Turkey)</nativeName>
+		<nativeName>Turkish (Türkiye)</nativeName>
 		<tag>tr-TR</tag>
 		<rtl>0</rtl>
 	</metadata>

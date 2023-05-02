@@ -69,8 +69,8 @@ final class Basic extends CMSPlugin
     {
         $response->type = 'Basic';
 
-        $username = $this->getApplication()->input->server->get('PHP_AUTH_USER', '', 'USERNAME');
-        $password = $this->getApplication()->input->server->get('PHP_AUTH_PW', '', 'RAW');
+        $username = $this->getApplication()->getInput()->server->get('PHP_AUTH_USER', '', 'USERNAME');
+        $password = $this->getApplication()->getInput()->server->get('PHP_AUTH_PW', '', 'RAW');
 
         if ($password === '') {
             $response->status        = Authentication::STATUS_FAILURE;

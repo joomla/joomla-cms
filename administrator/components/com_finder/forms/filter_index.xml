@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Finder\Administrator\Field">
 	<fields name="filter">
 		<field
@@ -15,7 +15,7 @@
 			type="status"
 			label="JSTATUS"
 			optionsFilter="0,1"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
@@ -24,7 +24,7 @@
 			name="type"
 			type="contenttypes"
 			label="COM_FINDER_MAPS_HEADING_TYPE"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_FINDER_MAPS_SELECT_TYPE</option>
 		</field>
@@ -33,7 +33,7 @@
 			name="content_map"
 			type="contentmap"
 			label="COM_FINDER_MAPS_HEADING_CONTENT_MAP"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_FINDER_FILTER_SELECT_CONTENT_MAP</option>
 		</field>
@@ -42,7 +42,7 @@
 			name="language"
 			type="contentlanguage"
 			label="JGRID_HEADING_LANGUAGE"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
@@ -54,7 +54,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			default="l.title ASC"
 			validate="options"
 			>
@@ -78,7 +78,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 	</fields>
 </form>

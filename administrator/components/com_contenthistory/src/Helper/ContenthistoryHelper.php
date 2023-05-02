@@ -42,7 +42,7 @@ class ContenthistoryHelper
      */
     public static function createObjectArray($object)
     {
-        $result = array();
+        $result = [];
 
         if ($object === null) {
             return $result;
@@ -76,7 +76,7 @@ class ContenthistoryHelper
 
         if (is_object($object)) {
             foreach ($object as $name => $value) {
-                if ($subObject = json_decode($value)) {
+                if (!is_null($value) && $subObject = json_decode($value)) {
                     $object->$name = $subObject;
                 }
             }
@@ -102,8 +102,8 @@ class ContenthistoryHelper
      */
     public static function getFormValues($object, ContentType $typesTable)
     {
-        $labels = array();
-        $values = array();
+        $labels              = [];
+        $values              = [];
         $expandedObjectArray = static::createObjectArray($object);
         static::loadLanguageFiles($typesTable->type_alias);
 
@@ -140,7 +140,7 @@ class ContenthistoryHelper
             }
         }
 
-        $result = new \stdClass();
+        $result         = new \stdClass();
         $result->labels = $labels;
         $result->values = $values;
 
@@ -165,10 +165,10 @@ class ContenthistoryHelper
             $result = JPATH_ROOT . '/' . $options->formFile;
         } else {
             $aliasArray = explode('.', $typesTable->type_alias);
-            $component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
-            $path  = Folder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
+            $component  = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
+            $path       = Folder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
             array_shift($aliasArray);
-            $file = File::makeSafe(implode('.', $aliasArray) . '.xml');
+            $file   = File::makeSafe(implode('.', $aliasArray) . '.xml');
             $result = File::exists($path . $file) ? $path . $file : false;
         }
 
@@ -248,7 +248,7 @@ class ContenthistoryHelper
 
         if (is_array($aliasArray) && count($aliasArray) == 2) {
             $component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
-            $lang = Factory::getLanguage();
+            $lang      = Factory::getLanguage();
 
             /**
              * Loading language file from the administrator/language directory then
@@ -287,8 +287,8 @@ class ContenthistoryHelper
         $valuesArray = $formValues->values;
 
         foreach ($object as $name => $value) {
-            $result->$name = new \stdClass();
-            $result->$name->name = $name;
+            $result->$name        = new \stdClass();
+            $result->$name->name  = $name;
             $result->$name->value = $valuesArray[$name] ?? $value;
             $result->$name->label = $labelsArray[$name] ?? $name;
 
@@ -296,11 +296,11 @@ class ContenthistoryHelper
                 $subObject = new \stdClass();
 
                 foreach ($value as $subName => $subValue) {
-                    $subObject->$subName = new \stdClass();
-                    $subObject->$subName->name = $subName;
+                    $subObject->$subName        = new \stdClass();
+                    $subObject->$subName->name  = $subName;
                     $subObject->$subName->value = $valuesArray[$subName] ?? $subValue;
                     $subObject->$subName->label = $labelsArray[$subName] ?? $subName;
-                    $result->$name->value = $subObject;
+                    $result->$name->value       = $subObject;
                 }
             }
         }
@@ -319,15 +319,15 @@ class ContenthistoryHelper
      */
     public static function prepareData(ContentHistory $table)
     {
-        $object = static::decodeFields($table->version_data);
+        $object     = static::decodeFields($table->version_data);
         $typesTable = Table::getInstance('ContentType', 'Joomla\\CMS\\Table\\');
-        $typeAlias = explode('.', $table->item_id);
+        $typeAlias  = explode('.', $table->item_id);
         array_pop($typeAlias);
-        $typesTable->load(array('type_alias' => implode('.', $typeAlias)));
+        $typesTable->load(['type_alias' => implode('.', $typeAlias)]);
         $formValues = static::getFormValues($object, $typesTable);
-        $object = static::mergeLabels($object, $formValues);
-        $object = static::hideFields($object, $typesTable);
-        $object = static::processLookupFields($object, $typesTable);
+        $object     = static::mergeLabels($object, $formValues);
+        $object     = static::hideFields($object, $typesTable);
+        $object     = static::processLookupFields($object, $typesTable);
 
         return $object;
     }
@@ -349,7 +349,7 @@ class ContenthistoryHelper
             if (isset($options->displayLookup) && is_array($options->displayLookup)) {
                 foreach ($options->displayLookup as $lookup) {
                     $sourceColumn = $lookup->sourceColumn ?? false;
-                    $sourceValue = $object->$sourceColumn->value ?? false;
+                    $sourceValue  = $object->$sourceColumn->value ?? false;
 
                     if ($sourceColumn && $sourceValue && ($lookupValue = static::getLookupValue($lookup, $sourceValue))) {
                         $object->$sourceColumn->value = $lookupValue;

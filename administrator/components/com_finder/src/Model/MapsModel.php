@@ -38,17 +38,17 @@ class MapsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.7
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'state', 'a.state',
                 'title', 'a.title',
                 'branch',
                 'branch_title', 'd.branch_title',
                 'level', 'd.level',
                 'language', 'a.language',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -65,7 +65,7 @@ class MapsModel extends ListModel
      */
     protected function canDelete($record)
     {
-        return Factory::getUser()->authorise('core.delete', $this->option);
+        return $this->getCurrentUser()->authorise('core.delete', $this->option);
     }
 
     /**
@@ -79,7 +79,7 @@ class MapsModel extends ListModel
      */
     protected function canEditState($record)
     {
-        return Factory::getUser()->authorise('core.edit.state', $this->option);
+        return $this->getCurrentUser()->authorise('core.edit.state', $this->option);
     }
 
     /**
@@ -93,7 +93,7 @@ class MapsModel extends ListModel
      */
     public function delete(&$pks)
     {
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
         $table = $this->getTable();
 
         // Include the content plugins for the on delete events.
@@ -116,7 +116,7 @@ class MapsModel extends ListModel
                     $context = $this->option . '.' . $this->name;
 
                     // Trigger the onContentBeforeDelete event.
-                    $result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', array($context, $table));
+                    $result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', [$context, $table]);
 
                     if (in_array(false, $result, true)) {
                         $this->setError($table->getError());
@@ -131,7 +131,7 @@ class MapsModel extends ListModel
                     }
 
                     // Trigger the onContentAfterDelete event.
-                    Factory::getApplication()->triggerEvent('onContentAfterDelete', array($context, $table));
+                    Factory::getApplication()->triggerEvent('onContentAfterDelete', [$context, $table]);
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
@@ -271,7 +271,7 @@ class MapsModel extends ListModel
      *
      * @since   2.5
      */
-    public function getTable($type = 'Map', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Map', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -314,9 +314,9 @@ class MapsModel extends ListModel
      */
     public function publish(&$pks, $value = 1)
     {
-        $user = Factory::getUser();
+        $user  = $this->getCurrentUser();
         $table = $this->getTable();
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
 
         // Include the content plugins for the change of state event.
         PluginHelper::importPlugin('content');
@@ -344,7 +344,7 @@ class MapsModel extends ListModel
         $context = $this->option . '.' . $this->name;
 
         // Trigger the onContentChangeState event.
-        $result = Factory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
+        $result = Factory::getApplication()->triggerEvent('onContentChangeState', [$context, $pks, $value]);
 
         if (in_array(false, $result, true)) {
             $this->setError($table->getError());
@@ -367,7 +367,7 @@ class MapsModel extends ListModel
      */
     public function purge()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__finder_taxonomy'))
             ->where($db->quoteName('parent_id') . ' > 1');
