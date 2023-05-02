@@ -289,7 +289,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
      */
     public function addTemplateRegistryFile(string $template, int $client): self
     {
-        if (in_array($client, [0,1])) {
+        if (in_array($client, [0, 1])) {
             $this->addRegistryFile(($client === 0 ? '' : 'administrator/') . 'templates/' . $template . '/joomla.asset.json');
         }
 
