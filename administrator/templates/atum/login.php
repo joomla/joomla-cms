@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -102,11 +101,6 @@ HTMLHelper::_('bootstrap.dropdown');
             <?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
         </div>
     </noscript>
-    <?php if (Browser::getInstance()->getBrowser() === 'msie') : ?>
-        <div class="ie11 alert alert-warning" role="alert">
-            <?php echo Text::_('JGLOBAL_WARNIE'); ?>
-        </div>
-    <?php endif; ?>
 
     <header id="header" class="header d-flex">
         <div class="header-title d-flex">

@@ -288,7 +288,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      */
     protected function getListQuery()
     {
-        return $this->getDbo()->getQuery(true);
+        return $this->getDatabase()->getQuery(true);
     }
 
     /**

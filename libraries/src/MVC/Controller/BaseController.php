@@ -607,11 +607,8 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 
         $view = $this->getView($viewName, $viewType, '', ['base_path' => $this->basePath, 'layout' => $viewLayout]);
 
-        // Get/Create the model
-        if ($model = $this->getModel($viewName, '', ['base_path' => $this->basePath])) {
-            // Push the model into the view (as default)
-            $view->setModel($model, true);
-        }
+        // Set models for the View
+        $this->prepareViewModel($view);
 
         $view->document = $document;
 
@@ -1066,5 +1063,34 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Method to set the View Models
+     *
+     * This function is provided as a default implementation,
+     * and only set one Model in the view (that with the same prefix/sufix than the view).
+     * In case you want to set several Models for your view,
+     * you will need to override it in your DisplayController controller.
+     *
+     * @param   ViewInterface  $view  The view Object
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function prepareViewModel(ViewInterface $view)
+    {
+        if (!method_exists($view, 'setModel')) {
+            return;
+        }
+
+        $viewName = $view->getName();
+
+        // Get/Create the model
+        if ($model = $this->getModel($viewName, '', ['base_path' => $this->basePath])) {
+            // Push the model into the view (as default)
+            $view->setModel($model, true);
+        }
     }
 }
