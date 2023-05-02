@@ -203,7 +203,7 @@ final class DeleteLogs extends CMSPlugin implements SubscriberInterface
         $files    = Folder::files($path, '\.php$');
 
         foreach ($files as $file) {
-            $parts    = explode('.', $file);
+            $parts = explode('.', $file);
 
             /*
              * Rotated log file has this filename format [VERSION].[FILENAME].php. So if $parts has at least 3 elements
