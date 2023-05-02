@@ -338,6 +338,6 @@ class WebAssetItem implements WebAssetItemInterface
     protected function isPathAbsolute(string $path): bool
     {
         // We have a full path or not
-        return is_file(JPATH_PUBLIC . '/' . $path);
+        return is_file(JPATH_ROOT . '/' . $path);
     }
 }
