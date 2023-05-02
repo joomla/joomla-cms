@@ -10,11 +10,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-
-extract($displayData);
-
 /**
+ * The layout allows to add extra control buttons to the field, example "propagate association" by com_content.
+ *
  * Layout variables
  * -----------------
  * @var   string   $autocomplete    Autocomplete attribute for the field.
@@ -47,30 +45,3 @@ extract($displayData);
  * @var   string[] $urls
  * @var   string[] $modalTitles
  */
-
-// Add the field script
-if (!$readonly && !$disabled) {
-    /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-    $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-    $wa->useScript('modal-content-select-field');
-}
-
-$fieldClass = $required ? 'required modal-value' : '';
-?>
-
-<div class="js-modal-content-select-field <?php echo $class; ?>" <?php echo $dataAttribute; ?>>
-    <div class="input-group">
-        <input class="form-control js-input-title" type="text" value="<?php echo $this->escape($valueTitle ?? $value); ?>" readonly
-               id="<?php echo $id; ?>" name="<?php echo $name; ?>"
-               placeholder="<?php echo $this->escape($hint); ?>"/>
-
-        <?php if (!$readonly && !$disabled):
-            echo $this->sublayout('buttons', $displayData);
-            // The "extra-buttons" layout allows to add extra control buttons to the field, example "propagate association" by com_content
-            echo $this->sublayout('extra-buttons', $displayData);
-        endif; ?>
-    </div>
-
-    <input type="hidden" id="<?php echo $id; ?>_id" class="<?php echo $fieldClass; ?> js-input-value" data-required="<?php echo (int) $required; ?>"
-           name="<?php echo $name; ?>" value="<?php echo $this->escape($value); ?>">
-</div>
