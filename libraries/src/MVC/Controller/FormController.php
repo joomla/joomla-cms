@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
@@ -78,13 +79,13 @@ class FormController extends BaseController implements FormFactoryAwareInterface
     /**
      * Constructor.
      *
-     * @param   array                 $config       An optional associative array of configuration settings.
-     *                                              Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                              'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface   $factory      The factory.
-     * @param   CMSApplication        $app          The Application for the dispatcher
-     * @param   Input                 $input        Input
-     * @param   FormFactoryInterface  $formFactory  The form factory.
+     * @param   array                  $config       An optional associative array of configuration settings.
+     *                                               Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                               'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface   $factory      The factory.
+     * @param   ?CMSApplication        $app          The Application for the dispatcher
+     * @param   ?Input                 $input        Input
+     * @param   ?FormFactoryInterface  $formFactory  The form factory.
      *
      * @since   3.0
      */
@@ -133,7 +134,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
         // Guess the list view as the plural of the item view.
         if (empty($this->view_list)) {
-            $this->view_list = \Joomla\String\Inflector::getInstance()->toPlural($this->view_item);
+            $this->view_list = InflectorFactory::create()->build()->pluralize($this->view_item);
         }
 
         $this->setFormFactory($formFactory);

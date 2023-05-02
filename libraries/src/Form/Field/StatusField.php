@@ -31,7 +31,7 @@ class StatusField extends PredefinedlistField
     /**
      * Available statuses
      *
-     * @var  array
+     * @var  string[]
      * @since  3.2
      */
     protected $predefinedOptions = [

@@ -11,8 +11,8 @@
 	<description>PLG_USER_PROFILE_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\User\Profile</namespace>
 	<files>
-		<filename plugin="profile">profile.php</filename>
 		<folder>forms</folder>
+		<folder plugin="profile">services</folder>
 		<folder>src</folder>
 	</files>
 	<languages>

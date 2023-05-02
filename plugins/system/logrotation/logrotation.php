@@ -12,9 +12,9 @@
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
