@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package     Joomla.Plugins
+ * @package     Joomla.Plugin
  * @subpackage  Task.DeleteLogs
  *
  * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
