@@ -64,7 +64,7 @@ $fieldClass = $required ? 'required modal-value' : '';
                id="<?php echo $id; ?>" name="<?php echo $name; ?>"
                placeholder="<?php echo $this->escape($hint); ?>"/>
 
-        <?php if (!$readonly && !$disabled):
+        <?php if (!$readonly && !$disabled) :
             echo $this->sublayout('buttons', $displayData);
             // The "extra-buttons" layout allows to add extra control buttons to the field, example "propagate association" by com_content
             echo $this->sublayout('extra-buttons', $displayData);
