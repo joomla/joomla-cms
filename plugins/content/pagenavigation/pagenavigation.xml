@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_PAGENAVIGATION_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Content\PageNavigation</namespace>
 	<files>
-		<filename plugin="pagenavigation">pagenavigation.php</filename>
+		<folder plugin="pagenavigation">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
