@@ -153,7 +153,7 @@ final class DeleteLogs extends CMSPlugin implements SubscriberInterface
                     File::delete($logPath . '/' . $file);
                 }
             } else {
-                // For files which has version smaller than $logsToKeep, rotate (increase version number)
+                // For files which have version smaller than $logsToKeep, rotate (increase version number)
                 foreach ($files as $file) {
                     $this->rotate($logPath, $file, $version);
                 }
