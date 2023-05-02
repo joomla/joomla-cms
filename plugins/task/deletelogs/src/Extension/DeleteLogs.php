@@ -148,7 +148,7 @@ final class DeleteLogs extends CMSPlugin implements SubscriberInterface
 
         foreach ($logFiles as $version => $files) {
             if ($version >= $logsToKeep) {
-                // Delete files which has version greater than or equals $logsToKeep
+                // Delete files which have version greater than or equals $logsToKeep
                 foreach ($files as $file) {
                     File::delete($logPath . '/' . $file);
                 }
