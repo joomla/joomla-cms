@@ -143,7 +143,7 @@ final class DeleteLogs extends CMSPlugin implements SubscriberInterface
 
         $logFiles = $this->getLogFiles($logPath);
 
-        // Sort log files by version number in reserve order
+        // Sort log files by version number in reverse order
         krsort($logFiles, SORT_NUMERIC);
 
         foreach ($logFiles as $version => $files) {
