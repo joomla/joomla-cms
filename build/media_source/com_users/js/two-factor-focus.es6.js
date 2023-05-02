@@ -17,13 +17,10 @@
       && !elCodeField.classList.contains('visually-hidden') && elCodeField.type !== 'hidden'
     ) {
       elCodeField.focus();
-    } else {
-      if (elValidateButton) {
-        elValidateButton.focus();
-      }
-      if (elToolbarCustomElement) {
-        elToolbarCustomElement.querySelector('button').focus();
-      }
+    } else if (elToolbarCustomElement) {
+      elToolbarCustomElement.querySelector('button').focus();
+    } else if (elValidateButton) {
+      elValidateButton.focus();
     }
 
     // Capture the admin toolbar buttons, make them click the inline buttons
@@ -31,7 +28,9 @@
       elButton.addEventListener('click', (e) => {
         e.preventDefault();
 
-        elValidateButton.click();
+        if (elValidateButton) {
+          elValidateButton.click();
+        }
       });
     });
 
