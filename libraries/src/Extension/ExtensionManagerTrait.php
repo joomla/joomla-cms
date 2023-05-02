@@ -128,7 +128,7 @@ trait ExtensionManagerTrait
                     'subject'       => $this,
                     'type'          => $type,
                     'extensionName' => $extensionName,
-                    'container'     => $container
+                    'container'     => $container,
                 ]
             )
         );
@@ -169,7 +169,7 @@ trait ExtensionManagerTrait
                     'subject'       => $this,
                     'type'          => $type,
                     'extensionName' => $extensionName,
-                    'container'     => $container
+                    'container'     => $container,
                 ]
             )
         );
@@ -219,8 +219,13 @@ trait ExtensionManagerTrait
         // Compile the classname
         $className = 'Plg' . str_replace('-', '', $type) . $plugin;
 
+        // Editors don't follow the convention
+        if ($type === 'editors') {
+            $className = 'PlgEditor' . ucfirst($plugin);
+        }
+
+        // Editor buttons don't follow the convention
         if ($type === 'editors-xtd') {
-            // This type doesn't follow the convention
             $className = 'PlgEditorsXtd' . $plugin;
 
             if (!class_exists($className)) {

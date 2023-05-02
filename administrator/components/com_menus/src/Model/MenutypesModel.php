@@ -51,7 +51,7 @@ class MenutypesModel extends BaseDatabaseModel
     {
         parent::populateState();
 
-        $clientId = Factory::getApplication()->input->get('client_id', 0);
+        $clientId = Factory::getApplication()->getInput()->get('client_id', 0);
 
         $this->state->set('client_id', $clientId);
     }
@@ -205,7 +205,7 @@ class MenutypesModel extends BaseDatabaseModel
         // If we have no options to parse, just add the base component to the list of options.
         if (!empty($menu['options']) && $menu['options'] == 'none') {
             // Create the menu option for the component.
-            $o = new CMSObject();
+            $o              = new CMSObject();
             $o->title       = (string) $menu['name'];
             $o->description = (string) $menu['msg'];
             $o->request     = ['option' => $component];
@@ -231,7 +231,7 @@ class MenutypesModel extends BaseDatabaseModel
         foreach ($children as $child) {
             if ($child->getName() == 'option') {
                 // Create the menu option for the component.
-                $o = new CMSObject();
+                $o              = new CMSObject();
                 $o->title       = (string) $child['name'];
                 $o->description = (string) $child['msg'];
                 $o->request     = ['option' => $component, (string) $optionsNode['var'] => (string) $child['value']];
@@ -239,7 +239,7 @@ class MenutypesModel extends BaseDatabaseModel
                 $options[] = $o;
             } elseif ($child->getName() == 'default') {
                 // Create the menu option for the component.
-                $o = new CMSObject();
+                $o              = new CMSObject();
                 $o->title       = (string) $child['name'];
                 $o->description = (string) $child['msg'];
                 $o->request     = ['option' => $component];
@@ -305,7 +305,7 @@ class MenutypesModel extends BaseDatabaseModel
                                     foreach ($children as $child) {
                                         if ($child->getName() == 'option') {
                                             // Create the menu option for the component.
-                                            $o = new CMSObject();
+                                            $o              = new CMSObject();
                                             $o->title       = (string) $child['name'];
                                             $o->description = (string) $child['msg'];
                                             $o->request     = ['option' => $component, 'view' => $view, (string) $optionsNode['var'] => (string) $child['value']];
@@ -313,7 +313,7 @@ class MenutypesModel extends BaseDatabaseModel
                                             $options[] = $o;
                                         } elseif ($child->getName() == 'default') {
                                             // Create the menu option for the component.
-                                            $o = new CMSObject();
+                                            $o              = new CMSObject();
                                             $o->title       = (string) $child['name'];
                                             $o->description = (string) $child['msg'];
                                             $o->request     = ['option' => $component, 'view' => $view];
@@ -376,7 +376,7 @@ class MenutypesModel extends BaseDatabaseModel
         }
 
         // Create the root menu option.
-        $ro = new \stdClass();
+        $ro              = new \stdClass();
         $ro->title       = (string) trim($rootMenu);
         $ro->description = '';
         $ro->request     = ['option' => $component];
@@ -391,7 +391,7 @@ class MenutypesModel extends BaseDatabaseModel
         foreach ($submenu->menu as $child) {
             $attributes = $child->attributes();
 
-            $o = new \stdClass();
+            $o              = new \stdClass();
             $o->title       = (string) trim($child);
             $o->description = '';
 
@@ -507,7 +507,7 @@ class MenutypesModel extends BaseDatabaseModel
                 $layout = basename($layout, '.xml');
 
                 // Create the menu option for the layout.
-                $o = new CMSObject();
+                $o              = new CMSObject();
                 $o->title       = ucfirst($layout);
                 $o->description = '';
                 $o->request     = ['option' => $component, 'view' => $view];

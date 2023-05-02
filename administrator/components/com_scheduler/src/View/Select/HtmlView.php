@@ -109,14 +109,8 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar(): void
     {
-        /*
-        * Get the global Toolbar instance
-        * @todo : Replace usage with ToolbarFactoryInterface. but how?
-        *       Probably some changes in the core, since mod_menu calls and renders the getInstance() toolbar
-        */
         $toolbar = Toolbar::getInstance();
 
-        // Add page title
         ToolbarHelper::title(Text::_('COM_SCHEDULER_MANAGER_TASKS'), 'clock');
 
         $toolbar->linkButton('cancel')

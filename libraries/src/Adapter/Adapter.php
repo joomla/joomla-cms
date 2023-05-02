@@ -23,7 +23,8 @@ use Joomla\Database\DatabaseAwareInterface;
  * Class harvested from joomla.installer.installer
  *
  * @since       1.6
- * @deprecated  5.0 Will be removed without replacement
+ * @deprecated  4.3 will be removed in 6.0
+ *              Will be removed without replacement
  */
 class Adapter extends CMSObject
 {
@@ -78,8 +79,8 @@ class Adapter extends CMSObject
      */
     public function __construct($basepath, $classprefix = null, $adapterfolder = null)
     {
-        $this->_basepath = $basepath;
-        $this->_classprefix = $classprefix ?: 'J';
+        $this->_basepath      = $basepath;
+        $this->_classprefix   = $classprefix ?: 'J';
         $this->_adapterfolder = $adapterfolder ?: 'adapters';
 
         $this->_db = Factory::getDbo();
@@ -206,7 +207,7 @@ class Adapter extends CMSObject
             require_once $this->_basepath . '/' . $this->_adapterfolder . '/' . $fileName;
 
             // Derive the class name from the filename.
-            $name = str_ireplace('.php', '', ucfirst(trim($fileName)));
+            $name  = str_ireplace('.php', '', ucfirst(trim($fileName)));
             $class = $this->_classprefix . ucfirst($name);
 
             if (!class_exists($class)) {
@@ -214,7 +215,7 @@ class Adapter extends CMSObject
                 continue;
             }
 
-            $adapter = new $class($this, $this->_db, $options);
+            $adapter                = new $class($this, $this->_db, $options);
             $this->_adapters[$name] = clone $adapter;
         }
     }

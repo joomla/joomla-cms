@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Installer\Administrator\Field">
 	<fields name="filter">
 		<field
@@ -14,7 +14,7 @@
 			name="client_id"
 			type="location"
 			label="COM_INSTALLER_TYPE_CLIENT"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_INSTALLER_VALUE_CLIENT_SELECT</option>
 		</field>
@@ -23,7 +23,7 @@
 			name="type"
 			type="type"
 			label="COM_INSTALLER_HEADING_TYPE"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_INSTALLER_VALUE_TYPE_SELECT</option>
 		</field>
@@ -32,7 +32,7 @@
 			name="folder"
 			type="folder"
 			label="COM_INSTALLER_HEADING_FOLDER"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_INSTALLER_VALUE_FOLDER_SELECT</option>
 		</field>
@@ -43,7 +43,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			default="name ASC"
 			validate="options"
 			>
@@ -65,7 +65,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 	</fields>
 </form>
