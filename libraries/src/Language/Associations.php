@@ -182,7 +182,7 @@ class Associations
                 $plugin = PluginHelper::getPlugin('system', 'languagefilter');
 
                 if (!empty($plugin)) {
-                    $params = new Registry($plugin->params);
+                    $params   = new Registry($plugin->params);
                     $enabled  = (bool) $params->get('item_associations', true);
                 }
 

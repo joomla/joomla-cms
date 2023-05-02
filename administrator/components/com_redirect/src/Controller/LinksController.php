@@ -132,7 +132,7 @@ class LinksController extends AdminController
 
         foreach ($batch_urls_lines as $batch_urls_line) {
             if (!empty($batch_urls_line)) {
-                $params = ComponentHelper::getParams('com_redirect');
+                $params    = ComponentHelper::getParams('com_redirect');
                 $separator = $params->get('separator', '|');
 
                 // Basic check to make sure the correct separator is being used

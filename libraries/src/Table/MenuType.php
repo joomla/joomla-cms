@@ -191,7 +191,7 @@ class MenuType extends Table
      */
     public function delete($pk = null)
     {
-        $k = $this->_tbl_key;
+        $k  = $this->_tbl_key;
         $pk = $pk === null ? $this->$k : $pk;
 
         // If no primary key is given, return false.
@@ -305,7 +305,7 @@ class MenuType extends Table
     protected function _getAssetParentId(Table $table = null, $id = null)
     {
         $assetId = null;
-        $asset = Table::getInstance('asset');
+        $asset   = Table::getInstance('asset');
 
         if ($asset->loadByName('com_menus')) {
             $assetId = $asset->id;

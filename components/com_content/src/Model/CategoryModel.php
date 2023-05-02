@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
-use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -115,7 +114,7 @@ class CategoryModel extends ListModel
                 'publish_up', 'a.publish_up',
                 'publish_down', 'a.publish_down',
                 'author', 'a.author',
-                'filter_tag'
+                'filter_tag',
             ];
         }
 
@@ -137,32 +136,22 @@ class CategoryModel extends ListModel
     protected function populateState($ordering = null, $direction = null)
     {
         $app = Factory::getApplication();
-        $pk  = $app->input->getInt('id');
 
+        $pk  = $app->getInput()->getInt('id');
         $this->setState('category.id', $pk);
 
         // Load the parameters. Merge Global and Menu Item params into new object
         $params = $app->getParams();
+        $this->setState('params', $params);
 
-        if ($menu = $app->getMenu()->getActive()) {
-            $menuParams = $menu->getParams();
-        } else {
-            $menuParams = new Registry();
-        }
-
-        $mergedParams = clone $menuParams;
-        $mergedParams->merge($params);
-
-        $this->setState('params', $mergedParams);
-        $user  = Factory::getUser();
-
+        $user  = $this->getCurrentUser();
         $asset = 'com_content';
 
         if ($pk) {
             $asset .= '.category.' . $pk;
         }
 
-        if ((!$user->authorise('core.edit.state', $asset)) &&  (!$user->authorise('core.edit', $asset))) {
+        if ((!$user->authorise('core.edit.state', $asset)) && (!$user->authorise('core.edit', $asset))) {
             // Limit to published for people who can't edit or edit.state.
             $this->setState('filter.published', 1);
         } else {
@@ -176,7 +165,7 @@ class CategoryModel extends ListModel
             $this->setState('filter.access', false);
         }
 
-        $itemid = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
+        $itemid = $app->getInput()->get('id', 0, 'int') . ':' . $app->getInput()->get('Itemid', 0, 'int');
 
         $value = $this->getUserStateFromRequest('com_content.category.filter.' . $itemid . '.tag', 'filter_tag', 0, 'int', false);
         $this->setState('filter.tag', $value);
@@ -202,10 +191,10 @@ class CategoryModel extends ListModel
 
         $this->setState('list.direction', $listOrder);
 
-        $this->setState('list.start', $app->input->get('limitstart', 0, 'uint'));
+        $this->setState('list.start', $app->getInput()->get('limitstart', 0, 'uint'));
 
         // Set limit for query. If list, use parameter. If blog, add blog parameters for limit.
-        if (($app->input->get('layout') === 'blog') || $params->get('layout_type') === 'blog') {
+        if (($app->getInput()->get('layout') === 'blog') || $params->get('layout_type') === 'blog') {
             $limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
             $this->setState('list.links', $params->get('num_links'));
         } else {
@@ -224,7 +213,7 @@ class CategoryModel extends ListModel
 
         $this->setState('filter.language', Multilanguage::isEnabled());
 
-        $this->setState('layout', $app->input->getString('layout'));
+        $this->setState('layout', $app->getInput()->getString('layout'));
 
         // Set the featured articles state
         $this->setState('filter.featured', $params->get('show_featured'));
@@ -290,7 +279,7 @@ class CategoryModel extends ListModel
         $app       = Factory::getApplication();
         $db        = $this->getDatabase();
         $params    = $this->state->params;
-        $itemid    = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
+        $itemid    = $app->getInput()->get('id', 0, 'int') . ':' . $app->getInput()->get('Itemid', 0, 'int');
         $orderCol  = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
         $orderDirn = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
         $orderby   = ' ';
@@ -345,20 +334,20 @@ class CategoryModel extends ListModel
     {
         if (!is_object($this->_item)) {
             if (isset($this->state->params)) {
-                $params = $this->state->params;
-                $options = [];
+                $params                = $this->state->params;
+                $options               = [];
                 $options['countItems'] = $params->get('show_cat_num_articles', 1) || !$params->get('show_empty_categories_cat', 0);
                 $options['access']     = $params->get('check_access_rights', 1);
             } else {
                 $options['countItems'] = 0;
             }
 
-            $categories = Categories::getInstance('Content', $options);
+            $categories  = Categories::getInstance('Content', $options);
             $this->_item = $categories->get($this->getState('category.id', 'root'));
 
             // Compute selected asset permissions.
             if (is_object($this->_item)) {
-                $user  = Factory::getUser();
+                $user  = $this->getCurrentUser();
                 $asset = 'com_content.category.' . $this->_item->id;
 
                 // Check general create permission.
@@ -368,17 +357,17 @@ class CategoryModel extends ListModel
 
                 // @todo: Why aren't we lazy loading the children and siblings?
                 $this->_children = $this->_item->getChildren();
-                $this->_parent = false;
+                $this->_parent   = false;
 
                 if ($this->_item->getParent()) {
                     $this->_parent = $this->_item->getParent();
                 }
 
                 $this->_rightsibling = $this->_item->getSibling();
-                $this->_leftsibling = $this->_item->getSibling(false);
+                $this->_leftsibling  = $this->_item->getSibling(false);
             } else {
                 $this->_children = false;
-                $this->_parent = false;
+                $this->_parent   = false;
             }
         }
 
@@ -469,7 +458,7 @@ class CategoryModel extends ListModel
      */
     public function hit($pk = 0)
     {
-        $input = Factory::getApplication()->input;
+        $input    = Factory::getApplication()->getInput();
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {
