@@ -107,8 +107,7 @@ class UserController extends BaseController
         $this->app->setUserState('users.login.form.data', []);
 
         // Show a message when a user is logged in.
-        if (ComponentHelper::getParams('com_users')->get('frontend_message', 0))
-        {
+        if (ComponentHelper::getParams('com_users')->get('frontend_message', 0)) {
            $this->app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGIN_SUCCESS'), 'message');
         }
 
@@ -168,8 +167,7 @@ class UserController extends BaseController
         }
 
         // Show a message when a user is logged out.
-        if (ComponentHelper::getParams('com_users')->get('frontend_message', 0))
-        {
+        if (ComponentHelper::getParams('com_users')->get('frontend_message', 0)) {
             $app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGOUT_SUCCESS'), 'message');
         }
 
