@@ -18,6 +18,10 @@ use Joomla\CMS\MVC\Model\ModelInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Input\Input;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Factory to create MVC objects in legacy mode.
  * Uses the static getInstance function on the classes itself. Behavior of the old none
@@ -91,7 +95,7 @@ class LegacyFactory implements MVCFactoryInterface
         $viewClass = $classPrefix . $viewName;
 
         if (!class_exists($viewClass)) {
-            $path = Path::find($config['paths'], BaseController::createFileName('view', array('name' => $viewName, 'type' => $viewType)));
+            $path = Path::find($config['paths'], BaseController::createFileName('view', ['name' => $viewName, 'type' => $viewType]));
 
             if (!$path) {
                 return null;

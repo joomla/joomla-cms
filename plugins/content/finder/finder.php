@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Smart Search Content Plugin
  *
@@ -39,7 +43,7 @@ class PlgContentFinder extends CMSPlugin
         PluginHelper::importPlugin('finder');
 
         // Trigger the onFinderAfterSave event.
-        Factory::getApplication()->triggerEvent('onFinderAfterSave', array($context, $article, $isNew));
+        Factory::getApplication()->triggerEvent('onFinderAfterSave', [$context, $article, $isNew]);
     }
 
     /**
@@ -59,7 +63,7 @@ class PlgContentFinder extends CMSPlugin
         PluginHelper::importPlugin('finder');
 
         // Trigger the onFinderBeforeSave event.
-        Factory::getApplication()->triggerEvent('onFinderBeforeSave', array($context, $article, $isNew));
+        Factory::getApplication()->triggerEvent('onFinderBeforeSave', [$context, $article, $isNew]);
     }
 
     /**
@@ -78,7 +82,7 @@ class PlgContentFinder extends CMSPlugin
         PluginHelper::importPlugin('finder');
 
         // Trigger the onFinderAfterDelete event.
-        Factory::getApplication()->triggerEvent('onFinderAfterDelete', array($context, $article));
+        Factory::getApplication()->triggerEvent('onFinderAfterDelete', [$context, $article]);
     }
 
     /**
@@ -100,7 +104,7 @@ class PlgContentFinder extends CMSPlugin
         PluginHelper::importPlugin('finder');
 
         // Trigger the onFinderChangeState event.
-        Factory::getApplication()->triggerEvent('onFinderChangeState', array($context, $pks, $value));
+        Factory::getApplication()->triggerEvent('onFinderChangeState', [$context, $pks, $value]);
     }
 
     /**
@@ -121,6 +125,6 @@ class PlgContentFinder extends CMSPlugin
         PluginHelper::importPlugin('finder');
 
         // Trigger the onFinderCategoryChangeState event.
-        Factory::getApplication()->triggerEvent('onFinderCategoryChangeState', array($extension, $pks, $value));
+        Factory::getApplication()->triggerEvent('onFinderCategoryChangeState', [$extension, $pks, $value]);
     }
 }

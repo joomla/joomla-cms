@@ -15,6 +15,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Notifies users of the new Behind Load Balancer option in Global Config, if we detect they might be behind a proxy
  *
@@ -52,7 +56,7 @@ function admin_postinstall_behindproxy_condition()
 function behindproxy_postinstall_action()
 {
     $prev = ArrayHelper::fromObject(new JConfig());
-    $data = array_merge($prev, array('behind_loadbalancer' => '1'));
+    $data = array_merge($prev, ['behind_loadbalancer' => '1']);
 
     $config = new Registry($data);
 
@@ -67,7 +71,7 @@ function behindproxy_postinstall_action()
     }
 
     // Attempt to write the configuration file as a PHP class named JConfig.
-    $configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+    $configuration = $config->toString('PHP', ['class' => 'JConfig', 'closingtag' => false]);
 
     if (!File::write($file, $configuration)) {
         Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');

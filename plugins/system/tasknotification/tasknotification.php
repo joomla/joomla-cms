@@ -28,6 +28,10 @@ use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use PHPMailer\PHPMailer\Exception as MailerException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This plugin implements email notification functionality for Tasks configured through the Scheduler component.
  * Notification configuration is supported on a per-task basis, which can be set-up through the Task item form, made
@@ -265,7 +269,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
         // Get all users who are not blocked and have opted in for system mails.
         $query = $db->getQuery(true);
 
-        $query->select($db->qn(['name', 'email', 'sendEmail', 'id']))
+        $query->select($db->quoteName(['name', 'email', 'sendEmail', 'id']))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('sendEmail') . ' = 1')
             ->where($db->quoteName('block') . ' = 0');

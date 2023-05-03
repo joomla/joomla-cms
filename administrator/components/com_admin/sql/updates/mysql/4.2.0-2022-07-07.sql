@@ -1,0 +1,4 @@
+-- The following statement added with Joonmla version 4.2.0 RC 1 had to be removed with version 4.2.0 (stable).
+-- See https://github.com/joomla/joomla-cms/pull/38244
+-- INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`) VALUES
+-- (0, 'plg_fields_menuitem', 'plugin', 'menuitem', 'fields', 0, 1, 1, 0, 1, '', '', '', 0, 0);

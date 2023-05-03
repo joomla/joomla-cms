@@ -18,6 +18,10 @@ use Joomla\Component\Config\Administrator\Model\ApplicationModel;
 use Joomla\Component\Config\Api\View\Application\JsonapiView;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The application controller
  *
@@ -50,7 +54,7 @@ class ApplicationController extends ApiController
      */
     public function displayList()
     {
-        $viewType = $this->app->getDocument()->getType();
+        $viewType   = $this->app->getDocument()->getType();
         $viewLayout = $this->input->get('layout', 'default', 'string');
 
         try {
@@ -106,7 +110,7 @@ class ApplicationController extends ApiController
 
         // Complete data array if needed
         $oldData = $model->getData();
-        $data = array_replace($oldData, $data);
+        $data    = array_replace($oldData, $data);
 
         // @todo: Not the cleanest thing ever but it works...
         Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/forms');

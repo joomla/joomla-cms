@@ -16,6 +16,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Extended Utility class for all HTML drawing classes.
  *
@@ -47,7 +51,7 @@ abstract class Access
      */
     public static function level($name, $selected, $attribs = '', $params = true, $id = false)
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select(
                 [
@@ -86,11 +90,11 @@ abstract class Access
             'select.genericlist',
             $options,
             $name,
-            array(
-                'list.attr' => $attribs,
+            [
+                'list.attr'   => $attribs,
                 'list.select' => $selected,
-                'id' => $id,
-            )
+                'id'          => $id,
+            ]
         );
     }
 
@@ -114,7 +118,7 @@ abstract class Access
 
         for ($i = 0, $n = count($options); $i < $n; $i++) {
             $options[$i]->value = $options[$i]->id;
-            $options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->title;
+            $options[$i]->text  = str_repeat('- ', $options[$i]->level) . $options[$i]->title;
         }
 
         // If all usergroups is allowed, push it into the array.
@@ -122,7 +126,7 @@ abstract class Access
             array_unshift($options, HTMLHelper::_('select.option', '', Text::_('JOPTION_ACCESS_SHOW_ALL_GROUPS')));
         }
 
-        return HTMLHelper::_('select.genericlist', $options, $name, array('list.attr' => $attribs, 'list.select' => $selected, 'id' => $id));
+        return HTMLHelper::_('select.genericlist', $options, $name, ['list.attr' => $attribs, 'list.select' => $selected, 'id' => $id]);
     }
 
     /**
@@ -146,7 +150,7 @@ abstract class Access
 
         $groups = array_values(UserGroupsHelper::getInstance()->getAll());
 
-        $html = array();
+        $html = [];
 
         for ($i = 0, $n = count($groups); $i < $n; $i++) {
             $item = &$groups[$i];
@@ -171,7 +175,7 @@ abstract class Access
                 $html[] = '			<label class="form-check-label checkbox" for="' . $eid . '">';
                 $html[] = '			<input class="form-check-input" type="checkbox" name="' . $name . '[]" value="' . $item->id . '" id="' . $eid . '"';
                 $html[] = '					' . $checked . $rel . '>';
-                $html[] = '			' . LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $item->title;
+                $html[] = '			' . LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level + 1]) . $item->title;
                 $html[] = '			</label>';
                 $html[] = '		</div>';
                 $html[] = '	</div>';
@@ -205,14 +209,14 @@ abstract class Access
             "/access/section[@name='" . $section . "']/"
         );
 
-        $html = array();
+        $html   = [];
         $html[] = '<ul class="checklist access-actions">';
 
         for ($i = 0, $n = count($actions); $i < $n; $i++) {
             $item = &$actions[$i];
 
             // Setup  the variable attributes.
-            $eid = $count . 'action_' . $item->id;
+            $eid     = $count . 'action_' . $item->id;
             $checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
 
             // Build the HTML for the item.
@@ -240,7 +244,7 @@ abstract class Access
     public static function assetgroups()
     {
         if (empty(static::$asset_groups)) {
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select(
                     [
@@ -277,7 +281,7 @@ abstract class Access
      *
      * @since   1.6
      */
-    public static function assetgrouplist($name, $selected, $attribs = null, $config = array())
+    public static function assetgrouplist($name, $selected, $attribs = null, $config = [])
     {
         static $count;
 
@@ -291,11 +295,11 @@ abstract class Access
             'select.genericlist',
             $options,
             $name,
-            array(
-                'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
-                'list.attr' => $attribs === null ? 'class="inputbox" size="3"' : $attribs,
+            [
+                'id'          => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
+                'list.attr'   => $attribs === null ? 'class="inputbox" size="3"' : $attribs,
                 'list.select' => (int) $selected,
-            )
+            ]
         );
     }
 }

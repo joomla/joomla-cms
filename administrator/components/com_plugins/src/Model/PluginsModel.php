@@ -18,6 +18,10 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of plugin records.
  *
@@ -34,10 +38,10 @@ class PluginsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'extension_id', 'a.extension_id',
                 'name', 'a.name',
                 'folder', 'a.folder',
@@ -49,7 +53,7 @@ class PluginsModel extends ListModel
                 'access', 'a.access', 'access_level',
                 'ordering', 'a.ordering',
                 'client_id', 'a.client_id',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -111,7 +115,7 @@ class PluginsModel extends ListModel
      */
     protected function _getList($query, $limitstart = 0, $limit = 0)
     {
-        $search = $this->getState('filter.search');
+        $search   = $this->getState('filter.search');
         $ordering = $this->getState('list.ordering', 'ordering');
 
         // If "Sort Table By:" is not set, set ordering to name
@@ -138,9 +142,9 @@ class PluginsModel extends ListModel
 
             $orderingDirection = strtolower($this->getState('list.direction'));
             $direction         = ($orderingDirection == 'desc') ? -1 : 1;
-            $result = ArrayHelper::sortObjects($result, $ordering, $direction, true, true);
+            $result            = ArrayHelper::sortObjects($result, $ordering, $direction, true, true);
 
-            $total = count($result);
+            $total                                      = count($result);
             $this->cache[$this->getStoreId('getTotal')] = $total;
 
             if ($total < $limitstart) {
@@ -181,7 +185,7 @@ class PluginsModel extends ListModel
         $lang = Factory::getLanguage();
 
         foreach ($items as &$item) {
-            $source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
+            $source    = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
             $extension = 'plg_' . $item->folder . '_' . $item->element;
             $lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
                 || $lang->load($extension . '.sys', $source);
@@ -197,7 +201,7 @@ class PluginsModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.
@@ -278,7 +282,7 @@ class PluginsModel extends ListModel
         $data = parent::loadFormData();
 
         // Set the selected filter values for pages that use the Layouts for filtering
-        $data->list['sortTable'] = $this->state->get('list.ordering');
+        $data->list['sortTable']      = $this->state->get('list.ordering');
         $data->list['directionTable'] = $this->state->get('list.direction');
 
         return $data;

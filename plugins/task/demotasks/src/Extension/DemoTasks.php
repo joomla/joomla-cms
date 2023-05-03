@@ -17,6 +17,10 @@ use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Event\SubscriberInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * A demo task plugin. Offers 3 task routines and demonstrates the use of {@see TaskPluginTrait},
  * {@see ExecuteTaskEvent}.
@@ -32,12 +36,12 @@ final class DemoTasks extends CMSPlugin implements SubscriberInterface
      * @since 4.1.0
      */
     private const TASKS_MAP = [
-        'demoTask_r1.sleep'                    => [
+        'demoTask_r1.sleep' => [
             'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_TASK_SLEEP',
             'method'          => 'sleep',
             'form'            => 'testTaskForm',
         ],
-        'demoTask_r2.memoryStressTest'         => [
+        'demoTask_r2.memoryStressTest' => [
             'langConstPrefix' => 'PLG_TASK_DEMO_TASKS_STRESS_MEMORY',
             'method'          => 'stressMemory',
         ],
@@ -127,8 +131,8 @@ final class DemoTasks extends CMSPlugin implements SubscriberInterface
      *
      * @return integer  The routine exit code.
      *
-     * @since 4.1.0
-     * @throws Exception
+     * @since  4.1.0
+     * @throws \Exception
      */
     private function sleep(ExecuteTaskEvent $event): int
     {
@@ -148,8 +152,8 @@ final class DemoTasks extends CMSPlugin implements SubscriberInterface
      *
      * @return integer  The routine exit code.
      *
-     * @since 4.1.0
-     * @throws Exception
+     * @since  4.1.0
+     * @throws \Exception
      */
     private function stressMemory(ExecuteTaskEvent $event): int
     {
@@ -175,8 +179,8 @@ final class DemoTasks extends CMSPlugin implements SubscriberInterface
      *
      * @return integer  The routine exit code.
      *
-     * @since 4.1.0
-     * @throws Exception
+     * @since  4.1.0
+     * @throws \Exception
      */
     private function stressMemoryRemoveLimit(ExecuteTaskEvent $event): int
     {

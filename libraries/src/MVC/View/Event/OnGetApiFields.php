@@ -12,6 +12,10 @@ namespace Joomla\CMS\MVC\View\Event;
 use BadMethodCallException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event for getting extra API Fields and Relations to render with an entity
  *
@@ -61,7 +65,7 @@ final class OnGetApiFields extends AbstractImmutableEvent
      *
      * @throws  BadMethodCallException
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('type', $arguments)) {
             throw new BadMethodCallException("Argument 'type' is required for event $name");

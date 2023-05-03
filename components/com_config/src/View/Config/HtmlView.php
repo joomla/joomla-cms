@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Controller\RequestController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View for the global configuration
  *
@@ -77,7 +81,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $user = $this->getCurrentUser();
+        $user                   = $this->getCurrentUser();
         $this->userIsSuperAdmin = $user->authorise('core.admin');
 
         // Access backend com_config

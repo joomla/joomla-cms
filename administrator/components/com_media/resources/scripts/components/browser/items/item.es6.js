@@ -6,13 +6,19 @@ import Video from './video.vue';
 import Audio from './audio.vue';
 import Doc from './document.vue';
 import * as types from '../../../store/mutation-types.es6';
-import { api } from '../../../app/Api.es6';
+import api from '../../../app/Api.es6';
 
 export default {
-  props: ['item'],
+  props: {
+    item: {
+      type: Object,
+      default: () => {},
+    },
+  },
   data() {
     return {
       hoverActive: false,
+      actionsActive: false,
     };
   },
   methods: {
@@ -85,6 +91,14 @@ export default {
      */
     isHoverActive() {
       return this.hoverActive;
+    },
+
+    /**
+     * Whether or not the item is currently active (on hover or via tab)
+     * @returns {boolean}
+     */
+    hasActions() {
+      return this.actionsActive;
     },
 
     /**
@@ -165,8 +179,7 @@ export default {
      * @param active
      */
     toggleSettings(active) {
-      // eslint-disable-next-line no-unused-expressions
-      active ? this.mouseover() : this.mouseleave();
+      this[`mouse${active ? 'over' : 'leave'}`]();
     },
   },
   render() {
@@ -177,6 +190,7 @@ export default {
           'media-browser-item': true,
           selected: this.isSelected(),
           active: this.isHoverActive(),
+          actions: this.hasActions(),
         },
         onClick: this.handleClick,
         onMouseover: this.mouseover,

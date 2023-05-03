@@ -13,7 +13,6 @@ namespace Joomla\Plugin\System\Webauthn;
 use Exception;
 use Joomla\Application\ApplicationInterface;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -33,6 +32,10 @@ use Webauthn\PublicKeyCredentialRpEntity;
 use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper class to aid in credentials creation (link an authenticator to a user account)
@@ -124,7 +127,7 @@ final class Authentication
 
         $return[''] = (object) [
             'description' => Text::_('PLG_SYSTEM_WEBAUTHN_LBL_DEFAULT_AUTHENTICATOR'),
-            'icon' => 'data:image/png;base64,' . base64_encode($image)
+            'icon'        => 'data:image/png;base64,' . base64_encode($image),
         ];
 
         return $return;
