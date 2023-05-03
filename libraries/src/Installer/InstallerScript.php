@@ -301,7 +301,9 @@ class InstallerScript
         $db->setQuery($query);
 
         // Load the single cell and json_decode data
-        return json_decode($db->loadResult(), true);
+        $result = $db->loadResult();
+
+        return $result === null ? [] : json_decode($result, true);
     }
 
     /**
