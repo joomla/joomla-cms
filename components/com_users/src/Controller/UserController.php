@@ -108,7 +108,7 @@ class UserController extends BaseController
 
         // Show a message when a user is logged in.
         if (ComponentHelper::getParams('com_users')->get('frontend_message', 0)) {
-           $this->app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGIN_SUCCESS'), 'message');
+            $this->app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGIN_SUCCESS'), 'message');
         }
 
         $this->app->redirect(Route::_($this->app->getUserState('users.login.form.return'), false));
