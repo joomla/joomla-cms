@@ -11,7 +11,7 @@
 	<description>MOD_BREADCRUMBS_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Breadcrumbs</namespace>
 	<files>
-		<filename module="mod_breadcrumbs">mod_breadcrumbs.php</filename>
+		<folder module="mod_breadcrumbs">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

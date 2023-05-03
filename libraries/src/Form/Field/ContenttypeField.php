@@ -56,7 +56,7 @@ class ContenttypeField extends ListField
     /**
      * Method to get a list of content types
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.1
      */
