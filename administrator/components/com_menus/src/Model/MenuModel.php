@@ -370,7 +370,7 @@ class MenuModel extends FormModel
                 $result[$menuType] = [];
             }
 
-            $result[$menuType][] = & $module;
+            $result[$menuType][] = &$module;
         }
 
         return $result;
@@ -403,7 +403,8 @@ class MenuModel extends FormModel
      * Custom clean the cache
      *
      * @param   string   $group     Cache group name.
-     * @param   integer  $clientId  @deprecated  5.0  No Longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *

@@ -239,7 +239,7 @@ $excludeZip         = isset($options['exclude-zip']);
 $excludeGzip        = isset($options['exclude-gzip']);
 $excludeBzip2       = isset($options['exclude-bzip2']);
 $excludeZstd        = !isset($options['include-zstd']);
-$buildPatchPackages = !isset($options['disable-patch-packages']);
+$buildPatchPackages = false && !isset($options['disable-patch-packages']);
 $showHelp           = isset($options['help']);
 
 // Disable the generation of extra text files
