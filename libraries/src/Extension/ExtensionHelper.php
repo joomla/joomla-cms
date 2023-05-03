@@ -20,8 +20,6 @@ use Joomla\Database\ParameterType;
  * Extension Helper class.
  *
  * @since       3.7.4
- *
- * @deprecated  4.0  Replace class with a non static methods for better testing
  */
 class ExtensionHelper
 {

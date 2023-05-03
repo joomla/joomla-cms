@@ -87,15 +87,6 @@ $wa->useScript('keepalive')
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('JCONFIG_PERMISSIONS_LABEL')); ?>
-        <div class="row">
-            <fieldset id="fieldset-rules" class="options-form">
-                <legend><?php echo Text::_('JCONFIG_PERMISSIONS_LABEL'); ?></legend>
-                <?php echo $this->form->getInput('rules'); ?>
-            </fieldset>
-        </div>
-        <?php echo HTMLHelper::_('uitab.endTab'); ?>
-
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
     </div>
 

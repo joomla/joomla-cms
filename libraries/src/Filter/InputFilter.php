@@ -428,9 +428,9 @@ class InputFilter extends BaseInputFilter
      */
     protected function decode($source)
     {
-        static $ttr;
+        static $ttr = [];
 
-        if (!\is_array($ttr)) {
+        if (!\count($ttr)) {
             // Entity decode
             $trans_tbl = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT, 'ISO-8859-1');
 
