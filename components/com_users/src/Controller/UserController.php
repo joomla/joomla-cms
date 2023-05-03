@@ -11,6 +11,7 @@
 namespace Joomla\Component\Users\Site\Controller;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -106,7 +107,10 @@ class UserController extends BaseController
         $this->app->setUserState('users.login.form.data', []);
 
         // Show a message when a user is logged in.
-        $this->app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGIN_SUCCESS'), 'message');
+        if (ComponentHelper::getParams('com_users')->get('frontend_message', 0))
+        {
+           $this->app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGIN_SUCCESS'), 'message');
+        }
 
         $this->app->redirect(Route::_($this->app->getUserState('users.login.form.return'), false));
     }
@@ -164,7 +168,10 @@ class UserController extends BaseController
         }
 
         // Show a message when a user is logged out.
-        $app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGOUT_SUCCESS'), 'message');
+        if (ComponentHelper::getParams('com_users')->get('frontend_message', 0))
+        {
+            $app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGOUT_SUCCESS'), 'message');
+        }
 
         // Redirect the user.
         $app->redirect(Route::_($return, false));
