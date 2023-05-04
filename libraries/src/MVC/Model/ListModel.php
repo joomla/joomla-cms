@@ -95,7 +95,8 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      *
      * @var        array
      * @since      3.4.5
-     * @deprecated 4.0.0 use $filterForbiddenList instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use $filterForbiddenList instead
      */
     protected $filterBlacklist = [];
 
@@ -112,7 +113,8 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      *
      * @var        array
      * @since      3.4.5
-     * @deprecated 4.0.0 use $listForbiddenList instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use $listForbiddenList instead
      */
     protected $listBlacklist = ['select'];
 
@@ -147,12 +149,18 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
             $this->context = strtolower($this->option . '.' . $this->getName());
         }
 
-        // @deprecated in 4.0 remove in Joomla 5.0
+        /**
+         * @deprecated  4.0 will be removed in 6.0
+         *              Use $this->filterForbiddenList instead
+         */
         if (!empty($this->filterBlacklist)) {
             $this->filterForbiddenList = array_merge($this->filterBlacklist, $this->filterForbiddenList);
         }
 
-        // @deprecated in 4.0 remove in Joomla 5.0
+        /**
+         * @deprecated  4.0 will be removed in 6.0
+         *              Use $this->listForbiddenList instead
+         */
         if (!empty($this->listBlacklist)) {
             $this->listForbiddenList = array_merge($this->listBlacklist, $this->listForbiddenList);
         }
