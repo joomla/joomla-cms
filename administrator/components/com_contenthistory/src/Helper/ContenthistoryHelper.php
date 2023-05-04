@@ -76,7 +76,7 @@ class ContenthistoryHelper
 
         if (is_object($object)) {
             foreach ($object as $name => $value) {
-                if ($subObject = json_decode($value)) {
+                if (!is_null($value) && $subObject = json_decode($value)) {
                     $object->$name = $subObject;
                 }
             }
