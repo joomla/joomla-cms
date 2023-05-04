@@ -1571,7 +1571,8 @@ abstract class AdminModel extends FormModel
      *
      * @since   3.9.0
      *
-     * @deprecated 5.0  It is handled by regular save method now.
+     * @deprecated  4.3 will be removed in 6.0
+     *              It is handled by regular save method now.
      */
     public function editAssociations($data)
     {
@@ -1658,7 +1659,7 @@ abstract class AdminModel extends FormModel
         $app->redirect(
             Route::_(
                 'index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
-                . '&task=association.edit&id=' . $id . $target,
+                    . '&task=association.edit&id=' . $id . $target,
                 false
             )
         );
