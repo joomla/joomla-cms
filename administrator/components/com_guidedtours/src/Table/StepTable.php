@@ -21,7 +21,7 @@ use Joomla\Database\DatabaseDriver;
 /**
  * Step table class.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
 class StepTable extends Table
 {
@@ -29,9 +29,8 @@ class StepTable extends Table
      * Indicates that columns fully support the NULL value in the database
      *
      * @var    boolean
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
-    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
     protected $_supportNullValue = true;
 
     /**
@@ -39,7 +38,7 @@ class StepTable extends Table
      *
      * @param   DatabaseDriver $db Database connector object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public function __construct(DatabaseDriver $db)
     {
@@ -53,7 +52,7 @@ class StepTable extends Table
      *
      * @return  boolean True on success, false on failure.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     public function store($updateNulls = true)
     {

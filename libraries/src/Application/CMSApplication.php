@@ -12,7 +12,6 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\SessionAwareWebApplicationTrait;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
@@ -417,7 +416,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @return  mixed  The user state.
      *
      * @since   3.2
-     * @deprecated  5.0  Use get() instead
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use get() instead
+     *              Example: Factory::getApplication()->get($varname, $default);
      */
     public function getCfg($varname, $default = null)
     {
@@ -459,7 +461,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since       3.2
      * @throws      \RuntimeException
-     * @deprecated  5.0 Use \Joomla\CMS\Factory::getContainer()->get($name) instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the application service from the DI container instead
+     *              Example: Factory::getContainer()->get($name);
      */
     public static function getInstance($name = null, $prefix = '\JApplication', Container $container = null)
     {
@@ -601,7 +605,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since      3.2
      *
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     * @deprecated  4.3 will be removed in 6.0
+     *              Inject the router or load it from the dependency injection container
+     *              Example: Factory::getContainer()->get($name);
      */
     public static function getRouter($name = null, array $options = [])
     {
@@ -1040,7 +1046,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since      3.2
      *
-     * @deprecated 5.0 Implement the route functionality in the extending class, this here will be removed without replacement
+     * @deprecated  4.0 will be removed in 6.0
+     *              Implement the route functionality in the extending class, this here will be removed without replacement
      */
     protected function route()
     {
@@ -1186,7 +1193,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @return  boolean
      *
      * @since       4.0.0
-     * @deprecated  5.0  Will be removed without replacements
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacements
      */
     public function isCli()
     {
@@ -1201,7 +1210,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @since   4.0.0
      *
      * @throws \Exception
-     * @deprecated 4.2.0  Will be removed in 5.0 without replacement.
+     *
+     * @deprecated  4.2 will be removed in 6.0
+     *              Will be removed without replacements
      */
     protected function isTwoFactorAuthenticationRequired(): bool
     {
@@ -1216,7 +1227,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @since   4.0.0
      *
      * @throws \Exception
-     * @deprecated 4.2.0  Will be removed in 5.0 without replacement.
+     *
+     * @deprecated  4.2 will be removed in 6.0
+     *              Will be removed without replacements
      */
     private function hasUserConfiguredTwoFactorAuthentication(): bool
     {

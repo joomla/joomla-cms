@@ -24,7 +24,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 /**
  * View to edit an Step
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
 class HtmlView extends BaseHtmlView
 {
@@ -64,7 +64,7 @@ class HtmlView extends BaseHtmlView
      * @return  void
      *
      * @throws \Exception
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     public function display($tpl = null)
     {
@@ -87,7 +87,7 @@ class HtmlView extends BaseHtmlView
      * @return void
      *
      * @throws \Exception
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
     protected function addToolbar()
     {
@@ -99,7 +99,7 @@ class HtmlView extends BaseHtmlView
 
         $canDo = ContentHelper::getActions('com_guidedtours');
 
-        ToolbarHelper::title(Text::_('COM_GUIDEDTOURS') . ' - ' . ($isNew ? Text::_('COM_GUIDEDTOURS_MANAGER_STEP_NEW') : Text::_('COM_GUIDEDTOURS_MANAGER_STEP_EDIT')), 'map-signs');
+        ToolbarHelper::title(Text::_($isNew ? 'COM_GUIDEDTOURS_MANAGER_STEP_NEW' : 'COM_GUIDEDTOURS_MANAGER_STEP_EDIT'), 'map-signs');
 
         $toolbarButtons = [];
 
@@ -136,21 +136,21 @@ class HtmlView extends BaseHtmlView
                     $toolbarButtons,
                     'btn-success'
                 );
+
+                ToolbarHelper::cancel(
+                    'step.cancel',
+                    'JTOOLBAR_CLOSE'
+                );
             }
-
-            ToolbarHelper::cancel(
-                'step.cancel',
-                'JTOOLBAR_CLOSE'
-            );
-
-            ToolbarHelper::divider();
-            $inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false;
-            $targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] ?: 'hide-aware-inline-help';
-
-            if ($inlinehelp) {
-                ToolbarHelper::inlinehelp($targetClass);
-            }
-            ToolbarHelper::help('Guided_Tours:_New_or_Edit_Step');
         }
+
+        ToolbarHelper::divider();
+        $inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false;
+        $targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] ?: 'hide-aware-inline-help';
+
+        if ($inlinehelp) {
+            ToolbarHelper::inlinehelp($targetClass);
+        }
+        ToolbarHelper::help('Guided_Tours:_New_or_Edit_Step');
     }
 }

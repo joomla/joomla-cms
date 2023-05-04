@@ -21,7 +21,7 @@ use Joomla\Database\DatabaseDriver;
 /**
  * Tours table class.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
 class TourTable extends Table
 {
@@ -29,18 +29,16 @@ class TourTable extends Table
      * Indicates that columns fully support the NULL value in the database
      *
      * @var    boolean
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
-    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
     protected $_supportNullValue = true;
 
     /**
      * An array of key names to be json encoded in the bind function
      *
      * @var    array
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.0
      */
-    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
     protected $_jsonEncode = ['extensions'];
 
     /**
@@ -48,7 +46,7 @@ class TourTable extends Table
      *
      * @param   DatabaseDriver $db Database connector object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function __construct(DatabaseDriver $db)
     {
@@ -62,7 +60,7 @@ class TourTable extends Table
      *
      * @return  boolean  True on success, false on failure.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function store($updateNulls = true)
     {
@@ -98,33 +96,5 @@ class TourTable extends Table
         }
 
         return parent::store($updateNulls);
-    }
-
-    /**
-     * Returns the asset name of the entry as it appears in the {@see Asset} table.
-     *
-     * @return  string  The asset name.
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    // phpcs:ignore
-    protected function _getAssetName(): string
-    {
-        $k = $this->_tbl_key;
-
-        return 'com_guidedtours.tour.' . (int) $this->$k;
-    }
-
-    /**
-     * Method to return the title to use for the asset table.
-     *
-     * @return  string  The string to use as the title in the asset table.
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    // phpcs:ignore
-    protected function _getAssetTitle()
-    {
-        return $this->title;
     }
 }

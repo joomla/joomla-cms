@@ -21,7 +21,7 @@ use Joomla\CMS\Router\Route;
 /**
  * Component Controller
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.3.0
  */
 class DisplayController extends BaseController
 {
@@ -29,7 +29,7 @@ class DisplayController extends BaseController
      * The default view.
      *
      * @var   string
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     protected $default_view = 'tours';
 
@@ -41,7 +41,7 @@ class DisplayController extends BaseController
      *
      * @return  static |boolean  This object to support chaining. False on failure.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function display($cachable = false, $urlparams = [])
     {
@@ -51,14 +51,14 @@ class DisplayController extends BaseController
 
         if ($view === 'tour' && $layout === 'edit' && !$this->checkEditId('com_guidedtours.edit.tour', $id)) {
             $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
-            $this->setRedirect(Route::_('index.php?option=com_guidedtour&view=tours', false));
+            $this->setRedirect(Route::_('index.php?option=com_guidedtours&view=tours', false));
 
             return false;
         }
 
         if ($view === 'step' && $layout === 'edit' && !$this->checkEditId('com_guidedtours.edit.step', $id)) {
             $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
-            $this->setRedirect(Route::_('index.php?option=com_guidedtour&view=steps', false));
+            $this->setRedirect(Route::_('index.php?option=com_guidedtours&view=steps', false));
 
             return false;
         }
