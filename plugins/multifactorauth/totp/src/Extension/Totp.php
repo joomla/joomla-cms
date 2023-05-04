@@ -57,13 +57,23 @@ class Totp extends CMSPlugin implements SubscriberInterface
      */
     private $mfaMethodName = 'totp';
 
+
     /**
-     * Should I try to detect and register legacy event listeners?
+     * Should I try to detect and register legacy event listeners, i.e. methods which accept unwrapped arguments? While
+     * this maintains a great degree of backwards compatibility to Joomla! 3.x-style plugins it is much slower. You are
+     * advised to implement your plugins using proper Listeners, methods accepting an AbstractEvent as their sole
+     * parameter, for best performance. Also bear in mind that Joomla! 5.x onwards will only allow proper listeners,
+     * removing support for legacy Listeners.
      *
-     * @var   boolean
-     * @since 4.2.0
+     * @var    boolean
+     * @since  4.2.0
      *
-     * @deprecated
+     * @deprecated  4.3 will be removed in 6.0
+     *              Implement your plugin methods accepting an AbstractEvent object
+     *              Example:
+     *              onEventTriggerName(AbstractEvent $event) {
+     *                  $context = $event->getArgument(...);
+     *              }
      */
     protected $allowLegacyListeners = false;
 
@@ -220,7 +230,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
                         Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_KEY') => $key,
                         Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_QR')  => "<span id=\"users-mfa-totp-qrcode\" />",
                         Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_LINK')
-                            => Text::sprintf('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_LINK_TEXT', $otpURL) .
+                        => Text::sprintf('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_LINK_TEXT', $otpURL) .
                             '<br/><small>' . Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_LINK_NOTE') . '</small>',
                     ],
                     'hidden_data' => [
