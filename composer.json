@@ -81,6 +81,8 @@
         "symfony/options-resolver": "^5.4.19",
         "symfony/polyfill-mbstring": "^1.27.0",
         "symfony/polyfill-php73": "^1.27",
+        "symfony/polyfill-php80": "^1.16",
+        "symfony/polyfill-php81": "^1.23",
         "symfony/web-link": "^5.4.19",
         "symfony/yaml": "^5.4.19",
         "typo3/phar-stream-wrapper": "^3.1.7",
