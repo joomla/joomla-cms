@@ -312,7 +312,9 @@ final class CliInstallationApplication extends Application implements CMSApplica
      * @return  boolean
      *
      * @since       4.3.0
-     * @deprecated  5.0  Will be removed without replacements
+     *
+     * @deprecated   4.3 will be removed in 5.0
+     *               Use $app->isClient('cli_installation') instead
      */
     public function isCli()
     {
