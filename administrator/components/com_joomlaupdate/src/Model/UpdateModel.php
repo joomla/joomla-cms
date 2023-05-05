@@ -64,18 +64,18 @@ class UpdateModel extends BaseDatabaseModel
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
         switch ($params->get('updatesource', 'nochange')) {
-            // "Minor & Patch Release for Current version AND Next Major Release".
+                // "Minor & Patch Release for Current version AND Next Major Release".
             case 'next':
                 $updateURL = 'https://update.joomla.org/core/sts/list_sts.xml';
                 break;
 
-            // "Testing"
+                // "Testing"
             case 'testing':
                 $updateURL = 'https://update.joomla.org/core/test/list_test.xml';
                 break;
 
-            // "Custom"
-            // @todo: check if the customurl is valid and not just "not empty".
+                // "Custom"
+                // @todo: check if the customurl is valid and not just "not empty".
             case 'custom':
                 if (trim($params->get('customurl', '')) != '') {
                     $updateURL = trim($params->get('customurl', ''));
@@ -86,14 +86,14 @@ class UpdateModel extends BaseDatabaseModel
                 }
                 break;
 
-            /**
-             * "Minor & Patch Release for Current version (recommended and default)".
-             * The commented "case" below are for documenting where 'default' and legacy options falls
-             * case 'default':
-             * case 'lts':
-             * case 'sts': (It's shown as "Default" because that option does not exist any more)
-             * case 'nochange':
-             */
+                /**
+                 * "Minor & Patch Release for Current version (recommended and default)".
+                 * The commented "case" below are for documenting where 'default' and legacy options falls
+                 * case 'default':
+                 * case 'lts':
+                 * case 'sts': (It's shown as "Default" because that option does not exist any more)
+                 * case 'nochange':
+                 */
             default:
                 $updateURL = 'https://update.joomla.org/core/list.xml';
         }
@@ -504,7 +504,10 @@ class UpdateModel extends BaseDatabaseModel
      *
      * @return  boolean
      * @since   2.5.1
-     * @deprecated 5.0
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use "createUpdateFile" instead
+     *              Example: $updateModel->createUpdateFile($basename);
      */
     public function createRestorationFile($basename = null): bool
     {
@@ -907,7 +910,7 @@ ENDDATA;
         if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR)) {
             throw new \RuntimeException(
                 Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' .
-                Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
+                    Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
                 500
             );
         }
@@ -1378,20 +1381,20 @@ ENDDATA;
      *
      * @since   3.10.0
      */
-    public function getNonCorePlugins($folderFilter = ['system','user','authentication','actionlog','multifactorauth'])
+    public function getNonCorePlugins($folderFilter = ['system', 'user', 'authentication', 'actionlog', 'multifactorauth'])
     {
         $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->select(
             $db->quoteName('ex.name') . ', ' .
-            $db->quoteName('ex.extension_id') . ', ' .
-            $db->quoteName('ex.manifest_cache') . ', ' .
-            $db->quoteName('ex.type') . ', ' .
-            $db->quoteName('ex.folder') . ', ' .
-            $db->quoteName('ex.element') . ', ' .
-            $db->quoteName('ex.client_id') . ', ' .
-            $db->quoteName('ex.package_id')
+                $db->quoteName('ex.extension_id') . ', ' .
+                $db->quoteName('ex.manifest_cache') . ', ' .
+                $db->quoteName('ex.type') . ', ' .
+                $db->quoteName('ex.folder') . ', ' .
+                $db->quoteName('ex.element') . ', ' .
+                $db->quoteName('ex.client_id') . ', ' .
+                $db->quoteName('ex.package_id')
         )->from(
             $db->quoteName('#__extensions', 'ex')
         )->where(
@@ -1647,9 +1650,9 @@ ENDDATA;
         }
 
         $lang->load("$extension.sys", JPATH_ADMINISTRATOR)
-        || $lang->load("$extension.sys", $source);
+            || $lang->load("$extension.sys", $source);
         $lang->load($extension, JPATH_ADMINISTRATOR)
-        || $lang->load($extension, $source);
+            || $lang->load($extension, $source);
 
         // Translate the extension name if possible
         $item->name = strip_tags(Text::_($item->name));
