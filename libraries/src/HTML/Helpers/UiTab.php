@@ -49,15 +49,15 @@ abstract class UiTab
                 ->useScript('webcomponent.joomla-tab');
 
             // Setup options object
-            $opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
+            $opt = ['active' => (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : ''];
 
             // Set static array
-            static::$loaded[__METHOD__][$sig] = true;
+            static::$loaded[__METHOD__][$sig]                = true;
             static::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
         }
 
         $orientation = isset($params['orientation']) ? $params['orientation'] : 'horizontal';
-        $recall = isset($params['recall']) ? 'recall' : '';
+        $recall      = isset($params['recall']) ? 'recall' : '';
         $breakpoint  = isset($params['breakpoint']) ? 'breakpoint="' . $params['breakpoint'] . '"' : '';
 
         if (!isset($params['breakpoint']) && $breakpoint === '') {

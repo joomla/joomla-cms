@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Newsfeeds\Administrator\Field">
 
 	<fields name="filter">
@@ -16,7 +16,7 @@
 			name="published"
 			type="status"
 			label="JSTATUS"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
@@ -27,7 +27,7 @@
 			label="JCATEGORY"
 			extension="com_newsfeeds"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
 		</field>
@@ -36,7 +36,7 @@
 			name="access"
 			type="accesslevel"
 			label="JGRID_HEADING_ACCESS"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
@@ -45,7 +45,7 @@
 			name="language"
 			type="contentlanguage"
 			label="JGRID_HEADING_LANGUAGE"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
@@ -59,7 +59,7 @@
 			multiple="true"
 			mode="nested"
 			custom="false"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 
 		<field
@@ -70,7 +70,7 @@
 			last="10"
 			step="1"
 			languages="*"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
 		</field>
@@ -82,7 +82,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			default="a.name ASC"
 			validate="options"
 			>
@@ -114,7 +114,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 	</fields>
 </form>

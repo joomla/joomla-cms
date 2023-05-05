@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
@@ -111,5 +112,29 @@ class BannersController extends AdminController
         }
 
         $this->setRedirect('index.php?option=com_banners&view=banners');
+    }
+
+    /**
+     * Method to get the number of published banners for quickicons
+     *
+     * @return  string  The JSON-encoded amount of published banners
+     *
+     * @since   4.3.0
+     */
+    public function getQuickiconContent()
+    {
+        $model = $this->getModel('banners');
+
+        $model->setState('filter.published', 1);
+
+        $amount = (int) $model->getTotal();
+
+        $result = [];
+
+        $result['amount'] = $amount;
+        $result['sronly'] = Text::plural('COM_BANNERS_N_QUICKICON_SRONLY', $amount);
+        $result['name']   = Text::plural('COM_BANNERS_N_QUICKICON', $amount);
+
+        echo new JsonResponse($result);
     }
 }
