@@ -285,7 +285,7 @@ class StandardRules implements RulesInterface
             if (isset($query['layout']) && $mLayout === $query['layout']) {
                 unset($query['layout']);
             }
-            
+
             if (isset($query['filter_tag']) && $mFilterTag === $query['filter_tag']) {
                 unset($query['filter_tag']);
             }
