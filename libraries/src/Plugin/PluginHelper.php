@@ -54,7 +54,7 @@ abstract class PluginHelper
         } else {
             $templateObj = (object) [
                 'template' => '',
-                'parent' => '',
+                'parent'   => '',
             ];
         }
 
