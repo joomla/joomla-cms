@@ -1,4 +1,4 @@
-describe('Test that the articles category menu item type ', () => {
+describe('Test in frontend that the content category view', () => {
   ['default', 'blog'].forEach((layout) => {
     it(`can display a list of articles in the ${layout} layout in a menu item`, () => {
       cy.db_createArticle({ title: 'article 1' })
