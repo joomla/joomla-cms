@@ -97,7 +97,7 @@ trait WorkflowBehaviorTrait
     }
 
     /**
-     * Add the workflow batch to the command list. Can be overwritten bei the child class
+     * Add the workflow batch to the command list. Can be overwritten by the child class
      *
      * @return  void
      *
