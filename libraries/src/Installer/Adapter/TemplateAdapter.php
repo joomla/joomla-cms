@@ -111,6 +111,7 @@ class TemplateAdapter extends InstallerAdapter
 
         // If there is a manifest script, let's copy it.
         if ($this->manifest_script) {
+            $path         = [];
             $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
@@ -281,7 +282,7 @@ class TemplateAdapter extends InstallerAdapter
             $client = 'ADMINISTRATOR';
         }
 
-        $base = \constant('JPATH_' . strtoupper($client));
+        $base      = \constant('JPATH_' . strtoupper($client));
         $extension = 'tpl_' . $this->getName();
         $source    = $path ?: $base . '/templates/' . $this->getName();
 
@@ -540,11 +541,11 @@ class TemplateAdapter extends InstallerAdapter
             $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
             $this->extension->manifest_cache = json_encode($manifest_details);
-            $this->extension->state = 0;
-            $this->extension->name = $manifest_details['name'];
-            $this->extension->enabled = 1;
-            $this->extension->params = $this->parent->getParams();
-            $this->extension->changelogurl = (string) $this->manifest->changelogurl;
+            $this->extension->state          = 0;
+            $this->extension->name           = $manifest_details['name'];
+            $this->extension->enabled        = 1;
+            $this->extension->params         = $this->parent->getParams();
+            $this->extension->changelogurl   = (string) $this->manifest->changelogurl;
 
             if (!$this->extension->store()) {
                 // Install failed, roll back changes

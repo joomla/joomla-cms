@@ -57,7 +57,7 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         $app            = Factory::getApplication();
-        $this->recordId = $app->input->getInt('recordId');
+        $this->recordId = $app->getInput()->getInt('recordId');
 
         $types = $this->get('TypeOptions');
 
@@ -97,15 +97,15 @@ class HtmlView extends BaseHtmlView
         // Add page title
         ToolbarHelper::title(Text::_('COM_MENUS'), 'list menumgr');
 
-        // Get the toolbar object instance
-        $bar = Toolbar::getInstance('toolbar');
+        $toolbar = Toolbar::getInstance();
 
         // Cancel
         $title = Text::_('JTOOLBAR_CANCEL');
         $dhtml = "<button onClick=\"location.href='index.php?option=com_menus&view=items'\" class=\"btn\">
 					<span class=\"icon-times\" title=\"$title\"></span>
 					$title</button>";
-        $bar->appendButton('Custom', $dhtml, 'new');
+        $toolbar->customButton('new')
+            ->html($dhtml);
     }
 
     /**

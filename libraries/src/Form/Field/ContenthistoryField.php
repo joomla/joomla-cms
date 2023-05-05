@@ -56,9 +56,9 @@ class ContenthistoryField extends FormField
             . $this->id . '&amp;item_id=' . $itemId . '&amp;' . Session::getFormToken() . '=1';
 
         $extraData = [
-            'item' => $itemId,
+            'item'  => $itemId,
             'label' => $label,
-            'link' => $link,
+            'link'  => $link,
         ];
 
         return array_merge($data, $extraData);

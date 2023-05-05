@@ -63,8 +63,8 @@ class EmailField extends TextField
         $data = parent::getLayoutData();
 
         $extraData = [
-            'maxLength'  => $this->maxLength,
-            'multiple'   => $this->multiple,
+            'maxLength' => $this->maxLength,
+            'multiple'  => $this->multiple,
         ];
 
         return array_merge($data, $extraData);

@@ -109,10 +109,10 @@ class Patcher
      */
     public function reset()
     {
-        $this->sources = [];
+        $this->sources      = [];
         $this->destinations = [];
-        $this->removals = [];
-        $this->patches = [];
+        $this->removals     = [];
+        $this->patches      = [];
 
         return $this;
     }
@@ -229,7 +229,7 @@ class Patcher
     {
         $this->patches[] = [
             'udiff' => $udiff,
-            'root' => isset($root) ? rtrim($root, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : '',
+            'root'  => isset($root) ? rtrim($root, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : '',
             'strip' => $strip,
         ];
 
@@ -378,7 +378,7 @@ class Patcher
         $source = [];
 
         // New lines (new file)
-        $destin = [];
+        $destin   = [];
         $src_left = $srcSize;
         $dst_left = $dstSize;
 
@@ -403,7 +403,7 @@ class Patcher
                 $destin[] = substr($line, 1);
                 $dst_left--;
             } elseif ($line != '\\ No newline at end of file') {
-                $line = substr($line, 1);
+                $line     = substr($line, 1);
                 $source[] = $line;
                 $destin[] = $line;
                 $src_left--;
@@ -427,7 +427,7 @@ class Patcher
 
                 if ($dstSize > 0) {
                     if ($srcSize > 0) {
-                        $dst_lines = & $this->getDestination($dst, $src);
+                        $dst_lines  = & $this->getDestination($dst, $src);
                         $src_bottom = $srcLine + \count($source);
 
                         for ($l = $srcLine; $l < $src_bottom; $l++) {

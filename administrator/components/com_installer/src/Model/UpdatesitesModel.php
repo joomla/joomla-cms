@@ -60,7 +60,7 @@ class UpdatesitesModel extends InstallerModel
                 'folder_translated',
                 'update_site_id',
                 'enabled',
-                'supported'
+                'supported',
             ];
         }
 
@@ -81,7 +81,7 @@ class UpdatesitesModel extends InstallerModel
      */
     public function publish(&$eid = [], $value = 1)
     {
-        if (!Factory::getUser()->authorise('core.edit.state', 'com_installer')) {
+        if (!$this->getCurrentUser()->authorise('core.edit.state', 'com_installer')) {
             throw new Exception(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 403);
         }
 
@@ -122,7 +122,7 @@ class UpdatesitesModel extends InstallerModel
      */
     public function delete($ids = [])
     {
-        if (!Factory::getUser()->authorise('core.delete', 'com_installer')) {
+        if (!$this->getCurrentUser()->authorise('core.delete', 'com_installer')) {
             throw new Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
         }
 
@@ -157,7 +157,7 @@ class UpdatesitesModel extends InstallerModel
 
             // Delete the update site from all tables.
             try {
-                $id = (int) $id;
+                $id    = (int) $id;
                 $query = $db->getQuery(true)
                     ->delete($db->quoteName('#__update_sites'))
                     ->where($db->quoteName('update_site_id') . ' = :id')
@@ -248,7 +248,7 @@ class UpdatesitesModel extends InstallerModel
      */
     public function rebuild(): void
     {
-        if (!Factory::getUser()->authorise('core.admin', 'com_installer')) {
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_installer')) {
             throw new Exception(Text::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_NOT_PERMITTED'), 403);
         }
 
@@ -546,7 +546,7 @@ class UpdatesitesModel extends InstallerModel
                         'e.client_id',
                         'e.state',
                         'e.manifest_cache',
-                        'u.name'
+                        'u.name',
                     ],
                     [
                         'update_site_id',
@@ -565,7 +565,7 @@ class UpdatesitesModel extends InstallerModel
                         'client_id',
                         'state',
                         'manifest_cache',
-                        'editor'
+                        'editor',
                     ]
                 )
             )
@@ -646,10 +646,10 @@ class UpdatesitesModel extends InstallerModel
 
             if (!empty($supportedIDs)) {
                 // Don't remove array_values(). whereIn expect a zero-based array.
-                $query->whereIn($db->qn('s.update_site_id'), array_values($supportedIDs));
+                $query->whereIn($db->quoteName('s.update_site_id'), array_values($supportedIDs));
             } else {
                 // In case of an empty list of IDs we apply a fake filter to effectively return no data
-                $query->where($db->qn('s.update_site_id') . ' = 0');
+                $query->where($db->quoteName('s.update_site_id') . ' = 0');
             }
         }
 

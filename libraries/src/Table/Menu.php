@@ -88,7 +88,7 @@ class Menu extends Nested
         }
 
         if (isset($array['params']) && \is_array($array['params'])) {
-            $registry = new Registry($array['params']);
+            $registry        = new Registry($array['params']);
             $array['params'] = (string) $registry;
         }
 
@@ -280,8 +280,8 @@ class Menu extends Nested
                     return false;
                 }
 
-                $table->home = 0;
-                $table->checked_out = null;
+                $table->home             = 0;
+                $table->checked_out      = null;
                 $table->checked_out_time = null;
                 $table->store();
             }
@@ -293,7 +293,7 @@ class Menu extends Nested
 
         // Get the new path in case the node was moved
         $pathNodes = $this->getPath();
-        $segments = [];
+        $segments  = [];
 
         foreach ($pathNodes as $node) {
             // Don't include root in path
