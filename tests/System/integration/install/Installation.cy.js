@@ -20,11 +20,14 @@ describe('Install Joomla', () => {
 
     cy.readFile(`${Cypress.env('cmsPath')}/configuration.php`).then((fileContent) => {
       // Tmp to see why the login does fail
-      let content = fileContent.replace(/^.*\$debug.*$/mg, "public $debug = true;");
+      const content = fileContent.replace(/^.*\$debug.*$/mg, "public $debug = true;");
 
       // Write the modified content back to the configuration file
       cy.task('writeFile', { path: 'configuration.php', content });
     });
+
+    cy.visit('administrator/index.php', { failOnStatusCode: false });
+    cy.get('#wrapper').should('contain', 'Joomla Administrator Login');
 
     cy.doAdministratorLogin(config.username, config.password, false);
     cy.disableStatistics();
