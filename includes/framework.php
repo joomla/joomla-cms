@@ -22,7 +22,11 @@ if (
     || (file_exists(JPATH_INSTALLATION . '/index.php') && (false === (new Version())->isInDevelopmentState()))
 ) {
     if (file_exists(JPATH_INSTALLATION . '/index.php')) {
-        header('Location: ' . substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php')) . 'installation/index.php');
+        if (JPATH_ROOT === JPATH_PUBLIC) {
+            header('Location: ' . substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php')) . 'installation/index.php');
+        } else {
+            echo file_get_contents(__DIR__ . '/build_incomplete.html');
+        }
 
         exit;
     } else {
