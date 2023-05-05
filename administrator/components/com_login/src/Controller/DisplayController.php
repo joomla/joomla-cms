@@ -75,9 +75,9 @@ class DisplayController extends BaseController
 
         $app = $this->app;
 
-        $model = $this->getModel('login');
+        $model       = $this->getModel('login');
         $credentials = $model->getState('credentials');
-        $return = $model->getState('return');
+        $return      = $model->getState('return');
 
         $app->login($credentials, ['action' => 'core.login.admin']);
 

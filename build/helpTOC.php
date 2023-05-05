@@ -37,8 +37,7 @@ if (!defined('_JDEFINES')) {
 // Get the framework.
 require_once JPATH_BASE . '/includes/framework.php';
 
-$command = new class extends AbstractCommand
-{
+$command = new class () extends AbstractCommand {
     /**
      * The default command name
      *
@@ -185,8 +184,7 @@ $input = new ArrayInput(
     ]
 );
 
-$app = new class ($input) extends Application
-{
+$app = new class ($input) extends Application {
     /**
      * Retrieve the application configuration object.
      *

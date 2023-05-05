@@ -13,6 +13,7 @@ namespace Joomla\Component\Mails\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\QueryInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -43,7 +44,7 @@ class TemplatesModel extends ListModel
                 'subject', 'a.subject',
                 'body', 'a.body',
                 'htmlbody', 'a.htmlbody',
-                'extension'
+                'extension',
             ];
         }
 
@@ -88,7 +89,7 @@ class TemplatesModel extends ListModel
         $items = parent::getItems();
         $id    = '';
 
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName('language'))
             ->from($db->quoteName('#__mail_templates'))
@@ -109,14 +110,14 @@ class TemplatesModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  QueryInterface
+     * @return  DatabaseQuery
      *
      * @since   4.0.0
      */
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.

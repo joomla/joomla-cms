@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -79,7 +80,7 @@ class MenusModel extends ListModel
         // Faster to do three queries for very large menu trees.
 
         // Get the menu types of menus in the list.
-        $db = $this->getDatabase();
+        $db        = $this->getDatabase();
         $menuTypes = array_column((array) $items, 'menutype');
 
         $query = $db->getQuery(true)
@@ -143,7 +144,7 @@ class MenusModel extends ListModel
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return  string  An SQL query
+     * @return  DatabaseQuery  An SQL query
      *
      * @since   1.6
      */

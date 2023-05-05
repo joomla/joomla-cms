@@ -99,7 +99,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // If we are forcing a language in modal (used for associations).
-        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'cmd')) {
+        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'cmd')) {
             // Set the language field to the forcedLanguage and disable changing it.
             $this->form->setValue('language', null, $forcedLanguage);
             $this->form->setFieldAttribute('language', 'readonly', 'true');
@@ -127,16 +127,15 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $toolbar    = Toolbar::getInstance();
 
         // Built the actions for new and existing records.
         $canDo = $this->canDo;
-
-        $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(
             Text::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))),
@@ -216,17 +215,15 @@ class HtmlView extends BaseHtmlView
                 }
 
                 if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations')) {
-                    $toolbar->standardButton('contract')
-                        ->text('JTOOLBAR_ASSOCIATIONS')
-                        ->task('article.editAssociations');
+                    $toolbar->standardButton('associations', 'JTOOLBAR_ASSOCIATIONS', 'article.editAssociations')
+                        ->icon('icon-contract')
+                        ->listCheck(false);
                 }
             }
         }
 
         $toolbar->divider();
-
-        ToolbarHelper::inlinehelp();
-
+        $toolbar->inlinehelp();
         $toolbar->help('Articles:_Edit');
     }
 }

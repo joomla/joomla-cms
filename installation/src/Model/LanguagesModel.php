@@ -145,7 +145,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
      */
     public function install($lids)
     {
-        $app = Factory::getApplication();
+        $app           = Factory::getApplication();
         $installerBase = new Installer();
         $installerBase->setDatabase($this->getDatabase());
 
@@ -336,8 +336,8 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
                 $file = $path . '/' . $lang . '/' . $lang . '.xml';
             }
 
-            $info = Installer::parseXMLInstallFile($file);
-            $row  = new \stdClass();
+            $info          = Installer::parseXMLInstallFile($file);
+            $row           = new \stdClass();
             $row->language = $lang;
 
             if (!is_array($info)) {
@@ -514,7 +514,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
     public function getForm($view = null)
     {
         if (!$view) {
-            $view = Factory::getApplication()->input->getWord('view', 'defaultlanguage');
+            $view = Factory::getApplication()->getInput()->getWord('view', 'defaultlanguage');
         }
 
         // Get the form.

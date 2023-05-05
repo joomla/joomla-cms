@@ -85,9 +85,9 @@ abstract class Parser
         }
 
         // Input is longer than 2Kb so parse it in chunks of 2Kb or less.
-        $start = 0;
-        $end = strlen($input);
-        $chunk = 2048;
+        $start  = 0;
+        $end    = strlen($input);
+        $chunk  = 2048;
         $return = null;
 
         while ($start < $end) {

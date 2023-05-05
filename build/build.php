@@ -62,6 +62,7 @@ function clean_checkout(string $dir)
     system('find . -name .github | xargs rm -rf -');
     system('find . -name .gitignore | xargs rm -rf -');
     system('find . -name .gitmodules | xargs rm -rf -');
+    system('find . -name .phan | xargs rm -rf -');
     system('find . -name .php-cs-fixer.dist.php | xargs rm -rf -');
     system('find . -name .scrutinizer.yml | xargs rm -rf -');
     system('find . -name .travis.yml | xargs rm -rf -');
@@ -182,6 +183,14 @@ function clean_checkout(string $dir)
     // willdurand/negotiation
     system('rm -rf libraries/vendor/willdurand/negotiation/tests');
 
+    // jfcherng
+    system('rm -rf libraries/vendor/jfcherng/php-color-output/demo.php');
+    system('rm -rf libraries/vendor/jfcherng/php-color-output/UPGRADING_v2.md');
+    system('rm -rf libraries/vendor/jfcherng/php-diff/CHANGELOG');
+    system('rm -rf libraries/vendor/jfcherng/php-diff/example');
+    system('rm -rf libraries/vendor/jfcherng/php-diff/UPGRADING');
+    system('rm -rf libraries/vendor/jfcherng/php-mb-string/CHANGELOG');
+
     echo "Cleanup complete.\n";
 
     chdir($cwd);
@@ -225,13 +234,13 @@ $fullpath = $tmp . '/' . $time;
 // Parse input options
 $options = getopt('', ['help', 'remote::', 'exclude-zip', 'exclude-gzip', 'exclude-bzip2', 'include-zstd', 'disable-patch-packages']);
 
-$remote       = $options['remote'] ?? false;
-$excludeZip   = isset($options['exclude-zip']);
-$excludeGzip  = isset($options['exclude-gzip']);
-$excludeBzip2 = isset($options['exclude-bzip2']);
-$excludeZstd  = !isset($options['include-zstd']);
-$buildPatchPackages = !isset($options['disable-patch-packages']);
-$showHelp     = isset($options['help']);
+$remote             = $options['remote'] ?? false;
+$excludeZip         = isset($options['exclude-zip']);
+$excludeGzip        = isset($options['exclude-gzip']);
+$excludeBzip2       = isset($options['exclude-bzip2']);
+$excludeZstd        = !isset($options['include-zstd']);
+$buildPatchPackages = false && !isset($options['disable-patch-packages']);
+$showHelp           = isset($options['help']);
 
 // Disable the generation of extra text files
 $includeExtraTextfiles = false;
@@ -245,7 +254,7 @@ if ($showHelp) {
 if (!$remote) {
     chdir($repo);
     $tagVersion = system($systemGit . ' describe --tags `' . $systemGit . ' rev-list --tags --max-count=1`', $tagVersion);
-    $remote = 'tags/' . $tagVersion;
+    $remote     = 'tags/' . $tagVersion;
     chdir($here);
 
     // We are in release mode so we need the extra text files
@@ -272,11 +281,10 @@ if ($composerReturnCode !== 0) {
 }
 
 // Try to update the fido.jwt file
-if (!file_exists(rtrim($fullpath, '\\/') . '/plugins/system/webauthn/fido.jwt'))
-{
+if (!file_exists(rtrim($fullpath, '\\/') . '/plugins/system/webauthn/fido.jwt')) {
     echo "The file plugins/system/webauthn/fido.jwt was not created. Build failed.\n";
 
-    exit (1);
+    exit(1);
 }
 
 system('npm install --unsafe-perm', $npmReturnCode);
@@ -346,26 +354,26 @@ echo "Create list of changed files from git repository for version $fullVersion.
  */
 $filesArray = [
     "administrator/index.php\n" => true,
-    "api/index.php\n" => true,
-    "cache/index.html\n" => true,
-    "cli/index.html\n" => true,
-    "components/index.html\n" => true,
-    "images/index.html\n" => true,
-    "includes/index.html\n" => true,
-    "language/index.html\n" => true,
-    "layouts/index.html\n" => true,
-    "libraries/index.html\n" => true,
-    "media/index.html\n" => true,
-    "modules/index.html\n" => true,
-    "plugins/index.html\n" => true,
-    "templates/index.html\n" => true,
-    "tmp/index.html\n" => true,
-    "htaccess.txt\n" => true,
-    "index.php\n" => true,
-    "LICENSE.txt\n" => true,
-    "README.txt\n" => true,
-    "robots.txt.dist\n" => true,
-    "web.config.txt\n" => true
+    "api/index.php\n"           => true,
+    "cache/index.html\n"        => true,
+    "cli/index.html\n"          => true,
+    "components/index.html\n"   => true,
+    "images/index.html\n"       => true,
+    "includes/index.html\n"     => true,
+    "language/index.html\n"     => true,
+    "layouts/index.html\n"      => true,
+    "libraries/index.html\n"    => true,
+    "media/index.html\n"        => true,
+    "modules/index.html\n"      => true,
+    "plugins/index.html\n"      => true,
+    "templates/index.html\n"    => true,
+    "tmp/index.html\n"          => true,
+    "htaccess.txt\n"            => true,
+    "index.php\n"               => true,
+    "LICENSE.txt\n"             => true,
+    "README.txt\n"              => true,
+    "robots.txt.dist\n"         => true,
+    "web.config.txt\n"          => true,
 ];
 
 /*
@@ -379,6 +387,7 @@ $doNotPackage = [
     '.editorconfig',
     '.github',
     '.gitignore',
+    '.phan',
     '.php-cs-fixer.dist.php',
     'acceptance.suite.yml',
     // Media Manager Node Assets
@@ -391,6 +400,7 @@ $doNotPackage = [
     'composer.json',
     'composer.lock',
     'crowdin.yml',
+    'cypress.config.dist.js',
     'package-lock.json',
     'package.json',
     'phpunit-pgsql.xml.dist',
@@ -477,7 +487,7 @@ for ($num = $release - 1; $num >= 0; $num--) {
         // The raw files for the vue files are not packaged but are not a top level directory so aren't handled by the
         // above checks. This is dirty but a fairly performant fix for now until we can come up with something better.
         if (count($folderPath) >= 4) {
-            $fullPath = [$folderPath[0] . '/' . $folderPath[1] . '/' . $folderPath[2] . '/' . $folderPath[3]];
+            $fullPath               = [$folderPath[0] . '/' . $folderPath[1] . '/' . $folderPath[2] . '/' . $folderPath[3]];
             $dirtyHackForMediaCheck = in_array('administrator/components/com_media/resources', $fullPath);
         }
 
