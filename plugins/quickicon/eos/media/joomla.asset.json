@@ -1,0 +1,19 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "plg_quickicon_eos",
+  "version": "4.0.0",
+  "description": "End of Support",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+       {
+      "name": "plg_quickicon_eos.snooze",
+      "type": "script",
+      "uri": "media/plg_quickicon_eos/js/snooze.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "plg_quickicon_eos",
+      "version": "4.0.0"
+    }
+  ]
+}
