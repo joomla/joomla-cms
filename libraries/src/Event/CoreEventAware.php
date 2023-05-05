@@ -44,7 +44,6 @@ use Joomla\CMS\Event\Table\CheckEvent;
 use Joomla\CMS\Event\Table\ObjectCreateEvent;
 use Joomla\CMS\Event\Table\SetNewTagsEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
-use Joomla\CMS\Event\WebAsset\WebAssetRegistryAssetChanged;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\Event\Event;
@@ -130,10 +129,6 @@ trait CoreEventAware
      */
     protected static function getEventClassByEventName(string $eventName): string
     {
-        if (strpos($eventName, 'onWebAssetRegistryChangedAsset') === 0) {
-            return WebAssetRegistryAssetChanged::class;
-        }
-
         return self::$eventNameToConcreteClass[$eventName] ?? Event::class;
     }
 }
