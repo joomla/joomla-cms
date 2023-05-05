@@ -152,9 +152,9 @@ class Router extends RouterBase
     {
         $segments = [];
 
-        $menuItem = $this->menu->getItem($query['Itemid']);
+        $menuItem = !empty($query['Itemid']) ? $this->menu->getItem($query['Itemid']) : false;
 
-        if ($menuItem->query['option'] == 'com_tags') {
+        if ($menuItem && $menuItem->query['option'] == 'com_tags') {
             if ($menuItem->query['view'] == 'tags' && isset($query['id'])) {
                 $ids = $query['id'];
 
@@ -182,7 +182,7 @@ class Router extends RouterBase
             unset($query['view']);
         } else {
             $segments[] = $query['view'];
-            unset($query['view']);
+            unset($query['view'], $query['Itemid']);
 
             if (isset($query['id']) && is_array($query['id'])) {
                 foreach ($query['id'] as $id) {
