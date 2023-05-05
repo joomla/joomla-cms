@@ -59,10 +59,10 @@ class BannerModel extends AdminModel
      *
      * @var  array
      */
-    protected $batch_commands = array(
+    protected $batch_commands = [
         'client_id'   => 'batchClient',
-        'language_id' => 'batchLanguage'
-    );
+        'language_id' => 'batchLanguage',
+    ];
 
     /**
      * Batch client changes for a group of banners.
@@ -78,7 +78,7 @@ class BannerModel extends AdminModel
     protected function batchClient($value, $pks, $contexts)
     {
         // Set the variables
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         /** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $table */
         $table = $this->getTable();
@@ -123,7 +123,7 @@ class BannerModel extends AdminModel
         }
 
         if (!empty($record->catid)) {
-            return Factory::getUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
+            return $this->getCurrentUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
         }
 
         return parent::canDelete($record);
@@ -143,8 +143,8 @@ class BannerModel extends AdminModel
     public function generateTitle($categoryId, $table)
     {
         // Alter the title & alias
-        $data = $this->generateNewTitle($categoryId, $table->alias, $table->name);
-        $table->name = $data['0'];
+        $data         = $this->generateNewTitle($categoryId, $table->alias, $table->name);
+        $table->name  = $data['0'];
         $table->alias = $data['1'];
     }
 
@@ -161,7 +161,7 @@ class BannerModel extends AdminModel
     {
         // Check against the category.
         if (!empty($record->catid)) {
-            return Factory::getUser()->authorise('core.edit.state', 'com_banners.category.' . (int) $record->catid);
+            return $this->getCurrentUser()->authorise('core.edit.state', 'com_banners.category.' . (int) $record->catid);
         }
 
         // Default to component settings if category not known.
@@ -178,10 +178,10 @@ class BannerModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_banners.banner', 'banner', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_banners.banner', 'banner', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -206,7 +206,7 @@ class BannerModel extends AdminModel
         }
 
         // Don't allow to change the created_by user if not allowed to access com_users.
-        if (!Factory::getUser()->authorise('core.manage', 'com_users')) {
+        if (!$this->getCurrentUser()->authorise('core.manage', 'com_users')) {
             $form->setFieldAttribute('created_by', 'filter', 'unset');
         }
 
@@ -224,7 +224,7 @@ class BannerModel extends AdminModel
     {
         // Check the session for previously entered form data.
         $app  = Factory::getApplication();
-        $data = $app->getUserState('com_banners.edit.banner.data', array());
+        $data = $app->getUserState('com_banners.edit.banner.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -234,7 +234,7 @@ class BannerModel extends AdminModel
                 $filters     = (array) $app->getUserState('com_banners.banners.filter');
                 $filterCatId = $filters['category_id'] ?? null;
 
-                $data->set('catid', $app->input->getInt('catid', $filterCatId));
+                $data->set('catid', $app->getInput()->getInt('catid', $filterCatId));
             }
         }
 
@@ -271,7 +271,7 @@ class BannerModel extends AdminModel
         }
 
         // Attempt to change the state of the records.
-        if (!$table->stick($pks, $value, Factory::getUser()->id)) {
+        if (!$table->stick($pks, $value, $this->getCurrentUser()->id)) {
             $this->setError($table->getError());
 
             return false;
@@ -311,7 +311,7 @@ class BannerModel extends AdminModel
     protected function prepareTable($table)
     {
         $date = Factory::getDate();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if (empty($table->id)) {
             // Set the values
@@ -320,7 +320,7 @@ class BannerModel extends AdminModel
 
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
-                $db = $this->getDatabase();
+                $db    = $this->getDatabase();
                 $query = $db->getQuery(true)
                     ->select('MAX(' . $db->quoteName('ordering') . ')')
                     ->from($db->quoteName('#__banners'));
@@ -374,7 +374,7 @@ class BannerModel extends AdminModel
      */
     public function save($data)
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Create new category, if needed.
         $createCategory = true;
@@ -441,6 +441,6 @@ class BannerModel extends AdminModel
      */
     private function canCreateCategory()
     {
-        return Factory::getUser()->authorise('core.create', 'com_banners');
+        return $this->getCurrentUser()->authorise('core.create', 'com_banners');
     }
 }

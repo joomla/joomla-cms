@@ -147,7 +147,7 @@ class Authentication
      * @see     AuthenticationResponse
      * @since   1.7.0
      */
-    public function authenticate($credentials, $options = array())
+    public function authenticate($credentials, $options = [])
     {
         // Get plugins
         $plugins = PluginHelper::getPlugin($this->pluginType);
@@ -210,11 +210,11 @@ class Authentication
      * @since  1.7.0
      * @throws \Exception
      */
-    public function authorise($response, $options = array())
+    public function authorise($response, $options = [])
     {
         // Get plugins in case they haven't been imported already
         PluginHelper::importPlugin('user');
-        $results = Factory::getApplication()->triggerEvent('onUserAuthorisation', array($response, $options));
+        $results = Factory::getApplication()->triggerEvent('onUserAuthorisation', [$response, $options]);
 
         return $results;
     }
