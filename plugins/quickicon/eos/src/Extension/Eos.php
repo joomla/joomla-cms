@@ -53,7 +53,7 @@ final class Eos extends CMSPlugin
     /**
      * Holding the current valid message to be shown
      *
-     * @var    array
+     * @var    array|bool
      * @since  4.0.0
      */
     private array|bool $currentMessage = [];
@@ -66,7 +66,6 @@ final class Eos extends CMSPlugin
      * @since  4.0.0
      */
     private Document $document;
-
 
     /**
      * Clears cache groups. We use it to clear the plugins cache after we update the last run timestamp.
@@ -218,7 +217,7 @@ final class Eos extends CMSPlugin
     /**
      * User hit the snooze button
      *
-     * @return  void
+     * @return  string
      *
      * @since   4.0.0
      *
@@ -226,11 +225,11 @@ final class Eos extends CMSPlugin
      *
      * @throws Exception
      */
-    public function onAjaxSnoozeEOS()
+    public function onAjaxSnoozeEOS(): string
     {
         // No messages yet so nothing to snooze
         if (!$this->currentMessage) {
-            return;
+            return '';
         }
         if (!$this->isAllowedUser() || !$this->isAjaxRequest()) {
             throw new Notallowed(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
@@ -240,6 +239,8 @@ final class Eos extends CMSPlugin
             $this->params->set('last_snoozed_id', $this->currentMessage['id']);
             $saveok = $this->saveParams();
         }
+
+        return '';
     }
 
     /**
@@ -260,11 +261,6 @@ final class Eos extends CMSPlugin
             return [];
         }
 
-        $diff                 = Factory::getDate()->diff(Factory::getDate(Eos::EOS_DATE));
-        $monthsUntilEOS       = floor($diff->days / 30.417);
-        $message              = $this->getMessageInfo($monthsUntilEOS, $diff->invert);
-        $this->currentMessage = $message;
-
         // No messages yet
         if (!$this->currentMessage) {
             return [];
@@ -274,21 +270,22 @@ final class Eos extends CMSPlugin
         if ($this->params->get('last_snoozed_id', 0) < $this->currentMessage['id']) {
             // Load the snooze scripts.
             HTMLHelper::_('jquery.framework');
-            try {
-                $wa = $this->document->getWebAssetManager();
-                $wa->getRegistry()->addExtensionRegistryFile('plg_quickicon_eos');
-                $wa->useScript('plg_quickicon_eos.snooze');
-            } catch (Exception $e) {
-                echo $e->getMessage();
-                exit();
-            }
+
 
             // Build the  message to be displayed in the cpanel
             $messageText = Text::sprintf($this->currentMessage['messageText'], HTMLHelper::_('date', Eos::EOS_DATE, Text::_('DATE_FORMAT_LC3')), $this->currentMessage['messageLink']);
             if ($this->currentMessage['snoozable']) {
-                $messageText .= '<p><button class="btn btn-warning eosnotify-snooze-btn" type="button">' . Text::_('PLG_QUICKICON_EOS_SNOOZE_BUTTON') . '</button></p>';
+                $messageText .= '<p><button class="btn btn-warning eosnotify-snooze-btn" type="button" >' . Text::_('PLG_QUICKICON_EOS_SNOOZE_BUTTON') . '</button></p>';
             }
             $this->getApplication()->enqueueMessage($messageText, $this->currentMessage['messageType']);
+        }
+        try {
+            $wa = $this->document->getWebAssetManager();
+            $wa->getRegistry()->addExtensionRegistryFile('plg_quickicon_eos');
+            $wa->useScript('plg_quickicon_eos.snooze');
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            exit();
         }
         // The message as quickicon
         $messageTextQuickIcon = Text::sprintf($this->currentMessage['quickiconText'], HTMLHelper::_('date', Eos::EOS_DATE, Text::_('DATE_FORMAT_LC3')));
@@ -306,26 +303,27 @@ final class Eos extends CMSPlugin
      */
     private function saveParams(): bool
     {
-        $query = $this->db->getQuery(true)->update($this->db->quoteName('#__extensions'))->set($this->db->quoteName('params') . ' = ' . $this->db->quote($this->params->toString('JSON')))->where($this->db->quoteName('type') . ' = ' . $this->db->quote('plugin'))->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('quickicon'))->where($this->db->quoteName('element') . ' = ' . $this->db->quote('eos'));
+        $db    = Factory::getContainer()->get('DatabaseDriver');
+        $query = $db->getQuery(true)->update($db->quoteName('#__extensions'))->set($db->quoteName('params') . ' = ' . $db->quote($this->params->toString('JSON')))->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))->where($db->quoteName('folder') . ' = ' . $db->quote('quickicon'))->where($db->quoteName('element') . ' = ' . $db->quote('eos'));
         try {
             // Lock the tables to prevent multiple plugin executions causing a race condition
-            $this->db->lockTable('#__extensions');
+            $db->lockTable('#__extensions');
         } catch (Exception) {
             // If we can't lock the tables it's too risky to continue execution
             return false;
         }
         try {
             // Update the plugin parameters
-            $result = $this->db->setQuery($query)->execute();
+            $result = $db->setQuery($query)->execute();
             $this->clearCacheGroups();
         } catch (Exception) {
             // If we failed to execute
-            $this->db->unlockTables();
+            $db->unlockTables();
             $result = false;
         }
         try {
             // Unlock the tables after writing
-            $this->db->unlockTables();
+            $db->unlockTables();
         } catch (Exception) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
@@ -357,11 +355,11 @@ final class Eos extends CMSPlugin
         if ($this->document->getType() !== 'html') {
             return false;
         }
-// Only on full page requests
+        // Only on full page requests
         if ($this->getApplication()->input->getCmd('tmpl', 'index') === 'component') {
             return false;
         }
-// Only to com_cpanel
+        // Only to com_cpanel
         if ($this->getApplication()->input->get('option') !== 'com_cpanel') {
             return false;
         }
@@ -383,7 +381,10 @@ final class Eos extends CMSPlugin
     public function __construct($subject, Document $document, array $config = [])
     {
         parent::__construct($subject, $config);
-
-        $this->document = $document;
+        $this->document       = $document;
+        $diff                 = Factory::getDate()->diff(Factory::getDate(Eos::EOS_DATE));
+        $monthsUntilEOS       = floor($diff->days / 30.417);
+        $message              = $this->getMessageInfo($monthsUntilEOS, $diff->invert);
+        $this->currentMessage = $message;
     }
 }
