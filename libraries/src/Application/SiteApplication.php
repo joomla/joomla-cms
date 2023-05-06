@@ -13,7 +13,8 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\Application\AfterDispatchEvent;
+use Joomla\CMS\Event\Application\AfterRouteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
@@ -213,7 +214,7 @@ final class SiteApplication extends CMSApplication
         PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onAfterDispatch',
-            AbstractEvent::create('onAfterDispatch', ['subject' => $this])
+            new AfterDispatchEvent('onAfterDispatch', ['subject' => $this])
         );
     }
 
@@ -793,7 +794,7 @@ final class SiteApplication extends CMSApplication
         PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onAfterRoute',
-            AbstractEvent::create('onAfterRoute', ['subject' => $this])
+            new AfterRouteEvent('onAfterRoute', ['subject' => $this])
         );
 
         $Itemid = $this->input->getInt('Itemid', null);

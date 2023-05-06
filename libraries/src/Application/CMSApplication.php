@@ -12,7 +12,14 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\SessionAwareWebApplicationTrait;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\Application\AfterCompressEvent;
+use Joomla\CMS\Event\Application\AfterInitialiseEvent;
+use Joomla\CMS\Event\Application\AfterRenderEvent;
+use Joomla\CMS\Event\Application\AfterRespondEvent;
+use Joomla\CMS\Event\Application\AfterRouteEvent;
+use Joomla\CMS\Event\Application\BeforeRenderEvent;
+use Joomla\CMS\Event\Application\BeforeRespondEvent;
+use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
@@ -304,12 +311,11 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 // Trigger the onAfterCompress event.
                 $this->dispatchEvent(
                     'onAfterCompress',
-                    AbstractEvent::create('onAfterCompress', ['subject' => $this])
+                    new AfterCompressEvent('onAfterCompress', ['subject' => $this])
                 );
             }
         } catch (\Throwable $throwable) {
-            /** @var \Joomla\CMS\Event\ErrorEvent $event */
-            $event = AbstractEvent::create(
+            $event = new ErrorEvent(
                 'onError',
                 [
                     'subject'     => $throwable,
@@ -326,7 +332,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         // Trigger the onBeforeRespond event.
         $this->dispatchEvent(
             'onBeforeRespond',
-            AbstractEvent::create('onBeforeRespond', ['subject' => $this])
+            new BeforeRespondEvent('onBeforeRespond', ['subject' => $this])
         );
 
         // Send the application response.
@@ -335,7 +341,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         // Trigger the onAfterRespond event.
         $this->dispatchEvent(
             'onAfterRespond',
-            AbstractEvent::create('onAfterRespond', ['subject' => $this])
+            new AfterRespondEvent('onAfterRespond', ['subject' => $this])
         );
     }
 
@@ -751,7 +757,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onAfterInitialise',
-            AbstractEvent::create('onAfterInitialise', ['subject' => $this])
+            new AfterInitialiseEvent('onAfterInitialise', ['subject' => $this])
         );
     }
 
@@ -1025,7 +1031,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onBeforeRender',
-            AbstractEvent::create('onBeforeRender', ['subject' => $this])
+            new BeforeRenderEvent('onBeforeRender', ['subject' => $this])
         );
 
         $caching = false;
@@ -1043,7 +1049,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         // Trigger the onAfterRender event.
         $this->dispatchEvent(
             'onAfterRender',
-            AbstractEvent::create('onAfterRender', ['subject' => $this])
+            new AfterRenderEvent('onAfterRender', ['subject' => $this])
         );
 
         // Mark afterRender in the profiler.
@@ -1117,7 +1123,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onAfterRoute',
-            AbstractEvent::create('onAfterRoute', ['subject' => $this])
+            new AfterRouteEvent('onAfterRoute', ['subject' => $this])
         );
     }
 

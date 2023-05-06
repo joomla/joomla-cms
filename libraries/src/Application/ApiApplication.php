@@ -12,7 +12,9 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Access\Exception\AuthenticationFailed;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\Application\AfterApiRouteEvent;
+use Joomla\CMS\Event\Application\AfterDispatchEvent;
+use Joomla\CMS\Event\Application\BeforeApiRouteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\ApiRouter;
@@ -231,7 +233,7 @@ final class ApiApplication extends CMSApplication
         PluginHelper::importPlugin('webservices', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onBeforeApiRoute',
-            AbstractEvent::create('onBeforeApiRoute', ['router' => $router, 'subject' => $this])
+            new BeforeApiRouteEvent('onBeforeApiRoute', ['router' => $router, 'subject' => $this])
         );
 
         $caught404 = false;
@@ -306,7 +308,7 @@ final class ApiApplication extends CMSApplication
 
         $this->dispatchEvent(
             'onAfterApiRoute',
-            AbstractEvent::create('onAfterApiRoute', ['subject' => $this])
+            new AfterApiRouteEvent('onAfterApiRoute', ['subject' => $this])
         );
 
         if (!isset($route['vars']['public']) || $route['vars']['public'] === false) {
@@ -430,7 +432,7 @@ final class ApiApplication extends CMSApplication
         PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onAfterDispatch',
-            AbstractEvent::create('onAfterDispatch', ['subject' => $this])
+            new AfterDispatchEvent('onAfterDispatch', ['subject' => $this])
         );
     }
 }

@@ -9,7 +9,8 @@
 
 namespace Joomla\CMS\Application;
 
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\Application\AfterExecuteEvent;
+use Joomla\CMS\Event\Application\BeforeExecuteEvent;
 use Joomla\CMS\Event\Application\DeamonForkEvent;
 use Joomla\CMS\Event\Application\DeamonReceiveSignalEvent;
 use Joomla\CMS\Filesystem\Folder;
@@ -168,10 +169,9 @@ abstract class DaemonApplication extends CliApplication
         // Fire the onReceiveSignal event.
         static::$instance->getDispatcher()->dispatch(
             'onReceiveSignal',
-            AbstractEvent::create('onReceiveSignal', [
-                'signal'     => $signal,
-                'subject'    => static::$instance,
-                'eventClass' => DeamonReceiveSignalEvent::class,
+            new DeamonReceiveSignalEvent('onReceiveSignal', [
+                'signal'  => $signal,
+                'subject' => static::$instance,
             ])
         );
 
@@ -357,7 +357,7 @@ abstract class DaemonApplication extends CliApplication
         // Trigger the onBeforeExecute event
         $this->dispatchEvent(
             'onBeforeExecute',
-            AbstractEvent::create('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
+            new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
         );
 
         // Enable basic garbage collection.
@@ -390,7 +390,7 @@ abstract class DaemonApplication extends CliApplication
         // Trigger the onAfterExecute event.
         $this->dispatchEvent(
             'onAfterExecute',
-            AbstractEvent::create('onAfterExecute', ['subject' => $this])
+            new AfterExecuteEvent('onAfterExecute', ['subject' => $this])
         );
     }
 
@@ -786,7 +786,7 @@ abstract class DaemonApplication extends CliApplication
         // Trigger the onFork event.
         $this->dispatchEvent(
             'onFork',
-            AbstractEvent::create('onFork', ['subject' => $this, 'eventClass' => DeamonForkEvent::class])
+            new DeamonForkEvent('onFork', ['subject' => $this])
         );
     }
 

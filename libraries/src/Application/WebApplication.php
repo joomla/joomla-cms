@@ -12,7 +12,12 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Document\Document;
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\Application\AfterExecuteEvent;
+use Joomla\CMS\Event\Application\AfterRenderEvent;
+use Joomla\CMS\Event\Application\AfterRespondEvent;
+use Joomla\CMS\Event\Application\BeforeExecuteEvent;
+use Joomla\CMS\Event\Application\BeforeRenderEvent;
+use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
@@ -156,7 +161,7 @@ abstract class WebApplication extends AbstractWebApplication
         // Trigger the onBeforeExecute event.
         $this->dispatchEvent(
             'onBeforeExecute',
-            AbstractEvent::create('onBeforeExecute', ['subject' => $this])
+            new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this])
         );
 
         // Perform application routines.
@@ -165,7 +170,7 @@ abstract class WebApplication extends AbstractWebApplication
         // Trigger the onAfterExecute event.
         $this->dispatchEvent(
             'onAfterExecute',
-            AbstractEvent::create('onAfterExecute', ['subject' => $this])
+            new AfterExecuteEvent('onAfterExecute', ['subject' => $this])
         );
 
         // If we have an application document object, render it.
@@ -173,7 +178,7 @@ abstract class WebApplication extends AbstractWebApplication
             // Trigger the onBeforeRender event.
             $this->dispatchEvent(
                 'onBeforeRender',
-                AbstractEvent::create('onBeforeRender', ['subject' => $this])
+                new BeforeRenderEvent('onBeforeRender', ['subject' => $this])
             );
 
             // Render the application output.
@@ -182,7 +187,7 @@ abstract class WebApplication extends AbstractWebApplication
             // Trigger the onAfterRender event.
             $this->dispatchEvent(
                 'onAfterRender',
-                AbstractEvent::create('onAfterRender', ['subject' => $this])
+                new AfterRenderEvent('onAfterRender', ['subject' => $this])
             );
         }
 
@@ -194,7 +199,7 @@ abstract class WebApplication extends AbstractWebApplication
         // Trigger the onBeforeRespond event.
         $this->dispatchEvent(
             'onBeforeRespond',
-            AbstractEvent::create('onBeforeRespond', ['subject' => $this])
+            new BeforeRespondEvent('onBeforeRespond', ['subject' => $this])
         );
 
         // Send the application response.
@@ -203,7 +208,7 @@ abstract class WebApplication extends AbstractWebApplication
         // Trigger the onAfterRespond event.
         $this->dispatchEvent(
             'onAfterRespond',
-            AbstractEvent::create('onAfterRespond', ['subject' => $this])
+            new AfterRespondEvent('onAfterRespond', ['subject' => $this])
         );
     }
 
