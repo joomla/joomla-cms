@@ -7,69 +7,48 @@ if (!window.Joomla) {
   throw new Error('Joomla API was not properly initialised!');
 }
 
-const setRequired = () => {
-  document.querySelector('#jform_execution_rules_cron_expression_minutes-lbl').classList.add('required');
-  document.querySelector('#jform_execution_rules_cron_expression_minutes').classList.add('required');
-  document.querySelector('#jform_execution_rules_cron_expression_minutes').setAttribute('required', 'true');
+const ruleTypesElement = document.querySelector('#jform_execution_rules_rule_type');
 
-  document.querySelector('#jform_execution_rules_cron_expression_hours-lbl').classList.add('required');
-  document.querySelector('#jform_execution_rules_cron_expression_hours').classList.add('required');
-  document.querySelector('#jform_execution_rules_cron_expression_hours').setAttribute('required', 'true');
+const elements = [
+  '#jform_execution_rules_cron_expression_minutes',
+  '#jform_execution_rules_cron_expression_hours',
+  '#jform_execution_rules_cron_expression_days_month',
+  '#jform_execution_rules_cron_expression_months',
+  '#jform_execution_rules_cron_expression_days_week'
+];
 
-  document.querySelector('#jform_execution_rules_cron_expression_days_month-lbl').classList.add('required');
-  document.querySelector('#jform_execution_rules_cron_expression_days_month').classList.add('required');
-  document.querySelector('#jform_execution_rules_cron_expression_days_month').setAttribute('required', 'true');
-
-  document.querySelector('#jform_execution_rules_cron_expression_months-lbl').classList.add('required');
-  document.querySelector('#jform_execution_rules_cron_expression_months').classList.add('required');
-  document.querySelector('#jform_execution_rules_cron_expression_months').setAttribute('required', 'true');
-
-  document.querySelector('#jform_execution_rules_cron_expression_days_week-lbl').classList.add('required');
-  document.querySelector('#jform_execution_rules_cron_expression_days_week').classList.add('required');
-  document.querySelector('#jform_execution_rules_cron_expression_days_week').setAttribute('required', 'true');
-};
-
-const removeRequired = () => {
-  document.querySelector('#jform_execution_rules_cron_expression_minutes-lbl').classList.remove('required');
-  document.querySelector('#jform_execution_rules_cron_expression_minutes').classList.remove('required');
-  document.querySelector('#jform_execution_rules_cron_expression_minutes').removeAttribute('required');
-
-  document.querySelector('#jform_execution_rules_cron_expression_hours-lbl').classList.remove('required');
-  document.querySelector('#jform_execution_rules_cron_expression_hours').classList.remove('required');
-  document.querySelector('#jform_execution_rules_cron_expression_hours').removeAttribute('required');
-
-  document.querySelector('#jform_execution_rules_cron_expression_days_month-lbl').classList.remove('required');
-  document.querySelector('#jform_execution_rules_cron_expression_days_month').classList.remove('required');
-  document.querySelector('#jform_execution_rules_cron_expression_days_month').removeAttribute('required');
-
-  document.querySelector('#jform_execution_rules_cron_expression_months-lbl').classList.remove('required');
-  document.querySelector('#jform_execution_rules_cron_expression_months').classList.remove('required');
-  document.querySelector('#jform_execution_rules_cron_expression_months').removeAttribute('required');
-
-  document.querySelector('#jform_execution_rules_cron_expression_days_week-lbl').classList.remove('required');
-  document.querySelector('#jform_execution_rules_cron_expression_days_week').classList.remove('required');
-  document.querySelector('#jform_execution_rules_cron_expression_days_week').removeAttribute('required');
-};
-
-const onBoot = () => {
-  if (document.querySelector('#jform_execution_rules_rule_type').value === 'cron-expression') {
-    setRequired();
-  } else {
-    removeRequired();
+function toggleRequired(process = 'add') {
+  if (!['add', 'remove'].contains(process)) {
+    return;
   }
 
-  document.querySelector('#jform_execution_rules_rule_type').addEventListener('change', (e) => {
-    const selectValue = e.target.value;
-    // When we select custom cron rules, we set the respective fields as required, otherwise we remove the attributes / classes
-    // in order to be able when selecting other execution rules
-    if (selectValue === 'cron-expression') {
-      setRequired();
-    } else {
-      removeRequired();
+  elements.forEach((elementSelector) => {
+    const element = document.querySelector(elementSelector);
+    if (!element) {
+      return;
     }
+    const label = document.querySelector(`${elementSelector}-lbl`);
+    if (process === 'add') {
+      element.setAttribute('required', '');
+      element.classList.add('required');
+      if (label) {
+        label.classList.add('required');
+      }
+    } else {
+      element.removeAttribute('required');
+      element.classList.remove('required');
+      if (label) {
+        label.classList.remove('required');
+      }
+    }
+
   });
+}
 
-  document.removeEventListener('DOMContentLoaded', onBoot);
-};
+const handleChange = (event) => event.target.value === 'cron-expression' ? toggleRequired('add') : toggleRequired('remove');
 
-document.addEventListener('DOMContentLoaded', onBoot);
+if (ruleTypesElement) {
+  handleChange({target: ruleTypesElement});
+
+  ruleTypesElement.addEventListener('change', handleChange);
+}
