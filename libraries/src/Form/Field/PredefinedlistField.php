@@ -33,7 +33,7 @@ abstract class PredefinedlistField extends ListField
     /**
      * Cached array of the category items.
      *
-     * @var    array
+     * @var    array[]
      * @since  3.2
      */
     protected static $options = [];
@@ -41,7 +41,7 @@ abstract class PredefinedlistField extends ListField
     /**
      * Available predefined options
      *
-     * @var  array
+     * @var  string[]
      * @since  3.2
      */
     protected $predefinedOptions = [];
@@ -57,7 +57,7 @@ abstract class PredefinedlistField extends ListField
     /**
      * Allows to use only specific values of the predefined list
      *
-     * @var  array
+     * @var  string[]
      * @since  4.0.0
      */
     protected $optionsFilter = [];
@@ -91,7 +91,7 @@ abstract class PredefinedlistField extends ListField
     /**
      * Method to get the options to populate list
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.2
      */
