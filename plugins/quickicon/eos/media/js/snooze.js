@@ -2,36 +2,33 @@
  * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-(function ($) {
+const data = {
+    option: 'com_ajax',
+    group: 'quickicon',
+    plugin: 'SnoozeEOS',
+    format: 'json',
+};
 
-    let ajaxData = {
-        'option': 'com_ajax',
-        'group': 'quickicon',
-        'plugin': 'SnoozeEOS',
-        'format': 'json'
-    }
+customElements.whenDefined('joomla-alert').then(() => {
 
-    $('#system-message-container').on('click', '.eosnotify-snooze-btn', function (e) {
-        let button = $(this);
-        $.getJSON('index.php', ajaxData, function (response) {
+    document.querySelectorAll('joomla-alert').forEach((alert) => {
 
-                if (response.success) {
-                    //let a = button.closest('button.joomla-alert--close').click();
-                    const collection = document.getElementsByClassName("joomla-alert--close");
-                    for (let i = 0; i < collection.length; i++) {
-                        collection[i].click();
-                    }
-                }
+        const btn = document.querySelector('.eosnotify-snooze-btn');
+
+        if (!btn) return;
+
+        btn.addEventListener('click', async (_) => {
+            const response = await fetch(new URL(`${Joomla.getOptions('system.paths').baseFull}index.php`),
+                {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: { 'X-CSRF-Token': Joomla.getOptions('csrf.token') || '' }
+                });
+
+            if (response.ok) {
+                alert.close();
             }
-        );
-        e.preventDefault();
-    });
-
-})(jQuery);
-
-
-
-
-
-
+        })
+    })
+});
 
