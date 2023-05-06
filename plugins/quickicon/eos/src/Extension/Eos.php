@@ -42,7 +42,7 @@ final class Eos extends CMSPlugin
      * @var    string
      * @since  4.0.0
      */
-    const EOS_DATE = '2025-10-25';
+    const EOS_DATE = '2023-10-25';
     /**
      * Load the language file on instantiation.
      *
@@ -189,18 +189,6 @@ final class Eos extends CMSPlugin
     }
 
     /**
-     * Check valid AJAX request
-     *
-     * @return  bool
-     *
-     * @since   4.0.0
-     */
-    private function isAjaxRequest(): bool
-    {
-        return strtolower($this->getApplication()->input->server->get('HTTP_X_REQUESTED_WITH', '')) === 'xmlhttprequest';
-    }
-
-    /**
      * Check if current user is allowed to send the data
      *
      * @return  bool
@@ -225,13 +213,13 @@ final class Eos extends CMSPlugin
      *
      * @throws Exception
      */
-    public function onAjaxSnoozeEOS(): string
+    public function onAjaxEos(): string
     {
         // No messages yet so nothing to snooze
         if (!$this->currentMessage) {
             return '';
         }
-        if (!$this->isAllowedUser() || !$this->isAjaxRequest()) {
+        if (!$this->isAllowedUser()) {
             throw new Notallowed(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
         }
         // Make sure only snoozable messages can be snoozed
@@ -268,10 +256,6 @@ final class Eos extends CMSPlugin
 
         // Show this only when not snoozed
         if ($this->params->get('last_snoozed_id', 0) < $this->currentMessage['id']) {
-            // Load the snooze scripts.
-            HTMLHelper::_('jquery.framework');
-
-
             // Build the  message to be displayed in the cpanel
             $messageText = Text::sprintf($this->currentMessage['messageText'], HTMLHelper::_('date', Eos::EOS_DATE, Text::_('DATE_FORMAT_LC3')), $this->currentMessage['messageLink']);
             if ($this->currentMessage['snoozable']) {
@@ -280,9 +264,7 @@ final class Eos extends CMSPlugin
             $this->getApplication()->enqueueMessage($messageText, $this->currentMessage['messageType']);
         }
         try {
-            $wa = $this->document->getWebAssetManager();
-            $wa->getRegistry()->addExtensionRegistryFile('plg_quickicon_eos');
-            $wa->useScript('plg_quickicon_eos.snooze');
+            $this->document->getWebAssetManager()->registerAndUseScript('boo', 'plg_quickicon_eos/snooze.js', [], ['type' => 'module']);
         } catch (Exception $e) {
             echo $e->getMessage();
             exit();
@@ -343,24 +325,13 @@ final class Eos extends CMSPlugin
      */
     private function shouldDisplayMessage(): bool
     {
-        // Only on admin app
-        if (!$this->getApplication()->isClient('administrator')) {
-            return false;
-        }
-        // Only if authenticated
-        if (Factory::getApplication()->getIdentity()->guest) {
-            return false;
-        }
-        // Only on HTML documents
-        if ($this->document->getType() !== 'html') {
-            return false;
-        }
-        // Only on full page requests
-        if ($this->getApplication()->input->getCmd('tmpl', 'index') === 'component') {
-            return false;
-        }
-        // Only to com_cpanel
-        if ($this->getApplication()->input->get('option') !== 'com_cpanel') {
+        if (
+            !$this->getApplication()->isClient('administrator')
+            || Factory::getApplication()->getIdentity()->guest
+            || $this->document->getType() !== 'html'
+            || $this->getApplication()->input->getCmd('tmpl', 'index') === 'component'
+            || $this->getApplication()->input->get('option') !== 'com_cpanel'
+        ) {
             return false;
         }
 
