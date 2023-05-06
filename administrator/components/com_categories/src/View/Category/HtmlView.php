@@ -196,7 +196,7 @@ class HtmlView extends BaseHtmlView
             $saveGroup->configure(
                 function (Toolbar $childBar) {
                     $childBar->save('category.save');
-                    $childBar->save('category.save2new');
+                    $childBar->save2new('category.save2new');
                 }
             );
 
