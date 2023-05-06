@@ -590,7 +590,11 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             $options['title'] = $args[3] ?? null;
         }
 
-        parent::$_buffer[$options['type']][$options['name']][$options['title']] = $content;
+        $type  = $options['type'] ?? '';
+        $name  = $options['name'] ?? '';
+        $title = $options['title'] ?? '';
+
+        parent::$_buffer[$type][$name][$title] = $content;
 
         return $this;
     }
