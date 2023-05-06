@@ -174,10 +174,10 @@ class ModulelayoutField extends FormField
 
                             foreach ($files as $file) {
                                 // Add an option to the template group
-                                $value = basename($file, '.php');
+                                $value          = basename($file, '.php');
                                 $parentTplParts = explode('_', $template->element);
-                                $childLang = null;
-                                $text = $lang->hasKey($key = strtoupper('TPL_' . $template->element . '_' . $module . '_LAYOUT_' . $value)) ? Text::_($key) : $value;
+                                $childLang      = null;
+                                $text           = $lang->hasKey($key = strtoupper('TPL_' . $template->element . '_' . $module . '_LAYOUT_' . $value)) ? Text::_($key) : $value;
 
                                 if (count($parentTplParts) > 1) {
                                     $tmpArr = array_filter($templates, function ($tmpl) use ($parentTplParts) {
@@ -191,7 +191,7 @@ class ModulelayoutField extends FormField
 
                                 if ($childLang) {
                                     $altText = $lang->hasKey($key = strtoupper('TPL_' . $childLang . '_' . $module . '_LAYOUT_' . $value)) ? Text::_($key) : $value;
-                                    $text = $altText !== $text ? $altText : $text;
+                                    $text    = $altText !== $text ? $altText : $text;
                                 }
 
                                 $groups[$template->element]['items'][] = HTMLHelper::_('select.option', $template->element . ':' . $value, $text);
