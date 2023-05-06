@@ -264,7 +264,7 @@ final class Eos extends CMSPlugin
             $this->getApplication()->enqueueMessage($messageText, $this->currentMessage['messageType']);
         }
         try {
-            $this->document->getWebAssetManager()->registerAndUseScript('boo', 'plg_quickicon_eos/snooze.js', [], ['type' => 'module']);
+            $this->document->getWebAssetManager()->registerAndUseScript('plg_quickicon_eos.script', 'plg_quickicon_eos/snooze.js', [], ['type' => 'module']);
         } catch (Exception $e) {
             echo $e->getMessage();
             exit();
