@@ -129,7 +129,7 @@ class ChromestyleField extends GroupedlistField
      * Method to get the list of template chrome style options
      * grouped by template.
      *
-     * @return  array  The field option objects as a nested array in groups.
+     * @return  array[]  The field option objects as a nested array in groups.
      *
      * @since   3.0
      */
@@ -162,7 +162,7 @@ class ChromestyleField extends GroupedlistField
     /**
      * Method to get the templates module styles.
      *
-     * @return  array  The array of styles, grouped by templates.
+     * @return  string[]  The array of styles, grouped by templates.
      *
      * @since   3.0
      */
@@ -210,7 +210,7 @@ class ChromestyleField extends GroupedlistField
     /**
      * Return a list of templates
      *
-     * @return  array  List of templates
+     * @return  object[]  List of templates
      *
      * @since   3.2.1
      */
