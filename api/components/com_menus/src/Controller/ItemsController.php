@@ -99,9 +99,9 @@ class ItemsController extends ApiController
             $this->input->set('com_menus.items.menutype', $data['menutype']);
         }
 
-        isset($data['type'])      && $this->input->set('type', $data['type']);
+        isset($data['type']) && $this->input->set('type', $data['type']);
         isset($data['parent_id']) && $this->input->set('parent_id', $data['parent_id']);
-        isset($data['link'])      && $this->input->set('link', $data['link']);
+        isset($data['link']) && $this->input->set('link', $data['link']);
 
         $this->input->set('id', '0');
 
@@ -124,9 +124,9 @@ class ItemsController extends ApiController
             $this->input->set('com_menus.items.menutype', $data['menutype']);
         }
 
-        isset($data['type'])      && $this->input->set('type', $data['type']);
+        isset($data['type']) && $this->input->set('type', $data['type']);
         isset($data['parent_id']) && $this->input->set('parent_id', $data['parent_id']);
-        isset($data['link'])      && $this->input->set('link', $data['link']);
+        isset($data['link']) && $this->input->set('link', $data['link']);
 
         return parent::edit();
     }

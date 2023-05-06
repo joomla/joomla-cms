@@ -95,7 +95,7 @@ class DiscoverModel extends InstallerModel
      */
     protected function getListQuery()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->quoteName('#__extensions'))
@@ -155,7 +155,7 @@ class DiscoverModel extends InstallerModel
         $results = Installer::getInstance()->discover();
 
         // Get all templates, including discovered ones
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName(['extension_id', 'element', 'folder', 'client_id', 'type']))
             ->from($db->quoteName('#__extensions'));
@@ -171,7 +171,7 @@ class DiscoverModel extends InstallerModel
                     $install->type,
                     str_replace('\\', '/', $install->element),
                     $install->folder,
-                    $install->client_id
+                    $install->client_id,
                 ]
             );
             $extensions[$key] = $install;
@@ -187,7 +187,7 @@ class DiscoverModel extends InstallerModel
                     $result->type,
                     str_replace('\\', '/', $result->element),
                     $result->folder,
-                    $result->client_id
+                    $result->client_id,
                 ]
             );
 
@@ -212,7 +212,7 @@ class DiscoverModel extends InstallerModel
     public function discover_install()
     {
         $app   = Factory::getApplication();
-        $input = $app->input;
+        $input = $app->getInput();
         $eid   = $input->get('cid', 0, 'array');
 
         if (is_array($eid) || $eid) {
@@ -220,7 +220,7 @@ class DiscoverModel extends InstallerModel
                 $eid = [$eid];
             }
 
-            $eid = ArrayHelper::toInteger($eid);
+            $eid    = ArrayHelper::toInteger($eid);
             $failed = false;
 
             foreach ($eid as $id) {
@@ -258,7 +258,7 @@ class DiscoverModel extends InstallerModel
      */
     public function purge()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__extensions'))
             ->where($db->quoteName('state') . ' = -1');

@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Workflow;
@@ -102,7 +102,7 @@ trait WorkflowServiceTrait
                     'eventClass'    => 'Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent',
                     'subject'       => $this,
                     'extension'     => $extension,
-                    'functionality' => $functionality
+                    'functionality' => $functionality,
                 ]
             )
         );

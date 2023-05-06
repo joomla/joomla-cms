@@ -15,7 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
-$input  = $app->input;
+$input  = $app->getInput();
 $option = $input->getCmd('option');
 $view   = $input->getCmd('view');
 $id     = $input->getInt('id');

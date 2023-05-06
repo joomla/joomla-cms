@@ -105,7 +105,7 @@ class PlgSampledataMultilang extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep1()
     {
-        if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name) {
+        if (!Session::checkToken('get') || $this->app->getInput()->get('type') != $this->_name) {
             return;
         }
 
@@ -148,7 +148,7 @@ class PlgSampledataMultilang extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep2()
     {
-        if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name) {
+        if (!Session::checkToken('get') || $this->app->getInput()->get('type') != $this->_name) {
             return;
         }
 
@@ -189,7 +189,7 @@ class PlgSampledataMultilang extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep3()
     {
-        if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name) {
+        if (!Session::checkToken('get') || $this->app->getInput()->get('type') != $this->_name) {
             return;
         }
 
@@ -225,7 +225,7 @@ class PlgSampledataMultilang extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep4()
     {
-        if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name) {
+        if (!Session::checkToken('get') || $this->app->getInput()->get('type') != $this->_name) {
             return;
         }
 
@@ -283,7 +283,7 @@ class PlgSampledataMultilang extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep5()
     {
-        if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name) {
+        if (!Session::checkToken('get') || $this->app->getInput()->get('type') != $this->_name) {
             return;
         }
 
@@ -323,7 +323,7 @@ class PlgSampledataMultilang extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep6()
     {
-        if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name) {
+        if (!Session::checkToken('get') || $this->app->getInput()->get('type') != $this->_name) {
             return;
         }
 
@@ -403,7 +403,7 @@ class PlgSampledataMultilang extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep7()
     {
-        if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name) {
+        if (!Session::checkToken('get') || $this->app->getInput()->get('type') != $this->_name) {
             return;
         }
 
@@ -439,7 +439,7 @@ class PlgSampledataMultilang extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep8()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -565,8 +565,7 @@ class PlgSampledataMultilang extends CMSPlugin
             'module'    => 'mod_languages',
             'access'    => 1,
             'showtitle' => 0,
-            'params'    =>
-                '{"header_text":"","footer_text":"","dropdown":"0","image":"1","inline":"1","show_active":"1",'
+            'params'    => '{"header_text":"","footer_text":"","dropdown":"0","image":"1","inline":"1","show_active":"1",'
                 . '"full_name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0","cache_time":"900","cachemode":"itemid",'
                 . '"module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}',
             'client_id' => 0,
@@ -605,7 +604,7 @@ class PlgSampledataMultilang extends CMSPlugin
     private function addModuleMenu($itemLanguage)
     {
         $tableModule = Table::getInstance('Module', 'Joomla\\CMS\\Table\\');
-        $title = 'Main menu ' . $itemLanguage->language;
+        $title       = 'Main menu ' . $itemLanguage->language;
 
         $moduleData = [
             'id'        => 0,
@@ -622,7 +621,7 @@ class PlgSampledataMultilang extends CMSPlugin
             'client_id' => 0,
             'language'  => $itemLanguage->language,
             'published' => 1,
-            'rules' => [],
+            'rules'     => [],
         ];
 
         // Bind the data.
@@ -728,7 +727,7 @@ class PlgSampledataMultilang extends CMSPlugin
                 . '"feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"",'
                 . '"menu_text":1,"menu_show":0,"page_title":"","show_page_heading":"","page_heading":"",'
                 . '"pageclass_sfx":"","menu-meta_description":"","robots":""}',
-            'language'     => $itemLanguage->language,
+            'language' => $itemLanguage->language,
         ];
 
         // Bind the data.
@@ -801,7 +800,7 @@ class PlgSampledataMultilang extends CMSPlugin
                 . '"show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"",'
                 . '"menu_image":"","menu_image_css":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1",'
                 . '"page_heading":"","pageclass_sfx":"","menu-meta_description":"","robots":""}',
-            'language'     => $itemLanguage->language,
+            'language' => $itemLanguage->language,
         ];
 
         // Bind the data.
@@ -1000,7 +999,7 @@ class PlgSampledataMultilang extends CMSPlugin
         $newlanguage->load('com_content.sys', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
         $title       = $newlanguage->_('COM_CONTENT_CONTENT_TYPE_ARTICLE');
         $currentDate = Factory::getDate()->toSql();
-        $alias = ApplicationHelper::stringURLSafe($title);
+        $alias       = ApplicationHelper::stringURLSafe($title);
 
         // Set unicodeslugs if alias is empty
         if (trim(str_replace('-', '', $alias) == '')) {
@@ -1013,9 +1012,9 @@ class PlgSampledataMultilang extends CMSPlugin
         $article = $this->app->bootComponent('com_content')->getMVCFactory()->createTable('Article', 'Administrator', ['dbo' => $this->db]);
 
         $data = [
-            'title'            => $title . ' (' . strtolower($itemLanguage->language) . ')',
-            'alias'            => $alias . ' (' . strtolower($itemLanguage->language) . ')',
-            'introtext'        => '<p>Lorem ipsum ad his scripta blandit partiendo, eum fastidii accumsan euripidis'
+            'title'     => $title . ' (' . strtolower($itemLanguage->language) . ')',
+            'alias'     => $alias . ' (' . strtolower($itemLanguage->language) . ')',
+            'introtext' => '<p>Lorem ipsum ad his scripta blandit partiendo, eum fastidii accumsan euripidis'
                 . ' in, eum liber hendrerit an. Qui ut wisi vocibus suscipiantur, quo dicit'
                 . ' ridens inciderint id. Quo mundi lobortis reformidans eu, legimus senserit'
                 . 'definiebas an eos. Eu sit tincidunt incorrupte definitionem, vis mutat'
@@ -1073,7 +1072,7 @@ class PlgSampledataMultilang extends CMSPlugin
             return false;
         }
 
-        $workflow = new Workflow('com_content.article');
+        $workflow = new Workflow('com_content.article', $this->app, $db);
 
         try {
             $stage_id = $workflow->getDefaultStageByCategory($categoryId);
@@ -1222,9 +1221,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
         $db->setQuery($query);
 
-        $this->langlist = $db->loadColumn();
-
-        return $this->langlist;
+        return $db->loadColumn();
     }
 
     /**
@@ -1270,9 +1267,7 @@ class PlgSampledataMultilang extends CMSPlugin
      */
     protected function getClient($client = 'administrator')
     {
-        $this->client = ApplicationHelper::getClientInfo($client, true);
-
-        return $this->client;
+        return ApplicationHelper::getClientInfo($client, true);
     }
 
     /**
