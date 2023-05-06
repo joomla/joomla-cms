@@ -147,12 +147,10 @@ module.exports.createErrorPages = async (options) => {
       await mkdir(dirname(`${RootPath}${options.settings.errorPages[name].destFile}`), { recursive: true, mode: 0o755 });
     }
 
-    options.settings.errorPages[name].destFile.forEach(async (folder) => {
-      await writeFile(`${RootPath}${folder}`, template, { encoding: 'utf8', mode: 0o644 });
+    await writeFile(`${RootPath}${options.settings.errorPages[name]}`, template, { encoding: 'utf8', mode: 0o644 });
 
-      // eslint-disable-next-line no-console
-      console.error(`✅ Created the file: ${folder}`);
-    });
+    // eslint-disable-next-line no-console
+    console.error(`✅ Created the file: ${options.settings.errorPages[name]}`);
   };
 
   Object.keys(options.settings.errorPages).forEach((name) => processPages.push(processPage(name)));

@@ -25,7 +25,7 @@ if (
         if (JPATH_ROOT === JPATH_PUBLIC) {
             header('Location: ' . substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php')) . 'installation/index.php');
         } else {
-            echo file_get_contents(__DIR__ . '/build_incomplete.html');
+            echo 'Installation from a public folder is not supported, revert your Server configuration to point at the Joomla\'s root folder to continue.';
         }
 
         exit;
