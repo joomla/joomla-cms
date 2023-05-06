@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_QUICKICON_EOS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Quickicon\Eos</namespace>
 	<files>
 		<folder plugin="eos">services</folder>
 		<folder>src</folder>

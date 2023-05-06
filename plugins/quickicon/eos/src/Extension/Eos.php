@@ -13,18 +13,19 @@ namespace Joomla\Plugin\Quickicon\Eos\Extension;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') || die;
+
 // phpcs:enable PSR1.Files.SideEffects
 
 use Exception;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Cache\CacheController;
-use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Event\DispatcherInterface;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Event\DispatcherInterface;
 
 /**
  * Joomla! end of support notification plugin
@@ -34,6 +35,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 final class Eos extends CMSPlugin
 {
     use DatabaseAwareTrait;
+
     /**
      * The EOS date for 4.x.
      *
@@ -54,7 +56,7 @@ final class Eos extends CMSPlugin
      * @var    array
      * @since  4.0.0
      */
-    private array $currentMessage = [];
+    private array|bool $currentMessage = [];
 
     /**
      * The document.
@@ -65,19 +67,6 @@ final class Eos extends CMSPlugin
      */
     private Document $document;
 
-    /**
-     * Returns an array of events this subscriber will listen to.
-     *
-     * @return  array
-     *
-     * @since   4.0.0
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            'onGetIcons' => 'getEOSNotification',
-        ];
-    }
 
     /**
      * Clears cache groups. We use it to clear the plugins cache after we update the last run timestamp.
@@ -89,16 +78,16 @@ final class Eos extends CMSPlugin
      */
     private function clearCacheGroups()
     {
-        $clearGroups = ['com_plugins'];
+        $clearGroups  = ['com_plugins'];
         $cacheClients = [0, 1];
         foreach ($clearGroups as $group) {
             foreach ($cacheClients as $client_id) {
                 try {
-                    $options         = ['defaultgroup' => $group, 'cachebase' => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $this->app->get('cache_path', JPATH_SITE . '/cache')];
+                    $options         = ['defaultgroup' => $group, 'cachebase' => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $this->getApplication()->get('cache_path', JPATH_SITE . '/cache')];
                     $cachecontroller = new CacheController($options);
                     $cache           = $cachecontroller->cache;
                     $cache->clean();
-                } catch (Exception ) {
+                } catch (Exception) {
                     // Ignore it
                 }
             }
@@ -187,6 +176,20 @@ final class Eos extends CMSPlugin
     }
 
     /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   4.0.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onGetIcons' => 'onGetIcons',
+        ];
+    }
+
+    /**
      * Check valid AJAX request
      *
      * @return  bool
@@ -195,7 +198,7 @@ final class Eos extends CMSPlugin
      */
     private function isAjaxRequest(): bool
     {
-        return strtolower($this->app->input->server->get('HTTP_X_REQUESTED_WITH', '')) === 'xmlhttprequest';
+        return strtolower($this->getApplication()->input->server->get('HTTP_X_REQUESTED_WITH', '')) === 'xmlhttprequest';
     }
 
     /**
@@ -251,7 +254,7 @@ final class Eos extends CMSPlugin
      *
      * @throws Exception
      */
-    public function getEOSNotification(string $context): array
+    public function onGetIcons(string $context): array
     {
         if (!$this->shouldDisplayMessage()) {
             return [];
@@ -285,10 +288,11 @@ final class Eos extends CMSPlugin
             if ($this->currentMessage['snoozable']) {
                 $messageText .= '<p><button class="btn btn-warning eosnotify-snooze-btn" type="button">' . Text::_('PLG_QUICKICON_EOS_SNOOZE_BUTTON') . '</button></p>';
             }
-            $this->app->enqueueMessage($messageText, $this->currentMessage['messageType']);
+            $this->getApplication()->enqueueMessage($messageText, $this->currentMessage['messageType']);
         }
         // The message as quickicon
         $messageTextQuickIcon = Text::sprintf($this->currentMessage['quickiconText'], HTMLHelper::_('date', Eos::EOS_DATE, Text::_('DATE_FORMAT_LC3')));
+
         // The message as quickicon
         return [['link' => $this->currentMessage['messageLink'], 'target' => '_blank', 'rel' => 'noopener noreferrer', 'image' => $this->currentMessage['image'], 'text' => $messageTextQuickIcon, 'id' => 'plg_quickicon_eos', 'group' => $this->currentMessage['groupText'],]];
     }
@@ -302,16 +306,11 @@ final class Eos extends CMSPlugin
      */
     private function saveParams(): bool
     {
-        $query = $this->db->getQuery(true)
-            ->update($this->db->quoteName('#__extensions'))
-            ->set($this->db->quoteName('params') . ' = ' . $this->db->quote($this->params->toString('JSON')))
-            ->where($this->db->quoteName('type') . ' = ' . $this->db->quote('plugin'))
-            ->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('quickicon'))
-            ->where($this->db->quoteName('element') . ' = ' . $this->db->quote('eos'));
+        $query = $this->db->getQuery(true)->update($this->db->quoteName('#__extensions'))->set($this->db->quoteName('params') . ' = ' . $this->db->quote($this->params->toString('JSON')))->where($this->db->quoteName('type') . ' = ' . $this->db->quote('plugin'))->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('quickicon'))->where($this->db->quoteName('element') . ' = ' . $this->db->quote('eos'));
         try {
             // Lock the tables to prevent multiple plugin executions causing a race condition
             $this->db->lockTable('#__extensions');
-        } catch (Exception ) {
+        } catch (Exception) {
             // If we can't lock the tables it's too risky to continue execution
             return false;
         }
@@ -319,7 +318,7 @@ final class Eos extends CMSPlugin
             // Update the plugin parameters
             $result = $this->db->setQuery($query)->execute();
             $this->clearCacheGroups();
-        } catch (Exception ) {
+        } catch (Exception) {
             // If we failed to execute
             $this->db->unlockTables();
             $result = false;
@@ -331,6 +330,7 @@ final class Eos extends CMSPlugin
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }
+
         return $result;
     }
 
@@ -340,13 +340,13 @@ final class Eos extends CMSPlugin
      * @return  bool
      *
      * @since   4.0.0
-     *          
+     *
      * @throws Exception
      */
     private function shouldDisplayMessage(): bool
     {
         // Only on admin app
-        if (!$this->app->isClient('administrator')) {
+        if (!$this->getApplication()->isClient('administrator')) {
             return false;
         }
         // Only if authenticated
@@ -358,11 +358,11 @@ final class Eos extends CMSPlugin
             return false;
         }
 // Only on full page requests
-        if ($this->app->input->getCmd('tmpl', 'index') === 'component') {
+        if ($this->getApplication()->input->getCmd('tmpl', 'index') === 'component') {
             return false;
         }
 // Only to com_cpanel
-        if ($this->app->input->get('option') !== 'com_cpanel') {
+        if ($this->getApplication()->input->get('option') !== 'com_cpanel') {
             return false;
         }
 
