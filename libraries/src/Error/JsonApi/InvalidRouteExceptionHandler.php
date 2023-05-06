@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Error\JsonApi;
@@ -52,7 +52,7 @@ class InvalidRouteExceptionHandler implements ExceptionHandlerInterface
     public function handle(Exception $e)
     {
         $status = 404;
-        $error = ['title' => 'Resource not found'];
+        $error  = ['title' => 'Resource not found'];
 
         $code = $e->getCode();
 

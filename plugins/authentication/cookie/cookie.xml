@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="authentication" method="upgrade">
 	<name>plg_authentication_cookie</name>
 	<author>Joomla! Project</author>
@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_AUTHENTICATION_COOKIE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Authentication\Cookie</namespace>
 	<files>
-		<filename plugin="cookie">cookie.php</filename>
+		<folder plugin="cookie">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_authentication_cookie.ini</language>
