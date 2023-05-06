@@ -18,6 +18,10 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\User\User;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Login view class for Users.
  *
@@ -66,7 +70,9 @@ class HtmlView extends BaseHtmlView
      *
      * @var    boolean
      * @since  4.0.0
-     * @deprecated 4.2.0 Will be removed in 5.0.
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement
      */
     protected $tfa = false;
 

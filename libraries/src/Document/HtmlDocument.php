@@ -12,7 +12,6 @@ namespace Joomla\CMS\Document;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
-use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
@@ -21,7 +20,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Utility\Utility;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-use UnexpectedValueException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HtmlDocument class, provides an easy interface to parse and display a HTML document
@@ -38,7 +40,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * @var    array
      * @since  1.7.0
      */
-    public $_links = array();
+    public $_links = [];
 
     /**
      * Array of custom tags
@@ -46,7 +48,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * @var    array
      * @since  1.7.0
      */
-    public $_custom = array();
+    public $_custom = [];
 
     /**
      * Name of the template
@@ -102,7 +104,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * @var    array
      * @since  1.7.0
      */
-    protected $_template_tags = array();
+    protected $_template_tags = [];
 
     /**
      * Integer with caching setting
@@ -127,7 +129,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      *
      * @since   1.7.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         parent::__construct($options);
 
@@ -147,7 +149,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      */
     public function getHeadData()
     {
-        $data = array();
+        $data                  = [];
         $data['title']         = $this->title;
         $data['description']   = $this->description;
         $data['link']          = $this->link;
@@ -159,7 +161,10 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
         $data['script']        = $this->_script;
         $data['custom']        = $this->_custom;
 
-        // @deprecated 5.0  This property is for backwards compatibility. Pass text through script options in the future
+        /**
+         * @deprecated  4.0 will be removed in 6.0
+         *              This property is for backwards compatibility. Pass text through script options in the future
+         */
         $data['scriptText']    = Text::getScriptStrings();
 
         $data['scriptOptions'] = $this->scriptOptions;
@@ -201,14 +206,14 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             $this->title         = '';
             $this->description   = '';
             $this->link          = '';
-            $this->_metaTags     = array();
-            $this->_links        = array();
-            $this->_styleSheets  = array();
-            $this->_style        = array();
-            $this->_scripts      = array();
-            $this->_script       = array();
-            $this->_custom       = array();
-            $this->scriptOptions = array();
+            $this->_metaTags     = [];
+            $this->_links        = [];
+            $this->_styleSheets  = [];
+            $this->_style        = [];
+            $this->_scripts      = [];
+            $this->_script       = [];
+            $this->_custom       = [];
+            $this->scriptOptions = [];
         }
 
         if (\is_array($types)) {
@@ -249,12 +254,12 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             case 'scripts':
             case 'script':
             case 'custom':
-                $realType = '_' . $type;
-                $this->{$realType} = array();
+                $realType          = '_' . $type;
+                $this->{$realType} = [];
                 break;
 
             case 'scriptOptions':
-                $this->{$type} = array();
+                $this->{$type} = [];
                 break;
         }
     }
@@ -313,14 +318,14 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      *
      * @param   array  $data  The document head data in array form
      *
-     * @return  HtmlDocument|void instance of $this to allow chaining or void for empty input data
+     * @return  HtmlDocument  instance of $this to allow chaining
      *
      * @since   1.7.0
      */
     public function mergeHeadData($data)
     {
         if (empty($data) || !\is_array($data)) {
-            return;
+            return $this;
         }
 
         $this->title = (isset($data['title']) && !empty($data['title']) && !stristr($this->title, $data['title']))
@@ -420,11 +425,11 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      *
      * @since   1.7.0
      */
-    public function addHeadLink($href, $relation, $relType = 'rel', $attribs = array())
+    public function addHeadLink($href, $relation, $relType = 'rel', $attribs = [])
     {
         $this->_links[$href]['relation'] = $relation;
-        $this->_links[$href]['relType'] = $relType;
-        $this->_links[$href]['attribs'] = $attribs;
+        $this->_links[$href]['relType']  = $relType;
+        $this->_links[$href]['attribs']  = $attribs;
 
         return $this;
     }
@@ -447,7 +452,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     public function addFavicon($href, $type = 'image/vnd.microsoft.icon', $relation = 'shortcut icon')
     {
         $href = str_replace('\\', '/', $href);
-        $this->addHeadLink($href, $relation, 'rel', array('type' => $type));
+        $this->addHeadLink($href, $relation, 'rel', ['type' => $type]);
 
         return $this;
     }
@@ -507,7 +512,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      *
      * @since   1.7.0
      */
-    public function getBuffer($type = null, $name = null, $attribs = array())
+    public function getBuffer($type = null, $name = null, $attribs = [])
     {
         // If no type is specified, return the whole buffer
         if ($type === null) {
@@ -526,7 +531,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             /** @var  \Joomla\CMS\Document\Renderer\Html\ModulesRenderer  $renderer */
             /** @var  \Joomla\CMS\Cache\Controller\OutputController  $cache */
             $cache  = $this->getCacheControllerFactory()->createCacheController('output', ['defaultgroup' => 'com_modules']);
-            $itemId = (int) CmsFactory::getApplication()->input->get('Itemid', 0, 'int');
+            $itemId = (int) CmsFactory::getApplication()->getInput()->get('Itemid', 0, 'int');
 
             $hash = md5(
                 serialize(
@@ -538,15 +543,15 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
                     ]
                 )
             );
-            $cbuffer = $cache->get('cbuffer_' . $type);
+            $cbuffer = $cache->get('cbuffer_' . $type) ?: [];
 
             if (isset($cbuffer[$hash])) {
-                return Cache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
+                return Cache::getWorkarounds($cbuffer[$hash], ['mergehead' => 1]);
             }
 
-            $options = array();
-            $options['nopathway'] = 1;
-            $options['nomodules'] = 1;
+            $options               = [];
+            $options['nopathway']  = 1;
+            $options['nomodules']  = 1;
             $options['modulemode'] = 1;
 
             $this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
@@ -574,18 +579,22 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      *
      * @since   1.7.0
      */
-    public function setBuffer($content, $options = array())
+    public function setBuffer($content, $options = [])
     {
         // The following code is just for backward compatibility.
         if (\func_num_args() > 1 && !\is_array($options)) {
-            $args = \func_get_args();
-            $options = array();
-            $options['type'] = $args[1];
-            $options['name'] = $args[2] ?? null;
+            $args             = \func_get_args();
+            $options          = [];
+            $options['type']  = $args[1];
+            $options['name']  = $args[2] ?? null;
             $options['title'] = $args[3] ?? null;
         }
 
-        parent::$_buffer[$options['type']][$options['name']][$options['title']] = $content;
+        $type  = $options['type'] ?? '';
+        $name  = $options['name'] ?? '';
+        $title = $options['title'] ?? '';
+
+        parent::$_buffer[$type][$name][$title] = $content;
 
         return $this;
     }
@@ -599,7 +608,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      *
      * @since   1.7.0
      */
-    public function parse($params = array())
+    public function parse($params = [])
     {
         return $this->_fetchTemplate($params)->_parseTemplate();
     }
@@ -614,7 +623,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      *
      * @since   1.7.0
      */
-    public function render($caching = false, $params = array())
+    public function render($caching = false, $params = [])
     {
         $this->_caching = $caching;
 
@@ -683,10 +692,10 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
         static $children;
 
         if (!isset($children)) {
-            $db = CmsFactory::getDbo();
-            $app = CmsFactory::getApplication();
-            $menu = $app->getMenu();
-            $active = $menu->getActive();
+            $db       = CmsFactory::getDbo();
+            $app      = CmsFactory::getApplication();
+            $menu     = $app->getMenu();
+            $active   = $menu->getActive();
             $children = 0;
 
             if ($active) {
@@ -746,15 +755,15 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      *
      * @since   1.7.0
      */
-    protected function _fetchTemplate($params = array())
+    protected function _fetchTemplate($params = [])
     {
         // Check
         $directory = $params['directory'] ?? 'templates';
-        $filter = InputFilter::getInstance();
-        $template = $filter->clean($params['template'], 'cmd');
-        $file = $filter->clean($params['file'], 'cmd');
-        $inherits = $params['templateInherits'] ?? '';
-        $baseDir = $directory . '/' . $template;
+        $filter    = InputFilter::getInstance();
+        $template  = $filter->clean($params['template'], 'cmd');
+        $file      = $filter->clean($params['file'], 'cmd');
+        $inherits  = $params['templateInherits'] ?? '';
+        $baseDir   = $directory . '/' . $template;
 
         if (!is_file($directory . '/' . $template . '/' . $file)) {
             if ($inherits !== '' && is_file($directory . '/' . $inherits . '/' . $file)) {
@@ -774,12 +783,13 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
 
         // 1.5 or core then 1.6
         $lang->load('tpl_' . $template, JPATH_BASE)
-            || ($inherits !== '' && $lang->load('tpl_' . $inherits, $directory . '/' . $inherits))
-            || $lang->load('tpl_' . $template, $directory . '/' . $template);
+            || ($inherits !== '' && $lang->load('tpl_' . $inherits, JPATH_BASE))
+            || $lang->load('tpl_' . $template, $directory . '/' . $template)
+            || ($inherits !== '' && $lang->load('tpl_' . $inherits, $directory . '/' . $inherits));
 
         // Assign the variables
-        $this->baseurl = Uri::base(true);
-        $this->params = $params['params'] ?? new Registry();
+        $this->baseurl  = Uri::base(true);
+        $this->params   = $params['params'] ?? new Registry();
         $this->template = $template;
 
         // Load
@@ -797,18 +807,18 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      */
     protected function _parseTemplate()
     {
-        $matches = array();
+        $matches = [];
 
         if (preg_match_all('#<jdoc:include\ type="([^"]+)"(.*)\/>#iU', $this->_template, $matches)) {
-            $messages = [];
+            $messages            = [];
             $template_tags_first = [];
-            $template_tags_last = [];
+            $template_tags_last  = [];
 
             // Step through the jdocs in reverse order.
             for ($i = \count($matches[0]) - 1; $i >= 0; $i--) {
-                $type = $matches[1][$i];
-                $attribs = empty($matches[2][$i]) ? array() : Utility::parseAttributes($matches[2][$i]);
-                $name = $attribs['name'] ?? null;
+                $type    = $matches[1][$i];
+                $attribs = empty($matches[2][$i]) ? [] : Utility::parseAttributes($matches[2][$i]);
+                $name    = $attribs['name'] ?? null;
 
                 // Separate buffers to be executed first and last
                 if ($type === 'module' || $type === 'modules') {
@@ -836,11 +846,11 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     protected function _renderTemplate()
     {
         $replace = [];
-        $with = [];
+        $with    = [];
 
         foreach ($this->_template_tags as $jdoc => $args) {
             $replace[] = $jdoc;
-            $with[] = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
+            $with[]    = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
         }
 
         return str_replace($replace, $with, $this->_template);

@@ -14,6 +14,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+$user = \Joomla\CMS\Factory::getApplication()->getIdentity();
+
 /** @var  \Joomla\CMS\Menu\MenuItem  $root */
 ?>
 <?php foreach ($root->getChildren() as $child) : ?>

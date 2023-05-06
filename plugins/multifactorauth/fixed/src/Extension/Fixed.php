@@ -26,8 +26,12 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
 use RuntimeException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
- * TJoomla! Multi-factor Authentication using a fixed code.
+ * Joomla! Multi-factor Authentication using a fixed code.
  *
  * Requires a static string (password), different for each user. It effectively works as a second
  * password. The fixed code is stored hashed, like a regular password.
@@ -55,13 +59,23 @@ class Fixed extends CMSPlugin implements SubscriberInterface
      */
     private $mfaMethodName = 'fixed';
 
+
     /**
-     * Should I try to detect and register legacy event listeners?
+     * Should I try to detect and register legacy event listeners, i.e. methods which accept unwrapped arguments? While
+     * this maintains a great degree of backwards compatibility to Joomla! 3.x-style plugins it is much slower. You are
+     * advised to implement your plugins using proper Listeners, methods accepting an AbstractEvent as their sole
+     * parameter, for best performance. Also bear in mind that Joomla! 5.x onwards will only allow proper listeners,
+     * removing support for legacy Listeners.
      *
-     * @var   boolean
-     * @since 4.2.0
+     * @var    boolean
+     * @since  4.2.0
      *
-     * @deprecated
+     * @deprecated  4.3 will be removed in 6.0
+     *              Implement your plugin methods accepting an AbstractEvent object
+     *              Example:
+     *              onEventTriggerName(AbstractEvent $event) {
+     *                  $context = $event->getArgument(...);
+     *              }
      */
     protected $allowLegacyListeners = false;
 
@@ -130,17 +144,17 @@ class Fixed extends CMSPlugin implements SubscriberInterface
             new CaptiveRenderOptions(
                 [
                     // Custom HTML to display above the MFA form
-                    'pre_message'  => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_PREMESSAGE'),
+                    'pre_message' => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_PREMESSAGE'),
                     // How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
-                    'field_type'   => 'input',
+                    'field_type' => 'input',
                     // The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
-                    'input_type'   => 'password',
+                    'input_type' => 'password',
                     // Placeholder text for the HTML input box. Leave empty if you don't need it.
-                    'placeholder'  => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_PLACEHOLDER'),
+                    'placeholder' => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_PLACEHOLDER'),
                     // Label to show above the HTML input box. Leave empty if you don't need it.
-                    'label'        => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_LABEL'),
+                    'label' => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_LABEL'),
                     // Custom HTML. Only used when field_type = custom.
-                    'html'         => '',
+                    'html' => '',
                     // Custom HTML to display below the MFA form
                     'post_message' => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_POSTMESSAGE'),
                 ]
@@ -189,8 +203,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
                     'pre_message'   => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_SETUP_PREMESSAGE'),
                     'field_type'    => 'input',
                     'input_type'    => 'password',
-					// phpcs:ignore
-					'input_value'   => $options->fixed_code,
+                    'input_value'   => $options->fixed_code,
                     'placeholder'   => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_PLACEHOLDER'),
                     'label'         => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_LABEL'),
                     'post_message'  => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_SETUP_POSTMESSAGE'),
@@ -228,8 +241,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
         $options = $this->decodeRecordOptions($record);
 
         // Merge with the submitted form data
-		// phpcs:ignore
-		$code = $input->get('code', $options->fixed_code, 'raw');
+        $code = $input->get('code', $options->fixed_code, 'raw');
 
         // Make sure the code is not empty
         if (empty($code)) {
@@ -271,17 +283,14 @@ class Fixed extends CMSPlugin implements SubscriberInterface
         $options = $this->decodeRecordOptions($record);
 
         // Double check the MFA Method is for the correct user
-		// phpcs:ignore
-		if ($user->id != $record->user_id)
-        {
+        if ($user->id != $record->user_id) {
             $event->addResult(false);
 
             return;
         }
 
         // Check the MFA code for validity
-		// phpcs:ignore
-		$event->addResult(hash_equals($options->fixed_code, $code ?? ''));
+        $event->addResult(hash_equals($options->fixed_code, $code ?? ''));
     }
 
     /**

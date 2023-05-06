@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Form;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Interface defining a factory which can create Form objects
  *
@@ -26,5 +30,5 @@ interface FormFactoryInterface
      *
      * @since   4.0.0
      */
-    public function createForm(string $name, array $options = array()): Form;
+    public function createForm(string $name, array $options = []): Form;
 }

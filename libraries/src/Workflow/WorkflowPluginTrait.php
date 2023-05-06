@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Workflow;
@@ -12,6 +12,10 @@ namespace Joomla\CMS\Workflow;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Object\CMSObject;
 use ReflectionClass;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Trait for component workflow plugins.
@@ -26,7 +30,7 @@ trait WorkflowPluginTrait
      * @param   Form      $form The form
      * @param   \stdClass $data The data
      *
-     * @return  boolean
+     * @return  boolean|\stdClass
      *
      * @since   4.0.0
      */
@@ -61,7 +65,7 @@ trait WorkflowPluginTrait
      */
     protected function getWorkflow(int $workflowId = null)
     {
-        $workflowId = !empty($workflowId) ? $workflowId : $this->app->input->getInt('workflow_id');
+        $workflowId = !empty($workflowId) ? $workflowId : $this->app->getInput()->getInt('workflow_id');
 
         if (is_array($workflowId)) {
             return false;
@@ -96,7 +100,7 @@ trait WorkflowPluginTrait
      */
     protected function checkAllowedAndForbiddenlist($context)
     {
-        $allowedlist = \array_filter((array) $this->params->get('allowedlist', []));
+        $allowedlist   = \array_filter((array) $this->params->get('allowedlist', []));
         $forbiddenlist = \array_filter((array) $this->params->get('forbiddenlist', []));
 
         if (!empty($allowedlist)) {

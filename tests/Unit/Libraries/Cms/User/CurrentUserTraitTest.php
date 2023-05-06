@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Base
@@ -22,29 +23,28 @@ use Joomla\Tests\Unit\UnitTestCase;
  */
 class CurrentUserTraitTest extends UnitTestCase
 {
-	/**
-	 * @testdox  The current user can be set with setCurrentUser()
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function testGetCurrentUser()
-	{
-		$user = new User;
+    /**
+     * @testdox  The current user can be set with setCurrentUser()
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testGetCurrentUser()
+    {
+        $user = new User();
 
-		$trait = new class
-		{
-			use CurrentUserTrait;
+        $trait = new class () {
+            use CurrentUserTrait;
 
-			public function getUser(): User
-			{
-				return $this->getCurrentUser();
-			}
-		};
+            public function getUser(): User
+            {
+                return $this->getCurrentUser();
+            }
+        };
 
-		$trait->setCurrentUser($user);
+        $trait->setCurrentUser($user);
 
-		$this->assertEquals($user, $trait->getUser());
-	}
+        $this->assertEquals($user, $trait->getUser());
+    }
 }

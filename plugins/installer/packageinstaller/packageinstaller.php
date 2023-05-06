@@ -14,6 +14,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * PackageInstaller Plugin.
  *
@@ -41,7 +45,7 @@ class PlgInstallerPackageInstaller extends CMSPlugin
         // Load language files
         $this->loadLanguage();
 
-        $tab            = array();
+        $tab            = [];
         $tab['name']    = 'package';
         $tab['label']   = Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE');
 

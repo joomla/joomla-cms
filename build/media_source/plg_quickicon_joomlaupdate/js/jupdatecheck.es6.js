@@ -26,37 +26,34 @@ if (Joomla && Joomla.getOptions('js-extensions-update')) {
      *
      * @see https://github.com/joomla/joomla-cms/issues/38001
      */
-    Joomla.request({
+    Joomla.enqueueRequest({
       url: options.ajaxUrl,
       method: 'GET',
-      data: '',
-      perform: true,
-      queued: true,
-      onSuccess: (response) => {
-        const updateInfoList = JSON.parse(response);
+      promise: true,
+    }).then((xhr) => {
+      const response = xhr.responseText;
+      const updateInfoList = JSON.parse(response);
 
-        if (Array.isArray(updateInfoList)) {
-          if (updateInfoList.length === 0) {
-            // No updates
-            update('success', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE'));
-          } else {
-            const updateInfo = updateInfoList.shift();
-
-            if (updateInfo.version !== options.version) {
-              update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace('%s', `<span class="badge text-dark bg-light"> \u200E ${updateInfo.version}</span>`));
-            } else {
-              update('success', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE'));
-            }
-          }
+      if (Array.isArray(updateInfoList)) {
+        if (updateInfoList.length === 0) {
+          // No updates
+          update('success', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE'));
         } else {
-          // An error occurred
-          update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_ERROR'));
+          const updateInfo = updateInfoList.shift();
+
+          if (updateInfo.version !== options.version) {
+            update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace('%s', `<span class="badge text-dark bg-light"> \u200E ${updateInfo.version}</span>`));
+          } else {
+            update('success', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE'));
+          }
         }
-      },
-      onError: () => {
+      } else {
         // An error occurred
         update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_ERROR'));
-      },
+      }
+    }).catch(() => {
+      // An error occurred
+      update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_ERROR'));
     });
   };
 

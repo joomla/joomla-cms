@@ -16,6 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Override Plugin
  *
@@ -131,7 +135,7 @@ class PlgInstallerOverride extends CMSPlugin
 
         $after  = $session->get('override.afterEventFiles');
         $before = $session->get('override.beforeEventFiles');
-        $result = array();
+        $result = [];
 
         if (!is_array($after) || !is_array($before)) {
             return $result;
@@ -144,7 +148,7 @@ class PlgInstallerOverride extends CMSPlugin
             for ($i = 0; $i < $size1; $i++) {
                 if ($after[$i]->coreFile !== $before[$i]->coreFile) {
                     $after[$i]->action = $action;
-                    $result[] = $after[$i];
+                    $result[]          = $after[$i];
                 }
             }
         }
@@ -182,10 +186,11 @@ class PlgInstallerOverride extends CMSPlugin
      */
     public function finalize($result)
     {
-        $num = count($result);
+        $num  = count($result);
+        $link = 'index.php?option=com_templates&view=templates';
 
         if ($num != 0) {
-            $this->app->enqueueMessage(Text::plural('PLG_INSTALLER_OVERRIDE_N_FILE_UPDATED', $num), 'notice');
+            $this->app->enqueueMessage(Text::plural('PLG_INSTALLER_OVERRIDE_N_FILE_UPDATED', $num, $link), 'notice');
             $this->saveOverrides($result);
         }
 
@@ -336,7 +341,7 @@ class PlgInstallerOverride extends CMSPlugin
             ->columns($this->db->quoteName($columns));
 
         foreach ($pks as $pk) {
-            $date = new Date('now');
+            $date        = new Date('now');
             $createdDate = $date->toSql();
 
             if (empty($pk->coreFile)) {

@@ -17,6 +17,10 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Session\Session as BaseSession;
 use Joomla\Session\StorageInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Class for managing HTTP sessions
  *
@@ -63,12 +67,12 @@ class Session extends BaseSession
         $token = static::getFormToken();
 
         // Check from header first
-        if ($token === $app->input->server->get('HTTP_X_CSRF_TOKEN', '', 'alnum')) {
+        if ($token === $app->getInput()->server->get('HTTP_X_CSRF_TOKEN', '', 'alnum')) {
             return true;
         }
 
         // Then fallback to HTTP query
-        if (!$app->input->$method->get($token, '', 'alnum')) {
+        if (!$app->getInput()->$method->get($token, '', 'alnum')) {
             if ($app->getSession()->isNew()) {
                 // Redirect to login screen.
                 $app->enqueueMessage(Text::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'), 'warning');
@@ -145,7 +149,10 @@ class Session extends BaseSession
      * @return  static  The Session object.
      *
      * @since   1.5
-     * @deprecated  5.0  Load the session service from the dependency injection container or via $app->getSession()
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Load the session service from the dependency injection container or via $app->getSession()
+     *              Example: Factory::getApplication()->getSession();
      */
     public static function getInstance()
     {
@@ -176,7 +183,7 @@ class Session extends BaseSession
             if (!empty($args[2])) {
                 @trigger_error(
                     'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
-                    . 'The namespace should be prepended to the name instead.',
+                        . 'The namespace should be prepended to the name instead.',
                     E_USER_DEPRECATED
                 );
 
@@ -227,7 +234,7 @@ class Session extends BaseSession
             if (!empty($args[2])) {
                 @trigger_error(
                     'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
-                    . 'The namespace should be prepended to the name instead.',
+                        . 'The namespace should be prepended to the name instead.',
                     E_USER_DEPRECATED
                 );
 
@@ -256,7 +263,7 @@ class Session extends BaseSession
             if (!empty($args[1])) {
                 @trigger_error(
                     'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
-                    . 'The namespace should be prepended to the name instead.',
+                        . 'The namespace should be prepended to the name instead.',
                     E_USER_DEPRECATED
                 );
 
@@ -308,7 +315,7 @@ class Session extends BaseSession
                 if (\func_num_args() > 1 && !empty($args[1])) {
                     @trigger_error(
                         'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
-                         . 'The namespace should be prepended to the name instead.',
+                            . 'The namespace should be prepended to the name instead.',
                         E_USER_DEPRECATED
                     );
 

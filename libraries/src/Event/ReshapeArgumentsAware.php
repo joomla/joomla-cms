@@ -4,12 +4,16 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license        GNU General Public License version 2 or later; see LICENSE
+ * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Event;
 
 use DomainException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * A Trait to reshape arguments maintaining b/c with legacy plugin events.
@@ -50,7 +54,8 @@ use DomainException;
  *
  * @since  4.2.0
  *
- * @deprecated 5.0
+ * @deprecated  4.3 will be removed in 6.0
+ *              Will be removed without replacement
  */
 trait ReshapeArgumentsAware
 {

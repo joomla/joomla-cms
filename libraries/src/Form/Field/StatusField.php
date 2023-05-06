@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Form\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field to load a list of states
  *
@@ -30,11 +34,11 @@ class StatusField extends PredefinedlistField
      * @var  array
      * @since  3.2
      */
-    protected $predefinedOptions = array(
+    protected $predefinedOptions = [
         -2  => 'JTRASHED',
         0   => 'JUNPUBLISHED',
         1   => 'JPUBLISHED',
         2   => 'JARCHIVED',
         '*' => 'JALL',
-    );
+    ];
 }
