@@ -14,6 +14,10 @@
 		<folder plugin="eos">services</folder>
 		<folder>src</folder>
 	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_quickicon_eos.ini</language>
+		<language tag="en-GB">language/en-GB/plg_quickicon_eos.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
