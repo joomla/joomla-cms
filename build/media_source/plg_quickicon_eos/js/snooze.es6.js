@@ -5,6 +5,9 @@
 if (!Joomla) {
   throw new Error('Joomla API is not properly initialised');
 }
+
+const url = new URL(`${Joomla.getOptions('system.paths').baseFull}index.php?option=com_ajax&group=quickicon&plugin=eos&format=json`);
+
 async function onMutatedMessagesContainer(mutationList, observer) {
   // eslint-disable-next-line no-restricted-syntax
   for (const mutation of mutationList) {
@@ -19,7 +22,7 @@ async function onMutatedMessagesContainer(mutationList, observer) {
     }
 
     observer.disconnect();
-    alerts[0].querySelector('.eosnotify-snooze-btn').addEventListener('click', (_) => fetch(url, { headers: { 'X-CSRF-Token': Joomla.getOptions('csrf.token') || '' } })
+    alerts[0].querySelector('.eosnotify-snooze-btn').addEventListener('click', () => fetch(url, { headers: { 'X-CSRF-Token': Joomla.getOptions('csrf.token') || '' } })
       .then((response) => {
         if (response.ok) {
           alerts[0].closest('joomla-alert').close();
@@ -28,6 +31,5 @@ async function onMutatedMessagesContainer(mutationList, observer) {
   }
 }
 
-const url = new URL(`${Joomla.getOptions('system.paths').baseFull}index.php?option=com_ajax&group=quickicon&plugin=eos&format=json`);
 const observer = new MutationObserver(onMutatedMessagesContainer);
 observer.observe(document.querySelector('#system-message-container'), { attributes: false, childList: true, subtree: true });
