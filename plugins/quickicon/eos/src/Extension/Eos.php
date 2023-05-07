@@ -12,7 +12,7 @@
 namespace Joomla\Plugin\Quickicon\Eos\Extension;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('_JEXEC') || die;
+defined('_JEXEC') || die;
 
 // phpcs:enable PSR1.Files.SideEffects
 
@@ -27,10 +27,12 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\DispatcherInterface;
 
+use function defined;
+
 /**
  * Joomla! end of support notification plugin
  *
- * @since  4.0.0
+ * @since __DEPLOY_VERSION__
  */
 final class Eos extends CMSPlugin
 {
@@ -40,21 +42,21 @@ final class Eos extends CMSPlugin
      * The EOS date for 4.x.
      *
      * @var    string
-     * @since  4.0.0
+     * @since __DEPLOY_VERSION__
      */
-    const EOS_DATE = '2023-10-25';
+    public const EOS_DATE = '2023-10-25';
     /**
      * Load the language file on instantiation.
      *
      * @var    bool
-     * @since  4.0.0
+     * @since __DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
     /**
      * Holding the current valid message to be shown
      *
      * @var    array|bool
-     * @since  4.0.0
+     * @since __DEPLOY_VERSION__
      */
     private array|bool $currentMessage = [];
 
@@ -63,7 +65,7 @@ final class Eos extends CMSPlugin
      *
      * @var Document
      *
-     * @since  4.0.0
+     * @since __DEPLOY_VERSION__
      */
     private Document $document;
 
@@ -73,7 +75,7 @@ final class Eos extends CMSPlugin
      *
      * @return  void
      *
-     * @since   4.0.0
+     * @since __DEPLOY_VERSION__
      */
     private function clearCacheGroups()
     {
@@ -101,7 +103,7 @@ final class Eos extends CMSPlugin
      *
      * @return  array|bool  An array with the message to be displayed or false
      *
-     * @since   4.0.0
+     * @since __DEPLOY_VERSION__
      */
     private function getMessageInfo(int $monthsUntilEOS, int $inverted): bool|array
     {
@@ -179,7 +181,7 @@ final class Eos extends CMSPlugin
      *
      * @return  array
      *
-     * @since   4.0.0
+     * @since __DEPLOY_VERSION__
      */
     public static function getSubscribedEvents(): array
     {
@@ -193,7 +195,7 @@ final class Eos extends CMSPlugin
      *
      * @return  bool
      *
-     * @since   4.0.0
+     * @since __DEPLOY_VERSION__
      *
      * @throws Exception
      */
@@ -207,7 +209,7 @@ final class Eos extends CMSPlugin
      *
      * @return  string
      *
-     * @since   4.0.0
+     * @since __DEPLOY_VERSION__
      *
      * @throws  Notallowed  If user is not allowed.
      *
@@ -239,7 +241,7 @@ final class Eos extends CMSPlugin
      * @return  array  A list of icon definition associative arrays, consisting of the
      *                 keys link, image, text and access.
      *
-     * @since   4.0.0
+     * @since __DEPLOY_VERSION__
      *
      * @throws Exception
      */
@@ -281,7 +283,7 @@ final class Eos extends CMSPlugin
      *
      * @return  bool
      *
-     * @since   4.0.0
+     * @since __DEPLOY_VERSION__
      */
     private function saveParams(): bool
     {
@@ -319,19 +321,13 @@ final class Eos extends CMSPlugin
      *
      * @return  bool
      *
-     * @since   4.0.0
+     * @since __DEPLOY_VERSION__
      *
      * @throws Exception
      */
     private function shouldDisplayMessage(): bool
     {
-        if (
-            !$this->getApplication()->isClient('administrator')
-            || Factory::getApplication()->getIdentity()->guest
-            || $this->document->getType() !== 'html'
-            || $this->getApplication()->input->getCmd('tmpl', 'index') === 'component'
-            || $this->getApplication()->input->get('option') !== 'com_cpanel'
-        ) {
+        if (!$this->getApplication()->isClient('administrator') || Factory::getApplication()->getIdentity()->guest || $this->document->getType() !== 'html' || $this->getApplication()->input->getCmd('tmpl', 'index') === 'component' || $this->getApplication()->input->get('option') !== 'com_cpanel') {
             return false;
         }
 
@@ -347,7 +343,7 @@ final class Eos extends CMSPlugin
      *                                          Recognized key values include 'name', 'group', 'params', 'language'
      *                                          (this list is not meant to be comprehensive).
      *
-     * @since   4.0.0
+     * @since __DEPLOY_VERSION__
      */
     public function __construct($subject, Document $document, array $config = [])
     {

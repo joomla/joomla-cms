@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="quickicon" method="upgrade">
 	<name>plg_quickicon_eos</name>
 	<author>Joomla! Project</author>
@@ -13,8 +13,6 @@
 	<files>
 		<folder plugin="eos">services</folder>
 		<folder>src</folder>
-    	<folder>language</folder>
-		<folder>media</folder>
 	</files>
 	<config>
 		<fields name="params">
