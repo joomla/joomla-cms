@@ -35,36 +35,35 @@ use function defined;
  */
 final class Eos extends CMSPlugin
 {
-    use DatabaseAwareTrait;
 
     /**
-     * The EOS date for 4.x.
+     * The EOS date for 4.4. and beyond
      *
      * @var    string
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      */
     public const EOS_DATE = '2023-10-25';
     /**
      * Load the language file on instantiation.
      *
      * @var    bool
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      */
     protected $autoloadLanguage = true;
     /**
      * Holding the current valid message to be shown
      *
      * @var    array|bool
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      */
-    private array|bool $currentMessage = [];
+    private $currentMessage = [];
 
     /**
      * The document.
      *
      * @var Document
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      */
     private Document $document;
 
@@ -74,7 +73,7 @@ final class Eos extends CMSPlugin
      *
      * @return  void
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      */
     private function clearCacheGroups()
     {
@@ -87,7 +86,7 @@ final class Eos extends CMSPlugin
                     $cachecontroller = new CacheController($options);
                     $cache           = $cachecontroller->cache;
                     $cache->clean();
-                } catch (Exception) {
+                } catch (Exception $e) {
                     // Ignore it
                 }
             }
@@ -102,9 +101,9 @@ final class Eos extends CMSPlugin
      *
      * @return  array|bool  An array with the message to be displayed or false
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      */
-    private function getMessageInfo(int $monthsUntilEOS, int $inverted): bool|array
+    private function getMessageInfo(int $monthsUntilEOS, int $inverted)
     {
         // The EOS date has passed - Support has ended
         if ($inverted === 1) {
@@ -180,7 +179,7 @@ final class Eos extends CMSPlugin
      *
      * @return  array
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -194,7 +193,7 @@ final class Eos extends CMSPlugin
      *
      * @return  bool
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      *
      * @throws Exception
      */
@@ -208,7 +207,7 @@ final class Eos extends CMSPlugin
      *
      * @return  string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      *
      * @throws  Notallowed  If user is not allowed.
      *
@@ -240,7 +239,7 @@ final class Eos extends CMSPlugin
      * @return  array  A list of icon definition associative arrays, consisting of the
      *                 keys link, image, text and access.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      *
      * @throws Exception
      */
@@ -282,7 +281,7 @@ final class Eos extends CMSPlugin
      *
      * @return  bool
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      */
     private function saveParams(): bool
     {
@@ -291,7 +290,7 @@ final class Eos extends CMSPlugin
         try {
             // Lock the tables to prevent multiple plugin executions causing a race condition
             $db->lockTable('#__extensions');
-        } catch (Exception) {
+        } catch (Exception $e) {
             // If we can't lock the tables it's too risky to continue execution
             return false;
         }
@@ -299,7 +298,7 @@ final class Eos extends CMSPlugin
             // Update the plugin parameters
             $result = $db->setQuery($query)->execute();
             $this->clearCacheGroups();
-        } catch (Exception) {
+        } catch (Exception $e) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
@@ -307,7 +306,7 @@ final class Eos extends CMSPlugin
         try {
             // Unlock the tables after writing
             $db->unlockTables();
-        } catch (Exception) {
+        } catch (Exception $e) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }
@@ -320,7 +319,7 @@ final class Eos extends CMSPlugin
      *
      * @return  bool
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      *
      * @throws Exception
      */
@@ -342,7 +341,7 @@ final class Eos extends CMSPlugin
      *                                          Recognized key values include 'name', 'group', 'params', 'language'
      *                                          (this list is not meant to be comprehensive).
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.4.0
      */
     public function __construct($subject, Document $document, array $config = [])
     {
