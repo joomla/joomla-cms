@@ -45,38 +45,6 @@ class PlgQuickiconEos extends CMSPlugin
      */
     protected $app;
     /**
-     * The Date of End of Service
-     *
-     * @var Date
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    protected Date $endOfServiceDate;
-    /**
-     * The Major version number of the next release
-     *
-     * @var int
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    protected int $nextJoomlaMajor = 0;
-    /**
-     * The Minor version number of the next release
-     *
-     * @var int
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    protected int $nextJoomlaMinor = 0;
-    /**
-     * The Patch version number of the next release
-     *
-     * @var int
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    protected int $nextJoomlaPatch = 0;
-    /**
      * Holding the current valid message to be shown
      *
      * @var   array
@@ -101,7 +69,7 @@ class PlgQuickiconEos extends CMSPlugin
                 try {
                     $options = [
                         'defaultgroup' => $group,
-                        'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $this->app->get('cache_path', JPATH_SITE . '/cache')
+                        'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $this->app->get('cache_path', JPATH_SITE . '/cache'),
                     ];
 
                     $cachecontroller = new CacheController($options);
