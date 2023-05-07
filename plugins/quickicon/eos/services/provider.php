@@ -3,9 +3,9 @@
 /**
  * @package                 Joomla.Plugin
  * @subpackage              Quickicon.Eos
+ *
  * @copyright               (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license                 GNU General Public License version 2 or later; see LICENSE.txt
- * @phpcs                   :disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
 defined('_JEXEC') or die;
@@ -31,13 +31,20 @@ return new class () implements ServiceProviderInterface {
      */
     public function register(Container $container)
     {
-        $container->set(PluginInterface::class, function (Container $container) {
-            $dispatcher = $container->get(DispatcherInterface::class);
-            $plugin     = new Eos($dispatcher, Factory::getApplication()->getDocument(), (array)PluginHelper::getPlugin('quickicon', 'eos'));
-            $plugin->setApplication(Factory::getApplication());
-            $plugin->setDatabase($container->get(DatabaseInterface::class));
+        $container->set(
+            PluginInterface::class,
+            function (Container $container) {
+                $dispatcher = $container->get(DispatcherInterface::class);
+                $plugin     = new Eos(
+                    $dispatcher,
+                    Factory::getApplication()->getDocument(),
+                    (array)PluginHelper::getPlugin('quickicon', 'eos')
+                );
+                $plugin->setApplication(Factory::getApplication());
+                $plugin->setDatabase($container->get(DatabaseInterface::class));
 
-            return $plugin;
-        });
+                return $plugin;
+            }
+        );
     }
 };
