@@ -22,8 +22,8 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-						name="last_snoozed_id"
-						type="hidden"
+					name="last_snoozed_id"
+					type="hidden"
 				/>
 			</fieldset>
 		</fields>
