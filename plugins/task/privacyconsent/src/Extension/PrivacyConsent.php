@@ -100,7 +100,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
         $remind = (int) $event->getArgument('params')->remind ?? 30;
 
         $now    = Factory::getDate()->toSql();
-        $period   = '-' . ($expire - $remind);
+        $period = '-' . ($expire - $remind);
         $db     = $this->getDatabase();
         $query  = $db->getQuery(true);
 
