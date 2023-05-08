@@ -86,7 +86,7 @@ class ArticlesCategoriesHelper implements DatabaseAwareInterface
      *                           ->getHelper('ArticlesCategoriesHelper')
      *                           ->getChildrenCategories($params, Factory::getApplication())
      */
-    public static function getList(&$params)
+    public static function getList($params)
     {
         /** @var SiteApplication $app */
         $app = Factory::getApplication();
