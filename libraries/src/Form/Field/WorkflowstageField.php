@@ -83,7 +83,7 @@ class WorkflowstageField extends GroupedlistField
     /**
      * Method to get the field option groups.
      *
-     * @return  array  The field option objects as a nested array in groups.
+     * @return  array[]  The field option objects as a nested array in groups.
      *
      * @since  4.0.0
      * @throws  \UnexpectedValueException
@@ -135,7 +135,7 @@ class WorkflowstageField extends GroupedlistField
 
         $stages = $db->setQuery($query)->loadObjectList();
 
-        $workflowStages = array();
+        $workflowStages = [];
 
         // Grouping the stages by workflow
         foreach ($stages as $stage) {
@@ -143,7 +143,7 @@ class WorkflowstageField extends GroupedlistField
             $workflowStageKey = Text::_($stage->workflow_title) . ' (' . $stage->workflow_id . ')';
 
             if (!\array_key_exists($workflowStageKey, $workflowStages)) {
-                $workflowStages[$workflowStageKey] = array();
+                $workflowStages[$workflowStageKey] = [];
             }
 
             $workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $stage->workflow_stage_id, Text::_($stage->workflow_stage_title));

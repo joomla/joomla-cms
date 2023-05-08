@@ -143,8 +143,8 @@ final class Finder extends CMSPlugin
         $this->removeCommonWords($extension);
 
         $file_content = file_get_contents($path);
-        $words = explode("\n", $file_content);
-        $words = array_map(
+        $words        = explode("\n", $file_content);
+        $words        = array_map(
             function ($word) {
                 // Remove comments
                 if (StringHelper::strpos($word, ';') !== false) {

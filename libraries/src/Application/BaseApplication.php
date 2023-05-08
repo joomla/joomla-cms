@@ -25,7 +25,10 @@ use Joomla\Registry\Registry;
  * @property-read  Input  $input  The application input object
  *
  * @since       3.0.0
- * @deprecated  5.0  Application classes should be based on \Joomla\Application\AbstractApplication
+ *
+ * @deprecated  4.3 will be removed in 6.0
+ *              Application classes should directly be based on \Joomla\Application\AbstractApplication
+ *              don't use this class anymore
  */
 abstract class BaseApplication extends AbstractApplication implements DispatcherAwareInterface
 {
@@ -47,7 +50,7 @@ abstract class BaseApplication extends AbstractApplication implements Dispatcher
      */
     public function __construct(Input $input = null, Registry $config = null)
     {
-        $this->input = $input instanceof Input ? $input : new Input();
+        $this->input  = $input instanceof Input ? $input : new Input();
         $this->config = $config instanceof Registry ? $config : new Registry();
 
         $this->initialise();

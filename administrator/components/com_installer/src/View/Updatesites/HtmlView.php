@@ -14,8 +14,8 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\Model\UpdatesitesModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
@@ -67,7 +67,7 @@ class HtmlView extends InstallerViewDefault
      *
      * @param   string  $tpl  Template
      *
-     * @return  mixed|void
+     * @return  void
      *
      * @since   3.4
      *
@@ -106,8 +106,8 @@ class HtmlView extends InstallerViewDefault
         $toolbar = Toolbar::getInstance('toolbar');
 
         if ($canDo->get('core.edit.state')) {
-            $dropdown = $toolbar->dropdownButton('status-group')
-                ->text('JTOOLBAR_CHANGE_STATUS')
+            /** @var DropdownButton $dropdown */
+            $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
                 ->icon('icon-ellipsis-h')
                 ->buttonClass('btn btn-action')
@@ -126,11 +126,13 @@ class HtmlView extends InstallerViewDefault
         }
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            ToolbarHelper::custom('updatesites.rebuild', 'refresh', '', 'JTOOLBAR_REBUILD', false);
+            $toolbar->standardButton('rebuild', 'JTOOLBAR_REBUILD', 'updatesites.rebuild')
+                ->listCheck(false)
+                ->icon('icon-refresh');
         }
 
         parent::addToolbar();
 
-        ToolbarHelper::help('Extensions:_Update_Sites');
+        $toolbar->help('Extensions:_Update_Sites');
     }
 }

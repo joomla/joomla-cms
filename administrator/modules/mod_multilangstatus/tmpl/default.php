@@ -23,7 +23,7 @@ if (!$multilanguageEnabled || $hideLinks) {
 $modalHTML = HTMLHelper::_(
     'bootstrap.renderModal',
     'multiLangModal',
-    array(
+    [
         'title'      => Text::_('MOD_MULTILANGSTATUS'),
         'url'        => Route::_('index.php?option=com_languages&view=multilangstatus&tmpl=component'),
         'height'     => '400px',
@@ -31,7 +31,7 @@ $modalHTML = HTMLHelper::_(
         'bodyHeight' => 70,
         'modalWidth' => 80,
         'footer'     => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JTOOLBAR_CLOSE') . '</button>',
-    )
+    ]
 );
 
 $app->getDocument()->getWebAssetManager()
