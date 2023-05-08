@@ -42,7 +42,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      * The EOS date for 4.4. and beyond
      *
      * @var    string
-     * @since 4.4.0
+     * @since 3.10.0
      */
     public const EOS_DATE = '2023-10-25';
 
@@ -50,15 +50,15 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      * Load the language file on instantiation.
      *
      * @var    bool
-     * @since 4.4.0
+     * @since 3.10.0
      */
     protected $autoloadLanguage = true;
 
     /**
      * Holding the current valid message to be shown
      *
-     * @var    array|bool
-     * @since 4.4.0
+     * @var    array
+     * @since 3.10.0
      */
     private $currentMessage = [];
 
@@ -67,7 +67,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @var Document
      *
-     * @since 4.4.0
+     * @since 3.10.0
      */
     private Document $document;
 
@@ -76,7 +76,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since 4.4.0
+     * @since __DEPLOY_VERSION__
      */
     public static function getSubscribedEvents(): array
     {
@@ -94,7 +94,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *                                          Recognized key values include 'name', 'group', 'params', 'language'
      *                                          (this list is not meant to be comprehensive).
      *
-     * @since 4.4.0
+     * @since 3.10.0
      */
     public function __construct($subject, Document $document, array $config = [])
     {
@@ -117,7 +117,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   4.0.0
+     * @since   __DEPLOY_VERSION__
      *
      * @throws Exception
      */
@@ -179,7 +179,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @return  bool
      *
-     * @since 4.4.0
+     * @since 3.10.0
      */
     private function saveParams(): bool
     {
@@ -217,7 +217,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @return  bool
      *
-     * @since 4.4.0
+     * @since 3.10.0
      *
      * @throws Exception
      */
@@ -236,7 +236,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since 4.4.0
+     * @since 3.10.0
      */
     private function clearCacheGroups()
     {
@@ -264,7 +264,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @return  array|bool  An array with the message to be displayed or false
      *
-     * @since 4.4.0
+     * @since 3.10.0
      */
     private function getMessageInfo(int $monthsUntilEOS, int $inverted)
     {
@@ -337,14 +337,12 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         return false;
     }
 
-
-
     /**
      * Check if current user is allowed to send the data
      *
      * @return  bool
      *
-     * @since 4.4.0
+     * @since 3.10.0
      *
      * @throws Exception
      */
@@ -358,7 +356,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @return  string
      *
-     * @since 4.4.0
+     * @since 3.10.0
      *
      * @throws  Notallowed  If user is not allowed.
      *
