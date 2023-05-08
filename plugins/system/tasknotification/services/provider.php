@@ -38,7 +38,7 @@ return new class () implements ServiceProviderInterface {
                 $dispatcher = $container->get(DispatcherInterface::class);
                 $plugin     = new TaskNotification(
                     $dispatcher,
-                    (array) PluginHelper::getPlugin('system', 'tasknotification'),
+                    (array) PluginHelper::getPlugin('system', 'tasknotification')
                 );
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));

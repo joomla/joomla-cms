@@ -37,7 +37,7 @@ return new class () implements ServiceProviderInterface {
             function (Container $container) {
                 $plugin = new ActionLogs(
                     $container->get(DispatcherInterface::class),
-                    (array) PluginHelper::getPlugin('system', 'actionlogs'),
+                    (array) PluginHelper::getPlugin('system', 'actionlogs')
                 );
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));

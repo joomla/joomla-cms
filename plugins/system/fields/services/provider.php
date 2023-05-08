@@ -37,7 +37,7 @@ return new class () implements ServiceProviderInterface {
                 $dispatcher = $container->get(DispatcherInterface::class);
                 $plugin     = new Fields(
                     $dispatcher,
-                    (array) PluginHelper::getPlugin('system', 'fields'),
+                    (array) PluginHelper::getPlugin('system', 'fields')
                 );
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
