@@ -31,9 +31,7 @@
       elButton.addEventListener('click', (e) => {
         e.preventDefault();
 
-        if (elValidateButton) {
-          elValidateButton.click();
-        }
+        elValidateButton.click();
       });
     });
 
