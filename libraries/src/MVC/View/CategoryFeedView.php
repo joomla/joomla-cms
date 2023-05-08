@@ -86,7 +86,7 @@ class CategoryFeedView extends HtmlView
             // Strip html from feed item title
             if ($titleField) {
                 $title = $this->escape($item->$titleField);
-                $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
+                $title = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
             } else {
                 $title = '';
             }
