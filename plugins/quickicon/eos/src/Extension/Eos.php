@@ -155,7 +155,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         }
         // The message as quickicon
         // Add the icon to the result array
-        $result = $event->getArgument('result', []);
+        $result               = $event->getArgument('result', []);
         $messageTextQuickIcon = Text::sprintf($this->currentMessage['quickiconText'], HTMLHelper::_('date', Eos::EOS_DATE, Text::_('DATE_FORMAT_LC3')));
 
         // The message as quickicon
@@ -230,14 +230,14 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         return true;
     }
 
-     /**
-     * Clears cache groups. We use it to clear the plugins cache after we update the last run timestamp.
-     *
-     *
-     * @return  void
-     *
-     * @since 3.10.0
-     */
+    /**
+    * Clears cache groups. We use it to clear the plugins cache after we update the last run timestamp.
+    *
+    *
+    * @return  void
+    *
+    * @since 3.10.0 
+    */
     private function clearCacheGroups()
     {
         $clearGroups  = ['com_plugins'];
