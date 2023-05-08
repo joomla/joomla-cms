@@ -469,7 +469,7 @@ trait CoreButtonsTrait
      */
     public function cancel(string $task, string $text = 'JTOOLBAR_CLOSE'): StandardButton
     {
-        return $this->standardButton('exit', $text, $task);
+        return $this->standardButton('cancel', $text, $task);
     }
 
     /**
