@@ -6467,8 +6467,6 @@ class JoomlaInstallerScript
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataFormatter/VarDumper/SeekingData.php',
             // From 4.2.8 to 4.2.9
             '/administrator/components/com_scheduler/tmpl/select/modal.php',
-            '/components/com_contact/layouts/field/render.php',
-            '/components/com_contact/layouts/fields/render.php',
             // From 4.2.x to 4.3.0-alpha1
             '/libraries/vendor/paragonie/sodium_compat/autoload-fast.php',
             '/libraries/vendor/paragonie/sodium_compat/autoload-pedantic.php',
