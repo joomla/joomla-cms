@@ -9,7 +9,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     const elCodeField = document.getElementById('users-mfa-code');
     const elValidateButton = document.getElementById('users-mfa-captive-button-submit');
-    const elToolbarCustomElement = document.getElementById('toolbar-user-mfa-submit');
+    const elToolbarButton = document.getElementById('toolbar-user-mfa-submit')?.querySelector('button');
 
     // Focus the code field. If the code field is hidden, focus the submit button (useful e.g. for WebAuthn)
     if (
@@ -17,10 +17,13 @@
       && !elCodeField.classList.contains('visually-hidden') && elCodeField.type !== 'hidden'
     ) {
       elCodeField.focus();
-    } else if (elToolbarCustomElement) {
-      elToolbarCustomElement.querySelector('button').focus();
-    } else if (elValidateButton) {
-      elValidateButton.focus();
+    } else {
+      if (elValidateButton) {
+        elValidateButton.focus();
+      }
+      if (elToolbarButton) {
+        elToolbarButton.focus();
+      }
     }
 
     // Capture the admin toolbar buttons, make them click the inline buttons
