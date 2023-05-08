@@ -236,7 +236,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     *
     * @return  void
     *
-    * @since 3.10.0 
+    * @since 3.10.0
     */
     private function clearCacheGroups()
     {
