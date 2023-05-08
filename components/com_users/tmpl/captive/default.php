@@ -23,7 +23,7 @@ use Joomla\Utilities\ArrayHelper;
 $model = $this->getModel();
 
 $this->document->getWebAssetManager()
-        ->useScript('com_users.two-factor-focus');
+    ->useScript('com_users.two-factor-focus');
 
 ?>
 <div class="users-mfa-captive card card-body">
