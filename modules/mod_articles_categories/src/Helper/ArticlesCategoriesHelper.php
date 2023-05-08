@@ -74,7 +74,7 @@ class ArticlesCategoriesHelper implements DatabaseAwareInterface
     /**
      * Get list of categories
      *
-     * @param   Registry  &$params  module parameters
+     * @param   Registry  $params  module parameters
      *
      * @return  array
      *
