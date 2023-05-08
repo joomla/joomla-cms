@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * Joomla! Content Management System
+ *
+ * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+namespace Joomla\CMS\Mail;
+
+use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
+/**
+ * Interface defining a factory which can create mailer objects.
+ *
+ * @since  __DEPLOY_VERSION__
+ */
+interface MailerFactoryInterface
+{
+    /**
+     * Method to get an instance of a mailer.
+     *
+     * @param   Registry  $config  The configuration
+     *
+     * @return  MailerInterface
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function createMailer(Registry $configuration = null): MailerInterface;
+}
