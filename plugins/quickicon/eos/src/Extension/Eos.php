@@ -82,6 +82,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     {
         return [
             'onGetIcons' => 'getEndOfServiceNotification',
+            'onAjaxEos'  => 'onAjaxEos',
         ];
     }
 
