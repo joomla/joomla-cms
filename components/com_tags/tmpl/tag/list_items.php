@@ -57,26 +57,24 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
             </div>
         <?php else : ?>
             <table class="com-tags-tag-list__category category table table-striped table-bordered table-hover">
-                <?php if ($this->params->get('show_headings')) : ?>
-                    <thead>
-                        <tr>
-                            <th scope="col" id="categorylist_header_title">
-                                <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'c.core_title', $listDirn, $listOrder); ?>
+                <thead<?php echo $this->params->get('show_headings', '1') ? '' : ' class="visually-hidden"'; ?>>
+                    <tr>
+                        <th scope="col" id="categorylist_header_title">
+                            <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'c.core_title', $listDirn, $listOrder); ?>
+                        </th>
+                        <?php if ($date = $this->params->get('tag_list_show_date')) : ?>
+                            <th scope="col" id="categorylist_header_date">
+                                <?php if ($date === 'created') : ?>
+                                    <?php echo HTMLHelper::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_created_time', $listDirn, $listOrder); ?>
+                                <?php elseif ($date === 'modified') : ?>
+                                    <?php echo HTMLHelper::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_modified_time', $listDirn, $listOrder); ?>
+                                <?php elseif ($date === 'published') : ?>
+                                    <?php echo HTMLHelper::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_publish_up', $listDirn, $listOrder); ?>
+                                <?php endif; ?>
                             </th>
-                            <?php if ($date = $this->params->get('tag_list_show_date')) : ?>
-                                <th scope="col" id="categorylist_header_date">
-                                    <?php if ($date === 'created') : ?>
-                                        <?php echo HTMLHelper::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_created_time', $listDirn, $listOrder); ?>
-                                    <?php elseif ($date === 'modified') : ?>
-                                        <?php echo HTMLHelper::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_modified_time', $listDirn, $listOrder); ?>
-                                    <?php elseif ($date === 'published') : ?>
-                                        <?php echo HTMLHelper::_('grid.sort', 'COM_TAGS_' . $date . '_DATE', 'c.core_publish_up', $listDirn, $listOrder); ?>
-                                    <?php endif; ?>
-                                </th>
-                            <?php endif; ?>
-                        </tr>
-                    </thead>
-                <?php endif; ?>
+                        <?php endif; ?>
+                    </tr>
+                </thead>
                 <tbody>
                     <?php foreach ($this->items as $i => $item) : ?>
                         <?php if ($item->core_state == 0) : ?>

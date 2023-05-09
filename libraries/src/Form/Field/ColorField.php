@@ -137,7 +137,6 @@ class ColorField extends FormField
             case 'control':
             case 'default':
             case 'display':
-            case 'exclude':
             case 'format':
             case 'keywords':
             case 'preview':
@@ -166,7 +165,6 @@ class ColorField extends FormField
             case 'control':
             case 'default':
             case 'display':
-            case 'exclude':
             case 'format':
             case 'keywords':
             case 'saveFormat':
