@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_CONTENT_PAGEBREAK_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\PageBreak\Joomla</namespace>
+	<namespace path="src">Joomla\Plugin\Content\PageBreak</namespace>
 	<files>
 		<folder plugin="pagebreak">services</folder>
 		<folder>src</folder>

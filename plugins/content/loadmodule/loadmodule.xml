@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_LOADMODULE_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\LoadModule\Joomla</namespace>
+	<namespace path="src">Joomla\Plugin\Content\LoadModule</namespace>
 	<files>
 		<folder plugin="loadmodule">services</folder>
 		<folder>src</folder>
