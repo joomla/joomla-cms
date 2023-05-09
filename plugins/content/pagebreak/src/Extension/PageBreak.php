@@ -125,7 +125,7 @@ final class PageBreak extends CMSPlugin
             if ($hasToc) {
                 // Display TOC.
                 $page = 1;
-                $this->_createToc($row, $matches, $page);
+                $this->createToc($row, $matches, $page);
             } else {
                 $row->toc = '';
             }
@@ -165,7 +165,7 @@ final class PageBreak extends CMSPlugin
             if ($style === 'pages') {
                 // Display TOC.
                 if ($hasToc) {
-                    $this->_createToc($row, $matches, $page);
+                    $this->createToc($row, $matches, $page);
                 } else {
                     $row->toc = '';
                 }
@@ -190,7 +190,7 @@ final class PageBreak extends CMSPlugin
 
                 // Adds navigation between pages to bottom of text.
                 if ($hasToc) {
-                    $this->_createNavigation($row, $page, $n);
+                    $this->createNavigation($row, $page, $n);
                 }
 
                 // Page links shown at bottom of page if TOC disabled.
@@ -261,7 +261,7 @@ final class PageBreak extends CMSPlugin
      *
      * @since  1.6
      */
-    protected function _createToc(&$row, &$matches, &$page)
+    private function createToc(&$row, &$matches, &$page)
     {
         $heading     = $row->title ?? $this->getApplication()->getLanguage()->_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
         $input       = $this->getApplication()->getInput();
@@ -333,7 +333,7 @@ final class PageBreak extends CMSPlugin
      *
      * @since   1.6
      */
-    protected function _createNavigation(&$row, $page, $n)
+    private function createNavigation(&$row, $page, $n)
     {
         $links = [
             'next'     => '',
