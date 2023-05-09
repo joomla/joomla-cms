@@ -231,7 +231,23 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      */
     private function shouldDisplayMessage(): bool
     {
-        if (!$this->getApplication()->isClient('administrator') || Factory::getApplication()->getIdentity()->guest || $this->document->getType() !== 'html' || $this->getApplication()->input->getCmd('tmpl', 'index') === 'component' || $this->getApplication()->input->get('option') !== 'com_cpanel') {
+        if (!$this->getApplication()->isClient('administrator')) {
+            return false;
+        }
+
+        if ($this->getApplication()->getIdentity()->guest) {
+            return false;
+        }
+
+        if ($this->document->getType() !== 'html') {
+            return false;
+        }
+
+        if ($this->getApplication()->getInput()->getCmd('tmpl', 'index') === 'component') {
+            return false;
+        }
+
+        if ($this->getApplication()->getInput()->get('option') !== 'com_cpanel') {
             return false;
         }
 
