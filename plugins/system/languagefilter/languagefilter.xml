@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_SYSTEM_LANGUAGEFILTER_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\LanguageFilter</namespace>
 	<files>
-		<filename plugin="languagefilter">languagefilter.php</filename>
+		<folder plugin="languagefilter">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_system_languagefilter.ini</language>
