@@ -6,11 +6,11 @@
  *
  * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Factory;
+namespace Joomla\Plugin\Content\PageBreak\Extension;
+
+use Exception;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Pagination\Pagination;
@@ -19,6 +19,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Utility\Utility;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\String\StringHelper;
+use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -39,7 +40,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-class PlgContentPagebreak extends CMSPlugin
+final class PageBreak extends CMSPlugin
 {
     /**
      * The navigation list with all page objects if parameter 'multipage_toc' is active.
@@ -74,7 +75,7 @@ class PlgContentPagebreak extends CMSPlugin
         // Expression to search for.
         $regex = '#<hr(.*)class="system-pagebreak"(.*)\/?>#iU';
 
-        $input = Factory::getApplication()->getInput();
+        $input = $this->getApplication()->getInput();
 
         $print   = $input->getBool('print');
         $showall = $input->getBool('showall');
@@ -92,7 +93,7 @@ class PlgContentPagebreak extends CMSPlugin
         // Simple performance check to determine whether bot should process further.
         if (StringHelper::strpos($row->text, 'class="system-pagebreak') === false) {
             if ($page > 0) {
-                throw new Exception(Text::_('JERROR_PAGE_NOT_FOUND'), 404);
+                throw new Exception($this->getApplication()->getLanguage()->_('JERROR_PAGE_NOT_FOUND'), 404);
             }
 
             return;
@@ -138,7 +139,7 @@ class PlgContentPagebreak extends CMSPlugin
         $text = preg_split($regex, $row->text);
 
         if (!isset($text[$page])) {
-            throw new Exception(Text::_('JERROR_PAGE_NOT_FOUND'), 404);
+            throw new Exception($this->getApplication()->getLanguage()->_('JERROR_PAGE_NOT_FOUND'), 404);
         }
 
         // Count the number of pages.
@@ -262,14 +263,14 @@ class PlgContentPagebreak extends CMSPlugin
      */
     protected function _createToc(&$row, &$matches, &$page)
     {
-        $heading     = $row->title ?? Text::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
-        $input       = Factory::getApplication()->getInput();
+        $heading     = $row->title ?? $this->getApplication()->getLanguage()->_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
+        $input       = $this->getApplication()->getInput();
         $limitstart  = $input->getUint('limitstart', 0);
         $showall     = $input->getInt('showall', 0);
         $headingtext = '';
 
         if ($this->params->get('article_index', 1) == 1) {
-            $headingtext = Text::_('PLG_CONTENT_PAGEBREAK_ARTICLE_INDEX');
+            $headingtext = $this->getApplication()->getLanguage()->_('PLG_CONTENT_PAGEBREAK_ARTICLE_INDEX');
 
             if ($this->params->get('article_index_text')) {
                 $headingtext = htmlspecialchars($this->params->get('article_index_text'), ENT_QUOTES, 'UTF-8');
@@ -310,7 +311,7 @@ class PlgContentPagebreak extends CMSPlugin
         if ($this->params->get('showall')) {
             $this->list[$i]         = new stdClass();
             $this->list[$i]->link   = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1';
-            $this->list[$i]->title  = Text::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES');
+            $this->list[$i]->title  = $this->getApplication()->getLanguage()->_('PLG_CONTENT_PAGEBREAK_ALL_PAGES');
             $this->list[$i]->active = ($limitstart === $i - 1);
         }
 

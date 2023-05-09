@@ -6,23 +6,24 @@
  *
  * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Application\CMSApplicationInterface;
+namespace Joomla\Plugin\Content\Joomla\Extension;
+
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\CoreContent;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
 use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
+use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -33,23 +34,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class PlgContentJoomla extends CMSPlugin
+final class Joomla extends CMSPlugin
 {
-    /**
-     * Application object
-     *
-     * @var    CMSApplicationInterface
-     * @since  4.0.0
-     */
-    protected $app;
-
-    /**
-     * Database Driver Instance
-     *
-     * @var    DatabaseDriver
-     * @since  4.0.0
-     */
-    protected $db;
+    use DatabaseAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * The save event.
@@ -83,10 +71,10 @@ class PlgContentJoomla extends CMSPlugin
         if ($item->$publishedField > 0 && isset($data[$publishedField]) && $data[$publishedField] < 1) {
             switch ($context) {
                 case 'com_workflow.workflow':
-                    return $this->_workflowNotUsed($item->id);
+                    return $this->workflowNotUsed($item->id);
 
                 case 'com_workflow.stage':
-                    return $this->_stageNotUsed($item->id);
+                    return $this->stageNotUsed($item->id);
             }
         }
 
@@ -123,7 +111,7 @@ class PlgContentJoomla extends CMSPlugin
             return;
         }
 
-        $db    = $this->db;
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__users'))
@@ -136,17 +124,17 @@ class PlgContentJoomla extends CMSPlugin
             return;
         }
 
-        $user = $this->app->getIdentity();
+        $user = $this->getApplication()->getIdentity();
 
         // Messaging for new items
 
         $default_language = ComponentHelper::getParams('com_languages')->get('administrator');
-        $debug            = $this->app->get('debug_lang');
+        $debug            = $this->getApplication()->get('debug_lang');
 
         foreach ($users as $user_id) {
             if ($user_id != $user->id) {
                 // Load language for messaging
-                $receiver = User::getInstance($user_id);
+                $receiver = $this->getUserFactory()->loadUserById($user_id);
                 $lang     = Language::getInstance($receiver->getParam('admin_language', $default_language), $debug);
                 $lang->load('com_content');
                 $message = [
@@ -154,7 +142,7 @@ class PlgContentJoomla extends CMSPlugin
                     'subject'    => $lang->_('COM_CONTENT_NEW_ARTICLE'),
                     'message'    => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title),
                 ];
-                $model_message = $this->app->bootComponent('com_messages')->getMVCFactory()
+                $model_message = $this->getApplication()->bootComponent('com_messages')->getMVCFactory()
                     ->createModel('Message', 'Administrator');
                 $model_message->save($message);
             }
@@ -180,13 +168,13 @@ class PlgContentJoomla extends CMSPlugin
 
         switch ($context) {
             case 'com_categories.category':
-                return $this->_canDeleteCategories($data);
+                return $this->canDeleteCategories($data);
 
             case 'com_workflow.workflow':
-                return $this->_workflowNotUsed($data->id);
+                return $this->workflowNotUsed($data->id);
 
             case 'com_workflow.stage':
-                return $this->_stageNotUsed($data->id);
+                return $this->stageNotUsed($data->id);
         }
     }
 
@@ -212,11 +200,11 @@ class PlgContentJoomla extends CMSPlugin
         foreach ($pks as $id) {
             switch ($context) {
                 case 'com_workflow.workflow':
-                    $result = $result && $this->_workflowNotUsed($id);
+                    $result = $result && $this->workflowNotUsed($id);
                     break;
 
                 case 'com_workflow.stage':
-                    $result = $result && $this->_stageNotUsed($id);
+                    $result = $result && $this->stageNotUsed($id);
                     break;
             }
         }
@@ -231,14 +219,14 @@ class PlgContentJoomla extends CMSPlugin
      *
      * @return  boolean
      */
-    private function _canDeleteCategories($data)
+    private function canDeleteCategories($data)
     {
         // Check if this function is enabled.
         if (!$this->params->def('check_categories', 1)) {
             return true;
         }
 
-        $extension = $this->app->getInput()->getString('extension');
+        $extension = $this->getApplication()->getInput()->getString('extension');
 
         // Default to true if not a core extension
         $result = true;
@@ -258,7 +246,7 @@ class PlgContentJoomla extends CMSPlugin
             $table = $tableInfo[$extension]['table_name'];
 
             // See if this category has any content items
-            $count = $this->_countItemsInCategory($table, $data->get('id'));
+            $count = $this->countItemsInCategory($table, $data->get('id'));
 
             // Return false if db error
             if ($count === false) {
@@ -268,20 +256,20 @@ class PlgContentJoomla extends CMSPlugin
                 if ($count > 0) {
                     $msg = Text::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
                         . ' ' . Text::plural('COM_CATEGORIES_N_ITEMS_ASSIGNED', $count);
-                    $this->app->enqueueMessage($msg, 'error');
+                    $this->getApplication()->enqueueMessage($msg, 'error');
                     $result = false;
                 }
 
                 // Check for items in any child categories (if it is a leaf, there are no child categories)
                 if (!$data->isLeaf()) {
-                    $count = $this->_countItemsInChildren($table, $data->get('id'), $data);
+                    $count = $this->countItemsInChildren($table, $data->get('id'), $data);
 
                     if ($count === false) {
                         $result = false;
                     } elseif ($count > 0) {
                         $msg = Text::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
                             . ' ' . Text::plural('COM_CATEGORIES_HAS_SUBCATEGORY_ITEMS', $count);
-                        $this->app->enqueueMessage($msg, 'error');
+                        $this->getApplication()->enqueueMessage($msg, 'error');
                         $result = false;
                     }
                 }
@@ -300,10 +288,10 @@ class PlgContentJoomla extends CMSPlugin
      *
      * @since  4.0.0
      */
-    private function _workflowNotUsed($pk)
+    private function workflowNotUsed($pk)
     {
         // Check if this workflow is the default stage
-        $table = new WorkflowTable($this->db);
+        $table = new WorkflowTable($this->getDatabase());
 
         $table->load($pk);
 
@@ -312,12 +300,12 @@ class PlgContentJoomla extends CMSPlugin
         }
 
         if ($table->default) {
-            throw new Exception(Text::_('COM_WORKFLOW_MSG_DELETE_IS_DEFAULT'));
+            throw new Exception($this->getApplication()->getLanguage()->_('COM_WORKFLOW_MSG_DELETE_IS_DEFAULT'));
         }
 
         $parts = explode('.', $table->extension);
 
-        $component = $this->app->bootComponent($parts[0]);
+        $component = $this->getApplication()->bootComponent($parts[0]);
 
         $section = '';
 
@@ -331,7 +319,7 @@ class PlgContentJoomla extends CMSPlugin
         }
 
         /** @var \Joomla\Component\Workflow\Administrator\Model\StagesModel $model */
-        $model = $this->app->bootComponent('com_workflow')->getMVCFactory()
+        $model = $this->getApplication()->bootComponent('com_workflow')->getMVCFactory()
             ->createModel('Stages', 'Administrator', ['ignore_request' => true]);
 
         $model->setState('filter.workflow_id', $pk);
@@ -341,11 +329,11 @@ class PlgContentJoomla extends CMSPlugin
 
         $stage_ids = array_column($stages, 'id');
 
-        $result = $this->_countItemsInStage($stage_ids, $table->extension);
+        $result = $this->countItemsInStage($stage_ids, $table->extension);
 
         // Return false if db error
         if ($result > 0) {
-            throw new Exception(Text::_('COM_WORKFLOW_MSG_DELETE_WORKFLOW_IS_ASSIGNED'));
+            throw new Exception($this->getApplication()->getLanguage()->_('COM_WORKFLOW_MSG_DELETE_WORKFLOW_IS_ASSIGNED'));
         }
 
         return true;
@@ -360,9 +348,9 @@ class PlgContentJoomla extends CMSPlugin
      *
      * @since  4.0.0
      */
-    private function _stageNotUsed($pk)
+    private function stageNotUsed($pk)
     {
-        $table = new StageTable($this->db);
+        $table = new StageTable($this->getDatabase());
 
         $table->load($pk);
 
@@ -372,10 +360,10 @@ class PlgContentJoomla extends CMSPlugin
 
         // Check if this stage is the default stage
         if ($table->default) {
-            throw new Exception(Text::_('COM_WORKFLOW_MSG_DELETE_IS_DEFAULT'));
+            throw new Exception($this->getApplication()->getLanguage()->_('COM_WORKFLOW_MSG_DELETE_IS_DEFAULT'));
         }
 
-        $workflow = new WorkflowTable($this->db);
+        $workflow = new WorkflowTable($this->getDatabase());
 
         $workflow->load($table->workflow_id);
 
@@ -385,7 +373,7 @@ class PlgContentJoomla extends CMSPlugin
 
         $parts = explode('.', $workflow->extension);
 
-        $component = $this->app->bootComponent($parts[0]);
+        $component = $this->getApplication()->bootComponent($parts[0]);
 
         // No core interface => we're ok
         if (!$component instanceof WorkflowServiceInterface) {
@@ -394,11 +382,11 @@ class PlgContentJoomla extends CMSPlugin
 
         $stage_ids = [$table->id];
 
-        $result = $this->_countItemsInStage($stage_ids, $workflow->extension);
+        $result = $this->countItemsInStage($stage_ids, $workflow->extension);
 
         // Return false if db error
         if ($result > 0) {
-            throw new Exception(Text::_('COM_WORKFLOW_MSG_DELETE_STAGE_IS_ASSIGNED'));
+            throw new Exception($this->getApplication()->getLanguage()->_('COM_WORKFLOW_MSG_DELETE_STAGE_IS_ASSIGNED'));
         }
 
         return true;
@@ -414,9 +402,9 @@ class PlgContentJoomla extends CMSPlugin
      *
      * @since   1.6
      */
-    private function _countItemsInCategory($table, $catid)
+    private function countItemsInCategory($table, $catid)
     {
-        $db    = $this->db;
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Count the items in this category
@@ -429,7 +417,7 @@ class PlgContentJoomla extends CMSPlugin
         try {
             $count = $db->loadResult();
         } catch (RuntimeException $e) {
-            $this->app->enqueueMessage($e->getMessage(), 'error');
+            $this->getApplication()->enqueueMessage($e->getMessage(), 'error');
 
             return false;
         }
@@ -447,9 +435,9 @@ class PlgContentJoomla extends CMSPlugin
      *
      * @since   4.0.0
      */
-    private function _countItemsInStage(array $stageIds, string $extension): bool
+    private function countItemsInStage(array $stageIds, string $extension): bool
     {
-        $db = $this->db;
+        $db = $this->getDatabase();
 
         $parts = explode('.', $extension);
 
@@ -462,7 +450,7 @@ class PlgContentJoomla extends CMSPlugin
             $section = $parts[1];
         }
 
-        $component = $this->app->bootComponent($parts[0]);
+        $component = $this->getApplication()->bootComponent($parts[0]);
 
         $table = $component->getWorkflowTableBySection($section);
 
@@ -483,7 +471,7 @@ class PlgContentJoomla extends CMSPlugin
         try {
             return (int) $db->setQuery($query)->loadResult();
         } catch (Exception $e) {
-            $this->app->enqueueMessage($e->getMessage(), 'error');
+            $this->getApplication()->enqueueMessage($e->getMessage(), 'error');
         }
 
         return false;
@@ -500,9 +488,9 @@ class PlgContentJoomla extends CMSPlugin
      *
      * @since   1.6
      */
-    private function _countItemsInChildren($table, $catid, $data)
+    private function countItemsInChildren($table, $catid, $data)
     {
-        $db = $this->db;
+        $db = $this->getDatabase();
 
         // Create subquery for list of child categories
         $childCategoryTree = $data->getTree();
@@ -527,7 +515,7 @@ class PlgContentJoomla extends CMSPlugin
             try {
                 $count = $db->loadResult();
             } catch (RuntimeException $e) {
-                $this->app->enqueueMessage($e->getMessage(), 'error');
+                $this->getApplication()->enqueueMessage($e->getMessage(), 'error');
 
                 return false;
             }
@@ -555,7 +543,7 @@ class PlgContentJoomla extends CMSPlugin
 
         if ($context === 'com_workflow.stage' && $value < 1) {
             foreach ($pks as $pk) {
-                if (!$this->_stageNotUsed($pk)) {
+                if (!$this->stageNotUsed($pk)) {
                     return false;
                 }
             }
@@ -563,7 +551,7 @@ class PlgContentJoomla extends CMSPlugin
             return true;
         }
 
-        $db    = $this->db;
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName('core_content_id'))
             ->from($db->quoteName('#__ucm_content'))
@@ -607,7 +595,7 @@ class PlgContentJoomla extends CMSPlugin
         $params = json_decode($table->params, true);
 
         if ($params['enable_category'] == 1 && empty($params['catid'])) {
-            $table->setError(Text::_('COM_CONTENT_CREATE_ARTICLE_ERROR'));
+            $table->setError($this->getApplication()->getLanguage()->_('COM_CONTENT_CREATE_ARTICLE_ERROR'));
 
             return false;
         }
