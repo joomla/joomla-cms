@@ -184,8 +184,15 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      */
     private function saveParams(): bool
     {
-        $db    = Factory::getContainer()->get('DatabaseDriver');
-        $query = $db->getQuery(true)->update($db->quoteName('#__extensions'))->set($db->quoteName('params') . ' = ' . $db->quote($this->params->toString('JSON')))->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))->where($db->quoteName('folder') . ' = ' . $db->quote('quickicon'))->where($db->quoteName('element') . ' = ' . $db->quote('eos'));
+        $params = $this->params->toString('JSON');
+        $db     = $this->getDatabase();
+        $query  = $db->getQuery(true)
+            ->update($db->quoteName('#__extensions'))
+            ->set($db->quoteName('params') . ' = :params')
+            ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+            ->where($db->quoteName('folder') . ' = ' . $db->quote('quickicon'))
+            ->where($db->quoteName('element') . ' = ' . $db->quote('eos'))
+            ->bind(':params', $params);
         try {
             // Lock the tables to prevent multiple plugin executions causing a race condition
             $db->lockTable('#__extensions');
