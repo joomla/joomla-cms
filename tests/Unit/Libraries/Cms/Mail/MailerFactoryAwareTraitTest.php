@@ -38,33 +38,42 @@ class MailerFactoryAwareTraitTest extends UnitTestCase
         $mailerFactory = new class () implements MailerFactoryInterface {
             public function createMailer(Registry $configuration = null): MailerInterface
             {
-                return new class() implements MailerInterface {
+                return new class () implements MailerInterface {
                     public function send()
-                    {}
+                    {
+                    }
 
                     public function setSender(string $fromEmail, string $name = '')
-                    {}
+                    {
+                    }
 
                     public function setSubject(string $subject)
-                    {}
+                    {
+                    }
 
                     public function setBody(string $content)
-                    {}
+                    {
+                    }
 
                     public function addRecipient(string $recipientEmail, string $name = '')
-                    {}
+                    {
+                    }
 
                     public function addCc(string $ccEmail, string $name = '')
-                    {}
+                    {
+                    }
 
                     public function addBcc(string $bccEmail, string $name = '')
-                    {}
+                    {
+                    }
 
                     public function addAttachment(string $data, $name = '', $encoding = 'base64', $type = 'application/octet-stream')
-                    {}
+                    {
+                    }
 
                     public function addReplyTo(string $replyToEmail, string $name = '')
-                    {}
+                    {
+                    }
                 };
             }
         };
