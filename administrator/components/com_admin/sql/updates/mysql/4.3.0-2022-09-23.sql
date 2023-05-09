@@ -1,2 +1,1 @@
--- Update the com_templates options to add the diff options
-UPDATE `#__extensions` SET `params` = REPLACE(`params`, '}', ',"difference":"SideBySide"}') WHERE `name` = 'com_templates';
+-- The SQL statement had to be removed, see https://github.com/joomla/joomla-cms/pull/40535

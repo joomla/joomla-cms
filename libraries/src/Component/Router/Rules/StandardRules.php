@@ -186,6 +186,9 @@ class StandardRules implements RulesInterface
         // Get menu item layout
         $mLayout = isset($item->query['layout']) ? $item->query['layout'] : null;
 
+        // Get menu item filter_tag
+        $mFilterTag = isset($item->query['filter_tag']) ? $item->query['filter_tag'] : null;
+
         // Get all views for this component
         $views = $this->router->getViews();
 
@@ -198,6 +201,10 @@ class StandardRules implements RulesInterface
 
                 if (isset($query['layout']) && $mLayout === $query['layout']) {
                     unset($query['layout']);
+                }
+
+                if (isset($query['filter_tag']) && $mFilterTag === $query['filter_tag']) {
+                    unset($query['filter_tag']);
                 }
 
                 return;
@@ -216,6 +223,10 @@ class StandardRules implements RulesInterface
 
                 if (isset($query['layout']) && $mLayout === $query['layout']) {
                     unset($query['layout']);
+                }
+
+                if (isset($query['filter_tag']) && $mFilterTag === $query['filter_tag']) {
+                    unset($query['filter_tag']);
                 }
 
                 return;
@@ -273,6 +284,10 @@ class StandardRules implements RulesInterface
 
             if (isset($query['layout']) && $mLayout === $query['layout']) {
                 unset($query['layout']);
+            }
+
+            if (isset($query['filter_tag']) && $mFilterTag === $query['filter_tag']) {
+                unset($query['filter_tag']);
             }
         }
     }
