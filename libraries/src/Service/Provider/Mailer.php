@@ -39,8 +39,8 @@ class Mailer implements ServiceProviderInterface
         $container->share(
             MailerFactoryInterface::class,
             function (Container $container) {
-                    return new MailerFactory($container->get('config'));
-                },
+                return new MailerFactory($container->get('config'));
+            },
             true
         );
     }
