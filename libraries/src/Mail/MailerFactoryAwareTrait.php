@@ -36,7 +36,7 @@ trait MailerFactoryAwareTrait
      * @since   __DEPLOY_VERSION__
      * @throws  \UnexpectedValueException May be thrown if the MailerFactory has not been set.
      */
-    public function getMailerFactory(): MailerFactoryInterface
+    protected function getMailerFactory(): MailerFactoryInterface
     {
         if ($this->mailerFactory) {
             return $this->mailerFactory;
