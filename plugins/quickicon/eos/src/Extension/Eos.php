@@ -372,7 +372,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      */
     private function isAllowedUser(): bool
     {
-        return Factory::getApplication()->getIdentity()->authorise('core.login.admin');
+        return $this->getApplication()->getIdentity()->authorise('core.login.admin');
     }
 
     /**
