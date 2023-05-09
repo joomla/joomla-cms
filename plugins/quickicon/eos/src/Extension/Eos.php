@@ -122,7 +122,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @throws Exception
      */
-    public function getEndOfServiceNotification(QuickIconsEvent $event)
+    public function getEndOfServiceNotification(QuickIconsEvent $event): void
     {
         $context = $event->getContext();
 
