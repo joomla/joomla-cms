@@ -280,7 +280,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
             ];
         }
 
-        return false;
+        return [];
     }
 
     /**
