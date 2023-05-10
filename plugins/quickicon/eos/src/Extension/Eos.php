@@ -99,18 +99,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      */
     public function getEndOfServiceNotification(QuickIconsEvent $event): void
     {
-        $context = $event->getContext();
-        if ($context !== $this->params->get('context', 'update_quickicon')) {
-            return;
-        }
-
-        if (!$this->shouldDisplayMessage()) {
-            return;
-        }
-
-        // No messages yet
-
-        if (!$this->messagesInitialized && $this::setMessage() == []) {
+        if ($event->getContext() !== $this->params->get('context', 'update_quickicon') || !$this->shouldDisplayMessage() || !$this->messagesInitialized && $this::setMessage() == []) {
             return;
         }
 
@@ -121,14 +110,10 @@ final class Eos extends CMSPlugin implements SubscriberInterface
             if ($this->currentMessage['snoozable']) {
                 $messageText .= '<p><button class="btn btn-warning eosnotify-snooze-btn" type="button" >' . Text::_('PLG_QUICKICON_EOS_SNOOZE_BUTTON') . '</button></p>';
             }
-            Factory::getApplication()->enqueueMessage($messageText, $this->currentMessage['messageType']);
+            $this->getApplication()->enqueueMessage($messageText, $this->currentMessage['messageType']);
         }
-        try {
-            Factory::getApplication()->getDocument()->getWebAssetManager()->registerAndUseScript('plg_quickicon_eos.script', 'plg_quickicon_eos/snooze.js', [], ['type' => 'module']);
-        } catch (Exception $e) {
-            echo $e->getMessage();
-            exit();
-        }
+
+        $this->getApplication()->getDocument()->getWebAssetManager()->registerAndUseScript('plg_quickicon_eos.script', 'plg_quickicon_eos/snooze.js', [], ['type' => 'module']);
         // The message as quickicon
         // Add the icon to the result array
         $result               = $event->getArgument('result', []);
@@ -168,31 +153,8 @@ final class Eos extends CMSPlugin implements SubscriberInterface
             ->where($db->quoteName('folder') . ' = ' . $db->quote('quickicon'))
             ->where($db->quoteName('element') . ' = ' . $db->quote('eos'))
             ->bind(':params', $params);
-        try {
-            // Lock the tables to prevent multiple plugin executions causing a race condition
-            $db->lockTable('#__extensions');
-        } catch (Exception $e) {
-            // If we can't lock the tables it's too risky to continue execution
-            return false;
-        }
-        try {
-            // Update the plugin parameters
-            $result = $db->setQuery($query)->execute();
-            $this->clearCacheGroups();
-        } catch (Exception $e) {
-            // If we failed to execute
-            $db->unlockTables();
-            $result = false;
-        }
-        try {
-            // Unlock the tables after writing
-            $db->unlockTables();
-        } catch (Exception $e) {
-            // If we can't lock the tables assume we have somehow failed
-            $result = false;
-        }
 
-        return $result;
+        return $db->setQuery($query)->execute();
     }
 
     /**
@@ -206,27 +168,12 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      */
     private function shouldDisplayMessage(): bool
     {
-        if (!Factory::getApplication()->isClient('administrator')) {
-            return false;
-        }
-
-        if (Factory::getApplication()->getIdentity()->guest) {
-            return false;
-        }
-
-        if (Factory::getApplication()->getDocument()->getType() !== 'html') {
-            return false;
-        }
-
-        if (Factory::getApplication()->getInput()->getCmd('tmpl', 'index') === 'component') {
-            return false;
-        }
-
-        if (Factory::getApplication()->getInput()->get('option') !== 'com_cpanel') {
-            return false;
-        }
-
-        return true;
+        return !$this->getApplication()->isClient('administrator')
+            || $this->getApplication()->getIdentity()->guest
+            || $this->getApplication()->getDocument()->getType() !== 'html'
+            || $this->getApplication()->getInput()->getCmd('tmpl', 'index') === 'component'
+            || $this->getApplication()->getInput()->get('option') !== 'com_cpanel'
+            ? false : true;
     }
 
     /**
@@ -244,7 +191,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         foreach ($clearGroups as $group) {
             foreach ($cacheClients as $client_id) {
                 try {
-                    $options         = ['defaultgroup' => $group, 'cachebase' => $client_id ? JPATH_ADMINISTRATOR . '/cache' : Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache')];
+                    $options         = ['defaultgroup' => $group, 'cachebase' => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $this->getApplication()->get('cache_path', JPATH_SITE . '/cache')];
                     $cachecontroller = new CacheController($options);
                     $cache           = $cachecontroller->cache;
                     $cache->clean();
@@ -347,7 +294,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      */
     private function isAllowedUser(): bool
     {
-        return Factory::getApplication()->getIdentity()->authorise('core.login.admin');
+        return $this->getApplication()->getIdentity()->authorise('core.login.admin');
     }
 
     /**
@@ -373,7 +320,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         // Make sure only snoozable messages can be snoozed
         if ($this->currentMessage['snoozable']) {
             $this->params->set('last_snoozed_id', $this->currentMessage['id']);
-            $saveok = $this->saveParams();
+            $this->saveParams();
         }
 
         return '';
@@ -384,17 +331,17 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * Calculates how many days and selects correct message
      *
-     * @return array|bool
+     * @return array
      *
      * @since  1.0
      */
     private function setMessage()
     {
         $diff                      = Factory::getDate()->diff(Factory::getDate(Eos::EOS_DATE));
-        $monthsUntilEOS            = floor($diff->days / 30.417);
-        $message                   = $this->getMessageInfo($monthsUntilEOS, $diff->invert);
+        $message                   = $this->getMessageInfo(floor($diff->days / 30.417), $diff->invert);
         $this->currentMessage      = $message;
         $this->messagesInitialized = true;
+
         return $message;
     }
 }
