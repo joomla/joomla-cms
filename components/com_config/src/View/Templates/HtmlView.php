@@ -81,12 +81,12 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $user = $this->getCurrentUser();
+        $user                   = $this->getCurrentUser();
         $this->userIsSuperAdmin = $user->authorise('core.admin');
 
         $app   = Factory::getApplication();
 
-        $app->input->set('id', $app->getTemplate(true)->id);
+        $app->getInput()->set('id', $app->getTemplate(true)->id);
 
         /** @var MVCFactory $factory */
         $factory = $app->bootComponent('com_templates')->getMVCFactory();

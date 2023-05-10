@@ -178,7 +178,7 @@ class CacheModel extends ListModel
             'defaultgroup' => '',
             'storage'      => $app->get('cache_handler', ''),
             'caching'      => true,
-            'cachebase'    => $app->get('cache_path', JPATH_CACHE)
+            'cachebase'    => $app->get('cache_path', JPATH_CACHE),
         ];
 
         return Cache::getInstance('', $options);

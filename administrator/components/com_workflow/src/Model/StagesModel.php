@@ -13,6 +13,7 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -41,7 +42,7 @@ class StagesModel extends ListModel
                 'id', 's.id',
                 'title', 's.title',
                 'ordering','s.ordering',
-                'published', 's.published'
+                'published', 's.published',
             ];
         }
 
@@ -69,7 +70,7 @@ class StagesModel extends ListModel
         $app = Factory::getApplication();
 
         $workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 1, 'int');
-        $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
+        $extension  = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
         if ($workflowID) {
             $table = $this->getTable('Workflow', 'Administrator');
@@ -120,7 +121,7 @@ class StagesModel extends ListModel
     /**
      * Method to get the data that should be injected in the form.
      *
-     * @return  string  The query to database.
+     * @return  DatabaseQuery  The query to database.
      *
      * @since  4.0.0
      */

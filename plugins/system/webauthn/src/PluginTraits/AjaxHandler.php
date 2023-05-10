@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @package         Joomla.Plugin
- * @subpackage      System.Webauthn
+ * @package     Joomla.Plugin
+ * @subpackage  System.Webauthn
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
@@ -57,7 +57,7 @@ trait AjaxHandler
      */
     public function onAjaxWebauthn(Ajax $event): void
     {
-        $input = $this->getApplication()->input;
+        $input = $this->getApplication()->getInput();
 
         // Get the return URL from the session
         $returnURL = $this->getApplication()->getSession()->get('plg_system_webauthn.returnUrl', Uri::base());

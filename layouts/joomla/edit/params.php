@@ -94,7 +94,7 @@ foreach ($fieldSets as $name => $fieldSet) {
     } else {
         $label = strtoupper('JGLOBAL_FIELDSET_' . $name);
         if (Text::_($label) === $label) {
-            $label = strtoupper($app->input->get('option') . '_' . $name . '_FIELDSET_LABEL');
+            $label = strtoupper($app->getInput()->get('option') . '_' . $name . '_FIELDSET_LABEL');
         }
         $label = Text::_($label);
     }

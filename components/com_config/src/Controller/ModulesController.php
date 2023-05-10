@@ -91,7 +91,7 @@ class ModulesController extends BaseController
 
         // Get returnUri
         $returnUri = $this->input->post->get('return', null, 'base64');
-        $redirect = '';
+        $redirect  = '';
 
         if (!empty($returnUri)) {
             $redirect = '&return=' . $returnUri;
