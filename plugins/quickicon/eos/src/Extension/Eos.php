@@ -1,33 +1,29 @@
 <?php
 
 /**
- * @package        Joomla.Plugin
- * @subpackage     quickicon.eos
+ * @package     Joomla.Plugin
+ * @subpackage  Quickicon.eos
  *
- * @copyright      (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
- * @license        GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\Quickicon\Eos\Extension;
 
-// phpcs:disable PSR1.Files.SideEffects
-\defined('_JEXEC') or die;
-// phpcs:enable PSR1.Files.SideEffects
-
 use Exception;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Cache\CacheController;
-use Joomla\CMS\Document\Document;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 
-use function defined;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! end of support notification plugin
@@ -60,16 +56,16 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      * @var    array
      * @since __DEPLOY_VERSION__
      */
-    private $currentMessage = [];
+    private array $currentMessage = [];
 
     /**
-     * The document.
+     * Are the messages initialised
      *
-     * @var Document
-     *
+     * @var    bool
      * @since __DEPLOY_VERSION__
      */
-    private Document $document;
+
+    private bool $messagesInitialized = false;
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -84,27 +80,6 @@ final class Eos extends CMSPlugin implements SubscriberInterface
             'onGetIcons' => 'getEndOfServiceNotification',
             'onAjaxEos'  => 'onAjaxEos',
         ];
-    }
-
-    /**
-     * Constructor
-     *
-     * @param   DispatcherInterface  $subject   The object to observe
-     * @param   Document             $document  The document
-     * @param   array                $config    An optional associative array of configuration settings.
-     *                                          Recognized key values include 'name', 'group', 'params', 'language'
-     *                                          (this list is not meant to be comprehensive).
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    public function __construct($subject, Document $document, array $config = [])
-    {
-        parent::__construct($subject, $config);
-        $this->document       = $document;
-        $diff                 = Factory::getDate()->diff(Factory::getDate(Eos::EOS_DATE));
-        $monthsUntilEOS       = floor($diff->days / 30.417);
-        $message              = $this->getMessageInfo($monthsUntilEOS, $diff->invert);
-        $this->currentMessage = $message;
     }
 
     /**
@@ -125,7 +100,6 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     public function getEndOfServiceNotification(QuickIconsEvent $event): void
     {
         $context = $event->getContext();
-
         if ($context !== $this->params->get('context', 'update_quickicon')) {
             return;
         }
@@ -135,7 +109,8 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         }
 
         // No messages yet
-        if (!$this->currentMessage) {
+
+        if (!$this->messagesInitialized && $this::setMessage() == []) {
             return;
         }
 
@@ -146,10 +121,14 @@ final class Eos extends CMSPlugin implements SubscriberInterface
             if ($this->currentMessage['snoozable']) {
                 $messageText .= '<p><button class="btn btn-warning eosnotify-snooze-btn" type="button" >' . Text::_('PLG_QUICKICON_EOS_SNOOZE_BUTTON') . '</button></p>';
             }
-            $this->getApplication()->enqueueMessage($messageText, $this->currentMessage['messageType']);
+            Factory::getApplication()->enqueueMessage($messageText, $this->currentMessage['messageType']);
         }
-
-            $this->document->getWebAssetManager()->registerAndUseScript('plg_quickicon_eos.script', 'plg_quickicon_eos/snooze.js', [], ['type' => 'module']);
+        try {
+            Factory::getApplication()->getDocument()->getWebAssetManager()->registerAndUseScript('plg_quickicon_eos.script', 'plg_quickicon_eos/snooze.js', [], ['type' => 'module']);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            exit();
+        }
         // The message as quickicon
         // Add the icon to the result array
         $result               = $event->getArgument('result', []);
@@ -227,20 +206,23 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      */
     private function shouldDisplayMessage(): bool
     {
-        if (!$this->getApplication()->isClient('administrator')) {
-            return false;
-        }
-        if ($this->getApplication()->getIdentity()->guest) {
+        if (!Factory::getApplication()->isClient('administrator')) {
             return false;
         }
 
-        if ($this->document->getType() !== 'html') {
+        if (Factory::getApplication()->getIdentity()->guest) {
             return false;
         }
-        if ($this->getApplication()->getInput()->getCmd('tmpl', 'index') === 'component') {
+
+        if (Factory::getApplication()->getDocument()->getType() !== 'html') {
             return false;
         }
-        if ($this->getApplication()->getInput()->get('option') !== 'com_cpanel') {
+
+        if (Factory::getApplication()->getInput()->getCmd('tmpl', 'index') === 'component') {
+            return false;
+        }
+
+        if (Factory::getApplication()->getInput()->get('option') !== 'com_cpanel') {
             return false;
         }
 
@@ -255,14 +237,14 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     *
     * @since __DEPLOY_VERSION__
     */
-    private function clearCacheGroups()
+    private function clearCacheGroups(): void
     {
         $clearGroups  = ['com_plugins'];
         $cacheClients = [0, 1];
         foreach ($clearGroups as $group) {
             foreach ($cacheClients as $client_id) {
                 try {
-                    $options         = ['defaultgroup' => $group, 'cachebase' => JPATH_CACHE)];
+                    $options         = ['defaultgroup' => $group, 'cachebase' => $client_id ? JPATH_ADMINISTRATOR . '/cache' : Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache')];
                     $cachecontroller = new CacheController($options);
                     $cache           = $cachecontroller->cache;
                     $cache->clean();
@@ -365,7 +347,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      */
     private function isAllowedUser(): bool
     {
-        return $this->getApplication()->getIdentity()->authorise('core.login.admin');
+        return Factory::getApplication()->getIdentity()->authorise('core.login.admin');
     }
 
     /**
@@ -382,7 +364,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     public function onAjaxEos(): string
     {
         // No messages yet so nothing to snooze
-        if (!$this->currentMessage) {
+        if (!$this->messagesInitialized && $this->setMessage() == []) {
             return '';
         }
         if (!$this->isAllowedUser()) {
@@ -395,5 +377,24 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         }
 
         return '';
+    }
+
+    /**
+     * setMessage
+     *
+     * Calculates how many days and selects correct message
+     *
+     * @return array|bool
+     *
+     * @since  1.0
+     */
+    private function setMessage()
+    {
+        $diff                 = Factory::getDate()->diff(Factory::getDate(Eos::EOS_DATE));
+        $monthsUntilEOS       = floor($diff->days / 30.417);
+        $message              = $this->getMessageInfo($monthsUntilEOS, $diff->invert);
+        $this->currentMessage = $message;
+        $this->messagesInitialized = true;
+        return $message;
     }
 }

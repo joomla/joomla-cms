@@ -11,7 +11,6 @@
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\PluginInterface;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
@@ -37,10 +36,8 @@ return new class () implements ServiceProviderInterface {
                 $dispatcher = $container->get(DispatcherInterface::class);
                 $plugin     = new Eos(
                     $dispatcher,
-                    Factory::getApplication()->getDocument(),
                     (array)PluginHelper::getPlugin('quickicon', 'eos')
                 );
-                $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 return $plugin;
