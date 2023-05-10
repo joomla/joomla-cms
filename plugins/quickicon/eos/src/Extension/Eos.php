@@ -148,12 +148,8 @@ final class Eos extends CMSPlugin implements SubscriberInterface
             }
             $this->getApplication()->enqueueMessage($messageText, $this->currentMessage['messageType']);
         }
-        try {
+
             $this->document->getWebAssetManager()->registerAndUseScript('plg_quickicon_eos.script', 'plg_quickicon_eos/snooze.js', [], ['type' => 'module']);
-        } catch (Exception $e) {
-            echo $e->getMessage();
-            exit();
-        }
         // The message as quickicon
         // Add the icon to the result array
         $result               = $event->getArgument('result', []);
@@ -234,7 +230,6 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         if (!$this->getApplication()->isClient('administrator')) {
             return false;
         }
-
         if ($this->getApplication()->getIdentity()->guest) {
             return false;
         }
@@ -242,11 +237,9 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         if ($this->document->getType() !== 'html') {
             return false;
         }
-
         if ($this->getApplication()->getInput()->getCmd('tmpl', 'index') === 'component') {
             return false;
         }
-
         if ($this->getApplication()->getInput()->get('option') !== 'com_cpanel') {
             return false;
         }
@@ -269,7 +262,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         foreach ($clearGroups as $group) {
             foreach ($cacheClients as $client_id) {
                 try {
-                    $options         = ['defaultgroup' => $group, 'cachebase' => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $this->getApplication()->get('cache_path', JPATH_SITE . '/cache')];
+                    $options         = ['defaultgroup' => $group, 'cachebase' => JPATH_CACHE)];
                     $cachecontroller = new CacheController($options);
                     $cache           = $cachecontroller->cache;
                     $cache->clean();
