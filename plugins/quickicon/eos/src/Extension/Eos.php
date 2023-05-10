@@ -390,10 +390,10 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      */
     private function setMessage()
     {
-        $diff                 = Factory::getDate()->diff(Factory::getDate(Eos::EOS_DATE));
-        $monthsUntilEOS       = floor($diff->days / 30.417);
-        $message              = $this->getMessageInfo($monthsUntilEOS, $diff->invert);
-        $this->currentMessage = $message;
+        $diff                      = Factory::getDate()->diff(Factory::getDate(Eos::EOS_DATE));
+        $monthsUntilEOS            = floor($diff->days / 30.417);
+        $message                   = $this->getMessageInfo($monthsUntilEOS, $diff->invert);
+        $this->currentMessage      = $message;
         $this->messagesInitialized = true;
         return $message;
     }
