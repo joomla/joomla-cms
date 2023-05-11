@@ -46,7 +46,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      * Load the language file on instantiation.
      *
      * @var    bool
-     * @since __DEPLOY_VERSION__
+     * @since  __DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
 
