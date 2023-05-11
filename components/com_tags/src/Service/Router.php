@@ -180,9 +180,9 @@ class Router extends RouterBase
 
                 unset($query['id']);
             } elseif ($menuItem->query['view'] == 'tag') {
-                $ids = $query['id'];
+                $ids     = $query['id'];
                 $int_ids = ArrayHelper::toInteger($ids);
-                $mIds = (array) $menuItem->query['id'];
+                $mIds    = (array) $menuItem->query['id'];
 
                 /**
                  * We check if there is a difference between the tags of the menu item and the query.
