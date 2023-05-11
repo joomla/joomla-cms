@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
@@ -27,7 +27,7 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since __DEPLOY_VERSION__
+     * @since  __DEPLOY_VERSION__
      */
     public function register(Container $container): void
     {
@@ -37,10 +37,10 @@ return new class () implements ServiceProviderInterface {
                 $dispatcher = $container->get(DispatcherInterface::class);
                 $plugin     = new Eos(
                     $dispatcher,
-                    (array)PluginHelper::getPlugin('quickicon', 'eos')
+                    (array) PluginHelper::getPlugin('quickicon', 'eos')
                 );
-                $plugin->setDatabase($container->get(DatabaseInterface::class));
                 $plugin->setApplication(Factory::getApplication());
+                $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 return $plugin;
             }
