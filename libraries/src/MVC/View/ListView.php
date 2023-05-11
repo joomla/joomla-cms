@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Object\CMSObject;
@@ -208,7 +209,7 @@ class ListView extends HtmlView
         $bar = Toolbar::getInstance('toolbar');
 
         $viewName         = $this->getName();
-        $singularViewName = \Joomla\String\Inflector::getInstance()->toSingular($viewName);
+        $singularViewName = InflectorFactory::create()->build()->singularize($viewName);
 
         ToolbarHelper::title(Text::_($this->toolbarTitle), $this->toolbarIcon);
 

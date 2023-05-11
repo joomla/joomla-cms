@@ -1,12 +1,12 @@
-describe('Test that the menu back end list', () => {
+describe('Test in backend that the menu list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
-    cy.visit('administrator/index.php?option=com_menus&view=items&menutype=mainmenu');
+    cy.visit('/administrator/index.php?option=com_menus&view=items&menutype=mainmenu');
   });
 
   it('has a title', () => cy.get('h1.page-title').should('contain.text', 'Menus: Items'));
 
-  it('can show a list of menu items', () => {
+  it('can display a list of menu items', () => {
     cy.db_createMenuItem({ title: 'Test menu item' }).then(() => {
       cy.reload();
 
