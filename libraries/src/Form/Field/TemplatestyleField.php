@@ -125,7 +125,7 @@ class TemplatestyleField extends GroupedlistField
      * Use the client attribute to specify a specific client.
      * Use the template attribute to specify a specific template
      *
-     * @return  array  The field option objects as a nested array in groups.
+     * @return  array[]  The field option objects as a nested array in groups.
      *
      * @since   1.6
      */
