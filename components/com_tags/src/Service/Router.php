@@ -181,9 +181,15 @@ class Router extends RouterBase
                 unset($query['id']);
             } elseif ($menuItem->query['view'] == 'tag') {
                 $ids = $query['id'];
+                $int_ids = ArrayHelper::toInteger($ids);
+                $mIds = (array) $menuItem->query['id'];
 
-                foreach ($ids as $id) {
-                    if (!in_array((int) $id, $menuItem->query['id'])) {
+                /**
+                 * We check if there is a difference between the tags of the menu item and the query.
+                 * If they are identical, we exactly match the menu item. Otherwise we append all tags to the URL
+                 */
+                if (count(array_diff($int_ids, $mIds)) > 0 || count(array_diff($mIds, $int_ids)) > 0) {
+                    foreach ($ids as $id) {
                         $segments[] = $id;
                     }
                 }
