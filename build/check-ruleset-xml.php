@@ -2,11 +2,12 @@
 
 /**
  * This file is used to check if the exclude patterns in a PHPCS ruleset XML file are still relevant,
- * i.e. the files or folders still exist.
+ * i.e. the files or folders still exist, and optionally fix the XML file.
  *
- * This script has one optional parameter:
- *
- * --file - Path to the PHPCS ruleset XML file to be checked
+ * This script has three optional parameters:
+ * --file <path> - Path to the PHPCS ruleset XML file to be checked, defaults to 'ruleset.xml' in the root folder.
+ * --fix         - Fix the XML file if any obsolete exclude patterns were found..
+ * --help        - Show the help and exit.
  *
  * @package    Joomla.Build
  *
@@ -21,11 +22,12 @@ function usage($command)
     echo PHP_EOL;
     echo "[options]:" . PHP_EOL;
     echo "--file <path>:\tPath to the PHPCS ruleset XML file to be checked, defaults to 'ruleset.xml' in the root folder." . PHP_EOL;
+    echo "--fix:\t\tFix the XML file if any obsolete exclude patterns were found." . PHP_EOL;
     echo "--help:\t\tShow this help output." . PHP_EOL;
     echo PHP_EOL;
 }
 
-$options = getopt('', ['help', 'file:']);
+$options = getopt('', ['file:', 'fix', 'help']);
 
 if (isset($options['help'])) {
     usage($argv[0]);
@@ -45,7 +47,10 @@ $ignoreList = [
 
 echo "Checking file '" . $rulesetFile . "' ..." . PHP_EOL;
 
-foreach (file($rulesetFile) as $line => $text) {
+$rulesetLines     = file($rulesetFile, FILE_IGNORE_NEW_LINES);
+$obsoleteLineIdxs = [];
+
+foreach ($rulesetLines as $line => $text) {
     if (!preg_match('/^(?:\s*<exclude-pattern type="relative">)(.*)(?:<\/exclude-pattern>\s*)$/', $text, $matches)) {
         continue;
     }
@@ -70,10 +75,32 @@ foreach (file($rulesetFile) as $line => $text) {
     if (substr($path, -1) === '/') {
         if (!is_dir(dirname(__DIR__) . '/' . $path)) {
             echo 'Line no. ' . $line + 1 . ': Folder "' . $path . '" doesn\'t exist.' . PHP_EOL;
+            $obsoleteLineIdxs[] = $line;
         }
     } elseif (!is_file(dirname(__DIR__) . '/' . $path)) {
         echo 'Line no. ' . $line + 1 . ': File "' . $path . '" doesn\'t exist.' . PHP_EOL;
+        $obsoleteLineIdxs[] = $line;
     }
 }
+
+echo "... done." . PHP_EOL;
+
+if (!count($obsoleteLineIdxs)) {
+    echo "No obsolete lines found." . PHP_EOL;
+
+    exit(0);
+}
+
+if (!isset($options['fix'])) {
+    exit(0);
+}
+
+foreach ($obsoleteLineIdxs as $line) {
+    unset($rulesetLines[$line]);
+}
+
+echo "Updating file '" . $rulesetFile . "' ..." . PHP_EOL;
+
+file_put_contents($rulesetFile, implode(PHP_EOL, $rulesetLines));
 
 echo "... done." . PHP_EOL;
