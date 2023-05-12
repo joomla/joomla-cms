@@ -22,7 +22,7 @@ describe('Test in frontend that the tags tag view', () => {
       .then(() => cy.db_createTag({ title: 'automated test tag 3' }))
       .then(() => cy.db_createTag({ title: 'automated test tag 4' }))
       .then(() => {
-        cy.visit('index.php?option=com_tags&view=tags');
+        cy.visit('/index.php?option=com_tags&view=tags');
 
         cy.contains('automated test tag 1');
         cy.contains('automated test tag 2');
