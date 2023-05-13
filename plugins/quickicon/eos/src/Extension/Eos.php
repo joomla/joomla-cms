@@ -181,11 +181,11 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      * @param   int  $monthsUntilEOS  The months until we reach EOS
      * @param   int  $inverted        Have we surpassed the EOS date
      *
-     * @return  array|bool  An array with the message to be displayed or false
+     * @return  array  An array with the message to be displayed or false
      *
      * @since __DEPLOY_VERSION__
      */
-    private function getMessageInfo(int $monthsUntilEOS, int $inverted)
+    private function getMessageInfo(int $monthsUntilEOS, int $inverted): array
     {
         // The EOS date has passed - Support has ended
         if ($inverted === 1) {
