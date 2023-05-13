@@ -105,9 +105,6 @@ class UserController extends BaseController
 
         $this->app->setUserState('users.login.form.data', []);
 
-        // Show a message when a user is logged in.
-        $this->app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGIN_SUCCESS'), 'message');
-
         $this->app->redirect(Route::_($this->app->getUserState('users.login.form.return'), false));
     }
 
