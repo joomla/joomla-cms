@@ -114,8 +114,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         }
 
         $this->getApplication()->getDocument()->getWebAssetManager()->registerAndUseScript('plg_quickicon_eos.script', 'plg_quickicon_eos/snooze.js', [], ['type' => 'module']);
-        // The message as quickicon
-        // Add the icon to the result array
+
         $result               = $event->getArgument('result', []);
         $messageTextQuickIcon = Text::sprintf($this->currentMessage['quickiconText'], HTMLHelper::_('date', Eos::EOS_DATE, Text::_('DATE_FORMAT_LC3')));
 
@@ -124,11 +123,11 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         $result[] = [
             [
                 'link'  => $this->currentMessage['messageLink'],
-                'image' => 'fa fa-life-ring',
+                'image' => $this->currentMessage['image'],
                 'text'  => $messageTextQuickIcon,
                 'id'    => 'plg_quickicon_eos',
                 'group' => $this->currentMessage['groupText'],
-                'class' => 'success',
+                'class' => $this->currentMessage['messageType'],
             ],
         ];
 
@@ -177,32 +176,6 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-    * Clears cache groups. We use it to clear the plugins cache after we update the last run timestamp.
-    *
-    *
-    * @return  void
-    *
-    * @since __DEPLOY_VERSION__
-    */
-    private function clearCacheGroups(): void
-    {
-        $clearGroups  = ['com_plugins'];
-        $cacheClients = [0, 1];
-        foreach ($clearGroups as $group) {
-            foreach ($cacheClients as $client_id) {
-                try {
-                    $options         = ['defaultgroup' => $group, 'cachebase' => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $this->getApplication()->get('cache_path', JPATH_SITE . '/cache')];
-                    $cachecontroller = new CacheController($options);
-                    $cache           = $cachecontroller->cache;
-                    $cache->clean();
-                } catch (Exception $e) {
-                    // Ignore it
-                }
-            }
-        }
-    }
-
-    /**
      * Return the texts to be displayed based on the time until we reach EOS
      *
      * @param   int  $monthsUntilEOS  The months until we reach EOS
@@ -221,7 +194,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'messageText'   => 'PLG_QUICKICON_EOS_MESSAGE_ERROR_SUPPORT_ENDED',
                 'quickiconText' => 'PLG_QUICKICON_EOS_MESSAGE_ERROR_SUPPORT_ENDED_SHORT',
                 'messageType'   => 'error',
-                'image'         => 'minus-circle',
+                'image'         => 'fa fa-life-ring',
                 'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
                 'groupText'     => 'PLG_QUICKICON_EOS_GROUPNAME_EOS',
                 'snoozable'     => false,
@@ -234,7 +207,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'messageText'   => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SUPPORT_ENDING',
                 'quickiconText' => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SUPPORT_ENDING_SHORT',
                 'messageType'   => 'warning',
-                'image'         => 'warning-circle',
+                'image'         => 'fa fa-life-ring',
                 'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
                 'groupText'     => 'PLG_QUICKICON_EOS_GROUPNAME_WARNING',
                 'snoozable'     => true,
@@ -247,7 +220,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'messageText'   => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SECURITY_ONLY',
                 'quickiconText' => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SECURITY_ONLY_SHORT',
                 'messageType'   => 'warning',
-                'image'         => 'warning-circle',
+                'image'         => 'fa fa-life-ring',
                 'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
                 'groupText'     => 'PLG_QUICKICON_EOS_GROUPNAME_WARNING',
                 'snoozable'     => true,
@@ -260,7 +233,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'messageText'   => 'PLG_QUICKICON_EOS_MESSAGE_INFO_02',
                 'quickiconText' => 'PLG_QUICKICON_EOS_MESSAGE_INFO_02_SHORT',
                 'messageType'   => 'info',
-                'image'         => 'info-circle',
+                'image'         => 'fa fa-life-ring',
                 'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Pre-Update_Check',
                 'groupText'     => 'PLG_QUICKICON_EOS_GROUPNAME_INFO',
                 'snoozable'     => true,
@@ -273,7 +246,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'messageText'   => 'PLG_QUICKICON_EOS_MESSAGE_INFO_01',
                 'quickiconText' => 'PLG_QUICKICON_EOS_MESSAGE_INFO_01_SHORT',
                 'messageType'   => 'info',
-                'image'         => 'info-circle',
+                'image'         => 'fa fa-life-ring',
                 'messageLink'   => 'https://www.joomla.org/4/#features',
                 'groupText'     => 'PLG_QUICKICON_EOS_GROUPNAME_INFO',
                 'snoozable'     => true,
@@ -333,9 +306,9 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since  1.0
+     * @since  __DEPLOY_VERSION__
      */
-    private function setMessage()
+    private function setMessage(): array
     {
         $diff                      = Factory::getDate()->diff(Factory::getDate(Eos::EOS_DATE));
         $message                   = $this->getMessageInfo(floor($diff->days / 30.417), $diff->invert);

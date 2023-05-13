@@ -28,6 +28,8 @@ return new class () implements ServiceProviderInterface {
      * @return  void
      *
      * @since  __DEPLOY_VERSION__
+     *
+     * @throws Exception
      */
     public function register(Container $container): void
     {
