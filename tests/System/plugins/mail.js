@@ -49,7 +49,7 @@ function startMailServer(config) {
     return null;
   }
 
-  // Start he mail server on the cofnigured port
+  // Start the mail server on the configured port
   mailServer = mailTester.init(config.env.smtp_port);
 
   // Listen to incoming mails and add them to the internal cache
