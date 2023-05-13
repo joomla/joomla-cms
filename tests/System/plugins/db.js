@@ -46,7 +46,7 @@ function queryTestDB(joomlaQuery, config) {
     }
 
     // Postgres needs double quotes
-    query = query.replaceAll('\`', '"');
+    query = query.replaceAll('`', '"');
 
     return connection.unsafe(query).then((result) => {
       // Select query should always return an array

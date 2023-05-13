@@ -7,24 +7,24 @@ let mailServer = null;
 let cachedMails = [];
 
 /**
- * Returns all cached mails. It waits for at least 5 seconds till a mail arrives.
+ * Returns all cached mails. It waits for maximum 5 seconds till a mail arrives.
  *
  * @returns a promise which resolves the cached mails
  */
-function getMails() {
-  return new Promise(async (resolve) => {
-    // Waiting here at least 5 seconds till the mail arrives
-    for (let i = 0; i < 5; i++) {
-      if (cachedMails.length !== 0) {
-        break;
-      }
-
-      // Sleep for a second
-      await new Promise(resolve => setTimeout(resolve, 1000));
+async function getMails() {
+  // Waiting here maximum 5 seconds to get a mail
+  for (let i = 0; i < 5; i += 1) {
+    if (cachedMails.length !== 0) {
+      break;
     }
 
-    resolve(cachedMails);
-  });
+    // Sleep for a second
+    /* eslint-disable no-await-in-loop */
+    await new Promise((r) => { setTimeout(r, 1000); });
+    /* eslint-enable no-await-in-loop */
+  }
+
+  return new Promise((resolve) => { resolve(cachedMails); });
 }
 
 /**
