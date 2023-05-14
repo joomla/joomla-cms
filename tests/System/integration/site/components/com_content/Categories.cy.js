@@ -1,5 +1,5 @@
-describe('Test in frontend that the categories of com_content ', () => {
-  it('can display a list of categories of articles ', () => {
+describe('Test in frontend that the content categories view', () => {
+  it('can display a list of article categories', () => {
     cy.db_createCategory({ title: 'automated test category 1', extension: 'com_content' })
       .then((id) => cy.db_createArticle({ title: 'automated test article 1', catid: id }))
       .then(() => cy.db_createCategory({ title: 'automated test category 2', extension: 'com_content' }))
