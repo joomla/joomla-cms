@@ -5,7 +5,7 @@ describe('Test in frontend that the wrapper view', () => {
         cy.visit('/');
         cy.get('a:contains(automated test wrapper)').click();
 
-        cy.get('#blockrandom').should('exist');
+        cy.get('.com-wrapper__iframe').should('exist');
       });
   });
 });
