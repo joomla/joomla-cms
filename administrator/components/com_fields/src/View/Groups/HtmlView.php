@@ -192,6 +192,6 @@ class HtmlView extends BaseHtmlView
             $toolbar->preferences($component);
         }
 
-        $toolbar->help('Component:_Field_Groups');
+        $toolbar->help('Field_Groups');
     }
 }
