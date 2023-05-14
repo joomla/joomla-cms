@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>5.0</version>
+	<version>5.0.0</version>
 	<description>PLG_TASK_PRIVACYCONSENT_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Task\PrivacyConsent</namespace>
 	<files>
