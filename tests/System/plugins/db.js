@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const postgres = require('postgres');
 
-// Rows cache of items which got inserted
+// Items cache which are added by an insert statement
 let insertedItems = [];
 
 /**
@@ -68,7 +68,7 @@ function queryTestDB(joomlaQuery, config) {
     });
   }
 
-  // Return a promise when resolves the query
+  // Return a promise which runs the query
   return new Promise((resolve, reject) => {
     // Create the connection and connect
     const connection = mysql.createConnection({
