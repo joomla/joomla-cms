@@ -57,7 +57,7 @@ if (!$format) {
      */
     $module   = $input->get('module');
     $table    = Table::getInstance('extension');
-    $moduleId = $table->find(['type' => 'module', 'element' => 'mod_' . $module]);
+    $moduleId = $table->find(['type' => 'module', 'element' => 'mod_' . strtolower($module)]);
 
     if ($moduleId && $table->load($moduleId) && $table->enabled) {
         $helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
