@@ -1,4 +1,4 @@
-describe('Test in frontend that the Article', () => {
+describe('Test in frontend that the com_content', () => {
   afterEach(() => cy.task('queryDB', 'DELETE FROM #__content'));
 
   it('can create an article', () => {
