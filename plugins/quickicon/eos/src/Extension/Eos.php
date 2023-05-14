@@ -12,7 +12,6 @@ namespace Joomla\Plugin\Quickicon\Eos\Extension;
 
 use Exception;
 use Joomla\CMS\Access\Exception\NotAllowed;
-use Joomla\CMS\Cache\CacheController;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -48,7 +47,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      * @var    bool
      * @since  __DEPLOY_VERSION__
      */
-    protected $autoloadLanguage = true;
+    protected $autoloadLanguage = false;
 
     /**
      * Holding the current valid message to be shown
@@ -99,9 +98,10 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      */
     public function getEndOfServiceNotification(QuickIconsEvent $event): void
     {
-        if ($event->getContext() !== $this->params->get('context', 'update_quickicon') || !$this->shouldDisplayMessage() || !$this->messagesInitialized && $this::setMessage() == []) {
+        if ($event->getContext() !== $this->params->get('context', 'update_quickicon') || !$this->shouldDisplayMessage() || !$this->messagesInitialized && $this->setMessage() == []) {
             return;
         }
+        $this->loadLanguage();
 
         // Show this only when not snoozed
         if ($this->params->get('last_snoozed_id', 0) < $this->currentMessage['id']) {
