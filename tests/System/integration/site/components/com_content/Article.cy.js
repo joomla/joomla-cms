@@ -1,7 +1,7 @@
-describe('Test in frontend that the com_content', () => {
-  afterEach(() => cy.task('queryDB', 'DELETE FROM #__content'));
+describe('Test in frontend that the content article form', () => {
+  afterEach(() => cy.task('queryDB', 'DELETE FROM #__content where title = \'automated test article\''));
 
-  it('can create an article', () => {
+  it('can edit an article', () => {
     cy.db_createMenuItem({ title: 'automated test article', link: 'index.php?option=com_content&view=form&layout=edit' })
       .then(() => {
         cy.doFrontendLogin();
