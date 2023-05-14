@@ -14,8 +14,8 @@ describe('Test in backend that the application configuration', () => {
   });
 
   it('can send a test mail', () => {
-    cy.get('#configTabs div[role="tablist"] button[aria-controls="page-server"]').should('be.visible').click();
-    cy.get('#jform_mailer').should('be.visible').select('smtp');
+    cy.get('#configTabs div[role="tablist"] button[aria-controls="page-server"]').click();
+    cy.get('#jform_mailer').select('smtp');
     cy.get('#jform_smtphost').clear().type(Cypress.env('smtp_host'));
     cy.get('#jform_smtpport').clear().type(Cypress.env('smtp_port'));
     cy.get('#jform_smtpsecure').select('none');
