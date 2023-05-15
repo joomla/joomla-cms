@@ -7,7 +7,6 @@ describe('Test in frontend that the privacy view confirm request layout', () => 
 
     cy.get('#configTabs div[role="tablist"] button[aria-controls="page-server"]').click();
     cy.get('#jform_mailonline1').check();
-
     cy.get('#jform_mailer').select('SMTP');
     cy.get('#jform_smtphost').clear().type(Cypress.env('smtp_host'));
     cy.get('#jform_smtpport').clear().type(Cypress.env('smtp_port'));
@@ -21,6 +20,8 @@ describe('Test in frontend that the privacy view confirm request layout', () => 
       cy.wrap(mails[0].body).should('have.string', 'This is a test mail sent using');
       cy.wrap(mails[0].sender).should('equal', Cypress.env('email'));
     });
+
+    cy.get('.button-save').click();
   });
 
   it('can create a form to submit an information request of type export', () => {
