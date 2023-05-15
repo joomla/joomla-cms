@@ -17,7 +17,7 @@ describe('Test in frontend that the contact categories view', () => {
       });
   });
 
-  it('can display a list of categories of contacts in menu item', () => {
+  it('can display a list of categories in a menu item', () => {
     cy.db_createCategory({ title: 'automated test category 1', extension: 'com_contact' })
       .then((id) => cy.db_createContact({ name: 'automated test contact 1', catid: id }))
       .then(() => cy.db_createCategory({ title: 'automated test category 2', extension: 'com_contact' }))
