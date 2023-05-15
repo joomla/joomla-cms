@@ -13,13 +13,13 @@ namespace Joomla\Component\Users\Administrator\Controller;
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\MethodsModel;
 use Joomla\Input\Input;
@@ -34,8 +34,10 @@ use RuntimeException;
  *
  * @since 4.2.0
  */
-class MethodsController extends BaseController
+class MethodsController extends BaseController implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Public constructor
      *
@@ -74,8 +76,8 @@ class MethodsController extends BaseController
         $userId = $this->input->getInt('user_id', null);
         $user   = ($userId === null)
             ? $this->app->getIdentity()
-            : Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
-        $user   = $user ?? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            : $this->getUserFactory()->loadUserById($userId);
+        $user   = $user ?? $this->getUserFactory()->loadUserById(0);
 
         if (!MfaHelper::canDeleteMethod($user)) {
             throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
@@ -126,8 +128,8 @@ class MethodsController extends BaseController
         $userId = $this->input->getInt('user_id', null);
         $user   = ($userId === null)
             ? $this->app->getIdentity()
-            : Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
-        $user   = $user ?? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            : $this->getUserFactory()->loadUserById($userId);
+        $user   = $user ?? $this->getUserFactory()->loadUserById(0);
 
         if (!MfaHelper::canShowConfigurationInterface($user)) {
             throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
@@ -170,8 +172,8 @@ class MethodsController extends BaseController
         $userId = $this->input->getInt('user_id', null);
         $user   = ($userId === null)
             ? $this->app->getIdentity()
-            : Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
-        $user   = $user ?? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            : $this->getUserFactory()->loadUserById($userId);
+        $user   = $user ?? $this->getUserFactory()->loadUserById(0);
 
         if (!MfaHelper::canAddEditMethod($user)) {
             throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
@@ -203,8 +205,7 @@ class MethodsController extends BaseController
      */
     private function assertLoggedInUser(): void
     {
-        $user = $this->app->getIdentity()
-            ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        $user = $this->app->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
 
         if ($user->guest) {
             throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
