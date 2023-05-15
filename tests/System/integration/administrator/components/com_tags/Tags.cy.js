@@ -10,9 +10,9 @@ describe('Test in backend that the custom tags list', () => {
 
   it('can display a list of tags', () => {
     cy.db_createTag({ title: 'Test tag' }).then(() => {
-     cy.reload();
+      cy.reload();
 
-     cy.contains('Test tag');
+      cy.contains('Test tag');
     });
   });
 
