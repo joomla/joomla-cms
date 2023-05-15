@@ -1,5 +1,4 @@
 describe('Test in frontend that the privacy view confirm request layout', () => {
-
   beforeEach(() => {
     cy.task('clearEmails');
     cy.doAdministratorLogin();
