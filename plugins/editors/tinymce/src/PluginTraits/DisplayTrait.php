@@ -390,7 +390,9 @@ trait DisplayTrait
                     $ctemp[] = ['title' => $content_language['content_language_name'], 'code' => $content_language['content_language_code']];
                 }
             }
-            $scriptOptions['content_langs'] = array_merge($ctemp);
+            if (isset($ctemp)) {
+                $scriptOptions['content_langs'] = array_merge($ctemp);
+            }
         }
 
         // User custom plugins and buttons

@@ -159,6 +159,6 @@ class HtmlView extends BaseHtmlView
         }
 
         $toolbar->divider();
-        $toolbar->help('News_Feeds:_New_or_Edit');
+        $toolbar->help('News_Feeds:_Edit');
     }
 }
