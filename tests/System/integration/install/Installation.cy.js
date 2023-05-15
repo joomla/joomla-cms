@@ -33,7 +33,7 @@ describe('Install Joomla', () => {
     });
   });
 
-  it('Can login in the backend', () => {
+  it('Cjeck that administrator can login in the backend', () => {
     cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password'), false);
     cy.disableStatistics();
     cy.setErrorReportingToDevelopment();
