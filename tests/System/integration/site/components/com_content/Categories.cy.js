@@ -1,5 +1,5 @@
-describe('Test in frontend that the Categories of com_content ', () => {
-  it('can display a list of categories of articles without menu item', () => {
+describe('Test in frontend that the content categories view', () => {
+  it('can display a list of categories without a menu item', () => {
     cy.db_createCategory({ title: 'automated test category 1', extension: 'com_content' })
       .then((id) => cy.db_createArticle({ title: 'automated test article 1', catid: id }))
       .then(() => cy.db_createCategory({ title: 'automated test category 2', extension: 'com_content' }))
@@ -17,7 +17,7 @@ describe('Test in frontend that the Categories of com_content ', () => {
       });
   });
 
-  it('can display a list of categories of articles in menu item', () => {
+  it('can display a list of categories in a menu item', () => {
     cy.db_createCategory({ title: 'automated test category 1', extension: 'com_content' })
       .then((id) => cy.db_createArticle({ title: 'automated test article 1', catid: id }))
       .then(() => cy.db_createCategory({ title: 'automated test category 2', extension: 'com_content' }))
