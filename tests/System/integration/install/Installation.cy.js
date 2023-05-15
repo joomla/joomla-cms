@@ -18,11 +18,6 @@ describe('Install Joomla', () => {
 
     cy.installJoomla(config);
 
-    cy.doAdministratorLogin(config.username, config.password, false);
-    cy.disableStatistics();
-    cy.setErrorReportingToDevelopment();
-    cy.doAdministratorLogout();
-
     cy.readFile(`${Cypress.env('cmsPath')}/configuration.php`).then((fileContent) => {
       // Update to the correct secret for the API tests because of the bearer token
       let content = fileContent.replace(/^.*\$secret.*$/mg, "public $secret = 'tEstValue';");
@@ -36,5 +31,12 @@ describe('Install Joomla', () => {
       // Write the modified content back to the configuration file
       cy.task('writeFile', { path: 'configuration.php', content });
     });
+  });
+
+  it('Can login in the backend', () => {
+    cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password'), false);
+    cy.disableStatistics();
+    cy.setErrorReportingToDevelopment();
+    cy.doAdministratorLogout();
   });
 });
