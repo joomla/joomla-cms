@@ -20,6 +20,7 @@ describe('Test in backend that the application configuration', () => {
     cy.get('#jform_smtpport').clear().type(Cypress.env('smtp_port'));
     cy.get('#jform_smtpsecure').select('none');
     cy.get('#sendtestmail').click();
+
     cy.task('getMails').then((mails) => {
       cy.get('#system-message-container').should('contain.text', 'The email was sent to');
 

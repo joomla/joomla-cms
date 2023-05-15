@@ -7,13 +7,13 @@ let mailServer = null;
 let cachedMails = [];
 
 /**
- * Returns all cached mails. It waits for maximum 5 seconds till a mail arrives.
+ * Returns all cached mails. It waits for maximum 3 seconds till a mail arrives.
  *
  * @returns a promise which resolves the cached mails
  */
 async function getMails() {
-  // Waiting here maximum 5 seconds to get a mail
-  for (let i = 0; i < 5; i += 1) {
+  // Waiting here maximum 3 seconds to get a mail
+  for (let i = 0; i < 3; i += 1) {
     if (cachedMails.length !== 0) {
       break;
     }
@@ -51,6 +51,7 @@ function startMailServer(config) {
 
   // Start the mail server on the configured port
   mailServer = mailTester.init(config.env.smtp_port);
+  mailServer.module('logAll');
 
   // Listen to incoming mails and add them to the internal cache
   mailServer.bind((addr, id, email) => cachedMails.push(email));
