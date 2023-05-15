@@ -186,6 +186,6 @@ class HtmlView extends BaseHtmlView
             $toolbar->cancel('group.cancel');
         }
 
-        $toolbar->help('Component:_New_or_Edit_Field_Group');
+        $toolbar->help('Field_Groups:_Edit');
     }
 }
