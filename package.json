@@ -20,7 +20,7 @@
     "build:com_media:dev": "set NODE_ENV=DEVELOPMENT && node build/build.js --com-media",
     "watch": "node build/build.js --watch",
     "watch:com_media": "node build/build.js --watch-com-media",
-    "lint:js": "eslint --config build/.eslintrc --ignore-pattern '/media/' --ext .es6.js,.es6,.vue,.cy.js .",
+    "lint:js": "eslint --config build/.eslintrc --ignore-pattern '/media/' --ext .es6.js,.es6,.vue .",
     "lint:testjs": "eslint --config build/.eslintrc --ext .js tests/System",
     "lint:css": "stylelint --config build/.stylelintrc.json \"administrator/components/com_media/resources/**/*.scss\" \"administrator/templates/**/*.scss\" \"build/media_source/**/*.scss\" \"templates/**/*.scss\" \"installation/template/**/*.scss\"",
     "install": "node build/build.js --prepare",
