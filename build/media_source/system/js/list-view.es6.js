@@ -100,7 +100,7 @@ const setup = ({ target }) => {
   target.querySelectorAll('.js-grid-item-action').forEach((element) => element.addEventListener('click', gridItemAction));
   target.querySelectorAll('.js-grid-item-transition-action').forEach((element) => element.addEventListener('change', gridTransitionItemAction));
   target.querySelectorAll('.js-grid-button-transition-action').forEach((element) => element.addEventListener('click', gridTransitionButtonAction));
-}
+};
 
 setup({ target: document });
 document.addEventListener('joomla:updated', setup);
