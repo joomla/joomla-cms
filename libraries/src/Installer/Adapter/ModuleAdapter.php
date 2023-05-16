@@ -316,11 +316,6 @@ class ModuleAdapter extends InstallerAdapter
             return $element;
         }
 
-        // Joomla 4 Module.
-        if ((string) $this->getManifest()->element) {
-            return (string) $this->getManifest()->element;
-        }
-
         if (!\count($this->getManifest()->files->children())) {
             return $element;
         }
@@ -330,6 +325,12 @@ class ModuleAdapter extends InstallerAdapter
                 // Joomla 3 (legacy) Module.
                 return strtolower((string) $file->attributes()->module);
             }
+        }
+
+        $element = parent::getElement($element);
+
+        if (strpos($element, 'mod_') !== 0) {
+            $element = 'mod_' . $element;
         }
 
         return $element;
