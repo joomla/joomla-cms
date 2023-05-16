@@ -17,6 +17,7 @@ describe('Test in frontend that the privacy request view', () => {
   });
 
   it('can submit an information request of type export in a menu item', () => {
+    //create a test user as the first test already has a request from the original user
     cy.db_createUser({ username: 'testuser', password: '098f6bcd4621d373cade4e832627b4f6', email: 'test@example.com' })
       .then(() => cy.db_createMenuItem({ title: 'Automated request information', link: 'index.php?option=com_privacy&view=request' }))
       .then(() => {
