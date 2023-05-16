@@ -312,18 +312,13 @@ class ModuleAdapter extends InstallerAdapter
      */
     public function getElement($element = null)
     {
-        if ($element) {
-            return $element;
-        }
-
-        if (!\count($this->getManifest()->files->children())) {
-            return $element;
-        }
-
-        foreach ($this->getManifest()->files->children() as $file) {
-            if ((string) $file->attributes()->module) {
-                // Joomla 3 (legacy) Module.
-                return strtolower((string) $file->attributes()->module);
+        if (!$element && \count($this->getManifest()->files->children())) {
+            foreach ($this->getManifest()->files->children() as $file) {
+                if ((string)$file->attributes()->module) {
+                    // Joomla 3 (legacy) Module.
+                    $element = strtolower((string)$file->attributes()->module);
+                    break;
+                }
             }
         }
 

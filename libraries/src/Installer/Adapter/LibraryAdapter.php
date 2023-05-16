@@ -205,7 +205,7 @@ class LibraryAdapter extends InstallerAdapter
     public function getElement($element = null)
     {
         if (!$element) {
-            return (string) $this->getManifest()->libraryname;
+            $element = (string) $this->getManifest()->libraryname;
         }
 
         return parent::getElement($element);
