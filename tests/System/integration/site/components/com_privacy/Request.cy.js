@@ -30,6 +30,7 @@ describe('Test in frontend that the privacy request view', () => {
         cy.task('getMails').then((mails) => {
           cy.get('.alert-message').should('contain.text', 'Your information request has been created. Before it can be processed, you must verify this request. An email has been sent to your address with additional instructions to complete this verification.');
           cy.wrap(mails).should('have.lengthOf', 2);
+          cy.wrap(mails[0].sender).should('equal', Cypress.env('email'));
           cy.wrap(mails[0].body).should('have.string', `A new information request has been submitted by ${'test@example.com'}.`);
           cy.wrap(mails[1].body).should('have.string', 'Someone has created a request to export all personal information related to this email address at ');
         });
