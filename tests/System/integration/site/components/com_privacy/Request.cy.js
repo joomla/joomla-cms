@@ -51,7 +51,7 @@ describe('Test in frontend that the privacy request view', () => {
     });
   });
 
-  it('can submit an information request of type export in a menu item', () => {
+  it('can submit an information request of type remove in a menu item', () => {
     cy.db_createMenuItem({ title: 'Automated remove information', link: 'index.php?option=com_privacy&view=request' })
       .then(() => {
         cy.visit('/');
