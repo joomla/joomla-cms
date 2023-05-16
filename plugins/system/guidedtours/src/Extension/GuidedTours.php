@@ -184,9 +184,9 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         }
 
         // Load component language
-        $uri = new Uri($item->url);
-        $extension = $uri->getVar('option');
-        $lang = $app->getLanguage();
+        $uri        = new Uri($item->url);
+        $extension  = $uri->getVar('option');
+        $lang       = $app->getLanguage();
         $lang->load("$extension.sys", JPATH_ADMINISTRATOR) || $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension);
 
         // We don't want to show all parameters, so take only a subset of the tour attributes
