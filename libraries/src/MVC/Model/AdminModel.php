@@ -711,7 +711,7 @@ abstract class AdminModel extends FormModel
                         'subject'     => $this->table,
                         'newTags'     => $tags,
                         'replaceTags' => false,
-                        'removeTags' => $removeTags,
+                        'removeTags'  => $removeTags,
                     ]
                 );
 
