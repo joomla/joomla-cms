@@ -240,22 +240,17 @@ class GroupModel extends AdminModel
 
         $parts = FieldsHelper::extract($this->state->get('filter.context'));
 
-        // Extract the component name
-        $component = $parts[0];
-
-        // Extract the optional section name
-        if (is_array($parts)) {
-            $section = (count($parts) > 1) ? $parts[1] : null;
-        } else {
-            $section = null;
-        }
-
+        //$parts is null if there are not two parts
         if ($parts) {
+            // Extract the component name
+            $component = $parts[0];
+
+            // Extract the section name
+            $section = $parts[1];
+
             // Set the access control rules field component value.
             $form->setFieldAttribute('rules', 'component', $component);
-        }
 
-        if ($section !== null) {
             // Looking first in the component models/forms folder
             $path = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
 
