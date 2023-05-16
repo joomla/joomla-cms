@@ -232,7 +232,7 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
         $table       = $event['subject'];
         $newTags     = $event['newTags'];
         $replaceTags = $event['replaceTags'];
-        $removeTags = $event['removeTags'];
+        $removeTags  = $event['removeTags'];
 
         // If the tags table doesn't implement the interface bail
         if (!($table instanceof TaggableTableInterface)) {
