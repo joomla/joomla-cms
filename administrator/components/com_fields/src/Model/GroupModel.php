@@ -244,7 +244,11 @@ class GroupModel extends AdminModel
         $component = $parts[0];
 
         // Extract the optional section name
-        $section = (count($parts) > 1) ? $parts[1] : null;
+        if (is_array($parts)) {
+            $section = (count($parts) > 1) ? $parts[1] : null;
+        } else {
+            $section = null;
+        }
 
         if ($parts) {
             // Set the access control rules field component value.
