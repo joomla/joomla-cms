@@ -17,6 +17,7 @@ use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
+use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -181,6 +182,12 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         if (empty($item->id) || $item->published < 1 || !in_array($item->access, $user->getAuthorisedViewLevels())) {
             return null;
         }
+
+        // Load component language
+        $uri = new Uri($item->url);
+        $extension = $uri->getVar('option');
+        $lang = $app->getLanguage();
+        $lang->load("$extension.sys", JPATH_ADMINISTRATOR) || $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension);
 
         // We don't want to show all parameters, so take only a subset of the tour attributes
         $tour = new \stdClass();
