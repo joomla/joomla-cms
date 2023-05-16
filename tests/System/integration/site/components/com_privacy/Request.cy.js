@@ -1,6 +1,6 @@
 describe('Test in frontend that the privacy request view', () => {
   beforeEach(() => cy.task('clearEmails'));
-  afterEach(() => cy.task('queryDB', "DELETE FROM #__privacy_requests"));
+  afterEach(() => cy.task('queryDB', 'DELETE FROM #__privacy_requests'));
 
   it('can submit an information request of type export without a menu item', () => {
     cy.doFrontendLogin();
