@@ -23,12 +23,10 @@ function gridItemAction(event) {
   const { itemFormId } = item.dataset;
 
   if (itemFormId) {
-    Joomla.listItemTask(itemId, itemTask);
+    Joomla.listItemTask(itemId, itemTask, itemFormId);
   } else {
     Joomla.listItemTask(itemId, itemTask);
   }
-
-  Joomla.submitform(itemTask, item.form);
 }
 
 /*
@@ -50,12 +48,10 @@ function gridTransitionItemAction(event) {
   item.form.transition_id.value = item.value;
 
   if (itemFormId) {
-    Joomla.listItemTask(itemId, itemTask);
+    Joomla.listItemTask(itemId, itemTask, itemFormId);
   } else {
     Joomla.listItemTask(itemId, itemTask);
   }
-
-  Joomla.submitform(itemTask, item.form);
 }
 
 /*
