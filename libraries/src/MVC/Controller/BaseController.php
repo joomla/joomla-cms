@@ -14,6 +14,7 @@ use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
@@ -579,6 +580,10 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 
         if ($view instanceof CurrentUserInterface && $this->app->getIdentity()) {
             $view->setCurrentUser($this->app->getIdentity());
+        }
+
+        if ($view instanceof LanguageAwareInterface) {
+            $view->setLanguage($this->app->getLanguage());
         }
 
         return $view;
