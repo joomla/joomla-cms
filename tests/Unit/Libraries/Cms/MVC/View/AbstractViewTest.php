@@ -258,15 +258,14 @@ class AbstractViewTest extends UnitTestCase
      */
     public function testTranslate()
     {
-        $language = new class() extends Language {
+        $language = new class () extends Language {
             public function _($string, $jsSafe = false, $interpretBackSlashes = true)
             {
                 return $string;
             }
         };
 
-        $view = new class () extends AbstractView
-        {
+        $view = new class () extends AbstractView {
             public function translate(string $key)
             {
                 return $this->_($key);

@@ -34,7 +34,7 @@ class LanguageAwareTraitTest extends UnitTestCase
     public function testGetSetLanguage()
     {
         $language = new Language();
-        $trait = new class () {
+        $trait    = new class () {
             use LanguageAwareTrait;
 
             public function get(): Language
