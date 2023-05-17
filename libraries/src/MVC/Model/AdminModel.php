@@ -323,8 +323,16 @@ abstract class AdminModel extends FormModel
 
         foreach ($this->batch_commands as $identifier => $command) {
             if (!empty($commands[$identifier])) {
-                if (!$this->$command($commands[$identifier], $pks, $contexts)) {
-                    return false;
+                if ($command === 'batchTag') {
+                    $removeTags = ArrayHelper::getValue($commands, 'tag_addremove', 'a') === 'r';
+
+                    if (!$this->batchTag($commands[$identifier], $pks, $contexts, $removeTags)) {
+                        return false;
+                    }
+                } else {
+                    if (!$this->$command($commands[$identifier], $pks, $contexts)) {
+                        return false;
+                    }
                 }
 
                 $done = true;
@@ -677,15 +685,16 @@ abstract class AdminModel extends FormModel
     /**
      * Batch tag a list of item.
      *
-     * @param   integer  $value     The value of the new tag.
-     * @param   array    $pks       An array of row IDs.
-     * @param   array    $contexts  An array of item contexts.
+     * @param   integer  $value      The value of the new tag.
+     * @param   array    $pks        An array of row IDs.
+     * @param   array    $contexts   An array of item contexts.
+     * @param   boolean  $removeTags Flag indicating whether the tags in $value have to be removed.
      *
      * @return  boolean  True if successful, false otherwise and internal error is set.
      *
      * @since   3.1
      */
-    protected function batchTag($value, $pks, $contexts)
+    protected function batchTag($value, $pks, $contexts, $removeTags = false)
     {
         // Initialize re-usable member properties, and re-usable local variables
         $this->initBatch();
@@ -702,6 +711,7 @@ abstract class AdminModel extends FormModel
                         'subject'     => $this->table,
                         'newTags'     => $tags,
                         'replaceTags' => false,
+                        'removeTags'  => $removeTags,
                     ]
                 );
 

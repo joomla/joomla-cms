@@ -232,6 +232,7 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
         $table       = $event['subject'];
         $newTags     = $event['newTags'];
         $replaceTags = $event['replaceTags'];
+        $removeTags  = $event['removeTags'];
 
         // If the tags table doesn't implement the interface bail
         if (!($table instanceof TaggableTableInterface)) {
@@ -248,7 +249,7 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
         $tagsHelper            = $table->getTagsHelper();
         $tagsHelper->typeAlias = $table->getTypeAlias();
 
-        if (!$tagsHelper->postStoreProcess($table, $newTags, $replaceTags)) {
+        if (!$tagsHelper->postStoreProcess($table, $newTags, $replaceTags, $removeTags)) {
             throw new RuntimeException($table->getError());
         }
     }

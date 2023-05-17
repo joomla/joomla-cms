@@ -297,6 +297,14 @@
       }
     },
     {
+      "name": "joomla.batch-tag-addremove",
+      "type": "script",
+      "uri": "layouts/joomla/html/batch/batch-tag-addremove.min.js",
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
       "name": "webcomponent.field-fancy-select-legacy",
       "type": "script",
       "uri": "system/fields/joomla-field-fancy-select-es5.min.js",
