@@ -310,7 +310,7 @@ class MediaField extends FormField
             /**
              * This is the case where a folder is configured in directory attribute of the form field. The directory needs
              * to be a relative folder of the folder configured in Path to Images Folder config option of Media component.
-             * Same with an already stored local image above, we need to validate and make sure top level folder is one of the 
+             * Same with an already stored local image above, we need to validate and make sure top level folder is one of the
              * directories configured in the filesystem local plugin.
              */
             $path  = ComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory;
