@@ -188,7 +188,7 @@ class ContactController extends ApiController
     {
         $app = $this->app;
 
-        Factory::getLanguage()->load('com_contact', JPATH_SITE, $app->getLanguage()->getTag(), true);
+        $app->getLanguage()->load('com_contact', JPATH_SITE, $app->getLanguage()->getTag(), true);
 
         if ($contact->email_to == '' && $contact->user_id != 0) {
             $contact_user      = User::getInstance($contact->user_id);

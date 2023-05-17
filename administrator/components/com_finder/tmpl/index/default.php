@@ -20,7 +20,7 @@ use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$lang      = Factory::getLanguage();
+$lang      = $this->getLanguage();
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
