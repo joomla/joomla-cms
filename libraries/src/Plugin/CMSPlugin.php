@@ -380,6 +380,8 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
     {
         $this->application = $application;
 
-        $this->setLanguage($application->getLanguage());
+        if ($application->getLanguage()) {
+            $this->setLanguage($application->getLanguage());
+        }
     }
 }
