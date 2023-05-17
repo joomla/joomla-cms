@@ -68,15 +68,15 @@ class PlgContentLoadmodule extends CMSPlugin
 
         if ($context === 'com_finder.indexer') {
             //Remove macros if any
-            if (strpos($article->text, 'loadposition')) {
+            if (str_contains($article->text, 'loadposition')) {
                 $article->text = preg_replace($regex, '', $article->text);
             }
 
-            if (strpos($article->text, 'loadmoduleid')) {
+            if (str_contains($article->text, 'loadmoduleid')) {
                 $article->text = preg_replace($regexmodid, '', $article->text);
             }
 
-            if (strpos($article->text, 'loadmodule')) {
+            if (str_contains($article->text, 'loadmodule')) {
                 $article->text = preg_replace($regexmod, '', $article->text);
             }
 
