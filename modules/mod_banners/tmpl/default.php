@@ -42,7 +42,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
                 <?php $alt = $alt ?: Text::_('MOD_BANNERS_BANNER'); ?>
                 <?php $imageAttributes = [
                     'src' => $baseurl . $imageurl,
-                    'alt' => htmlspecialchars($alt, ENT_QUOTES, 'UTF-8')
+                    'alt' => $alt
                 ]; ?>
                 <?php if (!empty($width)) {
                     $imageAttributes['width'] = $width;
