@@ -3,3 +3,27 @@
 .pagination {
   margin: 1rem;
 }
+
+@include media-breakpoint-down(md) {
+  .page-item {
+    display: none;
+
+    &:nth-of-type(4) {
+      position: relative;
+      padding-right: 45px;
+
+      &::after {
+        content: '\2026';
+        position: absolute;
+        font-size: 24px;
+        top: 0;
+        left: 45px;
+      }
+    }
+
+    &:nth-child(-n+4),
+    &:nth-last-child(-n+4) {
+      display: block;
+    }
+  }
+}
