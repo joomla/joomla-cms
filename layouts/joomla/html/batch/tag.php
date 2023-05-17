@@ -26,11 +26,11 @@ $wa->useScript('joomla.batch-tag-addremove');
 
 ?>
 <label id="batch-tag-choose-action-lbl" for="batch-tag-id">
-    <?php echo Text::_('JLIB_HTML_BATCH_TAG_MENU_LABEL'); ?>
+    <?php echo Text::_('JLIB_HTML_BATCH_TAG_LABEL'); ?>
 </label>
 <div id="batch-tag-choose-action" class="control-group">
     <select name="batch[tag]" class="form-select" id="batch-tag-id">
-        <option value=""><?php echo Text::_('JLIB_HTML_BATCH_TAG_NO_CHANGE'); ?></option>
+        <option value=""><?php echo Text::_('JLIB_HTML_BATCH_TAG_NOCHANGE'); ?></option>
         <?php echo HTMLHelper::_('select.options', HTMLHelper::_('tag.tags', ['filter.published' => [1]]), 'value', 'text'); ?>
     </select>
 </div>
