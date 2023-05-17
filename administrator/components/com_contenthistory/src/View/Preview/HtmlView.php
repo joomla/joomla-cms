@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Contenthistory\Administrator\View\Preview;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -55,7 +54,7 @@ class HtmlView extends BaseHtmlView
         $this->item  = $this->get('Item');
 
         if (false === $this->item) {
-            Factory::getLanguage()->load('com_content', JPATH_SITE, null, true);
+            $this->getLanguage()->load('com_content', JPATH_SITE, null, true);
 
             throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
         }

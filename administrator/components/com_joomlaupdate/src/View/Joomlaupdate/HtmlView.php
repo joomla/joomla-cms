@@ -203,7 +203,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if (in_array($this->getLayout(), ['preupdatecheck', 'update', 'upload'])) {
-            $language = Factory::getLanguage();
+            $language = $this->getLanguage();
             $language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
             $language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
 
@@ -269,7 +269,7 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'joomla install');
 
         if (in_array($this->getLayout(), ['update', 'complete'])) {
-            $arrow = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+            $arrow = $this->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
             ToolbarHelper::link('index.php?option=com_joomlaupdate', 'JTOOLBAR_BACK', $arrow);
 

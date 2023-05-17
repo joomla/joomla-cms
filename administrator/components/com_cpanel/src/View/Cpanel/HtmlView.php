@@ -75,7 +75,7 @@ class HtmlView extends BaseHtmlView
             }
 
             // Need to load the language file
-            $lang = Factory::getLanguage();
+            $lang = $this->getLanguage();
             $lang->load($component, JPATH_BASE)
             || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
             $lang->load($component);

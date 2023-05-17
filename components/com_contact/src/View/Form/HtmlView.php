@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
 
         // Propose current language as default when creating new contact
         if (empty($this->item->id) && Multilanguage::isEnabled()) {
-            $lang = Factory::getLanguage()->getTag();
+            $lang = $this->getLanguage()->getTag();
             $this->form->setFieldAttribute('language', 'default', $lang);
         }
 
