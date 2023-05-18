@@ -5,7 +5,7 @@
  * i.e. the files or folders still exist, and optionally fix the XML file.
  *
  * This script has three optional parameters:
- * --file <path> - Path to the PHPCS ruleset XML file to be checked, defaults to 'ruleset.xml' in the root folder.
+ * --file <path> - Path to the PHPCS ruleset XML file to be checked, defaults to 'ruleset.xml' in the parent folder.
  * --fix         - Fix the XML file if any obsolete exclude patterns were found..
  * --help        - Show the help and exit.
  *
