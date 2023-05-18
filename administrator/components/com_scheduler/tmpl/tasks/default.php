@@ -27,16 +27,16 @@ use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect')
-    ->useScript('com_scheduler.test-task')
+    ->useScript('com_scheduler.run-task')
     ->useStyle('com_scheduler.admin-view-tasks-css');
 
-Text::script('COM_SCHEDULER_TEST_RUN_TITLE');
-Text::script('COM_SCHEDULER_TEST_RUN_TASK');
-Text::script('COM_SCHEDULER_TEST_RUN_DURATION');
-Text::script('COM_SCHEDULER_TEST_RUN_OUTPUT');
-Text::script('COM_SCHEDULER_TEST_RUN_STATUS_STARTED');
-Text::script('COM_SCHEDULER_TEST_RUN_STATUS_COMPLETED');
-Text::script('COM_SCHEDULER_TEST_RUN_STATUS_TERMINATED');
+Text::script('COM_SCHEDULER_RUN_TASK_TITLE');
+Text::script('COM_SCHEDULER_RUN_TASK_TASK');
+Text::script('COM_SCHEDULER_RUN_TASK_DURATION');
+Text::script('COM_SCHEDULER_RUN_TASK_OUTPUT');
+Text::script('COM_SCHEDULER_RUN_TASK_STATUS_STARTED');
+Text::script('COM_SCHEDULER_RUN_TASK_STATUS_COMPLETED');
+Text::script('COM_SCHEDULER_RUN_TASK_STATUS_TERMINATED');
 Text::script('JLIB_JS_AJAX_ERROR_OTHER');
 Text::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
 Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
@@ -63,7 +63,7 @@ if ($saveOrder && !empty($this->items)) {
     HTMLHelper::_('draggablelist.draggable');
 }
 
-$this->document->addScriptOptions('com_scheduler.test-task.token', Session::getFormToken());
+$this->document->addScriptOptions('com_scheduler.run-task.token', Session::getFormToken());
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_scheduler&view=tasks'); ?>" method="post" name="adminForm"
@@ -130,9 +130,9 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
                         <?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_LAST_RUN_DATE', 'a.last_execution', $listDirn, $listOrder) ?>
                     </th>
 
-                    <!-- Test task -->
+                    <!-- Run task -->
                     <th scope="col" class="d-none d-md-table-cell">
-                        <?php echo Text::_('COM_SCHEDULER_TEST_TASK'); ?>
+                        <?php echo Text::_('COM_SCHEDULER_TASK_RUN'); ?>
                     </th>
 
                     <!-- Priority -->
@@ -240,11 +240,11 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
                             <?php echo $item->last_execution ? HTMLHelper::_('date', $item->last_execution, 'DATE_FORMAT_LC5') : '-'; ?>
                         </td>
 
-                        <!-- Test task -->
+                        <!-- Run task -->
                         <td class="small d-none d-md-table-cell">
-                            <button type="button" class="btn btn-sm btn-warning" <?php echo $item->state < 0 ? 'disabled' : ''; ?> data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars($item->title); ?>" data-bs-toggle="modal" data-bs-backdrop="static" data-bs-target="#scheduler-test-modal">
+                            <button type="button" class="btn btn-sm btn-warning" <?php echo $item->state < 0 ? 'disabled' : ''; ?> data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars($item->title); ?>" data-bs-toggle="modal" data-bs-backdrop="static" data-bs-target="#scheduler-task-modal">
                                 <span class="fa fa-play fa-sm me-2"></span>
-                                <?php echo Text::_('COM_SCHEDULER_TEST_RUN'); ?>
+                                <?php echo Text::_('COM_SCHEDULER_RUN_TASK'); ?>
                             </button>
                         </td>
 
@@ -272,14 +272,14 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
                 // Load the pagination. (@todo: testing)
                 echo $this->pagination->getListFooter();
 
-                // Modal for test runs
+                // Modal for task runs
                 $modalparams = [
                     'title' => '',
                 ];
 
                 $modalbody = '<div class="p-3"></div>';
 
-                echo HTMLHelper::_('bootstrap.renderModal', 'scheduler-test-modal', $modalparams, $modalbody);
+                echo HTMLHelper::_('bootstrap.renderModal', 'scheduler-task-modal', $modalparams, $modalbody);
 
                 ?>
 
