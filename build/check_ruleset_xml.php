@@ -21,7 +21,7 @@ function usage($command)
     echo 'Usage: php ' . $command . ' [options]' . PHP_EOL;
     echo PHP_EOL;
     echo "[options]:" . PHP_EOL;
-    echo "--file <path>:\tPath to the PHPCS ruleset XML file to be checked, defaults to 'ruleset.xml' in the root folder." . PHP_EOL;
+    echo "--file <path>:\tPath to the PHPCS ruleset XML file to be checked, defaults to '" . dirname(__DIR__) . "/ruleset.xml'." . PHP_EOL;
     echo "--fix:\t\tFix the XML file if any obsolete exclude patterns were found." . PHP_EOL;
     echo "--help:\t\tShow this help output." . PHP_EOL;
     echo PHP_EOL;
