@@ -6,7 +6,7 @@
 // Detect Caps Lock status
 function checkCapsLock(event) {
   const capsLockOn = event.getModifierState && event.getModifierState('CapsLock');
-  const target = event.target;
+  const { target } = event;
   let capsErrorMessage = document.getElementById('capsLockError');
 
   if (capsLockOn && target.type === 'password') {
