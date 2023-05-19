@@ -67,12 +67,14 @@ if ($meter) {
     }
 }
 
-$wa->useScript('field.passwordview');
+$wa->useScript('field.passwordview')
+    ->useScript('field.passwordcaps');
 
 Text::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
 Text::script('JSHOWPASSWORD');
 Text::script('JHIDEPASSWORD');
+Text::script('JCAPSLOCKON');
 
 if ($lock) {
     Text::script('JMODIFY');

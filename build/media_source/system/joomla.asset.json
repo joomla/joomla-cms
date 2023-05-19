@@ -232,6 +232,17 @@
       ]
     },
     {
+      "name": "field.passwordcaps",
+      "type": "script",
+      "uri": "system/fields/passwordcaps.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "dependencies": [
+        "core"
+      ]
+    },
+    {
       "name": "field.passwordstrength",
       "type": "script",
       "uri": "system/fields/passwordstrength.min.js",

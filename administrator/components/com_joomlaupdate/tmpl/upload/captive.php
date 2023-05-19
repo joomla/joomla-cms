@@ -21,10 +21,12 @@ $wa->useScript('core')
     ->useScript('jquery')
     ->useScript('form.validate')
     ->useScript('keepalive')
-    ->useScript('field.passwordview');
+    ->useScript('field.passwordview')
+    ->useScript('field.passwordcaps');
 
 Text::script('JSHOWPASSWORD');
 Text::script('JHIDEPASSWORD');
+Text::script('JCAPSLOCKON');
 ?>
 
 <div class="alert alert-warning">

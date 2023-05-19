@@ -18,10 +18,12 @@ use Joomla\CMS\Router\Route;
 $wa = $app->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('field.passwordview')
+    ->useScript('field.passwordcaps')
     ->registerAndUseScript('mod_login.admin', 'mod_login/admin-login.min.js', [], ['defer' => true], ['core', 'form.validate']);
 
 Text::script('JSHOWPASSWORD');
 Text::script('JHIDEPASSWORD');
+Text::script('JCAPSLOCKON');
 ?>
 <form class="form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
     <fieldset>
