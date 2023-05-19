@@ -497,7 +497,6 @@ trait DisplayTrait
         if ($levelParams->get('newlines')) {
             // Break
             $scriptOptions['force_br_newlines'] = true;
-            $scriptOptions['forced_root_block'] = '';
         } else {
             // Paragraph
             $scriptOptions['force_br_newlines'] = false;
