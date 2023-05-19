@@ -412,6 +412,14 @@ trait DisplayTrait
 
         // Merge the two toolbars for backwards compatibility
         $toolbar = array_merge($toolbar1, $toolbar2);
+        // Rename old toolbar buttons for B/C
+        $toolbar = str_replace(['fontselect', 'fontsizeselect'], ['fontfamily', 'fontsize'], $toolbar);
+        $menubar = empty($menubar) ? false : implode(' ', array_unique($menubar));
+
+        // Rename old menus for B/C
+        if (is_array($menubar)) {
+            $menubar = str_replace(['fontformats', 'fontsizes'], ['fontfamily', 'fontsize'], $menubar);
+        }
 
         // Build the final options set
         $scriptOptions   = array_merge(
@@ -430,7 +438,7 @@ trait DisplayTrait
                 'end_container_on_empty_block' => true,
 
                 // Toolbars
-                'menubar' => empty($menubar) ? false : implode(' ', array_unique($menubar)),
+                'menubar' => $menubar,
                 'toolbar' => empty($toolbar) ? null : 'jxtdbuttons ' . implode(' ', $toolbar),
 
                 'plugins' => implode(',', array_unique($plugins)),
@@ -496,7 +504,7 @@ trait DisplayTrait
             $scriptOptions['forced_root_block'] = 'p';
         }
 
-        $scriptOptions['rel_list'] = [
+        $scriptOptions['link_rel_list'] = [
             ['title' => 'None', 'value' => ''],
             ['title' => 'Alternate', 'value' => 'alternate'],
             ['title' => 'Author', 'value' => 'author'],
