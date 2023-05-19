@@ -418,7 +418,7 @@ trait DisplayTrait
 
         // Rename old menus for B/C
         if (is_array($menubar)) {
-            $menubar = str_replace(['fontformats', 'fontsizes'], ['fontfamily', 'fontsize'], $menubar);
+            $menubar = str_replace(['fontformats', 'fontsizes', 'blockformats', 'formats'], ['fontfamily', 'fontsize', 'blocks', 'styles'], $menubar);
         }
 
         // Build the final options set
