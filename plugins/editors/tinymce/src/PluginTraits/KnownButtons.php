@@ -74,8 +74,7 @@ trait KnownButtons
 
             'cut'          => ['label' => 'Cut'],
             'copy'         => ['label' => 'Copy'],
-            'paste'        => ['label' => 'Paste', 'plugin' => 'paste'],
-            'pastetext'    => ['label' => 'Paste as text', 'plugin' => 'paste'],
+            'paste'        => ['label' => 'Paste'],
             'removeformat' => ['label' => 'Clear formatting'],
 
             'language' => ['label' => 'Language'],
