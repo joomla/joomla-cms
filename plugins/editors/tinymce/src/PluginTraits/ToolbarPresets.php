@@ -46,7 +46,7 @@ trait ToolbarPresets
                 'toolbar1' => [
                     'bold', 'italic', 'underline', 'strikethrough', '|',
                     'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
-                    'formatselect', '|',
+                    'blocks', '|',
                     'bullist', 'numlist', '|',
                     'outdent', 'indent', '|',
                     'undo', 'redo', '|',
@@ -63,7 +63,7 @@ trait ToolbarPresets
                     'bold', 'italic', 'underline', 'strikethrough', '|',
                     'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
                     'lineheight', '|',
-                    'styleselect', '|',
+                    'styles', '|',
                     'blocks', 'fontfamily', 'fontsize', '|',
                     'searchreplace', '|',
                     'bullist', 'numlist', '|',
