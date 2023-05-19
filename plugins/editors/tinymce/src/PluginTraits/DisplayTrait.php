@@ -413,7 +413,7 @@ trait DisplayTrait
         // Merge the two toolbars for backwards compatibility
         $toolbar = array_merge($toolbar1, $toolbar2);
         // Rename old toolbar buttons for B/C
-        $toolbar = str_replace(['fontselect', 'fontsizeselect'], ['fontfamily', 'fontsize'], $toolbar);
+        $toolbar = str_replace(['fontselect', 'fontsizeselect', 'formatselect', 'styleselect'], ['fontfamily', 'fontsize', 'blocks', 'styles'], $toolbar);
         $menubar = empty($menubar) ? false : implode(' ', array_unique($menubar));
 
         // Rename old menus for B/C
