@@ -349,6 +349,7 @@ class MessageModel extends AdminModel
 
         if (isset($table->$key)) {
             $this->setState($this->getName() . '.id', $table->$key);
+            $this->__state_set = true;
         }
 
         if ($config->get('mail_on_new', true)) {
