@@ -19,12 +19,11 @@ function checkCapsLock(event) {
       capsErrorMessage.setAttribute('class', 'invalid form-control-hint');
       target.parentNode.before(capsErrorMessage);
     }
-  } else {
+  } else if (capsErrorMessage) {
     // Caps Lock is off or not targeting a password input field
-    if (capsErrorMessage) {
-      // Remove error message if it exists
-      capsErrorMessage.parentNode.removeChild(capsErrorMessage);
-    }
+
+    // Remove error message if it exists
+    capsErrorMessage.parentNode.removeChild(capsErrorMessage);
   }
 }
 
