@@ -103,6 +103,11 @@ if ($readonly) {
         $html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
     }
 } else {
+    // Sort the options by the text property
+    usort($options, function($a, $b) {
+        return strcmp($a->text, $b->text);
+    });
+    
     // Create a regular list.
     if (count($options) === 0) {
         // All Categories have been deleted, so we need a new category (This will create on save if selected).
