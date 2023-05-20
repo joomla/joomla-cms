@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.API
  * @subpackage  com_menus
@@ -9,13 +10,16 @@
 
 namespace Joomla\Component\Menus\Api\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Exception\NotAllowed;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Menus\Api\View\Items\JsonapiView;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The items controller
@@ -24,161 +28,162 @@ use Joomla\Component\Menus\Api\View\Items\JsonapiView;
  */
 class ItemsController extends ApiController
 {
-	/**
-	 * The content type of the item.
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $contentType = 'items';
+    /**
+     * The content type of the item.
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $contentType = 'items';
 
-	/**
-	 * The default view for the display method.
-	 *
-	 * @var    string
-	 * @since  3.0
-	 */
-	protected $default_view = 'items';
+    /**
+     * The default view for the display method.
+     *
+     * @var    string
+     * @since  3.0
+     */
+    protected $default_view = 'items';
 
-	/**
-	 * Basic display of an item view
-	 *
-	 * @param   integer  $id  The primary key to display. Leave empty if you want to retrieve data from the request
-	 *
-	 * @return  static  A \JControllerLegacy object to support chaining.
-	 *
-	 * @since   4.0.0
-	 */
-	public function displayItem($id = null)
-	{
-		$this->modelState->set('filter.client_id', $this->getClientIdFromInput());
+    /**
+     * Basic display of an item view
+     *
+     * @param   integer  $id  The primary key to display. Leave empty if you want to retrieve data from the request
+     *
+     * @return  static  A \JControllerLegacy object to support chaining.
+     *
+     * @since   4.0.0
+     */
+    public function displayItem($id = null)
+    {
+        $this->modelState->set('filter.client_id', $this->getClientIdFromInput());
 
-		return parent::displayItem($id);
-	}
+        return parent::displayItem($id);
+    }
 
-	/**
-	 * Basic display of a list view
-	 *
-	 * @return  static  A \JControllerLegacy object to support chaining.
-	 *
-	 * @since   4.0.0
-	 */
-	public function displayList()
-	{
-		$this->modelState->set('filter.client_id', $this->getClientIdFromInput());
+    /**
+     * Basic display of a list view
+     *
+     * @return  static  A \JControllerLegacy object to support chaining.
+     *
+     * @since   4.0.0
+     */
+    public function displayList()
+    {
+        $apiFilterInfo = $this->input->get('filter', [], 'array');
+        $filter        = InputFilter::getInstance();
 
-		return parent::displayList();
-	}
+        if (\array_key_exists('menutype', $apiFilterInfo)) {
+            $this->modelState->set('filter.menutype', $filter->clean($apiFilterInfo['menutype'], 'STRING'));
+        }
 
-	/**
-	 * Method to add a new record.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 * @throws  NotAllowed
-	 * @throws  \RuntimeException
-	 */
-	public function add()
-	{
-		$data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+        $this->modelState->set('filter.client_id', $this->getClientIdFromInput());
 
-		if (isset($data['menutype']))
-		{
-			$this->input->set('menutype', $data['menutype']);
-			$this->input->set('com_menus.items.menutype', $data['menutype']);
-		}
+        return parent::displayList();
+    }
 
-		isset($data['type'])      && $this->input->set('type', $data['type']);
-		isset($data['parent_id']) && $this->input->set('parent_id', $data['parent_id']);
-		isset($data['link'])      && $this->input->set('link', $data['link']);
+    /**
+     * Method to add a new record.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     * @throws  NotAllowed
+     * @throws  \RuntimeException
+     */
+    public function add()
+    {
+        $data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
 
-		$this->input->set('id', '0');
+        if (isset($data['menutype'])) {
+            $this->input->set('menutype', $data['menutype']);
+            $this->input->set('com_menus.items.menutype', $data['menutype']);
+        }
 
-		parent::add();
-	}
+        isset($data['type']) && $this->input->set('type', $data['type']);
+        isset($data['parent_id']) && $this->input->set('parent_id', $data['parent_id']);
+        isset($data['link']) && $this->input->set('link', $data['link']);
 
-	/**
-	 * Method to edit an existing record.
-	 *
-	 * @return  static  A \JControllerLegacy object to support chaining.
-	 *
-	 * @since   4.0.0
-	 */
-	public function edit()
-	{
-		$data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+        $this->input->set('id', '0');
 
-		if (isset($data['menutype']))
-		{
-			$this->input->set('menutype', $data['menutype']);
-			$this->input->set('com_menus.items.menutype', $data['menutype']);
-		}
+        parent::add();
+    }
 
-		isset($data['type'])      && $this->input->set('type', $data['type']);
-		isset($data['parent_id']) && $this->input->set('parent_id', $data['parent_id']);
-		isset($data['link'])      && $this->input->set('link', $data['link']);
+    /**
+     * Method to edit an existing record.
+     *
+     * @return  static  A \JControllerLegacy object to support chaining.
+     *
+     * @since   4.0.0
+     */
+    public function edit()
+    {
+        $data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
 
-		return parent::edit();
-	}
+        if (isset($data['menutype'])) {
+            $this->input->set('menutype', $data['menutype']);
+            $this->input->set('com_menus.items.menutype', $data['menutype']);
+        }
 
-	/**
-	 * Return menu items types
-	 *
-	 * @return  static  A \JControllerLegacy object to support chaining.
-	 *
-	 * @since   4.0.0
-	 */
-	public function getTypes()
-	{
-		$viewType   = $this->app->getDocument()->getType();
-		$viewName   = $this->input->get('view', $this->default_view);
-		$viewLayout = $this->input->get('layout', 'default', 'string');
+        isset($data['type']) && $this->input->set('type', $data['type']);
+        isset($data['parent_id']) && $this->input->set('parent_id', $data['parent_id']);
+        isset($data['link']) && $this->input->set('link', $data['link']);
 
-		try
-		{
-			/** @var JsonapiView $view */
-			$view = $this->getView(
-				$viewName,
-				$viewType,
-				'',
-				['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]
-			);
-		}
-		catch (\Exception $e)
-		{
-			throw new \RuntimeException($e->getMessage());
-		}
+        return parent::edit();
+    }
 
-		/** @var ListModel $model */
-		$model = $this->getModel('menutypes', '', ['ignore_request' => true]);
+    /**
+     * Return menu items types
+     *
+     * @return  static  A \JControllerLegacy object to support chaining.
+     *
+     * @since   4.0.0
+     */
+    public function getTypes()
+    {
+        $viewType   = $this->app->getDocument()->getType();
+        $viewName   = $this->input->get('view', $this->default_view);
+        $viewLayout = $this->input->get('layout', 'default', 'string');
 
-		if (!$model)
-		{
-			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
-		}
+        try {
+            /** @var JsonapiView $view */
+            $view = $this->getView(
+                $viewName,
+                $viewType,
+                '',
+                ['base_path' => $this->basePath, 'layout' => $viewLayout, 'contentType' => $this->contentType]
+            );
+        } catch (\Exception $e) {
+            throw new \RuntimeException($e->getMessage());
+        }
 
-		$model->setState('client_id', $this->getClientIdFromInput());
+        /** @var ListModel $model */
+        $model = $this->getModel('menutypes', '', ['ignore_request' => true]);
 
-		$view->setModel($model, true);
+        if (!$model) {
+            throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
+        }
 
-		$view->document = $this->app->getDocument();
+        $model->setState('client_id', $this->getClientIdFromInput());
 
-		$view->displayListTypes();
+        $view->setModel($model, true);
 
-		return $this;
-	}
+        $view->document = $this->app->getDocument();
 
-	/**
-	 * Get client id from input
-	 *
-	 * @return string
-	 *
-	 * @since 4.0.0
-	 */
-	private function getClientIdFromInput()
-	{
-		return $this->input->exists('client_id') ?
-			$this->input->get('client_id') : $this->input->post->get('client_id');
-	}
+        $view->displayListTypes();
+
+        return $this;
+    }
+
+    /**
+     * Get client id from input
+     *
+     * @return string
+     *
+     * @since 4.0.0
+     */
+    private function getClientIdFromInput()
+    {
+        return $this->input->exists('client_id') ?
+            $this->input->get('client_id') : $this->input->post->get('client_id');
+    }
 }

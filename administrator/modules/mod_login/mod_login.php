@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_login
@@ -14,7 +15,6 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Login\Administrator\Helper\LoginHelper;
 
 $langs            = LoginHelper::getLanguageList();
-$twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 $extraButtons     = AuthenticationHelper::getLoginButtons('form-login');
 $return           = LoginHelper::getReturnUri();
 

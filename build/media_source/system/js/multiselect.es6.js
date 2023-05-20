@@ -14,7 +14,7 @@
       this.tableEl = document.querySelector(formElement);
 
       if (this.tableEl) {
-        this.boxes = [].slice.call(this.tableEl.querySelectorAll('input[type=checkbox]'));
+        this.boxes = [].slice.call(this.tableEl.querySelectorAll('td input[type=checkbox]'));
         this.rows = [].slice.call(document.querySelectorAll('tr[class^="row"]'));
         this.checkallToggle = document.querySelector('[name="checkall-toggle"]');
 
@@ -66,12 +66,14 @@
         return;
       }
 
-      const currentRowNum = this.rows.indexOf(target.closest('tr'));
-      const currentCheckBox = this.checkallToggle ? currentRowNum + 1 : currentRowNum;
-      let isChecked = this.boxes[currentCheckBox].checked;
+      const closestRow = target.closest('tr');
+      const currentRowNum = this.rows.indexOf(closestRow);
+      const currentCheckBox = closestRow.querySelector('td input[type=checkbox]');
 
-      if (currentCheckBox >= 0) {
-        if (!(target.id === this.boxes[currentCheckBox].id)) {
+      if (currentCheckBox) {
+        let isChecked = currentCheckBox.checked;
+
+        if (!(target.id === currentCheckBox.id)) {
           // We will prevent selecting text to prevent artifacts
           if (shiftKey) {
             document.body.style['-webkit-user-select'] = 'none';
@@ -80,12 +82,12 @@
             document.body.style['user-select'] = 'none';
           }
 
-          this.boxes[currentCheckBox].checked = !this.boxes[currentCheckBox].checked;
-          isChecked = this.boxes[currentCheckBox].checked;
-          Joomla.isChecked(this.boxes[currentCheckBox].checked, this.tableEl.id);
+          currentCheckBox.checked = !currentCheckBox.checked;
+          isChecked = currentCheckBox.checked;
+          Joomla.isChecked(isChecked, this.tableEl.id);
         }
 
-        this.changeBg(this.rows[currentCheckBox - 1], isChecked);
+        this.changeBg(this.rows[currentRowNum], isChecked);
 
         // Restore normality
         if (shiftKey) {

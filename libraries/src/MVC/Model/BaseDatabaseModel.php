@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,9 +9,8 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-\defined('JPATH_PLATFORM') or die;
-
-use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\ComponentHelper;
@@ -22,12 +22,22 @@ use Joomla\CMS\MVC\Factory\MVCFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Base class for a database aware Joomla Model
@@ -36,307 +46,379 @@ use Joomla\Event\EventInterface;
  *
  * @since  2.5.5
  */
-abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInterface, DispatcherAwareInterface
+abstract class BaseDatabaseModel extends BaseModel implements
+    DatabaseModelInterface,
+    DispatcherAwareInterface,
+    CurrentUserInterface,
+    CacheControllerFactoryAwareInterface,
+    DatabaseAwareInterface
 {
-	use DatabaseAwareTrait, MVCFactoryAwareTrait, DispatcherAwareTrait;
+    use DatabaseAwareTrait;
+    use MVCFactoryAwareTrait;
+    use DispatcherAwareTrait;
+    use CurrentUserTrait;
+    use CacheControllerFactoryAwareTrait;
 
-	/**
-	 * The URL option for the component.
-	 *
-	 * @var    string
-	 * @since  3.0
-	 */
-	protected $option = null;
+    /**
+     * The URL option for the component.
+     *
+     * @var    string
+     * @since  3.0
+     */
+    protected $option = null;
 
-	/**
-	 * The event to trigger when cleaning cache.
-	 *
-	 * @var    string
-	 * @since  3.0
-	 */
-	protected $event_clean_cache = null;
+    /**
+     * The event to trigger when cleaning cache.
+     *
+     * @var    string
+     * @since  3.0
+     */
+    protected $event_clean_cache = null;
 
-	/**
-	 * Constructor
-	 *
-	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-	 * @param   MVCFactoryInterface  $factory  The factory.
-	 *
-	 * @since   3.0
-	 * @throws  \Exception
-	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
-	{
-		parent::__construct($config);
+    /**
+     * Constructor
+     *
+     * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   MVCFactoryInterface  $factory  The factory.
+     *
+     * @since   3.0
+     * @throws  \Exception
+     */
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    {
+        parent::__construct($config);
 
-		// Guess the option from the class name (Option)Model(View).
-		if (empty($this->option))
-		{
-			$r = null;
+        // Guess the option from the class name (Option)Model(View).
+        if (empty($this->option)) {
+            $r = null;
 
-			if (!preg_match('/(.*)Model/i', \get_class($this), $r))
-			{
-				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
-			}
+            if (!preg_match('/(.*)Model/i', \get_class($this), $r)) {
+                throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
+            }
 
-			$this->option = ComponentHelper::getComponentName($this, $r[1]);
-		}
+            $this->option = ComponentHelper::getComponentName($this, $r[1]);
+        }
 
-		$this->setDbo(\array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo());
+        /**
+         * @deprecated  4.3 will be Removed in 6.0
+         *              Database instance is injected through the setter function,
+         *              subclasses should not use the db instance in constructor anymore
+         */
+        $db = \array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo();
 
-		// Set the default view search path
-		if (\array_key_exists('table_path', $config))
-		{
-			$this->addTablePath($config['table_path']);
-		}
-		// @codeCoverageIgnoreStart
-		elseif (\defined('JPATH_COMPONENT_ADMINISTRATOR'))
-		{
-			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
-			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
-		}
+        if ($db) {
+            @trigger_error(sprintf('Database is not available in constructor in 6.0.'), E_USER_DEPRECATED);
+            $this->setDatabase($db);
 
-		// @codeCoverageIgnoreEnd
+            // Is needed, when models use the deprecated MVC DatabaseAwareTrait, as the trait is overriding the local functions
+            $this->setDbo($db);
+        }
 
-		// Set the clean cache event
-		if (isset($config['event_clean_cache']))
-		{
-			$this->event_clean_cache = $config['event_clean_cache'];
-		}
-		elseif (empty($this->event_clean_cache))
-		{
-			$this->event_clean_cache = 'onContentCleanCache';
-		}
+        // Set the default view search path
+        if (\array_key_exists('table_path', $config)) {
+            $this->addTablePath($config['table_path']);
+        } elseif (\defined('JPATH_COMPONENT_ADMINISTRATOR')) {
+            $this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
+            $this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
+        }
 
-		if ($factory)
-		{
-			$this->setMVCFactory($factory);
+        // Set the clean cache event
+        if (isset($config['event_clean_cache'])) {
+            $this->event_clean_cache = $config['event_clean_cache'];
+        } elseif (empty($this->event_clean_cache)) {
+            $this->event_clean_cache = 'onContentCleanCache';
+        }
 
-			return;
-		}
+        if ($factory) {
+            $this->setMVCFactory($factory);
 
-		$component = Factory::getApplication()->bootComponent($this->option);
+            return;
+        }
 
-		if ($component instanceof MVCFactoryServiceInterface)
-		{
-			$this->setMVCFactory($component->getMVCFactory());
-		}
-	}
+        $component = Factory::getApplication()->bootComponent($this->option);
 
-	/**
-	 * Gets an array of objects from the results of database query.
-	 *
-	 * @param   string   $query       The query.
-	 * @param   integer  $limitstart  Offset.
-	 * @param   integer  $limit       The number of records.
-	 *
-	 * @return  object[]  An array of results.
-	 *
-	 * @since   3.0
-	 * @throws  \RuntimeException
-	 */
-	protected function _getList($query, $limitstart = 0, $limit = 0)
-	{
-		if (\is_string($query))
-		{
-			$query = $this->getDbo()->getQuery(true)->setQuery($query);
-		}
+        if ($component instanceof MVCFactoryServiceInterface) {
+            $this->setMVCFactory($component->getMVCFactory());
+        }
+    }
 
-		$query->setLimit($limit, $limitstart);
-		$this->getDbo()->setQuery($query);
+    /**
+     * Gets an array of objects from the results of database query.
+     *
+     * @param   string   $query       The query.
+     * @param   integer  $limitstart  Offset.
+     * @param   integer  $limit       The number of records.
+     *
+     * @return  object[]  An array of results.
+     *
+     * @since   3.0
+     * @throws  \RuntimeException
+     */
+    protected function _getList($query, $limitstart = 0, $limit = 0)
+    {
+        if (\is_string($query)) {
+            $query = $this->getDbo()->getQuery(true)->setQuery($query);
+        }
 
-		return $this->getDbo()->loadObjectList();
-	}
+        $query->setLimit($limit, $limitstart);
+        $this->getDbo()->setQuery($query);
 
-	/**
-	 * Returns a record count for the query.
-	 *
-	 * Note: Current implementation of this method assumes that getListQuery() returns a set of unique rows,
-	 * thus it uses SELECT COUNT(*) to count the rows. In cases that getListQuery() uses DISTINCT
-	 * then either this method must be overridden by a custom implementation at the derived Model Class
-	 * or a GROUP BY clause should be used to make the set unique.
-	 *
-	 * @param   DatabaseQuery|string  $query  The query.
-	 *
-	 * @return  integer  Number of rows for query.
-	 *
-	 * @since   3.0
-	 */
-	protected function _getListCount($query)
-	{
-		// Use fast COUNT(*) on DatabaseQuery objects if there is no GROUP BY or HAVING clause:
-		if ($query instanceof DatabaseQuery
-			&& $query->type === 'select'
-			&& $query->group === null
-			&& $query->merge === null
-			&& $query->querySet === null
-			&& $query->having === null)
-		{
-			$query = clone $query;
-			$query->clear('select')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
+        return $this->getDbo()->loadObjectList();
+    }
 
-			$this->getDbo()->setQuery($query);
+    /**
+     * Returns a record count for the query.
+     *
+     * Note: Current implementation of this method assumes that getListQuery() returns a set of unique rows,
+     * thus it uses SELECT COUNT(*) to count the rows. In cases that getListQuery() uses DISTINCT
+     * then either this method must be overridden by a custom implementation at the derived Model Class
+     * or a GROUP BY clause should be used to make the set unique.
+     *
+     * @param   DatabaseQuery|string  $query  The query.
+     *
+     * @return  integer  Number of rows for query.
+     *
+     * @since   3.0
+     */
+    protected function _getListCount($query)
+    {
+        // Use fast COUNT(*) on DatabaseQuery objects if there is no GROUP BY or HAVING clause:
+        if (
+            $query instanceof DatabaseQuery
+            && $query->type === 'select'
+            && $query->group === null
+            && $query->merge === null
+            && $query->querySet === null
+            && $query->having === null
+        ) {
+            $query = clone $query;
+            $query->clear('select')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
 
-			return (int) $this->getDbo()->loadResult();
-		}
+            $this->getDbo()->setQuery($query);
 
-		// Otherwise fall back to inefficient way of counting all results.
+            return (int) $this->getDbo()->loadResult();
+        }
 
-		// Remove the limit, offset and order parts if it's a DatabaseQuery object
-		if ($query instanceof DatabaseQuery)
-		{
-			$query = clone $query;
-			$query->clear('limit')->clear('offset')->clear('order');
-		}
+        // Otherwise fall back to inefficient way of counting all results.
 
-		$this->getDbo()->setQuery($query);
-		$this->getDbo()->execute();
+        // Remove the limit, offset and order parts if it's a DatabaseQuery object
+        if ($query instanceof DatabaseQuery) {
+            $query = clone $query;
+            $query->clear('limit')->clear('offset')->clear('order');
+        }
 
-		return (int) $this->getDbo()->getNumRows();
-	}
+        $this->getDbo()->setQuery($query);
+        $this->getDbo()->execute();
 
-	/**
-	 * Method to load and return a table object.
-	 *
-	 * @param   string  $name    The name of the view
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration settings to pass to Table::getInstance
-	 *
-	 * @return  Table|boolean  Table object or boolean false if failed
-	 *
-	 * @since   3.0
-	 * @see     \JTable::getInstance()
-	 */
-	protected function _createTable($name, $prefix = 'Table', $config = array())
-	{
-		// Make sure we are returning a DBO object
-		if (!\array_key_exists('dbo', $config))
-		{
-			$config['dbo'] = $this->getDbo();
-		}
+        return (int) $this->getDbo()->getNumRows();
+    }
 
-		return $this->getMVCFactory()->createTable($name, $prefix, $config);
-	}
+    /**
+     * Method to load and return a table object.
+     *
+     * @param   string  $name    The name of the view
+     * @param   string  $prefix  The class prefix. Optional.
+     * @param   array   $config  Configuration settings to pass to Table::getInstance
+     *
+     * @return  Table|boolean  Table object or boolean false if failed
+     *
+     * @since   3.0
+     * @see     \JTable::getInstance()
+     */
+    protected function _createTable($name, $prefix = 'Table', $config = [])
+    {
+        // Make sure we are returning a DBO object
+        if (!\array_key_exists('dbo', $config)) {
+            $config['dbo'] = $this->getDbo();
+        }
 
-	/**
-	 * Method to get a table object, load it if necessary.
-	 *
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for model. Optional.
-	 *
-	 * @return  Table  A Table object
-	 *
-	 * @since   3.0
-	 * @throws  \Exception
-	 */
-	public function getTable($name = '', $prefix = '', $options = array())
-	{
-		if (empty($name))
-		{
-			$name = $this->getName();
-		}
+        $table = $this->getMVCFactory()->createTable($name, $prefix, $config);
 
-		// We need this ugly code to deal with non-namespaced MVC code
-		if (empty($prefix) && $this->getMVCFactory() instanceof LegacyFactory)
-		{
-			$prefix = 'Table';
-		}
+        if ($table instanceof CurrentUserInterface) {
+            $table->setCurrentUser($this->getCurrentUser());
+        }
 
-		if ($table = $this->_createTable($name, $prefix, $options))
-		{
-			return $table;
-		}
+        return $table;
+    }
 
-		throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
-	}
+    /**
+     * Method to get a table object, load it if necessary.
+     *
+     * @param   string  $name     The table name. Optional.
+     * @param   string  $prefix   The class prefix. Optional.
+     * @param   array   $options  Configuration array for model. Optional.
+     *
+     * @return  Table  A Table object
+     *
+     * @since   3.0
+     * @throws  \Exception
+     */
+    public function getTable($name = '', $prefix = '', $options = [])
+    {
+        if (empty($name)) {
+            $name = $this->getName();
+        }
 
-	/**
-	 * Method to check if the given record is checked out by the current user
-	 *
-	 * @param   \stdClass  $item  The record to check
-	 *
-	 * @return  bool
-	 */
-	public function isCheckedOut($item)
-	{
-		$table = $this->getTable();
-		$checkedOutField = $table->getColumnAlias('checked_out');
+        // We need this ugly code to deal with non-namespaced MVC code
+        if (empty($prefix) && $this->getMVCFactory() instanceof LegacyFactory) {
+            $prefix = 'Table';
+        }
 
-		if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != Factory::getUser()->id)
-		{
-			return true;
-		}
+        if ($table = $this->_createTable($name, $prefix, $options)) {
+            return $table;
+        }
 
-		return false;
-	}
+        throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
+    }
 
-	/**
-	 * Clean the cache
-	 *
-	 * @param   string  $group  The cache group
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	protected function cleanCache($group = null)
-	{
-		$app = Factory::getApplication();
+    /**
+     * Method to check if the given record is checked out by the current user
+     *
+     * @param   \stdClass  $item  The record to check
+     *
+     * @return  bool
+     */
+    public function isCheckedOut($item)
+    {
+        $table           = $this->getTable();
+        $checkedOutField = $table->getColumnAlias('checked_out');
 
-		$options = [
-			'defaultgroup' => $group ?: ($this->option ?? $app->input->get('option')),
-			'cachebase'    => $app->get('cache_path', JPATH_CACHE),
-			'result'       => true,
-		];
+        if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != $this->getCurrentUser()->id) {
+            return true;
+        }
 
-		try
-		{
-			/** @var CallbackController $cache */
-			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', $options);
-			$cache->clean();
-		}
-		catch (CacheExceptionInterface $exception)
-		{
-			$options['result'] = false;
-		}
+        return false;
+    }
 
-		// Trigger the onContentCleanCache event.
-		$this->dispatchEvent(new Event($this->event_clean_cache, $options));
-	}
+    /**
+     * Clean the cache
+     *
+     * @param   string  $group  The cache group
+     *
+     * @return  void
+     *
+     * @since   3.0
+     */
+    protected function cleanCache($group = null)
+    {
+        $app = Factory::getApplication();
 
-	/**
-	 * Boots the component with the given name.
-	 *
-	 * @param   string  $component  The component name, eg. com_content.
-	 *
-	 * @return  ComponentInterface  The service container
-	 *
-	 * @since   4.0.0
-	 */
-	protected function bootComponent($component): ComponentInterface
-	{
-		return Factory::getApplication()->bootComponent($component);
-	}
+        $options = [
+            'defaultgroup' => $group ?: ($this->option ?? $app->getInput()->get('option')),
+            'cachebase'    => $app->get('cache_path', JPATH_CACHE),
+            'result'       => true,
+        ];
 
-	/**
-	 * Dispatches the given event on the internal dispatcher, does a fallback to the global one.
-	 *
-	 * @param   EventInterface  $event  The event
-	 *
-	 * @return  void
-	 *
-	 * @since   4.1.0
-	 */
-	protected function dispatchEvent(EventInterface $event)
-	{
-		try
-		{
-			$this->getDispatcher()->dispatch($event->getName(), $event);
-		}
-		catch (\UnexpectedValueException $e)
-		{
-			Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
-		}
-	}
+        try {
+            /** @var CallbackController $cache */
+            $cache = $this->getCacheControllerFactory()->createCacheController('callback', $options);
+            $cache->clean();
+        } catch (CacheExceptionInterface $exception) {
+            $options['result'] = false;
+        }
+
+        // Trigger the onContentCleanCache event.
+        $this->dispatchEvent(new Event($this->event_clean_cache, $options));
+    }
+
+    /**
+     * Boots the component with the given name.
+     *
+     * @param   string  $component  The component name, eg. com_content.
+     *
+     * @return  ComponentInterface  The service container
+     *
+     * @since   4.0.0
+     */
+    protected function bootComponent($component): ComponentInterface
+    {
+        return Factory::getApplication()->bootComponent($component);
+    }
+
+    /**
+     * Dispatches the given event on the internal dispatcher, does a fallback to the global one.
+     *
+     * @param   EventInterface  $event  The event
+     *
+     * @return  void
+     *
+     * @since   4.1.0
+     */
+    protected function dispatchEvent(EventInterface $event)
+    {
+        try {
+            $this->getDispatcher()->dispatch($event->getName(), $event);
+        } catch (\UnexpectedValueException $e) {
+            Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
+        }
+    }
+
+    /**
+     * Get the database driver.
+     *
+     * @return  DatabaseInterface  The database driver.
+     *
+     * @since   4.2.0
+     * @throws  \UnexpectedValueException
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use getDatabase() instead
+     *              Example: $model->getDatabase();
+     */
+    public function getDbo()
+    {
+        try {
+            return $this->getDatabase();
+        } catch (DatabaseNotFoundException $e) {
+            throw new \UnexpectedValueException('Database driver not set in ' . __CLASS__);
+        }
+    }
+
+    /**
+     * Set the database driver.
+     *
+     * @param   DatabaseInterface  $db  The database driver.
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use setDatabase() instead
+     *              Example: $model->setDatabase($db);
+     */
+    public function setDbo(DatabaseInterface $db = null)
+    {
+        if ($db === null) {
+            return;
+        }
+
+        $this->setDatabase($db);
+    }
+
+    /**
+     * Proxy for _db variable.
+     *
+     * @param   string  $name  The name of the element
+     *
+     * @return  mixed  The value of the element if set, null otherwise
+     *
+     * @since   4.2.0
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use getDatabase() instead of directly accessing _db
+     */
+    public function __get($name)
+    {
+        if ($name === '_db') {
+            return $this->getDbo();
+        }
+
+        // Default the variable
+        if (!isset($this->$name)) {
+            $this->$name = null;
+        }
+
+        return $this->$name;
+    }
 }

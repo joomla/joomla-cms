@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_login
@@ -21,15 +22,13 @@ $formId           = 'login-form-' . $module->id;
 $type             = LoginHelper::getType();
 $return           = LoginHelper::getReturnUrl($params, $type);
 $registerLink     = LoginHelper::getRegistrationUrl($params);
-$twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 $extraButtons     = AuthenticationHelper::getLoginButtons($formId);
 $user             = Factory::getUser();
 $layout           = $params->get('layout', 'default');
 
 // Logged users must load the logout sublayout
-if (!$user->guest)
-{
-	$layout .= '_logout';
+if (!$user->guest) {
+    $layout .= '_logout';
 }
 
 require ModuleHelper::getLayoutPath('mod_login', $layout);

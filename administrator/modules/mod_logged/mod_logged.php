@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_logged
@@ -14,19 +15,15 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Module\Logged\Administrator\Helper\LoggedHelper;
 
-if ($params->get('automatic_title', 0))
-{
-	$module->title = LoggedHelper::getTitle($params);
+if ($params->get('automatic_title', 0)) {
+    $module->title = LoggedHelper::getTitle($params);
 }
 
 // Check if session metadata tracking is enabled
-if ($app->get('session_metadata', true))
-{
-	$users = LoggedHelper::getList($params, $app, Factory::getContainer()->get(DatabaseInterface::class));
+if ($app->get('session_metadata', true)) {
+    $users = LoggedHelper::getList($params, $app, Factory::getContainer()->get(DatabaseInterface::class));
 
-	require ModuleHelper::getLayoutPath('mod_logged', $params->get('layout', 'default'));
-}
-else
-{
-	require ModuleHelper::getLayoutPath('mod_logged', 'disabled');
+    require ModuleHelper::getLayoutPath('mod_logged', $params->get('layout', 'default'));
+} else {
+    require ModuleHelper::getLayoutPath('mod_logged', 'disabled');
 }

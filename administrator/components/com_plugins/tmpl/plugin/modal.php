@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
@@ -15,7 +16,7 @@ defined('_JEXEC') or die;
 <button id="closeBtn" type="button" class="hidden" onclick="Joomla.submitbutton('plugin.cancel');"></button>
 
 <div class="container-popup">
-	<?php $this->setLayout('edit'); ?>
-	<?php echo $this->loadTemplate(); ?>
+    <?php $this->setLayout('edit'); ?>
+    <?php echo $this->loadTemplate(); ?>
 </div>
 

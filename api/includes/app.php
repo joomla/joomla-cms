@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package    Joomla.API
  *
@@ -12,15 +13,13 @@ defined('_JEXEC') or die;
 $startTime = microtime(1);
 $startMem  = memory_get_usage();
 
-if (file_exists(dirname(__DIR__) . '/defines.php'))
-{
-	include_once dirname(__DIR__) . '/defines.php';
+if (file_exists(dirname(__DIR__) . '/defines.php')) {
+    include_once dirname(__DIR__) . '/defines.php';
 }
 
-if (!defined('_JDEFINES'))
-{
-	define('JPATH_BASE', dirname(__DIR__));
-	require_once JPATH_BASE . '/includes/defines.php';
+if (!defined('_JDEFINES')) {
+    define('JPATH_BASE', dirname(__DIR__));
+    require_once JPATH_BASE . '/includes/defines.php';
 }
 
 require_once JPATH_BASE . '/includes/framework.php';
@@ -39,10 +38,10 @@ $container = \Joomla\CMS\Factory::getContainer();
  * deprecated to be removed when the class name alias is removed as well.
  */
 $container->alias('session', 'session.cli')
-	->alias('JSession', 'session.cli')
-	->alias(\Joomla\CMS\Session\Session::class, 'session.cli')
-	->alias(\Joomla\Session\Session::class, 'session.cli')
-	->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
+    ->alias('JSession', 'session.cli')
+    ->alias(\Joomla\CMS\Session\Session::class, 'session.cli')
+    ->alias(\Joomla\Session\Session::class, 'session.cli')
+    ->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
 
 // Instantiate the application.
 $app = $container->get(\Joomla\CMS\Application\ApiApplication::class);

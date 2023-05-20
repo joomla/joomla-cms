@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
@@ -12,10 +13,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Layout\LayoutHelper;
 
 $displayData = [
-	'textPrefix' => 'COM_PRIVACY_CONSENTS',
-	'formURL'    => 'index.php?option=com_privacy&view=consents',
-	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Privacy:_Consents',
-	'icon'       => 'icon-lock',
+    'textPrefix' => 'COM_PRIVACY_CONSENTS',
+    'formURL'    => 'index.php?option=com_privacy&view=consents',
+    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Privacy:_Consents',
+    'icon'       => 'icon-lock',
 ];
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

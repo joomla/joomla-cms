@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
@@ -30,40 +31,38 @@ use Joomla\DI\ServiceProviderInterface;
  *
  * @since  4.0.0
  */
-return new class implements ServiceProviderInterface
-{
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->set(AssociationExtensionInterface::class, new AssociationsHelper);
+return new class () implements ServiceProviderInterface {
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->set(AssociationExtensionInterface::class, new AssociationsHelper());
 
-		$container->registerServiceProvider(new CategoryFactory('\\Joomla\\Component\\Newsfeeds'));
-		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Newsfeeds'));
-		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Newsfeeds'));
-		$container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Newsfeeds'));
+        $container->registerServiceProvider(new CategoryFactory('\\Joomla\\Component\\Newsfeeds'));
+        $container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Newsfeeds'));
+        $container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Newsfeeds'));
+        $container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Newsfeeds'));
 
-		$container->set(
-			ComponentInterface::class,
-			function (Container $container)
-			{
-				$component = new NewsfeedsComponent($container->get(ComponentDispatcherFactoryInterface::class));
+        $container->set(
+            ComponentInterface::class,
+            function (Container $container) {
+                $component = new NewsfeedsComponent($container->get(ComponentDispatcherFactoryInterface::class));
 
-				$component->setRegistry($container->get(Registry::class));
-				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
-				$component->setCategoryFactory($container->get(CategoryFactoryInterface::class));
-				$component->setAssociationExtension($container->get(AssociationExtensionInterface::class));
-				$component->setRouterFactory($container->get(RouterFactoryInterface::class));
+                $component->setRegistry($container->get(Registry::class));
+                $component->setMVCFactory($container->get(MVCFactoryInterface::class));
+                $component->setCategoryFactory($container->get(CategoryFactoryInterface::class));
+                $component->setAssociationExtension($container->get(AssociationExtensionInterface::class));
+                $component->setRouterFactory($container->get(RouterFactoryInterface::class));
 
-				return $component;
-			}
-		);
-	}
+                return $component;
+            }
+        );
+    }
 };

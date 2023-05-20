@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_latestactions
@@ -9,12 +10,14 @@
 
 namespace Joomla\Module\LatestActions\Administrator\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper for mod_latestactions
@@ -23,53 +26,52 @@ use Joomla\Registry\Registry;
  */
 abstract class LatestActionsHelper
 {
-	/**
-	 * Get a list of articles.
-	 *
-	 * @param   Registry  &$params  The module parameters.
-	 *
-	 * @return  mixed  An array of action logs, or false on error.
-	 *
-	 * @since   3.9.1
-	 *
-	 * @throws  \Exception
-	 */
-	public static function getList(&$params)
-	{
-		/** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel $model */
-		$model = Factory::getApplication()->bootComponent('com_actionlogs')->getMVCFactory()
-			->createModel('Actionlogs', 'Administrator', ['ignore_request' => true]);
+    /**
+     * Get a list of articles.
+     *
+     * @param   Registry  &$params  The module parameters.
+     *
+     * @return  mixed  An array of action logs, or false on error.
+     *
+     * @since   3.9.1
+     *
+     * @throws  \Exception
+     */
+    public static function getList(&$params)
+    {
+        /** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel $model */
+        $model = Factory::getApplication()->bootComponent('com_actionlogs')->getMVCFactory()
+            ->createModel('Actionlogs', 'Administrator', ['ignore_request' => true]);
 
-		// Set the Start and Limit
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', $params->get('count', 5));
-		$model->setState('list.ordering', 'a.id');
-		$model->setState('list.direction', 'DESC');
+        // Set the Start and Limit
+        $model->setState('list.start', 0);
+        $model->setState('list.limit', $params->get('count', 5));
+        $model->setState('list.ordering', 'a.id');
+        $model->setState('list.direction', 'DESC');
 
-		$rows = $model->getItems();
+        $rows = $model->getItems();
 
-		// Load all actionlog plugins language files
-		ActionlogsHelper::loadActionLogPluginsLanguage();
+        // Load all actionlog plugins language files
+        ActionlogsHelper::loadActionLogPluginsLanguage();
 
-		foreach ($rows as $row)
-		{
-			$row->message = ActionlogsHelper::getHumanReadableLogMessage($row);
-		}
+        foreach ($rows as $row) {
+            $row->message = ActionlogsHelper::getHumanReadableLogMessage($row);
+        }
 
-		return $rows;
-	}
+        return $rows;
+    }
 
-	/**
-	 * Get the alternate title for the module
-	 *
-	 * @param   Registry  $params  The module parameters.
-	 *
-	 * @return  string    The alternate title for the module.
-	 *
-	 * @since   3.9.1
-	 */
-	public static function getTitle($params)
-	{
-		return Text::plural('MOD_LATESTACTIONS_TITLE', $params->get('count', 5));
-	}
+    /**
+     * Get the alternate title for the module
+     *
+     * @param   Registry  $params  The module parameters.
+     *
+     * @return  string    The alternate title for the module.
+     *
+     * @since   3.9.1
+     */
+    public static function getTitle($params)
+    {
+        return Text::plural('MOD_LATESTACTIONS_TITLE', $params->get('count', 5));
+    }
 }

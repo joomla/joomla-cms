@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
@@ -9,11 +10,13 @@
 
 namespace Joomla\Component\Privacy\Administrator\Table;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Table interface class for the #__privacy_requests table
@@ -30,58 +33,54 @@ use Joomla\Database\DatabaseDriver;
  */
 class RequestTable extends Table
 {
-	/**
-	 * Indicates that columns fully support the NULL value in the database
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $_supportNullValue = true;
+    /**
+     * Indicates that columns fully support the NULL value in the database
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    protected $_supportNullValue = true;
 
-	/**
-	 * The class constructor.
-	 *
-	 * @param   DatabaseDriver  $db  DatabaseDriver connector object.
-	 *
-	 * @since   3.9.0
-	 */
-	public function __construct(DatabaseDriver $db)
-	{
-		parent::__construct('#__privacy_requests', 'id', $db);
-	}
+    /**
+     * The class constructor.
+     *
+     * @param   DatabaseDriver  $db  DatabaseDriver connector object.
+     *
+     * @since   3.9.0
+     */
+    public function __construct(DatabaseDriver $db)
+    {
+        parent::__construct('#__privacy_requests', 'id', $db);
+    }
 
-	/**
-	 * Method to store a row in the database from the Table instance properties.
-	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.9.0
-	 */
-	public function store($updateNulls = true)
-	{
-		$date = Factory::getDate();
+    /**
+     * Method to store a row in the database from the Table instance properties.
+     *
+     * @param   boolean  $updateNulls  True to update fields even if they are null.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   3.9.0
+     */
+    public function store($updateNulls = true)
+    {
+        $date = Factory::getDate();
 
-		// Set default values for new records
-		if (!$this->id)
-		{
-			if (!$this->status)
-			{
-				$this->status = '0';
-			}
+        // Set default values for new records
+        if (!$this->id) {
+            if (!$this->status) {
+                $this->status = '0';
+            }
 
-			if (!$this->requested_at)
-			{
-				$this->requested_at = $date->toSql();
-			}
+            if (!$this->requested_at) {
+                $this->requested_at = $date->toSql();
+            }
 
-			if (!$this->confirm_token_created_at)
-			{
-				$this->confirm_token_created_at = null;
-			}
-		}
+            if (!$this->confirm_token_created_at) {
+                $this->confirm_token_created_at = null;
+            }
+        }
 
-		return parent::store($updateNulls);
-	}
+        return parent::store($updateNulls);
+    }
 }

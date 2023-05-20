@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
@@ -22,48 +23,45 @@ $modules    = ModuleHelper::getModules($modulePosition);
 $moduleHtml = [];
 $moduleCollapsedHtml = [];
 
-foreach ($modules as $key => $mod)
-{
-	$out = $renderer->render($mod);
+foreach ($modules as $key => $mod) {
+    $out = $renderer->render($mod);
 
-	if ($out !== '')
-	{
-		if (strpos($out, 'data-bs-toggle="modal"') !== false)
-		{
-			$dom = new \DOMDocument;
-			$dom->loadHTML($out);
-			$els = $dom->getElementsByTagName('a');
+    if ($out !== '') {
+        if (strpos($out, 'data-bs-toggle="modal"') !== false) {
+            $dom = new \DOMDocument();
+            $dom->loadHTML('<?xml encoding="utf-8" ?>' . $out);
+            $els = $dom->getElementsByTagName('a');
 
-			$moduleCollapsedHtml[] = $dom->saveHTML($els[0]); //$els[0]->nodeValue;
-		}
-		else
-		{
-			$moduleCollapsedHtml[] = $out;
-		}
+            if ($els[0]) {
+                $moduleCollapsedHtml[] = $dom->saveHTML($els[0]);
+            } else {
+                $moduleCollapsedHtml[] = $out;
+            }
+        } else {
+            $moduleCollapsedHtml[] = $out;
+        }
 
-		$moduleHtml[] = $out;
-	}
+        $moduleHtml[] = $out;
+    }
 }
 ?>
 <div class="header-items d-flex ms-auto">
-	<?php
-		foreach ($moduleHtml as $mod)
-		{
-			echo '<div class="header-item">' . $mod . '</div>';
-		}
-	?>
-	<div class="header-more d-none" id="header-more-items" >
-		<button class="header-more-btn dropdown-toggle" type="button" title="<?php echo Text::_('TPL_ATUM_MORE_ELEMENTS'); ?>" data-bs-toggle="dropdown" aria-expanded="false">
-			<div class="header-item-icon"><span class="icon-ellipsis-h" aria-hidden="true"></span></div>
-			<div class="visually-hidden"><?php echo Text::_('TPL_ATUM_MORE_ELEMENTS'); ?></div>
-		</button>
-		<div class="header-dd-items dropdown-menu">
-			<?php
-			foreach ($moduleCollapsedHtml as $key => $mod)
-			{
-				echo '<div class="header-dd-item dropdown-item" data-item="' . $key . '">' . $mod . '</div>';
-			}
-			?>
-		</div>
-	</div>
+    <?php
+    foreach ($moduleHtml as $mod) {
+        echo '<div class="header-item">' . $mod . '</div>';
+    }
+    ?>
+    <div class="header-more d-none" id="header-more-items" >
+        <button class="header-more-btn dropdown-toggle" type="button" title="<?php echo Text::_('TPL_ATUM_MORE_ELEMENTS'); ?>" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="header-item-icon"><span class="icon-ellipsis-h" aria-hidden="true"></span></div>
+            <div class="visually-hidden"><?php echo Text::_('TPL_ATUM_MORE_ELEMENTS'); ?></div>
+        </button>
+        <div class="header-dd-items dropdown-menu">
+            <?php
+            foreach ($moduleCollapsedHtml as $key => $mod) {
+                echo '<div class="header-dd-item dropdown-item" data-item="' . $key . '">' . $mod . '</div>';
+            }
+            ?>
+        </div>
+    </div>
 </div>

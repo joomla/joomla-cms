@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.API
  * @subpackage  com_users
@@ -9,9 +10,11 @@
 
 namespace Joomla\Component\Users\Api\View\Levels;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The levels view
@@ -20,27 +23,27 @@ use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
  */
 class JsonapiView extends BaseApiView
 {
-	/**
-	 * The fields to render item in the documents
-	 *
-	 * @var  array
-	 * @since  4.0.0
-	 */
-	protected $fieldsToRenderItem = [
-		'id',
-		'title',
-		'rules'
-	];
+    /**
+     * The fields to render item in the documents
+     *
+     * @var  array
+     * @since  4.0.0
+     */
+    protected $fieldsToRenderItem = [
+        'id',
+        'title',
+        'rules',
+    ];
 
-	/**
-	 * The fields to render items in the documents
-	 *
-	 * @var  array
-	 * @since  4.0.0
-	 */
-	protected $fieldsToRenderList = [
-		'id',
-		'title',
-		'rules',
-	];
+    /**
+     * The fields to render items in the documents
+     *
+     * @var  array
+     * @since  4.0.0
+     */
+    protected $fieldsToRenderList = [
+        'id',
+        'title',
+        'rules',
+    ];
 }

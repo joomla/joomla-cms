@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Api
  * @subpackage  com_content
@@ -9,9 +10,11 @@
 
 namespace Joomla\Component\Content\Api\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Uri\Uri;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Content api helper.
@@ -20,21 +23,20 @@ use Joomla\CMS\Uri\Uri;
  */
 class ContentHelper
 {
-	/**
-	 * Fully Qualified Domain name for the image url
-	 *
-	 * @param   string  $uri      The uri to resolve
-	 *
-	 * @return  string
-	 */
-	public static function resolve(string $uri): string
-	{
-		// Check if external URL.
-		if (stripos($uri, 'http') !== 0)
-		{
-			return Uri::root() . $uri;
-		}
+    /**
+     * Fully Qualified Domain name for the image url
+     *
+     * @param   string  $uri      The uri to resolve
+     *
+     * @return  string
+     */
+    public static function resolve(string $uri): string
+    {
+        // Check if external URL.
+        if (stripos($uri, 'http') !== 0) {
+            return Uri::root() . $uri;
+        }
 
-		return $uri;
-	}
+        return $uri;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_config
@@ -9,13 +10,16 @@
 
 namespace Joomla\Component\Config\Administrator\View\Component;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View for the component configuration
@@ -24,124 +28,118 @@ use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The model state
-	 *
-	 * @var    \Joomla\CMS\Object\CMSObject
-	 * @since  3.2
-	 */
-	public $state;
+    /**
+     * The model state
+     *
+     * @var    \Joomla\CMS\Object\CMSObject
+     * @since  3.2
+     */
+    public $state;
 
-	/**
-	 * The form object
-	 *
-	 * @var    \Joomla\CMS\Form\Form
-	 * @since  3.2
-	 */
-	public $form;
+    /**
+     * The form object
+     *
+     * @var    \Joomla\CMS\Form\Form
+     * @since  3.2
+     */
+    public $form;
 
-	/**
-	 * An object with the information for the component
-	 *
-	 * @var    \Joomla\CMS\Component\ComponentRecord
-	 * @since  3.2
-	 */
-	public $component;
+    /**
+     * An object with the information for the component
+     *
+     * @var    \Joomla\CMS\Component\ComponentRecord
+     * @since  3.2
+     */
+    public $component;
 
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @see     \JViewLegacy::loadTemplate()
-	 * @since   3.2
-	 */
-	public function display($tpl = null)
-	{
-		try
-		{
-			$component = $this->get('component');
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @see     \JViewLegacy::loadTemplate()
+     * @since   3.2
+     */
+    public function display($tpl = null)
+    {
+        try {
+            $component = $this->get('component');
 
-			if (!$component->enabled)
-			{
-				return;
-			}
+            if (!$component->enabled) {
+                return;
+            }
 
-			$form = $this->get('form');
-			$user = Factory::getUser();
-		}
-		catch (\Exception $e)
-		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+            $form = $this->get('form');
+            $user = $this->getCurrentUser();
+        } catch (\Exception $e) {
+            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-			return;
-		}
+            return;
+        }
 
-		$this->fieldsets   = $form ? $form->getFieldsets() : null;
-		$this->formControl = $form ? $form->getFormControl() : null;
+        $this->fieldsets   = $form ? $form->getFieldsets() : null;
+        $this->formControl = $form ? $form->getFormControl() : null;
 
-		// Don't show permissions fieldset if not authorised.
-		if (!$user->authorise('core.admin', $component->option) && isset($this->fieldsets['permissions']))
-		{
-			unset($this->fieldsets['permissions']);
-		}
+        // Don't show permissions fieldset if not authorised.
+        if (!$user->authorise('core.admin', $component->option) && isset($this->fieldsets['permissions'])) {
+            unset($this->fieldsets['permissions']);
+        }
 
-		$this->form = &$form;
-		$this->component = &$component;
+        $this->form      = &$form;
+        $this->component = &$component;
 
-		$this->components = ConfigHelper::getComponentsWithConfig();
+        $this->components = ConfigHelper::getComponentsWithConfig();
 
-		$this->userIsSuperAdmin = $user->authorise('core.admin');
-		$this->currentComponent = Factory::getApplication()->input->get('component');
-		$this->return = Factory::getApplication()->input->get('return', '', 'base64');
+        $this->userIsSuperAdmin = $user->authorise('core.admin');
+        $this->currentComponent = Factory::getApplication()->getInput()->get('component');
+        $this->return           = Factory::getApplication()->getInput()->get('return', '', 'base64');
 
-		$this->addToolbar();
+        $this->addToolbar();
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	protected function addToolbar()
-	{
-		ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'cog config');
-		ToolbarHelper::apply('component.apply');
-		ToolbarHelper::divider();
-		ToolbarHelper::save('component.save');
-		ToolbarHelper::divider();
-		ToolbarHelper::cancel('component.cancel', 'JTOOLBAR_CLOSE');
-		ToolbarHelper::divider();
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   3.2
+     */
+    protected function addToolbar()
+    {
+        $toolbar    = Toolbar::getInstance();
 
-		$inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false;
-		$targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] ?: 'hide-aware-inline-help';
+        ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'cog config');
+        $toolbar->apply('component.apply');
+        $toolbar->divider();
+        $toolbar->save('component.save');
+        $toolbar->divider();
+        $toolbar->cancel('component.cancel');
+        $toolbar->divider();
 
-		if ($inlinehelp)
-		{
-			ToolbarHelper::inlinehelp($targetClass);
-		}
+        $inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false;
+        $targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] ?: 'hide-aware-inline-help';
 
-		$helpUrl = $this->form->getData()->get('helpURL');
-		$helpKey = (string) $this->form->getXml()->config->help['key'];
+        if ($inlinehelp) {
+            $toolbar->inlinehelp($targetClass);
+        }
 
-		// Try with legacy language key
-		if (!$helpKey)
-		{
-			$language    = Factory::getApplication()->getLanguage();
-			$languageKey = 'JHELP_COMPONENTS_' . strtoupper($this->currentComponent) . '_OPTIONS';
+        $helpUrl = $this->form->getData()->get('helpURL');
+        $helpKey = (string) $this->form->getXml()->config->help['key'];
 
-			if ($language->hasKey($languageKey))
-			{
-				$helpKey = $languageKey;
-			}
-		}
+        // Try with legacy language key
+        if (!$helpKey) {
+            $language    = Factory::getApplication()->getLanguage();
+            $languageKey = 'JHELP_COMPONENTS_' . strtoupper($this->currentComponent) . '_OPTIONS';
 
-		ToolbarHelper::help($helpKey, (boolean) $helpUrl, null, $this->currentComponent);
-	}
+            if ($language->hasKey($languageKey)) {
+                $helpKey = $languageKey;
+            }
+        }
+
+        $toolbar->help($helpKey, (bool) $helpUrl, null, $this->currentComponent);
+    }
 }

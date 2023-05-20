@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fieldset name="credentials" label="COM_USERS_LOGIN_DEFAULT_LABEL">
 		<field
@@ -24,16 +24,6 @@
 			autocomplete="current-password"
 		/>
 	</fieldset>
-
-		<field
-			name="secretkey"
-			type="text"
-			label="JGLOBAL_SECRETKEY"
-			autocomplete="one-time-code"
-			class=""
-			filter="int"
-			size="25"
-		/>
 
 	<fieldset>
 		<field

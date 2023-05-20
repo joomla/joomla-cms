@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.API
  * @subpackage  com_templates
@@ -9,10 +10,12 @@
 
 namespace Joomla\Component\Templates\Api\View\Styles;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The styles view
@@ -21,57 +24,56 @@ use Joomla\CMS\Router\Exception\RouteNotFoundException;
  */
 class JsonapiView extends BaseApiView
 {
-	/**
-	 * The fields to render item in the documents
-	 *
-	 * @var  array
-	 * @since  4.0.0
-	 */
-	protected $fieldsToRenderItem = [
-		'id',
-		'template',
-		'client_id',
-		'home',
-		'title',
-		'params',
-		'xml',
-	];
+    /**
+     * The fields to render item in the documents
+     *
+     * @var  array
+     * @since  4.0.0
+     */
+    protected $fieldsToRenderItem = [
+        'id',
+        'template',
+        'client_id',
+        'home',
+        'title',
+        'params',
+        'xml',
+    ];
 
-	/**
-	 * The fields to render items in the documents
-	 *
-	 * @var  array
-	 * @since  4.0.0
-	 */
-	protected $fieldsToRenderList = [
-		'id',
-		'template',
-		'title',
-		'home',
-		'client_id',
-		'language_title',
-		'image',
-		'language_sef',
-		'assigned',
-		'e_id',
-	];
+    /**
+     * The fields to render items in the documents
+     *
+     * @var  array
+     * @since  4.0.0
+     */
+    protected $fieldsToRenderList = [
+        'id',
+        'template',
+        'title',
+        'home',
+        'client_id',
+        'language_title',
+        'image',
+        'language_sef',
+        'assigned',
+        'e_id',
+    ];
 
-	/**
-	 * Prepare item before render.
-	 *
-	 * @param   object  $item  The model item
-	 *
-	 * @return  object
-	 *
-	 * @since   4.0.0
-	 */
-	protected function prepareItem($item)
-	{
-		if ($item->client_id != $this->getModel()->getState('client_id'))
-		{
-			throw new RouteNotFoundException('Item does not exist');
-		}
+    /**
+     * Prepare item before render.
+     *
+     * @param   object  $item  The model item
+     *
+     * @return  object
+     *
+     * @since   4.0.0
+     */
+    protected function prepareItem($item)
+    {
+        if ($item->client_id != $this->getModel()->getState('client_id')) {
+            throw new RouteNotFoundException('Item does not exist');
+        }
 
-		return parent::prepareItem($item);
-	}
+        return parent::prepareItem($item);
+    }
 }

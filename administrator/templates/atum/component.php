@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
@@ -20,9 +21,9 @@ preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
-	->useStyle('template.active.language')
-	->useStyle('template.user')
-	->addInlineStyle(':root {
+    ->useStyle('template.active.language')
+    ->useStyle('template.user')
+    ->addInlineStyle(':root {
 		--hue: ' . $matches[1] . ';
 		--template-bg-light: ' . $this->params->get('bg-light', '--template-bg-light') . ';
 		--template-text-dark: ' . $this->params->get('text-dark', '--template-text-dark') . ';
@@ -47,12 +48,12 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], t
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<jdoc:include type="metas" />
-	<jdoc:include type="styles" />
-	<jdoc:include type="scripts" />
+    <jdoc:include type="metas" />
+    <jdoc:include type="styles" />
+    <jdoc:include type="scripts" />
 </head>
 <body class="contentpane component">
-	<jdoc:include type="message" />
-	<jdoc:include type="component" />
+    <jdoc:include type="message" />
+    <jdoc:include type="component" />
 </body>
 </html>

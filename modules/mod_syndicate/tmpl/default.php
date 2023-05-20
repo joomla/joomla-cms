@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_syndicate
@@ -18,7 +19,7 @@ $linkText = '<span class="icon-feed m-1" aria-hidden="true"></span>';
 $linkText .= '<span ' . $textClass . '>' . (!empty($text) ? $text : Text::_('MOD_SYNDICATE_DEFAULT_FEED_ENTRIES')) . '</span>';
 
 $attribs = [
-	'class' => 'mod-syndicate syndicate-module'
+    'class' => 'mod-syndicate syndicate-module'
 ];
 
 echo HTMLHelper::_('link', $link, $linkText, $attribs);

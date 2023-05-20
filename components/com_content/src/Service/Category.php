@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -9,9 +10,11 @@
 
 namespace Joomla\Component\Content\Site\Service;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Categories\Categories;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Content Component Category Tree
@@ -20,18 +23,18 @@ use Joomla\CMS\Categories\Categories;
  */
 class Category extends Categories
 {
-	/**
-	 * Class constructor
-	 *
-	 * @param   array  $options  Array of options
-	 *
-	 * @since   1.7.0
-	 */
-	public function __construct($options = array())
-	{
-		$options['table']     = '#__content';
-		$options['extension'] = 'com_content';
+    /**
+     * Class constructor
+     *
+     * @param   array  $options  Array of options
+     *
+     * @since   1.7.0
+     */
+    public function __construct($options = [])
+    {
+        $options['table']     = '#__content';
+        $options['extension'] = 'com_content';
 
-		parent::__construct($options);
-	}
+        parent::__construct($options);
+    }
 }

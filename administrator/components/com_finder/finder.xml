@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="component" method="upgrade">
 	<name>com_finder</name>
 	<author>Joomla! Project</author>
 	<copyright>(C) 2011 Open Source Matters, Inc.</copyright>
-	<creationDate>August 2011</creationDate>
+	<creationDate>2011-08</creationDate>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_banners
@@ -13,17 +14,16 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
 $displayData = [
-	'textPrefix' => 'COM_BANNERS',
-	'formURL'    => 'index.php?option=com_banners&view=banners',
-	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Banners',
-	'icon'       => 'icon-bookmark banners',
+    'textPrefix' => 'COM_BANNERS',
+    'formURL'    => 'index.php?option=com_banners&view=banners',
+    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Banners',
+    'icon'       => 'icon-bookmark banners',
 ];
 
 $user = Factory::getApplication()->getIdentity();
 
-if ($user->authorise('core.create', 'com_banners') || count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)
-{
-	$displayData['createURL'] = 'index.php?option=com_banners&task=banner.add';
+if ($user->authorise('core.create', 'com_banners') || count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0) {
+    $displayData['createURL'] = 'index.php?option=com_banners&task=banner.add';
 }
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

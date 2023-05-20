@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_contenthistory
@@ -9,11 +10,13 @@
 
 namespace Joomla\Component\Contenthistory\Site\Dispatcher;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\MVC\Controller\BaseController;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * ComponentDispatcher class for com_contenthistory
@@ -22,54 +25,53 @@ use Joomla\CMS\MVC\Controller\BaseController;
  */
 class Dispatcher extends ComponentDispatcher
 {
-	/**
-	 * Load the language
-	 *
-	 * @since   4.0.0
-	 *
-	 * @return  void
-	 */
-	protected function loadLanguage()
-	{
-		// Load common and local language files.
-		$this->app->getLanguage()->load($this->option, JPATH_ADMINISTRATOR) ||
-		$this->app->getLanguage()->load($this->option, JPATH_SITE);
-	}
+    /**
+     * Load the language
+     *
+     * @since   4.0.0
+     *
+     * @return  void
+     */
+    protected function loadLanguage()
+    {
+        // Load common and local language files.
+        $this->app->getLanguage()->load($this->option, JPATH_ADMINISTRATOR) ||
+        $this->app->getLanguage()->load($this->option, JPATH_SITE);
+    }
 
-	/**
-	 * Method to check component access permission
-	 *
-	 * @since   4.0.0
-	 *
-	 * @return  void
-	 *
-	 * @throws  \Exception|NotAllowed
-	 */
-	protected function checkAccess()
-	{
-		// Check the user has permission to access this component if in the backend
-		if ($this->app->getIdentity()->guest)
-		{
-			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
-		}
-	}
+    /**
+     * Method to check component access permission
+     *
+     * @since   4.0.0
+     *
+     * @return  void
+     *
+     * @throws  \Exception|NotAllowed
+     */
+    protected function checkAccess()
+    {
+        // Check the user has permission to access this component if in the backend
+        if ($this->app->getIdentity()->guest) {
+            throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+        }
+    }
 
-	/**
-	 * Get a controller from the component
-	 *
-	 * @param   string  $name    Controller name
-	 * @param   string  $client  Optional client (like Administrator, Site etc.)
-	 * @param   array   $config  Optional controller config
-	 *
-	 * @return  BaseController
-	 *
-	 * @since   4.0.0
-	 */
-	public function getController(string $name, string $client = '', array $config = array()): BaseController
-	{
-		$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
-		$client = 'Administrator';
+    /**
+     * Get a controller from the component
+     *
+     * @param   string  $name    Controller name
+     * @param   string  $client  Optional client (like Administrator, Site etc.)
+     * @param   array   $config  Optional controller config
+     *
+     * @return  BaseController
+     *
+     * @since   4.0.0
+     */
+    public function getController(string $name, string $client = '', array $config = []): BaseController
+    {
+        $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+        $client              = 'Administrator';
 
-		return parent::getController($name, $client, $config);
-	}
+        return parent::getController($name, $client, $config);
+    }
 }

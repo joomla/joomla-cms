@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -13,5 +14,7 @@ defined('_JEXEC') or die;
  * Finder Indexer Result class.
  *
  * @since       2.5
- * @deprecated  5.0 Use \Joomla\Component\Finder\Administrator\Indexer\Result instead
+ *
+ * @deprecated  4.3 will be removed in 6.0
+ *              Use \Joomla\Component\Finder\Administrator\Indexer\Result instead
  */

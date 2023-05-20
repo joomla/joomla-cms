@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_associations
@@ -9,9 +10,11 @@
 
 namespace Joomla\Component\Associations\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Model\ListModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Methods supporting a list of article records.
@@ -20,21 +23,21 @@ use Joomla\CMS\MVC\Model\ListModel;
  */
 class AssociationModel extends ListModel
 {
-	/**
-	 * Method to get the record form.
-	 *
-	 * @param   array    $data      Data for the form.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-	 *
-	 * @return  \Joomla\CMS\Form\Form|boolean  A Form object on success, false on failure
-	 *
-	 * @since  3.7.0
-	 */
-	public function getForm($data = array(), $loadData = true)
-	{
-		// Get the form.
-		$form = $this->loadForm('com_associations.association', 'association', array('control' => 'jform', 'load_data' => $loadData));
+    /**
+     * Method to get the record form.
+     *
+     * @param   array    $data      Data for the form.
+     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+     *
+     * @return  \Joomla\CMS\Form\Form|boolean  A Form object on success, false on failure
+     *
+     * @since  3.7.0
+     */
+    public function getForm($data = [], $loadData = true)
+    {
+        // Get the form.
+        $form = $this->loadForm('com_associations.association', 'association', ['control' => 'jform', 'load_data' => $loadData]);
 
-		return !empty($form) ? $form : false;
-	}
+        return !empty($form) ? $form : false;
+    }
 }

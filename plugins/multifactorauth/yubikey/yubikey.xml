@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="multifactorauth" method="upgrade">
+	<name>plg_multifactorauth_yubikey</name>
+	<author>Joomla! Project</author>
+	<creationDate>2013-09</creationDate>
+	<copyright>(C) 2013 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.2.0</version>
+	<description>PLG_MULTIFACTORAUTH_YUBIKEY_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Multifactorauth\Yubikey</namespace>
+	<files>
+		<folder>services</folder>
+		<folder plugin="yubikey">src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_multifactorauth_yubikey.ini</language>
+		<language tag="en-GB">language/en-GB/plg_multifactorauth_yubikey.sys.ini</language>
+	</languages>
+</extension>

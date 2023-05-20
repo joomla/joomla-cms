@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -16,64 +17,57 @@ use Joomla\CMS\Language\Text;
 
 $app       = Factory::getApplication();
 $form      = $displayData->getForm();
-$input     = $app->input;
+$input     = $app->getInput();
 $component = $input->getCmd('option', 'com_content');
 
-if ($component === 'com_categories')
-{
-	$extension = $input->getCmd('extension', 'com_content');
-	$parts     = explode('.', $extension);
-	$component = $parts[0];
+if ($component === 'com_categories') {
+    $extension = $input->getCmd('extension', 'com_content');
+    $parts     = explode('.', $extension);
+    $component = $parts[0];
 }
 
 $saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
 
-$fields = $displayData->get('fields') ?: array(
-	'transition',
-	array('parent', 'parent_id'),
-	array('published', 'state', 'enabled'),
-	array('category', 'catid'),
-	'featured',
-	'sticky',
-	'access',
-	'language',
-	'tags',
-	'note',
-	'version_note',
-);
+$fields = $displayData->get('fields') ?: [
+    'transition',
+    ['parent', 'parent_id'],
+    ['published', 'state', 'enabled'],
+    ['category', 'catid'],
+    'featured',
+    'sticky',
+    'access',
+    'language',
+    'tags',
+    'note',
+    'version_note',
+];
 
-$hiddenFields   = $displayData->get('hidden_fields') ?: array();
+$hiddenFields   = $displayData->get('hidden_fields') ?: [];
 
-if (!$saveHistory)
-{
-	$hiddenFields[] = 'version_note';
+if (!$saveHistory) {
+    $hiddenFields[] = 'version_note';
 }
 
-if (!Multilanguage::isEnabled())
-{
-	$hiddenFields[] = 'language';
-	$form->setFieldAttribute('language', 'default', '*');
+if (!Multilanguage::isEnabled()) {
+    $hiddenFields[] = 'language';
+    $form->setFieldAttribute('language', 'default', '*');
 }
 
-$html   = array();
+$html   = [];
 $html[] = '<fieldset class="form-vertical">';
 $html[] = '<legend class="visually-hidden">' . Text::_('JGLOBAL_FIELDSET_GLOBAL') . '</legend>';
 
-foreach ($fields as $field)
-{
-	foreach ((array) $field as $f)
-	{
-		if ($form->getField($f))
-		{
-			if (in_array($f, $hiddenFields))
-			{
-				$form->setFieldAttribute($f, 'type', 'hidden');
-			}
+foreach ($fields as $field) {
+    foreach ((array) $field as $f) {
+        if ($form->getField($f)) {
+            if (in_array($f, $hiddenFields)) {
+                $form->setFieldAttribute($f, 'type', 'hidden');
+            }
 
-			$html[] = $form->renderField($f);
-			break;
-		}
-	}
+            $html[] = $form->renderField($f);
+            break;
+        }
+    }
 }
 
 $html[] = '</fieldset>';

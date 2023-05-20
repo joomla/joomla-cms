@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_users
@@ -9,14 +10,17 @@
 
 namespace Joomla\Component\Users\Site\View\Registration;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Plugin\PluginHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Registration view class for Users.
@@ -25,122 +29,133 @@ use Joomla\CMS\Object\CMSObject;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * Registration form data
-	 *
-	 * @var  \stdClass|false
-	 */
-	protected $data;
+    /**
+     * Registration form data
+     *
+     * @var  \stdClass|false
+     */
+    protected $data;
 
-	/**
-	 * The Form object
-	 *
-	 * @var  \Joomla\CMS\Form\Form
-	 */
-	protected $form;
+    /**
+     * The Form object
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    protected $form;
 
-	/**
-	 * The page parameters
-	 *
-	 * @var  \Joomla\Registry\Registry|null
-	 */
-	protected $params;
+    /**
+     * The page parameters
+     *
+     * @var  \Joomla\Registry\Registry|null
+     */
+    protected $params;
 
-	/**
-	 * The model state
-	 *
-	 * @var  CMSObject
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var  CMSObject
+     */
+    protected $state;
 
-	/**
-	 * The HtmlDocument instance
-	 *
-	 * @var  HtmlDocument
-	 */
-	public $document;
+    /**
+     * The HtmlDocument instance
+     *
+     * @var  HtmlDocument
+     */
+    public $document;
 
-	/**
-	 * The page class suffix
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $pageclass_sfx = '';
+    /**
+     * Should we show a captcha form for the submission of the article?
+     *
+     * @var    boolean
+     *
+     * @since  3.7.0
+     */
+    protected $captchaEnabled = false;
 
-	/**
-	 * Method to display the view.
-	 *
-	 * @param   string  $tpl  The template file to include
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 * @throws  \Exception
-	 */
-	public function display($tpl = null)
-	{
-		// Get the view data.
-		$this->form   = $this->get('Form');
-		$this->data   = $this->get('Data');
-		$this->state  = $this->get('State');
-		$this->params = $this->state->get('params');
+    /**
+     * The page class suffix
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $pageclass_sfx = '';
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+    /**
+     * Method to display the view.
+     *
+     * @param   string  $tpl  The template file to include
+     *
+     * @return  void
+     *
+     * @since   1.6
+     * @throws  \Exception
+     */
+    public function display($tpl = null)
+    {
+        // Get the view data.
+        $this->form   = $this->get('Form');
+        $this->data   = $this->get('Data');
+        $this->state  = $this->get('State');
+        $this->params = $this->state->get('params');
 
-		// Check for layout override
-		$active = Factory::getApplication()->getMenu()->getActive();
+        // Check for errors.
+        if (count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-		if (isset($active->query['layout']))
-		{
-			$this->setLayout($active->query['layout']);
-		}
+        // Check for layout override
+        $active = Factory::getApplication()->getMenu()->getActive();
 
-		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
+        if (isset($active->query['layout'])) {
+            $this->setLayout($active->query['layout']);
+        }
 
-		$this->prepareDocument();
+        $captchaSet = $this->params->get('captcha', Factory::getApplication()->get('captcha', '0'));
 
-		parent::display($tpl);
-	}
+        foreach (PluginHelper::getPlugin('captcha') as $plugin) {
+            if ($captchaSet === $plugin->name) {
+                $this->captchaEnabled = true;
+                break;
+            }
+        }
 
-	/**
-	 * Prepares the document.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 * @throws  \Exception
-	 */
-	protected function prepareDocument()
-	{
-		// Because the application sets a default page title,
-		// we need to get it from the menu item itself
-		$menu = Factory::getApplication()->getMenu()->getActive();
+        // Escape strings for HTML output
+        $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
 
-		if ($menu)
-		{
-			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		}
-		else
-		{
-			$this->params->def('page_heading', Text::_('COM_USERS_REGISTRATION'));
-		}
+        $this->prepareDocument();
 
-		$this->setDocumentTitle($this->params->get('page_title', ''));
+        parent::display($tpl);
+    }
 
-		if ($this->params->get('menu-meta_description'))
-		{
-			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
+    /**
+     * Prepares the document.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     * @throws  \Exception
+     */
+    protected function prepareDocument()
+    {
+        // Because the application sets a default page title,
+        // we need to get it from the menu item itself
+        $menu = Factory::getApplication()->getMenu()->getActive();
 
-		if ($this->params->get('robots'))
-		{
-			$this->document->setMetaData('robots', $this->params->get('robots'));
-		}
-	}
+        if ($menu) {
+            $this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+        } else {
+            $this->params->def('page_heading', Text::_('COM_USERS_REGISTRATION'));
+        }
+
+        $this->setDocumentTitle($this->params->get('page_title', ''));
+
+        if ($this->params->get('menu-meta_description')) {
+            $this->document->setDescription($this->params->get('menu-meta_description'));
+        }
+
+        if ($this->params->get('robots')) {
+            $this->document->setMetaData('robots', $this->params->get('robots'));
+        }
+    }
 }

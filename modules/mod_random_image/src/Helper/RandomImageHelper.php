@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_random_image
@@ -9,10 +10,12 @@
 
 namespace Joomla\Module\RandomImage\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Uri\Uri;
 use Joomla\String\StringHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper for mod_random_image
@@ -21,136 +24,120 @@ use Joomla\String\StringHelper;
  */
 class RandomImageHelper
 {
-	/**
-	 * Retrieves a random image
-	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module parameters object
-	 * @param   array                      $images   list of images
-	 *
-	 * @return  mixed
-	 */
-	public static function getRandomImage(&$params, $images)
-	{
-		$width  = $params->get('width', 100);
-		$height = $params->get('height', null);
+    /**
+     * Retrieves a random image
+     *
+     * @param   \Joomla\Registry\Registry  &$params  module parameters object
+     * @param   array                      $images   list of images
+     *
+     * @return  mixed
+     */
+    public static function getRandomImage(&$params, $images)
+    {
+        $width  = $params->get('width', 100);
+        $height = $params->get('height', null);
 
-		$i = \count($images);
+        $i = \count($images);
 
-		if ($i === 0)
-		{
-			return null;
-		}
+        if ($i === 0) {
+            return null;
+        }
 
-		$random = mt_rand(0, $i - 1);
-		$image  = $images[$random];
-		$size   = getimagesize(JPATH_BASE . '/' . $image->folder . '/' . $image->name);
+        $random = mt_rand(0, $i - 1);
+        $image  = $images[$random];
+        $size   = getimagesize(JPATH_BASE . '/' . $image->folder . '/' . $image->name);
 
-		if ($size[0] < $width)
-		{
-			$width = $size[0];
-		}
+        if ($size[0] < $width) {
+            $width = $size[0];
+        }
 
-		$coeff = $size[0] / $size[1];
+        $coeff = $size[0] / $size[1];
 
-		if ($height === null)
-		{
-			$height = (int) ($width / $coeff);
-		}
-		else
-		{
-			$newheight = min($height, (int) ($width / $coeff));
+        if ($height === null) {
+            $height = (int) ($width / $coeff);
+        } else {
+            $newheight = min($height, (int) ($width / $coeff));
 
-			if ($newheight < $height)
-			{
-				$height = $newheight;
-			}
-			else
-			{
-				$width = $height * $coeff;
-			}
-		}
+            if ($newheight < $height) {
+                $height = $newheight;
+            } else {
+                $width = $height * $coeff;
+            }
+        }
 
-		$image->width  = $width;
-		$image->height = $height;
-		$image->folder = str_replace('\\', '/', $image->folder);
+        $image->width  = $width;
+        $image->height = $height;
+        $image->folder = str_replace('\\', '/', $image->folder);
 
-		return $image;
-	}
+        return $image;
+    }
 
-	/**
-	 * Retrieves images from a specific folder
-	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module params
-	 * @param   string                     $folder   folder to get the images from
-	 *
-	 * @return  array
-	 */
-	public static function getImages(&$params, $folder)
-	{
-		$type   = $params->get('type', 'jpg');
-		$files  = [];
-		$images = [];
+    /**
+     * Retrieves images from a specific folder
+     *
+     * @param   \Joomla\Registry\Registry  &$params  module params
+     * @param   string                     $folder   folder to get the images from
+     *
+     * @return  array
+     */
+    public static function getImages(&$params, $folder)
+    {
+        $type   = $params->get('type', 'jpg');
+        $files  = [];
+        $images = [];
 
-		$dir = JPATH_BASE . '/' . $folder;
+        $dir = JPATH_BASE . '/' . $folder;
 
-		// Check if directory exists
-		if (is_dir($dir))
-		{
-			if ($handle = opendir($dir))
-			{
-				while (false !== ($file = readdir($handle)))
-				{
-					if ($file !== '.' && $file !== '..' && $file !== 'CVS' && $file !== 'index.html')
-					{
-						$files[] = $file;
-					}
-				}
-			}
+        // Check if directory exists
+        if (is_dir($dir)) {
+            if ($handle = opendir($dir)) {
+                while (false !== ($file = readdir($handle))) {
+                    if ($file !== '.' && $file !== '..' && $file !== 'CVS' && $file !== 'index.html') {
+                        $files[] = $file;
+                    }
+                }
+            }
 
-			closedir($handle);
+            closedir($handle);
 
-			$i = 0;
+            $i = 0;
 
-			foreach ($files as $img)
-			{
-				if (!is_dir($dir . '/' . $img) && preg_match('/' . $type . '/', $img))
-				{
-					$images[$i] = new \stdClass;
+            foreach ($files as $img) {
+                if (!is_dir($dir . '/' . $img) && preg_match('/' . $type . '/', $img)) {
+                    $images[$i] = new \stdClass();
 
-					$images[$i]->name   = $img;
-					$images[$i]->folder = $folder;
-					$i++;
-				}
-			}
-		}
+                    $images[$i]->name   = $img;
+                    $images[$i]->folder = $folder;
+                    $i++;
+                }
+            }
+        }
 
-		return $images;
-	}
+        return $images;
+    }
 
-	/**
-	 * Get sanitized folder
-	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module params objects
-	 *
-	 * @return  mixed
-	 */
-	public static function getFolder(&$params)
-	{
-		$folder   = $params->get('folder');
-		$LiveSite = Uri::base();
+    /**
+     * Get sanitized folder
+     *
+     * @param   \Joomla\Registry\Registry  &$params  module params objects
+     *
+     * @return  mixed
+     */
+    public static function getFolder(&$params)
+    {
+        $folder   = $params->get('folder');
+        $LiveSite = Uri::base();
 
-		// If folder includes livesite info, remove
-		if (StringHelper::strpos($folder, $LiveSite) === 0)
-		{
-			$folder = str_replace($LiveSite, '', $folder);
-		}
+        // If folder includes livesite info, remove
+        if (StringHelper::strpos($folder, $LiveSite) === 0) {
+            $folder = str_replace($LiveSite, '', $folder);
+        }
 
-		// If folder includes absolute path, remove
-		if (StringHelper::strpos($folder, JPATH_SITE) === 0)
-		{
-			$folder = str_replace(JPATH_BASE, '', $folder);
-		}
+        // If folder includes absolute path, remove
+        if (StringHelper::strpos($folder, JPATH_SITE) === 0) {
+            $folder = str_replace(JPATH_BASE, '', $folder);
+        }
 
-		return str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $folder);
-	}
+        return str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $folder);
+    }
 }

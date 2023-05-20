@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -13,5 +14,5 @@ defined('_JEXEC') or die;
 
 ?>
 <div class="sysinfo">
-	<?php echo $this->phpInfo; ?>
+    <?php echo $this->phpInfo; ?>
 </div>

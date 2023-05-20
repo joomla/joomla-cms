@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
@@ -13,8 +14,8 @@ use Joomla\CMS\Language\Text;
 
 ?>
 <button type="button" class="btn btn-secondary" onclick="document.getElementById('batch-category-id').value='';document.getElementById('batch-access').value='';document.getElementById('batch-language-id').value='';document.getElementById('batch-tag-id').value=''" data-bs-dismiss="modal">
-	<?php echo Text::_('JCANCEL'); ?>
+    <?php echo Text::_('JCANCEL'); ?>
 </button>
 <button type="submit" class="btn btn-success" onclick="Joomla.submitbutton('newsfeed.batch');return false;">
-	<?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?>
+    <?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?>
 </button>

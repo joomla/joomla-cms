@@ -45,14 +45,11 @@ const completeInstallationOptions = document.querySelectorAll('.complete-install
 
 completeInstallationOptions.forEach(function(item) {
     item.addEventListener('click', function (e) {
-        // Once a button is clicked ensure they can't click it again...
-        completeInstallationOptions.forEach(function(nestedItem) {
-            nestedItem.disabled = true;
-        });
-
         // In development mode we show the user a pretty button to allow them to choose whether to delete the installation
-        // directory or not. In stable release we always delete the folder. Maximum extermination!
-        if ('development' in item.dataset) {
+        // directory or not. In this case or when the installation folder has been deleted or might be partly deleted,
+        // the buttons just redirect to the admin or site.
+        // In stable release we always try to delete the folder at the first click. Maximum extermination!
+        if ('development' in item.dataset || 'installremoved' in item.dataset) {
             window.location.href = item.dataset.href;
         } else {
             Joomla.deleteJoomlaInstallationDirectory(item.dataset.href);
@@ -70,6 +67,19 @@ Joomla.deleteJoomlaInstallationDirectory = function (redirectUrl) {
         token: true,
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         onSuccess: function (response) {
+            // If the installation folder has been deleted at least partly, i.e. also
+            // in case of a failure, we cannot use it anymore.
+            // Therefore set a marker in the admin and site buttons so they still work
+            // and disable buttons which will not work anymore.
+            completeInstallationOptions.forEach(function(item) {
+                item.dataset.installremoved = 'true';
+            });
+            if (document.getElementById('installAddFeatures')) {
+                document.getElementById('installAddFeatures').disabled = true;
+            }
+            if (document.getElementById('removeInstallationFolder')) {
+                document.getElementById('removeInstallationFolder').disabled = true;
+            }
             const successresponse = JSON.parse(response);
             if (successresponse.error === true) {
                 if (successresponse.messages) {

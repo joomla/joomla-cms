@@ -1,16 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="editors-xtd" method="upgrade">
 	<name>plg_editors-xtd_contact</name>
 	<author>Joomla! Project</author>
-	<creationDate>October 2016</creationDate>
+	<creationDate>2016-10</creationDate>
 	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.7.0</version>
 	<description>PLG_EDITORS-XTD_CONTACT_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\EditorsXtd\Contact</namespace>
 	<files>
-		<filename plugin="contact">contact.php</filename>
+		<folder plugin="contact">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_editors-xtd_contact.ini</language>

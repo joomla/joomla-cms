@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -9,10 +10,12 @@
 
 namespace Joomla\Component\Content\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Language\Multilanguage;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Content Component Route Helper.
@@ -21,94 +24,85 @@ use Joomla\CMS\Language\Multilanguage;
  */
 abstract class RouteHelper
 {
-	/**
-	 * Get the article route.
-	 *
-	 * @param   integer  $id        The route of the content item.
-	 * @param   integer  $catid     The category ID.
-	 * @param   integer  $language  The language code.
-	 * @param   string   $layout    The layout value.
-	 *
-	 * @return  string  The article route.
-	 *
-	 * @since   1.5
-	 */
-	public static function getArticleRoute($id, $catid = 0, $language = 0, $layout = null)
-	{
-		// Create the link
-		$link = 'index.php?option=com_content&view=article&id=' . $id;
+    /**
+     * Get the article route.
+     *
+     * @param   integer  $id        The route of the content item.
+     * @param   integer  $catid     The category ID.
+     * @param   string   $language  The language code.
+     * @param   string   $layout    The layout value.
+     *
+     * @return  string  The article route.
+     *
+     * @since   1.5
+     */
+    public static function getArticleRoute($id, $catid = 0, $language = null, $layout = null)
+    {
+        // Create the link
+        $link = 'index.php?option=com_content&view=article&id=' . $id;
 
-		if ((int) $catid > 1)
-		{
-			$link .= '&catid=' . $catid;
-		}
+        if ((int) $catid > 1) {
+            $link .= '&catid=' . $catid;
+        }
 
-		if ($language && $language !== '*' && Multilanguage::isEnabled())
-		{
-			$link .= '&lang=' . $language;
-		}
+        if (!empty($language) && $language !== '*' && Multilanguage::isEnabled()) {
+            $link .= '&lang=' . $language;
+        }
 
-		if ($layout)
-		{
-			$link .= '&layout=' . $layout;
-		}
+        if ($layout) {
+            $link .= '&layout=' . $layout;
+        }
 
-		return $link;
-	}
+        return $link;
+    }
 
-	/**
-	 * Get the category route.
-	 *
-	 * @param   integer  $catid     The category ID.
-	 * @param   integer  $language  The language code.
-	 * @param   string   $layout    The layout value.
-	 *
-	 * @return  string  The article route.
-	 *
-	 * @since   1.5
-	 */
-	public static function getCategoryRoute($catid, $language = 0, $layout = null)
-	{
-		if ($catid instanceof CategoryNode)
-		{
-			$id = $catid->id;
-		}
-		else
-		{
-			$id = (int) $catid;
-		}
+    /**
+     * Get the category route.
+     *
+     * @param   integer  $catid     The category ID.
+     * @param   integer  $language  The language code.
+     * @param   string   $layout    The layout value.
+     *
+     * @return  string  The article route.
+     *
+     * @since   1.5
+     */
+    public static function getCategoryRoute($catid, $language = 0, $layout = null)
+    {
+        if ($catid instanceof CategoryNode) {
+            $id = $catid->id;
+        } else {
+            $id = (int) $catid;
+        }
 
-		if ($id < 1)
-		{
-			return '';
-		}
+        if ($id < 1) {
+            return '';
+        }
 
-		$link = 'index.php?option=com_content&view=category&id=' . $id;
+        $link = 'index.php?option=com_content&view=category&id=' . $id;
 
-		if ($language && $language !== '*' && Multilanguage::isEnabled())
-		{
-			$link .= '&lang=' . $language;
-		}
+        if ($language && $language !== '*' && Multilanguage::isEnabled()) {
+            $link .= '&lang=' . $language;
+        }
 
-		if ($layout)
-		{
-			$link .= '&layout=' . $layout;
-		}
+        if ($layout) {
+            $link .= '&layout=' . $layout;
+        }
 
-		return $link;
-	}
+        return $link;
+    }
 
-	/**
-	 * Get the form route.
-	 *
-	 * @param   integer  $id  The form ID.
-	 *
-	 * @return  string  The article route.
-	 *
-	 * @since   1.5
-	 */
-	public static function getFormRoute($id)
-	{
-		return 'index.php?option=com_content&task=article.edit&a_id=' . (int) $id;
-	}
+    /**
+     * Get the form route.
+     *
+     * @param   integer  $id  The form ID.
+     *
+     * @return  string  The article route.
+     *
+     * @since   1.5
+     */
+    public static function getFormRoute($id)
+    {
+        return 'index.php?option=com_content&task=article.edit&a_id=' . (int) $id;
+    }
 }

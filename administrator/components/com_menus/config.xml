@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <config>
+	<help key="Menus:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="page-options"
 		label="COM_MENUS_PAGE_OPTIONS_LABEL"
 		>
-
-		<help key="Menus:_Options"/>
 
 		<field
 			name="page_title"

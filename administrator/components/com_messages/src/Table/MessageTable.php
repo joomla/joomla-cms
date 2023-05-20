@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_messages
@@ -9,12 +10,14 @@
 
 namespace Joomla\Component\Messages\Administrator\Table;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseDriver;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Message Table class
@@ -23,73 +26,66 @@ use Joomla\Database\DatabaseDriver;
  */
 class MessageTable extends Table
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   DatabaseDriver  $db  Database connector object
-	 *
-	 * @since   1.5
-	 */
-	public function __construct(DatabaseDriver $db)
-	{
-		parent::__construct('#__messages', 'message_id', $db);
+    /**
+     * Constructor
+     *
+     * @param   DatabaseDriver  $db  Database connector object
+     *
+     * @since   1.5
+     */
+    public function __construct(DatabaseDriver $db)
+    {
+        parent::__construct('#__messages', 'message_id', $db);
 
-		$this->setColumnAlias('published', 'state');
-	}
+        $this->setColumnAlias('published', 'state');
+    }
 
-	/**
-	 * Validation and filtering.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.5
-	 */
-	public function check()
-	{
-		try
-		{
-			parent::check();
-		}
-		catch (\Exception $e)
-		{
-			$this->setError($e->getMessage());
+    /**
+     * Validation and filtering.
+     *
+     * @return  boolean
+     *
+     * @since   1.5
+     */
+    public function check()
+    {
+        try {
+            parent::check();
+        } catch (\Exception $e) {
+            $this->setError($e->getMessage());
 
-			return false;
-		}
+            return false;
+        }
 
-		// Check the to and from users.
-		$user = new User($this->user_id_from);
+        // Check the to and from users.
+        $user = new User($this->user_id_from);
 
-		if (empty($user->id))
-		{
-			$this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_FROM_USER'));
+        if (empty($user->id)) {
+            $this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_FROM_USER'));
 
-			return false;
-		}
+            return false;
+        }
 
-		$user = new User($this->user_id_to);
+        $user = new User($this->user_id_to);
 
-		if (empty($user->id))
-		{
-			$this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_TO_USER'));
+        if (empty($user->id)) {
+            $this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_TO_USER'));
 
-			return false;
-		}
+            return false;
+        }
 
-		if (empty($this->subject))
-		{
-			$this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_SUBJECT'));
+        if (empty($this->subject)) {
+            $this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_SUBJECT'));
 
-			return false;
-		}
+            return false;
+        }
 
-		if (empty($this->message))
-		{
-			$this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_MESSAGE'));
+        if (empty($this->message)) {
+            $this->setError(Text::_('COM_MESSAGES_ERROR_INVALID_MESSAGE'));
 
-			return false;
-		}
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

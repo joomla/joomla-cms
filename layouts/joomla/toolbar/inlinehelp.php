@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -13,6 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
 Factory::getApplication()->getDocument()
-	->getWebAssetManager()->useScript('inlinehelp');
+    ->getWebAssetManager()->useScript('inlinehelp');
 
 echo LayoutHelper::render('joomla.toolbar.standard', $displayData);

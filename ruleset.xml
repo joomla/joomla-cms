@@ -1,0 +1,283 @@
+<?xml version="1.0"?>
+<ruleset name="Joomla-CMS">
+    <description>The Joomla CMS PSR-12 exceptions.</description>
+
+    <!-- Exclude folders not containing production code -->
+    <exclude-pattern type="relative">^administrator/cache/*</exclude-pattern>
+    <exclude-pattern type="relative">^administrator/logs/*</exclude-pattern>
+    <exclude-pattern type="relative">^build/*</exclude-pattern>
+    <exclude-pattern type="relative">^cache/*</exclude-pattern>
+    <exclude-pattern type="relative">^media/*</exclude-pattern>
+    <exclude-pattern type="relative">^node_modules/*</exclude-pattern>
+    <exclude-pattern type="relative">^tmp/*</exclude-pattern>
+
+    <!-- Exclude 3rd party libraries and Framework code. -->
+    <exclude-pattern type="relative">^libraries/php-encryption/*</exclude-pattern>
+    <exclude-pattern type="relative">^libraries/phpass/*</exclude-pattern>
+    <exclude-pattern type="relative">^libraries/vendor/*</exclude-pattern>
+
+    <exclude-pattern type="relative">^configuration.php</exclude-pattern>
+
+    <rule ref="PSR12" />
+
+    <!-- temporary extend the line length -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="560"/>
+            <property name="absoluteLineLimit" value="560"/>
+        </properties>
+    </rule>
+
+    <rule ref="PSR2.Classes.PropertyDeclaration.Underscore">
+        <exclude-pattern type="relative">administrator/components/com_banners/src/Model/DownloadModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_banners/src/Table/BannerTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_banners/src/Table/ClientTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_cache/src/Model/CacheModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_contact/src/Table/ContactTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_fields/src/Table/FieldTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_fields/src/Table/GroupTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_finder/src/Table/FilterTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_finder/src/Table/LinkTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_guidedtours/src/Table/StepTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_guidedtours/src/Table/TourTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_installer/src/Model/DatabaseModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_installer/src/Model/InstallModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_installer/src/Table/UpdatesiteTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_mails/src/Table/TemplateTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_menus/src/Helper/MenusHelper\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_menus/src/Model/MenuModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_newsfeeds/src/Table/NewsfeedTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_plugins/src/Model/PluginModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_privacy/src/Table/RequestTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_scheduler/src/Table/TaskTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_tags/src/Table/TagTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_templates/src/Model/StyleModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_users/src/Model/UserModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_users/src/Table/NoteTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_workflow/src/Table/StageTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_workflow/src/Table/TransitionTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_workflow/src/Table/WorkflowTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_banners/src/Model/BannerModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_contact/src/Model/CategoriesModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_contact/src/Model/CategoryModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_contact/src/Model/ContactModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_content/src/Model/ArchiveModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_content/src/Model/ArticleModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_content/src/Model/CategoriesModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_content/src/Model/CategoryModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_content/src/Model/FeaturedModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_newsfeeds/src/Model/CategoriesModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_newsfeeds/src/Model/CategoryModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_newsfeeds/src/Model/NewsfeedModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_tags/src/Model/TagsModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">installation/src/View/Preinstall/HtmlView\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Adapter/Adapter\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Application/ApplicationHelper\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Cache/Cache\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Cache/CacheStorage\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Cache/Controller/OutputController\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Cache/Controller/PageController\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Cache/Storage/FileStorage\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Cache/Storage/MemcachedStorage\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Cache/Storage/RedisStorage\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Categories/Categories\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Categories/CategoryNode\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Client/FtpClient\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Document/Document\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Document/DocumentRenderer\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Document/ErrorDocument\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Document/HtmlDocument\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Document/JsonDocument\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Document/OpensearchDocument\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Document/Renderer/Feed/AtomRenderer\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Document/Renderer/Feed/RssRenderer\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Editor/Editor\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Encrypt/Totp\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Form/Field/CaptchaField\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Input/Json\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Installer/Manifest\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/MVC/Model/DatabaseAwareTrait\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/MVC/Model/FormBehaviorTrait\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/MVC/Model/ItemModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/MVC/Model/StateBehaviorTrait\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/MVC/View/AbstractView\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/MVC/View/HtmlView\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/MVC/View/JsonView\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Object/CMSObject\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Plugin/CMSPlugin\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Router/Route\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Table/Category\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Table/Content\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Table/CoreContent\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Table/Extension\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Table/Menu\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Table/Module\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Table/Nested\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Table/Table\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Table/Update\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Table/User\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Toolbar/Toolbar\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Tree/ImmutableNodeTrait\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Updater/UpdateAdapter\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/User/User\.php</exclude-pattern>
+    </rule>
+
+    <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
+        <exclude-pattern type="relative">administrator/components/com_banners/src/Controller/BannersController\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_content/src/Service/HTML/Icon\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_installer/src/Controller/InstallController\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_installer/src/Model/DiscoverModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_installer/src/Model/WarningsModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_users/src/Service/HTML/Users\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_content/helpers/icon\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_content/helpers/icon\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Filesystem/Stream\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Filesystem/Streams/StreamString\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Installer/Adapter/ComponentAdapter\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Installer/Adapter/LanguageAdapter\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Installer/Adapter/ModuleAdapter\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Installer/Installer\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Installer/InstallerAdapter\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Language/Transliterate\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Mail/Mail\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Pagination/Pagination\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Toolbar/ToolbarHelper\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Utility/BufferStreamHandler\.php</exclude-pattern>
+    </rule>
+
+    <rule ref="PSR2.Methods.MethodDeclaration.Underscore">
+        <!-- should be reconsidered -->
+        <exclude-pattern type="relative">libraries/cms\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/loader\.php</exclude-pattern>
+
+        <!-- have to be checked for b/c -->
+        <exclude-pattern type="relative">administrator/components/com_fields/src/Model/FieldsModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_fields/src/Model/GroupsModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_fields/src/Table/FieldTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_fields/src/Table/GroupTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_finder/src/Model/MapsModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_installer/src/Model/InstallerModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_installer/src/Model/InstallModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_installer/src/Model/LanguagesModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_installer/src/Model/UpdateModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_login/src/Model/LoginModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_modules/src/Model/ModulesModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_plugins/src/Model/PluginsModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_scheduler/src/Model/TasksModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_scheduler/src/Table/TaskTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_users/src/Model/UsersModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_workflow/src/Table/StageTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_workflow/src/Table/TransitionTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_workflow/src/Table/WorkflowTable\.php</exclude-pattern>
+        <exclude-pattern type="relative">api/components/com_contact/src/Controller/ContactController\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_config/src/View/Config/HtmlView\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_config/src/View/Modules/HtmlView\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_config/src/View/Templates/HtmlView\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_contact/src/Controller/ContactController\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_contact/src/View/Contact/HtmlView\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_contact/src/View/Featured/HtmlView\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_contact/src/View/Form/HtmlView\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_content/src/Model/CategoryModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_content/src/View/Archive/HtmlView\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_content/src/View/Article/HtmlView\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_content/src/View/Featured/HtmlView\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_content/src/View/Form/HtmlView\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_newsfeeds/src/View/Newsfeed/HtmlView\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_tags/src/Helper/RouteHelper\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_tags/src/View/Tag/HtmlView\.php</exclude-pattern>
+        <exclude-pattern type="relative">components/com_tags/src/View/Tags/HtmlView\.php</exclude-pattern>
+        <exclude-pattern type="relative">installation/src/Form/Field/Installation/LanguageField\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Cache/Cache\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Cache/CacheStorage\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Cache/Controller/CallbackController\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Cache/Controller/PageController\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Cache/Controller/ViewController\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Cache/Storage/FileStorage\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Cache/Storage/MemcachedStorage\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Captcha/Captcha\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Categories/Categories\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Client/FtpClient\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Document/Document\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Document/DocumentRenderer\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Document/HtmlDocument\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Editor/Editor\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Encrypt/Base32\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Environment/Browser\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Feed/FeedFactory\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Filesystem/Folder\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Filesystem/Stream\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Filesystem/Support/StringController\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/HTML/Helpers/Grid\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Installer/Adapter/ComponentAdapter\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Installer/Adapter/LanguageAdapter\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Installer/Adapter/ModuleAdapter\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Installer/Adapter/PackageAdapter\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/MVC/Model/BaseDatabaseModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/MVC/Model/LegacyModelLoaderTrait\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/MVC/Model/ListModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/MVC/View/HtmlView\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Pagination/Pagination\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Table/Category\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Table/Category\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Table/Content\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Table/Language\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Table/MenuType\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Table/Module\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Table/Nested\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Table/Table\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Toolbar/Button/ConfirmButton\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Toolbar/Button/HelpButton\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Toolbar/Button/PopupButton\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Toolbar/Button/StandardButton\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Updater/Adapter/CollectionAdapter\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Updater/Adapter/ExtensionAdapter\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Updater/Update\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Updater/UpdateAdapter\.php</exclude-pattern>
+        <exclude-pattern type="relative">modules/mod_articles_category/src/Helper/ArticlesCategoryHelper\.php</exclude-pattern>
+        <exclude-pattern type="relative">plugins/content/joomla/joomla\.php</exclude-pattern>
+        <exclude-pattern type="relative">plugins/content/loadmodule/loadmodule\.php</exclude-pattern>
+        <exclude-pattern type="relative">plugins/content/pagebreak/pagebreak\.php</exclude-pattern>
+        <exclude-pattern type="relative">plugins/user/joomla/joomla\.php</exclude-pattern>
+        <exclude-pattern type="relative">tests/</exclude-pattern>
+    </rule>
+
+    <rule ref="PSR1.Classes.ClassDeclaration.MultipleClasses">
+        <!-- expected -->
+        <exclude-pattern type="relative">administrator/components/com_joomlaupdate/finalisation\.php</exclude-pattern>
+    </rule>
+
+    <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
+        <!-- should be reconsidered -->
+        <exclude-pattern type="relative">administrator/components/com_installer/src/Model/DatabaseModel\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Client/FtpClient\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Filesystem/Path\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/src/Filesystem/Streams/StreamString\.php</exclude-pattern>
+
+        <!-- expected, may move exception to file or refactor implementation -->
+        <exclude-pattern type="relative">index\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/index\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_joomlaupdate/extract\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore_finalisation\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/includes/app\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/includes/defines\.php</exclude-pattern>
+        <exclude-pattern type="relative">administrator/includes/framework\.php</exclude-pattern>
+        <exclude-pattern type="relative">api/includes/app\.php</exclude-pattern>
+        <exclude-pattern type="relative">api/includes/defines\.php</exclude-pattern>
+        <exclude-pattern type="relative">api/includes/framework\.php</exclude-pattern>
+        <exclude-pattern type="relative">api/index\.php</exclude-pattern>
+        <exclude-pattern type="relative">cli/joomla\.php</exclude-pattern>
+        <exclude-pattern type="relative">includes/app\.php</exclude-pattern>
+        <exclude-pattern type="relative">includes/defines\.php</exclude-pattern>
+        <exclude-pattern type="relative">includes/framework\.php</exclude-pattern>
+        <exclude-pattern type="relative">installation/includes/app\.php</exclude-pattern>
+        <exclude-pattern type="relative">installation/includes/cli\.php</exclude-pattern>
+        <exclude-pattern type="relative">installation/includes/defines\.php</exclude-pattern>
+        <exclude-pattern type="relative">installation/index\.php</exclude-pattern>
+        <exclude-pattern type="relative">installation/joomla\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/cms\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/bootstrap\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/import\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/import\.legacy\.php</exclude-pattern>
+        <exclude-pattern type="relative">libraries/loader\.php</exclude-pattern>
+    </rule>
+</ruleset>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
@@ -9,7 +10,9 @@
 
 namespace Joomla\Component\Postinstall\Administrator\Helper;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper class for postinstall messages
@@ -18,26 +21,23 @@ namespace Joomla\Component\Postinstall\Administrator\Helper;
  */
 class PostinstallHelper
 {
-	/**
-	 * Method for parsing ini files.
-	 *
-	 * @param   string  $path  Fancy path.
-	 *
-	 * @return  string  Parsed path.
-	 *
-	 * @since   3.6
-	 */
-	public function parsePath($path)
-	{
-		if (strpos($path, 'site://') !== false)
-		{
-			$path = JPATH_ROOT . str_replace('site://', '/', $path);
-		}
-		elseif (strpos($path, 'admin://') !== false)
-		{
-			$path = JPATH_ADMINISTRATOR . str_replace('admin://', '/', $path);
-		}
+    /**
+     * Method for parsing ini files.
+     *
+     * @param   string  $path  Fancy path.
+     *
+     * @return  string  Parsed path.
+     *
+     * @since   3.6
+     */
+    public function parsePath($path)
+    {
+        if (strpos($path, 'site://') !== false) {
+            $path = JPATH_ROOT . str_replace('site://', '/', $path);
+        } elseif (strpos($path, 'admin://') !== false) {
+            $path = JPATH_ADMINISTRATOR . str_replace('admin://', '/', $path);
+        }
 
-		return $path;
-	}
+        return $path;
+    }
 }

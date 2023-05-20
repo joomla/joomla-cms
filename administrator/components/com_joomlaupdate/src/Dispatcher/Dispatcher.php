@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
@@ -9,10 +10,12 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\Dispatcher;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * ComponentDispatcher class for com_admin
@@ -21,17 +24,16 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
  */
 class Dispatcher extends ComponentDispatcher
 {
-	/**
-	 * Joomla Update is checked for global core.admin rights - not the usual core.manage for the component
-	 *
-	 * @return  void
-	 */
-	protected function checkAccess()
-	{
-		// Check the user has permission to access this component if in the backend
-		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.admin'))
-		{
-			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
-		}
-	}
+    /**
+     * Joomla Update is checked for global core.admin rights - not the usual core.manage for the component
+     *
+     * @return  void
+     */
+    protected function checkAccess()
+    {
+        // Check the user has permission to access this component if in the backend
+        if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.admin')) {
+            throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+        }
+    }
 }

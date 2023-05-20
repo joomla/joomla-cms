@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -13,15 +14,14 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
 $displayData = [
-	'textPrefix' => 'COM_USERS_NOTES',
-	'formURL'    => 'index.php?option=com_users&view=notes',
-	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:User_Notes',
-	'icon'       => 'icon-users user',
+    'textPrefix' => 'COM_USERS_NOTES',
+    'formURL'    => 'index.php?option=com_users&view=notes',
+    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:User_Notes',
+    'icon'       => 'icon-users user',
 ];
 
-if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_users'))
-{
-	$displayData['createURL'] = 'index.php?option=com_users&task=note.add';
+if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_users')) {
+    $displayData['createURL'] = 'index.php?option=com_users&task=note.add';
 }
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -9,9 +10,11 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer\Parser;
 
-\defined('_JEXEC') or die;
-
 use Joomla\Component\Finder\Administrator\Indexer\Parser;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Text Parser class for the Finder indexer package.
@@ -20,17 +23,17 @@ use Joomla\Component\Finder\Administrator\Indexer\Parser;
  */
 class Txt extends Parser
 {
-	/**
-	 * Method to process Text input and extract the plain text.
-	 *
-	 * @param   string  $input  The input to process.
-	 *
-	 * @return  string  The plain text input.
-	 *
-	 * @since   2.5
-	 */
-	protected function process($input)
-	{
-		return $input;
-	}
+    /**
+     * Method to process Text input and extract the plain text.
+     *
+     * @param   string  $input  The input to process.
+     *
+     * @return  string  The plain text input.
+     *
+     * @since   2.5
+     */
+    protected function process($input)
+    {
+        return $input;
+    }
 }

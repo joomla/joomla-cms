@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Fields\Administrator\View\Group;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
@@ -18,8 +17,13 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Group View
@@ -28,172 +32,160 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * @var    \Joomla\CMS\Form\Form
-	 *
-	 * @since  3.7.0
-	 */
-	protected $form;
+    /**
+     * @var    \Joomla\CMS\Form\Form
+     *
+     * @since  3.7.0
+     */
+    protected $form;
 
-	/**
-	 * @var    CMSObject
-	 *
-	 * @since  3.7.0
-	 */
-	protected $item;
+    /**
+     * @var    CMSObject
+     *
+     * @since  3.7.0
+     */
+    protected $item;
 
-	/**
-	 * @var    CMSObject
-	 *
-	 * @since  3.7.0
-	 */
-	protected $state;
+    /**
+     * @var    CMSObject
+     *
+     * @since  3.7.0
+     */
+    protected $state;
 
-	/**
-	 * The actions the user is authorised to perform
-	 *
-	 * @var    CMSObject
-	 *
-	 * @since  3.7.0
-	 */
-	protected $canDo;
+    /**
+     * The actions the user is authorised to perform
+     *
+     * @var    CMSObject
+     *
+     * @since  3.7.0
+     */
+    protected $canDo;
 
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @since   3.7.0
+     */
+    public function display($tpl = null)
+    {
+        $this->form  = $this->get('Form');
+        $this->item  = $this->get('Item');
+        $this->state = $this->get('State');
 
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @see     JViewLegacy::loadTemplate()
-	 *
-	 * @since   3.7.0
-	 */
-	public function display($tpl = null)
-	{
-		$this->form  = $this->get('Form');
-		$this->item  = $this->get('Item');
-		$this->state = $this->get('State');
+        $component = '';
+        $parts     = FieldsHelper::extract($this->state->get('filter.context'));
 
-		$component = '';
-		$parts     = FieldsHelper::extract($this->state->get('filter.context'));
+        if ($parts) {
+            $component = $parts[0];
+        }
 
-		if ($parts)
-		{
-			$component = $parts[0];
-		}
+        $this->canDo = ContentHelper::getActions($component, 'fieldgroup', $this->item->id);
 
-		$this->canDo = ContentHelper::getActions($component, 'fieldgroup', $this->item->id);
+        // Check for errors.
+        if (count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        $this->addToolbar();
 
-		Factory::getApplication()->input->set('hidemainmenu', true);
+        parent::display($tpl);
+    }
 
-		$this->addToolbar();
+    /**
+     * Adds the toolbar.
+     *
+     * @return  void
+     *
+     * @since   3.7.0
+     */
+    protected function addToolbar()
+    {
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-		parent::display($tpl);
-	}
+        $component = '';
+        $parts     = FieldsHelper::extract($this->state->get('filter.context'));
+        $toolbar   = Toolbar::getInstance();
 
-	/**
-	 * Adds the toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	protected function addToolbar()
-	{
-		$component = '';
-		$parts     = FieldsHelper::extract($this->state->get('filter.context'));
+        if ($parts) {
+            $component = $parts[0];
+        }
 
-		if ($parts)
-		{
-			$component = $parts[0];
-		}
+        $userId    = $this->getCurrentUser()->get('id');
+        $canDo     = $this->canDo;
 
-		$userId    = Factory::getUser()->get('id');
-		$canDo     = $this->canDo;
+        $isNew      = ($this->item->id == 0);
+        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
-		$isNew      = ($this->item->id == 0);
-		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        // Avoid nonsense situation.
+        if ($component == 'com_fields') {
+            return;
+        }
 
-		// Avoid nonsense situation.
-		if ($component == 'com_fields')
-		{
-			return;
-		}
+        // Load component language file
+        $lang = Factory::getLanguage();
+        $lang->load($component, JPATH_ADMINISTRATOR)
+        || $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
-		// Load component language file
-		$lang = Factory::getLanguage();
-		$lang->load($component, JPATH_ADMINISTRATOR)
-		|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
+        $title = Text::sprintf('COM_FIELDS_VIEW_GROUP_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', Text::_(strtoupper($component)));
 
-		$title = Text::sprintf('COM_FIELDS_VIEW_GROUP_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', Text::_(strtoupper($component)));
+        // Prepare the toolbar.
+        ToolbarHelper::title(
+            $title,
+            'puzzle-piece field-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . '-group-' .
+            ($isNew ? 'add' : 'edit')
+        );
 
-		// Prepare the toolbar.
-		ToolbarHelper::title(
-			$title,
-			'puzzle-piece field-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . '-group-' .
-			($isNew ? 'add' : 'edit')
-		);
+        $toolbarButtons = [];
 
-		$toolbarButtons = [];
+        // For new records, check the create permission.
+        if ($isNew) {
+            $toolbar->apply('group.apply');
+            $saveGroup = $toolbar->dropdownButton('save-group');
 
-		// For new records, check the create permission.
-		if ($isNew)
-		{
-			ToolbarHelper::apply('group.apply');
+            $saveGroup->configure(
+                function (Toolbar $childBar) {
+                    $childBar->save('group.save');
+                    $childBar->save2new('group.save2new');
+                }
+            );
 
-			ToolbarHelper::saveGroup(
-				[
-					['save', 'group.save'],
-					['save2new', 'group.save2new']
-				],
-				'btn-success'
-			);
+            $toolbar->cancel('group.cancel');
+        } else {
+            // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
+            $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
-			ToolbarHelper::cancel('group.cancel');
-		}
-		else
-		{
-			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
-			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+            // Can't save the record if it's checked out and editable
+            if (!$checkedOut && $itemEditable) {
+                $toolbar->apply('group.apply');
+            }
 
-			$toolbarButtons = [];
+            $saveGroup = $toolbar->dropdownButton('save-group');
+            $saveGroup->configure(
+                function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo) {
+                    if (!$checkedOut && $itemEditable) {
+                        $childBar->save('group.save');
 
-			// Can't save the record if it's checked out and editable
-			if (!$checkedOut && $itemEditable)
-			{
-				ToolbarHelper::apply('group.apply');
+                        // We can save this record, but check the create permission to see if we can return to make a new one.
+                        if ($canDo->get('core.create')) {
+                            $childBar->save2new('group.save2new');
+                        }
+                    }
 
-				$toolbarButtons[] = ['save', 'group.save'];
+                    // If an existing item, can save to a copy.
+                    if ($canDo->get('core.create')) {
+                        $childBar->save2copy('group.save2copy');
+                    }
+                }
+            );
 
-				// We can save this record, but check the create permission to see if we can return to make a new one.
-				if ($canDo->get('core.create'))
-				{
-					$toolbarButtons[] = ['save2new', 'group.save2new'];
-				}
-			}
+            $toolbar->cancel('group.cancel');
+        }
 
-			// If an existing item, can save to a copy.
-			if ($canDo->get('core.create'))
-			{
-				$toolbarButtons[] = ['save2copy', 'group.save2copy'];
-			}
-
-			ToolbarHelper::saveGroup(
-				$toolbarButtons,
-				'btn-success'
-			);
-
-			ToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
-		}
-
-		ToolbarHelper::help('Component:_New_or_Edit_Field_Group');
-	}
+        $toolbar->help('Field_Groups:_Edit');
+    }
 }

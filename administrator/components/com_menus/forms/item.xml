@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Menus\Administrator\Field">
 	<fieldset>
 		<field
@@ -95,6 +95,7 @@
 			name="parent_id"
 			type="MenuParent"
 			label="COM_MENUS_ITEM_FIELD_PARENT_LABEL"
+			layout="joomla.form.field.list-fancy-select"
 			default="1"
 			filter="int"
 			clientid="0"

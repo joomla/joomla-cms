@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
@@ -9,10 +10,12 @@
 
 namespace Joomla\Component\Workflow\Administrator\Dispatcher;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * ComponentDispatcher class for com_workflow
@@ -21,21 +24,20 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
  */
 class Dispatcher extends ComponentDispatcher
 {
-	/**
-	 * Workflows have to check for extension permission
-	 *
-	 * @return  void
-	 */
-	protected function checkAccess()
-	{
-		$extension = $this->getApplication()->input->getCmd('extension');
+    /**
+     * Workflows have to check for extension permission
+     *
+     * @return  void
+     */
+    protected function checkAccess()
+    {
+        $extension = $this->getApplication()->getInput()->getCmd('extension');
 
-		$parts = explode('.', $extension);
+        $parts = explode('.', $extension);
 
-		// Check the user has permission to access this component if in the backend
-		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.manage.workflow', $parts[0]))
-		{
-			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
-		}
-	}
+        // Check the user has permission to access this component if in the backend
+        if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.manage.workflow', $parts[0])) {
+            throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+        }
+    }
 }

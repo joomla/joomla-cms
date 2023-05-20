@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Rule
@@ -21,16 +22,16 @@ use Joomla\Tests\Unit\UnitTestCase;
  */
 class FolderPathExistsRuleTest extends UnitTestCase
 {
-	/**
-	 * Test data for the testRule method
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0.0
-	 */
-	public function dataTest(): array
-	{
-		$xml = new \SimpleXMLElement('<field
+    /**
+     * Test data for the testRule method
+     *
+     * @return  array
+     *
+     * @since   4.0.0
+     */
+    public function dataTest(): array
+    {
+        $xml = new \SimpleXMLElement('<field
 			name="file_path"
 			type="text"
 			label="COM_MEDIA_FIELD_PATH_FILE_FOLDER_LABEL"
@@ -39,54 +40,53 @@ class FolderPathExistsRuleTest extends UnitTestCase
 			default="images"
 			validate="folderPathExists"
 			exclude="administrator|media"
-		/>'
-		);
+		/>');
 
-		return [
-			[true, $xml, ''],
-			[false, $xml, JPATH_ROOT],			
-			[true, $xml, 'images'],
-			[true, $xml, 'images/headers'],
-			[false, $xml, 'images/notexisting'],
-			[false, $xml, '.images'],
-			[false, $xml, './images'],
-			[false, $xml, '.\images'],
-			[false, $xml, '../images'],
-			[false, $xml, '.../images'],
-			[false, $xml, 'c:\images'],
-			[false, $xml, '\\images'], // Means \images
-			[false, $xml, 'ftp://images'],
-			[false, $xml, 'http://images'],
-			[false, $xml, 'media'],
-			[false, $xml, 'administrator'],
-			[false, $xml, '/4711images'],
-			[false, $xml, '4711images'],
-			[false, $xml, '1'],
-			[false, $xml, '_'],
-			[false, $xml, '*'],
-			[false, $xml, '%'],
-			[false, $xml, '://foo'],
-			[false, $xml, '/4711i/images'],
-			[false, $xml, '../4711i/images'],
-			[false, $xml, 'Εικόνες'],
-			[false, $xml, 'Изображений'],
-		];
-	}
+        return [
+            [true, $xml, ''],
+            [false, $xml, JPATH_ROOT],
+            [true, $xml, 'images'],
+            [true, $xml, 'images/headers'],
+            [false, $xml, 'images/notexisting'],
+            [false, $xml, '.images'],
+            [false, $xml, './images'],
+            [false, $xml, '.\images'],
+            [false, $xml, '../images'],
+            [false, $xml, '.../images'],
+            [false, $xml, 'c:\images'],
+            [false, $xml, '\\images'], // Means \images
+            [false, $xml, 'ftp://images'],
+            [false, $xml, 'http://images'],
+            [false, $xml, 'media'],
+            [false, $xml, 'administrator'],
+            [false, $xml, '/4711images'],
+            [false, $xml, '4711images'],
+            [false, $xml, '1'],
+            [false, $xml, '_'],
+            [false, $xml, '*'],
+            [false, $xml, '%'],
+            [false, $xml, '://foo'],
+            [false, $xml, '/4711i/images'],
+            [false, $xml, '../4711i/images'],
+            [false, $xml, 'Εικόνες'],
+            [false, $xml, 'Изображений'],
+        ];
+    }
 
-	/**
-	 * Tests the FolderPathExistsRule::test method.
-	 *
-	 * @param   string             $expected  The expected test result
-	 * @param   \SimpleXMLElement  $element   The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed              $value     The form field value to validate.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 * @dataProvider dataTest
-	 */
-	public function testRule($expected, $element, $value)
-	{
-		$this->assertEquals($expected, (new FolderPathExistsRule)->test($element, $value));
-	}
+    /**
+     * Tests the FolderPathExistsRule::test method.
+     *
+     * @param   string             $expected  The expected test result
+     * @param   \SimpleXMLElement  $element   The SimpleXMLElement object representing the `<field>` tag for the form field object.
+     * @param   mixed              $value     The form field value to validate.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     * @dataProvider dataTest
+     */
+    public function testRule($expected, $element, $value)
+    {
+        $this->assertEquals($expected, (new FolderPathExistsRule())->test($element, $value));
+    }
 }

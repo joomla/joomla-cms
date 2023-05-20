@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,15 +9,19 @@
 
 namespace Joomla\CMS\Http;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Http\TransportInterface as FrameworkTransportInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTTP transport class interface.
  *
  * @since       1.7.3
- * @deprecated  5.0  Implement Joomla\Http\TransportInterface instead
+ *
+ * @deprecated  4.0 will be removed in 6.0
+ *              Implement Joomla\Http\TransportInterface instead
  */
 interface TransportInterface extends FrameworkTransportInterface
 {

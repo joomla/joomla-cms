@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_config
@@ -9,10 +10,12 @@
 
 namespace Joomla\Component\Config\Site\Dispatcher;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * ComponentDispatcher class for com_config
@@ -21,33 +24,29 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
  */
 class Dispatcher extends ComponentDispatcher
 {
-	/**
-	 * Method to check component access permission
-	 *
-	 * @since   4.0.0
-	 *
-	 * @return  void
-	 *
-	 * @throws  \Exception|NotAllowed
-	 */
-	protected function checkAccess()
-	{
-		parent::checkAccess();
+    /**
+     * Method to check component access permission
+     *
+     * @since   4.0.0
+     *
+     * @return  void
+     *
+     * @throws  \Exception|NotAllowed
+     */
+    protected function checkAccess()
+    {
+        parent::checkAccess();
 
-		$task = $this->input->getCmd('task', 'display');
-		$view = $this->input->get('view');
-		$user = $this->app->getIdentity();
+        $task = $this->input->getCmd('task', 'display');
+        $view = $this->input->get('view');
+        $user = $this->app->getIdentity();
 
-		if (substr($task, 0, 8) === 'modules.' || $view === 'modules')
-		{
-			if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id')))
-			{
-				throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
-			}
-		}
-		elseif (!$user->authorise('core.admin'))
-		{
-			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
-		}
-	}
+        if (substr($task, 0, 8) === 'modules.' || $view === 'modules') {
+            if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id'))) {
+                throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+            }
+        } elseif (!$user->authorise('core.admin')) {
+            throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+        }
+    }
 }

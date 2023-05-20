@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
@@ -9,7 +10,9 @@
 
 namespace Joomla\Component\Privacy\Administrator\Removal;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Data object communicating the status of whether the data for an information request can be removed.
@@ -20,19 +23,19 @@ namespace Joomla\Component\Privacy\Administrator\Removal;
  */
 class Status
 {
-	/**
-	 * Flag indicating the status reported by the plugin on whether the information can be removed
-	 *
-	 * @var    boolean
-	 * @since  3.9.0
-	 */
-	public $canRemove = true;
+    /**
+     * Flag indicating the status reported by the plugin on whether the information can be removed
+     *
+     * @var    boolean
+     * @since  3.9.0
+     */
+    public $canRemove = true;
 
-	/**
-	 * A status message indicating the reason data can or cannot be removed
-	 *
-	 * @var    string
-	 * @since  3.9.0
-	 */
-	public $reason;
+    /**
+     * A status message indicating the reason data can or cannot be removed
+     *
+     * @var    string
+     * @since  3.9.0
+     */
+    public $reason;
 }

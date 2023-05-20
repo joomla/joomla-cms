@@ -6,13 +6,19 @@ import Video from './video.vue';
 import Audio from './audio.vue';
 import Doc from './document.vue';
 import * as types from '../../../store/mutation-types.es6';
-import { api } from '../../../app/Api.es6';
+import api from '../../../app/Api.es6';
 
 export default {
-  props: ['item'],
+  props: {
+    item: {
+      type: Object,
+      default: () => {},
+    },
+  },
   data() {
     return {
       hoverActive: false,
+      actionsActive: false,
     };
   },
   methods: {
@@ -85,6 +91,14 @@ export default {
      */
     isHoverActive() {
       return this.hoverActive;
+    },
+
+    /**
+     * Whether or not the item is currently active (on hover or via tab)
+     * @returns {boolean}
+     */
+    hasActions() {
+      return this.actionsActive;
     },
 
     /**
@@ -162,11 +176,10 @@ export default {
 
     /**
      * Handle the when an element is focused in the child to display the layover for a11y
-     * @param value
+     * @param active
      */
-    focused(value) {
-      // eslint-disable-next-line no-unused-expressions
-      value ? this.mouseover() : this.mouseleave();
+    toggleSettings(active) {
+      this[`mouse${active ? 'over' : 'leave'}`]();
     },
   },
   render() {
@@ -177,16 +190,17 @@ export default {
           'media-browser-item': true,
           selected: this.isSelected(),
           active: this.isHoverActive(),
+          actions: this.hasActions(),
         },
         onClick: this.handleClick,
         onMouseover: this.mouseover,
         onMouseleave: this.mouseleave,
-        onFocused: this.focused,
       },
       [
         h(this.itemType(), {
           item: this.item,
-          focused: this.focused,
+          onToggleSettings: this.toggleSettings,
+          focused: false,
         }),
       ],
     );

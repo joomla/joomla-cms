@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<help key="Template:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="templates"
 		label="COM_TEMPLATES_SUBMENU_TEMPLATES"
@@ -61,12 +62,29 @@
 			default="zip"
 			extension="com_templates"
 		/>
+
+		<field
+			name="spacer2"
+			type="spacer"
+			hr="true"
+		/>
+
+		<field
+			name="difference"
+			type="radio"
+			label="COM_TEMPLATES_DIFF_OPTIONS"
+			layout="joomla.form.field.radio.switcher"
+			default="SideBySide"
+			>
+			<option value="Inline">COM_TEMPLATES_DIFF_OPTIONS_INLINE</option>
+			<option value="SideBySide">COM_TEMPLATES_DIFF_OPTIONS_SIDE</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
 		>
 		<field
 			name="rules"

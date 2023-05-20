@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
@@ -13,12 +14,11 @@ defined('_JEXEC') or die;
 
 $module = $displayData['module'];
 
-if ((string) $module->content === '')
-{
-	return;
+if ((string) $module->content === '') {
+    return;
 }
 
 ?>
 <div class="header-item d-flex">
-	<?php echo $module->content; ?>
+    <?php echo $module->content; ?>
 </div>

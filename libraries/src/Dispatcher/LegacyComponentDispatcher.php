@@ -1,17 +1,20 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Dispatcher;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Base class for a legacy Joomla Dispatcher
@@ -22,52 +25,51 @@ use Joomla\CMS\Language\Text;
  */
 class LegacyComponentDispatcher implements DispatcherInterface
 {
-	/**
-	 * The application instance
-	 *
-	 * @var    CMSApplication
-	 * @since  4.0.0
-	 */
-	private $app;
+    /**
+     * The application instance
+     *
+     * @var    CMSApplication
+     * @since  4.0.0
+     */
+    private $app;
 
-	/**
-	 * Constructor for Dispatcher
-	 *
-	 * @param   CMSApplication  $app  The application instance
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct(CMSApplication $app)
-	{
-		$this->app = $app;
-	}
+    /**
+     * Constructor for Dispatcher
+     *
+     * @param   CMSApplication  $app  The application instance
+     *
+     * @since   4.0.0
+     */
+    public function __construct(CMSApplication $app)
+    {
+        $this->app = $app;
+    }
 
-	/**
-	 * Dispatch a controller task. Redirecting the user if appropriate.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function dispatch()
-	{
-		$path = JPATH_COMPONENT . '/' . substr($this->app->scope, 4) . '.php';
+    /**
+     * Dispatch a controller task. Redirecting the user if appropriate.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function dispatch()
+    {
+        $path = JPATH_COMPONENT . '/' . substr($this->app->scope, 4) . '.php';
 
-		// If component file doesn't exist throw error
-		if (!is_file($path))
-		{
-			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
-		}
+        // If component file doesn't exist throw error
+        if (!is_file($path)) {
+            throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+        }
 
-		$lang = $this->app->getLanguage();
+        $lang = $this->app->getLanguage();
 
-		// Load common and local language files.
-		$lang->load($this->app->scope, JPATH_BASE) || $lang->load($this->app->scope, JPATH_COMPONENT);
+        // Load common and local language files.
+        $lang->load($this->app->scope, JPATH_BASE) || $lang->load($this->app->scope, JPATH_COMPONENT);
 
-		// Execute the component
-		$loader = static function ($path) {
-			require_once $path;
-		};
-		$loader($path);
-	}
+        // Execute the component
+        $loader = static function ($path) {
+            require_once $path;
+        };
+        $loader($path);
+    }
 }

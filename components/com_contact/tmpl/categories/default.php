@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_contact
@@ -23,8 +24,8 @@ $wa->useScript('com_categories.shared-categories-accordion');
 
 ?>
 <div class="com-contact-categories categories-list">
-	<?php
-		echo LayoutHelper::render('joomla.content.categories_default', $this);
-		echo $this->loadTemplate('items');
-	?>
+    <?php
+        echo LayoutHelper::render('joomla.content.categories_default', $this);
+        echo $this->loadTemplate('items');
+    ?>
 </div>

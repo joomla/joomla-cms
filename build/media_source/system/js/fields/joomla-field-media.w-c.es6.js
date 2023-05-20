@@ -30,6 +30,10 @@ class JoomlaFieldMedia extends HTMLElement {
     this.modalClose = this.modalClose.bind(this);
     this.setValue = this.setValue.bind(this);
     this.updatePreview = this.updatePreview.bind(this);
+    this.validateValue = this.validateValue.bind(this);
+    this.markValid = this.markValid.bind(this);
+    this.markInvalid = this.markInvalid.bind(this);
+    this.mimeType = '';
   }
 
   static get observedAttributes() {
@@ -129,6 +133,8 @@ class JoomlaFieldMedia extends HTMLElement {
       throw new Error('Joomla API is not properly initiated');
     }
 
+    this.inputElement.removeAttribute('readonly');
+    this.inputElement.addEventListener('change', this.validateValue);
     this.updatePreview();
   }
 
@@ -138,6 +144,9 @@ class JoomlaFieldMedia extends HTMLElement {
     }
     if (this.buttonClearEl) {
       this.buttonClearEl.removeEventListener('click', this.clearValue);
+    }
+    if (this.inputElement) {
+      this.inputElement.removeEventListener('change', this.validateValue);
     }
   }
 
@@ -172,6 +181,8 @@ class JoomlaFieldMedia extends HTMLElement {
 
   setValue(value) {
     this.inputElement.value = value;
+    this.validatedUrl = value;
+    this.mimeType = Joomla.selectedMediaFile.fileType;
     this.updatePreview();
 
     // trigger change event both on the input and on the custom element
@@ -182,8 +193,97 @@ class JoomlaFieldMedia extends HTMLElement {
     }));
   }
 
+  async validateValue(event) {
+    let { value } = event.target;
+    if (this.validatedUrl === value || value === '') return;
+
+    if (/^(http(s)?:\/\/).+$/.test(value)) {
+      try {
+        fetch(value).then((response) => {
+          if (response.status === 200) {
+            this.validatedUrl = value;
+            this.markValid();
+          } else {
+            this.validatedUrl = value;
+            this.markInvalid();
+          }
+        });
+      } catch (err) {
+        this.validatedUrl = value;
+        this.markInvalid();
+      }
+    } else {
+      if (/^\//.test(value)) {
+        value = value.substring(1);
+      }
+
+      const hashedUrl = value.split('#');
+      const urlParts = hashedUrl[0].split('/');
+      const rest = urlParts.slice(1);
+      fetch(`${Joomla.getOptions('system.paths').rootFull}/${value}`)
+        .then((response) => response.blob())
+        .then((blob) => {
+          if (blob.type.includes('image')) {
+            const img = new Image();
+            img.src = URL.createObjectURL(blob);
+
+            img.onload = () => {
+              this.inputElement.value = `${urlParts[0]}/${rest.join('/')}#joomlaImage://local-${urlParts[0]}/${rest.join('/')}?width=${img.width}&height=${img.height}`;
+              this.validatedUrl = `${urlParts[0]}/${rest.join('/')}#joomlaImage://local-${urlParts[0]}/${rest.join('/')}?width=${img.width}&height=${img.height}`;
+              this.markValid();
+            };
+          } else if (blob.type.includes('audio')) {
+            this.mimeType = blob.type;
+            this.inputElement.value = value;
+            this.validatedUrl = value;
+            this.markValid();
+          } else if (blob.type.includes('video')) {
+            this.mimeType = blob.type;
+            this.inputElement.value = value;
+            this.validatedUrl = value;
+            this.markValid();
+          } else if (blob.type.includes('application/pdf')) {
+            this.mimeType = blob.type;
+            this.inputElement.value = value;
+            this.validatedUrl = value;
+            this.markValid();
+          } else {
+            this.validatedUrl = value;
+            this.markInvalid();
+          }
+        })
+        .catch(() => {
+          this.setValue(value);
+          this.validatedUrl = value;
+          this.markInvalid();
+        });
+    }
+  }
+
+  markValid() {
+    this.inputElement.removeAttribute('required');
+    this.inputElement.removeAttribute('pattern');
+    if (document.formvalidator) {
+      document.formvalidator.validate(this.inputElement);
+    }
+  }
+
+  markInvalid() {
+    this.inputElement.setAttribute('required', '');
+    this.inputElement.setAttribute('pattern', '/^(http://INVALID/).+$/');
+    if (document.formvalidator) {
+      document.formvalidator.validate(this.inputElement);
+    }
+  }
+
   clearValue() {
     this.setValue('');
+    this.validatedUrl = '';
+    this.inputElement.removeAttribute('required');
+    this.inputElement.removeAttribute('pattern');
+    if (document.formvalidator) {
+      document.formvalidator.validate(this.inputElement);
+    }
   }
 
   updatePreview() {
@@ -230,7 +330,7 @@ class JoomlaFieldMedia extends HTMLElement {
               previewElement = document.createElement('video');
               const previewElementSource = document.createElement('source');
               previewElementSource.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
-              previewElementSource.type = `video/${ext}`;
+              previewElementSource.type = this.mimeType;
               previewElement.setAttribute('controls', '');
               previewElement.setAttribute('width', this.previewWidth);
               previewElement.setAttribute('height', this.previewHeight);
@@ -241,7 +341,7 @@ class JoomlaFieldMedia extends HTMLElement {
             if (supportedExtensions.documents.includes(ext)) {
               previewElement = document.createElement('object');
               previewElement.data = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
-              previewElement.type = `application/${ext}`;
+              previewElement.type = this.mimeType;
               previewElement.setAttribute('width', this.previewWidth);
               previewElement.setAttribute('height', this.previewHeight);
             }

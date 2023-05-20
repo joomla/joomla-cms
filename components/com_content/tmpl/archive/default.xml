@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
 	<layout title="COM_CONTENT_ARCHIVE_VIEW_DEFAULT_TITLE" option="COM_CONTENT_ARCHIVE_VIEW_DEFAULT_OPTION">
 		<help
@@ -19,8 +19,9 @@
 				extension="com_content"
 				multiple="true"
 				layout="joomla.form.field.list-fancy-select"
+				default=" "
 				>
-				<option value="">JOPTION_ALL_CATEGORIES</option>
+				<option value=" ">JOPTION_ALL_CATEGORIES</option>
 			</field>
 		</fieldset>
 	</fields>

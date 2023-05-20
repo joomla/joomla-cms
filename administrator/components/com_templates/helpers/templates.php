@@ -1,20 +1,26 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
  * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+
+ * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-defined('_JEXEC') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Templates component helper.
  *
  * @since       1.6
  *
- * @deprecated  5.0 Use \Joomla\Component\Templates\Administrator\Helper\TemplatesHelper instead
+ * @deprecated  4.3 will be removed in 6.0
+ *              Use \Joomla\Component\Templates\Administrator\Helper\TemplatesHelper instead
  */
 class TemplatesHelper extends \Joomla\Component\Templates\Administrator\Helper\TemplatesHelper
 {

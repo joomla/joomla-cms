@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="plugin" group="multifactorauth" method="upgrade">
+	<name>plg_multifactorauth_email</name>
+	<author>Joomla! Project</author>
+	<creationDate>2022-05</creationDate>
+	<copyright>(C) 2022 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.2.0</version>
+	<description>PLG_MULTIFACTORAUTH_EMAIL_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Multifactorauth\Email</namespace>
+	<files>
+		<folder>services</folder>
+		<folder plugin="email">src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_multifactorauth_email.ini</language>
+		<language tag="en-GB">language/en-GB/plg_multifactorauth_email.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="force_enable"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="PLG_MULTIFACTORAUTH_EMAIL_CONFIG_FORCE_ENABLE_LABEL"
+					description="PLG_MULTIFACTORAUTH_EMAIL_CONFIG_FORCE_ENABLE_DESC"
+					default="0"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="timestep"
+					type="list"
+					label="PLG_MULTIFACTORAUTH_EMAIL_CONFIG_TIMESTEP_LABEL"
+					description="PLG_MULTIFACTORAUTH_EMAIL_CONFIG_TIMESTEP_DESC"
+					default="120"
+					>
+					<option value="30">PLG_MULTIFACTORAUTH_EMAIL_CONFIG_TIMESTEP_30</option>
+					<option value="60">PLG_MULTIFACTORAUTH_EMAIL_CONFIG_TIMESTEP_60</option>
+					<option value="120">PLG_MULTIFACTORAUTH_EMAIL_CONFIG_TIMESTEP_120</option>
+					<option value="180">PLG_MULTIFACTORAUTH_EMAIL_CONFIG_TIMESTEP_180</option>
+					<option value="300">PLG_MULTIFACTORAUTH_EMAIL_CONFIG_TIMESTEP_300</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

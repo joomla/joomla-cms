@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -19,17 +20,16 @@ $nowDate = strtotime(Factory::getDate());
 $icon = $article->state ? 'edit' : 'eye-slash';
 $currentDate   = Factory::getDate()->format('Y-m-d H:i:s');
 $isUnpublished = ($article->publish_up > $currentDate)
-	|| !is_null($article->publish_down) && ($article->publish_down < $currentDate);
+    || !is_null($article->publish_down) && ($article->publish_down < $currentDate);
 
-if ($isUnpublished)
-{
-	$icon = 'eye-slash';
+if ($isUnpublished) {
+    $icon = 'eye-slash';
 }
 $aria_described = 'editarticle-' . (int) $article->id;
 
 ?>
 <span class="icon-<?php echo $icon; ?>" aria-hidden="true"></span>
-	<?php echo Text::_('JGLOBAL_EDIT'); ?>
+    <?php echo Text::_('JGLOBAL_EDIT'); ?>
 <div role="tooltip" id="<?php echo $aria_described; ?>">
-	<?php echo $tooltip; ?>
+    <?php echo $tooltip; ?>
 </div>

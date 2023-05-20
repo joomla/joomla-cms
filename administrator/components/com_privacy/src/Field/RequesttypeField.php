@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
@@ -11,7 +12,9 @@ namespace Joomla\Component\Privacy\Administrator\Field;
 
 use Joomla\CMS\Form\Field\PredefinedlistField;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Form Field to load a list of request types
@@ -20,22 +23,22 @@ use Joomla\CMS\Form\Field\PredefinedlistField;
  */
 class RequesttypeField extends PredefinedlistField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  3.9.0
-	 */
-	public $type = 'RequestType';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  3.9.0
+     */
+    public $type = 'RequestType';
 
-	/**
-	 * Available types
-	 *
-	 * @var    array
-	 * @since  3.9.0
-	 */
-	protected $predefinedOptions = [
-		'export' => 'COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_EXPORT',
-		'remove' => 'COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_REMOVE',
-	];
+    /**
+     * Available types
+     *
+     * @var    array
+     * @since  3.9.0
+     */
+    protected $predefinedOptions = [
+        'export' => 'COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_EXPORT',
+        'remove' => 'COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_REMOVE',
+    ];
 }

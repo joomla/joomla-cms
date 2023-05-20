@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="quickicon" method="upgrade">
 	<name>plg_quickicon_joomlaupdate</name>
 	<author>Joomla! Project</author>
-	<creationDate>August 2011</creationDate>
+	<creationDate>2011-08</creationDate>
 	<copyright>(C) 2011 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -11,7 +11,7 @@
 	<description>PLG_QUICKICON_JOOMLAUPDATE_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Quickicon\Joomlaupdate</namespace>
 	<files>
-		<folder>services</folder>
+		<folder plugin="joomlaupdate">services</folder>
 		<folder>src</folder>
 	</files>
 	<languages>

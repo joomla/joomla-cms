@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -9,9 +10,11 @@
 
 namespace Joomla\Component\Admin\Administrator\Service\HTML;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Utility class working with phpsetting
@@ -20,39 +23,39 @@ use Joomla\CMS\Language\Text;
  */
 class PhpSetting
 {
-	/**
-	 * Method to generate a boolean message for a value
-	 *
-	 * @param   boolean  $val  is the value set?
-	 *
-	 * @return  string html code
-	 */
-	public function boolean($val)
-	{
-		return Text::_($val ? 'JON' : 'JOFF');
-	}
+    /**
+     * Method to generate a boolean message for a value
+     *
+     * @param   boolean  $val  is the value set?
+     *
+     * @return  string html code
+     */
+    public function boolean($val)
+    {
+        return Text::_($val ? 'JON' : 'JOFF');
+    }
 
-	/**
-	 * Method to generate a boolean message for a value
-	 *
-	 * @param   boolean  $val  is the value set?
-	 *
-	 * @return  string html code
-	 */
-	public function set($val)
-	{
-		return Text::_($val ? 'JYES' : 'JNO');
-	}
+    /**
+     * Method to generate a boolean message for a value
+     *
+     * @param   boolean  $val  is the value set?
+     *
+     * @return  string html code
+     */
+    public function set($val)
+    {
+        return Text::_($val ? 'JYES' : 'JNO');
+    }
 
-	/**
-	 * Method to generate a string message for a value
-	 *
-	 * @param   string  $val  a php ini value
-	 *
-	 * @return  string html code
-	 */
-	public function string($val)
-	{
-		return !empty($val) ? $val : Text::_('JNONE');
-	}
+    /**
+     * Method to generate a string message for a value
+     *
+     * @param   string  $val  a php ini value
+     *
+     * @return  string html code
+     */
+    public function string($val)
+    {
+        return !empty($val) ? $val : Text::_('JNONE');
+    }
 }

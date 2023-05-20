@@ -239,7 +239,7 @@ class Edit {
 new Edit();
 
 /**
- * Compute the corrent URL
+ * Compute the current URL
  *
  * @param {boolean} isModal is the URL for a modal window
  *

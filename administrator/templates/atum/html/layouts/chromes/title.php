@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
@@ -13,13 +14,12 @@ defined('_JEXEC') or die;
 
 $module = $displayData['module'];
 
-if ((string) $module->content === '')
-{
-	return;
+if ((string) $module->content === '') {
+    return;
 }
 
 ?>
 <div class="card-header">
-	<h6><?php echo $module->title; ?></h6>
+    <h6><?php echo $module->title; ?></h6>
 </div>
 <?php echo $module->content; ?>

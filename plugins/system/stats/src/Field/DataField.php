@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.stats
@@ -9,10 +10,12 @@
 
 namespace Joomla\Plugin\System\Stats\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Unique ID Field class for the Stats Plugin.
@@ -21,39 +24,39 @@ use Joomla\CMS\Plugin\PluginHelper;
  */
 class DataField extends AbstractStatsField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	protected $type = 'Data';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  3.5
+     */
+    protected $type = 'Data';
 
-	/**
-	 * Name of the layout being used to render the field
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	protected $layout = 'field.data';
+    /**
+     * Name of the layout being used to render the field
+     *
+     * @var    string
+     * @since  3.5
+     */
+    protected $layout = 'field.data';
 
-	/**
-	 * Method to get the data to be passed to the layout for rendering.
-	 *
-	 * @return  array
-	 *
-	 * @since   3.5
-	 */
-	protected function getLayoutData()
-	{
-		$data       = parent::getLayoutData();
+    /**
+     * Method to get the data to be passed to the layout for rendering.
+     *
+     * @return  array
+     *
+     * @since   3.5
+     */
+    protected function getLayoutData()
+    {
+        $data       = parent::getLayoutData();
 
-		PluginHelper::importPlugin('system', 'stats');
+        PluginHelper::importPlugin('system', 'stats');
 
-		$result = Factory::getApplication()->triggerEvent('onGetStatsData', array('stats.field.data'));
+        $result = Factory::getApplication()->triggerEvent('onGetStatsData', ['stats.field.data']);
 
-		$data['statsData'] = $result ? reset($result) : array();
+        $data['statsData'] = $result ? reset($result) : [];
 
-		return $data;
-	}
+        return $data;
+    }
 }

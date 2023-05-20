@@ -12,4 +12,6 @@ UPDATE "#__menu" SET "link"='index.php?option=com_tags&view=tags' WHERE "menutyp
 UPDATE "#__menu" SET "link"='index.php?option=com_associations&view=associations' WHERE "menutype"='main' AND "path"='Multilingual Associations';
 
 -- From 4.0.0-2019-05-20.sql
-ALTER TABLE "#__extensions" ADD COLUMN "note" character varying(255);
+-- The following statement was modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
+-- See https://github.com/joomla/joomla-cms/pull/37156
+ALTER TABLE "#__extensions" ADD COLUMN "note" character varying(255) /** CAN FAIL **/;

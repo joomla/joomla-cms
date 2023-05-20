@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -64,18 +65,18 @@ $data .= 'aria-valuemax="' . $max . '"';
 $data .= ' aria-valuemin="' . $min . '"';
 $data .= ' aria-valuenow="' . $value . '"';
 
-$attributes = array(
-	$class,
-	!empty($width) ? ' style="width:' . $width . ';"' : '',
-	$data,
-	$dataAttribute,
-);
+$attributes = [
+    $class,
+    !empty($width) ? ' style="width:' . $width . ';"' : '',
+    $data,
+    $dataAttribute,
+];
 
 $value = ((float) ($value - $min) * 100) / ($max - $min);
 ?>
 <div class="progress">
-	<div
-		role="progressbar"
-		<?php echo implode(' ', $attributes); ?>
-		style="width:<?php echo (string) $value; ?>%;<?php echo !empty($color) ? ' background-color:' . $color . ';' : ''; ?>"></div>
+    <div
+        role="progressbar"
+        <?php echo implode(' ', $attributes); ?>
+        style="width:<?php echo (string) $value; ?>%;<?php echo !empty($color) ? ' background-color:' . $color . ';' : ''; ?>"></div>
 </div>

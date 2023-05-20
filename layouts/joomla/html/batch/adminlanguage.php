@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -14,9 +15,9 @@ use Joomla\CMS\Language\Text;
 
 ?>
 <label id="batch-language-lbl" for="batch-language-id">
-	<?php echo Text::_('JLIB_HTML_BATCH_LANGUAGE_LABEL'); ?>
+    <?php echo Text::_('JLIB_HTML_BATCH_LANGUAGE_LABEL'); ?>
 </label>
 <select name="batch[language_id]" class="form-select" id="batch-language-id">
-	<option value=""><?php echo Text::_('JLIB_HTML_BATCH_LANGUAGE_NOCHANGE'); ?></option>
-	<?php echo HTMLHelper::_('select.options', HTMLHelper::_('adminlanguage.existing', true, true), 'value', 'text'); ?>
+    <option value=""><?php echo Text::_('JLIB_HTML_BATCH_LANGUAGE_NOCHANGE'); ?></option>
+    <?php echo HTMLHelper::_('select.options', HTMLHelper::_('adminlanguage.existing', true, true), 'value', 'text'); ?>
 </select>

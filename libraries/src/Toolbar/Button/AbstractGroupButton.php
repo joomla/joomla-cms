@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -10,6 +11,10 @@ namespace Joomla\CMS\Toolbar\Button;
 
 use Joomla\CMS\Toolbar\Toolbar;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The AbstractGroupButton class.
  *
@@ -17,59 +22,58 @@ use Joomla\CMS\Toolbar\Toolbar;
  */
 abstract class AbstractGroupButton extends BasicButton
 {
-	/**
-	 * The child Toolbar instance.
-	 *
-	 * @var  Toolbar
-	 *
-	 * @since  4.0.0
-	 */
-	protected $child;
+    /**
+     * The child Toolbar instance.
+     *
+     * @var  Toolbar
+     *
+     * @since  4.0.0
+     */
+    protected $child;
 
-	/**
-	 * Add children buttons as dropdown.
-	 *
-	 * @param   callable  $handler  The callback to configure dropdown items.
-	 *
-	 * @return  static
-	 *
-	 * @since  4.0.0
-	 */
-	public function configure(callable $handler): self
-	{
-		$child = $this->getChildToolbar();
+    /**
+     * Add children buttons as dropdown.
+     *
+     * @param   callable  $handler  The callback to configure dropdown items.
+     *
+     * @return  static
+     *
+     * @since  4.0.0
+     */
+    public function configure(callable $handler): self
+    {
+        $child = $this->getChildToolbar();
 
-		$handler($child);
+        $handler($child);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Get child toolbar.
-	 *
-	 * @return  Toolbar  Return new child Toolbar instance.
-	 *
-	 * @since   4.0.0
-	 */
-	public function getChildToolbar(): Toolbar
-	{
-		if (!$this->child)
-		{
-			$this->child = $this->parent->createChild($this->getName() . '-children');
-		}
+    /**
+     * Get child toolbar.
+     *
+     * @return  Toolbar  Return new child Toolbar instance.
+     *
+     * @since   4.0.0
+     */
+    public function getChildToolbar(): Toolbar
+    {
+        if (!$this->child) {
+            $this->child = $this->parent->createChild($this->getName() . '-children');
+        }
 
-		return $this->child;
-	}
+        return $this->child;
+    }
 
-	/**
-	 * Get the button CSS Id.
-	 *
-	 * @return  string  Button CSS Id
-	 *
-	 * @since   4.0.0
-	 */
-	protected function fetchId()
-	{
-		return $this->parent->getName() . '-group-' . $this->getName();
-	}
+    /**
+     * Get the button CSS Id.
+     *
+     * @return  string  Button CSS Id
+     *
+     * @since   4.0.0
+     */
+    protected function fetchId()
+    {
+        return $this->parent->getName() . '-group-' . $this->getName();
+    }
 }

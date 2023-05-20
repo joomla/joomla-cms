@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -16,9 +17,9 @@ $target  = empty($displayData['target']) ? '' : (' target="' . $displayData['tar
 $onclick = empty($displayData['onclick']) ? '' : (' onclick="' . $displayData['onclick'] . '"');
 
 if (isset($displayData['ajaxurl'])) {
-	$dataUrl = 'data-url="' . $displayData['ajaxurl'] . '"';
+    $dataUrl = 'data-url="' . $displayData['ajaxurl'] . '"';
 } else {
-	$dataUrl = '';
+    $dataUrl = '';
 }
 
 // The title for the link (a11y)
@@ -32,49 +33,49 @@ $class = empty($displayData['class']) ? '' : (' class="' . $this->escape($displa
 
 ?>
 <?php // If it is a button with two links: make it a list
-	if (isset($displayData['linkadd'])): ?>
-		<li class="quickicon-group">
-		<ul class="list-unstyled d-flex w-100">
-			<li class="quickicon">
-	<?php else: ?>
-		<li class="quickicon quickicon-single">
-	<?php endif; ?>
+if (isset($displayData['linkadd'])) : ?>
+        <li class="quickicon-group">
+        <ul class="list-unstyled d-flex w-100">
+            <li class="quickicon">
+<?php else : ?>
+        <li class="quickicon quickicon-single">
+<?php endif; ?>
 
-		<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
-			<div class="quickicon-info">
-				<?php if (isset($displayData['image'])): ?>
-					<div class="quickicon-icon">
-						<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
-					</div>
-				<?php endif; ?>
-				<?php if (isset($displayData['ajaxurl'])) : ?>
-					<div class="quickicon-amount" <?php echo $dataUrl ?> aria-hidden="true">
-						<span class="icon-spinner" aria-hidden="true"></span>
-					</div>
-					<div class="quickicon-sr-desc visually-hidden"></div>
-				<?php endif; ?>
-			</div>
-			<?php // Name indicates the component
-			if (isset($displayData['name'])): ?>
-				<div class="quickicon-name d-flex align-items-end" <?php echo isset($displayData['ajaxurl']) ? ' aria-hidden="true"' : ''; ?>>
-					<?php echo Text::_($displayData['name']); ?>
-				</div>
-			<?php endif; ?>
-			<?php // Information or action from plugins
-			if (isset($displayData['text'])): ?>
-				<div class="quickicon-name d-flex align-items-center">
-					<?php echo $text; ?>
-				</div>
-			<?php endif; ?>
-		</a>
-	</li>
-	<?php // Add the link to the edit-form
-	if (isset($displayData['linkadd'])): ?>
-		<li class="quickicon-linkadd j-links-link d-flex">
-			<a class="d-flex" href="<?php echo $displayData['linkadd']; ?>" title="<?php echo Text::_($displayData['name'] . '_ADD'); ?>">
-				<span class="icon-plus" aria-hidden="true"></span>
-			</a>
-		</li>
-	</ul>
-	</li>
-	<?php endif; ?>
+        <a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
+            <div class="quickicon-info">
+                <?php if (isset($displayData['image'])) : ?>
+                    <div class="quickicon-icon">
+                        <div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
+                    </div>
+                <?php endif; ?>
+                <?php if (isset($displayData['ajaxurl'])) : ?>
+                    <div class="quickicon-amount" <?php echo $dataUrl ?> aria-hidden="true">
+                        <span class="icon-spinner" aria-hidden="true"></span>
+                    </div>
+                    <div class="quickicon-sr-desc visually-hidden"></div>
+                <?php endif; ?>
+            </div>
+            <?php // Name indicates the component
+            if (isset($displayData['name'])) : ?>
+                <div class="quickicon-name d-flex align-items-end" <?php echo isset($displayData['ajaxurl']) ? ' aria-hidden="true"' : ''; ?>>
+                    <?php echo Text::_($displayData['name']); ?>
+                </div>
+            <?php endif; ?>
+            <?php // Information or action from plugins
+            if (isset($displayData['text'])) : ?>
+                <div class="quickicon-name d-flex align-items-center">
+                    <?php echo $text; ?>
+                </div>
+            <?php endif; ?>
+        </a>
+    </li>
+    <?php // Add the link to the edit-form
+    if (isset($displayData['linkadd'])) : ?>
+        <li class="quickicon-linkadd j-links-link d-flex">
+            <a class="d-flex" href="<?php echo $displayData['linkadd']; ?>" title="<?php echo Text::_($displayData['name'] . '_ADD'); ?>">
+                <span class="icon-plus" aria-hidden="true"></span>
+            </a>
+        </li>
+    </ul>
+    </li>
+    <?php endif; ?>

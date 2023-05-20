@@ -1,16 +1,20 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="fields" method="upgrade">
 	<name>plg_fields_subform</name>
 	<author>Joomla! Project</author>
-	<creationDate>June 2017</creationDate>
+	<creationDate>2017-06</creationDate>
 	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_FIELDS_SUBFORM_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Fields\Subform</namespace>
 	<files>
-		<filename plugin="subform">subform.php</filename>
+		<folder>params</folder>
+		<folder plugin="subform">services</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_fields_subform.ini</language>

@@ -197,8 +197,8 @@ const insertAsImage = async (media, editor, fieldClass) => {
           Joomla.selectedMediaFile.width = 0;
         }
       }
-      editor.value = `${Joomla.selectedMediaFile.url}#joomlaImage://${media.path.replace(':', '')}?width=${Joomla.selectedMediaFile.width}&height=${Joomla.selectedMediaFile.height}`;
-      fieldClass.updatePreview();
+      fieldClass.markValid();
+      fieldClass.setValue(`${Joomla.selectedMediaFile.url}#joomlaImage://${media.path.replace(':', '')}?width=${Joomla.selectedMediaFile.width}&height=${Joomla.selectedMediaFile.height}`);
     }
   }
 };
@@ -256,9 +256,9 @@ const insertAsOther = (media, editor, fieldClass, type) => {
 
       Joomla.editors.instances[editor].replaceSelection(outputText);
     } else {
-      editor.value = Joomla.selectedMediaFile.url;
+      fieldClass.markValid();
       fieldClass.givenType = type;
-      fieldClass.updatePreview();
+      fieldClass.setValue(Joomla.selectedMediaFile.url);
     }
   }
 };
@@ -317,7 +317,14 @@ Joomla.getMedia = (data, editor, fieldClass) => new Promise((resolve, reject) =>
     return;
   }
 
-  const url = `${Joomla.getOptions('system.paths').baseFull}index.php?option=com_media&task=api.files&url=true&path=${data.path}&mediatypes=0,1,2,3&${Joomla.getOptions('csrf.token')}=1&format=json`;
+  // Compile the url
+  const url = new URL(Joomla.getOptions('media-picker-api').apiBaseUrl ? Joomla.getOptions('media-picker-api').apiBaseUrl : `${Joomla.getOptions('system.paths').baseFull}index.php?option=com_media&format=json`);
+  url.searchParams.append('task', 'api.files');
+  url.searchParams.append('url', true);
+  url.searchParams.append('path', data.path);
+  url.searchParams.append('mediatypes', '0,1,2,3');
+  url.searchParams.append(Joomla.getOptions('csrf.token'), 1);
+
   fetch(
     url,
     {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_content
@@ -10,6 +11,6 @@
 defined('_JEXEC') or die;
 ?>
 <div class="container-popup">
-	<?php $this->setLayout('edit'); ?>
-	<?php echo $this->loadTemplate(); ?>
+    <?php $this->setLayout('edit'); ?>
+    <?php echo $this->loadTemplate(); ?>
 </div>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_scheduler
@@ -28,37 +29,36 @@ use Joomla\DI\ServiceProviderInterface;
  *
  * @since  4.1.0
  */
-return new class implements ServiceProviderInterface
-{
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container $container The DI container.
-	 *
-	 * @return void
-	 *
-	 * @since  4.1.0
-	 */
-	public function register(Container $container)
-	{
-		/**
-		 * Register the MVCFactory and ComponentDispatcherFactory providers to map
-		 * 'MVCFactoryInterface' and 'ComponentDispatcherFactoryInterface' to their
-		 * initializers and register them with the component's DI container.
-		 */
-		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Scheduler'));
-		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Scheduler'));
+return new class () implements ServiceProviderInterface {
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container $container The DI container.
+     *
+     * @return void
+     *
+     * @since  4.1.0
+     */
+    public function register(Container $container)
+    {
+        /**
+         * Register the MVCFactory and ComponentDispatcherFactory providers to map
+         * 'MVCFactoryInterface' and 'ComponentDispatcherFactoryInterface' to their
+         * initializers and register them with the component's DI container.
+         */
+        $container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Scheduler'));
+        $container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Scheduler'));
 
-		$container->set(
-			ComponentInterface::class,
-			function (Container $container) {
-				$component = new SchedulerComponent($container->get(ComponentDispatcherFactoryInterface::class));
+        $container->set(
+            ComponentInterface::class,
+            function (Container $container) {
+                $component = new SchedulerComponent($container->get(ComponentDispatcherFactoryInterface::class));
 
-				$component->setRegistry($container->get(Registry::class));
-				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
+                $component->setRegistry($container->get(Registry::class));
+                $component->setMVCFactory($container->get(MVCFactoryInterface::class));
 
-				return $component;
-			}
-		);
-	}
+                return $component;
+            }
+        );
+    }
 };

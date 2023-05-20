@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -48,17 +49,14 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
-if ($validate !== 'color' && in_array($format, array('rgb', 'rgba'), true))
-{
-	$alpha = ($format === 'rgba');
-	$placeholder = $alpha ? 'rgba(0, 0, 0, 0.5)' : 'rgb(0, 0, 0)';
-}
-else
-{
-	$placeholder = '#rrggbb';
+if ($validate !== 'color' && in_array($format, ['rgb', 'rgba'], true)) {
+    $alpha = ($format === 'rgba');
+    $placeholder = $alpha ? 'rgba(0, 0, 0, 0.5)' : 'rgb(0, 0, 0)';
+} else {
+    $placeholder = '#rrggbb';
 }
 
-$inputclass   = ($keywords && ! in_array($format, array('rgb', 'rgba'), true)) ? ' keywords' : ' ' . $format;
+$inputclass   = ($keywords && ! in_array($format, ['rgb', 'rgba'], true)) ? ' keywords' : ' ' . $format;
 $class        = ' class="form-control ' . trim('minicolors ' . $class) . ($validate === 'color' ? '' : $inputclass) . '"';
 $control      = $control ? ' data-control="' . $control . '"' : '';
 $format       = $format ? ' data-format="' . $format . '"' : '';
@@ -77,22 +75,22 @@ $direction = $lang->isRtl() ? ' dir="ltr" style="text-align:right"' : '';
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->usePreset('minicolors')
-	->useScript('field.color-adv');
+    ->useScript('field.color-adv');
 ?>
 <input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo $this->escape($color); ?>"<?php
-	echo $hint,
-		$class,
-		$position,
-		$control,
-		$readonly,
-		$disabled,
-		$required,
-		$onchange,
-		$autocomplete,
-		$autofocus,
-		$format,
-		$keywords,
-		$direction,
-		$validate,
-		$dataAttribute;
+    echo $hint,
+        $class,
+        $position,
+        $control,
+        $readonly,
+        $disabled,
+        $required,
+        $onchange,
+        $autocomplete,
+        $autofocus,
+        $format,
+        $keywords,
+        $direction,
+        $validate,
+        $dataAttribute;
 ?>/>

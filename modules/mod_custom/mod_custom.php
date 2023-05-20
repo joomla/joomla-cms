@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_custom
@@ -13,10 +14,9 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 
-if ($params->def('prepare_content', 1))
-{
-	PluginHelper::importPlugin('content');
-	$module->content = HTMLHelper::_('content.prepare', $module->content, '', 'mod_custom.content');
+if ($params->def('prepare_content', 1)) {
+    PluginHelper::importPlugin('content');
+    $module->content = HTMLHelper::_('content.prepare', $module->content, '', 'mod_custom.content');
 }
 
 require ModuleHelper::getLayoutPath('mod_custom', $params->get('layout', 'default'));

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -9,13 +10,15 @@
 
 namespace Joomla\Component\Finder\Administrator\Field;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Supports a select grouped list of finder content map.
@@ -24,104 +27,102 @@ use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
  */
 class ContentmapField extends GroupedlistField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  3.6.0
-	 */
-	public $type = 'ContentMap';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  3.6.0
+     */
+    public $type = 'ContentMap';
 
-	/**
-	 * Method to get the list of content map options grouped by first level.
-	 *
-	 * @return  array  The field option objects as a nested array in groups.
-	 *
-	 * @since   3.6.0
-	 */
-	protected function getGroups()
-	{
-		$groups = array();
+    /**
+     * Method to get the list of content map options grouped by first level.
+     *
+     * @return  array  The field option objects as a nested array in groups.
+     *
+     * @since   3.6.0
+     */
+    protected function getGroups()
+    {
+        $groups = [];
 
-		// Get the database object and a new query object.
-		$db = Factory::getDbo();
+        // Get the database object and a new query object.
+        $db = $this->getDatabase();
 
-		// Levels subquery.
-		$levelQuery = $db->getQuery(true);
-		$levelQuery->select('title AS branch_title, 1 as level')
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__finder_taxonomy'))
-			->where($db->quoteName('parent_id') . ' = 1');
-		$levelQuery2 = $db->getQuery(true);
-		$levelQuery2->select('b.title AS branch_title, 2 as level')
-			->select($db->quoteName('a.id'))
-			->from($db->quoteName('#__finder_taxonomy', 'a'))
-			->join('LEFT', $db->quoteName('#__finder_taxonomy', 'b') . ' ON ' . $db->quoteName('a.parent_id') . ' = ' . $db->quoteName('b.id'))
-			->where($db->quoteName('a.parent_id') . ' NOT IN (0, 1)');
+        // Main query.
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('a.title', 'text'))
+            ->select($db->quoteName('a.id', 'value'))
+            ->select($db->quoteName('a.parent_id'))
+            ->select($db->quoteName('a.level'))
+            ->from($db->quoteName('#__finder_taxonomy', 'a'))
+            ->where($db->quoteName('a.parent_id') . ' <> 0')
+            ->order('a.title ASC');
 
-		$levelQuery->union($levelQuery2);
+        $db->setQuery($query);
 
-		// Main query.
-		$query = $db->getQuery(true)
-			->select($db->quoteName('a.title', 'text'))
-			->select($db->quoteName('a.id', 'value'))
-			->select($db->quoteName('d.level'))
-			->from($db->quoteName('#__finder_taxonomy', 'a'))
-			->join('LEFT', '(' . $levelQuery . ') AS d ON ' . $db->quoteName('d.id') . ' = ' . $db->quoteName('a.id'))
-			->where($db->quoteName('a.parent_id') . ' <> 0')
-			->order('d.branch_title ASC, d.level ASC, a.title ASC');
+        try {
+            $contentMap = $db->loadObjectList();
+        } catch (\RuntimeException $e) {
+            return [];
+        }
 
-		$db->setQuery($query);
+        // Build the grouped list array.
+        if ($contentMap) {
+            $parents = [];
 
-		try
-		{
-			$contentMap = $db->loadObjectList();
-		}
-		catch (\RuntimeException $e)
-		{
-			return [];
-		}
+            foreach ($contentMap as $item) {
+                if (!isset($parents[$item->parent_id])) {
+                    $parents[$item->parent_id] = [];
+                }
 
-		// Build the grouped list array.
-		if ($contentMap)
-		{
-			$lang = Factory::getLanguage();
-			$name = '';
+                $parents[$item->parent_id][] = $item;
+            }
 
-			foreach ($contentMap as $branch)
-			{
-				if ((int) $branch->level === 1)
-				{
-					$name = $branch->text;
-				}
-				else
-				{
-					$levelPrefix = str_repeat('- ', max(0, $branch->level - 1));
+            foreach ($parents[1] as $branch) {
+                $text          = Text::_(LanguageHelper::branchSingular($branch->text));
+                $groups[$text] = $this->prepareLevel($branch->value, $parents);
+            }
+        }
 
-					if (trim($name, '*') === 'Language')
-					{
-						$text = LanguageHelper::branchLanguageTitle($branch->text);
-					}
-					else
-					{
-						$key = LanguageHelper::branchSingular($branch->text);
-						$text = $lang->hasKey($key) ? Text::_($key) : $branch->text;
-					}
+        // Merge any additional groups in the XML definition.
+        $groups = array_merge(parent::getGroups(), $groups);
 
-					// Initialize the group if necessary.
-					if (!isset($groups[$name]))
-					{
-						$groups[$name] = array();
-					}
+        return $groups;
+    }
 
-					$groups[$name][] = HTMLHelper::_('select.option', $branch->value, $levelPrefix . $text);
-				}
-			}
-		}
+    /**
+     * Indenting and translating options for the list
+     *
+     * @param   int    $parent   Parent ID to process
+     * @param   array  $parents  Array of arrays of items with parent IDs as keys
+     *
+     * @return  array  The indented list of entries for this branch
+     *
+     * @since   4.1.5
+     */
+    private function prepareLevel($parent, $parents)
+    {
+        $lang    = Factory::getLanguage();
+        $entries = [];
 
-		// Merge any additional groups in the XML definition.
-		$groups = array_merge(parent::getGroups(), $groups);
+        foreach ($parents[$parent] as $item) {
+            $levelPrefix = str_repeat('- ', $item->level - 1);
 
-		return $groups;
-	}
+            if (trim($item->text, '*') === 'Language') {
+                $text = LanguageHelper::branchLanguageTitle($item->text);
+            } else {
+                $key  = LanguageHelper::branchSingular($item->text);
+                $text = $lang->hasKey($key) ? Text::_($key) : $item->text;
+            }
+
+            $entries[] = HTMLHelper::_('select.option', $item->value, $levelPrefix . $text);
+
+            if (isset($parents[$item->value])) {
+                $entries = array_merge($entries, $this->prepareLevel($item->value, $parents));
+            }
+        }
+
+        return $entries;
+    }
 }

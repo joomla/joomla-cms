@@ -1,13 +1,13 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
  * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\CMS\Form\Field;
 
-\defined('JPATH_PLATFORM') or die;
+namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -15,6 +15,10 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Form Field class for the Joomla Platform.
@@ -25,283 +29,289 @@ use Joomla\CMS\Uri\Uri;
  */
 class TextField extends FormField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	protected $type = 'Text';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $type = 'Text';
 
-	/**
-	 * The allowable maxlength of the field.
-	 *
-	 * @var    integer
-	 * @since  3.2
-	 */
-	protected $maxLength;
+    /**
+     * The allowable maxlength of the field.
+     *
+     * @var    integer
+     * @since  3.2
+     */
+    protected $maxLength;
 
-	/**
-	 * The mode of input associated with the field.
-	 *
-	 * @var    mixed
-	 * @since  3.2
-	 */
-	protected $inputmode;
+    /**
+     * Does this field support a character counter?
+     *
+     * @var    boolean
+     * @since  4.3.0
+     */
+    protected $charcounter = false;
 
-	/**
-	 * The name of the form field direction (ltr or rtl).
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $dirname;
+    /**
+     * The mode of input associated with the field.
+     *
+     * @var    mixed
+     * @since  3.2
+     */
+    protected $inputmode;
 
-	/**
-	 * Input addon before
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $addonBefore;
+    /**
+     * The name of the form field direction (ltr or rtl).
+     *
+     * @var    string
+     * @since  3.2
+     */
+    protected $dirname;
 
-	/**
-	 * Input addon after
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $addonAfter;
+    /**
+     * Input addon before
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $addonBefore;
 
-	/**
-	 * Name of the layout being used to render the field
-	 *
-	 * @var    string
-	 * @since  3.7
-	 */
-	protected $layout = 'joomla.form.field.text';
+    /**
+     * Input addon after
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $addonAfter;
 
-	/**
-	 * Method to get certain otherwise inaccessible properties from the form field object.
-	 *
-	 * @param   string  $name  The property name for which to get the value.
-	 *
-	 * @return  mixed  The property value or null.
-	 *
-	 * @since   3.2
-	 */
-	public function __get($name)
-	{
-		switch ($name)
-		{
-			case 'maxLength':
-			case 'dirname':
-			case 'addonBefore':
-			case 'addonAfter':
-			case 'inputmode':
-				return $this->$name;
-		}
+    /**
+     * Name of the layout being used to render the field
+     *
+     * @var    string
+     * @since  3.7
+     */
+    protected $layout = 'joomla.form.field.text';
 
-		return parent::__get($name);
-	}
+    /**
+     * Method to get certain otherwise inaccessible properties from the form field object.
+     *
+     * @param   string  $name  The property name for which to get the value.
+     *
+     * @return  mixed  The property value or null.
+     *
+     * @since   3.2
+     */
+    public function __get($name)
+    {
+        switch ($name) {
+            case 'maxLength':
+            case 'dirname':
+            case 'addonBefore':
+            case 'addonAfter':
+            case 'inputmode':
+            case 'charcounter':
+                return $this->$name;
+        }
 
-	/**
-	 * Method to set certain otherwise inaccessible properties of the form field object.
-	 *
-	 * @param   string  $name   The property name for which to set the value.
-	 * @param   mixed   $value  The value of the property.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function __set($name, $value)
-	{
-		switch ($name)
-		{
-			case 'maxLength':
-				$this->maxLength = (int) $value;
-				break;
+        return parent::__get($name);
+    }
 
-			case 'dirname':
-				$value = (string) $value;
-				$this->dirname = ($value == $name || $value === 'true' || $value === '1');
-				break;
+    /**
+     * Method to set certain otherwise inaccessible properties of the form field object.
+     *
+     * @param   string  $name   The property name for which to set the value.
+     * @param   mixed   $value  The value of the property.
+     *
+     * @return  void
+     *
+     * @since   3.2
+     */
+    public function __set($name, $value)
+    {
+        switch ($name) {
+            case 'maxLength':
+                $this->maxLength = (int) $value;
+                break;
 
-			case 'inputmode':
-				$this->inputmode = (string) $value;
-				break;
+            case 'dirname':
+                $value         = (string) $value;
+                $this->dirname = ($value == $name || $value === 'true' || $value === '1');
+                break;
 
-			case 'addonBefore':
-				$this->addonBefore = (string) $value;
-				break;
+            case 'inputmode':
+                $this->inputmode = (string) $value;
+                break;
 
-			case 'addonAfter':
-				$this->addonAfter = (string) $value;
-				break;
+            case 'addonBefore':
+                $this->addonBefore = (string) $value;
+                break;
 
-			default:
-				parent::__set($name, $value);
-		}
-	}
+            case 'addonAfter':
+                $this->addonAfter = (string) $value;
+                break;
 
-	/**
-	 * Method to attach a Form object to the field.
-	 *
-	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed              $value    The form field value to validate.
-	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
-	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                       full field name would end up being "bar[foo]".
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @see     FormField::setup()
-	 * @since   3.2
-	 */
-	public function setup(\SimpleXMLElement $element, $value, $group = null)
-	{
-		$result = parent::setup($element, $value, $group);
+            case 'charcounter':
+                $this->charcounter = strtolower($value) === 'true';
+                break;
 
-		if ($result == true)
-		{
-			$inputmode = (string) $this->element['inputmode'];
-			$dirname = (string) $this->element['dirname'];
+            default:
+                parent::__set($name, $value);
+        }
+    }
 
-			$this->inputmode = '';
-			$inputmode = preg_replace('/\s+/', ' ', trim($inputmode));
-			$inputmode = explode(' ', $inputmode);
+    /**
+     * Method to attach a Form object to the field.
+     *
+     * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+     * @param   mixed              $value    The form field value to validate.
+     * @param   string             $group    The field name group control value. This acts as an array container for the field.
+     *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+     *                                       full field name would end up being "bar[foo]".
+     *
+     * @return  boolean  True on success.
+     *
+     * @see     FormField::setup()
+     * @since   3.2
+     */
+    public function setup(\SimpleXMLElement $element, $value, $group = null)
+    {
+        $result = parent::setup($element, $value, $group);
 
-			if (!empty($inputmode))
-			{
-				$defaultInputmode = \in_array('default', $inputmode) ? Text::_('JLIB_FORM_INPUTMODE') . ' ' : '';
+        if ($result == true) {
+            $inputmode = (string) $this->element['inputmode'];
+            $dirname   = (string) $this->element['dirname'];
 
-				foreach (array_keys($inputmode, 'default') as $key)
-				{
-					unset($inputmode[$key]);
-				}
+            $this->inputmode = '';
+            $inputmode       = preg_replace('/\s+/', ' ', trim($inputmode));
+            $inputmode       = explode(' ', $inputmode);
 
-				$this->inputmode = $defaultInputmode . implode(' ', $inputmode);
-			}
+            if (!empty($inputmode)) {
+                $defaultInputmode = \in_array('default', $inputmode) ? Text::_('JLIB_FORM_INPUTMODE') . ' ' : '';
 
-			// Set the dirname.
-			$dirname = ($dirname === 'dirname' || $dirname === 'true' || $dirname === '1');
-			$this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
+                foreach (array_keys($inputmode, 'default') as $key) {
+                    unset($inputmode[$key]);
+                }
 
-			$this->maxLength = (int) $this->element['maxlength'];
+                $this->inputmode = $defaultInputmode . implode(' ', $inputmode);
+            }
 
-			$this->addonBefore = (string) $this->element['addonBefore'];
-			$this->addonAfter  = (string) $this->element['addonAfter'];
-		}
+            // Set the dirname.
+            $dirname       = ($dirname === 'dirname' || $dirname === 'true' || $dirname === '1');
+            $this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
 
-		return $result;
-	}
+            $this->maxLength   = (int) $this->element['maxlength'];
+            $this->charcounter = isset($this->element['charcounter']) ? strtolower($this->element['charcounter']) === 'true' : false;
 
-	/**
-	 * Method to get the field input markup.
-	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   1.7.0
-	 */
-	protected function getInput()
-	{
-		if ($this->element['useglobal'])
-		{
-			$component = Factory::getApplication()->input->getCmd('option');
+            $this->addonBefore = (string) $this->element['addonBefore'];
+            $this->addonAfter  = (string) $this->element['addonAfter'];
+        }
 
-			// Get correct component for menu items
-			if ($component === 'com_menus')
-			{
-				$link      = $this->form->getData()->get('link');
-				$uri       = new Uri($link);
-				$component = $uri->getVar('option', 'com_menus');
-			}
+        return $result;
+    }
 
-			$params = ComponentHelper::getParams($component);
-			$value  = $params->get($this->fieldname);
+    /**
+     * Method to get the field input markup.
+     *
+     * @return  string  The field input markup.
+     *
+     * @since   1.7.0
+     */
+    protected function getInput()
+    {
+        if ($this->element['useglobal']) {
+            $component = Factory::getApplication()->getInput()->getCmd('option');
 
-			// Try with global configuration
-			if (\is_null($value))
-			{
-				$value = Factory::getApplication()->get($this->fieldname);
-			}
+            // Get correct component for menu items
+            if ($component === 'com_menus') {
+                $link      = $this->form->getData()->get('link');
+                $uri       = new Uri($link);
+                $component = $uri->getVar('option', 'com_menus');
+            }
 
-			// Try with menu configuration
-			if (\is_null($value) && Factory::getApplication()->input->getCmd('option') === 'com_menus')
-			{
-				$value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
-			}
+            $params = ComponentHelper::getParams($component);
+            $value  = $params->get($this->fieldname);
 
-			if (!\is_null($value))
-			{
-				$value = (string) $value;
+            // Try with global configuration
+            if (\is_null($value)) {
+                $value = Factory::getApplication()->get($this->fieldname);
+            }
 
-				$this->hint = Text::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
-			}
-		}
+            // Try with menu configuration
+            if (\is_null($value) && Factory::getApplication()->getInput()->getCmd('option') === 'com_menus') {
+                $value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
+            }
 
-		return $this->getRenderer($this->layout)->render($this->getLayoutData());
-	}
+            if (!\is_null($value)) {
+                $value = (string) $value;
 
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   3.4
-	 */
-	protected function getOptions()
-	{
-		$options = array();
+                $this->hint = Text::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
+            }
+        }
 
-		foreach ($this->element->children() as $option)
-		{
-			// Only add <option /> elements.
-			if ($option->getName() !== 'option')
-			{
-				continue;
-			}
+        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+    }
 
-			// Create a new option object based on the <option /> element.
-			$options[] = HTMLHelper::_(
-				'select.option', (string) $option['value'],
-				Text::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text'
-			);
-		}
+    /**
+     * Method to get the field options.
+     *
+     * @return  array  The field option objects.
+     *
+     * @since   3.4
+     */
+    protected function getOptions()
+    {
+        $options = [];
 
-		return $options;
-	}
+        foreach ($this->element->children() as $option) {
+            // Only add <option /> elements.
+            if ($option->getName() !== 'option') {
+                continue;
+            }
 
-	/**
-	 * Method to get the data to be passed to the layout for rendering.
-	 *
-	 * @return  array
-	 *
-	 * @since 3.7
-	 */
-	protected function getLayoutData()
-	{
-		$data = parent::getLayoutData();
+            // Create a new option object based on the <option /> element.
+            $options[] = HTMLHelper::_(
+                'select.option',
+                (string) $option['value'],
+                Text::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)),
+                'value',
+                'text'
+            );
+        }
 
-		// Initialize some field attributes.
-		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
-		$inputmode    = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
-		$dirname      = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
+        return $options;
+    }
 
-		// Get the field options for the datalist.
-		$options  = (array) $this->getOptions();
+    /**
+     * Method to get the data to be passed to the layout for rendering.
+     *
+     * @return  array
+     *
+     * @since 3.7
+     */
+    protected function getLayoutData()
+    {
+        $data = parent::getLayoutData();
 
-		$extraData = array(
-			'maxLength'   => $maxLength,
-			'pattern'     => $this->pattern,
-			'inputmode'   => $inputmode,
-			'dirname'     => $dirname,
-			'addonBefore' => $this->addonBefore,
-			'addonAfter'  => $this->addonAfter,
-			'options'     => $options,
-		);
+        // Initialize some field attributes.
+        $maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
+        $inputmode    = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
+        $dirname      = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
 
-		return array_merge($data, $extraData);
-	}
+        // Get the field options for the datalist.
+        $options  = (array) $this->getOptions();
+
+        $extraData = [
+            'maxLength'   => $maxLength,
+            'pattern'     => $this->pattern,
+            'inputmode'   => $inputmode,
+            'dirname'     => $dirname,
+            'addonBefore' => $this->addonBefore,
+            'addonAfter'  => $this->addonAfter,
+            'options'     => $options,
+            'charcounter' => $this->charcounter,
+        ];
+
+        return array_merge($data, $extraData);
+    }
 }

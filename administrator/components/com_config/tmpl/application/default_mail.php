@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_config
@@ -11,13 +12,12 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 
 defined('_JEXEC') or die;
 
 HTMLHelper::_('form.csrf');
 $this->document->getWebAssetManager()
-	->useScript('webcomponent.field-send-test-mail');
+    ->useScript('webcomponent.field-send-test-mail');
 
 // Load JavaScript message titles
 Text::script('ERROR');
@@ -33,7 +33,7 @@ Text::script('JLIB_JS_AJAX_ERROR_PARSE');
 Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 
 // Ajax request data.
-$ajaxUri = Route::_('index.php?option=com_config&task=application.sendtestmail&format=json&' . Session::getFormToken() . '=1');
+$ajaxUri = Route::_('index.php?option=com_config&task=application.sendtestmail&format=json');
 
 $this->name = Text::_('COM_CONFIG_MAIL_SETTINGS');
 $this->fieldsname = 'mail';
@@ -42,9 +42,9 @@ $this->formclass = 'options-form';
 ?>
 
 <joomla-field-send-test-mail uri="<?php echo $ajaxUri; ?>">
-	<?php echo LayoutHelper::render('joomla.content.options_default', $this); ?>
+    <?php echo LayoutHelper::render('joomla.content.options_default', $this); ?>
 
-	<button class="btn btn-primary" type="button" id="sendtestmail">
-		<span><?php echo Text::_('COM_CONFIG_SENDMAIL_ACTION_BUTTON'); ?></span>
-	</button>
+    <button class="btn btn-primary" type="button" id="sendtestmail">
+        <span><?php echo Text::_('COM_CONFIG_SENDMAIL_ACTION_BUTTON'); ?></span>
+    </button>
 </joomla-field-send-test-mail>

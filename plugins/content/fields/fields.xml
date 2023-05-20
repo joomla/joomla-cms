@@ -1,16 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="content" method="upgrade">
 	<name>plg_content_fields</name>
 	<author>Joomla! Project</author>
-	<creationDate>February 2017</creationDate>
+	<creationDate>2017-02</creationDate>
 	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.7.0</version>
 	<description>PLG_CONTENT_FIELDS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Content\Fields</namespace>
 	<files>
-		<filename plugin="fields">fields.php</filename>
+		<folder plugin="fields">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_content_fields.ini</language>

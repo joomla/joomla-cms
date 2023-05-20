@@ -3,7 +3,7 @@
 # top-most EditorConfig file
 root = true
 
-# Unix-style newlines with a newline ending every file
+# Unix-style end of lines and a blank line at the end of the file
 [*]
 indent_style = tab
 end_of_line = lf
@@ -11,6 +11,10 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[*.{js,json,scss,css,vue}]
+[*.php]
+indent_style = space
+indent_size = 4
+
+[*.{js,json,scss,css,yml,vue}]
 indent_style = space
 indent_size = 2

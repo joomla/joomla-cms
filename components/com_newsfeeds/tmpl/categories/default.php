@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
@@ -23,6 +24,6 @@ $wa->useScript('com_categories.shared-categories-accordion');
 
 ?>
 <div class="com-newsfeeds-categories categories-list">
-	<?php echo LayoutHelper::render('joomla.content.categories_default', $this); ?>
-	<?php echo $this->loadTemplate('items'); ?>
+    <?php echo LayoutHelper::render('joomla.content.categories_default', $this); ?>
+    <?php echo $this->loadTemplate('items'); ?>
 </div>

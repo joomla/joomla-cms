@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_languages
@@ -9,9 +10,11 @@
 
 namespace Joomla\Component\Languages\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Controller\FormController;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Languages list actions controller.
@@ -20,18 +23,18 @@ use Joomla\CMS\MVC\Controller\FormController;
  */
 class LanguageController extends FormController
 {
-	/**
-	 * Gets the URL arguments to append to an item redirect.
-	 *
-	 * @param   int     $recordId  The primary key id for the item.
-	 * @param   string  $key       The name of the primary key variable.
-	 *
-	 * @return  string  The arguments to append to the redirect URL.
-	 *
-	 * @since   1.6
-	 */
-	protected function getRedirectToItemAppend($recordId = null, $key = 'lang_id')
-	{
-		return parent::getRedirectToItemAppend($recordId, $key);
-	}
+    /**
+     * Gets the URL arguments to append to an item redirect.
+     *
+     * @param   int     $recordId  The primary key id for the item.
+     * @param   string  $key       The name of the primary key variable.
+     *
+     * @return  string  The arguments to append to the redirect URL.
+     *
+     * @since   1.6
+     */
+    protected function getRedirectToItemAppend($recordId = null, $key = 'lang_id')
+    {
+        return parent::getRedirectToItemAppend($recordId, $key);
+    }
 }

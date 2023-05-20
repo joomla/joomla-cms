@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
@@ -9,9 +10,11 @@
 
 namespace Joomla\Component\Fields\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Controller\AdminController;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Groups list controller class.
@@ -20,28 +23,49 @@ use Joomla\CMS\MVC\Controller\AdminController;
  */
 class GroupsController extends AdminController
 {
-	/**
-	 * The prefix to use with controller messages.
-	 *
-	 * @var    string
-	 *
-	 * @since   3.7.0
-	 */
-	protected $text_prefix = 'COM_FIELDS_GROUP';
+    /**
+     * The prefix to use with controller messages.
+     *
+     * @var    string
+     *
+     * @since   3.7.0
+     */
+    protected $text_prefix = 'COM_FIELDS_GROUP';
 
-	/**
-	 * Proxy for getModel.
-	 *
-	 * @param   string  $name    The name of the model.
-	 * @param   string  $prefix  The prefix for the PHP class name.
-	 * @param   array   $config  Array of configuration parameters.
-	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
-	 *
-	 * @since   3.7.0
-	 */
-	public function getModel($name = 'Group', $prefix = 'Administrator', $config = array('ignore_request' => true))
-	{
-		return parent::getModel($name, $prefix, $config);
-	}
+    /**
+     * Proxy for getModel.
+     *
+     * @param   string  $name    The name of the model.
+     * @param   string  $prefix  The prefix for the PHP class name.
+     * @param   array   $config  Array of configuration parameters.
+     *
+     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
+     *
+     * @since   3.7.0
+     */
+    public function getModel($name = 'Group', $prefix = 'Administrator', $config = ['ignore_request' => true])
+    {
+        return parent::getModel($name, $prefix, $config);
+    }
+
+    /**
+     * Append context variable to list redirect so that parent menu item stays open after an
+     * admin action like publish, un-publish... field groups
+     *
+     * @return  string  The arguments to append to the redirect URL.
+     *
+     * @since   4.2.9
+     */
+    protected function getRedirectToListAppend()
+    {
+        $append = parent::getRedirectToListAppend();
+
+        $context = $this->input->getString('context');
+
+        if ($context) {
+            $append .= '&context=' . $context;
+        }
+
+        return $append;
+    }
 }

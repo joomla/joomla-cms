@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,24 +9,28 @@
 
 namespace Joomla\CMS\Application\CLI\Output\Processor;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface for a command line output processor
  *
  * @since       4.0.0
- * @deprecated  5.0  Use the `joomla/console` package instead
+ *
+ * @deprecated  4.3 will be removed in 6.0
+ *              Use the `joomla/console` package instead
  */
 interface ProcessorInterface
 {
-	/**
-	 * Process the provided output into a string.
-	 *
-	 * @param   string  $output  The string to process.
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0.0
-	 */
-	public function process($output);
+    /**
+     * Process the provided output into a string.
+     *
+     * @param   string  $output  The string to process.
+     *
+     * @return  string
+     *
+     * @since   4.0.0
+     */
+    public function process($output);
 }

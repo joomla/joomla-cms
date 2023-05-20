@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Fields.Integer
@@ -11,18 +12,14 @@ defined('_JEXEC') or die;
 
 $value = $field->value;
 
-if ($value == '')
-{
-	return;
+if ($value == '') {
+    return;
 }
 
-if (is_array($value))
-{
-	$value = implode(', ', array_map('intval', $value));
-}
-else
-{
-	$value = (int) $value;
+if (is_array($value)) {
+    $value = implode(', ', array_map('intval', $value));
+} else {
+    $value = (int) $value;
 }
 
 echo $value;
