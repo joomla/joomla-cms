@@ -17,7 +17,12 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View to edit a newsfeed.
@@ -74,7 +79,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // If we are forcing a language in modal (used for associations).
-        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'cmd')) {
+        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'cmd')) {
             // Set the language field to the forcedLanguage and disable changing it.
             $this->form->setValue('language', null, $forcedLanguage);
             $this->form->setFieldAttribute('language', 'readonly', 'true');
@@ -99,11 +104,12 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
+        $toolbar    = Toolbar::getInstance();
 
         // Since we don't track these assets at the item level, use the category id.
         $canDo = ContentHelper::getActions('com_newsfeeds', 'category', $this->item->catid);
@@ -111,44 +117,48 @@ class HtmlView extends BaseHtmlView
         $title = $isNew ? Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_NEW') : Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEED_EDIT');
         ToolbarHelper::title($title, 'rss newsfeeds');
 
-        $toolbarButtons = [];
-
         // If not checked out, can save the item.
         if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)) {
-            ToolbarHelper::apply('newsfeed.apply');
-
-            $toolbarButtons[] = ['save', 'newsfeed.save'];
+            $toolbar->apply('newsfeed.apply');
         }
 
-        if (!$checkedOut && count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
-            $toolbarButtons[] = ['save2new', 'newsfeed.save2new'];
-        }
+        $saveGroup = $toolbar->dropdownButton('save-group');
 
-        // If an existing item, can save to a copy.
-        if (!$isNew && $canDo->get('core.create')) {
-            $toolbarButtons[] = ['save2copy', 'newsfeed.save2copy'];
-        }
+        $saveGroup->configure(
+            function (Toolbar $childBar) use ($checkedOut, $canDo, $user, $isNew) {
+                // If not checked out, can save the item.
+                if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)) {
+                    $childBar->save('newsfeed.save');
+                }
 
-        ToolbarHelper::saveGroup(
-            $toolbarButtons,
-            'btn-success'
+                if (!$checkedOut && count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
+                    $childBar->save2new('newsfeed.save2new');
+                }
+
+                // If an existing item, can save to a copy.
+                if (!$isNew && $canDo->get('core.create')) {
+                    $childBar->save2copy('newsfeed.save2copy');
+                }
+            }
         );
 
         if (empty($this->item->id)) {
-            ToolbarHelper::cancel('newsfeed.cancel');
+            $toolbar->cancel('newsfeed.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            ToolbarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('newsfeed.cancel');
 
             if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit')) {
-                ToolbarHelper::versions('com_newsfeeds.newsfeed', $this->item->id);
+                $toolbar->versions('com_newsfeeds.newsfeed', $this->item->id);
             }
         }
 
         if (!$isNew && Associations::isEnabled() && ComponentHelper::isEnabled('com_associations')) {
-            ToolbarHelper::custom('newsfeed.editAssociations', 'contract', '', 'JTOOLBAR_ASSOCIATIONS', false, false);
+            $toolbar->standardButton('associations', 'JTOOLBAR_ASSOCIATIONS', 'newsfeed.editAssociations')
+                ->icon('icon-contract')
+                ->listCheck(false);
         }
 
-        ToolbarHelper::divider();
-        ToolbarHelper::help('News_Feeds:_New_or_Edit');
+        $toolbar->divider();
+        $toolbar->help('News_Feeds:_Edit');
     }
 }

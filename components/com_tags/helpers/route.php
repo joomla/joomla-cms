@@ -12,12 +12,17 @@
 
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Tags Component Route Helper.
  *
  * @since  3.1
  *
- * @deprecated  5.0  Use \Joomla\Component\Tags\Site\Helper\RouteHelper instead
+ * @deprecated  4.3 will be removed in 6.0
+ *              Use \Joomla\Component\Tags\Site\Helper\RouteHelper instead
  */
 class TagsHelperRoute extends RouteHelper
 {

@@ -11,6 +11,10 @@ namespace Joomla\CMS\Versioning;
 
 use Joomla\CMS\Table\TableInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Interface for a versionable Table class
  *

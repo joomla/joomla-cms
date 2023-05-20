@@ -14,6 +14,10 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base controller class for Users.
  *
@@ -120,7 +124,7 @@ class DisplayController extends BaseController
             }
 
             // Make sure we don't send a referer
-            if (in_array($vName, array('remind', 'reset'))) {
+            if (in_array($vName, ['remind', 'reset'])) {
                 $this->app->setHeader('Referrer-Policy', 'no-referrer', true);
             }
 

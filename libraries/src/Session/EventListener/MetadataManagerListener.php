@@ -13,6 +13,10 @@ use Joomla\CMS\Session\MetadataManager;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event listener for session events regarding the session metadata for users.
  *

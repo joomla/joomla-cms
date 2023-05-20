@@ -10,13 +10,17 @@
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Categories helper.
  *
  * @since       1.6
- * @deprecated  5.0 Use \Joomla\Component\Categories\Administrator\Helper\CategoriesHelper instead
+ *
+ * @deprecated  4.3 will be removed in 6.0
+ *              Use \Joomla\Component\Categories\Administrator\Helper\CategoriesHelper instead
  */
 class CategoriesHelper extends \Joomla\Component\Categories\Administrator\Helper\CategoriesHelper
 {

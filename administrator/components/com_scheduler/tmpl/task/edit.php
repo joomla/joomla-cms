@@ -62,7 +62,7 @@ endforeach;
 
     <!-- The main form card -->
     <div class="main-card">
-        <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
+        <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'general']); ?>
 
         <!-- The first (and the main) tab in the form -->
         <?php echo
@@ -85,7 +85,7 @@ endforeach;
                         </h2>
                         <?php
                             $this->fieldset    = 'description';
-                            $short_description = Text::_($taskOption->desc);
+                            $short_description = $taskOption->desc;
                             $long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
 
                         if (!$long_description) {

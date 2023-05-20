@@ -8,32 +8,30 @@
 
 // Grid View
 .media-browser-grid {
-  padding: $grid-outside-padding 0 $grid-outside-padding $grid-outside-padding;
+  padding: $grid-outside-padding;
 }
 
 .media-browser-items {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  gap: $grid-gutter-width;
+  &.media-browser-items-sm {
+    grid-template-columns: repeat(auto-fill, minmax($grid-item-width-sm, 1fr));
+  }
+  &.media-browser-items-md {
+    grid-template-columns: repeat(auto-fill, minmax($grid-item-width-md, 1fr));
+  }
+  &.media-browser-items-lg {
+    grid-template-columns: repeat(auto-fill, minmax($grid-item-width-lg, 1fr));
+  }
+  &.media-browser-items-xl {
+    grid-template-columns: repeat(auto-fill, minmax($grid-item-width-xl, 1fr));
+  }
 }
 
 .media-browser-item {
   position: relative;
-  margin-right: $grid-gutter-width;
-  margin-bottom: $grid-gutter-width;
   cursor: pointer;
   user-select: none;
-  .media-browser-items-sm & {
-    width: calc(#{$grid-item-width-sm} - #{$grid-gutter-width});
-  }
-  .media-browser-items-md & {
-    width: calc(#{$grid-item-width-md} - #{$grid-gutter-width});
-  }
-  .media-browser-items-lg & {
-    width: calc(#{$grid-item-width-lg} - #{$grid-gutter-width});
-  }
-  .media-browser-items-xl & {
-    width: calc(#{$grid-item-width-xl} - #{$grid-gutter-width});
-  }
 }
 
 .media-browser-item-preview {
@@ -125,27 +123,48 @@
     }
   }
   &.active {
+    top: 0;
+    z-index: 1;
+    width: max-content;
+    min-width: 100%;
+    background-color: var(--template-bg-dark-3);
+    border: 1px solid hsl(var(--hue), 35%, 95%);
+    border-radius: .25rem;
+    box-shadow: 0 2px 10px -8px var(--template-bg-dark-50);
     > button {
       display: none;
     }
-  }
-  ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    column-gap: 5px;
-    columns: 2;
+    @media (max-width: 576px) {
+      .actions & {
+        height: 100%;
+        overflow: visible;
+        .media-browser-actions-list {
+          position: absolute;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          overflow: auto;
+          background-color: var(--template-bg-dark-3);
+        }
+      }
+
+    }
   }
 }
 
 .media-browser-actions-list {
   display: flex;
   flex-direction: column;
+  margin-top: 2px;
+  .media-browser-actions-item-name {
+    padding: 2px;
+    margin-block-end: 3px;
+  }
   button, a {
     position: relative;
     top: 0;
-    padding: 0;
-    margin-bottom: 3px;
+    padding: 2px;
+    margin-block-end: 3px;
     visibility: hidden;
     background-color: transparent;
     border: 0;
@@ -154,20 +173,18 @@
     transition-delay: 0s;
     .media-browser-actions.active & {
       top: 0;
+      display: flex;
+      align-items: center;
+      width: 100%;
       visibility: visible;
       opacity: 1;
       transition-duration: .2s;
-      &:first-of-type {
-        transition-delay: .1s;
-      }
-      &:nth-of-type(2) {
-        transition-delay: .15s;
-      }
-      &:nth-of-type(3) {
-        transition-delay: .2s;
-      }
-      &:nth-of-type(4) {
-        transition-delay: .25s;
+      &:hover, &:focus {
+        background-color: var(--template-bg-dark-10);
+        &.action-delete {
+          color: $grid-item-icon-color;
+          background-color: $grid-item-icon-warning-icon-bg;
+        }
       }
     }
   }
@@ -176,13 +193,14 @@
 .image-browser-action {
   width: calc(#{$grid-item-icon-size} * 1.55);
   height: calc(#{$grid-item-icon-size} * 1.55);
-  margin-right: 4px;
-  margin-left: 4px;
+  margin-inline: 4px;
   color: $grid-item-icon-color;
   text-align: center;
   cursor: pointer;
   background-color: $grid-item-icon-bg-color;
   border-radius: $grid-item-border-radius;
+  flex-shrink: 0;
+  transition-duration: .2s;
   .action-delete & {
     background-color: $grid-item-icon-warning-icon-bg;
   }
@@ -190,10 +208,17 @@
     font-size: $grid-item-icon-size;
     line-height: calc(#{$grid-item-icon-size} * 1.55);
   }
-  &:hover {
+  &:hover, &:focus,
+  button:hover &,
+  button:focus & {
     color: $grid-item-icon-color-hover;
     background-color: $grid-item-icon-bg-color-hover;
   }
+}
+.action-text {
+  flex-shrink: 0;
+  text-align: start;
+  padding-inline: 5px;
 }
 
 .image-background {
@@ -205,8 +230,8 @@
 
 .image-cropped {
   aspect-ratio: 1/1;
-  max-width: 100%;
-  height: auto;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   border-radius: $grid-item-border-radius;
 }

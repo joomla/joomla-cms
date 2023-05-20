@@ -20,6 +20,10 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Users table
  *
@@ -55,7 +59,7 @@ class User extends Table
         parent::__construct('#__users', 'id', $db);
 
         // Initialise.
-        $this->id = 0;
+        $this->id        = 0;
         $this->sendEmail = 0;
     }
 
@@ -144,7 +148,7 @@ class User extends Table
     public function bind($array, $ignore = '')
     {
         if (\array_key_exists('params', $array) && \is_array($array['params'])) {
-            $registry = new Registry($array['params']);
+            $registry        = new Registry($array['params']);
             $array['params'] = (string) $registry;
         }
 
@@ -303,6 +307,10 @@ class User extends Table
             }
         }
 
+        // Set an empty string value to the legacy otpKey and otep columns if empty
+        $this->otpKey = $this->otpKey ?: '';
+        $this->otep   = $this->otep ?: '';
+
         return true;
     }
 
@@ -321,7 +329,7 @@ class User extends Table
     public function store($updateNulls = true)
     {
         // Get the table key and key value.
-        $k = $this->_tbl_key;
+        $k   = $this->_tbl_key;
         $key = $this->$k;
 
         // @todo: This is a dumb way to handle the groups.
@@ -516,7 +524,7 @@ class User extends Table
         $lastVisit = $date->toSql();
 
         // Update the database row for the user.
-        $db = $this->_db;
+        $db    = $this->_db;
         $query = $db->getQuery(true)
             ->update($db->quoteName($this->_tbl))
             ->set($db->quoteName('lastvisitDate') . ' = :lastvisitDate')

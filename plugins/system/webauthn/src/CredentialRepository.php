@@ -29,6 +29,10 @@ use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Handles the storage of WebAuthn credentials in the database
  *
@@ -65,9 +69,9 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         $db           = $this->getDatabase();
         $credentialId = base64_encode($publicKeyCredentialId);
         $query        = $db->getQuery(true)
-            ->select($db->qn('credential'))
-            ->from($db->qn('#__webauthn_credentials'))
-            ->where($db->qn('id') . ' = :credentialId')
+            ->select($db->quoteName('credential'))
+            ->from($db->quoteName('#__webauthn_credentials'))
+            ->where($db->quoteName('id') . ' = :credentialId')
             ->bind(':credentialId', $credentialId);
 
         $encrypted = $db->setQuery($query)->loadResult();
@@ -102,8 +106,8 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         $userHandle = $publicKeyCredentialUserEntity->getId();
         $query      = $db->getQuery(true)
             ->select('*')
-            ->from($db->qn('#__webauthn_credentials'))
-            ->where($db->qn('user_id') . ' = :user_id')
+            ->from($db->quoteName('#__webauthn_credentials'))
+            ->where($db->quoteName('user_id') . ' = :user_id')
             ->bind(':user_id', $userHandle);
 
         try {
@@ -185,9 +189,9 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         $credentialId        = base64_encode($publicKeyCredentialSource->getPublicKeyCredentialId());
         $user                = Factory::getApplication()->getIdentity();
         $o                   = (object) [
-            'id'         => $credentialId,
-            'user_id'    => $this->getHandleFromUserId($user->id),
-            'label'      => Text::sprintf(
+            'id'      => $credentialId,
+            'user_id' => $this->getHandleFromUserId($user->id),
+            'label'   => Text::sprintf(
                 'PLG_SYSTEM_WEBAUTHN_LBL_DEFAULT_AUTHENTICATOR_LABEL',
                 $defaultName,
                 $this->formatDate('now')
@@ -203,8 +207,8 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         try {
             $query     = $db->getQuery(true)
                 ->select('*')
-                ->from($db->qn('#__webauthn_credentials'))
-                ->where($db->qn('id') . ' = :credentialId')
+                ->from($db->quoteName('#__webauthn_credentials'))
+                ->where($db->quoteName('id') . ' = :credentialId')
                 ->bind(':credentialId', $credentialId);
             $oldRecord = $db->setQuery($query)->loadObject();
 
@@ -263,8 +267,8 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         $userHandle = $this->getHandleFromUserId($userId);
         $query      = $db->getQuery(true)
             ->select('*')
-            ->from($db->qn('#__webauthn_credentials'))
-            ->where($db->qn('user_id') . ' = :user_id')
+            ->from($db->quoteName('#__webauthn_credentials'))
+            ->where($db->quoteName('user_id') . ' = :user_id')
             ->bind(':user_id', $userHandle);
 
         try {
@@ -331,8 +335,8 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         $credentialId = base64_encode($credentialId);
         $query        = $db->getQuery(true)
             ->select('COUNT(*)')
-            ->from($db->qn('#__webauthn_credentials'))
-            ->where($db->qn('id') . ' = :credentialId')
+            ->from($db->quoteName('#__webauthn_credentials'))
+            ->where($db->quoteName('id') . ' = :credentialId')
             ->bind(':credentialId', $credentialId);
 
         try {
@@ -386,8 +390,8 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         $db           = $this->getDatabase();
         $credentialId = base64_encode($credentialId);
         $query        = $db->getQuery(true)
-            ->delete($db->qn('#__webauthn_credentials'))
-            ->where($db->qn('id') . ' = :credentialId')
+            ->delete($db->quoteName('#__webauthn_credentials'))
+            ->where($db->quoteName('id') . ' = :credentialId')
             ->bind(':credentialId', $credentialId);
 
         $db->setQuery($query)->execute();
@@ -469,8 +473,8 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         // Check that the userHandle does exist in the database
         $query = $db->getQuery(true)
             ->select('COUNT(*)')
-            ->from($db->qn('#__webauthn_credentials'))
-            ->where($db->qn('user_id') . ' = ' . $db->q($userHandle));
+            ->from($db->quoteName('#__webauthn_credentials'))
+            ->where($db->quoteName('user_id') . ' = ' . $db->q($userHandle));
 
         try {
             $numRecords = $db->setQuery($query)->loadResult();
@@ -484,14 +488,14 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
 
         // Prepare the query
         $query = $db->getQuery(true)
-            ->select([$db->qn('id')])
-            ->from($db->qn('#__users'))
-            ->where($db->qn('block') . ' = 0')
+            ->select([$db->quoteName('id')])
+            ->from($db->quoteName('#__users'))
+            ->where($db->quoteName('block') . ' = 0')
             ->where(
                 '(' .
-                $db->qn('activation') . ' IS NULL OR ' .
-                $db->qn('activation') . ' = 0 OR ' .
-                $db->qn('activation') . ' = ' . $db->q('') .
+                $db->quoteName('activation') . ' IS NULL OR ' .
+                $db->quoteName('activation') . ' = 0 OR ' .
+                $db->quoteName('activation') . ' = ' . $db->q('') .
                 ')'
             );
 
