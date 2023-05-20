@@ -77,29 +77,7 @@ class TourModel extends AdminModel
 
         $this->setStepsLanguage($id, $lang);
 
-        $result = parent::save($data);
-
-        // Create default step for new tour
-        if ($result && $input->getCmd('task') !== 'save2copy' && $this->getState($this->getName() . '.new')) {
-            $tourId = (int) $this->getState($this->getName() . '.id');
-
-            $table = $this->getTable('Step');
-
-            $table->id          = 0;
-            $table->title       = 'COM_GUIDEDTOURS_BASIC_STEP';
-            $table->description = '';
-            $table->tour_id     = $tourId;
-            $table->published   = 1;
-            $table->position    = 'center';
-            $table->target      = '';
-            $table->type        = 0;
-            $table->url         = '';
-            $table->language    = '*';
-
-            $table->store();
-        }
-
-        return $result;
+        return parent::save($data);
     }
 
     /**
