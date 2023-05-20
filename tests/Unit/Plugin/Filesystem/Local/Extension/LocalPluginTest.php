@@ -118,7 +118,7 @@ class LocalPluginTest extends UnitTestCase
      *
      * @since   4.3.0
      */
-    public function testAdaptersInvalidDirectoy()
+    public function testAdaptersInvalidDirectory()
     {
         $this->expectException(InvalidArgumentException::class);
         $dispatcher = new Dispatcher();
