@@ -895,9 +895,86 @@ class JoomlaInstallerScript
         }
 
         // Add here code which shall be executed only when updating from an older version than 5.0.0
+        if (!migrateTinymceConfiguration()) {
+            return false;
+        }
 
         return true;
     }
+
+
+    /**
+     * Migrate TinyMCE editor plugin configuration
+     *
+     * @return  boolean  True on success
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function migrateTinymceConfiguration(): bool
+    {
+        $db = Factory::getDbo();
+
+        try {
+            // Get the TinyMCE editor plugin's parameters
+            $params = $db->setQuery(
+                $db->getQuery(true)
+                    ->select($db->quoteName('params'))
+                    ->from($db->quoteName('#__extensions'))
+                    ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+                    ->where($db->quoteName('folder') . ' = ' . $db->quote('editors'))
+                    ->where($db->quoteName('element') . ' = ' . $db->quote('tinymce'))
+            )->loadResult();
+        } catch (Exception $e) {
+            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+            return false;
+        }
+
+        $params = json_decode($params, true);
+
+        if (!isset($params['configuration']['toolbars'])) {
+            return true;
+        }
+
+        foreach ($params['configuration']['toolbars'] as $setIdx => $toolbar) {
+            if (isset($toolbar['menu'])) {
+                $params['configuration']['toolbars'][$setIdx]['menu'] = str_replace(
+                    ['fontformats', 'fontsizes', 'blockformats', 'formats'],
+                    ['fontfamily', 'fontsize', 'blocks', 'styles'],
+                    $toolbar['menu']
+                );
+            }
+
+            foreach (['toolbar1', 'toolbar2'] as $toolbarIdx) {
+                if (isset($toolbar[$toolbarIdx])) {
+                    $params['configuration']['toolbars'][$setIdx][$toolbarIdx] = str_replace(
+                        ['fontselect', 'fontsizeselect', 'formatselect', 'styleselect'],
+                        ['fontfamily', 'fontsize', 'blocks', 'styles'],
+                        $toolbar[$toolbarIdx]
+                    );
+                }
+            }
+        }
+
+        $params = json_encode($params);
+
+        $query = $db->getQuery(true)
+            ->update($db->quoteName('#__extensions'))
+            ->set($db->quoteName('params') . ' = ' . $db->quote($params))
+            ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+            ->where($db->quoteName('folder') . ' = ' . $db->quote('editors'))
+            ->where($db->quoteName('element') . ' = ' . $db->quote('tinymce'));
+
+        try {
+            $db->setQuery($query)->execute();
+        } catch (Exception $e) {
+            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+            return false;
+        }
+
+        return true;
+   }
 
     /**
      * Renames or removes incorrectly cased files.
