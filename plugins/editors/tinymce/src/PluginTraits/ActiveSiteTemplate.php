@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
 use Joomla\CMS\Language\Text;
-use Joomla\Database\DatabaseInterface;
 use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
