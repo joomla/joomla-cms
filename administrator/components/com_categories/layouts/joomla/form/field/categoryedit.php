@@ -104,9 +104,9 @@ if ($readonly) {
     }
 } else {
     // Sort the options by the text property
-    // usort($options, function($a, $b) {
-    //     return strcasecmp($a->text, $b->text);
-    // });
+    usort($options, function($a, $b) {
+        return strcasecmp($a->text, $b->text);
+    });
     
     // Create a regular list.
     if (count($options) === 0) {
