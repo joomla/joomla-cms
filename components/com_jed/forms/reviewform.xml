@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Jed\Component\Jed\Site\Field">
+    <fieldset>
+        <field name="id" type="text" readonly="true" class="readonly" default="0" description="JGLOBAL_FIELD_ID_DESC"/>
+        <field name="extension_id" type="foreignkey" label="COM_JED_REVIEWS_FIELD_EXTENSION_ID_LABEL"
+               description="COM_JED_REVIEWS_FIELD_EXTENSION_ID_DESCR" default="0" input_type="list"
+               table="#__jed_extensions" key_field="id" translate="true" value_field="title"/>
+        <field name="supply_option_id" type="list"
+               label="COM_JED_REVIEWS_FIELD_SUPPLY_OPTION_ID_LABEL"
+               description="COM_JED_REVIEWS_FIELD_SUPPLY_OPTION_ID_DESCR"
+               default="0" class="btn-group">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field name="title" required="true" filter="safehtml" type="text" label="JGLOBAL_TITLE" description="" hint=""/>
+        <field name="alias" type="text" class="inputbox" generator="title" label="JFIELD_ALIAS_LABEL"
+               description="JFIELD_ALIAS_DESC" hint=""/>
+        <field name="body" filter="safehtml" type="textarea" label="COM_JED_REVIEWS_FIELD_BODY_LABEL"
+               description="COM_JED_REVIEWS_FIELD_BODY_DESCR" hint=""/>
+        <field name="func_num" type="text" label="" description="" hint=""/>
+        <field name="ease_num" type="text" label="" description="" hint=""/>
+        <field name="support_num" type="text" label="" description="" hint=""/>
+        <field name="doc_num" type="text" label="" description="" hint=""/>
+        <field name="value_num" type="text" label="" description="" hint=""/>
+        <field name="functionality" required="true" type="rating" default="-1" startcleared="1" showvalue="true"
+               clearbutton="true" label="COM_JED_REVIEWS_FIELD_FUNCTIONALITY_LABEL"
+               description="COM_JED_REVIEWS_FIELD_FUNCTIONALITY_DESCR" hint=""/>
+        <field name="ease_of_use" required="true" type="rating" default="-1" startcleared="1" showvalue="true"
+               clearbutton="true" label="COM_JED_REVIEWS_FIELD_EASE_OF_USE_LABEL"
+               description="COM_JED_REVIEWS_FIELD_EASE_OF_USE_DESCR" hint=""/>
+        <field name="support" type="rating" default="-1" startcleared="1" showvalue="true" clearbutton="true"
+               label="COM_JED_REVIEWS_FIELD_SUPPORT_LABEL" description="COM_JED_REVIEWS_FIELD_SUPPORT_DESCR" hint=""/>
+        <field name="documentation" type="rating" default="-1" startcleared="1" showvalue="true" clearbutton="true"
+               label="COM_JED_REVIEWS_FIELD_DOCUMENTATION_LABEL" description="COM_JED_REVIEWS_FIELD_DOCUMENTATION_DESCR"
+               hint=""/>
+        <field name="value_for_money" type="rating" default="-1" startcleared="1" showvalue="true" clearbutton="true"
+               label="COM_JED_REVIEWS_FIELD_VALUE_FOR_MONEY_LABEL"
+               description="COM_JED_REVIEWS_FIELD_VALUE_FOR_MONEY_DESCR" hint=""/>
+
+        <field name="functionality_comment" required="true" filter="safehtml" type="textarea"
+               label="COM_JED_REVIEWS_FIELD_FUNCTIONALITY_LABEL_COMMENT"
+               description="COM_JED_REVIEWS_FIELD_FUNCTIONALITY_DESCR_COMMENT" hint=""/>
+        <field name="ease_of_use_comment" required="true" filter="safehtml" type="textarea"
+               label="COM_JED_REVIEWS_FIELD_EASE_OF_USE_LABEL_COMMENT"
+               description="COM_JED_REVIEWS_FIELD_EASE_OF_USE_DESCR_COMMENT" hint=""/>
+        <field name="support_comment" filter="safehtml" type="textarea"
+               label="COM_JED_REVIEWS_FIELD_SUPPORT_LABEL_COMMENT"
+               description="COM_JED_REVIEWS_FIELD_SUPPORT_DESCR_COMMENT" hint=""/>
+        <field name="documentation_comment" filter="safehtml" type="textarea"
+               label="COM_JED_REVIEWS_FIELD_DOCUMENTATION_LABEL_COMMENT"
+               description="COM_JED_REVIEWS_FIELD_DOCUMENTATION_DESCR_COMMENT" hint=""/>
+        <field name="value_for_money_comment" filter="safehtml" type="textarea"
+               label="COM_JED_REVIEWS_FIELD_VALUE_FOR_MONEY_LABEL_COMMENT"
+               description="COM_JED_REVIEWS_FIELD_VALUE_FOR_MONEY_DESCR_COMMENT" hint=""/>
+        <field name="overall_score" label="COM_JED_REVIEWS_FIELD_OVERALL_SCORE_LABEL"
+               description="COM_JED_REVIEWS_FIELD_OVERALL_SCORE_DESCR" hint=""/>
+        <field name="used_for" required="true" filter="safehtml" type="textarea"
+               label="COM_JED_REVIEWS_FIELD_USED_FOR_LABEL" description="COM_JED_REVIEWS_FIELD_USED_FOR_DESCR" hint=""/>
+        <field name="version" required="true" filter="safehtml" type="text" label="COM_JED_REVIEWS_FIELD_VERSION_LABEL"
+               description="COM_JED_REVIEWS_FIELD_VERSION_DESCR" hint=""/>
+        <field name="flagged" type="checkbox" checked="0" label="COM_JED_REVIEWS_FIELD_FLAGGED_LABEL"
+               description="COM_JED_REVIEWS_FIELD_FLAGGED_DESCR" hint=""/>
+        <field name="ip_address" filter="safehtml" type="text" label="COM_JED_REVIEWS_FIELD_IP_ADDRESS_LABEL"
+               description="COM_JED_REVIEWS_FIELD_IP_ADDRESS_DESCR" hint=""/>
+        <field name="published" type="checkbox" checked="0" label="JPUBLISHED"
+               description="COM_JED_REVIEWS_FIELD_PUBLISHED_DESCR" hint=""/>
+        <field name="created_on" type="timecreated" label="COM_JED_GENERAL_FIELD_CREATED_ON_LABEL"
+               description="COM_JED_REVIEWS_FIELD_CREATED_ON_DESCR" hint=""/>
+        <field name="ordering"/>
+        <field name="checked_out" type="hidden" filter="unset"/>
+        <field name="checked_out_time" default="0000-00-00 00:00:00" type="hidden" filter="unset"/>
+    </fieldset>
+</form>

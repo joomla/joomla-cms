@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Jed\Component\Jed\Site\Field">
+    <fieldset>
+        <field name="id" type="text" readonly="true" class="readonly" default="0" description="JGLOBAL_FIELD_ID_DESC"/>
+        <field name="reporter_fullname" filter="safehtml" type="text" required="true" message="Invalid Input"
+               label="COM_JED_GENERAL_FIELD_CONTACT_FULLNAME_LABEL"
+               description="COM_JED_VEL_ABANDONEDREPORTS_FIELD_REPORTER_FULLNAME_DESCR"
+        />
+        <field name="reporter_email" validate="email" type="email" required="true" message="Invalid email address."
+               label="COM_JED_GENERAL_FIELD_CONTACT_EMAIL_LABEL"
+               description="COM_JED_VEL_ABANDONEDREPORTS_FIELD_REPORTER_EMAIL_DESCR"
+        />
+        <field name="reporter_organisation" filter="safehtml" type="text"
+               label="COM_JED_GENERAL_FIELD_REPORTER_ORGANISATION_LABEL"
+               description="COM_JED_VEL_ABANDONEDREPORTS_FIELD_REPORTER_ORGANISATION_DESCR"
+        />
+        <field name="extension_name" filter="safehtml" type="text" required="true" message="Invalid Input"
+               label="COM_JED_VEL_ABANDONEDREPORTS_FIELD_EXTENSION_NAME_LABEL"
+               description="COM_JED_VEL_ABANDONEDREPORTS_FIELD_EXTENSION_NAME_DESCR"
+        />
+        <field name="developer_name" filter="safehtml" type="text"
+               label="COM_JED_VEL_GENERAL_FIELD_DEVELOPER_NAME_LABEL"
+               description="COM_JED_VEL_ABANDONEDREPORTS_FIELD_DEVELOPER_PATCH_DOWNLOAD_URL_DESCR"
+        />
+        <field name="extension_version" filter="safehtml" type="text"
+               label="COM_JED_VEL_ABANDONEDREPORTS_FIELD_EXTENSION_VERSION_LABEL"
+               description="COM_JED_VEL_ABANDONEDREPORTS_FIELD_EXTENSION_VERSION_DESCR"
+        />
+        <field name="extension_url" validate="url" type="url"
+               label="COM_JED_VEL_ABANDONEDREPORTS_FIELD_EXTENSION_URL_LABEL"
+               description="COM_JED_VEL_ABANDONEDREPORTS_FIELD_EXTENSION_URL_DESCR"
+        />
+        <field name="abandoned_reason" filter="safehtml" type="textarea"
+               label="COM_JED_VEL_ABANDONEDREPORTS_FIELD_ABANDONED_REASON_LABEL"
+               description="COM_JED_VEL_ABANDONEDREPORTS_FIELD_ABANDONED_REASON_DESCR"
+        />
+        <field name="consent_to_process" default="0" type="list" required="true"
+               message="COM_JED_GENERAL_RESPONSE_PLEASE_SELECT_PROCEED_NO"
+               label="COM_JED_VEL_GENERAL_FIELD_CONSENT_TO_PROCESS_NOTIFICATION_LABEL"
+               description="COM_JED_VEL_ABANDONEDREPORTS_FIELD_CONSENT_TO_PROCESS_DESCR"
+        >
+            <option value="1">COM_JED_VEL_GENERAL_FIELD_CONSENT_TO_PROCESS_OPTION_1</option>
+            <option value="0">COM_JED_VEL_GENERAL_FIELD_CONSENT_TO_PROCESS_OPTION_1</option>
+        </field>
+        <field name="passed_to_vel" default="0" type="list" label="COM_JED_VEL_GENERAL_FIELD_PASSED_TO_VEL_LABEL"
+
+        >
+            <option value="1">COM_JED_VEL_GENERAL_FIELD_PASSED_TO_VEL_OPTION_1</option>
+            <option value="0">COM_JED_VEL_GENERAL_FIELD_PASSED_TO_VEL_OPTION_0</option>
+        </field>
+        <field name="vel_item_id" default="0" label="COM_JED_VEL_GENERAL_FIELD_VEL_ITEM_ID_LABEL"
+               description="COM_JED_VEL_ABANDONEDREPORTS_FIELD_VEL_ITEM_ID_DESCR"
+        />
+        <field name="data_source" default="0" type="list" label="COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_LABEL"
+               description="COM_JED_VEL_ABANDONEDREPORTS_FIELD_DATA_SOURCE_DESCR"
+        >
+            <option value="0">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_0</option>
+            <option value="1">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_1</option>
+            <option value="5">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_5</option>
+            <option value="7">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_7</option>
+            <option value="9">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_9</option>
+            <option value="10">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_10</option>
+            <option value="11">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_11</option>
+            <option value="12">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_12</option>
+            <option value="13">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_13</option>
+            <option value="14">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_14</option>
+        </field>
+        <field name="date_submitted" default="CURRENT_TIMESTAMP" class="inputbox" format="%Y-%m-%d" timeformat="12"
+               filter="user_utc" translateformat="false" showtime="false" singleheader="false" todaybutton="false"
+               weeknumbers="false" filltable="false" type="calendar"
+               label="COM_JED_GENERAL_FIELD_DATE_SUBMITTED_LABEL"
+               description="COM_JED_VEL_ABANDONEDREPORTS_FIELD_DATE_SUBMITTED_DESCR"
+        />
+        <field name="user_ip" type="text" label="COM_JED_VEL_REPORTS_FIELD_USER_IP_LABEL"
+               description="COM_JED_VEL_ABANDONEDREPORTS_FIELD_USER_IP_DESCR"
+        />
+        <field name="created" default="0000-00-00" type="timecreated"
+               label="JGLOBAL_CREATED"
+               description="COM_JED_VEL_ABANDONEDREPORTS_FIELD_CREATED_DESCR"
+        />
+        <field name="modified" default="0000-00-00" type="timeupdated"
+               label="JGLOBAL_MODIFIED"
+               description="COM_JED_VEL_ABANDONEDREPORTS_FIELD_MODIFIED_DESCR"
+        />
+        <field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+               description="JGLOBAL_FIELD_VERSION_NOTE_DESC" class="inputbox" size="45" labelclass="control-label"/>
+    </fieldset>
+</form>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+        <field name="search" type="text" hint="JSEARCH_FILTER"
+               label="JSEARCH_FILTER"
+               class="js-stools-search-string"/>
+    </fields>
+
+    <fields name="list">
+        <field name="limit"
+               type="limitbox"
+               label="JGLOBAL_LIST_LIMIT"
+               class="input-mini"
+               default="10"
+               onchange="this.form.submit();"
+        />
+    </fields>
+</form>

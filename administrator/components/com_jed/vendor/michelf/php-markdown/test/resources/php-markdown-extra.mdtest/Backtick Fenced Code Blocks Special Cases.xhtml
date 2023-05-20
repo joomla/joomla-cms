@@ -1,0 +1,61 @@
+<pre><code class="html">&lt;ul>
+    &lt;li>Code block first in file&lt;/li>
+    &lt;li>doesn't work under some circumstances&lt;/li>
+&lt;/ul>
+</code></pre>
+
+<p>As above: checking for bad interractions with the HTML block parser:</p>
+
+<pre><code class="html">&lt;div>
+</code></pre>
+
+<p>Some <em>markdown</em><code>formatting</code>.</p>
+
+<pre><code class="html">&lt;/div>
+</code></pre>
+
+<p>Some <em>markdown</em></p>
+
+<pre><code>&lt;div>
+    &lt;html>
+</code></pre>
+
+<pre><code>function test();
+</code></pre>
+
+<div>
+<pre><code>&lt;html&gt;
+    &lt;title&gt;
+</code></pre>
+</div>
+
+<div>
+<pre><code>&lt;html&gt;
+    &lt;title&gt;
+</code></pre>
+</div>
+
+<p>Two code blocks with no blank line between them:</p>
+
+<pre><code>&lt;div&gt;
+</code></pre>
+
+<pre><code>&lt;div&gt;
+</code></pre>
+
+<p>Testing <em>confusion</em> with code spans at the HTML block parser:</p>
+
+<pre><code>&lt;div>```&lt;/div>
+</code></pre>
+
+<p>Testing mixing with title code blocks</p>
+
+<pre><code>&lt;p>```
+~~~
+&lt;p>```
+</code></pre>
+
+<pre><code>&lt;p>```
+```
+&lt;p>```
+</code></pre>

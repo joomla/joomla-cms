@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <fieldset label="COM_JED3_CONFIGURATION" name="jed">
+        <field name="jed3_db_host" filter="safehtml" type="text" default="localhost" label="COM_JED_MIGRATE_JED3_DB_HOST_LABEL" description="COM_JED_MIGRATE_JED3_DB_HOST_DESCR" hint="COM_JED_MIGRATE_JED3_DB_HOST_LABEL"/>
+        <field name="jed3_db_user" filter="safehtml" type="text" label="COM_JED_MIGRATE_JED3_DB_USER_LABEL" description="COM_JED_MIGRATE_JED3_DB_USER_DESCR" hint="COM_JED_MIGRATE_JED3_DB_USER_LABEL"/>
+        <field name="jed3_db_password" filter="safehtml" type="text" label="COM_JED_MIGRATE_JED3_DB_PASSWORD_LABEL" description="COM_JED_MIGRATE_JED3_DB_PASSWORD_DESCR" hint="COM_JED_MIGRATE_JED3_DB_PASSWORD_LABEL"/>
+        <field name="jed3_db_database_name" filter="safehtml" type="text" default="bl_j3_mar22" label="COM_JED_MIGRATE_JED3_DB_NAME_LABEL" description="COM_JED_MIGRATE_JED3_DB_NAME_DESCR" hint="COM_JED_MIGRATE_JED3_DB_NAME_LABEL"/>
+        <field name="jed3_db_prefix" filter="safehtml" type="text" default="wqyh6" label="COM_JED_MIGRATE_JED3_DB_PREFIX_LABEL" description="COM_JED_MIGRATE_JED3_DB_PREFIX_DESCR" hint="COM_JED_MIGRATE_JED3_DB_PREFIX_LABEL"/>
+    </fieldset>
+     <fieldset name="component" label="JGLOBAL_FIELDSET_INTEGRATION">
+        <field
+            name="save_history"
+            type="radio"
+            default="0"
+            label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
+            description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
+            layout="joomla.form.field.radio.switcher"
+            >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+
+        <field name="history_limit" type="text" filter="integer" label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL" description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC" default="5"/>
+    </fieldset>
+    <fieldset name="permissions" description="JCONFIG_PERMISSIONS_DESC" label="JCONFIG_PERMISSIONS_LABEL">
+        <field name="rules" type="rules" component="com_jed" class="inputbox" filter="rules" validate="rules" label="JCONFIG_PERMISSIONS_LABEL" section="component" />
+	</fieldset>
+</config>
+<!--
+########################################################################################
+The following are a list of all the different types of fields you can add to this file
+They are here for copy pasting - neat eh?
+########################################################################################
+
+https://docs.joomla.org/Standard_form_field_types
+<field name="mycalendar" type="calendar" default="5-10-2008" label="Select a date" description="" format="%d-%m-%Y" />
+
+https://docs.joomla.org/Standard_form_field_types
+<field name="mycategory" type="category" label="Select a category" description="" section="3" />
+
+https://docs.joomla.org/Standard_form_field_types
+<field name="myeditor" type="editors" default="none" label="Select an editor" />
+
+https://docs.joomla.org/Standard_form_field_types
+<field name="myfile" type="filelist" default="" label="Select a file" description="" directory="administrator" filter="" exclude="" stripext="" />
+
+https://docs.joomla.org/Standard_form_field_types
+<field name="myfolder" type="folderlist" default="" label="Select a folder" directory="administrator" filter="" exclude="" stripext="" />
+
+https://docs.joomla.org/Standard_form_field_types
+<field name="myhelpsite" type="helpsites" default="" label="Select a help site" description="" />
+
+https://docs.joomla.org/Standard_form_field_types
+<field name="mysecretvariable" type="hidden" default="" />
+
+https://docs.joomla.org/Standard_form_field_types
+<field name="myimage" type="imagelist" default="" label="Select an image" description="" directory="" exclude="" stripext="" />
+
+https://docs.joomla.org/Standard_form_field_types
+<field name="mylanguage" type="languages" client="site" default="en-GB" label="Select a language" description="" />
+
+https://docs.joomla.org/Standard_form_field_types
+<field name="mylistvalue" type="list" default="" label="Select an option" description="">
+  <option value="0">Option 1</option>
+  <option value="1">Option 2</option>
+</field>
+
+https://docs.joomla.org/Standard_form_field_types
+<field name="mymenu" type="menu" default="mainmenu" label="Select a menu" description="Select a menu" />
+
+https://docs.joomla.org/Standard_form_field_types
+<field name="mymenuitem" type="menuitem" default="45" label="Select a menu item" description="Select a menu item" />
+
+https://docs.joomla.org/Standard_form_field_types
+<field name="mypassword" type="password" default="secret" label="Enter a password" description="" size="5" />
+
+https://docs.joomla.org/Standard_form_field_types
+<field name="myradiovalue" type="radio" default="0" label="Select an option" description="">
+  <option value="0">1</option>
+  <option value="1">2</option>
+</field>
+
+https://docs.joomla.org/Standard_form_field_types
+<field type="spacer" default="&lt;b&gt;Advanced parameters&lt;/b&gt;" />
+
+https://docs.joomla.org/Standard_form_field_types
+<field name="myfield" type="sql" default="10" label="Select an article" query="SELECT id, title FROM #__content" key_field=”id” value_field=”title” />
+
+https://docs.joomla.org/Standard_form_field_types
+<field name="mytextvalue" type="text" default="Some text" label="Enter some text" description="" size="10" />
+
+https://docs.joomla.org/Standard_form_field_types
+<field name="mytextarea" type="textarea" default="default" label="Enter some text" description="" rows="10" cols="5" />
+
+https://docs.joomla.org/Standard_form_field_types
+<field name="mytimezone" type="timezones" default="-10" label="Select a timezone" description="" />
+
+https://docs.joomla.org/Standard_form_field_types
+<field name="myusergroups" type="usergroup" default="" label="Select a user group" description="" />
+
+
+-->

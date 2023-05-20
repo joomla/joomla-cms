@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+        <field name="search" type="text" description="JSEARCH_FILTER_SUBMIT"
+               label="COM_USERS_FILTER_SEARCH_DESC"
+               class="js-stools-search-string"/>
+
+        <field name="state"
+               type="status"
+               label="JSTATUS"
+               onchange="this.form.submit();"
+        >
+            <option value="">JOPTION_SELECT_PUBLISHED</option>
+        </field>
+
+    </fields>
+
+    <fields name="list">
+
+        <field name="fullordering"
+               type="list"
+               label="JGLOBAL_SORT_BY"
+               onchange="this.form.submit();"
+               default="a.id DESC"
+        >
+            <option value="">JGLOBAL_SORT_BY</option>
+            <option value="a.`id` ASC">JGRID_HEADING_ID_ASC</option>
+            <option value="a.`id` DESC">JGRID_HEADING_ID_DESC</option>
+            <option value="a.`title` ASC">COM_JED_GENERAL_FILTER_SORT_TITLE_ASC</option>
+            <option value="a.`title` DESC">COM_JED_GENERAL_FILTER_SORT_TITLE_DESC</option>
+            <option value="a.`status` ASC">JSTATUS_ASC</option>
+            <option value="a.`status` DESC">JSTATUS_DESC</option>
+            <option value="a.`report_id` ASC">COM_JED_GENERAL_FILTER_SORT_JED_REPORT_ASC</option>
+            <option value="a.`report_id` DESC">COM_JED_GENERAL_FILTER_SORT_JED_REPORT_DESC</option>
+            <option value="a.`jed` ASC">COM_JED_GENERAL_FILTER_SORT_JED_URL_ASC</option>
+            <option value="a.`jed` DESC">COM_JED_GENERAL_FILTER_SORT_JED_URL_DESC</option>
+            <option value="a.`alias` ASC">COM_JED_GENERAL_FILTER_SORT_ALIAS_ASC</option>
+            <option value="a.`alias` DESC">COM_JED_GENERAL_FILTER_SORT_ALIAS_DESC</option>
+            <option value="a.`created_by` ASC">COM_JED_GENERAL_FILTER_SORT_CREATED_BY_ASC</option>
+            <option value="a.`created_by` DESC">COM_JED_GENERAL_FILTER_SORT_CREATED_BY_DESC</option>
+            <option value="a.`modified_by` ASC">COM_JED_GENERAL_FILTER_SORT_MODIFIED_BY_ASC</option>
+            <option value="a.`modified_by` DESC">COM_JED_GENERAL_FILTER_SORT_MODIFIED_BY_DESC</option>
+            <option value="a.`created` ASC">COM_JED_GENERAL_FILTER_SORT_CREATED_ON_ASC</option>
+            <option value="a.`created` DESC">COM_JED_GENERAL_FILTER_SORT_CREATED_ON_DESC</option>
+            <option value="a.`modified` ASC">COM_JED_GENERAL_FILTER_SORT_MODIFIED_ON_ASC</option>
+            <option value="a.`modified` DESC">COM_JED_GENERAL_FILTER_SORT_MODIFIED_ON_DESC</option>
+        </field>
+
+        <field name="limit"
+               type="limitbox"
+               label="JGLOBAL_LIST_LIMIT"
+               class="input-mini"
+               default="25"
+               onchange="this.form.submit();"
+        />
+
+    </fields>
+
+</form>

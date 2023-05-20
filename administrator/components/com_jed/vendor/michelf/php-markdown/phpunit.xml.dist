@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="./test/bootstrap.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+>
+    <testsuites>
+        <testsuite name="php-markdown Unit Tests">
+            <directory>./test/unit/</directory>
+        </testsuite>
+        <testsuite name="php-markdown Integration Tests">
+            <directory>./test/integration/</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">Michelf</directory>
+        </whitelist>
+    </filter>
+</phpunit>

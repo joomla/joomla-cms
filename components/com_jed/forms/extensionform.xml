@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Jed\Component\Jed\Site\Field">
+    <fieldset>
+        <field name="id" type="text" readonly="true" class="readonly" default="0" description="JGLOBAL_FIELD_ID_DESC"/>
+        <field name="title" filter="safehtml" type="text" label="JGLOBAL_TITLE"
+               description="JGLOBAL_FIELD_FIELD_ORDERING_DESC" hint="COM_JED_FORM_LBL_EXTENSION_TITLE"/>
+        <field name="alias" type="text" class="inputbox" generator="title" label="JFIELD_ALIAS_LABEL"
+               description="JFIELD_ALIAS_DESC" hint="JALIAS"/>
+        <field name="published" type="checkbox" checked="0" label="JPUBLISHED"
+               description="COM_JED_FORM_DESC_EXTENSION_PUBLISHED" hint="JPUBLISHED"/>
+        <field name="checked_out" type="hidden" filter="unset"/>
+        <field name="checked_out_time" type="hidden" filter="unset"/>
+        <field name="created_on" type="timecreated" label="COM_JED_GENERAL_FIELD_CREATED_ON_LABEL"
+               description="COM_JED_FORM_DESC_EXTENSION_CREATED_ON" hint="COM_JED_GENERAL_FIELD_CREATED_ON_LABEL"/>
+        <field name="modified_on" type="timeupdated" label="COM_JED_FORM_LBL_EXTENSION_MODIFIED_ON"
+               description="COM_JED_FORM_DESC_EXTENSION_MODIFIED_ON" hint="COM_JED_FORM_LBL_EXTENSION_MODIFIED_ON"/>
+        <field name="joomla_versions" filter="safehtml" type="text" label="COM_JED_FORM_LBL_EXTENSION_JOOMLA_VERSIONS"
+               description="COM_JED_FORM_DESC_EXTENSION_JOOMLA_VERSIONS"
+               hint="COM_JED_FORM_LBL_EXTENSION_JOOMLA_VERSIONS"/>
+        <field name="popular" type="checkbox" checked="0" label="COM_JED_FORM_LBL_EXTENSION_POPULAR"
+               description="COM_JED_FORM_DESC_EXTENSION_POPULAR" hint="COM_JED_FORM_LBL_EXTENSION_POPULAR"/>
+        <field name="requires_registration" type="checkbox" checked="0"
+               label="COM_JED_FORM_LBL_EXTENSION_REQUIRES_REGISTRATION"
+               description="COM_JED_FORM_DESC_EXTENSION_REQUIRES_REGISTRATION"
+               hint="COM_JED_FORM_LBL_EXTENSION_REQUIRES_REGISTRATION"/>
+        <field name="gpl_license_type" filter="safehtml" type="text" label="COM_JED_FORM_LBL_EXTENSION_GPL_LICENSE_TYPE"
+               description="COM_JED_FORM_DESC_EXTENSION_GPL_LICENSE_TYPE"
+               hint="COM_JED_FORM_LBL_EXTENSION_GPL_LICENSE_TYPE"/>
+        <field name="jed_internal_note" filter="safehtml" type="textarea"
+               label="COM_JED_FORM_LBL_EXTENSION_JED_INTERNAL_NOTE"
+               description="COM_JED_FORM_DESC_EXTENSION_JED_INTERNAL_NOTE"
+               hint="COM_JED_FORM_LBL_EXTENSION_JED_INTERNAL_NOTE"/>
+        <field name="can_update" type="checkbox" checked="0" label="COM_JED_FORM_LBL_EXTENSION_CAN_UPDATE"
+               description="COM_JED_FORM_DESC_EXTENSION_CAN_UPDATE" hint="COM_JED_FORM_LBL_EXTENSION_CAN_UPDATE"/>
+        <field name="video" filter="safehtml" type="text" label="COM_JED_FORM_LBL_EXTENSION_VIDEO"
+               description="COM_JED_FORM_DESC_EXTENSION_VIDEO" hint="COM_JED_FORM_LBL_EXTENSION_VIDEO"/>
+        <field name="version" filter="safehtml" type="text" label="COM_JED_FORM_LBL_EXTENSION_VERSION"
+               description="COM_JED_FORM_DESC_EXTENSION_VERSION" hint="COM_JED_FORM_LBL_EXTENSION_VERSION"/>
+        <field name="uses_updater" default="0" type="list" label="COM_JED_FORM_LBL_EXTENSION_USES_UPDATER"
+               description="COM_JED_FORM_DESC_EXTENSION_USES_UPDATER" hint="COM_JED_FORM_LBL_EXTENSION_USES_UPDATER">
+            <option value="1">COM_JED_EXTENSIONS_USES_UPDATER_OPTION_1</option>
+            <option value="0">COM_JED_EXTENSIONS_USES_UPDATER_OPTION_0</option>
+        </field>
+        <field name="includes" filter="safehtml" type="text" label="COM_JED_FORM_LBL_EXTENSION_INCLUDES"
+               description="COM_JED_FORM_DESC_EXTENSION_INCLUDES" hint="COM_JED_FORM_LBL_EXTENSION_INCLUDES"/>
+        <field name="approved" type="checkbox" checked="0" label="COM_JED_FORM_LBL_EXTENSION_APPROVED"
+               description="COM_JED_FORM_DESC_EXTENSION_APPROVED" hint="COM_JED_FORM_LBL_EXTENSION_APPROVED"/>
+        <field name="approved_time" type="calendar" class="inputbox" format="%Y-%m-%d %H:%M:%S" showtime="true"
+               translateformat="true" label="COM_JED_FORM_LBL_EXTENSION_APPROVED_TIME"
+               description="COM_JED_FORM_DESC_EXTENSION_APPROVED_TIME" hint="COM_JED_FORM_LBL_EXTENSION_APPROVED_TIME"/>
+        <field name="second_contact_email" type="text" label="COM_JED_FORM_LBL_EXTENSION_SECOND_CONTACT_EMAIL"
+               description="COM_JED_FORM_DESC_EXTENSION_SECOND_CONTACT_EMAIL"
+               hint="COM_JED_FORM_LBL_EXTENSION_SECOND_CONTACT_EMAIL"/>
+        <field name="jed_checked" type="checkbox" checked="0" label="COM_JED_FORM_LBL_EXTENSION_JED_CHECKED"
+               description="COM_JED_FORM_DESC_EXTENSION_JED_CHECKED" hint="COM_JED_FORM_LBL_EXTENSION_JED_CHECKED"/>
+        <field name="uses_third_party" type="checkbox" checked="0" label="COM_JED_FORM_LBL_EXTENSION_USES_THIRD_PARTY"
+               description="COM_JED_FORM_DESC_EXTENSION_USES_THIRD_PARTY"
+               hint="COM_JED_FORM_LBL_EXTENSION_USES_THIRD_PARTY"/>
+        <field name="primary_category_id" extension="com_jed.extensions" type="category"
+               label="COM_JED_FORM_LBL_EXTENSION_PRIMARY_CATEGORY_ID"
+               description="COM_JED_FORM_DESC_EXTENSION_PRIMARY_CATEGORY_ID"
+               hint="COM_JED_FORM_LBL_EXTENSION_PRIMARY_CATEGORY_ID"/>
+        <field name="logo" filter="safehtml" type="text" label="COM_JED_FORM_LBL_EXTENSION_LOGO"
+               description="COM_JED_FORM_DESC_EXTENSION_LOGO" hint="COM_JED_FORM_LBL_EXTENSION_LOGO"/>
+        <field name="approved_notes" filter="safehtml" type="text" label="COM_JED_FORM_LBL_EXTENSION_APPROVED_NOTES"
+               description="COM_JED_FORM_DESC_EXTENSION_APPROVED_NOTES"
+               hint="COM_JED_FORM_LBL_EXTENSION_APPROVED_NOTES"/>
+        <field name="approved_reason" filter="safehtml" type="text" label="COM_JED_FORM_LBL_EXTENSION_APPROVED_REASON"
+               description="COM_JED_FORM_DESC_EXTENSION_APPROVED_REASON"
+               hint="COM_JED_FORM_LBL_EXTENSION_APPROVED_REASON"/>
+        <field name="published_notes" filter="safehtml" type="text" label="COM_JED_FORM_LBL_EXTENSION_PUBLISHED_NOTES"
+               description="COM_JED_FORM_DESC_EXTENSION_PUBLISHED_NOTES" hint="JPUBLISHED_NOTES"/>
+        <field name="published_reason" filter="safehtml" type="text" label="COM_JED_FORM_LBL_EXTENSION_PUBLISHED_REASON"
+               description="COM_JED_FORM_DESC_EXTENSION_PUBLISHED_REASON" hint="JPUBLISHED_REASON"/>
+        <field name="state" type="list" label="JSTATUS" description="JFIELD_PUBLISHED_DESC" class="inputbox" size="1"
+               default="1">
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+            <option value="2">JARCHIVED</option>
+            <option value="-2">JTRASHED</option>
+        </field>
+        <field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+               description="JGLOBAL_FIELD_VERSION_NOTE_DESC" class="inputbox" size="45" labelclass="control-label"/>
+    </fieldset>
+</form>

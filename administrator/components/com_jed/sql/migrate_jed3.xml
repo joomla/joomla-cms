@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tasks>
+<task>
+ <heading>Porting Extensions Data</heading>
+<instruction>
+ <description>Making sure database is clean of temporary table</description>
+ <sql>SET FOREIGN_KEY_CHECKS = 0;DROP TABLE IF EXISTS combine_jed_extensions</sql>
+ </instruction>
+<instruction>
+ <description>Create combination of UCM and JED_Extensions</description>
+ <sql>CREATE TABLE combine_jed_extensions (
+id	INT	UNSIGNED	NOT	NULL	DEFAULT	'0', 
+core_content_id INT UNSIGNED DEFAULT 0, 
+core_title VARCHAR(400), 
+core_alias VARCHAR(300), 
+core_body MEDIUMTEXT, 
+core_state TINYINT(1) DEFAULT 0, 
+core_created_user_id INT DEFAULT 0, 
+core_created_time DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00', 
+core_catid INT DEFAULT 0, 
+core_checked_out_time VARCHAR(255) DEFAULT '0000-00-00 00:00:00', 
+core_checked_out_user_id INT DEFAULT 0, 
+core_modified_user_id INT DEFAULT 0, 
+core_modified_time DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00', 
+homepage_link	VARCHAR(255)	DEFAULT	'', 			
+download_link	VARCHAR(255)	DEFAULT	'', 			
+demo_link	VARCHAR(255)	DEFAULT	'', 			
+support_link	VARCHAR(255)	DEFAULT	'', 			
+documentation_link	VARCHAR(255)	DEFAULT	'', 			
+license_link	VARCHAR(255)	DEFAULT	'', 			
+versions	VARCHAR(255)	DEFAULT	'', 			
+popular	TINYINT(1)	DEFAULT	NULL, 			
+requires_registration	TINYINT(1)	DEFAULT	'0', 			
+type	VARCHAR(8)	DEFAULT	'', 			
+related_free_paid_id	INT	DEFAULT	'0', 			
+license	VARCHAR(20)	DEFAULT	'', 			
+jed_note	TEXT	, 				
+update_url	VARCHAR(255)	DEFAULT	'', 			
+update_url_ok	TINYINT(1)	DEFAULT	'0', 			
+can_update	TINYINT(1)	DEFAULT	'0', 			
+tags	TEXT	, 				
+language_code	VARCHAR(100)	DEFAULT	'', 			
+video	VARCHAR(100)	DEFAULT	'', 			
+version	VARCHAR(255)	DEFAULT	'', 			
+uses_updater	TINYINT(1)	DEFAULT	'0', 			
+includes	VARCHAR(100)	DEFAULT	'', 			
+community_choice	TINYINT(1)	DEFAULT	'0', 			
+score	DOUBLE(6, 2)	DEFAULT	NULL, 			
+approved	INT	DEFAULT	'0', 			
+approved_time	DATETIME	DEFAULT	NULL, 			
+extension_file	VARCHAR(150)	DEFAULT	'', 			
+download_integration_type	VARCHAR(100)	DEFAULT	'', 			
+download_integration_url	VARCHAR(255)	DEFAULT	'', 			
+second_contact_email	VARCHAR(100)	DEFAULT	'', 			
+currency	VARCHAR(50)	DEFAULT	'', 			
+price	DOUBLE(6, 2)	DEFAULT	NULL, 			
+price_per	INT	DEFAULT	'0', 			
+price_interval	CHAR(6)	DEFAULT	'', 			
+language_body	TEXT	, 				
+backlink	TINYINT(1)	DEFAULT	'0', 			
+non_gpl_css_js	TINYINT(1)	DEFAULT	'0', 			
+parent_id	INT	DEFAULT	'0', 			
+functionality	INT	DEFAULT	'0', 			
+ease_of_use	INT	DEFAULT	'0', 			
+support	INT	DEFAULT	'0', 			
+documentation	INT	DEFAULT	'0', 			
+value_for_money	INT	DEFAULT	'0', 			
+num_reviews	INT	DEFAULT	'0', 			
+jed_checked	TINYINT(1)	DEFAULT	'0', 			
+extension_ext_libs	TINYINT(1)	DEFAULT	'0', 	
+logo VARCHAR(255) DEFAULT '', 		
+free_id	INT	UNSIGNED	NOT	NULL	DEFAULT	'0', 
+free_homepage_link	VARCHAR(255)	DEFAULT	'', 			
+free_download_link	VARCHAR(255)	DEFAULT	'', 			
+free_demo_link	VARCHAR(255)	DEFAULT	'', 			
+free_support_link	VARCHAR(255)	DEFAULT	'', 			
+free_documentation_link	VARCHAR(255)	DEFAULT	'', 			
+free_license_link	VARCHAR(255)	DEFAULT	'', 			
+free_versions	VARCHAR(255)	DEFAULT	'', 			
+free_popular	TINYINT(1)	DEFAULT	'0', 			
+free_requires_registration	TINYINT(1)	DEFAULT	'0', 			
+free_type	VARCHAR(8)	DEFAULT	'', 			
+free_related_free_paid_id	INT	DEFAULT	'0', 			
+free_license	VARCHAR(20)	DEFAULT	'', 			
+free_jed_note	TEXT	, 				
+free_update_url	VARCHAR(255)	DEFAULT	'', 			
+free_update_url_ok	TINYINT(1)	DEFAULT	'0', 			
+free_can_update	TINYINT(1)	DEFAULT	'0', 			
+free_tags	TEXT	, 				
+free_language_code	VARCHAR(100)	DEFAULT	'', 			
+free_video	VARCHAR(100)	DEFAULT	'', 			
+free_version	VARCHAR(255)	DEFAULT	'', 			
+free_uses_updater	TINYINT(1)	DEFAULT	'0', 			
+free_includes	VARCHAR(100)	DEFAULT	'', 			
+free_community_choice	TINYINT(1)	DEFAULT	'0', 			
+free_score	DOUBLE(6, 2)	DEFAULT	NULL, 			
+free_approved	INT	DEFAULT	'0', 			
+free_approved_time	DATETIME	DEFAULT	NULL, 			
+free_extension_file	VARCHAR(150)	DEFAULT	'', 			
+free_download_integration_type	VARCHAR(100)	DEFAULT	'', 			
+free_download_integration_url	VARCHAR(255)	DEFAULT	'', 			
+free_second_contact_email	VARCHAR(100)	DEFAULT	'', 			
+free_currency	VARCHAR(50)	DEFAULT	'', 			
+free_price	DOUBLE(6, 2)	DEFAULT	NULL, 			
+free_price_per	INT	DEFAULT	'0', 			
+free_price_interval	CHAR(6)	DEFAULT	'', 			
+free_language_body	TEXT	, 				
+free_backlink	TINYINT(1)	DEFAULT	'0', 			
+free_non_gpl_css_js	TINYINT(1)	DEFAULT	'0', 			
+free_parent_id	INT	DEFAULT	'0', 			
+free_functionality	INT	DEFAULT	'0', 			
+free_ease_of_use	INT	DEFAULT	'0', 			
+free_support	INT	DEFAULT	'0', 			
+free_documentation	INT	DEFAULT	'0', 			
+free_value_for_money	INT	DEFAULT	'0', 			
+free_num_reviews	INT	DEFAULT	'0', 			
+free_jed_checked	TINYINT(1)	DEFAULT	'0', 			
+free_extension_ext_libs	TINYINT(1)	DEFAULT	'0', 	
+free_logo VARCHAR(255) DEFAULT '', 		
+paid_id	INT	DEFAULT	'0', 			
+paid_homepage_link	VARCHAR(255)	DEFAULT	'', 			
+paid_download_link	VARCHAR(255)	DEFAULT	'', 			
+paid_demo_link	VARCHAR(255)	DEFAULT	'', 			
+paid_support_link	VARCHAR(255)	DEFAULT	'', 			
+paid_documentation_link	VARCHAR(255)	DEFAULT	'', 			
+paid_license_link	VARCHAR(255)	DEFAULT	'', 			
+paid_versions	VARCHAR(255)	DEFAULT	'', 			
+paid_popular	TINYINT(1)	DEFAULT	'0', 			
+paid_requires_registration	TINYINT(1)	DEFAULT	'0', 			
+paid_type	VARCHAR(8)	DEFAULT	'', 			
+paid_related_free_paid_id	INT	DEFAULT	'0', 			
+paid_license	VARCHAR(20)	DEFAULT	'', 			
+paid_jed_note	TEXT	, 				
+paid_update_url	VARCHAR(255)	DEFAULT	'', 			
+paid_update_url_ok	TINYINT(1)	DEFAULT	'0', 			
+paid_can_update	TINYINT(1)	DEFAULT	'1', 			
+paid_tags	TEXT	, 				
+paid_language_code	VARCHAR(100)	DEFAULT	'', 			
+paid_video	VARCHAR(100)	DEFAULT	'', 			
+paid_version	VARCHAR(255)	DEFAULT	'', 			
+paid_uses_updater	TINYINT(1)	DEFAULT	'0', 			
+paid_includes	VARCHAR(100)	DEFAULT	'', 			
+paid_community_choice	TINYINT(1)	DEFAULT	'0', 			
+paid_score	DOUBLE(6, 2)	DEFAULT	NULL, 			
+paid_approved	INT	DEFAULT	'0', 			
+paid_approved_time	DATETIME	DEFAULT	NULL, 			
+paid_extension_file	VARCHAR(150)	DEFAULT	'', 			
+paid_download_integration_type	VARCHAR(100)	DEFAULT	'', 			
+paid_download_integration_url	VARCHAR(255)	DEFAULT	'', 			
+paid_second_contact_email	VARCHAR(100)	DEFAULT	'', 			
+paid_currency	VARCHAR(50)	DEFAULT	'', 			
+paid_price	DOUBLE(6, 2)	DEFAULT	NULL, 			
+paid_price_per	INT	DEFAULT	'0', 			
+paid_price_interval	CHAR(6)	DEFAULT	'', 			
+paid_language_body	TEXT	, 				
+paid_backlink	TINYINT(1)	DEFAULT	'0', 			
+paid_non_gpl_css_js	TINYINT(1)	DEFAULT	'0', 			
+paid_parent_id	INT	DEFAULT	'0', 			
+paid_functionality	INT	DEFAULT	'0', 			
+paid_ease_of_use	INT	DEFAULT	'0', 			
+paid_support	INT	DEFAULT	'0', 			
+paid_documentation	INT	DEFAULT	'0', 			
+paid_value_for_money	INT	DEFAULT	'0', 			
+paid_num_reviews	INT	DEFAULT	'0', 			
+paid_jed_checked	TINYINT(1)	DEFAULT	'0', 			
+paid_extension_ext_libs	TINYINT(1)	DEFAULT	'0', 
+paid_logo VARCHAR(255) DEFAULT '', 			
+
+
+  PRIMARY KEY (id)
+ 
+) ENGINE=INNODB  DEFAULT CHARSET=utf8mb4</sql>
+ </instruction>
+<instruction>
+ <description>Insert Data </description>
+ <sql>INSERT INTO combine_jed_extensions ( id,  core_content_id, core_title, core_alias, core_body, core_state, core_created_user_id , core_created_time, core_catid, core_checked_out_time, core_checked_out_user_id, core_modified_user_id,  core_modified_time, homepage_link, download_link, demo_link, support_link, documentation_link, license_link, versions, popular, requires_registration, type, related_free_paid_id, license, jed_note, update_url, update_url_ok, can_update, tags, language_code, video, version, uses_updater, includes, community_choice, score, approved, approved_time, extension_file, download_integration_type, download_integration_url, second_contact_email, currency, price, price_per, price_interval, language_body, backlink, non_gpl_css_js, parent_id, functionality, ease_of_use, support, documentation, value_for_money, num_reviews, jed_checked, extension_ext_libs ) SELECT   e.id, core_content_id, core_title, core_alias, core_body, core_state, core_created_user_id , core_created_time, core_catid, core_checked_out_time, core_checked_out_user_id, core_modified_user_id,   core_modified_time, homepage_link, download_link, demo_link, support_link, documentation_link, license_link, versions, popular, requires_registration, type, related_free_paid_id, license, jed_note, update_url, update_url_ok, can_update, tags, language_code, video, version, uses_updater, includes, community_choice, score, approved, approved_time, extension_file, download_integration_type, download_integration_url, second_contact_email, currency, price, price_per, price_interval, language_body, backlink, non_gpl_css_js, parent_id, functionality, ease_of_use, support, documentation, value_for_money, num_reviews, jed_checked, extension_ext_libs FROM wqyh6_jed_extensions e, wqyh6_ucm_content u WHERE  u.core_content_item_id = e.id AND u.core_type_alias = "com_jed.extension" ORDER BY e.id ASC </sql>
+ </instruction>
+<instruction>
+ <description>Attach Free Extensions</description>
+    <sql>UPDATE   combine_jed_extensions cj, wqyh6_jed_extensions je SET   cj.free_id = je.id, cj.free_homepage_link = je.homepage_link, cj.free_download_link = je.download_link, cj.free_demo_link = je.demo_link, cj.free_support_link = je.support_link, cj.free_documentation_link = je.documentation_link, cj.free_license_link = je.license_link, cj.free_versions = je.versions, cj.free_popular = je.popular, cj.free_requires_registration = je.requires_registration, cj.free_type = je.type, cj.free_related_free_paid_id = je.related_free_paid_id, cj.free_license = je.license, cj.free_jed_note = je.jed_note, cj.free_update_url = je.update_url, cj.free_update_url_ok = je.update_url_ok, cj.free_can_update = je.can_update, cj.free_tags = je.tags, cj.free_language_code = je.language_code, cj.free_video = je.video, cj.free_version = je.version, cj.free_uses_updater = je.uses_updater, cj.free_includes = je.includes, cj.free_community_choice = je.community_choice, cj.free_score = je.score, cj.free_approved = je.approved, cj.free_approved_time = je.approved_time, cj.free_extension_file = je.extension_file, cj.free_download_integration_type = je.download_integration_type, cj.free_download_integration_url = je.download_integration_url, cj.free_second_contact_email = je.second_contact_email, cj.free_currency = je.currency, cj.free_price = je.price, cj.free_price_per = je.price_per, cj.free_price_interval = je.price_interval, cj.free_language_body = je.language_body, cj.free_backlink = je.backlink, cj.free_non_gpl_css_js = je.non_gpl_css_js, cj.free_parent_id = je.parent_id, cj.free_functionality = je.functionality, cj.free_ease_of_use = je.ease_of_use, cj.free_support = je.support, cj.free_documentation = je.documentation, cj.free_value_for_money = je.value_for_money, cj.free_num_reviews = je.num_reviews, cj.free_jed_checked = je.jed_checked, cj.free_extension_ext_libs = je.extension_ext_libs WHERE je.type = "free"   AND cj.type = "free"   AND cj.id = je.id</sql>
+    
+ </instruction>
+ <instruction>
+ <description>Attach Paid Extensions</description>   
+     <sql>UPDATE   combine_jed_extensions cj, wqyh6_jed_extensions je SET   cj.paid_id = je.id, cj.paid_homepage_link = je.homepage_link, cj.paid_download_link = je.download_link, cj.paid_demo_link = je.demo_link, cj.paid_support_link = je.support_link, cj.paid_documentation_link = je.documentation_link, cj.paid_license_link = je.license_link, cj.paid_versions = je.versions, cj.paid_popular = je.popular, cj.paid_requires_registration = je.requires_registration, cj.paid_type = je.type, cj.paid_related_free_paid_id = je.related_free_paid_id, cj.paid_license = je.license, cj.paid_jed_note = je.jed_note, cj.paid_update_url = je.update_url, cj.paid_update_url_ok = je.update_url_ok, cj.paid_can_update = je.can_update, cj.paid_tags = je.tags, cj.paid_language_code = je.language_code, cj.paid_video = je.video, cj.paid_version = je.version, cj.paid_uses_updater = je.uses_updater, cj.paid_includes = je.includes, cj.paid_community_choice = je.community_choice, cj.paid_score = je.score, cj.paid_approved = je.approved, cj.paid_approved_time = je.approved_time, cj.paid_extension_file = je.extension_file, cj.paid_download_integration_type = je.download_integration_type, cj.paid_download_integration_url = je.download_integration_url, cj.paid_second_contact_email = je.second_contact_email, cj.paid_currency = je.currency, cj.paid_price = je.price, cj.paid_price_per = je.price_per, cj.paid_price_interval = je.price_interval, cj.paid_language_body = je.language_body, cj.paid_backlink = je.backlink, cj.paid_non_gpl_css_js = je.non_gpl_css_js, cj.paid_parent_id = je.parent_id, cj.paid_functionality = je.functionality, cj.paid_ease_of_use = je.ease_of_use, cj.paid_support = je.support, cj.paid_documentation = je.documentation, cj.paid_value_for_money = je.value_for_money, cj.paid_num_reviews = je.num_reviews, cj.paid_jed_checked = je.jed_checked, cj.paid_extension_ext_libs = je.extension_ext_libs WHERE je.type = "paid"   AND cj.type = "paid"   AND cj.id = je.id</sql>
+      </instruction>
+ <instruction>
+     <description>Add main logos</description> 
+     <sql>UPDATE combine_jed_extensions cj, wqyh6_jed_extension_logos jl SET cj.logo=jl.file WHERE jl.extension_id = cj.id</sql>
+</instruction>
+     <instruction>
+     <description>Add Free logos</description> 
+     <sql>UPDATE combine_jed_extensions cj, wqyh6_jed_extension_logos jl SET cj.free_logo=jl.file WHERE jl.extension_id = cj.free_id</sql>
+</instruction>
+  <instruction>
+     <description>Add Paid logos</description> 
+     <sql>UPDATE combine_jed_extensions cj, wqyh6_jed_extension_logos jl SET cj.paid_logo=jl.file WHERE jl.extension_id = cj.paid_id</sql>
+</instruction>   
+   <instruction>
+     <description>Arranging Master fields - Free or Paid</description> 
+     <sql>UPDATE   combine_jed_extensions cj, wqyh6_jed_extensions je SET  cj.free_id = je.id, cj.free_homepage_link = je.homepage_link, cj.free_download_link = je.download_link, cj.free_demo_link = je.demo_link, cj.free_support_link = je.support_link, cj.free_documentation_link = je.documentation_link, cj.free_license_link = je.license_link, cj.free_versions = je.versions, cj.free_popular = je.popular, cj.free_requires_registration = je.requires_registration, cj.free_type = je.type, cj.free_related_free_paid_id = je.related_free_paid_id, cj.free_license = je.license, cj.free_jed_note = je.jed_note, cj.free_update_url = je.update_url, cj.free_update_url_ok = je.update_url_ok, cj.free_can_update = je.can_update, cj.free_tags = je.tags, cj.free_language_code = je.language_code, cj.free_video = je.video, cj.free_version = je.version, cj.free_uses_updater = je.uses_updater, cj.free_includes = je.includes, cj.free_community_choice = je.community_choice, cj.free_score = je.score, cj.free_approved = je.approved, cj.free_approved_time = je.approved_time, cj.free_extension_file = je.extension_file, cj.free_download_integration_type = je.download_integration_type, cj.free_download_integration_url = je.download_integration_url, cj.free_second_contact_email = je.second_contact_email, cj.free_currency = je.currency, cj.free_price = je.price, cj.free_price_per = je.price_per, cj.free_price_interval = je.price_interval, cj.free_language_body = je.language_body, cj.free_backlink = je.backlink, cj.free_non_gpl_css_js = je.non_gpl_css_js, cj.free_parent_id = je.parent_id, cj.free_functionality = je.functionality, cj.free_ease_of_use = je.ease_of_use, cj.free_support = je.support, cj.free_documentation = je.documentation, cj.free_value_for_money = je.value_for_money, cj.free_num_reviews = je.num_reviews, cj.free_jed_checked = je.jed_checked, cj.free_extension_ext_libs = je.extension_ext_libs WHERE je.id = cj.related_free_paid_id  AND je.type = "free"</sql>
+</instruction>   
+       <instruction>
+     <description>Arranging Master fields - Paid or Free</description> 
+     <sql>UPDATE   combine_jed_extensions cj, wqyh6_jed_extensions je SET   cj.paid_id = je.id, cj.paid_homepage_link = je.homepage_link, cj.paid_download_link = je.download_link, cj.paid_demo_link = je.demo_link, cj.paid_support_link = je.support_link, cj.paid_documentation_link = je.documentation_link, cj.paid_license_link = je.license_link, cj.paid_versions = je.versions, cj.paid_popular = je.popular, cj.paid_requires_registration = je.requires_registration, cj.paid_type = je.type, cj.paid_related_free_paid_id = je.related_free_paid_id, cj.paid_license = je.license, cj.paid_jed_note = je.jed_note, cj.paid_update_url = je.update_url, cj.paid_update_url_ok = je.update_url_ok, cj.paid_can_update = je.can_update, cj.paid_tags = je.tags, cj.paid_language_code = je.language_code, cj.paid_video = je.video, cj.paid_version = je.version, cj.paid_uses_updater = je.uses_updater, cj.paid_includes = je.includes, cj.paid_community_choice = je.community_choice, cj.paid_score = je.score, cj.paid_approved = je.approved, cj.paid_approved_time = je.approved_time, cj.paid_extension_file = je.extension_file, cj.paid_download_integration_type = je.download_integration_type, cj.paid_download_integration_url = je.download_integration_url, cj.paid_second_contact_email = je.second_contact_email, cj.paid_currency = je.currency, cj.paid_price = je.price, cj.paid_price_per = je.price_per, cj.paid_price_interval = je.price_interval, cj.paid_language_body = je.language_body, cj.paid_backlink = je.backlink, cj.paid_non_gpl_css_js = je.non_gpl_css_js, cj.paid_parent_id = je.parent_id, cj.paid_functionality = je.functionality, cj.paid_ease_of_use = je.ease_of_use, cj.paid_support = je.support, cj.paid_documentation = je.documentation, cj.paid_value_for_money = je.value_for_money, cj.paid_num_reviews = je.num_reviews, cj.paid_jed_checked = je.jed_checked, cj.paid_extension_ext_libs = je.extension_ext_libs WHERE je.id = cj.related_free_paid_id AND je.type = "paid"</sql>
+</instruction>   
+    <instruction>
+     <description>Arranging Master fields - which is the master row? Query 1</description> 
+        <sql>ALTER TABLE combine_jed_extensions ADD COLUMN master_row TINYINT DEFAULT 0 AFTER paid_extension_ext_libs;UPDATE combine_jed_extensions SET master_row = 0</sql>
+    </instruction>   
+    <instruction>
+     <description>Arranging Master fields - which is the master row? Query 2</description> 
+        <sql>UPDATE combine_jed_extensions SET master_row = 1 WHERE id = free_id AND paid_id = 0</sql>
+    </instruction>   
+    <instruction>
+     <description>Arranging Master fields - which is the master row? Query 3</description> 
+        <sql>UPDATE combine_jed_extensions SET master_row = 1 WHERE id = paid_id AND free_id = 0</sql>
+    </instruction>   
+    <instruction>
+     <description>Arranging Master fields - which is the master row? Drop if Exists master_row table</description> 
+        <sql>DROP TABLE IF EXISTS master_rows</sql>
+    </instruction>
+ <instruction>
+     <description>Arranging Master fields - which is the master row? Create master_row table</description> 
+        <sql>CREATE TABLE master_rows SELECT id,free_id,paid_id FROM combine_jed_extensions WHERE master_row = 0 AND id = free_id AND free_id &lt; paid_id</sql>
+    </instruction>
+ <instruction>
+     <description>Arranging Master fields - which is the master row? Adding to master_row table</description> 
+        <sql>INSERT INTO master_rows SELECT id,free_id,paid_id FROM combine_jed_extensions WHERE master_row = 0 AND id = paid_id AND paid_id &lt; free_id</sql>
+    </instruction>
+     <instruction>
+     <description>Arranging Master fields - Setting Master Rows</description> 
+        <sql>UPDATE combine_jed_extensions SET master_row = 1 WHERE id IN (SELECT id FROM master_rows)</sql>
+    </instruction>
+     <instruction>
+     <description>Fixing Imported Data - Category constraint fails without this - extension 2393 has 0 category but this sets it to Miscellaneous</description> 
+        <sql>UPDATE combine_jed_extensions SET core_catid=9 WHERE core_catid=0</sql>
+    </instruction>
+<instruction>
+     <description>Fixing Imported Data - Empty checked_out_time fields</description> 
+        <sql>UPDATE combine_jed_extensions SET core_checked_out_time="0000-00-00 00:00:00"  WHERE core_checked_out_time=""</sql>
+    </instruction>
+    <instruction>
+     <description>Empty current #__jed_extensions</description> 
+        <sql>DELETE FROM #__jed_extensions</sql>
+    </instruction>
+       <instruction>
+     <description>Insert Master Rows into #__jed_extensions</description> 
+        <sql>INSERT INTO #__jed_extensions (   id, joomla_versions, popular, requires_registration, gpl_license_type, jed_internal_note, can_update, video, version, uses_updater, includes, approved, approved_time, second_contact_email, jed_checked, uses_third_party, primary_category_id, logo, published, created_by, modified_by, checked_out_time, created_on, modified_on, state ) SELECT   id, versions, popular, requires_registration, license, jed_note, can_update, video, version, uses_updater, includes, approved, approved_time, second_contact_email, jed_checked, extension_ext_libs, core_catid, logo, core_state, core_created_user_id, core_modified_user_id, core_checked_out_time, core_created_time, core_modified_time, core_state FROM   combine_jed_extensions WHERE master_row = 1</sql>
+    </instruction>
+    </task>
+    <task>
+ <heading>Creating Supply Type Variant Data</heading>
+         <instruction>
+             <description>Empty Existing Data</description> 
+        <sql>DELETE FROM #__jed_extension_varied_data</sql>
+    </instruction>
+         <instruction>
+     <description>Insert Free Variant Master Data</description> 
+        <sql>INSERT INTO #__jed_extension_varied_data (   id, extension_id, supply_option_id,  title, alias, intro_text, description, homepage_link, download_link, demo_link, support_link, documentation_link, license_link, translation_link, tags, update_url, update_url_ok, download_integration_type, download_integration_url, logo, is_default_data, ordering, state, checked_out, checked_out_time, created_by )  SELECT   0, id AS 'extension_id', 1 AS 'supply_option_id', core_title, core_alias, '' AS 'intro_text', core_body AS 'description', homepage_link, download_link, demo_link, support_link, documentation_link, license_link, '' AS 'translation_link', tags, update_url, update_url_ok, download_integration_type, download_integration_url, logo, TRUE AS 'is_default_data', 0 AS 'ordering', core_state AS 'state', 0 AS 'checked_out', core_checked_out_time AS 'checked_out_time', core_created_user_id AS 'created_by' FROM   combine_jed_extensions WHERE type = 'free'   AND master_row = 1</sql>
+    </instruction>
+         <instruction>
+     <description>Insert Paid Variant Master Data</description> 
+        <sql>INSERT INTO #__jed_extension_varied_data (  id, extension_id, supply_option_id, title, alias, intro_text, description, homepage_link, download_link, demo_link, support_link, documentation_link, license_link, translation_link, tags, update_url, update_url_ok, download_integration_type, download_integration_url, logo, is_default_data, ordering, state, checked_out, checked_out_time, created_by ) SELECT   0, id AS 'extension_id', 2 AS 'supply_option_id', core_title, core_alias, '' AS 'intro_text', core_body AS 'description', homepage_link, download_link, demo_link, support_link, documentation_link, license_link, '' AS 'translation_link', tags, update_url, update_url_ok, download_integration_type, download_integration_url, logo, TRUE AS 'is_default_data', 0 AS 'ordering', core_state AS 'state', 0 AS 'checked_out', core_checked_out_time AS 'checked_out_time', core_created_user_id AS 'created_by' FROM combine_jed_extensions WHERE type = 'paid' AND master_row = 1</sql>
+    </instruction>
+             <instruction>
+     <description>Insert Free Variant Child Data</description> 
+        <sql> INSERT INTO #__jed_extension_varied_data (   id, extension_id, supply_option_id, title, alias, intro_text, description, homepage_link, download_link, demo_link, support_link, documentation_link, license_link, translation_link, tags, update_url, update_url_ok, download_integration_type, download_integration_url, logo, is_default_data, ordering, state, checked_out, checked_out_time, created_by ) SELECT   0, id AS 'extension_id', 1 AS 'supply_option_id',  core_title, core_alias, '' AS 'intro_text', core_body AS 'description', free_homepage_link, free_download_link, free_demo_link, free_support_link, free_documentation_link, free_license_link, '' AS 'translation_link', free_tags, free_update_url, free_update_url_ok, free_download_integration_type, free_download_integration_url, free_logo, TRUE AS 'is_default_data', 0, core_state AS 'state', 0 AS 'checked_out', core_checked_out_time AS 'checked_out_time', core_created_user_id AS 'created_by' FROM combine_jed_extensions WHERE type = 'paid'   AND master_row = 1   AND free_id &lt;&gt; 0</sql>
+    </instruction>
+         <instruction>
+     <description>Insert Paid Variant Child Data</description> 
+        <sql>INSERT INTO #__jed_extension_varied_data (  id,extension_id, supply_option_id, title, alias, intro_text, description, homepage_link, download_link, demo_link, support_link, documentation_link, license_link, translation_link,   tags, update_url, update_url_ok, download_integration_type, download_integration_url, logo, is_default_data, ordering, state, checked_out, checked_out_time, created_by ) SELECT   0, id AS 'extension_id', 2 AS 'supply_option_id', core_title, core_alias, '' AS 'intro_text', core_body AS 'description',   paid_homepage_link, paid_download_link, paid_demo_link, paid_support_link, paid_documentation_link, paid_license_link, '' AS 'translation_link',   paid_tags, paid_update_url, paid_update_url_ok, paid_download_integration_type, paid_download_integration_url, paid_logo, TRUE AS 'is_default_data',   0, core_state AS 'state', 0 AS 'checked_out', core_checked_out_time AS 'checked_out_time', core_created_user_id AS 'created_by' FROM  combine_jed_extensions WHERE type='free' AND master_row=1 AND paid_id &lt;&gt; 0</sql>
+    </instruction>
+    </task>
+    <task>
+ <heading>Sorting Extensions Score Data</heading>
+ <instruction>
+     <description>Empty Existing Data</description> 
+        <sql>DELETE FROM #__jed_extension_scores</sql>
+    </instruction>
+        <instruction>
+     <description>Insert Scores for Free Extensions</description> 
+        <sql>INSERT INTO #__jed_extension_scores (   id, extension_id, supply_option_id, functionality_score, ease_of_use_score, support_score, value_for_money_score, documentation_score, number_of_reviews) SELECT
+  0, id, 1, free_functionality, free_ease_of_use, free_support, free_value_for_money, free_documentation, free_num_reviews FROM   combine_jed_extensions WHERE master_row = 1   AND free_id &lt;&gt; 0</sql>
+    </instruction>
+        <instruction>
+            <description>Insert Scores for Paid Extensions</description>
+        <sql>INSERT INTO #__jed_extension_scores (   id, extension_id, supply_option_id, functionality_score, ease_of_use_score, support_score, value_for_money_score, documentation_score, number_of_reviews ) SELECT   0, id, 2, paid_functionality, paid_ease_of_use, paid_support, paid_value_for_money, paid_documentation, paid_num_reviews FROM   combine_jed_extensions WHERE master_row = 1   AND paid_id &lt;&gt; 0</sql>
+        </instruction>
+    </task>
+    <task>
+ <heading>Sorting Extensions Images</heading>
+        <instruction>
+     <description>Empty Existing Data</description> 
+        <sql>DELETE FROM #__jed_extension_images</sql>
+    </instruction>
+         <instruction>
+     <description>Insert Images for Free Extensions</description> 
+        <sql>INSERT INTO #__jed_extension_images (   id, extension_id, supply_option_id, filename, created_by ) SELECT   0, cj.id, 1, jei.filename, created_by FROM   combine_jed_extensions cj, wqyh6_jed_extensions_images jei WHERE cj.master_row = 1   AND cj.free_id &lt;&gt; 0   AND jei.extension_id = cj.free_id</sql>
+    </instruction>
+        <instruction>
+            <description>Insert Images for Paid Extensions</description>
+        <sql>INSERT INTO #__jed_extension_images (id,extension_id,supply_option_id, filename,created_by)    SELECT 0,cj.id,2 ,jei.filename,created_by FROM combine_jed_extensions cj, wqyh6_jed_extensions_images jei    WHERE cj.master_row=1 AND cj.paid_id &lt;&gt; 0 AND jei.extension_id = cj.paid_id  </sql>
+        </instruction>
+    </task>
+    <task>
+ <heading>Porting Review Data</heading>
+<instruction>
+ <description>Making sure database is clean of temporary table</description>
+ <sql>DROP TABLE IF EXISTS combine_jed_reviews</sql>
+ </instruction>
+<instruction>
+ <description>Create combination of UCM and JED_Extensions</description>
+    <sql>CREATE TABLE combine_jed_reviews AS SELECT  ucm.*,jr.* FROM wqyh6_ucm_content ucm, wqyh6_jed_reviews jr WHERE core_type_alias="com_jed.review" AND jr.id = core_content_item_id</sql>
+        </instruction>
+        <instruction>
+     <description>Empty Existing Data</description> 
+        <sql>DELETE FROM #__jed_reviews</sql>
+    </instruction>
+        <instruction><description>Copying Free reviews to #__jed_reviews</description>
+            <sql>INSERT INTO #__jed_reviews (   id, extension_id, supply_option_id, title, alias, body, functionality, functionality_comment, ease_of_use, ease_of_use_comment,   support, support_comment, documentation, documentation_comment, value_for_money, value_for_money_comment, overall_score,   used_for, version,flagged, ip_address, published, created_on, created_by, ordering) SELECT   0, cj.id, 1,  cr.core_title, cr.core_alias, cr.core_body,   cr.functionality, '', cr.ease_of_use, '',   cr.support, '', cr.documentation, '', cr.value_for_money, '', ( cr.functionality+ cr.ease_of_use + cr.support + cr.documentation + cr.value_for_money) AS 'overall_score',   used_for, cr.version, flagged,ip_address, cr.core_state, cr.core_created_time, cr.core_created_user_id, 0 FROM   combine_jed_reviews cr, combine_jed_extensions cj      WHERE cj.master_row=1 AND cj.free_id &lt;&gt; 0 AND cr.extension_id = cj.free_id ORDER BY cj.id, cr.core_created_time ASC</sql>
+        </instruction>
+            <instruction><description>Copying Paid reviews to #__jed_reviews</description>
+            <sql> INSERT INTO #__jed_reviews (   id, extension_id, supply_option_id, title, alias, body, functionality, functionality_comment, ease_of_use, ease_of_use_comment,   support, support_comment, documentation, documentation_comment, value_for_money, value_for_money_comment, overall_score,    used_for, version,flagged, ip_address, published, created_on, created_by, ordering) SELECT   0, cj.id, 2,  cr.core_title, cr.core_alias, cr.core_body,   cr.functionality, '', cr.ease_of_use, '',   cr.support, '', cr.documentation, '', cr.value_for_money, '', ( cr.functionality+ cr.ease_of_use + cr.support + cr.documentation + cr.value_for_money) AS 'overall_score',   used_for, cr.version, flagged,ip_address, cr.core_state, cr.core_created_time, cr.core_created_user_id, 0 FROM  combine_jed_reviews cr, combine_jed_extensions cj      WHERE cj.master_row=1 AND cj.paid_id &lt;&gt; 0 AND cr.extension_id = cj.paid_id ORDER BY cj.id, cr.core_created_time ASC</sql>
+        </instruction>
+        <instruction>
+        <description>Extracting Comments from UCM_Body</description>
+        <sql>DROP TABLE IF EXISTS combine_jed_review_texts;CREATE TABLE combine_jed_review_texts (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT, extension_id INT UNSIGNED DEFAULT '0', supply_option_id INT UNSIGNED DEFAULT '0', body MEDIUMTEXT COLLATE utf8mb4_unicode_ci, functionality_comment TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci, ease_of_use_comment TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci, support_comment TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci, documentation_comment TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci, value_for_money_comment TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci, PRIMARY KEY (id)
+) ENGINE = INNODB DEFAULT CHARSET = utf8mb4;INSERT INTO combine_jed_review_texts SELECT id,extension_id,supply_option_id,body,'','','','','' FROM #__jed_reviews WHERE body LIKE "%{%";UPDATE combine_jed_review_texts SET functionality_comment = REGEXP_SUBSTR(REPLACE(REPLACE(body, '\r', ''), '\n', ''),"[{]functionality[}].*[{]\/functionality[}]");
+     UPDATE combine_jed_review_texts SET ease_of_use_comment = REGEXP_SUBSTR(REPLACE(REPLACE(body, '\r', ''), '\n', ''),"[{]ease_of_use[}].*[{]\/ease_of_use[}]");
+      UPDATE combine_jed_review_texts SET support_comment = REGEXP_SUBSTR(REPLACE(REPLACE(body, '\r', ''), '\n', ''),"[{]support[}].*[{]\/support[}]");
+      UPDATE combine_jed_review_texts SET documentation_comment = REGEXP_SUBSTR(REPLACE(REPLACE(body, '\r', ''), '\n', ''),"[{]documentation[}].*[{]\/documentation[}]");
+      UPDATE combine_jed_review_texts SET value_for_money_comment = REGEXP_SUBSTR(REPLACE(REPLACE(body, '\r', ''), '\n', ''),"[{]value_for_money[}].*[{]\/value_for_money[}]");
+      UPDATE combine_jed_review_texts SET functionality_comment = REPLACE(REPLACE(functionality_comment,"{functionality}",""),"{/functionality}","");
+     UPDATE combine_jed_review_texts SET ease_of_use_comment = REPLACE(REPLACE(ease_of_use_comment,"{ease_of_use}",""),"{/ease_of_use}","");
+     UPDATE combine_jed_review_texts SET support_comment = REPLACE(REPLACE(support_comment,"{support}",""),"{/support}","");
+     UPDATE combine_jed_review_texts SET documentation_comment = REPLACE(REPLACE(documentation_comment,"{documentation}",""),"{/documentation}","");
+     UPDATE combine_jed_review_texts SET value_for_money_comment = REPLACE(REPLACE(value_for_money_comment,"{value_for_money}",""),"{/value_for_money}",""); 
+     UPDATE #__jed_reviews njr, combine_jed_review_texts cjt
+     SET njr.functionality_comment = cjt.functionality_comment, njr.ease_of_use_comment = cjt.ease_of_use_comment, njr.support_comment = cjt.support_comment,
+     njr.documentation_comment = cjt.documentation_comment, njr.value_for_money_comment = cjt.value_for_money_comment WHERE njr.id = cjt.id;
+            update #__jed_reviews set body = "Old Review System - No overall field" where body like "%{functionality}%"</sql>
+        </instruction>
+    </task>
+    <task>
+    <heading>Convert JED3 RSForms into individual tables</heading>
+        <instruction><description>Delete old_rsform tables if Exist</description>
+        <sql>DROP TABLE IF EXISTS old_rsform5;DROP TABLE IF EXISTS  old_rsform7;DROP TABLE IF EXISTS  old_rsform9;DROP TABLE IF EXISTS  old_rsform10;DROP TABLE IF EXISTS  old_rsform11;DROP TABLE IF EXISTS  old_rsform12;DROP TABLE IF EXISTS  old_rsform13;DROP TABLE IF EXISTS  old_rsform14</sql>
+        </instruction>
+        <instruction><description>Create structures to hold each form type</description>
+        <sql>CREATE TABLE old_rsform5 (   SubmissionId INT NOT NULL, DateSubmitted DATETIME, UserIP VARCHAR (255), Username VARCHAR (255), UserId TEXT, FullName TEXT, Email TEXT, Organization TEXT, passtodev TEXT, vulnType TEXT, vulExtnName TEXT, vulExtnVer TEXT, vulTemName TEXT, vulTemVer TEXT, exploittype TEXT, OtherExploitDescription TEXT, vuldescription TEXT, vulTools TEXT, IsActiveExploit TEXT, exploitInPublic TEXT, publicExploitUrl TEXT, vuiImpact TEXT, devradioselect TEXT, updateURL TEXT, devname TEXT, devEmail TEXT, jedurl TEXT, trackdb TEXT, trackDbID TEXT, devAddInfo TEXT, Downloadurl TEXT, consentuse TEXT, ReferenceNumber TEXT, formId TEXT);
+CREATE TABLE old_rsform7 (  SubmissionId INT NOT NULL, DateSubmitted DATETIME, UserIP VARCHAR (255), Username VARCHAR (255), UserId TEXT, fn TEXT, updateco TEXT, uMail TEXT, uExtension_ TEXT, oldvers TEXT, UDetails TEXT, newvers TEXT, UpdateNoticeURL TEXT, changelog TEXT, Download_url_ TEXT, consentuse TEXT, formId TEXT);
+CREATE TABLE old_rsform10 (  SubmissionId INT NOT NULL, DateSubmitted DATETIME, UserIP VARCHAR (255), Username VARCHAR (255), UserId TEXT, FullName TEXT, Email TEXT, Organization TEXT, vulJoomVer TEXT, vulJoomVersion TEXT, vul3ptyExt TEXT, vulExtnName TEXT, vulExtnVer TEXT, vul3ptyTem TEXT, vulTemName TEXT, vulTemVer TEXT, exploit_type TEXT, vuldescription TEXT, vulTools TEXT, IsActiveExploit TEXT, exploitInPublic TEXT, publicExploitUrl TEXT, vuiImpact TEXT, devradioselect TEXT, updateURL TEXT, devname TEXT, devEmail TEXT, trackdb TEXT, trackDbID TEXT, devAddInfo TEXT, securitycode TEXT, Submit TEXT, ReferenceNumber TEXT, formId TEXT, fileup TEXT, exploittype TEXT, OtherExploitDescription TEXT, jedurl TEXT, Downloadurl TEXT);
+CREATE TABLE old_rsform11 (  SubmissionId INT NOT NULL, DateSubmitted DATETIME, UserIP VARCHAR (255), Username VARCHAR (255), UserId TEXT, FullName TEXT, Email TEXT, Organization TEXT, vulnType TEXT, vulJoomVersion TEXT, vulExtnName TEXT, vulExtnVer TEXT, vulTemName TEXT, vulTemVer TEXT, exploittype TEXT, OtherExploitDescription TEXT, vuldescription TEXT, vulTools TEXT, IsActiveExploit TEXT, exploitInPublic TEXT, publicExploitUrl TEXT, vuiImpact TEXT, devradioselect TEXT, updateURL TEXT, devname TEXT, devEmail TEXT, jedurl TEXT, trackdb TEXT, trackDbID TEXT, devAddInfo TEXT, Downloadurl TEXT, ReferenceNumber TEXT, formId TEXT, passtodev TEXT, consentuse TEXT, v3 TEXT);
+CREATE TABLE old_rsform12 (  SubmissionId INT NOT NULL, DateSubmitted DATETIME, UserIP VARCHAR (255), Username VARCHAR (255), UserId TEXT, New_File TEXT, fn TEXT, updateco TEXT, uMail TEXT, uExtension_ TEXT, Extension_Update_Details TEXT, UpdateNotice_URL TEXT, codebox TEXT, Update_confirmation TEXT, formId TEXT, UpdateNoticeURL TEXT, UDetails TEXT, oldvers TEXT, newvers TEXT, changelog TEXT, tf2 TEXT, Download_url_ TEXT, consentuse TEXT, v3 TEXT);
+CREATE TABLE old_rsform13 (  SubmissionId INT NOT NULL, DateSubmitted DATETIME, UserIP VARCHAR (255), Username VARCHAR (255), UserId TEXT, NAME TEXT, Email TEXT, website TEXT, experience TEXT, extensiondev TEXT, jedurl TEXT, socialinks TEXT, fname TEXT, vollink TEXT, summary TEXT, warning TEXT, reasons TEXT, Send TEXT, formId TEXT, warn TEXT, possible TEXT, consentuse TEXT);
+CREATE TABLE old_rsform14 (  SubmissionId INT NOT NULL, DateSubmitted DATETIME, UserIP VARCHAR (255), Username VARCHAR (255), UserId TEXT, NAME TEXT, Email TEXT, Extension_name TEXT, Developer TEXT, Last_known_version_number TEXT, url TEXT, Reason TEXT, Send TEXT, formId TEXT, consentuse TEXT, captcha TEXT);
+CREATE TABLE old_rsform9 (  SubmissionId INT NOT NULL, DateSubmitted DATETIME, UserIP VARCHAR (255), Username VARCHAR (255), UserId TEXT, NAME TEXT, Email TEXT, Extension_name TEXT, Developer TEXT, Last_known_version_number TEXT, url TEXT, Reason TEXT, consentuse TEXT, formId TEXT)</sql>
+        </instruction>
+         <instruction><description>Grab Submission Id info from submissions</description>
+        <sql>INSERT INTO old_rsform5 (SubmissionId,DateSubmitted,UserIP,Username,UserId) SELECT DISTINCT SubmissionId,DateSubmitted,UserIP,Username,UserId FROM wqyh6_rsform_submissions WHERE FormId=5;
+INSERT INTO old_rsform7 (SubmissionId,DateSubmitted,UserIP,Username,UserId) SELECT DISTINCT SubmissionId,DateSubmitted,UserIP,Username,UserId FROM wqyh6_rsform_submissions WHERE FormId=7;
+INSERT INTO old_rsform9 (SubmissionId,DateSubmitted,UserIP,Username,UserId) SELECT DISTINCT SubmissionId,DateSubmitted,UserIP,Username,UserId FROM wqyh6_rsform_submissions WHERE FormId=9;
+INSERT INTO old_rsform10 (SubmissionId,DateSubmitted,UserIP,Username,UserId) SELECT DISTINCT SubmissionId,DateSubmitted,UserIP,Username,UserId FROM wqyh6_rsform_submissions WHERE FormId=10;
+INSERT INTO old_rsform11 (SubmissionId,DateSubmitted,UserIP,Username,UserId) SELECT DISTINCT SubmissionId,DateSubmitted,UserIP,Username,UserId FROM wqyh6_rsform_submissions WHERE FormId=11;
+INSERT INTO old_rsform12 (SubmissionId,DateSubmitted,UserIP,Username,UserId) SELECT DISTINCT SubmissionId,DateSubmitted,UserIP,Username,UserId FROM wqyh6_rsform_submissions WHERE FormId=12;
+INSERT INTO old_rsform13 (SubmissionId,DateSubmitted,UserIP,Username,UserId) SELECT DISTINCT SubmissionId,DateSubmitted,UserIP,Username,UserId FROM wqyh6_rsform_submissions WHERE FormId=13;
+INSERT INTO old_rsform14 (SubmissionId,DateSubmitted,UserIP,Username,UserId) SELECT DISTINCT SubmissionId,DateSubmitted,UserIP,Username,UserId FROM wqyh6_rsform_submissions WHERE FormId=14</sql>
+        </instruction>
+        <instruction><description>Convert RSForm rows of data into columns</description>
+        <sql>UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.FullName= v.FieldValue WHERE v.FieldName='FullName' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.Email= v.FieldValue WHERE v.FieldName='Email' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.Organization= v.FieldValue WHERE v.FieldName='Organization' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.passtodev= v.FieldValue WHERE v.FieldName='passtodev' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.vulnType= v.FieldValue WHERE v.FieldName='vulnType' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.vulExtnName= v.FieldValue WHERE v.FieldName='vulExtnName' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.vulExtnVer= v.FieldValue WHERE v.FieldName='vulExtnVer' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.vulTemName= v.FieldValue WHERE v.FieldName='vulTemName' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.vulTemVer= v.FieldValue WHERE v.FieldName='vulTemVer' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.exploittype= v.FieldValue WHERE v.FieldName='exploittype' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.OtherExploitDescription= v.FieldValue WHERE v.FieldName='OtherExploitDescription' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.vuldescription= v.FieldValue WHERE v.FieldName='vuldescription' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.vulTools= v.FieldValue WHERE v.FieldName='vulTools' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.IsActiveExploit= v.FieldValue WHERE v.FieldName='IsActiveExploit' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.exploitInPublic= v.FieldValue WHERE v.FieldName='exploitInPublic' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.publicExploitUrl= v.FieldValue WHERE v.FieldName='publicExploitUrl' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.vuiImpact= v.FieldValue WHERE v.FieldName='vuiImpact' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.devradioselect= v.FieldValue WHERE v.FieldName='devradioselect' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.updateURL= v.FieldValue WHERE v.FieldName='updateURL' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.devname= v.FieldValue WHERE v.FieldName='devname' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.devEmail= v.FieldValue WHERE v.FieldName='devEmail' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.jedurl= v.FieldValue WHERE v.FieldName='jedurl' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.trackdb= v.FieldValue WHERE v.FieldName='trackdb' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.trackDbID= v.FieldValue WHERE v.FieldName='trackDbID' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.devAddInfo= v.FieldValue WHERE v.FieldName='devAddInfo' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.Downloadurl= v.FieldValue WHERE v.FieldName='Downloadurl' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.consentuse= v.FieldValue WHERE v.FieldName='consentuse' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.ReferenceNumber= v.FieldValue WHERE v.FieldName='ReferenceNumber' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform5 f, wqyh6_rsform_submission_values v SET f.formId= v.FieldValue WHERE v.FieldName='formId' AND v.SubmissionId=f.SubmissionId;
+
+UPDATE old_rsform7 f, wqyh6_rsform_submission_values v SET f.fn= v.FieldValue WHERE v.FieldName='fn' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform7 f, wqyh6_rsform_submission_values v SET f.updateco= v.FieldValue WHERE v.FieldName='updateco' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform7 f, wqyh6_rsform_submission_values v SET f.uMail= v.FieldValue WHERE v.FieldName='uMail' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform7 f, wqyh6_rsform_submission_values v SET f.uExtension_= v.FieldValue WHERE v.FieldName='uExtension_' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform7 f, wqyh6_rsform_submission_values v SET f.oldvers= v.FieldValue WHERE v.FieldName='oldvers' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform7 f, wqyh6_rsform_submission_values v SET f.UDetails= v.FieldValue WHERE v.FieldName='UDetails' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform7 f, wqyh6_rsform_submission_values v SET f.newvers= v.FieldValue WHERE v.FieldName='newvers' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform7 f, wqyh6_rsform_submission_values v SET f.UpdateNoticeURL= v.FieldValue WHERE v.FieldName='UpdateNoticeURL' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform7 f, wqyh6_rsform_submission_values v SET f.changelog= v.FieldValue WHERE v.FieldName='changelog' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform7 f, wqyh6_rsform_submission_values v SET f.Download_url_= v.FieldValue WHERE v.FieldName='Download_url_' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform7 f, wqyh6_rsform_submission_values v SET f.consentuse= v.FieldValue WHERE v.FieldName='consentuse' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform7 f, wqyh6_rsform_submission_values v SET f.formId= v.FieldValue WHERE v.FieldName='formId' AND v.SubmissionId=f.SubmissionId;
+
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.FullName= v.FieldValue WHERE v.FieldName='FullName' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.Email= v.FieldValue WHERE v.FieldName='Email' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.Organization= v.FieldValue WHERE v.FieldName='Organization' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.vulJoomVer= v.FieldValue WHERE v.FieldName='vulJoomVer' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.vulJoomVersion= v.FieldValue WHERE v.FieldName='vulJoomVersion' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.vul3ptyExt= v.FieldValue WHERE v.FieldName='vul3ptyExt' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.vulExtnName= v.FieldValue WHERE v.FieldName='vulExtnName' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.vulExtnVer= v.FieldValue WHERE v.FieldName='vulExtnVer' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.vul3ptyTem= v.FieldValue WHERE v.FieldName='vul3ptyTem' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.vulTemName= v.FieldValue WHERE v.FieldName='vulTemName' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.vulTemVer= v.FieldValue WHERE v.FieldName='vulTemVer' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.exploit_type= v.FieldValue WHERE v.FieldName='exploit_type' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.vuldescription= v.FieldValue WHERE v.FieldName='vuldescription' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.vulTools= v.FieldValue WHERE v.FieldName='vulTools' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.IsActiveExploit= v.FieldValue WHERE v.FieldName='IsActiveExploit' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.exploitInPublic= v.FieldValue WHERE v.FieldName='exploitInPublic' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.publicExploitUrl= v.FieldValue WHERE v.FieldName='publicExploitUrl' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.vuiImpact= v.FieldValue WHERE v.FieldName='vuiImpact' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.devradioselect= v.FieldValue WHERE v.FieldName='devradioselect' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.updateURL= v.FieldValue WHERE v.FieldName='updateURL' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.devname= v.FieldValue WHERE v.FieldName='devname' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.devEmail= v.FieldValue WHERE v.FieldName='devEmail' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.trackdb= v.FieldValue WHERE v.FieldName='trackdb' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.trackDbID= v.FieldValue WHERE v.FieldName='trackDbID' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.devAddInfo= v.FieldValue WHERE v.FieldName='devAddInfo' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.securitycode= v.FieldValue WHERE v.FieldName='securitycode' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.Submit= v.FieldValue WHERE v.FieldName='Submit' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.ReferenceNumber= v.FieldValue WHERE v.FieldName='ReferenceNumber' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.formId= v.FieldValue WHERE v.FieldName='formId' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.fileup= v.FieldValue WHERE v.FieldName='fileup' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.exploittype= v.FieldValue WHERE v.FieldName='exploittype' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.OtherExploitDescription= v.FieldValue WHERE v.FieldName='OtherExploitDescription' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.jedurl= v.FieldValue WHERE v.FieldName='jedurl' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform10 f, wqyh6_rsform_submission_values v SET f.Downloadurl= v.FieldValue WHERE v.FieldName='Downloadurl' AND v.SubmissionId=f.SubmissionId;
+
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.FullName= v.FieldValue WHERE v.FieldName='FullName' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.Email= v.FieldValue WHERE v.FieldName='Email' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.Organization= v.FieldValue WHERE v.FieldName='Organization' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.vulnType= v.FieldValue WHERE v.FieldName='vulnType' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.vulJoomVersion= v.FieldValue WHERE v.FieldName='vulJoomVersion' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.vulExtnName= v.FieldValue WHERE v.FieldName='vulExtnName' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.vulExtnVer= v.FieldValue WHERE v.FieldName='vulExtnVer' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.vulTemName= v.FieldValue WHERE v.FieldName='vulTemName' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.vulTemVer= v.FieldValue WHERE v.FieldName='vulTemVer' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.exploittype= v.FieldValue WHERE v.FieldName='exploittype' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.OtherExploitDescription= v.FieldValue WHERE v.FieldName='OtherExploitDescription' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.vuldescription= v.FieldValue WHERE v.FieldName='vuldescription' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.vulTools= v.FieldValue WHERE v.FieldName='vulTools' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.IsActiveExploit= v.FieldValue WHERE v.FieldName='IsActiveExploit' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.exploitInPublic= v.FieldValue WHERE v.FieldName='exploitInPublic' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.publicExploitUrl= v.FieldValue WHERE v.FieldName='publicExploitUrl' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.vuiImpact= v.FieldValue WHERE v.FieldName='vuiImpact' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.devradioselect= v.FieldValue WHERE v.FieldName='devradioselect' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.updateURL= v.FieldValue WHERE v.FieldName='updateURL' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.devname= v.FieldValue WHERE v.FieldName='devname' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.devEmail= v.FieldValue WHERE v.FieldName='devEmail' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.jedurl= v.FieldValue WHERE v.FieldName='jedurl' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.trackdb= v.FieldValue WHERE v.FieldName='trackdb' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.trackDbID= v.FieldValue WHERE v.FieldName='trackDbID' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.devAddInfo= v.FieldValue WHERE v.FieldName='devAddInfo' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.Downloadurl= v.FieldValue WHERE v.FieldName='Downloadurl' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.ReferenceNumber= v.FieldValue WHERE v.FieldName='ReferenceNumber' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.formId= v.FieldValue WHERE v.FieldName='formId' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.passtodev= v.FieldValue WHERE v.FieldName='passtodev' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.consentuse= v.FieldValue WHERE v.FieldName='consentuse' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform11 f, wqyh6_rsform_submission_values v SET f.v3= v.FieldValue WHERE v.FieldName='v3' AND v.SubmissionId=f.SubmissionId;
+
+UPDATE old_rsform12 f, wqyh6_rsform_submission_values v SET f.New_File= v.FieldValue WHERE v.FieldName='New_File' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform12 f, wqyh6_rsform_submission_values v SET f.fn= v.FieldValue WHERE v.FieldName='fn' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform12 f, wqyh6_rsform_submission_values v SET f.updateco= v.FieldValue WHERE v.FieldName='updateco' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform12 f, wqyh6_rsform_submission_values v SET f.uMail= v.FieldValue WHERE v.FieldName='uMail' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform12 f, wqyh6_rsform_submission_values v SET f.uExtension_= v.FieldValue WHERE v.FieldName='uExtension_' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform12 f, wqyh6_rsform_submission_values v SET f.Extension_Update_Details= v.FieldValue WHERE v.FieldName='Extension_Update_Details' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform12 f, wqyh6_rsform_submission_values v SET f.UpdateNotice_URL= v.FieldValue WHERE v.FieldName='UpdateNotice_URL' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform12 f, wqyh6_rsform_submission_values v SET f.codebox= v.FieldValue WHERE v.FieldName='codebox' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform12 f, wqyh6_rsform_submission_values v SET f.Update_confirmation= v.FieldValue WHERE v.FieldName='Update_confirmation' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform12 f, wqyh6_rsform_submission_values v SET f.formId= v.FieldValue WHERE v.FieldName='formId' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform12 f, wqyh6_rsform_submission_values v SET f.UpdateNoticeURL= v.FieldValue WHERE v.FieldName='UpdateNoticeURL' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform12 f, wqyh6_rsform_submission_values v SET f.UDetails= v.FieldValue WHERE v.FieldName='UDetails' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform12 f, wqyh6_rsform_submission_values v SET f.oldvers= v.FieldValue WHERE v.FieldName='oldvers' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform12 f, wqyh6_rsform_submission_values v SET f.newvers= v.FieldValue WHERE v.FieldName='newvers' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform12 f, wqyh6_rsform_submission_values v SET f.changelog= v.FieldValue WHERE v.FieldName='changelog' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform12 f, wqyh6_rsform_submission_values v SET f.tf2= v.FieldValue WHERE v.FieldName='tf2' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform12 f, wqyh6_rsform_submission_values v SET f.Download_url_= v.FieldValue WHERE v.FieldName='Download_url_' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform12 f, wqyh6_rsform_submission_values v SET f.consentuse= v.FieldValue WHERE v.FieldName='consentuse' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform12 f, wqyh6_rsform_submission_values v SET f.v3= v.FieldValue WHERE v.FieldName='v3' AND v.SubmissionId=f.SubmissionId;
+
+UPDATE old_rsform13 f, wqyh6_rsform_submission_values v SET f.Name= v.FieldValue WHERE v.FieldName='Name' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform13 f, wqyh6_rsform_submission_values v SET f.Email= v.FieldValue WHERE v.FieldName='Email' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform13 f, wqyh6_rsform_submission_values v SET f.website= v.FieldValue WHERE v.FieldName='website' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform13 f, wqyh6_rsform_submission_values v SET f.experience= v.FieldValue WHERE v.FieldName='experience' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform13 f, wqyh6_rsform_submission_values v SET f.extensiondev= v.FieldValue WHERE v.FieldName='extensiondev' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform13 f, wqyh6_rsform_submission_values v SET f.jedurl= v.FieldValue WHERE v.FieldName='jedurl' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform13 f, wqyh6_rsform_submission_values v SET f.socialinks= v.FieldValue WHERE v.FieldName='socialinks' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform13 f, wqyh6_rsform_submission_values v SET f.fname= v.FieldValue WHERE v.FieldName='fname' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform13 f, wqyh6_rsform_submission_values v SET f.vollink= v.FieldValue WHERE v.FieldName='vollink' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform13 f, wqyh6_rsform_submission_values v SET f.summary= v.FieldValue WHERE v.FieldName='summary' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform13 f, wqyh6_rsform_submission_values v SET f.warning= v.FieldValue WHERE v.FieldName='warning' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform13 f, wqyh6_rsform_submission_values v SET f.reasons= v.FieldValue WHERE v.FieldName='reasons' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform13 f, wqyh6_rsform_submission_values v SET f.Send= v.FieldValue WHERE v.FieldName='Send' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform13 f, wqyh6_rsform_submission_values v SET f.formId= v.FieldValue WHERE v.FieldName='formId' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform13 f, wqyh6_rsform_submission_values v SET f.warn= v.FieldValue WHERE v.FieldName='warn' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform13 f, wqyh6_rsform_submission_values v SET f.possible= v.FieldValue WHERE v.FieldName='possible' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform13 f, wqyh6_rsform_submission_values v SET f.consentuse= v.FieldValue WHERE v.FieldName='consentuse' AND v.SubmissionId=f.SubmissionId;
+
+UPDATE old_rsform14 f, wqyh6_rsform_submission_values v SET f.Name= v.FieldValue WHERE v.FieldName='Name' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform14 f, wqyh6_rsform_submission_values v SET f.Email= v.FieldValue WHERE v.FieldName='Email' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform14 f, wqyh6_rsform_submission_values v SET f.Extension_name= v.FieldValue WHERE v.FieldName='Extension_name' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform14 f, wqyh6_rsform_submission_values v SET f.Developer= v.FieldValue WHERE v.FieldName='Developer' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform14 f, wqyh6_rsform_submission_values v SET f.Last_known_version_number= v.FieldValue WHERE v.FieldName='Last_known_version_number' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform14 f, wqyh6_rsform_submission_values v SET f.url= v.FieldValue WHERE v.FieldName='url' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform14 f, wqyh6_rsform_submission_values v SET f.Reason= v.FieldValue WHERE v.FieldName='Reason' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform14 f, wqyh6_rsform_submission_values v SET f.Send= v.FieldValue WHERE v.FieldName='Send' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform14 f, wqyh6_rsform_submission_values v SET f.formId= v.FieldValue WHERE v.FieldName='formId' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform14 f, wqyh6_rsform_submission_values v SET f.consentuse= v.FieldValue WHERE v.FieldName='consentuse' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform14 f, wqyh6_rsform_submission_values v SET f.captcha= v.FieldValue WHERE v.FieldName='captcha' AND v.SubmissionId=f.SubmissionId;
+
+UPDATE old_rsform9 f, wqyh6_rsform_submission_values v SET f.Name= v.FieldValue WHERE v.FieldName='Name' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform9 f, wqyh6_rsform_submission_values v SET f.Email= v.FieldValue WHERE v.FieldName='Email' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform9 f, wqyh6_rsform_submission_values v SET f.Extension_name= v.FieldValue WHERE v.FieldName='Extension_name' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform9 f, wqyh6_rsform_submission_values v SET f.Developer= v.FieldValue WHERE v.FieldName='Developer' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform9 f, wqyh6_rsform_submission_values v SET f.Last_known_version_number= v.FieldValue WHERE v.FieldName='Last_known_version_number' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform9 f, wqyh6_rsform_submission_values v SET f.url= v.FieldValue WHERE v.FieldName='url' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform9 f, wqyh6_rsform_submission_values v SET f.Reason= v.FieldValue WHERE v.FieldName='Reason' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform9 f, wqyh6_rsform_submission_values v SET f.consentuse= v.FieldValue WHERE v.FieldName='consentuse' AND v.SubmissionId=f.SubmissionId;
+UPDATE old_rsform9 f, wqyh6_rsform_submission_values v SET f.formId= v.FieldValue WHERE v.FieldName='formId' AND v.SubmissionId=f.SubmissionId</sql>
+        </instruction>
+    </task>
+    
+    <task>
+    <heading>Copy Categories</heading>
+        <instruction><description>Clean local categories and move JED3 categories over.</description>
+        <sql>DELETE FROM #__categories where extension='com_jed';insert into #__categories select * from wqyh6_categories where extension='com_jed' </sql>
+            </instruction>
+    </task>
+
+
+    <task>
+        <heading>Copy Developers</heading>
+        <instruction><description>Create JED_Developers table from JED 3 data</description>
+            <sql>DELETE FROM #__jed_developers;insert into #__jed_developers select * from wqyh6_jed_users</sql>
+        </instruction>
+    </task>
+
+    
+    <task>
+    <heading>Copy Users</heading>
+        <instruction><description>Clean local users and move JED3 users over. NOTE - NEED TO MANUALLY DO USERGROUP_MAP</description>
+        <sql>DELETE FROM #__users where id &gt;16;DELETE FROM #__users WHERE id=1;
+            insert into #__users (  `id`,   `name`,  `username`,  `email`,  `password`,  `block`,  `sendEmail`,  `registerDate`,  `lastvisitDate`,  `activation`,  `params`,  `lastResetTime`,  `resetCount`,  `otpKey`,  `otep`,  `requireReset`) select `id`,  `name`,  `username`,  `email`,  `password`,  `block`,  `sendEmail`,  `registerDate`,  `lastvisitDate`,  `activation`,  `params`,  `lastResetTime`,  `resetCount`,  `otpKey`,  `otep`,  `requireReset` from wqyh6_users;SET FOREIGN_KEY_CHECKS = 1 </sql>
+            </instruction>
+    </task>
+    <task><heading>All DONE!</heading></task>
+ </tasks>

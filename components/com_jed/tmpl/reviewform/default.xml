@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="COM_JED_REVIEW_FORM_TITLE" option="View">
+        <message>
+                        <![CDATA[COM_JED_REVIEW_FORM_TITLE_DESC]]>
+        </message>
+    </layout>
+
+</metadata>

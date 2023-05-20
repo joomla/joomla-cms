@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Jed\Component\Jed\Site\Field">
+    <fieldset>
+        <field name="id" type="text" readonly="true" class="readonly" default="0" description="JGLOBAL_FIELD_ID_DESC"/>
+        <field name="ticket_origin" default="0" type="list" label="COM_JED_JEDTICKETS_FIELD_TICKET_ORIGIN_LABEL"
+               description="COM_JED_JEDTICKETS_FIELD_TICKET_ORIGIN_DESCR"
+               hint="COM_JED_JEDTICKETS_FIELD_TICKET_ORIGIN_LABEL">
+            <option value="0">COM_JED_JEDTICKETS_FIELD_TICKET_ORIGIN_OPTION_0</option>
+            <option value="1">COM_JED_JEDTICKETS_FIELD_TICKET_ORIGIN_OPTION_1</option>
+        </field>
+        <field name="ticket_category_type" type="foreignkey" label="COM_JED_JEDTICKETS_FIELD_TICKET_CATEGORY_TYPE_LABEL"
+               description="COM_JED_JEDTICKETS_FIELD_TICKET_CATEGORY_TYPE_DESCR" input_type="list"
+               table="#__jed_ticket_categories" key_field="id" value_field="categorytype" default="0"/>
+        <field name="ticket_subject" filter="safehtml" type="text" label="COM_JED_JEDTICKETS_FIELD_TICKET_SUBJECT_LABEL"
+               description="COM_JED_JEDTICKETS_FIELD_TICKET_SUBJECT_DESCR"
+               hint="COM_JED_JEDTICKETS_FIELD_TICKET_SUBJECT_LABEL"/>
+        <field name="ticket_text" editor="tinymce" buttons="false" filter="JComponentHelper::filterText" type="editor"
+               label="COM_JED_JEDTICKETS_FIELD_TICKET_TEXT_LABEL"
+               description="COM_JED_JEDTICKETS_FIELD_TICKET_TEXT_DESCR"
+               hint="COM_JED_JEDTICKETS_FIELD_TICKET_TEXT_LABEL"/>
+        <field name="internal_notes" editor="tinymce" buttons="false" filter="JComponentHelper::filterText"
+               type="editor" label="COM_JED_JEDTICKETS_FIELD_INTERNAL_NOTES_LABEL"
+               description="COM_JED_JEDTICKETS_FIELD_INTERNAL_NOTES_DESCR"
+               hint="COM_JED_JEDTICKETS_FIELD_INTERNAL_NOTES_LABEL"/>
+        <field name="uploaded_files_preview" type="editor" buttons="true" class="inputbox" filter="safehtml"
+               label="COM_JED_JEDTICKETS_FIELD_UPLOADED_FILES_PREVIEW_LABEL"
+               description="COM_JED_JEDTICKETS_FIELD_UPLOADED_FILES_PREVIEW_DESCR"
+               hint="COM_JED_JEDTICKETS_FIELD_UPLOADED_FILES_PREVIEW_LABEL"/>
+        <field name="uploaded_files_location" filter="safehtml" type="text"
+               label="COM_JED_JEDTICKETS_FIELD_UPLOADED_FILES_LOCATION_LABEL"
+               description="COM_JED_JEDTICKETS_FIELD_UPLOADED_FILES_LOCATION_DESCR"
+               hint="COM_JED_JEDTICKETS_FIELD_UPLOADED_FILES_LOCATION_LABEL"/>
+        <field name="allocated_group" type="foreignkey" label="COM_JED_JEDTICKETS_FIELD_ALLOCATED_GROUP_LABEL"
+               description="COM_JED_JEDTICKETS_FIELD_ALLOCATED_GROUP_DESCR" input_type="list"
+               table="#__jed_ticket_groups" key_field="id" value_field="name" default="0"/>
+
+        <field name="allocated_to" type="user" label="COM_JED_JEDTICKETS_FIELD_ALLOCATED_TO_LABEL"
+               description="COM_JED_JEDTICKETS_FIELD_ALLOCATED_TO_DESCR"
+               hint="COM_JED_JEDTICKETS_FIELD_ALLOCATED_TO_LABEL"
+        />
+        <field name="linked_item_type" type="foreignkey" label="COM_JED_JEDTICKETS_FIELD_LINKED_ITEM_TYPE_LABEL"
+               description="COM_JED_JEDTICKETS_FIELD_LINKED_ITEM_TYPE_DESCR" input_type="list"
+               table="#__jed_ticket_linked_item_types" key_field="id" value_field="title" default="0"/>
+        <field name="linked_item_id" label="COM_JED_JEDTICKETS_FIELD_LINKED_ITEM_ID_LABEL"
+               description="COM_JED_JEDTICKETS_FIELD_LINKED_ITEM_ID_DESCR"
+               hint="COM_JED_JEDTICKETS_FIELD_LINKED_ITEM_ID_LABEL"/>
+        <field name="ticket_status" default="0" type="list" label="JSTATUS"
+               description="COM_JED_JEDTICKETS_FIELD_TICKET_STATUS_DESCR"
+               hint="JSTATUS">
+            <option value="0">COM_JED_JEDTICKETS_FIELD_TICKET_STATUS_OPTION_0</option>
+            <option value="1">COM_JED_JEDTICKETS_FIELD_TICKET_STATUS_OPTION_1</option>
+            <option value="2">COM_JED_JEDTICKETS_FIELD_TICKET_STATUS_OPTION_2</option>
+            <option value="3">COM_JED_JEDTICKETS_FIELD_TICKET_STATUS_OPTION_3</option>
+            <option value="4">COM_JED_JEDTICKETS_FIELD_TICKET_STATUS_OPTION_4</option>
+            <option value="5">COM_JED_JEDTICKETS_FIELD_TICKET_STATUS_OPTION_5</option>
+        </field>
+        <field name="parent_id" label="COM_JED_JEDTICKETS_FIELD_PARENT_ID_LABEL"
+               description="COM_JED_JEDTICKETS_FIELD_PARENT_ID_DESCR" hint="COM_JED_JEDTICKETS_FIELD_PARENT_ID_LABEL"/>
+        <field name="state" type="list" label="JSTATUS" description="JFIELD_PUBLISHED_DESC" class="inputbox" size="1"
+               default="1">
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+            <option value="2">JARCHIVED</option>
+            <option value="-2">JTRASHED</option>
+        </field>
+        <field name="ordering"/>
+
+        <field name="created_by" type="createdby" label="JGLOBAL_FIELD_CREATED_BY_LABEL"/>
+        <field name="created_on" default="0000-00-00" type="timecreated"
+               label="COM_JED_GENERAL_FIELD_CREATED_ON_LABEL" description="COM_JED_JEDTICKETS_FIELD_CREATED_ON_DESCR"
+               hint="COM_JED_GENERAL_FIELD_CREATED_ON_LABEL"/>
+        <field name="modified_on" default="0000-00-00" type="timeupdated"
+               label="COM_JED_GENERAL_FIELD_MODIFIED_ON_LABEL"
+               description="COM_JED_JEDTICKETS_FIELD_MODIFIED_ON_DESCR"
+               hint="COM_JED_GENERAL_FIELD_MODIFIED_ON_LABEL"/>
+        <field name="checked_out" type="hidden" filter="unset"/>
+        <field name="checked_out_time" default="0000-00-00" type="hidden" filter="unset"/>
+        <field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+               description="JGLOBAL_FIELD_VERSION_NOTE_DESC" class="inputbox" size="45" labelclass="control-label"/>
+    </fieldset>
+</form>

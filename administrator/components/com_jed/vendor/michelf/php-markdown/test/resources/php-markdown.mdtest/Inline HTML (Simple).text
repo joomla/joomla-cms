@@ -1,0 +1,32 @@
+With some attributes:
+
+<div id="test">
+	foo
+</div>
+
+<div id="test"
+     class="nono">
+	foo
+</div>
+	
+Hr's:
+
+<hr class="foo"
+    id="bar" >
+
+Details and Summary:
+
+<details>
+  <summary>Some details</summary>
+  <p>More info about the details.</p>
+</details>
+
+Regression:
+
+<pre>
+#test
+</pre>
+
+<p>Hello</p>
+<p>Michael</p>
+<p>E.</p>

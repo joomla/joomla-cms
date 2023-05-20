@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="COM_JED_VEL_ABANDONEDREPORT_FORM_TITLE" option="View">
+        <message>
+            <![CDATA[COM_JED_VEL_ABANDONEDREPORT_FORM_DESCR]]>
+        </message>
+    </layout>
+    <fields name="params">
+
+    </fields>
+</metadata>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+        <field name="search" type="text" description="JSEARCH_FILTER"
+               label="COM_USERS_FILTER_SEARCH_DESC"
+               class="js-stools-search-string"/>
+
+        <field name="state"
+               type="status"
+               label="COM_JED_FILTER_STATE"
+               description="COM_JED_FILTER_STATE_DESC"
+               onchange="this.form.submit();"
+        >
+            <option value="">JOPTION_SELECT_PUBLISHED</option>
+        </field>
+
+    </fields>
+
+    <fields name="list">
+
+        <field name="fullordering"
+               type="list"
+               label="COM_JED_LIST_FULL_ORDERING"
+               description="COM_JED_LIST_FULL_ORDERING_DESC"
+               onchange="this.form.submit();"
+               default="a.id DESC"
+        >
+            <option value="">JGLOBAL_SORT_BY</option>
+            <option value="a.id ASC">COM_JED_GENERAL_FILTER_SORT_ID_ASC</option>
+            <option value="a.id DESC">COM_JED_GENERAL_FILTER_SORT_ID_DESC</option>
+            <option value="a.extension_id ASC">COM_JED_GENERAL_FILTER_SORT_EXTENSION_ID_ASC</option>
+            <option value="a.extension_id DESC">COM_JED_GENERAL_FILTER_SORT_EXTENSION_ID_DESC</option>
+            <option value="a.supply_option_id ASC">COM_JED_REVIEWS_FILTER_SORT_SUPPLY_OPTION_ID_ASC</option>
+            <option value="a.supply_option_id DESC">COM_JED_REVIEWS_FILTER_SORT_SUPPLY_OPTION_ID_DESC</option>
+            <option value="a.intro_text ASC">COM_JED_EXTVARIEDDATA_FILTER_SORT_INTRO_TEXT_ASC</option>
+            <option value="a.intro_text DESC">COM_JED_EXTVARIEDDATA_FILTER_SORT_INTRO_TEXT_DESC</option>
+            <option value="a.description ASC">COM_JED_NEWEXT_FILTER_SORT_DESCRIPTION_ASC</option>
+            <option value="a.description DESC">COM_JED_NEWEXT_FILTER_SORT_DESCRIPTION_DESC</option>
+            <option value="a.homepage_link ASC">COM_JED_EXTVARIEDDATA_FILTER_SORT_HOMEPAGE_LINK_ASC</option>
+            <option value="a.homepage_link DESC">COM_JED_EXTVARIEDDATA_FILTER_SORT_HOMEPAGE_LINK_DESC</option>
+            <option value="a.download_link ASC">COM_JED_EXTVARIEDDATA_FILTER_SORT_DOWNLOAD_LINK_ASC</option>
+            <option value="a.download_link DESC">COM_JED_EXTVARIEDDATA_FILTER_SORT_DOWNLOAD_LINK_DESC</option>
+            <option value="a.demo_link ASC">COM_JED_EXTVARIEDDATA_FILTER_SORT_DEMO_LINK_ASC</option>
+            <option value="a.demo_link DESC">COM_JED_EXTVARIEDDATA_FILTER_SORT_DEMO_LINK_DESC</option>
+            <option value="a.support_link ASC">COM_JED_REVIEWS_FIELD_SUPPORT_LABEL_LINK_ASC</option>
+            <option value="a.support_link DESC">COM_JED_REVIEWS_FIELD_SUPPORT_LABEL_LINK_DESC</option>
+            <option value="a.documentation_link ASC">COM_JED_REVIEWS_FIELD_DOCUMENTATION_LABEL_LINK_ASC</option>
+            <option value="a.documentation_link DESC">COM_JED_REVIEWS_FIELD_DOCUMENTATION_LABEL_LINK_DESC</option>
+            <option value="a.license_link ASC">COM_JED_EXTVARIEDDATA_FILTER_SORT_LICENSE_LINK_ASC</option>
+            <option value="a.license_link DESC">COM_JED_EXTVARIEDDATA_FILTER_SORT_LICENSE_LINK_DESC</option>
+            <option value="a.tags ASC">COM_JED_EXTVARIEDDATA_FILTER_SORT_TAGS_ASC</option>
+            <option value="a.tags DESC">COM_JED_EXTVARIEDDATA_FILTER_SORT_TAGS_DESC</option>
+            <option value="a.ordering ASC">COM_JED_GENERAL_FILTER_SORT_ORDERING_ASC</option>
+            <option value="a.ordering DESC">COM_JED_GENERAL_FILTER_SORT_ORDERING_DESC</option>
+            <option value="a.state ASC">COM_JED_GENERAL_FILTER_SORT_STATE_ASC</option>
+            <option value="a.state DESC">COM_JED_GENERAL_FILTER_SORT_STATE_DESC</option>
+            <option value="a.created_by ASC">COM_JED_GENERAL_FILTER_SORT_CREATED_BY_ASC</option>
+            <option value="a.created_by DESC">COM_JED_GENERAL_FILTER_SORT_CREATED_BY_DESC</option>
+            <option value="a.update_url ASC">COM_JED_EXTVARIEDDATA_FILTER_SORT_UPDATE_URL_ASC</option>
+            <option value="a.update_url DESC">COM_JED_EXTVARIEDDATA_FILTER_SORT_UPDATE_URL_DESC</option>
+            <option value="a.update_url_ok ASC">COM_JED_EXTVARIEDDATA_FILTER_SORT_UPDATE_URL_OK_ASC</option>
+            <option value="a.update_url_ok DESC">COM_JED_EXTVARIEDDATA_FILTER_SORT_UPDATE_URL_OK_DESC</option>
+            <option value="a.download_integration_type ASC">COM_JED_EXTVARIEDDATA_FILTER_SORT_DOWNLOAD_INTEGRATION_TYPE_ASC</option>
+            <option value="a.download_integration_type DESC">COM_JED_EXTVARIEDDATA_FILTER_SORT_DOWNLOAD_INTEGRATION_TYPE_DESC</option>
+            <option value="a.is_default_data ASC">COM_JED_EXTVARIEDDATA_FILTER_SORT_IS_DEFAULT_DATA_ASC</option>
+            <option value="a.is_default_data DESC">COM_JED_EXTVARIEDDATA_FILTER_SORT_IS_DEFAULT_DATA_DESC</option>
+            <option value="a.translation_link ASC">COM_JED_EXTVARIEDDATA_FILTER_SORT_TRANSLATION_LINK_ASC</option>
+            <option value="a.translation_link DESC">COM_JED_EXTVARIEDDATA_FILTER_SORT_TRANSLATION_LINK_DESC</option>
+
+        </field>
+
+        <field name="limit"
+               type="limitbox"
+               label="COM_JED_LIST_LIMIT"
+               description="COM_JED_LIST_LIMIT_DESC"
+               class="input-mini"
+               default="25"
+               onchange="this.form.submit();"
+        />
+
+    </fields>
+
+</form>

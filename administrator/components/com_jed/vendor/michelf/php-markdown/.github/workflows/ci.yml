@@ -1,0 +1,30 @@
+name: CI
+on:
+    pull_request: null
+    push:
+        branches:
+            - lib
+jobs:
+    tests:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                php:
+                  - '7.4'
+                  - '8.0'
+                  - '8.1'
+                  - '8.2'
+
+        name: Linting - PHP ${{ matrix.php }}
+        steps:
+            -   uses: actions/checkout@v2
+            -   uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php }}
+                    coverage: none
+                    extensions: intl
+            -   run: composer install --no-progress
+#            -   run: composer codestyle
+            -   run: composer phpstan
+                if:  matrix.php == '8.1'
+            -   run: composer tests

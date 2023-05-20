@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="COM_JED_REVIEW_ITEM_TITLECOMMENT" option="View">
+        <message>
+                        <![CDATA[COM_JED_REVIEW_ITEM_TITLECOMMENT_DESC]]>
+        </message>
+    </layout>
+    <fields name="request">
+        <fieldset 
+            name="request"
+            label="COM_JED_FIELDSET_ITEM_ID_SELECT_LABEL">
+            <field
+                name="id"
+                query="SELECT `id`, `ip_address` FROM #__jed_reviews_comments ORDER BY `id`"
+                type="sql"
+                key_field="id" 
+                value_field="ip_address"
+                label="COM_JED_ITEM_ID_SELECT_LABEL"
+                require="true"
+                description="JGLOBAL_SHOW_TITLE_DESC">
+            </field>
+        </fieldset>
+    </fields>
+</metadata>

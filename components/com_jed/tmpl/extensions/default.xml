@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_JED_EXTENSIONS_LIST_TITLE" option="View">
+        <message>
+                        <![CDATA[COM_JED_EXTENSIONS_LIST_TITLE_DESC]]>
+        </message>
+	</layout>
+	
+			<fields name="request">
+				<fieldset name="request"
+					addfieldpath="/administrator/components/com_categories/models/fields"
+				>
+					<field
+						name="catid"
+						type="category"
+						label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
+						description="JGLOBAL_CHOOSE_CATEGORY_DESC"
+						extension="com_jed.extensions"
+						show_root="true"
+						published="1"
+					/>
+				</fieldset>
+			</fields>
+			
+</metadata>

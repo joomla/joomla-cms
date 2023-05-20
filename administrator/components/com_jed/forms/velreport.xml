@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Jed\Component\Jed\Administrator\Field">
+    <fieldset>
+        <field name="id" type="text" readonly="true" class="readonly" default="0" description="JGLOBAL_FIELD_ID_DESC"
+               label="JGRID_HEADING_ID"/>
+        <field name="reporter_fullname" filter="safehtml" type="text" required="true"
+               message="COM_JED_GENERAL_RESPONSE_INVALID_INPUT"
+               label="COM_JED_GENERAL_FIELD_CONTACT_FULLNAME_LABEL"
+               description=""
+               hint=""/>
+        <field name="reporter_email" validate="email" type="email" required="true" message="Invalid email address."
+               label="COM_JED_GENERAL_FIELD_CONTACT_EMAIL_LABEL"
+               description=""
+               hint=""/>
+        <field name="reporter_organisation" filter="safehtml" type="text"
+               label="COM_JED_GENERAL_FIELD_REPORTER_ORGANISATION_LABEL"
+               description=""
+               hint=""/>
+        <field name="pass_details_ok" default="0" type="list" required="true"
+               message="COM_JED_GENERAL_RESPONSE_PLEASE_SELECT_YES_NO"
+               label="COM_JED_VEL_GENERAL_FIELD_PASS_DETAILS_OK_LABEL"
+               description=""
+               hint="">
+            <option value="1">COM_JED_VEL_GENERAL_FIELD_PASS_DETAILS_OK_OPTION_1</option>
+            <option value="0">COM_JED_VEL_GENERAL_FIELD_PASS_DETAILS_OK_OPTION_0</option>
+        </field>
+        <field name="vulnerability_type" default="1" type="list" required="true"
+               message="COM_JED_GENERAL_RESPONSE_INVALID_INPUT"
+               label="COM_JED_VEL_GENERAL_FIELD_VULNERABILITY_TYPE_LABEL"
+               description=""
+               hint="">
+            <option value="1">COM_JED_VEL_GENERAL_FIELD_VULNERABILITY_TYPE_OPTION_1</option>
+            <option value="2">COM_JED_VEL_GENERAL_FIELD_VULNERABILITY_TYPE_OPTION_2</option>
+            <option value="3">COM_JED_VEL_GENERAL_FIELD_VULNERABILITY_TYPE_OPTION_3</option>
+        </field>
+        <field name="vulnerable_item_name" filter="safehtml" type="text" required="true"
+               message="COM_JED_GENERAL_RESPONSE_INVALID_INPUT"
+               label="COM_JED_VEL_GENERAL_FIELD_ITEM_NAME_LABEL"
+               description=""
+               hint=""/>
+        <field name="vulnerable_item_version" filter="safehtml" type="text" required="true"
+               message="COM_JED_GENERAL_RESPONSE_INVALID_INPUT" label="COM_JED_VEL_GENERAL_FIELD_ITEM_VERSION_LABEL"
+               description=""
+               hint=""/>
+        <field name="exploit_type" default="0" type="list" required="true" message="Please make a selection"
+               label="COM_JED_VEL_GENERAL_FIELD_EXPLOIT_TYPE_LABEL"
+               description=""
+               hint="">
+            <option value="1">COM_JED_VEL_GENERAL_FIELD_EXPLOIT_TYPE_OPTION_1</option>
+            <option value="2">COM_JED_VEL_GENERAL_FIELD_EXPLOIT_TYPE_OPTION_2</option>
+            <option value="3">COM_JED_VEL_GENERAL_FIELD_EXPLOIT_TYPE_OPTION_3</option>
+            <option value="4">COM_JED_VEL_GENERAL_FIELD_EXPLOIT_TYPE_OPTION_4</option>
+            <option value="5">COM_JED_VEL_GENERAL_FIELD_EXPLOIT_TYPE_OPTION_5</option>
+            <option value="9">COM_JED_VEL_GENERAL_FIELD_EXPLOIT_TYPE_OPTION_9</option>
+        </field>
+        <field name="exploit_other_description" filter="safehtml" type="textarea"
+               label="COM_JED_VEL_GENERAL_FIELD_EXPLOIT_OTHER_DESCRIPTION_LABEL"
+               description=""
+               hint=""
+               showon="exploit_type:9"/>
+        <field name="vulnerability_description" filter="safehtml" type="textarea" required="true"
+               message="COM_JED_GENERAL_RESPONSE_INVALID_INPUT"
+               label="COM_JED_VEL_GENERAL_FIELD_VULNERABILITY_DESCRIPTION_LABEL"
+               description=""
+               hint=""/>
+        <field name="vulnerability_how_found" filter="safehtml" type="textarea" required="true"
+               label="COM_JED_VEL_GENERAL_FIELD_VULNERABILITY_HOW_FOUND_LABEL"
+               description=""
+               hint=""/>
+        <field name="vulnerability_actively_exploited" default="0" type="list" required="true"
+               message="COM_JED_GENERAL_RESPONSE_INVALID_INPUT"
+               label="COM_JED_VEL_GENERAL_FIELD_VULNERABILITY_ACTIVELY_EXPLOITED_LABEL"
+               description=""
+               hint="">
+            <option value="1">COM_JED_VEL_GENERAL_FIELD_VULNERABILITY_ACTIVELY_EXPLOITED_OPTION_1</option>
+            <option value="0">COM_JED_VEL_GENERAL_FIELD_VULNERABILITY_ACTIVELY_EXPLOITED_OPTION_0</option>
+            <option value="2">COM_JED_VEL_GENERAL_FIELD_VULNERABILITY_ACTIVELY_EXPLOITED_OPTION_2</option>
+        </field>
+        <field name="vulnerability_publicly_available" default="0" type="list" required="true"
+               message="Please make a selection"
+               label="COM_JED_VEL_GENERAL_FIELD_VULNERABILITY_PUBLICLY_AVAILABLE_LABEL"
+               description=""
+               hint="">
+            <option value="1">COM_JED_VEL_GENERAL_FIELD_VULNERABILITY_PUBLICLY_AVAILABLE_OPTION_1</option>
+            <option value="0">COM_JED_VEL_GENERAL_FIELD_VULNERABILITY_PUBLICLY_AVAILABLE_OPTION_0</option>
+        </field>
+        <field name="vulnerability_publicly_url" validate="url" type="url"
+               label="COM_JED_VEL_GENERAL_FIELD_VULNERABILITY_PUBLICLY_URL_LABEL"
+               description=""
+               hint=""/>
+        <field name="vulnerability_specific_impact" filter="safehtml" type="textarea" required="true"
+               message="COM_JED_GENERAL_RESPONSE_INVALID_INPUT"
+               label="COM_JED_VEL_GENERAL_FIELD_VULNERABILITY_SPECIFIC_IMPACT_LABEL"
+               description=""
+               hint=""/>
+        <field name="developer_communication_type" default="0" type="list" required="true"
+               message="Please make a selection" label="COM_JED_VEL_GENERAL_FIELD_DEVELOPER_COMMUNICATION_TYPE_LABEL"
+               description=""
+               hint="">
+            <option value="1">COM_JED_VEL_GENERAL_FIELD_DEVELOPER_COMMUNICATION_TYPE_OPTION_1</option>
+            <option value="2">COM_JED_VEL_GENERAL_FIELD_DEVELOPER_COMMUNICATION_TYPE_OPTION_2</option>
+            <option value="3">COM_JED_VEL_GENERAL_FIELD_DEVELOPER_COMMUNICATION_TYPE_OPTION_3</option>
+            <option value="4">COM_JED_VEL_GENERAL_FIELD_DEVELOPER_COMMUNICATION_TYPE_OPTION_4</option>
+            <option value="5">COM_JED_VEL_GENERAL_FIELD_DEVELOPER_COMMUNICATION_TYPE_OPTION_5</option>
+        </field>
+        <field name="developer_patch_download_url" validate="url" type="url"
+               label="COM_JED_VEL_GENERAL_FIELD_DEVELOPER_PATCH_DOWNLOAD_URL_LABEL"
+               description=""
+               hint=""/>
+        <field name="developer_name" filter="safehtml" type="text"
+               label="COM_JED_VEL_GENERAL_FIELD_DEVELOPER_NAME_LABEL"
+               description=""
+               hint=""/>
+        <field name="developer_contact_email" validate="email" type="email"
+               label="COM_JED_VEL_GENERAL_FIELD_DEVELOPER_CONTACT_EMAIL_LABEL"
+               description=""
+               hint=""/>
+        <field name="tracking_db_name" filter="safehtml" type="text"
+               label="COM_JED_VEL_GENERAL_FIELD_TRACKING_DB_NAME_LABEL"
+               description=""
+               hint=""/>
+        <field name="tracking_db_id" filter="safehtml" type="text"
+               label="COM_JED_VEL_GENERAL_FIELD_TRACKING_DB_ID_LABEL"
+               description=""
+               hint=""/>
+        <field name="jed_url" validate="url" type="url" label="COM_JED_VEL_GENERAL_FIELD_JED_URL_LABEL"
+               description=""
+               hint=""/>
+        <field name="developer_additional_info" filter="safehtml" type="textarea"
+               label="COM_JED_VEL_GENERAL_FIELD_DEVELOPER_ADDITIONAL_INFO_LABEL"
+               description=""
+               hint=""/>
+        <field name="download_url" validate="url" type="url" label="COM_JED_VEL_GENERAL_FIELD_JED_URL_LABEL"
+               description=""
+               hint=""/>
+        <field name="consent_to_process" default="0" type="list" required="true"
+               message="COM_JED_GENERAL_RESPONSE_PLEASE_SELECT_PROCEED_NO"
+               label="COM_JED_VEL_GENERAL_FIELD_CONSENT_TO_PROCESS_LABEL"
+               description=""
+               hint="">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field name="passed_to_vel" default="0" type="list" label="COM_JED_VEL_GENERAL_FIELD_PASSED_TO_VEL_LABEL"
+               description=""
+               hint="">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+        <field name="vel_item_id" default="0" label="COM_JED_VEL_GENERAL_FIELD_VEL_ITEM_ID_LABEL"
+               description=""
+               hint=""/>
+        <field name="data_source" default="0" type="list" label="COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_LABEL"
+               description=""
+               hint="">
+            <option value="0">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_0</option>
+            <option value="1">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_1</option>
+            <option value="5">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_5</option>
+            <option value="7">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_7</option>
+            <option value="9">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_9</option>
+            <option value="10">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_10</option>
+            <option value="11">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_11</option>
+            <option value="12">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_12</option>
+            <option value="13">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_13</option>
+            <option value="14">COM_JED_VEL_GENERAL_FIELD_DATA_SOURCE_OPTION_14</option>
+        </field>
+        <field name="date_submitted" class="inputbox" format="%Y-%m-%d" timeformat="12"
+               filter="user_utc" translateformat="false" showtime="false" singleheader="false" todaybutton="false"
+               weeknumbers="false" filltable="false" type="calendar"
+               label="COM_JED_GENERAL_FIELD_DATE_SUBMITTED_LABEL"
+               description=""
+               hint=""/>
+        <field name="user_ip" type="text" label="COM_JED_VEL_GENERAL_FIELD_USER_IP_LABEL"
+               description=""
+               hint=""/>
+        <field name="created_by" type="createdby" default="0" label="COM_JED_GENERAL_FIELD_CREATED_BY_LABEL"
+               description=""
+               hint=""/>
+        <field name="modified_by" type="modifiedby" default="0" label="COM_JED_GENERAL_FIELD_MODIFIED_BY_LABEL"
+               description=""
+               hint=""/>
+        <field name="created" default="0000-00-00" type="timecreated" label="JGLOBAL_CREATED"
+               description=""
+               hint=""/>
+        <field name="modified" default="0000-00-00" type="timeupdated" label="COM_JED_GENERAL_FIELD_MODIFIED_ON_LABEL"
+               description=""
+               hint=""/>
+    </fieldset>
+</form>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+        <field name="search" type="text" hint="COM_JED_VEL_GENERAL_FILTER_SUBMIT"
+               label="COM_USERS_FILTER_SEARCH_DESC"
+               class="js-stools-search-string"/>
+
+    </fields>
+    <fields name="list">
+
+        <field name="fullordering"
+               type="list"
+               label="COM_JED_GENERAL_FILTER_FULL_ORDERING_LABEL"
+               description="COM_JED_GENERAL_FILTER_FULL_ORDERING_LABEL_DESC"
+               onchange="this.form.submit();"
+               default="a.id DESC"
+        >
+            <option value="">JGLOBAL_SORT_BY</option>
+            <option value="a.`id` ASC">JGRID_HEADING_ID_ASC</option>
+            <option value="a.`id` DESC">JGRID_HEADING_ID_DESC</option>
+            <option value="a.`reporter_fullname` ASC">COM_JED_GENERAL_FILTER_SORT_NAME_ASC
+            </option>
+            <option value="a.`reporter_fullname` DESC">COM_JED_GENERAL_FILTER_SORT_NAME_DESC
+            </option>
+            <option value="a.`reporter_email` ASC">COM_JED_VEL_GENERAL_FILTER_SORT_REPORTER_EMAIL_ASC</option>
+            <option value="a.`reporter_email` DESC">COM_JED_VEL_GENERAL_FILTER_SORT_REPORTER_EMAIL_DESC</option>
+            <option value="a.`reporter_organisation` ASC">
+                COM_JED_VEL_GENERAL_FILTER_SORT_REPORTER_ORGANISATION_ASC
+            </option>
+            <option value="a.`reporter_organisation` DESC">
+                COM_JED_VEL_GENERAL_FILTER_SORT_REPORTER_ORGANISATION_DESC
+            </option>
+            <option value="a.`extension_name` ASC">COM_JED_VEL_GENERAL_FILTER_SORT_EXTENSION_NAME_ASC</option>
+            <option value="a.`extension_name` DESC">COM_JED_VEL_GENERAL_FILTER_SORT_EXTENSION_NAME_DESC</option>
+            <option value="a.`developer_name` ASC">COM_JED_VEL_GENERAL_FILTER_SORT_DEVELOPER_NAME_ASC</option>
+            <option value="a.`developer_name` DESC">COM_JED_VEL_GENERAL_FILTER_SORT_DEVELOPER_NAME_DESC</option>
+            <option value="a.`extension_version` ASC">COM_JED_VEL_GENERAL_FILTER_SORT_EXTENSION_VERSION_ASC</option>
+            <option value="a.`extension_version` DESC">COM_JED_VEL_GENERAL_FILTER_SORT_EXTENSION_VERSION_DESC</option>
+            <option value="a.`consent_to_process` ASC">COM_JED_VEL_GENERAL_FILTER_SORT_CONSENT_TO_PROCESS_ASC
+            </option>
+            <option value="a.`consent_to_process` DESC">
+                COM_JED_VEL_GENERAL_FILTER_SORT_CONSENT_TO_PROCESS_DESC
+            </option>
+            <option value="a.`passed_to_vel` ASC">COM_JED_VEL_GENERAL_FILTER_SORT_PASSED_TO_VEL_ASC</option>
+            <option value="a.`passed_to_vel` DESC">COM_JED_VEL_GENERAL_FILTER_SORT_PASSED_TO_VEL_DESC</option>
+            <option value="a.`data_source` ASC">COM_JED_VEL_GENERAL_FILTER_SORT_DATA_SOURCE_ASC</option>
+            <option value="a.`data_source` DESC">COM_JED_VEL_GENERAL_FILTER_SORT_DATA_SOURCE_DESC</option>
+            <option value="a.`date_submitted` ASC">COM_JED_VEL_GENERAL_FILTER_SORT_DATE_SUBMITTED_ASC</option>
+            <option value="a.`date_submitted` DESC">COM_JED_VEL_GENERAL_FILTER_SORT_DATE_SUBMITTED_DESC</option>
+
+        </field>
+
+        <field name="limit"
+               type="limitbox"
+               label="COM_JED_GENERAL_FILTER_LIMIT_LABEL"
+               description="COM_JED_GENERAL_FILTER_LIMIT_LABEL_DESC"
+               class="input-mini"
+               default="25"
+               onchange="this.form.submit();"
+        />
+
+    </fields>
+</form>

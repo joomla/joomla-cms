@@ -1,0 +1,36 @@
+build:
+  environment:
+    php:
+      version: '7.4'
+  nodes:
+    analysis:
+      project_setup:
+        override:
+          - 'true'
+      tests:
+        override:
+          -
+            command: 'vendor/bin/phpunit --coverage-clover=clover.xml'
+            coverage:
+              file: 'clover.xml'
+              format: 'clover'
+          -
+            command: phpcs-run
+            use_website_config: true
+      environment:
+        node:
+          version: 6.0.0
+    tests: true
+filter:
+  excluded_paths:
+    - 'test/*'
+checks:
+  php: true
+coding_style:
+  php:
+    indentation:
+      general:
+        use_tabs: true
+    spaces:
+      around_operators:
+        concatenation: true

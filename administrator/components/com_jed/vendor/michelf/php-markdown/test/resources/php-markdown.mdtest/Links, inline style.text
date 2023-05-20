@@ -1,0 +1,9 @@
+[silly URL w/ angle brackets](<?}]*+|&)>).
+
+[link](<url://with spaces> "title").
+
+[link][].
+
+[link]: <url with spaces> "title"
+
+[link](<s p a c e s>)

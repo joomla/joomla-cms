@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Jed\Component\Jed\Administrator\Field">
+    <fieldset>
+        <field name="id" type="text" readonly="true" class="readonly" default="0" description="JGLOBAL_FIELD_ID_DESC"/>
+        <field name="state" default="1" type="list" label="JSTATUS" description="JFIELD_PUBLISHED_DESC" class="inputbox"
+               size="1">
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+            <option value="2">JARCHIVED</option>
+            <option value="-2">JTRASHED</option>
+        </field>
+        <field name="ordering"/>
+        <field name="checked_out" type="hidden" filter="unset"/>
+        <field name="checked_out_time" type="hidden" filter="unset"/>
+        <field name="created_by" type="createdby" default="0" label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+               description="JGLOBAL_FIELD_CREATED_BY_DESC" hidden="true"
+               hint="COM_JED_GENERAL_FIELD_CREATED_BY_LABEL "/>
+        <field name="modified_by" type="modifiedby" default="0" label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+               description="JGLOBAL_FIELD_MODIFIED_BY_DESC" hidden="true"
+               hint="COM_JED_GENERAL_FIELD_MODIFIED_BY_LABEL "/>
+        <field name="extension_id" type="foreignkey" label="COM_JED_FORM_LBL_EXTENSIONIMAGE_EXTENSION_ID"
+               description="COM_JED_FORM_DESC_EXTENSIONIMAGE_EXTENSION_ID" default="0" input_type="list"
+               table="#__jed_extensions" key_field="id" translate="true" value_field="title"/>
+        <field name="filename" type="filemultiple" label="COM_JED_FORM_LBL_EXTENSIONIMAGE_FILENAME"
+               description="COM_JED_FORM_DESC_EXTENSIONIMAGE_FILENAME" hint="COM_JED_FORM_LBL_EXTENSIONIMAGE_FILENAME"/>
+        <field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+               description="JGLOBAL_FIELD_VERSION_NOTE_DESC" class="inputbox" size="45" labelclass="control-label"/>
+    </fieldset>
+</form>

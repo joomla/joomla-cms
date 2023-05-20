@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Jed\Component\Jed\Site\Field">
+    <fieldset>
+        <field name="id" type="text" readonly="true" class="readonly" default="0" description="JGLOBAL_FIELD_ID_DESC"/>
+        <field name="review_id" label="COM_JED_REVIEWCOMMENTS_FIELD_REVIEW_ID_LABEL"
+               description="COM_JED_FORM_DESC_REVIEWCOMMENT_REVIEW_ID"
+               hint="COM_JED_REVIEWCOMMENTS_FIELD_REVIEW_ID_LABEL"/>
+        <field name="ip_address" filter="safehtml" type="text" label="COM_JED_REVIEWCOMMENTS_FIELD_IP_ADDRESS_LABEL"
+               description="COM_JED_FORM_DESC_REVIEWCOMMENT_IP_ADDRESS"
+               hint="COM_JED_REVIEWCOMMENTS_FIELD_IP_ADDRESS_LABEL"/>
+        <field name="created_on" type="calendar" class="inputbox" format="%Y-%m-%d %H:%M:%S" showtime="true"
+               translateformat="true" label="COM_JED_GENERAL_FIELD_CREATED_ON_LABEL"
+               description="COM_JED_FORM_DESC_REVIEWCOMMENT_CREATED_ON" hint="COM_JED_GENERAL_FIELD_CREATED_ON_LABEL"/>
+        <field name="ordering"/>
+        <field name="state" type="list" label="JSTATUS" description="JFIELD_PUBLISHED_DESC" class="inputbox" size="1"
+               default="0">
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+            <option value="2">JARCHIVED</option>
+            <option value="-2">JTRASHED</option>
+        </field>
+        <field name="comments" editor="|" buttons="false" filter="JComponentHelper::filterText" type="editor"
+               label="COM_JED_REVIEWCOMMENTS_FIELD_COMMENTS_LABEL"
+               description="COM_JED_FORM_DESC_REVIEWCOMMENT_COMMENTS"
+               hint="COM_JED_REVIEWCOMMENTS_FIELD_COMMENTS_LABEL"/>
+        <field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+               description="JGLOBAL_FIELD_VERSION_NOTE_DESC" class="inputbox" size="45" labelclass="control-label"/>
+    </fieldset>
+</form>

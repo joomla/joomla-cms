@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+        <field name="search" type="text" description="JSEARCH_FILTER_SUBMIT"
+               label="COM_USERS_FILTER_SEARCH_DESC"
+               class="js-stools-search-string"/>
+
+        <field name="state"
+               type="status"
+               label="JSTATUS"
+               onchange="this.form.submit();"
+        >
+            <option value="">JOPTION_SELECT_PUBLISHED</option>
+        </field>
+
+    </fields>
+
+    <fields name="list">
+
+        <field name="fullordering"
+               type="list"
+               label="JGLOBAL_SORT_BY"
+               onchange="this.form.submit();"
+               default="a.id DESC"
+        >
+            <option value="">JGLOBAL_SORT_BY</option>
+            <option value="a.`id` ASC">JGRID_HEADING_ID_ASC</option>
+            <option value="a.`id` DESC">JGRID_HEADING_ID_DESC</option>
+            <option value="a.`reporter_fullname` ASC">COM_JED_GENERAL_FILTER_SORT_NAME_ASC</option>
+            <option value="a.`reporter_fullname` DESC">COM_JED_GENERAL_FILTER_SORT_NAME_DESC</option>
+            <option value="a.`reporter_email` ASC">COM_JED_GENERAL_FILTER_SORT_EMAIL_ASC</option>
+            <option value="a.`reporter_email` DESC">COM_JED_GENERAL_FILTER_SORT_EMAIL_DESC</option>
+            <option value="a.`reporter_organisation` ASC">COM_JED_GENERAL_FILTER_SORT_ORGANISATION_ASC</option>
+            <option value="a.`reporter_organisation` DESC">COM_JED_GENERAL_FILTER_SORT_ORGANISATION_DESC</option>
+            <option value="a.`pass_details_ok` ASC">COM_JED_GENERAL_FILTER_SORT_PASS_DETAILS_ASC</option>
+            <option value="a.`pass_details_ok` DESC">COM_JED_GENERAL_FILTER_SORT_PASS_DETAILS_DESC</option>
+            <option value="a.`vulnerability_type` ASC">COM_JED_GENERAL_FILTER_SORT_VULNERABILITY_TYPE_ASC</option>
+            <option value="a.`vulnerability_type` DESC">COM_JED_GENERAL_FILTER_SORT_VULNERABILITY_TYPE_DESC</option>
+            <option value="a.`vulnerable_item_name` ASC">COM_JED_GENERAL_FILTER_SORT_ITEM_NAME_ASC</option>
+            <option value="a.`vulnerable_item_name` DESC">COM_JED_GENERAL_FILTER_SORT_ITEM_NAME_DESC</option>
+            <option value="a.`vulnerable_item_version` ASC">COM_JED_GENERAL_FILTER_SORT_VERSION_ASC</option>
+            <option value="a.`vulnerable_item_version` DESC">COM_JED_GENERAL_FILTER_SORT_VERSION_DESC</option>
+            <option value="a.`exploit_type` ASC">COM_JED_GENERAL_FILTER_SORT_EXPLOIT_ASC</option>
+            <option value="a.`exploit_type` DESC">COM_JED_GENERAL_FILTER_SORT_EXPLOIT_DESC</option>
+            <option value="a.`consent_to_process` ASC">COM_JED_VEL_GENERAL_FILTER_SORT_CONSENT_TO_PROCESS_ASC</option>
+            <option value="a.`consent_to_process` DESC">COM_JED_VEL_GENERAL_FILTER_SORT_CONSENT_TO_PROCESS_DESC</option>
+            <option value="a.`passed_to_vel` ASC">COM_JED_VEL_GENERAL_FILTER_SORT_PASSED_TO_VEL_ASC</option>
+            <option value="a.`passed_to_vel` DESC">COM_JED_VEL_GENERAL_FILTER_SORT_PASSED_TO_VEL_DESC</option>
+            <option value="a.`data_source` ASC">COM_JED_VEL_GENERAL_FILTER_SORT_DATA_SOURCE_ASC</option>
+            <option value="a.`data_source` DESC">COM_JED_VEL_GENERAL_FILTER_SORT_DATA_SOURCE_DESC</option>
+            <option value="a.`date_submitted` ASC">COM_JED_VEL_GENERAL_FILTER_SORT_DATE_SUBMITTED_ASC</option>
+            <option value="a.`date_submitted` DESC">COM_JED_VEL_GENERAL_FILTER_SORT_DATE_SUBMITTED_DESC</option>
+        </field>
+
+        <field name="limit"
+               type="limitbox"
+               label="JGLOBAL_LIST_LIMIT"
+               class="input-mini"
+               default="25"
+               onchange="this.form.submit();"
+        />
+
+    </fields>
+
+</form>

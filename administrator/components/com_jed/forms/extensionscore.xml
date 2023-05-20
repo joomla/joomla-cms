@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Jed\Component\Jed\Administrator\Field">
+    <fieldset>
+        <field name="id" type="text" readonly="true" class="readonly" default="0" description="JGLOBAL_FIELD_ID_DESC"/>
+        <field name="state" default="1" type="list" label="JSTATUS" description="JFIELD_PUBLISHED_DESC" class="inputbox"
+               size="1">
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+            <option value="2">JARCHIVED</option>
+            <option value="-2">JTRASHED</option>
+        </field>
+        <field name="ordering"/>
+        <field name="checked_out" type="hidden" filter="unset"/>
+        <field name="checked_out_time" type="hidden" filter="unset"/>
+        <field name="created_by" type="createdby" default="0" label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+               description="JGLOBAL_FIELD_CREATED_BY_DESC" hidden="true"
+               hint="COM_JED_GENERAL_FIELD_CREATED_BY_LABEL "/>
+        <field name="modified_by" type="modifiedby" default="0" label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+               description="JGLOBAL_FIELD_MODIFIED_BY_DESC" hidden="true"
+               hint="COM_JED_GENERAL_FIELD_MODIFIED_BY_LABEL "/>
+        <field name="extension_id" type="foreignkey" label="COM_JED_FORM_LBL_EXTENSIONSCORE_EXTENSION_ID"
+               description="COM_JED_FORM_DESC_EXTENSIONSCORE_EXTENSION_ID" default="0" input_type="list"
+               table="#__jed_extensions" key_field="id" translate="true" value_field="title"/>
+        <field name="supply_option_id" type="foreignkey" label="COM_JED_FORM_LBL_EXTENSIONSCORE_SUPPLY_OPTION_ID"
+               description="COM_JED_FORM_DESC_EXTENSIONSCORE_SUPPLY_OPTION_ID" default="0" input_type="list"
+               table="#__jed_extension_supply_options" key_field="id" translate="true" value_field="title"/>
+        <field name="functionality_score" label="COM_JED_FORM_LBL_EXTENSIONSCORE_FUNCTIONALITY_SCORE"
+               description="COM_JED_FORM_DESC_EXTENSIONSCORE_FUNCTIONALITY_SCORE"
+               hint="COM_JED_FORM_LBL_EXTENSIONSCORE_FUNCTIONALITY_SCORE"/>
+        <field name="ease_of_use_score" label="COM_JED_FORM_LBL_EXTENSIONSCORE_EASE_OF_USE_SCORE"
+               description="COM_JED_FORM_DESC_EXTENSIONSCORE_EASE_OF_USE_SCORE"
+               hint="COM_JED_FORM_LBL_EXTENSIONSCORE_EASE_OF_USE_SCORE"/>
+        <field name="support_score" label="COM_JED_FORM_LBL_EXTENSIONSCORE_SUPPORT_SCORE"
+               description="COM_JED_FORM_DESC_EXTENSIONSCORE_SUPPORT_SCORE"
+               hint="COM_JED_FORM_LBL_EXTENSIONSCORE_SUPPORT_SCORE"/>
+        <field name="value_for_money_score" label="COM_JED_FORM_LBL_EXTENSIONSCORE_VALUE_FOR_MONEY_SCORE"
+               description="COM_JED_FORM_DESC_EXTENSIONSCORE_VALUE_FOR_MONEY_SCORE"
+               hint="COM_JED_FORM_LBL_EXTENSIONSCORE_VALUE_FOR_MONEY_SCORE"/>
+        <field name="documentation_score" label="COM_JED_FORM_LBL_EXTENSIONSCORE_DOCUMENTATION_SCORE"
+               description="COM_JED_FORM_DESC_EXTENSIONSCORE_DOCUMENTATION_SCORE"
+               hint="COM_JED_FORM_LBL_EXTENSIONSCORE_DOCUMENTATION_SCORE"/>
+        <field name="number_of_reviews" label="COM_JED_FORM_LBL_EXTENSIONSCORE_NUMBER_OF_REVIEWS"
+               description="COM_JED_FORM_DESC_EXTENSIONSCORE_NUMBER_OF_REVIEWS"
+               hint="COM_JED_FORM_LBL_EXTENSIONSCORE_NUMBER_OF_REVIEWS"/>
+        <field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+               description="JGLOBAL_FIELD_VERSION_NOTE_DESC" class="inputbox" size="45" labelclass="control-label"/>
+    </fieldset>
+</form>

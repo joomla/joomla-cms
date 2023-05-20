@@ -1,0 +1,109 @@
+<pre><code>&lt;Fenced>
+</code></pre>
+
+<p>Code block starting and ending with empty lines:</p>
+
+<pre><code><br /><br />&lt;Fenced>
+
+
+</code></pre>
+
+<p>Indented code block containing fenced code block sample:</p>
+
+<pre><code>```
+&lt;Fenced>
+```
+</code></pre>
+
+<p>Fenced code block with indented code block sample:</p>
+
+<pre><code>Some text
+
+    Indented code block sample code
+</code></pre>
+
+<p>Fenced code block with long markers:</p>
+
+<pre><code>Fenced
+</code></pre>
+
+<p>Fenced code block with fenced code block markers of different length in it:</p>
+
+<pre><code>In code block
+```
+Still in code block
+`````
+Still in code block
+</code></pre>
+
+<p>Fenced code block with Markdown header and horizontal rule:</p>
+
+<pre><code>#test
+---
+</code></pre>
+
+<p>Fenced code block with link definitions, footnote definition and
+abbreviation definitions:</p>
+
+<pre><code>[example]: http://example.com/
+
+[^1]: Footnote def
+
+*[HTML]: HyperText Markup Language
+</code></pre>
+
+<ul>
+<li><p>In a list item with smalish indent:</p>
+
+<pre><code>#!/bin/sh
+#
+# Preload driver binary
+LD_PRELOAD=libusb-driver.so $0.bin $*
+</code></pre>
+</li>
+</ul>
+
+<p>With HTML content.</p>
+
+<pre><code>&lt;b>bold&lt;/b>
+</code></pre>
+
+<p>Bug with block level elements in this case:</p>
+<pre><code>  &lt;div>
+  &lt;/div>
+</code></pre>
+
+<p>Indented code block of a fenced code block:</p>
+
+<pre><code>```
+haha!
+```
+</code></pre>
+
+<p>With class:</p>
+
+<pre><code class="html">&lt;b>bold&lt;/b>
+</code></pre>
+
+<pre><code class="html">&lt;b>bold&lt;/b>
+</code></pre>
+
+<pre><code class="html">&lt;b>bold&lt;/b>
+</code></pre>
+
+<pre><code class="html">&lt;b>bold&lt;/b>
+</code></pre>
+
+<p>With extra attribute block:</p>
+
+<pre><code class="html">&lt;b>bold&lt;/b>
+</code></pre>
+
+<pre><code class="html" id="codeid">&lt;b>bold&lt;/b>
+</code></pre>
+
+<pre><code class="html bold">&lt;div>
+</code></pre>
+  
+<pre><code class="html" id="codeid">&lt;/div>
+</code></pre>

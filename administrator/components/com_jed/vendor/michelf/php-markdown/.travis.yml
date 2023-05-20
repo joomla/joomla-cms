@@ -1,0 +1,19 @@
+language: php
+
+matrix:
+  include:
+    - php: hhvm-3.18
+      dist: trusty
+    - php: 7.4
+      dist: bionic
+    - php: 8.0
+      dist: bionic
+
+install:
+  - composer install --prefer-dist
+
+script:
+  - vendor/bin/phpunit --log-junit=phpunit.log
+
+notifications:
+  email: false

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Jed\Component\Jed\Administrator\Field">
+    <fieldset>
+        <field name="id" type="text" readonly="true" class="readonly" default="0"/>
+        <field name="extension_id" type="foreignkey" label="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_EXTENSION_ID"
+               default="0" input_type="list" table="#__jed_extensions" key_field="id" translate="true"
+               value_field="id"/>
+        <field name="supply_option_id" type="foreignkey" label="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_SUPPLY_OPTION_ID"
+               default="0" input_type="list" table="#__jed_extension_supply_options" key_field="id" translate="true"
+               value_field="title"/>
+
+        <field name="tags" filter="safehtml" type="text" label="JTAG"
+               hint="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_TAGS"/>
+        <field name="ordering"/>
+        <field name="state" type="list" label="JSTATUS" class="inputbox" size="1" default="0">
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+            <option value="2">JARCHIVED</option>
+            <option value="-2">JTRASHED</option>
+        </field>
+        <field name="checked_out" type="hidden" filter="unset"/>
+        <field name="checked_out_time" default="0000-00-00 00:00:00" type="hidden" filter="unset"/>
+        <field name="created_by" type="createdby" label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+               hint="COM_JED_GENERAL_FIELD_CREATED_BY_LABEL "/>
+
+    </fieldset>
+
+    <fieldset name="info">
+        <field name="title" filter="safehtml" type="text" label="JGLOBAL_TITLE"
+               hint="COM_JED_FORM_LBL_EXTENSION_TITLE"/>
+        <field name="alias" type="text" class="inputbox" generator="title" label="JFIELD_ALIAS_LABEL" hint="JALIAS"/>
+        <field name="intro_text" editor="tinymce" buttons="false" filter="JComponentHelper::filterText"
+               type="editor" label="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_INTRO_TEXT"
+               hint="COM_JED_FORM_LBL_EX TENSIONVARIEDDATUM_INTRO_TEXT"/>
+        <field name="description" editor="tinymce" buttons="false" filter="JComponentHelper::filterText"
+               type="editor" label="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_DESCRIPTION"
+               hint="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_DESCRIPTION"/>
+        <field name="homepage_link" validate="url" type="url"
+               label="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_HOMEPAGE_LINK"
+               hint="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_HOMEPAGE_LINK"/>
+        <field name="download_link" validate="url" type="url"
+               label="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_DOWNLOAD_LINK"
+               hint="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_DOWNLOAD_LINK"/>
+        <field name="demo_link" validate="url" type="url" label="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_DEMO_LINK"
+               hint="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_DEMO_LINK"/>
+        <field name="support_link" validate="url" type="url" label="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_SUPPORT_LINK"
+               hint="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_SUPPORT_LINK"/>
+        <field name="documentation_link" validate="url" type="url"
+               label="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_DOCUMENTATION_LINK"
+               hint="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_DOCUMENTATION_LINK"/>
+        <field name="license_link" validate="url" type="url" label="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_LICENSE_LINK"
+               hint="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_LICENSE_LINK"/>
+        <field name="translation_link" validate="url" type="url"
+               label="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_TRANSLATION_LINK"
+               hint="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_TRANSLATION_LINK"/>
+        <field
+                name="logo"
+                type="media"
+                label="COM_JED_EXTENSIONS_LOGO"
+                class="input-xxlarge"
+                preview="true"
+                directory=""
+        />
+        <field name="update_url" validate="url" type="url" label="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_UPDATE_URL"
+               hint="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_UPDATE_URL"/>
+
+        <field
+                name="update_url_ok"
+                type="radio"
+                label="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_UPDATE_URL_OK"
+                class="btn-group btn-group-yesno"
+                default="0"
+                filter="integer"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+
+        <field name="download_integration_type" type="list"
+               label="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_DOWNLOAD_INTEGRATION_TYPE"
+               hint="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_DOWNLOAD_INTEGRATION_TYPE">
+            <option value="None">COM_JED_EXTENSIONVARIEDDATA_DOWNLOAD_INTEGRATION_TYPE_OPTION_0</option>
+            <option value="Free Direct Download link:">COM_JED_EXTENSIONVARIEDDATA_DOWNLOAD_INTEGRATION_TYPE_OPTION_1
+            </option>
+            <option value="Paid purchase required at link:">
+                COM_JED_EXTENSIONVARIEDDATA_DOWNLOAD_INTEGRATION_TYPE_OPTION_2
+            </option>
+            <option value="Free but Registration required at link:">
+                COM_JED_EXTENSIONVARIEDDATA_DOWNLOAD_INTEGRATION_TYPE_OPTION_3
+            </option>
+            <option value="4">COM_JED_EXTENSIONVARIEDDATA_DOWNLOAD_INTEGRATION_TYPE_OPTION_4</option>
+        </field>
+        <field name="download_integration_url" filter="safehtml" type="text"
+               label="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_DOWNLOAD_INTEGRATION_URL"
+               hint="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_DOWNLOAD_INTEGRATION_URL"
+        />
+
+        <field
+                name="is_default_data"
+                type="radio"
+                label="COM_JED_FORM_LBL_EXTENSIONVARIEDDATUM_IS_DEFAULT_DATA"
+                class="btn-group btn-group-yesno"
+                default="0"
+                filter="integer"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+    </fieldset>
+</form>

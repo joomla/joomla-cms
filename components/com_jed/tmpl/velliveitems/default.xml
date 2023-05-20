@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="COM_JED_VEL_LIVEITEMS_LIST_TITLE" option="View">
+        <message>
+            <![CDATA[COM_JED_VEL_LIVEITEMS_LIST_DESCR]]>
+        </message>
+    </layout>
+
+</metadata>

@@ -1,0 +1,103 @@
+<p>This is the first paragraph.<sup id="fnref:first"><a href="#fn:first" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+
+<ul>
+<li>List item one.<sup id="fnref:second"><a href="#fn:second" class="footnote-ref" role="doc-noteref">2</a></sup></li>
+<li>List item two.<sup id="fnref:third"><a href="#fn:third" class="footnote-ref" role="doc-noteref">3</a></sup></li>
+</ul>
+
+<h1>Header<sup id="fnref:fourth"><a href="#fn:fourth" class="footnote-ref" role="doc-noteref">4</a></sup></h1>
+
+<p>Some paragraph with a footnote<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">5</a></sup>, and another<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">6</a></sup>.</p>
+
+<p>Another paragraph with a named footnote<sup id="fnref:fn-name"><a href="#fn:fn-name" class="footnote-ref" role="doc-noteref">7</a></sup>.</p>
+
+<p>This paragraph should not have a footnote marker since 
+the footnote is undefined.[^3]</p>
+
+<p>This paragraph has a second footnote marker to footnote number one.<sup id="fnref2:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">5</a></sup></p>
+
+<p>This paragraph links to a footnote with plenty of 
+block-level content.<sup id="fnref:block"><a href="#fn:block" class="footnote-ref" role="doc-noteref">8</a></sup></p>
+
+<p>This paragraph host the footnote reference within a 
+footnote test<sup id="fnref:reference"><a href="#fn:reference" class="footnote-ref" role="doc-noteref">9</a></sup>.</p>
+
+<hr />
+
+<p>Testing unusual footnote name<sup id="fnref:1$^!&quot;'"><a href="#fn:1$^!&quot;'" class="footnote-ref" role="doc-noteref">10</a></sup>.</p>
+
+<hr />
+
+<p>Footnotes mixed with images<sup id="fnref:image-mixed"><a class="footnote-ref" role="doc-noteref" href="#fn:image-mixed">11</a></sup><img alt="1800 Travel" src="images/MGR-1800-travel.jpeg" title="Travel Speeds in 1800"/><img alt="1830 Travel" src="images/MGR-1830-travel.jpeg" title="Travel Speeds in 1830"/></p>
+
+<div class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+
+<li id="fn:first" role="doc-endnote">
+<p>This is the first note.&#160;<a href="#fnref:first" class="footnote-backref" role="doc-backlink">&#8617;&#xFE0E;</a></p>
+</li>
+
+<li id="fn:second" role="doc-endnote">
+<p>This is the second note.&#160;<a href="#fnref:second" class="footnote-backref" role="doc-backlink">&#8617;&#xFE0E;</a></p>
+</li>
+
+<li id="fn:third" role="doc-endnote">
+<p>This is the third note, defined out of order.&#160;<a href="#fnref:third" class="footnote-backref" role="doc-backlink">&#8617;&#xFE0E;</a></p>
+</li>
+
+<li id="fn:fourth" role="doc-endnote">
+<p>This is the fourth note.&#160;<a href="#fnref:fourth" class="footnote-backref" role="doc-backlink">&#8617;&#xFE0E;</a></p>
+</li>
+
+<li id="fn:1" role="doc-endnote">
+<p>Content for fifth footnote.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#8617;&#xFE0E;</a> <a href="#fnref2:1" class="footnote-backref" role="doc-backlink">&#8617;&#xFE0E;</a></p>
+</li>
+
+<li id="fn:2" role="doc-endnote">
+<p>Content for sixth footnote spaning on 
+three lines, with some span-level markup like
+<em>emphasis</em>, a <a href="http://michelf.ca/">link</a>.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#8617;&#xFE0E;</a></p>
+</li>
+
+<li id="fn:fn-name" role="doc-endnote">
+<p>Footnote beginning on the line next to the marker.&#160;<a href="#fnref:fn-name" class="footnote-backref" role="doc-backlink">&#8617;&#xFE0E;</a></p>
+</li>
+
+<li id="fn:block" role="doc-endnote">
+<p>Paragraph.</p>
+
+<ul>
+<li>List item</li>
+</ul>
+
+<blockquote>
+  <p>Blockquote</p>
+</blockquote>
+
+<pre><code>Code block
+</code></pre>
+
+<p><a href="#fnref:block" class="footnote-backref" role="doc-backlink">&#8617;&#xFE0E;</a></p>
+</li>
+
+<li id="fn:reference" role="doc-endnote">
+<p>This footnote has a footnote of its own.<sup id="fnref:nested"><a href="#fn:nested" class="footnote-ref" role="doc-noteref">12</a></sup>&#160;<a href="#fnref:reference" class="footnote-backref" role="doc-backlink">&#8617;&#xFE0E;</a></p>
+</li>
+
+<li id="fn:1$^!&quot;'" role="doc-endnote">
+<p>Haha!&#160;<a href="#fnref:1$^!&quot;'" class="footnote-backref" role="doc-backlink">&#8617;&#xFE0E;</a></p>
+</li>
+
+<li id="fn:image-mixed" role="doc-endnote">
+<p>Footnote Content&#xA0;<a class="footnote-backref" role="doc-backlink" href="#fnref:image-mixed">&#8617;&#xFE0E;</a></p>
+</li>
+
+<li id="fn:nested" role="doc-endnote">
+<p>This footnote should appear even though it is referenced
+from another footnote. But [^reference] should be litteral
+since the footnote with that name has already been used.&#160;<a href="#fnref:nested" class="footnote-backref" role="doc-backlink">&#8617;&#xFE0E;</a></p>
+</li>
+
+</ol>
+</div>

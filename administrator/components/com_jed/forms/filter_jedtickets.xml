@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+        <field name="search" type="text" description="JSEARCH_FILTER_SUBMIT"
+               label="COM_USERS_FILTER_SEARCH_DESC"
+               class="js-stools-search-string"/>
+
+        <field name="state"
+               type="status"
+               label="COM_JED_GENERAL_FILTER_FIELD_STATE_LABEL"
+               description="COM_JED_GENERAL_FILTER_FIELD_STATE_LABEL_DESC"
+               onchange="this.form.submit();"
+        >
+            <option value="">JOPTION_SELECT_PUBLISHED</option>
+        </field>
+
+        <field name="ticket_origin" label="COM_JED_JEDTICKETS_FIELD_TICKET_ORIGIN_LABEL" type="list"
+               onchange="this.form.submit();" default="COM_JED_JEDTICKETS_FILTER_SORT_TICKET_ORIGIN_FILTER">
+            <option value="">COM_JED_JEDTICKETS_FILTER_SORT_TICKET_ORIGIN_FILTER</option>
+            <option value="0">COM_JED_JEDTICKETS_FILTER_SORT_TICKET_ORIGIN_OPTION_0</option>
+            <option value="1">COM_JED_JEDTICKETS_FILTER_SORT_TICKET_ORIGIN_OPTION_1</option>
+        </field>
+        <field name="ticket_category_type" type="sql" label="COM_JED_JEDTICKETS_FIELD_TICKET_CATEGORY_TYPE_LABEL"
+               query="SELECT `id` AS `id`, `categorytype` AS val FROM `#__jed_ticket_categories`"
+               header="COM_JED_JEDTICKETS_FIELD_TICKET_CATEGORY_TYPE_FILTER_LABEL" key_field="id" value_field="val"
+               class="inputbox"
+               onchange="this.form.submit()" translate="true"/>
+
+    </fields>
+
+    <fields name="list">
+
+        <field name="fullordering"
+               type="list"
+               label="COM_JED_GENERAL_FILTER_FULL_ORDERING_LABEL"
+               description="COM_JED_GENERAL_FILTER_FULL_ORDERING_LABEL_DESC"
+               onchange="this.form.submit();"
+               default="a.id DESC"
+        >
+            <option value="">JGLOBAL_SORT_BY</option>
+            <option value="a.`id` ASC">JGRID_HEADING_ID_ASC</option>
+            <option value="a.`id` DESC">JGRID_HEADING_ID_DESC</option>
+            <option value="a.`ticket_origin` ASC">COM_JED_JEDTICKETS_FILTER_SORT_TICKET_ORIGIN_ASC</option>
+            <option value="a.`ticket_origin` DESC">COM_JED_JEDTICKETS_FILTER_SORT_TICKET_ORIGIN_DESC</option>
+            <option value="a.`ticket_category_type` ASC">COM_JED_JEDTICKETS_FILTER_SORT_TICKET_CATEGORY_TYPE_ASC
+            </option>
+            <option value="a.`ticket_category_type` DESC">COM_JED_JEDTICKETS_FILTER_SORT_TICKET_CATEGORY_TYPE_DESC
+            </option>
+            <option value="a.`ticket_subject` ASC">COM_JED_JEDTICKETS_FILTER_SORT_TICKET_SUBJECT_ASC</option>
+            <option value="a.`ticket_subject` DESC">COM_JED_JEDTICKETS_FILTER_SORT_TICKET_SUBJECT_DESC</option>
+            <option value="a.`allocated_group` ASC">COM_JED_JEDTICKETS_FILTER_SORT_ALLOCATED_GROUP_ASC</option>
+            <option value="a.`allocated_group` DESC">COM_JED_JEDTICKETS_FILTER_SORT_ALLOCATED_GROUP_DESC</option>
+            <option value="a.`allocated_to` ASC">COM_JED_JEDTICKETS_FILTER_SORT_ALLOCATED_TO_ASC</option>
+            <option value="a.`allocated_to` DESC">COM_JED_JEDTICKETS_FILTER_SORT_ALLOCATED_TO_DESC</option>
+            <option value="a.`linked_item_type` ASC">COM_JED_JEDTICKETS_FILTER_SORT_LINKED_ITEM_TYPE_ASC</option>
+            <option value="a.`linked_item_type` DESC">COM_JED_JEDTICKETS_FILTER_SORT_LINKED_ITEM_TYPE_DESC</option>
+            <option value="a.`linked_item_id` ASC">COM_JED_JEDTICKETS_FILTER_SORT_LINKED_ITEM_ID_ASC</option>
+            <option value="a.`linked_item_id` DESC">COM_JED_JEDTICKETS_FILTER_SORT_LINKED_ITEM_ID_DESC</option>
+            <option value="a.`ticket_status` ASC">COM_JED_JEDTICKETS_FILTER_SORT_TICKET_STATUS_ASC</option>
+            <option value="a.`ticket_status` DESC">COM_JED_JEDTICKETS_FILTER_SORT_TICKET_STATUS_DESC</option>
+            <option value="a.`parent_id` ASC">COM_JED_JEDTICKETS_FILTER_SORT_PARENT_ID_ASC</option>
+            <option value="a.`parent_id` DESC">COM_JED_JEDTICKETS_FILTER_SORT_PARENT_ID_DESC</option>
+            <option value="a.`state` ASC">COM_JED_JEDTICKETS_FILTER_SORT_STATE_ASC</option>
+            <option value="a.`state` DESC">COM_JED_JEDTICKETS_FILTER_SORT_STATE_DESC</option>
+            <option value="a.`ordering` ASC">COM_JED_JEDTICKETS_FILTER_SORT_ORDERING_ASC</option>
+            <option value="a.`ordering` DESC">COM_JED_JEDTICKETS_FILTER_SORT_ORDERING_DESC</option>
+            <option value="a.`created_by` ASC">COM_JED_GENERAL_FILTER_SORT_CREATED_BY_ASC</option>
+            <option value="a.`created_by` DESC">COM_JED_GENERAL_FILTER_SORT_CREATED_BY_DESC</option>
+            <option value="a.`created_on` ASC">COM_JED_GENERAL_FILTER_SORT_CREATED_ON_ASC</option>
+            <option value="a.`created_on` DESC">COM_JED_GENERAL_FILTER_SORT_CREATED_ON_DESC</option>
+            <option value="a.`modified_by` ASC">COM_JED_GENERAL_FILTER_SORT_MODIFIED_BY_ASC</option>
+            <option value="a.`modified_by` DESC">COM_JED_GENERAL_FILTER_SORT_MODIFIED_BY_DESC</option>
+            <option value="a.`modified_on` ASC">COM_JED_GENERAL_FILTER_SORT_MODIFIED_ON_ASC</option>
+            <option value="a.`modified_on` DESC">COM_JED_GENERAL_FILTER_SORT_MODIFIED_ON_DESC</option>
+
+        </field>
+
+        <field name="limit"
+               type="limitbox"
+               label="COM_JED_GENERAL_FILTER_LIMIT_LABEL"
+               description="COM_JED_GENERAL_FILTER_LIMIT_LABEL_DESC"
+               class="input-mini"
+               default="25"
+               onchange="this.form.submit();"
+        />
+
+    </fields>
+
+</form>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+        <field name="search" type="text" hint="COM_JED_VEL_REPORTS_FILTER_SEARCH_BUTTON"
+               label="COM_USERS_FILTER_SEARCH_DESC"
+               class="js-stools-search-string"/>
+
+    </fields>
+    <fields name="list">
+
+        <field name="limit"
+               type="limitbox"
+               label="COM_JED_GENERAL_FILTER_LIMIT_LABEL"
+               description="COM_JED_GENERAL_FILTER_LIMIT_LABEL_DESC"
+               class="input-mini"
+               default="25"
+               onchange="this.form.submit();"
+        />
+
+    </fields>
+</form>

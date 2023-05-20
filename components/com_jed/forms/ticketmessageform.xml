@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Jed\Component\Jed\Site\Field">
+    <fieldset>
+        <field name="id" type="text" readonly="true" class="readonly" default="0" description="JGLOBAL_FIELD_ID_DESC"/>
+        <field name="ordering"/>
+        <field name="state" default="1" type="list" label="JSTATUS" description="JFIELD_PUBLISHED_DESC" class="inputbox"
+               size="1">
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+            <option value="2">JARCHIVED</option>
+            <option value="-2">JTRASHED</option>
+        </field>
+        <field name="checked_out" type="hidden" filter="unset"/>
+        <field name="checked_out_time" type="hidden" filter="unset"/>
+        <field name="subject" filter="safehtml" type="text" required="true" message="Please enter a subject"
+               label="COM_JED_TICKETMESSAGE_FIELD_SUBJECT_LABEL" description="COM_JED_FORM_DESC_TICKETMESSAGE_SUBJECT"
+               hint="COM_JED_TICKETMESSAGE_FIELD_SUBJECT_LABEL"/>
+        <field name="message" editor="jce|codemirror||" buttons="false" filter="JComponentHelper::filterText"
+               type="editor" required="true" message="Please enter a message"
+               label="COM_JED_TICKETMESSAGE_FIELD_MESSAGE_LABEL" description="COM_JED_FORM_DESC_TICKETMESSAGE_MESSAGE"
+               hint="COM_JED_TICKETMESSAGE_FIELD_MESSAGE_LABEL"/>
+        <field name="ticket_id" type="foreignkey" label="COM_JED_TICKETMESSAGE_FIELD_TICKET_ID_LABEL"
+               description="COM_JED_JEDTICKETS_FIELD_TICKET_ID_DESCR" input_type="list" table="#__jed_jedtickets"
+               key_field="id" value_field="ticket_subject" default="0"/>
+        <field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+               description="JGLOBAL_FIELD_VERSION_NOTE_DESC" class="inputbox" size="45" labelclass="control-label"/>
+    </fieldset>
+</form>

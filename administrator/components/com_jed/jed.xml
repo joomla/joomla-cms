@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" method="upgrade">
+    <name>COM_JED</name>
+    <author>Joomla! Project</author>
+    <creationDate>January 2022</creationDate>
+    <copyright>(C) 2022 Open Source Matters, Inc.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+    <version>4.0.0</version>
+    <description>COM_JED_XML_DESCRIPTION</description>
+    <namespace path="src">Jed\Component\Jed</namespace>
+    <scriptfile>script.php</scriptfile>
+
+    <files folder="components/com_jed">
+        <folder>forms</folder>
+        <folder>language</folder>
+        <folder>layouts</folder>
+        <folder>src</folder>
+        <folder>tmpl</folder>
+    </files>
+
+    <administration>
+        <!-- Menu entries -->
+        <menu view="jed">
+            COM_JED
+            <params>
+                <dashboard>jed</dashboard>
+            </params>
+        </menu>
+        <submenu>
+	        <menu link="option=com_categories&amp;extension=com_jed">
+                COM_JED_TITLE_CATEGORIES
+                <params>
+                    <menu-quicktask>index.php?option=com_categories&amp;amp;view=category&amp;layout=edit&amp;extension=com_jed</menu-quicktask>
+                    <menu-quicktask-title>COM_JED_TITLE_CATEGORIES_NEW</menu-quicktask-title>
+                    <menu-quicktask-permission>core.create;com_categories</menu-quicktask-permission>
+                </params>
+            </menu>
+
+            <menu view="jedtickets">
+                COM_JED_TITLE_TICKETS
+            </menu>
+
+            <menu view="velvulnerableitems">
+                COM_JED_TITLE_VEL
+            </menu>
+
+			<menu view="extensions">
+				COM_JED_TITLE_EXTENSIONS
+			</menu>
+        </submenu>
+
+        <files folder="administrator/components/com_jed">
+            <folder>forms</folder>
+            <folder>layouts</folder>
+            <folder>services</folder>
+            <folder>sql</folder>
+            <folder>src</folder>
+            <folder>tmpl</folder>
+            <folder>vendor</folder>
+            <file>access.xml</file>
+            <file>config.xml</file>
+        </files>
+
+        <languages folder="administrator/components/com_jed/language">
+            <language tag="en-GB">en-GB/com_jed.ini</language>
+            <language tag="en-GB">en-GB/com_jed.sys.ini</language>
+        </languages>
+    </administration>
+
+    <media destination="com_jed" folder="media/com_jed">
+        <folder>assets</folder>
+        <folder>css</folder>
+        <folder>js</folder>
+
+        <filename>joomla.asset.json</filename>
+    </media>
+
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+        </sql>
+    </install>
+
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+        </sql>
+    </uninstall>
+</extension>
