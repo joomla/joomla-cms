@@ -220,7 +220,7 @@
 	>
 		<field
 			name="allowed_positions_frontend"
-			type="modulesposition"
+			type="ModulesPosition"
 			label="COM_USERS_CONFIG_ALLOWED_POSITIONS_FRONTEND_LABEL"
 			description="COM_USERS_CONFIG_ALLOWED_POSITIONS_FRONTEND_DESC"
 			default=""
@@ -243,7 +243,7 @@
 
 		<field
 			name="allowed_positions_backend"
-			type="modulesposition"
+			type="ModulesPosition"
 			label="COM_USERS_CONFIG_ALLOWED_POSITIONS_BACKEND_LABEL"
 			description="COM_USERS_CONFIG_ALLOWED_POSITIONS_BACKEND_DESC"
 			default=""
