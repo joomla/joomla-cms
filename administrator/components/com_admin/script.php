@@ -946,10 +946,11 @@ class JoomlaInstallerScript
                  * "fontsizes"    -> "fontsize"
                  * "blockformats" -> "blocks"
                  * "formats"      -> "styles"
+                 * "template"     -> "jtemplate"
                  */
                 $params['configuration']['toolbars'][$setIdx]['menu'] = str_replace(
-                    ['fontformats', 'fontsizes', 'blockformats', 'formats'],
-                    ['fontfamily', 'fontsize', 'blocks', 'styles'],
+                    ['fontformats', 'fontsizes', 'blockformats', 'formats', 'template'],
+                    ['fontfamily', 'fontsize', 'blocks', 'styles', 'jtemplate'],
                     $toolbarConfig['menu']
                 );
             }
@@ -964,10 +965,11 @@ class JoomlaInstallerScript
                      * "fontsizeselect" -> "fontsize"
                      * "formatselect"   -> "blocks"
                      * "styleselect"    -> "styles"
+                     * "template"       -> "jtemplate"
                      */
                     $params['configuration']['toolbars'][$setIdx][$toolbarIdx] = str_replace(
-                        ['fontselect', 'fontsizeselect', 'formatselect', 'styleselect'],
-                        ['fontfamily', 'fontsize', 'blocks', 'styles'],
+                        ['fontselect', 'fontsizeselect', 'formatselect', 'styleselect', 'template'],
+                        ['fontfamily', 'fontsize', 'blocks', 'styles', 'jtemplate'],
                         $toolbarConfig[$toolbarIdx]
                     );
                 }
