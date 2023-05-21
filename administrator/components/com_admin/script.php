@@ -942,15 +942,15 @@ class JoomlaInstallerScript
             if (isset($toolbarConfig['menu'])) {
                 /**
                  * Replace array values with menu item names ("old name" -> "new name"):
+                 * "blockformats" -> "blocks"
                  * "fontformats"  -> "fontfamily"
                  * "fontsizes"    -> "fontsize"
-                 * "blockformats" -> "blocks"
                  * "formats"      -> "styles"
                  * "template"     -> "jtemplate"
                  */
                 $params['configuration']['toolbars'][$setIdx]['menu'] = str_replace(
-                    ['fontformats', 'fontsizes', 'blockformats', 'formats', 'template'],
-                    ['fontfamily', 'fontsize', 'blocks', 'styles', 'jtemplate'],
+                    ['blockformats', 'fontformats', 'fontsizes', 'formats', 'template'],
+                    ['blocks', 'fontfamily', 'fontsize', 'styles', 'jtemplate'],
                     $toolbarConfig['menu']
                 );
             }
