@@ -8,13 +8,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\Extension\Service\Provider\HelperFactory;
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Extension\Service\Provider\Module;
 use Joomla\CMS\Extension\Service\Provider\ModuleDispatcherFactory;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-
-defined('_JEXEC') or die;
 
 /**
  * The module Custom HTML service provider.
@@ -31,7 +30,7 @@ return new class () implements ServiceProviderInterface {
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function register(Container $container)
+    public function register(Container $container): void
     {
         $container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\Custom'));
         $container->registerServiceProvider(new Module());
