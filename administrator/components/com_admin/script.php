@@ -993,7 +993,7 @@ class JoomlaInstallerScript
         }
 
         return true;
-   }
+    }
 
     /**
      * Renames or removes incorrectly cased files.
