@@ -78,6 +78,7 @@ trait DisplayTrait
         $externalPlugins = [];
         $options         = $doc->getScriptOptions('plg_editor_tinymce');
         $theme           = 'silver';
+        $csrf            = Session::getFormToken();
 
         // Data object for the layout
         $textarea           = new stdClass();
@@ -305,7 +306,7 @@ trait DisplayTrait
         }
 
         $jtemplates = !empty($allButtons['jtemplate'])
-            ? Uri::base(true) . '/index.php?option=com_ajax&plugin=tinymce&group=editors&format=json&action=getTemplates&format=json&template=' . $levelParams->get('content_template_path')
+            ? Uri::base(true) . '/index.php?option=com_ajax&plugin=tinymce&group=editors&format=json&format=json&template=' . $levelParams->get('content_template_path') . '&' . $csrf . '=1'
             : false;
 
         // Check for extra plugins, from the setoptions form
@@ -335,7 +336,7 @@ trait DisplayTrait
             Text::script('PLG_TINY_DND_EMPTY_ALT');
 
             $scriptOptions['parentUploadFolder'] = $levelParams->get('path', '');
-            $scriptOptions['csrfToken']          = Session::getFormToken();
+            $scriptOptions['csrfToken']          = $csrf;
             $scriptOptions['uploadUri']          = $uploadUrl;
 
             // @TODO have a way to select the adapter, similar to $levelParams->get('path', '');

@@ -13,6 +13,7 @@ namespace Joomla\Plugin\Editors\TinyMCE\Extension;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Session\Session;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Plugin\Editors\TinyMCE\PluginTraits\DisplayTrait;
 
@@ -47,6 +48,11 @@ final class TinyMCE extends CMSPlugin
      */
     public function onAjaxTinymce()
     {
+        if (!Session::checkToken('request')) {
+            echo json_encode([]);
+            exit();
+        }
+
         $templates = [];
         $language  = $this->getApplication()->getLanguage();
         $template  = $this->getApplication()->input->getPath('template', '');
