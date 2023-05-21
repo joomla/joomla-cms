@@ -12,6 +12,7 @@
 
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
@@ -19,7 +20,6 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Database\ParameterType;
-use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -380,6 +380,8 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/mysql/4.3.0-2023-03-10.sql',
             '/administrator/components/com_admin/sql/updates/mysql/4.3.0-2023-03-28.sql',
             '/administrator/components/com_admin/sql/updates/mysql/4.3.0-2023-03-29.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/4.3.2-2023-03-31.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/4.3.2-2023-05-03.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-03-05.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-05-15.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-07-19.sql',
@@ -439,6 +441,8 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.0-2023-03-10.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.0-2023-03-28.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.0-2023-03-29.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-03-31.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-05-03.sql',
             '/libraries/src/Schema/ChangeItem/SqlsrvChangeItem.php',
             '/libraries/vendor/beberlei/assert/LICENSE',
             '/libraries/vendor/beberlei/assert/lib/Assert/Assert.php',
