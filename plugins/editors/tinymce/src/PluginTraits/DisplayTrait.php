@@ -365,29 +365,17 @@ trait DisplayTrait
             $plugins   = array_merge($plugins, explode(strpos($custom_plugin, ',') !== false ? ',' : ' ', $custom_plugin));
         }
 
-        // Version 6 unload removed plugins
-        $plugins = array_filter($plugins, function ($plugin) {
-            return !in_array($plugin, ['hr', 'paste', 'print']);
-        });
-
         if ($custom_button) {
             $toolbar1  = array_merge($toolbar1, explode(strpos($custom_button, ',') !== false ? ',' : ' ', $custom_button));
         }
 
         // Merge the two toolbars for backwards compatibility
         $toolbar = array_merge($toolbar1, $toolbar2);
-        // Rename old toolbar buttons for B/C
-        $toolbar = str_replace(['fontselect', 'fontsizeselect', 'formatselect', 'styleselect'], ['fontfamily', 'fontsize', 'blocks', 'styles'], $toolbar);
         $menubar = empty($menubar) ? false : implode(' ', array_unique($menubar));
 
         // Should load the templates plugin?
         if (in_array('jtemplate', $toolbar)) {
             $externalPlugins['jtemplate'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/jtemplate/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
-        }
-
-        // Rename old menus for B/C
-        if (is_array($menubar)) {
-            $menubar = str_replace(['fontformats', 'fontsizes', 'blockformats', 'formats'], ['fontfamily', 'fontsize', 'blocks', 'styles'], $menubar);
         }
 
         // Build the final options set
