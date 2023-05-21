@@ -902,7 +902,6 @@ class JoomlaInstallerScript
         return true;
     }
 
-
     /**
      * Migrate TinyMCE editor plugin configuration
      *
