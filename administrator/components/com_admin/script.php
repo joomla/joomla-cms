@@ -895,7 +895,7 @@ class JoomlaInstallerScript
         }
 
         // Add here code which shall be executed only when updating from an older version than 5.0.0
-        if (!migrateTinymceConfiguration()) {
+        if (!$this->migrateTinymceConfiguration()) {
             return false;
         }
 
