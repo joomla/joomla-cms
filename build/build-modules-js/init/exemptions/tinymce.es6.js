@@ -1,5 +1,5 @@
 const {
-  existsSync, copy, readFile, writeFile, mkdir,
+  existsSync, copy, readFile, writeFile, mkdir, removeSync,
 } = require('fs-extra');
 const CssNano = require('cssnano');
 const Postcss = require('postcss');
@@ -94,4 +94,11 @@ module.exports.tinyMCE = async (packageName, version) => {
 
   // Restore our code on the vendor folders
   await copy(join(RootPath, 'build/media_source/vendor/tinymce/templates'), join(RootPath, 'media/vendor/tinymce/templates'), { preserveTimestamps: true });
+  if (existsSync(join(RootPath, 'media/vendor/tinymce/plugins/template'))) {
+    removeSync(join(RootPath, 'media/vendor/tinymce/plugins/template'));
+  }
+  if (!existsSync(join(RootPath, 'media/vendor/tinymce/plugins/jtemplate'))) {
+    await mkdir(join(RootPath, 'media/vendor/tinymce/plugins/jtemplate'));
+  }
+  await copy(join(RootPath, 'build/media_source/vendor/tinymce/plugins/jtemplate'), join(RootPath, 'media/vendor/tinymce/plugins/jtemplate'), { preserveTimestamps: true });
 };

@@ -304,46 +304,9 @@ trait DisplayTrait
             }
         }
 
-        // Template
-        $templates = [];
-
-        if (!empty($allButtons['template'])) {
-            // Do we have a custom content_template_path
-            $template_path = $levelParams->get('content_template_path');
-            $template_path = $template_path ? '/templates/' . $template_path : '/media/vendor/tinymce/templates';
-
-            $filepaths = Folder::exists(JPATH_ROOT . $template_path)
-                ? Folder::files(JPATH_ROOT . $template_path, '\.(html|txt)$', false, true)
-                : [];
-
-            foreach ($filepaths as $filepath) {
-                $fileinfo      = pathinfo($filepath);
-                $filename      = $fileinfo['filename'];
-                $full_filename = $fileinfo['basename'];
-
-                if ($filename === 'index') {
-                    continue;
-                }
-
-                $title       = $filename;
-                $title_upper = strtoupper($filename);
-                $description = ' ';
-
-                if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE')) {
-                    $title = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE');
-                }
-
-                if ($language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC')) {
-                    $description = Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC');
-                }
-
-                $templates[] = [
-                    'title'       => $title,
-                    'description' => $description,
-                    'url'         => Uri::root(true) . $template_path . '/' . $full_filename,
-                ];
-            }
-        }
+        $jtemplates = !empty($allButtons['jtemplate'])
+            ? Uri::base(true) . '/index.php?option=com_ajax&plugin=tinymce&group=editors&format=json&action=getTemplates&format=json&template=' . $levelParams->get('content_template_path')
+            : false;
 
         // Check for extra plugins, from the setoptions form
         foreach (['wordcount' => 1, 'advlist' => 1, 'autosave' => 1, 'textpattern' => 0] as $pName => $def) {
@@ -474,7 +437,7 @@ trait DisplayTrait
                 'width'             => $this->params->get('html_width', ''),
                 'elementpath'       => (bool) $levelParams->get('element_path', true),
                 'resize'            => $resizing,
-                'templates'         => $templates,
+                'jtemplates'        => $jtemplates,
                 'external_plugins'  => empty($externalPlugins) ? null : $externalPlugins,
                 'contextmenu'       => (bool) $levelParams->get('contextmenu', true) ? null : false,
                 'toolbar_sticky'    => true,

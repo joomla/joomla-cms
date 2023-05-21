@@ -99,7 +99,7 @@ trait KnownButtons
             'print'          => ['label' => 'Print'],
             'preview'        => ['label' => 'Preview', 'plugin' => 'preview'],
             'fullscreen'     => ['label' => 'Fullscreen', 'plugin' => 'fullscreen'],
-            'template'       => ['label' => 'Insert template', 'plugin' => 'template'],
+            'jtemplate'      => ['label' => 'Insert template', 'plugin' => 'jtemplate'],
             'searchreplace'  => ['label' => 'Find and replace', 'plugin' => 'searchreplace'],
             'insertdatetime' => ['label' => 'Insert date/time', 'plugin' => 'insertdatetime'],
             'help'           => ['label' => 'Help', 'plugin' => 'help'],
