@@ -593,11 +593,6 @@ class PlgContentJoomla extends CMSPlugin
      */
     private function checkMenuItemBeforeSave($context, $table, $isNew, $data)
     {
-        // Check we are handling the frontend edit form.
-        if ($context === 'com_menus.item') {
-            return true;
-        }
-
         // Special case for Create article menu item
         if ($table->link !== 'index.php?option=com_content&view=form&layout=edit') {
             return true;
