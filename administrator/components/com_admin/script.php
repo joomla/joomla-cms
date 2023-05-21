@@ -938,9 +938,9 @@ class JoomlaInstallerScript
         }
 
         // Each set has its own toolbar configuration
-        foreach ($params['configuration']['toolbars'] as $setIdx => $toolbar) {
+        foreach ($params['configuration']['toolbars'] as $setIdx => $toolbarConfig) {
             // Migrate menu items if there is a menu
-            if (isset($toolbar['menu'])) {
+            if (isset($toolbarConfig['menu'])) {
                 /**
                  * Replace array values with menu item names ("old name" -> "new name"):
                  * "fontformats"  -> "fontfamily"
@@ -951,14 +951,14 @@ class JoomlaInstallerScript
                 $params['configuration']['toolbars'][$setIdx]['menu'] = str_replace(
                     ['fontformats', 'fontsizes', 'blockformats', 'formats'],
                     ['fontfamily', 'fontsize', 'blocks', 'styles'],
-                    $toolbar['menu']
+                    $toolbarConfig['menu']
                 );
             }
 
             // There could be no toolbar at all, or only toolbar1, or both toolbar1 and toolbar2
             foreach (['toolbar1', 'toolbar2'] as $toolbarIdx) {
                 // Migrate toolbar buttons if that toolbar exists
-                if (isset($toolbar[$toolbarIdx])) {
+                if (isset($toolbarConfig[$toolbarIdx])) {
                     /**
                      * Replace array values with button names ("old name" -> "new name"):
                      * "fontselect"     -> "fontfamily"
@@ -969,7 +969,7 @@ class JoomlaInstallerScript
                     $params['configuration']['toolbars'][$setIdx][$toolbarIdx] = str_replace(
                         ['fontselect', 'fontsizeselect', 'formatselect', 'styleselect'],
                         ['fontfamily', 'fontsize', 'blocks', 'styles'],
-                        $toolbar[$toolbarIdx]
+                        $toolbarConfig[$toolbarIdx]
                     );
                 }
             }
