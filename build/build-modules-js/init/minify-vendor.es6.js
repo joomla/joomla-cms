@@ -14,7 +14,6 @@ const folders = [
   'media/vendor/qrcode/js',
   'media/vendor/short-and-sweet/js',
   'media/vendor/webcomponentsjs/js',
-  'media/vendor/tinymce/plugins/jtemplate',
 ];
 
 let allFiles = [];

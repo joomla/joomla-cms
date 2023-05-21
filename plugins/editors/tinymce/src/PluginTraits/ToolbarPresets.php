@@ -77,7 +77,7 @@ trait ToolbarPresets
                     'subscript', 'superscript', '|',
                     'charmap', 'emoticons', 'media', 'hr', 'ltr', 'rtl', '|',
                     'cut', 'copy', 'paste', 'pastetext', '|',
-                    'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'template', '|',
+                    'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'jtemplate', '|',
                     'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'jxtdbuttons',
                     'language',
                 ],

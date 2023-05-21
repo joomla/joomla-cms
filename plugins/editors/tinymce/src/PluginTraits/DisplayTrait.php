@@ -379,6 +379,11 @@ trait DisplayTrait
         $toolbar = str_replace(['fontselect', 'fontsizeselect', 'formatselect', 'styleselect'], ['fontfamily', 'fontsize', 'blocks', 'styles'], $toolbar);
         $menubar = empty($menubar) ? false : implode(' ', array_unique($menubar));
 
+        // Should load the templates plugin?
+        if (in_array('jtemplate', $toolbar)) {
+            $externalPlugins['jtemplate'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/jtemplate/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
+        }
+
         // Rename old menus for B/C
         if (is_array($menubar)) {
             $menubar = str_replace(['fontformats', 'fontsizes', 'blockformats', 'formats'], ['fontfamily', 'fontsize', 'blocks', 'styles'], $menubar);
