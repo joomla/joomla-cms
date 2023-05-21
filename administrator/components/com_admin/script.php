@@ -932,12 +932,22 @@ class JoomlaInstallerScript
 
         $params = json_decode($params, true);
 
+        // If there are no toolbars there is nothing to migrate
         if (!isset($params['configuration']['toolbars'])) {
             return true;
         }
 
+        // Each set has its own toolbar configuration
         foreach ($params['configuration']['toolbars'] as $setIdx => $toolbar) {
+            // Migrate menu items if there is a menu
             if (isset($toolbar['menu'])) {
+                /**
+                 * Replace array values with menu item names ("old name" -> "new name"):
+                 * "fontformats"  -> "fontfamily"
+                 * "fontsizes"    -> "fontsize"
+                 * "blockformats" -> "blocks"
+                 * "formats"      -> "styles"
+                 */
                 $params['configuration']['toolbars'][$setIdx]['menu'] = str_replace(
                     ['fontformats', 'fontsizes', 'blockformats', 'formats'],
                     ['fontfamily', 'fontsize', 'blocks', 'styles'],
@@ -945,8 +955,17 @@ class JoomlaInstallerScript
                 );
             }
 
+            // There could be no toolbar at all, or only toolbar1, or both toolbar1 and toolbar2
             foreach (['toolbar1', 'toolbar2'] as $toolbarIdx) {
+                // Migrate toolbar buttons if that toolbar exists
                 if (isset($toolbar[$toolbarIdx])) {
+                    /**
+                     * Replace array values with button names ("old name" -> "new name"):
+                     * "fontselect"     -> "fontfamily"
+                     * "fontsizeselect" -> "fontsize"
+                     * "formatselect"   -> "blocks"
+                     * "styleselect"    -> "styles"
+                     */
                     $params['configuration']['toolbars'][$setIdx][$toolbarIdx] = str_replace(
                         ['fontselect', 'fontsizeselect', 'formatselect', 'styleselect'],
                         ['fontfamily', 'fontsize', 'blocks', 'styles'],
