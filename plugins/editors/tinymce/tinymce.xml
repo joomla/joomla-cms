@@ -7,7 +7,7 @@
 	<authorEmail>N/A</authorEmail>
 	<authorUrl>https://www.tiny.cloud</authorUrl>
 	<copyright>Tiny Technologies, Inc</copyright>
-	<license>LGPL</license>
+	<license>MIT</license>
 	<description>PLG_TINY_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Editors\TinyMCE</namespace>
 	<files>
