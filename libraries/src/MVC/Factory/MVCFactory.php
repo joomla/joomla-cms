@@ -250,7 +250,11 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
-        return new $className($db);
+        $table = new $className($db);
+
+        $this->setUserFactoryOnObject($table);
+
+        return $table;
     }
 
     /**
