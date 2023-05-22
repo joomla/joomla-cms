@@ -7,6 +7,7 @@ describe('Test that newsfeed API endpoint', () => {
           .its('name')
           .should('include', 'automated test feed'));
     });
+
     it('can create a feed', () => {
       cy.db_createCategory({ extension: 'com_newsfeeds' })
         .then((categoryId) => cy.api_post('/newsfeeds/feeds', {
