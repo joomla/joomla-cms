@@ -125,6 +125,9 @@ trait UserProfileFields
             return;
         }
 
+        // Load plugin language files
+        $this->loadLanguage();
+
         // Get the user object
         $user = $this->getUserFromData($data);
 
@@ -166,6 +169,9 @@ trait UserProfileFields
         if (!\in_array($context, ['com_users.profile', 'com_users.user'])) {
             return;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         self::$userFromFormData = $this->getUserFromData($data);
 

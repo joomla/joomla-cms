@@ -67,14 +67,6 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
     use UserDeletion;
 
     /**
-     * Autoload the language files
-     *
-     * @var    boolean
-     * @since  4.2.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Should I try to detect and register legacy event listeners, i.e. methods which accept unwrapped arguments? While
      * this maintains a great degree of backwards compatibility to Joomla! 3.x-style plugins it is much slower. You are
      * advised to implement your plugins using proper Listeners, methods accepting an AbstractEvent as their sole

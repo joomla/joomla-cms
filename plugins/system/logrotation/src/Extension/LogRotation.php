@@ -34,15 +34,6 @@ final class LogRotation extends CMSPlugin
     use DatabaseAwareTrait;
 
     /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     *
-     * @since  3.9.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * The log check and rotation code is triggered after the page has fully rendered.
      *
      * @return  void

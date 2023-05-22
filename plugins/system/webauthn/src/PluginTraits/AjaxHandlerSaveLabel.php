@@ -38,6 +38,9 @@ trait AjaxHandlerSaveLabel
      */
     public function onAjaxWebauthnSavelabel(AjaxSaveLabel $event): void
     {
+        // Load plugin language files
+        $this->loadLanguage();
+
         // Initialize objects
         $input      = $this->getApplication()->getInput();
         $repository = $this->authenticationHelper->getCredentialsRepository();

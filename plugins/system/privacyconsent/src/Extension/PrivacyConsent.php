@@ -48,14 +48,6 @@ final class PrivacyConsent extends CMSPlugin
     use DatabaseAwareTrait;
 
     /**
-     * Load the language file on instantiation.
-     *
-     * @var    boolean
-     * @since  3.9.0
-     */
-    protected $autoloadLanguage = true;
-
-    /**
      * Adds additional fields to the user editing form
      *
      * @param   Form   $form  The form to be altered.
@@ -82,6 +74,9 @@ final class PrivacyConsent extends CMSPlugin
                 return true;
             }
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         // Add the privacy policy fields to the form.
         FormHelper::addFieldPrefix('Joomla\\Plugin\\System\\PrivacyConsent\\Field');
@@ -122,6 +117,9 @@ final class PrivacyConsent extends CMSPlugin
         if ($userId > 0 && $this->isUserConsented($userId)) {
             return true;
         }
+
+        // Load plugin language files
+        $this->loadLanguage();
 
         // Check that the privacy is checked if required ie only in registration from frontend.
         $input  = $this->getApplication()->getInput();
@@ -271,6 +269,9 @@ final class PrivacyConsent extends CMSPlugin
             if ($this->isUserConsented($userId)) {
                 return;
             }
+
+            // Load plugin language files
+            $this->loadLanguage();
 
             $input  = $this->getApplication()->getInput();
             $option = $input->getCmd('option');

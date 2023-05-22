@@ -38,6 +38,9 @@ trait AjaxHandlerInitCreate
      */
     public function onAjaxWebauthnInitcreate(AjaxInitCreate $event): void
     {
+        // Load plugin language files
+        $this->loadLanguage();
+
         // Make sure I have a valid user
         $user = Factory::getApplication()->getIdentity();
 
