@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Factory;
@@ -250,7 +250,11 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
-        return new $className($db);
+        $table = new $className($db);
+
+        $this->setUserFactoryOnObject($table);
+
+        return $table;
     }
 
     /**

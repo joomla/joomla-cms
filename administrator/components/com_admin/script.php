@@ -12,6 +12,7 @@
 
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
@@ -19,7 +20,6 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Database\ParameterType;
-use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -6467,8 +6467,6 @@ class JoomlaInstallerScript
             '/libraries/vendor/maximebf/debugbar/src/DebugBar/DataFormatter/VarDumper/SeekingData.php',
             // From 4.2.8 to 4.2.9
             '/administrator/components/com_scheduler/tmpl/select/modal.php',
-            '/components/com_contact/layouts/field/render.php',
-            '/components/com_contact/layouts/fields/render.php',
             // From 4.2.x to 4.3.0-alpha1
             '/libraries/vendor/paragonie/sodium_compat/autoload-fast.php',
             '/libraries/vendor/paragonie/sodium_compat/autoload-pedantic.php',
@@ -7922,10 +7920,6 @@ class JoomlaInstallerScript
             '/media/vendor/hotkeys.js/js',
             '/media/vendor/hotkeys.js',
             '/libraries/vendor/symfony/string/Resources/bin',
-            // From 4.2.8 to 4.2.9
-            '/components/com_contact/layouts/fields',
-            '/components/com_contact/layouts/field',
-            '/components/com_contact/layouts',
             // From 4.2.x to 4.3.0-alpha1
             '/libraries/vendor/paragonie/sodium_compat/dist',
             // From 4.3.0-beta4 to 4.3.0-rc1

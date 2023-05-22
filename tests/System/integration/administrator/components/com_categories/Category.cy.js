@@ -10,4 +10,12 @@ describe('Test in backend that the category form', () => {
     cy.get('#system-message-container').contains('Category saved.').should('exist');
     cy.contains('Test category');
   });
+
+  it('check redirection to list view', () => {
+    cy.visit('administrator/index.php?option=com_categories&task=category.add&extension=com_content');
+    cy.intercept('index.php?option=com_categories&view=categories&extension=com_content').as('listview');
+    cy.clickToolbarButton('Cancel');
+
+    cy.wait('@listview');
+  });
 });
