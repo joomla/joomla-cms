@@ -373,7 +373,6 @@ trait DisplayTrait
 
         // Merge the two toolbars for backwards compatibility
         $toolbar = array_merge($toolbar1, $toolbar2);
-        $menubar = empty($menubar) ? false : implode(' ', array_unique($menubar));
 
         // Should load the templates plugin?
         if (in_array('jtemplate', $toolbar)) {
@@ -397,7 +396,7 @@ trait DisplayTrait
                 'end_container_on_empty_block' => true,
 
                 // Toolbars
-                'menubar' => $menubar,
+                'menubar' => empty($menubar) ? false : implode(' ', array_unique($menubar)),
                 'toolbar' => empty($toolbar) ? null : 'jxtdbuttons ' . implode(' ', $toolbar),
 
                 'plugins' => implode(',', array_unique($plugins)),
