@@ -1,14 +1,14 @@
-describe('Test that the articles back end list', () => {
+describe('Test in backend that the articles list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
-    cy.visit('administrator/index.php?option=com_content&view=articles&filter=');
+    cy.visit('/administrator/index.php?option=com_content&view=articles&filter=');
   });
 
   it('has a title', () => {
     cy.get('h1.page-title').should('contain.text', 'Articles');
   });
 
-  it('can show a list of articles', () => {
+  it('can display a list of articles', () => {
     cy.db_createArticle({ title: 'Test article' }).then(() => {
       cy.reload();
 
