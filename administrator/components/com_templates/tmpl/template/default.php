@@ -149,7 +149,7 @@ if ($this->type == 'font') {
                                 $difference = DiffHelper::calculateFiles(
                                     $this->source->coreFile,
                                     $this->source->filePath,
-                                    ComponentHelper::getParams('com_templates')->get('difference', 'SideByside'),
+                                    ComponentHelper::getParams('com_templates')->get('difference', 'SideBySide'),
                                     [
                                         'context' => 1,
                                         'ignoreLineEnding' => true,
