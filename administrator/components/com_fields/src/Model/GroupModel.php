@@ -240,28 +240,30 @@ class GroupModel extends AdminModel
 
         $parts = FieldsHelper::extract($this->state->get('filter.context'));
 
-        //$parts is null if there are not two parts
-        if ($parts) {
-            // Extract the component name
-            $component = $parts[0];
+        //$parts is null if there are not two parts, early return
+        if (!$parts) {
+            return;
+        }
 
-            // Extract the section name
-            $section = $parts[1];
+        // Extract the component name
+        $component = $parts[0];
 
-            // Set the access control rules field component value.
-            $form->setFieldAttribute('rules', 'component', $component);
+        // Extract the section name
+        $section = $parts[1];
 
-            // Looking first in the component models/forms folder
-            $path = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
+        // Set the access control rules field component value.
+        $form->setFieldAttribute('rules', 'component', $component);
 
-            if (file_exists($path)) {
-                $lang = Factory::getLanguage();
-                $lang->load($component, JPATH_BASE);
-                $lang->load($component, JPATH_BASE . '/components/' . $component);
+        // Looking first in the component models/forms folder
+        $path = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
 
-                if (!$form->loadFile($path, false)) {
-                    throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
-                }
+        if (file_exists($path)) {
+            $lang = Factory::getLanguage();
+            $lang->load($component, JPATH_BASE);
+            $lang->load($component, JPATH_BASE . '/components/' . $component);
+
+            if (!$form->loadFile($path, false)) {
+                throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
             }
         }
     }
