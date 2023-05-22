@@ -94,7 +94,7 @@ module.exports.tinyMCE = async (packageName, version) => {
 
   // Restore our code on the vendor folders
   await copy(join(RootPath, 'build/media_source/vendor/tinymce/templates'), join(RootPath, 'media/vendor/tinymce/templates'), { preserveTimestamps: true });
-  // Drop templates plugin
+  // Drop the template plugin
   if (existsSync(join(RootPath, 'media/vendor/tinymce/plugins/template'))) {
     removeSync(join(RootPath, 'media/vendor/tinymce/plugins/template'));
   }
