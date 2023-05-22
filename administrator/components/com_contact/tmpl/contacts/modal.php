@@ -29,8 +29,8 @@ if ($app->isClient('site')) {
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_contact.admin-contacts-modal');
 
-$function  = $app->input->getCmd('function', 'jSelectContact');
-$editor    = $app->input->getCmd('editor', '');
+$function  = $app->getInput()->getCmd('function', 'jSelectContact');
+$editor    = $app->getInput()->getCmd('editor', '');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $onclick   = $this->escape($function);
@@ -148,7 +148,7 @@ if (!empty($editor)) {
         <?php endif; ?>
 
         <input type="hidden" name="task" value="">
-        <input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'CMD'); ?>">
+        <input type="hidden" name="forcedLanguage" value="<?php echo $app->getInput()->get('forcedLanguage', '', 'CMD'); ?>">
         <?php echo HTMLHelper::_('form.token'); ?>
 
     </form>

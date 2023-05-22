@@ -78,14 +78,14 @@ class HtmlView extends BaseHtmlView
         $language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
         $language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
 
-        $this->updateInfo = $this->get('UpdateInformation');
+        $this->updateInfo          = $this->get('UpdateInformation');
         $this->selfUpdateAvailable = $this->get('CheckForSelfUpdate');
 
         if ($this->getLayout() !== 'captive') {
             $this->warnings = $this->get('Items', 'warnings');
         }
 
-        $params = ComponentHelper::getParams('com_joomlaupdate');
+        $params               = ComponentHelper::getParams('com_joomlaupdate');
         $this->noBackupCheck  = $params->get('backupcheck', 1) == 0;
 
         $this->addToolbar();

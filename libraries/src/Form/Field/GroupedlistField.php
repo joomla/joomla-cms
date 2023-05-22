@@ -44,7 +44,7 @@ class GroupedlistField extends FormField
     /**
      * Method to get the field option groups.
      *
-     * @return  array  The field option objects as a nested array in groups.
+     * @return  array[]  The field option objects as a nested array in groups.
      *
      * @since   1.7.0
      * @throws  \UnexpectedValueException
@@ -52,7 +52,7 @@ class GroupedlistField extends FormField
     protected function getGroups()
     {
         $groups = [];
-        $label = 0;
+        $label  = 0;
 
         foreach ($this->element->children() as $element) {
             switch ($element->getName()) {

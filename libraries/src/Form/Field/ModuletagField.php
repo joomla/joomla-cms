@@ -33,7 +33,7 @@ class ModuletagField extends ListField
     /**
      * Method to get the field options.
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.0
      */
@@ -44,7 +44,7 @@ class ModuletagField extends ListField
 
         // Create one new option object for each tag
         foreach ($tags as $tag) {
-            $tmp = HTMLHelper::_('select.option', $tag, $tag);
+            $tmp       = HTMLHelper::_('select.option', $tag, $tag);
             $options[] = $tmp;
         }
 

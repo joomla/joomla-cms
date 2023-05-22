@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
 
@@ -123,16 +124,17 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo = ContentHelper::getActions('com_users');
+        $canDo   = ContentHelper::getActions('com_users');
+        $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::sprintf('COM_USERS_VIEW_DEBUG_USER_TITLE', $this->user->id, $this->escape($this->user->name)), 'users user');
-        ToolbarHelper::cancel('user.cancel', 'JTOOLBAR_CLOSE');
+        $toolbar->cancel('user.cancel');
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
-            ToolbarHelper::preferences('com_users');
-            ToolbarHelper::divider();
+            $toolbar->preferences('com_users');
+            $toolbar->divider();
         }
 
-        ToolbarHelper::help('Permissions_for_User');
+        $toolbar->help('Permissions_for_User');
     }
 }

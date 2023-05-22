@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\View;
@@ -43,4 +43,13 @@ interface ViewInterface
      * @since   3.0
      */
     public function getModel($name = null);
+
+    /**
+     * Method to get the view name
+     *
+     * @return  string  The name of the view
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getName();
 }

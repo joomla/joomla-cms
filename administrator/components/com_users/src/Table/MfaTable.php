@@ -16,7 +16,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Service\Encrypt;
@@ -44,8 +47,11 @@ use Throwable;
  *
  * @since 4.2.0
  */
-class MfaTable extends Table
+class MfaTable extends Table implements CurrentUserInterface, UserFactoryAwareInterface
 {
+    use CurrentUserTrait;
+    use UserFactoryAwareTrait;
+
     /**
      * Delete flags per ID, set up onBeforeDelete and used onAfterDelete
      *
@@ -235,8 +241,7 @@ class MfaTable extends Table
             }
         }
 
-        $user = Factory::getApplication()->getIdentity()
-            ?? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        $user = $this->getCurrentUser();
 
         // The user must be a registered user, not a guest
         if ($user->guest) {
@@ -334,7 +339,7 @@ class MfaTable extends Table
 
         /** @var BackupcodesModel $backupCodes */
         $backupCodes = $factory->createModel('Backupcodes', 'Administrator');
-        $user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($this->user_id);
+        $user        = $this->getUserFactory()->loadUserById($this->user_id);
         $backupCodes->regenerateBackupCodes($user);
     }
 

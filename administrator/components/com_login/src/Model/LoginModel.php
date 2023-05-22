@@ -39,7 +39,7 @@ class LoginModel extends BaseDatabaseModel
      */
     protected function populateState()
     {
-        $input = Factory::getApplication()->input->getInputForRequestMethod();
+        $input = Factory::getApplication()->getInput()->getInputForRequestMethod();
 
         $credentials = [
             'username'  => $input->get('username', '', 'USERNAME'),
@@ -78,9 +78,9 @@ class LoginModel extends BaseDatabaseModel
      */
     public static function getLoginModule($name = 'mod_login', $title = null)
     {
-        $result = null;
+        $result  = null;
         $modules = self::_load($name);
-        $total = count($modules);
+        $total   = count($modules);
 
         for ($i = 0; $i < $total; $i++) {
             // Match the title if we're looking for a specific instance of the module.
@@ -92,16 +92,16 @@ class LoginModel extends BaseDatabaseModel
 
         // If we didn't find it, and the name is mod_something, create a dummy object.
         if (is_null($result) && substr($name, 0, 4) == 'mod_') {
-            $result = new \stdClass();
-            $result->id = 0;
-            $result->title = '';
-            $result->module = $name;
-            $result->position = '';
-            $result->content = '';
+            $result            = new \stdClass();
+            $result->id        = 0;
+            $result->title     = '';
+            $result->module    = $name;
+            $result->position  = '';
+            $result->content   = '';
             $result->showtitle = 0;
-            $result->control = '';
-            $result->params = '';
-            $result->user = 0;
+            $result->control   = '';
+            $result->params    = '';
+            $result->user      = 0;
         }
 
         return $result;
@@ -149,7 +149,7 @@ class LoginModel extends BaseDatabaseModel
                             'm.module',
                             'm.position',
                             'm.showtitle',
-                            'm.params'
+                            'm.params',
                         ]
                     )
                 )

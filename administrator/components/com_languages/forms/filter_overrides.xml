@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<field
 		name="language_client"
 		type="languageclient"
 		label="COM_LANGUAGES_OVERRIDE_SELECT_LANGUAGECLIENT"
-		onchange="this.form.submit();"
+		class="js-select-submit-on-change"
 		filtermode="selector"
 		addfieldprefix="Joomla\Component\Languages\Administrator\Field"
 		>
@@ -25,7 +25,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			default="key ASC"
 			validate="options"
 			>
@@ -41,7 +41,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 	</fields>
 </form>

@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
@@ -19,6 +18,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -54,7 +54,7 @@ class LibraryAdapter extends InstallerAdapter
 
                 // Clear the cached data
                 $this->currentExtensionId = null;
-                $this->extension = Table::getInstance('Extension', 'JTable', ['dbo' => $this->getDatabase()]);
+                $this->extension          = Table::getInstance('Extension', 'JTable', ['dbo' => $this->getDatabase()]);
 
                 // From this point we'll consider this an update
                 $this->setRoute('update');
@@ -134,6 +134,7 @@ class LibraryAdapter extends InstallerAdapter
 
             // If there is a manifest script, let's copy it.
             if ($this->manifest_script) {
+                $path         = [];
                 $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
                 $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
@@ -445,8 +446,8 @@ class LibraryAdapter extends InstallerAdapter
         $results = [];
 
         $mainFolder = JPATH_MANIFESTS . '/libraries';
-        $folder = new \RecursiveDirectoryIterator($mainFolder);
-        $iterator = new \RegexIterator(
+        $folder     = new \RecursiveDirectoryIterator($mainFolder);
+        $iterator   = new \RegexIterator(
             new \RecursiveIteratorIterator($folder),
             '/\.xml$/i',
             \RecursiveRegexIterator::GET_MATCH

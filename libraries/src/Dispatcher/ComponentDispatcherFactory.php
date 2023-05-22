@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Dispatcher;
@@ -80,6 +80,6 @@ class ComponentDispatcherFactory implements ComponentDispatcherFactoryInterface
             }
         }
 
-        return new $className($application, $input ?: $application->input, $this->mvcFactory);
+        return new $className($application, $input ?: $application->getInput(), $this->mvcFactory);
     }
 }

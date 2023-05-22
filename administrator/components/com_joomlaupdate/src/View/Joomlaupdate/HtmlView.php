@@ -173,7 +173,7 @@ class HtmlView extends BaseHtmlView
 
         $this->state = $this->get('State');
 
-        $hasUpdate = !empty($this->updateInfo['hasUpdate']);
+        $hasUpdate   = !empty($this->updateInfo['hasUpdate']);
         $hasDownload = isset($this->updateInfo['object']->downloadurl->_data);
 
         // Fresh update, show it
