@@ -151,11 +151,28 @@ class HtmlView extends BaseHtmlView
             if ($this->state->get('filter.published') != -2) {
                 $childBar->trash('tours.trash')->listCheck(true);
             }
+
             if ($canDo->get('core.create')) {
                 $childBar->standardButton('copy')
                     ->text('JTOOLBAR_DUPLICATE')
                     ->task('tours.duplicate')
                     ->listCheck(true);
+            }
+
+            if ($canDo->get('core.create')) {
+                $childBar->standardButton('export')
+                    ->text('JTOOLBAR_EXPORT')
+                    ->task('tours.export')
+                    ->icon('icon-download')
+                    ->listCheck(true);
+            }
+
+            if ($canDo->get('core.create')) {
+                $toolbar->popupButton('import')
+                    ->selector('collapseModal')
+                    ->text('JTOOLBAR_IMPORT')
+                    ->icon('icon-upload')
+                    ->listCheck(false);
             }
         }
 
