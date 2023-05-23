@@ -480,7 +480,6 @@ class TourModel extends AdminModel
         }
 
         foreach ($data['tours'] as $tour) {
-
             // Insert a tour
 
             $isValid =
