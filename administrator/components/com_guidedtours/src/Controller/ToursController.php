@@ -166,7 +166,7 @@ class ToursController extends AdminController
     }
 
     /**
-     * Method to import tours through the path of a .json file
+     * Method to import tours from a .json file
      *
      * @param   string $filePath   The path to a .json file
      *
