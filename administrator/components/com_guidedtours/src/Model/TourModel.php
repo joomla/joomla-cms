@@ -640,7 +640,7 @@ class TourModel extends AdminModel
             }
         }
 
-        return count($data);
+        return count($data['tours']);
     }
 
     /**
