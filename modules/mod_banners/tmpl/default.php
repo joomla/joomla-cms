@@ -42,10 +42,10 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
                     'src' => $baseurl . $imageurl,
                     'alt' => $alt
                 ]; ?>
-                <?php if (!empty($width)) {
+                <?php if (!empty($item->params->get('width'))) {
                     $imageAttributes['width'] = $item->params->get('width');
                 } ?>
-                <?php if (!empty($height)) {
+                <?php if (!empty($item->params->get('height'))) {
                     $imageAttributes['height'] = $item->params->get('height');
                 } ?>
                 <?php $image = LayoutHelper::render('joomla.html.image', $imageAttributes); ?>
