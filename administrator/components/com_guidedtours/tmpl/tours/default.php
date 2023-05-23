@@ -19,7 +19,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\View\Tours\HtmlView;
-use Joomla\String\Inflector;
 
 /** @var  HtmlView  $this */
 
