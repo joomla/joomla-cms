@@ -461,7 +461,7 @@ class TourModel extends AdminModel
      *
      * @return  boolean|integer returns the tour count or false on error
      *
-     * @since   5.0.0
+     * @since   __DEPLOY_VERSION__
      */
     public function import($data)
     {
