@@ -104,7 +104,8 @@ class ToursController extends AdminController
 
             $model = $this->getModel();
 
-            $data = [];
+            $data       = [];
+            $tours_data = [];
 
             foreach ($pks as $pk) {
                 // Get the tour data.
@@ -145,8 +146,10 @@ class ToursController extends AdminController
 
                 $tour_data['steps'] = $steps_data;
 
-                $data[$pk] = $tour_data;
+                $tours_data[] = $tour_data;
             }
+
+            $data['tours'] = $tours_data;
 
             $this->app->setHeader('Content-Type', 'application/json', true)
                 ->setHeader('Content-Disposition', 'attachment; filename="' . $this->input->getCmd('view', 'joomla') . '.json"', true)
