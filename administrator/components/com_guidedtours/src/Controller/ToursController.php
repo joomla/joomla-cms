@@ -182,7 +182,7 @@ class ToursController extends AdminController
             return false;
         }
 
-        // Check if the file has the right file type.
+        // Check if the file has the right file extension.
         if (strtolower(File::getExt($filePath)) !== 'json') {
             return false;
         }
