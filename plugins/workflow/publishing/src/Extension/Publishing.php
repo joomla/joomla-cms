@@ -2,15 +2,15 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Workflow.Publishing
+ * @subpackage  Workflow.publishing
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Application\CMSWebApplicationInterface;
+namespace Joomla\Plugin\Workflow\Publishing\Extension;
+
+use Exception;
 use Joomla\CMS\Event\Table\BeforeStoreEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
@@ -37,7 +37,7 @@ use Joomla\String\Inflector;
  *
  * @since  4.0.0
  */
-class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
+final class Publishing extends CMSPlugin implements SubscriberInterface
 {
     use WorkflowPluginTrait;
 
@@ -48,14 +48,6 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
      * @since  4.0.0
      */
     protected $autoloadLanguage = true;
-
-    /**
-     * Loads the CMS Application for direct access
-     *
-     * @var   CMSWebApplicationInterface
-     * @since 4.0.0
-     */
-    protected $app;
 
     /**
      * The name of the supported name to check against
@@ -155,11 +147,11 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 
         $parts = explode('.', $context);
 
-        $component = $this->app->bootComponent($parts[0]);
+        $component = $this->getApplication()->bootComponent($parts[0]);
 
         $modelName = $component->getModelName($context);
 
-        $table = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true])
+        $table = $component->getMVCFactory()->createModel($modelName, $this->getApplication()->getName(), ['ignore_request' => true])
             ->getTable();
 
         $fieldname = $table->getColumnAlias('published');
@@ -209,7 +201,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
      */
     public function onAfterDisplay(DisplayEvent $event)
     {
-        if (!$this->app->isClient('administrator')) {
+        if (!$this->getApplication()->isClient('administrator')) {
             return;
         }
 
@@ -254,7 +246,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 			});
 		";
 
-        $this->app->getDocument()->addScriptDeclaration($js);
+        $this->getApplication()->getDocument()->addScriptDeclaration($js);
 
         return true;
     }
@@ -289,16 +281,16 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
          * Execute the normal "onContentBeforeChangeState" plugins. But they could cancel the execution,
          * So we have to precheck and cancel the whole transition stuff if not allowed.
          */
-        $this->app->set('plgWorkflowPublishing.' . $context, $pks);
+        $this->getApplication()->set('plgWorkflowPublishing.' . $context, $pks);
 
-        $result = $this->app->triggerEvent('onContentBeforeChangeState', [
+        $result = $this->getApplication()->triggerEvent('onContentBeforeChangeState', [
             $context,
             $pks,
             $value,
             ]);
 
         // Release allowed pks, the job is done
-        $this->app->set('plgWorkflowPublishing.' . $context, []);
+        $this->getApplication()->set('plgWorkflowPublishing.' . $context, []);
 
         if (in_array(false, $result, true)) {
             $event->setStopTransition();
@@ -329,7 +321,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
             return true;
         }
 
-        $component = $this->app->bootComponent($extensionName);
+        $component = $this->getApplication()->bootComponent($extensionName);
 
         $value = $transition->options->get('publishing');
 
@@ -345,7 +337,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 
         $modelName = $component->getModelName($context);
 
-        $model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), $options);
+        $model = $component->getMVCFactory()->createModel($modelName, $this->getApplication()->getName(), $options);
 
         $model->publish($pks, $value);
     }
@@ -371,11 +363,11 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 
         // We have allowed the pks, so we're the one who triggered
         // With onWorkflowBeforeTransition => free pass
-        if ($this->app->get('plgWorkflowPublishing.' . $context) === $pks) {
+        if ($this->getApplication()->get('plgWorkflowPublishing.' . $context) === $pks) {
             return true;
         }
 
-        throw new Exception(Text::_('PLG_WORKFLOW_PUBLISHING_CHANGE_STATE_NOT_ALLOWED'));
+        throw new Exception($this->getApplication()->getLanguage()->_('PLG_WORKFLOW_PUBLISHING_CHANGE_STATE_NOT_ALLOWED'));
     }
 
     /**
@@ -412,7 +404,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
          * As we're setting the field to disabled, no value should be there at all
          */
         if (isset($data[$keyName])) {
-            $this->app->enqueueMessage(Text::_('PLG_WORKFLOW_PUBLISHING_CHANGE_STATE_NOT_ALLOWED'), 'error');
+            $this->getApplication()->enqueueMessage($this->getApplication()->getLanguage()->_('PLG_WORKFLOW_PUBLISHING_CHANGE_STATE_NOT_ALLOWED'), 'error');
 
             return false;
         }
@@ -440,11 +432,11 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 
         $parts = explode('.', $context);
 
-        $component = $this->app->bootComponent($parts[0]);
+        $component = $this->getApplication()->bootComponent($parts[0]);
 
         $modelName = $component->getModelName($context);
 
-        $model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true]);
+        $model = $component->getMVCFactory()->createModel($modelName, $this->getApplication()->getName(), ['ignore_request' => true]);
 
         $table = $model->getTable();
 
@@ -476,11 +468,11 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $component = $this->app->bootComponent($parts[0]);
+        $component = $this->getApplication()->bootComponent($parts[0]);
 
         $modelName = $component->getModelName($typeAlias);
 
-        $model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true]);
+        $model = $component->getMVCFactory()->createModel($modelName, $this->getApplication()->getName(), ['ignore_request' => true]);
 
         $table = $model->getTable();
 
@@ -515,7 +507,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
             return false;
         }
 
-        $component = $this->app->bootComponent($parts[0]);
+        $component = $this->getApplication()->bootComponent($parts[0]);
 
         if (
             !$component instanceof WorkflowServiceInterface
@@ -527,7 +519,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 
         $modelName = $component->getModelName($context);
 
-        $model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true]);
+        $model = $component->getMVCFactory()->createModel($modelName, $this->getApplication()->getName(), ['ignore_request' => true]);
 
         if (!$model instanceof DatabaseModelInterface || !method_exists($model, 'publish')) {
             return false;
