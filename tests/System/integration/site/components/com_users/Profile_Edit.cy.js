@@ -1,4 +1,4 @@
-describe('Test in frontend that the users profile view', () => {
+describe('Test in frontend that the users profile view edit layout', () => {
   it('can display a user form without a menu item', () => {
     cy.doFrontendLogin();
     cy.visit('/index.php?option=com_users&view=profile&layout=edit');
