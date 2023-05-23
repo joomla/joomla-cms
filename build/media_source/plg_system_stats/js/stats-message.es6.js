@@ -43,7 +43,7 @@ Joomla = window.Joomla || {};
         // Remove message
         joomlaAlert.close();
 
-        callback({ plugin: 'sendAlways' });
+        callback({ method: 'sendAlways' });
       }
     });
 
@@ -55,13 +55,13 @@ Joomla = window.Joomla || {};
         // Remove message
         joomlaAlert.close();
 
-        callback({ plugin: 'sendNever' });
+        callback({ method: 'sendNever' });
       }
     });
   };
 
-  const getJson = ({ plugin = 'sendStats' } = {}) => {
-    const url = `index.php?option=com_ajax&group=system&plugin=${plugin}&format=raw`;
+  const getJson = ({ plugin = 'stats', method = 'sendStats' } = {}) => {
+    const url = `index.php?option=com_ajax&group=system&plugin=${plugin}&method=${method}&format=raw`;
     const messageContainer = document.getElementById('system-message-container');
     Joomla.request({
       url,
