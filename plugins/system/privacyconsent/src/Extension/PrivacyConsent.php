@@ -66,6 +66,9 @@ final class PrivacyConsent extends CMSPlugin
             return true;
         }
 
+        // Load plugin language files
+        $this->loadLanguage();
+
         // We only display this if user has not consented before
         if (is_object($data)) {
             $userId = $data->id ?? 0;
@@ -74,9 +77,6 @@ final class PrivacyConsent extends CMSPlugin
                 return true;
             }
         }
-
-        // Load plugin language files
-        $this->loadLanguage();
 
         // Add the privacy policy fields to the form.
         FormHelper::addFieldPrefix('Joomla\\Plugin\\System\\PrivacyConsent\\Field');
@@ -113,13 +113,13 @@ final class PrivacyConsent extends CMSPlugin
 
         $userId = ArrayHelper::getValue($user, 'id', 0, 'int');
 
+        // Load plugin language files
+        $this->loadLanguage();
+
         // User already consented before, no need to check it further
         if ($userId > 0 && $this->isUserConsented($userId)) {
             return true;
         }
-
-        // Load plugin language files
-        $this->loadLanguage();
 
         // Check that the privacy is checked if required ie only in registration from frontend.
         $input  = $this->getApplication()->getInput();
@@ -265,13 +265,13 @@ final class PrivacyConsent extends CMSPlugin
 
         // Check to see whether user already consented, if not, redirect to user profile page
         if ($userId > 0) {
+            // Load plugin language files
+            $this->loadLanguage();
+
             // If user consented before, no need to check it further
             if ($this->isUserConsented($userId)) {
                 return;
             }
-
-            // Load plugin language files
-            $this->loadLanguage();
 
             $input  = $this->getApplication()->getInput();
             $option = $input->getCmd('option');
