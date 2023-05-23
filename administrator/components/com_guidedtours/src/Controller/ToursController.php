@@ -200,7 +200,7 @@ class ToursController extends AdminController
     }
 
     /**
-     * Method to import tours through a .json file
+     * Method to import tours from a .json file
      *
      * @return  void
      *
