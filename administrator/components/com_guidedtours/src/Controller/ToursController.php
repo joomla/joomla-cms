@@ -80,7 +80,7 @@ class ToursController extends AdminController
      *
      * @return  void
      *
-     * @since   5.0.0
+     * @since   __DEPLOY_VERSION__
      *
      * @throws  Exception
      */
@@ -166,13 +166,13 @@ class ToursController extends AdminController
     }
 
     /**
-     * Method to import tours through the path of a .json file
+     * Method to import tours from a .json file
      *
      * @param   string $filePath   The path to a .json file
      *
      * @return  boolean|integer
      *
-     * @since   5.0.0
+     * @since   __DEPLOY_VERSION__
      *
      * @throws  Exception
      */
@@ -182,7 +182,7 @@ class ToursController extends AdminController
             return false;
         }
 
-        // Check if the file has the right file type.
+        // Check if the file has the right file extension.
         if (strtolower(File::getExt($filePath)) !== 'json') {
             return false;
         }
@@ -200,11 +200,11 @@ class ToursController extends AdminController
     }
 
     /**
-     * Method to import tours through a .json file
+     * Method to import tours from a .json file
      *
      * @return  void
      *
-     * @since   5.0.0
+     * @since   __DEPLOY_VERSION__
      *
      * @throws  Exception
      */
