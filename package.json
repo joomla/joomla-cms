@@ -110,6 +110,6 @@
     "stylelint-config-standard": "^24.0.0",
     "stylelint-order": "^5.0.0",
     "stylelint-scss": "^4.7.0",
-    "terser": "^5.17.5"
+    "terser": "^5.17.6"
   }
 }
