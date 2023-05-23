@@ -168,7 +168,7 @@ class ToursController extends AdminController
      *
      * @param   string $filePath   The path to a .json file
      *
-     * @return  void
+     * @return  boolean|integer
      *
      * @since   5.0.0
      *
