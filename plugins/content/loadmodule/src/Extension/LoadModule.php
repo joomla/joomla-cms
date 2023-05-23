@@ -6,11 +6,10 @@
  *
  * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Factory;
+namespace Joomla\Plugin\Content\LoadModule\Extension;
+
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 
@@ -24,7 +23,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
  *
  * @since  1.5
  */
-class PlgContentLoadmodule extends CMSPlugin
+final class LoadModule extends CMSPlugin
 {
     protected static $modules = [];
 
@@ -88,7 +87,7 @@ class PlgContentLoadmodule extends CMSPlugin
                     $position = trim($matcheslist[0]);
                     $style    = trim($matcheslist[1]);
 
-                    $output = $this->_load($position, $style);
+                    $output = $this->load($position, $style);
 
                     // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
                     if (($start = strpos($article->text, $match[0])) !== false) {
@@ -124,7 +123,7 @@ class PlgContentLoadmodule extends CMSPlugin
                         $stylemod = trim($matchesmodlist[2]);
                     }
 
-                    $output = $this->_loadmod($module, $title, $stylemod);
+                    $output = $this->loadModule($module, $title, $stylemod);
 
                     // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
                     if (($start = strpos($article->text, $matchmod[0])) !== false) {
@@ -142,7 +141,7 @@ class PlgContentLoadmodule extends CMSPlugin
             if ($matchesmodid) {
                 foreach ($matchesmodid as $match) {
                     $id     = trim($match[1]);
-                    $output = $this->_loadid($id);
+                    $output = $this->loadID($id);
 
                     // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
                     if (($start = strpos($article->text, $match[0])) !== false) {
@@ -163,9 +162,9 @@ class PlgContentLoadmodule extends CMSPlugin
      *
      * @since   1.6
      */
-    protected function _load($position, $style = 'none')
+    private function load($position, $style = 'none')
     {
-        $document = Factory::getDocument();
+        $document = $this->getApplication()->getDocument();
         $renderer = $document->loadRenderer('module');
         $modules  = ModuleHelper::getModules($position);
         $params   = ['style' => $style];
@@ -190,9 +189,9 @@ class PlgContentLoadmodule extends CMSPlugin
      *
      * @since   1.6
      */
-    protected function _loadmod($module, $title, $style = 'none')
+    private function loadModule($module, $title, $style = 'none')
     {
-        $document = Factory::getDocument();
+        $document = $this->getApplication()->getDocument();
         $renderer = $document->loadRenderer('module');
         $mod      = ModuleHelper::getModule($module, $title);
 
@@ -222,9 +221,9 @@ class PlgContentLoadmodule extends CMSPlugin
      *
      * @since   3.9.0
      */
-    protected function _loadid($id)
+    private function loadID($id)
     {
-        $document = Factory::getDocument();
+        $document = $this->getApplication()->getDocument();
         $renderer = $document->loadRenderer('module');
         $modules  = ModuleHelper::getModuleById($id);
         $params   = ['style' => 'none'];

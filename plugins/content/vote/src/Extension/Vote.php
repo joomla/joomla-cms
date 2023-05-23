@@ -6,9 +6,9 @@
  *
  * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
+
+namespace Joomla\Plugin\Content\Vote\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -22,36 +22,17 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  1.5
  */
-class PlgContentVote extends CMSPlugin
+final class Vote extends CMSPlugin
 {
     /**
      * @var    \Joomla\CMS\Application\CMSApplication
      *
      * @since  3.7.0
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0 as it is there only for layout overrides
+     *             Use getApplication() instead
      */
     protected $app;
-
-    /**
-     * The position the voting data is displayed in relative to the article.
-     *
-     * @var    string
-     *
-     * @since  3.7.0
-     */
-    protected $votingPosition;
-
-    /**
-     * @param   object  &$subject  The object to observe
-     * @param   array   $config    An optional associative array of configuration settings.
-     *
-     * @since   3.7.0
-     */
-    public function __construct(&$subject, $config)
-    {
-        parent::__construct($subject, $config);
-
-        $this->votingPosition = $this->params->get('position', 'top');
-    }
 
     /**
      * Displays the voting area when viewing an article and the voting section is displayed before the article
@@ -67,7 +48,7 @@ class PlgContentVote extends CMSPlugin
      */
     public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
     {
-        if ($this->votingPosition !== 'top') {
+        if ($this->params->get('position', 'top') !== 'top') {
             return '';
         }
 
@@ -88,7 +69,7 @@ class PlgContentVote extends CMSPlugin
      */
     public function onContentAfterDisplay($context, &$row, &$params, $page = 0)
     {
-        if ($this->votingPosition !== 'bottom') {
+        if ($this->params->get('position', 'top') !== 'bottom') {
             return '';
         }
 
@@ -130,7 +111,7 @@ class PlgContentVote extends CMSPlugin
         include $path;
         $html = ob_get_clean();
 
-        if ($this->app->getInput()->getString('view', '') === 'article' && $row->state == 1) {
+        if ($this->getApplication()->getInput()->getString('view', '') === 'article' && $row->state == 1) {
             // Get the path for the voting form layout file
             $path = PluginHelper::getLayoutPath('content', 'vote', 'vote');
 

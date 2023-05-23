@@ -6,11 +6,10 @@
  *
  * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Factory;
+namespace Joomla\Plugin\Content\Finder\Extension;
+
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 
@@ -23,7 +22,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  2.5
  */
-class PlgContentFinder extends CMSPlugin
+final class Finder extends CMSPlugin
 {
     /**
      * Smart Search after save content method.
@@ -43,7 +42,7 @@ class PlgContentFinder extends CMSPlugin
         PluginHelper::importPlugin('finder');
 
         // Trigger the onFinderAfterSave event.
-        Factory::getApplication()->triggerEvent('onFinderAfterSave', [$context, $article, $isNew]);
+        $this->getApplication()->triggerEvent('onFinderAfterSave', [$context, $article, $isNew]);
     }
 
     /**
@@ -63,7 +62,7 @@ class PlgContentFinder extends CMSPlugin
         PluginHelper::importPlugin('finder');
 
         // Trigger the onFinderBeforeSave event.
-        Factory::getApplication()->triggerEvent('onFinderBeforeSave', [$context, $article, $isNew]);
+        $this->getApplication()->triggerEvent('onFinderBeforeSave', [$context, $article, $isNew]);
     }
 
     /**
@@ -82,7 +81,7 @@ class PlgContentFinder extends CMSPlugin
         PluginHelper::importPlugin('finder');
 
         // Trigger the onFinderAfterDelete event.
-        Factory::getApplication()->triggerEvent('onFinderAfterDelete', [$context, $article]);
+        $this->getApplication()->triggerEvent('onFinderAfterDelete', [$context, $article]);
     }
 
     /**
@@ -104,7 +103,7 @@ class PlgContentFinder extends CMSPlugin
         PluginHelper::importPlugin('finder');
 
         // Trigger the onFinderChangeState event.
-        Factory::getApplication()->triggerEvent('onFinderChangeState', [$context, $pks, $value]);
+        $this->getApplication()->triggerEvent('onFinderChangeState', [$context, $pks, $value]);
     }
 
     /**
@@ -125,6 +124,6 @@ class PlgContentFinder extends CMSPlugin
         PluginHelper::importPlugin('finder');
 
         // Trigger the onFinderCategoryChangeState event.
-        Factory::getApplication()->triggerEvent('onFinderCategoryChangeState', [$extension, $pks, $value]);
+        $this->getApplication()->triggerEvent('onFinderCategoryChangeState', [$extension, $pks, $value]);
     }
 }
