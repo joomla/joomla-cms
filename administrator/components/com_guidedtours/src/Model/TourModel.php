@@ -475,7 +475,11 @@ class TourModel extends AdminModel
         $db   = $this->getDatabase();
         $date = Factory::getDate()->toSql();
 
-        foreach ($data as $tour) {
+        if (!isset($data['tours'])) {
+            return false;
+        }
+
+        foreach ($data['tours'] as $tour) {
 
             // Insert a tour
 
