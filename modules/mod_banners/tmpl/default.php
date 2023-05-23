@@ -32,8 +32,6 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
             <?php echo str_replace(['{CLICKURL}', '{NAME}'], [$link, $item->name], $item->custombannercode); ?>
         <?php else : ?>
             <?php $imageurl = $item->params->get('imageurl'); ?>
-            <?php $width = $item->params->get('width'); ?>
-            <?php $height = $item->params->get('height'); ?>
             <?php if (BannerHelper::isImage($imageurl)) : ?>
                 <?php // Image based banner ?>
                 <?php $baseurl = strpos($imageurl, 'http') === 0 ? '' : Uri::base(); ?>
@@ -45,10 +43,10 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
                     'alt' => $alt
                 ]; ?>
                 <?php if (!empty($width)) {
-                    $imageAttributes['width'] = $width;
+                    $imageAttributes['width'] = $item->params->get('width');
                 } ?>
                 <?php if (!empty($height)) {
-                    $imageAttributes['height'] = $height;
+                    $imageAttributes['height'] = $item->params->get('height');
                 } ?>
                 <?php $image = LayoutHelper::render('joomla.html.image', $imageAttributes); ?>
                 <?php if ($item->clickurl) : ?>
