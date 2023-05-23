@@ -240,7 +240,7 @@ class GroupModel extends AdminModel
 
         $parts = FieldsHelper::extract($this->state->get('filter.context'));
 
-        //$parts is null if there are not two parts, early return
+        // If we don't have a valid context then return early
         if (!$parts) {
             return;
         }
