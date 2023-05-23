@@ -146,7 +146,7 @@ final class Stats extends CMSPlugin
      * @throws  Exception         If user is not allowed.
      * @throws  RuntimeException  If there is an error saving the params or sending the data.
      */
-    public function sendAlwaysAjax()
+    public function onAjaxSendAlways()
     {
         if (!$this->isAllowedUser() || !$this->isAjaxRequest()) {
             throw new Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
@@ -171,7 +171,7 @@ final class Stats extends CMSPlugin
      * @throws  Exception         If user is not allowed.
      * @throws  RuntimeException  If there is an error saving the params.
      */
-    public function sendNeverAjax()
+    public function onAjaxSendNever()
     {
         if (!$this->isAllowedUser() || !$this->isAjaxRequest()) {
             throw new Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
@@ -201,7 +201,7 @@ final class Stats extends CMSPlugin
      * @throws  Exception         If user is not allowed.
      * @throws  RuntimeException  If there is an error saving the params, disabling the plugin or sending the data.
      */
-    public function sendStatsAjax()
+    public function onAjaxSendStats()
     {
         if (!$this->isAllowedUser() || !$this->isAjaxRequest()) {
             throw new Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
