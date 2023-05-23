@@ -16,12 +16,11 @@ use Joomla\CMS\Event\MultiFactor\GetMethod;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
 use Joomla\CMS\Event\MultiFactor\SaveSetup;
 use Joomla\CMS\Event\MultiFactor\Validate;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
@@ -41,6 +40,8 @@ use RuntimeException;
  */
 class Totp extends CMSPlugin implements SubscriberInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Affects constructor behavior. If true, language files will be loaded automatically.
      *
@@ -208,7 +209,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
         }
 
         // Generate a QR code for the key
-        $user     = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($record->user_id);
+        $user     = $this->getUserFactory()->loadUserById($record->user_id);
         $hostname = Uri::getInstance()->toString(['host']);
         $otpURL   = sprintf("otpauth://totp/%s@%s?secret=%s", $user->username, $hostname, $key);
         $document = $this->getApplication()->getDocument();
