@@ -124,7 +124,7 @@ if (!$format) {
      * where 'foo' is the value of the 'plugin' variable passed via the URL
      * (i.e. index.php?option=com_ajax&plugin=foo)
      * If a method is specified (i.e. index.php?option=com_ajax&plugin=foo&group=system&method=bar)
-     * then the method is directly called (i.e. plgSystemFooInstance->bar())
+     * then the method will be called directly (i.e. plgSystemFooInstance->bar())
      */
     $group      = $input->get('group', 'ajax');
     $plugin     = ucfirst($input->get('plugin'));
