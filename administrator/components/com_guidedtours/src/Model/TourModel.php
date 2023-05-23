@@ -650,7 +650,7 @@ class TourModel extends AdminModel
      *
      * @return  boolean
      *
-     * @since   5.0.0
+     * @since   __DEPLOY_VERSION__
      */
     public function getSteps($pk)
     {
