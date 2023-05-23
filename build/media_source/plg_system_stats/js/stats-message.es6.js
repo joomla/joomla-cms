@@ -61,7 +61,7 @@ Joomla = window.Joomla || {};
   };
 
   const getJson = ({ plugin = 'stats', method = 'sendStats' } = {}) => {
-    const url = `index.php?option=com_ajax&group=system&plugin=${plugin}&method=${method}&format=raw`;
+    const url = `index.php?option=com_ajax&group=system&plugin=${plugin}&pluginMethod=${method}&format=raw`;
     const messageContainer = document.getElementById('system-message-container');
     Joomla.request({
       url,
