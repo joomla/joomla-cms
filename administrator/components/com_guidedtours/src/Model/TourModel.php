@@ -455,6 +455,236 @@ class TourModel extends AdminModel
     }
 
     /**
+     * Import json data
+     *
+     * @param   string  $data  The data as a json string.
+     *
+     * @return  boolean|integer returns the tour count or false on error
+     *
+     * @since   5.0.0
+     */
+    public function import($data)
+    {
+        if (empty($data)) {
+            return false;
+        }
+
+        $data = json_decode($data, true);
+
+        $user = $this->getCurrentUser();
+        $db   = $this->getDatabase();
+        $date = Factory::getDate()->toSql();
+
+        foreach ($data as $tour) {
+
+            // Insert a tour
+
+            $isValid =
+                array_key_exists('title', $tour) &&
+                array_key_exists('url', $tour) &&
+                array_key_exists('extensions', $tour);
+
+            if (!$isValid) {
+                continue;
+            }
+
+            $query = $db->getQuery(true);
+
+            $columns = [
+                'title',
+                'description',
+                'extensions',
+                'url',
+                'created',
+                'created_by',
+                'modified',
+                'modified_by',
+                'published',
+                'language',
+                'ordering',
+                'note',
+                'access',
+            ];
+
+            $values = [
+                $tour['title'],
+                $tour['description'] ?? '',
+                $tour['extensions'],
+                $tour['url'],
+                $date,
+                $user->id,
+                $date,
+                $user->id,
+                $tour['published'] ?? 0,
+                $tour['language'] ?? '*',
+                1,
+                $tour['note'] ?? '',
+                $tour['access'] ?? 1,
+            ];
+
+            $dataTypes = [
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::STRING,
+                ParameterType::INTEGER,
+                ParameterType::STRING,
+                ParameterType::INTEGER,
+                ParameterType::INTEGER,
+                ParameterType::STRING,
+                ParameterType::INTEGER,
+                ParameterType::STRING,
+                ParameterType::INTEGER,
+            ];
+
+            $query->insert($db->quoteName('#__guidedtours'), 'id');
+            $query->columns($db->quoteName($columns));
+            $query->values(implode(',', $query->bindArray($values, $dataTypes)));
+
+            $db->setQuery($query);
+
+            try {
+                $result = $db->execute();
+                if ($result && !empty($tour['steps'])) {
+                    $tourId = $db->insertid();
+
+                    // Insert steps for the tour
+
+                    $columns = [
+                        'tour_id',
+                        'title',
+                        'description',
+                        'position',
+                        'target',
+                        'type',
+                        'interactive_type',
+                        'url',
+                        'created',
+                        'created_by',
+                        'modified',
+                        'modified_by',
+                        'published',
+                        'language',
+                        'ordering',
+                        'note',
+                    ];
+
+                    $step_values = [];
+
+                    foreach ($tour['steps'] as $step) {
+
+                        $isValid = array_key_exists('title', $step);
+
+                        if (!$isValid) {
+                            continue;
+                        }
+
+                        $step_values[] = [
+                            $tourId,
+                            $step['title'],
+                            $step['description'] ?? '',
+                            $step['position'] ?? 'center',
+                            $step['target'] ?? '',
+                            $step['type'] ?? 0,
+                            $step['interactive_type'] ?? 1,
+                            $step['url'] ?? '',
+                            $date,
+                            $user->id,
+                            $date,
+                            $user->id,
+                            $step['published'] ?? 0,
+                            $step['language'] ?? '*',
+                            1,
+                            $step['note'] ?? '',
+                        ];
+                    }
+
+                    $dataTypes = [
+                        ParameterType::INTEGER,
+                        ParameterType::STRING,
+                        ParameterType::STRING,
+                        ParameterType::STRING,
+                        ParameterType::STRING,
+                        ParameterType::INTEGER,
+                        ParameterType::INTEGER,
+                        ParameterType::STRING,
+                        ParameterType::STRING,
+                        ParameterType::INTEGER,
+                        ParameterType::STRING,
+                        ParameterType::INTEGER,
+                        ParameterType::INTEGER,
+                        ParameterType::STRING,
+                        ParameterType::INTEGER,
+                        ParameterType::STRING,
+                    ];
+
+                    $query->clear();
+
+                    $query->insert($db->quoteName('#__guidedtour_steps'), 'id');
+                    $query->columns($db->quoteName($columns));
+
+                    foreach ($step_values as $values) {
+                        $query->values(implode(',', $query->bindArray($values, $dataTypes)));
+                    }
+
+                    $db->setQuery($query);
+
+                    $result = $db->execute();
+                }
+            } catch (\RuntimeException $e) {
+                Factory::getApplication()->enqueueMessage($e->getQuery());
+                return false;
+            }
+        }
+
+        return count($data);
+    }
+
+    /**
+     * Get steps data for a tour
+     *
+     * @param   integer  $pk  The primary key of a tour.
+     *
+     * @return  boolean
+     *
+     * @since   5.0.0
+     */
+    public function getSteps($pk)
+    {
+        $db = $this->getDatabase();
+
+        $query = $db->getQuery(true)
+            ->select(
+                $db->quoteName(
+                    [
+                        'title',
+                        'description',
+                        'ordering',
+                        'position',
+                        'target',
+                        'type',
+                        'interactive_type',
+                        'url',
+                        'created',
+                        'modified',
+                        'published',
+                        'checked_out_time',
+                        'checked_out',
+                        'language',
+                        'note',
+                    ]
+                )
+            )
+            ->from($db->quoteName('#__guidedtour_steps'))
+            ->where($db->quoteName('tour_id') . ' = :id')
+            ->bind(':id', $pk, ParameterType::INTEGER);
+
+        $db->setQuery($query);
+        return $db->loadObjectList();
+    }
+
+    /**
      * Sets a tour's steps language
      *
      * @param   int     $id        Id of a tour
