@@ -80,7 +80,7 @@ class ToursController extends AdminController
      *
      * @return  void
      *
-     * @since   5.0.0
+     * @since   __DEPLOY_VERSION__
      *
      * @throws  Exception
      */
