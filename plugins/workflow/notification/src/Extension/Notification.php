@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\Workflow\Notification\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageFactoryInterface;
@@ -20,6 +19,7 @@ use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -310,10 +310,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
 
         $component = $this->getApplication()->bootComponent($parts[0]);
 
-        if (
-            !$component instanceof WorkflowServiceInterface
-            || !$component->isWorkflowActive($context)
-        ) {
+        if (!$component instanceof WorkflowServiceInterface || !$component->isWorkflowActive($context)) {
             return false;
         }
 
