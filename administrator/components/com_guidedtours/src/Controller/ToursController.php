@@ -172,7 +172,7 @@ class ToursController extends AdminController
      *
      * @return  boolean|integer
      *
-     * @since   5.0.0
+     * @since   __DEPLOY_VERSION__
      *
      * @throws  Exception
      */
