@@ -2,25 +2,24 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Workflow.Notification
+ * @subpackage  Workflow.notification
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Application\CMSApplicationInterface;
+namespace Joomla\Plugin\Workflow\Notification\Extension;
+
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageFactoryInterface;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -34,9 +33,11 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  4.0.0
  */
-class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
+final class Notification extends CMSPlugin implements SubscriberInterface
 {
     use WorkflowPluginTrait;
+    use DatabaseAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * Load the language file on instantiation.
@@ -47,19 +48,12 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
     protected $autoloadLanguage = true;
 
     /**
-     * Loads the CMS Application for direct access
+     * The language factory.
      *
-     * @var   CMSApplicationInterface
-     * @since 4.0.0
+     * @var    LanguageFactoryInterface
+     * @since  __DEPLOY_VERSION__
      */
-    protected $app;
-
-    /**
-     * @var    \Joomla\Database\DatabaseDriver
-     *
-     * @since  3.9.0
-     */
-    protected $db;
+    private $languageFactory;
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -74,6 +68,23 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
             'onContentPrepareForm'      => 'onContentPrepareForm',
             'onWorkflowAfterTransition' => 'onWorkflowAfterTransition',
         ];
+    }
+
+
+    /**
+     * Constructor.
+     *
+     * @param   DispatcherInterface       $dispatcher       The dispatcher
+     * @param   array                     $config           An optional associative array of configuration settings
+     * @param   LanguageFactoryInterface  $languageFactory  The language factory
+     *
+     * @since   4.2.0
+     */
+    public function __construct(DispatcherInterface $dispatcher, array $config, LanguageFactoryInterface $languageFactory)
+    {
+        parent::__construct($dispatcher, $config);
+
+        $this->languageFactory = $languageFactory;
     }
 
     /**
@@ -121,7 +132,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $component = $this->app->bootComponent($extensionName);
+        $component = $this->getApplication()->bootComponent($extensionName);
 
         // Check if send-mail is active
         if (empty($transition->options['notification_send_mail'])) {
@@ -139,14 +150,14 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
         $userIds = $this->getUsersFromGroup($transition);
 
         // The active user
-        $user = $this->app->getIdentity();
+        $user = $this->getApplication()->getIdentity();
 
         // Prepare Language for messages
         $defaultLanguage = ComponentHelper::getParams('com_languages')->get('administrator');
-        $debug           = $this->app->get('debug_lang');
+        $debug           = $this->getApplication()->get('debug_lang');
 
         $modelName = $component->getModelName($context);
-        $model     = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true]);
+        $model     = $component->getMVCFactory()->createModel($modelName, $this->getApplication()->getName(), ['ignore_request' => true]);
 
         // Don't send the notification to the active user
         $key = array_search($user->id, $userIds);
@@ -162,33 +173,32 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 
         // If there are no receivers, stop here
         if (empty($userIds)) {
-            $this->app->enqueueMessage(Text::_('PLG_WORKFLOW_NOTIFICATION_NO_RECEIVER'), 'error');
+            $this->getApplication()->enqueueMessage($this->getApplication()->getLanguage()->_('PLG_WORKFLOW_NOTIFICATION_NO_RECEIVER'), 'error');
 
             return;
         }
 
         // Get the model for private messages
-        $model_message = $this->app->bootComponent('com_messages')
+        $model_message = $this->getApplication()->bootComponent('com_messages')
             ->getMVCFactory()->createModel('Message', 'Administrator');
 
         // Get the title of the stage
-        $model_stage = $this->app->bootComponent('com_workflow')
+        $model_stage = $this->getApplication()->bootComponent('com_workflow')
             ->getMVCFactory()->createModel('Stage', 'Administrator');
 
         $toStage = $model_stage->getItem($transition->to_stage_id)->title;
 
         // Get the name of the transition
-        $model_transition = $this->app->bootComponent('com_workflow')
+        $model_transition = $this->getApplication()->bootComponent('com_workflow')
             ->getMVCFactory()->createModel('Transition', 'Administrator');
 
         $transitionName = $model_transition->getItem($transition->id)->title;
 
         $hasGetItem = method_exists($model, 'getItem');
-        $container  = Factory::getContainer();
 
         foreach ($pks as $pk) {
             // Get the title of the item which has changed, unknown as fallback
-            $title = Text::_('PLG_WORKFLOW_NOTIFICATION_NO_TITLE');
+            $title = $this->getApplication()->getLanguage()->_('PLG_WORKFLOW_NOTIFICATION_NO_TITLE');
 
             if ($hasGetItem) {
                 $item  = $model->getItem($pk);
@@ -197,12 +207,11 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 
             // Send Email to receivers
             foreach ($userIds as $user_id) {
-                $receiver = $container->get(UserFactoryInterface::class)->loadUserById($user_id);
+                $receiver = $this->getUserFactory()->loadUserById($user_id);
 
                 if ($receiver->authorise('core.manage', 'com_message')) {
                     // Load language for messaging
-                    $lang = $container->get(LanguageFactoryInterface::class)
-                        ->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
+                    $lang = $this->languageFactory->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
                     $lang->load('plg_workflow_notification');
                     $messageText = sprintf(
                         $lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'),
@@ -228,7 +237,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
             }
         }
 
-        $this->app->enqueueMessage(Text::_('PLG_WORKFLOW_NOTIFICATION_SENT'), 'message');
+        $this->getApplication()->enqueueMessage($this->getApplication()->getLanguage()->_('PLG_WORKFLOW_NOTIFICATION_SENT'), 'message');
     }
 
     /**
@@ -260,7 +269,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 
         if (!empty($groups)) {
             // UserIds from usergroups
-            $model = Factory::getApplication()->bootComponent('com_users')
+            $model = $this->getApplication()->bootComponent('com_users')
                 ->getMVCFactory()->createModel('Users', 'Administrator', ['ignore_request' => true]);
 
             $model->setState('list.select', 'id');
@@ -299,12 +308,9 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
             return false;
         }
 
-        $component = $this->app->bootComponent($parts[0]);
+        $component = $this->getApplication()->bootComponent($parts[0]);
 
-        if (
-            !$component instanceof WorkflowServiceInterface
-            || !$component->isWorkflowActive($context)
-        ) {
+        if (!$component instanceof WorkflowServiceInterface || !$component->isWorkflowActive($context)) {
             return false;
         }
 
@@ -326,16 +332,18 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
             return [];
         }
 
+        $db = $this->getDatabase();
+
         // Check for locked inboxes would be better to have _cdf settings in the user_object or a filter in users model
-        $query = $this->db->getQuery(true);
+        $query = $db->getQuery(true);
 
-        $query->select($this->db->quoteName('user_id'))
-            ->from($this->db->quoteName('#__messages_cfg'))
-            ->whereIn($this->db->quoteName('user_id'), $userIds)
-            ->where($this->db->quoteName('cfg_name') . ' = ' . $this->db->quote('locked'))
-            ->where($this->db->quoteName('cfg_value') . ' = 1');
+        $query->select($db->quoteName('user_id'))
+            ->from($db->quoteName('#__messages_cfg'))
+            ->whereIn($db->quoteName('user_id'), $userIds)
+            ->where($db->quoteName('cfg_name') . ' = ' . $db->quote('locked'))
+            ->where($db->quoteName('cfg_value') . ' = 1');
 
-        $locked = $this->db->setQuery($query)->loadColumn();
+        $locked = $db->setQuery($query)->loadColumn();
 
         return array_diff($userIds, $locked);
     }
