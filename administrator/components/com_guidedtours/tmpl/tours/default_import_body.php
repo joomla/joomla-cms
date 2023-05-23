@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
         <div class="control-group col-md-12 mt-3">
             <label for="importfile" class="form-label"><?php echo Text::sprintf('COM_GUIDEDTOURS_TOURS_IMPORT_FILE_LABEL'); ?></label>
             <div class="controls">
-                <input type="file" id="importfile" name="importfile" class="form-control" />
+                <input type="file" id="importfile" name="importfile" accept=".json,application/json" class="form-control" />
             </div>
         </div>
     </div>
