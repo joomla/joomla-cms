@@ -128,7 +128,7 @@ if (!$format) {
      */
     $group      = $input->get('group', 'ajax');
     $plugin     = ucfirst($input->get('plugin'));
-    $method     = $input->get('method') ?: '';
+    $method     = $input->getAlnum('method', '');
 
     PluginHelper::importPlugin($group);
 
