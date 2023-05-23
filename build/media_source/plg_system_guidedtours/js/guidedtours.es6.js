@@ -406,7 +406,7 @@ function startTour(obj) {
 
 function loadTour(tourId) {
   if (tourId > 0) {
-    const url = `${Joomla.getOptions('system.paths').rootFull}administrator/index.php?option=com_ajax&plugin=guidedtours&group=system&format=json&id=${tourId}`;
+    const url = new URL(`${Joomla.getOptions('system.paths').rootFull}administrator/index.php?option=com_ajax&plugin=guidedtours&group=system&method=startTour&format=json&id=${tourId}`);
     fetch(url)
       .then((response) => response.json())
       .then((result) => {

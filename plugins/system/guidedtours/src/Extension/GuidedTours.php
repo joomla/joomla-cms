@@ -90,7 +90,6 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return self::$enabled ? [
-            'onAjaxGuidedtours'   => 'startTour',
             'onBeforeCompileHead' => 'onBeforeCompileHead',
         ] : [];
     }
@@ -102,7 +101,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.3.0
      */
-    public function startTour(Event $event)
+    public function startTourAjax()
     {
         $tourId = (int) $this->getApplication()->getInput()->getInt('id');
 
@@ -117,9 +116,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
             }
         }
 
-        $event->setArgument('result', $tour ?? new \stdClass());
-
-        return $tour;
+        return $tour ?? new \stdClass();
     }
 
     /**
