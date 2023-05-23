@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_WEBSERVICES_MESSAGES_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\WebServices\Messages</namespace>
 	<files>
-		<filename plugin="messages">messages.php</filename>
+		<folder plugin="messages">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_webservices_messages.ini</language>
