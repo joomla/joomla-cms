@@ -577,7 +577,6 @@ class TourModel extends AdminModel
                     $step_values = [];
 
                     foreach ($tour['steps'] as $step) {
-
                         $isValid = array_key_exists('title', $step);
 
                         if (!$isValid) {

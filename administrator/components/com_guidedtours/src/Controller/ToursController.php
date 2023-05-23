@@ -112,14 +112,14 @@ class ToursController extends AdminController
                 $tour = $model->getItem($pk);
 
                 $tour_data = [
-                    'title' => $tour->title,
+                    'title'       => $tour->title,
                     'description' => $tour->description,
-                    'extensions' => $tour->extensions,
-                    'url' => $tour->url,
-                    'published' => $tour->published,
-                    'language' => $tour->language,
-                    'note' => $tour->note,
-                    'access' => $tour->access,
+                    'extensions'  => $tour->extensions,
+                    'url'         => $tour->url,
+                    'published'   => $tour->published,
+                    'language'    => $tour->language,
+                    'note'        => $tour->note,
+                    'access'      => $tour->access,
                 ];
 
                 // Get the steps data.
@@ -129,16 +129,16 @@ class ToursController extends AdminController
 
                 foreach ($steps as $step) {
                     $step_data = [
-                        'title' => $step->title,
-                        'description' => $step->description,
-                        'position' => $step->position,
-                        'target' => $step->target,
-                        'type' => $step->type,
+                        'title'            => $step->title,
+                        'description'      => $step->description,
+                        'position'         => $step->position,
+                        'target'           => $step->target,
+                        'type'             => $step->type,
                         'interactive_type' => $step->interactive_type,
-                        'url' => $step->url,
-                        'published' => $step->published,
-                        'language' => $step->language,
-                        'note' => $step->note,
+                        'url'              => $step->url,
+                        'published'        => $step->published,
+                        'language'         => $step->language,
+                        'note'             => $step->note,
                     ];
 
                     $steps_data[] = $step_data;
@@ -159,7 +159,6 @@ class ToursController extends AdminController
             echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
             $this->app->close();
-
         } catch (\Exception $e) {
             $this->app->enqueueMessage($e->getMessage(), 'warning');
             $this->setRedirect(Route::_('index.php?option=com_guidedtours&view=tours' . $this->getRedirectToListAppend(), false));
@@ -260,7 +259,7 @@ class ToursController extends AdminController
             $this->setMessage(Text::_('COM_GUIDEDTOURS_TOURS_IMPORT_NO_TOUR_IMPORTED'), 'error');
 
             if ($count = $model->import($data)) {
-                    $this->setMessage(Text::plural('COM_GUIDEDTOURS_TOURS_IMPORTED', $count));
+                $this->setMessage(Text::plural('COM_GUIDEDTOURS_TOURS_IMPORTED', $count));
             }
         } catch (\Exception $e) {
             $this->app->enqueueMessage($e->getMessage(), 'warning');
