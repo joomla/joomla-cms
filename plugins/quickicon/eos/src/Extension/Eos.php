@@ -98,9 +98,11 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      */
     public function getEndOfServiceNotification(QuickIconsEvent $event): void
     {
-        if ($event->getContext() !== $this->params->get('context', 'update_quickicon')
+        if (
+            $event->getContext() !== $this->params->get('context', 'update_quickicon')
             || !$this->shouldDisplayMessage()
-            || !$this->messagesInitialized && $this->setMessage() == []) {
+            || !$this->messagesInitialized && $this->setMessage() == []
+        ) {
             return;
         }
 
