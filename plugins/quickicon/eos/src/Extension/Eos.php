@@ -98,17 +98,20 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      */
     public function getEndOfServiceNotification(QuickIconsEvent $event): void
     {
-        if ($event->getContext() !== $this->params->get('context', 'update_quickicon') || !$this->shouldDisplayMessage() || !$this->messagesInitialized && $this->setMessage() == []) {
+        if ($event->getContext() !== $this->params->get('context', 'update_quickicon')
+            || !$this->shouldDisplayMessage()
+            || !$this->messagesInitialized && $this->setMessage() == []) {
             return;
         }
+
         $this->loadLanguage();
 
         // Show this only when not snoozed
         if ($this->params->get('last_snoozed_id', 0) < $this->currentMessage['id']) {
             // Build the  message to be displayed in the cpanel
-            $messageText = Text::sprintf($this->currentMessage['messageText'], HTMLHelper::_('date', Eos::EOS_DATE, Text::_('DATE_FORMAT_LC3')), $this->currentMessage['messageLink']);
+            $messageText = Text::sprintf($this->currentMessage['messageText'], HTMLHelper::_('date', Eos::EOS_DATE, $this->getApplication()->getLanguage()->_('DATE_FORMAT_LC3')), $this->currentMessage['messageLink']);
             if ($this->currentMessage['snoozable']) {
-                $messageText .= '<p><button class="btn btn-warning eosnotify-snooze-btn" type="button" >' . Text::_('PLG_QUICKICON_EOS_SNOOZE_BUTTON') . '</button></p>';
+                $messageText .= '<p><button class="btn btn-warning eosnotify-snooze-btn" type="button" >' . $this->getApplication()->getLanguage()->_('PLG_QUICKICON_EOS_SNOOZE_BUTTON') . '</button></p>';
             }
             $this->getApplication()->enqueueMessage($messageText, $this->currentMessage['messageType']);
         }
@@ -116,7 +119,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         $this->getApplication()->getDocument()->getWebAssetManager()->registerAndUseScript('plg_quickicon_eos.script', 'plg_quickicon_eos/snooze.js', [], ['type' => 'module']);
 
         $result               = $event->getArgument('result', []);
-        $messageTextQuickIcon = Text::sprintf($this->currentMessage['quickiconText'], HTMLHelper::_('date', Eos::EOS_DATE, Text::_('DATE_FORMAT_LC3')));
+        $messageTextQuickIcon = Text::sprintf($this->currentMessage['quickiconText'], HTMLHelper::_('date', Eos::EOS_DATE, $this->getApplication()->getLanguage()->_('DATE_FORMAT_LC3')));
 
         // The message as quickicon
 
@@ -167,12 +170,16 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      */
     private function shouldDisplayMessage(): bool
     {
-        return !$this->getApplication()->isClient('administrator')
-            || $this->getApplication()->getIdentity()->guest
-            || $this->getApplication()->getDocument()->getType() !== 'html'
-            || $this->getApplication()->getInput()->getCmd('tmpl', 'index') === 'component'
-            || $this->getApplication()->getInput()->get('option') !== 'com_cpanel'
-            ? false : true;
+        // Show only on administration part
+        return $this->getApplication()->isClient('administrator')
+            // Don't show for guests
+            && !$this->getApplication()->getIdentity()->guest
+            // Only show for HTML requests
+            && $this->getApplication()->getDocument()->getType() === 'html'
+            // Don't show in modal
+            && $this->getApplication()->getInput()->getCmd('tmpl', 'index') !== 'component'
+            // Only show in cpanel
+            && $this->getApplication()->getInput()->get('option') === 'com_cpanel';
     }
 
     /**
@@ -200,6 +207,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'snoozable'     => false,
             ];
         }
+
         // The security support is ending in 6 months
         if ($monthsUntilEOS < 6) {
             return [
@@ -213,6 +221,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'snoozable'     => true,
             ];
         }
+
         // We are in security only mode now, 12 month to go from now on
         if ($monthsUntilEOS < 12) {
             return [
@@ -226,6 +235,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'snoozable'     => true,
             ];
         }
+
         // We still have 16 month to go, lets remind our users about the pre upgrade checker
         if ($monthsUntilEOS < 16) {
             return [
@@ -239,6 +249,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'snoozable'     => true,
             ];
         }
+
         // Lets start our messages 2 month after the initial release, still 22 month to go
         if ($monthsUntilEOS < 22) {
             return [
@@ -287,9 +298,11 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         if (!$this->messagesInitialized && $this->setMessage() == []) {
             return '';
         }
+
         if (!$this->isAllowedUser()) {
-            throw new Notallowed(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
+            throw new Notallowed($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
         }
+
         // Make sure only snoozable messages can be snoozed
         if ($this->currentMessage['snoozable']) {
             $this->params->set('last_snoozed_id', $this->currentMessage['id']);
