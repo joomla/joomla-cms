@@ -37,7 +37,7 @@ final class Sef extends CMSPlugin
     {
         $doc = $this->getApplication()->getDocument();
 
-        if (!$this->getApplication()->isClient('site') || $doc->getType() !== 'html') {
+        if ($doc->getType() !== 'html') {
             return;
         }
 
@@ -81,10 +81,6 @@ final class Sef extends CMSPlugin
      */
     public function onAfterRender()
     {
-        if (!$this->getApplication()->isClient('site')) {
-            return;
-        }
-
         // Replace src links.
         $base   = Uri::base(true) . '/';
         $buffer = $this->getApplication()->getBody();

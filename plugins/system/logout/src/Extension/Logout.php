@@ -48,11 +48,6 @@ final class Logout extends CMSPlugin
 
         $this->setApplication($app);
 
-        // If we are on admin don't process.
-        if (!$this->getApplication()->isClient('site')) {
-            return;
-        }
-
         $hash  = ApplicationHelper::getHash('PlgSystemLogout');
 
         if ($this->getApplication()->getInput()->cookie->getString($hash)) {
@@ -79,18 +74,16 @@ final class Logout extends CMSPlugin
      */
     public function onUserLogout($user, $options = [])
     {
-        if ($this->getApplication()->isClient('site')) {
-            // Create the cookie.
-            $this->getApplication()->getInput()->cookie->set(
-                ApplicationHelper::getHash('PlgSystemLogout'),
-                true,
-                time() + 86400,
-                $this->getApplication()->get('cookie_path', '/'),
-                $this->getApplication()->get('cookie_domain', ''),
-                $this->getApplication()->isHttpsForced(),
-                true
-            );
-        }
+        // Create the cookie.
+        $this->getApplication()->getInput()->cookie->set(
+            ApplicationHelper::getHash('PlgSystemLogout'),
+            true,
+            time() + 86400,
+            $this->getApplication()->get('cookie_path', '/'),
+            $this->getApplication()->get('cookie_domain', ''),
+            $this->getApplication()->isHttpsForced(),
+            true
+        );
 
         return true;
     }

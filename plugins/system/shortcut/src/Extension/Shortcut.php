@@ -71,10 +71,6 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
      */
     public function initialize()
     {
-        if (!$this->getApplication()->isClient('administrator')) {
-            return;
-        }
-
         $context = $this->getApplication()->getInput()->get('option') . '.' . $this->getApplication()->getInput()->get('view');
 
         $shortcuts = [];

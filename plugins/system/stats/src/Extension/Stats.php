@@ -83,7 +83,7 @@ final class Stats extends CMSPlugin
      */
     public function onAfterInitialise()
     {
-        if (!$this->getApplication()->isClient('administrator') || !$this->isAllowedUser()) {
+        if (!$this->isAllowedUser()) {
             return;
         }
 
@@ -112,7 +112,7 @@ final class Stats extends CMSPlugin
      */
     public function onAfterDispatch()
     {
-        if (!$this->getApplication()->isClient('administrator') || !$this->isAllowedUser()) {
+        if (!$this->isAllowedUser()) {
             return;
         }
 

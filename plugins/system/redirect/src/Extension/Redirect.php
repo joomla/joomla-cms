@@ -70,7 +70,7 @@ final class Redirect extends CMSPlugin implements SubscriberInterface
         /** @var \Joomla\CMS\Application\CMSApplication $app */
         $app = $event->getApplication();
 
-        if ($app->isClient('administrator') || ((int) $event->getError()->getCode() !== 404)) {
+        if ((int) $event->getError()->getCode() !== 404) {
             return;
         }
 

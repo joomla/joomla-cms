@@ -39,11 +39,6 @@ final class Highlight extends CMSPlugin
      */
     public function onAfterDispatch()
     {
-        // Check that we are in the site application.
-        if (!$this->getApplication()->isClient('site')) {
-            return;
-        }
-
         // Set the variables.
         $input     = $this->getApplication()->getInput();
         $extension = $input->get('option', '', 'cmd');
