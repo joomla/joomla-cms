@@ -50,7 +50,7 @@ class TemplatesController extends BaseController
     /**
      * Method to handle cancel
      *
-     * @return  boolean  True on success.
+     * @return  void
      *
      * @since   3.2
      */

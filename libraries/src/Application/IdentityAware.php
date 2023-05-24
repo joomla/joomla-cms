@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Application;
 
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -23,6 +23,8 @@ use Joomla\CMS\User\UserFactoryInterface;
  */
 trait IdentityAware
 {
+    use UserFactoryAwareTrait;
+
     /**
      * The application identity object.
      *
@@ -30,14 +32,6 @@ trait IdentityAware
      * @since  4.0.0
      */
     protected $identity;
-
-    /**
-     * UserFactoryInterface
-     *
-     * @var    UserFactoryInterface
-     * @since  4.0.0
-     */
-    private $userFactory;
 
     /**
      * Get the application identity.
@@ -62,22 +56,8 @@ trait IdentityAware
      */
     public function loadIdentity(User $identity = null)
     {
-        $this->identity = $identity ?: $this->userFactory->loadUserById(0);
+        $this->identity = $identity ?: $this->getUserFactory()->loadUserById(0);
 
         return $this;
-    }
-
-    /**
-     * Set the user factory to use.
-     *
-     * @param   UserFactoryInterface  $userFactory  The user factory to use
-     *
-     * @return  void
-     *
-     * @since   4.0.0
-     */
-    public function setUserFactory(UserFactoryInterface $userFactory)
-    {
-        $this->userFactory = $userFactory;
     }
 }
