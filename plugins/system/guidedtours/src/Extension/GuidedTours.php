@@ -14,7 +14,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
@@ -55,32 +54,6 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     ];
 
     /**
-     * An internal flag whether plugin should listen any event.
-     *
-     * @var bool
-     *
-     * @since   4.3.0
-     */
-    protected static $enabled = false;
-
-    /**
-     * Constructor
-     *
-     * @param   DispatcherInterface  $subject  The object to observe
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   boolean              $enabled  An internal flag whether plugin should listen any event.
-     *
-     * @since   4.3.0
-     */
-    public function __construct($subject, array $config = [], bool $enabled = false)
-    {
-        $this->autoloadLanguage = $enabled;
-        self::$enabled          = $enabled;
-
-        parent::__construct($subject, $config);
-    }
-
-    /**
      * function for getSubscribedEvents : new Joomla 4 feature
      *
      * @return array
@@ -89,10 +62,10 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return self::$enabled ? [
+        return [
             'onAjaxGuidedtours'   => 'startTour',
             'onBeforeCompileHead' => 'onBeforeCompileHead',
-        ] : [];
+        ];
     }
 
     /**

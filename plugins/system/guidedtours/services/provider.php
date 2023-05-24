@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Application\ApplicationInterface;
+use Joomla\CMS\Extension\DummyPlugin;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -35,10 +35,15 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
-                $app        = Factory::getApplication();
+                $app = Factory::getApplication();
 
-                $plugin = new GuidedTours(
+                if (!$app->isClient('administrator')) {
+                    // Return an empty class when we in wrong App
+                    return new DummyPlugin();
+                }
+
+                $dispatcher = $container->get(DispatcherInterface::class);
+                $plugin     = new GuidedTours(
                     $dispatcher,
                     (array) PluginHelper::getPlugin('system', 'guidedtours'),
                     $app->isClient('administrator')
