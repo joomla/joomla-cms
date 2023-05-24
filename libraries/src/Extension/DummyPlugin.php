@@ -17,6 +17,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * Placeholder plugin. The Plugin does not provide any events.
+ * The class to be used as placeholder for cases when need to avoid from booting a real plugin, or it is not possible to boot one (fallback).
  *
  * @since  4.0.0
  */
