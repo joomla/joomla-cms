@@ -109,17 +109,26 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         // Show this only when not snoozed
         if ($this->params->get('last_snoozed_id', 0) < $this->currentMessage['id']) {
             // Build the  message to be displayed in the cpanel
-            $messageText = Text::sprintf($this->currentMessage['messageText'], HTMLHelper::_('date', Eos::EOS_DATE, $this->getApplication()->getLanguage()->_('DATE_FORMAT_LC3')), $this->currentMessage['messageLink']);
+            $messageText = sprintf(
+                $this->currentMessage['messageText'],
+                HTMLHelper::_('date', Eos::EOS_DATE, $this->getApplication()->getLanguage()->_('DATE_FORMAT_LC3')),
+                $this->currentMessage['messageLink']
+            );
             if ($this->currentMessage['snoozable']) {
-                $messageText .= '<p><button class="btn btn-warning eosnotify-snooze-btn" type="button" >' . $this->getApplication()->getLanguage()->_('PLG_QUICKICON_EOS_SNOOZE_BUTTON') . '</button></p>';
+                $messageText .= '<p><button class="btn btn-warning eosnotify-snooze-btn" type="button" >';
+                $messageText .= $this->getApplication()->getLanguage()->_('PLG_QUICKICON_EOS_SNOOZE_BUTTON') . '</button></p>';
             }
             $this->getApplication()->enqueueMessage($messageText, $this->currentMessage['messageType']);
         }
 
-        $this->getApplication()->getDocument()->getWebAssetManager()->registerAndUseScript('plg_quickicon_eos.script', 'plg_quickicon_eos/snooze.js', [], ['type' => 'module']);
+        $this->getApplication()->getDocument()->getWebAssetManager()
+            ->registerAndUseScript('plg_quickicon_eos.script', 'plg_quickicon_eos/snooze.js', [], ['type' => 'module']);
 
         $result               = $event->getArgument('result', []);
-        $messageTextQuickIcon = Text::sprintf($this->currentMessage['quickiconText'], HTMLHelper::_('date', Eos::EOS_DATE, $this->getApplication()->getLanguage()->_('DATE_FORMAT_LC3')));
+        $messageTextQuickIcon = sprintf(
+            $this->currentMessage['quickiconText'],
+            HTMLHelper::_('date', Eos::EOS_DATE, $this->getApplication()->getLanguage()->_('DATE_FORMAT_LC3'))
+        );
 
         // The message as quickicon
 
