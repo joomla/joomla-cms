@@ -160,6 +160,8 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      */
     private function saveParams(): bool
     {
+        return true;
+
         $params = $this->params->toString('JSON');
         $db     = $this->getDatabase();
         $query  = $db->getQuery(true)
