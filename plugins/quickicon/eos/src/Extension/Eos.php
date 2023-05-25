@@ -152,7 +152,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Save the plugin parameters
+     * Save the plugin parameters.
      *
      * @return  bool
      *
@@ -174,7 +174,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Determines if the message and quickicon should be displayed
+     * Determines if the message and quickicon should be displayed.
      *
      * @return  bool
      *
@@ -195,7 +195,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Return the texts to be displayed based on the time until we reach EOS
+     * Return the texts to be displayed based on the time until we reach EOS.
      *
      * @param   int  $monthsUntilEOS  The months until we reach EOS
      * @param   int  $inverted        Have we surpassed the EOS date
@@ -280,7 +280,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Check if current user is allowed to send the data
+     * Check if current user is allowed to send the data.
      *
      * @return  bool
      *
@@ -294,13 +294,13 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * User hit the snooze button
+     * User hit the snooze button.
      *
      * @return  string
      *
      * @since __DEPLOY_VERSION__
      *
-     * @throws  Notallowed  If user is not allowed.
+     * @throws  Notallowed  If user is not allowed
      *
      * @throws Exception
      */
@@ -325,9 +325,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * setMessage
-     *
-     * Calculates how many days and selects correct message
+     * Calculates how many days and selects correct message.
      *
      * @return array
      *
