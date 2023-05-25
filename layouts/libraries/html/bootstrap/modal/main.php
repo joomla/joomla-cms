@@ -49,7 +49,7 @@ if ($modalWidth && $modalWidth > 0 && $modalWidth <= 100) {
     $modalDialogClass .= ' jviewport-width' . $modalWidth;
 }
 
-if (isset($params['modalCss']) && !empty($params['modalCss'])) {
+if (!empty($params['modalCss'])) {
     $modalDialogClass = $params['modalCss'];
 }
 
