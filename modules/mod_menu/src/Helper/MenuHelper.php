@@ -242,7 +242,11 @@ class MenuHelper
             $linktype = HTMLHelper::_('image', $item->menu_image, '', $image_attributes);
 
             if ($itemParams->get('menu_text', 1)) {
-                $linktype .= '<span class="image-title">' .  '" alt="' . $item->title . '" aria-hidden="true"></span><span class="visually-hidden">' . $item->title . '</span>';
+                $linktype .= $item->title;
+
+            } else {
+                // If the icon itself is the link, it needs a visually hidden text
+                $linktype .= '<span class="visually-hidden">' . $item->title . '</span>';
             }
         }
 
