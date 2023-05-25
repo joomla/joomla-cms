@@ -34,7 +34,7 @@ class MailerFactory implements MailerFactoryInterface
     /**
      * The MailerFactory constructor.
      *
-     * @param   Registry  $db  The database
+     * @param   Registry  $defaultConfiguration  The default configuration
      */
     public function __construct(Registry $defaultConfiguration)
     {
