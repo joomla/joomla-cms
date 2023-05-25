@@ -57,7 +57,7 @@ class MailerFactory implements MailerFactoryInterface
             $configuration = $this->defaultConfiguration;
         }
 
-        $mailer = new Mail((bool)$configuration->get('throw_exceptions', true));
+        $mailer = new Mail((bool) $configuration->get('throw_exceptions', true));
 
         $smtpauth   = $configuration->get('smtpauth') == 0 ? null : 1;
         $smtpuser   = $configuration->get('smtpuser');
