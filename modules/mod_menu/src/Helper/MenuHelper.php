@@ -238,7 +238,7 @@ class MenuHelper
         {
             $image_attributes = [
                 'src' => $item->menu_image,
-                'alt' => ''
+                'alt' => '',
             ];
 
             if ($item->menu_image_css)
