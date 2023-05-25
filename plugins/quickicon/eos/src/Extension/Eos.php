@@ -34,7 +34,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     use DatabaseAwareTrait;
 
     /**
-     * The EOS date for 4.4. and beyond
+     * The EOS date for 4.4.
      *
      * @var    string
      * @since __DEPLOY_VERSION__
@@ -50,7 +50,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     protected $autoloadLanguage = false;
 
     /**
-     * Holding the current valid message to be shown
+     * Holding the current valid message to be shown.
      *
      * @var    array
      * @since __DEPLOY_VERSION__
@@ -58,7 +58,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     private $currentMessage = [];
 
     /**
-     * Are the messages initialised
+     * Are the messages initialized.
      *
      * @var    bool
      * @since __DEPLOY_VERSION__
@@ -82,7 +82,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Check and show the the alert and quickicon message
+     * Check and show the the alert and quickicon message.
      *
      * This method is called when the Quick Icons module is constructing its set
      * of icons. You can return an array which defines a single icon and it will
