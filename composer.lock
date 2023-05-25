@@ -1452,18 +1452,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/di.git",
-                "reference": "2c76bf8d2f841ac59ff94d7bd6cd0e5e962f6e12"
+                "reference": "926c47c260768e98f53e89babb04fa1e9717f891"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/di/zipball/2c76bf8d2f841ac59ff94d7bd6cd0e5e962f6e12",
-                "reference": "2c76bf8d2f841ac59ff94d7bd6cd0e5e962f6e12",
+                "url": "https://api.github.com/repos/joomla-framework/di/zipball/926c47c260768e98f53e89babb04fa1e9717f891",
+                "reference": "926c47c260768e98f53e89babb04fa1e9717f891",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.1.0",
                 "psr/container": "^1.0",
-                "symfony/deprecation-contracts": "^3"
+                "symfony/deprecation-contracts": "^2|^3"
             },
             "provide": {
                 "psr/container-implementation": "~1.0"
@@ -1515,7 +1515,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-23T07:25:58+00:00"
+            "time": "2023-05-23T06:43:00+00:00"
         },
         {
             "name": "joomla/event",
