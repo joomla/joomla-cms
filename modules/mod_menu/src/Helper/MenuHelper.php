@@ -229,7 +229,7 @@ class MenuHelper
         {
             $icon_attributes = [
                 'icon'   => $item->menu_icon,
-                'suffix' => 'p-2'
+                'suffix' => 'p-2',
             ];
 
             $attributes['icon'] = LayoutHelper::render('joomla.icon.iconclass', $icon_attributes);
