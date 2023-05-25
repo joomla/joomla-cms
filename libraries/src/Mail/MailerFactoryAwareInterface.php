@@ -23,11 +23,11 @@ interface MailerFactoryAwareInterface
     /**
      * Set the mailer factory to use.
      *
-     * @param   MailerFactoryInterface  $factory  The mailer factory to use.
+     * @param   ?MailerFactoryInterface  $factory  The mailer factory to use
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function setMailerFactory(MailerFactoryInterface $factory): void;
+    public function setMailerFactory(?MailerFactoryInterface $factory): void;
 }
