@@ -183,8 +183,6 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     {
         // Show only on administration part
         return $this->getApplication()->isClient('administrator')
-            // Don't show for guests
-            && !$this->getApplication()->getIdentity()->guest
             // Only show for HTML requests
             && $this->getApplication()->getDocument()->getType() === 'html'
             // Don't show in modal
