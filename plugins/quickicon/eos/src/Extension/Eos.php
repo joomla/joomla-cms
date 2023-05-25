@@ -76,7 +76,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onAjaxEos'  => 'onAjaxEos',
+            'onAjaxEos' => 'onAjaxEos',
         ];
     }
 
