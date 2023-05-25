@@ -76,7 +76,6 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onGetIcons' => 'getEndOfServiceNotification',
             'onAjaxEos'  => 'onAjaxEos',
         ];
     }
@@ -160,8 +159,6 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      */
     private function saveParams(): bool
     {
-        return true;
-
         $params = $this->params->toString('JSON');
         $db     = $this->getDatabase();
         $query  = $db->getQuery(true)
