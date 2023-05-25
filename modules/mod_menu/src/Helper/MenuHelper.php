@@ -222,7 +222,7 @@ class MenuHelper
     {
         $attributes = [
             'title'     => $item->title,
-            'menu_text' => $itemParams->get('menu_text', 1)
+            'menu_text' => $itemParams->get('menu_text', 1),
         ];
 
         if ($item->menu_icon)
