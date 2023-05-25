@@ -27,7 +27,8 @@ class MailerFactory implements MailerFactoryInterface
     /**
      * The default configuration.
      *
-     * @var  Registry
+     * @var     Registry
+     * @since   __DEPLOY_VERSION__
      */
     private $defaultConfiguration;
 
