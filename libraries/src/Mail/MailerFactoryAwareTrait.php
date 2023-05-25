@@ -50,7 +50,7 @@ trait MailerFactoryAwareTrait
      *
      * @param   ?MailerFactoryInterface  $mailerFactory  The mailer factory to use.
      *
-     * @return  $this
+     * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
