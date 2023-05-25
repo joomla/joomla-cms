@@ -55,7 +55,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      * @var    array
      * @since __DEPLOY_VERSION__
      */
-    private array $currentMessage = [];
+    private $currentMessage = [];
 
     /**
      * Are the messages initialised
@@ -64,7 +64,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      * @since __DEPLOY_VERSION__
      */
 
-    private bool $messagesInitialized = false;
+    private $messagesInitialized = false;
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -76,7 +76,8 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onAjaxEos' => 'onAjaxEos',
+            'onGetIcons' => 'getEndOfServiceNotification',
+            'onAjaxEos'  => 'onAjaxEos',
         ];
     }
 
