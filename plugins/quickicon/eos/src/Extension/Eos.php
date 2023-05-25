@@ -12,9 +12,9 @@ namespace Joomla\Plugin\Quickicon\Eos\Extension;
 
 use Exception;
 use Joomla\CMS\Access\Exception\NotAllowed;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Event\SubscriberInterface;
@@ -98,10 +98,13 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      */
     public function getEndOfServiceNotification(QuickIconsEvent $event): void
     {
+        $app = $this->getApplication();
+
         if (
             $event->getContext() !== $this->params->get('context', 'update_quickicon')
             || !$this->shouldDisplayMessage()
-            || !$this->messagesInitialized && $this->setMessage() == []
+            || (!$this->messagesInitialized && $this->setMessage() == [])
+            || !$app instanceof CMSWebApplicationInterface
         ) {
             return;
         }
@@ -112,24 +115,24 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         if ($this->params->get('last_snoozed_id', 0) < $this->currentMessage['id']) {
             // Build the  message to be displayed in the cpanel
             $messageText = sprintf(
-                $this->currentMessage['messageText'],
-                HTMLHelper::_('date', Eos::EOS_DATE, $this->getApplication()->getLanguage()->_('DATE_FORMAT_LC3')),
+                $app->getLanguage()->_($this->currentMessage['messageText']),
+                HTMLHelper::_('date', Eos::EOS_DATE, $app->getLanguage()->_('DATE_FORMAT_LC3')),
                 $this->currentMessage['messageLink']
             );
             if ($this->currentMessage['snoozable']) {
                 $messageText .= '<p><button class="btn btn-warning eosnotify-snooze-btn" type="button" >';
-                $messageText .= $this->getApplication()->getLanguage()->_('PLG_QUICKICON_EOS_SNOOZE_BUTTON') . '</button></p>';
+                $messageText .= $app->getLanguage()->_('PLG_QUICKICON_EOS_SNOOZE_BUTTON') . '</button></p>';
             }
-            $this->getApplication()->enqueueMessage($messageText, $this->currentMessage['messageType']);
+            $app->enqueueMessage($messageText, $this->currentMessage['messageType']);
         }
 
-        $this->getApplication()->getDocument()->getWebAssetManager()
+        $app->getDocument()->getWebAssetManager()
             ->registerAndUseScript('plg_quickicon_eos.script', 'plg_quickicon_eos/snooze.js', [], ['type' => 'module']);
 
         $result               = $event->getArgument('result', []);
         $messageTextQuickIcon = sprintf(
-            $this->currentMessage['quickiconText'],
-            HTMLHelper::_('date', Eos::EOS_DATE, $this->getApplication()->getLanguage()->_('DATE_FORMAT_LC3'))
+            $app->getLanguage()->_($this->currentMessage['quickiconText']),
+            HTMLHelper::_('date', Eos::EOS_DATE, $app->getLanguage()->_('DATE_FORMAT_LC3'))
         );
 
         // The message as quickicon
