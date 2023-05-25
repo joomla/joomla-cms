@@ -16,4 +16,4 @@ $title      = $item->anchor_title ? ' title="' . $item->anchor_title . '"' : '';
 $anchor_css = $item->anchor_css ?: '';
 
 ?>
-<span class="mod-menu__separator separator <?php echo $anchor_css; ?>"<?php echo $title; ?>><?php echo $linktype; ?></span>
+<span class="mod-menu__separator separator <?php echo $anchor_css; ?>"<?php echo $title; ?>><?php echo $item->menu_linktype; ?></span>
