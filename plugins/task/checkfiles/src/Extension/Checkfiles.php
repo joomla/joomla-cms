@@ -103,13 +103,12 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
      *
      * @since 4.1.0
      */
-    private function normalize_compression_to_quality($compression, $type)
+    private function normalizeCompressionToQuality($compression, $type)
     {
-        $TYPES_WITH_INVERTED_SEMANTICS = [IMAGETYPE_PNG];
         $compression = (int) $compression;
 
-        if (in_array($type, $TYPES_WITH_INVERTED_SEMANTICS)) {
-            return Self::IMAGE_COMPRESSION_MAX - $compression;
+        if ($type == IMAGETYPE_PNG) {
+            return floor((self::IMAGE_COMPRESSION_MAX - $compression) / 10);
         }
         return $compression;
     }
@@ -129,7 +128,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
         $path      = Path::check($this->rootDirectory . $params->path);
         $dimension = $params->dimension;
         $limit     = $params->limit;
-        $quality = $params->quality; // TODO: add parameter in XML
+        $quality = $params->quality;
         $numImages = max(1, (int) $params->numImages ?? 1);
 
         if (!is_dir($path)) {
@@ -148,7 +147,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
 
             $height = $properties->height;
             $width  = $properties->width;
-            $quality = $this->normalize_compression_to_quality($quality, $properties->type);
+            $quality = $this->normalizeCompressionToQuality($quality, $properties->type);
 
             $newHeight = $dimension === 'height' ? $limit : $height * $limit / $width;
             $newWidth  = $dimension === 'width' ? $limit : $width * $limit / $height;
