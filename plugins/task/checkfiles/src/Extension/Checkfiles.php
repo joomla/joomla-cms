@@ -128,7 +128,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
         $path      = Path::check($this->rootDirectory . $params->path);
         $dimension = $params->dimension;
         $limit     = $params->limit;
-        $quality = $params->quality;
+        $quality   = $params->quality;
         $numImages = max(1, (int) $params->numImages ?? 1);
 
         if (!is_dir($path)) {
