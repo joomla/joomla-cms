@@ -8,11 +8,14 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 // Font Awesome
 @import "../../../media/templates/administrator/atum/scss/vendor/fontawesome-free/fontawesome";
 
-// "Font Awesome 5 Free"
+// "Font Awesome 6 Free"
 @import "../../../media/vendor/fontawesome-free/scss/fontawesome";
 @import "../../../media/vendor/fontawesome-free/scss/regular";
 @import "../../../media/vendor/fontawesome-free/scss/solid";
 @import "../../../media/vendor/fontawesome-free/scss/brands"; // order of loading is important.
+
+// B/C with Font Awesome 5
+@import "../../../media/vendor/fontawesome-free/scss/shims";
 
 // B/C for Icomoon
 @import "../../../build/media_source/system/scss/icomoon";

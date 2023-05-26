@@ -88,7 +88,7 @@
     left: 0;
     width: calc(#{$grid-item-icon-size} * 1.3);
     height: calc(#{$grid-item-icon-size} * 1.3);
-    font-family: "Font Awesome 5 Free";
+    font-family: "Font Awesome 6 Free";
     font-size: $grid-item-icon-size;
     font-weight: 900;
     line-height: calc(#{$grid-item-icon-size} * 1.3);
@@ -354,7 +354,7 @@
       transition: all .2s cubic-bezier(.4, 0, .2, 1);
     }
     &::before {
-      font-family: "Font Awesome 5 Free";
+      font-family: "Font Awesome 6 Free";
       color: $table-item-icon-color;
       .selected & {
         color: $table-item-icon-color-selected;
