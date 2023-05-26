@@ -182,9 +182,10 @@ class Mail extends PHPMailer implements MailerInterface
     /**
      * Set the email sender
      *
-     * @param   mixed  $from  email address and Name of sender
-     *                        <code>array([0] => email Address, [1] => Name)</code>
-     *                        or as a string
+     * @param   mixed  $from   email address and Name of sender
+     *                         <code>array([0] => email Address, [1] => Name)</code>
+     *                         or as a string
+     * @param   mixed   $name  Either a string or array of strings [name(s)]
      *
      * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
      *
