@@ -53,8 +53,8 @@ class XmlView extends AbstractView
         $requestId = $model->getState($model->getName() . '.request_id');
 
         // This document should always be downloaded
-        $this->document->setDownload(true);
-        $this->document->setName('export-request-' . $requestId);
+        $this->getDocument()->setDownload(true);
+        $this->getDocument()->setName('export-request-' . $requestId);
 
         echo PrivacyHelper::renderDataAsXml($exportData);
     }

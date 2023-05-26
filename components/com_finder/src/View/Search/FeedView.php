@@ -59,11 +59,11 @@ class FeedView extends BaseHtmlView
 
         // Configure the document description.
         if (!empty($explained)) {
-            $this->document->setDescription(html_entity_decode(strip_tags($explained), ENT_QUOTES, 'UTF-8'));
+            $this->getDocument()->setDescription(html_entity_decode(strip_tags($explained), ENT_QUOTES, 'UTF-8'));
         }
 
         // Set the document link.
-        $this->document->link = Route::_($query->toUri());
+        $this->getDocument()->link = Route::_($query->toUri());
 
         // If we don't have any results, we are done.
         if (empty($results)) {
@@ -82,7 +82,7 @@ class FeedView extends BaseHtmlView
             $item->date        = (int) $result->start_date ? HTMLHelper::_('date', $result->start_date, 'U') : $result->indexdate;
 
             // Loads item info into RSS array
-            $this->document->addItem($item);
+            $this->getDocument()->addItem($item);
         }
     }
 }

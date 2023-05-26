@@ -53,7 +53,7 @@ class RawView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        $this->document->setMimeEncoding($mimeType);
+        $this->getDocument()->setMimeEncoding($mimeType);
 
         /** @var CMSApplication $app */
         $app = Factory::getApplication();

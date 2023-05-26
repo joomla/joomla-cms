@@ -45,7 +45,7 @@ class FeedView extends AbstractView
         $feedEmail = $app->get('feed_email', 'none');
         $siteEmail = $app->get('mailfrom');
 
-        $this->document->link = Route::_('index.php?option=com_content&view=featured');
+        $this->getDocument()->link = Route::_('index.php?option=com_content&view=featured');
 
         // Get some data from the model
         $app->getInput()->set('limit', $app->get('feed_limit'));
@@ -109,7 +109,7 @@ class FeedView extends AbstractView
             $item->description = '<div class="feed-description">' . $description . '</div>';
 
             // Loads item info into rss array
-            $this->document->addItem($item);
+            $this->getDocument()->addItem($item);
         }
     }
 }

@@ -10,6 +10,8 @@
 namespace Joomla\CMS\MVC\View;
 
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Document\DocumentAwareInterface;
+use Joomla\CMS\Document\DocumentAwareTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -30,7 +32,7 @@ use Joomla\Event\EventInterface;
  *
  * @since  2.5.5
  */
-abstract class AbstractView extends CMSObject implements ViewInterface, DispatcherAwareInterface
+abstract class AbstractView extends CMSObject implements ViewInterface, DispatcherAwareInterface, DocumentAwareInterface
 {
     use DispatcherAwareTrait;
 
@@ -39,6 +41,9 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      *
      * @var    Document
      * @since  3.0
+     *
+     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     *             Use $this->getDocument() instead
      */
     public $document;
 
@@ -232,6 +237,37 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
         }
 
         return $this->_name;
+    }
+
+    /**
+     * Get the Document.
+     *
+     * @return  Document
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \UnexpectedValueException May be thrown if the document has not been set.
+     */
+    protected function getDocument(): Document
+    {
+        if ($this->document) {
+            return $this->document;
+        }
+
+        throw new \UnexpectedValueException('Document not set in ' . __CLASS__);
+    }
+
+    /**
+     * Set the document to use.
+     *
+     * @param   Document  $document  The document to use
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setDocument(Document $document): void
+    {
+        $this->document = $document;
     }
 
     /**

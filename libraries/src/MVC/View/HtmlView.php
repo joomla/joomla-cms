@@ -590,6 +590,6 @@ class HtmlView extends AbstractView implements CurrentUserInterface
             $title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
         }
 
-        $this->document->setTitle($title);
+        $this->getDocument()->setTitle($title);
     }
 }
