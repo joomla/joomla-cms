@@ -34,7 +34,7 @@ class MailFactoryTest extends UnitTestCase
     public function testMailer()
     {
         $factory = new MailerFactory(new Registry());
-        $mail = $factory->createMailer();
+        $mail    = $factory->createMailer();
 
         $this->assertNotNull($mail);
         $this->assertInstanceOf(Mail::class, $mail);
