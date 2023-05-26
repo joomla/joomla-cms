@@ -809,7 +809,7 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
         $data = $this->getLayoutData();
 
         // Forcing the Alias field to display the tip below
-        $position = $this->element['name'] === 'alias' ? ' data-bs-placement="bottom" ' : '';
+        $position = ((string) $this->element['name']) === 'alias' ? ' data-bs-placement="bottom" ' : '';
 
         // Here mainly for B/C with old layouts. This can be done in the layouts directly
         $extraData = [
@@ -1042,10 +1042,10 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     /**
      * Method to filter a field value.
      *
-     * @param   mixed     $value  The optional value to use as the default for the field.
-     * @param   string    $group  The optional dot-separated form group path on which to find the field.
-     * @param   Registry  $input  An optional Registry object with the entire data set to filter
-     *                            against the entire form.
+     * @param   mixed      $value  The optional value to use as the default for the field.
+     * @param   string     $group  The optional dot-separated form group path on which to find the field.
+     * @param   ?Registry  $input  An optional Registry object with the entire data set to filter
+     *                             against the entire form.
      *
      * @return  mixed   The filtered value.
      *
@@ -1121,10 +1121,10 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     /**
      * Method to validate a FormField object based on field data.
      *
-     * @param   mixed     $value  The optional value to use as the default for the field.
-     * @param   string    $group  The optional dot-separated form group path on which to find the field.
-     * @param   Registry  $input  An optional Registry object with the entire data set to validate
-     *                            against the entire form.
+     * @param   mixed      $value  The optional value to use as the default for the field.
+     * @param   string     $group  The optional dot-separated form group path on which to find the field.
+     * @param   ?Registry  $input  An optional Registry object with the entire data set to validate
+     *                             against the entire form.
      *
      * @return  boolean|\Exception  Boolean true if field value is valid, Exception on failure.
      *
@@ -1240,10 +1240,10 @@ abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
     /**
      * Method to post-process a field value.
      *
-     * @param   mixed     $value  The optional value to use as the default for the field.
-     * @param   string    $group  The optional dot-separated form group path on which to find the field.
-     * @param   Registry  $input  An optional Registry object with the entire data set to filter
-     *                            against the entire form.
+     * @param   mixed      $value  The optional value to use as the default for the field.
+     * @param   string     $group  The optional dot-separated form group path on which to find the field.
+     * @param   ?Registry  $input  An optional Registry object with the entire data set to filter
+     *                             against the entire form.
      *
      * @return  mixed   The processed value.
      *

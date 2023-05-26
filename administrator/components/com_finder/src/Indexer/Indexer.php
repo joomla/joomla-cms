@@ -116,7 +116,7 @@ class Indexer
     /**
      * Indexer constructor.
      *
-     * @param  DatabaseInterface  $db  The database
+     * @param  ?DatabaseInterface  $db  The database
      *
      * @since  3.8.0
      */
@@ -147,7 +147,7 @@ class Indexer
     /**
      * Method to get the indexer state.
      *
-     * @return  object  The indexer state object.
+     * @return  CMSObject  The indexer state object.
      *
      * @since   2.5
      */
@@ -776,7 +776,7 @@ class Indexer
     /**
      * Method to get a content item's signature.
      *
-     * @param   object  $item  The content item to index.
+     * @param   Result  $item  The content item to index.
      *
      * @return  string  The content item's signature.
      *
@@ -800,12 +800,12 @@ class Indexer
     /**
      * Method to parse input, tokenize it, and then add it to the database.
      *
-     * @param   mixed    $input    String or resource to use as input. A resource input will automatically be chunked to conserve
-     *                             memory. Strings will be chunked if longer than 2K in size.
-     * @param   integer  $context  The context of the input. See context constants.
-     * @param   string   $lang     The language of the input.
-     * @param   string   $format   The format of the input.
-     * @param   integer  $count    Number of words indexed so far.
+     * @param   string|resource  $input    String or resource to use as input. A resource input will automatically be chunked to conserve
+     *                                     memory. Strings will be chunked if longer than 2K in size.
+     * @param   integer          $context  The context of the input. See context constants.
+     * @param   string           $lang     The language of the input.
+     * @param   string           $format   The format of the input.
+     * @param   integer          $count    Number of terms indexed so far.
      *
      * @return  integer  The number of tokens extracted from the input.
      *
@@ -966,7 +966,15 @@ class Indexer
      */
     protected function toggleTables($memory)
     {
+        static $supported = true;
+
+        if (!$supported) {
+            return true;
+        }
+
         if (strtolower($this->db->getServerType()) != 'mysql') {
+            $supported = false;
+
             return true;
         }
 
@@ -977,13 +985,19 @@ class Indexer
 
         // Check if we are setting the tables to the Memory engine.
         if ($memory === true && $state !== true) {
-            // Set the tokens table to Memory.
-            $db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = MEMORY');
-            $db->execute();
+            try {
+                // Set the tokens table to Memory.
+                $db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = MEMORY');
+                $db->execute();
 
-            // Set the tokens aggregate table to Memory.
-            $db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MEMORY');
-            $db->execute();
+                // Set the tokens aggregate table to Memory.
+                $db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MEMORY');
+                $db->execute();
+            } catch (\RuntimeException $e) {
+                $supported = false;
+
+                return true;
+            }
 
             // Set the internal state.
             $state = $memory;

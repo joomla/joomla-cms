@@ -117,7 +117,7 @@ class TagField extends ListField
     /**
      * Method to get a list of tags
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.1
      */
@@ -239,7 +239,7 @@ class TagField extends ListField
 
         // Block the possibility to set a tag as it own parent
         if ($this->form->getName() === 'com_tags.tag') {
-            $id   = (int) $this->form->getValue('id', 0);
+            $id   = (int) $this->form->getValue('id', null, 0);
 
             foreach ($options as $option) {
                 if ($option->value == $id) {
@@ -264,9 +264,9 @@ class TagField extends ListField
     /**
      * Add "-" before nested tags, depending on level
      *
-     * @param   array  &$options  Array of tags
+     * @param   object[]  &$options  Array of tags
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.1
      */

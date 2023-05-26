@@ -37,6 +37,7 @@ class UserField extends FormField
      *
      * @var   array
      * @since 3.5
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     protected $groups = null;
 
@@ -45,6 +46,7 @@ class UserField extends FormField
      *
      * @var   array
      * @since 3.5
+     * @deprecated  4.4 will be removed in 6.0 without replacement
      */
     protected $excluded = null;
 
@@ -145,7 +147,7 @@ class UserField extends FormField
     /**
      * Method to get the filtering groups (null means no filtering)
      *
-     * @return  mixed  Array of filtering groups or null.
+     * @return  string[]  Array of filtering groups or null.
      *
      * @since   1.6
      */
@@ -154,12 +156,14 @@ class UserField extends FormField
         if (isset($this->element['groups'])) {
             return explode(',', $this->element['groups']);
         }
+
+        return [];
     }
 
     /**
      * Method to get the users to exclude from the list of users
      *
-     * @return  mixed  Array of users to exclude or null to to not exclude them
+     * @return  string[]  Array of users to exclude or null to to not exclude them
      *
      * @since   1.6
      */
@@ -168,5 +172,7 @@ class UserField extends FormField
         if (isset($this->element['exclude'])) {
             return explode(',', $this->element['exclude']);
         }
+
+        return [];
     }
 }
