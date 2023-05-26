@@ -43,18 +43,21 @@ class MailerFactory implements MailerFactoryInterface
     }
 
     /**
-     * Method to get an instance of a mailer.
+     * Method to get an instance of a mailer. If the passed settings are null,
+     * then the mailer does use the internal configuration.
      *
-     * @param   Registry  $config  The configuration
+     * @param   Registry  $settings  The configuration
      *
      * @return  MailerInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function createMailer(Registry $configuration = null): MailerInterface
+    public function createMailer(Registry $settings = null): MailerInterface
     {
-        if ($configuration === null) {
-            $configuration = $this->defaultConfiguration;
+        $configuration = clone $this->defaultConfiguration;
+
+        if ($settings) {
+            $configuration->merge($settings);
         }
 
         $mailer = new Mail((bool) $configuration->get('throw_exceptions', true));

@@ -16,7 +16,7 @@ use RuntimeException;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Email Class.  Provides a common interface to send emailS with.
+ * Provides a common interface to send emails with.
  *
  * @since  __DEPLOY_VERSION__
  */

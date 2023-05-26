@@ -21,7 +21,7 @@ use UnexpectedValueException;
  * Test class for \Joomla\CMS\Mail\MailerFactoryAwareTrait
  *
  * @package     Joomla.UnitTest
- * @subpackage  MVC
+ * @subpackage  Mail
  * @since       __DEPLOY_VERSION__
  */
 class MailerFactoryAwareTraitTest extends UnitTestCase
