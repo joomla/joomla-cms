@@ -21,9 +21,9 @@ namespace Joomla\CMS\Language;
 interface LanguageAwareInterface
 {
     /**
-     * Set the user language to use.
+     * Set the language to use.
      *
-     * @param   Language  $language  The language to use.
+     * @param   Language  $language  The language to use
      *
      * @return  void
      *

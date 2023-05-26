@@ -46,9 +46,9 @@ trait LanguageAwareTrait
     }
 
     /**
-     * Set the language factory to use.
+     * Set the language to use.
      *
-     * @param   Language  $language  The language factory to use.
+     * @param   Language  $language  The language to use
      *
      * @return  void
      *
