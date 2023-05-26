@@ -101,7 +101,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
      * We need this because the "quality" parameter is inverted for PNG images
      * and we use the "compression" parameter in the task form.
      *
-     * @since 4.1.0
+     * @since __DEPLOY_VERSION__
      */
     private function normalizeCompressionToQuality($compression, $type)
     {
