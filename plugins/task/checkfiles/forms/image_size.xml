@@ -48,11 +48,11 @@
 			<field
 				name="compression"
 				type="number"
+				label="PLG_TASK_CHECK_FILES_LABEL_COMPRESSION"
+				description="PLG_TASK_CHECK_FILES_LABEL_COMPRESSION_DESC"
 				min="0"
 				max="100"
 				step="1"
-				label="PLG_TASK_CHECK_FILES_LABEL_COMPRESSION"
-				description="PLG_TASK_CHECK_FILES_LABEL_COMPRESSION_DESC"
 				required="true"
 				default="0"
 				filter="int"
