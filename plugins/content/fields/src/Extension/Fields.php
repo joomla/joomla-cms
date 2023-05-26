@@ -91,7 +91,7 @@ final class Fields extends CMSPlugin
 
         $parts = FieldsHelper::extract($context);
 
-        if (count($parts) < 2) {
+        if (!$parts || count($parts) < 2) {
             return $string;
         }
 
