@@ -302,7 +302,6 @@ steps:
     when:
       repo:
         - joomla/joomla-cms
-        - HLeithner/joomla-cms
 
 ---
 kind: pipeline
