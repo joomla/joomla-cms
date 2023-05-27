@@ -48,7 +48,8 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
         ],
     ];
 
-    private const IMAGE_COMPRESSION_MAX = 100;
+    private const IMAGE_QUALITY_MAX = 100;
+    private const IMAGE_COMPRESSION_MAX_PNG = 9;
 
     /**
      * @inheritDoc
@@ -105,12 +106,12 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
      */
     private function normalizeCompressionToQuality($compression, $type)
     {
-        $compression = (int) $compression;
+        $quality = self::IMAGE_QUALITY_MAX - (int) $compression;
 
         if ($type == IMAGETYPE_PNG) {
-            return floor((self::IMAGE_COMPRESSION_MAX - $compression) / 10);
+            return floor($compression / 100 * self::IMAGE_COMPRESSION_MAX_PNG);
         }
-        return $compression;
+        return $quality;
     }
 
     /**
