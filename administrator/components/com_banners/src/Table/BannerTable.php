@@ -160,7 +160,7 @@ class BannerTable extends Table implements VersionableTableInterface
     /**
      * Overloaded bind function
      *
-     * @param   mixed  $array   An associative array or object to bind to the \JTable instance.
+     * @param   mixed  $array   An associative array or object to bind to the \Joomla\CMS\Table\Table instance.
      * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
      *
      * @return  boolean  True on success

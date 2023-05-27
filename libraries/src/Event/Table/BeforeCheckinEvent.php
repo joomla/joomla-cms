@@ -16,7 +16,7 @@ use BadMethodCallException;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onBeforeCheckin event
+ * Event class for \Joomla\CMS\Table\Table onBeforeCheckin event
  *
  * @since  4.0.0
  */
@@ -26,8 +26,8 @@ class BeforeCheckinEvent extends AbstractEvent
      * Constructor.
      *
      * Mandatory arguments:
-     * subject      JTableInterface The table we are operating on
-     * pk           mixed           An optional primary key value to check out.
+     * subject      \Joomla\CMS\Table\TableInterface The table we are operating on
+     * pk           mixed                            An optional primary key value to check out.
      *
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.

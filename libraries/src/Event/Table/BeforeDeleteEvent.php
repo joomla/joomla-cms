@@ -16,7 +16,7 @@ use BadMethodCallException;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onBeforeDelete event
+ * Event class for \Joomla\CMS\Table\Table onBeforeDelete event
  *
  * @since  4.0.0
  */
@@ -26,7 +26,7 @@ class BeforeDeleteEvent extends AbstractEvent
      * Constructor.
      *
      * Mandatory arguments:
-     * subject      JTableInterface The table we are operating on
+     * subject      \Joomla\CMS\Table\TableInterface The table we are operating on
      * pk           An optional primary key value to delete.
      *
      * @param   string  $name       The event name.

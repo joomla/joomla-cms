@@ -159,7 +159,7 @@ abstract class AdminModel extends FormModel
     protected $user = null;
 
     /**
-     * A JTable instance (of appropriate type) to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
+     * A \Joomla\CMS\Table\Table instance (of appropriate type) to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
      *
      * @var     Table
      * @since   3.8.2
@@ -167,7 +167,7 @@ abstract class AdminModel extends FormModel
     protected $table = null;
 
     /**
-     * The class name of the JTable instance managing the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
+     * The class name of the \Joomla\CMS\Table\Table instance managing the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
      *
      * @var     string
      * @since   3.8.2

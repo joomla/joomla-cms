@@ -14,7 +14,7 @@ namespace Joomla\CMS\Event\Table;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onAfterReset event
+ * Event class for \Joomla\CMS\Table\Table onAfterReset event
  *
  * @since  4.0.0
  */

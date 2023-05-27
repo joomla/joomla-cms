@@ -17,7 +17,7 @@ use Joomla\Database\DatabaseQuery;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onBeforeReorder event
+ * Event class for \Joomla\CMS\Table\Table onBeforeReorder event
  *
  * @since  4.0.0
  */
@@ -27,9 +27,9 @@ class BeforeReorderEvent extends AbstractEvent
      * Constructor.
      *
      * Mandatory arguments:
-     * subject      JTableInterface The table we are operating on
-     * query        DatabaseQuery   The query to get the primary keys and ordering values for the selection.
-     * where        string          WHERE clause to use for limiting the selection of rows to compact the ordering values.
+     * subject      \Joomla\CMS\Table\TableInterface The table we are operating on
+     * query        DatabaseQuery                    The query to get the primary keys and ordering values for the selection.
+     * where        string                           WHERE clause to use for limiting the selection of rows to compact the ordering values.
      *
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.

@@ -16,7 +16,7 @@ use BadMethodCallException;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onBeforeStore event
+ * Event class for \Joomla\CMS\Table\Table onBeforeStore event
  *
  * @since  4.0.0
  */
@@ -26,9 +26,9 @@ class BeforeStoreEvent extends AbstractEvent
      * Constructor.
      *
      * Mandatory arguments:
-     * subject      JTableInterface The table we are operating on
-     * updateNulls  boolean         True to update fields even if they are null.
-     * k            mixed           Name of the primary key fields in the table (string or array of strings).
+     * subject      \Joomla\CMS\Table\TableInterface The table we are operating on
+     * updateNulls  boolean                          True to update fields even if they are null.
+     * k            mixed                            Name of the primary key fields in the table (string or array of strings).
      *
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.

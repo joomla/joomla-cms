@@ -149,7 +149,7 @@ class CoreContent extends Table
     }
 
     /**
-     * Override JTable delete method to include deleting corresponding row from #__ucm_base.
+     * Override \Joomla\CMS\Table\Table delete method to include deleting corresponding row from #__ucm_base.
      *
      * @param   integer  $pk  primary key value to delete. Must be set or throws an exception.
      *
@@ -160,7 +160,7 @@ class CoreContent extends Table
      */
     public function delete($pk = null)
     {
-        $baseTable = Table::getInstance('Ucm', 'JTable', ['dbo' => $this->getDbo()]);
+        $baseTable = Table::getInstance('Ucm', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
 
         return parent::delete($pk) && $baseTable->delete($pk);
     }

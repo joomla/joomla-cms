@@ -530,7 +530,7 @@ class Nested extends Table
             $name = $this->_getAssetName();
 
             /** @var Asset $asset */
-            $asset = Table::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
+            $asset = Table::getInstance('Asset', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
 
             if ($asset->loadByName($name)) {
                 // Delete the node in assets table.

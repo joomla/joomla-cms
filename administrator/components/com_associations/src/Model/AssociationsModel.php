@@ -395,7 +395,7 @@ class AssociationsModel extends ListModel
         $baselevel = 1;
 
         if ($categoryId = $this->getState('filter.category_id')) {
-            $categoryTable = Table::getInstance('Category', 'JTable');
+            $categoryTable = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
             $categoryTable->load($categoryId);
             $baselevel = (int) $categoryTable->level;
 

@@ -62,7 +62,7 @@ class AjaxController extends BaseController
 
             // Add the title to each of the associated records
             Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables');
-            $menuTable = Table::getInstance('Menu', 'JTable', []);
+            $menuTable = Table::getInstance('Menu', '\\Joomla\\CMS\\Table\\', []);
 
             foreach ($associations as $lang => $association) {
                 $menuTable->load($association->id);

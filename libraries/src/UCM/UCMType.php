@@ -230,9 +230,9 @@ class UCMType implements UCM
     }
 
     /**
-     * Magic method to get the name of the field mapped to a ucm field (core_something).
+     * Magic method to get the name of the field mapped to an ucm field (core_something).
      *
-     * @param   string  $ucmField  The name of the field in JTableCorecontent
+     * @param   string  $ucmField  The name of the field in \Joomla\CMS\Table\CoreContent
      *
      * @return  string  The name mapped to the $ucmField for a given content type
      *

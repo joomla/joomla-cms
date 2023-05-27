@@ -22,8 +22,6 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\String\StringHelper;
 
-use function ucfirst;
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -280,31 +278,19 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     {
         // Sanitize and prepare the table class name.
         $type       = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-
-        $tableClass       = $prefix . ucfirst($type);
-        $tableClassLegacy = $tableClass;
-
-        if ($prefix === 'JTable') {
-            $tableClass = 'Joomla\\CMS\\Table\\' . ucfirst($type);
-        }
+        $tableClass = $prefix . ucfirst($type);
 
         // Only try to load the class if it doesn't already exist.
-        if (!class_exists($tableClass) && !class_exists($tableClassLegacy)) {
+        if (!class_exists($tableClass)) {
             // Search for the class file in the JTable include paths.
             $paths     = self::addIncludePath();
             $pathIndex = 0;
 
-            while (!class_exists($tableClass) && !class_exists($tableClassLegacy) && $pathIndex < \count($paths)) {
+            while (!class_exists($tableClass) && $pathIndex < \count($paths)) {
                 if ($tryThis = Path::find($paths[$pathIndex++], strtolower($type) . '.php')) {
                     // Import the class file.
                     include_once $tryThis;
                 }
-            }
-
-            if (class_exists($tableClass)) {
-                $tableClassLegacy = $tableClass;
-            } elseif (class_exists($tableClass)) {
-                $tableClass = $tableClassLegacy;
             }
 
             if (!class_exists($tableClass)) {
@@ -423,7 +409,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     {
         // For simple cases, parent to the asset root.
         /** @var Asset $assets */
-        $assets = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
+        $assets = self::getInstance('Asset', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
         $rootId = $assets->getRootId();
 
         if (!empty($rootId)) {
@@ -885,7 +871,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
             $title    = $this->_getAssetTitle();
 
             /** @var Asset $asset */
-            $asset = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
+            $asset = self::getInstance('Asset', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
             $asset->loadByName($name);
 
             // Re-inject the asset id.

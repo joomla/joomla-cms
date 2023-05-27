@@ -14,7 +14,7 @@ namespace Joomla\CMS\Event\Table;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onAfterPublish event
+ * Event class for \Joomla\CMS\Table\Table onAfterPublish event
  *
  * @since  4.0.0
  */

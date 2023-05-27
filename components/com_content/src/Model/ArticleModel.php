@@ -294,7 +294,7 @@ class ArticleModel extends ItemModel
         if ($hitcount) {
             $pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
-            $table = Table::getInstance('Content', 'JTable');
+            $table = Table::getInstance('Content', '\\Joomla\\CMS\\Table\\');
             $table->hit($pk);
         }
 
