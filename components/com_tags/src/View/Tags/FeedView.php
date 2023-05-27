@@ -35,7 +35,7 @@ class FeedView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
-        $app                  = Factory::getApplication();
+        $app                       = Factory::getApplication();
         $this->getDocument()->link = Route::_('index.php?option=com_tags&view=tags');
 
         $app->getInput()->set('limit', $app->get('feed_limit'));
