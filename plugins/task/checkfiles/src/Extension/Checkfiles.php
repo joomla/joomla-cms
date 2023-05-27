@@ -104,9 +104,10 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
      *
      * @since __DEPLOY_VERSION__
      */
-    private function normalizeCompressionToQuality($compression, $type)
+    private function normalizeCompressionToQuality(string|int $compression, int $type)
     {
-        $quality = self::IMAGE_QUALITY_MAX - (int) $compression;
+        $compression = (int) $compression;
+        $quality = self::IMAGE_QUALITY_MAX - $compression;
 
         if ($type == IMAGETYPE_PNG) {
             return floor($compression / 100 * self::IMAGE_COMPRESSION_MAX_PNG);
