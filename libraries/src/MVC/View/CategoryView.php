@@ -169,7 +169,7 @@ class CategoryView extends HtmlView
         $category->params = clone $params;
         $category->params->merge($cparams);
 
-        $children = array($category->id => $children);
+        $children = [$category->id => $children];
 
         // Escape strings for HTML output
         $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
@@ -178,7 +178,7 @@ class CategoryView extends HtmlView
             PluginHelper::importPlugin('content');
 
             foreach ($items as $itemElement) {
-                $itemElement = (object) $itemElement;
+                $itemElement        = (object) $itemElement;
                 $itemElement->event = new \stdClass();
 
                 // For some plugins.
@@ -305,9 +305,9 @@ class CategoryView extends HtmlView
     {
         if ($this->params->get('show_feed_link', 1) == 1) {
             $link    = '&format=feed&limitstart=';
-            $attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+            $attribs = ['type' => 'application/rss+xml', 'title' => htmlspecialchars($this->document->getTitle())];
             $this->document->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
-            $attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+            $attribs = ['type' => 'application/atom+xml', 'title' => htmlspecialchars($this->document->getTitle())];
             $this->document->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
         }
     }

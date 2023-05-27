@@ -40,30 +40,18 @@ if (array_key_exists('fields', $displayData)) {
     $fields = $item->jcfields ?: FieldsHelper::getFields($context, $item, true);
 }
 
-if (!$fields) {
+// Do nothing when not in mail context, like that the default rendering is used
+if (!$fields || reset($fields)->context !== 'com_contact.mail') {
     return;
-}
-
-// Check if we have mail context in first element
-$isMail = (reset($fields)->context == 'com_contact.mail');
-
-if (!$isMail) {
-    // Print the container tag
-    echo '<dl class="fields-container contact-fields dl-horizontal">';
 }
 
 // Loop through the fields and print them
 foreach ($fields as $field) {
     // If the value is empty do nothing
-    if (!strlen($field->value) && !$isMail) {
+    if (!strlen($field->value)) {
         continue;
     }
 
     $layout = $field->params->get('layout', 'render');
-    echo FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
-}
-
-if (!$isMail) {
-    // Close the container
-    echo '</dl>';
+    echo FieldsHelper::render($context, 'field.' . $layout, ['field' => $field]);
 }

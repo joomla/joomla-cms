@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Tag;
@@ -37,13 +37,13 @@ trait TagServiceTrait
         $parts   = explode('.', $extension);
         $section = \count($parts) > 1 ? $parts[1] : null;
 
-        $config = (object) array(
+        $config = (object) [
             'related_tbl'   => $this->getTableNameForSection($section),
             'state_col'     => $this->getStateColumnForSection($section),
             'group_col'     => 'tag_id',
             'extension'     => $extension,
             'relation_type' => 'tag_assigments',
-        );
+        ];
 
         ContentHelper::countRelations($items, $config);
     }

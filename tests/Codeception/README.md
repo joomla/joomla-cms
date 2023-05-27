@@ -3,7 +3,7 @@
 ### Abstract
 Acceptance or UI tests for Joomla are present in the `acceptance` folder, there are two major categories of tests
 at the moment
-1) Installation Tests, inside the `acceptance/install` folder
+1) Installation Tests, inside the `acceptance/01-install` folder
 2) Administrator Tests, inside the `acceptance/administrator` folder
 
 ### Installation
