@@ -1064,6 +1064,8 @@ CREATE TABLE IF NOT EXISTS "#__user_mfa" (
   "options" text NOT NULL,
   "created_on" timestamp without time zone NOT NULL,
   "last_used" timestamp without time zone,
+  "tries" bigint DEFAULT 0 NOT NULL,
+  "last_try" timestamp without time zone,
   PRIMARY KEY ("id")
 );
 

@@ -409,6 +409,8 @@ trait MultiFactorAuthenticationHandler
                             'default'    => 0,
                             'created_on' => Date::getInstance()->toSql(),
                             'last_used'  => null,
+                            'tries'      => 0,
+                            'try_count'  => null,
                             'options'    => ['key' => $config['code']],
                         ]
                     );
@@ -425,6 +427,8 @@ trait MultiFactorAuthenticationHandler
                             'default'    => 0,
                             'created_on' => Date::getInstance()->toSql(),
                             'last_used'  => null,
+                            'tries'      => 0,
+                            'try_count'  => null,
                             'options'    => ['id' => $config['yubikey']],
                         ]
                     );
@@ -458,6 +462,8 @@ trait MultiFactorAuthenticationHandler
                     'default'    => 0,
                     'created_on' => Date::getInstance()->toSql(),
                     'last_used'  => null,
+                    'tries'      => 0,
+                    'try_count'  => null,
                     'options'    => @json_decode($otep, true),
                 ]
             );
