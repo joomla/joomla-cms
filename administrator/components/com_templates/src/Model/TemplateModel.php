@@ -1821,7 +1821,7 @@ class TemplateModel extends FormModel
             $app->enqueueMessage(Text::_('COM_TEMPLATES_DIRECTORY_NOT_WRITABLE'), 'error');
         } elseif (empty($result)) {
             // Add some default folders
-            foreach(['css', 'images', 'js', 'sccs'] as $folder) {
+            foreach (['css', 'images', 'js', 'sccs'] as $folder) {
                 mkdir($path . '/' . $folder, 0777, true);
             }
 
