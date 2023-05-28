@@ -11,7 +11,7 @@
 	<description>PLG_COMPAT_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\System\Compat</namespace>
 	<files>
-		<folder plugin="cache">services</folder>
+		<folder plugin="compat">services</folder>
 		<folder>src</folder>
 	</files>
 	<languages>
