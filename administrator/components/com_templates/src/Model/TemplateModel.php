@@ -1815,18 +1815,16 @@ class TemplateModel extends FormModel
             mkdir($path, 0777, true);
         }
 
-        $result = $this->getDirectoryTree($path);
+	    if (!is_writable($path)) {
+		    $app->enqueueMessage(Text::_('COM_TEMPLATES_DIRECTORY_NOT_WRITABLE'), 'error');
+	    }
 
-        if (!is_writable($path)) {
-            $app->enqueueMessage(Text::_('COM_TEMPLATES_DIRECTORY_NOT_WRITABLE'), 'error');
-        } elseif (empty($result)) {
-            // Add some default folders
-            foreach (['css', 'images', 'js', 'sccs'] as $folder) {
-                mkdir($path . '/' . $folder, 0777, true);
-            }
+	    $result = $this->getDirectoryTree($path);
 
-            $result = $this->getDirectoryTree($path);
-        }
+	    if (empty($result)) {
+			// Make sure empty folder appears in 'Templates: Customise' page.
+			$result = ['.'];
+		}
 
         return $result;
     }
