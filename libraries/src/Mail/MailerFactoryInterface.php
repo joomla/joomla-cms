@@ -32,5 +32,5 @@ interface MailerFactoryInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function createMailer(?Registry $settings): MailerInterface;
+    public function createMailer(?Registry $settings = null): MailerInterface;
 }

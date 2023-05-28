@@ -29,5 +29,5 @@ interface MailerFactoryAwareInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function setMailerFactory(?MailerFactoryInterface $mailerFactory): void;
+    public function setMailerFactory(?MailerFactoryInterface $mailerFactory = null): void;
 }
