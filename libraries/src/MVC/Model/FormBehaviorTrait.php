@@ -14,6 +14,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -83,6 +84,10 @@ trait FormBehaviorTrait
         }
 
         $form = $formFactory->createForm($name, $options);
+
+        if ($form instanceof CurrentUserInterface && method_exists($this, 'getCurrentUser')) {
+            $form->setCurrentUser($this->getCurrentUser());
+        }
 
         // Load the data.
         if (substr($source, 0, 1) === '<') {

@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Form\Field;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\User;
@@ -80,7 +79,7 @@ class UserField extends FormField
 
         // If user can't access com_users the field should be readonly.
         if ($return && !$this->readonly) {
-            $this->readonly = !Factory::getUser()->authorise('core.manage', 'com_users');
+            $this->readonly = !$this->getCurrentUser()->authorise('core.manage', 'com_users');
         }
 
         return $return;
@@ -122,7 +121,7 @@ class UserField extends FormField
         } elseif (strtoupper($this->value) === 'CURRENT') {
             // Handle the special case for "current".
             // 'CURRENT' is not a reasonable value to be placed in the html
-            $current = Factory::getUser();
+            $current = $this->getCurrentUser();
 
             $this->value = $current->id;
 

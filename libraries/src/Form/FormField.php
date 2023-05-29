@@ -15,6 +15,8 @@ use Joomla\CMS\Form\Field\SubformField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
@@ -32,9 +34,10 @@ use Joomla\String\StringHelper;
  *
  * @since  1.7.0
  */
-abstract class FormField implements DatabaseAwareInterface
+abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 {
     use DatabaseAwareTrait;
+    use CurrentUserTrait;
 
     /**
      * The description text for the form field. Usually used in tooltips.
@@ -1180,6 +1183,10 @@ abstract class FormField implements DatabaseAwareInterface
                 }
             }
 
+            if ($rule instanceof CurrentUserInterface) {
+                $rule->setCurrentUser($this->getCurrentUser());
+            }
+
             try {
                 // Run the field validation rule test.
                 $valid = $rule->test($this->element, $value, $group, $input, $this->form);
@@ -1199,6 +1206,10 @@ abstract class FormField implements DatabaseAwareInterface
                     @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
                     $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
                 }
+            }
+
+            if ($rule instanceof CurrentUserInterface) {
+                $rule->setCurrentUser($this->getCurrentUser());
             }
 
             try {
