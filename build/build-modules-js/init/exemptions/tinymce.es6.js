@@ -1,9 +1,6 @@
 const {
   existsSync, copy, readFile, writeFile, mkdir, removeSync,
 } = require('fs-extra');
-const CssNano = require('cssnano');
-const Postcss = require('postcss');
-const { minify } = require('terser');
 
 const { join } = require('path');
 
