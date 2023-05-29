@@ -614,6 +614,7 @@ class JoomlaInstallerScript
             '/libraries/vendor/web-auth/metadata-service/src/Version.php',
             '/libraries/vendor/web-auth/webauthn-lib/src/Server.php',
             '/libraries/vendor/web-token/jwt-signature-algorithm-rsa/RSA.php',
+            '/media/plg_editors_tinymce/js/plugins/highlighter/source.html',
             '/media/vendor/fontawesome-free/scss/_larger.scss',
             '/media/vendor/fontawesome-free/webfonts/fa-brands-400.eot',
             '/media/vendor/fontawesome-free/webfonts/fa-brands-400.svg',
