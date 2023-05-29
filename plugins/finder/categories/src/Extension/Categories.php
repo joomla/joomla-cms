@@ -335,11 +335,18 @@ final class Categories extends Adapter
         // Translate the state. Categories should only be published if the parent category is published.
         $item->state = $this->translateState($item->state);
 
+        // Get taxonomies to display
+        $taxonomies = $this->params->get('taxonomies', ['type', 'language']);
+
         // Add the type taxonomy data.
-        $item->addTaxonomy('Type', 'Category');
+        if (in_array('type', $taxonomies)) {
+            $item->addTaxonomy('Type', 'Category');
+        }
 
         // Add the language taxonomy data.
-        $item->addTaxonomy('Language', $item->language);
+        if (in_array('language', $taxonomies)) {
+            $item->addTaxonomy('Language', $item->language);
+        }
 
         // Get content extras.
         Helper::getContentExtras($item);
