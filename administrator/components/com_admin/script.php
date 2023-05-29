@@ -444,7 +444,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.0-2023-03-29.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-03-31.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-05-03.sql',
-            '/administrator/components/com_admin/sql/updates/postgresql/4.4-2023-05-08.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/4.4.0-2023-05-08.sql',
             '/libraries/src/Schema/ChangeItem/SqlsrvChangeItem.php',
             '/libraries/vendor/beberlei/assert/lib/Assert/Assert.php',
             '/libraries/vendor/beberlei/assert/lib/Assert/Assertion.php',
