@@ -48,7 +48,8 @@ final class TinyMCE extends CMSPlugin
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function highLighterAjax() {
+    public function highLighterAjax()
+    {
         $isFullScreen = $this->getApplication()->input->getPath('fullscreen', '') === '' ? false : true;
 
         // Default JS files
@@ -76,16 +77,18 @@ final class TinyMCE extends CMSPlugin
             $cssFiles[] = 'media/vendor/codemirror/addon/display/fullscreen';
         }
 
-        $base = Uri::root(true);
-        $jsFile = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/source.js', ['version' => 'auto', 'relative' => true, 'pathOnly' => true], []);
+        $base    = Uri::root(true);
+        $jsFile  = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/source.js', ['version' => 'auto', 'relative' => true, 'pathOnly' => true], []);
         $cssFile = HTMLHelper::_('stylesheet', 'plg_editors_tinymce/plugins/highlighter/source.css', ['version' => 'auto', 'relative' => true, 'pathOnly' => true], []);
 
-        $jsTags = '';
+        $jsTags  = '';
         $cssTags = '';
-        foreach($jsFiles as $js) {
+
+        foreach ($jsFiles as $js) {
             $jsTags .= '<script defer src="' . $base . '/' . $js . (JDEBUG ? '.js' : '.min.js') . '"></script>';
         }
-        foreach($cssFiles as $css) {
+
+        foreach ($cssFiles as $css) {
             $cssTags .= '<link rel="stylesheet" href="' . $base . '/' . $css . '.css">';
         }
 
