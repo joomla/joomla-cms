@@ -30,7 +30,7 @@ if (!defined('JPATH_PLATFORM')) {
 
 // Import the library loader if necessary
 if (!class_exists('JLoader')) {
-    require_once JPATH_PLATFORM . '/loader.php';
+    require_once JPATH_LIBRARIES . '/loader.php';
 }
 
 // Make sure that the Joomla Platform has been successfully loaded
@@ -77,4 +77,4 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER)) {
 }
 
 // Register the Crypto lib
-JLoader::register('Crypto', JPATH_PLATFORM . '/php-encryption/Crypto.php');
+JLoader::register('Crypto', JPATH_LIBRARIES . '/php-encryption/Crypto.php');
