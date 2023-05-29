@@ -12,7 +12,7 @@
 
 namespace Joomla\CMS\Form;
 
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
