@@ -120,17 +120,25 @@ if (!$format) {
      * Plugin support by default is based on the "Ajax" plugin group.
      * An optional 'group' variable can be passed via the URL.
      *
-     * The plugin event triggered is onAjaxFoo, where 'foo' is
-     * the value of the 'plugin' variable passed via the URL
+     * If a method is NOT specified, the plugin event triggered is onAjaxFoo,
+     * where 'foo' is the value of the 'plugin' variable passed via the URL
      * (i.e. index.php?option=com_ajax&plugin=foo)
-     *
+     * If a method is specified (i.e. index.php?option=com_ajax&plugin=foo&group=system&method=bar)
+     * then the method will be called directly (i.e. plgSystemFooInstance->bar())
      */
     $group      = $input->get('group', 'ajax');
-    PluginHelper::importPlugin($group);
     $plugin     = ucfirst($input->get('plugin'));
+    $method     = $input->getAlnum('method', '');
+
+    PluginHelper::importPlugin($group);
 
     try {
-        $results = Factory::getApplication()->triggerEvent('onAjax' . $plugin);
+        if ($method === '') {
+            $results = Factory::getApplication()->triggerEvent('onAjax' . $plugin);
+        } elseif ($group !== 'ajax') {
+            $pluginInstance = $app->bootPlugin($plugin, $group);
+            $results        = method_exists($pluginInstance, $method . 'Ajax') ? $pluginInstance->{$method . 'Ajax'}() : null;
+        }
     } catch (Exception $e) {
         $results = $e;
     }

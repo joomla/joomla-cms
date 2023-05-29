@@ -8,47 +8,18 @@ if (!window.parent.Joomla || typeof window.parent.Joomla.getOptions !== 'functio
   throw new Error('Joomla API not found');
 }
 
-// Get the base path for CodeMirror
-const rootPath = window.parent.Joomla.getOptions('system.paths').rootFull;
-const cmPath = `${rootPath}/media/vendor/codemirror`;
+// Initialize
+const { tinymce } = window.parent; // Reference to TinyMCE
 
-// CodeMirror settings
-let CMsettings = {
-  jsFiles: [
-    // Default JS files
-    'lib/codemirror.min.js',
-    'addon/edit/matchbrackets.min.js',
-    'mode/xml/xml.min.js',
-    'mode/javascript/javascript.min.js',
-    'mode/css/css.min.js',
-    'mode/htmlmixed/htmlmixed.min.js',
-    'addon/dialog/dialog.min.js',
-    'addon/search/searchcursor.min.js',
-    'addon/search/search.min.js',
-    'addon/selection/active-line.min.js',
-  ],
-  cssFiles: [
-    // Default CSS files
-    'lib/codemirror.css',
-    'addon/dialog/dialog.css',
-  ],
-};
+if (!tinymce) {
+  throw new Error('tinyMCE not found');
+}
 
-// Declare some variables:
-let tinymce; // Reference to TinyMCE
-let editor; // Reference to TinyMCE editor
+const editor = tinymce.activeEditor; // Reference to TinyMCE editor
 let codemirror; // CodeMirror instance
+const CMsettings = editor.options.get('codemirror'); // The plugin settings
 const chr = 0; // Unused utf-8 character, placeholder for cursor
 const isMac = /macintosh|mac os/i.test(navigator.userAgent);
-
-// Utility function to load CodeMirror script files
-const loadScript = async (url) => new Promise((resolve, reject) => {
-  const script = document.createElement('script');
-  script.src = url;
-  script.onload = () => resolve();
-  script.onerror = () => reject(new Error(`Failed to load the script ${url}`));
-  document.head.appendChild(script);
-});
 
 /**
  * Find the depth level
@@ -148,8 +119,10 @@ document.addEventListener('keydown', (evt) => {
 const start = () => {
   // Initialise (on load)
   if (typeof (window.CodeMirror) !== 'function') {
-    throw new Error(`CodeMirror not found in "${CMsettings.path}", aborting...`);
+    throw new Error('CodeMirror not found, aborting...');
   }
+
+  codemirror = null;
 
   // Create legend for keyboard shortcuts for find & replace:
   const footer = window.parent.document.querySelectorAll('.tox-dialog__footer')[0];
@@ -181,7 +154,7 @@ const start = () => {
   // [FIX] #6 z-index issue with table panel and source code dialog
   //  editor.selection.getBookmark();
 
-  html = html.replace(/<span\s+style="display: none;"\s+class="CmCaReT"([^>]*)>([^<]*)<\/span>/gm, String.fromCharCode(chr));
+  html = html.replace(/<span\s+class="CmCaReT"([^>]*)>([^<]*)<\/span>/gm, String.fromCharCode(chr));
   editor.dom.remove(editor.dom.select('.CmCaReT'));
 
   // Hide TinyMCE toolbar panels, [FIX] #6 z-index issue with table panel and source code dialog
@@ -220,41 +193,11 @@ const start = () => {
   codemirror.refresh();
 };
 
-// Initialise
-tinymce = window.parent.tinymce;
-if (!tinymce) {
-  throw new Error('tinyMCE not found');
+// Borrowed from codemirror.js themeChanged function. Sets the theme's class names to the html element.
+// Without this, the background color outside of the codemirror wrapper element remains white.
+// [TMP] commented temporary, cause JS error: Uncaught TypeError: Cannot read property 'replace' of undefined
+if (CMsettings.config.theme) {
+  document.documentElement.className += CMsettings.config.theme.replace(/(^|\s)\s*/g, ' cm-s-');
 }
 
-editor = tinymce.activeEditor;
-const userSettings = editor.options.get('codemirror');
-
-if (userSettings.fullscreen) {
-  CMsettings.jsFiles.push('addon/display/fullscreen.min.js');
-  CMsettings.cssFiles.push('addon/display/fullscreen.css');
-}
-
-// Merge config
-CMsettings = { ...CMsettings, ...userSettings };
-
-// Append the stylesheets
-CMsettings.cssFiles.forEach((css) => {
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = `${cmPath}/${css}`;
-  document.head.appendChild(link);
-});
-
-/**
- * Append javascript files ensuring the order of execution.
- * Then execute the start function.
- */
-CMsettings.jsFiles.reduce((p, item) => p.then(() => loadScript(`${cmPath}/${item}`)), Promise.resolve(true)).then(() => {
-  // Borrowed from codemirror.js themeChanged function. Sets the theme's class names to the html element.
-  // Without this, the background color outside of the codemirror wrapper element remains white.
-  // [TMP] commented temporary, cause JS error: Uncaught TypeError: Cannot read property 'replace' of undefined
-  if (CMsettings.config.theme) {
-    document.documentElement.className += CMsettings.config.theme.replace(/(^|\s)\s*/g, ' cm-s-');
-  }
-  start();
-});
+start();

@@ -11,9 +11,11 @@
 namespace Joomla\Plugin\Editors\TinyMCE\Extension;
 
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Plugin\Editors\TinyMCE\PluginTraits\DisplayTrait;
 
@@ -38,6 +40,70 @@ final class TinyMCE extends CMSPlugin
      * @since  3.1
      */
     protected $autoloadLanguage = true;
+
+    /**
+     * Returns the HTML for the highlighter plugin
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function highLighterAjax() {
+        $isFullScreen = $this->getApplication()->input->getPath('fullscreen', '') === '' ? false : true;
+
+        // Default JS files
+        $jsFiles = [
+            'media/vendor/codemirror/lib/codemirror',
+            'media/vendor/codemirror/addon/edit/matchbrackets',
+            'media/vendor/codemirror/mode/xml/xml',
+            'media/vendor/codemirror/mode/javascript/javascript',
+            'media/vendor/codemirror/mode/css/css',
+            'media/vendor/codemirror/mode/htmlmixed/htmlmixed',
+            'media/vendor/codemirror/addon/dialog/dialog',
+            'media/vendor/codemirror/addon/search/searchcursor',
+            'media/vendor/codemirror/addon/search/search',
+            'media/vendor/codemirror/addon/selection/active-line',
+        ];
+
+        // Default CSS files
+        $cssFiles = [
+            'media/vendor/codemirror/lib/codemirror',
+            'media/vendor/codemirror/addon/dialog/dialog',
+        ];
+
+        if ($isFullScreen) {
+            $jsFiles[]  = 'media/vendor/codemirror/addon/display/fullscreen';
+            $cssFiles[] = 'media/vendor/codemirror/addon/display/fullscreen';
+        }
+
+        $base = Uri::root(true);
+        $jsFile = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/source.js', ['version' => 'auto', 'relative' => true, 'pathOnly' => true], []);
+        $cssFile = HTMLHelper::_('stylesheet', 'plg_editors_tinymce/plugins/highlighter/source.css', ['version' => 'auto', 'relative' => true, 'pathOnly' => true], []);
+
+        $jsTags = '';
+        $cssTags = '';
+        foreach($jsFiles as $js) {
+            $jsTags .= '<script defer src="' . $base . '/' . $js . (JDEBUG ? '.js' : '.min.js') . '"></script>';
+        }
+        foreach($cssFiles as $css) {
+            $cssTags .= '<link rel="stylesheet" href="' . $base . '/' . $css . '.css">';
+        }
+
+        return <<<HTMLSTRING
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html"/>
+        <meta charset="UTF-8">
+        $jsTags
+        $cssTags
+        <link rel="stylesheet" href="$cssFile">
+        <script defer src="$jsFile"></script>
+    </head>
+    <body></body>
+</html>
+HTMLSTRING;
+    }
 
     /**
      * Returns the templates

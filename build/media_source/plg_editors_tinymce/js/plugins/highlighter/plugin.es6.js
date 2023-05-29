@@ -1,41 +1,23 @@
 /**
- * plugin.js
- *
  * Original code by Arjan Haverkamp
  * Copyright 2013-2015 Arjan Haverkamp (arjan@webgear.nl)
  */
-window.tinymce.PluginManager.add('highlightPlus', (editor, url) => {
+
+window.tinymce.PluginManager.add('highlightPlus', (editor) => {
   const showSourceEditor = () => {
+    const cmSettings = editor.options.get('codemirror');
+
+    if (!cmSettings) {
+      throw new Error('Codemirror settings are not defined');
+    }
+
+    const iframeUrl = new URL(`${Joomla.getOptions('system.paths').baseFull}index.php?option=com_ajax&group=editors&plugin=tinymce&method=highLighter&format=raw`);
     editor.focus();
     editor.selection.collapse(true);
 
-    editor.options.register('codemirror', {
-      processor: 'object',
-      default: {
-        codemirrorWidth: 800,
-        codemirrorHeight: 550,
-        fullscreen: false,
-        indentOnInit: true,
-        config: {
-          mode: 'htmlmixed',
-          theme: 'default',
-          lineNumbers: true,
-          lineWrapping: true,
-          indentUnit: 2,
-          tabSize: 2,
-          indentWithTabs: true,
-          matchBrackets: true,
-          saveCursorPosition: false,
-          styleActiveLine: true,
-        },
-      },
-    });
-
-    const cmSettings = editor.options.get('codemirror');
-
     // Insert caret marker
     if (cmSettings.config.saveCursorPosition) {
-      editor.selection.setContent('<span style="display: none;" class="CmCaReT">&#x0;</span>');
+      editor.selection.setContent('<span class="CmCaReT">&#x0;</span>');
     }
 
     const buttonsConfig = [
@@ -54,9 +36,9 @@ window.tinymce.PluginManager.add('highlightPlus', (editor, url) => {
 
     const config = {
       title: 'Source code',
-      url: `${url}/source.html`,
-      width: cmSettings.width,
-      height: cmSettings.height,
+      url: iframeUrl.toString(),
+      width: window.innerWidth - 50,
+      height: window.innerHeight - 150,
       resizable: true,
       maximizable: true,
       fullScreen: cmSettings.fullscreen,

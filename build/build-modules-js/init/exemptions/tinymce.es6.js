@@ -71,27 +71,6 @@ module.exports.tinyMCE = async (packageName, version) => {
   tinyWrongMap = tinyWrongMap.replace('/*# sourceMappingURL=skin.min.css.map */', '');
   await writeFile(`${RootPath}/media/vendor/tinymce/skins/ui/oxide/skin.min.css`, tinyWrongMap, { encoding: 'utf8', mode: 0o644 });
 
-  /* Create the Highlighter plugin */
-  // Get the css
-  let cssContent = await readFile('build/media_source/plg_editors_tinymce/js/plugins/highlighter/source.css', { encoding: 'utf8' });
-  cssContent = await Postcss([CssNano()]).process(cssContent, { from: undefined });
-  // Get the JS
-  let jsContent = await readFile('build/media_source/plg_editors_tinymce/js/plugins/highlighter/source.es6.js', { encoding: 'utf8' });
-  jsContent = await minify(jsContent, { sourceMap: false, format: { comments: false } });
-  // Write the HTML file
-  const htmlContent = `<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <script type="module">${jsContent.code}</script>
-    <style type="text/css">${cssContent.css}</style>
-  </head>
-  <body style="height: 100vh"></body>
-</html>
-`;
-
-  await writeFile('media/plg_editors_tinymce/js/plugins/highlighter/source.html', htmlContent, { encoding: 'utf8', mode: 0o644 });
-
   // Restore our code on the vendor folders
   await copy(join(RootPath, 'build/media_source/vendor/tinymce/templates'), join(RootPath, 'media/vendor/tinymce/templates'), { preserveTimestamps: true });
   // Drop the template plugin

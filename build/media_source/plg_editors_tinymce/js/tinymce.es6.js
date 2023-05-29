@@ -164,6 +164,13 @@
       // eslint-disable-next-line no-undef
       const ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
 
+      if (options.codemirror) {
+        ed.options.register('codemirror', {
+          processor: 'object',
+          default: options.codemirror,
+        });
+      }
+
       // Work around iframe behavior, when iframe element changes location in DOM and losing its content.
       // Re init editor when iframe is reloaded.
       if (!ed.inline) {
