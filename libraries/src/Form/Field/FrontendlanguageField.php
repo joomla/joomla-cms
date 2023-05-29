@@ -34,7 +34,7 @@ class FrontendlanguageField extends ListField
     /**
      * Method to get the field options for frontend published content languages with homes.
      *
-     * @return  array  The options the field is going to show.
+     * @return  object[]  The options the field is going to show.
      *
      * @since   3.5
      */
@@ -64,7 +64,7 @@ class FrontendlanguageField extends ListField
         } catch (\RuntimeException $e) {
             $languages = [];
 
-            if (Factory::getUser()->authorise('core.admin')) {
+            if ($this->getCurrentUser()->authorise('core.admin')) {
                 Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
             }
         }

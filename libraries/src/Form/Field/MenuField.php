@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Form\Field;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 
@@ -35,7 +34,7 @@ class MenuField extends GroupedlistField
     /**
      * Method to get the field option groups.
      *
-     * @return  array  The field option objects as a nested array in groups.
+     * @return  array[]  The field option objects as a nested array in groups.
      *
      * @since   1.7.0
      * @throws  \UnexpectedValueException
@@ -73,7 +72,7 @@ class MenuField extends GroupedlistField
         $menus = $db->setQuery($query)->loadObjectList();
 
         if ($accessType) {
-            $user = Factory::getUser();
+            $user = $this->getCurrentUser();
 
             foreach ($menus as $key => $menu) {
                 switch ($accessType) {

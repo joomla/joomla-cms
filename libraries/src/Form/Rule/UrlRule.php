@@ -35,8 +35,8 @@ class UrlRule extends FormRule
      * @param   string             $group    The field name group control value. This acts as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
-     * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
-     * @param   Form               $form     The form object for which the field is being tested.
+     * @param   ?Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
+     * @param   ?Form              $form     The form object for which the field is being tested.
      *
      * @return  boolean  True if the value is valid, false otherwise.
      *
@@ -111,7 +111,7 @@ class UrlRule extends FormRule
             return false;
         }
 
-        if (\array_key_exists('port', $urlParts) && !\is_int((int) $urlParts['port'])) {
+        if (\array_key_exists('port', $urlParts) && 0 === (int) $urlParts['port']) {
             return false;
         }
 

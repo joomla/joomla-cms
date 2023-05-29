@@ -34,7 +34,7 @@ class UsergrouplistField extends ListField
     /**
      * Cached array of the category items.
      *
-     * @var    array
+     * @var    array[]
      * @since  3.2
      */
     protected static $options = [];
@@ -64,7 +64,7 @@ class UsergrouplistField extends ListField
     /**
      * Method to get the options to populate list
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   3.2
      */

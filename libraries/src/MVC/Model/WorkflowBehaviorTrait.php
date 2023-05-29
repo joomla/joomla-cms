@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Model;
@@ -83,7 +83,7 @@ trait WorkflowBehaviorTrait
         if (method_exists($this, 'getDatabase')) {
             $db = $this->getDatabase();
         } else {
-            @trigger_error('In Joomla 6.0 will the getDatabase function be mandatory.', E_USER_DEPRECATED);
+            @trigger_error('From 6.0 implementing the getDatabase method will be mandatory.', E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseDriver::class);
         }
 
@@ -97,7 +97,7 @@ trait WorkflowBehaviorTrait
     }
 
     /**
-     * Add the workflow batch to the command list. Can be overwritten bei the child class
+     * Add the workflow batch to the command list. Can be overwritten by the child class
      *
      * @return  void
      *

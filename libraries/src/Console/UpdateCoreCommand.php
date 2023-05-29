@@ -224,6 +224,13 @@ class UpdateCoreCommand extends AbstractCommand
                 $this->progressBar->advance();
                 $this->progressBar->setMessage("Cleaning up ...");
 
+                // Remove the administrator/cache/autoload_psr4.php file
+                $autoloadFile = JPATH_CACHE . '/autoload_psr4.php';
+
+                if (File::exists($autoloadFile)) {
+                    File::delete($autoloadFile);
+                }
+
                 // Remove the xml
                 if (file_exists(JPATH_BASE . '/joomla.xml')) {
                     File::delete(JPATH_BASE . '/joomla.xml');

@@ -12,6 +12,7 @@
 
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
@@ -19,7 +20,6 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Database\ParameterType;
-use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -378,6 +378,10 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/mysql/4.3.0-2023-03-07.sql',
             '/administrator/components/com_admin/sql/updates/mysql/4.3.0-2023-03-09.sql',
             '/administrator/components/com_admin/sql/updates/mysql/4.3.0-2023-03-10.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/4.3.0-2023-03-28.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/4.3.0-2023-03-29.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/4.3.2-2023-03-31.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/4.3.2-2023-05-03.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-03-05.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-05-15.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-07-19.sql',
@@ -435,6 +439,10 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.0-2023-03-07.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.0-2023-03-09.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.0-2023-03-10.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/4.3.0-2023-03-28.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/4.3.0-2023-03-29.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-03-31.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-05-03.sql',
             '/libraries/src/Schema/ChangeItem/SqlsrvChangeItem.php',
             '/libraries/vendor/beberlei/assert/LICENSE',
             '/libraries/vendor/beberlei/assert/lib/Assert/Assert.php',
@@ -891,6 +899,103 @@ class JoomlaInstallerScript
         }
 
         // Add here code which shall be executed only when updating from an older version than 5.0.0
+        if (!$this->migrateTinymceConfiguration()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Migrate TinyMCE editor plugin configuration
+     *
+     * @return  boolean  True on success
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function migrateTinymceConfiguration(): bool
+    {
+        $db = Factory::getDbo();
+
+        try {
+            // Get the TinyMCE editor plugin's parameters
+            $params = $db->setQuery(
+                $db->getQuery(true)
+                    ->select($db->quoteName('params'))
+                    ->from($db->quoteName('#__extensions'))
+                    ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+                    ->where($db->quoteName('folder') . ' = ' . $db->quote('editors'))
+                    ->where($db->quoteName('element') . ' = ' . $db->quote('tinymce'))
+            )->loadResult();
+        } catch (Exception $e) {
+            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+            return false;
+        }
+
+        $params = json_decode($params, true);
+
+        // If there are no toolbars there is nothing to migrate
+        if (!isset($params['configuration']['toolbars'])) {
+            return true;
+        }
+
+        // Each set has its own toolbar configuration
+        foreach ($params['configuration']['toolbars'] as $setIdx => $toolbarConfig) {
+            // Migrate menu items if there is a menu
+            if (isset($toolbarConfig['menu'])) {
+                /**
+                 * Replace array values with menu item names ("old name" -> "new name"):
+                 * "blockformats" -> "blocks"
+                 * "fontformats"  -> "fontfamily"
+                 * "fontsizes"    -> "fontsize"
+                 * "formats"      -> "styles"
+                 * "template"     -> "jtemplate"
+                 */
+                $params['configuration']['toolbars'][$setIdx]['menu'] = str_replace(
+                    ['blockformats', 'fontformats', 'fontsizes', 'formats', 'template'],
+                    ['blocks', 'fontfamily', 'fontsize', 'styles', 'jtemplate'],
+                    $toolbarConfig['menu']
+                );
+            }
+
+            // There could be no toolbar at all, or only toolbar1, or both toolbar1 and toolbar2
+            foreach (['toolbar1', 'toolbar2'] as $toolbarIdx) {
+                // Migrate toolbar buttons if that toolbar exists
+                if (isset($toolbarConfig[$toolbarIdx])) {
+                    /**
+                     * Replace array values with button names ("old name" -> "new name"):
+                     * "fontselect"     -> "fontfamily"
+                     * "fontsizeselect" -> "fontsize"
+                     * "formatselect"   -> "blocks"
+                     * "styleselect"    -> "styles"
+                     * "template"       -> "jtemplate"
+                     */
+                    $params['configuration']['toolbars'][$setIdx][$toolbarIdx] = str_replace(
+                        ['fontselect', 'fontsizeselect', 'formatselect', 'styleselect', 'template'],
+                        ['fontfamily', 'fontsize', 'blocks', 'styles', 'jtemplate'],
+                        $toolbarConfig[$toolbarIdx]
+                    );
+                }
+            }
+        }
+
+        $params = json_encode($params);
+
+        $query = $db->getQuery(true)
+            ->update($db->quoteName('#__extensions'))
+            ->set($db->quoteName('params') . ' = ' . $db->quote($params))
+            ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+            ->where($db->quoteName('folder') . ' = ' . $db->quote('editors'))
+            ->where($db->quoteName('element') . ' = ' . $db->quote('tinymce'));
+
+        try {
+            $db->setQuery($query)->execute();
+        } catch (Exception $e) {
+            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+            return false;
+        }
 
         return true;
     }

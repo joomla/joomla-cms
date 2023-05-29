@@ -273,6 +273,7 @@ class ExtensionHelper
         ['plugin', 'overridecheck', 'quickicon', 0],
         ['plugin', 'phpversioncheck', 'quickicon', 0],
         ['plugin', 'privacycheck', 'quickicon', 0],
+        ['plugin', 'eos', 'quickicon', 0],
 
         // Core plugin extensions - sample data
         ['plugin', 'blog', 'sampledata', 0],

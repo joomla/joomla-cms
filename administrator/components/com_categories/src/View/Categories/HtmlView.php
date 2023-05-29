@@ -85,6 +85,14 @@ class HtmlView extends BaseHtmlView
     private $isEmptyState = false;
 
     /**
+     * The ordering list for the categories
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $ordering = [];
+
+    /**
      * Display the view
      *
      * @param   string|null  $tpl  The name of the template file to parse; automatically searches through the template paths.

@@ -13,6 +13,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
@@ -35,9 +37,10 @@ use Joomla\Utilities\ArrayHelper;
  * @link   https://html.spec.whatwg.org/multipage/forms.html
  * @since  1.7.0
  */
-class Form
+class Form implements CurrentUserInterface
 {
     use DatabaseAwareTrait;
+    use CurrentUserTrait;
 
     /**
      * The Registry data store for form fields during display.
@@ -50,7 +53,7 @@ class Form
     /**
      * The form object errors array.
      *
-     * @var    array
+     * @var    \Exception[]
      * @since  1.7.0
      */
     protected $errors = [];
@@ -184,7 +187,7 @@ class Form
     /**
      * Return all errors, if any.
      *
-     * @return  array  Array of error messages or RuntimeException objects.
+     * @return  \Exception[]  Array of error messages or RuntimeException objects.
      *
      * @since   1.7.0
      */
@@ -303,7 +306,7 @@ class Form
      *
      * @param   string  $group  The dot-separated form group path on which to filter the fieldsets.
      *
-     * @return  array  The array of fieldset objects.
+     * @return  object[]  The array of fieldset objects.
      *
      * @since   1.7.0
      */
@@ -570,10 +573,10 @@ class Form
      * field being loaded.  If it is false, then the new field being loaded will be ignored and the
      * method will move on to the next field to load.
      *
-     * @param   string   $data     The name of an XML string or object.
-     * @param   boolean  $replace  Flag to toggle whether form fields should be replaced if a field
-     *                             already exists with the same group/name.
-     * @param   string   $xpath    An optional xpath to search for the fields.
+     * @param   string|\SimpleXMLElement   $data     The name of an XML string or object.
+     * @param   boolean                    $replace  Flag to toggle whether form fields should be replaced if a field
+     *                                               already exists with the same group/name.
+     * @param   string                     $xpath    An optional xpath to search for the fields.
      *
      * @return  boolean  True on success, false otherwise.
      *
@@ -582,7 +585,7 @@ class Form
     public function load($data, $replace = true, $xpath = null)
     {
         // If the data to load isn't already an XML element or string return false.
-        if ((!($data instanceof \SimpleXMLElement)) && (!\is_string($data))) {
+        if (!($data instanceof \SimpleXMLElement) && !\is_string($data)) {
             return false;
         }
 
@@ -908,10 +911,10 @@ class Form
      * the fields will be set whether they already exists or not.  If it isn't set, then the fields
      * will not be replaced if they already exist.
      *
-     * @param   array    &$elements  The array of XML element object representations of the form fields.
-     * @param   string   $group      The optional dot-separated form group path on which to set the fields.
-     * @param   boolean  $replace    True to replace existing fields if they already exist.
-     * @param   string   $fieldset   The name of the fieldset we are adding the field to.
+     * @param   \SimpleXMLElement[]    &$elements  The array of XML element object representations of the form fields.
+     * @param   string                 $group      The optional dot-separated form group path on which to set the fields.
+     * @param   boolean                $replace    True to replace existing fields if they already exist.
+     * @param   string                 $fieldset   The name of the fieldset we are adding the field to.
      *
      * @return  boolean  True on success.
      *
@@ -1130,7 +1133,7 @@ class Form
                     $this->errors[] = $valid;
                     $return         = false;
                 }
-            } elseif (!$fieldObj && $input->exists($key)) {
+            } elseif ($input->exists($key)) {
                 // The field returned false from setup and shouldn't be included in the page body - yet we received
                 // a value for it. This is probably some sort of injection attack and should be rejected
                 $this->errors[] = new \RuntimeException(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $key));
@@ -1377,7 +1380,7 @@ class Form
         // Make sure there is actually a group to find.
         $group = explode('.', $group);
 
-        if (!empty($group)) {
+        if (count($group)) {
             // Get any fields elements with the correct group name.
             $elements = $this->xml->xpath('//fields[@name="' . (string) $group[0] . '" and not(ancestor::field/form/*)]');
 
@@ -1429,9 +1432,9 @@ class Form
     /**
      * Method to load, setup and return a FormField object based on field data.
      *
-     * @param   string  $element  The XML element object representation of the form field.
-     * @param   string  $group    The optional dot-separated form group path on which to find the field.
-     * @param   mixed   $value    The optional value to use as the default for the field.
+     * @param   string|\SimpleXMLElement  $element  The XML element object representation of the form field.
+     * @param   string                    $group    The optional dot-separated form group path on which to find the field.
+     * @param   mixed                     $value    The optional value to use as the default for the field.
      *
      * @return  FormField|boolean  The FormField object for the field or boolean false on error.
      *
@@ -1457,6 +1460,10 @@ class Form
                 @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
                 $field->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
+        }
+
+        if ($field instanceof CurrentUserInterface) {
+            $field->setCurrentUser($this->getCurrentUser());
         }
 
         // If the object could not be loaded, get a text field object.
@@ -1595,9 +1602,9 @@ class Form
     /**
      * Proxy for {@link FormHelper::addFieldPath()}.
      *
-     * @param   mixed  $new  A path or array of paths to add.
+     * @param   string|string[]  $new  A path or array of paths to add.
      *
-     * @return  array  The list of paths that have been added.
+     * @return  string[]  The list of paths that have been added.
      *
      * @since   1.7.0
      */
@@ -1609,9 +1616,9 @@ class Form
     /**
      * Proxy for FormHelper::addFormPath().
      *
-     * @param   mixed  $new  A path or array of paths to add.
+     * @param   string|string[]  $new  A path or array of paths to add.
      *
-     * @return  array  The list of paths that have been added.
+     * @return  string[]  The list of paths that have been added.
      *
      * @see     FormHelper::addFormPath()
      * @since   1.7.0
@@ -1624,9 +1631,9 @@ class Form
     /**
      * Proxy for FormHelper::addRulePath().
      *
-     * @param   mixed  $new  A path or array of paths to add.
+     * @param   string|string[]  $new  A path or array of paths to add.
      *
-     * @return  array  The list of paths that have been added.
+     * @return  string[]  The list of paths that have been added.
      *
      * @see     FormHelper::addRulePath()
      * @since   1.7.0
@@ -1639,9 +1646,9 @@ class Form
     /**
      * Proxy for FormHelper::addFilterPath().
      *
-     * @param   mixed  $new  A path or array of paths to add.
+     * @param   string|string[]  $new  A path or array of paths to add.
      *
-     * @return  array  The list of paths that have been added.
+     * @return  string[]  The list of paths that have been added.
      *
      * @see     FormHelper::addFilterPath()
      * @since   4.0.0

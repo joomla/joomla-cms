@@ -85,7 +85,7 @@ endforeach;
                         </h2>
                         <?php
                             $this->fieldset    = 'description';
-                            $short_description = Text::_($taskOption->desc);
+                            $short_description = $taskOption->desc;
                             $long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
 
                         if (!$long_description) {

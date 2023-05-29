@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
+use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
@@ -133,7 +134,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
         // Guess the list view as the plural of the item view.
         if (empty($this->view_list)) {
-            $this->view_list = \Joomla\String\Inflector::getInstance()->toPlural($this->view_item);
+            $this->view_list = InflectorFactory::create()->build()->pluralize($this->view_item);
         }
 
         $this->setFormFactory($formFactory);
