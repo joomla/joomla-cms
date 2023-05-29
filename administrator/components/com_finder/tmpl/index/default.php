@@ -26,7 +26,6 @@ $lang      = Factory::getLanguage();
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('multiselect')
     ->useScript('table.columns');
-
 ?>
 <form action="<?php echo Route::_('index.php?option=com_finder&view=index'); ?>" method="post" name="adminForm" id="adminForm">
     <div class="row">
@@ -111,7 +110,13 @@ $wa->useScript('multiselect')
                                     <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
                                 </td>
                                 <th scope="row">
-                                    <?php echo $this->escape($item->title); ?>
+                                    <?php if (JDEBUG) : ?>
+                                        <a href="index.php?option=com_finder&view=item&id=<?php echo $item->link_id; ?>">
+                                            <?php echo $this->escape($item->title); ?>
+                                        </a>
+                                    <?php else : ?>
+                                        <?php echo $this->escape($item->title); ?>
+                                    <?php endif; ?>
                                 </th>
                                 <td class="small d-none d-md-table-cell">
                                     <?php
