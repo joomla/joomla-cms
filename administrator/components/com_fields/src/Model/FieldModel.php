@@ -884,7 +884,7 @@ class FieldModel extends AdminModel
         foreach ($pks as $pk) {
             $item = $this->getItem($pk);
 
-            if ($item->params['searchindex'] > 0) {
+            if (isset($item->params['searchindex']) && $item->params['searchindex'] > 0) {
                 Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
 
                 break;
