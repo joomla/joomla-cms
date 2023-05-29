@@ -10,7 +10,6 @@
 namespace Joomla\CMS\MVC\View;
 
 use Doctrine\Inflector\InflectorFactory;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Object\CMSObject;
@@ -204,7 +203,7 @@ class ListView extends HtmlView
     protected function addToolbar()
     {
         $canDo = $this->canDo;
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
 
         // Get the toolbar object instance
         $bar = Toolbar::getInstance('toolbar');

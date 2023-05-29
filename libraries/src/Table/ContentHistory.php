@@ -10,6 +10,8 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
@@ -22,8 +24,10 @@ use Joomla\Database\ParameterType;
  *
  * @since  3.2
  */
-class ContentHistory extends Table
+class ContentHistory extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Array of object fields to unset from the data object before calculating SHA1 hash. This allows us to detect a meaningful change
      * in the database row using the hash. This can be read from the #__content_types content_history_options column.
@@ -90,7 +94,7 @@ class ContentHistory extends Table
 
         // Modify author and date only when not toggling Keep Forever
         if ($this->get('keep_forever') === null) {
-            $this->set('editor_user_id', Factory::getUser()->id);
+            $this->set('editor_user_id', $this->getCurrentUser()->id);
             $this->set('save_date', Factory::getDate()->toSql());
         }
 
