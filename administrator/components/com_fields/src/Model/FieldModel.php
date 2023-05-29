@@ -116,9 +116,10 @@ class FieldModel extends AdminModel
         }
 
         if (
-            (is_null($field) && $data['params']['searchindex'] > 0)
-            || ($field->params['searchindex'] != $data['params']['searchindex'])
-            || ($data['params']['searchindex'] > 0 && ($field->state != $data['state'] || $field->access != $data['access']))
+            isset($data['params']['searchindex'])
+            && ((is_null($field) && $data['params']['searchindex'] > 0)
+                || ($field->params['searchindex'] != $data['params']['searchindex'])
+                || ($data['params']['searchindex'] > 0 && ($field->state != $data['state'] || $field->access != $data['access'])))
         ) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
         }
@@ -883,7 +884,7 @@ class FieldModel extends AdminModel
         foreach ($pks as $pk) {
             $item = $this->getItem($pk);
 
-            if ($item->params['searchindex'] > 0) {
+            if (isset($item->params['searchindex']) && $item->params['searchindex'] > 0) {
                 Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
 
                 break;
