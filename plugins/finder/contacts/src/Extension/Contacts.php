@@ -371,6 +371,7 @@ final class Contacts extends Adapter
 
         // Get content extras.
         Helper::getContentExtras($item);
+        Helper::addCustomFields($item, 'com_contact.contact');
 
         // Index the item.
         $this->indexer->index($item);
