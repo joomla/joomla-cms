@@ -241,7 +241,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
             foreach ($this->filter_fields as $filter) {
                 $filterName = 'filter.' . $filter;
 
-                if (property_exists($this->state, $filterName) && (!empty($this->state->{$filterName}) || is_numeric($this->state->{$filterName}))) {
+                if (!empty($this->state->get($filterName)) || is_numeric($this->state->get($filterName))) {
                     $activeFilters[$filter] = $this->state->get($filterName);
                 }
             }
