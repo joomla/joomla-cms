@@ -15,6 +15,8 @@ use Joomla\CMS\Form\Field\SubformField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
@@ -24,7 +26,7 @@ use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -32,9 +34,10 @@ use Joomla\String\StringHelper;
  *
  * @since  1.7.0
  */
-abstract class FormField implements DatabaseAwareInterface
+abstract class FormField implements DatabaseAwareInterface, CurrentUserInterface
 {
     use DatabaseAwareTrait;
+    use CurrentUserTrait;
 
     /**
      * The description text for the form field. Usually used in tooltips.
@@ -806,7 +809,7 @@ abstract class FormField implements DatabaseAwareInterface
         $data = $this->getLayoutData();
 
         // Forcing the Alias field to display the tip below
-        $position = $this->element['name'] === 'alias' ? ' data-bs-placement="bottom" ' : '';
+        $position = ((string) $this->element['name']) === 'alias' ? ' data-bs-placement="bottom" ' : '';
 
         // Here mainly for B/C with old layouts. This can be done in the layouts directly
         $extraData = [
@@ -1039,10 +1042,10 @@ abstract class FormField implements DatabaseAwareInterface
     /**
      * Method to filter a field value.
      *
-     * @param   mixed     $value  The optional value to use as the default for the field.
-     * @param   string    $group  The optional dot-separated form group path on which to find the field.
-     * @param   Registry  $input  An optional Registry object with the entire data set to filter
-     *                            against the entire form.
+     * @param   mixed      $value  The optional value to use as the default for the field.
+     * @param   string     $group  The optional dot-separated form group path on which to find the field.
+     * @param   ?Registry  $input  An optional Registry object with the entire data set to filter
+     *                             against the entire form.
      *
      * @return  mixed   The filtered value.
      *
@@ -1118,10 +1121,10 @@ abstract class FormField implements DatabaseAwareInterface
     /**
      * Method to validate a FormField object based on field data.
      *
-     * @param   mixed     $value  The optional value to use as the default for the field.
-     * @param   string    $group  The optional dot-separated form group path on which to find the field.
-     * @param   Registry  $input  An optional Registry object with the entire data set to validate
-     *                            against the entire form.
+     * @param   mixed      $value  The optional value to use as the default for the field.
+     * @param   string     $group  The optional dot-separated form group path on which to find the field.
+     * @param   ?Registry  $input  An optional Registry object with the entire data set to validate
+     *                             against the entire form.
      *
      * @return  boolean|\Exception  Boolean true if field value is valid, Exception on failure.
      *
@@ -1180,6 +1183,10 @@ abstract class FormField implements DatabaseAwareInterface
                 }
             }
 
+            if ($rule instanceof CurrentUserInterface) {
+                $rule->setCurrentUser($this->getCurrentUser());
+            }
+
             try {
                 // Run the field validation rule test.
                 $valid = $rule->test($this->element, $value, $group, $input, $this->form);
@@ -1199,6 +1206,10 @@ abstract class FormField implements DatabaseAwareInterface
                     @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
                     $rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
                 }
+            }
+
+            if ($rule instanceof CurrentUserInterface) {
+                $rule->setCurrentUser($this->getCurrentUser());
             }
 
             try {
@@ -1229,10 +1240,10 @@ abstract class FormField implements DatabaseAwareInterface
     /**
      * Method to post-process a field value.
      *
-     * @param   mixed     $value  The optional value to use as the default for the field.
-     * @param   string    $group  The optional dot-separated form group path on which to find the field.
-     * @param   Registry  $input  An optional Registry object with the entire data set to filter
-     *                            against the entire form.
+     * @param   mixed      $value  The optional value to use as the default for the field.
+     * @param   string     $group  The optional dot-separated form group path on which to find the field.
+     * @param   ?Registry  $input  An optional Registry object with the entire data set to filter
+     *                             against the entire form.
      *
      * @return  mixed   The processed value.
      *
