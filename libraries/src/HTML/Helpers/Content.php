@@ -17,7 +17,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -44,10 +44,10 @@ abstract class Content
             $params = new CMSObject();
         }
 
-        $article = new \stdClass();
+        $article       = new \stdClass();
         $article->text = $text;
         PluginHelper::importPlugin('content');
-        Factory::getApplication()->triggerEvent('onContentPrepare', array($context, &$article, &$params, 0));
+        Factory::getApplication()->triggerEvent('onContentPrepare', [$context, &$article, &$params, 0]);
 
         return $article->text;
     }
@@ -80,7 +80,7 @@ abstract class Content
         $model->setState('list.direction', 'asc');
         $model->setState('list.filter', '');
 
-        $items = array();
+        $items = [];
 
         foreach ($model->countItemsByMonth() as $item) {
             $date    = new Date($item->d);

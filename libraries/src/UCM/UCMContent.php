@@ -16,7 +16,7 @@ use Joomla\CMS\Table\TableInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -37,7 +37,7 @@ class UCMContent extends UCMBase
     /**
      * The UCM data array
      *
-     * @var    array
+     * @var    array[]
      * @since  3.1
      */
     public $ucmData;
@@ -127,7 +127,7 @@ class UCMContent extends UCMBase
      * @param   array    $original  The original data array
      * @param   UCMType  $type      Type object for this data
      *
-     * @return  array  $ucmData  The mapped UCM data
+     * @return  array[]  $ucmData  The mapped UCM data
      *
      * @since   3.1
      */
@@ -137,7 +137,7 @@ class UCMContent extends UCMBase
 
         $fields = json_decode($contentType->type->field_mappings);
 
-        $ucmData = array();
+        $ucmData = [];
 
         $common = \is_object($fields->common) ? $fields->common : $fields->common[0];
 
@@ -189,7 +189,7 @@ class UCMContent extends UCMBase
 
         if (!$primaryKey) {
             // Store the core UCM mappings
-            $baseData = array();
+            $baseData                    = [];
             $baseData['ucm_type_id']     = $typeId;
             $baseData['ucm_item_id']     = $data['core_content_item_id'];
             $baseData['ucm_language_id'] = ContentHelper::getLanguageId($data['core_language']);
@@ -214,7 +214,7 @@ class UCMContent extends UCMBase
      */
     public function getPrimaryKey($typeId, $contentItemId)
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select($db->quoteName('ucm_id'))
             ->from($db->quoteName('#__ucm_base'))

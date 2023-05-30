@@ -50,7 +50,7 @@ class CategoryController extends FormController
      * @since  1.6
      * @throws \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, CMSApplication $app = null, Input $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, CMSApplication $app = null, Input $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -68,7 +68,7 @@ class CategoryController extends FormController
      *
      * @since   1.6
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         $user = $this->app->getIdentity();
 
@@ -85,10 +85,10 @@ class CategoryController extends FormController
      *
      * @since   1.6
      */
-    protected function allowEdit($data = array(), $key = 'parent_id')
+    protected function allowEdit($data = [], $key = 'parent_id')
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-        $user = $this->app->getIdentity();
+        $user     = $this->app->getIdentity();
 
         // Check "edit" permission on record asset (explicit or inherited)
         if ($user->authorise('core.edit', $this->extension . '.category.' . $recordId)) {
@@ -230,17 +230,17 @@ class CategoryController extends FormController
      *
      * @since   3.1
      */
-    protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
+    protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
     {
         $item = $model->getItem();
 
         if (isset($item->params) && \is_array($item->params)) {
-            $registry = new Registry($item->params);
+            $registry     = new Registry($item->params);
             $item->params = (string) $registry;
         }
 
         if (isset($item->metadata) && \is_array($item->metadata)) {
-            $registry = new Registry($item->metadata);
+            $registry       = new Registry($item->metadata);
             $item->metadata = (string) $registry;
         }
     }

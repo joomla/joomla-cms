@@ -62,14 +62,14 @@ class AjaxController extends BaseController
 
             // Add the title to each of the associated records
             Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables');
-            $menuTable = Table::getInstance('Menu', 'JTable', array());
+            $menuTable = Table::getInstance('Menu', 'JTable', []);
 
             foreach ($associations as $lang => $association) {
                 $menuTable->load($association->id);
                 $associations[$lang]->title = $menuTable->title;
             }
 
-            $countContentLanguages = count(LanguageHelper::getContentLanguages(array(0, 1), false));
+            $countContentLanguages = count(LanguageHelper::getContentLanguages([0, 1], false));
 
             if (count($associations) == 0) {
                 $message = Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_MESSAGE_NONE');

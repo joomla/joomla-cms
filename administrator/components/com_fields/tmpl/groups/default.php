@@ -25,7 +25,7 @@ $wa->useScript('table.columns')
     ->useScript('multiselect');
 
 $app       = Factory::getApplication();
-$user      = Factory::getUser();
+$user      = $this->getCurrentUser();
 $userId    = $user->get('id');
 
 $component = '';
@@ -59,7 +59,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => $searchToolsOptions)); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => $searchToolsOptions]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
                         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -176,10 +176,10 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                         <?php echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'collapseModal',
-                            array(
+                            [
                                     'title' => Text::_('COM_FIELDS_VIEW_GROUPS_BATCH_OPTIONS'),
                                     'footer' => $this->loadTemplate('batch_footer')
-                                ),
+                                ],
                             $this->loadTemplate('batch_body')
                         ); ?>
                     <?php endif; ?>

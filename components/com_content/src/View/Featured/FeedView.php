@@ -35,7 +35,7 @@ class FeedView extends AbstractView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  mixed  A string if successful, otherwise an Error object.
+     * @return  void
      */
     public function display($tpl = null)
     {
@@ -64,7 +64,7 @@ class FeedView extends AbstractView
             $link = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language);
 
             $description = '';
-            $obj = json_decode($row->images);
+            $obj         = json_decode($row->images);
 
             if (!empty($obj->image_intro)) {
                 $description = '<p>' . HTMLHelper::_('image', $obj->image_intro, $obj->image_intro_alt) . '</p>';
@@ -78,7 +78,7 @@ class FeedView extends AbstractView
             $item->title    = $title;
             $item->link     = Route::_($link);
             $item->date     = $row->publish_up;
-            $item->category = array();
+            $item->category = [];
 
             // All featured articles are categorized as "Featured"
             $item->category[] = Text::_('JFEATURED');

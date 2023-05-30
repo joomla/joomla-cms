@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Feed;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -64,9 +64,9 @@ class FeedPerson
      */
     public function __construct($name = null, $email = null, $uri = null, $type = null)
     {
-        $this->name = $name;
+        $this->name  = $name;
         $this->email = $email;
-        $this->uri = $uri;
-        $this->type = $type;
+        $this->uri   = $uri;
+        $this->type  = $type;
     }
 }

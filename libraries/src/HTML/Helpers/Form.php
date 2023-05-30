@@ -15,7 +15,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -32,7 +32,7 @@ abstract class Form
      *
      * @since  3.8.0
      */
-    protected static $loaded = array();
+    protected static $loaded = [];
 
     /**
      * Displays a hidden token field to reduce the risk of CSRF exploits
@@ -46,11 +46,11 @@ abstract class Form
      * @see     Session::checkToken()
      * @since   1.5
      */
-    public static function token(array $attribs = array())
+    public static function token(array $attribs = [])
     {
         $attributes = '';
 
-        if ($attribs !== array()) {
+        if ($attribs !== []) {
             $attributes .= ' ' . ArrayHelper::toString($attribs);
         }
 

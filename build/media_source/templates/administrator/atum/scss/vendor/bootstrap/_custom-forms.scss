@@ -9,7 +9,7 @@
   cursor: pointer;
   background: $form-select-background #{"/* rtl:"}$form-select-background-rtl#{"*/"};;
   background-color: $form-select-bg;
-  border: $input-border;
+  border: $form-select-border-width solid $form-select-border-color;
 
   &[multiple] {
     padding: 0;
@@ -50,14 +50,10 @@
     }
   }
 
-  &:focus {
-    border-color: $focuscolor;
-    box-shadow: $focusshadow;
-  }
-
   &:disabled {
     cursor: default;
-    background: $gray-200;
+    background-color: #e8e8e8;
+    background-image: none;
     border: 0;
     box-shadow: none;
   }
