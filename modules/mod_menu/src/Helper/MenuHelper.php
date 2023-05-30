@@ -228,26 +228,11 @@ class MenuHelper
 
         if ($item->menu_icon)
         {
-            $icon_attributes = [
-                'icon'   => $item->menu_icon,
-                'suffix' => 'p-2',
-            ];
-
-            $attributes['icon'] = LayoutHelper::render('joomla.icon.iconclass', $icon_attributes);
+            $attributes['icon'] = LayoutHelper::render('joomla.menu.icon', $item);
         }
         elseif ($item->menu_image)
         {
-            $image_attributes = [
-                'src' => $item->menu_image,
-                'alt' => '',
-            ];
-
-            if ($item->menu_image_css)
-            {
-                $image_attributes['class'] = $item->menu_image_css;
-            }
-
-            $attributes['image'] = LayoutHelper::render('joomla.html.image', $image_attributes);
+            $attributes['image'] = LayoutHelper::render('joomla.menu.image', $item);
         }
 
         return LayoutHelper::render('joomla.menu.linktype', $attributes);
