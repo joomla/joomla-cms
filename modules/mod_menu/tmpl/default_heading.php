@@ -10,9 +10,16 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Utilities\ArrayHelper;
 
-$title      = $item->anchor_title ? ' title="' . $item->anchor_title . '"' : '';
-$anchor_css = $item->anchor_css ?: '';
+$attributes = [];
+
+if ($item->anchor_title) {
+    $attributes['title'] = $item->anchor_title;
+}
+
+$attributes['class'] = 'mod-menu__heading nav-header';
+$attributes['class'] .= $item->anchor_css ? ' ' . $item->anchor_css : null;
+
 ?>
-<span class="mod-menu__heading nav-header <?php echo $anchor_css; ?>"<?php echo $title; ?>><?php echo $item->menu_linktype; ?></span>
+<span <?php echo ArrayHelper::toString($attributes); ?>><?php echo $item->menu_linktype; ?></span>
