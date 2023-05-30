@@ -51,7 +51,7 @@ final class Notification extends CMSPlugin implements SubscriberInterface
      * The language factory.
      *
      * @var    LanguageFactoryInterface
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     private $languageFactory;
 

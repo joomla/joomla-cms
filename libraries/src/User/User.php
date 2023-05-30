@@ -226,7 +226,7 @@ class User extends CMSObject
      * @var    integer
      * @since  4.3.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0 as this property is not used anymore
+     * @deprecated 5.0.0 will be removed in 6.0 as this property is not used anymore
      */
     public $aid = null;
 

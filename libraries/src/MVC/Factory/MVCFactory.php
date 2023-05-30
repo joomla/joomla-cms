@@ -377,7 +377,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function setUserFactoryOnObject($object): void
     {

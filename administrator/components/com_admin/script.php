@@ -924,7 +924,7 @@ class JoomlaInstallerScript
      *
      * @return  boolean  True on success
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function migrateTinymceConfiguration(): bool
     {

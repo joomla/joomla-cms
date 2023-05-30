@@ -20,7 +20,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 /**
  * Dispatcher class for mod_custom
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  */
 class Dispatcher extends AbstractModuleDispatcher
 {
@@ -29,7 +29,7 @@ class Dispatcher extends AbstractModuleDispatcher
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getLayoutData()
     {
