@@ -44,12 +44,12 @@ class ConsoleApplicationTest extends UnitTestCase
      */
     protected function createApplication(): ConsoleApplication
     {
-        $config = $this->createMock(Registry::class);
+        $config     = $this->createMock(Registry::class);
         $dispatcher = $this->createMock(DispatcherInterface::class);
-        $container = $this->createMock(Container::class);
-        $language = $this->createMock(Language::class);
-        $input = $this->createMock(InputInterface::class);
-        $output = $this->createMock(OutputInterface::class);
+        $container  = $this->createMock(Container::class);
+        $language   = $this->createMock(Language::class);
+        $input      = $this->createMock(InputInterface::class);
+        $output     = $this->createMock(OutputInterface::class);
 
         $object = new ConsoleApplication($config, $dispatcher, $container, $language, $input, $output);
 

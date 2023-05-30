@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="sampledata" method="upgrade">
 	<name>plg_sampledata_testing</name>
 	<author>Joomla! Project</author>
@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_SAMPLEDATA_TESTING_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\SampleData\Testing</namespace>
 	<files>
 		<folder>language</folder>
-		<filename plugin="testing">testing.php</filename>
+		<folder plugin="testing">services</folder>
+		<folder>src</folder>
 	</files>
 </extension>

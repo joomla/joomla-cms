@@ -1,4 +1,4 @@
-import { persistedStateOptions } from './plugins/persisted-state.es6';
+import persistedStateOptions from './plugins/persisted-state.es6';
 
 // Get the disks from joomla option storage
 const options = Joomla.getOptions('com_media', {});
@@ -14,32 +14,73 @@ if (options.providers === undefined || options.providers.length === 0) {
  *
  * @return {Array}
  */
-const getDrives = (adapterNames, provider) => {
-  const drives = [];
-  adapterNames.map((name) => drives.push({ root: `${provider}-${name}:/`, displayName: name }));
-
-  return drives;
-};
+const getDrives = (adapterNames, provider) => adapterNames.map((name) => ({ root: `${provider}-${name}:/`, displayName: name }));
 
 // Load disks from options
 const loadedDisks = options.providers.map((disk) => ({
   displayName: disk.displayName,
   drives: getDrives(disk.adapterNames, disk.name),
 }));
-const defaultDisk = loadedDisks.find((disk) => disk.drives.length > 0
-  && disk.drives[0] !== undefined);
+
+const defaultDisk = loadedDisks.find((disk) => disk.drives.length > 0 && disk.drives[0] !== undefined);
+
 if (!defaultDisk) {
   throw new TypeError('No default media drive was found');
 }
 
-// Override the storage if we have a path
-if (options.currentPath) {
-  const storedState = JSON.parse(persistedStateOptions.storage.getItem(persistedStateOptions.key));
-  if (storedState && storedState.selectedDirectory
-    && (storedState.selectedDirectory !== options.currentPath)) {
-    storedState.selectedDirectory = options.currentPath;
-    persistedStateOptions.storage.setItem(persistedStateOptions.key, JSON.stringify(storedState));
+const storedState = JSON.parse(persistedStateOptions.storage.getItem(persistedStateOptions.key));
+
+function setSession(path) {
+  persistedStateOptions.storage.setItem(
+    persistedStateOptions.key,
+    JSON.stringify({ ...storedState, ...{ selectedDirectory: path } }),
+  );
+}
+
+// Gracefully use the given path, the session storage state or fall back to sensible default
+function getCurrentPath() {
+  // Nothing stored in the session, use the root of the first drive
+  if (!storedState || !storedState.selectedDirectory) {
+    setSession(defaultDisk.drives[0].root);
+    return defaultDisk.drives[0].root;
   }
+
+  // Check that we have a fragment
+  if (!options.currentPath) {
+    if (!(storedState || storedState.selectedDirectory)) {
+      setSession(defaultDisk.drives[0].root);
+      return defaultDisk.drives[0].root;
+    }
+    options.currentPath = '';
+  }
+
+  // Get the fragments
+  const fragment = options.currentPath.split(':/');
+
+  // Check that we have a fragment
+  if (!fragment.length) {
+    setSession(defaultDisk.drives[0].root);
+    return defaultDisk.drives[0].root;
+  }
+
+  const drivesTmp = Object.values(loadedDisks).map((drive) => drive.drives);
+  const useDrive = drivesTmp.flat().find((drive) => drive.root.startsWith(fragment[0]));
+
+  // Drive doesn't exist
+  if (!useDrive) {
+    setSession(defaultDisk.drives[0].root);
+    return defaultDisk.drives[0].root;
+  }
+
+  // Session match
+  if ((storedState && storedState.selectedDirectory && storedState.selectedDirectory.startsWith(useDrive.root))) {
+    setSession(storedState.selectedDirectory);
+    return storedState.selectedDirectory;
+  }
+
+  // Session missmatch
+  setSession(options.currentPath);
+  return options.currentPath;
 }
 
 // The initial state
@@ -60,7 +101,7 @@ export default {
   files: [],
   // The selected disk. Providers are ordered by plugin ordering, so we set the first provider
   // in the list as the default provider and load first drive on it as default
-  selectedDirectory: options.currentPath || defaultDisk.drives[0].root,
+  selectedDirectory: getCurrentPath(),
   // The currently selected items
   selectedItems: [],
   // The state of the infobar
@@ -83,4 +124,8 @@ export default {
   previewItem: null,
   // The Search Query
   search: '',
+  // The sorting by
+  sortBy: storedState && storedState.sortBy ? storedState.sortBy : 'name',
+  // The sorting direction
+  sortDirection: storedState && storedState.sortDirection ? storedState.sortDirection : 'asc',
 };

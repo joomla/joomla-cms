@@ -16,8 +16,8 @@ function insertDefineOrDie($file, $keyword)
 
     $currentcontent     = file($realfile);
     $lastUse            = 0;
-    $lastComment = 0;
-    $lastNamespace = 0;
+    $lastComment        = 0;
+    $lastNamespace      = 0;
     foreach ($currentcontent as $k => $line) {
         if ($k > 200) {
             // we only test the first 200 lines for a jexec die
@@ -33,7 +33,7 @@ function insertDefineOrDie($file, $keyword)
             $lastComment = $k;
         }
 
-        if (preg_match('/^[ \t\\\]*(defined).*(_JEXEC|JPATH_PLATFORM|JPATH_BASE).*/', $line, $matches)) {
+        if (preg_match('/^[ \t\\\]*(defined).*(_JEXEC|JPATH_BASE).*/', $line, $matches)) {
             $jexecfound[$file] = $file;
             unset($skipped[$file]);
 
@@ -179,7 +179,7 @@ foreach ($output as $file) {
             // we only test the first 200 lines for a jexec die
             break;
         }
-        if (preg_match('/^[ \t\\\]*(defined).*(_JEXEC|JPATH_PLATFORM|JPATH_BASE).*/', $line, $matches)) {
+        if (preg_match('/^[ \t\\\]*(defined).*(_JEXEC|JPATH_BASE).*/', $line, $matches)) {
             $keyword = $matches[2];
             break;
         }

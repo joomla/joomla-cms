@@ -60,7 +60,7 @@ class UpdatesitesModel extends InstallerModel
                 'folder_translated',
                 'update_site_id',
                 'enabled',
-                'supported'
+                'supported',
             ];
         }
 
@@ -157,7 +157,7 @@ class UpdatesitesModel extends InstallerModel
 
             // Delete the update site from all tables.
             try {
-                $id = (int) $id;
+                $id    = (int) $id;
                 $query = $db->getQuery(true)
                     ->delete($db->quoteName('#__update_sites'))
                     ->where($db->quoteName('update_site_id') . ' = :id')
@@ -546,7 +546,7 @@ class UpdatesitesModel extends InstallerModel
                         'e.client_id',
                         'e.state',
                         'e.manifest_cache',
-                        'u.name'
+                        'u.name',
                     ],
                     [
                         'update_site_id',
@@ -565,7 +565,7 @@ class UpdatesitesModel extends InstallerModel
                         'client_id',
                         'state',
                         'manifest_cache',
-                        'editor'
+                        'editor',
                     ]
                 )
             )

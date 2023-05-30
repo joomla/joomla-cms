@@ -12,7 +12,7 @@ namespace Joomla\CMS\Input;
 use Joomla\CMS\Filter\InputFilter;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -22,14 +22,18 @@ use Joomla\CMS\Filter\InputFilter;
  * the standard JInput interface.
  *
  * @since       3.0.1
- * @deprecated  5.0  Use Joomla\Input\Json instead
+ *
+ * @deprecated   4.3 will be removed in 6.0.
+ *               Use Joomla\Input\Json instead
  */
 class Json extends Input
 {
     /**
      * @var    string  The raw JSON string from the request.
      * @since  3.0.1
-     * @deprecated  5.0  Use Joomla\Input\Json instead
+     *
+     * @deprecated   4.3 will be removed in 6.0.
+     *               Use Joomla\Input\Json instead
      */
     private $_raw;
 
@@ -40,9 +44,11 @@ class Json extends Input
      * @param   array  $options  Array of configuration parameters (Optional)
      *
      * @since   3.0.1
-     * @deprecated  5.0  Use Joomla\Input\Json instead
+     *
+     * @deprecated   4.3 will be removed in 6.0.
+     *               Use Joomla\Input\Json instead
      */
-    public function __construct(array $source = null, array $options = array())
+    public function __construct(array $source = null, array $options = [])
     {
         if (isset($options['filter'])) {
             $this->filter = $options['filter'];
@@ -55,7 +61,7 @@ class Json extends Input
             $this->data = json_decode($this->_raw, true);
 
             if (!is_array($this->data)) {
-                $this->data = array();
+                $this->data = [];
             }
         } else {
             $this->data = &$source;
@@ -70,7 +76,9 @@ class Json extends Input
      * @return  string  The raw JSON string from the request.
      *
      * @since   3.0.1
-     * @deprecated  5.0  Use Joomla\Input\Json instead
+     *
+     * @deprecated   4.3 will be removed in 6.0.
+     *               Use Joomla\Input\Json instead
      */
     public function getRaw()
     {

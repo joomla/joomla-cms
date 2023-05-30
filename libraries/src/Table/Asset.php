@@ -13,7 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -78,7 +78,7 @@ class Asset extends Nested
      */
     public function loadByName($name)
     {
-        return $this->load(array('name' => $name));
+        return $this->load(['name' => $name]);
     }
 
     /**

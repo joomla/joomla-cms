@@ -14,13 +14,13 @@ use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Event\MultiFactor\SaveSetup;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController as BaseControllerAlias;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\MethodModel;
@@ -37,8 +37,10 @@ use RuntimeException;
  *
  * @since 4.2.0
  */
-class MethodController extends BaseControllerAlias
+class MethodController extends BaseControllerAlias implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Public constructor
      *
@@ -94,7 +96,7 @@ class MethodController extends BaseControllerAlias
 
         // Make sure I am allowed to edit the specified user
         $userId = $this->input->getInt('user_id', null);
-        $user   = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+        $user   = $this->getUserFactory()->loadUserById($userId);
 
         $this->assertCanEdit($user);
 
@@ -139,7 +141,7 @@ class MethodController extends BaseControllerAlias
 
         // Make sure I am allowed to edit the specified user
         $userId = $this->input->getInt('user_id', null);
-        $user   = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+        $user   = $this->getUserFactory()->loadUserById($userId);
 
         $this->assertCanEdit($user);
 
@@ -190,7 +192,7 @@ class MethodController extends BaseControllerAlias
 
         // Make sure I am allowed to edit the specified user
         $userId = $this->input->getInt('user_id', null);
-        $user   = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+        $user   = $this->getUserFactory()->loadUserById($userId);
         $this->assertCanEdit($user);
 
         /** @var BackupcodesModel $model */
@@ -229,8 +231,8 @@ class MethodController extends BaseControllerAlias
         $this->checkToken($this->input->getMethod());
 
         // Make sure I am allowed to edit the specified user
-        $userId = $this->input->getInt('user_id', null);
-        $user    = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+        $userId  = $this->input->getInt('user_id', null);
+        $user    = $this->getUserFactory()->loadUserById($userId);
         $this->assertCanDelete($user);
 
         // Also make sure the Method really does exist
@@ -282,7 +284,7 @@ class MethodController extends BaseControllerAlias
 
         // Make sure I am allowed to edit the specified user
         $userId = $this->input->getInt('user_id', null);
-        $user   = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+        $user   = $this->getUserFactory()->loadUserById($userId);
         $this->assertCanEdit($user);
 
         // Redirect
@@ -401,8 +403,7 @@ class MethodController extends BaseControllerAlias
     private function assertValidRecordId($id, ?User $user = null): MfaTable
     {
         if (is_null($user)) {
-            $user = $this->app->getIdentity()
-                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            $user = $this->app->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
         }
 
         /** @var MethodModel $model */
@@ -477,8 +478,7 @@ class MethodController extends BaseControllerAlias
      */
     private function assertLoggedInUser(): void
     {
-        $user = $this->app->getIdentity()
-            ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        $user = $this->app->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
 
         if ($user->guest) {
             throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);

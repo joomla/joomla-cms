@@ -36,7 +36,7 @@ class LanguagesController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Language', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Language', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -44,9 +44,9 @@ class LanguagesController extends AdminController
     /**
      * Method to get the number of published languages for quickicons
      *
-     * @return  string  The JSON-encoded amount of published languages
+     * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getQuickiconContent()
     {
@@ -60,7 +60,7 @@ class LanguagesController extends AdminController
 
         $result['amount'] = $amount;
         $result['sronly'] = Text::plural('COM_LANGUAGES_N_QUICKICON_SRONLY', $amount);
-        $result['name'] = Text::plural('COM_LANGUAGES_N_QUICKICON', $amount);
+        $result['name']   = Text::plural('COM_LANGUAGES_N_QUICKICON', $amount);
 
         echo new JsonResponse($result);
     }

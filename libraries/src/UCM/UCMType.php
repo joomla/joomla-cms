@@ -15,7 +15,7 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -168,7 +168,7 @@ class UCMType implements UCM
         $types = $this->db->loadObjectList();
 
         foreach ($types as $type) {
-            $tableFromType = json_decode($type->table);
+            $tableFromType     = json_decode($type->table);
             $tableNameFromType = $tableFromType->special->prefix . $tableFromType->special->type;
 
             if ($tableNameFromType === $tableName) {
