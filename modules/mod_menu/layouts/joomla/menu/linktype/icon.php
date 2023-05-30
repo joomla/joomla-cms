@@ -13,7 +13,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 defined('_JEXEC') or die;
 
 $attributes = [
-    'icon'   => $displayData->menu_icon,
+    'icon'   => $displayData['icon'],
     'suffix' => 'p-2',
 ];
 

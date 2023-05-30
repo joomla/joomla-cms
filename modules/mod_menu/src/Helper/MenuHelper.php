@@ -14,6 +14,7 @@ use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
@@ -222,20 +223,14 @@ class MenuHelper
     public static function getLinktype($item, $itemParams)
     {
         $attributes = [
-            'title'     => $item->title,
-            'menu_text' => $itemParams->get('menu_text', 1),
+            'title'          => $item->title,
+            'menu_text'      => $itemParams->get('menu_text', 1),
+            'menu_icon'      => $itemParams->get('menu_icon_css', false),
+            'menu_image'     => $itemParams->get('menu_image', false),
+            'menu_image_css' => $itemParams->get('menu_image_css', ''),
         ];
 
-        if ($item->menu_icon)
-        {
-            $attributes['icon'] = LayoutHelper::render('joomla.menu.icon', $item);
-        }
-        elseif ($item->menu_image)
-        {
-            $attributes['image']    = LayoutHelper::render('joomla.menu.image', $item);
-        }
-
-        return LayoutHelper::render('joomla.menu.linktype', $attributes);
+        return LayoutHelper::render('joomla.menu.linktype', $attributes, JPATH_SITE . '/modules/mod_menu/layouts');
     }
 
     /**
