@@ -12,7 +12,7 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Form\FormField;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -49,12 +49,36 @@ class MeterField extends FormField
     protected $animated = true;
 
     /**
+     * The min value of the progress bar
+     *
+     * @var    int
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $min = 0;
+
+    /**
      * The max value of the progress bar
      *
-     * @var    boolean
+     * @var    int
      * @since  4.0.0
      */
     protected $max = 100;
+
+    /**
+     * The width of the progress bar
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $width;
+
+    /**
+     * The color of the progress bar
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $color;
 
     /**
      * The striped class for the progress bar
@@ -107,6 +131,11 @@ class MeterField extends FormField
     public function __set($name, $value)
     {
         switch ($name) {
+            case 'max':
+            case 'min':
+                $this->$name = (int) $value;
+                break;
+
             case 'width':
             case 'color':
                 $this->$name = (string) $value;

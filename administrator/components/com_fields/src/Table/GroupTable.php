@@ -14,6 +14,8 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 
@@ -26,8 +28,10 @@ use Joomla\Registry\Registry;
  *
  * @since  3.7.0
  */
-class GroupTable extends Table
+class GroupTable extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
@@ -101,7 +105,7 @@ class GroupTable extends Table
         }
 
         $date = Factory::getDate()->toSql();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Set created date if not set.
         if (!(int) $this->created) {

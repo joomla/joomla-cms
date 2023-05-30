@@ -588,7 +588,7 @@ final class Joomla extends ActionLogPlugin
             return;
         }
 
-        $jUser = Factory::getUser();
+        $jUser = $this->getApplication()->getIdentity();
 
         if (!$jUser->id) {
             $messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_REGISTERED';
@@ -916,7 +916,7 @@ final class Joomla extends ActionLogPlugin
     public function onAfterCheckin($table)
     {
         $context = 'com_checkin';
-        $user    = Factory::getUser();
+        $user    = $this->getApplication()->getIdentity();
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -951,7 +951,7 @@ final class Joomla extends ActionLogPlugin
     public function onAfterLogPurge($group = '')
     {
         $context = $this->getApplication()->getInput()->get('option');
-        $user    = Factory::getUser();
+        $user    = $this->getApplication()->getIdentity();
         $message = [
             'action'      => 'actionlogs',
             'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
@@ -979,7 +979,7 @@ final class Joomla extends ActionLogPlugin
     public function onAfterLogExport($group = '')
     {
         $context = $this->getApplication()->getInput()->get('option');
-        $user    = Factory::getUser();
+        $user    = $this->getApplication()->getIdentity();
         $message = [
             'action'      => 'actionlogs',
             'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
@@ -1007,7 +1007,7 @@ final class Joomla extends ActionLogPlugin
     public function onAfterPurge($group = 'all')
     {
         $context = $this->getApplication()->getInput()->get('option');
-        $user    = Factory::getUser();
+        $user    = $this->getApplication()->getIdentity();
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -1083,7 +1083,7 @@ final class Joomla extends ActionLogPlugin
     public function onJoomlaAfterUpdate($oldVersion = null)
     {
         $context = $this->getApplication()->getInput()->get('option');
-        $user    = Factory::getUser();
+        $user    = $this->getApplication()->getIdentity();
 
         if (empty($oldVersion)) {
             $oldVersion = $this->getApplication()->getLanguage()->_('JLIB_UNKNOWN');

@@ -10,7 +10,10 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\Extension;
 
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Session\Session;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Plugin\Editors\TinyMCE\PluginTraits\DisplayTrait;
 
@@ -37,13 +40,49 @@ final class TinyMCE extends CMSPlugin
     protected $autoloadLanguage = true;
 
     /**
-     * Initializes the Editor.
+     * Returns the templates
      *
      * @return  void
      *
-     * @since   1.5
+     * @since   __DEPLOY_VERSION__
      */
-    public function onInit()
+    public function onAjaxTinymce()
     {
+        if (!Session::checkToken('request')) {
+            echo json_encode([]);
+            exit();
+        }
+
+        $templates = [];
+        $language  = $this->getApplication()->getLanguage();
+        $template  = $this->getApplication()->input->getPath('template', '');
+
+        if ('' === $template) {
+            echo json_encode([]);
+            exit();
+        }
+
+        $filepaths = Folder::exists(JPATH_ROOT . '/templates/' . $template)
+            ? Folder::files(JPATH_ROOT . '/templates/' . $template, '\.(html|txt)$', false, true)
+            : [];
+
+        foreach ($filepaths as $filepath) {
+            $fileinfo    = pathinfo($filepath);
+            $filename    = $fileinfo['filename'];
+            $title_upper = strtoupper($filename);
+
+            if ($filename === 'index') {
+                continue;
+            }
+
+            $templates[] = (object) [
+                'title'       => $language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE') ? Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE') : $filename,
+                'description' => $language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC') ? Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC') : ' ',
+                'content'     => file_get_contents($filepath),
+            ];
+        }
+
+        echo json_encode($templates);
+        exit();
     }
 }

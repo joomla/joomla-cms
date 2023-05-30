@@ -27,8 +27,11 @@ describe('Install Joomla', () => {
       // Update to the correct secret for the API tests because of the bearer token
       let content = fileContent.replace(/^.*\$secret.*$/mg, "public $secret = 'tEstValue';");
 
-      // Turn off mailing
-      content = content.replace(/^.*\$mailonline.*$/mg, 'public $mailonline = false;');
+      // Setup mailing
+      content = content.replace(/^.*\$mailonline.*$/mg, 'public $mailonline = true;');
+      content = content.replace(/^.*\$mailer.*$/mg, 'public $mailer = \'smtp\';');
+      content = content.replace(/^.*\$smtphost.*$/mg, `public $smtphost = '${Cypress.env('smtp_host')}';`);
+      content = content.replace(/^.*\$smtpport.*$/mg, `public $smtpport = '${Cypress.env('smtp_port')}';`);
 
       // Write the modified content back to the configuration file
       cy.task('writeFile', { path: 'configuration.php', content });

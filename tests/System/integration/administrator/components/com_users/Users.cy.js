@@ -1,14 +1,14 @@
-describe('Test that the user back end list', () => {
+describe('Test in backend that the user list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
-    cy.visit('administrator/index.php?option=com_users&view=users&filter=');
+    cy.visit('/administrator/index.php?option=com_users&view=users&filter=');
   });
 
   it('has a title', () => {
     cy.get('h1.page-title').should('contain.text', 'Users');
   });
 
-  it('can show a list of users', () => {
+  it('can display a list of users', () => {
     cy.db_createUser({ name: 'Test user' }).then(() => {
       cy.reload();
 
