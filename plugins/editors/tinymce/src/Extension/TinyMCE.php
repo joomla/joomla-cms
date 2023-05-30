@@ -48,7 +48,7 @@ final class TinyMCE extends CMSPlugin
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function highLighterAjax()
+    public function onAjaxTinymceHighlighter()
     {
         $isFullScreen = $this->getApplication()->input->getPath('fullscreen', '') === '' ? false : true;
 

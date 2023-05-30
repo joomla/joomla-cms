@@ -11,7 +11,7 @@ window.tinymce.PluginManager.add('highlightPlus', (editor) => {
       throw new Error('Codemirror settings are not defined');
     }
 
-    const iframeUrl = new URL(`${Joomla.getOptions('system.paths').baseFull}index.php?option=com_ajax&group=editors&plugin=tinymce&method=highLighter&format=raw`);
+    const iframeUrl = new URL(`${Joomla.getOptions('system.paths').baseFull}index.php?option=com_ajax&group=editors&plugin=tinymceHighlighter&format=raw`);
     editor.focus();
     editor.selection.collapse(true);
 
