@@ -90,6 +90,12 @@ class IndexerController extends BaseController
             $state        = Indexer::getState();
             $state->start = 1;
 
+            $output = ob_get_contents();
+
+            if ($output) {
+                throw new \Exception(Text::_('COM_FINDER_AN_ERROR_HAS_OCCURRED'));
+            }
+
             // Send the response.
             static::sendResponse($state);
         } catch (\Exception $e) {
@@ -170,6 +176,12 @@ class IndexerController extends BaseController
                 // Informational log only
             }
 
+            $output = ob_get_contents();
+
+            if ($output) {
+                throw new \Exception(Text::_('COM_FINDER_INDEXER_ERROR_PLUGIN_FAILURE'));
+            }
+
             // Send the response.
             static::sendResponse($state);
         } catch (\Exception $e) {
@@ -213,6 +225,12 @@ class IndexerController extends BaseController
             $state           = Indexer::getState();
             $state->start    = 0;
             $state->complete = 1;
+
+            $output = ob_get_contents();
+
+            if ($output) {
+                throw new \Exception(Text::_('COM_FINDER_AN_ERROR_HAS_OCCURRED'));
+            }
 
             // Send the response.
             static::sendResponse($state);
@@ -264,6 +282,7 @@ class IndexerController extends BaseController
             $response->buffer = ob_get_contents();
             $response->memory = memory_get_usage(true);
         }
+        ob_clean();
 
         // Send the JSON response.
         echo json_encode($response);
