@@ -12,7 +12,7 @@ if (!window.parent.Joomla || typeof window.parent.Joomla.getOptions !== 'functio
 const { tinymce } = window.parent; // Reference to TinyMCE
 
 if (!tinymce) {
-  throw new Error('tinyMCE not found');
+  throw new Error('TinyMCE not found');
 }
 
 const editor = tinymce.activeEditor; // Reference to TinyMCE editor
