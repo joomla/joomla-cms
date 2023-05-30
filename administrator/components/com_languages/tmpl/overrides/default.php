@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -71,7 +70,7 @@ $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
                             </tr>
                         </thead>
                         <tbody>
-                        <?php $canEdit = Factory::getUser()->authorise('core.edit', 'com_languages'); ?>
+                        <?php $canEdit = $this->getCurrentUser()->authorise('core.edit', 'com_languages'); ?>
                         <?php $i = 0; ?>
                         <?php foreach ($this->items as $key => $text) : ?>
                             <tr class="row<?php echo $i % 2; ?>" id="overriderrow<?php echo $i; ?>">

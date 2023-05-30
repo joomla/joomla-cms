@@ -1,5 +1,5 @@
-describe('Test that the list view ', () => {
-  it('can display a list of contacts in menu item', () => {
+describe('Test in frontend that the contact category view', () => {
+  it('can display a list of contacts in a menu item', () => {
     cy.db_createContact({ name: 'automated test contact 1', featured: 1 })
       .then(() => cy.db_createContact({ name: 'automated test contact 2', featured: 1 }))
       .then(() => cy.db_createContact({ name: 'automated test contact 3', featured: 1 }))
@@ -16,7 +16,7 @@ describe('Test that the list view ', () => {
       });
   });
 
-  it('can display a list of contacts without menu item', () => {
+  it('can display a list of contacts without a menu item', () => {
     cy.db_createContact({ name: 'automated test contact 1' })
       .then(() => cy.db_createContact({ name: 'automated test contact 2' }))
       .then(() => cy.db_createContact({ name: 'automated test contact 3' }))
