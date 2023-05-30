@@ -232,7 +232,7 @@ class MenuHelper
         }
         elseif ($item->menu_image)
         {
-            $attributes['image'] = LayoutHelper::render('joomla.menu.image', $item);
+            $attributes['image']    = LayoutHelper::render('joomla.menu.image', $item);
         }
 
         return LayoutHelper::render('joomla.menu.linktype', $attributes);
