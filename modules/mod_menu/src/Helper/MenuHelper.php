@@ -13,8 +13,8 @@ namespace Joomla\Module\Menu\Site\Helper;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 
@@ -221,33 +221,36 @@ class MenuHelper
      */
     public static function getLinktype($item, $itemParams)
     {
-        $linktype = $item->title;
+        $attributes = [
+            'title'     => $item->title,
+            'menu_text' => $itemParams->get('menu_text', 1),
+        ];
 
-        if ($item->menu_icon) {
-            // The link is an icon
-            if ($itemParams->get('menu_text', 1)) {
-                // If the link text is to be displayed, the icon is added with aria-hidden
-                $linktype = '<span class="p-2 ' . $item->menu_icon . '" alt="" aria-hidden="true"></span>' . $item->title;
-            } else {
-                // If the icon itself is the link, it needs a visually hidden text
-                $linktype = '<span class="p-2 ' . $item->menu_icon . '" alt="' . $item->title . '" aria-hidden="true"></span><span class="visually-hidden">' . $item->title . '</span>';
-            }
-        } elseif ($item->menu_image) {
-            // The link is an image, maybe with an own class
-            $image_attributes = [];
+        if ($item->menu_icon)
+        {
+            $icon_attributes = [
+                'icon'   => $item->menu_icon,
+                'suffix' => 'p-2',
+            ];
 
-            if ($item->menu_image_css) {
+            $attributes['icon'] = LayoutHelper::render('joomla.icon.iconclass', $icon_attributes);
+        }
+        elseif ($item->menu_image)
+        {
+            $image_attributes = [
+                'src' => $item->menu_image,
+                'alt' => '',
+            ];
+
+            if ($item->menu_image_css)
+            {
                 $image_attributes['class'] = $item->menu_image_css;
             }
 
-            $linktype = HTMLHelper::_('image', $item->menu_image, '', $image_attributes);
-
-            if ($itemParams->get('menu_text', 1)) {
-                $linktype .= '<span class="image-title">' .  '" alt="' . $item->title . '" aria-hidden="true"></span><span class="visually-hidden">' . $item->title . '</span>';
-            }
+            $attributes['image'] = LayoutHelper::render('joomla.html.image', $image_attributes);
         }
 
-        return $linktype;
+        return LayoutHelper::render('joomla.menu.linktype', $attributes);
     }
 
     /**
