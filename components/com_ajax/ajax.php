@@ -123,6 +123,7 @@ if (!$format) {
      * The plugin event triggered is onAjaxFoo, where 'foo' is
      * the value of the 'plugin' variable passed via the URL
      * (i.e. index.php?option=com_ajax&plugin=foo)
+     *
      */
     $group      = $input->get('group', 'ajax');
     PluginHelper::importPlugin($group);
