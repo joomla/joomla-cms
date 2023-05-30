@@ -102,7 +102,7 @@ class TasksModel extends ListModel
     /**
      * Method to create a query for a list of items.
      *
-     * @return QueryInterface
+     * @return  DatabaseQuery
      *
      * @since  4.1.0
      * @throws \Exception
@@ -169,7 +169,7 @@ class TasksModel extends ListModel
         ) use (
             $query,
             &$filterCount
-) {
+        ) {
             if ($filterCount++) {
                 $query->extendWhere($outerGlue, $conditions, $innerGlue);
             } else {

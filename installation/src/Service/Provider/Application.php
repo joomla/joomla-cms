@@ -14,7 +14,6 @@ use Joomla\CMS\Error\Renderer\JsonRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Application\CliInstallationApplication;
 use Joomla\CMS\Installation\Application\InstallationApplication;
-use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -22,7 +21,7 @@ use Joomla\Session\SessionInterface;
 use Psr\Log\LoggerInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**

@@ -188,7 +188,7 @@ class ConsentsModel extends ListModel
         $pks = ArrayHelper::toInteger($pks);
 
         try {
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->update($db->quoteName('#__privacy_consents'))
                 ->set($db->quoteName('state') . ' = -1')
@@ -215,7 +215,7 @@ class ConsentsModel extends ListModel
     public function invalidateAll($subject)
     {
         try {
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->update($db->quoteName('#__privacy_consents'))
                 ->set($db->quoteName('state') . ' = -1')

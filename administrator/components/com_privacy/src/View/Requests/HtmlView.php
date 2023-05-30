@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Privacy\Administrator\Model\RequestsModel;
 
@@ -138,12 +139,14 @@ class HtmlView extends BaseHtmlView
     {
         ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_REQUESTS'), 'lock');
 
+        $toolbar = Toolbar::getInstance();
+
         // Requests can only be created if mail sending is enabled
         if (Factory::getApplication()->get('mailonline', 1)) {
-            ToolbarHelper::addNew('request.add');
+            $toolbar->addNew('request.add');
         }
 
-        ToolbarHelper::preferences('com_privacy');
-        ToolbarHelper::help('Privacy:_Information_Requests');
+        $toolbar->preferences('com_privacy');
+        $toolbar->help('Privacy:_Information_Requests');
     }
 }

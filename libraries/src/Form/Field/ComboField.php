@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Form\Field;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -67,9 +67,9 @@ class ComboField extends ListField
         // Get the field options.
         $options = $this->getOptions();
 
-        $extraData = array(
+        $extraData = [
             'options' => $options,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

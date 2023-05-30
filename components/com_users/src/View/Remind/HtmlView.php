@@ -61,7 +61,7 @@ class HtmlView extends BaseHtmlView
      *
      * @param   string  $tpl  The template file to include
      *
-     * @return  mixed
+     * @return  void
      *
      * @since   1.5
      * @throws  \Exception

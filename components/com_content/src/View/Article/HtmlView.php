@@ -191,7 +191,7 @@ class HtmlView extends BaseHtmlView
          */
         if ($item->params->get('access-view') == false && !strlen($item->fulltext)) {
             if ($this->user->get('guest')) {
-                $return = base64_encode(Uri::getInstance());
+                $return                = base64_encode(Uri::getInstance());
                 $login_url_with_return = Route::_('index.php?option=com_users&view=login&return=' . $return);
                 $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'notice');
                 $app->redirect($login_url_with_return, 403);
@@ -224,16 +224,16 @@ class HtmlView extends BaseHtmlView
 
         // Process the content plugins.
         PluginHelper::importPlugin('content');
-        $this->dispatchEvent(new Event('onContentPrepare', array('com_content.article', &$item, &$item->params, $offset)));
+        $this->dispatchEvent(new Event('onContentPrepare', ['com_content.article', &$item, &$item->params, $offset]));
 
-        $item->event = new \stdClass();
-        $results = Factory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));
+        $item->event                    = new \stdClass();
+        $results                        = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_content.article', &$item, &$item->params, $offset]);
         $item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-        $results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$item->params, $offset));
+        $results                           = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_content.article', &$item, &$item->params, $offset]);
         $item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-        $results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$item->params, $offset));
+        $results                          = Factory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_content.article', &$item, &$item->params, $offset]);
         $item->event->afterDisplayContent = trim(implode("\n", $results));
 
         // Escape strings for HTML output
@@ -283,11 +283,11 @@ class HtmlView extends BaseHtmlView
                 $id = 0;
             }
 
-            $path     = array(array('title' => $this->item->title, 'link' => ''));
+            $path     = [['title' => $this->item->title, 'link' => '']];
             $category = Categories::getInstance('Content')->get($this->item->catid);
 
             while ($category !== null && $category->id != $id && $category->id !== 'root') {
-                $path[]   = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
+                $path[]   = ['title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language)];
                 $category = $category->getParent();
             }
 
@@ -299,7 +299,12 @@ class HtmlView extends BaseHtmlView
         }
 
         if (empty($title)) {
-            $title = $this->item->title;
+            /**
+             * This happens when the current active menu item is linked to the article without browser
+             * page title set, so we use Browser Page Title in article and fallback to article title
+             * if that is not set
+             */
+            $title = $this->item->params->get('article_page_title', $this->item->title);
         }
 
         $this->setDocumentTitle($title);

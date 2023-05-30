@@ -31,19 +31,19 @@ class HtmlView extends CategoryView
      * @var    array  Array of leading items for blog display
      * @since  3.2
      */
-    protected $lead_items = array();
+    protected $lead_items = [];
 
     /**
      * @var    array  Array of intro items for blog display
      * @since  3.2
      */
-    protected $intro_items = array();
+    protected $intro_items = [];
 
     /**
      * @var    array  Array of links in blog display
      * @since  3.2
      */
-    protected $link_items = array();
+    protected $link_items = [];
 
     /**
      * @var    string  The name of the extension for the category
@@ -105,18 +105,18 @@ class HtmlView extends CategoryView
                 $item->text = $item->introtext;
             }
 
-            $app->triggerEvent('onContentPrepare', array('com_content.category', &$item, &$item->params, 0));
+            $app->triggerEvent('onContentPrepare', ['com_content.category', &$item, &$item->params, 0]);
 
             // Old plugins: Use processed text as introtext
             $item->introtext = $item->text;
 
-            $results = $app->triggerEvent('onContentAfterTitle', array('com_content.category', &$item, &$item->params, 0));
+            $results                        = $app->triggerEvent('onContentAfterTitle', ['com_content.category', &$item, &$item->params, 0]);
             $item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-            $results = $app->triggerEvent('onContentBeforeDisplay', array('com_content.category', &$item, &$item->params, 0));
+            $results                           = $app->triggerEvent('onContentBeforeDisplay', ['com_content.category', &$item, &$item->params, 0]);
             $item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-            $results = $app->triggerEvent('onContentAfterDisplay', array('com_content.category', &$item, &$item->params, 0));
+            $results                          = $app->triggerEvent('onContentAfterDisplay', ['com_content.category', &$item, &$item->params, 0]);
             $item->event->afterDisplayContent = trim(implode("\n", $results));
         }
 

@@ -14,7 +14,7 @@ use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -33,8 +33,8 @@ class OptionsRule extends FormRule
      * @param   string             $group    The field name group control value. This acts as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
-     * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
-     * @param   Form               $form     The form object for which the field is being tested.
+     * @param   ?Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
+     * @param   ?Form              $form     The form object for which the field is being tested.
      *
      * @return  boolean  True if the value is valid, false otherwise.
      *
@@ -53,7 +53,7 @@ class OptionsRule extends FormRule
         }
 
         // Make an array of all available option values.
-        $options = array();
+        $options = [];
 
         // Create the field
         $field = null;
