@@ -1,4 +1,5 @@
 import persistedStateOptions from './plugins/persisted-state.es6';
+import Api from '../app/Api.es6';
 
 // Get the disks from joomla option storage
 const options = Joomla.getOptions('com_media', {});
@@ -38,20 +39,21 @@ function setSession(path) {
 }
 
 // Gracefully use the given path, the session storage state or fall back to sensible default
-function getCurrentPath() {
-  // Nothing stored in the session, use the root of the first drive
-  if (!storedState || !storedState.selectedDirectory) {
-    setSession(defaultDisk.drives[0].root);
-    return defaultDisk.drives[0].root;
-  }
-
-  // Check that we have a fragment
+async function getCurrentPath() {
+  // No fragment, ie media field picker, etc
   if (!options.currentPath) {
-    if (!(storedState || storedState.selectedDirectory)) {
+    if (!storedState || !storedState.selectedDirectory) {
       setSession(defaultDisk.drives[0].root);
+      options.currentPath = defaultDisk.drives[0].root;
       return defaultDisk.drives[0].root;
     }
-    options.currentPath = '';
+
+    // Session match
+    if ((storedState && storedState.selectedDirectory)) {
+      setSession(storedState.selectedDirectory);
+      options.currentPath = storedState.selectedDirectory;
+      return storedState.selectedDirectory;
+    }
   }
 
   // Get the fragments
@@ -72,15 +74,15 @@ function getCurrentPath() {
     return defaultDisk.drives[0].root;
   }
 
-  // Session match
-  if ((storedState && storedState.selectedDirectory && storedState.selectedDirectory.startsWith(useDrive.root))) {
-    setSession(storedState.selectedDirectory);
-    return storedState.selectedDirectory;
+  // The URL path exists
+  if (await Api.checkPath(options.currentPath)) {
+    setSession(options.currentPath);
+    return options.currentPath;
   }
 
-  // Session missmatch
-  setSession(options.currentPath);
-  return options.currentPath;
+  // Everything failed, load the first drive
+  setSession(defaultDisk.drives[0].root);
+  return defaultDisk.drives[0].root;
 }
 
 // The initial state
@@ -101,7 +103,7 @@ export default {
   files: [],
   // The selected disk. Providers are ordered by plugin ordering, so we set the first provider
   // in the list as the default provider and load first drive on it as default
-  selectedDirectory: getCurrentPath(),
+  selectedDirectory: await getCurrentPath(),
   // The currently selected items
   selectedItems: [],
   // The state of the infobar

@@ -140,6 +140,28 @@ class Api {
   }
 
   /**
+   * Check if the path exists
+   *
+   * @param {string} dir
+   *
+   * @returns {boolean}
+   */
+  async checkPath(dir) {
+    const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(dir)}`);
+    url.searchParams.append('url', true);
+    url.searchParams.append('content', true);
+
+    return fetch(url, {
+        method: 'GET',
+        data: JSON.stringify({ [this.csrfToken]: '1'}),
+        headers: {
+          'X-CSRF-Token': Joomla.getOptions('csrf.token'),
+          'Content-Type': 'application/json'
+        },
+    }).then((response) => response.ok);
+  }
+
+  /**
      * Create a directory
      * @param name
      * @param parent
