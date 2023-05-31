@@ -1812,7 +1812,7 @@ class TemplateModel extends FormModel
 
         if (!is_dir($path)) {
             // Just in case a template does not include any media
-            mkdir($path, 0777, true);
+            Folder::create($path);
         }
 
         if (!is_writable($path)) {
