@@ -418,7 +418,7 @@ class CaptiveModel extends BaseDatabaseModel
      *
      * @return  boolean true if user can use the method, false if not
      *
-     * @since    4.4.0
+     * @since    4.3.2
      * @throws  \Exception
      */
     public function checkTryLimit(MfaTable $method)
