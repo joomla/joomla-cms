@@ -103,7 +103,7 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
         $url       = Route::_('index.php?option=com_users&task=methods.display&user_id=' . $userId, false);
         $returnURL = $this->input->getBase64('returnurl');
 
-        if (!empty($returnURL)) {
+        if (!empty($returnURL) && Uri::isInternal(base64_decode($returnURL))) {
             $url = base64_decode($returnURL);
         }
 
@@ -190,7 +190,7 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
         $url       = Uri::base();
         $returnURL = $this->input->getBase64('returnurl');
 
-        if (!empty($returnURL)) {
+        if (!empty($returnURL) && Uri::isInternal(base64_decode($returnURL))) {
             $url = base64_decode($returnURL);
         }
 
