@@ -152,12 +152,11 @@ class Api {
     url.searchParams.append('content', true);
 
     return fetch(url, {
-        method: 'GET',
-        data: JSON.stringify({ [this.csrfToken]: '1'}),
-        headers: {
-          'X-CSRF-Token': Joomla.getOptions('csrf.token'),
-          'Content-Type': 'application/json'
-        },
+      method: 'GET',
+      headers: {
+        'X-CSRF-Token': Joomla.getOptions('csrf.token'),
+        'Content-Type': 'application/json',
+      },
     }).then((response) => response.ok);
   }
 
