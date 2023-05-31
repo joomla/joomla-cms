@@ -86,6 +86,8 @@ async function getCurrentPath() {
 }
 
 async function getState() {
+  const selectedPath = await getCurrentPath();
+
   return {
     // The general loading state
     isLoading: false,
@@ -103,7 +105,7 @@ async function getState() {
     files: [],
     // The selected disk. Providers are ordered by plugin ordering, so we set the first provider
     // in the list as the default provider and load first drive on it as default
-    selectedDirectory: await getCurrentPath(),
+    selectedDirectory: selectedPath,
     // The currently selected items
     selectedItems: [],
     // The state of the infobar

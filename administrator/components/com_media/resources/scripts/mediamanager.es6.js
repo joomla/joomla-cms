@@ -9,5 +9,9 @@ window.MediaManager = window.MediaManager || {};
 // Register the media manager event bus
 window.MediaManager.Event = new Event();
 
-// Create the Vue app instance
-createApp(App).use(store).use(translate).mount('#com-media');
+(async () => {
+  const newStore = await store();
+
+  // Create the Vue app instance
+  createApp(App).use(newStore).use(translate).mount('#com-media');
+})();

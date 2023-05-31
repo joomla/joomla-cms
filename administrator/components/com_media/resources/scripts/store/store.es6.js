@@ -8,8 +8,10 @@ import persistedStateOptions from './plugins/persisted-state.es6.js';
 // A Vuex instance is created by combining the state, mutations, actions, and getters.
 
 async function newStore() {
+  const stateResolved = await state();
+
   return createStore({
-    state: await state(),
+    state: stateResolved,
     getters,
     actions,
     mutations,
@@ -17,4 +19,5 @@ async function newStore() {
     strict: (process.env.NODE_ENV !== 'production'),
   });
 }
+
 export default newStore;
