@@ -36,7 +36,7 @@ abstract class PrivacyPlugin extends CMSPlugin
      *
      * @var    \Joomla\Database\DatabaseDriver
      * @since  3.9.0
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 6.0 use $this->getDatabase() instead
+     * @deprecated  4.4.0 will be removed in 6.0 use $this->getDatabase() instead
      */
     protected $db;
 
