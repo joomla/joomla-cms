@@ -338,7 +338,7 @@ trait WorkflowBehaviorTrait
 
         $field->addAttribute('name', 'transition');
         $field->addAttribute('type', $this->workflowEnabled ? 'transition' : 'hidden');
-        $field->addAttribute('label', 'COM_CONTENT_WORKFLOW_STAGE');
+        $field->addAttribute('label', 'JWORKFLOW_STAGE');
         $field->addAttribute('extension', $extension);
 
         $form->setField($field);
