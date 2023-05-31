@@ -81,17 +81,20 @@ final class TinyMCE extends CMSPlugin
         $jsFile  = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/source.js', ['version' => 'auto', 'relative' => true, 'pathOnly' => true], []);
         $cssFile = HTMLHelper::_('stylesheet', 'plg_editors_tinymce/plugins/highlighter/source.css', ['version' => 'auto', 'relative' => true, 'pathOnly' => true], []);
 
+        $nonce   = $this->getApplication()->get('csp_nonce');
         $jsTags  = '';
         $cssTags = '';
 
         foreach ($jsFiles as $js) {
-            $jsTags .= '<script defer src="' . $base . '/' . $js . (JDEBUG ? '.js' : '.min.js') . '"></script>';
+            $jsTags .= '<script defer src="' . $base . '/' . $js . (JDEBUG ? '.js' : '.min.js') . '"' . (!$nonce ? '' : ' nonce="' . $nonce . '"') . '></script>';
         }
 
         foreach ($cssFiles as $css) {
-            $cssTags .= '<link rel="stylesheet" href="' . $base . '/' . $css . '.css">';
+            $cssTags .= '<link rel="stylesheet" href="' . $base . '/' . $css . '.css"' . (!$nonce ? '' : ' nonce="' . $nonce . '"') . '>';
         }
 
+        $cssFileTag = '<link rel="stylesheet" href="' . $cssFile . '"' . (!$nonce ? '' : ' nonce="' . $nonce . '"') . '>';
+        $jsFileTag  = '<script defer src="' . $jsFile . '"' . (!$nonce ? '' : ' nonce="' . $nonce . '"') . '></script>';
         return <<<HTMLSTRING
 <!DOCTYPE html>
 <html>
@@ -100,8 +103,8 @@ final class TinyMCE extends CMSPlugin
         <meta charset="UTF-8">
         $jsTags
         $cssTags
-        <link rel="stylesheet" href="$cssFile">
-        <script defer src="$jsFile"></script>
+        $cssFileTag
+        $jsFileTag
     </head>
     <body></body>
 </html>
