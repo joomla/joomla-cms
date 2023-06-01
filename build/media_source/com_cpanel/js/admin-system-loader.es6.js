@@ -34,7 +34,7 @@
               element.classList.remove('icon-spin');
               element.classList.remove('icon-spinner');
               element.classList.add('text-danger');
-              element.classList.add('icon-remove');
+              element.classList.add('icon-help');
             } else if (response.data) {
               const elem = document.createElement('span');
 
@@ -54,7 +54,7 @@
             element.classList.remove('icon-spin');
             element.classList.remove('icon-spinner');
             element.classList.add('text-danger');
-            element.classList.add('icon-remove');
+            element.classList.add('icon-help');
           });
         }
       });
