@@ -152,6 +152,18 @@ class CaptiveController extends BaseController
             throw new RuntimeException(Text::_('COM_USERS_MFA_INVALID_METHOD'), 500);
         }
 
+        if (!$model->checkTryLimit($record)) {
+            // The try limit is reached, show error and return
+            $captiveURL = Route::_('index.php?option=com_users&view=captive&task=select', false);
+            $message    = Text::_('COM_USERS_MFA_TRY_LIMIT_REACHED');
+            $this->setRedirect($captiveURL, $message, 'error');
+
+            $event = new NotifyActionLog('onComUsersCaptiveValidateTryLimitReached');
+            $this->app->getDispatcher()->dispatch($event->getName(), $event);
+
+            return;
+        }
+
         // Validate the code
         $user = $this->app->getIdentity()
             ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
@@ -210,6 +222,8 @@ class CaptiveController extends BaseController
         $jNow = Date::getInstance();
 
         $record->last_used = $jNow->toSql();
+        $record->tries     = 0;
+        $record->last_try  = null;
         $record->store();
 
         // Flag the user as fully logged in

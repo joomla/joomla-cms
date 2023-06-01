@@ -75,7 +75,7 @@ class BannerModel extends AdminModel
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.3.2
      */
     protected function cleanupPostBatchCopy(TableInterface $table, $newId, $oldId)
     {
