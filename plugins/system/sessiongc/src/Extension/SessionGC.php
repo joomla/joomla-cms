@@ -30,7 +30,7 @@ final class SessionGC extends CMSPlugin
      *
      * @var   MetadataManager
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private $metadataManager;
 
@@ -41,7 +41,7 @@ final class SessionGC extends CMSPlugin
      * @param   array                $config           An optional associative array of configuration settings
      * @param   MetadataManager      $metadataManager  The user factory
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct(DispatcherInterface $dispatcher, array $config, MetadataManager $metadataManager)
     {

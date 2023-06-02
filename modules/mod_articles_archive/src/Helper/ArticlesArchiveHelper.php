@@ -42,7 +42,7 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
      *
      * @return  \stdClass[]
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getArticlesByMonths(Registry $moduleParams, SiteApplication $app): array
     {
@@ -109,7 +109,7 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
      *
      * @since   1.5
      *
-     * @deprecated  __DEPLOY_VERSION__  will be removed in 6.0
+     * @deprecated  5.0.0  will be removed in 6.0
      *              Use the non-static method getArticlesByMonths
      *              Example: Factory::getApplication()->bootModule('mod_articles_archive', 'site')
      *                           ->getHelper('ArticlesArchiveHelper')
