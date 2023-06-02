@@ -58,7 +58,7 @@ class JConfig
 	public $helpurl = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
 	public $tmp_path = '/tmp';                // This path needs to be writable by Joomla!
 	public $log_path = '/administrator/logs'; // This path needs to be writable by Joomla!
-	public $live_site = '';                   // Optional, full URL to Joomla install.
+	public $live_site = '';                   // Optional, full URL to Joomla install eg https://www.example.com
 	public $force_ssl = 0;                    // Force areas of the site to be SSL ONLY.  0 = None, 1 = Administrator, 2 = Both Site and Administrator
 
 	/* Locale Settings */
