@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController as BaseControllerAlias;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
@@ -203,7 +204,7 @@ class MethodController extends BaseControllerAlias
         $redirectUrl = 'index.php?option=com_users&task=method.edit&user_id=' . $userId . '&id=' . $backupCodesRecord->id;
         $returnURL   = $this->input->getBase64('returnurl');
 
-        if (!empty($returnURL)) {
+        if (!empty($returnURL) && Uri::isInternal(base64_decode($returnURL))) {
             $redirectUrl .= '&returnurl=' . $returnURL;
         }
 
@@ -258,7 +259,7 @@ class MethodController extends BaseControllerAlias
         $url       = Route::_('index.php?option=com_users&task=methods.display&user_id=' . $userId, false);
         $returnURL = $this->input->getBase64('returnurl');
 
-        if (!empty($returnURL)) {
+        if (!empty($returnURL) && Uri::isInternal(base64_decode($returnURL))) {
             $url = base64_decode($returnURL);
         }
 
@@ -289,7 +290,7 @@ class MethodController extends BaseControllerAlias
         $url       = Route::_('index.php?option=com_users&task=methods.display&user_id=' . $userId, false);
         $returnURL = $this->input->getBase64('returnurl');
 
-        if (!empty($returnURL)) {
+        if (!empty($returnURL) && Uri::isInternal(base64_decode($returnURL))) {
             $url = base64_decode($returnURL);
         }
 
