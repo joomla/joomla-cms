@@ -82,7 +82,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         <?php else : ?>
                             <tr class="cat-list-row<?php echo $i % 2; ?>" >
                         <?php endif; ?>
-                            <th scope="row" class="list-title">
+                            <td scope="row" class="list-title">
                                 <?php if (($item->type_alias === 'com_users.category') || ($item->type_alias === 'com_banners.category')) : ?>
                                     <?php echo $this->escape($item->core_title); ?>
                                 <?php else : ?>
@@ -95,7 +95,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                         <?php echo Text::_('JUNPUBLISHED'); ?>
                                     </span>
                                 <?php endif; ?>
-                            </th>
+                            </td>
                             <?php if ($this->params->get('tag_list_show_date')) : ?>
                                 <td class="list-date">
                                     <?php
