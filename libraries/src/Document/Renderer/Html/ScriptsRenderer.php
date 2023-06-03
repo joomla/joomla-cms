@@ -51,6 +51,7 @@ class ScriptsRenderer extends DocumentRenderer
         $buffer       = '';
         $wam          = $this->_doc->getWebAssetManager();
         $assets       = $wam->getAssets('script', true);
+        $importmap    = $wam->getEsmImportMap();
 
         // Get a list of inline assets and their relation with regular assets
         $inlineAssets   = $wam->filterOutInlineAssets($assets);
@@ -58,6 +59,12 @@ class ScriptsRenderer extends DocumentRenderer
 
         // Merge with existing scripts, for rendering
         $assets = array_merge(array_values($assets), $this->_doc->_scripts);
+
+        // Start with importmap if any
+        if ($importmap) {
+            $jsonImports = json_encode($importmap, JDEBUG ? JSON_PRETTY_PRINT : false);
+            $buffer .= $tab . '<script type="importmap">' . $jsonImports . '</script>';
+        }
 
         // Generate script file links
         foreach ($assets as $key => $item) {
