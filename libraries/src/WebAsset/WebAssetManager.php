@@ -89,15 +89,6 @@ class WebAssetManager implements WebAssetManagerInterface
     protected $activeAssets = [];
 
     /**
-     * Import map for ES modules.
-     *
-     * @var    array
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    protected $esmImportMap = [];
-
-    /**
      * Internal marker to check the manager state,
      * to prevent use of the manager after an assets are rendered
      *
@@ -175,7 +166,6 @@ class WebAssetManager implements WebAssetManagerInterface
         }
 
         $this->activeAssets         = [];
-        $this->esmImportMap         = [];
         $this->dependenciesIsActual = false;
 
         return $this;
@@ -700,44 +690,6 @@ class WebAssetManager implements WebAssetManagerInterface
         $this->useAsset($type, $asset);
 
         return $this;
-    }
-
-    /**
-     * Add element to ESM importmap
-     *
-     * @param   string  $name   A module name
-     * @param   string  $value  The path to file or dir
-     * @param   string  $scope  An optional scope
-     *
-     * @return self
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public function addEsmImport(string $name, string $value, string $scope = ''): self
-    {
-        if ($this->locked) {
-            throw new InvalidActionException('WebAssetManager is locked');
-        }
-
-        if (!$scope) {
-            $this->esmImportMap['imports'][$name] = $value;
-        } else {
-            $this->esmImportMap['scopes'][$scope][$name] = $value;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Return importmap, including the map from active assets
-     *
-     * @return array
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public function getEsmImportMap(): array
-    {
-        return $this->esmImportMap;
     }
 
     /**

@@ -51,20 +51,16 @@ class ScriptsRenderer extends DocumentRenderer
         $buffer       = '';
         $wam          = $this->_doc->getWebAssetManager();
         $assets       = $wam->getAssets('script', true);
-        $importmap    = $wam->getEsmImportMap();
 
         // Get a list of inline assets and their relation with regular assets
         $inlineAssets   = $wam->filterOutInlineAssets($assets);
         $inlineRelation = $wam->getInlineRelation($inlineAssets);
 
+        // Generate importmap first
+        $buffer .= $this->renderImportmap($assets);
+
         // Merge with existing scripts, for rendering
         $assets = array_merge(array_values($assets), $this->_doc->_scripts);
-
-        // Start with importmap if any
-        if ($importmap) {
-            $jsonImports = json_encode($importmap, JDEBUG ? JSON_PRETTY_PRINT : false);
-            $buffer .= $tab . '<script type="importmap">' . $jsonImports . '</script>';
-        }
 
         // Generate script file links
         foreach ($assets as $key => $item) {
@@ -145,7 +141,7 @@ class ScriptsRenderer extends DocumentRenderer
         $src    = $asset ? $asset->getUri() : ($item['src'] ?? '');
 
         // Make sure we have a src, and it not already rendered
-        if (!$src || !empty($this->renderedSrc[$src]) || ($asset && $asset->getOption('webcomponent'))) {
+        if (!$src || !empty($this->renderedSrc[$src]) || ($asset && $asset->getOption('importmapOnly'))) {
             return '';
         }
 
@@ -323,6 +319,55 @@ class ScriptsRenderer extends DocumentRenderer
 
                 $buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
             }
+        }
+
+        return $buffer;
+    }
+
+    /**
+     * Renders ESM importmap element
+     *
+     * @param   WebAssetItemInterface[]  $assets  The assets list
+     *
+     * @return  string  The attributes string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function renderImportmap(array $assets)
+    {
+        $buffer       = '';
+        $importmap    = ['imports' => []];
+        $tab          = $this->_doc->_getTab();
+        $mediaVersion = $this->_doc->getMediaVersion();
+
+        // Collect a modules for the map
+        foreach ($assets as $item) {
+            // Only type=module can be mapped
+            if ($item->getAttribute('type') !== 'module') {
+                continue;
+            }
+
+            $esmName  = $item->getOption('importmapName') ?: $item->getName();
+            $esmScope = $item->getOption('importmapScope');
+            $version  = $item->getVersion();
+            $src      = $item->getUri();
+
+            // Check if script uses media version.
+            if ($version && !str_contains($src, '?') && !str_ends_with($src, '/') && ($mediaVersion || $version !== 'auto')) {
+                $src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
+            }
+
+            if (!$esmScope) {
+                $importmap['imports'][$esmName] = $src;
+            } else {
+                $importmap['scopes'][$esmScope][$esmName] = $src;
+            }
+        }
+
+        // Render map
+        if (!empty($importmap['imports'])) {
+            $jsonImports = json_encode($importmap, JDEBUG ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES : JSON_UNESCAPED_SLASHES);
+            $buffer .= $tab . '<script type="importmap">' . $jsonImports . '</script>';
         }
 
         return $buffer;

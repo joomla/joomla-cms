@@ -111,10 +111,11 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 // Defer fontawesome for increased performance. Once the page is loaded javascript changes it to a stylesheet.
 $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 
-$wa->addEsmImport('test', './test.js');
-$wa->addEsmImport('test', './test2.js', '/en/');
+//$wa->addEsmImport('test', './test.js');
+//$wa->addEsmImport('test', './test2.js', '/en/');
+$wa->useScript('test1');
 
-dump($wa->getEsmImportMap());
+//dump($wa->getEsmImportMap());
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
