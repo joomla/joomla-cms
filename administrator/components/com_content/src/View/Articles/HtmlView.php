@@ -88,7 +88,7 @@ class HtmlView extends BaseHtmlView
      * Is the vote plugin enabled on the site
      *
      * @var   boolean
-     * @since 5.0.0
+     * @since 4.4.0
      */
     protected $vote = false;
 
@@ -96,7 +96,7 @@ class HtmlView extends BaseHtmlView
      * Are hits being recorded on the site?
      *
      * @var   boolean
-     * @since 5.0.0
+     * @since 4.4.0
      */
     protected $hits = false;
 

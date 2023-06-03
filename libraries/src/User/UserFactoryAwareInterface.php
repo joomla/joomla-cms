@@ -16,7 +16,7 @@ namespace Joomla\CMS\User;
 /**
  * Interface to be implemented by classes depending on a user factory.
  *
- * @since  5.0.0
+ * @since  4.4.0
  */
 interface UserFactoryAwareInterface
 {
@@ -27,7 +27,7 @@ interface UserFactoryAwareInterface
      *
      * @return  void
      *
-     * @since   5.0.0
+     * @since   4.4.0
      */
     public function setUserFactory(UserFactoryInterface $factory): void;
 }

@@ -36,7 +36,7 @@ if (!defined('JPATH_ROOT')) {
 }
 
 /**
- * @deprecated 5.0.0 will be removed in 6.0
+ * @deprecated 4.4.0 will be removed in 6.0
  **/
 if (!defined('JPATH_PLATFORM')) {
     define('JPATH_PLATFORM', JPATH_BASE . DIRECTORY_SEPARATOR . 'libraries');
