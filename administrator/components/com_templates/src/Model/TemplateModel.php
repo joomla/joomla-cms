@@ -1810,14 +1810,23 @@ class TemplateModel extends FormModel
         $path               = Path::clean(JPATH_ROOT . '/media/templates/' . ($template->client_id === 0 ? 'site' : 'administrator') . '/' . $template->element . '/');
         $this->mediaElement = $path;
 
+        if (!is_dir($path)) {
+            // Just in case an admin has removed the template media folder
+            /// or the template did not include any media in the first place (is media mandatory - should the installation have failed?).
+            Folder::create($path);
+        }
+
         if (!is_writable($path)) {
             $app->enqueueMessage(Text::_('COM_TEMPLATES_DIRECTORY_NOT_WRITABLE'), 'error');
         }
 
-        if (is_dir($path)) {
-            $result = $this->getDirectoryTree($path);
-        }
+        $result = $this->getDirectoryTree($path);
 
+        if (empty($result)) {
+            // Make sure empty folder appears in 'Templates: Customise' page.
+            $result = ['.'];
+        }
+        
         return $result;
     }
 
