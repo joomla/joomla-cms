@@ -34,12 +34,12 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     use DatabaseAwareTrait;
 
     /**
-     * The EOS date for 4.4.
+     * The EOS date for 5.x.
      *
      * @var    string
      * @since 4.4.0
      */
-    private const EOS_DATE = '2025-10-17';
+    private const EOS_DATE = '2027-11-17';
 
     /**
      * Load the language file on instantiation.

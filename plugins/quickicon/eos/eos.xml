@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>4.4.0</version>
+	<version>5.0.0</version>
 	<description>PLG_QUICKICON_EOS_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Quickicon\Eos</namespace>
 	<files>
