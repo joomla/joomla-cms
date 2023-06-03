@@ -1812,7 +1812,7 @@ class TemplateModel extends FormModel
 
         if (!is_dir($path)) {
             // Just in case an admin has removed the template media folder
-            /// or the template did not include any media in the first place (is media mandatory - should the installation have failed?).
+            // or the template did not include any media in the first place (is media mandatory - should the installation have failed?).
             Folder::create($path);
         }
 
