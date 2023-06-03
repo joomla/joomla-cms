@@ -1,4 +1,4 @@
-describe('Test that banners API endpoint', () => {
+describe('Test that banner categories API endpoint', () => {
   it('can display a list of categories', () => {
     cy.db_createCategory({ title: 'automated test category', extension: 'com_banners' })
       .then((id) => cy.db_createBanner({ name: 'automated test banner', catid: id }))
