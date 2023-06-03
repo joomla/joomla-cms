@@ -21,7 +21,7 @@ use UnexpectedValueException;
  *
  * @package     Joomla.UnitTest
  * @subpackage  MVC
- * @since       5.0.0
+ * @since       4.4.0
  */
 class UserFactoryAwareTraitTest extends UnitTestCase
 {
@@ -30,7 +30,7 @@ class UserFactoryAwareTraitTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   5.0.0
+     * @since   4.4.0
      */
     public function testGetSetUserFactory()
     {
@@ -65,7 +65,7 @@ class UserFactoryAwareTraitTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   5.0.0
+     * @since   4.4.0
      */
     public function testGetUserFactoryThrowsException()
     {

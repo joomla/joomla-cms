@@ -98,7 +98,7 @@ final class LanguageFilter extends CMSPlugin
      *
      * @var   LanguageFactoryInterface
      *
-     * @since 5.0.0
+     * @since 4.4.0
      */
     private $languageFactory;
 

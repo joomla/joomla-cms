@@ -27,7 +27,7 @@ use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 /**
  * Joomla! end of support notification plugin
  *
- * @since 5.0.0
+ * @since 4.4.0
  */
 final class Eos extends CMSPlugin implements SubscriberInterface
 {
@@ -37,7 +37,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      * The EOS date for 4.4.
      *
      * @var    string
-     * @since 5.0.0
+     * @since 4.4.0
      */
     private const EOS_DATE = '2025-10-17';
 
@@ -45,7 +45,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      * Load the language file on instantiation.
      *
      * @var    bool
-     * @since  5.0.0
+     * @since  4.4.0
      */
     protected $autoloadLanguage = false;
 
@@ -53,7 +53,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      * Holding the current valid message to be shown.
      *
      * @var    array
-     * @since 5.0.0
+     * @since 4.4.0
      */
     private $currentMessage = [];
 
@@ -61,7 +61,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      * Are the messages initialized.
      *
      * @var    bool
-     * @since 5.0.0
+     * @since 4.4.0
      */
 
     private $messagesInitialized = false;
@@ -71,7 +71,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since 5.0.0
+     * @since 4.4.0
      */
     public static function getSubscribedEvents(): array
     {
@@ -92,7 +92,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since 5.0.0
+     * @since 4.4.0
      *
      * @throws Exception
      */
@@ -156,7 +156,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @return  bool
      *
-     * @since 5.0.0
+     * @since 4.4.0
      */
     private function saveParams(): bool
     {
@@ -178,7 +178,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @return  bool
      *
-     * @since 5.0.0
+     * @since 4.4.0
      *
      * @throws Exception
      */
@@ -202,7 +202,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @return  array  An array with the message to be displayed or false
      *
-     * @since 5.0.0
+     * @since 4.4.0
      */
     private function getMessageInfo(int $monthsUntilEOS, int $inverted): array
     {
@@ -284,7 +284,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @return  bool
      *
-     * @since 5.0.0
+     * @since 4.4.0
      *
      * @throws Exception
      */
@@ -298,7 +298,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @return  string
      *
-     * @since 5.0.0
+     * @since 4.4.0
      *
      * @throws  Notallowed  If user is not allowed
      *
@@ -329,7 +329,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      *
      * @return array
      *
-     * @since  5.0.0
+     * @since  4.4.0
      */
     private function setMessage(): array
     {

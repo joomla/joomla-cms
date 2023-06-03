@@ -16,7 +16,7 @@ namespace Joomla\CMS\User;
 /**
  * Defines the trait for a UserFactoryInterface Aware Class.
  *
- * @since  5.0.0
+ * @since  4.4.0
  */
 trait UserFactoryAwareTrait
 {
@@ -24,7 +24,7 @@ trait UserFactoryAwareTrait
      * UserFactoryInterface
      *
      * @var    UserFactoryInterface
-     * @since  5.0.0
+     * @since  4.4.0
      */
     private $userFactory;
 
@@ -33,7 +33,7 @@ trait UserFactoryAwareTrait
      *
      * @return  UserFactoryInterface
      *
-     * @since   5.0.0
+     * @since   4.4.0
      * @throws  \UnexpectedValueException May be thrown if the UserFactory has not been set.
      */
     protected function getUserFactory(): UserFactoryInterface
@@ -52,7 +52,7 @@ trait UserFactoryAwareTrait
      *
      * @return  void
      *
-     * @since   5.0.0
+     * @since   4.4.0
      */
     public function setUserFactory(UserFactoryInterface $userFactory): void
     {
