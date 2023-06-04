@@ -430,12 +430,7 @@ class TemplateModel extends FormModel
             } 
         }
 
-        // Empty folder
-        if (count($dirFiles) === 2 && $dirFiles === ['.', '..']) {
-            $result[] = '.';
-        }
-
-        return $result;
+        return !empty($result) ? $result : ['.'];
     }
 
     /**
