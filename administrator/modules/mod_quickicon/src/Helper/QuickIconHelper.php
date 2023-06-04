@@ -367,7 +367,7 @@ class QuickIconHelper
             if ($params->get('show_languages')) {
                 $tmp = [
                     'image'   => 'icon-comments langmanager',
-                    'link'    => Route::_('index.php?option=com_languages&view=installed'),
+                    'link'    => Route::_('index.php?option=com_languages&view=languages'),
                     'linkadd' => Route::_('index.php?option=com_installer&view=languages'),
                     'name'    => 'MOD_QUICKICON_LANGUAGES_MANAGER',
                     'access'  => ['core.manage', 'com_languages'],
