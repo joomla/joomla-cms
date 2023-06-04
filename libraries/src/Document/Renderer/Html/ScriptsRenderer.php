@@ -342,8 +342,8 @@ class ScriptsRenderer extends DocumentRenderer
 
         // Collect a modules for the map
         foreach ($assets as $item) {
-            // Only type=module can be mapped
-            if ($item->getAttribute('type') !== 'module') {
+            // Only importmap:true can be mapped
+            if (!$item->getOption('importmap')) {
                 continue;
             }
 
