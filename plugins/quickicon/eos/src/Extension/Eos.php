@@ -34,7 +34,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     use DatabaseAwareTrait;
 
     /**
-     * The EOS date for 5.x.
+     * The EOS date for the current major version.
      *
      * @var    string
      * @since 4.4.0
