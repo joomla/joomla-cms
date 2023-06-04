@@ -427,9 +427,12 @@ class TemplateModel extends FormModel
                         $result[]     = $this->getFile($relativePath, $value);
                     }
                 }
-            } else {
-                $result[] = '.';
-            }
+            } 
+        }
+
+        // Empty folder
+        if (count($dirFiles) === 2 && $dirFiles === ['.', '..']) {
+            $result[] = '.';
         }
 
         return $result;
