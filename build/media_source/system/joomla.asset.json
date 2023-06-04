@@ -37,6 +37,14 @@
       }
     },
     {
+      "name": "esm-map",
+      "type": "script",
+      "uri": "system/esm-map.min.js",
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
       "name": "messages-legacy",
       "type": "script",
       "uri": "system/messages-es5.min.js",
