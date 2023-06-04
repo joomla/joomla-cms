@@ -271,7 +271,7 @@ class QuickIconHelper
                 $this->buttons[$key][] = $tmp;
             }
 
-            if (ComponentHelper::isEnabled('com_workflows') && $params->get('show_workflow')) {
+            if (ComponentHelper::isEnabled('com_workflow') && $params->get('show_workflow')) {
                 $this->buttons[$key][] = [
                     'image'   => 'icon-file-alt contact',
                     'link'    => Route::_('index.php?option=com_workflow&view=workflows&extension=com_content.article'),
