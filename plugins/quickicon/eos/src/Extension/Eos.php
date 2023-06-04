@@ -39,7 +39,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
      * @var    string
      * @since 4.4.0
      */
-    private const EOS_DATE = '2027-11-17';
+    private const EOS_DATE = '2027-10-19';
 
     /**
      * Load the language file on instantiation.
