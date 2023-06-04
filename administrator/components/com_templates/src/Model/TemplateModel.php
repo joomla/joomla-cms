@@ -427,6 +427,8 @@ class TemplateModel extends FormModel
                         $result[]     = $this->getFile($relativePath, $value);
                     }
                 }
+            } else {
+                $result[] = '.';
             }
         }
 
