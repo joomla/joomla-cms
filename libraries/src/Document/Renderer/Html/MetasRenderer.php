@@ -50,10 +50,6 @@ class MetasRenderer extends DocumentRenderer
         $app = Factory::getApplication();
         $wa  = $this->_doc->getWebAssetManager();
 
-        // Explicitly enable "es-module-shims" for importmap polyfill, before the CompileHead event,
-        // that allows for developers to disable it when they not need the polyfill
-        $wa->useScript('es-module-shims');
-
         // Check for AttachBehavior and web components
         foreach ($wa->getAssets('script', true) as $asset) {
             if ($asset instanceof WebAssetAttachBehaviorInterface) {
