@@ -25,16 +25,16 @@ $app->getDocument()
     ->getWebAssetManager()
     ->useScript('bootstrap.dropdown');
 
-$lang = $app->getLanguage();
-
-$extension = $app->input->get('option');
-
-$listTours = [];
-$allTours = [];
+$lang       = $app->getLanguage();
+$extension  = $app->input->get('option');
+$listTours  = [];
+$allTours   = [];
+$toursCount = $params->get('tourscount', 7);
 
 foreach ($tours as $tour) :
-    if (count(array_intersect(['*', $extension], $tour->extensions))) :
+    if ($toursCount > 0 && count(array_intersect(['*', $extension], $tour->extensions))) :
         $listTours[] = $tour;
+        $toursCount--;
     endif;
 
     $uri = new Uri($tour->url);
@@ -66,15 +66,12 @@ ksort($allTours);
         <span class="icon-angle-down" aria-hidden="true"></span>
     </button>
     <div class="dropdown-menu dropdown-menu-end">
-    <?php $count = 0; ?>
-        <?php while ($count < count($listTours) && $count < $params->get('tourscount', 7)) { ?>
-            <?php $tour = $listTours[$count]; ?>
-                <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
-                    <span class="icon-map-signs" aria-hidden="true"></span>
-                    <?php echo $tour->title; ?>
-                </button>
-            <?php $count++; ?>
-        <?php } ?>
+        <?php foreach ($listTours as $tour) : ?>
+            <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
+                <span class="icon-map-signs" aria-hidden="true"></span>
+                <?php echo $tour->title; ?>
+            </button>
+        <?php endforeach; ?>
         <button type="button" class="dropdown-item text-center" data-bs-toggle="modal" data-bs-target="#modGuidedTours-modal">
             <?php echo Text::_('MOD_GUIDEDTOURS_SHOW_ALL'); ?>
         </button>
