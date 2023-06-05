@@ -4,7 +4,6 @@ const {
 const { dirname, join } = require('path');
 const { codeMirror } = require('./exemptions/codemirror.es6.js');
 const { tinyMCE } = require('./exemptions/tinymce.es6.js');
-const fs = require("fs");
 
 const RootPath = process.cwd();
 
@@ -19,7 +18,7 @@ const resolvePackageFile = (relativePath) => {
   for (let i = 0, l = module.paths.length; i < l; i += 1) {
     const path = module.paths[i];
     const fullPath = `${path}/${relativePath}`;
-    if (fs.existsSync(fullPath)) {
+    if (existsSync(fullPath)) {
       return fullPath;
     }
   }
