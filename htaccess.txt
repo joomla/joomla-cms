@@ -93,7 +93,7 @@ Options -Indexes
 	# Update Your Joomla! Directory (just / for root).
 	##
 
-	RewriteBase /
+	# RewriteBase /
 
 	## Begin - Joomla! core SEF Section.
 	#
