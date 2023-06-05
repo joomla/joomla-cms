@@ -340,6 +340,24 @@
         "dependencies": [],
         "licenseFilename": "license"
       },
+      "es-module-shims": {
+        "name": "es-module-shims",
+        "js": {
+          "dist/es-module-shims.js": "js/es-module-shims.js"
+        },
+        "provideAssets": [
+          {
+            "name": "es-module-shims",
+            "type": "script",
+            "uri": "es-module-shims.min.js",
+            "attributes": {
+              "async": true
+            }
+          }
+        ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE"
+      },
       "focus-visible": {
         "name": "focus-visible",
         "js": {

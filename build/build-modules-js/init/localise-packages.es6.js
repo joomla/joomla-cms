@@ -4,8 +4,28 @@ const {
 const { dirname, join } = require('path');
 const { codeMirror } = require('./exemptions/codemirror.es6.js');
 const { tinyMCE } = require('./exemptions/tinymce.es6.js');
+const fs = require("fs");
 
 const RootPath = process.cwd();
+
+/**
+ * Find full path for package file.
+ * Replacement for require.resolve(), as it is broken for packages with "exports" property.
+ *
+ * @param {string} relativePath Relative path to the file to resolve, in format packageName/file-name.js
+ * @returns {string|boolean}
+ */
+const resolvePackageFile = (relativePath) => {
+  for (let i = 0, l = module.paths.length; i < l; i += 1) {
+    const path = module.paths[i];
+    const fullPath = `${path}/${relativePath}`;
+    if (fs.existsSync(fullPath)) {
+      return fullPath;
+    }
+  }
+
+  return false;
+};
 
 /**
  *
@@ -39,7 +59,7 @@ const copyFilesTo = async (files, srcDir, destDir) => {
  */
 const resolvePackage = async (vendor, packageName, mediaVendorPath, options, registry) => {
   const vendorName = vendor.name || packageName;
-  const modulePathJson = require.resolve(`${packageName}/package.json`);
+  const modulePathJson = resolvePackageFile(`${packageName}/package.json`);
   const modulePathRoot = dirname(modulePathJson);
   // eslint-disable-next-line global-require, import/no-dynamic-require
   const moduleOptions = require(modulePathJson);
