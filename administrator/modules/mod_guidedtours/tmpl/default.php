@@ -26,7 +26,7 @@ $app->getDocument()
     ->useScript('bootstrap.dropdown');
 
 $lang       = $app->getLanguage();
-$extension = $app->getInput()->get('option');
+$extension  = $app->getInput()->get('option');
 $listTours  = [];
 $allTours   = [];
 $toursCount = $params->get('tourscount', 7);
