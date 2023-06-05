@@ -141,7 +141,7 @@ class ScriptsRenderer extends DocumentRenderer
         $src    = $asset ? $asset->getUri() : ($item['src'] ?? '');
 
         // Make sure we have a src, and it not already rendered
-        if (!$src || !empty($this->renderedSrc[$src]) || ($asset && $asset->getOption('importmapOnly'))) {
+        if (!$src || !empty($this->renderedSrc[$src])) {
             return '';
         }
 
@@ -333,7 +333,7 @@ class ScriptsRenderer extends DocumentRenderer
      *
      * @since   __DEPLOY_VERSION__
      */
-    private function renderImportmap(array $assets)
+    private function renderImportmap(array &$assets)
     {
         $buffer       = '';
         $importmap    = ['imports' => []];
@@ -341,7 +341,7 @@ class ScriptsRenderer extends DocumentRenderer
         $mediaVersion = $this->_doc->getMediaVersion();
 
         // Collect a modules for the map
-        foreach ($assets as $item) {
+        foreach ($assets as $k => $item) {
             // Only importmap:true can be mapped
             if (!$item->getOption('importmap')) {
                 continue;
@@ -351,6 +351,10 @@ class ScriptsRenderer extends DocumentRenderer
             $esmScope = $item->getOption('importmapScope');
             $version  = $item->getVersion();
             $src      = $item->getUri();
+
+            if (!$src) {
+                continue;
+            }
 
             // Check if script uses media version.
             if ($version && !str_contains($src, '?') && !str_ends_with($src, '/') && ($mediaVersion || $version !== 'auto')) {
@@ -362,13 +366,35 @@ class ScriptsRenderer extends DocumentRenderer
             } else {
                 $importmap['scopes'][$esmScope][$esmName] = $src;
             }
+
+            // Remove the item from list of assets after it were added to map, for assets with "importmapOnly".
+            if ($item->getOption('importmapOnly')) {
+                unset($assets[$k]);
+            }
         }
 
-        // Render map
         if (!empty($importmap['imports'])) {
+            // Add polyfill when exists
+            if (!empty($assets['es-module-shims'])) {
+                $buffer .= $this->renderElement($assets['es-module-shims']);
+            }
+
+            // Render importmap
             $jsonImports = json_encode($importmap, JDEBUG ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES : JSON_UNESCAPED_SLASHES);
-            $buffer .= $tab . '<script type="importmap">' . $jsonImports . '</script>';
+            $attribs     = ['type' => 'importmap'];
+
+            // Add "nonce" attribute if exist
+            if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce)) {
+                $attribs['nonce'] = $this->_doc->cspNonce;
+            }
+
+            $buffer .= $tab . '<script';
+            $buffer .= $this->renderAttributes($attribs);
+            $buffer .= '>' . $jsonImports . '</script>';
         }
+
+        // Remove polyfill for "importmap" from assets list
+        unset($assets['es-module-shims']);
 
         return $buffer;
     }
