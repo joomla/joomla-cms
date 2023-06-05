@@ -26,7 +26,7 @@ $app->getDocument()
     ->useScript('bootstrap.dropdown');
 
 $lang       = $app->getLanguage();
-$extension  = $app->input->get('option');
+$extension = $app->getInput()->get('option');
 $listTours  = [];
 $allTours   = [];
 $toursCount = $params->get('tourscount', 7);
@@ -51,8 +51,6 @@ foreach ($tours as $tour) :
 
     $allTours[$key][] = $tour;
 endforeach;
-
-ksort($allTours);
 
 ?>
 <div class="header-item-content dropdown header-tours d-none d-sm-block">
