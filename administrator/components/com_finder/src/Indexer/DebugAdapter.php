@@ -22,7 +22,7 @@ use Joomla\Utilities\ArrayHelper;
  * THIS CLASS IS ONLY TO BE USED FOR DEBUGGING PURPOSES! DON'T
  * USE IT FOR PRODUCTIVE USE!
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  * @internal
  */
 abstract class DebugAdapter extends CMSPlugin
@@ -34,7 +34,7 @@ abstract class DebugAdapter extends CMSPlugin
      * named 'plgFinderContent', the context could be 'Content'.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $context;
 
@@ -42,7 +42,7 @@ abstract class DebugAdapter extends CMSPlugin
      * The extension name.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $extension;
 
@@ -50,7 +50,7 @@ abstract class DebugAdapter extends CMSPlugin
      * The sublayout to use when rendering the results.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $layout;
 
@@ -58,7 +58,7 @@ abstract class DebugAdapter extends CMSPlugin
      * The mime type of the content the adapter indexes.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $mime;
 
@@ -66,7 +66,7 @@ abstract class DebugAdapter extends CMSPlugin
      * The access level of an item before save.
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $old_access;
 
@@ -74,7 +74,7 @@ abstract class DebugAdapter extends CMSPlugin
      * The access level of a category before save.
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $old_cataccess;
 
@@ -82,7 +82,7 @@ abstract class DebugAdapter extends CMSPlugin
      * The type of content the adapter indexes.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $type_title;
 
@@ -90,7 +90,7 @@ abstract class DebugAdapter extends CMSPlugin
      * The type id of the content.
      *
      * @var    integer
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $type_id;
 
@@ -98,7 +98,7 @@ abstract class DebugAdapter extends CMSPlugin
      * The database object.
      *
      * @var    DatabaseInterface
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $db;
 
@@ -106,7 +106,7 @@ abstract class DebugAdapter extends CMSPlugin
      * The table name.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $table;
 
@@ -114,7 +114,7 @@ abstract class DebugAdapter extends CMSPlugin
      * The indexer object.
      *
      * @var    Indexer
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $indexer;
 
@@ -122,7 +122,7 @@ abstract class DebugAdapter extends CMSPlugin
      * The field the published state is stored in.
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     protected $state_field = 'state';
 
@@ -132,7 +132,7 @@ abstract class DebugAdapter extends CMSPlugin
      * @param   object  $subject  The object to observe.
      * @param   array   $config   An array that holds the plugin configuration.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function __construct(&$subject, $config)
     {
@@ -161,7 +161,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  Exception on error.
      */
     public function onStartIndex()
@@ -189,7 +189,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  boolean  True on success.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  Exception on error.
      */
     public function onBeforeIndex()
@@ -215,7 +215,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  boolean  True on success.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  Exception on error.
      */
     public function onBuildIndex()
@@ -260,7 +260,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  integer
      *
-     * @since   ___DEPLOY_VERSION__
+     * @since   _5.0.0
      */
     public function onFinderGarbageCollection()
     {
@@ -297,7 +297,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  boolean  True on success.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  Exception on database error.
      */
     protected function change($id, $property, $value)
@@ -328,7 +328,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  boolean  True on success.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  Exception on database error.
      */
     abstract protected function index(Result $item);
@@ -340,7 +340,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  Exception on database error.
      */
     protected function reindex($id)
@@ -368,7 +368,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  boolean  True on success.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  Exception on database error.
      */
     protected function remove($id, $removeTaxonomies = true)
@@ -404,7 +404,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  boolean  True on success, false on failure.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  Exception on database error.
      */
     abstract protected function setup();
@@ -416,7 +416,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function categoryAccessChange($row)
     {
@@ -445,7 +445,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function categoryStateChange($pks, $value)
     {
@@ -480,7 +480,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function checkCategoryAccess($row)
     {
@@ -501,7 +501,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function checkItemAccess($row)
     {
@@ -520,7 +520,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  integer  The number of content items available to index.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  Exception on database error.
      */
     protected function getContentCount()
@@ -556,7 +556,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  Result  A Result object.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  Exception on database error.
      */
     protected function getItem($id)
@@ -590,7 +590,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  Result[]  An array of Result objects.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  Exception on database error.
      */
     protected function getItems($offset, $limit, $query = null)
@@ -622,7 +622,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  QueryInterface  A database object.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getListQuery($query = null)
     {
@@ -637,7 +637,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  string  The plugin type
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getPluginType($id)
     {
@@ -657,7 +657,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  QueryInterface  A database object.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getStateQuery()
     {
@@ -684,7 +684,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  QueryInterface  A database object.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getUpdateQueryByTime($time)
     {
@@ -702,7 +702,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  QueryInterface  A database object.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getUpdateQueryByIds($ids)
     {
@@ -718,7 +718,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  integer  The numeric type id for the content.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  Exception on database error.
      */
     protected function getTypeId()
@@ -743,7 +743,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  string  The URL of the item.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function getUrl($id, $extension, $view)
     {
@@ -758,7 +758,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  mixed  The title on success, null if not found.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @throws  Exception on database error.
      */
     protected function getItemMenuTitle($url)
@@ -804,7 +804,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function itemAccessChange($row)
     {
@@ -830,7 +830,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function itemStateChange($pks, $value)
     {
@@ -862,7 +862,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function pluginDisable($pks)
     {
@@ -892,7 +892,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  integer  The translated indexer state.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function translateState($item, $category = null)
     {
@@ -921,7 +921,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function setIndexer(Indexer $indexer)
     {
@@ -936,7 +936,7 @@ abstract class DebugAdapter extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function debug($id)
     {

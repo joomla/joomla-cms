@@ -52,7 +52,7 @@ class MeterField extends FormField
      * The min value of the progress bar
      *
      * @var    int
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.0
      */
     protected $min = 0;
 
@@ -68,7 +68,7 @@ class MeterField extends FormField
      * The width of the progress bar
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.0
      */
     protected $width;
 
@@ -76,7 +76,7 @@ class MeterField extends FormField
      * The color of the progress bar
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.0
      */
     protected $color;
 
