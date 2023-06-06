@@ -321,12 +321,12 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         // Add feed link to the document head.
         if ($this->params->get('show_feed_link', 1) == 1) {
             // Add the RSS link.
-            $props = ['type' => 'application/rss+xml', 'title' => 'RSS 2.0'];
+            $props = ['type' => 'application/rss+xml', 'title' => htmlspecialchars($this->document->getTitle())];
             $route = Route::_($this->query->toUri() . '&format=feed&type=rss');
             $this->document->addHeadLink($route, 'alternate', 'rel', $props);
 
             // Add the ATOM link.
-            $props = ['type' => 'application/atom+xml', 'title' => 'Atom 1.0'];
+            $props = ['type' => 'application/atom+xml', 'title' => htmlspecialchars($this->document->getTitle())];
             $route = Route::_($this->query->toUri() . '&format=feed&type=atom');
             $this->document->addHeadLink($route, 'alternate', 'rel', $props);
         }
