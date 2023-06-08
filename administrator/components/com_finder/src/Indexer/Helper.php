@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -30,6 +31,11 @@ use Joomla\String\StringHelper;
  */
 class Helper
 {
+    public const CUSTOMFIELDS_DONT_INDEX      = 0;
+    public const CUSTOMFIELDS_ADD_TO_INDEX    = 1;
+    public const CUSTOMFIELDS_ADD_TO_TAXONOMY = 2;
+    public const CUSTOMFIELDS_ADD_TO_BOTH     = 3;
+
     /**
      * Method to parse input into plain text.
      *
@@ -264,7 +270,7 @@ class Helper
      */
     public static function isCommon($token, $lang)
     {
-        static $data, $default, $multilingual;
+        static $data = [], $default, $multilingual;
 
         if (is_null($multilingual)) {
             $multilingual = Multilanguage::isEnabled();
@@ -348,7 +354,7 @@ class Helper
      */
     public static function getPrimaryLanguage($lang)
     {
-        static $data;
+        static $data = [];
 
         // Only parse the identifier if necessary.
         if (!isset($data[$lang])) {
@@ -386,11 +392,52 @@ class Helper
     }
 
     /**
+     * Add custom fields for the item to the Result object
+     *
+     * @param   Result  $item     Result object to add the custom fields to
+     * @param   string  $context  Context of the item in the custom fields
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    public static function addCustomFields(Result $item, $context)
+    {
+        if (!ComponentHelper::getParams(strstr($context, '.', true))->get('custom_fields_enable', 1)) {
+            return;
+        }
+
+        $obj     = new \stdClass();
+        $obj->id = $item->id;
+
+        $fields = FieldsHelper::getFields($context, $obj, true);
+
+        foreach ($fields as $field) {
+            $searchindex = $field->params->get('searchindex', 0);
+
+            // We want to add this field to the search index
+            if ($searchindex == self::CUSTOMFIELDS_ADD_TO_INDEX || $searchindex == self::CUSTOMFIELDS_ADD_TO_BOTH) {
+                $name        = 'jsfield_' . $field->name;
+                $item->$name = $field->value;
+                $item->addInstruction(Indexer::META_CONTEXT, $name);
+            }
+
+            // We want to add this field as a taxonomy
+            if (
+                ($searchindex == self::CUSTOMFIELDS_ADD_TO_TAXONOMY || $searchindex == self::CUSTOMFIELDS_ADD_TO_BOTH)
+                && $field->value
+            ) {
+                $item->addTaxonomy($field->title, $field->value, $field->state, $field->access, $field->language);
+            }
+        }
+    }
+
+    /**
      * Method to process content text using the onContentPrepare event trigger.
      *
      * @param   string    $text    The content to process.
      * @param   Registry  $params  The parameters object. [optional]
-     * @param   Result    $item    The item which get prepared. [optional]
+     * @param   ?Result   $item    The item which get prepared. [optional]
      *
      * @return  string  The processed content.
      *

@@ -37,6 +37,8 @@ module.exports = defineConfig({
     db_user: 'root',
     db_password: '',
     db_prefix: 'jos_',
+    smtp_host: 'localhost',
+    smtp_port: '1025',
     cmsPath: '.',
   },
 });
