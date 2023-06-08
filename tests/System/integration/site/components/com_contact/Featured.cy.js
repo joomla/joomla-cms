@@ -1,5 +1,5 @@
-describe('Test that the featured contacts menu item type', () => {
-  it('can display featured contact', () => {
+describe('Test in frontend that the contact featured view', () => {
+  it('can display featured contacts', () => {
     cy.db_createContact({ name: 'automated test contact 1', featured: 1 })
       .then(() => cy.db_createContact({ name: 'automated test contact 2', featured: 1 }))
       .then(() => cy.db_createContact({ name: 'automated test contact 3', featured: 1 }))
@@ -23,6 +23,7 @@ describe('Test that the featured contacts menu item type', () => {
       .then(() => {
         cy.visit('/');
         cy.get('a:contains(automated test)').click();
+
         cy.contains('automated test contact 1').should('not.exist');
         cy.contains('automated test contact 2').should('not.exist');
       });

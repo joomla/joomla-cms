@@ -365,9 +365,10 @@ abstract class DatabaseHelper
 
                     // Get the path
                     $remoteDbPath = JPATH_INSTALLATION . '/' . $remoteDbFile;
+                    $emptyString  = '';
 
                     // When the path is not writable the user needs to create the file manually
-                    if (!File::write($remoteDbPath, '')) {
+                    if (!File::write($remoteDbPath, $emptyString)) {
                         // Request to create the file manually
                         Factory::getApplication()->enqueueMessage(
                             Text::sprintf(

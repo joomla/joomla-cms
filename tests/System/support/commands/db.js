@@ -252,6 +252,32 @@ Cypress.Commands.add('db_createTag', (tag) => {
   return cy.task('queryDB', createInsertQuery('tags', { ...defaultTagOptions, ...tag })).then(async (info) => info.insertId);
 });
 
+Cypress.Commands.add('db_createNewsFeed', (feed) => {
+  const defaultNewsfeedOptions = {
+    name: 'test feed',
+    alias: 'test-feed',
+    catid: 5,
+    link: '',
+    published: 1,
+    numarticles: 5,
+    checked_out: 0,
+    checked_out_time: '2023-01-01 20:00:00',
+    rtl: 0,
+    access: 1,
+    language: '*',
+    created: '2023-01-01 20:00:00',
+    modified: '2023-01-01 20:00:00',
+    metakey: '',
+    metadata: '',
+    metadesc: '',
+    description: '',
+    params: '',
+    images: '',
+  };
+
+  return cy.task('queryDB', createInsertQuery('newsfeeds', { ...defaultNewsfeedOptions, ...feed })).then(async (info) => info.insertId);
+});
+
 Cypress.Commands.add('db_updateExtensionParameter', (key, value, extension) => cy.task('queryDB', `SELECT params FROM #__extensions WHERE name = '${extension}'`).then((paramsString) => {
   const params = JSON.parse(paramsString[0].params);
   params[key] = value;

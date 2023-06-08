@@ -1,9 +1,9 @@
-describe('Test that the field back end form', () => {
+describe('Test in backend that the field form', () => {
   beforeEach(() => cy.doAdministratorLogin());
   afterEach(() => cy.task('queryDB', "DELETE FROM #__fields WHERE title = 'Test field'"));
 
   it('can create a field', () => {
-    cy.visit('administrator/index.php?option=com_fields&task=field.add&context=com_content.article');
+    cy.visit('/administrator/index.php?option=com_fields&task=field.add&context=com_content.article');
     cy.get('#jform_title').clear().type('Test field');
     cy.clickToolbarButton('Save & Close');
 

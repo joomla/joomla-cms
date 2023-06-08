@@ -1,5 +1,5 @@
-describe('Test that the footer module', () => {
-  it('can load in frontend and shows the copyright message from Joomla', () => {
+describe('Test in frontend that the footer module', () => {
+  it('can display the copyright message from Joomla', () => {
     cy.db_createModule({ module: 'mod_footer' }).then(() => {
       cy.visit('/');
 

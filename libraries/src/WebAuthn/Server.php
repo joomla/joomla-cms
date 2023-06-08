@@ -53,7 +53,7 @@ use Webauthn\TokenBinding\TokenBindingHandler;
 /**
  * WebAuthn server abstraction Class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  * @internal
  */
 final class Server
@@ -62,7 +62,7 @@ final class Server
      * Default WebAuthn timeout in milliseconds
      *
      * @var int
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     public int $timeout = 60000;
 
@@ -70,7 +70,7 @@ final class Server
      * Random challenge size in bytes
      *
      * @var int
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     public int $challengeSize = 32;
 
@@ -78,7 +78,7 @@ final class Server
      * The relaying party entity
      *
      * @var PublicKeyCredentialRpEntity
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private PublicKeyCredentialRpEntity $rpEntity;
 
@@ -86,7 +86,7 @@ final class Server
      * COSE algorithm manager factory instance
      *
      * @var ManagerFactory
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private ManagerFactory $coseAlgorithmManagerFactory;
 
@@ -94,7 +94,7 @@ final class Server
      * Public Key credential source respoitory instance
      *
      * @var PublicKeyCredentialSourceRepository
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private PublicKeyCredentialSourceRepository $publicKeyCredentialSourceRepository;
 
@@ -102,7 +102,7 @@ final class Server
      * Token binding handler
      *
      * @var TokenBindingHandler
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      * @deprecated 6.0 Will be removed when we upgrade to WebAuthn library 5.0 or later
      */
     private TokenBindingHandler $tokenBindingHandler;
@@ -111,7 +111,7 @@ final class Server
      * Authentication extension output checker
      *
      * @var ExtensionOutputCheckerHandler
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private ExtensionOutputCheckerHandler $extensionOutputCheckerHandler;
 
@@ -119,7 +119,7 @@ final class Server
      * COSE algorithms supported
      *
      * @var string[]
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private array $selectedAlgorithms;
 
@@ -127,7 +127,7 @@ final class Server
      * Metadata statement repository service
      *
      * @var MetadataStatementRepository|null
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private ?MetadataStatementRepository $metadataStatementRepository;
 
@@ -138,7 +138,7 @@ final class Server
      * @param PublicKeyCredentialSourceRepository $publicKeyCredentialSourceRepository Public Key repository service
      * @param MetadataStatementRepository|null $metadataStatementRepository Metadata Statement (MDS) service (optional)
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     public function __construct(PublicKeyCredentialRpEntity $relayingParty, PublicKeyCredentialSourceRepository $publicKeyCredentialSourceRepository, ?MetadataStatementRepository $metadataStatementRepository)
     {
@@ -171,7 +171,7 @@ final class Server
      * @param string[] $selectedAlgorithms
      *
      * @return void
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     public function setSelectedAlgorithms(array $selectedAlgorithms): void
     {
@@ -185,7 +185,7 @@ final class Server
      * @param Algorithm $algorithm The algorithm object instance
      *
      * @return void
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     public function addAlgorithm(string $alias, Algorithm $algorithm): void
     {
@@ -200,7 +200,7 @@ final class Server
      * @param ExtensionOutputCheckerHandler $extensionOutputCheckerHandler
      *
      * @return void
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     public function setExtensionOutputCheckerHandler(ExtensionOutputCheckerHandler $extensionOutputCheckerHandler): void
     {
@@ -219,7 +219,7 @@ final class Server
      * @param AuthenticationExtensionsClientInputs|null $extensions Allowed client inputs
      *
      * @return PublicKeyCredentialCreationOptions
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      *
      * @throws InvalidDataException
      */
@@ -262,7 +262,7 @@ final class Server
      * @param AuthenticationExtensionsClientInputs|null $extensions Allowed client inputs.
      *
      * @return PublicKeyCredentialRequestOptions
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      *
      * @throws InvalidDataException
      */
@@ -284,7 +284,7 @@ final class Server
      * @param ServerRequestInterface $serverRequest Abstraction of the request data
      *
      * @return PublicKeyCredentialSource
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      *
      * @throws \JsonException
      * @throws \Throwable
@@ -344,7 +344,7 @@ final class Server
      * @param ServerRequestInterface $serverRequest Abstraction of the request data
      *
      * @return PublicKeyCredentialSource
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      *
      * @throws \JsonException
      * @throws \Throwable
@@ -407,7 +407,7 @@ final class Server
      * Get the attestation statement support manager object.
      *
      * @return AttestationStatementSupportManager
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private function getAttestationStatementSupportManager(): AttestationStatementSupportManager
     {
