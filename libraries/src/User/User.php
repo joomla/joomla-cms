@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -226,7 +226,7 @@ class User extends CMSObject
      * @var    integer
      * @since  4.3.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0 as this property is not used anymore
+     * @deprecated 4.4.0 will be removed in 6.0 as this property is not used anymore
      */
     public $aid = null;
 
@@ -262,7 +262,9 @@ class User extends CMSObject
      * @return  User  The User object.
      *
      * @since       1.7.0
-     * @deprecated  5.0  Load the user service from the dependency injection container or via $app->getIdentity()
+     * @deprecated  4.3 will be removed in 6.0
+     *              Load the user service from the dependency injection container or via $app->getIdentity()
+     *              Example: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($id)
      */
     public static function getInstance($identifier = 0)
     {

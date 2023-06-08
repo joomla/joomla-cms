@@ -10,20 +10,22 @@ describe('Test that banners API endpoint', () => {
   });
 
   it('can create a banner', () => {
-    cy.api_post('/banners', {
-      name: 'automated test banner',
-      alias: 'test-banner',
-      catid: 3,
-      state: 1,
-      language: '*',
-      description: '',
-      custombannercode: '',
-      params: {
-        imageurl: '', width: '', height: '', alt: '',
-      },
-    }).then((response) => cy.wrap(response).its('body').its('data').its('attributes')
-      .its('name')
-      .should('include', 'automated test banner'));
+    cy.db_createCategory({ extension: 'com_banners' })
+      .then((categoryId) => cy.api_post('/banners', {
+        name: 'automated test banner',
+        alias: 'test-banner',
+        catid: categoryId,
+        state: 1,
+        language: '*',
+        description: '',
+        custombannercode: '',
+        params: {
+          imageurl: '', width: '', height: '', alt: '',
+        },
+      }))
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+        .its('name')
+        .should('include', 'automated test banner'));
   });
 
   it('can update a banner', () => {

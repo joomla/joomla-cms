@@ -10,25 +10,27 @@ describe('Test that content API endpoint', () => {
   });
 
   it('can create an article', () => {
-    cy.api_post('/content/articles', {
-      title: 'automated test article',
-      alias: 'test-article',
-      catid: 2,
-      introtext: '',
-      fulltext: '',
-      state: 1,
-      access: 1,
-      language: '*',
-      created: '2023-01-01 20:00:00',
-      modified: '2023-01-01 20:00:00',
-      images: '',
-      urls: '',
-      attribs: '',
-      metadesc: '',
-      metadata: '',
-    }).then((response) => cy.wrap(response).its('body').its('data').its('attributes')
-      .its('title')
-      .should('include', 'automated test article'));
+    cy.db_createCategory({ extension: 'com_content' })
+      .then((categoryId) => cy.api_post('/content/articles', {
+        title: 'automated test article',
+        alias: 'test-article',
+        catid: categoryId,
+        introtext: '',
+        fulltext: '',
+        state: 1,
+        access: 1,
+        language: '*',
+        created: '2023-01-01 20:00:00',
+        modified: '2023-01-01 20:00:00',
+        images: '',
+        urls: '',
+        attribs: '',
+        metadesc: '',
+        metadata: '',
+      }))
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+        .its('title')
+        .should('include', 'automated test article'));
   });
 
   it('can update an article', () => {
