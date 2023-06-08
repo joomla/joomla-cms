@@ -1,4 +1,4 @@
-describe('Test in backend that the contacts list', () => {
+describe('Test in backend that the newsfeeds list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
     cy.visit('/administrator/index.php?option=com_newsfeeds&view=newsfeeds&filter=');
@@ -23,7 +23,7 @@ describe('Test in backend that the contacts list', () => {
   });
 
   it('can publish the test newsfeed', () => {
-    cy.db_createNewsFeed({ name: 'Test newsfeed', link: 'https://newsfeedtesturl' , published: 0 }).then(() => {
+    cy.db_createNewsFeed({ name: 'Test newsfeed', link: 'https://newsfeedtesturl', published: 0 }).then(() => {
       cy.reload();
       cy.searchForItem('Test newsfeed');
       cy.checkAllResults();
@@ -36,7 +36,7 @@ describe('Test in backend that the contacts list', () => {
   });
 
   it('can unpublish the test newsfeed', () => {
-    cy.db_createNewsFeed({ name: 'Test newsfeed', link: 'https://newsfeedtesturl' , published: 1 }).then(() => {
+    cy.db_createNewsFeed({ name: 'Test newsfeed', link: 'https://newsfeedtesturl', published: 1 }).then(() => {
       cy.reload();
       cy.searchForItem('Test newsfeed');
       cy.checkAllResults();
@@ -49,7 +49,7 @@ describe('Test in backend that the contacts list', () => {
   });
 
   it('can trash the test newsfeed', () => {
-    cy.db_createNewsFeed({ name: 'Test newsfeed' , link: 'https://newsfeedtesturl' }).then(() => {
+    cy.db_createNewsFeed({ name: 'Test newsfeed', link: 'https://newsfeedtesturl' }).then(() => {
       cy.reload();
       cy.searchForItem('Test newsfeed');
       cy.checkAllResults();
@@ -62,7 +62,7 @@ describe('Test in backend that the contacts list', () => {
   });
 
   it('can delete the test newsfeed', () => {
-    cy.db_createNewsFeed({ name: 'Test newsfeed', link: 'https://newsfeedtesturl' , published: -2 }).then(() => {
+    cy.db_createNewsFeed({ name: 'Test newsfeed', link: 'https://newsfeedtesturl', published: -2 }).then(() => {
       cy.reload();
       cy.setFilter('published', 'Trashed');
       cy.searchForItem('Test newsfeed');
