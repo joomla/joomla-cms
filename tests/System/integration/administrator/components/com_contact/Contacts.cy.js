@@ -10,9 +10,9 @@ describe('Test in backend that the contact list', () => {
 
   it('can display a list of contacts', () => {
     cy.db_createContact({ name: 'Test contact' }).then(() => {
-    cy.reload();
+      cy.reload();
 
-    cy.contains('Test contact');
+      cy.contains('Test contact');
     });
   });
 
