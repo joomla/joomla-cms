@@ -1,4 +1,4 @@
-describe('Test in backend that the contact list', () => {
+describe('Test in backend that the contacts list', () => {
   beforeEach(() => {
     cy.doAdministratorLogin();
     cy.visit('/administrator/index.php?option=com_contact&view=contacts&filter=');
