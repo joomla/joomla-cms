@@ -13,7 +13,7 @@ describe('Test in backend that the newsfeed form', () => {
   });
 
   it('can change access level of a test newsfeed', () => {
-    cy.db_createNewsFeed({ name: 'Test newsfeed' , link: 'https://newsfeedtesturl' }).then((id) => {
+    cy.db_createNewsFeed({ name: 'Test newsfeed', link: 'https://newsfeedtesturl' }).then((id) => {
       cy.visit(`administrator/index.php?option=com_newsfeeds&task=newsfeed.edit&id=${id}`);
       cy.get('#jform_access').select('Special');
       cy.clickToolbarButton('Save & Close');
