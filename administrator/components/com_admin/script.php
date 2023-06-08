@@ -90,9 +90,6 @@ class JoomlaInstallerScript
             // Informational log only
         }
 
-        // Uninstall plugins before removing their files and folders
-        $this->uninstallEosPlugin();
-
         // This needs to stay for 2.5 update compatibility
         $this->deleteUnexistingFiles();
         $this->updateManifestCaches();
@@ -201,53 +198,6 @@ class JoomlaInstallerScript
             }
 
             break;
-        }
-    }
-
-    /**
-     * Uninstall the 3.10 EOS plugin
-     *
-     * @return  void
-     *
-     * @since   4.0.0
-     */
-    protected function uninstallEosPlugin()
-    {
-        $db = Factory::getDbo();
-
-        // Check if the plg_quickicon_eos310 plugin is present
-        $extensionId = $db->setQuery(
-            $db->getQuery(true)
-                ->select('extension_id')
-                ->from('#__extensions')
-                ->where('name = ' . $db->quote('plg_quickicon_eos310'))
-        )->loadResult();
-
-        // Skip uninstalling if it doesn't exist
-        if (!$extensionId) {
-            return;
-        }
-
-        try {
-            $db->transactionStart();
-
-            // Unprotect the plugin so we can uninstall it
-            $db->setQuery(
-                $db->getQuery(true)
-                    ->update('#__extensions')
-                    ->set('protected = 0')
-                    ->where($db->quoteName('extension_id') . ' = ' . $extensionId)
-            )->execute();
-
-            // Uninstall the plugin
-            $installer = new Installer();
-            $installer->setDatabase($db);
-            $installer->uninstall('plugin', $extensionId);
-
-            $db->transactionCommit();
-        } catch (\Exception $e) {
-            $db->transactionRollback();
-            throw $e;
         }
     }
 
@@ -382,6 +332,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/mysql/4.3.0-2023-03-29.sql',
             '/administrator/components/com_admin/sql/updates/mysql/4.3.2-2023-03-31.sql',
             '/administrator/components/com_admin/sql/updates/mysql/4.3.2-2023-05-03.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/4.3.2-2023-05-20.sql',
             '/administrator/components/com_admin/sql/updates/mysql/4.4.0-2023-05-08.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-03-05.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-05-15.sql',
@@ -444,6 +395,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.0-2023-03-29.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-03-31.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-05-03.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-05-20.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.4.0-2023-05-08.sql',
             '/libraries/src/Schema/ChangeItem/SqlsrvChangeItem.php',
             '/libraries/vendor/beberlei/assert/lib/Assert/Assert.php',
@@ -924,7 +876,7 @@ class JoomlaInstallerScript
      *
      * @return  boolean  True on success
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function migrateTinymceConfiguration(): bool
     {
