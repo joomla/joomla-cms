@@ -17,7 +17,12 @@ trigger_error(
     E_USER_DEPRECATED
 );
 
-// Set the platform root path as a constant if necessary.
+/**
+ * Set the platform root path as a constant if necessary.
+ *
+ * @deprecated 4.4.0 will be removed in 6.0
+ *             Use defined('_JEXEC') or die; to detect if the CMS is loaded correctly
+ **/
 if (!defined('JPATH_PLATFORM')) {
     define('JPATH_PLATFORM', __DIR__);
 }

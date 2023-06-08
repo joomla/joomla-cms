@@ -16,7 +16,6 @@ use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\OutputFilter;
@@ -32,6 +31,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
@@ -187,7 +187,7 @@ class ApplicationModel extends FormModel
                     return false;
                 }
 
-                if (!File::exists(Path::clean($data['dbsslca']))) {
+                if (!is_file(Path::clean($data['dbsslca']))) {
                     Factory::getApplication()->enqueueMessage(
                         Text::sprintf(
                             'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
@@ -219,7 +219,7 @@ class ApplicationModel extends FormModel
                     return false;
                 }
 
-                if (!File::exists(Path::clean($data['dbsslkey']))) {
+                if (!is_file(Path::clean($data['dbsslkey']))) {
                     Factory::getApplication()->enqueueMessage(
                         Text::sprintf(
                             'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
@@ -243,7 +243,7 @@ class ApplicationModel extends FormModel
                     return false;
                 }
 
-                if (!File::exists(Path::clean($data['dbsslcert']))) {
+                if (!is_file(Path::clean($data['dbsslcert']))) {
                     Factory::getApplication()->enqueueMessage(
                         Text::sprintf(
                             'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',

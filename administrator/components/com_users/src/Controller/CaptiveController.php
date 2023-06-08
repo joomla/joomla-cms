@@ -15,13 +15,13 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Event\MultiFactor\Validate;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\CaptiveModel;
 use Joomla\Input\Input;
@@ -36,8 +36,10 @@ use RuntimeException;
  *
  * @since 4.2.0
  */
-class CaptiveController extends BaseController
+class CaptiveController extends BaseController implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Public constructor
      *
@@ -67,8 +69,7 @@ class CaptiveController extends BaseController
      */
     public function display($cachable = false, $urlparams = false): void
     {
-        $user = $this->app->getIdentity()
-            ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        $user = $this->app->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
 
         // Only allow logged in Users
         if ($user->guest) {
@@ -165,8 +166,7 @@ class CaptiveController extends BaseController
         }
 
         // Validate the code
-        $user = $this->app->getIdentity()
-            ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        $user = $this->app->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
 
         $event   = new Validate($record, $user, $code);
         $results = $this->app
