@@ -148,7 +148,6 @@ $foldersDifference = array_diff($previousReleaseFolders, $newReleaseFolders);
 
 // Specific files (e.g. language files) that we want to keep on upgrade
 $filesToKeep = [
-    "'/administrator/components/com_joomlaupdate/restore_finalisation.php',",
     "'/administrator/language/en-GB/en-GB.com_search.ini',",
     "'/administrator/language/en-GB/en-GB.com_search.sys.ini',",
     "'/administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.ini',",

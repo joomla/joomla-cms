@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @package         Joomla.Plugin
- * @subpackage      System.Webauthn
+ * @package     Joomla.Plugin
+ * @subpackage  System.Webauthn
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn;
@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\Plugin\System\Webauthn\Hotfix\Server;
+use Joomla\CMS\WebAuthn\Server;
 use Joomla\Session\SessionInterface;
 use Laminas\Diactoros\ServerRequestFactory;
 use RuntimeException;
@@ -524,7 +524,7 @@ final class Authentication
      * @throws  Exception
      * @since    4.2.0
      */
-    private function getWebauthnServer(): \Webauthn\Server
+    private function getWebauthnServer(): Server
     {
         $siteName = $this->app->get('sitename');
 

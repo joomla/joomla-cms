@@ -155,7 +155,10 @@ class ActionlogsHelper
      *
      * @since   3.9.0
      *
-     * @deprecated  5.0 Use the action log config model instead
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the action log config model instead
+     *              Example: Factory::getApplication()->bootComponent('actionlogs')->getMVCFactory()
+     *                       ->createModel('ActionlogConfig', 'Administrator')->getLogContentTypeParams($context);
      */
     public static function getLogContentTypeParams($context)
     {
@@ -316,7 +319,7 @@ class ActionlogsHelper
             }
 
             $lang->load($extension, JPATH_ADMINISTRATOR)
-            || $lang->load($extension, JPATH_PLUGINS . '/' . $type . '/' . $name);
+                || $lang->load($extension, JPATH_PLUGINS . '/' . $type . '/' . $name);
         }
 
         // Load plg_system_actionlogs too
