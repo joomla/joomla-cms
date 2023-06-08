@@ -2,7 +2,7 @@ describe('Test in backend that the contact form', () => {
   beforeEach(() => cy.doAdministratorLogin());
   afterEach(() => cy.task('queryDB', "DELETE FROM #__contact_details WHERE name = 'Test contact'"));
 
-  it('can create an contact', () => {
+  it('can create a contact', () => {
     cy.visit('/administrator/index.php?option=com_contact&task=contact.add');
     cy.get('#jform_name').clear().type('Test contact');
     cy.clickToolbarButton('Save & Close');
