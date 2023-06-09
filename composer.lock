@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "37c1e684fbbfd1311e0fa7d37a3d7460",
+    "content-hash": "56e69f88a12f4a9b79df0331e7f56270",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1856,6 +1856,77 @@
                 }
             ],
             "time": "2023-04-19T11:50:38+00:00"
+        },
+        {
+            "name": "joomla/language",
+            "version": "dev-3.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-framework/language.git",
+                "reference": "aadf23374f38fd3157b66a6de2f71ae19e405798"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-framework/language/zipball/aadf23374f38fd3157b66a6de2f71ae19e405798",
+                "reference": "aadf23374f38fd3157b66a6de2f71ae19e405798",
+                "shasum": ""
+            },
+            "require": {
+                "ext-xml": "*",
+                "joomla/string": "3.0.x-dev",
+                "php": "^8.1.0",
+                "symfony/deprecation-contracts": "^2|^3"
+            },
+            "require-dev": {
+                "joomla/di": "3.0.x-dev",
+                "joomla/registry": "3.0.x-dev",
+                "joomla/test": "3.0.x-dev",
+                "phan/phan": "^5.4.2",
+                "phpstan/phpstan": "^1.10.7",
+                "phpunit/phpunit": "^9.5.28",
+                "squizlabs/php_codesniffer": "^3.7.2"
+            },
+            "suggest": {
+                "joomla/di": "To use the Language ServiceProviderInterface objects, install joomla/di."
+            },
+            "type": "joomla-package",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.0-dev": "2.0-dev",
+                    "dev-3.x-dev": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Joomla\\Language\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Joomla Language Package",
+            "homepage": "https://github.com/joomla-framework/language",
+            "keywords": [
+                "framework",
+                "joomla",
+                "language"
+            ],
+            "support": {
+                "issues": "https://github.com/joomla-framework/language/issues",
+                "source": "https://github.com/joomla-framework/language/tree/3.x-dev"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-04-19T11:42:22+00:00"
         },
         {
             "name": "joomla/oauth1",
@@ -10036,6 +10107,7 @@
         "joomla/filesystem": 20,
         "joomla/http": 20,
         "joomla/input": 20,
+        "joomla/language": 20,
         "joomla/oauth1": 20,
         "joomla/oauth2": 20,
         "joomla/registry": 20,
