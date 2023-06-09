@@ -133,6 +133,7 @@ final class Local extends CMSPlugin implements ProviderInterface
                 $directoryEntity->thumbs,
                 [200, 200]
             );
+            $adapter->setCurrentUser($this->getApplication()->getIdentity());
 
             $adapters[$adapter->getAdapterName()] = $adapter;
         }
