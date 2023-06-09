@@ -269,7 +269,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * @return  Table|boolean   A Table object if found or boolean false on failure.
      *
      * @since       1.7.0
-     * @deprecated  5.0 Use the MvcFactory instead
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the MvcFactory instead
+     *              Example: Factory::getApplication()->bootComponent('...')->getMVCFactory()->createTable($name, $prefix, $config);
      */
     public static function getInstance($type, $prefix = 'JTable', $config = [])
     {
@@ -322,7 +325,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * @return  array  An array of filesystem paths to find Table classes in.
      *
      * @since       1.7.0
-     * @deprecated  5.0 Should not be used anymore as tables are loaded through the MvcFactory
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Should not be used anymore as tables are loaded through the MvcFactory
      */
     public static function addIncludePath($path = null)
     {
@@ -1706,7 +1711,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
                         . $this->_db->quoteName($checkedOutField) . ' = 0'
                         . ' OR ' . $this->_db->quoteName($checkedOutField) . ' = ' . (int) $userId
                         . ' OR ' . $this->_db->quoteName($checkedOutField) . ' IS NULL'
-                    . ')'
+                        . ')'
                 );
                 $checkin = true;
             } else {

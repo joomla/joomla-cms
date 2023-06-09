@@ -56,6 +56,16 @@ function addProgressIndicator(stepElement, index, total) {
   header.insertBefore(progress, stepElement.querySelector('.shepherd-cancel-icon'));
 }
 
+function setFocus(primaryButton, secondaryButton, cancelButton) {
+  if (primaryButton && !primaryButton.disabled) {
+    primaryButton.focus();
+  } else if (secondaryButton && !secondaryButton.disabled) {
+    secondaryButton.focus();
+  } else {
+    cancelButton.focus();
+  }
+}
+
 function addStepToTourButton(tour, stepObj, buttons) {
   const step = new Shepherd.Step(tour, {
     title: stepObj.title,
@@ -97,8 +107,8 @@ function addStepToTourButton(tour, stepObj, buttons) {
         } else {
           resolve();
         }
-      }).catch((error) => {
-        console.log(`Exception error - ${error.message} - Bypass Shepherd target`);
+      }).catch(() => {
+        // Ignore
       });
     },
     when: {
@@ -134,8 +144,16 @@ function addStepToTourButton(tour, stepObj, buttons) {
 
           cancelButton.addEventListener('keydown', (event) => {
             if (event.key === 'Tab') {
-              target.focus();
-              event.preventDefault();
+              if (target.tagName.toLowerCase() === 'joomla-field-fancy-select') {
+                target.querySelector('.choices').click();
+                target.querySelector('.choices input').focus();
+              } else if (target.parentElement.tagName.toLowerCase() === 'joomla-field-fancy-select') {
+                target.click();
+                target.querySelector('input').focus();
+              } else {
+                target.focus();
+                event.preventDefault();
+              }
             }
           });
 
@@ -143,25 +161,23 @@ function addStepToTourButton(tour, stepObj, buttons) {
             // Give blur to the content of the iframe, as iframes don't have blur events
             target.contentWindow.document.body.addEventListener('blur', (event) => {
               setTimeout(() => {
-                if (primaryButton && !primaryButton.disabled) {
-                  primaryButton.focus();
-                } else if (secondaryButton && !secondaryButton.disabled) {
-                  secondaryButton.focus();
-                } else {
-                  cancelButton.focus();
-                }
+                setFocus(primaryButton, secondaryButton, cancelButton);
               }, 1);
+              event.preventDefault();
+            });
+          } else if (target.tagName.toLowerCase() === 'joomla-field-fancy-select') {
+            target.querySelector('.choices input').addEventListener('blur', (event) => {
+              setFocus(primaryButton, secondaryButton, cancelButton);
+              event.preventDefault();
+            });
+          } else if (target.parentElement.tagName.toLowerCase() === 'joomla-field-fancy-select') {
+            target.querySelector('input').addEventListener('blur', (event) => {
+              setFocus(primaryButton, secondaryButton, cancelButton);
               event.preventDefault();
             });
           } else {
             target.addEventListener('blur', (event) => {
-              if (primaryButton && !primaryButton.disabled) {
-                primaryButton.focus();
-              } else if (secondaryButton && !secondaryButton.disabled) {
-                secondaryButton.focus();
-              } else {
-                cancelButton.focus();
-              }
+              setFocus(primaryButton, secondaryButton, cancelButton);
               event.preventDefault();
             });
           }
@@ -425,7 +441,7 @@ document.querySelector('body').addEventListener('click', (event) => {
 
   // Click button but missing data-id
   if (typeof event.target.getAttribute('data-id') === 'undefined' || event.target.getAttribute('data-id') <= 0) {
-    Joomla.renderMessages([Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR')]);
+    Joomla.renderMessages({ error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_COULD_NOT_LOAD_THE_TOUR')] });
     return;
   }
 

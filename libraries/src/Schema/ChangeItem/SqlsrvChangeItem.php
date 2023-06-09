@@ -19,7 +19,9 @@ use Joomla\CMS\Schema\ChangeItem;
  * Checks the database schema against one SQL Server DDL query to see if it has been run.
  *
  * @since  2.5
- * @deprecated  5.0   Will be removed without replacement
+ *
+ * @deprecated  4.3 will be removed in 6.0
+ *              Will be removed without replacement
  */
 class SqlsrvChangeItem extends ChangeItem
 {

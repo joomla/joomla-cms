@@ -162,7 +162,11 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      * @return  mixed   A value if the property name is valid, null otherwise.
      *
      * @since       4.0.0
-     * @deprecated  5.0  This is a B/C proxy for deprecated read accesses
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              This is a B/C proxy for deprecated read accesses, use getInput() method instead
+     *              Example:
+     *              $app->getInput();
      */
     public function __get($name)
     {
@@ -393,7 +397,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      * @return  boolean
      *
      * @since       4.0.0
-     * @deprecated  5.0  Will be removed without replacements
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacement. CLI will be handled by the joomla/console package instead
      */
     public function isCli()
     {
@@ -470,7 +476,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      *
      * @throws     \InvalidArgumentException
      *
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     * @deprecated  4.3 will be removed in 6.0
+     *              Inject the router or load it from the dependency injection container
+     *              Example: Factory::getContainer()->get(ApiRouter::class);
      */
     public static function getRouter($name = null, array $options = [])
     {

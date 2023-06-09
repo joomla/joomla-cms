@@ -62,7 +62,7 @@ class UrlFilter implements FormFilterInterface
         // we assume that it is an external URL and prepend http://
         if (
             ((string) $element['type'] === 'url' && !$protocol && !$element['relative'])
-            || (!(string) $element['type'] === 'url' && !$protocol)
+            || ((string) $element['type'] !== 'url' && !$protocol)
         ) {
             $protocol = 'http';
 
