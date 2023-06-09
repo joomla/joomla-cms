@@ -12,10 +12,11 @@ namespace Joomla\Plugin\User\Token\Extension;
 
 use Exception;
 use Joomla\CMS\Crypt\Crypt;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -29,9 +30,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.9.0
  */
-final class Token extends CMSPlugin
+final class Token extends CMSPlugin implements UserFactoryAwareInterface
 {
     use DatabaseAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * Load the language file on instantiation.
@@ -489,7 +491,7 @@ final class Token extends CMSPlugin
     {
         $allowedUserGroups = $this->getAllowedUserGroups();
 
-        $user = Factory::getUser($userId);
+        $user = $this->getUserFactory()->loadUserById($userId);
 
         if ($user->id != $userId) {
             return false;

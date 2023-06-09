@@ -21,6 +21,8 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -34,8 +36,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class UserModel extends AdminModel
+class UserModel extends AdminModel implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * An item.
      *
@@ -327,7 +331,7 @@ class UserModel extends AdminModel
 
                 if ($allow) {
                     // Get users data for the users to delete.
-                    $user_to_delete = Factory::getUser($pk);
+                    $user_to_delete = $this->getUserFactory()->loadUserById($pk);
 
                     // Fire the before delete event.
                     Factory::getApplication()->triggerEvent($this->event_before_delete, [$table->getProperties()]);
