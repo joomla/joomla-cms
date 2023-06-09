@@ -20,7 +20,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
@@ -226,7 +225,7 @@ class UserModel extends AdminModel implements UserFactoryAwareInterface
     public function save($data)
     {
         $pk   = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
-        $user = User::getInstance($pk);
+        $user = $this->getUserFactory()->loadUserById($pk);
 
         $my            = $this->getCurrentUser();
         $iAmSuperAdmin = $my->authorise('core.admin');

@@ -24,7 +24,6 @@ use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
@@ -45,7 +44,7 @@ use RuntimeException;
  *
  * @since  3.9.0
  */
-final class PrivacyConsent extends CMSPlugin implements UserFactoryAwareInterface
+final class PrivacyConsent extends CMSPlugin
 {
     use DatabaseAwareTrait;
     use UserFactoryAwareTrait;

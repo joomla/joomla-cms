@@ -12,7 +12,6 @@ namespace Joomla\Plugin\Fields\User\Extension;
 
 use DOMElement;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\User\UserFactoryAwareInterface;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
 
@@ -25,7 +24,7 @@ use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
  *
  * @since  3.7.0
  */
-final class User extends FieldsPlugin implements UserFactoryAwareInterface
+final class User extends FieldsPlugin
 {
     use UserFactoryAwareTrait;
 
