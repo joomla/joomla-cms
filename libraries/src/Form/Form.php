@@ -1664,7 +1664,11 @@ class Form
      * @return  Form  Form instance.
      *
      * @since   1.7.0
-     * @deprecated  5.0 Use the FormFactory service from the container
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the FormFactory service from the container
+     *              Example: Factory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
+     *
      * @throws  \InvalidArgumentException if no data provided.
      * @throws  \RuntimeException if the form could not be loaded.
      */

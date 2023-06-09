@@ -117,6 +117,6 @@ class HtmlView extends BaseHtmlView
             ->url('index.php?option=com_scheduler')
             ->buttonClass('btn btn-danger')
             ->icon('icon-times')
-            ->text(Text::_('JCANCEL'));
+            ->text('JCANCEL');
     }
 }

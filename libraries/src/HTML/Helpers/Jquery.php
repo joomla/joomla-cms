@@ -44,7 +44,13 @@ abstract class Jquery
      *
      * @since   3.0
      *
-     * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::useAsset();
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use webasset manager instead
+     *              Example:
+     *              $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+     *              $wa->useScript('jquery');
+     *              $wa->useScript('jquery-noconflict');
+     *              $wa->useScript('jquery-migrate');
      */
     public static function framework($noConflict = true, $debug = null, $migrate = false)
     {
