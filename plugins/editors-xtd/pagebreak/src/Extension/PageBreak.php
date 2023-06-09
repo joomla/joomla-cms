@@ -50,7 +50,7 @@ final class PageBreak extends CMSPlugin
             return;
         }
 
-        $user  = $app->getIdentity();
+        $user = $app->getIdentity();
 
         // Can create in any category (component permission) or at least in one category
         $canCreateRecords = $user->authorise('core.create', 'com_content')
