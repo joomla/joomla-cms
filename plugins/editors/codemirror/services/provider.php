@@ -33,10 +33,9 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
 
                 $plugin     = new Codemirror(
-                    $dispatcher,
+                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('editors', 'codemirror')
                 );
                 $plugin->setApplication(Factory::getApplication());

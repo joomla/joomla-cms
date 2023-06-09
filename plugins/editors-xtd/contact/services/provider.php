@@ -33,10 +33,9 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
 
                 $plugin     = new Contact(
-                    $dispatcher,
+                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('editors-xtd', 'contact')
                 );
                 $plugin->setApplication(Factory::getApplication());
