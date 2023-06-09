@@ -33,7 +33,6 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-
                 $plugin     = new Image(
                     $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('editors-xtd', 'image')

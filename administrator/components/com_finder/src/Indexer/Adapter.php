@@ -137,7 +137,7 @@ abstract class Adapter extends CMSPlugin
      *
      * @since   2.5
      */
-    public function __construct(DispatcherInterface $dispatcher,array $config)
+    public function __construct(DispatcherInterface $dispatcher, array $config)
     {
         // Call the parent constructor.
         parent::__construct($dispatcher, $config);
