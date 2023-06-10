@@ -127,6 +127,10 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
          */
         [$context, $data] = $event->getArguments();
 
+        if ($data->id === 0) {
+            return;
+        }
+
         $extensionClass = $this->getExtensionClass($context);
 
         if ($extensionClass instanceof BeforeDeleteUserInterface) {
@@ -304,40 +308,43 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
     private function validateFallbackUser($userIdToDelete)
     {
         $componentParams = self::$componentParams;
+        $tabName         = Text::_('COM_USERS_CONFIG_BEFORE_DELETE_USER');
+        $tabId           = strtolower(str_replace(' ', '_', $tabName));
 
         if (empty($fallbackUser = $componentParams->get('fallbackUserOnDelete'))) {
             $this->app->enqueueMessage(
+                Text::_('PLG_USER_BEFOREDELETE_ERROR_USER_NOT_DELETED_MSG'),
+                'error'
+            );
+
+            $this->app->enqueueMessage(
                 Text::sprintf(
                     'PLG_USER_BEFOREDELETE_ERROR_FALLBACK_USER_NOT_SET_MSG',
-                    Text::_('COM_USERS_CONFIG_BEFORE_DELETE_USER')
+                    $tabName
                 ),
                 'warning'
             );
 
-            $this->app->enqueueMessage(
-                Text::_('PLG_USER_BEFOREDELETE_ERROR_USER_NOT_DELETED_MSG'),
-                'warning'
-            );
 
-            $url = Route::_('/administrator/index.php?option=com_config&view=component&component=com_users');
+            $url = Route::_('/administrator/index.php?option=com_config&view=component&component=com_users#' . $tabId);
             $this->app->redirect($url, 200);
         }
 
         if ($userIdToDelete == $fallbackUser) {
             $this->app->enqueueMessage(
+                Text::_('PLG_USER_BEFOREDELETE_ERROR_USER_NOT_DELETED_MSG'),
+                'error'
+            );
+
+            $this->app->enqueueMessage(
                 Text::sprintf(
                     'PLG_USER_BEFOREDELETE_ERROR_FALLBACK_USER_CONNECTED_MSG',
-                    Text::_('COM_USERS_CONFIG_BEFORE_DELETE_USER')
+                    $tabName
                 ),
                 'warning'
             );
 
-            $this->app->enqueueMessage(
-                Text::_('PLG_USER_BEFOREDELETE_ERROR_USER_NOT_DELETED_MSG'),
-                'warning'
-            );
-
-            $url = Route::_('/administrator/index.php?option=com_config&view=component&component=com_users');
+            $url = Route::_('/administrator/index.php?option=com_config&view=component&component=com_users#' . $tabId);
             $this->app->redirect($url, 200);
         }
     }
@@ -360,10 +367,6 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
         $setAliasOnDelete      = $componentParams->get('setAliasOnDelete', '1');
         $overrideAliasOnDelete = $componentParams->get('overrideAliasOnDelete', '0');
 
-        if (empty($fallbackUserId) || !is_numeric($fallbackUserId)) {
-            $fallbackUserId = $this->app->getIdentity()->id;
-        }
-
         if (empty($extensions = $this->getExtensionClass())) {
             // TODO: Add error handling and/or message and return it
             return;
@@ -374,10 +377,12 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
             $columsToChangeUserId = $extensionClass->getColumsToChange();
 
             foreach ($columsToChangeUserId as $table) {
-                $tableName    = $table['tableName'] ?? false;
-                $uniqueId     = $table['uniqueId'] ?? false;
-                $authorColumn = $table['author'] ?? false;
-                $aliasColumn  = $table['alias'] ?? false;
+                $tableName       = $table['tableName'] ?? false;
+                $uniqueId        = $table['uniqueId'] ?? false;
+                $authorColumn    = $table['author'] ?? false;
+                $aliasColumn     = $table['alias'] ?? false;
+                $aliasChanged    = false;
+                $infoAuthorAlias = '';
 
                 if ($tableName && $authorColumn) {
                     $selectQuery = $this->db->getQuery(true);
@@ -396,16 +401,19 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
 
                     if ($setAliasOnDelete && $aliasColumn) {
                         if ($overrideAliasOnDelete) {
+                            $aliasChanged = true;
+
                             $updateQuery->set(
                                 $this->db->quoteName($aliasColumn) . ' = ' . $this->db->quote($aliasName)
                             );
                         } else {
                             $updateQuery->set(
                                 $this->db->quoteName($aliasColumn)
-                                . ' = COALESCE(NULLIF('
-                                . $this->db->quote($aliasName)
-                                . ', ""), '
-                                . $this->db->quoteName($aliasColumn) . ')'
+                                . ' = CASE WHEN ' . $this->db->quoteName($aliasColumn) . ' IS NULL'
+                                . ' OR CHAR_LENGTH(TRIM(' . $this->db->quoteName($aliasColumn) . ')) = 0'
+                                . ' THEN '. $this->db->quote($aliasName)
+                                . ' ELSE ' . $this->db->quoteName($aliasColumn)
+                                . ' END'
                             );
                         }
                     }
@@ -416,25 +424,33 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
                 }
 
                 try {
-                    $infoAuthorAlias = '';
-                    $selectResult    = $this->db->setQuery($selectQuery)->loadColumn();
-                    $updateResult    = $this->db->setQuery($updateQuery)->loadColumn();
+                    // Get the entries to update.
+                    $selectResult = $this->db->setQuery($selectQuery)->loadColumn();
 
                     if (!empty($selectResult)) {
+                        // Update the entries found.
+                        $this->db->setQuery($updateQuery)->execute();
+
                         $elementList = implode(', ', $selectResult);
 
                         if ($setAliasOnDelete && $aliasColumn) {
-                            $infoAuthorAlias = Text::sprintf(
-                                'PLG_USER_BEFOREDELETE_USER_CHANGED_FALLBACK_ALIAS_MSG',
-                                $aliasName
-                            );
+                            if ($aliasChanged) {
+                                $infoAuthorAlias = Text::sprintf(
+                                    'PLG_USER_BEFOREDELETE_USER_CHANGED_FALLBACK_ALIAS_MSG',
+                                    $aliasName
+                                );
+                            } else {
+                                $infoAuthorAlias = Text::sprintf(
+                                    'PLG_USER_BEFOREDELETE_USER_CHANGED_FALLBACK_ALIAS_IF_NOT_EMPTY_MSG',
+                                    $aliasName
+                                );
+                            }
                         }
 
                         // Load extension language files
                         $this->app->getLanguage()->load($extensionBaseContext);
                         $this->app->getLanguage()->load($extensionBaseContext . '.sys');
 
-                        $this->db->setQuery($updateQuery)->execute();
                         $this->app->enqueueMessage(
                             Text::sprintf(
                                 'PLG_USER_BEFOREDELETE_USER_DELETED_MSG',
@@ -449,12 +465,12 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
                     }
                 } catch (RuntimeException $e) {
                     $this->app->enqueueMessage(
-                        $e->getMessage(),
+                        Text::_('PLG_USER_BEFOREDELETE_ERROR_USER_NOT_DELETED_MSG'),
                         'error'
                     );
 
                     $this->app->enqueueMessage(
-                        Text::_('PLG_USER_BEFOREDELETE_ERROR_USER_NOT_DELETED_MSG'),
+                        $e->getMessage(),
                         'error'
                     );
 
