@@ -239,9 +239,9 @@ class HtmlView extends BaseHtmlView
         // Add feed links
         if ($this->params->get('show_feed_link', 1)) {
             $link    = '&format=feed&limitstart=';
-            $attribs = ['type' => 'application/rss+xml', 'title' => 'RSS 2.0'];
+            $attribs = ['type' => 'application/rss+xml', 'title' => htmlspecialchars($this->document->getTitle())];
             $this->document->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
-            $attribs = ['type' => 'application/atom+xml', 'title' => 'Atom 1.0'];
+            $attribs = ['type' => 'application/atom+xml', 'title' => htmlspecialchars($this->document->getTitle())];
             $this->document->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
         }
     }

@@ -83,7 +83,7 @@ class WorkflowconditionField extends ListField
     /**
      * Method to get the field options.
      *
-     * @return  array  The field option objects.
+     * @return  object[]  The field option objects.
      *
      * @since   4.0.0
      */

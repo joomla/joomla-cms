@@ -174,14 +174,38 @@ class HtmlView extends BaseHtmlView
 
         ToolbarHelper::title(Text::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'search-plus finder');
 
-        $toolbar->popupButton('archive', 'COM_FINDER_INDEX')
-            ->popupType('iframe')
-            ->textHeader(Text::_('COM_FINDER_HEADING_INDEXER'))
-            ->url('index.php?option=com_finder&view=indexer&tmpl=component')
-            ->modalWidth('800px')
-            ->modalHeight('400px')
-            ->icon('icon-archive')
-            ->title(Text::_('COM_FINDER_HEADING_INDEXER'));
+        if (JDEBUG) {
+            $dropdown = $toolbar->dropdownButton('indexing-group');
+            $dropdown->text('COM_FINDER_INDEX')
+                ->toggleSplit(false)
+                ->icon('icon-archive')
+                ->buttonClass('btn btn-action');
+
+            $childBar = $dropdown->getChildToolbar();
+
+            $childBar->popupButton('archive', 'COM_FINDER_INDEX')
+                ->popupType('iframe')
+                ->textHeader(Text::_('COM_FINDER_HEADING_INDEXER'))
+                ->url('index.php?option=com_finder&view=indexer&tmpl=component')
+                ->modalWidth('800px')
+                ->modalHeight('400px')
+                ->icon('icon-archive')
+                ->title(Text::_('COM_FINDER_HEADING_INDEXER'));
+
+            $childBar->linkButton('indexdebug', 'COM_FINDER_INDEX_TOOLBAR_INDEX_DEBUGGING')
+                ->url('index.php?option=com_finder&view=indexer&layout=debug')
+                ->icon('icon-tools');
+        } else {
+            $toolbar->popupButton('archive', 'COM_FINDER_INDEX')
+                ->popupType('iframe')
+                ->textHeader(Text::_('COM_FINDER_HEADING_INDEXER'))
+                ->url('index.php?option=com_finder&view=indexer&tmpl=component')
+                ->modalWidth('800px')
+                ->modalHeight('400px')
+                ->icon('icon-archive')
+                ->title(Text::_('COM_FINDER_HEADING_INDEXER'));
+        }
+
 
         if (!$this->isEmptyState) {
             if ($canDo->get('core.edit.state')) {
