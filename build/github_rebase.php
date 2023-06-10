@@ -9,17 +9,18 @@
  */
 
 // Set defaults
-$scriptRoot   = __DIR__;
-$prNumber     = false;
-$php          = 'php';
-$git          = 'git';
-$gh           = 'gh';
-$checkPath    = false;
-$ghRepo       = 'joomla/joomla-cms';
-$baseBranches = '4.1-dev';
-$targetBranch = '4.2-dev';
-$label        = '';
-$tryRun       = false;
+$scriptRoot       = __DIR__;
+$prNumber         = false;
+$php              = 'php';
+$git              = 'git';
+$gh               = 'gh';
+$checkPath        = false;
+$ghRepo           = 'joomla/joomla-cms';
+$baseBranches     = '4.1-dev';
+$targetBranch     = '4.2-dev';
+$label            = '';
+$additionalReason = '';
+$tryRun           = false;
 
 $script = array_shift($argv);
 
@@ -71,11 +72,22 @@ foreach ($argv as $arg) {
             case '--label':
                     $label = $argi[1];
                 break;
+            case '--reason':
+                    $additionalReason = $argi[1];
+                break;
+            default:
+                die('Unknown option: ' . $argi[0]);
         }
     } else {
         $checkPath = $arg;
         break;
     }
+}
+
+$reason = 'This pull request has been automatically rebased to ' . $targetBranch . '.';
+
+if (!empty($additionalReason)) {
+    $reason .= ' ' . $additionalReason;
 }
 
 $cmd        = $git . ' -C "' . $scriptRoot . '" rev-parse --show-toplevel';
@@ -165,7 +177,7 @@ foreach ($list as $pr) {
         echo "TRY RUN: " . $cmd . "\n";
     }
 
-    $cmd    = $gh . ' pr comment ' . $pr['url'] . ' --body "This pull request has been automatically rebased to ' . $targetBranch . '."';
+    $cmd    = $gh . ' pr comment ' . $pr['url'] . ' --body "' . $reason . '"';
     $output = [];
     if (!$tryRun) {
         exec($cmd, $output, $result);
