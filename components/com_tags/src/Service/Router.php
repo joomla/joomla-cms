@@ -89,47 +89,59 @@ class Router extends RouterBase
         }
 
         // Get query language
-        $language = isset($query['lang']) ? $query['lang'] : '*';
+        $lang = isset($query['lang']) ? $query['lang'] : '*';
 
         // Set the language to the current one when multilang is enabled and item is tagged to ALL
-        if (Multilanguage::isEnabled() && $language === '*') {
-            $language = $this->app->get('language');
+        if (Multilanguage::isEnabled() && $lang === '*') {
+            $lang = $this->app->get('language');
         }
 
-        if (isset($query['view']) && $query['view'] == 'tags') {
-            if (isset($query['parent_id']) && isset($this->lookup[$language]['tags'][$query['parent_id']])) {
-                $query['Itemid'] = $this->lookup[$language]['tags'][$query['parent_id']];
-            } elseif (isset($this->lookup[$language]['tags'][0])) {
-                $query['Itemid'] = $this->lookup[$language]['tags'][0];
-            }
-        } elseif (isset($query['view']) && $query['view'] == 'tag') {
-            if (isset($query['id'])) {
-                if (!is_array($query['id'])) {
-                    $query['id'] = [$query['id']];
-                }
-
-                $id = ArrayHelper::toInteger($query['id']);
-                sort($id);
-
-                if (isset($this->lookup[$language]['tag'][implode(',', $id)])) {
-                    $query['Itemid'] = $this->lookup[$language]['tag'][implode(',', $id)];
+        foreach (array_unique([$lang, '*']) as $language) {
+            if (isset($query['view']) && $query['view'] == 'tags') {
+                if (isset($query['parent_id']) && isset($this->lookup[$language]['tags'][$query['parent_id']])) {
+                    $query['Itemid'] = $this->lookup[$language]['tags'][$query['parent_id']];
+                    break;
                 } elseif (isset($this->lookup[$language]['tags'][0])) {
                     $query['Itemid'] = $this->lookup[$language]['tags'][0];
+                    break;
+                }
+            } elseif (isset($query['view']) && $query['view'] == 'tag') {
+                if (isset($query['id'])) {
+                    if (!is_array($query['id'])) {
+                        $query['id'] = [$query['id']];
+                    }
+
+                    $id = ArrayHelper::toInteger($query['id']);
+                    sort($id);
+
+                    if (isset($this->lookup[$language]['tag'][implode(',', $id)])) {
+                        $query['Itemid'] = $this->lookup[$language]['tag'][implode(',', $id)];
+                        break;
+                    } else {
+                        foreach ($id as $i) {
+                            if (isset($this->lookup[$language]['tag'][$i])) {
+                                $query['Itemid'] = $this->lookup[$language]['tag'][$i];
+                                break 2;
+                            }
+                        }
+                    }
+
+                    if (isset($this->lookup[$language]['tags'][implode(',', $id)])) {
+                        $query['Itemid'] = $this->lookup[$language]['tags'][implode(',', $id)];
+                        break;
+                    }
+
+                    if (isset($this->lookup[$language]['tags'][0])) {
+                        $query['Itemid'] = $this->lookup[$language]['tags'][0];
+                        break;
+                    }
                 }
             }
-        }
-
-        // Check if the active menuitem matches the requested language
-        if (
-            !isset($query['Itemid']) && ($active && $active->component === 'com_tags'
-            && ($language === '*' || \in_array($active->language, ['*', $language]) || !Multilanguage::isEnabled()))
-        ) {
-            $query['Itemid'] = $active->id;
         }
 
         // If not found, return language specific home link
         if (!isset($query['Itemid'])) {
-            $default = $this->menu->getDefault($language);
+            $default = $this->menu->getDefault($lang);
 
             if (!empty($default->id)) {
                 $query['Itemid'] = $default->id;
@@ -168,12 +180,18 @@ class Router extends RouterBase
 
                 unset($query['id']);
             } elseif ($menuItem->query['view'] == 'tag') {
-                $ids = $query['id'];
-                $ids = ArrayHelper::toInteger($ids);
-                $ids = array_diff($ids, $menuItem->query['id']);
+                $ids     = $query['id'];
+                $int_ids = ArrayHelper::toInteger($ids);
+                $mIds    = (array) $menuItem->query['id'];
 
-                foreach ($ids as $id) {
-                    $segments[] = $id;
+                /**
+                 * We check if there is a difference between the tags of the menu item and the query.
+                 * If they are identical, we exactly match the menu item. Otherwise we append all tags to the URL
+                 */
+                if (count(array_diff($int_ids, $mIds)) > 0 || count(array_diff($mIds, $int_ids)) > 0) {
+                    foreach ($ids as $id) {
+                        $segments[] = $id;
+                    }
                 }
 
                 unset($query['id']);
@@ -271,11 +289,46 @@ class Router extends RouterBase
                 $id = $item->query['id'];
                 sort($id);
                 $this->lookup[$item->language]['tag'][implode(',', $id)] = $item->id;
+
+                foreach ($id as $i) {
+                    $this->lookup[$item->language]['tag'][$i] = $item->id;
+                }
             }
 
             if ($item->query['view'] == 'tags') {
                 $id                                         = (int) (isset($item->query['parent_id']) ? $item->query['parent_id'] : 0);
                 $this->lookup[$item->language]['tags'][$id] = $item->id;
+            }
+        }
+
+        foreach ($this->lookup as $language => $items) {
+            // We have tags views with parent_id set and need to load child tags to be assigned to this menu item
+            if (
+                count($this->lookup[$language]['tags']) > 1
+                || (count($this->lookup[$language]['tags']) == 1 && !isset($this->lookup[$language]['tags'][0]))
+            ) {
+                foreach ($this->lookup[$language]['tags'] as $id => $menu) {
+                    if ($id === 0) {
+                        continue;
+                    }
+
+                    $query = $this->db->getQuery(true);
+                    $query->select($this->db->quoteName('a.id'))
+                        ->from($this->db->quoteName('#__tags', 'a'))
+                        ->leftJoin(
+                            $this->db->quoteName('#__tags', 'b')
+                            . ' ON ' . $this->db->quoteName('b.lft') . ' < ' . $this->db->quoteName('a.lft')
+                            . ' AND ' . $this->db->quoteName('a.rgt') . ' < ' . $this->db->quoteName('b.rgt')
+                        )
+                        ->where($this->db->quoteName('b.id') . ' = :id')
+                        ->bind(':id', $id);
+                    $this->db->setQuery($query);
+                    $ids = (array) $this->db->loadColumn();
+
+                    foreach ($ids as $i) {
+                        $this->lookup[$language]['tags'][$i] = $menu;
+                    }
+                }
             }
         }
     }
