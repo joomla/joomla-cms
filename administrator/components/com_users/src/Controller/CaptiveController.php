@@ -15,13 +15,13 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Event\MultiFactor\Validate;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\CaptiveModel;
 use Joomla\Input\Input;
@@ -36,8 +36,10 @@ use RuntimeException;
  *
  * @since 4.2.0
  */
-class CaptiveController extends BaseController
+class CaptiveController extends BaseController implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Public constructor
      *
@@ -67,8 +69,7 @@ class CaptiveController extends BaseController
      */
     public function display($cachable = false, $urlparams = false): void
     {
-        $user = $this->app->getIdentity()
-            ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        $user = $this->app->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
 
         // Only allow logged in Users
         if ($user->guest) {
@@ -152,9 +153,20 @@ class CaptiveController extends BaseController
             throw new RuntimeException(Text::_('COM_USERS_MFA_INVALID_METHOD'), 500);
         }
 
+        if (!$model->checkTryLimit($record)) {
+            // The try limit is reached, show error and return
+            $captiveURL = Route::_('index.php?option=com_users&view=captive&task=select', false);
+            $message    = Text::_('COM_USERS_MFA_TRY_LIMIT_REACHED');
+            $this->setRedirect($captiveURL, $message, 'error');
+
+            $event = new NotifyActionLog('onComUsersCaptiveValidateTryLimitReached');
+            $this->app->getDispatcher()->dispatch($event->getName(), $event);
+
+            return;
+        }
+
         // Validate the code
-        $user = $this->app->getIdentity()
-            ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        $user = $this->app->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
 
         $event   = new Validate($record, $user, $code);
         $results = $this->app
@@ -210,6 +222,8 @@ class CaptiveController extends BaseController
         $jNow = Date::getInstance();
 
         $record->last_used = $jNow->toSql();
+        $record->tries     = 0;
+        $record->last_try  = null;
         $record->store();
 
         // Flag the user as fully logged in
