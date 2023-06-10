@@ -11,6 +11,7 @@ namespace Joomla\Plugin\Editors\CodeMirror\Provider;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Editor\AbstractEditorProvider;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherInterface;
@@ -221,7 +222,8 @@ final class CodeMirrorProvider extends AbstractEditorProvider
         }
 
         if ($options->keyMap !== 'default') {
-            $keyMapUrl = $this->basePath . 'keymap/' . $options->keyMap . '.min.js';
+            $keyMapUrl = HTMLHelper::_('script', $this->basePath . 'keymap/' . $options->keyMap . '.min.js', ['relative' => false, 'pathOnly' => true]);
+            $keyMapUrl .= '?' . $this->application->getDocument()->getMediaVersion();
         }
 
         $options->keyMapUrl = $keyMapUrl;
