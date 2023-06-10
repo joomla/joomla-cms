@@ -203,7 +203,7 @@ Joomla.Update = window.Joomla.Update || {
 
     return `${parseFloat((bytes / (k ** i)).toFixed(dm))} ${sizes[i]}`;
   },
-  formatFiles: (files) => `${files} ${Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPDATE_FILES')}`,
+  formatFiles: (files) => `${files} ${Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPDATE_ITEMS')}`,
   resumeButtonHandler: (e) => {
     e.preventDefault();
 
