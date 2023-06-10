@@ -236,7 +236,7 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
                     $item->$authorTable = $fallbackUserId;
 
                     if ($aliasTable && isset($item->$aliasTable) && $this->params->get('setAliasOnDelete')) {
-                        if ((!$this->params->get('overrideAlias') && !empty($item->$aliasTable))
+                        if ((!$this->params->get('overrideAliasOnDelete') && !empty($item->$aliasTable))
                             || (empty($item->$aliasTable) && empty($fallbackAliasName))
                         ) {
                             continue;
@@ -353,11 +353,12 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
      */
     private function changeUser($user)
     {
-        $userId         = $user['id'];
-        $aliasName      = $user['name'];
-        $componentParams = self::$componentParams;
-        $fallbackUserId = $componentParams->get('fallbackUserOnDelete');
-        $setAuthorAlias = $componentParams->get('setAliasOnDelete', '1');
+        $userId                = $user['id'];
+        $aliasName             = $user['name'];
+        $componentParams       = self::$componentParams;
+        $fallbackUserId        = $componentParams->get('fallbackUserOnDelete');
+        $setAliasOnDelete      = $componentParams->get('setAliasOnDelete', '1');
+        $overrideAliasOnDelete = $componentParams->get('overrideAliasOnDelete', '0');
 
         if (empty($fallbackUserId) || !is_numeric($fallbackUserId)) {
             $fallbackUserId = $this->app->getIdentity()->id;
@@ -393,8 +394,8 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
                     $updateQuery->update($this->db->quoteName($tableName))
                         ->set($this->db->quoteName($authorColumn) . ' = ' . $this->db->quote((int) $fallbackUserId));
 
-                    if ($setAuthorAlias && $aliasColumn) {
-                        if ($this->params->get('overrideAliasOnDelete')) {
+                    if ($setAliasOnDelete && $aliasColumn) {
+                        if ($overrideAliasOnDelete) {
                             $updateQuery->set(
                                 $this->db->quoteName($aliasColumn) . ' = ' . $this->db->quote($aliasName)
                             );
@@ -417,11 +418,12 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
                 try {
                     $infoAuthorAlias = '';
                     $selectResult    = $this->db->setQuery($selectQuery)->loadColumn();
+                    $updateResult    = $this->db->setQuery($updateQuery)->loadColumn();
 
                     if (!empty($selectResult)) {
                         $elementList = implode(', ', $selectResult);
 
-                        if ($setAuthorAlias && $aliasColumn) {
+                        if ($setAliasOnDelete && $aliasColumn) {
                             $infoAuthorAlias = Text::sprintf(
                                 'PLG_USER_BEFOREDELETE_USER_CHANGED_FALLBACK_ALIAS_MSG',
                                 $aliasName
