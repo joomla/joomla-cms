@@ -308,15 +308,12 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
     private function validateFallbackUser($userIdToDelete)
     {
         $componentParams = self::$componentParams;
+        $fallbackUserId  = $componentParams->get('fallbackUserIdOnDelete');
         $tabName         = Text::_('COM_USERS_CONFIG_BEFORE_DELETE_USER');
         $tabId           = strtolower(str_replace(' ', '_', $tabName));
+        $error           = false;
 
-        if (empty($fallbackUser = $componentParams->get('fallbackUserOnDelete'))) {
-            $this->app->enqueueMessage(
-                Text::_('PLG_USER_BEFOREDELETE_ERROR_USER_NOT_DELETED_MSG'),
-                'error'
-            );
-
+        if (empty($fallbackUserId)) {
             $this->app->enqueueMessage(
                 Text::sprintf(
                     'PLG_USER_BEFOREDELETE_ERROR_FALLBACK_USER_NOT_SET_MSG',
@@ -325,23 +322,38 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
                 'warning'
             );
 
-
-            $url = Route::_('/administrator/index.php?option=com_config&view=component&component=com_users#' . $tabId);
-            $this->app->redirect($url, 200);
+            $error = true;
         }
 
-        if ($userIdToDelete == $fallbackUser) {
-            $this->app->enqueueMessage(
-                Text::_('PLG_USER_BEFOREDELETE_ERROR_USER_NOT_DELETED_MSG'),
-                'error'
-            );
-
+        if (!$error && $userIdToDelete == $fallbackUserId) {
             $this->app->enqueueMessage(
                 Text::sprintf(
                     'PLG_USER_BEFOREDELETE_ERROR_FALLBACK_USER_CONNECTED_MSG',
                     $tabName
                 ),
                 'warning'
+            );
+
+            $error = true;
+        }
+
+        if (!$error && !$this->isUserExists($fallbackUserId)) {
+            $this->app->enqueueMessage(
+                Text::sprintf(
+                    'PLG_USER_BEFOREDELETE_ERROR_FALLBACK_USER_ID_NOT_EXISTS_MSG',
+                    $fallbackUserId,
+                    $tabName
+                ),
+                'warning'
+            );
+
+            $error = true;
+        }
+
+        if ($error) {
+            $this->app->enqueueMessage(
+                Text::_('PLG_USER_BEFOREDELETE_ERROR_USER_NOT_DELETED_MSG'),
+                'error'
             );
 
             $url = Route::_('/administrator/index.php?option=com_config&view=component&component=com_users#' . $tabId);
@@ -363,7 +375,7 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
         $userId                = $user['id'];
         $aliasName             = $user['name'];
         $componentParams       = self::$componentParams;
-        $fallbackUserId        = $componentParams->get('fallbackUserOnDelete');
+        $fallbackUserId        = $componentParams->get('fallbackUserIdOnDelete');
         $setAliasOnDelete      = $componentParams->get('setAliasOnDelete', '1');
         $overrideAliasOnDelete = $componentParams->get('overrideAliasOnDelete', '0');
 

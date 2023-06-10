@@ -113,7 +113,7 @@
 	</fieldset>
 	<fieldset name="before_delete_user"
 	          label="COM_USERS_CONFIG_BEFORE_DELETE_USER">
-		<field name="fallbackUserOnDelete"
+		<field name="fallbackUserIdOnDelete"
 		       type="user"
 		       label="COM_USERS_CONFIG_FIELD_FALLBACK_USER_LABEL"
 		       description="COM_USERS_CONFIG_FIELD_FALLBACK_USER_DESC"
