@@ -90,9 +90,6 @@ class JoomlaInstallerScript
             // Informational log only
         }
 
-        // Uninstall plugins before removing their files and folders
-        $this->uninstallEosPlugin();
-
         // This needs to stay for 2.5 update compatibility
         $this->deleteUnexistingFiles();
         $this->updateManifestCaches();
@@ -201,53 +198,6 @@ class JoomlaInstallerScript
             }
 
             break;
-        }
-    }
-
-    /**
-     * Uninstall the 3.10 EOS plugin
-     *
-     * @return  void
-     *
-     * @since   4.0.0
-     */
-    protected function uninstallEosPlugin()
-    {
-        $db = Factory::getDbo();
-
-        // Check if the plg_quickicon_eos310 plugin is present
-        $extensionId = $db->setQuery(
-            $db->getQuery(true)
-                ->select('extension_id')
-                ->from('#__extensions')
-                ->where('name = ' . $db->quote('plg_quickicon_eos310'))
-        )->loadResult();
-
-        // Skip uninstalling if it doesn't exist
-        if (!$extensionId) {
-            return;
-        }
-
-        try {
-            $db->transactionStart();
-
-            // Unprotect the plugin so we can uninstall it
-            $db->setQuery(
-                $db->getQuery(true)
-                    ->update('#__extensions')
-                    ->set('protected = 0')
-                    ->where($db->quoteName('extension_id') . ' = ' . $extensionId)
-            )->execute();
-
-            // Uninstall the plugin
-            $installer = new Installer();
-            $installer->setDatabase($db);
-            $installer->uninstall('plugin', $extensionId);
-
-            $db->transactionCommit();
-        } catch (\Exception $e) {
-            $db->transactionRollback();
-            throw $e;
         }
     }
 
@@ -382,6 +332,8 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/mysql/4.3.0-2023-03-29.sql',
             '/administrator/components/com_admin/sql/updates/mysql/4.3.2-2023-03-31.sql',
             '/administrator/components/com_admin/sql/updates/mysql/4.3.2-2023-05-03.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/4.3.2-2023-05-20.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/4.4.0-2023-05-08.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-03-05.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-05-15.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-07-19.sql',
@@ -443,29 +395,31 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.0-2023-03-29.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-03-31.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-05-03.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-05-20.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/4.4.0-2023-05-08.sql',
             '/libraries/src/Schema/ChangeItem/SqlsrvChangeItem.php',
-            '/libraries/vendor/beberlei/assert/LICENSE',
             '/libraries/vendor/beberlei/assert/lib/Assert/Assert.php',
             '/libraries/vendor/beberlei/assert/lib/Assert/Assertion.php',
             '/libraries/vendor/beberlei/assert/lib/Assert/AssertionChain.php',
             '/libraries/vendor/beberlei/assert/lib/Assert/AssertionFailedException.php',
+            '/libraries/vendor/beberlei/assert/lib/Assert/functions.php',
             '/libraries/vendor/beberlei/assert/lib/Assert/InvalidArgumentException.php',
             '/libraries/vendor/beberlei/assert/lib/Assert/LazyAssertion.php',
             '/libraries/vendor/beberlei/assert/lib/Assert/LazyAssertionException.php',
-            '/libraries/vendor/beberlei/assert/lib/Assert/functions.php',
+            '/libraries/vendor/beberlei/assert/LICENSE',
             '/libraries/vendor/google/recaptcha/ARCHITECTURE.md',
             '/libraries/vendor/jfcherng/php-color-output/src/helpers.php',
             '/libraries/vendor/joomla/ldap/LICENSE',
             '/libraries/vendor/joomla/ldap/src/LdapClient.php',
+            '/libraries/vendor/laminas/laminas-zendframework-bridge/config/replacements.php',
             '/libraries/vendor/laminas/laminas-zendframework-bridge/COPYRIGHT.md',
             '/libraries/vendor/laminas/laminas-zendframework-bridge/LICENSE.md',
-            '/libraries/vendor/laminas/laminas-zendframework-bridge/config/replacements.php',
+            '/libraries/vendor/laminas/laminas-zendframework-bridge/src/autoload.php',
             '/libraries/vendor/laminas/laminas-zendframework-bridge/src/Autoloader.php',
             '/libraries/vendor/laminas/laminas-zendframework-bridge/src/ConfigPostProcessor.php',
             '/libraries/vendor/laminas/laminas-zendframework-bridge/src/Module.php',
             '/libraries/vendor/laminas/laminas-zendframework-bridge/src/Replacements.php',
             '/libraries/vendor/laminas/laminas-zendframework-bridge/src/RewriteRules.php',
-            '/libraries/vendor/laminas/laminas-zendframework-bridge/src/autoload.php',
             '/libraries/vendor/lcobucci/jwt/compat/class-aliases.php',
             '/libraries/vendor/lcobucci/jwt/compat/json-exception-polyfill.php',
             '/libraries/vendor/lcobucci/jwt/compat/lcobucci-clock-polyfill.php',
@@ -483,6 +437,8 @@ class JoomlaInstallerScript
             '/libraries/vendor/lcobucci/jwt/src/Signer/Keychain.php',
             '/libraries/vendor/lcobucci/jwt/src/ValidationData.php',
             '/libraries/vendor/nyholm/psr7/LICENSE',
+            '/libraries/vendor/nyholm/psr7/phpstan-baseline.neon',
+            '/libraries/vendor/nyholm/psr7/psalm.baseline.xml',
             '/libraries/vendor/nyholm/psr7/src/Factory/HttplugFactory.php',
             '/libraries/vendor/nyholm/psr7/src/Factory/Psr17Factory.php',
             '/libraries/vendor/nyholm/psr7/src/MessageTrait.php',
@@ -491,22 +447,18 @@ class JoomlaInstallerScript
             '/libraries/vendor/nyholm/psr7/src/Response.php',
             '/libraries/vendor/nyholm/psr7/src/ServerRequest.php',
             '/libraries/vendor/nyholm/psr7/src/Stream.php',
+            '/libraries/vendor/nyholm/psr7/src/StreamTrait.php',
             '/libraries/vendor/nyholm/psr7/src/UploadedFile.php',
             '/libraries/vendor/nyholm/psr7/src/Uri.php',
-            '/libraries/vendor/php-http/message-factory/LICENSE',
-            '/libraries/vendor/php-http/message-factory/puli.json',
-            '/libraries/vendor/php-http/message-factory/src/MessageFactory.php',
-            '/libraries/vendor/php-http/message-factory/src/RequestFactory.php',
-            '/libraries/vendor/php-http/message-factory/src/ResponseFactory.php',
-            '/libraries/vendor/php-http/message-factory/src/StreamFactory.php',
-            '/libraries/vendor/php-http/message-factory/src/UriFactory.php',
+            '/libraries/vendor/psr/http-message/docs/PSR7-Interfaces.md',
+            '/libraries/vendor/psr/http-message/docs/PSR7-Usage.md',
             '/libraries/vendor/psr/log/Psr/Log/AbstractLogger.php',
             '/libraries/vendor/psr/log/Psr/Log/InvalidArgumentException.php',
-            '/libraries/vendor/psr/log/Psr/Log/LogLevel.php',
             '/libraries/vendor/psr/log/Psr/Log/LoggerAwareInterface.php',
             '/libraries/vendor/psr/log/Psr/Log/LoggerAwareTrait.php',
             '/libraries/vendor/psr/log/Psr/Log/LoggerInterface.php',
             '/libraries/vendor/psr/log/Psr/Log/LoggerTrait.php',
+            '/libraries/vendor/psr/log/Psr/Log/LogLevel.php',
             '/libraries/vendor/psr/log/Psr/Log/NullLogger.php',
             '/libraries/vendor/ramsey/uuid/LICENSE',
             '/libraries/vendor/ramsey/uuid/src/BinaryUtils.php',
@@ -531,6 +483,7 @@ class JoomlaInstallerScript
             '/libraries/vendor/ramsey/uuid/src/Exception/UnsatisfiedDependencyException.php',
             '/libraries/vendor/ramsey/uuid/src/Exception/UnsupportedOperationException.php',
             '/libraries/vendor/ramsey/uuid/src/FeatureSet.php',
+            '/libraries/vendor/ramsey/uuid/src/functions.php',
             '/libraries/vendor/ramsey/uuid/src/Generator/CombGenerator.php',
             '/libraries/vendor/ramsey/uuid/src/Generator/DefaultTimeGenerator.php',
             '/libraries/vendor/ramsey/uuid/src/Generator/MtRandGenerator.php',
@@ -555,7 +508,6 @@ class JoomlaInstallerScript
             '/libraries/vendor/ramsey/uuid/src/UuidFactory.php',
             '/libraries/vendor/ramsey/uuid/src/UuidFactoryInterface.php',
             '/libraries/vendor/ramsey/uuid/src/UuidInterface.php',
-            '/libraries/vendor/ramsey/uuid/src/functions.php',
             '/libraries/vendor/spomky-labs/base64url/LICENSE',
             '/libraries/vendor/spomky-labs/base64url/src/Base64Url.php',
             '/libraries/vendor/spomky-labs/cbor-php/src/ByteStringWithChunkObject.php',
@@ -614,6 +566,16 @@ class JoomlaInstallerScript
             '/libraries/vendor/web-auth/metadata-service/src/Version.php',
             '/libraries/vendor/web-auth/webauthn-lib/src/Server.php',
             '/libraries/vendor/web-token/jwt-signature-algorithm-rsa/RSA.php',
+            '/media/vendor/fontawesome-free/scss/_larger.scss',
+            '/media/vendor/fontawesome-free/webfonts/fa-brands-400.eot',
+            '/media/vendor/fontawesome-free/webfonts/fa-brands-400.svg',
+            '/media/vendor/fontawesome-free/webfonts/fa-brands-400.woff',
+            '/media/vendor/fontawesome-free/webfonts/fa-regular-400.eot',
+            '/media/vendor/fontawesome-free/webfonts/fa-regular-400.svg',
+            '/media/vendor/fontawesome-free/webfonts/fa-regular-400.woff',
+            '/media/vendor/fontawesome-free/webfonts/fa-solid-900.eot',
+            '/media/vendor/fontawesome-free/webfonts/fa-solid-900.svg',
+            '/media/vendor/fontawesome-free/webfonts/fa-solid-900.woff',
             '/media/vendor/tinymce/plugins/bbcode/index.js',
             '/media/vendor/tinymce/plugins/bbcode/plugin.js',
             '/media/vendor/tinymce/plugins/bbcode/plugin.min.js',
@@ -662,6 +624,10 @@ class JoomlaInstallerScript
             '/media/vendor/tinymce/plugins/tabfocus/plugin.js',
             '/media/vendor/tinymce/plugins/tabfocus/plugin.min.js',
             '/media/vendor/tinymce/plugins/tabfocus/plugin.min.js.gz',
+            '/media/vendor/tinymce/plugins/template/index.js',
+            '/media/vendor/tinymce/plugins/template/plugin.js',
+            '/media/vendor/tinymce/plugins/template/plugin.min.js',
+            '/media/vendor/tinymce/plugins/template/plugin.min.js.gz',
             '/media/vendor/tinymce/plugins/textcolor/index.js',
             '/media/vendor/tinymce/plugins/textcolor/plugin.js',
             '/media/vendor/tinymce/plugins/textcolor/plugin.min.js',
@@ -710,6 +676,7 @@ class JoomlaInstallerScript
             '/media/vendor/tinymce/plugins/toc',
             '/media/vendor/tinymce/plugins/textpattern',
             '/media/vendor/tinymce/plugins/textcolor',
+            '/media/vendor/tinymce/plugins/template',
             '/media/vendor/tinymce/plugins/tabfocus',
             '/media/vendor/tinymce/plugins/spellchecker',
             '/media/vendor/tinymce/plugins/print',
@@ -749,9 +716,7 @@ class JoomlaInstallerScript
             '/libraries/vendor/ramsey',
             '/libraries/vendor/psr/log/Psr/Log',
             '/libraries/vendor/psr/log/Psr',
-            '/libraries/vendor/php-http/message-factory/src',
-            '/libraries/vendor/php-http/message-factory',
-            '/libraries/vendor/php-http',
+            '/libraries/vendor/psr/http-message/docs',
             '/libraries/vendor/nyholm/psr7/src/Factory',
             '/libraries/vendor/nyholm/psr7/src',
             '/libraries/vendor/nyholm/psr7',
@@ -899,6 +864,103 @@ class JoomlaInstallerScript
         }
 
         // Add here code which shall be executed only when updating from an older version than 5.0.0
+        if (!$this->migrateTinymceConfiguration()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Migrate TinyMCE editor plugin configuration
+     *
+     * @return  boolean  True on success
+     *
+     * @since   5.0.0
+     */
+    private function migrateTinymceConfiguration(): bool
+    {
+        $db = Factory::getDbo();
+
+        try {
+            // Get the TinyMCE editor plugin's parameters
+            $params = $db->setQuery(
+                $db->getQuery(true)
+                    ->select($db->quoteName('params'))
+                    ->from($db->quoteName('#__extensions'))
+                    ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+                    ->where($db->quoteName('folder') . ' = ' . $db->quote('editors'))
+                    ->where($db->quoteName('element') . ' = ' . $db->quote('tinymce'))
+            )->loadResult();
+        } catch (Exception $e) {
+            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+            return false;
+        }
+
+        $params = json_decode($params, true);
+
+        // If there are no toolbars there is nothing to migrate
+        if (!isset($params['configuration']['toolbars'])) {
+            return true;
+        }
+
+        // Each set has its own toolbar configuration
+        foreach ($params['configuration']['toolbars'] as $setIdx => $toolbarConfig) {
+            // Migrate menu items if there is a menu
+            if (isset($toolbarConfig['menu'])) {
+                /**
+                 * Replace array values with menu item names ("old name" -> "new name"):
+                 * "blockformats" -> "blocks"
+                 * "fontformats"  -> "fontfamily"
+                 * "fontsizes"    -> "fontsize"
+                 * "formats"      -> "styles"
+                 * "template"     -> "jtemplate"
+                 */
+                $params['configuration']['toolbars'][$setIdx]['menu'] = str_replace(
+                    ['blockformats', 'fontformats', 'fontsizes', 'formats', 'template'],
+                    ['blocks', 'fontfamily', 'fontsize', 'styles', 'jtemplate'],
+                    $toolbarConfig['menu']
+                );
+            }
+
+            // There could be no toolbar at all, or only toolbar1, or both toolbar1 and toolbar2
+            foreach (['toolbar1', 'toolbar2'] as $toolbarIdx) {
+                // Migrate toolbar buttons if that toolbar exists
+                if (isset($toolbarConfig[$toolbarIdx])) {
+                    /**
+                     * Replace array values with button names ("old name" -> "new name"):
+                     * "fontselect"     -> "fontfamily"
+                     * "fontsizeselect" -> "fontsize"
+                     * "formatselect"   -> "blocks"
+                     * "styleselect"    -> "styles"
+                     * "template"       -> "jtemplate"
+                     */
+                    $params['configuration']['toolbars'][$setIdx][$toolbarIdx] = str_replace(
+                        ['fontselect', 'fontsizeselect', 'formatselect', 'styleselect', 'template'],
+                        ['fontfamily', 'fontsize', 'blocks', 'styles', 'jtemplate'],
+                        $toolbarConfig[$toolbarIdx]
+                    );
+                }
+            }
+        }
+
+        $params = json_encode($params);
+
+        $query = $db->getQuery(true)
+            ->update($db->quoteName('#__extensions'))
+            ->set($db->quoteName('params') . ' = ' . $db->quote($params))
+            ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+            ->where($db->quoteName('folder') . ' = ' . $db->quote('editors'))
+            ->where($db->quoteName('element') . ' = ' . $db->quote('tinymce'));
+
+        try {
+            $db->setQuery($query)->execute();
+        } catch (Exception $e) {
+            echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+
+            return false;
+        }
 
         return true;
     }

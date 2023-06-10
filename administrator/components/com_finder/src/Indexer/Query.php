@@ -554,7 +554,7 @@ class Query
         $query->clear()
             ->select('t1.id, t1.title, t2.title AS branch')
             ->from($db->quoteName('#__finder_taxonomy') . ' AS t1')
-            ->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id')
+            ->leftJoin($db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.lft < t1.lft AND t1.rgt < t2.rgt AND t2.level = 1')
             ->where('t1.state = 1')
             ->where('t1.access IN (' . $groups . ')')
             ->where('t1.id IN (' . implode(',', $filters) . ')')
@@ -618,7 +618,7 @@ class Query
          */
         $query->select('t1.id, t1.title, t2.title AS branch')
             ->from($db->quoteName('#__finder_taxonomy') . ' AS t1')
-            ->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id')
+            ->leftJoin($db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.lft < t1.lft AND t1.rgt < t2.rgt AND t2.level = 1')
             ->where('t1.state = 1')
             ->where('t1.access IN (' . $groups . ')')
             ->where('t1.id IN (' . implode(',', $filters) . ')')
