@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.guidedtours
@@ -105,160 +104,8 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
     : array
     {
         return [
-            'onContentPrepareData'  => 'onContentPrepareData',
             'onUserBeforeDelete'    => 'onUserBeforeDelete',
         ];
-    }
-
-    /**
-     * Event triggered before an extension item output is rendered.
-     *
-     * @param   Event  $event
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function onContentPrepareData(Event $event)
-    {
-        /**
-         * @var   string  $context  The form to be altered.
-         * @var   mixed   $data     The associated data.
-         */
-        [$context, $data] = $event->getArguments();
-
-        if ($data->id === 0) {
-            return;
-        }
-
-        $extensionClass = $this->getExtensionClass($context);
-
-        if ($extensionClass instanceof BeforeDeleteUserInterface) {
-            $this->changeUserIdIfUserDoesNotExistAnymore($extensionClass, $data);
-        }
-    }
-
-    /**
-     * Event triggered on changing the user ID globaly with the batch.
-     *
-     * @param   string  $context
-     * @param   object  $item
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     *
-     * @TODO Not implement yet
-     */
-    public function onChangeUserIdBatch($context, $item)
-    {
-        $extensionClass = $this->getExtensionClass($context);
-
-        if ($extensionClass instanceof BeforeDeleteUserInterface) {
-            $this->changeUserIdIfUserDoesNotExistAnymore($extensionClass, $item);
-        }
-
-        if ($context == 'com_plugins.plugin' && $item->name == 'plg_user_beforedelete') {
-            $newParams               = new Registry($item->params);
-            $userIdToChangeManualy   = $newParams->get('userIdToChangeManualy', '');
-            $userNameToChangeManualy = $newParams->get('userNameToChangeManualy', '');
-
-            // Reset the fields
-            $newParams->set('userIdToChangeManualy', '');
-            $newParams->set('userNameToChangeManualy', '');
-
-            $item->params = (string) $newParams;
-
-            if (empty($userIdToChangeManualy)) {
-                return;
-            }
-
-            if ($this->isUserExists($userIdToChangeManualy)) {
-                $this->app->enqueueMessage(
-                    Text::sprintf(
-                        'PLG_USER_BEFOREDELETE_USER_ID_TO_CHANGE_MANUALY_EXISTS',
-                        $userIdToChangeManualy
-                    ),
-                    'error'
-                );
-
-                return;
-            }
-
-            if (!empty($userIdToChangeManualy)) {
-                $this->params = $newParams;
-                $user         = array(
-                    'id'   => $userIdToChangeManualy,
-                    'name' => $userNameToChangeManualy,
-                );
-
-                $this->changeUser($user);
-            }
-        }
-    }
-
-    /**
-     * Changes the user in all registered extensions if it no longer exists.
-     *
-     * @param   object  $extensionClass
-     * @param   object  $item
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    private function changeUserIdIfUserDoesNotExistAnymore($extensionClass, $item)
-    {
-        $component = ComponentHelper::getParams('com_users');
-        $fallbackUserId    = $this->params->get('fallbackUserOnDelete');
-        $fallbackAliasName = $this->params->get('fallbackAliasName', '');
-
-        if (empty($fallbackUserId) || !is_numeric($fallbackUserId)) {
-            $fallbackUserId = $this->app->getIdentity()->id;
-        }
-
-        foreach ($extensionClass->getColumsToChange() as $table) {
-            if (is_array($table) && count($table) > 1) {
-                $authorExists = true;
-                $authorTable  = $table['author'] ?? false;
-                $aliasTable   = $table['alias'] ?? false;
-
-                if ($authorTable && isset($item->$authorTable)) {
-                    $authorExists = $this->isUserExists($item->$authorTable);
-                }
-
-                if (!$authorExists) {
-                    $this->app->enqueueMessage(
-                        Text::sprintf(
-                            'PLG_USER_BEFOREDELETE_USER_CHANGED_MSG',
-                            $item->$authorTable,
-                            $fallbackUserId
-                        ),
-                        'info'
-                    );
-
-                    $item->$authorTable = $fallbackUserId;
-
-                    if ($aliasTable && isset($item->$aliasTable) && $this->params->get('setAliasOnDelete')) {
-                        if ((!$this->params->get('overrideAliasOnDelete') && !empty($item->$aliasTable))
-                            || (empty($item->$aliasTable) && empty($fallbackAliasName))
-                        ) {
-                            continue;
-                        }
-
-                        $item->$aliasTable = $fallbackAliasName;
-
-                        $this->app->enqueueMessage(
-                            Text::sprintf(
-                                'PLG_USER_BEFOREDELETE_USER_CHANGED_FALLBACK_ALIAS_MSG',
-                                $fallbackAliasName
-                            ),
-                            'info'
-                        );
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -366,7 +213,7 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
      *
      * @param   array  $user
      *
-     * @return  bool
+     * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -508,10 +355,17 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
             /** @var BeforeDeleteUserInterface|null $extensionClass */
             $extensionClass = $this->loadExtensionClass($extension);
 
-            if ($extensionClass instanceof BeforeDeleteUserInterface
-                && !isset(self::$extensions[$extensionClass->getExtensionBaseContext()])
-            ) {
-                self::$extensions[$extensionClass->getExtensionBaseContext()] = $extensionClass;
+            if (!$extensionClass instanceof BeforeDeleteUserInterface) {
+                continue;
+            }
+
+            // Get the extension base context.
+            if (empty($extensionBaseContext = $extensionClass->getExtensionBaseContext())) {
+                continue;
+            }
+
+            if (!isset(self::$extensions[$extensionBaseContext])) {
+                self::$extensions[$extensionBaseContext] = $extensionClass;
             }
         }
     }
@@ -537,8 +391,6 @@ final class BeforeDeleteUser extends CMSPlugin implements SubscriberInterface
             /** @var BeforeDeleteUserInterface $extensionClass */
             $extensionClass = Factory::getApplication()->bootPlugin($extensionName, 'beforedeleteuser');
         } catch (\Throwable $e) {
-            $error = true;
-        } catch (\Exception $e) {
             $error = true;
         }
 
