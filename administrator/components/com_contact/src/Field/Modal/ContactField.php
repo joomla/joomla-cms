@@ -52,7 +52,7 @@ class ContactField extends FormField
         $allowSelect    = ((string) $this->element['select'] != 'false');
         $allowPropagate = ((string) $this->element['propagate'] == 'true');
 
-        $languages = LanguageHelper::getContentLanguages(array(0, 1), false);
+        $languages = LanguageHelper::getContentLanguages([0, 1], false);
 
         // Load language
         Factory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
@@ -74,7 +74,7 @@ class ContactField extends FormField
             static $scriptSelect = null;
 
             if (is_null($scriptSelect)) {
-                $scriptSelect = array();
+                $scriptSelect = [];
             }
 
             if (!isset($scriptSelect[$this->id])) {
@@ -100,8 +100,8 @@ class ContactField extends FormField
 
         if (isset($this->element['language'])) {
             $linkContacts .= '&amp;forcedLanguage=' . $this->element['language'];
-            $linkContact   .= '&amp;forcedLanguage=' . $this->element['language'];
-            $modalTitle     .= ' &#8212; ' . $this->element['label'];
+            $linkContact .= '&amp;forcedLanguage=' . $this->element['language'];
+            $modalTitle .= ' &#8212; ' . $this->element['label'];
         }
 
         $urlSelect = $linkContacts . '&amp;function=jSelectContact_' . $this->id;
@@ -185,7 +185,7 @@ class ContactField extends FormField
         // Propagate contact button
         if ($allowPropagate && count($languages) > 2) {
             // Strip off language tag at the end
-            $tagLength = (int) strlen($this->element['language']);
+            $tagLength            = (int) strlen($this->element['language']);
             $callbackFunctionStem = substr("jSelectContact_" . $this->id, 0, -$tagLength);
 
             $html .= '<button'
@@ -207,16 +207,16 @@ class ContactField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalSelect' . $modalId,
-                array(
-                    'title'       => $modalTitle,
-                    'url'         => $urlSelect,
-                    'height'      => '400px',
-                    'width'       => '800px',
-                    'bodyHeight'  => 70,
-                    'modalWidth'  => 80,
-                    'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+                [
+                    'title'      => $modalTitle,
+                    'url'        => $urlSelect,
+                    'height'     => '400px',
+                    'width'      => '800px',
+                    'bodyHeight' => 70,
+                    'modalWidth' => 80,
+                    'footer'     => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
                                         . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
-                )
+                ]
             );
         }
 
@@ -225,7 +225,7 @@ class ContactField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalNew' . $modalId,
-                array(
+                [
                     'title'       => Text::_('COM_CONTACT_NEW_CONTACT'),
                     'backdrop'    => 'static',
                     'keyboard'    => false,
@@ -247,7 +247,7 @@ class ContactField extends FormField
                             . ' onclick="window.processModalEdit(this, \''
                             . $this->id . '\', \'add\', \'contact\', \'apply\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
                             . Text::_('JAPPLY') . '</button>',
-                )
+                ]
             );
         }
 
@@ -256,7 +256,7 @@ class ContactField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalEdit' . $modalId,
-                array(
+                [
                     'title'       => Text::_('COM_CONTACT_EDIT_CONTACT'),
                     'backdrop'    => 'static',
                     'keyboard'    => false,
@@ -278,7 +278,7 @@ class ContactField extends FormField
                             . ' onclick="window.processModalEdit(this, \''
                             . $this->id . '\', \'edit\', \'contact\', \'apply\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
                             . Text::_('JAPPLY') . '</button>',
-                )
+                ]
             );
         }
 

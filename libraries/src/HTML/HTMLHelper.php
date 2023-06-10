@@ -19,7 +19,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -40,25 +40,25 @@ abstract class HTMLHelper
      * @var    array
      * @since  1.5
      */
-    public static $formatOptions = array('format.depth' => 0, 'format.eol' => "\n", 'format.indent' => "\t");
+    public static $formatOptions = ['format.depth' => 0, 'format.eol' => "\n", 'format.indent' => "\t"];
 
     /**
      * An array to hold included paths
      *
      * @var    string[]
      * @since  1.5
-     * @deprecated  5.0
+     * @deprecated  4.0 will be removed in 6.0
      */
-    protected static $includePaths = array();
+    protected static $includePaths = [];
 
     /**
      * An array to hold method references
      *
      * @var    callable[]
      * @since  1.6
-     * @deprecated  5.0
+     * @deprecated  4.0 will be removed in 6.0
      */
-    protected static $registry = array();
+    protected static $registry = [];
 
     /**
      * The service registry for custom and overridden JHtml helpers
@@ -77,7 +77,9 @@ abstract class HTMLHelper
      * @return  array  Contains lowercase key, prefix, file, function.
      *
      * @since       1.6
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the service registry instead
+     *              HTMLHelper::getServiceRegistry()->getService($file);
      */
     protected static function extract($key)
     {
@@ -97,7 +99,7 @@ abstract class HTMLHelper
         $file   = \count($parts) === 2 ? array_shift($parts) : '';
         $func   = array_shift($parts);
 
-        return array(strtolower($prefix . '.' . $file . '.' . $func), $prefix, $file, $func);
+        return [strtolower($prefix . '.' . $file . '.' . $func), $prefix, $file, $func];
     }
 
     /**
@@ -109,7 +111,7 @@ abstract class HTMLHelper
      * @param   string  $key         The name of helper method to load, (prefix).(class).function
      *                               prefix and class are optional and can be used to load custom
      *                               html helpers.
-     * @param   array   $methodArgs  The arguments to pass forward to the method being called
+     * @param   mixed   $methodArgs  The arguments to pass forward to the method being called
      *
      * @return  mixed  Result of HTMLHelper::call($function, $args)
      *
@@ -133,7 +135,7 @@ abstract class HTMLHelper
         if ($prefix === 'JHtml' && $file !== '' && static::getServiceRegistry()->hasService($file)) {
             $service = static::getServiceRegistry()->getService($file);
 
-            $toCall = array($service, $func);
+            $toCall = [$service, $func];
 
             if (!\is_callable($toCall)) {
                 throw new \InvalidArgumentException(sprintf('%s::%s not found.', $file, $func), 500);
@@ -167,7 +169,7 @@ abstract class HTMLHelper
             }
         }
 
-        $toCall = array($className, $func);
+        $toCall = [$className, $func];
 
         if (!\is_callable($toCall)) {
             throw new \InvalidArgumentException(sprintf('%s::%s not found.', $className, $func), 500);
@@ -187,7 +189,9 @@ abstract class HTMLHelper
      * @return  boolean  True if the function is callable
      *
      * @since       1.6
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the service registry instead
+     *              HTMLHelper::getServiceRegistry()->register($key, $function);
      */
     public static function register($key, callable $function)
     {
@@ -211,7 +215,8 @@ abstract class HTMLHelper
      * @return  boolean  True if a set key is unset
      *
      * @since       1.6
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the service registry instead
      */
     public static function unregister($key)
     {
@@ -373,7 +378,7 @@ abstract class HTMLHelper
 
                 if (\strlen($strip) > 4 && preg_match('#\.min$#', $strip)) {
                     $minExt    = '.min';
-                    $strip = preg_replace('#\.min$#', '', $strip);
+                    $strip     = preg_replace('#\.min$#', '', $strip);
                 }
 
                 // Try to include files named filename.ext, filename_browser.ext, filename_browser_major.ext, filename_browser_major_minor.ext
@@ -401,7 +406,7 @@ abstract class HTMLHelper
 
                 // For each potential files
                 foreach ($potential as $strip) {
-                    $files = [];
+                    $files   = [];
                     $files[] = $strip . '.' . $ext;
 
                     /**
@@ -738,7 +743,7 @@ abstract class HTMLHelper
      * @see   Browser
      * @since 1.5
      */
-    public static function stylesheet($file, $options = array(), $attribs = array())
+    public static function stylesheet($file, $options = [], $attribs = [])
     {
         $options['relative']      = $options['relative'] ?? false;
         $options['pathOnly']      = $options['pathOnly'] ?? false;
@@ -785,7 +790,7 @@ abstract class HTMLHelper
      * @see   HTMLHelper::stylesheet()
      * @since 1.5
      */
-    public static function script($file, $options = array(), $attribs = array())
+    public static function script($file, $options = [], $attribs = [])
     {
         $options['relative']      = $options['relative'] ?? false;
         $options['pathOnly']      = $options['pathOnly'] ?? false;
@@ -919,7 +924,7 @@ abstract class HTMLHelper
     public static function tooltip($tooltip, $title = '', $image = 'tooltip.png', $text = '', $href = '', $alt = 'Tooltip', $class = 'hasTooltip')
     {
         if (\is_array($title)) {
-            foreach (array('image', 'text', 'href', 'alt', 'class') as $param) {
+            foreach (['image', 'text', 'href', 'alt', 'class'] as $param) {
                 if (isset($title[$param])) {
                     $$param = $title[$param];
                 }
@@ -933,7 +938,7 @@ abstract class HTMLHelper
         }
 
         if (!$text) {
-            $alt = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
+            $alt  = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
             $text = static::image($image, $alt, null, true);
         }
 
@@ -948,7 +953,7 @@ abstract class HTMLHelper
             $tooltip = htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8');
 
             if ($title) {
-                $title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
+                $title   = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
                 $tooltip = $title . '::' . $tooltip;
             }
         } else {
@@ -984,7 +989,7 @@ abstract class HTMLHelper
 
             // Pass texts through Text if required.
             if ($translate) {
-                $title = Text::_($title);
+                $title   = Text::_($title);
                 $content = Text::_($content);
             }
 
@@ -1030,7 +1035,7 @@ abstract class HTMLHelper
      * @since   1.5
      *
      */
-    public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = array())
+    public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = [])
     {
         $app       = Factory::getApplication();
         $lang      = $app->getLanguage();
@@ -1073,17 +1078,31 @@ abstract class HTMLHelper
         if ($value && $value !== Factory::getDbo()->getNullDate() && strtotime($value) !== false) {
             $tz = date_default_timezone_get();
             date_default_timezone_set('UTC');
-            $inputvalue = strftime($format, strtotime($value));
+
+            /**
+             * Try to convert strftime format to date format, if success, use DateTimeImmutable to format
+             * the passed datetime to avoid deprecated warnings on PHP 8.1. We only support converting most
+             * common used format here.
+             */
+            $dateFormat = self::strftimeFormatToDateFormat($format);
+
+            if ($dateFormat !== false) {
+                $date       = \DateTimeImmutable::createFromFormat('U', strtotime($value));
+                $inputValue = $date->format($dateFormat);
+            } else {
+                $inputValue = strftime($format, strtotime($value));
+            }
+
             date_default_timezone_set($tz);
         } else {
-            $inputvalue = '';
+            $inputValue = '';
         }
 
-        $data = array(
+        $data = [
             'id'             => $id,
             'name'           => $name,
             'class'          => $class,
-            'value'          => $inputvalue,
+            'value'          => $inputValue,
             'format'         => $format,
             'filter'         => $filter,
             'required'       => $required,
@@ -1109,7 +1128,7 @@ abstract class HTMLHelper
             'calendar'       => $calendar,
             'firstday'       => $lang->getFirstDay(),
             'weekend'        => explode(',', $lang->getWeekEnd()),
-        );
+        ];
 
         return LayoutHelper::render('joomla.form.field.calendar', $data, null, null);
     }
@@ -1123,7 +1142,8 @@ abstract class HTMLHelper
      * @return  array  An array with directory elements
      *
      * @since       1.5
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the service registry instead
      */
     public static function addIncludePath($path = '')
     {
@@ -1216,5 +1236,48 @@ abstract class HTMLHelper
         }
 
         return '';
+    }
+
+    /**
+     * Convert most popular strftime format to php date format as strftime is deprecated and we have
+     * to be able to provide same backward compatibility with existing format strings.
+     *
+     * @param   $strftimeformat   string The format compatible with strftime.
+     *
+     * @return  mixed The format compatible with PHP's Date functions if success, false otherwise
+     *
+     * @since   4.2.9
+     */
+    public static function strftimeFormatToDateFormat(string $strftimeformat)
+    {
+        $format = str_replace(
+            [
+                '%Y',
+                '%m',
+                '%d',
+                '%H',
+                '%M',
+                '%S',
+            ],
+            [
+                'Y',
+                'm',
+                'd',
+                'H',
+                'i',
+                's',
+            ],
+            $strftimeformat
+        );
+
+        /**
+         * If there is % character left after replacing, that mean one of unsupported format is used
+         * the conversion false
+         */
+        if (strpos($format, '%') !== false) {
+            return false;
+        }
+
+        return $format;
     }
 }

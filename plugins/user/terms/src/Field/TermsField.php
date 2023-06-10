@@ -18,7 +18,7 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -78,7 +78,7 @@ class TermsField extends RadioField
     {
         $data = parent::getLayoutData();
 
-        $article = false;
+        $article      = false;
         $termsArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
 
         if ($termsArticle && Factory::getApplication()->isClient('site')) {
@@ -104,7 +104,7 @@ class TermsField extends RadioField
                     $termsAssociated[$currentLang]->language
                 );
             } else {
-                $slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
+                $slug          = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
                 $article->link = RouteHelper::getArticleRoute($slug, $article->catid, $article->language);
             }
         }

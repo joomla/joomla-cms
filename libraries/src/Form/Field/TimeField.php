@@ -14,7 +14,7 @@ use Joomla\CMS\Form\FormField;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -95,16 +95,10 @@ class TimeField extends FormField
                 }
                 break;
 
-            case 'min':
-                $this->min = (string) $value;
-                break;
-
             case 'max':
-                $this->max = (string) $value;
-                break;
-
+            case 'min':
             case 'step':
-                $this->step = (string) $value;
+                $this->$name = (int) $value;
                 break;
 
             case 'filter':
@@ -136,9 +130,9 @@ class TimeField extends FormField
 
         if ($return) {
             // It is better not to force any default limits if none is specified
-            $this->max  = isset($this->element['max']) ? (string) $this->element['max'] : null;
-            $this->min  = isset($this->element['min']) ? (string) $this->element['min'] : null;
-            $this->step = isset($this->element['step']) ? (float) $this->element['step'] : null;
+            $this->max  = isset($this->element['max']) ? (int) $this->element['max'] : null;
+            $this->min  = isset($this->element['min']) ? (int) $this->element['min'] : null;
+            $this->step = isset($this->element['step']) ? (int) $this->element['step'] : null;
 
             if ($this->element['filter']) {
                 $this->__set('filter', $element['filter']);

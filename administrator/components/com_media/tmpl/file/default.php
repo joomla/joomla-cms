@@ -71,6 +71,6 @@ $this->useCoreUI = true;
         <?php echo '<div id="media-manager-edit-container" class="media-manager-edit"></div>'; ?>
         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
     <?php endif; ?>
-    <input type="hidden" name="mediatypes" value="<?php echo $mediaTypes; ?>">
+    <input type="hidden" name="mediatypes" value="<?php echo $this->escape($mediaTypes); ?>">
 </form>
 <script type="module" src="<?php echo $script . '?' . $this->document->getMediaVersion(); ?>"></script>

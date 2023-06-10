@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -69,10 +70,13 @@ class HtmlView extends BaseHtmlView
     {
         ToolbarHelper::title(Text::_('COM_MEDIA_EDIT'), 'images mediamanager');
 
-        ToolbarHelper::apply('apply');
-        ToolbarHelper::save('save');
-        ToolbarHelper::custom('reset', 'refresh', '', 'COM_MEDIA_RESET', false);
+        $toolbar = Toolbar::getInstance();
+        $toolbar->apply('apply');
+        $toolbar->save('save');
+        $toolbar->standardButton('reset', 'COM_MEDIA_RESET', 'reset')
+            ->icon('icon-refresh')
+            ->listCheck(false);
 
-        ToolbarHelper::cancel('cancel', 'JTOOLBAR_CLOSE');
+        $toolbar->cancel('cancel');
     }
 }

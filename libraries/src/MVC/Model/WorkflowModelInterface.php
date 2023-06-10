@@ -13,7 +13,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Table\Table;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -137,5 +137,5 @@ interface WorkflowModelInterface
      * @since   3.0
      * @throws  \Exception
      */
-    public function getTable($name = '', $prefix = '', $options = array());
+    public function getTable($name = '', $prefix = '', $options = []);
 }
