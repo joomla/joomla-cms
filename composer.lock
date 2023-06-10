@@ -1596,12 +1596,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filesystem.git",
-                "reference": "5136bcf7140df75c52d43f1d7b01092712f71b80"
+                "reference": "9aa46b4627a4c9398da9d8c5cdad381673f6e172"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/5136bcf7140df75c52d43f1d7b01092712f71b80",
-                "reference": "5136bcf7140df75c52d43f1d7b01092712f71b80",
+                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/9aa46b4627a4c9398da9d8c5cdad381673f6e172",
+                "reference": "9aa46b4627a4c9398da9d8c5cdad381673f6e172",
                 "shasum": ""
             },
             "require": {
@@ -1652,7 +1652,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-05-03T07:40:24+00:00"
+            "time": "2023-06-05T07:21:03+00:00"
         },
         {
             "name": "joomla/filter",
