@@ -84,6 +84,6 @@ class UserMessagesField extends UserField
      */
     protected function getExcluded()
     {
-        return [Factory::getUser()->id];
+        return [$this->getCurrentUser()->id];
     }
 }

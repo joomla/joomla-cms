@@ -17,7 +17,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -315,7 +315,7 @@ class TagField extends ListField
             return false;
         }
 
-        return Factory::getUser()->authorise('core.create', 'com_tags');
+        return $this->getCurrentUser()->authorise('core.create', 'com_tags');
     }
 
     /**

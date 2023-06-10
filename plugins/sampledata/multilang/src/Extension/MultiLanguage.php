@@ -1213,9 +1213,7 @@ final class MultiLanguage extends CMSPlugin
 
         $db->setQuery($query);
 
-        $this->langlist = $db->loadColumn();
-
-        return $this->langlist;
+        return $db->loadColumn();
     }
 
     /**
@@ -1261,9 +1259,7 @@ final class MultiLanguage extends CMSPlugin
      */
     protected function getClient($client = 'administrator')
     {
-        $this->client = ApplicationHelper::getClientInfo($client, true);
-
-        return $this->client;
+        return ApplicationHelper::getClientInfo($client, true);
     }
 
     /**
