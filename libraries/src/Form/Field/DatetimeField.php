@@ -84,7 +84,7 @@ class DatetimeField extends FormField
             return false;
         }
 
-        foreach (array('min', 'max', 'filter') as $attr) {
+        foreach (['min', 'max', 'filter'] as $attr) {
             $this->__set($attr, (string) $element[$attr]);
         }
 
