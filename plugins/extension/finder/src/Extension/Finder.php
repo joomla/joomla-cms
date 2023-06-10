@@ -59,7 +59,9 @@ final class Finder extends CMSPlugin
             )
             ->bind(':eid', $eid, ParameterType::INTEGER);
 
-        if ($extension = $db->setQuery($query)->loadObject()) {
+        $extension = $db->setQuery($query)->loadObject();
+
+        if ($extension) {
             $this->addCommonWords($extension);
         }
     }
