@@ -7,7 +7,6 @@ $prefix: "";
 @import "../../../../../../media/vendor/bootstrap/scss/variables";
 @import "../../../../../../media/vendor/bootstrap/scss/maps";
 @import "../../../../../../media/vendor/bootstrap/scss/mixins";
-@import "../../../../../../media/vendor/bootstrap/scss/helpers";
 @import "../../../../../../media/vendor/bootstrap/scss/utilities";
 
 // Bootstrap
@@ -31,6 +30,9 @@ $prefix: "";
 @import "vendor/bootstrap/buttons";
 @import "vendor/bootstrap/lists";
 @import "vendor/bootstrap/table";
+
+// Bootstrap Helpers
+@import "../../../../../../media/vendor/bootstrap/scss/helpers";
 
 // Finally add the cassiopeia colours
 @import "global/colors_standard";
