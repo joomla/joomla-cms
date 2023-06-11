@@ -34,9 +34,8 @@ $prefix: "";
 // Finally add the cassiopeia colours
 @import "global/colors_standard";
 :root {
-
   @each $color,
-  $value in $cassiopeia-colors {
+    $value in $cassiopeia-colors {
     --#{$color}: #{$value};
   }
 }
