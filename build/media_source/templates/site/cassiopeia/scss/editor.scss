@@ -1,58 +1,171 @@
-/* STYLES FOR JOOMLA! EDITOR */
-body {
-  margin: 1rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #22262a;
-  background-color: #fff;
-}
+// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
+$prefix: "";
 
-h1, h2, h3, h4, h5, h6 {
-  margin-top: 0;
-  margin-bottom: .5rem;
-  font-weight: 700;
-  line-height: 1.2;
-}
+// Bootstrap functions
+@import "../../../../../../media/vendor/bootstrap/scss/functions";
+@import "tools/variables/variables";
+@import "../../../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../../../media/vendor/bootstrap/scss/maps";
+@import "../../../../../../media/vendor/bootstrap/scss/mixins";
+@import "../../../../../../media/vendor/bootstrap/scss/utilities";
 
-h1 {
-  font-size: calc(1.375rem + 1.5vw);
-}
+// Bootstrap
+@import "../../../../../../media/vendor/bootstrap/scss/root";
+@import "../../../../../../media/vendor/bootstrap/scss/reboot";
+@import "../../../../../../media/vendor/bootstrap/scss/type";
+@import "../../../../../../media/vendor/bootstrap/scss/images";
+@import "../../../../../../media/vendor/bootstrap/scss/grid";
+@import "../../../../../../media/vendor/bootstrap/scss/tables";
+@import "../../../../../../media/vendor/bootstrap/scss/buttons";
+@import "../../../../../../media/vendor/bootstrap/scss/card";
+@import "../../../../../../media/vendor/bootstrap/scss/badge";
+@import "../../../../../../media/vendor/bootstrap/scss/placeholders";
 
-h2 {
-  font-size: calc(1.325rem + .9vw);
-}
+// Blocks
+@import "blocks/global"; // Leave this first
+@import "blocks/modifiers";
+@import "blocks/legacy";
 
-h3 {
-  font-size: calc(1.3rem + .6vw);
-}
+// Vendor overrides
+@import "vendor/bootstrap/buttons";
+@import "vendor/bootstrap/lists";
+@import "vendor/bootstrap/table";
 
-h4 {
-  font-size: calc(1.275rem + .3vw);
-}
+// Finally add the cassiopeia colours
+@import "global/colors_standard";
+:root {
 
-h5 {
-  font-size: 1.25rem;
-}
-
-h6 {
-  font-size: 1rem;
-}
-
-a {
-  text-decoration: none;
-  &:link {
-    color: #224faa;
-  }
-  &:hover {
-    color: #424077;
+  @each $color,
+  $value in $cassiopeia-colors {
+    --#{$color}: #{$value};
   }
 }
 
-p {
-  margin-top: 0;
-  margin-bottom: 1rem;
+.border-primary {
+  border-color: var(--primary) !important;
 }
+
+.border-secondary {
+  border-color: var(--secondary) !important;
+}
+
+.border-success {
+  border-color: var(--success) !important;
+}
+
+.border-info {
+  border-color: var(--info) !important;
+}
+
+.border-warning {
+  border-color: var(--warning) !important;
+}
+
+.border-danger {
+  border-color: var(--danger) !important;
+}
+
+.border-light {
+  border-color: var(--light) !important;
+}
+
+.border-dark {
+  border-color: var(--dark) !important;
+}
+
+.border-white {
+  border-color: var(--white) !important;
+}
+
+.text-primary {
+  color: var(--primary) !important;
+}
+
+.text-secondary {
+  color: var(--secondary) !important;
+}
+
+.text-success {
+  color: var(--success) !important;
+}
+
+.text-info {
+  color: var(--info) !important;
+}
+
+.text-warning {
+  color: var(--warning) !important;
+}
+
+.text-danger {
+  color: var(--danger) !important;
+}
+
+.text-light {
+  color: var(--light) !important;
+}
+
+.text-dark {
+  color: var(--dark) !important;
+}
+
+.text-black {
+  color: var(--black) !important;
+}
+
+.text-white {
+  color: var(--white) !important;
+}
+
+.text-body {
+  color: var(--body-color) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary) !important;
+}
+
+.bg-secondary {
+  background-color: var(--secondary) !important;
+}
+
+.bg-success {
+  background-color: var(--success) !important;
+}
+
+.bg-info {
+  background-color: var(--info) !important;
+}
+
+.bg-warning {
+  background-color: var(--warning) !important;
+}
+
+.bg-danger {
+  background-color: var(--danger) !important;
+}
+
+.bg-light {
+  background-color: var(--light) !important;
+}
+
+.bg-dark {
+  background-color: var(--dark) !important;
+}
+
+.bg-black {
+  background-color: var(--black) !important;
+}
+
+.bg-white {
+  background-color: var(--white) !important;
+}
+
+.bg-body {
+  background-color: var(--body-bg) !important;
+}
+
+
 
 /* STYLES FOR JOOMLA! EDITOR */
 hr#system-readmore {
