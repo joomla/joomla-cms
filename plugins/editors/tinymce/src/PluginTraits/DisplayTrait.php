@@ -251,7 +251,6 @@ trait DisplayTrait
         $plugins  = [
             'autolink',
             'lists',
-            'importcss',
             'quickbars',
         ];
 
@@ -310,7 +309,7 @@ trait DisplayTrait
             : false;
 
         // Check for extra plugins, from the setoptions form
-        foreach (['wordcount' => 1, 'advlist' => 1, 'autosave' => 1] as $pName => $def) {
+        foreach (['wordcount' => 1, 'advlist' => 1, 'autosave' => 1, 'importcss' => 0] as $pName => $def) {
             if ($levelParams->get($pName, $def)) {
                 $plugins[] = $pName;
             }
