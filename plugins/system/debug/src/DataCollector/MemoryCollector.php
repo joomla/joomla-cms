@@ -13,6 +13,10 @@ namespace Joomla\Plugin\System\Debug\DataCollector;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Collects info about the request duration as well as providing
  * a way to log duration of any operations
