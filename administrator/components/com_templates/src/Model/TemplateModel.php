@@ -267,7 +267,7 @@ class TemplateModel extends FormModel
      * @param   string     $element   The path of the template element.
      * @param   \stdClass  $template  The stdClass object of template.
      *
-     * @return  array
+     * @return  void
      *
      * @since   4.0.0
      */
@@ -713,7 +713,7 @@ class TemplateModel extends FormModel
                     $src = Path::clean($client->path . '/language/' . $languageFile);
                     $dst = Path::clean($toPath . '/' . $folder . '/' . $languageFile);
 
-                    if (File::exists($src)) {
+                    if (is_file($src)) {
                         File::copy($src, $dst);
                     }
                 }
@@ -784,7 +784,7 @@ class TemplateModel extends FormModel
         // Edit XML file
         $xmlFile = $this->getState('to_path') . '/templateDetails.xml';
 
-        if (File::exists($xmlFile)) {
+        if (is_file($xmlFile)) {
             $contents  = file_get_contents($xmlFile);
             $pattern[] = '#<name>\s*' . $manifest->name . '\s*</name>#i';
             $replace[] = '<name>' . $newName . '</name>';
@@ -1215,7 +1215,7 @@ class TemplateModel extends FormModel
             $overrideFilePath = str_replace($overridePath, '', $file);
             $htmlFilePath     = $htmlPath . $overrideFilePath;
 
-            if (File::exists($htmlFilePath)) {
+            if (is_file($htmlFilePath)) {
                 // Generate new unique file name base on current time
                 $today        = Factory::getDate();
                 $htmlFilePath = File::stripExt($htmlFilePath) . '-' . $today->format('Ymd-His') . '.' . File::getExt($htmlFilePath);
@@ -1890,7 +1890,7 @@ class TemplateModel extends FormModel
         // Edit XML file
         $xmlFile = Path::clean($this->getState('to_path') . '/templateDetails.xml');
 
-        if (!File::exists($xmlFile)) {
+        if (!is_file($xmlFile)) {
             $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
 
             return false;

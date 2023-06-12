@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_REMEMBER_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\Remember</namespace>
 	<files>
-		<filename plugin="remember">remember.php</filename>
+		<folder plugin="remember">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_system_remember.ini</language>

@@ -14,7 +14,6 @@ use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -414,7 +413,7 @@ class MessagesModel extends BaseDatabaseModel
                 $helper = new PostinstallHelper();
                 $file   = $helper->parsePath($item->condition_file);
 
-                if (File::exists($file)) {
+                if (is_file($file)) {
                     require_once $file;
 
                     $result = call_user_func($item->condition_method);

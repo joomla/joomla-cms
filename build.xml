@@ -85,7 +85,7 @@
 			<arg value="--template" />
 			<arg value="joomla" />
 			<arg value="--title" />
-			<arg value="Joomla! CMS 4.3 API" />
+			<arg value="Joomla! CMS 4.4 API" />
 		</exec>
 	</target>
 
