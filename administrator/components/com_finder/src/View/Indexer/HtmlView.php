@@ -33,7 +33,7 @@ class HtmlView extends BaseHtmlView
     /**
      * @var   Form  $form
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public $form;
 
@@ -44,7 +44,7 @@ class HtmlView extends BaseHtmlView
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function display($tpl = null)
     {
@@ -61,7 +61,7 @@ class HtmlView extends BaseHtmlView
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function addToolbar()
     {
