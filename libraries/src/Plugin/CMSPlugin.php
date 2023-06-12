@@ -103,7 +103,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
      *
      * @since   1.5
      */
-    public function __construct(DispatcherInterface $dispatcher, $config = [])
+    public function __construct(DispatcherInterface $dispatcher, array $config = [])
     {
         // Get the parameters.
         if (isset($config['params'])) {
