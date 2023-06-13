@@ -3,10 +3,10 @@
 	<fields name="params">
 		<fieldset name="task_params">
 			<field
-					name="consentexpiration"
+					name="consentexpirationdays"
 					type="integer"
-					label="PLG_TASK_PRIVACYCONSENT_CONSENTEXPIRATION_LABEL"
-					description="PLG_TASK_PRIVACYCONSENT_CONSENTEXPIRATION_DESC"
+					label="PLG_TASK_PRIVACYCONSENT_CONSENTEXPIRATIONDAYS_LABEL"
+					description="PLG_TASK_PRIVACYCONSENT_CONSENTEXPIRATIONDAYS_DESC"
 					first="1"
 					last="720"
 					step="30"

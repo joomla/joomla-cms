@@ -96,7 +96,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
     private function remindExpiringConsents(ExecuteTaskEvent $event): int
     {
         // Load the parameters.
-        $expire = (int) $event->getArgument('params')->consentexpiration ?? 365;
+        $expire = (int) $event->getArgument('params')->consentexpirationdays ?? 365;
         $remind = (int) $event->getArgument('params')->remind ?? 30;
 
         $now    = Factory::getDate()->toSql();
@@ -187,7 +187,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
      */
     private function invalidateExpiredConsents(ExecuteTaskEvent $event): int
     {
-        $expire = (int) $event->getArgument('params')->consentexpiration ?? 365;
+        $expire = (int) $event->getArgument('params')->consentexpirationdays ?? 365;
         $now    = Factory::getDate()->toSql();
         $period = '-' . $expire;
         $db     = $this->getDatabase();
