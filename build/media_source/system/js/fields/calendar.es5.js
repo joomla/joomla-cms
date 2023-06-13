@@ -126,11 +126,11 @@
 
 		// Evaluate the min year
 		if (btn.dataset.minYear) {
-			self.params.minYear = parseInt(btn.dataset.minYear, 10);
+			self.params.minYear = getBoundary(parseInt(btn.dataset.minYear, 10), self.params.dateType);
 		}
 		// Evaluate the max year
 		if (btn.dataset.maxYear) {
-			self.params.maxYear = parseInt(btn.dataset.maxYear, 10);
+			self.params.maxYear = getBoundary(parseInt(btn.dataset.maxYear, 10), self.params.dateType);
 		}
 		// Evaluate the weekend days
 		if (btn.dataset.weekend) {
@@ -1100,7 +1100,7 @@
 
 			for (var i = 0; i < elements.length; i++) {
 				var element  = elements[i],
-					instance = element._joomlaCalendar;
+				    instance = element._joomlaCalendar;
 
 				if (instance) {
 					instance.setAltValue();
@@ -1147,12 +1147,16 @@
 	document.addEventListener("joomla:updated", _initCalendars);
 
 		/** B/C related code
-		 *  @deprecated 4.0.0
+		 *
+		 *  @deprecated   4.0 will be removed in 6.0
+		 *                Use JoomlaCalendar.init instead
 		 */
 		window.Calendar = {};
 
 		/** B/C related code
-		 *  @deprecated 4.0.0
+		 *
+		 *  @deprecated   4.0 will be removed in 6.0
+		 *                Use JoomlaCalendar.init instead
 		 */
 		Calendar.setup = function(obj) {
 
