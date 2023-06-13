@@ -18,6 +18,8 @@ use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\MVC\Model\ModelInterface;
 use Joomla\CMS\Router\SiteRouterAwareInterface;
 use Joomla\CMS\Router\SiteRouterAwareTrait;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
@@ -35,13 +37,14 @@ use Joomla\Input\Input;
  *
  * @since  3.10.0
  */
-class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, SiteRouterAwareInterface
+class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, SiteRouterAwareInterface, UserFactoryAwareInterface
 {
     use FormFactoryAwareTrait;
     use DispatcherAwareTrait;
     use DatabaseAwareTrait;
     use SiteRouterAwareTrait;
     use CacheControllerFactoryAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * The namespace to create the objects from.
@@ -95,6 +98,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
         $this->setDispatcherOnObject($controller);
         $this->setRouterOnObject($controller);
         $this->setCacheControllerOnObject($controller);
+        $this->setUserFactoryOnObject($controller);
 
         return $controller;
     }
@@ -140,6 +144,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
         $this->setDispatcherOnObject($model);
         $this->setRouterOnObject($model);
         $this->setCacheControllerOnObject($model);
+        $this->setUserFactoryOnObject($model);
 
         if ($model instanceof DatabaseAwareInterface) {
             try {
@@ -196,6 +201,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
         $this->setDispatcherOnObject($view);
         $this->setRouterOnObject($view);
         $this->setCacheControllerOnObject($view);
+        $this->setUserFactoryOnObject($view);
 
         return $view;
     }
@@ -244,7 +250,11 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
-        return new $className($db);
+        $table = new $className($db);
+
+        $this->setUserFactoryOnObject($table);
+
+        return $table;
     }
 
     /**
@@ -355,6 +365,28 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setCacheControllerFactory($this->getCacheControllerFactory());
+        } catch (\UnexpectedValueException $e) {
+            // Ignore it
+        }
+    }
+
+    /**
+     * Sets the internal user factory on the given object.
+     *
+     * @param   object  $object  The object
+     *
+     * @return  void
+     *
+     * @since   4.4.0
+     */
+    private function setUserFactoryOnObject($object): void
+    {
+        if (!$object instanceof UserFactoryAwareInterface) {
+            return;
+        }
+
+        try {
+            $object->setUserFactory($this->getUserFactory());
         } catch (\UnexpectedValueException $e) {
             // Ignore it
         }

@@ -23,6 +23,8 @@ use Joomla\CMS\Log\Log;
  * A Folder handling class
  *
  * @since  1.7.0
+ * @deprecated  4.4 will be removed in 6.0
+ *              Use Joomla\Filesystem\Folder instead.
  */
 abstract class Folder
 {
@@ -39,6 +41,8 @@ abstract class Folder
      *
      * @since   1.7.0
      * @throws  \RuntimeException
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Folder::copy() instead.
      */
     public static function copy($src, $dest, $path = '', $force = false, $useStreams = false)
     {
@@ -159,6 +163,9 @@ abstract class Folder
      * @return  boolean  True if successful.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Folder::create() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function create($path = '', $mode = 0755)
     {
@@ -272,6 +279,9 @@ abstract class Folder
      * @return  boolean  True on success.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Folder::delete() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function delete($path)
     {
@@ -357,6 +367,9 @@ abstract class Folder
      * @return  mixed  Error message on false or boolean true on success.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Folder::move() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function move($src, $dest, $path = '', $useStreams = false)
     {
@@ -418,6 +431,8 @@ abstract class Folder
      * @return  boolean  True if path is a folder
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use is_dir() instead.
      */
     public static function exists($path)
     {
@@ -438,6 +453,9 @@ abstract class Folder
      * @return  array|boolean  Files in the given folder.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Folder::files() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function files(
         $path,
@@ -491,6 +509,9 @@ abstract class Folder
      * @return  array  Folders in the given folder.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Folder::folders() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function folders(
         $path,
@@ -540,6 +561,8 @@ abstract class Folder
      * @return  array  Files.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Folder::_items() instead.
      */
     protected static function _items($path, $filter, $recurse, $full, $exclude, $excludeFilterString, $findFiles)
     {
@@ -603,6 +626,8 @@ abstract class Folder
      * @return  array  Folders in the given folder.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Folder::listFolderTree() instead.
      */
     public static function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0)
     {
@@ -642,6 +667,8 @@ abstract class Folder
      * @return  string  The sanitised string.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Folder::makeSafe() instead.
      */
     public static function makeSafe($path)
     {
