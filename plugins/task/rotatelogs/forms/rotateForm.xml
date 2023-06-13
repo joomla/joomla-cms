@@ -5,7 +5,7 @@
 			<field
 				name="logstokeep"
 				type="integer"
-				label="PLG_TASK_DELETELOGS_LOGSTOKEEP_LABEL"
+				label="PLG_TASK_ROTATELOGS_LOGSTOKEEP_LABEL"
 				first="1"
 				last="10"
 				step="1"

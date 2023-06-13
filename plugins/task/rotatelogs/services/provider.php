@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Task.DeleteLogs
+ * @subpackage  Task.rotatelogs
  *
  * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -17,7 +17,7 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\Task\DeleteLogs\Extension\DeleteLogs;
+use Joomla\Plugin\Task\RotateLogs\Extension\RotateLogs;
 
 return new class () implements ServiceProviderInterface {
     /**
@@ -36,9 +36,9 @@ return new class () implements ServiceProviderInterface {
             function (Container $container) {
                 $dispatcher = $container->get(DispatcherInterface::class);
 
-                $plugin = new DeleteLogs(
+                $plugin = new RotateLogs(
                     $dispatcher,
-                    (array) PluginHelper::getPlugin('task', 'deletelogs')
+                    (array) PluginHelper::getPlugin('task', 'rotatelogs')
                 );
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));

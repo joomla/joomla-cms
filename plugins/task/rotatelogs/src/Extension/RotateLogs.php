@@ -2,13 +2,13 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Task.DeleteLogs
+ * @subpackage  Task.rotatelogs
  *
  * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Plugin\Task\DeleteLogs\Extension;
+namespace Joomla\Plugin\Task\RotateLogs\Extension;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -32,7 +32,7 @@ use Joomla\Filesystem\Path;
  *
  * @since __DEPLOY_VERSION__
  */
-final class DeleteLogs extends CMSPlugin implements SubscriberInterface
+final class RotateLogs extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use TaskPluginTrait;
@@ -43,12 +43,12 @@ final class DeleteLogs extends CMSPlugin implements SubscriberInterface
      */
     private const TASKS_MAP = [
         'delete.logs' => [
-            'langConstPrefix' => 'PLG_TASK_DELETELOGS_DELETE',
+            'langConstPrefix' => 'PLG_TASK_ROTATELOGS_DELETE',
             'method'          => 'deleteLogs',
             'form'            => 'deleteForm',
         ],
         'rotation.logs' => [
-            'langConstPrefix' => 'PLG_TASK_DELETELOGS_ROTATION',
+            'langConstPrefix' => 'PLG_TASK_ROTATELOGS_ROTATION',
             'method'          => 'rotateLogs',
             'form'            => 'rotateForm',
         ],

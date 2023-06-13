@@ -293,7 +293,6 @@ class ExtensionHelper
         ['plugin', 'languagefilter', 'system', 0],
         ['plugin', 'log', 'system', 0],
         ['plugin', 'logout', 'system', 0],
-        ['plugin', 'logrotation', 'system', 0],
         ['plugin', 'privacyconsent', 'system', 0],
         ['plugin', 'redirect', 'system', 0],
         ['plugin', 'remember', 'system', 0],
@@ -312,6 +311,7 @@ class ExtensionHelper
         ['plugin', 'demotasks', 'task', 0],
         ['plugin', 'requests', 'task', 0],
         ['plugin', 'sitestatus', 'task', 0],
+        ['plugin', 'rotatelogs', 'task', 0],
 
         // Core plugin extensions - user
         ['plugin', 'contactcreator', 'user', 0],
