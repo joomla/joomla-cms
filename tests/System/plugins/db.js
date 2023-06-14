@@ -33,6 +33,7 @@ function queryTestDB(joomlaQuery, config) {
   if (config.env.db_type === 'pgsql' || config.env.db_type === 'PostgreSQL (PDO)') {
     const connection = postgres({
       host: config.env.db_host,
+      port: config.env.db_port,
       database: config.env.db_name,
       username: config.env.db_user,
       password: config.env.db_password,
