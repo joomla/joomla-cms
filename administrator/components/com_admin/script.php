@@ -264,7 +264,8 @@ class JoomlaInstallerScript
                     $db->getQuery(true)
                         ->update($db->quoteName('#__extensions'))
                         ->set($db->quoteName('protected') . ' = 0')
-                        ->where($db->quoteName('extension_id') . ' = ' . $row->extension_id)
+                        ->where($db->quoteName('extension_id') . ' = :extension_id')
+                        ->bind(':extension_id', $row->extension_id, ParameterType::INTEGER)
                 )->execute();
 
                 // Uninstall the plugin
