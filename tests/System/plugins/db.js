@@ -72,7 +72,6 @@ function queryTestDB(joomlaQuery, config) {
   return new Promise((resolve, reject) => {
     // Create the connection and connect
     const connection = mysql.createConnection({
-      // host: config.env.db_host,
       host: config.env.db_host,
       port: config.env.db_port,
       user: config.env.db_user,
