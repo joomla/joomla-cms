@@ -10,7 +10,7 @@ describe('Test that tags API endpoint', () => {
   });
 
   it('can create a tag', () => {
-    () => cy.api_post('/tags', {
+    const test = ()=>cy.api_post('/tags', {
       title: 'automated test tag',
     })
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
