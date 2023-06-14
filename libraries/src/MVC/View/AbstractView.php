@@ -13,7 +13,8 @@ use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\DocumentAwareInterface;
 use Joomla\CMS\Document\DocumentAwareTrait;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Language\LanguageAwareInterface;
+use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Event\DispatcherAwareInterface;
@@ -32,9 +33,10 @@ use Joomla\Event\EventInterface;
  *
  * @since  2.5.5
  */
-abstract class AbstractView extends CMSObject implements ViewInterface, DispatcherAwareInterface, DocumentAwareInterface
+abstract class AbstractView extends CMSObject implements ViewInterface, DispatcherAwareInterface, DocumentAwareInterface, LanguageAwareInterface
 {
     use DispatcherAwareTrait;
+    use LanguageAwareTrait;
 
     /**
      * The active document object
@@ -232,7 +234,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
             }
 
             if (empty($this->_name)) {
-                throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
+                throw new \Exception(sprintf($this->_('JLIB_APPLICATION_ERROR_GET_NAME'), __METHOD__), 500);
             }
         }
 
@@ -285,6 +287,24 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
             $this->getDispatcher()->dispatch($event->getName(), $event);
         } catch (\UnexpectedValueException $e) {
             Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
+        }
+    }
+
+    /**
+     * Returns the string for the given key from the internal language object.
+     *
+     * @param   string  $key  The key
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function _(string $key): string
+    {
+        try {
+            return $this->getLanguage()->_($key);
+        } catch (\UnexpectedValueException $e) {
+            return Factory::getApplication()->getLanguage()->_($key);
         }
     }
 }
