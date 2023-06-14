@@ -90,6 +90,9 @@ class JoomlaInstallerScript
             // Informational log only
         }
 
+        // Uninstall extensions before removing their files and folders
+        $this->uninstallExtensions();
+
         // This needs to stay for 2.5 update compatibility
         $this->deleteUnexistingFiles();
         $this->updateManifestCaches();
@@ -198,6 +201,83 @@ class JoomlaInstallerScript
             }
 
             break;
+        }
+    }
+
+    /**
+     * Uninstall extensions and optionally migrate their parameters when
+     * updating from the previous major version.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function uninstallExtensions()
+    {
+        // Don't uninstall extensions when not updating from the previous major version
+        if (empty($this->fromVersion) || version_compare($this->fromVersion, '5.0.0', 'ge')) {
+            return true;
+        }
+
+        $extensions = [
+            /**
+             * Define here the extensions to be uninstalled and optionally migrated on update.
+             * For each extension, specify an associative array with following elements (key => value):
+             * 'type'         => Field `type` in the `#__extensions` table
+             * 'element'      => Field `element` in the `#__extensions` table
+             * 'folder'       => Field `folder` in the `#__extensions` table
+             * 'client_id'    => Field `client_id` in the `#__extensions` table
+             * 'pre_function' => Name of an optional migration function to be called before
+             *                   uninstalling, `null` if not used.
+             */
+        ];
+
+        $db = Factory::getDbo();
+
+        foreach ($extensions as $extension) {
+            $row = $db->setQuery(
+                $db->getQuery(true)
+                    ->select($db->quoteName('extension_id'))
+                    ->select($db->quoteName('params'))
+                    ->from($db->quoteName('#__extensions'))
+                    ->where($db->quoteName('type') . ' = ' . $db->quote($extension['type']))
+                    ->where($db->quoteName('element') . ' = ' . $db->quote($extension['element']))
+                    ->where($db->quoteName('folder') . ' = ' . $db->quote($extension['folder']))
+                    ->where($db->quoteName('client_id') . ' = ' . $db->quote($extension['client_id']))
+            )->loadObject();
+
+            // Skip migrating and uninstalling if the extension doesn't exist
+            if (!$row) {
+                continue;
+            }
+
+            // If there is a function for migration to be called before uninstalling, call it
+            if ($extension['pre_function'] && method_exists($this, $extension['pre_function'])) {
+                $this->{$extension['pre_function']}($row->extension_id, $row->params);
+            }
+
+            try {
+                $db->transactionStart();
+
+                // Unprotect the plugin so we can uninstall it
+                $db->setQuery(
+                    $db->getQuery(true)
+                        ->update($db->quoteName('#__extensions'))
+                        ->set($db->quoteName('protected') . ' = 0')
+                        ->where($db->quoteName('extension_id') . ' = ' . $row->extension_id)
+                )->execute();
+
+                // Uninstall the plugin
+                $installer = new Installer();
+                $installer->setDatabase($db);
+                $installer->uninstall($extension['type'], $row->extension_id);
+
+                $db->transactionCommit();
+            } catch (\Exception $e) {
+                $db->transactionRollback();
+                echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+                throw $e;
+            }
         }
     }
 
