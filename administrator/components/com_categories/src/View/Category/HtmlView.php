@@ -173,7 +173,7 @@ class HtmlView extends BaseHtmlView
 
         // Load specific css component
         /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-        $wa = $this->document->getWebAssetManager();
+        $wa = $this->getDocument()->getWebAssetManager();
         $wa->getRegistry()->addExtensionRegistryFile($component);
 
         if ($wa->assetExists('style', $component . '.admin-categories')) {
