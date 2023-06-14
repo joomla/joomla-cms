@@ -259,10 +259,11 @@ class JoomlaInstallerScript
             try {
                 $db->transactionStart();
 
-                // Unprotect the plugin so we can uninstall it
+                // Unlock and unprotect the plugin so we can uninstall it
                 $db->setQuery(
                     $db->getQuery(true)
                         ->update($db->quoteName('#__extensions'))
+                        ->set($db->quoteName('locked') . ' = 0')
                         ->set($db->quoteName('protected') . ' = 0')
                         ->where($db->quoteName('extension_id') . ' = :extension_id')
                         ->bind(':extension_id', $row->extension_id, ParameterType::INTEGER)
