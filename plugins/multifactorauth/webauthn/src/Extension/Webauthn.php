@@ -34,6 +34,10 @@ use Joomla\Plugin\Multifactorauth\Webauthn\Helper\Credentials;
 use RuntimeException;
 use Webauthn\PublicKeyCredentialRequestOptions;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla Multi-factor Authentication plugin for WebAuthn
  *
@@ -310,7 +314,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         $session          = $this->getApplication()->getSession();
         $pkOptionsEncoded = $session->get('plg_multifactorauth_webauthn.publicKeyCredentialRequestOptions', null);
 
-        $force = $this->getApplication()->input->getInt('force', 0);
+        $force = $this->getApplication()->getInput()->getInt('force', 0);
 
         try {
             if ($force) {
@@ -358,7 +362,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         $event->addResult(
             new CaptiveRenderOptions(
                 [
-                    'pre_message'        => Text::sprintf(
+                    'pre_message' => Text::sprintf(
                         'PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_INSTRUCTIONS',
                         Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_VALIDATEKEY')
                     ),
@@ -396,7 +400,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         }
 
         /**
-         * @var   MfaTable $record The MFA Method's record you're validatng against
+         * @var   MfaTable $record The MFA Method's record you're validating against
          * @var   User     $user   The user record
          * @var   string   $code   The submitted code
          */

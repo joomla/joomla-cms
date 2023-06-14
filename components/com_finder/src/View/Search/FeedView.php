@@ -16,6 +16,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Search feed view class for the Finder package.
  *
@@ -38,14 +42,14 @@ class FeedView extends BaseHtmlView
         $app = Factory::getApplication();
 
         // Adjust the list limit to the feed limit.
-        $app->input->set('limit', $app->get('feed_limit'));
+        $app->getInput()->set('limit', $app->get('feed_limit'));
 
         // Get view data.
-        $state = $this->get('State');
-        $params = $state->get('params');
-        $query = $this->get('Query');
+        $state   = $this->get('State');
+        $params  = $state->get('params');
+        $query   = $this->get('Query');
         $results = $this->get('Items');
-        $total = $this->get('Total');
+        $total   = $this->get('Total');
 
         // Push out the query data.
         $explained = HTMLHelper::_('query.explained', $query);

@@ -20,7 +20,7 @@ $lang = Factory::getLanguage(); ?>
     <span class="pagination ms-0">
     <?php if ($row->prev) :
         $direction = $lang->isRtl() ? 'right' : 'left'; ?>
-            <a class="btn btn-sm btn-secondary" href="<?php echo Route::_($row->prev); ?>" rel="prev">
+            <a class="btn btn-sm btn-secondary previous" href="<?php echo Route::_($row->prev); ?>" rel="prev">
             <span class="visually-hidden">
                 <?php echo Text::sprintf('JPREVIOUS_TITLE', htmlspecialchars($rows[$location - 1]->title)); ?>
             </span>
@@ -29,7 +29,7 @@ $lang = Factory::getLanguage(); ?>
     <?php endif; ?>
     <?php if ($row->next) :
         $direction = $lang->isRtl() ? 'left' : 'right'; ?>
-            <a class="btn btn-sm btn-secondary" href="<?php echo Route::_($row->next); ?>" rel="next">
+            <a class="btn btn-sm btn-secondary next" href="<?php echo Route::_($row->next); ?>" rel="next">
             <span class="visually-hidden">
                 <?php echo Text::sprintf('JNEXT_TITLE', htmlspecialchars($rows[$location + 1]->title)); ?>
             </span>

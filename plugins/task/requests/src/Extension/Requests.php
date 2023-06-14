@@ -21,6 +21,10 @@ use Joomla\Filesystem\File;
 use Joomla\Filesystem\Path;
 use Joomla\Http\HttpFactory;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Task plugin with routines to make HTTP requests.
  * At the moment, offers a single routine for GET requests.
@@ -142,7 +146,7 @@ final class Requests extends CMSPlugin implements SubscriberInterface
         try {
             File::write($responseFilename, $responseBody);
             $this->snapshot['output_file'] = $responseFilename;
-            $responseStatus = 'SAVED';
+            $responseStatus                = 'SAVED';
         } catch (Exception $e) {
             $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_UNWRITEABLE_OUTPUT'), 'error');
             $responseStatus = 'NOT_SAVED';

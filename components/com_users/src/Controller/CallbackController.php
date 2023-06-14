@@ -12,6 +12,10 @@ namespace Joomla\Component\Users\Site\Controller;
 
 use Joomla\Component\Users\Administrator\Controller\CallbackController as AdminCallbackController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Multi-factor Authentication plugins' AJAX callback controller
  *

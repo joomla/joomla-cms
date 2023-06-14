@@ -15,6 +15,10 @@ use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Privacy plugin managing Joomla user contact data
  *
@@ -39,10 +43,10 @@ class PlgPrivacyContact extends PrivacyPlugin
     public function onPrivacyExportRequest(RequestTable $request, User $user = null)
     {
         if (!$user && !$request->email) {
-            return array();
+            return [];
         }
 
-        $domains   = array();
+        $domains   = [];
         $domain    = $this->createDomain('user_contact', 'joomla_user_contact_data');
         $domains[] = $domain;
 

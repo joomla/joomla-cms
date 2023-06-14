@@ -17,4 +17,9 @@ use Joomla\Module\Breadcrumbs\Site\Helper\BreadcrumbsHelper;
 $list  = BreadcrumbsHelper::getList($params, $app);
 $count = count($list);
 
+// Get the home fallback for json+ld
+if (!$params->get('showHome', 1)) {
+    $homeCrumb = BreadcrumbsHelper::getHome($params, $app);
+}
+
 require ModuleHelper::getLayoutPath('mod_breadcrumbs', $params->get('layout', 'default'));

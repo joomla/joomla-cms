@@ -16,6 +16,10 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Reset view class for Users.
  *
@@ -67,7 +71,7 @@ class HtmlView extends BaseHtmlView
         $name = $this->getLayout();
 
         // Check that the name is valid - has an associated model.
-        if (!in_array($name, array('confirm', 'complete'))) {
+        if (!in_array($name, ['confirm', 'complete'])) {
             $name = 'default';
         }
 

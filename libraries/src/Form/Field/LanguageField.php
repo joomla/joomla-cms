@@ -13,6 +13,10 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Supports a list of installed application languages
@@ -80,7 +84,7 @@ class LanguageField extends ListField
                     break;
                 case 'active':
                 case 'auto':
-                    $lang = Factory::getLanguage();
+                    $lang        = Factory::getLanguage();
                     $this->value = $lang->getTag();
                     break;
                 default:

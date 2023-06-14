@@ -17,6 +17,10 @@ use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Consents management model class.
  *
@@ -184,7 +188,7 @@ class ConsentsModel extends ListModel
         $pks = ArrayHelper::toInteger($pks);
 
         try {
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->update($db->quoteName('#__privacy_consents'))
                 ->set($db->quoteName('state') . ' = -1')
@@ -211,7 +215,7 @@ class ConsentsModel extends ListModel
     public function invalidateAll($subject)
     {
         try {
-            $db = $this->getDatabase();
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->update($db->quoteName('#__privacy_consents'))
                 ->set($db->quoteName('state') . ' = -1')

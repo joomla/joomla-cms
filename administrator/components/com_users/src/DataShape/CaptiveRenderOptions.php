@@ -12,6 +12,10 @@ namespace Joomla\Component\Users\Administrator\DataShape;
 
 use InvalidArgumentException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * @property  string $pre_message         Custom HTML to display above the MFA form
  * @property  string $field_type          How to render the MFA code field. "input" or "custom".

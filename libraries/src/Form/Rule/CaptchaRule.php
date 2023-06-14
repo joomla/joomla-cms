@@ -15,6 +15,10 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Rule class for the Joomla Framework.
  *
@@ -39,12 +43,14 @@ class CaptchaRule extends FormRule
      */
     public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
     {
-        $app    = Factory::getApplication();
-        $plugin = $app->get('captcha');
+        $app     = Factory::getApplication();
+        $default = $app->get('captcha');
 
         if ($app->isClient('site')) {
-            $plugin = $app->getParams()->get('captcha', $plugin);
+            $default = $app->getParams()->get('captcha', $default);
         }
+
+        $plugin = $element['plugin'] ? (string) $element['plugin'] : $default;
 
         $namespace = $element['namespace'] ?: $form->getName();
 
@@ -54,7 +60,7 @@ class CaptchaRule extends FormRule
         }
 
         try {
-            $captcha = Captcha::getInstance((string) $plugin, array('namespace' => (string) $namespace));
+            $captcha = Captcha::getInstance((string) $plugin, ['namespace' => (string) $namespace]);
 
             return $captcha->checkAnswer($value);
         } catch (\RuntimeException $e) {

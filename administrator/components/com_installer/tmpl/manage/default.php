@@ -32,7 +32,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     <?php if ($this->showMessage) : ?>
                         <?php echo $this->loadTemplate('message'); ?>
                     <?php endif; ?>
-                    <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+                    <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                     <?php if (empty($this->items)) : ?>
                         <div class="alert alert-info">
                             <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -104,9 +104,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 </td>
                                 <th scope="row">
                                     <span tabindex="0"><?php echo $item->name; ?></span>
-                                    <div role="tooltip" id="tip<?php echo $i; ?>">
-                                        <?php echo $item->description; ?>
-                                    </div>
+                                    <?php if ($item->description) : ?>
+                                        <div role="tooltip" id="tip<?php echo $i; ?>">
+                                            <?php echo $item->description; ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </th>
                                 <td class="d-none d-md-table-cell">
                                     <?php echo $item->client_translated; ?>
@@ -124,9 +126,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                             echo HTMLHelper::_(
                                                 'bootstrap.renderModal',
                                                 'changelogModal' . $item->extension_id,
-                                                array(
+                                                [
                                                     'title' => Text::sprintf('COM_INSTALLER_CHANGELOG_TITLE', $item->name, $item->version),
-                                                ),
+                                                ],
                                                 ''
                                             );
                                             ?>

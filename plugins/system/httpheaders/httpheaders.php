@@ -18,6 +18,10 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugin class for HTTP Headers
  *
@@ -66,6 +70,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
         'cross-origin-opener-policy',
         'report-to',
         'permissions-policy',
+        'nel',
     ];
 
     /**
@@ -447,8 +452,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
         foreach ($staticHeaderConfiguration as $headerAndClient => $value) {
             $headerAndClient = explode('#', $headerAndClient);
-            $header = $headerAndClient[0];
-            $client = $headerAndClient[1] ?? 'both';
+            $header          = $headerAndClient[0];
+            $client          = $headerAndClient[1] ?? 'both';
 
             if (!$this->app->isClient($client) && $client != 'both') {
                 continue;

@@ -11,6 +11,10 @@ namespace Joomla\CMS\Crypt;
 
 use Joomla\Crypt\Crypt as JCrypt;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Crypt is a Joomla Platform class for handling basic encryption/decryption of data.
  *

@@ -17,6 +17,10 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Item Model for an update site.
  *
@@ -94,7 +98,7 @@ class UpdatesiteModel extends AdminModel
                         'extensions.element',
                         'extensions.folder',
                         'extensions.client_id',
-                        'extensions.checked_out'
+                        'extensions.checked_out',
                     ]
                 )
             )
@@ -150,7 +154,7 @@ class UpdatesiteModel extends AdminModel
         }
 
         // Delete update records forcing Joomla to fetch them again, applying the new extra_query.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->delete($db->quoteName('#__updates'))
             ->where($db->quoteName('update_site_id') . ' = :updateSiteId');

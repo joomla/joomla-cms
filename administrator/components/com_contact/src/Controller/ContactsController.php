@@ -14,8 +14,13 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Contacts list controller class.
@@ -36,7 +41,7 @@ class ContactsController extends AdminController
      *
      * @since   3.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -55,8 +60,8 @@ class ContactsController extends AdminController
         // Check for request forgeries
         $this->checkToken();
 
-        $ids    = (array) $this->input->get('cid', array(), 'int');
-        $values = array('featured' => 1, 'unfeatured' => 0);
+        $ids    = (array) $this->input->get('cid', [], 'int');
+        $values = ['featured' => 1, 'unfeatured' => 0];
         $task   = $this->getTask();
         $value  = ArrayHelper::getValue($values, $task, 0, 'int');
 
@@ -113,8 +118,32 @@ class ContactsController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Contact', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Contact', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
+    }
+
+    /**
+     * Method to get the number of published contacts for quickicons
+     *
+     * @return  string  The JSON-encoded amount of published contacts
+     *
+     * @since   4.3.0
+     */
+    public function getQuickiconContent()
+    {
+        $model = $this->getModel('contacts');
+
+        $model->setState('filter.published', 1);
+
+        $amount = (int) $model->getTotal();
+
+        $result = [];
+
+        $result['amount'] = $amount;
+        $result['sronly'] = Text::plural('COM_CONTACT_N_QUICKICON_SRONLY', $amount);
+        $result['name']   = Text::plural('COM_CONTACT_N_QUICKICON', $amount);
+
+        echo new JsonResponse($result);
     }
 }

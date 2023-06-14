@@ -12,9 +12,12 @@ namespace Joomla\Component\Tags\Site\View\Tag;
 
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML View class for the Tags component
@@ -33,7 +36,7 @@ class FeedView extends BaseHtmlView
     public function display($tpl = null)
     {
         $app    = Factory::getApplication();
-        $ids    = (array) $app->input->get('id', array(), 'int');
+        $ids    = (array) $app->getInput()->get('id', [], 'int');
         $i      = 0;
         $tagIds = '';
 
@@ -52,7 +55,7 @@ class FeedView extends BaseHtmlView
 
         $this->document->link = Route::_('index.php?option=com_tags&view=tag&' . $tagIds);
 
-        $app->input->set('limit', $app->get('feed_limit'));
+        $app->getInput()->set('limit', $app->get('feed_limit'));
         $siteEmail = $app->get('mailfrom');
         $fromName  = $app->get('fromname');
         $feedEmail = $app->get('feed_email', 'none');

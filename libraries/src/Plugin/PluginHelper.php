@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugin helper class
  *
@@ -43,38 +47,49 @@ abstract class PluginHelper
      */
     public static function getLayoutPath($type, $name, $layout = 'default')
     {
-        $templateObj   = Factory::getApplication()->getTemplate(true);
+        $app = Factory::getApplication();
+
+        if ($app->isClient('site') || $app->isClient('administrator')) {
+            $templateObj = $app->getTemplate(true);
+        } else {
+            $templateObj = (object) [
+                'template' => '',
+                'parent'   => '',
+            ];
+        }
+
         $defaultLayout = $layout;
         $template      = $templateObj->template;
 
         if (strpos($layout, ':') !== false) {
             // Get the template and file name from the string
-            $temp = explode(':', $layout);
-            $template = $temp[0] === '_' ? $templateObj->template : $temp[0];
-            $layout = $temp[1];
+            $temp          = explode(':', $layout);
+            $template      = $temp[0] === '_' ? $templateObj->template : $temp[0];
+            $layout        = $temp[1];
             $defaultLayout = $temp[1] ?: 'default';
         }
 
         // Build the template and base path for the layout
-        $tPath = JPATH_THEMES . '/' . $template . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
-        $iPath = JPATH_THEMES . '/' . $templateObj->parent . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
-        $bPath = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/' . $defaultLayout . '.php';
-        $dPath = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/default.php';
+        $layoutPaths = [];
 
-        // If the template has a layout override use it
-        if (is_file($tPath)) {
-            return $tPath;
+        if ($template) {
+            $layoutPaths[] = JPATH_THEMES . '/' . $template . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
         }
 
-        if (!empty($templateObj->parent) && is_file($iPath)) {
-            return $iPath;
+        if ($templateObj->parent) {
+            $layoutPaths[] = JPATH_THEMES . '/' . $templateObj->parent . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
         }
 
-        if (is_file($bPath)) {
-            return $bPath;
+        $layoutPaths[] = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/' . $defaultLayout . '.php';
+        $layoutPaths[] = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/default.php';
+
+        foreach ($layoutPaths as $path) {
+            if (is_file($path)) {
+                return $path;
+            }
         }
 
-        return $dPath;
+        return end($layoutPaths);
     }
 
     /**
@@ -90,7 +105,7 @@ abstract class PluginHelper
      */
     public static function getPlugin($type, $plugin = null)
     {
-        $result = [];
+        $result  = [];
         $plugins = static::load();
 
         // Find the correct plugin(s) to return.
@@ -246,7 +261,7 @@ abstract class PluginHelper
         $cache = Factory::getCache('com_plugins', 'callback');
 
         $loader = function () use ($levels) {
-            $db = Factory::getDbo();
+            $db    = Factory::getDbo();
             $query = $db->getQuery(true)
                 ->select(
                     $db->quoteName(
