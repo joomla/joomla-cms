@@ -31,12 +31,12 @@ describe('Test that tags API endpoint', () => {
       modified_time: '',
       language: '*',
       params: '',
-      images: '', 
+      images: '',
     })
-    .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
-      .its('title')
-      .should('include', 'automated test tag'));
-  })
+      .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+        .its('title')
+        .should('include', 'automated test tag'));
+  });
 
   it('can update a tag', () => {
     cy.db_createTag({ title: 'automated test tag' })
