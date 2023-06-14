@@ -447,20 +447,20 @@ class HtmlView extends BaseHtmlView
         $this->setDocumentTitle($title);
 
         if ($this->item->metadesc) {
-            $this->document->setDescription($this->item->metadesc);
+            $this->getDocument()->setDescription($this->item->metadesc);
         } elseif ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
 
         $mdata = $this->item->metadata->toArray();
 
         foreach ($mdata as $k => $v) {
             if ($v) {
-                $this->document->setMetaData($k, $v);
+                $this->getDocument()->setMetaData($k, $v);
             }
         }
     }

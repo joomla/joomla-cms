@@ -96,6 +96,6 @@ class JsonView extends AbstractView
         $result = json_encode($this->_output);
 
         // Pushing output to the document
-        $this->document->setBuffer($result);
+        $this->getDocument()->setBuffer($result);
     }
 }
