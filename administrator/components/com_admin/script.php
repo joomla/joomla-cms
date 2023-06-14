@@ -253,7 +253,7 @@ class JoomlaInstallerScript
 
             // If there is a function for migration to be called before uninstalling, call it
             if ($extension['pre_function'] && method_exists($this, $extension['pre_function'])) {
-                $this->{$extension['pre_function']}($row->extension_id, $row->params);
+                $this->{$extension['pre_function']}($row);
             }
 
             try {
