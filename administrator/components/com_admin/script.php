@@ -206,7 +206,7 @@ class JoomlaInstallerScript
 
     /**
      * Uninstall extensions and optionally migrate their parameters when
-     * updating from the previous major version.
+     * updating from a version older than 5.0.1.
      *
      * @return  void
      *
@@ -214,8 +214,8 @@ class JoomlaInstallerScript
      */
     protected function uninstallExtensions()
     {
-        // Don't uninstall extensions when not updating from the previous major version
-        if (empty($this->fromVersion) || version_compare($this->fromVersion, '5.0.0', 'ge')) {
+        // Don't uninstall extensions when not updating from a version older than 5.0.1
+        if (empty($this->fromVersion) || version_compare($this->fromVersion, '5.0.1', 'ge')) {
             return true;
         }
 
