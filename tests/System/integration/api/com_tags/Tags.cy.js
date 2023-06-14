@@ -9,6 +9,35 @@ describe('Test that tags API endpoint', () => {
         .should('include', 'automated test tag'));
   });
 
+  it('can create a tag', () => {
+    () => cy.api_post('/tags', {
+      title: 'automated test tag',
+      alias: 'automated test tag',
+      note: '',
+      description: '',
+      published: 1,
+      parent_id: 1,
+      level: 1,
+      path: 'test-tag',
+      access: 1,
+      lft: 1,
+      metadata: '',
+      metadesc: '',
+      checked_out: 0,
+      checked_out_time: '',
+      metakey: '',
+      urls: '',
+      created_time: '',
+      modified_time: '',
+      language: '*',
+      params: '',
+      images: '', 
+    })
+    .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
+      .its('title')
+      .should('include', 'automated test tag'));
+  })
+
   it('can update a tag', () => {
     cy.db_createTag({ title: 'automated test tag' })
       .then((id) => cy.api_patch(`/tags/${id}`, { title: 'updated automated test tag' }))
