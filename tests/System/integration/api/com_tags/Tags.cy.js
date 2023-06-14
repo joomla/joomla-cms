@@ -1,4 +1,4 @@
-describe('Test that banners API endpoint', () => {
+describe('Test that tags API endpoint', () => {
   afterEach(() => cy.task('queryDB', 'DELETE FROM #__tags'));
 
   it('can deliver a list of tags', () => {
