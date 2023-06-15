@@ -213,7 +213,7 @@ class ToursModel extends ListModel
                 $query->where($db->quoteName('a.id') . ' = :search')
                     ->bind(':search', $search, ParameterType::INTEGER);
             } elseif (stripos($search, 'description:') === 0) {
-                $search = '%' . substr($search, 8) . '%';
+                $search = '%' . substr($search, 12) . '%';
                 $query->where('(' . $db->quoteName('a.description') . ' LIKE :search1)')
                     ->bind([':search1'], $search);
             } else {

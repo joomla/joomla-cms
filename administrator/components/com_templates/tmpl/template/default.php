@@ -34,7 +34,7 @@ $wa->useScript('form.validate')
     ->useStyle('com_templates.admin-templates');
 
 // No access if not global SuperUser
-if (!Factory::getUser()->authorise('core.admin')) {
+if (!$this->getCurrentUser()->authorise('core.admin')) {
     Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'danger');
 }
 
@@ -149,8 +149,11 @@ if ($this->type == 'font') {
                                 $difference = DiffHelper::calculateFiles(
                                     $this->source->coreFile,
                                     $this->source->filePath,
-                                    ComponentHelper::getParams('com_templates')->get('difference', 'SideByside'),
-                                    ['context' => 1],
+                                    ComponentHelper::getParams('com_templates')->get('difference', 'SideBySide'),
+                                    [
+                                        'context' => 1,
+                                        'ignoreLineEnding' => true,
+                                    ],
                                     [
                                         'language' => [
                                             'old_version' => Text::_('COM_TEMPLATES_DIFF_CORE'),

@@ -11,7 +11,7 @@
 	<description>MOD_ARTICLES_CATEGORY_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\ArticlesCategory</namespace>
 	<files>
-		<filename module="mod_articles_category">mod_articles_category.php</filename>
+		<folder module="mod_articles_category">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

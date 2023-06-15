@@ -29,7 +29,7 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -95,7 +95,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
     /**
      * The name of the controller
      *
-     * @var    array
+     * @var    string
      * @since  3.0
      */
     protected $name;
@@ -189,7 +189,9 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      * @return  void
      *
      * @since   3.0
-     * @deprecated  5.0 See \Joomla\CMS\MVC\Model\LegacyModelLoaderTrait::getInstance
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement. Get the model through the MVCFactory instead
      */
     public static function addModelPath($path, $prefix = '')
     {
@@ -248,7 +250,11 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      * @return  static
      *
      * @since       3.0
-     * @deprecated  5.0 Get the controller through the MVCFactory instead
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Get the controller through the MVCFactory instead
+     *              Example: Factory::getApplication()->bootComponent($option)->getMVCFactory()->createController(...);
+     *
      * @throws      \Exception if the controller cannot be loaded.
      */
     public static function getInstance($prefix, $config = [])
@@ -339,12 +345,12 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     *                                         Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                         'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    Input
+     * @param   array                 $config   An optional associative array of configuration settings.
+     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                          'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since   3.0
      */
@@ -601,11 +607,8 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 
         $view = $this->getView($viewName, $viewType, '', ['base_path' => $this->basePath, 'layout' => $viewLayout]);
 
-        // Get/Create the model
-        if ($model = $this->getModel($viewName, '', ['base_path' => $this->basePath])) {
-            // Push the model into the view (as default)
-            $view->setModel($model, true);
-        }
+        // Set models for the View
+        $this->prepareViewModel($view);
 
         $view->document = $document;
 
@@ -811,7 +814,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 
         if (empty(self::$views[$name][$type][$prefix])) {
             if ($view = $this->createView($name, $prefix, $type, $config)) {
-                self::$views[$name][$type][$prefix] = & $view;
+                self::$views[$name][$type][$prefix] = &$view;
             } else {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), 404);
             }
@@ -1060,5 +1063,34 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Method to set the View Models
+     *
+     * This function is provided as a default implementation,
+     * and only set one Model in the view (that with the same prefix/sufix than the view).
+     * In case you want to set several Models for your view,
+     * you will need to override it in your DisplayController controller.
+     *
+     * @param   ViewInterface  $view  The view Object
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    protected function prepareViewModel(ViewInterface $view)
+    {
+        if (!method_exists($view, 'setModel')) {
+            return;
+        }
+
+        $viewName = $view->getName();
+
+        // Get/Create the model
+        if ($model = $this->getModel($viewName, '', ['base_path' => $this->basePath])) {
+            // Push the model into the view (as default)
+            $view->setModel($model, true);
+        }
     }
 }

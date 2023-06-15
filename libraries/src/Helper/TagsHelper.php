@@ -21,7 +21,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -108,7 +108,7 @@ class TagsHelper extends CMSHelper
         $typeId = $ucm->getTypeId();
 
         // Insert the new tag maps
-        if (strpos('#', implode(',', $tags)) === false) {
+        if (strpos(implode(',', $tags), '#') !== false) {
             $tags = self::createTagsFromField($tags);
         }
 
@@ -1044,7 +1044,7 @@ class TagsHelper extends CMSHelper
      */
     public function tagItem($ucmId, TableInterface $table, $tags = [], $replace = true)
     {
-        $key     = $table->get('_tbl_key');
+        $key     = $table->getKeyName();
         $oldTags = $this->getTagIds((int) $table->$key, $this->typeAlias);
         $oldTags = explode(',', $oldTags);
         $result  = $this->unTagItem($ucmId, $table);

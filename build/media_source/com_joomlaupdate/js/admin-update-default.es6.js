@@ -61,7 +61,7 @@ Joomla.Update = window.Joomla.Update || {
 
     document.getElementById('extbytesin').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_inbytes);
     document.getElementById('extbytesout').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_outbytes);
-    document.getElementById('extfiles').innerText = Joomla.Update.stat_files;
+    document.getElementById('extfiles').innerText = Joomla.Update.formatFiles(Joomla.Update.stat_files);
 
     const postData = new FormData();
     postData.append('task', 'startExtract');
@@ -121,7 +121,7 @@ Joomla.Update = window.Joomla.Update || {
 
     document.getElementById('extbytesin').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_inbytes);
     document.getElementById('extbytesout').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_outbytes);
-    document.getElementById('extfiles').innerText = Joomla.Update.stat_files;
+    document.getElementById('extfiles').innerText = Joomla.Update.formatFiles(Joomla.Update.stat_files);
 
     // Are we done extracting?
     if (data.done) {
@@ -203,6 +203,7 @@ Joomla.Update = window.Joomla.Update || {
 
     return `${parseFloat((bytes / (k ** i)).toFixed(dm))} ${sizes[i]}`;
   },
+  formatFiles: (files) => `${files} ${Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPDATE_ITEMS')}`,
   resumeButtonHandler: (e) => {
     e.preventDefault();
 

@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
@@ -28,14 +29,6 @@ use Joomla\Event\SubscriberInterface;
  */
 final class GuidedTours extends CMSPlugin implements SubscriberInterface
 {
-    /**
-     * Load the language file on instantiation
-     *
-     * @var    boolean
-     * @since  4.3.0
-     */
-    protected $autoloadLanguage = true;
-
     /**
      * A mapping for the step types
      *
@@ -62,16 +55,44 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     ];
 
     /**
+     * An internal flag whether plugin should listen any event.
+     *
+     * @var bool
+     *
+     * @since   4.3.0
+     */
+    protected static $enabled = false;
+
+    /**
+     * Constructor
+     *
+     * @param   DispatcherInterface  $subject  The object to observe
+     * @param   array                $config   An optional associative array of configuration settings.
+     * @param   boolean              $enabled  An internal flag whether plugin should listen any event.
+     *
+     * @since   4.3.0
+     */
+    public function __construct($subject, array $config = [], bool $enabled = false)
+    {
+        $this->autoloadLanguage = $enabled;
+        self::$enabled          = $enabled;
+
+        parent::__construct($subject, $config);
+    }
+
+    /**
      * function for getSubscribedEvents : new Joomla 4 feature
      *
      * @return array
+     *
+     * @since   4.3.0
      */
     public static function getSubscribedEvents(): array
     {
-        return [
+        return self::$enabled ? [
             'onAjaxGuidedtours'   => 'startTour',
             'onBeforeCompileHead' => 'onBeforeCompileHead',
-        ];
+        ] : [];
     }
 
     /**
@@ -83,13 +104,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      */
     public function startTour(Event $event)
     {
-        $app = $this->getApplication();
-
-        if (!$app->isClient('administrator')) {
-            return null;
-        }
-
-        $tourId = (int) $app->getInput()->getInt('id');
+        $tourId = (int) $this->getApplication()->getInput()->getInt('id');
 
         $activeTourId = null;
         $tour         = null;
@@ -120,7 +135,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $doc  = $app->getDocument();
         $user = $app->getIdentity();
 
-        if ($app->isClient('administrator') && $user != null && $user->id > 0) {
+        if ($user != null && $user->id > 0) {
             Text::script('JCANCEL');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_BACK');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_COMPLETE');
@@ -128,6 +143,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
             Text::script('PLG_SYSTEM_GUIDEDTOURS_NEXT');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_START');
             Text::script('PLG_SYSTEM_GUIDEDTOURS_STEP_NUMBER_OF');
+            Text::script('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR');
 
             $doc->addScriptOptions('com_guidedtours.token', Session::getFormToken());
 
@@ -189,8 +205,8 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $temp = new \stdClass();
 
         $temp->id          = 0;
-        $temp->title       = Text::_($item->title);
-        $temp->description = Text::_($item->description);
+        $temp->title       = $this->getApplication()->getLanguage()->_($item->title);
+        $temp->description = $this->getApplication()->getLanguage()->_($item->description);
         $temp->url         = $item->url;
 
         // Replace 'images/' to '../images/' when using an image from /images in backend.
@@ -202,8 +218,8 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
             $temp = new \stdClass();
 
             $temp->id               = $i + 1;
-            $temp->title            = Text::_($step->title);
-            $temp->description      = Text::_($step->description);
+            $temp->title            = $this->getApplication()->getLanguage()->_($step->title);
+            $temp->description      = $this->getApplication()->getLanguage()->_($step->description);
             $temp->position         = $step->position;
             $temp->target           = $step->target;
             $temp->type             = $this->stepType[$step->type];

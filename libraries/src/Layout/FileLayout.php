@@ -16,7 +16,7 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Version;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -421,11 +421,11 @@ class FileLayout extends BaseLayout
     }
 
     /**
-     * Method to change the component where search for layouts
+     * Change the component for the search paths for layouts
      *
      * @param   string  $option  URL Option of the component. Example: com_content
      *
-     * @return  mixed  Component option string | null for none
+     * @return  void
      *
      * @since   3.2
      */

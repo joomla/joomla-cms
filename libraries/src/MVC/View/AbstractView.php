@@ -20,7 +20,7 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Event\EventInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -53,7 +53,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
     /**
      * The name of the view
      *
-     * @var    array
+     * @var    string
      * @since  3.0
      */
     protected $_name = null;

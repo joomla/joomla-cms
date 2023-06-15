@@ -22,7 +22,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -161,7 +161,10 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
         $data['script']        = $this->_script;
         $data['custom']        = $this->_custom;
 
-        // @deprecated 5.0  This property is for backwards compatibility. Pass text through script options in the future
+        /**
+         * @deprecated  4.0 will be removed in 6.0
+         *              This property is for backwards compatibility. Pass text through script options in the future
+         */
         $data['scriptText']    = Text::getScriptStrings();
 
         $data['scriptOptions'] = $this->scriptOptions;
@@ -587,7 +590,11 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             $options['title'] = $args[3] ?? null;
         }
 
-        parent::$_buffer[$options['type']][$options['name']][$options['title']] = $content;
+        $type  = $options['type'] ?? '';
+        $name  = $options['name'] ?? '';
+        $title = $options['title'] ?? '';
+
+        parent::$_buffer[$type][$name][$title] = $content;
 
         return $this;
     }
@@ -679,35 +686,16 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      * @return  integer  Number of child menu items
      *
      * @since   1.7.0
+     *
+     * @deprecated  4.4 will be removed in 6.0
+     *              Load the active menu item directly and count the children with the php count function
+     *              `$children = count($app->getMenu()->getActive()->getChildren())` beware getActive could be `null`
      */
     public function countMenuChildren()
     {
-        static $children;
+        $active = CmsFactory::getApplication()->getMenu()->getActive();
 
-        if (!isset($children)) {
-            $db       = CmsFactory::getDbo();
-            $app      = CmsFactory::getApplication();
-            $menu     = $app->getMenu();
-            $active   = $menu->getActive();
-            $children = 0;
-
-            if ($active) {
-                $query = $db->getQuery(true)
-                    ->select('COUNT(*)')
-                    ->from($db->quoteName('#__menu'))
-                    ->where(
-                        [
-                            $db->quoteName('parent_id') . ' = :id',
-                            $db->quoteName('published') . ' = 1',
-                        ]
-                    )
-                    ->bind(':id', $active->id, ParameterType::INTEGER);
-                $db->setQuery($query);
-                $children = $db->loadResult();
-            }
-        }
-
-        return $children;
+        return $active ? count($active->getChildren()) : 0;
     }
 
     /**

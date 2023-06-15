@@ -35,6 +35,9 @@ if (!defined('JPATH_ROOT')) {
     define('JPATH_ROOT', JPATH_BASE);
 }
 
+/**
+ * @deprecated 4.4.0 will be removed in 6.0
+ **/
 if (!defined('JPATH_PLATFORM')) {
     define('JPATH_PLATFORM', JPATH_BASE . DIRECTORY_SEPARATOR . 'libraries');
 }
@@ -85,7 +88,7 @@ if (!defined('JDEBUG')) {
 
 // Import the library loader if necessary.
 if (!class_exists('JLoader')) {
-    require_once JPATH_PLATFORM . '/loader.php';
+    require_once JPATH_LIBRARIES . '/loader.php';
 
     // If JLoader still does not exist panic.
     if (!class_exists('JLoader')) {

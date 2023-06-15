@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
-use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -60,34 +59,7 @@ class StepModel extends AdminModel
             return false;
         }
 
-        if ($record->tour_id) {
-            return $this->getCurrentUser()->authorise('core.delete', 'com_guidedtours.tour.' . $record->tour_id);
-        }
-
         return parent::canDelete($record);
-    }
-
-    /**
-     * Method to change the title
-     *
-     * @param   integer  $categoryId  The id of the category.
-     * @param   string   $alias       The alias.
-     * @param   string   $title       The title.
-     *
-     * @return  array  Contains the modified title and alias.
-     *
-     * @since   4.3.0
-     */
-    protected function generateNewTitle($categoryId, $alias, $title)
-    {
-        // Alter the title
-        $table = $this->getTable();
-
-        while ($table->load(['title' => $title])) {
-            $title = StringHelper::increment($title);
-        }
-
-        return [$title, $alias];
     }
 
     /**
@@ -128,11 +100,6 @@ class StepModel extends AdminModel
         if ($input->get('task') == 'save2copy') {
             $origTable = clone $this->getTable();
             $origTable->load($input->getInt('id'));
-
-            if ($data['title'] == $origTable->title) {
-                list($title)   = $this->generateNewTitle(0, '', $data['title']);
-                $data['title'] = $title;
-            }
 
             $data['published'] = 0;
         }
@@ -175,26 +142,6 @@ class StepModel extends AdminModel
             $table->modified    = $date;
             $table->modified_by = $this->getCurrentUser()->id;
         }
-    }
-
-    /**
-     * Method to test whether a record can have its state changed.
-     *
-     * @param   object  $record  A record object.
-     *
-     * @return  boolean  True if allowed to change the state of the record.
-     * Defaults to the permission set in the component.
-     *
-     * @since   4.3.0
-     */
-    protected function canEditState($record)
-    {
-        // Check for existing tour.
-        if (!empty($record->tour_id)) {
-            return $this->getCurrentUser()->authorise('core.edit.state', 'com_guidedtours.tour.' . $record->tour_id);
-        }
-
-        return parent::canEditState($record);
     }
 
     /**

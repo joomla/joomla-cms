@@ -85,6 +85,14 @@ class HtmlView extends BaseHtmlView
     private $isEmptyState = false;
 
     /**
+     * The ordering list for the categories
+     *
+     * @var    array
+     * @since  4.4.0
+     */
+    protected $ordering = [];
+
+    /**
      * Display the view
      *
      * @param   string|null  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -137,6 +145,10 @@ class HtmlView extends BaseHtmlView
                 unset($this->activeFilters['language']);
             }
         }
+
+        // If filter by category is active we need to know the extension name to filter the categories
+        $extensionName = $this->escape($this->state->get('filter.extension'));
+        $this->filterForm->setFieldAttribute('category_id', 'extension', $extensionName, 'filter');
 
         parent::display($tpl);
     }
