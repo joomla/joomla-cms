@@ -238,6 +238,7 @@ class JoomlaInstallerScript
             $row = $db->setQuery(
                 $db->getQuery(true)
                     ->select($db->quoteName('extension_id'))
+                    ->select($db->quoteName('enabled'))
                     ->select($db->quoteName('params'))
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote($extension['type']))
