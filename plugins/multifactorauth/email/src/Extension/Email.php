@@ -28,7 +28,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
@@ -54,6 +54,8 @@ use function count;
  */
 class Email extends CMSPlugin implements SubscriberInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Generated OTP length. Constant: 6 numeric digits.
      *
@@ -171,7 +173,7 @@ class Email extends CMSPlugin implements SubscriberInterface
         $key     = $options['key'] ?? '';
 
         // Send an email message with a new code and ask the user to enter it.
-        $user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($record->user_id);
+        $user = $this->getUserFactory()->loadUserById($record->user_id);
 
         try {
             $this->sendCode($key, $user);
@@ -250,7 +252,7 @@ class Email extends CMSPlugin implements SubscriberInterface
             $session->set('plg_multifactorauth_email.emailcode.key', $key);
             $session->set('plg_multifactorauth_email.emailcode.user_id', $record->user_id);
 
-            $user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($record->user_id);
+            $user = $this->getUserFactory()->loadUserById($record->user_id);
 
             $this->sendCode($key, $user);
 
@@ -522,8 +524,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 
         // Make sure we have a user
         if (!is_object($user) || !($user instanceof User)) {
-            $user = $this->getApplication()->getIdentity()
-                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            $user = $this->getApplication()->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
         }
 
         if ($alreadySent) {

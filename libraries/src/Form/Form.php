@@ -13,6 +13,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
@@ -21,7 +23,7 @@ use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -35,9 +37,10 @@ use Joomla\Utilities\ArrayHelper;
  * @link   https://html.spec.whatwg.org/multipage/forms.html
  * @since  1.7.0
  */
-class Form
+class Form implements CurrentUserInterface
 {
     use DatabaseAwareTrait;
+    use CurrentUserTrait;
 
     /**
      * The Registry data store for form fields during display.
@@ -1457,6 +1460,10 @@ class Form
                 @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
                 $field->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
+        }
+
+        if ($field instanceof CurrentUserInterface) {
+            $field->setCurrentUser($this->getCurrentUser());
         }
 
         // If the object could not be loaded, get a text field object.

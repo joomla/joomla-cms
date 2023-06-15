@@ -39,7 +39,7 @@ class ArticlesCategoriesHelper implements DatabaseAwareInterface
      *
      * @return  CategoryNode[]
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function getChildrenCategories(Registry $moduleParams, SiteApplication $app): array
     {
@@ -74,19 +74,19 @@ class ArticlesCategoriesHelper implements DatabaseAwareInterface
     /**
      * Get list of categories
      *
-     * @param   Registry  &$params  module parameters
+     * @param   Registry  $params  module parameters
      *
      * @return  array
      *
      * @since   1.6
      *
-     * @deprecated  __DEPLOY_VERSION__  will be removed in 6.0
+     * @deprecated  4.4.0  will be removed in 6.0
      *              Use the non-static method getChildrenCategories
      *              Example: Factory::getApplication()->bootModule('mod_articles_categories', 'site')
      *                           ->getHelper('ArticlesCategoriesHelper')
      *                           ->getChildrenCategories($params, Factory::getApplication())
      */
-    public static function getList(&$params)
+    public static function getList($params)
     {
         /** @var SiteApplication $app */
         $app = Factory::getApplication();
