@@ -134,21 +134,6 @@ final class Eos extends CMSPlugin implements SubscriberInterface
             $app->getLanguage()->_($this->currentMessage['quickiconText']),
             HTMLHelper::_('date', Eos::EOS_DATE, $app->getLanguage()->_('DATE_FORMAT_LC3'))
         );
-
-        // The message as quickicon - The next section is commented out to stop the display of the quickicon. Uncomment to re-enable.
-
-        /*$result[] = [
-            [
-                'link'  => $this->currentMessage['messageLink'],
-                'image' => $this->currentMessage['image'],
-                'text'  => $messageTextQuickIcon,
-                'id'    => 'plg_quickicon_eos',
-                'group' => $this->currentMessage['groupText'],
-                'class' => $this->currentMessage['messageType'],
-            ],
-        ];
-
-        $event->setArgument('result', $result);*/
     }
 
     /**
@@ -163,12 +148,12 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         $params = $this->params->toString('JSON');
         $db     = $this->getDatabase();
         $query  = $db->getQuery(true)
-                  ->update($db->quoteName('#__extensions'))
-                  ->set($db->quoteName('params') . ' = :params')
-                  ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-                  ->where($db->quoteName('folder') . ' = ' . $db->quote('quickicon'))
-                  ->where($db->quoteName('element') . ' = ' . $db->quote('eos'))
-                  ->bind(':params', $params);
+            ->update($db->quoteName('#__extensions'))
+            ->set($db->quoteName('params') . ' = :params')
+            ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+            ->where($db->quoteName('folder') . ' = ' . $db->quote('quickicon'))
+            ->where($db->quoteName('element') . ' = ' . $db->quote('eos'))
+            ->bind(':params', $params);
 
         return $db->setQuery($query)->execute();
     }
