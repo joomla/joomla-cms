@@ -135,9 +135,9 @@ final class Eos extends CMSPlugin implements SubscriberInterface
             HTMLHelper::_('date', Eos::EOS_DATE, $app->getLanguage()->_('DATE_FORMAT_LC3'))
         );
 
-        // The message as quickicon
+        // The message as quickicon - The next section is commented out to stop the display of the quickicon. Uncomment to re-enable.
 
-        $result[] = [
+        /*$result[] = [
             [
                 'link'  => $this->currentMessage['messageLink'],
                 'image' => $this->currentMessage['image'],
@@ -148,7 +148,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
             ],
         ];
 
-        $event->setArgument('result', $result);
+        $event->setArgument('result', $result);*/
     }
 
     /**
@@ -163,12 +163,12 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         $params = $this->params->toString('JSON');
         $db     = $this->getDatabase();
         $query  = $db->getQuery(true)
-            ->update($db->quoteName('#__extensions'))
-            ->set($db->quoteName('params') . ' = :params')
-            ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-            ->where($db->quoteName('folder') . ' = ' . $db->quote('quickicon'))
-            ->where($db->quoteName('element') . ' = ' . $db->quote('eos'))
-            ->bind(':params', $params);
+                  ->update($db->quoteName('#__extensions'))
+                  ->set($db->quoteName('params') . ' = :params')
+                  ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+                  ->where($db->quoteName('folder') . ' = ' . $db->quote('quickicon'))
+                  ->where($db->quoteName('element') . ' = ' . $db->quote('eos'))
+                  ->bind(':params', $params);
 
         return $db->setQuery($query)->execute();
     }
@@ -214,7 +214,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'quickiconText' => 'PLG_QUICKICON_EOS_MESSAGE_ERROR_SUPPORT_ENDED_SHORT',
                 'messageType'   => 'error',
                 'image'         => 'fa fa-life-ring',
-                'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
+                'messageLink'   => 'https://docs.joomla.org/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
                 'groupText'     => 'PLG_QUICKICON_EOS_GROUPNAME_EOS',
                 'snoozable'     => false,
             ];
@@ -228,7 +228,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'quickiconText' => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SUPPORT_ENDING_SHORT',
                 'messageType'   => 'warning',
                 'image'         => 'fa fa-life-ring',
-                'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
+                'messageLink'   => 'https://docs.joomla.org/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
                 'groupText'     => 'PLG_QUICKICON_EOS_GROUPNAME_WARNING',
                 'snoozable'     => true,
             ];
@@ -242,7 +242,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'quickiconText' => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SECURITY_ONLY_SHORT',
                 'messageType'   => 'warning',
                 'image'         => 'fa fa-life-ring',
-                'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
+                'messageLink'   => 'https://docs.joomla.org/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
                 'groupText'     => 'PLG_QUICKICON_EOS_GROUPNAME_WARNING',
                 'snoozable'     => true,
             ];
@@ -256,7 +256,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'quickiconText' => 'PLG_QUICKICON_EOS_MESSAGE_INFO_02_SHORT',
                 'messageType'   => 'info',
                 'image'         => 'fa fa-life-ring',
-                'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Pre-Update_Check',
+                'messageLink'   => 'https://docs.joomla.org/Pre-Update_Check',
                 'groupText'     => 'PLG_QUICKICON_EOS_GROUPNAME_INFO',
                 'snoozable'     => true,
             ];
@@ -270,7 +270,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'quickiconText' => 'PLG_QUICKICON_EOS_MESSAGE_INFO_01_SHORT',
                 'messageType'   => 'info',
                 'image'         => 'fa fa-life-ring',
-                'messageLink'   => 'https://www.joomla.org/4/#features',
+                'messageLink'   => 'https://joomla.org/5',
                 'groupText'     => 'PLG_QUICKICON_EOS_GROUPNAME_INFO',
                 'snoozable'     => true,
             ];
