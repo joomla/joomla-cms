@@ -214,7 +214,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'quickiconText' => 'PLG_QUICKICON_EOS_MESSAGE_ERROR_SUPPORT_ENDED_SHORT',
                 'messageType'   => 'error',
                 'image'         => 'fa fa-life-ring',
-                'messageLink'   => 'https://docs.joomla.org/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
+                'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
                 'groupText'     => 'PLG_QUICKICON_EOS_GROUPNAME_EOS',
                 'snoozable'     => false,
             ];
@@ -228,7 +228,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'quickiconText' => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SUPPORT_ENDING_SHORT',
                 'messageType'   => 'warning',
                 'image'         => 'fa fa-life-ring',
-                'messageLink'   => 'https://docs.joomla.org/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
+                'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
                 'groupText'     => 'PLG_QUICKICON_EOS_GROUPNAME_WARNING',
                 'snoozable'     => true,
             ];
@@ -242,7 +242,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'quickiconText' => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SECURITY_ONLY_SHORT',
                 'messageType'   => 'warning',
                 'image'         => 'fa fa-life-ring',
-                'messageLink'   => 'https://docs.joomla.org/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
+                'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
                 'groupText'     => 'PLG_QUICKICON_EOS_GROUPNAME_WARNING',
                 'snoozable'     => true,
             ];
@@ -256,7 +256,7 @@ final class Eos extends CMSPlugin implements SubscriberInterface
                 'quickiconText' => 'PLG_QUICKICON_EOS_MESSAGE_INFO_02_SHORT',
                 'messageType'   => 'info',
                 'image'         => 'fa fa-life-ring',
-                'messageLink'   => 'https://docs.joomla.org/Pre-Update_Check',
+                'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Pre-Update_Check',
                 'groupText'     => 'PLG_QUICKICON_EOS_GROUPNAME_INFO',
                 'snoozable'     => true,
             ];
