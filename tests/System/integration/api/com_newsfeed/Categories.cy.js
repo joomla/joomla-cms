@@ -3,8 +3,6 @@ describe('Test that newsfeed categories API endpoint', () => {
     cy.db_createCategory({ title: 'automated test category', extension: 'com_newsfeeds' })
       .then((id) => cy.db_createNewsFeed({ name: 'automated test feed', catid: id }))
       .then(() => cy.api_get('/newsfeeds/categories'))
-      .then((response) => cy.wrap(response).its('body').its('data[0]').its('attributes')
-        .its('title')
-        .should('include', 'automated test category'));
+      .then((response) => cy.api_responseContains(response, 'name', 'automated test category'));
   });
 });
