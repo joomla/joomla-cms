@@ -20,4 +20,12 @@ describe('Test in backend that the tag form', () => {
       cy.contains('Test tag edited');
     });
   });
+
+  it('check redirection to list view', () => {
+    cy.visit('administrator/index.php?option=com_tags&task=tag.add');
+    cy.intercept('index.php?option=com_tags&view=tags').as('listview');
+    cy.clickToolbarButton('Cancel');
+
+    cy.wait('@listview');
+  });
 });
