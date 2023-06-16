@@ -62,7 +62,7 @@ describe('Test in backend that the categories list', () => {
   });
 
   it('can delete the test category', () => {
-    cy.db_createCategory({ title: 'Test category', published: -2 }).then(() => {
+    cy.db_createCategory({ title: 'Test category', published: -2 }).then((id) => {
       // Is needed to create a proper asset
       cy.visit(`administrator/index.php?option=com_categories&task=category.edit&id=${id}&extension=com_content`);
       cy.clickToolbarButton('Save & Close');
