@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -231,6 +232,16 @@ class StepsModel extends ListModel
         foreach ($items as $item) {
             $item->title       = Text::_($item->title);
             $item->description = Text::_($item->description);
+
+	        // Convert params[] data to params_ data
+	        if (isset($item->params) )
+	        {
+		        if (property_exists($item, 'params')) {
+			        $registry     = new Registry($item->params);
+			        $item->params = $registry->toString();
+		        }
+	        }
+
         }
 
         return $items;

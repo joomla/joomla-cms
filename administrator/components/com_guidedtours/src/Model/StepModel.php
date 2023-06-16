@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -103,6 +104,24 @@ class StepModel extends AdminModel
 
             $data['published'] = 0;
         }
+
+		// Convert params_ data to params[] data
+	    if (!isset($data["params"]))
+	    {
+		    $data["params"] = array();
+	    }
+	    foreach ($data as $k => $v)
+	    {
+			if (strpos($k, "params_") === 0)
+			{
+				unset($data[$k]);
+				$k = substr($k, 7);
+				$data["params"][$k] = $v;
+			}
+	    }
+
+	    $registry     = new Registry($data["params"]);
+	    $data["params"] = $registry->toString();
 
         return parent::save($data);
     }
@@ -260,6 +279,18 @@ class StepModel extends AdminModel
                 // Set the step's tour id
                 $result->tour_id = $tourId;
             }
+
+	        // Convert params[] data to params_ data
+	        if (isset($result->params) && is_array($result->params))
+	        {
+		        foreach ($result->params as $k => $v)
+		        {
+					$param = "params_" . $k;
+			        $result->$param = $v;
+				}
+				unset($result->params);
+	        }
+
         }
 
         return $result;

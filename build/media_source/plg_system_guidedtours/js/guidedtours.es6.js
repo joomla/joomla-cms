@@ -74,6 +74,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
     buttons,
     id: stepObj.id,
     arrow: true,
+    params: (typeof stepObj.params !== 'undefined' && stepObj.params !== '') ? JSON.parse(stepObj.params) : [],
     beforeShowPromise() {
       return new Promise((resolve) => {
         // Set graceful fallbacks in case there is an issue with the target.
@@ -130,10 +131,22 @@ function addStepToTourButton(tour, stepObj, buttons) {
           // The 'next' button should always be enabled if the target input field of type 'text' has a value
           if (
             target.tagName.toLowerCase() === 'input'
-            && target.hasAttribute('required')
+            && (target.hasAttribute('required') || (this.options.params.required || 0))
             && (['email', 'password', 'search', 'tel', 'text', 'url'].includes(target.type))
           ) {
             if (target.value.trim().length) {
+              primaryButton.removeAttribute('disabled');
+              primaryButton.classList.remove('disabled');
+            } else {
+              primaryButton.setAttribute('disabled', 'disabled');
+              primaryButton.classList.add('disabled');
+            }
+          } else if (
+            target.tagName.toLowerCase() === 'input'
+            && (target.hasAttribute('required') || (this.options.params.required || 0))
+            && ['checkbox', 'radio'].includes(target.type)
+          ) {
+            if (target.checked) {
               primaryButton.removeAttribute('disabled');
               primaryButton.classList.remove('disabled');
             } else {
@@ -194,6 +207,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
         url: stepObj.url,
         type: stepObj.type,
         interactive_type: stepObj.interactive_type,
+        params: stepObj.params,
       },
     });
   } else {
@@ -202,6 +216,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
         url: stepObj.url,
         type: stepObj.type,
         interactive_type: stepObj.interactive_type,
+        params: stepObj.params,
       },
     });
   }
@@ -373,6 +388,19 @@ function startTour(obj) {
               }
               break;
 
+            case 'checkbox_radio':
+              ele.step_id = index;
+              if (ele.tagName.toLowerCase() === 'input' && (ele.hasAttribute('required')) && ['checkbox', 'radio'].includes(ele.type)) {
+                ['click'].forEach((eventName) => ele.addEventListener(eventName, (event) => {
+                  if (event.target.checked) {
+                    enableButton(event);
+                  } else {
+                    disableButton(event);
+                  }
+                }));
+              }
+              break;
+
             case 'button':
               tour.next();
               break;
@@ -389,6 +417,7 @@ function startTour(obj) {
       if (
         (obj && obj.steps[index].type !== 'interactive')
         || (obj && obj.steps[index].interactive_type === 'text')
+        || (obj && obj.steps[index].interactive_type === 'checkbox_radio')
         || (obj && obj.steps[index].interactive_type === 'other')
       ) {
         pushNextButton(buttons, obj.steps[index]);

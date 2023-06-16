@@ -120,8 +120,23 @@
 		>
 		<option value="1">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_FORM_SUBMIT</option>
 		<option value="2">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_TEXT_FIELD</option>
+		<option value="5">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_CHECKBOX_RADIO_FIELD</option>
 		<option value="4">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_BUTTON</option>
 		<option value="3">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVESTEP_TYPE_OTHER</option>
+	</field>
+
+	<field
+			name="params_required"
+			type="list"
+			label="COM_GUIDEDTOURS_TYPE_INPUT_REQUIRED_LABEL"
+			description="COM_GUIDEDTOURS_TYPE_INPUT_REQUIRED_DESC"
+			showon="type:2[AND]interactive_type:2,5"
+			filter="integer"
+			validate="options"
+			default="1"
+	>
+		<option value="0">JNO</option>
+		<option value="1">JYES</option>
 	</field>
 
 	<field

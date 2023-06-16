@@ -68,6 +68,7 @@ $lang = Factory::getLanguage()->getTag();
                     'type',
                     'url',
                     'interactive_type',
+	                'params_required',
                     'note',
                 ];
 

@@ -100,6 +100,13 @@ class GuidedtoursComponent extends MVCComponent implements BootableExtensionInte
      */
     public const STEP_INTERACTIVETYPE_OTHER = 3;
 
+	/**
+	 * An interactive step for other fields.
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public const STEP_INTERACTIVETYPE_CHECKBOX_RADIO = 5;
+
     /**
      * Booting the extension. This is the function to set up the environment of the extension like
      * registering new class loaders, etc.
