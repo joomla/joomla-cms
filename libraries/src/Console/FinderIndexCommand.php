@@ -11,6 +11,8 @@ namespace Joomla\CMS\Console;
 
 use Exception;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageAwareInterface;
+use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
@@ -22,6 +24,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use UnexpectedValueException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -32,8 +35,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @since  4.0.0
  */
-class FinderIndexCommand extends AbstractCommand
+class FinderIndexCommand extends AbstractCommand implements LanguageAwareInterface
 {
+    use LanguageAwareTrait;
+
     /**
      * The default command name
      *
@@ -239,7 +244,14 @@ EOF;
     {
         $this->cliInput = $input;
         $this->ioStyle  = new SymfonyStyle($input, $output);
-        $language       = Factory::getLanguage();
+
+        try {
+            $language = $this->getLanguage();
+        } catch (UnexpectedValueException $e) {
+            @trigger_error(sprintf('Language must be set in 6.0 in %s', __METHOD__), E_USER_DEPRECATED);
+            $language = Factory::getLanguage();
+        }
+
         $language->load('', JPATH_ADMINISTRATOR, null, false, false) ||
         $language->load('', JPATH_ADMINISTRATOR, null, true);
         $language->load('finder_cli', JPATH_SITE, null, false, false) ||

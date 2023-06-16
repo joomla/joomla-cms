@@ -18,4 +18,14 @@ describe('Test in backend that the banners form', () => {
 
     cy.wait('@listview');
   });
+
+  it('can edit a banner', () => {
+    cy.db_createBanner({ name: 'Test Banner' }).then((id) => {
+      cy.visit(`administrator/index.php?option=com_banners&task=banner.edit&id=${id}`);
+      cy.get('#jform_name').clear().type('Test banner edited');
+      cy.clickToolbarButton('Save & Close');
+
+      cy.contains('Test banner edited');
+    });
+  });
 });
