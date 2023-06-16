@@ -46,7 +46,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      *
      * @return  object[]
      *
-     * @since   5.0.0
+     * @since   4.4.0
      */
     public function getArticles(Registry $params, SiteApplication $app)
     {
@@ -325,7 +325,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      *
      * @since   1.6
      *
-     * @deprecated  5.0.0  will be removed in 6.0
+     * @deprecated  4.4.0  will be removed in 6.0
      *              Use the non-static method getArticles
      *              Example: Factory::getApplication()->bootModule('mod_articles_category', 'site')
      *                           ->getHelper('ArticlesCategoryHelper')

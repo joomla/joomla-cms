@@ -18,7 +18,6 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -90,8 +89,8 @@ class JoomlaInstallerScript
             // Informational log only
         }
 
-        // Uninstall plugins before removing their files and folders
-        $this->uninstallEosPlugin();
+        // Uninstall extensions before removing their files and folders
+        $this->uninstallExtensions();
 
         // This needs to stay for 2.5 update compatibility
         $this->deleteUnexistingFiles();
@@ -205,49 +204,80 @@ class JoomlaInstallerScript
     }
 
     /**
-     * Uninstall the 3.10 EOS plugin
+     * Uninstall extensions and optionally migrate their parameters when
+     * updating from a version older than 5.0.1.
      *
      * @return  void
      *
-     * @since   4.0.0
+     * @since   __DEPLOY_VERSION__
      */
-    protected function uninstallEosPlugin()
+    protected function uninstallExtensions()
     {
-        $db = Factory::getDbo();
-
-        // Check if the plg_quickicon_eos310 plugin is present
-        $extensionId = $db->setQuery(
-            $db->getQuery(true)
-                ->select('extension_id')
-                ->from('#__extensions')
-                ->where('name = ' . $db->quote('plg_quickicon_eos310'))
-        )->loadResult();
-
-        // Skip uninstalling if it doesn't exist
-        if (!$extensionId) {
-            return;
+        // Don't uninstall extensions when not updating from a version older than 5.0.1
+        if (empty($this->fromVersion) || version_compare($this->fromVersion, '5.0.1', 'ge')) {
+            return true;
         }
 
-        try {
-            $db->transactionStart();
+        $extensions = [
+            /**
+             * Define here the extensions to be uninstalled and optionally migrated on update.
+             * For each extension, specify an associative array with following elements (key => value):
+             * 'type'         => Field `type` in the `#__extensions` table
+             * 'element'      => Field `element` in the `#__extensions` table
+             * 'folder'       => Field `folder` in the `#__extensions` table
+             * 'client_id'    => Field `client_id` in the `#__extensions` table
+             * 'pre_function' => Name of an optional migration function to be called before
+             *                   uninstalling, `null` if not used.
+             */
+        ];
 
-            // Unprotect the plugin so we can uninstall it
-            $db->setQuery(
+        $db = Factory::getDbo();
+
+        foreach ($extensions as $extension) {
+            $row = $db->setQuery(
                 $db->getQuery(true)
-                    ->update('#__extensions')
-                    ->set('protected = 0')
-                    ->where($db->quoteName('extension_id') . ' = ' . $extensionId)
-            )->execute();
+                    ->select('*')
+                    ->from($db->quoteName('#__extensions'))
+                    ->where($db->quoteName('type') . ' = ' . $db->quote($extension['type']))
+                    ->where($db->quoteName('element') . ' = ' . $db->quote($extension['element']))
+                    ->where($db->quoteName('folder') . ' = ' . $db->quote($extension['folder']))
+                    ->where($db->quoteName('client_id') . ' = ' . $db->quote($extension['client_id']))
+            )->loadObject();
 
-            // Uninstall the plugin
-            $installer = new Installer();
-            $installer->setDatabase($db);
-            $installer->uninstall('plugin', $extensionId);
+            // Skip migrating and uninstalling if the extension doesn't exist
+            if (!$row) {
+                continue;
+            }
 
-            $db->transactionCommit();
-        } catch (\Exception $e) {
-            $db->transactionRollback();
-            throw $e;
+            // If there is a function for migration to be called before uninstalling, call it
+            if ($extension['pre_function'] && method_exists($this, $extension['pre_function'])) {
+                $this->{$extension['pre_function']}($row);
+            }
+
+            try {
+                $db->transactionStart();
+
+                // Unlock and unprotect the plugin so we can uninstall it
+                $db->setQuery(
+                    $db->getQuery(true)
+                        ->update($db->quoteName('#__extensions'))
+                        ->set($db->quoteName('locked') . ' = 0')
+                        ->set($db->quoteName('protected') . ' = 0')
+                        ->where($db->quoteName('extension_id') . ' = :extension_id')
+                        ->bind(':extension_id', $row->extension_id, ParameterType::INTEGER)
+                )->execute();
+
+                // Uninstall the plugin
+                $installer = new Installer();
+                $installer->setDatabase($db);
+                $installer->uninstall($extension['type'], $row->extension_id);
+
+                $db->transactionCommit();
+            } catch (\Exception $e) {
+                $db->transactionRollback();
+                echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+                throw $e;
+            }
         }
     }
 
@@ -382,6 +412,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/mysql/4.3.0-2023-03-29.sql',
             '/administrator/components/com_admin/sql/updates/mysql/4.3.2-2023-03-31.sql',
             '/administrator/components/com_admin/sql/updates/mysql/4.3.2-2023-05-03.sql',
+            '/administrator/components/com_admin/sql/updates/mysql/4.3.2-2023-05-20.sql',
             '/administrator/components/com_admin/sql/updates/mysql/4.4.0-2023-05-08.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-03-05.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-05-15.sql',
@@ -444,6 +475,7 @@ class JoomlaInstallerScript
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.0-2023-03-29.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-03-31.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-05-03.sql',
+            '/administrator/components/com_admin/sql/updates/postgresql/4.3.2-2023-05-20.sql',
             '/administrator/components/com_admin/sql/updates/postgresql/4.4.0-2023-05-08.sql',
             '/libraries/src/Schema/ChangeItem/SqlsrvChangeItem.php',
             '/libraries/vendor/beberlei/assert/lib/Assert/Assert.php',
@@ -498,8 +530,6 @@ class JoomlaInstallerScript
             '/libraries/vendor/nyholm/psr7/src/StreamTrait.php',
             '/libraries/vendor/nyholm/psr7/src/UploadedFile.php',
             '/libraries/vendor/nyholm/psr7/src/Uri.php',
-            '/libraries/vendor/psr/http-message/docs/PSR7-Interfaces.md',
-            '/libraries/vendor/psr/http-message/docs/PSR7-Usage.md',
             '/libraries/vendor/psr/log/Psr/Log/AbstractLogger.php',
             '/libraries/vendor/psr/log/Psr/Log/InvalidArgumentException.php',
             '/libraries/vendor/psr/log/Psr/Log/LoggerAwareInterface.php',
@@ -764,7 +794,6 @@ class JoomlaInstallerScript
             '/libraries/vendor/ramsey',
             '/libraries/vendor/psr/log/Psr/Log',
             '/libraries/vendor/psr/log/Psr',
-            '/libraries/vendor/psr/http-message/docs',
             '/libraries/vendor/nyholm/psr7/src/Factory',
             '/libraries/vendor/nyholm/psr7/src',
             '/libraries/vendor/nyholm/psr7',

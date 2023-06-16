@@ -36,7 +36,7 @@ class BreadcrumbsHelper
      *
      * @return  array
      *
-     * @since   5.0.0
+     * @since   4.4.0
      */
     public function getBreadcrumbs(Registry $params, SiteApplication $app): array
     {
@@ -69,7 +69,7 @@ class BreadcrumbsHelper
      *
      * @return  object
      *
-     * @since   5.0.0
+     * @since   4.4.0
      */
     public function getHomeItem(Registry $params, SiteApplication $app): object
     {
@@ -97,7 +97,7 @@ class BreadcrumbsHelper
      *
      * @since   1.5
      *
-     * @deprecated 5.0.0 will be removed in 6.0 as this function is not used anymore
+     * @deprecated 4.4.0 will be removed in 6.0 as this function is not used anymore
      */
     public static function setSeparator($custom = null)
     {
@@ -128,7 +128,7 @@ class BreadcrumbsHelper
      *
      * @since   1.5
      *
-     * @deprecated 5.0.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 6.0
      *             Use the non-static method getBreadcrumbs
      *             Example: Factory::getApplication()->bootModule('mod_breadcrumbs', 'site')
      *                          ->getHelper('BreadcrumbsHelper')
@@ -149,7 +149,7 @@ class BreadcrumbsHelper
      *
      * @since   4.2.0
      *
-     * @deprecated 5.0.0 will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 6.0
      *             Use the non-static method getHomeItem
      *             Example: Factory::getApplication()->bootModule('mod_breadcrumbs', 'site')
      *                          ->getHelper('BreadcrumbsHelper')
