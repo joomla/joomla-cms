@@ -27,6 +27,8 @@ if (empty($this->item->tour_id)) {
 }
 
 $lang = Factory::getLanguage()->getTag();
+
+$this->useCoreUI = true;
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_guidedtours&view=step&layout=edit&id=' .
@@ -68,7 +70,6 @@ $lang = Factory::getLanguage()->getTag();
                     'type',
                     'url',
                     'interactive_type',
-	                'params_required',
                     'note',
                 ];
 
@@ -80,6 +81,8 @@ $lang = Factory::getLanguage()->getTag();
             </div>
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
+
+	    <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
         <div class="row">

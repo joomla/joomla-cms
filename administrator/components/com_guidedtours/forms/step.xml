@@ -126,20 +126,6 @@
 	</field>
 
 	<field
-			name="params_required"
-			type="list"
-			label="COM_GUIDEDTOURS_TYPE_INPUT_REQUIRED_LABEL"
-			description="COM_GUIDEDTOURS_TYPE_INPUT_REQUIRED_DESC"
-			showon="type:2[AND]interactive_type:2,5"
-			filter="integer"
-			validate="options"
-			default="1"
-	>
-		<option value="0">JNO</option>
-		<option value="1">JYES</option>
-	</field>
-
-	<field
 		name="checked_out"
 		type="hidden"
 		filter="unset"
@@ -203,5 +189,28 @@
 		label="COM_GUIDEDTOURS_FIELD_NOTE_LABEL"
 		maxlength="255"
 	/>
+
+	<fields name="params">
+
+		<fieldset name="options">
+
+			<fieldset name="advanced" label="COM_GUIDEDTOURS_FIELD_ADVANCED_LABEL">
+				<field
+						name="required"
+						type="list"
+						label="COM_GUIDEDTOURS_TYPE_INPUT_REQUIRED_LABEL"
+						description="COM_GUIDEDTOURS_TYPE_INPUT_REQUIRED_DESC"
+						showon=".type:2[AND].interactive_type:2,5"
+						filter="integer"
+						validate="options"
+						default="1"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+			</fieldset>
+		</fieldset>
+	</fields>
 
 </form>
