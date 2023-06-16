@@ -10,7 +10,9 @@ describe('Test that tags API endpoint', () => {
   });
 
   it('can create a tag', () => {
-    cy.api_post('/tags', { title: 'automated test tag', parent_id: 1, level: 1, description: '', language: '*'})
+    cy.api_post('/tags', {
+      title: 'automated test tag', parent_id: 1, level: 1, description: '', language: '*',
+    })
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('title')
         .should('include', 'automated test tag'));
