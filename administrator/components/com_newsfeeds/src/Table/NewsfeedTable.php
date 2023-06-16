@@ -115,6 +115,10 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
             $this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
         }
 
+        if (!$this->hits) {
+            $this->hits = 0;
+        }
+
         return true;
     }
 
@@ -154,9 +158,6 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
             if (empty($this->modified_by)) {
                 $this->modified_by = $this->created_by;
             }
-
-            // Hits must be zero on a new item
-            $this->hits = 0;
         }
 
         // Set publish_up, publish_down to null if not set
