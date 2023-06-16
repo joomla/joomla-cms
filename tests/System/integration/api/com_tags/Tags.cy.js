@@ -1,5 +1,5 @@
 describe('Test that tags API endpoint', () => {
-  afterEach(() => cy.task('queryDB', 'DELETE FROM #__tags'));
+  afterEach(() => cy.task('queryDB', 'DELETE FROM #__tags WHERE id > 1'));
 
   it('can deliver a list of tags', () => {
     cy.db_createTag({ title: 'automated test tag' })
@@ -10,9 +10,7 @@ describe('Test that tags API endpoint', () => {
   });
 
   it('can create a tag', () => {
-    const test = ()=>cy.api_post('/tags', {
-      title: 'automated test tag',
-    })
+    cy.api_post('/tags', { title: 'automated test tag', parent_id: 1, level: 1, description: '', language: '*'})
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('title')
         .should('include', 'automated test tag'));
