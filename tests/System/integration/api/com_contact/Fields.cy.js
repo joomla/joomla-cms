@@ -45,7 +45,7 @@ describe('Test that field contact API endpoint', () => {
   });
 
   it('can update a field', () => {
-    cy.db_createField({ title: 'automated test field', context: 'com_contact.contact'})
+    cy.db_createField({ title: 'automated test field', context: 'com_contact.contact' })
       .then((id) => cy.api_patch(`/fields/contacts/contact/${id}`, { title: 'updated automated test field' }))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('title')
