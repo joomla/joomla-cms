@@ -50,17 +50,11 @@ class FeedView extends CategoryFeedView
         $obj = json_decode($item->images);
 
         // Set feed image to image_intro or if that's empty, to image_fulltext
-        $itemImage = '';
-
-        if (!empty($obj->{'image_intro'})) {
-            $itemImage = $obj->{'image_intro'};
-        } elseif (!empty($obj->{'image_fulltext'})) {
-            $itemImage = $obj->{'image_fulltext'};
-        }
-
-        if (!empty($itemImage)) {
-            $item->description = '<p>' . HTMLHelper::_('image', $itemImage, $obj->image_intro_alt) . '</p>';
-        }
+        if (!empty($obj->image_intro)) {
+            $item->description = '<p>' . HTMLHelper::_('image', $obj->image_intro, $obj->image_intro_alt) . '</p>';
+		} elseif (!empty($obj->image_fulltext)) {
+			$item->description = '<p>' . HTMLHelper::_('image', $obj->image_fulltext, $obj->image_fulltext_alt) . '</p>';
+		}
 
         $item->description .= ($params->get('feed_summary', 0) ? $item->introtext . $item->fulltext : $item->introtext);
 
