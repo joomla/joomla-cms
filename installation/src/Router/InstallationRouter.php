@@ -12,6 +12,10 @@ namespace Joomla\CMS\Installation\Router;
 use Joomla\CMS\Router\Router;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Class to create and parse routes.
  *

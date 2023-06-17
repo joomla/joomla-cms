@@ -20,6 +20,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Contact Component Contact Model
  *
@@ -55,7 +59,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
      *
      * @since   4.0.0
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         $form = parent::getForm($data, $loadData);
 
@@ -174,22 +178,23 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
      */
     protected function populateState()
     {
-        $app = Factory::getApplication();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
         // Load state from the request.
-        $pk = $app->input->getInt('id');
+        $pk = $input->getInt('id');
         $this->setState('contact.id', $pk);
 
-        $this->setState('contact.catid', $app->input->getInt('catid'));
+        $this->setState('contact.catid', $input->getInt('catid'));
 
-        $return = $app->input->get('return', '', 'base64');
+        $return = $input->get('return', '', 'base64');
         $this->setState('return_page', base64_decode($return));
 
         // Load the parameters.
         $params = $app->getParams();
         $this->setState('params', $params);
 
-        $this->setState('layout', $app->input->getString('layout'));
+        $this->setState('layout', $input->getString('layout'));
     }
 
     /**
@@ -226,7 +231,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 
      * @throws  Exception
      */
-    public function getTable($name = 'Contact', $prefix = 'Administrator', $options = array())
+    public function getTable($name = 'Contact', $prefix = 'Administrator', $options = [])
     {
         return parent::getTable($name, $prefix, $options);
     }

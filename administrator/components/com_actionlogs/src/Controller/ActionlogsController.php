@@ -25,6 +25,10 @@ use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Actionlogs list controller class.
  *
@@ -69,7 +73,7 @@ class ActionlogsController extends AdminController
 
         $task = $this->getTask();
 
-        $pks = array();
+        $pks = [];
 
         if ($task == 'exportSelectedLogs') {
             // Get selected logs
@@ -112,7 +116,7 @@ class ActionlogsController extends AdminController
             }
 
             fclose($output);
-            $this->app->triggerEvent('onAfterLogExport', array());
+            $this->app->triggerEvent('onAfterLogExport', []);
             $this->app->close();
         } else {
             $this->setMessage(Text::_('COM_ACTIONLOGS_NO_LOGS_TO_EXPORT'));

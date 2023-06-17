@@ -13,6 +13,10 @@ namespace Joomla\Component\Newsfeeds\Administrator\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * News Feed List field.
  *
@@ -37,7 +41,7 @@ class NewsfeedsField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)

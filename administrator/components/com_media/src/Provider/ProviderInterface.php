@@ -12,6 +12,10 @@ namespace Joomla\Component\Media\Administrator\Provider;
 
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Media provider interface.
  *

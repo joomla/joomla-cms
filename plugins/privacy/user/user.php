@@ -21,6 +21,10 @@ use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Privacy plugin managing Joomla user data
  *
@@ -84,18 +88,18 @@ class PlgPrivacyUser extends PrivacyPlugin
     public function onPrivacyExportRequest(RequestTable $request, User $user = null)
     {
         if (!$user) {
-            return array();
+            return [];
         }
 
         /** @var TableUser $userTable */
         $userTable = User::getTable();
         $userTable->load($user->id);
 
-        $domains = array();
+        $domains   = [];
         $domains[] = $this->createUserDomain($userTable);
         $domains[] = $this->createNotesDomain($userTable);
         $domains[] = $this->createProfileDomain($userTable);
-        $domains[] = $this->createCustomFieldsDomain('com_users.user', array($userTable));
+        $domains[] = $this->createCustomFieldsDomain('com_users.user', [$userTable]);
 
         return $domains;
     }
@@ -120,10 +124,10 @@ class PlgPrivacyUser extends PrivacyPlugin
         }
 
         $pseudoanonymisedData = [
-            'name'      => 'User ID ' . $user->id,
-            'username'  => bin2hex(random_bytes(12)),
-            'email'     => 'UserID' . $user->id . 'removed@email.invalid',
-            'block'     => true,
+            'name'     => 'User ID ' . $user->id,
+            'username' => bin2hex(random_bytes(12)),
+            'email'    => 'UserID' . $user->id . 'removed@email.invalid',
+            'block'    => true,
         ];
 
         $user->bind($pseudoanonymisedData);

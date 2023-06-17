@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\View\CategoryFeedView;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML View class for the Content component
  *
@@ -47,7 +51,7 @@ class FeedView extends CategoryFeedView
         $app               = Factory::getApplication();
         $params            = $app->getParams();
         $item->description = '';
-        $obj = json_decode($item->images);
+        $obj               = json_decode($item->images);
 
         // Set feed image to image_intro or if that's empty, to image_fulltext
         if (!empty($obj->image_intro)) {

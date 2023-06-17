@@ -11,6 +11,10 @@ namespace Joomla\CMS\Serializer\Events;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event for getting extra data attributes for an API Entity
  *
@@ -39,7 +43,7 @@ final class OnGetApiAttributes extends AbstractImmutableEvent
      * @since   4.0.0
      * @throws  \BadMethodCallException
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (
             !\array_key_exists('attributes', $arguments)

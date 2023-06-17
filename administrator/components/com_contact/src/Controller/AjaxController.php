@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The contact controller for ajax requests
  *
@@ -63,7 +67,7 @@ class AjaxController extends BaseController
                 $associations[$lang]->title = $contactTable->name;
             }
 
-            $countContentLanguages = count(LanguageHelper::getContentLanguages(array(0, 1), false));
+            $countContentLanguages = count(LanguageHelper::getContentLanguages([0, 1], false));
 
             if (count($associations) == 0) {
                 $message = Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_MESSAGE_NONE');

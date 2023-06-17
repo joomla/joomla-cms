@@ -9,10 +9,14 @@
 
 namespace Joomla\CMS\String;
 
+use Algo26\IdnaConvert\Exception\AlreadyPunycodeException;
 use Algo26\IdnaConvert\ToIdn;
 use Algo26\IdnaConvert\ToUnicode;
-use Algo26\IdnaConvert\Exception\AlreadyPunycodeException;
 use Joomla\Uri\UriHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla Platform String Punycode Class
@@ -77,9 +81,9 @@ abstract class PunycodeHelper
             return $uri;
         }
 
-        $host = $parsed['host'];
+        $host         = $parsed['host'];
         $hostExploded = explode('.', $host);
-        $newhost = '';
+        $newhost      = '';
 
         foreach ($hostExploded as $hostex) {
             $hostex = static::toPunycode($hostex);
@@ -87,7 +91,7 @@ abstract class PunycodeHelper
         }
 
         $newhost = substr($newhost, 0, -1);
-        $newuri = '';
+        $newuri  = '';
 
         if (!empty($parsed['scheme'])) {
             // Assume :// is required although it is not always.
@@ -139,9 +143,9 @@ abstract class PunycodeHelper
             return $uri;
         }
 
-        $host = $parsed['host'];
+        $host         = $parsed['host'];
         $hostExploded = explode('.', $host);
-        $newhost = '';
+        $newhost      = '';
 
         foreach ($hostExploded as $hostex) {
             $hostex = self::fromPunycode($hostex);
@@ -149,7 +153,7 @@ abstract class PunycodeHelper
         }
 
         $newhost = substr($newhost, 0, -1);
-        $newuri = '';
+        $newuri  = '';
 
         if (!empty($parsed['scheme'])) {
             // Assume :// is required although it is not always.
@@ -198,7 +202,7 @@ abstract class PunycodeHelper
 
         if (!empty($explodedAddress[1])) {
             $domainExploded = explode('.', $explodedAddress[1]);
-            $newdomain = '';
+            $newdomain      = '';
 
             foreach ($domainExploded as $domainex) {
                 $domainex = static::toPunycode($domainex);
@@ -206,7 +210,7 @@ abstract class PunycodeHelper
             }
 
             $newdomain = substr($newdomain, 0, -1);
-            $newEmail = $newEmail . '@' . $newdomain;
+            $newEmail  = $newEmail . '@' . $newdomain;
         }
 
         return $newEmail;
@@ -231,7 +235,7 @@ abstract class PunycodeHelper
 
         if (!empty($explodedAddress[1])) {
             $domainExploded = explode('.', $explodedAddress[1]);
-            $newdomain = '';
+            $newdomain      = '';
 
             foreach ($domainExploded as $domainex) {
                 $domainex = static::fromPunycode($domainex);
@@ -239,7 +243,7 @@ abstract class PunycodeHelper
             }
 
             $newdomain = substr($newdomain, 0, -1);
-            $newEmail = $newEmail . '@' . $newdomain;
+            $newEmail  = $newEmail . '@' . $newdomain;
         }
 
         return $newEmail;

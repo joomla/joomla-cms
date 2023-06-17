@@ -15,6 +15,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\UserHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! System Remember Me Plugin
  *
@@ -59,7 +63,7 @@ class PlgSystemRemember extends CMSPlugin
             $cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
 
             // Check for the cookie
-            if ($this->app->input->cookie->get($cookieName)) {
+            if ($this->app->getInput()->cookie->get($cookieName)) {
                 $this->app->login(['username' => ''], ['silent' => true]);
             }
         }
@@ -83,7 +87,7 @@ class PlgSystemRemember extends CMSPlugin
         $cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
 
         // Check for the cookie
-        if ($this->app->input->cookie->get($cookieName)) {
+        if ($this->app->getInput()->cookie->get($cookieName)) {
             // Make sure authentication group is loaded to process onUserAfterLogout event
             PluginHelper::importPlugin('authentication');
         }

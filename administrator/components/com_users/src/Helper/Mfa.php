@@ -29,6 +29,10 @@ use Joomla\Component\Users\Administrator\View\Methods\HtmlView;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper functions for captive MFA handling
  *
@@ -74,7 +78,7 @@ abstract class Mfa
         /** @var CMSApplication $app */
         $app = Factory::getApplication();
 
-        if (!$app->input->getCmd('option', '') === 'com_users') {
+        if (!$app->getInput()->getCmd('option', '') === 'com_users') {
             $app->getLanguage()->load('com_users');
             $app->getDocument()
                 ->getWebAssetManager()

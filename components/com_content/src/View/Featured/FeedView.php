@@ -19,6 +19,10 @@ use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Frontpage View class
  *
@@ -44,7 +48,7 @@ class FeedView extends AbstractView
         $this->document->link = Route::_('index.php?option=com_content&view=featured');
 
         // Get some data from the model
-        $app->input->set('limit', $app->get('feed_limit'));
+        $app->getInput()->set('limit', $app->get('feed_limit'));
         $categories = Categories::getInstance('Content');
         $rows       = $this->get('Items');
 
@@ -60,7 +64,7 @@ class FeedView extends AbstractView
             $link = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language);
 
             $description = '';
-            $obj = json_decode($row->images);
+            $obj         = json_decode($row->images);
 
             // Set feed image to image_intro or if that's empty, to image_fulltext
             if (!empty($obj->image_intro)) {
@@ -77,7 +81,7 @@ class FeedView extends AbstractView
             $item->title    = $title;
             $item->link     = Route::_($link);
             $item->date     = $row->publish_up;
-            $item->category = array();
+            $item->category = [];
 
             // All featured articles are categorized as "Featured"
             $item->category[] = Text::_('JFEATURED');

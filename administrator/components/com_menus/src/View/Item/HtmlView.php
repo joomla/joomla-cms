@@ -18,7 +18,12 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The HTML Menus Menu Item View.
@@ -99,7 +104,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // If we are forcing a language in modal (used for associations).
-        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'cmd')) {
+        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'cmd')) {
             // Set the language field to the forcedLanguage and disable changing it.
             $this->form->setValue('language', null, $forcedLanguage);
             $this->form->setFieldAttribute('language', 'readonly', 'true');
@@ -121,7 +126,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
         $input->set('hidemainmenu', true);
 
         $user       = $this->getCurrentUser();
@@ -129,53 +134,61 @@ class HtmlView extends BaseHtmlView
         $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
         $canDo      = $this->canDo;
         $clientId   = $this->state->get('item.client_id', 0);
+        $toolbar    = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
-
-        $toolbarButtons = [];
 
         // If a new item, can save the item.  Allow users with edit permissions to apply changes to prevent returning to grid.
         if ($isNew && $canDo->get('core.create')) {
             if ($canDo->get('core.edit')) {
-                ToolbarHelper::apply('item.apply');
+                $toolbar->apply('item.apply');
             }
-
-            $toolbarButtons[] = ['save', 'item.save'];
         }
 
         // If not checked out, can save the item.
         if (!$isNew && !$checkedOut && $canDo->get('core.edit')) {
-            ToolbarHelper::apply('item.apply');
-
-            $toolbarButtons[] = ['save', 'item.save'];
+            $toolbar->apply('item.apply');
         }
 
-        // If the user can create new items, allow them to see Save & New
-        if ($canDo->get('core.create')) {
-            $toolbarButtons[] = ['save2new', 'item.save2new'];
-        }
+        $saveGroup = $toolbar->dropdownButton('save-group');
 
-        // If an existing item, can save to a copy only if we have create rights.
-        if (!$isNew && $canDo->get('core.create')) {
-            $toolbarButtons[] = ['save2copy', 'item.save2copy'];
-        }
+        $saveGroup->configure(
+            function (Toolbar $childBar) use ($isNew, $checkedOut, $canDo) {
+                // If a new item, can save the item.  Allow users with edit permissions to apply changes to prevent returning to grid.
+                if ($isNew && $canDo->get('core.create')) {
+                    $childBar->save('item.save');
+                }
 
-        ToolbarHelper::saveGroup(
-            $toolbarButtons,
-            'btn-success'
+                // If not checked out, can save the item.
+                if (!$isNew && !$checkedOut && $canDo->get('core.edit')) {
+                    $childBar->save('item.save');
+                }
+
+                // If the user can create new items, allow them to see Save & New
+                if ($canDo->get('core.create')) {
+                    $childBar->save2new('item.save2new');
+                }
+
+                // If an existing item, can save to a copy only if we have create rights.
+                if (!$isNew && $canDo->get('core.create')) {
+                    $childBar->save2copy('item.save2copy');
+                }
+            }
         );
 
         if (!$isNew && Associations::isEnabled() && ComponentHelper::isEnabled('com_associations') && $clientId != 1) {
-            ToolbarHelper::custom('item.editAssociations', 'contract', '', 'JTOOLBAR_ASSOCIATIONS', false, false);
+            $toolbar->standardButton('associations', 'JTOOLBAR_ASSOCIATIONS', 'item.editAssociations')
+                ->icon('icon-contract')
+                ->listCheck(false);
         }
 
         if ($isNew) {
-            ToolbarHelper::cancel('item.cancel');
+            $toolbar->cancel('item.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            ToolbarHelper::cancel('item.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('item.cancel');
         }
 
-        ToolbarHelper::divider();
+        $toolbar->divider();
 
         // Get the help information for the menu item.
         $lang = Factory::getLanguage();
@@ -190,6 +203,6 @@ class HtmlView extends BaseHtmlView
             $url = $help->url;
         }
 
-        ToolbarHelper::help($help->key, $help->local, $url);
+        $toolbar->help($help->key, $help->local, $url);
     }
 }

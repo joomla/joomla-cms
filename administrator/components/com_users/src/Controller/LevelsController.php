@@ -12,6 +12,10 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 use Joomla\CMS\MVC\Controller\AdminController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * User view levels list controller class.
  *
@@ -36,7 +40,7 @@ class LevelsController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Level', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Level', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

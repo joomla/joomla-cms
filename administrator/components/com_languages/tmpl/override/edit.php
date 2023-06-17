@@ -35,11 +35,7 @@ $wa->useScript('keepalive')
                 <?php echo $this->form->renderField('client'); ?>
                 <?php echo $this->form->renderField('key'); ?>
                 <?php echo $this->form->renderField('override'); ?>
-
-                <?php if ($this->state->get('filter.client') == 'administrator') : ?>
-                    <?php echo $this->form->renderField('both'); ?>
-                <?php endif; ?>
-
+                <?php echo $this->form->renderField('both'); ?>
                 <?php echo $this->form->renderField('file'); ?>
                 </div>
             </fieldset>

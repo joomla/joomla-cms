@@ -16,6 +16,10 @@ use Joomla\CMS\Helper\HelperFactoryAwareInterface;
 use Joomla\CMS\Helper\HelperFactoryInterface;
 use Joomla\Input\Input;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Access to module specific services.
  *
@@ -49,7 +53,7 @@ class Module implements ModuleInterface, HelperFactoryInterface
      *
      * @since   4.0.0
      */
-    public function __construct(ModuleDispatcherFactoryInterface $dispatcherFactory, HelperFactoryInterface $helperFactory)
+    public function __construct(ModuleDispatcherFactoryInterface $dispatcherFactory, ?HelperFactoryInterface $helperFactory)
     {
         $this->dispatcherFactory = $dispatcherFactory;
         $this->helperFactory     = $helperFactory;

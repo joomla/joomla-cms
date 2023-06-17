@@ -387,7 +387,7 @@
         "licenseFilename": "LICENSE.txt"
       },
       "hotkeys-js": {
-        "name": "hotkeys.js",
+        "name": "hotkeysjs",
         "licenseFilename": "LICENSE",
         "js" : {
           "dist/hotkeys.js": "js/hotkeys.js",
@@ -395,7 +395,7 @@
         },
         "provideAssets": [
           {
-            "name": "hotkeys.js",
+            "name": "hotkeysjs",
             "type": "script",
             "uri": "hotkeys.min.js",
             "attributes": {
@@ -699,6 +699,10 @@
             }
           }
         ]
+      },
+      "shepherd.js": {
+        "name": "shepherdjs",
+        "licenseFilename": "LICENSE"
       },
       "short-and-sweet": {
         "name": "short-and-sweet",

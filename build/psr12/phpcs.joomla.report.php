@@ -10,12 +10,10 @@
 
 namespace Joomla\Reports;
 
-use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Files\File;
 
 use function array_keys;
 use function array_merge;
-use function array_values;
 use function file_exists;
 use function file_get_contents;
 use function file_put_contents;
@@ -24,7 +22,6 @@ use function str_replace;
 
 use const JSON_OBJECT_AS_ARRAY;
 use const JSON_PRETTY_PRINT;
-
 
 class Joomla implements \PHP_CodeSniffer\Reports\Report
 {
@@ -85,7 +82,7 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                                   <pre>{$error['message']}</pre>
                                 </div>
                                 HTML;
-                    $this->prepareProcessing($report['filename'],$phpcsFile, $line, $column, $error);
+                    $this->prepareProcessing($report['filename'], $phpcsFile, $line, $column, $error);
                 }
             }
         }
@@ -99,8 +96,8 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
         return true;
     }
 
-    private function prepareProcessing($file, $phpcsFile, $line, $column, $error) {
-
+    private function prepareProcessing($file, $phpcsFile, $line, $column, $error)
+    {
         switch ($error['source']) {
             case 'PSR1.Files.SideEffects.FoundWithSymbols':
                 $fileContent = file_get_contents($file);
@@ -109,12 +106,12 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                     strpos($fileContent, "defined('_JEXEC')") !== false
                     || strpos($fileContent, "defined('JPATH_PLATFORM')") !== false
                     || strpos($fileContent, "defined('JPATH_BASE')") !== false
-            ) {
+                ) {
                     $this->preProcessing[] = [
                         'file' => $file,
                         'line' => $line,
                         'column' => $column,
-                        'cleanup' => 'definedJEXEC'
+                        'cleanup' => 'definedJEXEC',
                     ];
                 } else {
                     $targetFile = $this->tmpDir . '/' . $error['source'] . '.txt';
@@ -143,7 +140,7 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                     'file' => $file,
                     'line' => $line,
                     'column' => $column,
-                    'cleanup' => 'MissingNamespace'
+                    'cleanup' => 'MissingNamespace',
                 ];
                 break;
 
@@ -156,7 +153,7 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                         'file' => $file,
                         'line' => $line,
                         'column' => $column,
-                        'cleanup' => 'ValidClassNameNotCamelCaps'
+                        'cleanup' => 'ValidClassNameNotCamelCaps',
                     ];
                 }
                 break;
@@ -166,7 +163,7 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                     'file' => $file,
                     'line' => $line,
                     'column' => $column,
-                    'cleanup' => 'SpaceAfterCloseBrace'
+                    'cleanup' => 'SpaceAfterCloseBrace',
                 ];
                 break;
 
@@ -175,7 +172,7 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                     'file' => $file,
                     'line' => $line,
                     'column' => $column,
-                    'cleanup' => 'ConstantVisibility'
+                    'cleanup' => 'ConstantVisibility',
                 ];
                 break;
 
@@ -183,7 +180,6 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
             case 'PSR2.Methods.MethodDeclaration.Underscore':
             case 'PSR1.Classes.ClassDeclaration.MultipleClasses':
             case 'PSR1.Methods.CamelCapsMethodName.NotCamelCaps':
-
                 $targetFile = $this->tmpDir . '/' . $error['source'] . '.txt';
                 $fileContent = '';
                 if (file_exists($targetFile)) {
@@ -233,14 +229,13 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
         $interactive = false,
         $toScreen = true
     ) {
-
         $preprocessing = [];
-        if (file_exists($this->tmpDir .'/cleanup.json')) {
-            $preprocessing = json_decode(file_get_contents($this->tmpDir .'/cleanup.json'), JSON_OBJECT_AS_ARRAY);
+        if (file_exists($this->tmpDir . '/cleanup.json')) {
+            $preprocessing = json_decode(file_get_contents($this->tmpDir . '/cleanup.json'), JSON_OBJECT_AS_ARRAY);
         }
 
         $preprocessing = array_merge($this->preProcessing, $preprocessing);
-        file_put_contents($this->tmpDir .'/cleanup.json', json_encode($preprocessing, JSON_PRETTY_PRINT));
+        file_put_contents($this->tmpDir . '/cleanup.json', json_encode($preprocessing, JSON_PRETTY_PRINT));
     }
 
     private function getTemplate($section)

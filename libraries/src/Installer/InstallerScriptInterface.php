@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Installer;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base install script interface for use by extensions providing helper methods for common behaviours.
  *

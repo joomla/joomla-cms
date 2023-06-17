@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Tests
  * @subpackage  AcceptanceTester
@@ -7,6 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// phpcs:ignoreFile
 use Codeception\Actor;
 use Codeception\Lib\Friend;
 
@@ -33,53 +35,52 @@ use Codeception\Lib\Friend;
  */
 class AcceptanceTester extends Actor
 {
-	use _generated\AcceptanceTesterActions;
+    use _generated\AcceptanceTesterActions;
 
-	/**
-	 * Function to check for PHP Notices or Warnings.
-	 *
-	 * @param   string  $page  Optional, if not given checks will be done in the current page
-	 *
-	 * @note    doAdminLogin() before
-	 *
-	 * @since   3.7.3
-	 *
-	 * @return  void
-	 */
-	public function checkForPhpNoticesOrWarnings($page = null)
-	{
-		$I = $this;
+    /**
+     * Function to check for PHP Notices or Warnings.
+     *
+     * @param   string  $page  Optional, if not given checks will be done in the current page
+     *
+     * @note    doAdminLogin() before
+     *
+     * @since   3.7.3
+     *
+     * @return  void
+     */
+    public function checkForPhpNoticesOrWarnings($page = null)
+    {
+        $I = $this;
 
-		if ($page)
-		{
-			$I->amOnPage($page);
-		}
+        if ($page) {
+            $I->amOnPage($page);
+        }
 
-		$I->dontSeeInPageSource('Notice:');
-		$I->dontSeeInPageSource('<b>Notice</b>:');
-		$I->dontSeeInPageSource('Warning:');
-		$I->dontSeeInPageSource('<b>Warning</b>:');
-		$I->dontSeeInPageSource('Strict standards:');
-		$I->dontSeeInPageSource('<b>Strict standards</b>:');
-		$I->dontSeeInPageSource('The requested page can\'t be found');
-	}
+        $I->dontSeeInPageSource('Notice:');
+        $I->dontSeeInPageSource('<b>Notice</b>:');
+        $I->dontSeeInPageSource('Warning:');
+        $I->dontSeeInPageSource('<b>Warning</b>:');
+        $I->dontSeeInPageSource('Strict standards:');
+        $I->dontSeeInPageSource('<b>Strict standards</b>:');
+        $I->dontSeeInPageSource('The requested page can\'t be found');
+    }
 
-	/**
-	 * Function to wait for JS to be properly loaded on page change.
-	 *
-	 * @param   integer|float  $timeout  Time to wait for JS to be ready
-	 *
-	 * @since   4.0.0
-	 *
-	 * @return  void
-	 */
-	public function waitForJsOnPageLoad($timeout = 1)
-	{
-		$I = $this;
+    /**
+     * Function to wait for JS to be properly loaded on page change.
+     *
+     * @param   integer|float  $timeout  Time to wait for JS to be ready
+     *
+     * @since   4.0.0
+     *
+     * @return  void
+     */
+    public function waitForJsOnPageLoad($timeout = 1)
+    {
+        $I = $this;
 
-		$I->waitForJS('return document.readyState == "complete"', $timeout);
+        $I->waitForJS('return document.readyState == "complete"', $timeout);
 
-		// Wait an additional 500ms to make sure that really all JS is loaded
-		$I->wait(0.5);
-	}
+        // Wait an additional 500ms to make sure that really all JS is loaded
+        $I->wait(0.5);
+    }
 }

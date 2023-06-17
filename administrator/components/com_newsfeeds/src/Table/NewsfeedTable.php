@@ -21,6 +21,10 @@ use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Newsfeed Table class.
  *
@@ -44,7 +48,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
      * @var    array
      * @since  3.3
      */
-    protected $_jsonEncode = array('params', 'metadata', 'images');
+    protected $_jsonEncode = ['params', 'metadata', 'images'];
 
     /**
      * Constructor
@@ -107,7 +111,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
         // Clean up description -- eliminate quotes and <> brackets
         if (!empty($this->metadesc)) {
             // Only process if not empty
-            $bad_characters = array("\"", '<', '>');
+            $bad_characters = ["\"", '<', '>'];
             $this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
         }
 
@@ -166,10 +170,15 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
         }
 
         // Verify that the alias is unique
-        $table = Table::getInstance('NewsfeedTable', __NAMESPACE__ . '\\', array('dbo' => $this->_db));
+        $table = Table::getInstance('NewsfeedTable', __NAMESPACE__ . '\\', ['dbo' => $this->_db]);
 
-        if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0)) {
+        if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
+            // Is the existing newsfeed trashed?
             $this->setError(Text::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS'));
+
+            if ($table->published === -2) {
+                $this->setError(Text::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS_TRASHED'));
+            }
 
             return false;
         }
