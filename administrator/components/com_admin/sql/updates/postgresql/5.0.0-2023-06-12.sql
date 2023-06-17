@@ -1,2 +1,3 @@
 INSERT INTO "#__extensions" ("name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
-('plg_task_rotatelogs', 'plugin', 'rotatelogs', 'task', 0, 1, 1, 0, 1, '', '{}', '', NULL, NULL, 0, 0);
+('plg_task_rotatelogs', 'plugin', 'rotatelogs', 'task', 0, 1, 1, 0, 1, '', '{}', '', NULL, NULL, 0, 0),
+('plg_task_deletelogs', 'plugin', 'deletelogs', 'task', 0, 1, 1, 0, 1, '', '{}', '', NULL, NULL, 0, 0);

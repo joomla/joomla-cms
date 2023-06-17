@@ -27,7 +27,7 @@ use Joomla\Filesystem\Path;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * A task plugin. Offers 2 task routines Delete Action Logs and Rotate Logs
+ * A task plugin. Offers 1 task routines Rotate Logs
  * {@see ExecuteTaskEvent}.
  *
  * @since __DEPLOY_VERSION__
@@ -42,11 +42,6 @@ final class RotateLogs extends CMSPlugin implements SubscriberInterface
      * @since __DEPLOY_VERSION__
      */
     private const TASKS_MAP = [
-        'delete.logs' => [
-            'langConstPrefix' => 'PLG_TASK_ROTATELOGS_DELETE',
-            'method'          => 'deleteLogs',
-            'form'            => 'deleteForm',
-        ],
         'rotation.logs' => [
             'langConstPrefix' => 'PLG_TASK_ROTATELOGS_ROTATION',
             'method'          => 'rotateLogs',
@@ -74,44 +69,6 @@ final class RotateLogs extends CMSPlugin implements SubscriberInterface
             'onExecuteTask'        => 'standardRoutineHandler',
             'onContentPrepareForm' => 'enhanceTaskItemForm',
         ];
-    }
-
-    /**
-     * @param   ExecuteTaskEvent  $event  The `onExecuteTask` event.
-     *
-     * @return integer  The routine exit code.
-     *
-     * @since  __DEPLOY_VERSION__
-     * @throws \Exception
-     */
-    private function deleteLogs(ExecuteTaskEvent $event): int
-    {
-        $daysToDeleteAfter = (int) $event->getArgument('params')->logDeletePeriod ?? 0;
-        $this->logTask(sprintf('Delete Logs after %d days', $daysToDeleteAfter));
-        $now               = Factory::getDate()->toSql();
-        $db                = $this->getDatabase();
-        $query             = $db->getQuery(true);
-
-        if ($daysToDeleteAfter > 0) {
-            $days = -1 * $daysToDeleteAfter;
-
-            $query->clear()
-                ->delete($db->quoteName('#__action_logs'))
-                ->where($db->quoteName('log_date') . ' < ' . $query->dateAdd($db->quote($now), $days, 'DAY'));
-
-            $db->setQuery($query);
-
-            try {
-                $db->execute();
-            } catch (\RuntimeException $e) {
-                // Ignore it
-                return Status::KNOCKOUT;
-            }
-        }
-
-        $this->logTask('Delete Logs end');
-
-        return Status::OK;
     }
 
     /**

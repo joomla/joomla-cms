@@ -5,7 +5,7 @@
 			<field
 				name="logDeletePeriod"
 				type="number"
-				label="PLG_TASK_ROTATELOGS_LOG_DELETE_PERIOD"
+				label="PLG_TASK_DELETELOGS_LOG_DELETE_PERIOD"
 				default="7"
 				min="1"
 				filter="int"

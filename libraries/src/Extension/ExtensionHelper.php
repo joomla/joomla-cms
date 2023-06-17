@@ -312,6 +312,7 @@ class ExtensionHelper
         ['plugin', 'requests', 'task', 0],
         ['plugin', 'sitestatus', 'task', 0],
         ['plugin', 'rotatelogs', 'task', 0],
+        ['plugin', 'deletelogs', 'task', 0],
 
         // Core plugin extensions - user
         ['plugin', 'contactcreator', 'user', 0],
