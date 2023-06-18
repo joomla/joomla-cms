@@ -154,7 +154,7 @@ class HtmlView extends BaseHtmlView
         // Need to load the menu language file as mod_menu hasn't been loaded yet.
         $lang = Factory::getLanguage();
         $lang->load($component, JPATH_BASE)
-        || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+            || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
 
         // Get the results for each action.
         $canDo = $this->canDo;
@@ -189,8 +189,7 @@ class HtmlView extends BaseHtmlView
                 . ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-category-' . ($isNew ? 'add' : 'edit')
         );
 
-        // For new records, check the create permission.
-        if ($isNew && (count($user->getAuthorisedCategories($component, 'core.create')) > 0)) {
+        if ($isNew) {
             $toolbar->apply('category.apply');
             $saveGroup = $toolbar->dropdownButton('save-group');
 
