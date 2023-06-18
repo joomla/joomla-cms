@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -229,6 +230,7 @@ class JoomlaInstallerScript
              * 'pre_function' => Name of an optional migration function to be called before
              *                   uninstalling, `null` if not used.
              */
+            ['type' => 'plugin', 'element' => 'updatenotification', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrate'],
         ];
 
         $db = Factory::getDbo();
@@ -279,6 +281,44 @@ class JoomlaInstallerScript
                 throw $e;
             }
         }
+    }
+
+    /**
+     * This method is just for testing.
+     *
+     * @param   \stdClass  $data  Object with `extension_id` and `params` of the extension
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function migrate($data)
+    {
+        if (!$data->enabled) {
+            return;
+        }
+
+        $params = new Registry($data->params);
+        /** @var SchedulerComponent $component */
+        $component = Factory::getApplication()->bootComponent('com_scheduler');
+
+        /** @var TaskModel $model */
+        $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+        $task = [
+            'title' => 'UpdateNotification',
+            'type'  => 'update.notification',
+            'execution_rules' => [
+                'rule-type' => 'interval-hours',
+                'interval-hours' => '24',
+                'exec-time' => '08:26',
+            ],
+            'state' => 1,
+            'params' => [
+                'email' => $params->get('email',''),
+                'language_override' => $params->get('language_override',''),
+            ]
+        ];
+        $model->save($task);
     }
 
     /**
