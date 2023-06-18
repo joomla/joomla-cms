@@ -230,7 +230,7 @@ class JoomlaInstallerScript
              * 'pre_function' => Name of an optional migration function to be called before
              *                   uninstalling, `null` if not used.
              */
-            ['type' => 'plugin', 'element' => 'updatenotification', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrate'],
+            ['type' => 'plugin', 'element' => 'updatenotification', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'updatenotification_plugin_migration'],
         ];
 
         $db = Factory::getDbo();
@@ -284,7 +284,7 @@ class JoomlaInstallerScript
     }
 
     /**
-     * This method is just for testing.
+     * This method is for migration for old updatenotification system plugin migration to task.
      *
      * @param   \stdClass  $data  Object with `extension_id` and `params` of the extension
      *
@@ -292,7 +292,7 @@ class JoomlaInstallerScript
      *
      * @since   __DEPLOY_VERSION__
      */
-    private function migrate($data)
+    private function updatenotification_plugin_migration($data)
     {
         if (!$data->enabled) {
             return;
