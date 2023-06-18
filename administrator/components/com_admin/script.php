@@ -292,7 +292,7 @@ class JoomlaInstallerScript
      *
      * @since   __DEPLOY_VERSION__
      */
-    private function updatenotification_plugin_migration($data)
+    private function migrateUpdatenotificationPlugin($data)
     {
         if (!$data->enabled) {
             return;
