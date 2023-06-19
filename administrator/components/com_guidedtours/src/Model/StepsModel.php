@@ -232,6 +232,13 @@ class StepsModel extends ListModel
         foreach ($items as $item) {
             $item->title       = Text::_($item->title);
             $item->description = Text::_($item->description);
+
+			if (isset($item->params)) {
+				$params = new Registry($item->params);
+				if (isset($item->params->requiredvalue) && !empty($item->params->requiredvalue)) {
+					$item->params->requiredvalue = Text::_($item->params->requiredvalue);
+				}
+			}
         }
 
         return $items;

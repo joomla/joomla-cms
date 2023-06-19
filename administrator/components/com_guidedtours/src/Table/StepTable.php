@@ -10,11 +10,13 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Table;
 
+use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -48,6 +50,28 @@ class StepTable extends Table implements CurrentUserInterface
     {
         parent::__construct('#__guidedtour_steps', 'id', $db);
     }
+
+	/**
+	 * Overloaded bind function.
+	 *
+	 * @param   array   $array   named array
+	 * @param   string  $ignore  An optional array or space separated list of properties
+	 *                           to ignore while binding.
+	 *
+	 * @return  mixed   Null if operation was satisfactory, otherwise returns an error
+	 *
+	 * @see     Table::bind()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function bind($array, $ignore = '')
+	{
+		if (isset($array['params']) && \is_array($array['params'])) {
+			$registry        = new Registry($array['params']);
+			$array['params'] = (string) $registry;
+		}
+
+		return parent::bind($array, $ignore);
+	}
 
     /**
      * Stores a step.

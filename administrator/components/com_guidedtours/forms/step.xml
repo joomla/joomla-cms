@@ -209,6 +209,20 @@
 					<option value="1">JYES</option>
 				</field>
 
+				<field
+						name="requiredvalue"
+						type="text"
+						label="COM_GUIDEDTOURS_TYPE_INPUT_REQUIRED_VALUE_LABEL"
+						description="COM_GUIDEDTOURS_TYPE_INPUT_REQUIRED_VALUE_DESC"
+						showon=".type:2[AND].interactive_type:2[AND]required:1"
+						filter="safehtml"
+						size="80"
+						default=""
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
 			</fieldset>
 		</fieldset>
 	</fields>
