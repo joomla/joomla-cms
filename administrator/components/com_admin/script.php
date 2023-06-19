@@ -10,6 +10,7 @@
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -296,7 +297,12 @@ class JoomlaInstallerScript
     {
         if (!$data->enabled) {
             return;
-        }
+    }
+     
+        // Get the timeout for Joomla! updates, as configured in com_installer's component parameters
+        $component = ComponentHelper::getComponent('com_installer');
+        $paramsc   = $component->getParams();
+        $cache_timeout = (int) $paramsc->get('cachetimeout', 6);
 
         $params = new Registry($data->params);
         /** @var SchedulerComponent $component */
@@ -309,7 +315,7 @@ class JoomlaInstallerScript
             'type'  => 'update.notification',
             'execution_rules' => [
                 'rule-type' => 'interval-hours',
-                'interval-hours' => '24',
+                'interval-hours' => $cache_timeout,
                 'exec-time' => '08:26',
             ],
             'state' => 1,
