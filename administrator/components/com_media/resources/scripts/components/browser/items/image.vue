@@ -77,7 +77,7 @@ export default {
       }
 
       return this.item.thumb_path.split(Joomla.getOptions('system.paths').rootFull).length > 1
-        ? `${this.item.thumb_path}?${api.mediaVersion}`
+        ? `${this.item.thumb_path}?${this.item.modified_date ? this.item.modified_date : api.mediaVersion}`
         : `${this.item.thumb_path}`;
     },
     width() {
