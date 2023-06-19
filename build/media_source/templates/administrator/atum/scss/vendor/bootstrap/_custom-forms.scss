@@ -52,6 +52,8 @@
 
   &:disabled {
     cursor: default;
+    background-color: #e8e8e8;
+    background-image: none;
     border: 0;
     box-shadow: none;
   }

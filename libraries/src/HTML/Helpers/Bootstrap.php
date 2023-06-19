@@ -376,7 +376,7 @@ abstract class Bootstrap
                 'animation'         => isset($options['animation']) ? (bool) $options['animation'] : true,
                 'container'         => isset($options['container']) ? $options['container'] : 'body',
                 'content'           => isset($options['content']) ? $options['content'] : null,
-                'delay'             => isset($options['delay']) ? (int) $options['delay'] : [ 'show' => 50, 'hide' => 200 ],
+                'delay'             => isset($options['delay']) ? (int) $options['delay'] : ['show' => 50, 'hide' => 200],
                 'html'              => isset($options['html']) ? (bool) $options['html'] : true,
                 'placement'         => isset($options['placement']) ? $options['placement'] : null,
                 'selector'          => isset($options['selector']) ? $options['selector'] : false,
@@ -595,7 +595,10 @@ abstract class Bootstrap
      * @return  void
      *
      * @since   3.0
-     * @deprecated 5.0
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacement
+     *              Load the different scripts with their individual method calls
      */
     public static function framework($debug = null): void
     {

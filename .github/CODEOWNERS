@@ -25,15 +25,15 @@ libraries/src/Installer/*  @rdeutz @zero-24
 libraries/src/Updater/*  @rdeutz @zero-24
 
 # Automated Testing
-tests/*  @hackwar
+tests/*  @hackwar @fancyFranci
 tests/Codeception/*  @rdeutz
 tests/javascript/*  @rdeutz
 tests/Unit/*  @rdeutz
-.appveyor.yml  @rdeutz @hackwar
-.drone.yml  @rdeutz @hackwar
-codeception.yml  @rdeutz @hackwar
-phpunit.xml.dist  @rdeutz @hackwar
-phpunit-pgsql.xml.dist  @rdeutz @hackwar
+.appveyor.yml  @rdeutz @hackwar @fancyFranci
+.drone.yml  @rdeutz @hackwar @fancyFranci
+codeception.yml  @rdeutz @hackwar @fancyFranci
+phpunit.xml.dist  @rdeutz @hackwar @fancyFranci
+phpunit-pgsql.xml.dist  @rdeutz @hackwar @fancyFranci
 
 # HttpHeaders Plugin
 plugins/system/httpheaders/*  @zero-24

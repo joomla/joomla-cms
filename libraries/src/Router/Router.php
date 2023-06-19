@@ -101,7 +101,9 @@ class Router
      *
      * @throws     \RuntimeException
      *
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     * @deprecated  4.0 will be removed in 6.0
+     *              Inject the router or load it from the dependency injection container
+     *              Example: Factory::getContainer()->get(SiteRouter::class);
      */
     public static function getInstance($client, $options = [])
     {
