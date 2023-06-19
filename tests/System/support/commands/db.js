@@ -1,4 +1,49 @@
 /**
+ * The global cached default categories
+ */
+globalThis.joomlaCategories = [];
+
+/**
+ * Does return the default category id for the given extension with the name 'Uncategorized' from the default installation.
+ *
+ * The data is cached for performance reasons in the globalThis object
+ *
+ * @param {string} extension The extension
+ *
+ * @returns integer
+ */
+function getDefaultCategoryId(extension) {
+  if (globalThis.joomlaCategories[extension] !== undefined) {
+    return cy.wrap(globalThis.joomlaCategories[extension]);
+  }
+
+  return cy.task('queryDB', `SELECT id FROM #__categories where extension = '${extension}' AND title = 'Uncategorised' ORDER BY id ASC LIMIT 1`)
+    .then(async (data) => {
+      // Cache
+      globalThis.joomlaCategories[extension] = data[0].id;
+      return data[0].id;
+    });
+}
+
+/**
+ * Returns an insert query for the given database and fields.
+ *
+ * @param {string} table The DB table name
+ * @param {Object} values The values to insert
+ *
+ * @returns string
+ */
+function createInsertQuery(table, values) {
+  let query = `INSERT INTO #__${table} (\`${Object.keys(values).join('\`, \`')}\`) VALUES (:${Object.keys(values).join(',:')})`;
+
+  Object.keys(values).forEach((variable) => {
+    query = query.replace(`:${variable}`, `'${values[variable]}'`);
+  });
+
+  return query;
+}
+
+/**
  * Creates an article in the database with the given data. The article contains some default values when
  * not all required fields are passed in the given data. The id of the inserted article is returned.
  *
@@ -421,48 +466,3 @@ Cypress.Commands.add('db_getUserId', () => {
       return id[0].id;
     });
 });
-
-/**
- * The global cached default categories
- */
-globalThis.joomlaCategories = [];
-
-/**
- * Does return the default category id for the given extension with the name 'Uncategorized' from the default installation.
- *
- * The data is cached for performance reasons in the globalThis object
- *
- * @param {string} extension The extension
- *
- * @returns integer
- */
-function getDefaultCategoryId(extension) {
-  if (globalThis.joomlaCategories[extension] !== undefined) {
-    return cy.wrap(globalThis.joomlaCategories[extension]);
-  }
-
-  return cy.task('queryDB', `SELECT id FROM #__categories where extension = '${extension}' AND title = 'Uncategorised' ORDER BY id ASC LIMIT 1`)
-    .then(async (data) => {
-      // Cache
-      globalThis.joomlaCategories[extension] = data[0].id;
-      return data[0].id;
-    });
-}
-
-/**
- * Returns an insert query for the given database and fields.
- *
- * @param {string} table The DB table name
- * @param {Object} values The values to insert
- *
- * @returns string
- */
-function createInsertQuery(table, values) {
-  let query = `INSERT INTO #__${table} (\`${Object.keys(values).join('\`, \`')}\`) VALUES (:${Object.keys(values).join(',:')})`;
-
-  Object.keys(values).forEach((variable) => {
-    query = query.replace(`:${variable}`, `'${values[variable]}'`);
-  });
-
-  return query;
-}

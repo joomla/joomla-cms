@@ -23,7 +23,7 @@ describe('Test in frontend that the content category view', () => {
     });
 
     it(`can display a list of articles in the ${layout} layout without a menu item`, () => {
-      cy.db_createArticle({ title: 'article 1'})
+      cy.db_createArticle({ title: 'article 1' })
         .then((article) => cy.db_createArticle({ title: 'article 2', catid: article.catid }))
         .then((article) => cy.db_createArticle({ title: 'article 3', catid: article.catid }))
         .then((article) => cy.db_createArticle({ title: 'article 4', catid: article.catid }))
