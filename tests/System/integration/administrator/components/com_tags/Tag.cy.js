@@ -1,5 +1,9 @@
 describe('Test in backend that the tag form', () => {
-  beforeEach(() => cy.doAdministratorLogin());
+  beforeEach(() => {
+    cy.doAdministratorLogin();
+    // Clear the filter
+    cy.visit('/administrator/index.php?option=com_tags&filter=');
+  });
   afterEach(() => cy.task('queryDB', "DELETE FROM #__tags WHERE title = 'Test tag'"));
 
   it('can create a tag', () => {
@@ -22,7 +26,7 @@ describe('Test in backend that the tag form', () => {
   });
 
   it('check redirection to list view', () => {
-    cy.visit('administrator/index.php?option=com_tags&task=tag.add');
+    cy.visit('/administrator/index.php?option=com_tags&task=tag.add');
     cy.intercept('index.php?option=com_tags&view=tags').as('listview');
     cy.clickToolbarButton('Cancel');
 

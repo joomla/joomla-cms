@@ -1,5 +1,9 @@
 describe('Test in backend that the field form', () => {
-  beforeEach(() => cy.doAdministratorLogin());
+  beforeEach(() => {
+    cy.doAdministratorLogin();
+    // Clear the filter
+    cy.visit('/administrator/index.php?option=com_fields&filter=');
+  });
   afterEach(() => cy.task('queryDB', "DELETE FROM #__fields WHERE title = 'Test field'"));
 
   it('can create a field', () => {
@@ -12,7 +16,7 @@ describe('Test in backend that the field form', () => {
   });
 
   it('check redirection to list view', () => {
-    cy.visit('administrator/index.php?option=com_fields&task=field.add&context=com_content.article');
+    cy.visit('/administrator/index.php?option=com_fields&task=field.add&context=com_content.article');
     cy.intercept('index.php?option=com_fields&view=fields&context=com_content.article').as('listview');
     cy.clickToolbarButton('Cancel');
 

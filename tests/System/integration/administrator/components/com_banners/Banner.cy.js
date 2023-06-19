@@ -1,5 +1,9 @@
 describe('Test in backend that the banners form', () => {
-  beforeEach(() => cy.doAdministratorLogin());
+  beforeEach(() => {
+    cy.doAdministratorLogin();
+    // Clear the filter
+    cy.visit('/administrator/index.php?option=com_banners&filter=');
+  });
   afterEach(() => cy.task('queryDB', "DELETE FROM #__banners WHERE name = 'Test banner'"));
 
   it('can create a banner', () => {
@@ -12,7 +16,7 @@ describe('Test in backend that the banners form', () => {
   });
 
   it('check redirection to list view', () => {
-    cy.visit('administrator/index.php?option=com_banners&task=banner.add');
+    cy.visit('/administrator/index.php?option=com_banners&task=banner.add');
     cy.intercept('index.php?option=com_banners&view=banners').as('listview');
     cy.clickToolbarButton('Cancel');
 
@@ -20,8 +24,8 @@ describe('Test in backend that the banners form', () => {
   });
 
   it('can edit a banner', () => {
-    cy.db_createBanner({ name: 'Test Banner' }).then((id) => {
-      cy.visit(`administrator/index.php?option=com_banners&task=banner.edit&id=${id}`);
+    cy.db_createBanner({ name: 'Test Banner' }).then((banner) => {
+      cy.visit(`administrator/index.php?option=com_banners&task=banner.edit&id=${banner.id}`);
       cy.get('#jform_name').clear().type('Test banner edited');
       cy.clickToolbarButton('Save & Close');
 
