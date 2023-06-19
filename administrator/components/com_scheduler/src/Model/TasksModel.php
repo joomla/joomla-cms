@@ -447,7 +447,7 @@ class TasksModel extends ListModel
      * @return boolean
      * @since  __DEPLOY_VERSION__
      */
-    public function hasDueTasks(Date $time)
+    public function hasDueTasks(Date $time): bool
     {
         $db  = $this->getDbo();
         $now = $time->toSql();
