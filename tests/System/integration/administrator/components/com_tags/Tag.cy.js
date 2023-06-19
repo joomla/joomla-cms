@@ -17,7 +17,7 @@ describe('Test in backend that the tag form', () => {
 
   it('can edit a tag', () => {
     cy.db_createTag({ title: 'Test tag' }).then((id) => {
-      cy.visit(`administrator/index.php?option=com_tags&task=tag.edit&id=${id}`);
+      cy.visit(`/administrator/index.php?option=com_tags&task=tag.edit&id=${id}`);
       cy.get('#jform_title').clear().type('Test tag edited');
       cy.clickToolbarButton('Save & Close');
 

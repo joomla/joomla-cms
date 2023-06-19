@@ -16,7 +16,7 @@ describe('Test in frontend that the newsfeeds details view', () => {
     it(`can display a feed without a menu item from ${file}`, () => {
       cy.db_createNewsFeed({ name: 'automated test feed 1', link: `${Cypress.config('baseUrl')}/tests/System/data/com_newsfeeds/${file}.xml` })
         .then((feed) => {
-          cy.visit(`index.php?option=com_newsfeeds&view=newsfeed&id=${feed.id}`);
+          cy.visit(`/index.php?option=com_newsfeeds&view=newsfeed&id=${feed.id}`);
 
           cy.contains('automated test feed 1');
           cy.get('.com-newsfeeds-newsfeed__items').should('exist');

@@ -25,7 +25,7 @@ describe('Test in backend that the banners form', () => {
 
   it('can edit a banner', () => {
     cy.db_createBanner({ name: 'Test Banner' }).then((banner) => {
-      cy.visit(`administrator/index.php?option=com_banners&task=banner.edit&id=${banner.id}`);
+      cy.visit(`/administrator/index.php?option=com_banners&task=banner.edit&id=${banner.id}`);
       cy.get('#jform_name').clear().type('Test banner edited');
       cy.clickToolbarButton('Save & Close');
 

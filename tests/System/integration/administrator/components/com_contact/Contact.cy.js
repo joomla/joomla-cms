@@ -17,7 +17,7 @@ describe('Test in backend that the contact form', () => {
 
   it('can change access level of a test contact', () => {
     cy.db_createContact({ name: 'Test contact' }).then((contact) => {
-      cy.visit(`administrator/index.php?option=com_contact&task=contact.edit&id=${contact.id}`);
+      cy.visit(`/administrator/index.php?option=com_contact&task=contact.edit&id=${contact.id}`);
       cy.get('#jform_access').select('Special');
       cy.clickToolbarButton('Save & Close');
 
