@@ -64,7 +64,7 @@ class BannersHelper
 
             if ($metakeys) {
                 foreach ($metakeys as $metakey) {
-                    $keys = preg_split('/\s*,\s*/', trim($metakey));
+                    $keys     = preg_split('/\s*,\s*/', trim($metakey));
                     $keywords = array_merge($keywords, $keys);
                 }
                 $keywords = array_unique($keywords);
