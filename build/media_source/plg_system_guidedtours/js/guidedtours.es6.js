@@ -74,7 +74,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
     buttons,
     id: stepObj.id,
     arrow: true,
-    params: (typeof stepObj.params !== 'undefined' && stepObj.params !== '') ? JSON.parse(stepObj.params) : [],
+    params: stepObj.params,
     beforeShowPromise() {
       return new Promise((resolve) => {
         // Set graceful fallbacks in case there is an issue with the target.
@@ -132,9 +132,17 @@ function addStepToTourButton(tour, stepObj, buttons) {
           if (
             target.tagName.toLowerCase() === 'input'
             && (target.hasAttribute('required') || (this.options.params.required || 0))
-            && (['email', 'password', 'search', 'tel', 'text', 'url'].includes(target.type))
+            && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(target.type)
           ) {
-            if (target.value.trim().length) {
+            if ((this.options.params.requiredvalue || '') !== '') {
+              if (target.value.trim() === this.options.params.requiredvalue) {
+                primaryButton.removeAttribute('disabled');
+                primaryButton.classList.remove('disabled');
+              } else {
+                primaryButton.setAttribute('disabled', 'disabled');
+                primaryButton.classList.add('disabled');
+              }
+            } else if (target.value.trim().length) {
               primaryButton.removeAttribute('disabled');
               primaryButton.classList.remove('disabled');
             } else {
@@ -365,6 +373,12 @@ function startTour(obj) {
       && obj.steps[index].target
       && obj.steps[index].type === 'interactive'
     ) {
+      if (typeof obj.steps[index].params === 'string' && obj.steps[index].params !== '') {
+        obj.steps[index].params = JSON.parse(obj.steps[index].params);
+      } else {
+        obj.steps[index].params = [];
+      }
+
       const ele = document.querySelector(obj.steps[index].target);
       if (ele) {
         if (obj && obj.steps && obj.steps[index] && obj.steps[index].interactive_type) {
@@ -377,9 +391,18 @@ function startTour(obj) {
 
             case 'text':
               ele.step_id = index;
-              if (ele.hasAttribute('required') && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(ele.type)) {
+              if (
+                (ele.hasAttribute('required') || (obj.steps[index].params.required || 0))
+                && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(ele.type)
+              ) {
                 ['input', 'focus'].forEach((eventName) => ele.addEventListener(eventName, (event) => {
-                  if (event.target.value.trim().length) {
+                  if ((obj.steps[index].params.requiredvalue || '') !== '') {
+                    if (event.target.value.trim() === obj.steps[index].params.requiredvalue) {
+                      enableButton(event);
+                    } else {
+                      disableButton(event);
+                    }
+                  } else if (event.target.value.trim().length) {
                     enableButton(event);
                   } else {
                     disableButton(event);
@@ -390,7 +413,11 @@ function startTour(obj) {
 
             case 'checkbox_radio':
               ele.step_id = index;
-              if (ele.tagName.toLowerCase() === 'input' && (ele.hasAttribute('required')) && ['checkbox', 'radio'].includes(ele.type)) {
+              if (
+                ele.tagName.toLowerCase() === 'input'
+                && (ele.hasAttribute('required') || (obj.steps[index].params.required || 0))
+                && ['checkbox', 'radio'].includes(ele.type)
+              ) {
                 ['click'].forEach((eventName) => ele.addEventListener(eventName, (event) => {
                   if (event.target.checked) {
                     enableButton(event);
