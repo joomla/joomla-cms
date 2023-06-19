@@ -17,9 +17,9 @@ describe('Test that field contact API endpoint', () => {
       default_value: '',
       description: '',
       group_id: 0,
-      label: 'content field',
+      label: 'contact field',
       language: '*',
-      name: 'content-field',
+      name: 'contact-field',
       note: '',
       params: {
         class: '',
