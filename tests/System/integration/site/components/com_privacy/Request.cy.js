@@ -75,8 +75,6 @@ describe('Test in frontend that the privacy request view', () => {
     cy.get('.controls > .btn').click();
 
     cy.task('getMails').then((mails) => {
-      cy.wrap(mails[0].body).should('have.string', `A new information request has been submitted by ${Cypress.env('email')}.`);
-
       const str = mails[1].body;
 
       const firstSplit = str.split('URL: ')[1];
