@@ -31,7 +31,7 @@ class FeedView extends BaseHtmlView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  mixed  A string if successful, otherwise an Error object.
+     * @return  void
      */
     public function display($tpl = null)
     {
@@ -63,7 +63,7 @@ class FeedView extends BaseHtmlView
             $date        = $item->created_time ? date('r', strtotime($item->created_time)) : '';
 
             // Load individual item creator class
-            $feeditem = new FeedItem();
+            $feeditem              = new FeedItem();
             $feeditem->title       = $title;
             $feeditem->link        = '/index.php?option=com_tags&view=tag&id=' . (int) $item->id;
             $feeditem->description = $description;

@@ -9,21 +9,33 @@ window.tinymce.PluginManager.add('highlightPlus', (editor, url) => {
     editor.focus();
     editor.selection.collapse(true);
 
-    if (!editor.settings.codemirror) editor.settings.codemirror = {};
+    editor.options.register('codemirror', {
+      processor: 'object',
+      default: {
+        codemirrorWidth: 800,
+        codemirrorHeight: 550,
+        fullscreen: false,
+        indentOnInit: true,
+        config: {
+          mode: 'htmlmixed',
+          theme: 'default',
+          lineNumbers: true,
+          lineWrapping: true,
+          indentUnit: 2,
+          tabSize: 2,
+          indentWithTabs: true,
+          matchBrackets: true,
+          saveCursorPosition: false,
+          styleActiveLine: true,
+        },
+      },
+    });
+
+    const cmSettings = editor.options.get('codemirror');
 
     // Insert caret marker
-    if (editor.settings.codemirror && editor.settings.codemirror.saveCursorPosition) {
+    if (cmSettings.config.saveCursorPosition) {
       editor.selection.setContent('<span style="display: none;" class="CmCaReT">&#x0;</span>');
-    }
-
-    let codemirrorWidth = 800;
-    if (editor.settings.codemirror.width) {
-      codemirrorWidth = editor.settings.codemirror.width;
-    }
-
-    let codemirrorHeight = 550;
-    if (editor.settings.codemirror.height) {
-      codemirrorHeight = editor.settings.codemirror.height;
     }
 
     const buttonsConfig = [
@@ -43,11 +55,11 @@ window.tinymce.PluginManager.add('highlightPlus', (editor, url) => {
     const config = {
       title: 'Source code',
       url: `${url}/source.html`,
-      width: codemirrorWidth,
-      height: codemirrorHeight,
+      width: cmSettings.width,
+      height: cmSettings.height,
       resizable: true,
       maximizable: true,
-      fullScreen: editor.settings.codemirror.fullscreen,
+      fullScreen: cmSettings.fullscreen,
       saveCursorPosition: false,
       buttons: buttonsConfig,
     };
@@ -64,7 +76,7 @@ window.tinymce.PluginManager.add('highlightPlus', (editor, url) => {
 
     const win = editor.windowManager.openUrl(config);
 
-    if (editor.settings.codemirror.fullscreen) {
+    if (cmSettings.fullscreen) {
       win.fullscreen(true);
     }
   };
@@ -82,4 +94,5 @@ window.tinymce.PluginManager.add('highlightPlus', (editor, url) => {
     onAction: showSourceEditor,
     context: 'tools',
   });
+  editor.addShortcut('Alt+U', 'Opens the code editor', showSourceEditor);
 });

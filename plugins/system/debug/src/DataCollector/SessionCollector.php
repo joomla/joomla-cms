@@ -12,6 +12,7 @@ namespace Joomla\Plugin\System\Debug\DataCollector;
 
 use Joomla\CMS\Factory;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
+use Joomla\Plugin\System\Debug\Extension\Debug;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -41,12 +42,12 @@ class SessionCollector extends AbstractDataCollector
      */
     public function collect()
     {
-        $returnData = [];
+        $returnData  = [];
         $sessionData = Factory::getApplication()->getSession()->all();
 
         // redact value of potentially secret keys
         array_walk_recursive($sessionData, static function (&$value, $key) {
-            if (!preg_match(\PlgSystemDebug::PROTECTED_COLLECTOR_KEYS, $key)) {
+            if (!preg_match(Debug::PROTECTED_COLLECTOR_KEYS, $key)) {
                 return;
             }
 
@@ -84,9 +85,9 @@ class SessionCollector extends AbstractDataCollector
     {
         return [
             'session' => [
-                'icon' => 'key',
-                'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
-                'map' => $this->name . '.data',
+                'icon'    => 'key',
+                'widget'  => 'PhpDebugBar.Widgets.VariableListWidget',
+                'map'     => $this->name . '.data',
                 'default' => '[]',
             ],
         ];

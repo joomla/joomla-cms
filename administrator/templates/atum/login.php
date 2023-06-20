@@ -35,24 +35,23 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], t
 
 // Template params
 $logoBrandLarge  = $this->params->get('logoBrandLarge')
-    ? Uri::root() . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
-    : Uri::root() . 'media/templates/administrator/atum/images/logos/brand-large.svg';
+    ? Uri::root(false) . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
+    : Uri::root(false) . 'media/templates/administrator/atum/images/logos/brand-large.svg';
 $loginLogo = $this->params->get('loginLogo')
-    ? Uri::root() . $this->params->get('loginLogo')
-    : Uri::root() . 'media/templates/administrator/atum/images/logos/login.svg';
+    ? Uri::root(false) . $this->params->get('loginLogo')
+    : Uri::root(false) . 'media/templates/administrator/atum/images/logos/login.svg';
 $logoBrandSmall = $this->params->get('logoBrandSmall')
-    ? Uri::root() . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
-    : Uri::root() . 'media/templates/administrator/atum/images/logos/brand-small.svg';
+    ? Uri::root(false) . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
+    : Uri::root(false) . 'media/templates/administrator/atum/images/logos/brand-small.svg';
 
 $logoBrandLargeAlt = empty($this->params->get('logoBrandLargeAlt')) && empty($this->params->get('emptyLogoBrandLargeAlt'))
-    ? 'alt=""'
-    : 'alt="' . htmlspecialchars($this->params->get('logoBrandLargeAlt', ''), ENT_COMPAT, 'UTF-8') . '"';
+    ? ''
+    : htmlspecialchars($this->params->get('logoBrandLargeAlt', ''), ENT_COMPAT, 'UTF-8');
 $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($this->params->get('emptyLogoBrandSmallAlt'))
-    ? 'alt=""'
-    : 'alt="' . htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8') . '"';
+    ? '' : htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8');
 $loginLogoAlt = empty($this->params->get('loginLogoAlt')) && empty($this->params->get('emptyLoginLogoAlt'))
-    ? 'alt=""'
-    : 'alt="' . htmlspecialchars($this->params->get('loginLogoAlt', ''), ENT_COMPAT, 'UTF-8') . '"';
+    ? ''
+    : htmlspecialchars($this->params->get('loginLogoAlt', ''), ENT_COMPAT, 'UTF-8');
 
 // Get the hue value
 preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
@@ -107,8 +106,8 @@ HTMLHelper::_('bootstrap.dropdown');
         <div class="header-title d-flex">
             <div class="d-flex align-items-center">
                 <div class="logo">
-                    <img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
-                    <img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
+                    <?php echo HTMLHelper::_('image', $logoBrandLarge, $logoBrandLargeAlt, ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
+                    <?php echo HTMLHelper::_('image', $logoBrandSmall, $logoBrandSmallAlt, ['class' => 'logo-collapsed', 'loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                 </div>
             </div>
             <jdoc:include type="modules" name="title" />
@@ -125,7 +124,7 @@ HTMLHelper::_('bootstrap.dropdown');
                 <main class="d-flex justify-content-center align-items-center h-100">
                     <div class="login">
                         <div class="main-brand logo text-center">
-                            <img src="<?php echo $loginLogo; ?>" <?php echo $loginLogoAlt; ?>>
+                            <?php echo HTMLHelper::_('image', $loginLogo, $loginLogoAlt, ['loading' => 'eager', 'decoding' => 'async'], false, 0); ?>
                         </div>
                         <jdoc:include type="component" />
                     </div>

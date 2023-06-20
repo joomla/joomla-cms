@@ -74,7 +74,7 @@ final class Extensionupdate extends CMSPlugin implements SubscriberInterface
 
         $token    = Session::getFormToken() . '=1';
         $options  = [
-            'url' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.find&' . $token,
+            'url'     => Uri::base() . 'index.php?option=com_installer&view=update&task=update.find&' . $token,
             'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token
                 . '&cache_timeout=3600&eid=0&skip=' . ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id,
         ];

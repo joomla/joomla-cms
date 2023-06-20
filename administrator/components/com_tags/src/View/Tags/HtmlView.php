@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -80,11 +81,19 @@ class HtmlView extends BaseHtmlView
     private $isEmptyState = false;
 
     /**
+     * The ordering list for the tags
+     *
+     * @var    array
+     * @since  4.4.0
+     */
+    protected $ordering = [];
+
+    /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  mixed   A string if successful, otherwise an Error object.
+     * @return  void
      */
     public function display($tpl = null)
     {
@@ -131,11 +140,9 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $canDo = ContentHelper::getActions('com_tags');
-        $user  = Factory::getApplication()->getIdentity();
-
-        // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $canDo   = ContentHelper::getActions('com_tags');
+        $user    = Factory::getApplication()->getIdentity();
+        $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(Text::_('COM_TAGS_MANAGER_TAGS'), 'tags');
 
@@ -144,8 +151,8 @@ class HtmlView extends BaseHtmlView
         }
 
         if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $user->authorise('core.admin'))) {
-            $dropdown = $toolbar->dropdownButton('status-group')
-                ->text('JTOOLBAR_CHANGE_STATUS')
+            /** @var DropdownButton $dropdown */
+            $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
                 ->icon('icon-ellipsis-h')
                 ->buttonClass('btn btn-action')
@@ -169,16 +176,14 @@ class HtmlView extends BaseHtmlView
 
             // Add a batch button
             if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state')) {
-                $childBar->popupButton('batch')
-                    ->text('JTOOLBAR_BATCH')
+                $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
                     ->selector('collapseModal')
                     ->listCheck(true);
             }
         }
 
         if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-            $toolbar->delete('tags.delete')
-                ->text('JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('tags.delete', 'JTOOLBAR_EMPTY_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }

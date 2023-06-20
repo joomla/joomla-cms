@@ -17,7 +17,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 $lang   = Factory::getLanguage();
-$user   = Factory::getUser();
+$user   = $this->getCurrentUser();
 $groups = $user->getAuthorisedViewLevels();
 ?>
 

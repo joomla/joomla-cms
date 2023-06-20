@@ -14,7 +14,7 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -97,7 +97,7 @@ abstract class ChangeItem
      * @var    array
      * @since  2.5
      */
-    public $msgElements = array();
+    public $msgElements = [];
 
     /**
      * Checked status
@@ -127,8 +127,8 @@ abstract class ChangeItem
     public function __construct($db, $file, $query)
     {
         $this->updateQuery = $query;
-        $this->file = $file;
-        $this->db = $db;
+        $this->file        = $file;
+        $this->db          = $db;
         $this->buildCheckQuery();
     }
 

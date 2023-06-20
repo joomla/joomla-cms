@@ -43,7 +43,7 @@ final class Contact extends CMSPlugin
      */
     public function onContentPrepare($context, &$row, $params, $page = 0)
     {
-        $allowed_contexts = array('com_content.category', 'com_content.article', 'com_content.featured');
+        $allowed_contexts = ['com_content.category', 'com_content.article', 'com_content.featured'];
 
         if (!in_array($context, $allowed_contexts)) {
             return;
@@ -95,7 +95,7 @@ final class Contact extends CMSPlugin
      */
     private function getContactData($userId)
     {
-        static $contacts = array();
+        static $contacts = [];
 
         // Note: don't use isset() because value could be null.
         if (array_key_exists($userId, $contacts)) {

@@ -54,7 +54,7 @@ class DisplayController extends BaseController
      *
      * @since   3.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -74,7 +74,7 @@ class DisplayController extends BaseController
      *
      * @since   1.5
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         // Get the document object.
         $document = $this->app->getDocument();
@@ -100,7 +100,7 @@ class DisplayController extends BaseController
         // Get and render the view.
         if ($view = $this->getView($vName, $vFormat)) {
             // Get the model for the view.
-            $model = $this->getModel($vName, 'Administrator', array('name' => $vName . '.' . substr($this->extension, 4)));
+            $model = $this->getModel($vName, 'Administrator', ['name' => $vName . '.' . substr($this->extension, 4)]);
 
             // Push the model into the view (as default).
             $view->setModel($model, true);

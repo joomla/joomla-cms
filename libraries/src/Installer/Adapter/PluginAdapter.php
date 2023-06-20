@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Installer\Adapter;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
@@ -19,9 +18,10 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -31,6 +31,14 @@ use Joomla\Database\ParameterType;
  */
 class PluginAdapter extends InstallerAdapter
 {
+    /**
+     * Group of the plugin
+     *
+     * @var    string
+     * @since  4.3.0
+     */
+    protected $group;
+
     /**
      * `<scriptfile>` element of the extension manifest
      *
@@ -59,7 +67,7 @@ class PluginAdapter extends InstallerAdapter
     {
         try {
             $this->currentExtensionId = $this->extension->find(
-                array('type' => $this->type, 'element' => $this->element, 'folder' => $this->group)
+                ['type' => $this->type, 'element' => $this->element, 'folder' => $this->group]
             );
         } catch (\RuntimeException $e) {
             // Install failed, roll back changes
@@ -97,11 +105,12 @@ class PluginAdapter extends InstallerAdapter
 
         // If there is a manifest script, let's copy it.
         if ($this->manifest_script) {
+            $path         = [];
             $path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
             if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles(array($path))) {
+                if (!$this->parent->copyFiles([$path])) {
                     // Install failed, rollback changes
                     throw new \RuntimeException(
                         Text::sprintf(
@@ -156,12 +165,12 @@ class PluginAdapter extends InstallerAdapter
         // Clobber any possible pending updates
         /** @var Update $update */
         $update = Table::getInstance('update');
-        $uid = $update->find(
-            array(
+        $uid    = $update->find(
+            [
                 'element' => $this->element,
                 'type'    => $this->type,
                 'folder'  => $this->group,
-            )
+            ]
         );
 
         if ($uid) {
@@ -283,7 +292,7 @@ class PluginAdapter extends InstallerAdapter
 
         if ($element) {
             $group = strtolower((string) $this->getManifest()->attributes()->group);
-            $name = '';
+            $name  = '';
 
             if (\count($element->children())) {
                 foreach ($element->children() as $file) {
@@ -296,8 +305,8 @@ class PluginAdapter extends InstallerAdapter
 
             if ($name) {
                 $extension = "plg_{$group}_{$name}";
-                $source = $path ?: JPATH_PLUGINS . "/$group/$name";
-                $folder = (string) $element->attributes()->folder;
+                $source    = $path ?: JPATH_PLUGINS . "/$group/$name";
+                $folder    = (string) $element->attributes()->folder;
 
                 if ($folder && file_exists("$path/$folder")) {
                     $source = "$path/$folder";
@@ -506,7 +515,7 @@ class PluginAdapter extends InstallerAdapter
 
             // Since we have created a plugin item, we add it to the installation step stack
             // so that if we have to rollback the changes we can undo it.
-            $this->parent->pushStep(array('type' => 'extension', 'id' => $this->extension->extension_id));
+            $this->parent->pushStep(['type' => 'extension', 'id' => $this->extension->extension_id]);
         }
     }
 
@@ -519,7 +528,7 @@ class PluginAdapter extends InstallerAdapter
      */
     public function discover()
     {
-        $results = array();
+        $results     = [];
         $folder_list = Folder::folders(JPATH_SITE . '/plugins');
 
         foreach ($folder_list as $folder) {
@@ -527,7 +536,7 @@ class PluginAdapter extends InstallerAdapter
 
             foreach ($file_list as $file) {
                 $manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . '/plugins/' . $folder . '/' . $file);
-                $file = File::stripExt($file);
+                $file             = File::stripExt($file);
 
                 // Ignore example plugins
                 if ($file === 'example' || $manifest_details === false) {
@@ -597,12 +606,12 @@ class PluginAdapter extends InstallerAdapter
          * Similar to modules and templates, rather easy
          * If it's not in the extensions table we just add it
          */
-        $client = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
+        $client       = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
         $manifestPath = $client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element . '/'
             . $this->parent->extension->element . '.xml';
         $this->parent->manifest = $this->parent->isManifest($manifestPath);
         $this->parent->setPath('manifest', $manifestPath);
-        $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
+        $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
         $this->parent->extension->manifest_cache = json_encode($manifest_details);
 
         $this->parent->extension->name = $manifest_details['name'];

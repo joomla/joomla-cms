@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -37,8 +37,8 @@ class PasswordRule extends FormRule
      * @param   string             $group    The field name group control value. This acts as an array container for the field.
      *                                       For example if the field has name="foo" and the group value is set to "bar" then the
      *                                       full field name would end up being "bar[foo]".
-     * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
-     * @param   Form               $form     The form object for which the field is being tested.
+     * @param   ?Registry          $input    An optional Registry object with the entire data set to validate against the entire form.
+     * @param   ?Form              $form     The form object for which the field is being tested.
      *
      * @return  boolean  True if the value is valid, false otherwise.
      *
@@ -75,13 +75,13 @@ class PasswordRule extends FormRule
                 $meterp            = $params->get('meter');
                 $thresholdp        = $params->get('threshold', 66);
 
-                empty($minimumLengthp) ? : $minimumLength = (int) $minimumLengthp;
-                empty($minimumIntegersp) ? : $minimumIntegers = (int) $minimumIntegersp;
-                empty($minimumSymbolsp) ? : $minimumSymbols = (int) $minimumSymbolsp;
-                empty($minimumUppercasep) ? : $minimumUppercase = (int) $minimumUppercasep;
-                empty($minimumLowercasep) ? : $minimumLowercase = (int) $minimumLowercasep;
-                empty($meterp) ? : $meter = $meterp;
-                empty($thresholdp) ? : $threshold = $thresholdp;
+                empty($minimumLengthp) ?: $minimumLength       = (int) $minimumLengthp;
+                empty($minimumIntegersp) ?: $minimumIntegers   = (int) $minimumIntegersp;
+                empty($minimumSymbolsp) ?: $minimumSymbols     = (int) $minimumSymbolsp;
+                empty($minimumUppercasep) ?: $minimumUppercase = (int) $minimumUppercasep;
+                empty($minimumLowercasep) ?: $minimumLowercase = (int) $minimumLowercasep;
+                empty($meterp) ?: $meter                       = $meterp;
+                empty($thresholdp) ?: $threshold               = $thresholdp;
             }
         }
 

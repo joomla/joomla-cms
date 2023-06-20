@@ -194,7 +194,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($this->isAdmin && $this->getLayout() === 'default') {
-            $bar = Toolbar::getInstance();
+            $bar    = Toolbar::getInstance();
             $button = (new BasicButton('user-mfa-submit'))
                 ->text($this->renderOptions['submit_text'])
                 ->icon($this->renderOptions['submit_icon']);

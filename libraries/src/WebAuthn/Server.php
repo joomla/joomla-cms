@@ -53,7 +53,7 @@ use Webauthn\TokenBinding\TokenBindingHandler;
 /**
  * WebAuthn server abstraction Class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  5.0.0
  * @internal
  */
 final class Server
@@ -62,7 +62,7 @@ final class Server
      * Default WebAuthn timeout in milliseconds
      *
      * @var int
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     public int $timeout = 60000;
 
@@ -70,7 +70,7 @@ final class Server
      * Random challenge size in bytes
      *
      * @var int
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     public int $challengeSize = 32;
 
@@ -78,7 +78,7 @@ final class Server
      * The relaying party entity
      *
      * @var PublicKeyCredentialRpEntity
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private PublicKeyCredentialRpEntity $rpEntity;
 
@@ -86,7 +86,7 @@ final class Server
      * COSE algorithm manager factory instance
      *
      * @var ManagerFactory
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private ManagerFactory $coseAlgorithmManagerFactory;
 
@@ -94,7 +94,7 @@ final class Server
      * Public Key credential source respoitory instance
      *
      * @var PublicKeyCredentialSourceRepository
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private PublicKeyCredentialSourceRepository $publicKeyCredentialSourceRepository;
 
@@ -102,7 +102,7 @@ final class Server
      * Token binding handler
      *
      * @var TokenBindingHandler
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      * @deprecated 6.0 Will be removed when we upgrade to WebAuthn library 5.0 or later
      */
     private TokenBindingHandler $tokenBindingHandler;
@@ -111,7 +111,7 @@ final class Server
      * Authentication extension output checker
      *
      * @var ExtensionOutputCheckerHandler
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private ExtensionOutputCheckerHandler $extensionOutputCheckerHandler;
 
@@ -119,7 +119,7 @@ final class Server
      * COSE algorithms supported
      *
      * @var string[]
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private array $selectedAlgorithms;
 
@@ -127,7 +127,7 @@ final class Server
      * Metadata statement repository service
      *
      * @var MetadataStatementRepository|null
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private ?MetadataStatementRepository $metadataStatementRepository;
 
@@ -138,7 +138,7 @@ final class Server
      * @param PublicKeyCredentialSourceRepository $publicKeyCredentialSourceRepository Public Key repository service
      * @param MetadataStatementRepository|null $metadataStatementRepository Metadata Statement (MDS) service (optional)
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     public function __construct(PublicKeyCredentialRpEntity $relayingParty, PublicKeyCredentialSourceRepository $publicKeyCredentialSourceRepository, ?MetadataStatementRepository $metadataStatementRepository)
     {
@@ -158,11 +158,11 @@ final class Server
         $this->coseAlgorithmManagerFactory->add('ES512', new ECDSA\ES512());
         $this->coseAlgorithmManagerFactory->add('Ed25519', new EdDSA\Ed25519());
 
-        $this->selectedAlgorithms = ['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512', 'Ed25519'];
+        $this->selectedAlgorithms                  = ['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512', 'Ed25519'];
         $this->publicKeyCredentialSourceRepository = $publicKeyCredentialSourceRepository;
-        $this->tokenBindingHandler = new IgnoreTokenBindingHandler();
-        $this->extensionOutputCheckerHandler = new ExtensionOutputCheckerHandler();
-        $this->metadataStatementRepository = $metadataStatementRepository;
+        $this->tokenBindingHandler                 = new IgnoreTokenBindingHandler();
+        $this->extensionOutputCheckerHandler       = new ExtensionOutputCheckerHandler();
+        $this->metadataStatementRepository         = $metadataStatementRepository;
     }
 
     /**
@@ -171,7 +171,7 @@ final class Server
      * @param string[] $selectedAlgorithms
      *
      * @return void
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     public function setSelectedAlgorithms(array $selectedAlgorithms): void
     {
@@ -185,13 +185,13 @@ final class Server
      * @param Algorithm $algorithm The algorithm object instance
      *
      * @return void
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     public function addAlgorithm(string $alias, Algorithm $algorithm): void
     {
         $this->coseAlgorithmManagerFactory->add($alias, $algorithm);
         $this->selectedAlgorithms[] = $alias;
-        $this->selectedAlgorithms = array_unique($this->selectedAlgorithms);
+        $this->selectedAlgorithms   = array_unique($this->selectedAlgorithms);
     }
 
     /**
@@ -200,7 +200,7 @@ final class Server
      * @param ExtensionOutputCheckerHandler $extensionOutputCheckerHandler
      *
      * @return void
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     public function setExtensionOutputCheckerHandler(ExtensionOutputCheckerHandler $extensionOutputCheckerHandler): void
     {
@@ -219,7 +219,7 @@ final class Server
      * @param AuthenticationExtensionsClientInputs|null $extensions Allowed client inputs
      *
      * @return PublicKeyCredentialCreationOptions
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      *
      * @throws InvalidDataException
      */
@@ -237,9 +237,9 @@ final class Server
             );
         }
 
-        $criteria = $criteria ?? new AuthenticatorSelectionCriteria();
+        $criteria   = $criteria ?? new AuthenticatorSelectionCriteria();
         $extensions = $extensions ?? new AuthenticationExtensionsClientInputs();
-        $challenge = random_bytes($this->challengeSize);
+        $challenge  = random_bytes($this->challengeSize);
 
         return (new PublicKeyCredentialCreationOptions(
             $this->rpEntity,
@@ -262,7 +262,7 @@ final class Server
      * @param AuthenticationExtensionsClientInputs|null $extensions Allowed client inputs.
      *
      * @return PublicKeyCredentialRequestOptions
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      *
      * @throws InvalidDataException
      */
@@ -284,7 +284,7 @@ final class Server
      * @param ServerRequestInterface $serverRequest Abstraction of the request data
      *
      * @return PublicKeyCredentialSource
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      *
      * @throws \JsonException
      * @throws \Throwable
@@ -292,17 +292,17 @@ final class Server
     public function loadAndCheckAttestationResponse(string $data, PublicKeyCredentialCreationOptions $publicKeyCredentialCreationOptions, ServerRequestInterface $serverRequest): PublicKeyCredentialSource
     {
         // Remove padding from the response data
-        $temp = json_decode($data);
-        $temp->response = $temp?->response ?? new \stdClass();
-        $temp->response->clientDataJSON = rtrim($temp?->response?->clientDataJSON ?? '', '=');
+        $temp                              = json_decode($data);
+        $temp->response                    = $temp?->response ?? new \stdClass();
+        $temp->response->clientDataJSON    = rtrim($temp?->response?->clientDataJSON ?? '', '=');
         $temp->response->attestationObject = rtrim($temp?->response?->attestationObject ?? '', '=');
-        $data = json_encode($temp);
+        $data                              = json_encode($temp);
 
         $attestationStatementSupportManager = $this->getAttestationStatementSupportManager();
-        $attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager);
-        $publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader);
+        $attestationObjectLoader            = new AttestationObjectLoader($attestationStatementSupportManager);
+        $publicKeyCredentialLoader          = new PublicKeyCredentialLoader($attestationObjectLoader);
 
-        $publicKeyCredential = $publicKeyCredentialLoader->load($data);
+        $publicKeyCredential   = $publicKeyCredentialLoader->load($data);
         $authenticatorResponse = $publicKeyCredential->getResponse();
 
         if (!$authenticatorResponse instanceof AuthenticatorAttestationResponse) {
@@ -325,7 +325,7 @@ final class Server
          * BTW, the documentation of the library is wrong...
          */
         if (!empty($this->metadataStatementRepository)) {
-            $refObj = new \ReflectionObject($authenticatorAttestationResponseValidator);
+            $refObj  = new \ReflectionObject($authenticatorAttestationResponseValidator);
             $refProp = $refObj->getProperty('metadataStatementRepository');
             $refProp->setAccessible(true);
             $refProp->setValue($authenticatorAttestationResponseValidator, $this->metadataStatementRepository);
@@ -344,7 +344,7 @@ final class Server
      * @param ServerRequestInterface $serverRequest Abstraction of the request data
      *
      * @return PublicKeyCredentialSource
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      *
      * @throws \JsonException
      * @throws \Throwable
@@ -377,10 +377,10 @@ final class Server
 
         // Now, we can proceed with checking the assertion response.
         $attestationStatementSupportManager = $this->getAttestationStatementSupportManager();
-        $attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager);
-        $publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader);
+        $attestationObjectLoader            = new AttestationObjectLoader($attestationStatementSupportManager);
+        $publicKeyCredentialLoader          = new PublicKeyCredentialLoader($attestationObjectLoader);
 
-        $publicKeyCredential = $publicKeyCredentialLoader->load($data);
+        $publicKeyCredential   = $publicKeyCredentialLoader->load($data);
         $authenticatorResponse = $publicKeyCredential->getResponse();
 
         if (!$authenticatorResponse instanceof AuthenticatorAssertionResponse) {
@@ -407,11 +407,11 @@ final class Server
      * Get the attestation statement support manager object.
      *
      * @return AttestationStatementSupportManager
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private function getAttestationStatementSupportManager(): AttestationStatementSupportManager
     {
-        $coseAlgorithmManager = $this->coseAlgorithmManagerFactory->generate(...$this->selectedAlgorithms);
+        $coseAlgorithmManager               = $this->coseAlgorithmManagerFactory->generate(...$this->selectedAlgorithms);
         $attestationStatementSupportManager = new AttestationStatementSupportManager();
 
         $attestationStatementSupportManager->add(new NoneAttestationStatementSupport());

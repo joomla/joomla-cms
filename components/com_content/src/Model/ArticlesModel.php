@@ -43,10 +43,10 @@ class ArticlesModel extends ListModel
      * @see     \JController
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'alias', 'a.alias',
@@ -66,7 +66,7 @@ class ArticlesModel extends ListModel
                 'images', 'a.images',
                 'urls', 'a.urls',
                 'filter_tag',
-            );
+            ];
         }
 
         parent::__construct($config);
@@ -113,7 +113,7 @@ class ArticlesModel extends ListModel
 
         $listOrder = $input->get('filter_order_Dir', 'ASC');
 
-        if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+        if (!in_array(strtoupper($listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
@@ -348,7 +348,17 @@ class ArticlesModel extends ListModel
 
         switch ($featured) {
             case 'hide':
-                $query->where($db->quoteName('a.featured') . ' = 0');
+                $query->extendWhere(
+                    'AND',
+                    [
+                        $db->quoteName('a.featured') . ' = 0',
+                        '(' . $db->quoteName('fp.featured_up') . ' IS NOT NULL AND ' . $db->quoteName('fp.featured_up') . ' >= :featuredUp)',
+                        '(' . $db->quoteName('fp.featured_down') . ' IS NOT NULL AND ' . $db->quoteName('fp.featured_down') . ' <= :featuredDown)',
+                    ],
+                    'OR'
+                )
+                    ->bind(':featuredUp', $nowDate)
+                    ->bind(':featuredDown', $nowDate);
                 break;
 
             case 'only':
@@ -640,11 +650,11 @@ class ArticlesModel extends ListModel
     {
         $items  = parent::getItems();
 
-        $user = $this->getCurrentUser();
+        $user   = $this->getCurrentUser();
         $userId = $user->get('id');
-        $guest = $user->get('guest');
+        $guest  = $user->get('guest');
         $groups = $user->getAuthorisedViewLevels();
-        $input = Factory::getApplication()->getInput();
+        $input  = Factory::getApplication()->getInput();
 
         // Get the global params
         $globalParams = ComponentHelper::getParams('com_content', true);
@@ -672,7 +682,7 @@ class ArticlesModel extends ListModel
             ) {
                 // Create an array of just the params set to 'use_article'
                 $menuParamsArray = $this->getState('params')->toArray();
-                $articleArray    = array();
+                $articleArray    = [];
 
                 foreach ($menuParamsArray as $key => $value) {
                     if ($value === 'use_article') {
@@ -748,7 +758,7 @@ class ArticlesModel extends ListModel
 
             // Some contexts may not use tags data at all, so we allow callers to disable loading tag data
             if ($this->getState('load_tags', $item->params->get('show_tags', '1'))) {
-                $item->tags = new TagsHelper();
+                $item->tags             = new TagsHelper();
                 $taggedItems[$item->id] = $item;
             }
 
@@ -760,7 +770,7 @@ class ArticlesModel extends ListModel
         // Load tags of all items.
         if ($taggedItems) {
             $tagsHelper = new TagsHelper();
-            $itemIds = \array_keys($taggedItems);
+            $itemIds    = \array_keys($taggedItems);
 
             foreach ($tagsHelper->getMultipleItemTags('com_content.article', $itemIds) as $id => $tags) {
                 $taggedItems[$id]->tags->itemTags = $tags;
@@ -810,12 +820,12 @@ class ArticlesModel extends ListModel
             ->select(
                 'DATE(' .
                 $query->concatenate(
-                    array(
+                    [
                         $query->year($db->quoteName('publish_up')),
                         $db->quote('-'),
                         $query->month($db->quoteName('publish_up')),
-                        $db->quote('-01')
-                    )
+                        $db->quote('-01'),
+                    ]
                 ) . ') AS ' . $db->quoteName('d')
             )
             ->select('COUNT(*) AS ' . $db->quoteName('c'))

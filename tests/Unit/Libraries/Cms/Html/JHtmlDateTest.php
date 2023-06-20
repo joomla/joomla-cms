@@ -43,36 +43,36 @@ class JHtmlDateTest extends UnitTestCase
                 'JLIB_HTML_DATE_RELATIVE_HOURS',
                 new Date('2011-10-18 11:00:00'),
                 null,
-                new Date('2011-10-18 12:00:00')
+                new Date('2011-10-18 12:00:00'),
             ],
             // Result - 10 days ago
             [
                 'JLIB_HTML_DATE_RELATIVE_DAYS',
                 new Date('2011-10-08 12:00:00'),
                 'day',
-                new Date('2011-10-18 12:00:00')
+                new Date('2011-10-18 12:00:00'),
             ],
             // Result - 3 weeks ago
             [
                 'JLIB_HTML_DATE_RELATIVE_WEEKS',
                 new Date('2011-09-27 12:00:00'),
                 'week',
-                new Date('2011-10-18 12:00:00')
+                new Date('2011-10-18 12:00:00'),
             ],
             // Result - 10 minutes ago
             [
                 'JLIB_HTML_DATE_RELATIVE_MINUTES',
                 new Date('2011-10-18 11:50:00'),
                 'minute',
-                new Date('2011-10-18 12:00:00')
+                new Date('2011-10-18 12:00:00'),
             ],
             // Result - Less than a minute ago
             [
                 'JLIB_HTML_DATE_RELATIVE_LESSTHANAMINUTE',
                 $now1,
                 null,
-                $now2
-            ]
+                $now2,
+            ],
         ];
     }
 

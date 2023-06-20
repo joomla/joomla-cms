@@ -19,8 +19,7 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Task\SiteStatus\Extension\SiteStatus;
 use Joomla\Utilities\ArrayHelper;
 
-return new class implements ServiceProviderInterface
-{
+return new class () implements ServiceProviderInterface {
     /**
      * Registers the service provider with a DI container.
      *

@@ -20,7 +20,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Console\InstallCommand;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Version;
 use Joomla\Console\Application;
@@ -214,7 +213,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
      */
     public function getLocaliseAdmin(DatabaseInterface $db = null)
     {
-        $langfiles = array();
+        $langfiles = [];
 
         // If db connection, fetch them from the database.
         if ($db) {
@@ -236,7 +235,7 @@ final class CliInstallationApplication extends Application implements CMSApplica
 
     /**
      * Get the system message queue. This is a mock
-     * to fullfill the interface requirements and is not functional.
+     * to fulfill the interface requirements and is not functional.
      *
      * @return  array  The system message queue.
      *
@@ -313,7 +312,9 @@ final class CliInstallationApplication extends Application implements CMSApplica
      * @return  boolean
      *
      * @since       4.3.0
-     * @deprecated  5.0  Will be removed without replacements
+     *
+     * @deprecated   4.3 will be removed in 5.0
+     *               Use $app->isClient('cli_installation') instead
      */
     public function isCli()
     {

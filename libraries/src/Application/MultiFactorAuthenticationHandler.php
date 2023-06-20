@@ -169,7 +169,7 @@ trait MultiFactorAuthenticationHandler
 
         if (
             !$isMFAPending && !$isMFADisallowed && ($userOptions->get('mfaredirectonlogin', 0) == 1)
-            && !$user->guest  && !$hasRejectedMultiFactorAuthenticationSetup && !empty(MfaHelper::getMfaMethods())
+            && !$user->guest && !$hasRejectedMultiFactorAuthenticationSetup && !empty(MfaHelper::getMfaMethods())
         ) {
             $this->redirect(
                 $userOptions->get('mfaredirecturl', '') ?:
@@ -390,11 +390,11 @@ trait MultiFactorAuthenticationHandler
         }
 
         [$otpMethod, $otpKey] = explode(':', $userTable->otpKey, 2);
-        $secret       = $this->get('secret');
-        $otpKey       = $this->decryptLegacyTFAString($secret, $otpKey);
-        $otep         = $this->decryptLegacyTFAString($secret, $userTable->otep);
-        $config       = @json_decode($otpKey, true);
-        $hasConverted = true;
+        $secret               = $this->get('secret');
+        $otpKey               = $this->decryptLegacyTFAString($secret, $otpKey);
+        $otep                 = $this->decryptLegacyTFAString($secret, $userTable->otep);
+        $config               = @json_decode($otpKey, true);
+        $hasConverted         = true;
 
         if (!empty($config)) {
             switch ($otpMethod) {
@@ -409,6 +409,8 @@ trait MultiFactorAuthenticationHandler
                             'default'    => 0,
                             'created_on' => Date::getInstance()->toSql(),
                             'last_used'  => null,
+                            'tries'      => 0,
+                            'try_count'  => null,
                             'options'    => ['key' => $config['code']],
                         ]
                     );
@@ -425,6 +427,8 @@ trait MultiFactorAuthenticationHandler
                             'default'    => 0,
                             'created_on' => Date::getInstance()->toSql(),
                             'last_used'  => null,
+                            'tries'      => 0,
+                            'try_count'  => null,
                             'options'    => ['id' => $config['yubikey']],
                         ]
                     );
@@ -458,6 +462,8 @@ trait MultiFactorAuthenticationHandler
                     'default'    => 0,
                     'created_on' => Date::getInstance()->toSql(),
                     'last_used'  => null,
+                    'tries'      => 0,
+                    'try_count'  => null,
                     'options'    => @json_decode($otep, true),
                 ]
             );

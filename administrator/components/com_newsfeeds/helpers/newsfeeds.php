@@ -18,7 +18,9 @@
  * Newsfeeds component helper.
  *
  * @since       1.6
- * @deprecated  5.0 Use \Joomla\Component\Newsfeeds\Administrator\Helper\NewsfeedsHelper instead
+ *
+ * @deprecated  4.3 will be removed in 6.0
+ *              Use \Joomla\Component\Newsfeeds\Administrator\Helper\NewsfeedsHelper instead
  */
 class NewsfeedsHelper extends \Joomla\Component\Newsfeeds\Administrator\Helper\NewsfeedsHelper
 {
