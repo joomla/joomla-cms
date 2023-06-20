@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Model;
@@ -16,9 +16,10 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -79,7 +80,14 @@ trait WorkflowBehaviorTrait
             $this->section = array_shift($parts);
         }
 
-        $this->workflow = new Workflow($extension);
+        if (method_exists($this, 'getDatabase')) {
+            $db = $this->getDatabase();
+        } else {
+            @trigger_error('From 6.0 implementing the getDatabase method will be mandatory.', E_USER_DEPRECATED);
+            $db = Factory::getContainer()->get(DatabaseDriver::class);
+        }
+
+        $this->workflow = new Workflow($extension, Factory::getApplication(), $db);
 
         $params = ComponentHelper::getParams($this->extension);
 
@@ -89,7 +97,7 @@ trait WorkflowBehaviorTrait
     }
 
     /**
-     * Add the workflow batch to the command list. Can be overwritten bei the child class
+     * Add the workflow batch to the command list. Can be overwritten by the child class
      *
      * @return  void
      *
@@ -169,7 +177,7 @@ trait WorkflowBehaviorTrait
     {
         // Regardless if workflow is active or not, we have to set the default stage
         // So we can work with the workflow, when the user activates it later
-        $id = $this->getState($this->getName() . '.id');
+        $id    = $this->getState($this->getName() . '.id');
         $isNew = $this->getState($this->getName() . '.new');
 
         // We save the first stage

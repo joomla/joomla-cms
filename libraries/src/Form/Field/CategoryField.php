@@ -9,13 +9,12 @@
 
 namespace Joomla\CMS\Form\Field;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -40,13 +39,13 @@ class CategoryField extends ListField
      * which categories should be displayed.
      * Use the show_root attribute to specify whether to show the global category root in the list.
      *
-     * @return  array    The field option objects.
+     * @return  object[]    The field option objects.
      *
      * @since   1.6
      */
     protected function getOptions()
     {
-        $options = array();
+        $options   = [];
         $extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $this->element['scope'];
         $published = (string) $this->element['published'];
         $language  = (string) $this->element['language'];
@@ -54,7 +53,7 @@ class CategoryField extends ListField
         // Load the category options for a given extension.
         if (!empty($extension)) {
             // Filter over published state or not depending upon if it is present.
-            $filters = array();
+            $filters = [];
 
             if ($published) {
                 $filters['filter.published'] = explode(',', $published);
@@ -65,7 +64,7 @@ class CategoryField extends ListField
                 $filters['filter.language'] = explode(',', $language);
             }
 
-            if ($filters === array()) {
+            if ($filters === []) {
                 $options = HTMLHelper::_('category.options', $extension);
             } else {
                 $options = HTMLHelper::_('category.options', $extension, $filters);
@@ -74,7 +73,7 @@ class CategoryField extends ListField
             // Verify permissions.  If the action attribute is set, then we scan the options.
             if ((string) $this->element['action']) {
                 // Get the current user object.
-                $user = Factory::getUser();
+                $user = $this->getCurrentUser();
 
                 foreach ($options as $i => $option) {
                     /*

@@ -26,7 +26,7 @@ $href     = '#' . $button->get('editor') . '_' . strtolower($button->get('name')
 $link     = ($button->get('link')) ? Uri::base() . $button->get('link') : null;
 $onclick  = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') . '"' : '';
 $title    = ($button->get('title')) ? $button->get('title') : $button->get('text');
-$options  = is_array($button->get('options')) ? $button->get('options') : array();
+$options  = is_array($button->get('options')) ? $button->get('options') : [];
 
 $confirm = '';
 
@@ -46,7 +46,7 @@ if (null !== $button->get('id')) {
 echo HTMLHelper::_(
     'bootstrap.renderModal',
     $id,
-    array(
+    [
         'url'    => $link,
         'title'  => $title,
         'height' => array_key_exists('height', $options) ? $options['height'] : '400px',
@@ -55,5 +55,5 @@ echo HTMLHelper::_(
         'modalWidth'  => array_key_exists('modalWidth', $options) ? $options['modalWidth'] : '80',
         'footer' => $confirm . '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
             . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-    )
+    ]
 );

@@ -55,7 +55,7 @@ class LogtypeField extends ListField
 
         foreach ($extensions as $extension) {
             ActionlogsHelper::loadTranslationFiles($extension);
-            $extensionName = Text::_($extension);
+            $extensionName                                                                = Text::_($extension);
             $options[ApplicationHelper::stringURLSafe($extensionName) . '_' . $extension] = HTMLHelper::_('select.option', $extension, $extensionName);
         }
 

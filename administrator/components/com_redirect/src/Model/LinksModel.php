@@ -35,10 +35,10 @@ class LinksModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'state', 'a.state',
                 'old_url', 'a.old_url',
@@ -48,7 +48,7 @@ class LinksModel extends ListModel
                 'created_date', 'a.created_date',
                 'published', 'a.published',
                 'header', 'a.header', 'http_status',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -134,7 +134,7 @@ class LinksModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.

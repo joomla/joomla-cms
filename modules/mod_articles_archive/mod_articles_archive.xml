@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" client="site" method="upgrade">
 	<name>mod_articles_archive</name>
 	<author>Joomla! Project</author>
@@ -11,7 +11,7 @@
 	<description>MOD_ARTICLES_ARCHIVE_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\ArticlesArchive</namespace>
 	<files>
-		<filename module="mod_articles_archive">mod_articles_archive.php</filename>
+		<folder module="mod_articles_archive">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

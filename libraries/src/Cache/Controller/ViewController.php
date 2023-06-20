@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,10 +9,12 @@
 
 namespace Joomla\CMS\Cache\Controller;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheController;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Cache view type object
@@ -35,46 +38,38 @@ class ViewController extends CacheController
     public function get($view, $method = 'display', $id = false, $wrkarounds = true)
     {
         // If an id is not given generate it from the request
-        if (!$id)
-        {
+        if (!$id) {
             $id = $this->_makeId($view, $method);
         }
 
         $data = $this->cache->get($id);
 
-        $locktest = (object) array('locked' => null, 'locklooped' => null);
+        $locktest = (object) ['locked' => null, 'locklooped' => null];
 
-        if ($data === false)
-        {
+        if ($data === false) {
             $locktest = $this->cache->lock($id);
 
             /*
              * If the loop is completed and returned true it means the lock has been set.
              * If looped is true try to get the cached data again; it could exist now.
              */
-            if ($locktest->locked === true && $locktest->locklooped === true)
-            {
+            if ($locktest->locked === true && $locktest->locklooped === true) {
                 $data = $this->cache->get($id);
             }
 
             // False means that locking is either turned off or maxtime has been exceeded. Execute the view.
         }
 
-        if ($data !== false)
-        {
-            if ($locktest->locked === true)
-            {
+        if ($data !== false) {
+            if ($locktest->locked === true) {
                 $this->cache->unlock($id);
             }
 
             $data = unserialize(trim($data));
 
-            if ($wrkarounds)
-            {
+            if ($wrkarounds) {
                 echo Cache::getWorkarounds($data);
-            }
-            else
-            {
+            } else {
                 // No workarounds, so all data is stored in one piece
                 echo $data;
             }
@@ -83,13 +78,11 @@ class ViewController extends CacheController
         }
 
         // No hit so we have to execute the view
-        if (!method_exists($view, $method))
-        {
+        if (!method_exists($view, $method)) {
             return false;
         }
 
-        if ($locktest->locked === false && $locktest->locklooped === true)
-        {
+        if ($locktest->locked === false && $locktest->locklooped === true) {
             // We can not store data because another process is in the middle of saving
             $view->$method();
 
@@ -108,16 +101,14 @@ class ViewController extends CacheController
          * of the document head after the view has been rendered.  This will allow us to properly cache any attached
          * scripts or stylesheets or links or any other modifications that the view has made to the document object
          */
-        if ($wrkarounds)
-        {
+        if ($wrkarounds) {
             $data = Cache::setWorkarounds($data);
         }
 
         // Store the cache data
         $this->cache->store(serialize($data), $id);
 
-        if ($locktest->locked === true)
-        {
+        if ($locktest->locked === true) {
             $this->cache->unlock($id);
         }
 
@@ -140,16 +131,14 @@ class ViewController extends CacheController
     {
         $locktest = $this->cache->lock($id, $group);
 
-        if ($locktest->locked === false && $locktest->locklooped === true)
-        {
+        if ($locktest->locked === false && $locktest->locklooped === true) {
             // We can not store data because another process is in the middle of saving
             return false;
         }
 
         $result = $this->cache->store(serialize($data), $id, $group);
 
-        if ($locktest->locked === true)
-        {
+        if ($locktest->locked === true) {
             $this->cache->unlock($id, $group);
         }
 
@@ -168,6 +157,6 @@ class ViewController extends CacheController
      */
     protected function _makeId($view, $method)
     {
-        return md5(serialize(array(Cache::makeId(), \get_class($view), $method)));
+        return md5(serialize([Cache::makeId(), \get_class($view), $method]));
     }
 }

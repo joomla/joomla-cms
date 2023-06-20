@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 
@@ -78,10 +79,13 @@ if ($languageFile) {
 $doc->addScriptOptions(
     'plg_editors_tinymce_builder',
     [
-        'menus'         => $menus,
-        'buttons'       => $buttons,
-        'toolbarPreset' => $toolbarPreset,
-        'formControl'   => $name . '[toolbars]',
+        'menus'            => $menus,
+        'buttons'          => $buttons,
+        'toolbarPreset'    => $toolbarPreset,
+        'formControl'      => $name . '[toolbars]',
+        'external_plugins' => [
+            'jtemplate' => HTMLHelper::_('script', 'plg_editors_tinymce/plugins/jtemplate/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true])
+        ]
     ]
 );
 
@@ -134,12 +138,12 @@ $doc->addScriptOptions(
                         }
 
                         // Take existing values
-                        $valMenu = empty($value['toolbars'][$num]['menu'])     ? array() : $value['toolbars'][$num]['menu'];
-                        $valBar1 = empty($value['toolbars'][$num]['toolbar1']) ? array() : $value['toolbars'][$num]['toolbar1'];
-                        $valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? array() : $value['toolbars'][$num]['toolbar2'];
+                        $valMenu = empty($value['toolbars'][$num]['menu'])     ? [] : $value['toolbars'][$num]['menu'];
+                        $valBar1 = empty($value['toolbars'][$num]['toolbar1']) ? [] : $value['toolbars'][$num]['toolbar1'];
+                        $valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? [] : $value['toolbars'][$num]['toolbar2'];
 
                         ?>
-                    <?php echo $this->sublayout('setaccess', array('form' => $setsForms[$num])); ?>
+                    <?php echo $this->sublayout('setaccess', ['form' => $setsForms[$num]]); ?>
                     <div class="btn-toolbar float-end mt-3">
                         <div class="btn-group btn-group-sm">
 
@@ -179,7 +183,7 @@ $doc->addScriptOptions(
                     </div>
 
                     <?php // Render the form for extra options ?>
-                    <?php echo $this->sublayout('setoptions', array('form' => $setsForms[$num])); ?>
+                    <?php echo $this->sublayout('setoptions', ['form' => $setsForms[$num]]); ?>
             </joomla-tab-element>
         <?php endforeach; ?>
     </joomla-tab>

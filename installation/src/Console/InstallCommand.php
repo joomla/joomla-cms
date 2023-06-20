@@ -12,11 +12,11 @@ namespace Joomla\CMS\Installation\Console;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Installation\Application\CliInstallationApplication;
 use Joomla\CMS\Installation\Model\ChecksModel;
 use Joomla\CMS\Installation\Model\CleanupModel;
 use Joomla\CMS\Installation\Model\DatabaseModel;
 use Joomla\CMS\Installation\Model\SetupModel;
-use Joomla\CMS\Installation\Application\CliInstallationApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Version;
 use Joomla\Console\Command\AbstractCommand;
@@ -305,7 +305,7 @@ class InstallCommand extends AbstractCommand
                 }
 
                 // Add in the underscore.
-                $prefix  .= '_';
+                $prefix .= '_';
                 $default = $prefix;
             }
 

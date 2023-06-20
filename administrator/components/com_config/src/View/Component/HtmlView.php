@@ -13,6 +13,7 @@ namespace Joomla\Component\Config\Administrator\View\Component;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 
@@ -86,14 +87,14 @@ class HtmlView extends BaseHtmlView
             unset($this->fieldsets['permissions']);
         }
 
-        $this->form = &$form;
+        $this->form      = &$form;
         $this->component = &$component;
 
         $this->components = ConfigHelper::getComponentsWithConfig();
 
         $this->userIsSuperAdmin = $user->authorise('core.admin');
         $this->currentComponent = Factory::getApplication()->getInput()->get('component');
-        $this->return = Factory::getApplication()->getInput()->get('return', '', 'base64');
+        $this->return           = Factory::getApplication()->getInput()->get('return', '', 'base64');
 
         $this->addToolbar();
 
@@ -109,19 +110,21 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
+        $toolbar    = Toolbar::getInstance();
+
         ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'cog config');
-        ToolbarHelper::apply('component.apply');
-        ToolbarHelper::divider();
-        ToolbarHelper::save('component.save');
-        ToolbarHelper::divider();
-        ToolbarHelper::cancel('component.cancel', 'JTOOLBAR_CLOSE');
-        ToolbarHelper::divider();
+        $toolbar->apply('component.apply');
+        $toolbar->divider();
+        $toolbar->save('component.save');
+        $toolbar->divider();
+        $toolbar->cancel('component.cancel');
+        $toolbar->divider();
 
         $inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false;
         $targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] ?: 'hide-aware-inline-help';
 
         if ($inlinehelp) {
-            ToolbarHelper::inlinehelp($targetClass);
+            $toolbar->inlinehelp($targetClass);
         }
 
         $helpUrl = $this->form->getData()->get('helpURL');
@@ -137,6 +140,6 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        ToolbarHelper::help($helpKey, (bool) $helpUrl, null, $this->currentComponent);
+        $toolbar->help($helpKey, (bool) $helpUrl, null, $this->currentComponent);
     }
 }

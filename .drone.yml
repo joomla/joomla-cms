@@ -6,15 +6,15 @@ clone:
 
 steps:
   - name: setup
-    image: joomlaprojects/docker-images:php8.1
+    image: joomlaprojects/docker-images:php8.2
     volumes:
       - name: certificates
         path: /certificates
     commands:
-      - cp -v tests/Codeception/_data/certs/* /certificates/
+      - cp -v tests/certs/* /certificates/
 
   - name: composer
-    image: joomlaprojects/docker-images:php8.1
+    image: joomlaprojects/docker-images:php8.2
     volumes:
       - name: composer-cache
         path: /tmp/composer-cache
@@ -27,11 +27,12 @@ steps:
     depends_on: [ composer ]
     commands:
       - echo $(date)
+      - ./libraries/vendor/bin/php-cs-fixer fix -vvv --dry-run --diff
       - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
       - echo $(date)
 
   - name: phan
-    image: joomlaprojects/docker-images:php7.4-ast
+    image: joomlaprojects/docker-images:php8.1-ast
     depends_on: [ phpcs ]
     failure: ignore
     commands:
@@ -94,6 +95,7 @@ steps:
     image: node:current-alpine
     commands:
       - npm run lint:js
+      - npm run lint:testjs
 
   - name: prepare_system_tests
     depends_on:
@@ -102,80 +104,16 @@ steps:
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
+    environment:
+      CYPRESS_VERIFY_TIMEOUT: 100000
     commands:
-      - sed -i 's/tests\\/Codeception\\/_output/\\/drone\\/src\\/tests\\/cypress\\/output/' codeception.yml
-      - php libraries/vendor/bin/codecept build
+      - mv cypress.config.dist.js cypress.config.js
       - npx cypress install
       - npx cypress verify
 
-  - name: phpmin-api-mysql
-    depends_on:
-      - prepare_system_tests
-    image: joomlaprojects/docker-images:systemtests8.1
-    volumes:
-      - name: cypress-cache
-        path: /root/.cache/Cypress
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql mysqli mysql jos_
-
-  - name: phpmax-api-mysql
-    depends_on:
-      - prepare_system_tests
-    image: joomlaprojects/docker-images:systemtests8.2
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    failure: ignore
-    commands:
-      - echo "This test is disabled because php max is not stable yet"
-      - exit 1
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax mysqli mysql phpmax_
-
-  - name: phpnext-api-mysql
-    depends_on:
-      - prepare_system_tests
-    image: joomlaprojects/docker-images:systemtests8.2
-    failure: ignore
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext mysqli mysql phpnext_
-
-  - name: phpmin-api-postgres
-    depends_on:
-      - phpmin-api-mysql
-    image: joomlaprojects/docker-images:systemtests8.1
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres pgsql postgres jos_
-
-  - name: phpmax-api-postgres
-    depends_on:
-      - phpmax-api-mysql
-    image: joomlaprojects/docker-images:systemtests8.2
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    failure: ignore
-    commands:
-      - echo "This test is disabled because php max is not stable yet"
-      - exit 1
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpmax pgsql postgres phpmax_
-
-  - name: phpnext-api-postgres
-    depends_on:
-      - phpnext-api-mysql
-    image: joomlaprojects/docker-images:systemtests8.2
-    failure: ignore
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext pgsql postgres phpnext_
-
   - name: phpmin-system-mysql
     depends_on:
-      - phpnext-api-mysql
+      - prepare_system_tests
     image: joomlaprojects/docker-images:cypress8.1
     volumes:
       - name: cypress-cache
@@ -183,7 +121,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysql mysqli mysql
+      - bash tests/System/drone-system-run.sh "$(pwd)" cmysql mysqli mysql
 
   - name: phpmax-system-mysql
     depends_on:
@@ -194,11 +132,8 @@ steps:
         path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    failure: ignore
     commands:
-      - echo "This test is disabled because php max is not stable yet"
-      - exit 1
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
+      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
 
   - name: phpnext-system-mysql
     depends_on:
@@ -211,11 +146,13 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     failure: ignore
     commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysqlnext mysqli mysql
+      - echo "This test is disabled because php next is not stable yet"
+      - exit 1
+      - bash tests/System/drone-system-run.sh "$(pwd)" cmysqlnext mysqli mysql
 
   - name: phpmin-system-postgres
     depends_on:
-      - phpnext-api-postgres
+      - prepare_system_tests
     image: joomlaprojects/docker-images:cypress8.1
     volumes:
       - name: cypress-cache
@@ -223,7 +160,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
+      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
 
   - name: phpmax-system-postgres
     depends_on:
@@ -234,11 +171,8 @@ steps:
         path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    failure: ignore
     commands:
-      - echo "This test is disabled because php max is not stable yet"
-      - exit 1
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres
+      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres
 
   - name: phpnext-system-postgres
     depends_on:
@@ -251,10 +185,12 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     failure: ignore
     commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cpostgresnext pgsql postgres
+      - echo "This test is disabled because php next is not stable yet"
+      - exit 1
+      - bash tests/System/drone-system-run.sh "$(pwd)" cpostgresnext pgsql postgres
 
   - name: artifacts-system-tests
-    image: cschlosser/drone-ftps
+    image: joomlaprojects/docker-images:packager
     depends_on:
       - phpnext-system-mysql
       - phpnext-system-postgres
@@ -262,28 +198,19 @@ steps:
       - phpmax-system-postgres
       - phpmin-system-mysql
       - phpmin-system-postgres
-      - phpnext-api-mysql
-      - phpnext-api-postgres
-      - phpmax-api-mysql
-      - phpmax-api-postgres
-      - phpmin-api-mysql
-      - phpmin-api-postgres
     environment:
       FTP_USERNAME:
         from_secret: ftpusername
       FTP_PASSWORD:
         from_secret: ftppassword
-      PLUGIN_HOSTNAME: ci.joomla.org:21
-      PLUGIN_SRC_DIR: /tests/cypress/output/
-      PLUGIN_DEST_DIR: /artifacts
-      PLUGIN_SECURE: false
-      PLUGIN_EXCLUDE: ^\.git/$
       GITHUB_TOKEN:
         from_secret: github_token
     commands:
-      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
+      - export PLUGIN_DEST_DIR=/artifacts/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
       - echo https://ci.joomla.org$PLUGIN_DEST_DIR
-      - /bin/upload.sh
+      - rclone config create artifacts ftp host ci.joomla.org user $FTP_USERNAME port 21 pass $FTP_PASSWORD
+      - rclone mkdir artifacts:$PLUGIN_DEST_DIR
+      - rclone copy tests/System/output/ artifacts:$PLUGIN_DEST_DIR
       - 'curl -X POST "https://api.github.com/repos/$DRONE_REPO/statuses/$DRONE_COMMIT" -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -d "{\"state\":\"failure\", \"context\": \"Artifacts from Failure\", \"description\": \"You can find artifacts from the failure of the build here:\", \"target_url\": \"https://ci.joomla.org$PLUGIN_DEST_DIR\"}" > /dev/null'
     when:
       status:
@@ -438,6 +365,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 3e98711368c8430283bb9e44a2aed9d4b81fc7a1925cfeacf9a7ebdc96b89a6f
+hmac: 196d557a538facffb7cb93151c1fd98e4d80b97a5f30c96affa692965e079c11
 
 ...

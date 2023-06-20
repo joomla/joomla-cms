@@ -341,7 +341,7 @@ class El extends Language
 
         // Step 1
         // step1list is used in Step 1. 41 stems
-        $step1list             = array();
+        $step1list             = [];
         $step1list["ΦΑΓΙΑ"]    = "ΦΑ";
         $step1list["ΦΑΓΙΟΥ"]   = "ΦΑ";
         $step1list["ΦΑΓΙΩΝ"]   = "ΦΑ";
@@ -771,8 +771,8 @@ class El extends Language
      */
     protected function toUpperCase($token, &$wCase)
     {
-        $wCase      = array_fill(0, mb_strlen($token, 'UTF-8'), 0);
-        $caseConvert = array(
+        $wCase       = array_fill(0, mb_strlen($token, 'UTF-8'), 0);
+        $caseConvert = [
             "α" => 'Α',
             "β" => 'Β',
             "γ" => 'Γ',
@@ -809,7 +809,7 @@ class El extends Language
             "ϋ" => 'Ι',
             "ΐ" => 'Ι',
             "ΰ" => 'Υ',
-        );
+        ];
         $newToken    = '';
 
         for ($i = 0; $i < mb_strlen($token); $i++) {
@@ -823,7 +823,7 @@ class El extends Language
             }
 
             $upperCase = $caseConvert[$char];
-            $newToken  .= $upperCase;
+            $newToken .= $upperCase;
 
             $wCase[$i] = 1;
 
@@ -893,7 +893,7 @@ class El extends Language
                     'Ο' => 'ό',
                     'Υ' => 'ύ',
                     'Ω' => 'ώ',
-                    'Σ' => 'ς'
+                    'Σ' => 'ς',
                 ];
 
                 $newToken .= $charMap[$char];
@@ -905,7 +905,7 @@ class El extends Language
             if ($wCase[$i] == 3) {
                 $charMap = [
                     'Ι' => 'ϊ',
-                    'Υ' => 'ϋ'
+                    'Υ' => 'ϋ',
                 ];
 
                 $newToken .= $charMap[$char];
@@ -917,7 +917,7 @@ class El extends Language
             if ($wCase[$i] == 4) {
                 $charMap = [
                     'Ι' => 'ΐ',
-                    'Υ' => 'ΰ'
+                    'Υ' => 'ΰ',
                 ];
 
                 $newToken .= $charMap[$char];

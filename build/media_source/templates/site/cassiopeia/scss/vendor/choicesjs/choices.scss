@@ -1,4 +1,5 @@
 @import "../../../../../../../../media/vendor/bootstrap/scss/functions";
+@import "../../../../../../../../media/templates/site/cassiopeia/scss/tools/variables/variables";
 @import "../../../../../../../../media/vendor/bootstrap/scss/variables";
 @import "../../../../../../../../media/vendor/bootstrap/scss/mixins";
 
@@ -9,15 +10,19 @@
 @import "../../tools/tools";
 
 .choices {
-  border: 0;
-  border-radius: $border-radius;
-
-  &:hover {
-    cursor: pointer;
-  }
+  border: $form-select-border-width solid $form-select-border-color;
+  @include border-radius($form-select-border-radius, 0);
+  @include box-shadow($form-select-box-shadow);
 
   &.is-focused {
-    box-shadow: $cassiopeia-input-focus-shadow;
+    border-color: $form-select-focus-border-color;
+
+    @if $enable-shadows {
+      @include box-shadow($form-select-box-shadow, $form-select-focus-box-shadow);
+    } @else {
+      // Avoid using mixin so we can pass custom focus shadow properly
+      box-shadow: $form-select-focus-box-shadow;
+    }
   }
 }
 
@@ -25,13 +30,8 @@
   padding: .4rem 1rem;
   margin-bottom: 0;
   font-size: 1rem;
-  border: $input-border;
-  border-radius: $border-radius;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-
-  .is-focused & {
-    border-color: #000;
-  }
+  border: none;
+  border-radius: 0;
 }
 
 .choices__input {
@@ -40,12 +40,7 @@
   font-size: 1rem;
   background-color: transparent;
 
-  &::-moz-placeholder {
-    color: $gray-700;
-    opacity: 1;
-  }
-
-  &::-webkit-input-placeholder {
+  &::placeholder {
     color: $gray-700;
     opacity: 1;
   }
@@ -61,10 +56,10 @@
   background-color: var(--cassiopeia-color-primary);
   margin-inline-end: 2px;
   border: 0;
-  border-radius: $border-radius;
+  @include border-radius($border-radius, 0);
 
   &.is-highlighted {
-    background-color: var(--cassiopeia-color-primary);;
+    background-color: var(--cassiopeia-color-primary);
     opacity: .9;
   }
 }

@@ -7,9 +7,6 @@ $cassiopeia-header-grad:              linear-gradient(135deg, var(--cassiopeia-c
 $cassiopeia-header-grad-rtl:          linear-gradient(135deg, var(--cassiopeia-color-hover) 0%, var(--cassiopeia-color-primary) 100%) !default;
 $cassiopeia-inverted-text-color:      var(--cassiopeia-color-hover) !default;
 
-// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
-$variable-prefix:                     "" !default;
-
 // Color system
 
 // Standard
@@ -59,6 +56,7 @@ $cyan:                                hsl(207, 49%, 37%) !default;
 
 $colors: (
   "blue":                             $blue,
+  "black":                            $black,
   "indigo":                           $indigo,
   "purple":                           $purple,
   "pink":                             $pink,
@@ -71,8 +69,7 @@ $colors: (
   "white":                            $white
 ) !default;
 
-$primary:                             var(--cassiopeia-color-primary) !default;
-$primaryBS:                           $blue !default;
+$primary:                             $blue !default;
 $secondary:                           $gray-600 !default;
 $success:                             $green !default;
 $info:                                $cyan !default;
@@ -83,7 +80,7 @@ $dark:                                $gray-800 !default;
 
 
 $theme-colors: (
-  primary:                            $primaryBS,
+  primary:                            $blue,
   secondary:                          $secondary,
   success:                            $success,
   info:                               $info,
@@ -108,6 +105,9 @@ $colors: (
   focus:                           #39f,
   focus-shadow:                    0 0 0 .2rem #eaeaea,
   toggle-color:                    $white, //used in sidebar
+) !default;
+
+$cassiopeia-colors: (
   template-sidebar-bg:                 var(--template-bg-dark-80),
   template-sidebar-font-color:         $white,
   template-sidebar-link-color:         $white,
@@ -183,14 +183,12 @@ $table-variants: (
 ) !default;
 
 // Forms
+$input-border-color:                  $gray-400 !default;
 $input-padding:                       .6rem 1rem !default;
-$input-border:                        solid 1px $gray-400 !default;
 $input-btn-padding-y:                 .6rem !default;
 $input-btn-padding-x:                 1rem !default;
 $input-max-width:                     100% !default;
 $input-focus-border-color:            tint-color($standard-color-primary, 50%) !default;
-
-$cassiopeia-input-focus-shadow:       0 0 0 .2rem hsla(0, 0%, 0%, .1) !default;
 
 $form-select-indicator-padding:     3rem !default;
 $form-select-bg:                    $gray-200 !default;
@@ -227,7 +225,7 @@ $nav-link-padding-y:                  .5rem !default;
 // Navs
 $cassiopeia-tabs-header-bg:           $cassiopeia-block-header-bg !default;
 $cassiopeia-tabs-active-bg:           hsla(0, 0%, 0%, .3) !default;
-$cassiopeia-tabs-active-highlight:    $primaryBS !default;
+$cassiopeia-tabs-active-highlight:    var(--cassiopeia-color-primary) !default;
 
 // Navbar
 $nav-link-height:                     1.5rem + $nav-link-padding-y * 2 !default;
@@ -268,4 +266,14 @@ $state-danger-bg:                     $danger !default;
 $state-danger-border:                 scale-color($danger, $lightness: -5%) !default;
 
 // Mark element
+$mark-padding: .1875em 0;
 $mark-bg: #fbeea8 !default;
+
+// scss-docs-start border-radius-variables
+$btn-border-radius: .25rem !default;
+$border-radius: .25rem !default;
+$border-radius-sm: .2rem !default;
+$border-radius-lg: .3rem !default;
+$border-radius-xl: .3rem !default;
+$border-radius-2xl: .3rem !default;
+// scss-docs-end border-radius-variables

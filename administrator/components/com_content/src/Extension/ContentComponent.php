@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Content\Administrator\Extension;
 
-use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Categories\CategoryServiceInterface;
@@ -37,7 +36,7 @@ use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -68,7 +67,7 @@ class ContentComponent extends MVCComponent implements
     /** @var array Supported functionality */
     protected $supportedFunctionality = [
         'core.featured' => true,
-        'core.state' => true,
+        'core.state'    => true,
     ];
 
     /**
@@ -177,10 +176,10 @@ class ContentComponent extends MVCComponent implements
     {
         Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
-        $contexts = array(
+        $contexts = [
             'com_content.article'    => Text::_('COM_CONTENT'),
-            'com_content.categories' => Text::_('JCATEGORY')
-        );
+            'com_content.categories' => Text::_('JCATEGORY'),
+        ];
 
         return $contexts;
     }
@@ -214,9 +213,9 @@ class ContentComponent extends MVCComponent implements
     {
         Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
-        $contexts = array(
-            'com_content.article'    => Text::_('COM_CONTENT')
-        );
+        $contexts = [
+            'com_content.article' => Text::_('COM_CONTENT'),
+        ];
 
         return $contexts;
     }
@@ -320,14 +319,14 @@ class ContentComponent extends MVCComponent implements
      */
     public function countItems(array $items, string $section)
     {
-        $config = (object) array(
-            'related_tbl'    => 'content',
-            'state_col'      => 'state',
-            'group_col'      => 'catid',
-            'relation_type'  => 'category_or_group',
-            'uses_workflows' => true,
-            'workflows_component' => 'com_content'
-        );
+        $config = (object) [
+            'related_tbl'         => 'content',
+            'state_col'           => 'state',
+            'group_col'           => 'catid',
+            'relation_type'       => 'category_or_group',
+            'uses_workflows'      => true,
+            'workflows_component' => 'com_content',
+        ];
 
         LibraryContentHelper::countRelations($items, $config);
     }
@@ -348,13 +347,13 @@ class ContentComponent extends MVCComponent implements
         $parts   = explode('.', $extension);
         $section = count($parts) > 1 ? $parts[1] : null;
 
-        $config = (object) array(
+        $config = (object) [
             'related_tbl'   => ($section === 'category' ? 'categories' : 'content'),
             'state_col'     => ($section === 'category' ? 'published' : 'state'),
             'group_col'     => 'tag_id',
             'extension'     => $extension,
             'relation_type' => 'tag_assigments',
-        );
+        ];
 
         LibraryContentHelper::countRelations($items, $config);
     }

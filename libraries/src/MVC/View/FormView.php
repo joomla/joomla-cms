@@ -17,7 +17,7 @@ use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -170,7 +170,7 @@ class FormView extends HtmlView
     {
         Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
-        $user       = Factory::getUser();
+        $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = empty($this->item->{$this->keyName});
         $viewName   = $this->getName();
@@ -188,7 +188,7 @@ class FormView extends HtmlView
                 [
                     ['apply', $viewName . '.apply'],
                     ['save', $viewName . '.save'],
-                    ['save2new', $viewName . '.save2new']
+                    ['save2new', $viewName . '.save2new'],
                 ],
                 'btn-success'
             );

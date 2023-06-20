@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -79,10 +80,11 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
+        $toolbar = Toolbar::getInstance();
+
         ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_CAPABILITIES'), 'lock');
 
-        ToolbarHelper::preferences('com_privacy');
-
-        ToolbarHelper::help('Privacy:_Extension_Capabilities');
+        $toolbar->preferences('com_privacy');
+        $toolbar->help('Privacy:_Extension_Capabilities');
     }
 }
