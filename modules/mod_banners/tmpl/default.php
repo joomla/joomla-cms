@@ -42,12 +42,12 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
                     'src' => $baseurl . $imageurl,
                     'alt' => $alt
                 ]; ?>
-                <?php if (!empty($item->params->get('width'))) {
-                    $imageAttributes['width'] = $item->params->get('width');
-                } ?>
-                <?php if (!empty($item->params->get('height'))) {
-                    $imageAttributes['height'] = $item->params->get('height');
-                } ?>
+                <?php if (!empty($item->params->get('width'))) : ?>
+                    <?php $imageAttributes['width'] = $item->params->get('width'); ?>
+                <?php endif; ?>
+                <?php if (!empty($item->params->get('height'))) : ?>
+                    <?php $imageAttributes['height'] = $item->params->get('height'); ?>
+                <?php endif; ?>
                 <?php $image = LayoutHelper::render('joomla.html.image', $imageAttributes); ?>
                 <?php if ($item->clickurl) : ?>
                     <?php // Wrap the banner in a link ?>
