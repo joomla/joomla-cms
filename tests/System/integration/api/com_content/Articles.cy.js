@@ -35,13 +35,14 @@ describe('Test that content API endpoint', () => {
 
   it('can update an article', () => {
     cy.db_createArticle({ title: 'automated test article' })
-      .then((id) => cy.api_patch(`/content/articles/${id}`, { title: 'updated automated test article' }))
+      .then((article) => cy.api_patch(`/content/articles/${article.id}`, { title: 'updated automated test article' }))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('title')
         .should('include', 'updated automated test article'));
   });
 
   it('can delete an article', () => {
-    cy.db_createArticle({ title: 'automated test article', state: -2 }).then((id) => cy.api_delete(`/content/articles/${id}`));
+    cy.db_createArticle({ title: 'automated test article', state: -2 })
+      .then((article) => cy.api_delete(`/content/articles/${article.id}`));
   });
 });
