@@ -62,17 +62,17 @@ describe('Test in backend that the categories list', () => {
   });
 
   it('can delete the test category', () => {
-    cy.db_createCategory({ title: 'Test category', published: -2 }).then((id) => {
-      // Is needed to create a proper asset
-      cy.visit(`administrator/index.php?option=com_categories&task=category.edit&id=${id}&extension=com_content`);
-      cy.clickToolbarButton('Save & Close');
-      cy.setFilter('published', 'Trashed');
-      cy.searchForItem('Test category');
-      cy.checkAllResults();
-      cy.clickToolbarButton('empty trash');
-      cy.on('window:confirm', () => true);
+    // The category needs to be created through the form so proper assets are created
+    cy.visit('/administrator/index.php?option=com_categories&task=category.add&extension=com_content');
+    cy.get('#jform_title').type('Test category');
+    cy.get('#jform_published').select('Trashed');
+    cy.clickToolbarButton('Save & Close');
+    cy.setFilter('published', 'Trashed');
+    cy.searchForItem('Test category');
+    cy.checkAllResults();
+    cy.clickToolbarButton('empty trash');
+    cy.on('window:confirm', () => true);
 
-      cy.get('#system-message-container').contains('Category deleted.').should('exist');
-    });
+    cy.get('#system-message-container').contains('Category deleted.').should('exist');
   });
 });
