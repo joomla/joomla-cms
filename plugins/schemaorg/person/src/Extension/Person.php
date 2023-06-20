@@ -61,4 +61,3 @@ final class Person extends CMSPlugin implements SubscriberInterface
      */
     protected $pluginName = 'Person';
 }
-

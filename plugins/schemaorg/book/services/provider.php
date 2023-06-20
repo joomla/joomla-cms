@@ -18,8 +18,7 @@ use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Schemaorg\Book\Extension\Book;
 
-return new class implements ServiceProviderInterface
-{
+return new class () implements ServiceProviderInterface {
     /**
      * Registers the service provider with a DI container.
      *
@@ -35,12 +34,12 @@ return new class implements ServiceProviderInterface
             PluginInterface::class,
             function (Container $container) {
                 $dispatcher = $container->get(DispatcherInterface::class);
-                
+
                 $plugin = new Book(
                     $dispatcher,
                     (array) PluginHelper::getPlugin('schemaorg', 'book')
                 );
-                
+
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;

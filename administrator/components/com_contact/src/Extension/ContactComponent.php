@@ -168,9 +168,9 @@ class ContactComponent extends MVCComponent implements
     {
         Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
-        $contexts = array(
-            'com_contact.contact'    => Text::_('COM_CONTACT')
-        );
+        $contexts = [
+            'com_contact.contact' => Text::_('COM_CONTACT'),
+        ];
 
         return $contexts;
     }

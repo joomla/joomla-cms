@@ -25,13 +25,13 @@ class SchemaorgComponentSectionsField extends ComponentsField
      * @since  4.0.0
      */
     protected $type = 'SchemaorgComponentSections';
-/**
-     * Method to get a list of options for a list input.
-     *
-     * @return  array  An array of JHtml options.
-     *
-     * @since   4.0.0
-     */
+    /**
+         * Method to get a list of options for a list input.
+         *
+         * @return  array  An array of JHtml options.
+         *
+         * @since   4.0.0
+         */
     protected function getOptions()
     {
         $app       = Factory::getApplication();

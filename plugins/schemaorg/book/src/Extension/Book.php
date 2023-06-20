@@ -74,7 +74,7 @@ final class Book extends CMSPlugin implements SubscriberInterface
         if (is_object($schema)) {
             $schema = $this->cleanupDate($schema, ['datePublished']);
         }
-        
+
         return $schema;
     }
 }

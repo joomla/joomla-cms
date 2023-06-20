@@ -32,10 +32,10 @@ trait SchemaorgPluginTrait
     public static function getSubscribedEvents(): array
     {
         return [
-            'onSchemaPrepareData'                  => 'onSchemaPrepareData',
-            'onSchemaPrepareForm'                  => 'onSchemaPrepareForm',
-            'onSchemaAfterSave'                    => 'onSchemaAfterSave',
-            'onSchemaBeforeCompileHead'            => 'pushSchema',
+            'onSchemaPrepareData'       => 'onSchemaPrepareData',
+            'onSchemaPrepareForm'       => 'onSchemaPrepareForm',
+            'onSchemaAfterSave'         => 'onSchemaAfterSave',
+            'onSchemaBeforeCompileHead' => 'pushSchema',
         ];
     }
 
@@ -74,9 +74,9 @@ trait SchemaorgPluginTrait
      */
     protected function storeSchemaToStandardLocation(EventInterface $event)
     {
-        $context    = $event->getArgument('extension');
-        $table    = $event->getArgument('table');
-        $isNew    = $event->getArgument('isNew');
+        $context     = $event->getArgument('extension');
+        $table       = $event->getArgument('table');
+        $isNew       = $event->getArgument('isNew');
         $registry    = $event->getArgument('data');
 
         $data = $registry->toArray();
@@ -100,11 +100,11 @@ trait SchemaorgPluginTrait
             }
 
             //Create object to insert data into database
-            $query = new \stdClass();
-            $query->itemId = $table->id;
-            $query->context = $context;
+            $query             = new \stdClass();
+            $query->itemId     = $table->id;
+            $query->context    = $context;
             $query->schemaType = $data['schema']['schemaType'];
-            $form = $data['schema']['schemaType'];
+            $form              = $data['schema']['schemaType'];
 
             if (!empty($data['schema'][$form])) {
                 $schema = new \stdClass();
@@ -114,11 +114,11 @@ trait SchemaorgPluginTrait
                 }
 
                 $query->schemaForm = json_encode($schema);
-                $newSchema = new Registry($schema);
-                $query->schema = json_encode($this->cleanupSchema($newSchema));
+                $newSchema         = new Registry($schema);
+                $query->schema     = json_encode($this->cleanupSchema($newSchema));
             } else {
                 $query->schemaForm = false;
-                $query->schema = false;
+                $query->schema     = false;
             }
 
             $result = $db->insertObject('#__schemaorg', $query);
@@ -138,7 +138,7 @@ trait SchemaorgPluginTrait
      */
     public function updateSchemaForm(EventInterface $event)
     {
-        $data = $event->getArgument('subject');
+        $data    = $event->getArgument('subject');
         $context = $event->getArgument('context');
 
         if (!is_object($data)) {
@@ -164,9 +164,9 @@ trait SchemaorgPluginTrait
                     return false;
                 }
 
-                $schemaType = $results['schemaType'];
+                $schemaType                 = $results['schemaType'];
                 $data->schema['schemaType'] = $schemaType;
-                $data->schema['schema'] = json_encode(json_decode($results['schema']), JSON_PRETTY_PRINT);
+                $data->schema['schema']     = json_encode(json_decode($results['schema']), JSON_PRETTY_PRINT);
 
                 $form = json_decode($results['schemaForm'], true);
 
@@ -209,7 +209,7 @@ trait SchemaorgPluginTrait
      */
     public function onSchemaPrepareForm(EventInterface $event)
     {
-        $form = $event->getArgument('subject');
+        $form    = $event->getArgument('subject');
         $context = $form->getName();
 
         if (!$this->isSupported($context)) {
@@ -276,7 +276,7 @@ trait SchemaorgPluginTrait
      */
     public function isSchemaSupported(EventInterface $event)
     {
-        $data = $event->getArgument('subject');
+        $data    = $event->getArgument('subject');
         $context = $event->getArgument('context');
 
         if (!is_object($data)) {
@@ -368,14 +368,14 @@ trait SchemaorgPluginTrait
      */
     public function pushSchema()
     {
-        $itemId = (int) $this->app->getInput()->getInt('id');
-        $option = $this->app->getInput()->get('option');
-        $view = $this->app->getInput()->get('view');
+        $itemId  = (int) $this->app->getInput()->getInt('id');
+        $option  = $this->app->getInput()->get('option');
+        $view    = $this->app->getInput()->get('view');
         $context = $option . '.' . $view;
 
         if ($itemId > 0) {
             // Load the table data from the database
-            $db = $this->db;
+            $db    = $this->db;
             $query = $db->getQuery(true)
                 ->select('*')
                 ->from($db->quoteName('#__schemaorg'))
@@ -416,8 +416,8 @@ trait SchemaorgPluginTrait
             $duration = $schema->get($durationKey, []);
             if (is_object($duration)) {
                 $registry = new Registry($duration);
-                $min = $registry->get('min');
-                $hour = $registry->get('hour');
+                $min      = $registry->get('min');
+                $hour     = $registry->get('hour');
 
                 if ($hour && $min && $min < 60) {
                     $newDuration = "PT" . $hour . "H" . $min . "M";
@@ -452,7 +452,7 @@ trait SchemaorgPluginTrait
     {
         foreach ($repeatableFields as $repeatableField) {
             $field = new Registry($schema->get($repeatableField, []));
-            $arr = array();
+            $arr   = [];
             if (is_object($field)) {
                 foreach ($field as $i => $j) {
                     if (is_object($j)) {
@@ -508,7 +508,7 @@ trait SchemaorgPluginTrait
      */
     protected function cleanupJSON(array $schema)
     {
-        $arr = array();
+        $arr  = [];
         $emty = true;
 
         foreach ($schema as $k => $v) {
@@ -528,7 +528,7 @@ trait SchemaorgPluginTrait
         }
 
         if ($arr['@type'] == 'ImageObject' && !empty($arr['url'])) {
-            $img = HTMLHelper::_('cleanImageURL', $arr['url']);
+            $img        = HTMLHelper::_('cleanImageURL', $arr['url']);
             $arr['url'] = $img->url;
         }
 
@@ -586,7 +586,7 @@ trait SchemaorgPluginTrait
      */
     protected function checkAllowedAndForbiddenlist($context)
     {
-        $allowedlist = \array_filter((array) $this->params->get('allowedlist', []));
+        $allowedlist   = \array_filter((array) $this->params->get('allowedlist', []));
         $forbiddenlist = \array_filter((array) $this->params->get('forbiddenlist', []));
 
         if (!empty($allowedlist)) {

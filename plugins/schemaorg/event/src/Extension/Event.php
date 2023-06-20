@@ -74,7 +74,7 @@ final class Event extends CMSPlugin implements SubscriberInterface
         if (is_object($schema)) {
             $schema = $this->cleanupDate($schema, ['startDate']);
         }
-        
+
         return $schema;
     }
 }

@@ -65,10 +65,10 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onBeforeCompileHead'             => 'onBeforeCompileHead',
-            'onContentPrepareData'            => 'onContentPrepareData',
-            'onContentPrepareForm'            => 'onContentPrepareForm',
-            'onContentAfterSave'              => 'onContentAfterSave',
+            'onBeforeCompileHead'  => 'onBeforeCompileHead',
+            'onContentPrepareData' => 'onContentPrepareData',
+            'onContentPrepareForm' => 'onContentPrepareForm',
+            'onContentAfterSave'   => 'onContentAfterSave',
         ];
     }
 
@@ -83,7 +83,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
     public function onContentPrepareData(EventInterface $event)
     {
         $context = $event->getArgument('0');
-        $data = $event->getArgument('1');
+        $data    = $event->getArgument('1');
 
         if ($this->app->isClient('site') || !$this->isSupported($context)) {
             return true;
@@ -95,7 +95,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             'onSchemaPrepareData',
             [
                 'subject' => $data,
-                'context' => $context
+                'context' => $context,
             ]
         );
 
@@ -114,7 +114,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      */
     public function onContentPrepareForm(EventInterface $event)
     {
-        $form = $event->getArgument('0');
+        $form    = $event->getArgument('0');
         $context = $form->getName();
 
         if ($this->app->isClient('site') || !$this->isSupported($context)) {
@@ -149,10 +149,10 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      */
     public function onContentAfterSave(EventInterface $event)
     {
-        $context = $event->getArgument('0');
-        $table = $event->getArgument('1');
-        $isNew = $event->getArgument('2');
-        $data = $event->getArgument('3');
+        $context  = $event->getArgument('0');
+        $table    = $event->getArgument('1');
+        $isNew    = $event->getArgument('2');
+        $data     = $event->getArgument('3');
         $registry = new Registry($data);
 
         $dispatcher = Factory::getApplication()->getDispatcher();
@@ -160,11 +160,11 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $event   = AbstractEvent::create(
             'onSchemaAfterSave',
             [
-                    'subject'       => $this,
-                    'extension'     => $context,
-                    'table'       => $table,
-                    'isNew'         => $isNew,
-                    'data'          => $registry,
+                    'subject'   => $this,
+                    'extension' => $context,
+                    'table'     => $table,
+                    'isNew'     => $isNew,
+                    'data'      => $registry,
                 ]
         );
 
@@ -187,7 +187,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $event   = AbstractEvent::create(
             'onSchemaBeforeCompileHead',
             [
-                    'subject'       => $this
+                    'subject' => $this,
                 ]
         );
 
