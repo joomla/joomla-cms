@@ -300,11 +300,12 @@ class JoomlaInstallerScript
     }
      
         // Get the timeout for Joomla! updates, as configured in com_installer's component parameters
-        $component = ComponentHelper::getComponent('com_installer');
-        $paramsc   = $component->getParams();
-        $cache_timeout = (int) $paramsc->get('cachetimeout', 6);
+        $component    = ComponentHelper::getComponent('com_installer');
+        $paramsc      = $component->getParams();
+        $cachetimeout = (int) $paramsc->get('cachetimeout', 6);
+        $params       = new Registry($data->params);
+        $lastrun      = (int) $pluginParams->get('lastrun', 0);
 
-        $params = new Registry($data->params);
         /** @var SchedulerComponent $component */
         $component = Factory::getApplication()->bootComponent('com_scheduler');
 
@@ -315,8 +316,8 @@ class JoomlaInstallerScript
             'type'  => 'update.notification',
             'execution_rules' => [
                 'rule-type' => 'interval-hours',
-                'interval-hours' => $cache_timeout,
-                'exec-time' => '08:26',
+                'interval-hours' => $cachetimeout,
+                'exec-time' => gmdate("H:i", $lastrun),
             ],
             'state' => 1,
             'params' => [
