@@ -184,7 +184,7 @@ Cypress.Commands.add('db_createBannerClient', (bannerClientData) => {
     state: 0,
     extrainfo: '',
   };
-  
+
   return cy.task('queryDB', createInsertQuery('banner_clients', { ...defaultBannerOptions, ...bannerClientData })).then(async (info) => info.insertId);
 });
 
