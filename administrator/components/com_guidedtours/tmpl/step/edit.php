@@ -90,7 +90,7 @@ $this->useCoreUI = true;
                     <legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
                     <div>
                         <?php
-                            $this->fields = [];
+                            $this->fields        = [];
                             $this->hidden_fields = [];
                             echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
                     </div>
