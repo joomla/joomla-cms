@@ -69,6 +69,38 @@ class FeedLink
     public $length;
 
     /**
+     * The link.
+     *
+     * @var    integer
+     * @since  __DEPLOY_VERSION__
+     */
+    public $link;
+
+    /**
+     * The description.
+     *
+     * @var    integer
+     * @since  __DEPLOY_VERSION__
+     */
+    public $description;
+
+    /**
+     * The height.
+     *
+     * @var    integer
+     * @since  __DEPLOY_VERSION__
+     */
+    public $height;
+
+    /**
+     * The width.
+     *
+     * @var    integer
+     * @since  __DEPLOY_VERSION__
+     */
+    public $width;
+
+    /**
      * Constructor.
      *
      * @param   string   $uri       The URI to the linked resource.

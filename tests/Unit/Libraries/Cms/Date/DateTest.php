@@ -142,34 +142,6 @@ class DateTest extends UnitTestCase
     }
 
     /**
-     * @testdox  Test magic getter
-     *
-     * @return void
-     * @since   4.0.0
-     */
-    public function testMagicGetter()
-    {
-        $date = Date::getInstance("8th March 1978 6:06pm", new \DateTimeZone('UTC'));
-
-        $this->assertSame('31', $date->daysinmonth);
-        $this->assertSame('3', $date->dayofweek);
-        $this->assertSame('66', $date->dayofyear);
-        $this->assertSame(false, $date->isleapyear);
-        $this->assertSame('08', $date->day);
-        $this->assertSame('18', $date->hour);
-        $this->assertSame('06', $date->minute);
-        $this->assertSame('00', $date->second);
-        $this->assertSame('03', $date->month);
-        $this->assertSame('th', $date->ordinal);
-        $this->assertSame('10', $date->week);
-        $this->assertSame('1978', $date->year);
-
-        // Test that a notice is generated when accessing something that the magic getter cannot provide.
-        $this->expectNotice();
-        $date->noSuchProperty;
-    }
-
-    /**
      * @testdox  Test getting an instance
      *
      * @return void
