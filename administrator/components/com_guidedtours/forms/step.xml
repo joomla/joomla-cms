@@ -212,12 +212,13 @@
 
 				<field
 						name="requiredvalue"
-						type="text"
+						type="textarea"
 						label="COM_GUIDEDTOURS_TYPE_INPUT_REQUIRED_VALUE_LABEL"
 						description="COM_GUIDEDTOURS_TYPE_INPUT_REQUIRED_VALUE_DESC"
 						showon=".type:2[AND].interactive_type:2,6[AND]required:1"
 						filter="safehtml"
-						size="80"
+						cols="80"
+						rows="3"
 						default=""
 				>
 					<option value="0">JNO</option>
