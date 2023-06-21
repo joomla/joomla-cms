@@ -31,6 +31,7 @@ class Changelog
 {
     use LegacyErrorHandlingTrait;
     use LegacyPropertyManagementTrait;
+
     /**
      * Update manifest `<element>` element
      *
