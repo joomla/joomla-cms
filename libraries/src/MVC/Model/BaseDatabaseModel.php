@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\Model;
 
+use Exception;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\CallbackController;
@@ -46,6 +47,7 @@ use Joomla\Event\EventInterface;
  *
  * @since  2.5.5
  */
+#[\AllowDynamicProperties]
 abstract class BaseDatabaseModel extends BaseModel implements
     DatabaseModelInterface,
     DispatcherAwareInterface,
