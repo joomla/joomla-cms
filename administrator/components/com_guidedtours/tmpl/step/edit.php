@@ -26,7 +26,7 @@ if (empty($this->item->tour_id)) {
     throw new GenericDataException("\nThe Tour id was not set!\n", 500);
 }
 
-$lang = Factory::getLanguage()->getTag();
+$lang = $this->getLanguage()->getTag();
 
 $this->useCoreUI = true;
 ?>
