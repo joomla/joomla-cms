@@ -233,12 +233,12 @@ class StepsModel extends ListModel
             $item->title       = Text::_($item->title);
             $item->description = Text::_($item->description);
 
-			if (isset($item->params)) {
-				$params = new Registry($item->params);
-				if (isset($item->params->requiredvalue) && !empty($item->params->requiredvalue)) {
-					$item->params->requiredvalue = Text::_($item->params->requiredvalue);
-				}
-			}
+            if (isset($item->params)) {
+                $params = new Registry($item->params);
+                if (isset($item->params->requiredvalue) && !empty($item->params->requiredvalue)) {
+                    $item->params->requiredvalue = Text::_($item->params->requiredvalue);
+                }
+            }
         }
 
         return $items;
