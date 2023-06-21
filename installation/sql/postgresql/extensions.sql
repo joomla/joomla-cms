@@ -964,6 +964,7 @@ CREATE TABLE IF NOT EXISTS "#__guidedtour_steps" (
   "checked_out" integer,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
+  "params" text NOT NULL,
   PRIMARY KEY ("id")
 );
 
