@@ -182,11 +182,10 @@ Cypress.Commands.add('db_createBannerClient', (bannerClientData) => {
     name: 'test banner Client',
     contact: 'test banner Client',
     state: 0,
-    extrainfo: ''
+    extrainfo: '',
   };
-
+  
   return cy.task('queryDB', createInsertQuery('banner_clients', { ...defaultBannerOptions, ...bannerClientData })).then(async (info) => info.insertId);
-
 });
 
 /**
