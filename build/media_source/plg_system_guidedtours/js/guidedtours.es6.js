@@ -152,9 +152,11 @@ function addStepToTourButton(tour, stepObj, buttons) {
           switch (this.options.attachTo.interactive_type) {
             case 'text':
               if (
-                target.tagName.toLowerCase() === 'input'
-                && (target.hasAttribute('required') || (this.options.params.required || 0))
-                && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(target.type)
+                (target.hasAttribute('required') || (this.options.params.required || 0))
+                && (
+                  (target.tagName.toLowerCase() === 'input' && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(target.type))
+                    || target.tagName.toLowerCase() === 'textarea'
+                )
               ) {
                 if ((this.options.params.requiredvalue || '') !== '') {
                   if (target.value.trim() === this.options.params.requiredvalue) {
@@ -426,7 +428,10 @@ function startTour(obj) {
               ele.step_id = index;
               if (
                 (ele.hasAttribute('required') || (obj.steps[index].params.required || 0))
-                && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(ele.type)
+                && (
+                  (ele.tagName.toLowerCase() === 'input' && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(ele.type))
+                || ele.tagName.toLowerCase() === 'textarea'
+                )
               ) {
                 ['input', 'focus'].forEach((eventName) => ele.addEventListener(eventName, (event) => {
                   if ((obj.steps[index].params.requiredvalue || '') !== '') {
