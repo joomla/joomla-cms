@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
-use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -261,7 +260,6 @@ class StepModel extends AdminModel
                 // Set the step's tour id
                 $result->tour_id = $tourId;
             }
-
         }
 
         return $result;
