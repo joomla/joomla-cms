@@ -45,7 +45,7 @@ abstract class DatabaseHelper
      * @var    string
      * @since  4.0.0
      */
-    protected static $dbMinimumMySql = '8.0.11';
+    protected static $dbMinimumMySql = '8.0.13';
 
     /**
      * The minimum database server version for PostgreSQL databases as required by the CMS.
