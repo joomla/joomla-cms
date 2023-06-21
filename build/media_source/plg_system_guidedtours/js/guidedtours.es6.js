@@ -66,6 +66,17 @@ function setFocus(primaryButton, secondaryButton, cancelButton) {
   }
 }
 
+function enableButton(eventElement) {
+  const element = eventElement instanceof Event ? document.querySelector(`.step-next-button-${eventElement.currentTarget.step_id}`) : eventElement;
+  element.removeAttribute('disabled');
+  element.classList.remove('disabled');
+}
+function disableButton(eventElement) {
+  const element = eventElement instanceof Event ? document.querySelector(`.step-next-button-${eventElement.currentTarget.step_id}`) : eventElement;
+  element.setAttribute('disabled', 'disabled');
+  element.classList.add('disabled');
+}
+
 function addStepToTourButton(tour, stepObj, buttons) {
   const step = new Shepherd.Step(tour, {
     title: stepObj.title,
@@ -117,6 +128,14 @@ function addStepToTourButton(tour, stepObj, buttons) {
         const element = this.getElement();
         const target = this.getTarget();
 
+        // if target element doesn't exist e.g. because we have navigated to a new page mid-tour then end the tour here!
+        // Take care though since some steps have no target to we check for these too
+        if (!target && this.options.attachTo.element) {
+          emptyStorage();
+          this.cancel();
+          return;
+        }
+
         // Force the screen reader to only read the content of the popup after a refresh
         element.setAttribute('aria-live', 'assertive');
 
@@ -128,39 +147,64 @@ function addStepToTourButton(tour, stepObj, buttons) {
           const primaryButton = element.querySelector('.shepherd-button-primary');
           const secondaryButton = element.querySelector('.shepherd-button-secondary');
 
-          // The 'next' button should always be enabled if the target input field of type 'text' has a value
-          if (
-            target.tagName.toLowerCase() === 'input'
-            && (target.hasAttribute('required') || (this.options.params.required || 0))
-            && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(target.type)
-          ) {
-            if ((this.options.params.requiredvalue || '') !== '') {
-              if (target.value.trim() === this.options.params.requiredvalue) {
-                primaryButton.removeAttribute('disabled');
-                primaryButton.classList.remove('disabled');
-              } else {
-                primaryButton.setAttribute('disabled', 'disabled');
-                primaryButton.classList.add('disabled');
+          // Check to see if the 'next' button should be enabled before showing the step based on being required or
+          // matcching the required value
+          switch (this.options.attachTo.interactive_type) {
+            case 'text':
+              if (
+                target.tagName.toLowerCase() === 'input'
+                && (target.hasAttribute('required') || (this.options.params.required || 0))
+                && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(target.type)
+              ) {
+                if ((this.options.params.requiredvalue || '') !== '') {
+                  if (target.value.trim() === this.options.params.requiredvalue) {
+                    enableButton(primaryButton);
+                  } else {
+                    disableButton(primaryButton);
+                  }
+                } else if (target.value.trim().length) {
+                  enableButton(primaryButton);
+                } else {
+                  disableButton(primaryButton);
+                }
               }
-            } else if (target.value.trim().length) {
-              primaryButton.removeAttribute('disabled');
-              primaryButton.classList.remove('disabled');
-            } else {
-              primaryButton.setAttribute('disabled', 'disabled');
-              primaryButton.classList.add('disabled');
-            }
-          } else if (
-            target.tagName.toLowerCase() === 'input'
-            && (target.hasAttribute('required') || (this.options.params.required || 0))
-            && ['checkbox', 'radio'].includes(target.type)
-          ) {
-            if (target.checked) {
-              primaryButton.removeAttribute('disabled');
-              primaryButton.classList.remove('disabled');
-            } else {
-              primaryButton.setAttribute('disabled', 'disabled');
-              primaryButton.classList.add('disabled');
-            }
+              break;
+
+            case 'checkbox_radio':
+              if (
+                target.tagName.toLowerCase() === 'input'
+                && (target.hasAttribute('required') || (this.options.params.required || 0))
+                && ['checkbox', 'radio'].includes(target.type)
+              ) {
+                if (target.checked) {
+                  enableButton(primaryButton);
+                } else {
+                  disableButton(primaryButton);
+                }
+              }
+              break;
+
+            case 'select':
+              if (
+                target.tagName.toLowerCase() === 'select'
+                && (target.hasAttribute('required') || (this.options.params.required || 0))
+              ) {
+                if ((this.options.params.requiredvalue || '') !== '') {
+                  if (target.value.trim() === this.options.params.requiredvalue) {
+                    enableButton(primaryButton);
+                  } else {
+                    disableButton(primaryButton);
+                  }
+                } else if (target.value.trim().length) {
+                  enableButton(primaryButton);
+                } else {
+                  disableButton(primaryButton);
+                }
+              }
+              break;
+
+            default:
+              break;
           }
 
           cancelButton.addEventListener('keydown', (event) => {
@@ -303,17 +347,6 @@ function addBackButton(buttons, step) {
   });
 }
 
-function enableButton(event) {
-  const element = document.querySelector(`.step-next-button-${event.currentTarget.step_id}`);
-  element.removeAttribute('disabled');
-  element.classList.remove('disabled');
-}
-function disableButton(event) {
-  const element = document.querySelector(`.step-next-button-${event.currentTarget.step_id}`);
-  element.setAttribute('disabled', 'disabled');
-  element.classList.add('disabled');
-}
-
 function startTour(obj) {
   // We store the tour id to restart on site refresh
   sessionStorage.setItem('tourId', obj.id);
@@ -353,7 +386,7 @@ function startTour(obj) {
     ind = 1;
   }
 
-  // Now let's add all follow up steps
+  // Now let's add all followup steps
   const len = obj.steps.length;
   let buttons;
 
@@ -428,6 +461,28 @@ function startTour(obj) {
               }
               break;
 
+            case 'select':
+              ele.step_id = index;
+              if (
+                ele.tagName.toLowerCase() === 'select'
+                && (ele.hasAttribute('required') || (obj.steps[index].params.required || 0))
+              ) {
+                ['change'].forEach((eventName) => ele.addEventListener(eventName, (event) => {
+                  if ((obj.steps[index].params.requiredvalue || '') !== '') {
+                    if (event.target.value.trim() === obj.steps[index].params.requiredvalue) {
+                      enableButton(event);
+                    } else {
+                      disableButton(event);
+                    }
+                  } else if (event.target.value.trim().length) {
+                    enableButton(event);
+                  } else {
+                    disableButton(event);
+                  }
+                }));
+              }
+              break;
+
             case 'button':
               tour.next();
               break;
@@ -443,9 +498,7 @@ function startTour(obj) {
     if (index < len - 1) {
       if (
         (obj && obj.steps[index].type !== 'interactive')
-        || (obj && obj.steps[index].interactive_type === 'text')
-        || (obj && obj.steps[index].interactive_type === 'checkbox_radio')
-        || (obj && obj.steps[index].interactive_type === 'other')
+        || (obj && ['text', 'checkbox_radio', 'select', 'other'].includes(obj.steps[index].interactive_type))
       ) {
         pushNextButton(buttons, obj.steps[index]);
       }

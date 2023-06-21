@@ -53,6 +53,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         GuidedtoursComponent::STEP_INTERACTIVETYPE_OTHER            => 'other',
         GuidedtoursComponent::STEP_INTERACTIVETYPE_BUTTON           => 'button',
         GuidedtoursComponent::STEP_INTERACTIVETYPE_CHECKBOX_RADIO   => 'checkbox_radio',
+        GuidedtoursComponent::STEP_INTERACTIVETYPE_SELECT           => 'select',
     ];
 
     /**
