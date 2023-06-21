@@ -236,8 +236,7 @@ class JoomlaInstallerScript
         foreach ($extensions as $extension) {
             $row = $db->setQuery(
                 $db->getQuery(true)
-                    ->select($db->quoteName('extension_id'))
-                    ->select($db->quoteName('params'))
+                    ->select('*')
                     ->from($db->quoteName('#__extensions'))
                     ->where($db->quoteName('type') . ' = ' . $db->quote($extension['type']))
                     ->where($db->quoteName('element') . ' = ' . $db->quote($extension['element']))

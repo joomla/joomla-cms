@@ -152,7 +152,7 @@ class HtmlView extends BaseHtmlView
         $componentParams = ComponentHelper::getParams($component);
 
         // Need to load the menu language file as mod_menu hasn't been loaded yet.
-        $lang = Factory::getLanguage();
+        $lang = $this->getLanguage();
         $lang->load($component, JPATH_BASE)
             || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
 
@@ -173,7 +173,7 @@ class HtmlView extends BaseHtmlView
 
         // Load specific css component
         /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-        $wa = $this->document->getWebAssetManager();
+        $wa = $this->getDocument()->getWebAssetManager();
         $wa->getRegistry()->addExtensionRegistryFile($component);
 
         if ($wa->assetExists('style', $component . '.admin-categories')) {
