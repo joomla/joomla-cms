@@ -190,55 +190,55 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         // The EOS date has passed - Support has ended
         if ($inverted === 1) {
             return [
-                'id'            => 5,
-                'messageText'   => 'PLG_QUICKICON_EOS_MESSAGE_ERROR_SUPPORT_ENDED',
-                'messageType'   => 'error',
-                'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
-                'snoozable'     => false,
+                'id'          => 5,
+                'messageText' => 'PLG_QUICKICON_EOS_MESSAGE_ERROR_SUPPORT_ENDED',
+                'messageType' => 'error',
+                'messageLink' => 'https://docs.joomla.org/Special:MyLanguage/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
+                'snoozable'   => false,
             ];
         }
 
         // The security support is ending in 6 months
         if ($monthsUntilEOS < 6) {
             return [
-                'id'            => 4,
-                'messageText'   => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SUPPORT_ENDING',
-                'messageType'   => 'warning',
-                'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
-                'snoozable'     => true,
+                'id'          => 4,
+                'messageText' => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SUPPORT_ENDING',
+                'messageType' => 'warning',
+                'messageLink' => 'https://docs.joomla.org/Special:MyLanguage/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
+                'snoozable'   => true,
             ];
         }
 
         // We are in security only mode now, 12 month to go from now on
         if ($monthsUntilEOS < 12) {
             return [
-                'id'            => 3,
-                'messageText'   => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SECURITY_ONLY',
-                'messageType'   => 'warning',
-                'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
-                'snoozable'     => true,
+                'id'          => 3,
+                'messageText' => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SECURITY_ONLY',
+                'messageType' => 'warning',
+                'messageLink' => 'https://docs.joomla.org/Special:MyLanguage/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
+                'snoozable'   => true,
             ];
         }
 
         // We still have 16 month to go, lets remind our users about the pre upgrade checker
         if ($monthsUntilEOS < 16) {
             return [
-                'id'            => 2,
-                'messageText'   => 'PLG_QUICKICON_EOS_MESSAGE_INFO_02',
-                'messageType'   => 'info',
-                'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Pre-Update_Check',
-                'snoozable'     => true,
+                'id'          => 2,
+                'messageText' => 'PLG_QUICKICON_EOS_MESSAGE_INFO_02',
+                'messageType' => 'info',
+                'messageLink' => 'https://docs.joomla.org/Special:MyLanguage/Pre-Update_Check',
+                'snoozable'   => true,
             ];
         }
 
         // Lets start our messages 2 month after the initial release, still 22 month to go
         if ($monthsUntilEOS < 22) {
             return [
-                'id'            => 1,
-                'messageText'   => 'PLG_QUICKICON_EOS_MESSAGE_INFO_01',
-                'messageType'   => 'info',
-                'messageLink'   => 'https://joomla.org/5',
-                'snoozable'     => true,
+                'id'          => 1,
+                'messageText' => 'PLG_QUICKICON_EOS_MESSAGE_INFO_01',
+                'messageType' => 'info',
+                'messageLink' => 'https://joomla.org/5',
+                'snoozable'   => true,
             ];
         }
 
