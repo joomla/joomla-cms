@@ -297,7 +297,7 @@ class JoomlaInstallerScript
     {
         if (!$data->enabled) {
             return;
-    }
+        }
      
         // Get the timeout for Joomla! updates, as configured in com_installer's component parameters
         $component    = ComponentHelper::getComponent('com_installer');
