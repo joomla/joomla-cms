@@ -81,7 +81,7 @@ $this->useCoreUI = true;
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-	    <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+        <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
         <div class="row">
