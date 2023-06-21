@@ -195,6 +195,10 @@ abstract class PunycodeHelper
      */
     public static function emailToPunycode($email)
     {
+        if ($email === null) {
+            return '';
+        }
+
         $explodedAddress = explode('@', $email);
 
         // Not addressing UTF-8 user names
