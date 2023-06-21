@@ -34,7 +34,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 
 ?>
-<div class="com-content-category-blog blog" itemscope itemtype="https://schema.org/Blog">
+<div class="com-content-category-blog blog">
     <?php if ($this->params->get('show_page_heading')) : ?>
         <div class="page-header">
             <h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -84,7 +84,7 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
     <?php if (!empty($this->lead_items)) : ?>
         <div class="com-content-category-blog__items blog-items items-leading <?php echo $this->params->get('blog_class_leading'); ?>">
             <?php foreach ($this->lead_items as &$item) : ?>
-                <div class="com-content-category-blog__item blog-item" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+                <div class="com-content-category-blog__item blog-item">
                     <?php
                     $this->item = &$item;
                     echo $this->loadTemplate('item');
@@ -102,8 +102,7 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
         <?php endif; ?>
         <div class="com-content-category-blog__items blog-items <?php echo $blogClass; ?>">
         <?php foreach ($this->intro_items as $key => &$item) : ?>
-            <div class="com-content-category-blog__item blog-item"
-                itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+            <div class="com-content-category-blog__item blog-item">
                     <?php
                     $this->item = & $item;
                     echo $this->loadTemplate('item');
