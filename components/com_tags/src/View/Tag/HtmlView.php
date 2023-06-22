@@ -279,30 +279,30 @@ class HtmlView extends BaseHtmlView
 
         foreach ($this->item as $itemElement) {
             if ($itemElement->metadesc) {
-                $this->document->setDescription($itemElement->metadesc);
+                $this->getDocument()->setDescription($itemElement->metadesc);
             } elseif ($this->params->get('menu-meta_description')) {
-                $this->document->setDescription($this->params->get('menu-meta_description'));
+                $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
             }
 
             if ($this->params->get('robots')) {
-                $this->document->setMetaData('robots', $this->params->get('robots'));
+                $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
             }
         }
 
         if (count($this->item) === 1) {
             foreach ($this->item[0]->metadata->toArray() as $k => $v) {
                 if ($v) {
-                    $this->document->setMetaData($k, $v);
+                    $this->getDocument()->setMetaData($k, $v);
                 }
             }
         }
 
         if ($this->params->get('show_feed_link', 1) == 1) {
             $link    = '&format=feed&limitstart=';
-            $attribs = ['type' => 'application/rss+xml', 'title' => htmlspecialchars($this->document->getTitle())];
-            $this->document->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
-            $attribs = ['type' => 'application/atom+xml', 'title' => htmlspecialchars($this->document->getTitle())];
-            $this->document->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
+            $attribs = ['type' => 'application/rss+xml', 'title' => htmlspecialchars($this->getDocument()->getTitle())];
+            $this->getDocument()->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
+            $attribs = ['type' => 'application/atom+xml', 'title' => htmlspecialchars($this->getDocument()->getTitle())];
+            $this->getDocument()->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
         }
     }
 
