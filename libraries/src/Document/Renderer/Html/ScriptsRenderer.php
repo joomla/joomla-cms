@@ -367,10 +367,8 @@ class ScriptsRenderer extends DocumentRenderer
                 $importmap['scopes'][$esmScope][$esmName] = $src;
             }
 
-            // Remove the item from list of assets after it were added to map, for assets with "importmapOnly".
-            if ($item->getOption('importmapOnly')) {
-                unset($assets[$k]);
-            }
+            // Remove the item from list of assets after it were added to the map.
+            unset($assets[$k]);
         }
 
         if (!empty($importmap['imports'])) {
