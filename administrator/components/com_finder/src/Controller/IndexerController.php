@@ -152,7 +152,7 @@ class IndexerController extends BaseController
          * in order to work around some plugins that don't do proper environment
          * checks before trying to use HTML document functions.
          */
-        $lang = Factory::getLanguage();
+        $lang = $this->app->getLanguage();
 
         // Get the document properties.
         $attributes = [
