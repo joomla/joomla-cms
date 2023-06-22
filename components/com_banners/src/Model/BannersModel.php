@@ -223,12 +223,13 @@ class BannersModel extends ListModel
 
                     $condition2 = $db->quoteName('a.metakey') . ' ' . $query->regexp($bounded[2]);
 
+                    $bid = 3; //bounded index to use, no client no increment
                     if ($cid) {
-                        $condition2 .= ' OR ' . $db->quoteName('cl.metakey') . ' ' . $query->regexp($bounded[3]) . ' ';
+                        $condition2 .= ' OR ' . $db->quoteName('cl.metakey') . ' ' . $query->regexp($bounded[$bid++]) . ' ';
                     }
 
                     if ($categoryId) {
-                        $condition2 .= ' OR ' . $db->quoteName('cat.metakey') . ' ' . $query->regexp($bounded[4]) . ' ';
+                        $condition2 .= ' OR ' . $db->quoteName('cat.metakey') . ' ' . $query->regexp($bounded[$bid]) . ' ';
                     }
 
                     $temp[] = "($condition1) AND ($condition2)";
