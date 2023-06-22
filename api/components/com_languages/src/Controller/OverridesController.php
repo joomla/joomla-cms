@@ -76,30 +76,25 @@ class OverridesController extends ApiController
         return parent::displayList();
     }
 
-    /** Method to edit a record - overwrites current value
-     * @param   integer  $recordKey  The primary key of the item (if exists)
-     *
-     * @return  none
+    /** Method to edit a language override string - overwrites current value
      *
      * @since   4.3
      */
     public function edit()
     {
-
         $recordKey = $this->input->getString('id', '');
 
         $this->save($recordKey);
 
         $this->displayItem($recordKey);
-
     }
 
     /**
      * Method to save a record.
      *
-     * @param   integer  $recordKey  The primary key of the item (if exists)
+     * @param   string  $Key  The key of the item (if exists)
      *
-     * @return  integer  The record ID on success, false on failure
+     * @return  string  the key of the saved language string
      *
      * @since   4.0.0
      */
