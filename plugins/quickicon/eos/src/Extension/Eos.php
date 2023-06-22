@@ -82,11 +82,10 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Check and show the the alert and quickicon message.
+     * Check and show the the alert.
      *
      * This method is called when the Quick Icons module is constructing its set
-     * of icons. You can return an array which defines a single icon and it will
-     * be rendered right after the stock Quick Icons.
+     * of icons.
      *
      * @param   QuickIconsEvent  $event  The event object
      *
@@ -128,8 +127,6 @@ final class Eos extends CMSPlugin implements SubscriberInterface
 
         $app->getDocument()->getWebAssetManager()
             ->registerAndUseScript('plg_quickicon_eos.script', 'plg_quickicon_eos/snooze.js', [], ['type' => 'module']);
-
-        $result               = $event->getArgument('result', []);
     }
 
     /**
