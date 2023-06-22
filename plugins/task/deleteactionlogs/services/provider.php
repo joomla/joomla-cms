@@ -17,7 +17,7 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\Task\DeleteLogs\Extension\DeleteLogs;
+use Joomla\Plugin\Task\DeleteActionLogs\Extension\DeleteActionLogs;
 
 return new class () implements ServiceProviderInterface {
     /**
@@ -36,9 +36,9 @@ return new class () implements ServiceProviderInterface {
             function (Container $container) {
                 $dispatcher = $container->get(DispatcherInterface::class);
 
-                $plugin = new DeleteLogs(
+                $plugin = new DeleteActionLogs(
                     $dispatcher,
-                    (array) PluginHelper::getPlugin('task', 'deletelogs')
+                    (array) PluginHelper::getPlugin('task', 'deleteactionlogs')
                 );
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setDatabase($container->get(DatabaseInterface::class));

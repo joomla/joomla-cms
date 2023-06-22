@@ -2,13 +2,13 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Task.deletelogs
+ * @subpackage  Task.deleteactionlogs
  *
  * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Plugin\Task\DeleteLogs\Extension;
+namespace Joomla\Plugin\Task\DeleteActionLogs\Extension;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -29,7 +29,7 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since __DEPLOY_VERSION__
  */
-final class DeleteLogs extends CMSPlugin implements SubscriberInterface
+final class DeleteActionLogs extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use TaskPluginTrait;
