@@ -86,7 +86,7 @@ class OverridesController extends ApiController
     public function edit()
     {
 
-        $recordKey = $this->input->getString('id','');
+        $recordKey = $this->input->getString('id', '');
 
         $this->save($recordKey);
 
