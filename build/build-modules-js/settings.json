@@ -214,7 +214,8 @@
         "name": "cropperjs",
         "js": {
           "dist/cropper.js": "js/cropper.js",
-          "dist/cropper.min.js": "js/cropper.min.js"
+          "dist/cropper.min.js": "js/cropper.min.js",
+          "dist/cropper.esm.js": "js/cropper.esm.js"
         },
         "css": {
           "dist/cropper.css": "css/cropper.css",
@@ -227,8 +228,18 @@
             "uri": "cropper.min.css"
           },
           {
+            "name": "cropper-module",
+            "type": "script",
+            "uri": "cropper.esm.js",
+            "importmap": true,
+            "dependencies": [
+              "es-module-shims"
+            ]
+          },
+          {
             "name": "cropperjs",
             "type": "script",
+            "deprecated": true,
             "uri": "cropper.min.js",
             "attributes": {
               "defer": true

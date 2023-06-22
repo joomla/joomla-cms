@@ -122,23 +122,10 @@
       "uri": ""
     },
     {
-      "name": "showon.es5",
-      "type": "script",
-      "dependencies": [
-        "core"
-      ],
-      "uri": "system/showon-es5.min.js",
-      "attributes": {
-        "defer": true,
-        "nomodule": true
-      }
-    },
-    {
       "name": "showon",
       "type": "script",
       "dependencies": [
-        "core",
-        "showon.es5"
+        "core"
       ],
       "uri": "system/showon.min.js",
       "attributes": {
