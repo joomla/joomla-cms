@@ -69,7 +69,7 @@ class FeedLink
     public $length;
 
     /**
-     * The link.
+     * The link of the image.
      *
      * @var    integer
      * @since  __DEPLOY_VERSION__
@@ -77,7 +77,7 @@ class FeedLink
     public $link;
 
     /**
-     * The description.
+     * The description of the image.
      *
      * @var    integer
      * @since  __DEPLOY_VERSION__
@@ -85,7 +85,7 @@ class FeedLink
     public $description;
 
     /**
-     * The height.
+     * The height of the image.
      *
      * @var    integer
      * @since  __DEPLOY_VERSION__
@@ -93,7 +93,7 @@ class FeedLink
     public $height;
 
     /**
-     * The width.
+     * The width of the image.
      *
      * @var    integer
      * @since  __DEPLOY_VERSION__
