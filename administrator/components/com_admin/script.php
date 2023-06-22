@@ -230,6 +230,7 @@ class JoomlaInstallerScript
              *                   uninstalling, `null` if not used.
              */
              ['type' => 'plugin', 'element' => 'demotasks', 'folder' => 'task', 'client_id' => 0, 'pre_function' => null],
+             ['type' => 'plugin', 'element' => 'logrotation', 'folder' => 'system', 'client_id' => 0, 'pre_function' => 'migrateLogRotationPlugin'],
         ];
 
         $db = Factory::getDbo();
@@ -280,6 +281,47 @@ class JoomlaInstallerScript
                 throw $e;
             }
         }
+    }
+
+    /**
+     * This method is for migration for old logrotation system plugin migration to task.
+     *
+     * @param   \stdClass  $data  Object with `extension_id` and `params` of the extension
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function migrateLogRotationPlugin($data)
+    {
+        if (!$data->enabled) {
+            return;
+        }
+
+        // Get the timeout, as configured in plg_system_logrotation
+        $params       = new Registry($data->params);
+        $cachetimeout = (int) $params->get('cachetimeout', 6);
+        $lastrun      = (int) $params->get('lastrun', 0);
+
+        /** @var SchedulerComponent $component */
+        $component = Factory::getApplication()->bootComponent('com_scheduler');
+
+        /** @var TaskModel $model */
+        $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+        $task = [
+            'title' => 'RotateLogs',
+            'type'  => 'rotation.logs',
+            'execution_rules' => [
+                'rule-type' => 'interval-hours',
+                'interval-hours' => $cachetimeout,
+                'exec-time' => gmdate("H:i", $lastrun),
+            ],
+            'state' => 1,
+            'params' => [
+                'logstokeep' => $params->get('logstokeep', 0),
+            ]
+        ];
+        $model->save($task);
     }
 
     /**
