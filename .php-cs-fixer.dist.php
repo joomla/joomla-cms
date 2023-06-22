@@ -79,7 +79,7 @@ $config
             // The "No break" comment in switch statements
             'no_break_comment'               => ['comment_text' => 'No break'],
             // Remove unused imports
-            'no_unused_imports'               => true,
+            'no_unused_imports'              => true,
         ]
     )
     ->setFinder($finder);
