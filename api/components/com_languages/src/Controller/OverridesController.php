@@ -83,7 +83,8 @@ class OverridesController extends ApiController
      *
      * @since   4.3
      */
-    public function edit() {
+    public function edit()
+    {
 
         $recordKey = $this->input->getString('id','');
 

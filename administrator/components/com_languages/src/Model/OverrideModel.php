@@ -135,7 +135,7 @@ class OverrideModel extends AdminModel
 
         if ($app->isClient('api')) {
             //$client must be either 0 or 1 - site is 0
-            $client   = ($this->getState('filter.client')=='site') ? 0 : 1;
+            $client   = ($this->getState('filter.client') == 'site') ? 0 : 1;
             $language = $this->getState('filter.language');
         } else {
             $client   = $app->getUserState('com_languages.overrides.filter.client', 0);
