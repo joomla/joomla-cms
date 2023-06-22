@@ -70,7 +70,8 @@ class MapTable extends Nested
         $this->alias = ApplicationHelper::stringURLSafe($this->title, $this->language);
 
         if (trim($this->alias) == '') {
-            $this->alias = md5(serialize($this->getProperties()));
+            // Do not serialize objects
+            $this->alias = md5(serialize(array_filter($this->getProperties(), fn ($prop) => !is_object($prop))));
         }
 
         return true;
