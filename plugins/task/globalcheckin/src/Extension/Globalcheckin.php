@@ -45,7 +45,7 @@ class Globalcheckin extends CMSPlugin implements SubscriberInterface
     protected const TASKS_MAP = [
         'plg_task_globalcheckin_task_get' => [
             'langConstPrefix' => 'PLG_TASK_GLOBALCHECKIN',
-            'form'            => 'checkin_params',
+            'form'            => 'globalcheckin_params',
             'method'          => 'makeCheckin',
         ],
     ];
