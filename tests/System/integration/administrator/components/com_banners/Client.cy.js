@@ -25,13 +25,13 @@ describe('Test in backend that the clients form', () => {
   });
 
   it('can edit a client', () => {
-    cy.db_createBannerClient({ name: 'test banner Client' }).then((bannerClient) => {
+    cy.db_createBannerClient({ name: 'test client' }).then((bannerClient) => {
       cy.visit(`/administrator/index.php?option=com_banners&task=client.edit&id=${bannerClient.id}`);
-      cy.get('#jform_name').clear().type('test banner client edited');
-      cy.get('#jform_contact').clear().type('test banner Client');
+      cy.get('#jform_name').clear().type('test banner Client');
+      cy.get('#jform_contact').clear().type('test banner ');
       cy.clickToolbarButton('Save & Close');
 
-      cy.contains('test banner client edited');
+      cy.contains('test banner Client');
     });
   });
 });
