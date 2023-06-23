@@ -23,7 +23,7 @@
       "type": "script",
       "uri": "com_admin/admin-help.min.js",
       "dependencies": [
-        "com_admin.admin-help.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

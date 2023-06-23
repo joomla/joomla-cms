@@ -23,7 +23,7 @@
       "type": "script",
       "uri": "com_templates/admin-template-toggle-assignment.min.js",
       "dependencies": [
-        "com_templates.admin-template-toggle-assignment.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -47,7 +47,7 @@
       "type": "script",
       "uri": "com_templates/admin-template-toggle-switch.min.js",
       "dependencies": [
-        "com_templates.admin-template-toggle-switch.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -76,7 +76,7 @@
       "type": "script",
       "uri": "com_templates/admin-templates-default.min.js",
       "dependencies": [
-        "com_templates.admin-templates.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

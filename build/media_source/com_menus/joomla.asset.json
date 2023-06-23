@@ -23,7 +23,7 @@
       "type": "script",
       "uri": "com_menus/admin-item-edit.min.js",
       "dependencies": [
-        "com_menus.admin-item-edit.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -52,7 +52,7 @@
       "type": "script",
       "uri": "com_menus/admin-item-edit_container.min.js",
       "dependencies": [
-        "com_menus.admin-item-edit-container.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -76,7 +76,7 @@
       "type": "script",
       "uri": "com_menus/admin-item-edit_modules.min.js",
       "dependencies": [
-        "com_menus.admin-item-edit-modules.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -100,7 +100,7 @@
       "type": "script",
       "uri": "com_menus/admin-item-modal.min.js",
       "dependencies": [
-        "com_menus.admin-item-modal.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -124,7 +124,7 @@
       "type": "script",
       "uri": "com_menus/admin-items-modal.min.js",
       "dependencies": [
-        "com_menus.admin-items-modal.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -148,7 +148,7 @@
       "type": "script",
       "uri": "com_menus/admin-menus-default.min.js",
       "dependencies": [
-        "com_menus.admin-menus.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -172,7 +172,7 @@
       "type": "script",
       "uri": "com_menus/default-batch-body.min.js",
       "dependencies": [
-        "com_menus.batch-body.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

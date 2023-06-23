@@ -23,7 +23,7 @@
       "type": "script",
       "uri": "com_content/admin-article-pagebreak.min.js",
       "dependencies": [
-        "com_content.admin-article-pagebreak.es5"
+        "core"
       ],
       "attributes": {
         "type": "module",
@@ -48,7 +48,7 @@
       "type": "script",
       "uri": "com_content/admin-article-readmore.min.js",
       "dependencies": [
-        "com_content.admin-article-readmore.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -72,7 +72,7 @@
       "type": "script",
       "uri": "com_content/admin-articles-default-batch-footer.min.js",
       "dependencies": [
-        "com_content.admin-articles-batch.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -96,7 +96,7 @@
       "type": "script",
       "uri": "com_content/admin-articles-default-stage-footer.min.js",
       "dependencies": [
-        "com_content.admin-articles-stage.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -120,7 +120,7 @@
       "type": "script",
       "uri": "com_content/admin-articles-modal.min.js",
       "dependencies": [
-        "com_content.admin-articles-modal.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -144,7 +144,7 @@
       "type": "script",
       "uri": "com_content/form-edit.min.js",
       "dependencies": [
-        "com_content.form-edit.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -168,7 +168,7 @@
       "type": "script",
       "uri": "com_content/articles-list.min.js",
       "dependencies": [
-        "com_content.articles-list.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -192,7 +192,7 @@
       "type": "script",
       "uri": "com_content/articles-status.min.js",
       "dependencies": [
-        "com_content.articles-status.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

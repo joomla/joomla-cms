@@ -23,7 +23,7 @@
       "type": "script",
       "uri": "com_installer/changelog.min.js",
       "dependencies": [
-        "com_installer.changelog.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -52,7 +52,7 @@
       "type": "script",
       "uri": "com_installer/installer.min.js",
       "dependencies": [
-        "com_installer.installer.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

@@ -23,7 +23,7 @@
       "type": "script",
       "uri": "com_banners/admin-banner-edit.min.js",
       "dependencies": [
-        "com_banners.admin-banner-edit.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

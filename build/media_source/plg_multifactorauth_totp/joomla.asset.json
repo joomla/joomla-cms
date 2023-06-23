@@ -10,7 +10,6 @@
       "type": "script",
       "uri": "plg_multifactorauth_totp/setup.min.js",
       "dependencies": [
-        "plg_multifactorauth_totp.setup.es5",
         "qrcode",
         "core"
       ],

@@ -23,7 +23,7 @@
       "type": "script",
       "uri": "plg_system_jooa11y/jooa11y.min.js",
       "dependencies": [
-        "plg_system_jooa11y.jooa11y-es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

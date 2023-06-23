@@ -23,7 +23,7 @@
       "type": "script",
       "uri": "com_media/edit-images.min.js",
       "dependencies": [
-        "com_media.edit-images.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -52,7 +52,7 @@
       "type": "script",
       "uri": "com_media/media-manager.min.js",
       "dependencies": [
-        "com_media.mediamanager.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

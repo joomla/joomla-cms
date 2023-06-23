@@ -23,7 +23,7 @@
       "type": "script",
       "uri": "com_languages/admin-language-edit-change-flag.min.js",
       "dependencies": [
-        "com_languages.admin-language-edit-change-flag.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -47,7 +47,7 @@
       "type": "script",
       "uri": "com_languages/admin-override-edit-refresh-searchstring.min.js",
       "dependencies": [
-        "com_languages.admin-override-edit-refresh-searchstring.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -76,7 +76,7 @@
       "type": "script",
       "uri": "com_languages/overrider.min.js",
       "dependencies": [
-        "com_languages.overrider.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

@@ -23,8 +23,7 @@
       "type": "script",
       "uri": "plg_system_guidedtours/guidedtours.min.js",
       "dependencies": [
-        "core",
-        "plg_system_guidedtours.guidedtours.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

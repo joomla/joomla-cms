@@ -31,7 +31,7 @@
       "type": "script",
       "uri": "com_categories/shared-categories-accordion.min.js",
       "dependencies": [
-        "com_categories.shared-categories-accordion.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

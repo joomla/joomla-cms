@@ -24,7 +24,7 @@
       "type": "script",
       "uri": "com_contenthistory/admin-compare-compare.min.js",
       "dependencies": [
-        "com_contenthistory.admin-compare-compare.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -48,7 +48,7 @@
       "type": "script",
       "uri": "com_contenthistory/admin-history-modal.min.js",
       "dependencies": [
-        "com_contenthistory.admin-history-modal.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -72,7 +72,7 @@
       "type": "script",
       "uri": "com_contenthistory/admin-history-versions.min.js",
       "dependencies": [
-        "com_contenthistory.admin-history-versions.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

@@ -28,7 +28,7 @@
       "type": "script",
       "uri": "com_finder/debug.min.js",
       "dependencies": [
-        "com_finder.debug.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -52,7 +52,7 @@
       "type": "script",
       "uri": "com_finder/filters.min.js",
       "dependencies": [
-        "com_finder.filters.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -81,7 +81,7 @@
       "type": "script",
       "uri": "com_finder/finder.min.js",
       "dependencies": [
-        "com_finder.finder.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -105,7 +105,7 @@
       "type": "script",
       "uri": "com_finder/finder-edit.min.js",
       "dependencies": [
-        "com_finder.finder-edit.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -134,7 +134,7 @@
       "type": "script",
       "uri": "com_finder/indexer.min.js",
       "dependencies": [
-        "com_finder.indexer.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -158,7 +158,7 @@
       "type": "script",
       "uri": "com_finder/maps.min.js",
       "dependencies": [
-        "com_finder.maps.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

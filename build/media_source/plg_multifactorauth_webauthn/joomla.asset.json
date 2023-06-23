@@ -10,7 +10,6 @@
       "type": "script",
       "uri": "plg_multifactorauth_webauthn/webauthn.min.js",
       "dependencies": [
-        "plg_multifactorauth_webauthn.webauthn.es5",
         "core"
       ],
       "attributes": {

@@ -23,7 +23,7 @@
       "type": "script",
       "uri": "com_cache/admin-cache-default.min.js",
       "dependencies": [
-        "com_cache.admin-cache.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

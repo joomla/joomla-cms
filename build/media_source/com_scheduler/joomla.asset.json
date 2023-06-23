@@ -23,7 +23,7 @@
       "type": "script",
       "uri": "com_scheduler/admin-view-run-test-task.js",
       "dependencies": [
-        "com_scheduler.test-task.es5"
+        "core"
       ],
       "attributes": {
         "type" : "module"
@@ -47,7 +47,7 @@
       "type": "script",
       "uri": "com_scheduler/admin-view-select-task-search.js",
       "dependencies": [
-        "com_scheduler.admin-view-select-task-search.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -70,8 +70,7 @@
       "type": "script",
       "uri": "com_scheduler/scheduler-config.js",
       "dependencies": [
-        "core",
-        "com_scheduler.scheduler-config.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

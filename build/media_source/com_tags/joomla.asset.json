@@ -23,7 +23,7 @@
       "type": "script",
       "uri": "com_tags/tag-default.min.js",
       "dependencies": [
-        "com_tags.tag-default.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -47,7 +47,7 @@
       "type": "script",
       "uri": "com_tags/tag-list.min.js",
       "dependencies": [
-        "com_tags.tag-list.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -71,7 +71,7 @@
       "type": "script",
       "uri": "com_tags/tags-default.min.js",
       "dependencies": [
-        "com_tags.tags-default.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

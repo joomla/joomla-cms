@@ -29,7 +29,6 @@
       "type": "script",
       "class": "KeepaliveAssetItem",
       "dependencies": [
-        "keepalive.es5",
         "core"
       ],
       "uri": "system/keepalive.min.js",
@@ -141,8 +140,7 @@
       "name": "showon",
       "type": "script",
       "dependencies": [
-        "core",
-        "showon.es5"
+        "core"
       ],
       "uri": "system/showon.min.js",
       "attributes": {

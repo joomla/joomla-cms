@@ -23,7 +23,7 @@
       "type": "script",
       "uri": "com_modules/admin-module-edit.min.js",
       "dependencies": [
-        "com_modules.admin-module-edit.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -47,7 +47,7 @@
       "type": "script",
       "uri": "com_modules/admin-module-edit_assignment.min.js",
       "dependencies": [
-        "com_modules.admin-module-edit-assignment.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -71,7 +71,7 @@
       "type": "script",
       "uri": "com_modules/admin-module-search.min.js",
       "dependencies": [
-        "com_modules.admin-module-search.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -95,7 +95,7 @@
       "type": "script",
       "uri": "com_modules/admin-modules-modal.min.js",
       "dependencies": [
-        "com_modules.admin-modules-modal.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -119,7 +119,7 @@
       "type": "script",
       "uri": "com_modules/admin-select-modal.min.js",
       "dependencies": [
-        "com_modules.admin-select-modal.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

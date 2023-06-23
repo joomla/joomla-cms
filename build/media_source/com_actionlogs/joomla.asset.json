@@ -23,7 +23,7 @@
       "type": "script",
       "uri": "com_actionlogs/admin-actionlogs-default.min.js",
       "dependencies": [
-        "com_actionlogs.admin-actionlogs.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

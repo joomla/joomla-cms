@@ -23,7 +23,7 @@
       "type": "script",
       "uri": "com_config/config-default.min.js",
       "dependencies": [
-        "com_config.config.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -47,7 +47,7 @@
       "type": "script",
       "uri": "com_config/modules-default.min.js",
       "dependencies": [
-        "com_config.modules.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -71,7 +71,7 @@
       "type": "script",
       "uri": "com_config/templates-default.min.js",
       "dependencies": [
-        "com_config.templates.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -95,7 +95,7 @@
       "type": "script",
       "uri": "com_config/config-filters.min.js",
       "dependencies": [
-        "com_config.filters.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

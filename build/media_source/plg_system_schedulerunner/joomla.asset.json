@@ -23,7 +23,6 @@
       "type": "script",
       "uri": "plg_system_schedulerunner/run-schedule.min.js",
       "dependencies": [
-        "plg_system_schedulerunner.run-schedule.es5",
         "core"
       ],
       "attributes": {
