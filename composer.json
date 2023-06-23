@@ -67,7 +67,7 @@
         "joomla/uri": "~3.0.x-dev",
         "joomla/utilities": "~3.0.x-dev",
         "algo26-matthias/idna-convert": "^3.1.0",
-        "defuse/php-encryption": "^2.4.0",
+        "defuse/php-encryption": "^2.3.1",
         "doctrine/inflector": "^1.4.4",
         "fig/link-util": "^1.2.0",
         "google/recaptcha": "^1.3.0",
