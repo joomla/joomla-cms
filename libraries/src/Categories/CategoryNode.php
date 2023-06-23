@@ -25,6 +25,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
+#[\AllowDynamicProperties]
 class CategoryNode implements NodeInterface
 {
     use LegacyErrorHandlingTrait;
