@@ -6,12 +6,11 @@
  *
  * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
+namespace Joomla\Plugin\EditorsXtd\PageBreak\Extension;
+
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 
@@ -24,7 +23,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
  *
  * @since  1.5
  */
-class PlgButtonPagebreak extends CMSPlugin
+final class PageBreak extends CMSPlugin
 {
     /**
      * Load the language file on instantiation.
@@ -45,14 +44,20 @@ class PlgButtonPagebreak extends CMSPlugin
      */
     public function onDisplay($name)
     {
-        $user  = Factory::getUser();
+        $app = $this->getApplication();
+
+        if (!$app instanceof CMSWebApplicationInterface) {
+            return;
+        }
+
+        $user = $app->getIdentity();
 
         // Can create in any category (component permission) or at least in one category
         $canCreateRecords = $user->authorise('core.create', 'com_content')
             || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0;
 
         // Instead of checking edit on all records, we can use **same** check as the form editing view
-        $values           = (array) Factory::getApplication()->getUserState('com_content.edit.article.id');
+        $values           = (array) $app->getUserState('com_content.edit.article.id');
         $isEditingRecords = count($values);
 
         // This ACL check is probably a double-check (form view already performed checks)
@@ -61,13 +66,13 @@ class PlgButtonPagebreak extends CMSPlugin
             return;
         }
 
-        Factory::getDocument()->addScriptOptions('xtd-pagebreak', ['editor' => $name]);
+        $app->getDocument()->addScriptOptions('xtd-pagebreak', ['editor' => $name]);
         $link = 'index.php?option=com_content&amp;view=article&amp;layout=pagebreak&amp;tmpl=component&amp;e_name=' . $name;
 
         $button          = new CMSObject();
         $button->modal   = true;
         $button->link    = $link;
-        $button->text    = Text::_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK');
+        $button->text    = $app->getLanguage()->_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK');
         $button->name    = $this->_type . '_' . $this->_name;
         $button->icon    = 'copy';
         $button->iconSVG = '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M26 8h-6v-2l-6-6h-14v24h12v8h20v-18l-6-6zM26 10.828l3.172 3'
