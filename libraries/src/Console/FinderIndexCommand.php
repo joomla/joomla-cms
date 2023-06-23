@@ -329,7 +329,7 @@ EOF;
         // Attempt to purge the index.
         $return = $model->purge();
 
-        // If unsuccessful then abort.
+        // If unsuccessful then stop.
         if (!$return) {
             $message = Text::_('FINDER_CLI_INDEX_PURGE_FAILED', $model->getError());
             $this->ioStyle->error($message);
