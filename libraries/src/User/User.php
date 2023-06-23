@@ -179,6 +179,38 @@ class User
     public $requireReset = null;
 
     /**
+     * The type alias
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $typeAlias = null;
+
+    /**
+     * The otp key
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $otpKey = null;
+
+    /**
+     * The otp
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $otep = null;
+
+    /**
+     * The authentication provider
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $authProvider = null;
+
+    /**
      * User parameters
      *
      * @var    Registry
