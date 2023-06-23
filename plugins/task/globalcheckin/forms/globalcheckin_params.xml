@@ -5,7 +5,7 @@
 			<field
 				name="delay"
 				type="number"
-				label="PLG_TASK_CHECKIN_DELAY_LABEL"
+				label="PLG_TASK_GLOBALCHECKIN_DELAY_LABEL"
 				default="1"
 				required="true"
 				min="0"

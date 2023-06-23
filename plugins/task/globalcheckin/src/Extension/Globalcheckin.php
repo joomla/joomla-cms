@@ -8,7 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Plugin\Task\Checkin\Extension;
+namespace Joomla\Plugin\Task\Globalcheckin\Extension;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
@@ -25,7 +25,7 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Checkin extends CMSPlugin implements SubscriberInterface
+class Globalcheckin extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use TaskPluginTrait;
@@ -43,8 +43,8 @@ class Checkin extends CMSPlugin implements SubscriberInterface
      * @since __DEPLOY_VERSION__
      */
     protected const TASKS_MAP = [
-        'plg_task_checkin_task_get' => [
-            'langConstPrefix' => 'PLG_TASK_CHECKIN',
+        'plg_task_globalcheckin_task_get' => [
+            'langConstPrefix' => 'PLG_TASK_GLOBALCHECKIN',
             'form'            => 'checkin_params',
             'method'          => 'makeCheckin',
         ],
