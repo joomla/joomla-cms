@@ -23,6 +23,7 @@ use Joomla\CMS\Object\LegacyPropertyManagementTrait;
  *
  * @since  4.0.0
  */
+#[\AllowDynamicProperties]
 abstract class BaseModel implements ModelInterface, StatefulModelInterface
 {
     use StateBehaviorTrait;

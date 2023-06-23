@@ -46,7 +46,6 @@ use Joomla\Event\EventInterface;
  *
  * @since  2.5.5
  */
-#[\AllowDynamicProperties]
 abstract class BaseDatabaseModel extends BaseModel implements
     DatabaseModelInterface,
     DispatcherAwareInterface,
