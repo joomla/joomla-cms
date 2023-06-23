@@ -83,10 +83,10 @@ class Globalcheckin extends CMSPlugin implements SubscriberInterface
      */
     protected function makeCheckin(ExecuteTaskEvent $event): int
     {
-        $db = $this->getDatabase();
+        $db     = $this->getDatabase();
         $tables = $db->getTableList();
         $prefix = $this->app->get('dbprefix');
-        $delay = (int) $event->getArgument('params')->delay ?? 1;
+        $delay  = (int) $event->getArgument('params')->delay ?? 1;
         $failed = false;
 
         foreach ($tables as $tn) {
