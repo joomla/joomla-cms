@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-use Exception;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\CallbackController;
