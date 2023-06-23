@@ -60,7 +60,7 @@ class UpdateController extends BaseController
         $message     = null;
         $messageType = null;
 
-        // The validation was not successful so abort.
+        // The validation was not successful so stop.
         if ($result['check'] === false) {
             $message     = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
             $messageType = 'error';
