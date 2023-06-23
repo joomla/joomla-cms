@@ -6,14 +6,40 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_tags.tag-default",
+      "name": "com_tags.tag-default.es5",
       "type": "script",
-      "uri": "com_tags/tag-default.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
       "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_tags.tag-default",
+      "type": "script",
+      "uri": "com_tags/tag-default.min.js",
+      "dependencies": [
+        "com_tags.tag-default.es5"
+      ],
+      "attributes": {
         "type": "module"
+      }
+    },
+    {
+      "name": "com_tags.tag-list.es5",
+      "type": "script",
+      "deprecated": true,
+      "uri": "",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
       }
     },
     {
@@ -21,10 +47,23 @@
       "type": "script",
       "uri": "com_tags/tag-list.min.js",
       "dependencies": [
-        "core"
+        "com_tags.tag-list.es5"
       ],
       "attributes": {
         "type": "module"
+      }
+    },
+    {
+      "name": "com_tags.tags-default.es5",
+      "type": "script",
+      "deprecated": true,
+      "uri": "",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
       }
     },
     {
@@ -32,7 +71,7 @@
       "type": "script",
       "uri": "com_tags/tags-default.min.js",
       "dependencies": [
-        "core"
+        "com_tags.tags-default.es5"
       ],
       "attributes": {
         "type": "module"

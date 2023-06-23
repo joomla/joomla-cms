@@ -6,14 +6,40 @@
   "license": "GNU General Public License version 2 or later; see LICENSE.txt",
   "assets": [
     {
-      "name": "com_scheduler.test-task",
+      "name": "com_scheduler.test-task.es5",
       "type": "script",
-      "uri": "com_scheduler/admin-view-run-test-task.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
       "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_scheduler.test-task",
+      "type": "script",
+      "uri": "com_scheduler/admin-view-run-test-task.js",
+      "dependencies": [
+        "com_scheduler.test-task.es5"
+      ],
+      "attributes": {
         "type" : "module"
+      }
+    },
+    {
+      "name": "com_scheduler.admin-view-select-task-search.es5",
+      "type": "script",
+      "deprecated": true,
+      "uri": "",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
       }
     },
     {
@@ -21,10 +47,22 @@
       "type": "script",
       "uri": "com_scheduler/admin-view-select-task-search.js",
       "dependencies": [
-        "core"
+        "com_scheduler.admin-view-select-task-search.es5"
       ],
       "attributes": {
         "type": "module"
+      }
+    },
+    {
+      "name": "com_scheduler.scheduler-config.es5",
+      "type": "script",
+      "deprecated": true,
+      "uri": "",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true
       }
     },
     {
@@ -32,7 +70,8 @@
       "type": "script",
       "uri": "com_scheduler/scheduler-config.js",
       "dependencies": [
-        "core"
+        "core",
+        "com_scheduler.scheduler-config.es5"
       ],
       "attributes": {
         "type": "module"

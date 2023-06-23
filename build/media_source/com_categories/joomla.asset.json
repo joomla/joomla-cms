@@ -14,11 +14,24 @@
       ]
     },
     {
+      "name": "com_categories.shared-categories-accordion.es5",
+      "type": "script",
+      "deprecated": true,
+      "uri": "",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
       "name": "com_categories.shared-categories-accordion",
       "type": "script",
       "uri": "com_categories/shared-categories-accordion.min.js",
       "dependencies": [
-        "core"
+        "com_categories.shared-categories-accordion.es5"
       ],
       "attributes": {
         "type": "module"

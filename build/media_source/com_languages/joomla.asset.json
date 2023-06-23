@@ -6,14 +6,40 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_languages.admin-language-edit-change-flag",
+      "name": "com_languages.admin-language-edit-change-flag.es5",
       "type": "script",
-      "uri": "com_languages/admin-language-edit-change-flag.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
       "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_languages.admin-language-edit-change-flag",
+      "type": "script",
+      "uri": "com_languages/admin-language-edit-change-flag.min.js",
+      "dependencies": [
+        "com_languages.admin-language-edit-change-flag.es5"
+      ],
+      "attributes": {
         "type": "module"
+      }
+    },
+    {
+      "name": "com_languages.admin-override-edit-refresh-searchstring.es5",
+      "type": "script",
+      "deprecated": true,
+      "uri": "",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
       }
     },
     {
@@ -21,7 +47,7 @@
       "type": "script",
       "uri": "com_languages/admin-override-edit-refresh-searchstring.min.js",
       "dependencies": [
-        "core"
+        "com_languages.admin-override-edit-refresh-searchstring.es5"
       ],
       "attributes": {
         "type": "module"
@@ -33,11 +59,24 @@
       "uri": "com_languages/overrider.min.css"
     },
     {
+      "name": "com_languages.overrider.es5",
+      "type": "script",
+      "deprecated": true,
+      "uri": "",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
       "name": "com_languages.overrider",
       "type": "script",
       "uri": "com_languages/overrider.min.js",
       "dependencies": [
-        "core"
+        "com_languages.overrider.es5"
       ],
       "attributes": {
         "type": "module"

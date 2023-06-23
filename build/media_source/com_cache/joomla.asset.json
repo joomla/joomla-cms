@@ -6,11 +6,24 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
+    "name": "com_cache.admin-cache.es5",
+    "type": "script",
+    "deprecated": true,
+    "uri": "",
+    "dependencies": [
+      "core"
+    ],
+    "attributes": {
+      "nomodule": true,
+      "defer": true
+    }
+  },
+    {
       "name": "com_cache.admin-cache",
       "type": "script",
       "uri": "com_cache/admin-cache-default.min.js",
       "dependencies": [
-        "core"
+        "com_cache.admin-cache.es5"
       ],
       "attributes": {
         "type": "module"

@@ -6,11 +6,25 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
+      "name": "plg_system_guidedtours.guidedtours.es5",
+      "type": "script",
+      "deprecated": true,
+      "uri": "",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
       "name": "plg_system_guidedtours.guidedtours",
       "type": "script",
       "uri": "plg_system_guidedtours/guidedtours.min.js",
       "dependencies": [
-        "core"
+        "core",
+        "plg_system_guidedtours.guidedtours.es5"
       ],
       "attributes": {
         "type": "module"

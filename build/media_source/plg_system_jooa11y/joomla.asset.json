@@ -6,11 +6,24 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
+      "name": "plg_system_jooa11y.jooa11y-es5",
+      "type": "script",
+      "deprecated": true,
+      "uri": "",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true,
+        "nomodule": true
+      }
+    },
+    {
       "name": "plg_system_jooa11y.jooa11y",
       "type": "script",
       "uri": "plg_system_jooa11y/jooa11y.min.js",
       "dependencies": [
-        "core"
+        "plg_system_jooa11y.jooa11y-es5"
       ],
       "attributes": {
         "type": "module"
