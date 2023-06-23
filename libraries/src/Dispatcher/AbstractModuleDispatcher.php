@@ -94,7 +94,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
      * Returns the layout data. This function can be overridden by subclasses to add more
      * attributes for the layout.
      *
-     * If false is returned, then it means that the dispatch process should be halted.
+     * If false is returned, then it means that the dispatch process should be stopped.
      *
      * @return  array|false
      *
