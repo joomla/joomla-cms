@@ -269,7 +269,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $input->set($systemVariable, null);
         }
 
-        // Abort when there are invalid variables
+        // Stop when there are invalid variables
         if ($invalidInputVariables) {
             throw new \RuntimeException('Invalid input, aborting application.');
         }
