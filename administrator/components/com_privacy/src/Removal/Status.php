@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Privacy\Administrator\Removal;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Data object communicating the status of whether the data for an information request can be removed.
  *

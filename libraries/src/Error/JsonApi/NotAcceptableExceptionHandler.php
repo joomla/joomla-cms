@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Error\JsonApi;
@@ -13,6 +13,10 @@ use Exception;
 use Joomla\CMS\Application\Exception\NotAcceptable;
 use Tobscure\JsonApi\Exception\Handler\ExceptionHandlerInterface;
 use Tobscure\JsonApi\Exception\Handler\ResponseBag;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Handler for routing errors that should give a 406
@@ -48,7 +52,7 @@ class NotAcceptableExceptionHandler implements ExceptionHandlerInterface
     public function handle(Exception $e)
     {
         $status = 406;
-        $error = ['title' => 'Not Acceptable'];
+        $error  = ['title' => 'Not Acceptable'];
 
         $code = $e->getCode();
 

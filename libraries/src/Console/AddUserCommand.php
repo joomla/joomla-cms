@@ -22,6 +22,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command for adding a user
  *
@@ -125,11 +129,11 @@ class AddUserCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
-        $this->ioStyle->title('Add user');
-        $this->user = $this->getStringFromOption('username', 'Please enter a username');
-        $this->name = $this->getStringFromOption('name', 'Please enter a name (full name of user)');
-        $this->email = $this->getStringFromOption('email', 'Please enter an email address');
-        $this->password = $this->getStringFromOption('password', 'Please enter a password');
+        $this->ioStyle->title('Add User');
+        $this->user       = $this->getStringFromOption('username', 'Please enter a username');
+        $this->name       = $this->getStringFromOption('name', 'Please enter a name (full name of user)');
+        $this->email      = $this->getStringFromOption('email', 'Please enter an email address');
+        $this->password   = $this->getStringFromOption('password', 'Please enter a password');
         $this->userGroups = $this->getUserGroups();
 
         if (\in_array("error", $this->userGroups)) {
@@ -141,11 +145,13 @@ class AddUserCommand extends AbstractCommand
         // Get filter to remove invalid characters
         $filter = new InputFilter();
 
-        $user['username'] = $filter->clean($this->user, 'USERNAME');
-        $user['password'] = $this->password;
-        $user['name'] = $filter->clean($this->name, 'STRING');
-        $user['email'] = $this->email;
-        $user['groups'] = $this->userGroups;
+        $user = [
+            'username' => $filter->clean($this->user, 'USERNAME'),
+            'password' => $this->password,
+            'name'     => $filter->clean($this->name, 'STRING'),
+            'email'    => $this->email,
+            'groups'   => $this->userGroups,
+        ];
 
         $userObj = User::getInstance();
         $userObj->bind($user);
@@ -215,7 +221,7 @@ class AddUserCommand extends AbstractCommand
             }
         }
 
-            return $answer;
+        return $answer;
     }
 
     /**
@@ -287,7 +293,7 @@ class AddUserCommand extends AbstractCommand
     private function configureIO(InputInterface $input, OutputInterface $output)
     {
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
+        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 
     /**

@@ -16,6 +16,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Object\CMSObject;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugins component helper.
  *
@@ -33,7 +37,7 @@ class PluginsHelper
     public static function publishedOptions()
     {
         // Build the active state filter options.
-        $options = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '1', 'JENABLED');
         $options[] = HTMLHelper::_('select.option', '0', 'JDISABLED');
 
@@ -43,11 +47,11 @@ class PluginsHelper
     /**
      * Returns a list of folders filter options.
      *
-     * @return  string    The HTML code for the select tag
+     * @return  object[]   The HTML code for the select tag
      */
     public static function folderOptions()
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select('DISTINCT(folder) AS value, folder AS text')
             ->from('#__extensions')
@@ -68,11 +72,11 @@ class PluginsHelper
     /**
      * Returns a list of elements filter options.
      *
-     * @return  string    The HTML code for the select tag
+     * @return  object[]    The HTML code for the select tag
      */
     public static function elementOptions()
     {
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select('DISTINCT(element) AS value, element AS text')
             ->from('#__extensions')

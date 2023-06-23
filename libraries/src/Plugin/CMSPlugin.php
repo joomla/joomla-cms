@@ -12,6 +12,8 @@ namespace Joomla\CMS\Plugin;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageAwareInterface;
+use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -20,14 +22,19 @@ use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugin Class
  *
  * @since  1.5
  */
-abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
+abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, LanguageAwareInterface
 {
     use DispatcherAwareTrait;
+    use LanguageAwareTrait;
 
     /**
      * A Registry object holding the parameters for the plugin
@@ -71,7 +78,12 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
      * @var    boolean
      * @since  4.0.0
      *
-     * @deprecated
+     * @deprecated  4.3 will be removed in 6.0
+     *              Implement your plugin methods accepting an AbstractEvent object
+     *              Example:
+     *              onEventTriggerName(AbstractEvent $event) {
+     *                  $context = $event->getArgument(...);
+     *              }
      */
     protected $allowLegacyListeners = true;
 
@@ -94,7 +106,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
      *
      * @since   1.5
      */
-    public function __construct(&$subject, $config = array())
+    public function __construct(&$subject, $config = [])
     {
         // Get the parameters.
         if (isset($config['params'])) {
@@ -122,7 +134,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
         if (property_exists($this, 'app')) {
             @trigger_error('The application should be injected through setApplication() and requested through getApplication().', E_USER_DEPRECATED);
-            $reflection = new \ReflectionClass($this);
+            $reflection  = new \ReflectionClass($this);
             $appProperty = $reflection->getProperty('app');
 
             if ($appProperty->isPrivate() === false && \is_null($this->app)) {
@@ -173,34 +185,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
     }
 
     /**
-     * Translates the given key with the local applications language. If arguments are available, then
-     * injects them into the translated string.
-     *
-     * @param   string   $key        The key to translate
-     * @param   mixed[]  $arguments  The arguments
-     *
-     * @return  string  The translated string
-     *
-     * @since   4.2.0
-     *
-     * @see     sprintf
-     */
-    protected function translate(string $key): string
-    {
-        $language = $this->getApplication()->getLanguage();
-
-        $arguments = \func_get_args();
-
-        if (count($arguments) > 1) {
-            $arguments[0] = $language->_($key);
-
-            return \call_user_func_array('sprintf', $arguments);
-        }
-
-        return $language->_($key);
-    }
-
-    /**
      * Registers legacy Listeners to the Dispatcher, emulating how plugins worked under Joomla! 3.x and below.
      *
      * By default, this method will look for all public methods whose name starts with "on". It will register
@@ -225,7 +209,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
         }
 
         $reflectedObject = new \ReflectionObject($this);
-        $methods = $reflectedObject->getMethods(\ReflectionMethod::IS_PUBLIC);
+        $methods         = $reflectedObject->getMethods(\ReflectionMethod::IS_PUBLIC);
 
         /** @var \ReflectionMethod $method */
         foreach ($methods as $method) {
@@ -251,7 +235,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
             }
 
             /** @var \ReflectionParameter $param */
-            $param = array_shift($parameters);
+            $param     = array_shift($parameters);
             $paramName = $param->getName();
 
             // No type hint / type hint class not an event or parameter name is not "event"? It's a legacy listener.
@@ -395,5 +379,9 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
     public function setApplication(CMSApplicationInterface $application): void
     {
         $this->application = $application;
+
+        if ($application->getLanguage()) {
+            $this->setLanguage($application->getLanguage());
+        }
     }
 }

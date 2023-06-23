@@ -13,6 +13,10 @@ namespace Joomla\Component\Actionlogs\Administrator\Model;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use stdClass;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Model to interact with the action log configuration.
  *

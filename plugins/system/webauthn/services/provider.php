@@ -12,7 +12,6 @@ defined('_JEXEC') || die;
 
 use Joomla\Application\ApplicationInterface;
 use Joomla\Application\SessionAwareWebApplicationInterface;
-use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -26,7 +25,7 @@ use Joomla\Plugin\System\Webauthn\MetadataRepository;
 use Webauthn\MetadataService\MetadataStatementRepository;
 use Webauthn\PublicKeyCredentialSourceRepository;
 
-return new class implements ServiceProviderInterface {
+return new class () implements ServiceProviderInterface {
     /**
      * Registers the service provider with a DI container.
      *
@@ -34,7 +33,7 @@ return new class implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function register(Container $container)
     {
@@ -55,7 +54,7 @@ return new class implements ServiceProviderInterface {
                 $metadataRepository = null;
                 $params             = new Joomla\Registry\Registry($config['params'] ?? '{}');
 
-                if ($params->get('attestationSupport', 1) == 1) {
+                if ($params->get('attestationSupport', 0) == 1) {
                     $metadataRepository    = $container->has(MetadataStatementRepository::class)
                         ? $container->get(MetadataStatementRepository::class)
                         : new MetadataRepository();
@@ -80,7 +79,7 @@ return new class implements ServiceProviderInterface {
      *
      * @return \Joomla\Session\SessionInterface|null
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.0
      */
     private function getSession(ApplicationInterface $app)
     {

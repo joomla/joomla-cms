@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license        GNU General Public License version 2 or later; see LICENSE
+ * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Event;
@@ -44,10 +44,13 @@ use Joomla\CMS\Event\Table\CheckEvent;
 use Joomla\CMS\Event\Table\ObjectCreateEvent;
 use Joomla\CMS\Event\Table\SetNewTagsEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
-use Joomla\CMS\Event\WebAsset\WebAssetRegistryAssetChanged;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\Event\Event;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Returns the most suitable event class for a Joomla core event name
@@ -67,50 +70,50 @@ trait CoreEventAware
      */
     private static $eventNameToConcreteClass = [
         // Model
-        'onBeforeBatch'               => BeforeBatchEvent::class,
+        'onBeforeBatch' => BeforeBatchEvent::class,
         // Quickicon
-        'onGetIcon'                   => GetIconEvent::class,
+        'onGetIcon' => GetIconEvent::class,
         // Table
-        'onTableAfterBind'            => AfterBindEvent::class,
-        'onTableAfterCheckin'         => AfterCheckinEvent::class,
-        'onTableAfterCheckout'        => AfterCheckoutEvent::class,
-        'onTableAfterDelete'          => AfterDeleteEvent::class,
-        'onTableAfterHit'             => AfterHitEvent::class,
-        'onTableAfterLoad'            => AfterLoadEvent::class,
-        'onTableAfterMove'            => AfterMoveEvent::class,
-        'onTableAfterPublish'         => AfterPublishEvent::class,
-        'onTableAfterReorder'         => AfterReorderEvent::class,
-        'onTableAfterReset'           => AfterResetEvent::class,
-        'onTableAfterStore'           => AfterStoreEvent::class,
-        'onTableBeforeBind'           => BeforeBindEvent::class,
-        'onTableBeforeCheckin'        => BeforeCheckinEvent::class,
-        'onTableBeforeCheckout'       => BeforeCheckoutEvent::class,
-        'onTableBeforeDelete'         => BeforeDeleteEvent::class,
-        'onTableBeforeHit'            => BeforeHitEvent::class,
-        'onTableBeforeLoad'           => BeforeLoadEvent::class,
-        'onTableBeforeMove'           => BeforeMoveEvent::class,
-        'onTableBeforePublish'        => BeforePublishEvent::class,
-        'onTableBeforeReorder'        => BeforeReorderEvent::class,
-        'onTableBeforeReset'          => BeforeResetEvent::class,
-        'onTableBeforeStore'          => BeforeStoreEvent::class,
-        'onTableCheck'                => CheckEvent::class,
-        'onTableObjectCreate'         => ObjectCreateEvent::class,
-        'onTableSetNewTags'           => SetNewTagsEvent::class,
+        'onTableAfterBind'      => AfterBindEvent::class,
+        'onTableAfterCheckin'   => AfterCheckinEvent::class,
+        'onTableAfterCheckout'  => AfterCheckoutEvent::class,
+        'onTableAfterDelete'    => AfterDeleteEvent::class,
+        'onTableAfterHit'       => AfterHitEvent::class,
+        'onTableAfterLoad'      => AfterLoadEvent::class,
+        'onTableAfterMove'      => AfterMoveEvent::class,
+        'onTableAfterPublish'   => AfterPublishEvent::class,
+        'onTableAfterReorder'   => AfterReorderEvent::class,
+        'onTableAfterReset'     => AfterResetEvent::class,
+        'onTableAfterStore'     => AfterStoreEvent::class,
+        'onTableBeforeBind'     => BeforeBindEvent::class,
+        'onTableBeforeCheckin'  => BeforeCheckinEvent::class,
+        'onTableBeforeCheckout' => BeforeCheckoutEvent::class,
+        'onTableBeforeDelete'   => BeforeDeleteEvent::class,
+        'onTableBeforeHit'      => BeforeHitEvent::class,
+        'onTableBeforeLoad'     => BeforeLoadEvent::class,
+        'onTableBeforeMove'     => BeforeMoveEvent::class,
+        'onTableBeforePublish'  => BeforePublishEvent::class,
+        'onTableBeforeReorder'  => BeforeReorderEvent::class,
+        'onTableBeforeReset'    => BeforeResetEvent::class,
+        'onTableBeforeStore'    => BeforeStoreEvent::class,
+        'onTableCheck'          => CheckEvent::class,
+        'onTableObjectCreate'   => ObjectCreateEvent::class,
+        'onTableSetNewTags'     => SetNewTagsEvent::class,
         // View
-        'onBeforeDisplay'             => DisplayEvent::class,
-        'onAfterDisplay'              => DisplayEvent::class,
+        'onBeforeDisplay' => DisplayEvent::class,
+        'onAfterDisplay'  => DisplayEvent::class,
         // Workflow
         'onWorkflowFunctionalityUsed' => WorkflowFunctionalityUsedEvent::class,
         'onWorkflowAfterTransition'   => WorkflowTransitionEvent::class,
         'onWorkflowBeforeTransition'  => WorkflowTransitionEvent::class,
         // Plugin: System, WebAuthn
-        'onAjaxWebauthn'              => PlgSystemWebauthnAjax::class,
-        'onAjaxWebauthnChallenge'     => PlgSystemWebauthnAjaxChallenge::class,
-        'onAjaxWebauthnCreate'        => PlgSystemWebauthnAjaxCreate::class,
-        'onAjaxWebauthnDelete'        => PlgSystemWebauthnAjaxDelete::class,
-        'onAjaxWebauthnInitcreate'    => PlgSystemWebauthnAjaxInitCreate::class,
-        'onAjaxWebauthnLogin'         => PlgSystemWebauthnAjaxLogin::class,
-        'onAjaxWebauthnSavelabel'     => PlgSystemWebauthnAjaxSaveLabel::class,
+        'onAjaxWebauthn'           => PlgSystemWebauthnAjax::class,
+        'onAjaxWebauthnChallenge'  => PlgSystemWebauthnAjaxChallenge::class,
+        'onAjaxWebauthnCreate'     => PlgSystemWebauthnAjaxCreate::class,
+        'onAjaxWebauthnDelete'     => PlgSystemWebauthnAjaxDelete::class,
+        'onAjaxWebauthnInitcreate' => PlgSystemWebauthnAjaxInitCreate::class,
+        'onAjaxWebauthnLogin'      => PlgSystemWebauthnAjaxLogin::class,
+        'onAjaxWebauthnSavelabel'  => PlgSystemWebauthnAjaxSaveLabel::class,
     ];
 
     /**
@@ -126,10 +129,6 @@ trait CoreEventAware
      */
     protected static function getEventClassByEventName(string $eventName): string
     {
-        if (strpos($eventName, 'onWebAssetRegistryChangedAsset') === 0) {
-            return WebAssetRegistryAssetChanged::class;
-        }
-
         return self::$eventNameToConcreteClass[$eventName] ?? Event::class;
     }
 }

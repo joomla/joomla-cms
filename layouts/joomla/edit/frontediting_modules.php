@@ -24,7 +24,7 @@ $menusEditing = $displayData['menusediting'];
 $parameters   = ComponentHelper::getParams('com_modules');
 $redirectUri  = '&return=' . urlencode(base64_encode(Uri::getInstance()->toString()));
 $target       = '_blank';
-$itemid       = Factory::getApplication()->input->get('Itemid', '0', 'int');
+$itemid       = Factory::getApplication()->getInput()->get('Itemid', '0', 'int');
 $editUrl      = Uri::base() . 'administrator/index.php?option=com_modules&task=module.edit&id=' . (int) $mod->id;
 
 // If Module editing site

@@ -93,7 +93,7 @@
 
       &::after {
         width: 2.375rem;
-        font-family: "Font Awesome 5 Free";
+        font-family: "Font Awesome 6 Free";
         font-weight: 900;
         content: "\f078";
         border: 0;
@@ -123,14 +123,7 @@
   .btn-group:not(:last-child) > .dropdown-toggle-split {
     order: 1;
     margin-inline-start: -$border-radius;
-
-    [dir="ltr"] & {
-      border-radius: 0 $border-radius $border-radius 0;
-    }
-
-    [dir="rtl"] & {
-      border-radius: $border-radius 0 0 $border-radius;
-    }
+    border-radius: 0 $border-radius $border-radius 0;
   }
 
   .dropdown-menu joomla-toolbar-button,
@@ -170,7 +163,7 @@
     border-radius: 30px;
 
     .toggler-toolbar-icon::before {
-      font: normal normal 900 28px/1 "Font Awesome 5 Free";
+      font: normal normal 900 28px/1 "Font Awesome 6 Free";
       color: var(--toggle-color);
       content: "\f00d";
     }

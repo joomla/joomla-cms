@@ -16,6 +16,10 @@ use Joomla\CMS\Factory;
 use ReflectionException;
 use ReflectionObject;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Dynamically modify the frontend template when showing a MFA captive page.
  *
@@ -39,13 +43,13 @@ trait SiteTemplateTrait
             return;
         }
 
-        $itemId = $app->input->get('Itemid');
+        $itemId = $app->getInput()->get('Itemid');
 
         if (!empty($itemId)) {
             return;
         }
 
-        $app->input->set('templateStyle', $templateStyle);
+        $app->getInput()->set('templateStyle', $templateStyle);
 
         try {
             $refApp      = new ReflectionObject($app);

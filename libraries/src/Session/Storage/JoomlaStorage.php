@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Session\Storage;
@@ -13,6 +13,10 @@ use Joomla\CMS\Factory;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\Storage\NativeStorage;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Service provider for the application's session dependency
@@ -70,7 +74,7 @@ class JoomlaStorage extends NativeStorage
         $this->setHandler($handler);
         $this->setCookieParams();
 
-        $this->data = new Registry();
+        $this->data  = new Registry();
         $this->input = $input;
 
         // Register our function as shutdown method, so we can manipulate it
@@ -109,7 +113,7 @@ class JoomlaStorage extends NativeStorage
             $app           = Factory::getApplication();
             $cookie_domain = $app->get('cookie_domain', '');
             $cookie_path   = $app->get('cookie_path', '/');
-            $cookie = session_get_cookie_params();
+            $cookie        = session_get_cookie_params();
             setcookie($session_name, '', time() - 42000, $cookie_path, $cookie_domain, $cookie['secure'], true);
         }
 

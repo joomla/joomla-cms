@@ -14,16 +14,24 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Filter table class for the Finder package.
  *
  * @since  2.5
  */
-class FilterTable extends Table
+class FilterTable extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
@@ -38,7 +46,7 @@ class FilterTable extends Table
      * @var    array
      * @since  4.0.0
      */
-    protected $_jsonEncode = array('params');
+    protected $_jsonEncode = ['params'];
 
     /**
      * Constructor
@@ -115,8 +123,8 @@ class FilterTable extends Table
      */
     public function store($updateNulls = true)
     {
-        $date = Factory::getDate()->toSql();
-        $userId = Factory::getUser()->id;
+        $date   = Factory::getDate()->toSql();
+        $userId = $this->getCurrentUser()->id;
 
         // Set created date if not set.
         if (!(int) $this->created) {
@@ -143,17 +151,17 @@ class FilterTable extends Table
 
         if (is_array($this->data)) {
             $this->map_count = count($this->data);
-            $this->data = implode(',', $this->data);
+            $this->data      = implode(',', $this->data);
         } else {
             $this->map_count = 0;
-            $this->data = implode(',', array());
+            $this->data      = implode(',', []);
         }
 
         // Verify that the alias is unique
         $table = new static($this->getDbo());
 
-        if ($table->load(array('alias' => $this->alias)) && ($table->filter_id != $this->filter_id || $this->filter_id == 0)) {
-            $this->setError(Text::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
+        if ($table->load(['alias' => $this->alias]) && ($table->filter_id != $this->filter_id || $this->filter_id == 0)) {
+            $this->setError(Text::_('COM_FINDER_FILTER_ERROR_UNIQUE_ALIAS'));
 
             return false;
         }

@@ -10,14 +10,17 @@
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Installer helper.
  *
  * @since  1.6
  *
- * @deprecated  5.0  Use \Joomla\Component\Installer\Administrator\Helper\InstallerHelper instead
+ * @deprecated  4.3 will be removed in 6.0
+ *              Use \Joomla\Component\Installer\Administrator\Helper\InstallerHelper instead
  */
 class InstallerHelper extends \Joomla\Component\Installer\Administrator\Helper\InstallerHelper
 {

@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Form\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Field to load a list of available users statuses
  *
@@ -27,11 +31,11 @@ class UserstateField extends PredefinedlistField
     /**
      * Available statuses
      *
-     * @var  array
+     * @var  string[]
      * @since  3.2
      */
-    protected $predefinedOptions = array(
-        '0'  => 'JENABLED',
-        '1'  => 'JDISABLED',
-    );
+    protected $predefinedOptions = [
+        '0' => 'JENABLED',
+        '1' => 'JDISABLED',
+    ];
 }

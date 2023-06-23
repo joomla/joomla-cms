@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Document\Renderer\Html;
@@ -15,6 +15,10 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\WebAsset\WebAssetAttachBehaviorInterface;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * JDocument metas renderer
@@ -34,11 +38,11 @@ class MetasRenderer extends DocumentRenderer
      *
      * @since   4.0.0
      */
-    public function render($head, $params = array(), $content = null)
+    public function render($head, $params = [], $content = null)
     {
         // Convert the tagids to titles
         if (isset($this->_doc->_metaTags['name']['tags'])) {
-            $tagsHelper = new TagsHelper();
+            $tagsHelper                            = new TagsHelper();
             $this->_doc->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($this->_doc->_metaTags['name']['tags']));
         }
 
@@ -95,21 +99,18 @@ class MetasRenderer extends DocumentRenderer
         $noFavicon = true;
         $searchFor = 'image/vnd.microsoft.icon';
 
-		// @codingStandardsIgnoreStart
-		array_map(function($value) use(&$noFavicon, $searchFor) {
-			if (isset($value['attribs']['type']) && $value['attribs']['type'] === $searchFor)
-			{
-				$noFavicon = false;
-			}
-		}, array_values((array)$this->_doc->_links));
-		// @codingStandardsIgnoreEnd
+        array_map(function ($value) use (&$noFavicon, $searchFor) {
+            if (isset($value['attribs']['type']) && $value['attribs']['type'] === $searchFor) {
+                $noFavicon = false;
+            }
+        }, array_values((array)$this->_doc->_links));
 
         if ($noFavicon) {
             $client   = $app->isClient('administrator') === true ? 'administrator/' : 'site/';
             $template = $app->getTemplate(true);
 
             // Try to find a favicon by checking the template and root folder
-            $icon = '/favicon.ico';
+            $icon           = '/favicon.ico';
             $foldersToCheck = [
                 JPATH_BASE,
                 JPATH_ROOT . '/media/templates/' . $client . $template->template,

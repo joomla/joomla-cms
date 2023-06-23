@@ -13,13 +13,18 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Database\DatabaseAwareInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Adapter Class
  * Retains common adapter pattern functions
  * Class harvested from joomla.installer.installer
  *
  * @since       1.6
- * @deprecated  5.0 Will be removed without replacement
+ * @deprecated  4.3 will be removed in 6.0
+ *              Will be removed without replacement
  */
 class Adapter extends CMSObject
 {
@@ -29,7 +34,7 @@ class Adapter extends CMSObject
      * @var    static[]
      * @since  1.6
      */
-    protected $_adapters = array();
+    protected $_adapters = [];
 
     /**
      * Adapter Folder
@@ -74,8 +79,8 @@ class Adapter extends CMSObject
      */
     public function __construct($basepath, $classprefix = null, $adapterfolder = null)
     {
-        $this->_basepath = $basepath;
-        $this->_classprefix = $classprefix ?: 'J';
+        $this->_basepath      = $basepath;
+        $this->_classprefix   = $classprefix ?: 'J';
         $this->_adapterfolder = $adapterfolder ?: 'adapters';
 
         $this->_db = Factory::getDbo();
@@ -108,7 +113,7 @@ class Adapter extends CMSObject
      *
      * @since   1.6
      */
-    public function getAdapter($name, $options = array())
+    public function getAdapter($name, $options = [])
     {
         if (array_key_exists($name, $this->_adapters)) {
             return $this->_adapters[$name];
@@ -132,7 +137,7 @@ class Adapter extends CMSObject
      *
      * @since   1.6
      */
-    public function setAdapter($name, &$adapter = null, $options = array())
+    public function setAdapter($name, &$adapter = null, $options = [])
     {
         if (is_object($adapter)) {
             $this->_adapters[$name] = &$adapter;
@@ -185,7 +190,7 @@ class Adapter extends CMSObject
      *
      * @since   1.6
      */
-    public function loadAllAdapters($options = array())
+    public function loadAllAdapters($options = [])
     {
         $files = new \DirectoryIterator($this->_basepath . '/' . $this->_adapterfolder);
 
@@ -202,7 +207,7 @@ class Adapter extends CMSObject
             require_once $this->_basepath . '/' . $this->_adapterfolder . '/' . $fileName;
 
             // Derive the class name from the filename.
-            $name = str_ireplace('.php', '', ucfirst(trim($fileName)));
+            $name  = str_ireplace('.php', '', ucfirst(trim($fileName)));
             $class = $this->_classprefix . ucfirst($name);
 
             if (!class_exists($class)) {
@@ -210,7 +215,7 @@ class Adapter extends CMSObject
                 continue;
             }
 
-            $adapter = new $class($this, $this->_db, $options);
+            $adapter                = new $class($this, $this->_db, $options);
             $this->_adapters[$name] = clone $adapter;
         }
     }

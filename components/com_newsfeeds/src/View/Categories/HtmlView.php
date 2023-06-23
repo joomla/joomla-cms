@@ -12,6 +12,10 @@ namespace Joomla\Component\Newsfeeds\Site\View\Categories;
 
 use Joomla\CMS\MVC\View\CategoriesView;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Newsfeed categories view.
  *

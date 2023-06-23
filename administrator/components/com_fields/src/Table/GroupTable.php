@@ -14,16 +14,24 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Groups Table
  *
  * @since  3.7.0
  */
-class GroupTable extends Table
+class GroupTable extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
@@ -97,7 +105,7 @@ class GroupTable extends Table
         }
 
         $date = Factory::getDate()->toSql();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Set created date if not set.
         if (!(int) $this->created) {
@@ -105,7 +113,7 @@ class GroupTable extends Table
         }
 
         if ($this->id) {
-            $this->modified = $date;
+            $this->modified    = $date;
             $this->modified_by = $user->get('id');
         } else {
             if (!(int) $this->modified) {
@@ -193,8 +201,8 @@ class GroupTable extends Table
     protected function _getAssetParentId(Table $table = null, $id = null)
     {
         $component = explode('.', $this->context);
-        $db = $this->getDbo();
-        $query = $db->getQuery(true)
+        $db        = $this->getDbo();
+        $query     = $db->getQuery(true)
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__assets'))
             ->where($db->quoteName('name') . ' = :name')

@@ -12,6 +12,10 @@ namespace Joomla\CMS\HTML\Helpers;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\HTML\HTMLHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Extended Utility class for render debug information.
  *

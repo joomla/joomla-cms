@@ -18,18 +18,25 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\Tag\TaggableTableTrait;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\String\StringHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Contact Table class.
  *
  * @since  1.0
  */
-class ContactTable extends Table implements VersionableTableInterface, TaggableTableInterface
+class ContactTable extends Table implements VersionableTableInterface, TaggableTableInterface, CurrentUserInterface
 {
     use TaggableTableTrait;
+    use CurrentUserTrait;
 
     /**
      * Indicates that columns fully support the NULL value in the database
@@ -45,7 +52,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
      * @var    array
      * @since  3.3
      */
-    protected $_jsonEncode = array('params', 'metadata');
+    protected $_jsonEncode = ['params', 'metadata'];
 
     /**
      * Constructor
@@ -75,7 +82,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
     public function store($updateNulls = true)
     {
         $date   = Factory::getDate()->toSql();
-        $userId = Factory::getUser()->id;
+        $userId = $this->getCurrentUser()->id;
 
         // Set created date if not set.
         if (!(int) $this->created) {
@@ -112,10 +119,15 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
         }
 
         // Verify that the alias is unique
-        $table = Table::getInstance('ContactTable', __NAMESPACE__ . '\\', array('dbo' => $this->getDbo()));
+        $table = Table::getInstance('ContactTable', __NAMESPACE__ . '\\', ['dbo' => $this->getDbo()]);
 
-        if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0)) {
+        if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
+            // Is the existing contact trashed?
             $this->setError(Text::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
+
+            if ($table->published === -2) {
+                $this->setError(Text::_('COM_CONTACT_ERROR_UNIQUE_ALIAS_TRASHED'));
+            }
 
             return false;
         }
@@ -143,7 +155,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
 
         $this->default_con = (int) $this->default_con;
 
-        if ($this->webpage !== null && InputFilter::checkAttribute(array('href', $this->webpage))) {
+        if ($this->webpage !== null && InputFilter::checkAttribute(['href', $this->webpage])) {
             $this->setError(Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
 
             return false;
@@ -186,7 +198,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
         // Clean up description -- eliminate quotes and <> brackets
         if (!empty($this->metadesc)) {
             // Only process if not empty
-            $badCharacters = array("\"", '<', '>');
+            $badCharacters  = ["\"", '<', '>'];
             $this->metadesc = StringHelper::str_ireplace($badCharacters, '', $this->metadesc);
         } else {
             $this->metadesc = '';

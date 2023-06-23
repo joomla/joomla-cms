@@ -13,6 +13,10 @@ namespace Joomla\Component\Finder\Administrator\Table;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Link table class for the Finder package.
  *

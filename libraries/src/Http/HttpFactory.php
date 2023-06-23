@@ -12,6 +12,10 @@ namespace Joomla\CMS\Http;
 use Joomla\CMS\Version;
 use Joomla\Http\TransportInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTTP factory class.
  *
@@ -40,7 +44,7 @@ class HttpFactory
 
         // Set default userAgent if nothing else is set
         if (!isset($options['userAgent'])) {
-            $version = new Version();
+            $version              = new Version();
             $options['userAgent'] = $version->getUserAgent('Joomla', true, false);
         }
 
@@ -100,7 +104,7 @@ class HttpFactory
      */
     public static function getHttpTransports()
     {
-        $names = array();
+        $names    = [];
         $iterator = new \DirectoryIterator(__DIR__ . '/Transport');
 
         /** @type  $file  \DirectoryIterator */

@@ -12,16 +12,16 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Event\MultiFactor\SaveSetup;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController as BaseControllerAlias;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\MethodModel;
@@ -29,13 +29,19 @@ use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Input\Input;
 use RuntimeException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Multi-factor Authentication method controller
  *
  * @since 4.2.0
  */
-class MethodController extends BaseControllerAlias
+class MethodController extends BaseControllerAlias implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Public constructor
      *
@@ -91,7 +97,7 @@ class MethodController extends BaseControllerAlias
 
         // Make sure I am allowed to edit the specified user
         $userId = $this->input->getInt('user_id', null);
-        $user   = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+        $user   = $this->getUserFactory()->loadUserById($userId);
 
         $this->assertCanEdit($user);
 
@@ -136,7 +142,7 @@ class MethodController extends BaseControllerAlias
 
         // Make sure I am allowed to edit the specified user
         $userId = $this->input->getInt('user_id', null);
-        $user   = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+        $user   = $this->getUserFactory()->loadUserById($userId);
 
         $this->assertCanEdit($user);
 
@@ -187,7 +193,7 @@ class MethodController extends BaseControllerAlias
 
         // Make sure I am allowed to edit the specified user
         $userId = $this->input->getInt('user_id', null);
-        $user   = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+        $user   = $this->getUserFactory()->loadUserById($userId);
         $this->assertCanEdit($user);
 
         /** @var BackupcodesModel $model */
@@ -200,7 +206,7 @@ class MethodController extends BaseControllerAlias
         $redirectUrl = 'index.php?option=com_users&task=method.edit&user_id=' . $userId . '&id=' . $backupCodesRecord->id;
         $returnURL   = $this->input->getBase64('returnurl');
 
-        if (!empty($returnURL)) {
+        if (!empty($returnURL) && Uri::isInternal(base64_decode($returnURL))) {
             $redirectUrl .= '&returnurl=' . $returnURL;
         }
 
@@ -226,8 +232,8 @@ class MethodController extends BaseControllerAlias
         $this->checkToken($this->input->getMethod());
 
         // Make sure I am allowed to edit the specified user
-        $userId = $this->input->getInt('user_id', null);
-        $user    = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+        $userId  = $this->input->getInt('user_id', null);
+        $user    = $this->getUserFactory()->loadUserById($userId);
         $this->assertCanDelete($user);
 
         // Also make sure the Method really does exist
@@ -255,7 +261,7 @@ class MethodController extends BaseControllerAlias
         $url       = Route::_('index.php?option=com_users&task=methods.display&user_id=' . $userId, false);
         $returnURL = $this->input->getBase64('returnurl');
 
-        if (!empty($returnURL)) {
+        if (!empty($returnURL) && Uri::isInternal(base64_decode($returnURL))) {
             $url = base64_decode($returnURL);
         }
 
@@ -279,14 +285,14 @@ class MethodController extends BaseControllerAlias
 
         // Make sure I am allowed to edit the specified user
         $userId = $this->input->getInt('user_id', null);
-        $user   = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+        $user   = $this->getUserFactory()->loadUserById($userId);
         $this->assertCanEdit($user);
 
         // Redirect
         $url       = Route::_('index.php?option=com_users&task=methods.display&user_id=' . $userId, false);
         $returnURL = $this->input->getBase64('returnurl');
 
-        if (!empty($returnURL)) {
+        if (!empty($returnURL) && Uri::isInternal(base64_decode($returnURL))) {
             $url = base64_decode($returnURL);
         }
 
@@ -306,7 +312,7 @@ class MethodController extends BaseControllerAlias
 
         // Ask the plugin to validate the input by calling onUserMultifactorSaveSetup
         $result = [];
-        $input  = $this->app->input;
+        $input  = $this->app->getInput();
 
         $event = new NotifyActionLog('onComUsersControllerMethodBeforeSave', [$id, $user]);
         $this->app->getDispatcher()->dispatch($event->getName(), $event);
@@ -398,8 +404,7 @@ class MethodController extends BaseControllerAlias
     private function assertValidRecordId($id, ?User $user = null): MfaTable
     {
         if (is_null($user)) {
-            $user = $this->app->getIdentity()
-                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            $user = $this->app->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
         }
 
         /** @var MethodModel $model */
@@ -409,9 +414,7 @@ class MethodController extends BaseControllerAlias
 
         $record = $model->getRecord($user);
 
-		// phpcs:ignore
-		if (is_null($record) || ($record->id != $id) || ($record->user_id != $user->id))
-        {
+        if (is_null($record) || ($record->id != $id) || ($record->user_id != $user->id)) {
             throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
@@ -476,8 +479,7 @@ class MethodController extends BaseControllerAlias
      */
     private function assertLoggedInUser(): void
     {
-        $user = $this->app->getIdentity()
-            ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        $user = $this->app->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
 
         if ($user->guest) {
             throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);

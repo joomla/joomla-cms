@@ -33,6 +33,7 @@ class JoomlaFieldMedia extends HTMLElement {
     this.validateValue = this.validateValue.bind(this);
     this.markValid = this.markValid.bind(this);
     this.markInvalid = this.markInvalid.bind(this);
+    this.mimeType = '';
   }
 
   static get observedAttributes() {
@@ -132,9 +133,9 @@ class JoomlaFieldMedia extends HTMLElement {
       throw new Error('Joomla API is not properly initiated');
     }
 
-    this.updatePreview();
     this.inputElement.removeAttribute('readonly');
     this.inputElement.addEventListener('change', this.validateValue);
+    this.updatePreview();
   }
 
   disconnectedCallback() {
@@ -181,6 +182,7 @@ class JoomlaFieldMedia extends HTMLElement {
   setValue(value) {
     this.inputElement.value = value;
     this.validatedUrl = value;
+    this.mimeType = Joomla.selectedMediaFile.fileType;
     this.updatePreview();
 
     // trigger change event both on the input and on the custom element
@@ -191,7 +193,7 @@ class JoomlaFieldMedia extends HTMLElement {
     }));
   }
 
-  validateValue(event) {
+  async validateValue(event) {
     let { value } = event.target;
     if (this.validatedUrl === value || value === '') return;
 
@@ -231,14 +233,17 @@ class JoomlaFieldMedia extends HTMLElement {
               this.markValid();
             };
           } else if (blob.type.includes('audio')) {
+            this.mimeType = blob.type;
             this.inputElement.value = value;
             this.validatedUrl = value;
             this.markValid();
           } else if (blob.type.includes('video')) {
+            this.mimeType = blob.type;
             this.inputElement.value = value;
             this.validatedUrl = value;
             this.markValid();
           } else if (blob.type.includes('application/pdf')) {
+            this.mimeType = blob.type;
             this.inputElement.value = value;
             this.validatedUrl = value;
             this.markValid();
@@ -325,7 +330,7 @@ class JoomlaFieldMedia extends HTMLElement {
               previewElement = document.createElement('video');
               const previewElementSource = document.createElement('source');
               previewElementSource.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
-              previewElementSource.type = `video/${ext}`;
+              previewElementSource.type = this.mimeType;
               previewElement.setAttribute('controls', '');
               previewElement.setAttribute('width', this.previewWidth);
               previewElement.setAttribute('height', this.previewHeight);
@@ -336,7 +341,7 @@ class JoomlaFieldMedia extends HTMLElement {
             if (supportedExtensions.documents.includes(ext)) {
               previewElement = document.createElement('object');
               previewElement.data = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
-              previewElement.type = `application/${ext}`;
+              previewElement.type = this.mimeType;
               previewElement.setAttribute('width', this.previewWidth);
               previewElement.setAttribute('height', this.previewHeight);
             }

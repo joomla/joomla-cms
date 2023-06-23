@@ -12,6 +12,10 @@ namespace Joomla\CMS\Feed\Parser;
 use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedEntry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Feed Namespace interface.
  *
