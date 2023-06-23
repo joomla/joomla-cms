@@ -539,11 +539,6 @@
           "build/mediaelementplayer-legacy.css": "css/mediaelementplayer-legacy.css"
         },
         "filesExtra": {
-          "build/mediaelement-flash-audio-ogg.swf": "js/mediaelement-flash-audio-ogg.swf",
-          "build/mediaelement-flash-audio.swf": "js/mediaelement-flash-audio.swf",
-          "build/mediaelement-flash-video-hls.swf": "js/mediaelement-flash-video-hls.swf",
-          "build/mediaelement-flash-video-mdash.swf": "js/mediaelement-flash-video-mdash.swf",
-          "build/mediaelement-flash-video.swf": "js/mediaelement-flash-video.swf",
           "build/mejs-controls.svg": "css/mejs-controls.svg"
         },
         "dependencies": [],

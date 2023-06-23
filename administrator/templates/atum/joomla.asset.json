@@ -65,7 +65,7 @@
       "type": "script",
       "uri": "media/templates/administrator/atum/js/template.min.js",
       "dependencies": [
-        "template.atum-es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
