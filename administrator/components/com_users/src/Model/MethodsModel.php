@@ -95,7 +95,7 @@ class MethodsModel extends BaseDatabaseModel
             $user = Factory::getApplication()->getIdentity() ?: $this->getCurrentUser();
         }
 
-        // If the user object is a guest (who can't have MFA) we abort with an error
+        // If the user object is a guest (who can't have MFA) we stop with an error
         if ($user->guest) {
             throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
