@@ -82,11 +82,10 @@ final class Eos extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Check and show the the alert and quickicon message.
+     * Check and show the the alert.
      *
      * This method is called when the Quick Icons module is constructing its set
-     * of icons. You can return an array which defines a single icon and it will
-     * be rendered right after the stock Quick Icons.
+     * of icons.
      *
      * @param   QuickIconsEvent  $event  The event object
      *
@@ -128,27 +127,6 @@ final class Eos extends CMSPlugin implements SubscriberInterface
 
         $app->getDocument()->getWebAssetManager()
             ->registerAndUseScript('plg_quickicon_eos.script', 'plg_quickicon_eos/snooze.js', [], ['type' => 'module']);
-
-        $result               = $event->getArgument('result', []);
-        $messageTextQuickIcon = sprintf(
-            $app->getLanguage()->_($this->currentMessage['quickiconText']),
-            HTMLHelper::_('date', Eos::EOS_DATE, $app->getLanguage()->_('DATE_FORMAT_LC3'))
-        );
-
-        // The message as quickicon
-
-        $result[] = [
-            [
-                'link'  => $this->currentMessage['messageLink'],
-                'image' => $this->currentMessage['image'],
-                'text'  => $messageTextQuickIcon,
-                'id'    => 'plg_quickicon_eos',
-                'group' => $this->currentMessage['groupText'],
-                'class' => $this->currentMessage['messageType'],
-            ],
-        ];
-
-        $event->setArgument('result', $result);
     }
 
     /**
@@ -209,70 +187,55 @@ final class Eos extends CMSPlugin implements SubscriberInterface
         // The EOS date has passed - Support has ended
         if ($inverted === 1) {
             return [
-                'id'            => 5,
-                'messageText'   => 'PLG_QUICKICON_EOS_MESSAGE_ERROR_SUPPORT_ENDED',
-                'quickiconText' => 'PLG_QUICKICON_EOS_MESSAGE_ERROR_SUPPORT_ENDED_SHORT',
-                'messageType'   => 'error',
-                'image'         => 'fa fa-life-ring',
-                'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
-                'groupText'     => 'PLG_QUICKICON_EOS_GROUPNAME_EOS',
-                'snoozable'     => false,
+                'id'          => 5,
+                'messageText' => 'PLG_QUICKICON_EOS_MESSAGE_ERROR_SUPPORT_ENDED',
+                'messageType' => 'error',
+                'messageLink' => 'https://docs.joomla.org/Special:MyLanguage/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
+                'snoozable'   => false,
             ];
         }
 
         // The security support is ending in 6 months
         if ($monthsUntilEOS < 6) {
             return [
-                'id'            => 4,
-                'messageText'   => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SUPPORT_ENDING',
-                'quickiconText' => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SUPPORT_ENDING_SHORT',
-                'messageType'   => 'warning',
-                'image'         => 'fa fa-life-ring',
-                'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
-                'groupText'     => 'PLG_QUICKICON_EOS_GROUPNAME_WARNING',
-                'snoozable'     => true,
+                'id'          => 4,
+                'messageText' => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SUPPORT_ENDING',
+                'messageType' => 'warning',
+                'messageLink' => 'https://docs.joomla.org/Special:MyLanguage/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
+                'snoozable'   => true,
             ];
         }
 
         // We are in security only mode now, 12 month to go from now on
         if ($monthsUntilEOS < 12) {
             return [
-                'id'            => 3,
-                'messageText'   => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SECURITY_ONLY',
-                'quickiconText' => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SECURITY_ONLY_SHORT',
-                'messageType'   => 'warning',
-                'image'         => 'fa fa-life-ring',
-                'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
-                'groupText'     => 'PLG_QUICKICON_EOS_GROUPNAME_WARNING',
-                'snoozable'     => true,
+                'id'          => 3,
+                'messageText' => 'PLG_QUICKICON_EOS_MESSAGE_WARNING_SECURITY_ONLY',
+                'messageType' => 'warning',
+                'messageLink' => 'https://docs.joomla.org/Special:MyLanguage/Joomla_4.4.x_to_5.x_Planning_and_Upgrade_Step_by_Step',
+                'snoozable'   => true,
             ];
         }
 
         // We still have 16 month to go, lets remind our users about the pre upgrade checker
         if ($monthsUntilEOS < 16) {
             return [
-                'id'            => 2,
-                'messageText'   => 'PLG_QUICKICON_EOS_MESSAGE_INFO_02',
-                'quickiconText' => 'PLG_QUICKICON_EOS_MESSAGE_INFO_02_SHORT',
-                'messageType'   => 'info',
-                'image'         => 'fa fa-life-ring',
-                'messageLink'   => 'https://docs.joomla.org/Special:MyLanguage/Pre-Update_Check',
-                'groupText'     => 'PLG_QUICKICON_EOS_GROUPNAME_INFO',
-                'snoozable'     => true,
+                'id'          => 2,
+                'messageText' => 'PLG_QUICKICON_EOS_MESSAGE_INFO_02',
+                'messageType' => 'info',
+                'messageLink' => 'https://docs.joomla.org/Special:MyLanguage/Pre-Update_Check',
+                'snoozable'   => true,
             ];
         }
 
         // Lets start our messages 2 month after the initial release, still 22 month to go
         if ($monthsUntilEOS < 22) {
             return [
-                'id'            => 1,
-                'messageText'   => 'PLG_QUICKICON_EOS_MESSAGE_INFO_01',
-                'quickiconText' => 'PLG_QUICKICON_EOS_MESSAGE_INFO_01_SHORT',
-                'messageType'   => 'info',
-                'image'         => 'fa fa-life-ring',
-                'messageLink'   => 'https://www.joomla.org/4/#features',
-                'groupText'     => 'PLG_QUICKICON_EOS_GROUPNAME_INFO',
-                'snoozable'     => true,
+                'id'          => 1,
+                'messageText' => 'PLG_QUICKICON_EOS_MESSAGE_INFO_01',
+                'messageType' => 'info',
+                'messageLink' => 'https://joomla.org/5',
+                'snoozable'   => true,
             ];
         }
 
