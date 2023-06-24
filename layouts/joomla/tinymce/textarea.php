@@ -20,7 +20,7 @@ if (!$wa->assetExists('script', 'tinymce')) {
 }
 
 if (!$wa->assetExists('script', 'plg_editors_tinymce')) {
-    $wa->registerScript('plg_editors_tinymce', 'plg_editors_tinymce/tinymce.min.js', [], ['defer' => true], ['core', 'editors', 'tinymce']);
+    $wa->registerScript('plg_editors_tinymce', 'plg_editors_tinymce/tinymce.min.js', [], ['type' => 'module'], ['core', 'editors', 'tinymce']);
 }
 
 $wa->useScript('tinymce')->useScript('plg_editors_tinymce');

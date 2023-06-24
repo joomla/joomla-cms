@@ -61,6 +61,21 @@
       ]
     },
     {
+      "name": "editor-decorator",
+      "type": "script",
+      "uri": "system/editors/editor-decorator.min.js",
+      "importmap": true
+    },
+    {
+      "name": "editor-api",
+      "type": "script",
+      "uri": "system/editors/editor-api.min.js",
+      "importmap": true,
+      "dependencies": [
+        "editor-decorator"
+      ]
+    },
+    {
       "name": "editors",
       "type": "script",
       "uri": "system/editors.min.js",
@@ -68,7 +83,9 @@
         "type": "module"
       },
       "dependencies": [
-        "core"
+        "core",
+        "editor-decorator",
+        "editor-api"
       ]
     },
     {

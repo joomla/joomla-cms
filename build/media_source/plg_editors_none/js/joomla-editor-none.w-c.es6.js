@@ -3,7 +3,10 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/* global JoomlaEditorDecorator */
+// eslint-disable-next-line import/no-unresolved,max-classes-per-file
+import JoomlaEditorDecorator from 'editor-decorator';
+// eslint-disable-next-line import/no-unresolved
+import { JoomlaEditor } from 'editor-api';
 
 /**
  * EditorNone Decorator for Joomla.Editor
@@ -68,7 +71,7 @@ class JoomlaEditorNone extends HTMLElement {
     // Find out when editor is interacted
     this.interactionCallback = () => {
       if (this.editor) {
-        Joomla.Editor.setActive(this.editor.id);
+        JoomlaEditor.setActive(this.editor.id);
       }
     };
   }
@@ -136,7 +139,7 @@ class JoomlaEditorNone extends HTMLElement {
    */
   registerEditor() {
     const jEditor = new EditorNoneDecorator(this, 'none', this.editor.id);
-    Joomla.Editor.register(jEditor);
+    JoomlaEditor.register(jEditor);
   }
 
   /**
@@ -144,7 +147,7 @@ class JoomlaEditorNone extends HTMLElement {
    */
   unregisterEditor() {
     if (this.editor) {
-      Joomla.Editor.unregister(this.editor.id);
+      JoomlaEditor.unregister(this.editor.id);
     }
   }
 

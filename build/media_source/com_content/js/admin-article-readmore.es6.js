@@ -3,6 +3,9 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// eslint-disable-next-line import/no-unresolved
+import { JoomlaEditor, JoomlaEditorButton } from 'editor-api';
+
 /* global JoomlaDialog */
 
 const insertReadmoreHandler = (editor) => {
@@ -21,11 +24,11 @@ const insertReadmoreHandler = (editor) => {
 window.insertReadmore = () => {
   // eslint-disable-next-line no-console
   console.warn('Method window.insertReadmore() is deprecated, use button action "insert-readmore."');
-  const editor = Joomla.Editor.getActive();
+  const editor = JoomlaEditor.getActive();
   if (!editor) {
     throw new Error('An active editor are not available');
   }
   insertReadmoreHandler(editor);
 };
 
-Joomla.EditorButton.registerAction('insert-readmore', insertReadmoreHandler);
+JoomlaEditorButton.registerAction('insert-readmore', insertReadmoreHandler);
