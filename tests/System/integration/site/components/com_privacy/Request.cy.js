@@ -68,4 +68,44 @@ describe('Test in frontend that the privacy request view', () => {
         });
       });
   });
+
+  it('can verify link sent to user is valid', () => {
+    cy.visit('/index.php?option=com_privacy&view=request');
+    cy.get('#jform_request_type').select('Export');
+    cy.get('.controls > .btn').click();
+
+    cy.task('getMails').then((mails) => {
+      const str = mails[1].body;
+
+      const firstSplit = str.split('URL: ')[1];
+      const link = firstSplit.split('\n')[0];
+
+      cy.visit(link);
+      cy.get('.controls > .btn').click();
+
+      cy.get('.alert-message').should('have.text', 'Your information request has been confirmed. We will process your request as soon as possible and the export will be sent to your email.');
+    });
+  });
+
+  it('can verify the individual link and password to copy/paste to the user is valid', () => {
+    cy.visit('/index.php?option=com_privacy&view=request');
+    cy.get('#jform_request_type').select('Export');
+    cy.get('.controls > .btn').click();
+
+    cy.task('getMails').then((mails) => {
+      const str = mails[1].body;
+
+      const firstSplitURL = str.split('paste your token into the form.\n')[1];
+      const secondSplitURL = firstSplitURL.split('URL: ')[1];
+      const link = secondSplitURL.split('\n')[0];
+
+      const firstSplitToken = str.split('Token: ')[1];
+      const token = firstSplitToken.split('\n')[0];
+
+      cy.visit(link);
+      cy.get('#jform_confirm_token').type(token);
+      cy.get('.controls > .btn').click();
+      cy.get('.alert-message').should('have.text', 'Your information request has been confirmed. We will process your request as soon as possible and the export will be sent to your email.');
+    });
+  });
 });

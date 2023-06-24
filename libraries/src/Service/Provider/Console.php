@@ -27,6 +27,7 @@ use Joomla\CMS\Console\TasksListCommand;
 use Joomla\CMS\Console\TasksRunCommand;
 use Joomla\CMS\Console\TasksStateCommand;
 use Joomla\CMS\Console\UpdateCoreCommand;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Database\Command\ExportCommand;
 use Joomla\Database\Command\ImportCommand;
@@ -35,7 +36,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -194,7 +195,13 @@ class Console implements ServiceProviderInterface
         $container->share(
             FinderIndexCommand::class,
             function (Container $container) {
-                return new FinderIndexCommand($container->get('db'));
+                $command = new FinderIndexCommand($container->get('db'));
+                $command->setLanguage($container->get(LanguageFactoryInterface::class)->createLanguage(
+                    $container->get('config')->get('language'),
+                    $container->get('config')->get('debug_lang')
+                ));
+
+                return $command;
             },
             true
         );

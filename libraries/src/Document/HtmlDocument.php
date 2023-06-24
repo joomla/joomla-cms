@@ -22,7 +22,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -449,7 +449,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      *
      * @since   1.7.0
      */
-    public function addFavicon($href, $type = 'image/vnd.microsoft.icon', $relation = 'shortcut icon')
+    public function addFavicon($href, $type = 'image/vnd.microsoft.icon', $relation = 'icon')
     {
         $href = str_replace('\\', '/', $href);
         $this->addHeadLink($href, $relation, 'rel', ['type' => $type]);
