@@ -179,8 +179,8 @@ Cypress.Commands.add('db_createBanner', (bannerData) => {
  */
 Cypress.Commands.add('db_createBannerClient', (bannerClientData) => {
   const defaultBannerOptions = {
-    name: 'test banner Client',
-    contact: 'test banner Client',
+    name: 'test banner client',
+    contact: 'test banner client',
     state: 0,
     extrainfo: '',
   };
