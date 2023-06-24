@@ -19,19 +19,17 @@ use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Filesystem\Stream;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageFactoryInterface;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Mail;
-use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\Mail\MailerFactoryInterface;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
-use PHPMailer\PHPMailer\Exception as phpmailerException;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -480,6 +478,11 @@ abstract class Factory
      *
      * @see     Mail
      * @since   1.7.0
+     *
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 6.0
+     *              Use the mailer service in the DI container and create a mailer from there
+     *              Example:
+     *              Factory::getContainer()->get(MailerFactoryInterface::class)->createMailer();
      */
     public static function getMailer()
     {
@@ -611,6 +614,7 @@ abstract class Factory
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Logger())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Language())
+            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Mailer())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Pathway())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\HTMLRegistry())
@@ -693,56 +697,20 @@ abstract class Factory
      *
      * @see     Mail
      * @since   1.7.0
+     *
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 6.0
+     *              Use the mailer service in the DI container and create a mailer from there
+     *              Example:
+     *              Factory::getContainer()->get(MailerFactoryInterface::class)->createMailer();
      */
     protected static function createMailer()
     {
-        $conf = self::getConfig();
+        $mailer = self::getContainer()->get(MailerFactoryInterface::class)->createMailer(self::getConfig());
 
-        $smtpauth   = ($conf->get('smtpauth') == 0) ? null : 1;
-        $smtpuser   = $conf->get('smtpuser');
-        $smtppass   = $conf->get('smtppass');
-        $smtphost   = $conf->get('smtphost');
-        $smtpsecure = $conf->get('smtpsecure');
-        $smtpport   = $conf->get('smtpport');
-        $mailfrom   = $conf->get('mailfrom');
-        $fromname   = $conf->get('fromname');
-        $mailer     = $conf->get('mailer');
+        // This needs to be set here for backwards compatibility
+        Mail::$instances['Joomla'] = $mailer;
 
-        // Create a Mail object
-        $mail = Mail::getInstance();
-
-        // Clean the email address
-        $mailfrom = MailHelper::cleanLine($mailfrom);
-
-        // Set default sender without Reply-to if the mailfrom is a valid address
-        if (MailHelper::isEmailAddress($mailfrom)) {
-            // Wrap in try/catch to catch phpmailerExceptions if it is throwing them
-            try {
-                // Check for a false return value if exception throwing is disabled
-                if ($mail->setFrom($mailfrom, MailHelper::cleanLine($fromname), false) === false) {
-                    Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
-                }
-            } catch (phpmailerException $e) {
-                Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
-            }
-        }
-
-        // Default mailer is to use PHP's mail function
-        switch ($mailer) {
-            case 'smtp':
-                $mail->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
-                break;
-
-            case 'sendmail':
-                $mail->isSendmail();
-                break;
-
-            default:
-                $mail->isMail();
-                break;
-        }
-
-        return $mail;
+        return $mailer;
     }
 
     /**

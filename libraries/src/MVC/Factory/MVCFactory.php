@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Factory;
@@ -15,6 +15,8 @@ use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\MVC\Model\ModelInterface;
 use Joomla\CMS\Router\SiteRouterAwareInterface;
 use Joomla\CMS\Router\SiteRouterAwareTrait;
@@ -29,7 +31,7 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -37,7 +39,7 @@ use Joomla\Input\Input;
  *
  * @since  3.10.0
  */
-class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, SiteRouterAwareInterface, UserFactoryAwareInterface
+class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, SiteRouterAwareInterface, UserFactoryAwareInterface, MailerFactoryAwareInterface
 {
     use FormFactoryAwareTrait;
     use DispatcherAwareTrait;
@@ -45,6 +47,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
     use SiteRouterAwareTrait;
     use CacheControllerFactoryAwareTrait;
     use UserFactoryAwareTrait;
+    use MailerFactoryAwareTrait;
 
     /**
      * The namespace to create the objects from.
@@ -99,6 +102,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
         $this->setRouterOnObject($controller);
         $this->setCacheControllerOnObject($controller);
         $this->setUserFactoryOnObject($controller);
+        $this->setMailerFactoryOnObject($controller);
 
         return $controller;
     }
@@ -145,6 +149,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
         $this->setRouterOnObject($model);
         $this->setCacheControllerOnObject($model);
         $this->setUserFactoryOnObject($model);
+        $this->setMailerFactoryOnObject($model);
 
         if ($model instanceof DatabaseAwareInterface) {
             try {
@@ -250,7 +255,11 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
 
-        return new $className($db);
+        $table = new $className($db);
+
+        $this->setUserFactoryOnObject($table);
+
+        return $table;
     }
 
     /**
@@ -373,7 +382,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     private function setUserFactoryOnObject($object): void
     {
@@ -383,6 +392,28 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setUserFactory($this->getUserFactory());
+        } catch (\UnexpectedValueException $e) {
+            // Ignore it
+        }
+    }
+
+    /**
+     * Sets the internal mailer factory on the given object.
+     *
+     * @param   object  $object  The object
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function setMailerFactoryOnObject($object): void
+    {
+        if (!$object instanceof MailerFactoryAwareInterface) {
+            return;
+        }
+
+        try {
+            $object->setMailerFactory($this->getMailerFactory());
         } catch (\UnexpectedValueException $e) {
             // Ignore it
         }

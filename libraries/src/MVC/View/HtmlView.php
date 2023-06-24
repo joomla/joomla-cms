@@ -19,7 +19,7 @@ use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -369,7 +369,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
         $tpl  = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
 
         // Load the language file for the template
-        $lang = Factory::getLanguage();
+        $lang = $this->getLanguage();
         $lang->load('tpl_' . $template->template, JPATH_BASE)
             || $lang->load('tpl_' . $template->parent, JPATH_THEMES . '/' . $template->parent)
             || $lang->load('tpl_' . $template->template, JPATH_THEMES . '/' . $template->template);
@@ -590,6 +590,6 @@ class HtmlView extends AbstractView implements CurrentUserInterface
             $title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
         }
 
-        $this->document->setTitle($title);
+        $this->getDocument()->setTitle($title);
     }
 }

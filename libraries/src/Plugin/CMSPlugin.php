@@ -12,6 +12,8 @@ namespace Joomla\CMS\Plugin;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageAwareInterface;
+use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -21,7 +23,7 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -29,9 +31,10 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
+abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, LanguageAwareInterface
 {
     use DispatcherAwareTrait;
+    use LanguageAwareTrait;
 
     /**
      * A Registry object holding the parameters for the plugin
@@ -376,5 +379,9 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
     public function setApplication(CMSApplicationInterface $application): void
     {
         $this->application = $application;
+
+        if ($application->getLanguage()) {
+            $this->setLanguage($application->getLanguage());
+        }
     }
 }

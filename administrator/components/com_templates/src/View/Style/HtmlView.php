@@ -137,7 +137,7 @@ class HtmlView extends BaseHtmlView
         $toolbar->divider();
 
         // Get the help information for the template item.
-        $lang = Factory::getLanguage();
+        $lang = $this->getLanguage();
         $help = $this->get('Help');
 
         if ($lang->hasKey($help->url)) {

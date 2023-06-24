@@ -15,7 +15,7 @@ use Joomla\CMS\Feed\FeedLink;
 use Joomla\CMS\Feed\FeedParser;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
