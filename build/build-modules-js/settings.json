@@ -232,10 +232,7 @@
             "name": "cropper-module",
             "type": "script",
             "uri": "cropper.esm.js",
-            "importmap": true,
-            "dependencies": [
-              "es-module-shims"
-            ]
+            "importmap": true
           },
           {
             "name": "cropperjs",
