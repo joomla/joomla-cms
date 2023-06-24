@@ -4,7 +4,7 @@ describe('Test in backend that the banner clients form', () => {
     // Clear the filter
     cy.visit('/administrator/index.php?option=com_banners&view=clients&filter=');
   });
-  afterEach(() => cy.task('queryDB', "DELETE FROM #__banner_clients WHERE name = 'test banner Client'"));
+  afterEach(() => cy.task('queryDB', "DELETE FROM #__banner_clients WHERE name = 'test banner client'"));
 
   it('can create a client', () => {
     cy.visit('/administrator/index.php?option=com_banners&task=client.add');
