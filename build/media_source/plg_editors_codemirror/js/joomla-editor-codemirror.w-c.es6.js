@@ -3,10 +3,15 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/* global CodeMirror, JoomlaEditorDecorator */
+// eslint-disable-next-line import/no-unresolved,max-classes-per-file
+import JoomlaEditorDecorator from 'editor-decorator';
+// eslint-disable-next-line import/no-unresolved
+import { JoomlaEditor } from 'editor-api';
+
+/* global CodeMirror */
 
 /**
- * Codemirror Decorator for Joomla.Editor
+ * Codemirror Decorator for JoomlaEditor
  */
 // eslint-disable-next-line max-classes-per-file
 class CodemirrorDecorator extends JoomlaEditorDecorator {
@@ -178,21 +183,21 @@ class CodemirrorEditor extends HTMLElement {
     // Create and register the Editor
     this.instance = CodeMirror.fromTextArea(this.element, this.options);
     this.jEditor = new CodemirrorDecorator(this.instance, 'codemirror', this.element.id);
-    Joomla.Editor.register(this.jEditor);
+    JoomlaEditor.register(this.jEditor);
 
     // Watch when the element in viewport, and refresh the editor
     this.intersectionObserver.observe(this);
 
     // Find out when editor is interacted
     this.interactionCallback = () => {
-      Joomla.Editor.setActive(this.element.id);
+      JoomlaEditor.setActive(this.element.id);
     };
     this.addEventListener('click', this.interactionCallback);
   }
 
   disconnectedCallback() {
     // Remove from the Joomla API
-    Joomla.Editor.unregister(this.element.id);
+    JoomlaEditor.unregister(this.element.id);
 
     // Remove from observer
     this.intersectionObserver.unobserve(this);
@@ -200,10 +205,10 @@ class CodemirrorEditor extends HTMLElement {
   }
 
   refresh(element) {
-    Joomla.Editor.unregister(this.element.id);
+    JoomlaEditor.unregister(this.element.id);
     this.instance.fromTextArea(element, this.options);
     this.jEditor = new CodemirrorDecorator(this.instance, 'codemirror', this.element.id);
-    Joomla.Editor.register(this.jEditor);
+    JoomlaEditor.register(this.jEditor);
   }
 }
 

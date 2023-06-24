@@ -78,7 +78,7 @@
     {
       "name": "editors",
       "type": "script",
-      "uri": "system/editors.min.js",
+      "uri": "system/editors/editors.min.js",
       "attributes": {
         "type": "module"
       },
