@@ -19,7 +19,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -47,7 +47,7 @@ abstract class HTMLHelper
      *
      * @var    string[]
      * @since  1.5
-     * @deprecated  5.0
+     * @deprecated  4.0 will be removed in 6.0
      */
     protected static $includePaths = [];
 
@@ -56,7 +56,7 @@ abstract class HTMLHelper
      *
      * @var    callable[]
      * @since  1.6
-     * @deprecated  5.0
+     * @deprecated  4.0 will be removed in 6.0
      */
     protected static $registry = [];
 
@@ -77,7 +77,9 @@ abstract class HTMLHelper
      * @return  array  Contains lowercase key, prefix, file, function.
      *
      * @since       1.6
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the service registry instead
+     *              HTMLHelper::getServiceRegistry()->getService($file);
      */
     protected static function extract($key)
     {
@@ -187,7 +189,9 @@ abstract class HTMLHelper
      * @return  boolean  True if the function is callable
      *
      * @since       1.6
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the service registry instead
+     *              HTMLHelper::getServiceRegistry()->register($key, $function);
      */
     public static function register($key, callable $function)
     {
@@ -211,7 +215,8 @@ abstract class HTMLHelper
      * @return  boolean  True if a set key is unset
      *
      * @since       1.6
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the service registry instead
      */
     public static function unregister($key)
     {
@@ -1137,7 +1142,8 @@ abstract class HTMLHelper
      * @return  array  An array with directory elements
      *
      * @since       1.5
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the service registry instead
      */
     public static function addIncludePath($path = '')
     {

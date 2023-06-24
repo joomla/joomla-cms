@@ -24,7 +24,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -599,12 +599,11 @@ abstract class ModuleHelper
                 break;
 
             case 'safeuri':
-                $secureid = null;
+                $safeuri = new \stdClass();
 
                 if (\is_array($cacheparams->modeparams)) {
                     $input        = $app->getInput();
                     $uri          = $input->getArray();
-                    $safeuri      = new \stdClass();
                     $noHtmlFilter = InputFilter::getInstance();
 
                     foreach ($cacheparams->modeparams as $key => $value) {

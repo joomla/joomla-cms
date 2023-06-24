@@ -1,5 +1,5 @@
-describe('Test that the Contact Form', () => {
-  it('can display a Contact Form', () => {
+describe('Test in frontend that the contact details view', () => {
+  it('can display a form', () => {
     cy.db_getUserId().then((id) => cy.db_createContact({ name: 'contact 1', user_id: id }))
       .then((contactId) => {
         cy.visit(`index.php?option=com_contact&view=contact&id='${contactId}'`);
@@ -9,7 +9,7 @@ describe('Test that the Contact Form', () => {
       });
   });
 
-  it('can display an added field', () => {
+  it('can display a custom field', () => {
     cy.db_createFieldGroup({ title: 'automated test_field group', context: 'com_contact.mail' })
       .then((id) => cy.db_createField({
         group_id: id, context: 'com_contact.mail', type: 'checkboxes', fieldparams: JSON.stringify({ options: { options0: { name: 'test value', value: '' } } }),

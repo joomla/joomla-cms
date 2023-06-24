@@ -45,19 +45,12 @@ if (isset($options->readOnly)) {
 Factory::getDocument()->getWebAssetManager()
     ->registerAndUseStyle('codemirror.lib.main', $basePath . 'lib/codemirror.css')
     ->registerAndUseStyle('codemirror.lib.addons', $basePath . 'lib/addons.css', [], [], ['codemirror.lib.main'])
-    ->registerScript(
-        'webcomponent.editor-codemirror-es5',
-        'plg_editors_codemirror/joomla-editor-codemirror-es5.min.js',
-        [],
-        ['defer' => true, 'nomodule' => true],
-        ['wcpolyfill']
-    )
     ->registerAndUseScript(
         'webcomponent.editor-codemirror',
         'plg_editors_codemirror/joomla-editor-codemirror.min.js',
         [],
         ['type' => 'module'],
-        ['webcomponent.editor-codemirror-es5', 'editors']
+        ['wcpolyfill', 'editors']
     );
 ?>
 <joomla-editor-codemirror <?php echo $editor . ' ' . $addons . ' ' . $modPath . ' ' . $fsCombo . ' ' . $option; ?>>

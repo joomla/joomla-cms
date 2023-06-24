@@ -31,7 +31,7 @@ use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -145,7 +145,7 @@ abstract class AdminModel extends FormModel
     /**
      * A flag to indicate if member variables for batch actions (and saveorder) have been initialized
      *
-     * @var     object
+     * @var     ?bool
      * @since   3.8.2
      */
     protected $batchSet = null;
@@ -193,9 +193,9 @@ abstract class AdminModel extends FormModel
     /**
      * Constructor.
      *
-     * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface   $factory      The factory.
-     * @param   FormFactoryInterface  $formFactory  The form factory.
+     * @param   array                  $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface   $factory      The factory.
+     * @param   ?FormFactoryInterface  $formFactory  The form factory.
      *
      * @since   1.6
      * @throws  \Exception
@@ -736,7 +736,7 @@ abstract class AdminModel extends FormModel
      */
     protected function canDelete($record)
     {
-        return Factory::getUser()->authorise('core.delete', $this->option);
+        return $this->getCurrentUser()->authorise('core.delete', $this->option);
     }
 
     /**
@@ -750,7 +750,7 @@ abstract class AdminModel extends FormModel
      */
     protected function canEditState($record)
     {
-        return Factory::getUser()->authorise('core.edit.state', $this->option);
+        return $this->getCurrentUser()->authorise('core.edit.state', $this->option);
     }
 
     /**
@@ -1003,7 +1003,7 @@ abstract class AdminModel extends FormModel
      *
      * @param   Table  $table  A Table object.
      *
-     * @return  array  An array of conditions to add to ordering queries.
+     * @return  string[]  An array of conditions to add to ordering queries.
      *
      * @since   1.6
      */
@@ -1059,7 +1059,7 @@ abstract class AdminModel extends FormModel
      */
     public function publish(&$pks, $value = 1)
     {
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
         $table = $this->getTable();
         $pks   = (array) $pks;
 
@@ -1501,7 +1501,7 @@ abstract class AdminModel extends FormModel
 
         // Check that the user has create permission for the component
         $extension = Factory::getApplication()->getInput()->get('option', '');
-        $user      = Factory::getUser();
+        $user      = $this->getCurrentUser();
 
         if (!$user->authorise('core.create', $extension . '.category.' . $categoryId)) {
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
@@ -1546,7 +1546,7 @@ abstract class AdminModel extends FormModel
             $this->batchSet = true;
 
             // Get current user
-            $this->user = Factory::getUser();
+            $this->user = $this->getCurrentUser();
 
             // Get table
             $this->table = $this->getTable();
@@ -1571,7 +1571,8 @@ abstract class AdminModel extends FormModel
      *
      * @since   3.9.0
      *
-     * @deprecated 5.0  It is handled by regular save method now.
+     * @deprecated  4.3 will be removed in 6.0
+     *              It is handled by regular save method now.
      */
     public function editAssociations($data)
     {
@@ -1658,7 +1659,7 @@ abstract class AdminModel extends FormModel
         $app->redirect(
             Route::_(
                 'index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
-                . '&task=association.edit&id=' . $id . $target,
+                    . '&task=association.edit&id=' . $id . $target,
                 false
             )
         );

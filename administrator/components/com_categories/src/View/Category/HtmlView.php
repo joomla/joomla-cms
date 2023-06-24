@@ -152,9 +152,9 @@ class HtmlView extends BaseHtmlView
         $componentParams = ComponentHelper::getParams($component);
 
         // Need to load the menu language file as mod_menu hasn't been loaded yet.
-        $lang = Factory::getLanguage();
+        $lang = $this->getLanguage();
         $lang->load($component, JPATH_BASE)
-        || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+            || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
 
         // Get the results for each action.
         $canDo = $this->canDo;
@@ -173,7 +173,7 @@ class HtmlView extends BaseHtmlView
 
         // Load specific css component
         /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-        $wa = $this->document->getWebAssetManager();
+        $wa = $this->getDocument()->getWebAssetManager();
         $wa->getRegistry()->addExtensionRegistryFile($component);
 
         if ($wa->assetExists('style', $component . '.admin-categories')) {
@@ -189,15 +189,14 @@ class HtmlView extends BaseHtmlView
                 . ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-category-' . ($isNew ? 'add' : 'edit')
         );
 
-        // For new records, check the create permission.
-        if ($isNew && (count($user->getAuthorisedCategories($component, 'core.create')) > 0)) {
+        if ($isNew) {
             $toolbar->apply('category.apply');
             $saveGroup = $toolbar->dropdownButton('save-group');
 
             $saveGroup->configure(
                 function (Toolbar $childBar) {
                     $childBar->save('category.save');
-                    $childBar->save('category.save2new');
+                    $childBar->save2new('category.save2new');
                 }
             );
 

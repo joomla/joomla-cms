@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application;
@@ -25,7 +25,7 @@ use Negotiation\Exception\InvalidArgument;
 use Negotiation\Negotiator;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -167,10 +167,10 @@ final class ApiApplication extends CMSApplication
 
         if ($forceCORS) {
             /**
-            * Enable CORS (Cross-origin resource sharing)
-            * Obtain allowed CORS origin from Global Settings.
-            * Set to * (=all) if not set.
-            */
+             * Enable CORS (Cross-origin resource sharing)
+             * Obtain allowed CORS origin from Global Settings.
+             * Set to * (=all) if not set.
+             */
             $allowedOrigin = $this->get('cors_allow_origin', '*');
             $this->setHeader('Access-Control-Allow-Origin', $allowedOrigin, true);
             $this->setHeader('Access-Control-Allow-Headers', 'Authorization');
@@ -322,9 +322,9 @@ final class ApiApplication extends CMSApplication
     protected function handlePreflight($method, $router)
     {
         /**
-        * If not an OPTIONS request or CORS is not enabled,
-        * there's nothing useful to do here.
-        */
+         * If not an OPTIONS request or CORS is not enabled,
+         * there's nothing useful to do here.
+         */
         if ($method !== 'OPTIONS' || !(int) $this->get('cors')) {
             return;
         }
@@ -344,21 +344,21 @@ final class ApiApplication extends CMSApplication
         );
 
         /**
-        * Obtain allowed CORS origin from Global Settings.
-        * Set to * (=all) if not set.
-        */
+         * Obtain allowed CORS origin from Global Settings.
+         * Set to * (=all) if not set.
+         */
         $allowedOrigin = $this->get('cors_allow_origin', '*');
 
         /**
-        * Obtain allowed CORS headers from Global Settings.
-        * Set to sensible default if not set.
-        */
+         * Obtain allowed CORS headers from Global Settings.
+         * Set to sensible default if not set.
+         */
         $allowedHeaders = $this->get('cors_allow_headers', 'Content-Type,X-Joomla-Token');
 
         /**
-        * Obtain allowed CORS methods from Global Settings.
-        * Set to methods exposed by current route if not set.
-        */
+         * Obtain allowed CORS methods from Global Settings.
+         * Set to methods exposed by current route if not set.
+         */
         $allowedMethods = $this->get('cors_allow_methods', implode(',', $matchingRoutesMethods));
 
         // No use to go through the regular route handling hassle,
@@ -378,7 +378,12 @@ final class ApiApplication extends CMSApplication
      * @return  ApiRouter
      *
      * @since      4.0.0
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Inject the router or load it from the dependency injection container
+     *              Example:
+     *              Factory::getContainer()->get(ApiRouter::class);
+     *
      */
     public function getApiRouter()
     {

@@ -70,7 +70,9 @@ class HtmlView extends BaseHtmlView
      *
      * @var    boolean
      * @since  4.0.0
-     * @deprecated 4.2.0 Will be removed in 5.0.
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement
      */
     protected $tfa = false;
 
@@ -147,11 +149,11 @@ class HtmlView extends BaseHtmlView
         $this->setDocumentTitle($this->params->get('page_title', ''));
 
         if ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
     }
 }

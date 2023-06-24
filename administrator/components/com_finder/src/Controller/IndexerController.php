@@ -17,6 +17,9 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Finder\Administrator\Indexer\Adapter;
+use Joomla\Component\Finder\Administrator\Indexer\DebugAdapter;
+use Joomla\Component\Finder\Administrator\Indexer\DebugIndexer;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Response\Response;
 
@@ -87,6 +90,12 @@ class IndexerController extends BaseController
             $state        = Indexer::getState();
             $state->start = 1;
 
+            $output = ob_get_contents();
+
+            if ($output) {
+                throw new \Exception(Text::_('COM_FINDER_AN_ERROR_HAS_OCCURRED'));
+            }
+
             // Send the response.
             static::sendResponse($state);
         } catch (\Exception $e) {
@@ -152,7 +161,7 @@ class IndexerController extends BaseController
          * in order to work around some plugins that don't do proper environment
          * checks before trying to use HTML document functions.
          */
-        $lang = Factory::getLanguage();
+        $lang = $this->app->getLanguage();
 
         // Get the document properties.
         $attributes = [
@@ -181,6 +190,12 @@ class IndexerController extends BaseController
                 Log::add('Batch completed, peak memory usage: ' . number_format(memory_get_peak_usage(true)) . ' bytes', Log::INFO);
             } catch (\RuntimeException $exception) {
                 // Informational log only
+            }
+
+            $output = ob_get_contents();
+
+            if ($output) {
+                throw new \Exception(Text::_('COM_FINDER_INDEXER_ERROR_PLUGIN_FAILURE'));
             }
 
             // Send the response.
@@ -226,6 +241,12 @@ class IndexerController extends BaseController
             $state           = Indexer::getState();
             $state->start    = 0;
             $state->complete = 1;
+
+            $output = ob_get_contents();
+
+            if ($output) {
+                throw new \Exception(Text::_('COM_FINDER_AN_ERROR_HAS_OCCURRED'));
+            }
 
             // Send the response.
             static::sendResponse($state);
@@ -277,8 +298,117 @@ class IndexerController extends BaseController
             $response->buffer = ob_get_contents();
             $response->memory = memory_get_usage(true);
         }
+        ob_clean();
 
         // Send the JSON response.
         echo json_encode($response);
+    }
+
+    /**
+     * Method to call a specific indexing plugin and return debug info
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     * @internal
+     */
+    public function debug()
+    {
+        // Check for a valid token. If invalid, send a 403 with the error message.
+        if (!Session::checkToken('request')) {
+            static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+
+            return;
+        }
+
+        // We don't want this form to be cached.
+        $this->app->allowCache(false);
+
+        // Put in a buffer to silence noise.
+        ob_start();
+
+        // Remove the script time limit.
+        @set_time_limit(0);
+
+        // Get the indexer state.
+        Indexer::resetState();
+        $state = Indexer::getState();
+
+        // Reset the batch offset.
+        $state->batchOffset = 0;
+
+        // Update the indexer state.
+        Indexer::setState($state);
+
+        // Start the indexer.
+        try {
+            // Import the finder plugins.
+            class_alias(DebugAdapter::class, Adapter::class);
+            $plugin = Factory::getApplication()->bootPlugin($this->app->input->get('plugin'), 'finder');
+            $plugin->setIndexer(new DebugIndexer());
+            $plugin->debug($this->app->input->get('id'));
+
+            $output = '';
+
+            // Create list of attributes
+            $output .= '<fieldset><legend>' . Text::_('COM_FINDER_INDEXER_FIELDSET_ATTRIBUTES') . '</legend>';
+            $output .= '<dl class="row">';
+
+            foreach (DebugIndexer::$item as $key => $value) {
+                $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10">' . $value . '</dd>';
+            }
+
+            $output .= '</dl>';
+            $output .= '</fieldset>';
+
+            $output .= '<fieldset><legend>' . Text::_('COM_FINDER_INDEXER_FIELDSET_ELEMENTS') . '</legend>';
+            $output .= '<dl class="row">';
+
+            foreach (DebugIndexer::$item->getElements() as $key => $element) {
+                $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10">' . $element . '</dd>';
+            }
+
+            $output .= '</dl>';
+            $output .= '</fieldset>';
+
+            $output .= '<fieldset><legend>' . Text::_('COM_FINDER_INDEXER_FIELDSET_INSTRUCTIONS') . '</legend>';
+            $output .= '<dl class="row">';
+            $contexts = [
+                1 => 'Title context',
+                2 => 'Text context',
+                3 => 'Meta context',
+                4 => 'Path context',
+                5 => 'Misc context',
+            ];
+
+            foreach (DebugIndexer::$item->getInstructions() as $key => $element) {
+                $output .= '<dt class="col-sm-2">' . $contexts[$key] . '</dt><dd class="col-sm-10">' . json_encode($element) . '</dd>';
+            }
+
+            $output .= '</dl>';
+            $output .= '</fieldset>';
+
+            $output .= '<fieldset><legend>' . Text::_('COM_FINDER_INDEXER_FIELDSET_TAXONOMIES') . '</legend>';
+            $output .= '<dl class="row">';
+
+            foreach (DebugIndexer::$item->getTaxonomy() as $key => $element) {
+                $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10">' . json_encode($element) . '</dd>';
+            }
+
+            $output .= '</dl>';
+            $output .= '</fieldset>';
+
+            // Get the indexer state.
+            $state           = Indexer::getState();
+            $state->start    = 0;
+            $state->complete = 0;
+            $state->rendered = $output;
+
+            echo json_encode($state);
+        } catch (\Exception $e) {
+            // Catch an exception and return the response.
+            // Send the response.
+            static::sendResponse($e);
+        }
     }
 }
