@@ -9,10 +9,10 @@ describe('Test in backend that the clients list', () => {
   });
 
   it('can display a list of clients', () => {
-    cy.db_createBannerClient({ name: 'test banner Client' }).then(() => {
+    cy.db_createBannerClient({ name: 'test banner client' }).then(() => {
       cy.reload();
 
-      cy.contains('test banner Client');
+      cy.contains('test banner client');
     });
   });
 
@@ -23,9 +23,9 @@ describe('Test in backend that the clients list', () => {
   });
 
   it('can publish the test client', () => {
-    cy.db_createBannerClient({ name: 'test banner Client', state: 0 }).then(() => {
+    cy.db_createBannerClient({ name: 'test banner client', state: 0 }).then(() => {
       cy.reload();
-      cy.searchForItem('test banner Client');
+      cy.searchForItem('test banner client');
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Publish').click();
@@ -36,9 +36,9 @@ describe('Test in backend that the clients list', () => {
   });
 
   it('can unpublish the test client', () => {
-    cy.db_createBannerClient({ name: 'test banner Client', state: 1 }).then(() => {
+    cy.db_createBannerClient({ name: 'test banner client', state: 1 }).then(() => {
       cy.reload();
-      cy.searchForItem('test banner Client');
+      cy.searchForItem('test banner client');
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Unpublish').click();
@@ -49,9 +49,9 @@ describe('Test in backend that the clients list', () => {
   });
 
   it('can trash the test client', () => {
-    cy.db_createBannerClient({ name: 'test banner Client' }).then(() => {
+    cy.db_createBannerClient({ name: 'test banner client' }).then(() => {
       cy.reload();
-      cy.searchForItem('test banner Client');
+      cy.searchForItem('test banner client');
       cy.checkAllResults();
       cy.clickToolbarButton('Action');
       cy.contains('Trash').click();
@@ -62,10 +62,10 @@ describe('Test in backend that the clients list', () => {
   });
 
   it('can delete the test client', () => {
-    cy.db_createBannerClient({ name: 'test banner Client', state: -2 }).then(() => {
+    cy.db_createBannerClient({ name: 'test banner client', state: -2 }).then(() => {
       cy.reload();
       cy.setFilter('state', 'Trashed');
-      cy.searchForItem('test banner Client');
+      cy.searchForItem('test banner client');
       cy.checkAllResults();
       cy.clickToolbarButton('empty trash');
       cy.on('window:confirm', () => true);
