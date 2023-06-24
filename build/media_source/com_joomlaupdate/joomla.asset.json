@@ -8,7 +8,8 @@
     {
       "name": "com_joomlaupdate.admin-update-es5",
       "type": "script",
-      "uri": "com_joomlaupdate/admin-update-default-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core",
         "bootstrap.modal"
@@ -23,7 +24,8 @@
       "type": "script",
       "uri": "com_joomlaupdate/admin-update-default.min.js",
       "dependencies": [
-        "com_joomlaupdate.admin-update-es5"
+        "core",
+        "bootstrap.modal"
       ],
       "attributes": {
         "type": "module"
@@ -32,7 +34,8 @@
     {
       "name": "com_joomlaupdate.default-es5",
       "type": "script",
-      "uri": "com_joomlaupdate/default-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -46,7 +49,7 @@
       "type": "script",
       "uri": "com_joomlaupdate/default.min.js",
       "dependencies": [
-        "com_joomlaupdate.default-es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

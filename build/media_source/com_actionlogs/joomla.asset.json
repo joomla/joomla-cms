@@ -8,7 +8,8 @@
     {
       "name": "com_actionlogs.admin-actionlogs.es5",
       "type": "script",
-      "uri": "com_actionlogs/admin-actionlogs-default-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -22,7 +23,7 @@
       "type": "script",
       "uri": "com_actionlogs/admin-actionlogs-default.min.js",
       "dependencies": [
-        "com_actionlogs.admin-actionlogs.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

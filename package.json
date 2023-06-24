@@ -52,6 +52,7 @@
     "diff": "^5.1.0",
     "dotenv": "^16.0.3",
     "dragula": "^3.7.3",
+    "es-module-shims": "^1.7.3",
     "focus-visible": "^5.2.0",
     "hotkeys-js": "^3.10.2",
     "joomla-ui-custom-elements": "^0.2.0",
