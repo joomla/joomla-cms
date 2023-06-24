@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Task.privacyconsent
+ * @subpackage  Task.PrivacyConsent
  *
  * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -48,21 +48,16 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
      * @since __DEPLOY_VERSION__
      */
     private const TASKS_MAP = [
-        'invalidate.expired' => [
+        'privacy.consent' => [
             'langConstPrefix' => 'PLG_TASK_PRIVACYCONSENT_INVALIDATE',
-            'method'          => 'invalidateExpiredConsents',
-            'form'            => 'invalidateForm',
-        ],
-        'remind.expired' => [
-            'langConstPrefix' => 'PLG_TASK_PRIVACYCONSENT_REMIND',
-            'method'          => 'remindExpiringConsents',
-            'form'            => 'remindForm',
+            'method'          => 'privacyConsents',
+            'form'            => 'privacyconsentForm',
         ],
     ];
 
     /**
      * @var boolean
-
+     * 
      * @since __DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
@@ -85,7 +80,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
     /**
      * Method to send the remind for privacy consents renew.
-     *
+     * 
      * @param   ExecuteTaskEvent  $event  The `onExecuteTask` event.
      *
      * @return integer  The routine exit code.
@@ -93,14 +88,36 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
      * @since  __DEPLOY_VERSION__
      * @throws \Exception
      */
-    private function remindExpiringConsents(ExecuteTaskEvent $event): int
+    private function privacyConsents(ExecuteTaskEvent $event): int
     {
         // Load the parameters.
-        $expire = (int) $event->getArgument('params')->consentexpirationdays ?? 365;
+        $expire = (int) $event->getArgument('params')->consentexpiration ?? 365;
         $remind = (int) $event->getArgument('params')->remind ?? 30;
 
+        if (($this->invalidateExpiredConsents($expire) === Status::OK) && 
+            ($this->remindExpiringConsents($expire, $remind) === Status::OK)) {
+
+            return Status::OK;
+        }
+
+        return Status::KNOCKOUT;
+    }
+
+    /**
+     * Method to send the remind for privacy consents renew.
+     * 
+     * @param   integer    $expire
+     * @param   integer    $remind
+     *
+     * @return integer  The routine exit code.
+     *
+     * @since  __DEPLOY_VERSION__
+     * @throws \Exception
+     */
+    private function remindExpiringConsents($expire, $remind): int
+    {
         $now    = Factory::getDate()->toSql();
-        $period = '-' . ($expire - $remind);
+        $period   = '-' . ($expire - $remind);
         $db     = $this->getDatabase();
         $query  = $db->getQuery(true);
 
@@ -178,16 +195,15 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
     /**
      * Method to delete the expired privacy consents.
      *
-     * @param   ExecuteTaskEvent  $event  The `onExecuteTask` event.
+     * @param   integer    $expire
      *
      * @return integer  The routine exit code.
      *
      * @since  __DEPLOY_VERSION__
      * @throws \Exception
      */
-    private function invalidateExpiredConsents(ExecuteTaskEvent $event): int
+    private function invalidateExpiredConsents($expire): int
     {
-        $expire = (int) $event->getArgument('params')->consentexpirationdays ?? 365;
         $now    = Factory::getDate()->toSql();
         $period = '-' . $expire;
         $db     = $this->getDatabase();
@@ -207,8 +223,8 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
             return Status::KNOCKOUT;
         }
 
-        // Do not process further if no expired consents found
-        if (empty($users)) {
+         // Do not process further if no expired consents found
+         if (empty($users)) {
             return Status::OK;
         }
 

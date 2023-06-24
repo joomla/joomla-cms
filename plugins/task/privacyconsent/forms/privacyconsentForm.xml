@@ -3,11 +3,11 @@
 	<fields name="params">
 		<fieldset name="task_params">
 			<field
-					name="consentexpirationdays"
+					name="consentexpiration"
 					type="integer"
-					label="PLG_TASK_PRIVACYCONSENT_CONSENTEXPIRATIONDAYS_LABEL"
-					description="PLG_TASK_PRIVACYCONSENT_CONSENTEXPIRATIONDAYS_DESC"
-					first="1"
+					label="PLG_TASK_PRIVACYCONSENT_CONSENTEXPIRATION_LABEL"
+					description="PLG_TASK_PRIVACYCONSENT_CONSENTEXPIRATION_DESC"
+					first="0"
 					last="720"
 					step="30"
 					default="360"
@@ -19,7 +19,7 @@
 					type="integer"
 					label="PLG_TASK_PRIVACYCONSENT_REMINDBEFORE_LABEL"
 					description="PLG_TASK_PRIVACYCONSENT_REMINDBEFORE_DESC"
-					first="1"
+					first="0"
 					last="120"
 					step="1"
 					default="30"
