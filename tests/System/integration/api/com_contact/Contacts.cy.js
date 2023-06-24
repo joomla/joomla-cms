@@ -25,7 +25,7 @@ describe('Test that contacts API endpoint', () => {
 
   it('can update a contact', () => {
     cy.db_createContact({ name: 'automated test contact', access: 1 })
-      .then((id) => cy.api_patch(`/contacts/${id}`, { name: 'updated automated test contact' }))
+      .then((contact) => cy.api_patch(`/contacts/${contact.id}`, { name: 'updated automated test contact' }))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('name')
         .should('include', 'updated automated test contact'));
@@ -33,6 +33,6 @@ describe('Test that contacts API endpoint', () => {
 
   it('can delete a contact', () => {
     cy.db_createContact({ name: 'automated test contact', published: -2 })
-      .then((id) => cy.api_delete(`/contacts/${id}`));
+      .then((contact) => cy.api_delete(`/contacts/${contact.id}`));
   });
 });

@@ -479,7 +479,7 @@ abstract class Factory
      * @see     Mail
      * @since   1.7.0
      *
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated  4.4.0 will be removed in 6.0
      *              Use the mailer service in the DI container and create a mailer from there
      *              Example:
      *              Factory::getContainer()->get(MailerFactoryInterface::class)->createMailer();
@@ -698,7 +698,7 @@ abstract class Factory
      * @see     Mail
      * @since   1.7.0
      *
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated  4.4.0 will be removed in 6.0
      *              Use the mailer service in the DI container and create a mailer from there
      *              Example:
      *              Factory::getContainer()->get(MailerFactoryInterface::class)->createMailer();

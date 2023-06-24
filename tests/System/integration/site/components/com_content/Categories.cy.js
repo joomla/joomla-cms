@@ -8,7 +8,7 @@ describe('Test in frontend that the content categories view', () => {
         await cy.db_createArticle({ title: 'automated test article 3', catid: id });
       })
       .then(() => {
-        cy.visit('index.php?option=com_content&view=categories');
+        cy.visit('/index.php?option=com_content&view=categories');
 
         cy.contains('automated test category 1');
         cy.get(':nth-child(1) > .com-content-categories__item-title-wrapper > .com-content-categories__item-title > .badge').contains('Article Count: 1');

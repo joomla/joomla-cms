@@ -18,7 +18,7 @@ use RuntimeException;
 /**
  * Provides a common interface to send emails with.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.4.0
  */
 interface MailerInterface
 {
@@ -27,7 +27,7 @@ interface MailerInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      *
      * @throws  RuntimeException
      */
@@ -41,7 +41,7 @@ interface MailerInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      *
      * @throws  \UnexpectedValueException  if the sender is not a valid address
      */
@@ -54,7 +54,7 @@ interface MailerInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function setSubject(string $subject);
 
@@ -65,7 +65,7 @@ interface MailerInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function setBody(string $content);
 
@@ -77,7 +77,7 @@ interface MailerInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      *
      * @throws  \UnexpectedValueException  if the recipient is not a valid address
      */
@@ -91,7 +91,7 @@ interface MailerInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      *
      * @throws  \UnexpectedValueException  if the CC is not a valid address
      */
@@ -105,7 +105,7 @@ interface MailerInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      *
      * @throws  \UnexpectedValueException  if the BCC is not a valid address
      */
@@ -121,7 +121,7 @@ interface MailerInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function addAttachment(string $data, string $name = '', string $encoding = 'base64', string $type = 'application/octet-stream');
 
@@ -133,7 +133,7 @@ interface MailerInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      *
      * @throws  \UnexpectedValueException  if the replay to is not a valid address
      */
