@@ -307,5 +307,4 @@ final class UpdateNotification extends CMSPlugin implements SubscriberInterface
 
         return $ret;
     }
-
 }
