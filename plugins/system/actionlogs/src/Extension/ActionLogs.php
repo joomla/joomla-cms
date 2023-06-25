@@ -22,7 +22,6 @@ use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
-use RuntimeException;
 use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
