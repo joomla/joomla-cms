@@ -2,7 +2,6 @@ const {
   existsSync, copy, writeFile, mkdir, mkdirs, ensureDir,
 } = require('fs-extra');
 const { dirname, join } = require('path');
-const { codeMirror } = require('./exemptions/codemirror.es6.js');
 const { tinyMCE } = require('./exemptions/tinymce.es6.js');
 
 const RootPath = process.cwd();
@@ -65,9 +64,7 @@ const resolvePackage = async (vendor, packageName, mediaVendorPath, options, reg
 
   const promises = [];
 
-  if (packageName === 'codemirror') {
-    promises.push(codeMirror(packageName, moduleOptions.version));
-  } else if (packageName === 'tinymce') {
+  if (packageName === 'tinymce') {
     promises.push(tinyMCE(packageName, moduleOptions.version));
   } else {
     await mkdirs(join(mediaVendorPath, vendorName));
