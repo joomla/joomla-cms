@@ -8,7 +8,8 @@
     {
       "name": "com_installer.changelog.es5",
       "type": "script",
-      "uri": "com_installer/changelog-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -22,7 +23,7 @@
       "type": "script",
       "uri": "com_installer/changelog.min.js",
       "dependencies": [
-        "com_installer.changelog.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -36,7 +37,8 @@
     {
       "name": "com_installer.installer.es5",
       "type": "script",
-      "uri": "com_installer/installer-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -50,7 +52,7 @@
       "type": "script",
       "uri": "com_installer/installer.min.js",
       "dependencies": [
-        "com_installer.installer.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

@@ -8,7 +8,8 @@
     {
       "name": "com_mails.admin-email-template-edit.es5",
       "type": "script",
-      "uri": "com_mails/admin-email-template-edit-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -22,7 +23,7 @@
       "type": "script",
       "uri": "com_mails/admin-email-template-edit.min.js",
       "dependencies": [
-        "com_mails.admin-email-template-edit.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

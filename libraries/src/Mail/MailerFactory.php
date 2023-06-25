@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
 /**
  * Default factory for creating mailer objects.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.4.0
  */
 class MailerFactory implements MailerFactoryInterface
 {
@@ -28,7 +28,7 @@ class MailerFactory implements MailerFactoryInterface
      * The default configuration.
      *
      * @var     Registry
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     private $defaultConfiguration;
 
@@ -50,7 +50,7 @@ class MailerFactory implements MailerFactoryInterface
      *
      * @return  MailerInterface
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function createMailer(?Registry $settings = null): MailerInterface
     {

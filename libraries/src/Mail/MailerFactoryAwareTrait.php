@@ -16,7 +16,7 @@ namespace Joomla\CMS\Mail;
 /**
  * Defines the trait for a MailerFactoryInterface aware class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.4.0
  */
 trait MailerFactoryAwareTrait
 {
@@ -24,7 +24,7 @@ trait MailerFactoryAwareTrait
      * MailerFactoryInterface
      *
      * @var    MailerFactoryInterface
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.0
      */
     private $mailerFactory;
 
@@ -33,7 +33,7 @@ trait MailerFactoryAwareTrait
      *
      * @return  MailerFactoryInterface
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      * @throws  \UnexpectedValueException May be thrown if the MailerFactory has not been set.
      */
     protected function getMailerFactory(): MailerFactoryInterface
@@ -52,7 +52,7 @@ trait MailerFactoryAwareTrait
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function setMailerFactory(?MailerFactoryInterface $mailerFactory = null): void
     {

@@ -512,7 +512,7 @@ final class PrivacyConsent extends CMSPlugin
             $result = false;
         }
 
-        // Abort on failure
+        // Stop on failure
         if (!$result) {
             return;
         }
