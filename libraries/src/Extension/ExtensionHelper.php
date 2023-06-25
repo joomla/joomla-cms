@@ -172,16 +172,7 @@ class ExtensionHelper
         ['plugin', 'ldap', 'authentication', 0],
 
         // Core plugin extensions - beforedeleteuser
-        ['plugin', 'banners', 'beforedeleteuser', 0],
-        ['plugin', 'categories', 'beforedeleteuser', 0],
-        ['plugin', 'contact', 'beforedeleteuser', 0],
-        ['plugin', 'content', 'beforedeleteuser', 0],
-        ['plugin', 'fields', 'beforedeleteuser', 0],
-        ['plugin', 'finder', 'beforedeleteuser', 0],
-        ['plugin', 'newsfeeds', 'beforedeleteuser', 0],
-        ['plugin', 'scheduler', 'beforedeleteuser', 0],
-        ['plugin', 'tags', 'beforedeleteuser', 0],
-        ['plugin', 'workflow', 'beforedeleteuser', 0],
+        ['plugin', 'core', 'beforedeleteuser', 0],
 
         // Core plugin extensions - behaviour
         ['plugin', 'taggable', 'behaviour', 0],
