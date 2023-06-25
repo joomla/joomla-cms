@@ -104,7 +104,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
     /**
      * Method to send the remind for privacy consents renew.
-     * 
+     *
      * @param   integer    $expire
      * @param   integer    $remind
      *
