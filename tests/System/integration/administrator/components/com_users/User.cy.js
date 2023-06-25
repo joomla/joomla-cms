@@ -18,7 +18,7 @@ describe('Test in backend that the user form', () => {
 
   it('can edit a user', () => {
     cy.db_createUser().then((id) => {
-      cy.visit(`administrator/index.php?option=com_users&task=user.edit&id=${id}`);
+      cy.visit(`/administrator/index.php?option=com_users&task=user.edit&id=${id}`);
 
       cy.get('#jform_name').clear().type('test edited');
       cy.get('#jform_username').clear().type('testedited');

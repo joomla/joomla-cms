@@ -33,7 +33,7 @@ class Mail extends PHPMailer implements MailerInterface
      * @var    Mail[]
      * @since  1.7.3
      *
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated  4.4.0 will be removed in 6.0
      *              See getInstance() for more details
      */
     public static $instances = [];
@@ -103,9 +103,9 @@ class Mail extends PHPMailer implements MailerInterface
      *
      * @return  Mail  The global Mail object
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      *
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated  4.4.0 will be removed in 6.0
      *              Use the mailer service in the DI container and create a mailer from there
      *              Example:
      *              Factory::getContainer()->get(MailerFactoryInterface::class)->createMailer();
