@@ -115,10 +115,10 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
      */
     private function remindExpiringConsents($expire, $remind): int
     {
-        $now    = Factory::getDate()->toSql();
+        $now      = Factory::getDate()->toSql();
         $period   = '-' . ($expire - $remind);
-        $db     = $this->getDatabase();
-        $query  = $db->getQuery(true);
+        $db       = $this->getDatabase();
+        $query    = $db->getQuery(true);
 
         $query->select($db->quoteName(['r.id', 'r.user_id', 'u.email']))
             ->from($db->quoteName('#__privacy_consents', 'r'))
