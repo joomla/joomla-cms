@@ -222,8 +222,8 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
             return Status::KNOCKOUT;
         }
 
-         // Do not process further if no expired consents found
-         if (empty($users)) {
+        // Do not process further if no expired consents found
+        if (empty($users)) {
             return Status::OK;
         }
 
