@@ -313,18 +313,18 @@ class JoomlaInstallerScript
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task = [
-            'title' => 'UpdateNotification',
-            'type'  => 'update.notification',
+            'title'           => 'UpdateNotification',
+            'type'            => 'update.notification',
             'execution_rules' => [
-                'rule-type' => 'interval-hours',
+                'rule-type'      => 'interval-hours',
                 'interval-hours' => $cachetimeout,
-                'exec-time' => gmdate("H:i", $lastrun),
+                'exec-time'      => gmdate("H:i", $lastrun),
             ],
-            'state' => 1,
+            'state'  => 1,
             'params' => [
-                'email' => $params->get('email',''),
-                'language_override' => $params->get('language_override',''),
-            ]
+                'email'             => $params->get('email', ''),
+                'language_override' => $params->get('language_override', ''),
+            ],
         ];
         $model->save($task);
     }
