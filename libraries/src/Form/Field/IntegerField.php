@@ -40,12 +40,12 @@ class IntegerField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         // Initialize some field attributes.
         $first = (int) $this->element['first'];
-        $last = (int) $this->element['last'];
-        $step = (int) $this->element['step'];
+        $last  = (int) $this->element['last'];
+        $step  = (int) $this->element['step'];
 
         // Sanity checks.
         if ($step == 0) {

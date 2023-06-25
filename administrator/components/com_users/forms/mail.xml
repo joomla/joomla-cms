@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fieldset>
 
@@ -46,6 +46,7 @@
 			type="text"
 			label="COM_USERS_MAIL_FIELD_SUBJECT_LABEL"
 			maxlength="150"
+			required="true"
 		/>
 
 		<field
@@ -54,6 +55,7 @@
 			label="COM_USERS_MAIL_FIELD_MESSAGE_LABEL"
 			cols="70"
 			rows="20"
+			required="true"
 		/>
 	</fieldset>
 </form>

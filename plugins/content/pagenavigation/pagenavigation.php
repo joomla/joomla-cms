@@ -44,8 +44,8 @@ class PlgContentPagenavigation extends CMSPlugin
     public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
     {
         $app   = Factory::getApplication();
-        $view  = $app->input->get('view');
-        $print = $app->input->getBool('print');
+        $view  = $app->getInput()->get('view');
+        $print = $app->getInput()->getBool('print');
 
         if ($print) {
             return false;
@@ -211,18 +211,18 @@ class PlgContentPagenavigation extends CMSPlugin
 
             if ($row->prev) {
                 $row->prev_label = ($this->params->get('display', 0) == 0) ? Text::_('JPREV') : $row->prev->title;
-                $row->prev = RouteHelper::getArticleRoute($row->prev->slug, $row->prev->catid, $row->prev->language);
+                $row->prev       = RouteHelper::getArticleRoute($row->prev->slug, $row->prev->catid, $row->prev->language);
             } else {
                 $row->prev_label = '';
-                $row->prev = '';
+                $row->prev       = '';
             }
 
             if ($row->next) {
                 $row->next_label = ($this->params->get('display', 0) == 0) ? Text::_('JNEXT') : $row->next->title;
-                $row->next = RouteHelper::getArticleRoute($row->next->slug, $row->next->catid, $row->next->language);
+                $row->next       = RouteHelper::getArticleRoute($row->next->slug, $row->next->catid, $row->next->language);
             } else {
                 $row->next_label = '';
-                $row->next = '';
+                $row->next       = '';
             }
 
             // Output.

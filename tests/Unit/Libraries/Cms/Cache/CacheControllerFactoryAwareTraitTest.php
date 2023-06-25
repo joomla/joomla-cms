@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Base
@@ -34,10 +35,9 @@ class CacheControllerFactoryAwareTraitTest extends UnitTestCase
      */
     public function testGetCacheControllerFactory()
     {
-        $cacheControllerFactory = new CacheControllerFactory;
+        $cacheControllerFactory = new CacheControllerFactory();
 
-        $trait = new class
-        {
+        $trait = new class () {
             use CacheControllerFactoryAwareTrait;
 
             public function getFactory(): CacheControllerFactory

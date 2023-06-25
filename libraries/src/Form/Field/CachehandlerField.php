@@ -43,7 +43,7 @@ class CachehandlerField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         // Convert to name => name array.
         foreach (Cache::getStores() as $store) {

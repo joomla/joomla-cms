@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -85,12 +86,12 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         ToolbarHelper::title(Text::_('COM_MESSAGES_TOOLBAR_MY_SETTINGS'), 'envelope');
 
-        ToolbarHelper::apply('config.save', 'JSAVE');
-
-        ToolbarHelper::cancel('config.cancel', 'JCANCEL');
+        $toolbar = Toolbar::getInstance();
+        $toolbar->apply('config.save', 'JSAVE');
+        $toolbar->cancel('config.cancel', 'JCANCEL');
     }
 }

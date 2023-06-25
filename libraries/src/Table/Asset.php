@@ -78,7 +78,7 @@ class Asset extends Nested
      */
     public function loadByName($name)
     {
-        return $this->load(array('name' => $name));
+        return $this->load(['name' => $name]);
     }
 
     /**

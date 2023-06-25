@@ -52,10 +52,10 @@ class FilesystemHelper
 
         if (($sch === 'ftp') || ($sch === 'ftps')) {
             $server = parse_url($url, PHP_URL_HOST);
-            $port = parse_url($url, PHP_URL_PORT);
-            $path = parse_url($url, PHP_URL_PATH);
-            $user = parse_url($url, PHP_URL_USER);
-            $pass = parse_url($url, PHP_URL_PASS);
+            $port   = parse_url($url, PHP_URL_PORT);
+            $path   = parse_url($url, PHP_URL_PATH);
+            $user   = parse_url($url, PHP_URL_USER);
+            $pass   = parse_url($url, PHP_URL_PASS);
 
             if ((!$server) || (!$path)) {
                 return false;
@@ -124,10 +124,10 @@ class FilesystemHelper
         }
 
         $server = parse_url($url, PHP_URL_HOST);
-        $port = parse_url($url, PHP_URL_PORT);
-        $path = parse_url($url, PHP_URL_PATH);
-        $user = parse_url($url, PHP_URL_USER);
-        $pass = parse_url($url, PHP_URL_PASS);
+        $port   = parse_url($url, PHP_URL_PORT);
+        $path   = parse_url($url, PHP_URL_PATH);
+        $user   = parse_url($url, PHP_URL_USER);
+        $pass   = parse_url($url, PHP_URL_PASS);
 
         if ((!$server) || (!$path)) {
             return false;
@@ -180,7 +180,7 @@ class FilesystemHelper
      */
     public static function getWriteModes()
     {
-        return array('w', 'w+', 'a', 'a+', 'r+', 'x', 'x+');
+        return ['w', 'w+', 'a', 'a+', 'r+', 'x', 'x+'];
     }
 
     /**
@@ -241,7 +241,7 @@ class FilesystemHelper
      */
     public static function getJStreams()
     {
-        static $streams = array();
+        static $streams = [];
 
         if (!$streams) {
             $files = new \DirectoryIterator(__DIR__ . '/Streams');
@@ -287,7 +287,7 @@ class FilesystemHelper
      */
     public static function fileUploadMaxSize($unitOutput = true)
     {
-        static $max_size = false;
+        static $max_size    = false;
         static $output_type = true;
 
         if ($max_size === false || $output_type != $unitOutput) {
@@ -343,7 +343,7 @@ class FilesystemHelper
     private static function parseSizeUnit($maxSize)
     {
         $base     = log($maxSize) / log(1024);
-        $suffixes = array('', 'k', 'M', 'G', 'T');
+        $suffixes = ['', 'k', 'M', 'G', 'T'];
 
         return round(pow(1024, $base - floor($base)), 0) . $suffixes[floor($base)];
     }

@@ -90,9 +90,9 @@ class Update extends Table
      *
      * @since   1.7.0
      */
-    public function find($options = array())
+    public function find($options = [])
     {
-        $where = array();
+        $where = [];
 
         foreach ($options as $col => $val) {
             $where[] = $col . ' = ' . $this->_db->quote($val);

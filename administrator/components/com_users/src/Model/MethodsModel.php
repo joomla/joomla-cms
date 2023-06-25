@@ -18,7 +18,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Database\ParameterType;
 use RuntimeException;
@@ -47,8 +46,7 @@ class MethodsModel extends BaseDatabaseModel
     public function getMethods(?User $user = null): array
     {
         if (is_null($user)) {
-            $user = Factory::getApplication()->getIdentity()
-                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            $user = $this->getCurrentUser();
         }
 
         if ($user->guest) {
@@ -94,10 +92,10 @@ class MethodsModel extends BaseDatabaseModel
     {
         // Make sure we have a user object
         if (is_null($user)) {
-            $user = Factory::getApplication()->getIdentity() ?: Factory::getUser();
+            $user = Factory::getApplication()->getIdentity() ?: $this->getCurrentUser();
         }
 
-        // If the user object is a guest (who can't have MFA) we abort with an error
+        // If the user object is a guest (who can't have MFA) we stop with an error
         if ($user->guest) {
             throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
@@ -140,8 +138,7 @@ class MethodsModel extends BaseDatabaseModel
         }
 
         // I need to display the date in the user's local timezone. That's how you do it.
-        $user   = Factory::getApplication()->getIdentity()
-            ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        $user   = $this->getCurrentUser();
         $userTZ = $user->getParam('timezone', 'UTC');
         $tz     = new DateTimeZone($userTZ);
         $jDate->setTimezone($tz);

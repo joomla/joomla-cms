@@ -75,7 +75,7 @@ abstract class PrivacyPlugin extends CMSPlugin
      */
     protected function createItemFromArray(array $data, $itemId = null)
     {
-        $item = new Item();
+        $item     = new Item();
         $item->id = $itemId;
 
         foreach ($data as $key => $value) {
@@ -127,7 +127,7 @@ abstract class PrivacyPlugin extends CMSPlugin
      *
      * @since   3.9.0
      */
-    protected function createCustomFieldsDomain($context, $items = array())
+    protected function createCustomFieldsDomain($context, $items = [])
     {
         if (!is_array($items)) {
             $items = [$items];

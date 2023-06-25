@@ -97,7 +97,7 @@ abstract class ChangeItem
      * @var    array
      * @since  2.5
      */
-    public $msgElements = array();
+    public $msgElements = [];
 
     /**
      * Checked status
@@ -127,8 +127,8 @@ abstract class ChangeItem
     public function __construct($db, $file, $query)
     {
         $this->updateQuery = $query;
-        $this->file = $file;
-        $this->db = $db;
+        $this->file        = $file;
+        $this->db          = $db;
         $this->buildCheckQuery();
     }
 

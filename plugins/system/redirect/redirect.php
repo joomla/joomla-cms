@@ -84,28 +84,28 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
         $uri = Uri::getInstance();
 
         // These are the original URLs
-        $orgurl                = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment')));
-        $orgurlRel             = rawurldecode($uri->toString(array('path', 'query', 'fragment')));
+        $orgurl                = rawurldecode($uri->toString(['scheme', 'host', 'port', 'path', 'query', 'fragment']));
+        $orgurlRel             = rawurldecode($uri->toString(['path', 'query', 'fragment']));
 
         // The above doesn't work for sub directories, so do this
         $orgurlRootRel         = str_replace(Uri::root(), '', $orgurl);
 
         // For when users have added / to the url
         $orgurlRootRelSlash    = str_replace(Uri::root(), '/', $orgurl);
-        $orgurlWithoutQuery    = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment')));
-        $orgurlRelWithoutQuery = rawurldecode($uri->toString(array('path', 'fragment')));
+        $orgurlWithoutQuery    = rawurldecode($uri->toString(['scheme', 'host', 'port', 'path', 'fragment']));
+        $orgurlRelWithoutQuery = rawurldecode($uri->toString(['path', 'fragment']));
 
         // These are the URLs we save and use
-        $url                = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'))));
-        $urlRel             = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'query', 'fragment'))));
+        $url                = StringHelper::strtolower(rawurldecode($uri->toString(['scheme', 'host', 'port', 'path', 'query', 'fragment'])));
+        $urlRel             = StringHelper::strtolower(rawurldecode($uri->toString(['path', 'query', 'fragment'])));
 
         // The above doesn't work for sub directories, so do this
         $urlRootRel         = str_replace(Uri::root(), '', $url);
 
         // For when users have added / to the url
         $urlRootRelSlash    = str_replace(Uri::root(), '/', $url);
-        $urlWithoutQuery    = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment'))));
-        $urlRelWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'fragment'))));
+        $urlWithoutQuery    = StringHelper::strtolower(rawurldecode($uri->toString(['scheme', 'host', 'port', 'path', 'fragment'])));
+        $urlRelWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(['path', 'fragment'])));
 
         $excludes = (array) $this->params->get('exclude_urls');
 
@@ -174,7 +174,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
         }
 
         $possibleMatches = array_unique(
-            array(
+            [
                 $url,
                 $urlRel,
                 $urlRootRel,
@@ -187,7 +187,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
                 $orgurlRootRelSlash,
                 $orgurlWithoutQuery,
                 $orgurlRelWithoutQuery,
-            )
+            ]
         );
 
         foreach ($possibleMatches as $match) {
@@ -245,15 +245,15 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 
                 $nowDate = Factory::getDate()->toSql();
 
-                $data = (object) array(
-                    'id' => 0,
-                    'old_url' => $url,
-                    'referer' => $app->input->server->getString('HTTP_REFERER', ''),
-                    'hits' => 1,
-                    'published' => 0,
-                    'created_date' => $nowDate,
+                $data = (object) [
+                    'id'            => 0,
+                    'old_url'       => $url,
+                    'referer'       => $app->getInput()->server->getString('HTTP_REFERER', ''),
+                    'hits'          => 1,
+                    'published'     => 0,
+                    'created_date'  => $nowDate,
                     'modified_date' => $nowDate,
-                );
+                ];
 
                 try {
                     $this->db->insertObject('#__redirect_links', $data, 'id');

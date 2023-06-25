@@ -10,12 +10,11 @@
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Event\Table\BeforeStoreEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\DatabaseModelInterface;
@@ -53,7 +52,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
     /**
      * Loads the CMS Application for direct access
      *
-     * @var   CMSApplicationInterface
+     * @var   CMSWebApplicationInterface
      * @since 4.0.0
      */
     protected $app;
@@ -210,9 +209,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
      */
     public function onAfterDisplay(DisplayEvent $event)
     {
-        $app = Factory::getApplication();
-
-        if (!$app->isClient('administrator')) {
+        if (!$this->app->isClient('administrator')) {
             return;
         }
 
@@ -257,7 +254,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 			});
 		";
 
-        $app->getDocument()->addScriptDeclaration($js);
+        $this->app->getDocument()->addScriptDeclaration($js);
 
         return true;
     }
@@ -341,7 +338,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
         }
 
         $options = [
-            'ignore_request'            => true,
+            'ignore_request' => true,
             // We already have triggered onContentBeforeChangeState, so use our own
             'event_before_change_state' => 'onWorkflowBeforeChangeState',
         ];

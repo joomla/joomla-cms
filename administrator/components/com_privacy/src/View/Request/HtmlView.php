@@ -120,54 +120,55 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
+
+        $toolbar = Toolbar::getInstance();
 
         // Set the title and toolbar based on the layout
         if ($this->getLayout() === 'edit') {
             ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_REQUEST_ADD_REQUEST'), 'lock');
 
-            ToolbarHelper::save('request.save');
-            ToolbarHelper::cancel('request.cancel');
-            ToolbarHelper::help('Privacy:_New_Information_Request');
+            $toolbar->save('request.save');
+            $toolbar->cancel('request.cancel');
+            $toolbar->help('Privacy:_New_Information_Request');
         } else {
             ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_REQUEST_SHOW_REQUEST'), 'lock');
-
-            $bar = Toolbar::getInstance('toolbar');
 
             // Add transition and action buttons based on item status
             switch ($this->item->status) {
                 case '0':
-                    $bar->appendButton('Standard', 'cancel-circle', 'COM_PRIVACY_TOOLBAR_INVALIDATE', 'request.invalidate', false);
+                    $toolbar->standardButton('cancel', 'COM_PRIVACY_TOOLBAR_INVALIDATE', 'request.invalidate')
+                        ->listCheck(false)
+                        ->icon('icon-cancel-circle');
 
                     break;
 
                 case '1':
                     $return = '&return=' . base64_encode('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id);
 
-                    $bar->appendButton('Standard', 'apply', 'COM_PRIVACY_TOOLBAR_COMPLETE', 'request.complete', false);
-                    $bar->appendButton('Standard', 'cancel-circle', 'COM_PRIVACY_TOOLBAR_INVALIDATE', 'request.invalidate', false);
+                    $toolbar->standardButton('apply', 'COM_PRIVACY_TOOLBAR_COMPLETE', 'request.complete')
+                        ->listCheck(false)
+                        ->icon('icon-apply');
+
+                    $toolbar->standardButton('invalidate', 'COM_PRIVACY_TOOLBAR_INVALIDATE', 'request.invalidate')
+                        ->listCheck(false)
+                        ->icon('icon-cancel-circle');
 
                     if ($this->item->request_type === 'export') {
-                        ToolbarHelper::link(
-                            Route::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $this->item->id . $return),
-                            'COM_PRIVACY_ACTION_EXPORT_DATA',
-                            'download'
-                        );
+                        $toolbar->linkButton('download', 'COM_PRIVACY_ACTION_EXPORT_DATA')
+                            ->url(Route::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $this->item->id . $return));
 
                         if (Factory::getApplication()->get('mailonline', 1)) {
-                            ToolbarHelper::link(
-                                Route::_(
-                                    'index.php?option=com_privacy&task=request.emailexport&id=' . (int) $this->item->id . $return
-                                    . '&' . Session::getFormToken() . '=1'
-                                ),
-                                'COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA',
-                                'mail'
-                            );
+                            $toolbar->linkButton('mail', 'COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA')
+                                ->url(Route::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $this->item->id . $return
+                                    . '&' . Session::getFormToken() . '=1'));
                         }
                     }
 
                     if ($this->item->request_type === 'remove') {
-                        $bar->appendButton('Standard', 'delete', 'COM_PRIVACY_ACTION_DELETE_DATA', 'request.remove', false);
+                        $toolbar->standardButton('delete', 'COM_PRIVACY_ACTION_DELETE_DATA', 'request.remove')
+                            ->listCheck(false)
+                            ->icon('icon-delete');
                     }
 
                     break;
@@ -177,8 +178,8 @@ class HtmlView extends BaseHtmlView
                     break;
             }
 
-            ToolbarHelper::cancel('request.cancel', 'JTOOLBAR_CLOSE');
-            ToolbarHelper::help('Privacy:_Review_Information_Request');
+            $toolbar->cancel('request.cancel');
+            $toolbar->help('Privacy:_Review_Information_Request');
         }
     }
 }
