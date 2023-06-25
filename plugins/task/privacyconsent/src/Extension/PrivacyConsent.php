@@ -80,7 +80,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
     /**
      * Method to send the remind for privacy consents renew.
-     * 
+     *
      * @param   ExecuteTaskEvent  $event  The `onExecuteTask` event.
      *
      * @return integer  The routine exit code.
