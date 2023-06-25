@@ -57,7 +57,7 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
 
     /**
      * @var boolean
-     * 
+     *
      * @since __DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
