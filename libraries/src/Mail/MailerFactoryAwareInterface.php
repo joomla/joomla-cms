@@ -16,7 +16,7 @@ namespace Joomla\CMS\Mail;
 /**
  * Interface to be implemented by classes depending on a mailer factory.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.4.0
  */
 interface MailerFactoryAwareInterface
 {
@@ -27,7 +27,7 @@ interface MailerFactoryAwareInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function setMailerFactory(?MailerFactoryInterface $mailerFactory = null): void;
 }
