@@ -348,7 +348,7 @@ class MessageModel extends AdminModel
         $key = $table->getKeyName();
 
         if (isset($table->$key)) {
-            Factory::getApplication()->getInput()->set($key,$table->$key);
+            Factory::getApplication()->getInput()->set($key, $table->$key);
         }
 
         if ($config->get('mail_on_new', true)) {
