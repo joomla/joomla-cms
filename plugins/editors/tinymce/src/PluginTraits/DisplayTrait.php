@@ -318,7 +318,7 @@ trait DisplayTrait
 
         // Use CodeMirror in the code view instead of plain text to provide syntax highlighting
         if ($levelParams->get('sourcecode', 1)) {
-            $externalPlugins['highlightPlus'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/plugin-es5.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
+            $externalPlugins['highlightPlus'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/highlighter/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
         }
 
         $dragdrop = $levelParams->get('drag_drop', 1);
