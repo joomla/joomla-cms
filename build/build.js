@@ -34,6 +34,7 @@ const { mediaManager, watchMediaManager } = require('./build-modules-js/javascri
 const { compressFiles } = require('./build-modules-js/compress.es6.js');
 const { versioning } = require('./build-modules-js/versioning.es6.js');
 const { Timer } = require('./build-modules-js/utils/timer.es6.js');
+const { compileCodemirror } = require('./build-modules-js/javascript/build-codemirror.es6.js');
 
 // The settings
 const options = require('../package.json');
@@ -68,6 +69,7 @@ Program
   .option('--compile-js, --compile-js path', 'Handles ES6, ES5 and web component scripts')
   .option('--compile-css, --compile-css path', 'Compiles all the scss files to css')
   .option('--compile-bs', 'Compiles all the Bootstrap component scripts.')
+  .option('--compile-codemirror', 'Compiles all the codemirror component.')
   .option('--watch', 'Watch file changes and re-compile (ATM only works for the js in the media_source).')
   .option('--com-media', 'Compile the Media Manager client side App.')
   .option('--watch-com-media', 'Watch and Compile the Media Manager client side App.')
@@ -123,6 +125,11 @@ if (cliOptions.watch) {
 // Gzip js/css files
 if (cliOptions.compileBs) {
   bootstrapJs();
+}
+
+// Compile codemirror
+if (cliOptions.compileCodemirror) {
+  compileCodemirror();
 }
 
 // Gzip js/css files
