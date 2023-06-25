@@ -312,7 +312,7 @@ class JoomlaInstallerScript
 
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
-        $task = [
+        $task  = [
             'title'           => 'UpdateNotification',
             'type'            => 'update.notification',
             'execution_rules' => [
