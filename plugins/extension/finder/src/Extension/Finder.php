@@ -47,7 +47,19 @@ final class Finder extends CMSPlugin
             return;
         }
 
-        $extension = $this->getLanguage($eid);
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select($db->quoteName(['element', 'client_id']))
+            ->from($db->quoteName('#__extensions'))
+            ->where(
+                [
+                    $db->quoteName('extension_id') . ' = :eid',
+                    $db->quoteName('type') . ' = ' . $db->quote('language'),
+                ]
+            )
+            ->bind(':eid', $eid, ParameterType::INTEGER);
+
+        $extension = $db->setQuery($query)->loadObject();
 
         if ($extension) {
             $this->addCommonWords($extension);
@@ -86,37 +98,6 @@ final class Finder extends CMSPlugin
         if ($eid && $removed && $installer->extension->type === 'language') {
             $this->removeCommonWords($installer->extension);
         }
-    }
-
-    /**
-     * Get an object of information if the handled extension is a language
-     *
-     * @param   integer  $eid  Extension id
-     *
-     * @return  object
-     *
-     * @since   4.0.0
-     */
-    protected function getLanguage($eid)
-    {
-        $db  = $this->getDatabase();
-        $eid = (int) $eid;
-
-        $query = $db->getQuery(true)
-            ->select($db->quoteName(['element', 'client_id']))
-            ->from($db->quoteName('#__extensions'))
-            ->where(
-                [
-                    $db->quoteName('extension_id') . ' = :eid',
-                    $db->quoteName('type') . ' = ' . $db->quote('language'),
-                ]
-            )
-            ->bind(':eid', $eid, ParameterType::INTEGER);
-
-        $db->setQuery($query);
-        $extension = $db->loadObject();
-
-        return $extension;
     }
 
     /**
