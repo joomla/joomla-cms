@@ -168,6 +168,7 @@ if (cliOptions.prepare) {
     .then(() => scripts(options, Program.args[0]))
     .then(() => mediaManager())
     .then(() => bootstrapJs())
+    .then(() => compileCodemirror())
     .then(() => bench.stop('Build'))
     .then(() => { process.exit(0); })
     .catch((err) => {

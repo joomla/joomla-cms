@@ -76,6 +76,7 @@ module.exports.compileCodemirror = async () => {
   const lModules = retrieveListOfChildModules('@lezer');
   const externalModules = [...cmModules, ...lModules];
   const destBasePath = 'media/vendor/codemirror/js';
+  const tasks = [];
 
   const progressBar = new cliProgress.SingleBar({
     stopOnComplete: true,
@@ -89,12 +90,13 @@ module.exports.compileCodemirror = async () => {
     const destFile = `${module.replace('@codemirror/', 'codemirror-')}.js`;
     const destPath = `${destBasePath}/${destFile}`;
 
-    buildModule(module, externalModules, destPath).then(() => {
+    const task = buildModule(module, externalModules, destPath).then(() => {
       progressBar.increment();
-      createMinified(destPath).then(() => {
+      return createMinified(destPath).then(() => {
         progressBar.increment();
       });
     });
+    tasks.push(task);
   });
 
   // Prepare @lezer modules which @codemirror depends on
@@ -102,13 +104,15 @@ module.exports.compileCodemirror = async () => {
     const destFile = `${module.replace('@lezer/', 'lezer-')}.js`;
     const destPath = `${destBasePath}/${destFile}`;
 
-    buildModule(module, externalModules, destPath).then(() => {
+    const task2 = buildModule(module, externalModules, destPath).then(() => {
       progressBar.increment();
-      createMinified(destPath).then(() => {
+      return createMinified(destPath).then(() => {
         progressBar.increment();
       });
     });
+    tasks.push(task2);
   });
+  // console.log('compileCodemirror', cmModules, lModules, tasks);
 
-  // console.log('compileCodemirror', cmModules, lModules);
+  return Promise.all(tasks);
 };
