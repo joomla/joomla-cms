@@ -2,11 +2,11 @@
 <extension type="plugin" group="behaviour" method="upgrade">
 	<name>plg_beforedeleteuser_core</name>
 	<version>1.0.0</version>
-	<creationDate>2023-04</creationDate>
+	<creationDate>2023-06</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
+	<copyright>(C) 2023 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>PLG_BEFOREDELETEUSER_CORE_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\BeforeDeleteUser\Core</namespace>

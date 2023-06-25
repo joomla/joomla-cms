@@ -1,11 +1,10 @@
 <?php
+
 /**
- * @package     Joomla.Plugin
- * @subpackage  System.Jtchuserbeforedel
+ * Joomla! Content Management System
  *
- * @author      Guido De Gobbis <support@joomtools.de>
- * @copyright   Copyright JoomTools.de - All rights reserved.
- * @license     GNU General Public License version 3 or later
+ * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\User;
