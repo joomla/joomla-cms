@@ -111,36 +111,6 @@
 			<option value="1">JYES</option>
 		</field>
 	</fieldset>
-	<fieldset name="before_delete_user"
-	          label="COM_USERS_CONFIG_BEFORE_DELETE_USER">
-		<field name="fallbackUserIdOnDelete"
-		       type="user"
-		       label="COM_USERS_CONFIG_FIELD_FALLBACK_USER_LABEL"
-		       description="COM_USERS_CONFIG_FIELD_FALLBACK_USER_DESC"
-		       validate="UserId"
-		/>
-		<field name="setAliasOnDelete"
-		       type="radio"
-		       layout="joomla.form.field.radio.switcher"
-		       label="COM_USERS_CONFIG_FIELD_SET_ALIAS_LABEL"
-		       description="COM_USERS_CONFIG_FIELD_SET_ALIAS_DESC"
-		       default="1"
-		>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-		<field name="overrideAliasOnDelete"
-		       type="radio"
-		       layout="joomla.form.field.radio.switcher"
-		       label="COM_USERS_CONFIG_FIELD_OVERFRIDE_ALIAS_LABEL"
-		       description="COM_USERS_CONFIG_FIELD_OVERFRIDE_ALIAS_DESC"
-		       default="0"
-		       showon="setAliasOnDelete:1"
-		>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-	</fieldset>
 
 	<fieldset
 		name="domain_options"

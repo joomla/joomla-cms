@@ -326,7 +326,6 @@ class ExtensionHelper
         ['plugin', 'sitestatus', 'task', 0],
 
         // Core plugin extensions - user
-        ['plugin', 'beforedelete', 'user', 0],
         ['plugin', 'contactcreator', 'user', 0],
         ['plugin', 'joomla', 'user', 0],
         ['plugin', 'profile', 'user', 0],

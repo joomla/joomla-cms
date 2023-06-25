@@ -224,6 +224,18 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                             $this->loadTemplate('batch_body')
                         ); ?>
                     <?php endif; ?>
+                    <?php
+                    if ($this->canDo->get('core.delete')) : ?>
+                        <?php echo HTMLHelper::_(
+                            'bootstrap.renderModal',
+                            'beforeDeleteModal',
+                            [
+                                'title'  => Text::_('COM_USERS_BEFORE_DELETE_USER'),
+                                'footer' => $this->loadTemplate('before_delete_footer'),
+                            ],
+                            $this->loadTemplate('before_delete_body')
+                        ); ?>
+                    <?php endif; ?>
                 <?php endif; ?>
 
                 <input type="hidden" name="task" value="">

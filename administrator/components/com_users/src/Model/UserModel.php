@@ -21,8 +21,10 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactory;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -60,7 +62,7 @@ class UserModel extends AdminModel
                 'event_after_save'    => 'onUserAfterSave',
                 'event_before_delete' => 'onUserBeforeDelete',
                 'event_before_save'   => 'onUserBeforeSave',
-                'events_map'          => ['save' => 'user', 'delete' => 'user', 'validate' => 'user'],
+                'events_map'          => ['save' => 'user', 'beforeDelete' => 'beforedeleteuser', 'delete' => 'user', 'validate' => 'user'],
             ],
             $config
         );
@@ -301,17 +303,24 @@ class UserModel extends AdminModel
      */
     public function delete(&$pks)
     {
-        $user  = $this->getCurrentUser();
-        $table = $this->getTable();
-        $pks   = (array) $pks;
+        $app                    = Factory::getApplication();
+        $user                   = $this->getCurrentUser();
+        $table                  = $this->getTable();
+        $userFactory            = Factory::getContainer()->get(UserFactory::class);
+        $pks                    = (array) $pks;
+        $beforeDeleteUserParams = new Registry((array) $app->input->get('beforeDeleteUser'));
 
         // Check if I am a Super Admin
         $iAmSuperAdmin = $user->authorise('core.admin');
 
+        PluginHelper::importPlugin($this->events_map['beforeDelete']);
         PluginHelper::importPlugin($this->events_map['delete']);
 
         if (in_array($user->id, $pks)) {
-            $this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_DELETE_SELF'));
+            $app->getLogger()->error(
+                Text::_('COM_USERS_USERS_ERROR_CANNOT_DELETE_SELF'),
+                ['category' => 'jerror']
+            );
 
             return false;
         }
@@ -327,10 +336,13 @@ class UserModel extends AdminModel
 
                 if ($allow) {
                     // Get users data for the users to delete.
-                    $user_to_delete = Factory::getUser($pk);
+                    $user_to_delete = $userFactory->loadUserById($pk);
+
+                    $beforeDeleteUserParams->set('userId', $user_to_delete->id);
+                    $beforeDeleteUserParams->set('userName', $user_to_delete->name);
 
                     // Fire the before delete event.
-                    Factory::getApplication()->triggerEvent($this->event_before_delete, [$table->getProperties()]);
+                    $app->triggerEvent($this->event_before_delete, [$table->getProperties(), $beforeDeleteUserParams]);
 
                     if (!$table->delete($pk)) {
                         $this->setError($table->getError());
@@ -338,12 +350,12 @@ class UserModel extends AdminModel
                         return false;
                     } else {
                         // Trigger the after delete event.
-                        Factory::getApplication()->triggerEvent($this->event_after_delete, [$user_to_delete->getProperties(), true, $this->getError()]);
+                        $app->triggerEvent($this->event_after_delete, [$user_to_delete->getProperties(), true, $this->getError()]);
                     }
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
-                    Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
+                    $app->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
                 }
             } else {
                 $this->setError($table->getError());

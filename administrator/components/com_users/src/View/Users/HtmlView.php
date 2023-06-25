@@ -167,8 +167,9 @@ class HtmlView extends BaseHtmlView
             }
 
             if ($canDo->get('core.delete')) {
-                $childBar->delete('users.delete', 'JTOOLBAR_DELETE')
-                    ->message('JGLOBAL_CONFIRM_DELETE')
+                $childBar->popupButton('delete', 'JTOOLBAR_DELETE')
+                    ->selector('beforeDeleteModal')
+                    ->icon('icon-delete')
                     ->listCheck(true);
             }
         }

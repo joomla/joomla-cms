@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset name="before_delete_user"
+	          label="COM_USERS_BEFORE_DELETE_USER">
+		<field name="fallbackUserIdOnDelete"
+		       type="sql"
+		       default="0"
+		       label="COM_USERS_BEFORE_DELETE_USER_FIELD_FALLBACK_USER_LABEL"
+		       description="COM_USERS_BEFORE_DELETE_USER_FIELD_FALLBACK_USER_DESC"
+		       query="SELECT id, concat( name, ' (', username, ')') AS name FROM #__users"
+		       key_field="id"
+		       value_field="name"
+		       required="true"
+		>
+			<option value="">COM_USERS_BEFORE_DELETE_USER_FIELD_FALLBACK_USER_OPTION_EMPTY</option>
+		</field>
+		<field name="setAliasOnDelete"
+		       type="radio"
+		       layout="joomla.form.field.radio.switcher"
+		       label="COM_USERS_BEFORE_DELETE_USER_FIELD_SET_ALIAS_LABEL"
+		       description="COM_USERS_BEFORE_DELETE_USER_FIELD_SET_ALIAS_DESC"
+		       default="1"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="overrideAliasOnDelete"
+		       type="radio"
+		       layout="joomla.form.field.radio.switcher"
+		       label="COM_USERS_BEFORE_DELETE_USER_FIELD_OVERFRIDE_ALIAS_LABEL"
+		       description="COM_USERS_BEFORE_DELETE_USER_FIELD_OVERFRIDE_ALIAS_DESC"
+		       default="0"
+		       showon="setAliasOnDelete:1"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+	</fieldset>
+</form>
