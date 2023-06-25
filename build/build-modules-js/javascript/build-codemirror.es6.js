@@ -4,22 +4,21 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 const {
-  existsSync, readFile, writeFile, mkdir, mkdirs, ensureDir, readdirSync,
+  existsSync, readFile, writeFile, readdirSync,
 } = require('fs-extra');
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const { minify } = require('terser');
-const {resolve} = require("path");
 
-// Find a list of installed codemirror modules
-const retrieveListOfModules = () => {
+// Find a list of modules for given provider, eg all sub @codemirror/...
+const retrieveListOfChildModules = (provider) => {
   const cmModules = [];
 
   // Get @codemirror module roots
   const roots = [];
   module.paths.forEach((path) => {
-    const fullPath = `${path}/@codemirror`;
+    const fullPath = `${path}/${provider}`;
     if (existsSync(fullPath)) {
       roots.push(fullPath);
     }
@@ -28,7 +27,7 @@ const retrieveListOfModules = () => {
   // List of modules
   roots.forEach((rootPath) => {
     readdirSync(rootPath).forEach((subModule) => {
-      cmModules.push(`@codemirror/${subModule}`);
+      cmModules.push(`${provider}/${subModule}`);
     });
   });
 
@@ -39,7 +38,7 @@ const retrieveListOfModules = () => {
 const buildModule = async (module, externalModules, destFile) => {
   const build = await rollup.rollup({
     input: module,
-    external: externalModules,
+    external: externalModules || [],
     plugins: [
       nodeResolve(),
       replace({
@@ -49,13 +48,14 @@ const buildModule = async (module, externalModules, destFile) => {
     ],
   });
 
-  build.write({
+  await build.write({
     format: 'es',
     sourcemap: false,
     file: destFile,
   });
-  build.close();
+  await build.close();
 };
+
 
 // Minify a js file
 const createMinified = (filePath) => {
@@ -74,17 +74,30 @@ module.exports.compileCodemirror = async () => {
   // eslint-disable-next-line no-console
   console.log('Building Codemirror Components...');
 
-  const cmModules = retrieveListOfModules();
+  const cmModules = retrieveListOfChildModules('@codemirror');
+  const lModules = retrieveListOfChildModules('@lezer');
+  const externalModules = [...cmModules, ...lModules];
   const destBasePath = 'media/vendor/codemirror/js';
 
+  // Prepare @codemirror modules
   cmModules.forEach((module) => {
-    const destFile = `${module.replace('@codemirror/', '')}.js`;
+    const destFile = `${module.replace('@codemirror/', 'codemirror-')}.js`;
     const destPath = `${destBasePath}/${destFile}`;
 
-    buildModule(module, cmModules, destPath).then(() => {
+    buildModule(module, externalModules, destPath).then(() => {
       createMinified(destPath);
     });
   });
 
-  // console.log('compileCodemirror', cmModules, resultFiles);
+  // Prepare @lezer modules which @codemirror depends on
+  lModules.forEach((module) => {
+    const destFile = `${module.replace('@lezer/', 'lezer-')}.js`;
+    const destPath = `${destBasePath}/${destFile}`;
+
+    buildModule(module, externalModules, destPath).then(() => {
+      createMinified(destPath);
+    });
+  });
+
+  // console.log('compileCodemirror', cmModules, lModules);
 };
