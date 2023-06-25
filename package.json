@@ -95,6 +95,7 @@
     "@vue/compiler-sfc": "^3.3.4",
     "autoprefixer": "^10.4.14",
     "chokidar": "^3.5.3",
+    "cli-progress": "^3.12.0",
     "commander": "^8.3.0",
     "core-js": "^3.31.0",
     "cssnano": "^5.1.15",

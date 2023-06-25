@@ -6,6 +6,7 @@
 const {
   existsSync, readFile, writeFile, readdirSync,
 } = require('fs-extra');
+const cliProgress = require('cli-progress');
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
@@ -56,18 +57,15 @@ const buildModule = async (module, externalModules, destFile) => {
   await build.close();
 };
 
-
 // Minify a js file
-const createMinified = (filePath) => {
+const createMinified = async (filePath) => {
   const destFile = filePath.replace('.js', '.min.js');
   // Read source
-  readFile(filePath, { encoding: 'utf8' }).then((src) => {
-    // Minify
-    minify(src, { sourceMap: false, format: { comments: false } }).then((result) => {
-      // Save result
-      writeFile(destFile, result.code, { encoding: 'utf8', mode: 0o644 });
-    });
-  });
+  const src = await readFile(filePath, { encoding: 'utf8' });
+  // Minify
+  const min = await minify(src, { sourceMap: false, format: { comments: false } });
+  // Save result
+  await writeFile(destFile, min.code, { encoding: 'utf8', mode: 0o644 });
 };
 
 module.exports.compileCodemirror = async () => {
@@ -79,13 +77,23 @@ module.exports.compileCodemirror = async () => {
   const externalModules = [...cmModules, ...lModules];
   const destBasePath = 'media/vendor/codemirror/js';
 
+  const progressBar = new cliProgress.SingleBar({
+    stopOnComplete: true,
+    format: '{bar} {percentage}% | {value}/{total} files done',
+  }, cliProgress.Presets.shades_classic);
+  const totalSteps = (cmModules.length + lModules.length) * 2;
+  progressBar.start(totalSteps, 0);
+
   // Prepare @codemirror modules
   cmModules.forEach((module) => {
     const destFile = `${module.replace('@codemirror/', 'codemirror-')}.js`;
     const destPath = `${destBasePath}/${destFile}`;
 
     buildModule(module, externalModules, destPath).then(() => {
-      createMinified(destPath);
+      progressBar.increment();
+      createMinified(destPath).then(() => {
+        progressBar.increment();
+      });
     });
   });
 
@@ -95,7 +103,10 @@ module.exports.compileCodemirror = async () => {
     const destPath = `${destBasePath}/${destFile}`;
 
     buildModule(module, externalModules, destPath).then(() => {
-      createMinified(destPath);
+      progressBar.increment();
+      createMinified(destPath).then(() => {
+        progressBar.increment();
+      });
     });
   });
 
