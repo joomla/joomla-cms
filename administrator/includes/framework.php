@@ -33,7 +33,7 @@ if (
         exit;
     }
 
-    echo 'Installation from a public folder is not supported, revert your Server configuration to point at the Joomla\'s root folder to continue.';
+    echo 'Installation from a public folder is not supported, revert your Server configuration to point at Joomla\'s root folder to continue.';
 
     exit;
 }
