@@ -617,8 +617,6 @@ class Form implements CurrentUserInterface
         // Get the XML elements to load.
         $elements = [];
 
-        $test = $data->getName();
-
         if ($xpath) {
             $elements = $data->xpath($xpath);
         } elseif ($data->getName() === 'form') {

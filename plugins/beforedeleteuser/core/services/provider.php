@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Joomla! Content Management System
+ * @package     Joomla.Plugin
+ * @subpackage  beforedeleteuser.core
  *
  * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
@@ -28,7 +29,7 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   4.2.0
+     * @since   __DEPLOY_VERSION__
      */
     public function register(Container $container)
     {
