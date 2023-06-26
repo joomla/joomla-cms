@@ -161,7 +161,7 @@ final class Codemirror extends CMSPlugin
             'buttons' => $buttons,
         ];
 
-        return LayoutHelper::render('editors.codemirror.element', $displayData, JPATH_PLUGINS . '/editors/codemirror/layouts');
+        return LayoutHelper::render('editors.codemirror.codemirror', $displayData, JPATH_PLUGINS . '/editors/codemirror/layouts');
     }
 
     /**
