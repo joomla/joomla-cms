@@ -10,7 +10,8 @@
 namespace Joomla\CMS\Filesystem;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -33,8 +34,11 @@ use Joomla\CMS\Object\CMSObject;
  * @deprecated  4.4 will be removed in 6.0
  *              Use Joomla\Filesystem\Stream instead.
  */
-class Stream extends CMSObject
+class Stream
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
     /**
      * File Mode
      *
