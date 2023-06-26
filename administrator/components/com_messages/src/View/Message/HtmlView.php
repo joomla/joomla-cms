@@ -49,7 +49,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 

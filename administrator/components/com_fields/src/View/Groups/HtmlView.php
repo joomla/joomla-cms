@@ -64,7 +64,7 @@ class HtmlView extends BaseHtmlView
     protected $pagination;
 
     /**
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      *
      * @since  3.7.0
      */
