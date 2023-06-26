@@ -268,6 +268,6 @@ final class Core extends CMSPlugin implements SubscriberInterface, BeforeDeleteU
                     'modified_by',
                 ],
             ],
-        );
+        ];
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension type="plugin" group="behaviour" method="upgrade">
+<extension type="plugin" group="beforedeleteuser" method="upgrade">
 	<name>plg_beforedeleteuser_core</name>
 	<version>1.0.0</version>
 	<creationDate>2023-06</creationDate>

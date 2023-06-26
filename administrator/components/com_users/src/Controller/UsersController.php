@@ -268,6 +268,5 @@ class UsersController extends AdminController
                 false
             )
         );
-
     }
 }

@@ -61,7 +61,7 @@ trait BeforeDeleteUserTrait
 
                     if (!empty($selectResult)) {
                         $forcedChangedAlias = $this->updateDbItems($table, $params);
-                        $elementList = implode(', ', $selectResult);
+                        $elementList        = implode(', ', $selectResult);
 
                         if ($setAliasOnDelete && $userNameColumns) {
                             if ($forcedChangedAlias) {
@@ -92,7 +92,6 @@ trait BeforeDeleteUserTrait
                             ),
                             'info'
                         );
-
                     }
                 } catch (RuntimeException $e) {
                     $app->enqueueMessage(
@@ -105,7 +104,7 @@ trait BeforeDeleteUserTrait
                         'error'
                     );
 
-                    $url = Uri::getInstance()->toString(array('path', 'query', 'fragment'));
+                    $url = Uri::getInstance()->toString(['path', 'query', 'fragment']);
                     $app->redirect($url, 500);
                 }
             }
@@ -156,8 +155,8 @@ trait BeforeDeleteUserTrait
         $db                    = $this->getDatabase();
         $userId                = (int) $params->get('userId');
         $tableName             = $table['tableName'] ?? false;
-        $userIdColumns          = (array) $table['userId'] ?? [];
-        $userNameColumns        = (array) $table['userName'] ?? [];
+        $userIdColumns         = (array) $table['userId'] ?? [];
+        $userNameColumns       = (array) $table['userName'] ?? [];
         $userName              = $params->get('userName');
         $fallbackUserId        = (int) $params->get('fallbackUserIdOnDelete');
         $setAliasOnDelete      = $params->get('setAliasOnDelete', '1');
