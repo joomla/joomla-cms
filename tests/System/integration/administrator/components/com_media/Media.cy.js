@@ -28,7 +28,7 @@ describe('Test in backend that the media manager', () => {
   });
 
   it('can display the local media data when an adapter is defined in the session', () => {
-    window.sessionStorage.setItem('joomla.mediamanager', JSON.stringify({selectedDirectory:'local-images:/'}));
+    window.sessionStorage.setItem('joomla.mediamanager', JSON.stringify({ selectedDirectory: 'local-images:/' }));
     cy.visit('/administrator/index.php?option=com_media');
     cy.wait('@getMedia');
 
@@ -43,7 +43,7 @@ describe('Test in backend that the media manager', () => {
   });
 
   it('can display the first adapter files when an invalid adapter is defined in the session', () => {
-    window.sessionStorage.setItem('joomla.mediamanager', JSON.stringify({selectedDirectory:'local-invalid:/'}));
+    window.sessionStorage.setItem('joomla.mediamanager', JSON.stringify({ selectedDirectory: 'local-invalid:/' }));
     cy.visit('/administrator/index.php?option=com_media');
     cy.wait('@getMedia');
 
@@ -58,7 +58,7 @@ describe('Test in backend that the media manager', () => {
   });
 
   it('can display the local media data from the path in the session', () => {
-    window.sessionStorage.setItem('joomla.mediamanager', JSON.stringify({selectedDirectory:'local-images:/sampledata/cassiopeia'}));
+    window.sessionStorage.setItem('joomla.mediamanager', JSON.stringify({ selectedDirectory: 'local-images:/sampledata/cassiopeia' }));
     cy.visit('/administrator/index.php?option=com_media');
     cy.wait('@getMedia');
 
@@ -66,7 +66,7 @@ describe('Test in backend that the media manager', () => {
   });
 
   it('can display the local media data from the path in the url when also defined in the session', () => {
-    window.sessionStorage.setItem('joomla.mediamanager', JSON.stringify({selectedDirectory:'local-images:/banners'}));
+    window.sessionStorage.setItem('joomla.mediamanager', JSON.stringify({ selectedDirectory: 'local-images:/banners' }));
     cy.visit('/administrator/index.php?option=com_media&path=local-images:/sampledata/cassiopeia');
     cy.wait('@getMedia');
 
@@ -81,7 +81,7 @@ describe('Test in backend that the media manager', () => {
   });
 
   it('can display an error message when an invalid path is defined in the session', () => {
-    window.sessionStorage.setItem('joomla.mediamanager', JSON.stringify({selectedDirectory:'local-images:/invalid'}));
+    window.sessionStorage.setItem('joomla.mediamanager', JSON.stringify({ selectedDirectory: 'local-images:/invalid' }));
     cy.visit('/administrator/index.php?option=com_media');
     cy.wait('@getMedia');
 
