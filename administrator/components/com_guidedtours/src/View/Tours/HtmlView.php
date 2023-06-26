@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::title(Text::_('COM_GUIDEDTOURS_TOURS_LIST'), 'map-signs');
 
         $canDo = ContentHelper::getActions('com_guidedtours');
-        $user  = Factory::getApplication()->getIdentity();
+        $user  = $this->getCurrentUser();
 
         if ($canDo->get('core.create')) {
             $toolbar->addNew('tour.add');

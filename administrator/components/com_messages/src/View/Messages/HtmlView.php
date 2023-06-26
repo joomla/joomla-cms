@@ -117,7 +117,7 @@ class HtmlView extends BaseHtmlView
     {
         $state = $this->get('State');
         $canDo = ContentHelper::getActions('com_messages');
-        $user  = Factory::getApplication()->getIdentity();
+        $user  = $this->getCurrentUser();
 
         // Get the toolbar object instance
         $toolbar = Toolbar::getInstance('toolbar');

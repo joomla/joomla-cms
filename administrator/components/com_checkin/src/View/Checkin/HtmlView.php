@@ -123,7 +123,7 @@ class HtmlView extends BaseHtmlView
             $toolbar->checkin('checkin');
         }
 
-        if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_checkin')) {
+        if ($this->getCurrentUser()->authorise('core.admin', 'com_checkin')) {
             $toolbar->divider();
             $toolbar->preferences('com_checkin');
             $toolbar->divider();
