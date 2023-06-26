@@ -150,6 +150,7 @@ class TextView extends AbstractView implements CurrentUserInterface
                 }
 
                 if (\is_int($name) && ($name == 0 || $name == 1)) {
+                    // The term "Master" is used because it is the term used in phpinfo() and this is a text representation of that.
                     $name = ($name == 0 ? 'Local Value' : 'Master Value');
                 }
 

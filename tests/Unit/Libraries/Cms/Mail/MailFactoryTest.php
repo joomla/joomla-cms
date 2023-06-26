@@ -9,7 +9,6 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Layout;
 
-use Joomla\CMS\Layout\BaseLayout;
 use Joomla\CMS\Mail\Mail;
 use Joomla\CMS\Mail\MailerFactory;
 use Joomla\Registry\Registry;
