@@ -41,15 +41,14 @@ class CodemirrorEditor extends HTMLElement {
   //   }
   // }
 
-  connectedCallback() {
+  async connectedCallback() {
 
     // Register Editor
     // this.instance = window.CodeMirror.fromTextArea(this.element, this.options);
     // this.instance.disable = (disabled) => this.setOption('readOnly', disabled ? 'nocursor' : false);
 
-    const options = this.options;
-    this.element = this.querySelector('textarea');
-    this.instance = createFromTextarea(this.element, this.options);
+    this.element  = this.querySelector('textarea');
+    this.instance = await createFromTextarea(this.element, this.options);
 
     Joomla.editors.instances[this.element.id] = this.instance;
 

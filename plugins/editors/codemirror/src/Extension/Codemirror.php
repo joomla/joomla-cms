@@ -78,22 +78,20 @@ final class Codemirror extends CMSPlugin
         $options->width  = is_numeric($width) ? $width . 'px' : $width;
         $options->height = is_numeric($height) ? $height . 'px' : $height;
 
-        $options->lineNumbers  = (bool) $this->params->get('lineNumbers', 1);
-        $options->foldGutter   = (bool) $this->params->get('codeFolding', 1);
-        //$options->markerGutter = (bool) $this->params->get('markerGutter', $this->params->get('marker-gutter', 1));
-        $options->lineWrapping = (bool) $this->params->get('lineWrapping', 1);
-
-        // Add styling to the active line.
-        $options->styleActiveLine = (bool) $this->params->get('activeLine', 1);
+        $options->lineNumbers        = (bool) $this->params->get('lineNumbers', 1);
+        $options->foldGutter         = (bool) $this->params->get('codeFolding', 1);
+        //$options->markerGutter     = (bool) $this->params->get('markerGutter', $this->params->get('marker-gutter', 1));
+        $options->lineWrapping       = (bool) $this->params->get('lineWrapping', 1);
+        $options->activeLine         = (bool) $this->params->get('activeLine', 1);
+        $options->highlightSelection = (bool) $this->params->get('selectionMatches', 0);
 
         // Do we highlight selection matches?
-        if ($this->params->get('selectionMatches', 1)) {
-            $options->highlightSelectionMatches = [
-                    'showToken'         => true,
-                    'annotateScrollbar' => true,
-                ];
-        }
-
+//        if ($this->params->get('selectionMatches', 1)) {
+//            $options->highlightSelectionMatches = [
+//                    'showToken'         => true,
+//                    'annotateScrollbar' => true,
+//                ];
+//        }
 //        if ($options->lineNumbers) {
 //            $options->gutters[] = 'CodeMirror-linenumbers';
 //        }
@@ -105,10 +103,8 @@ final class Codemirror extends CMSPlugin
 //        }
 
         // Load the syntax mode.
-        $syntax = !empty($params['syntax'])
-            ? $params['syntax']
-            : $this->params->get('syntax', 'html');
-        $options->mode = $this->modeAlias[$syntax] ?? $syntax;
+        $options->mode = !empty($params['syntax']) ? $params['syntax'] : $this->params->get('syntax', 'html');
+        //$options->mode = $this->modeAlias[$syntax] ?? $syntax;
 /*
         // Load the theme if specified.
         if ($theme = $this->params->get('theme')) {
@@ -118,6 +114,7 @@ final class Codemirror extends CMSPlugin
                 ->registerAndUseStyle('codemirror.theme', $this->basePath . 'theme/' . $theme . '.css');
         }
 */
+/*
         // Special options for tagged modes (xml/html).
         if (in_array($options->mode, ['xml', 'html', 'php'])) {
             // Autogenerate closing tags (html/xml only).
@@ -126,14 +123,14 @@ final class Codemirror extends CMSPlugin
             // Highlight the matching tag when the cursor is in a tag (html/xml only).
             $options->matchTags = (bool) $this->params->get('matchTags', 1);
         }
-
+*/
         // Special options for non-tagged modes.
         if (!in_array($options->mode, ['xml', 'html'])) {
             // Autogenerate closing brackets.
             $options->autoCloseBrackets = (bool) $this->params->get('autoCloseBrackets', 1);
 
             // Highlight the matching bracket.
-            $options->matchBrackets = (bool) $this->params->get('matchBrackets', 1);
+            //$options->matchBrackets = (bool) $this->params->get('matchBrackets', 1);
         }
 
         $options->scrollbarStyle = $this->params->get('scrollbarStyle', 'native');

@@ -74,9 +74,17 @@ const minimalSetup = (() => [
   ])
 ]);
 
-const optionsToExtensions = (options) => {
+// Configure extensions depend from given options
+const optionsToExtensions = async (options) => {
   const extensions = [];
+  let modeMod;
 
+  // Load the language for syntax mode
+  if (options.mode) {
+    modeMod = await import(`@codemirror/lang-${options.mode}`);
+    extensions.push(modeMod[options.mode]())
+  }
+console.log(modeMod);
   if (options.lineNumbers) {
     extensions.push(lineNumbers());
   }
@@ -85,25 +93,31 @@ const optionsToExtensions = (options) => {
     extensions.push(EditorView.lineWrapping);
   }
 
-  if (options.autoCloseTags) {
-    // https://discuss.codemirror.net/t/how-to-automatically-close-html-tags-in-codemirror6/3541
-    // extensions.push(closeBrackets(), autocompletion());
+  if (options.activeLine) {
+    extensions.push(highlightActiveLineGutter(), highlightActiveLine());
+  }
+
+  if (options.highlightSelection) {
+    extensions.push(highlightSelectionMatches());
+  }
+
+  if (options.autoCloseBrackets) {
+    extensions.push(closeBrackets());
   }
 
   if (options.foldGutter) {
     extensions.push(foldGutter());
   }
 
-console.log(extensions);
   return extensions;
 }
 
-function createFromTextarea(textarea, options) {
+async function createFromTextarea(textarea, options) {
   console.log(options);
 
   const view = new EditorView({
     doc: textarea.value,
-    extensions: [minimalSetup(), optionsToExtensions(options)],
+    extensions: [minimalSetup(), await optionsToExtensions(options)],
   });
   textarea.parentNode.insertBefore(view.dom, textarea);
   textarea.style.display = 'none';
