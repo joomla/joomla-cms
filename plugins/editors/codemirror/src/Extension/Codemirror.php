@@ -67,7 +67,7 @@ final class Codemirror extends CMSPlugin
 
         // Options for the CodeMirror constructor.
         $options   = new stdClass();
-        $keyMapUrl = '';
+//        $keyMapUrl = '';
 
         // Is field readonly?
         if (!empty($params['readonly'])) {
@@ -143,12 +143,12 @@ final class Codemirror extends CMSPlugin
             $options->keyMap = $this->params->get('vimKeyBinding', 0) ? 'vim' : 'default';
         }
 
-        if ($options->keyMap !== 'default') {
-            $keyMapUrl = HTMLHelper::_('script', $this->basePath . 'keymap/' . $options->keyMap . '.min.js', ['relative' => false, 'pathOnly' => true]);
-            $keyMapUrl .= '?' . $this->getApplication()->getDocument()->getMediaVersion();
-        }
-
-        $options->keyMapUrl = $keyMapUrl;
+//        if ($options->keyMap !== 'default') {
+//            $keyMapUrl = HTMLHelper::_('script', $this->basePath . 'keymap/' . $options->keyMap . '.min.js', ['relative' => false, 'pathOnly' => true]);
+//            $keyMapUrl .= '?' . $this->getApplication()->getDocument()->getMediaVersion();
+//        }
+//
+//        $options->keyMapUrl = $keyMapUrl;
 
         $displayData = (object) [
             'options' => $options,
