@@ -36,6 +36,15 @@ $option          = ' options="' . $this->escape(json_encode($options)) . '"';
 $mediaVersion    = Factory::getApplication()->getDocument()->getMediaVersion();
 //$editor          = 'editor="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/codemirror' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '?' . $mediaVersion . '"';
 //$addons          = 'addons="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/addons' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '?' . $mediaVersion . '"';
+$style           = '';
+
+if ($options->width) {
+    $style .= 'width:' . $options->width . ';';
+}
+if ($options->height) {
+    $style .= 'height:' . $options->height . ';';
+}
+
 
 // Remove the fullscreen message and option if readonly not null.
 if (isset($options->readOnly)) {
@@ -47,14 +56,13 @@ $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('plg_editors_codemirror');
 $wa->useStyle('plg_editors_codemirror')
     ->useScript('webcomponent.editor-codemirror');
-
 ?>
 <joomla-editor-codemirror <?php echo $fsCombo . $option; ?>>
-<?php echo '<textarea name="', $name, '" id="', $id, '" cols="', $cols, '" rows="', $rows, '">', $content, '</textarea>'; ?>
-<?php if ($fsCombo !== '') { ?>
+<?php echo '<textarea name="' . $name . '" id="' . $id . '" cols="' . $cols . '" rows="' . $rows . '" style="' . $style . '">' . $content . '</textarea>'; ?>
+<?php if ($fsCombo) : ?>
     <p class="small float-end">
         <?php echo Text::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $fullScreenCombo); ?>
     </p>
-<?php }; ?>
+<?php endif; ?>
 </joomla-editor-codemirror>
 <?php echo $displayData->buttons; ?>

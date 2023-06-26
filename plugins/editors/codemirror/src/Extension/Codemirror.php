@@ -77,6 +77,10 @@ final class Codemirror extends CMSPlugin
             $options->readOnly = 'nocursor';
         }
 
+        // Only add "px" to width and height if they are not given as a percentage.
+        $options->width  = is_numeric($width) ? $width . 'px' : $width;
+        $options->height = is_numeric($height) ? $height . 'px' : $height;
+
         // Should we focus on the editor on load?
         if (!$autofocused) {
             $options->autofocus = isset($params['autofocus']) ? (bool) $params['autofocus'] : false;
@@ -163,14 +167,14 @@ final class Codemirror extends CMSPlugin
         $options->keyMapUrl = $keyMapUrl;
 
         $displayData = (object) [
-            'options'  => $options,
-            'params'   => $this->params,
-            'name'     => $name,
-            'id'       => $id,
-            'cols'     => $col,
-            'rows'     => $row,
-            'content'  => $content,
-            'buttons'  => $buttons,
+            'options' => $options,
+            'params'  => $this->params,
+            'name'    => $name,
+            'id'      => $id,
+            'cols'    => $col,
+            'rows'    => $row,
+            'content' => $content,
+            'buttons' => $buttons,
         ];
 
         return LayoutHelper::render('editors.codemirror.element', $displayData, JPATH_PLUGINS . '/editors/codemirror/layouts');

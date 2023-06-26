@@ -63,23 +63,10 @@ const basicSetup = (() => [
   ]),
 ])();
 
-const minimalSetup = (() => [
-  highlightSpecialChars(),
-  history(),
-  drawSelection(),
-  syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
-  keymap.of([
-    ...defaultKeymap,
-    ...historyKeymap,
-  ])
-])();
-
-function createFromTextarea(textarea, options) {
-  console.log(options);
-
+function createFromTextArea(textarea, extensions) {
   const view = new EditorView({
     doc: textarea.value,
-    extensions: [minimalSetup],
+    extensions: [basicSetup, langHtml(), langXml(), langPhp(), langJs()],
   });
   textarea.parentNode.insertBefore(view.dom, textarea);
   textarea.style.display = 'none';
@@ -88,16 +75,7 @@ function createFromTextarea(textarea, options) {
       textarea.value = view.state.doc.toString();
     });
   }
-
-  // Set up sizing
-  if (options.width) {
-    view.dom.style.width = options.width;
-  }
-  if (options.height) {
-    view.dom.style.minHeight = options.height;
-  }
-
   return view;
 }
 
-export { basicSetup, minimalSetup, createFromTextarea };
+export { basicSetup, createFromTextArea };
