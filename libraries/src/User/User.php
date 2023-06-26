@@ -856,8 +856,6 @@ class User
             // Reset to guest user
             $this->guest = 1;
 
-            Log::add(Text::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), Log::WARNING, 'jerror');
-
             return false;
         }
 
