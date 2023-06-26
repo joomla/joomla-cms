@@ -51,6 +51,7 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
     ->useStyle('template.active.language')
     ->useStyle('template.user')
     ->useScript('template.user')
+    // Add the template styles defined in the atum admin template for use when using the media manager etc.
     ->addInlineStyle(":root {
 		--hue: 214;
 		--template-bg-light: #f0f4fb;
