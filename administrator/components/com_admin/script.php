@@ -305,18 +305,18 @@ class JoomlaInstallerScript
         if ($plugin = PluginHelper::getPlugin('system', 'actionlogs')) {
             $pluginParams = new Registry($plugin->params);
             $lastrun      = (int) $pluginParams->get('lastrun', 0);
-            $task = [
-                'title' => 'DeleteActionLogs',
-                'type'  => 'delete.actionlogs',
+            $task         = [
+                'title'           => 'DeleteActionLogs',
+                'type'            => 'delete.actionlogs',
                 'execution_rules' => [
-                    'rule-type' => 'interval-hours',
+                    'rule-type'      => 'interval-hours',
                     'interval-hours' => 24,
-                    'exec-time' => gmdate("H:i", $lastrun),
+                    'exec-time'      => gmdate("H:i", $lastrun),
                 ],
-                'state' => 1,
+                'state'  => 1,
                 'params' => [
                     'logDeletePeriod' => $pluginParams->get('logDeletePeriod', 0),
-                ]
+                ],
             ];
             $model->save($task);
         }
