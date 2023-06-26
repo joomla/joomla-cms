@@ -66,18 +66,18 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor
      *
-     * @param   DispatcherInterface  $subject  The object to observe
-     * @param   array                $config   An optional associative array of configuration settings.
-     * @param   boolean              $enabled  An internal flag whether plugin should listen any event.
+     * @param   DispatcherInterface  $dispatcher  The object to observe
+     * @param   array                $config      An optional associative array of configuration settings.
+     * @param   boolean              $enabled     An internal flag whether plugin should listen any event.
      *
      * @since   4.3.0
      */
-    public function __construct($subject, array $config = [], bool $enabled = false)
+    public function __construct(DispatcherInterface $dispatcher, array $config = [], bool $enabled = false)
     {
         $this->autoloadLanguage = $enabled;
         self::$enabled          = $enabled;
 
-        parent::__construct($subject, $config);
+        parent::__construct($dispatcher, $config);
     }
 
     /**
