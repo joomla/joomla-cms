@@ -33,10 +33,7 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $config  = (array) PluginHelper::getPlugin('multifactorauth', 'yubikey');
-                $subject = $container->get(DispatcherInterface::class);
-
-                $plugin = new Yubikey($subject, $config);
+                $plugin = new Yubikey($container->get(DispatcherInterface::class), (array) PluginHelper::getPlugin('multifactorauth', 'yubikey'));
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
