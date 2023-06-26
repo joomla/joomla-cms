@@ -11,9 +11,10 @@
 namespace Joomla\Plugin\EditorsXtd\Menu\Extension;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
+use Joomla\Registry\Registry;
+use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -40,7 +41,7 @@ final class Menu extends CMSPlugin
      * @param   string  $name  The name of the button to add
      *
      * @since  3.7.0
-     * @return CMSObject
+     * @return stdClass
      */
     public function onDisplay($name)
     {
@@ -57,7 +58,7 @@ final class Menu extends CMSPlugin
             $link = 'index.php?option=com_menus&amp;view=items&amp;layout=modal&amp;tmpl=component&amp;'
             . Session::getFormToken() . '=1&amp;editor=' . $name;
 
-            $button          = new CMSObject();
+            $button          = new stdClass();
             $button->modal   = true;
             $button->link    = $link;
             $button->text    = Text::_('PLG_EDITORS-XTD_MENU_BUTTON_MENU');
@@ -77,7 +78,7 @@ final class Menu extends CMSPlugin
             'modalWidth' => '80',
             ];
 
-            return $button;
+            return new Registry($button);
         }
     }
 }

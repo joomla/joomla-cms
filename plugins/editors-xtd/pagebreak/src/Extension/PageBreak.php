@@ -11,8 +11,9 @@
 namespace Joomla\Plugin\EditorsXtd\PageBreak\Extension;
 
 use Joomla\CMS\Application\CMSWebApplicationInterface;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Registry\Registry;
+use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -38,7 +39,7 @@ final class PageBreak extends CMSPlugin
      *
      * @param   string  $name  The name of the button to add
      *
-     * @return  CMSObject|void  The button options as CMSObject
+     * @return  stdClass|void  The button options as stdClass
      *
      * @since   1.5
      */
@@ -69,7 +70,7 @@ final class PageBreak extends CMSPlugin
         $app->getDocument()->addScriptOptions('xtd-pagebreak', ['editor' => $name]);
         $link = 'index.php?option=com_content&amp;view=article&amp;layout=pagebreak&amp;tmpl=component&amp;e_name=' . $name;
 
-        $button          = new CMSObject();
+        $button          = new stdClass();
         $button->modal   = true;
         $button->link    = $link;
         $button->text    = $app->getLanguage()->_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK');
@@ -85,6 +86,6 @@ final class PageBreak extends CMSPlugin
             'modalWidth' => '80',
         ];
 
-        return $button;
+        return new Registry($button);
     }
 }

@@ -12,9 +12,10 @@ namespace Joomla\Plugin\EditorsXtd\Image\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Registry\Registry;
+use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -42,7 +43,7 @@ final class Image extends CMSPlugin
      * @param   string   $asset   The name of the asset being edited.
      * @param   integer  $author  The id of the author owning the asset being edited.
      *
-     * @return  CMSObject|false
+     * @return  stdClass|false
      *
      * @since   1.5
      */
@@ -147,7 +148,7 @@ final class Image extends CMSPlugin
 
             $link = 'index.php?option=com_media&view=media&tmpl=component&e_name=' . $name . '&asset=' . $asset . '&mediatypes=0,1,2,3' . '&author=' . $author;
 
-            $button          = new CMSObject();
+            $button          = new stdClass();
             $button->modal   = true;
             $button->link    = $link;
             $button->text    = Text::_('PLG_IMAGE_BUTTON_IMAGE');
@@ -168,7 +169,7 @@ final class Image extends CMSPlugin
                 'confirmText'     => Text::_('PLG_IMAGE_BUTTON_INSERT'),
             ];
 
-            return $button;
+            return new Registry($button);
         }
 
         return false;

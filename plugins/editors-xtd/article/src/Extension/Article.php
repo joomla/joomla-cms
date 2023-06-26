@@ -11,9 +11,10 @@
 namespace Joomla\Plugin\EditorsXtd\Article\Extension;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
+use Joomla\Registry\Registry;
+use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -39,7 +40,7 @@ final class Article extends CMSPlugin
      *
      * @param   string  $name  The name of the button to add
      *
-     * @return  CMSObject|void  The button options as CMSObject, void if ACL check fails.
+     * @return  stdClass|void  The button options as stdClass, void if ACL check fails.
      *
      * @since   1.5
      */
@@ -64,7 +65,7 @@ final class Article extends CMSPlugin
         $link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;'
             . Session::getFormToken() . '=1&amp;editor=' . $name;
 
-        $button          = new CMSObject();
+        $button          = new stdClass();
         $button->modal   = true;
         $button->link    = $link;
         $button->text    = Text::_('PLG_ARTICLE_BUTTON_ARTICLE');
@@ -79,6 +80,6 @@ final class Article extends CMSPlugin
             'modalWidth' => '80',
         ];
 
-        return $button;
+        return new Registry($button);
     }
 }

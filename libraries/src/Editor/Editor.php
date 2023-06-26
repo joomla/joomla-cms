@@ -244,7 +244,7 @@ class Editor implements DispatcherAwareInterface
                 continue;
             }
 
-            $button->editor = $editor;
+            $button->set('editor', $editor);
 
             $result[] = $button;
         }

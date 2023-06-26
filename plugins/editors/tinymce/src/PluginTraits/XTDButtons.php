@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Event\Event;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -58,7 +59,7 @@ trait XTDButtons
 
             // Build the script
             foreach ($buttons as $i => $button) {
-                $button->id = $name . '_' . $button->name . '_modal';
+                $button->set('id', $name . '_' . $button->get('name') . '_modal');
 
                 echo LayoutHelper::render('joomla.editors.buttons.modal', $button);
 
@@ -66,7 +67,7 @@ trait XTDButtons
                     $coreButton            = [];
                     $coreButton['name']    = $button->get('text');
                     $coreButton['href']    = $button->get('link') !== '#' ? Uri::base() . $button->get('link') : null;
-                    $coreButton['id']      = $name . '_' . $button->name;
+                    $coreButton['id']      = $name . '_' . $button->get('name');
                     $coreButton['icon']    = $button->get('icon');
                     $coreButton['click']   = $button->get('onclick') ?: null;
                     $coreButton['iconSVG'] = $button->get('iconSVG');

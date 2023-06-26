@@ -11,8 +11,9 @@
 namespace Joomla\Plugin\EditorsXtd\ReadMore\Extension;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Registry\Registry;
+use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -38,7 +39,7 @@ final class ReadMore extends CMSPlugin
      *
      * @param   string  $name  The name of the button to add
      *
-     * @return  CMSObject  $button  A two element array of (imageName, textToInsert)
+     * @return  stdClass  $button  A two element array of (imageName, textToInsert)
      *
      * @since   1.5
      */
@@ -56,7 +57,7 @@ final class ReadMore extends CMSPlugin
             ]
         );
 
-        $button          = new CMSObject();
+        $button          = new stdClass();
         $button->modal   = false;
         $button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
         $button->text    = Text::_('PLG_READMORE_BUTTON_READMORE');
@@ -65,6 +66,6 @@ final class ReadMore extends CMSPlugin
         $button->iconSVG = '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M32 12l-6-6-10 10-10-10-6 6 16 16z"></path></svg>';
         $button->link    = '#';
 
-        return $button;
+        return new Registry($button);
     }
 }
