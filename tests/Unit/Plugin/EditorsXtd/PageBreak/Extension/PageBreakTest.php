@@ -55,9 +55,9 @@ class PageBreakTest extends UnitTestCase
         $button = $plugin->onDisplay('test');
 
         $this->assertNotNull($button);
-        $this->assertNotEmpty($button->name);
-        $this->assertNotEmpty($button->link);
-        $this->assertNotEmpty($button->options);
+        $this->assertNotEmpty($button->get('name'));
+        $this->assertNotEmpty($button->get('link'));
+        $this->assertNotEmpty($button->get('options'));
     }
 
     /**
