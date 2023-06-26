@@ -39,7 +39,7 @@ final class ReadMore extends CMSPlugin
      *
      * @param   string  $name  The name of the button to add
      *
-     * @return  stdClass  $button  A two element array of (imageName, textToInsert)
+     * @return  Registry  $button  A two element array of (imageName, textToInsert)
      *
      * @since   1.5
      */

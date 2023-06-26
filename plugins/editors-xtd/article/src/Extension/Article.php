@@ -40,7 +40,7 @@ final class Article extends CMSPlugin
      *
      * @param   string  $name  The name of the button to add
      *
-     * @return  stdClass|void  The button options as stdClass, void if ACL check fails.
+     * @return  Registry|void  The button options as stdClass, void if ACL check fails.
      *
      * @since   1.5
      */

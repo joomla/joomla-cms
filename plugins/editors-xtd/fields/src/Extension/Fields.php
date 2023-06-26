@@ -41,7 +41,7 @@ final class Fields extends CMSPlugin
      *
      * @param   string  $name  The name of the button to add
      *
-     * @return  stdClass|void  The button options as stdClass
+     * @return  Registry|void  The button options as Registry
      *
      * @since  3.7.0
      */

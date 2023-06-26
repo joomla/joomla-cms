@@ -43,7 +43,7 @@ final class Image extends CMSPlugin
      * @param   string   $asset   The name of the asset being edited.
      * @param   integer  $author  The id of the author owning the asset being edited.
      *
-     * @return  stdClass|false
+     * @return  Registry|false
      *
      * @since   1.5
      */
