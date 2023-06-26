@@ -11,6 +11,7 @@
       "uri": "plg_editors_codemirror/joomla-editor-codemirror.min.js",
       "dependencies": [
         "core",
+        "codemirror",
         "wcpolyfill"
       ],
       "attributes": {

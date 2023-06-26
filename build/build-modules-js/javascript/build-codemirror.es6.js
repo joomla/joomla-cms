@@ -77,6 +77,15 @@ const updateAssetRegistry = async (modules, externalModules) => {
   // Get base JSON and update
   const registry = JSON.parse(readFileSync(srcPath, { encoding: 'utf8' }));
 
+  // Create a dummy codemirror asset with all dependencies
+  registry.assets.push({
+    type: 'script',
+    name: 'codemirror',
+    uri: '',
+    dependencies: externalModules,
+    attributes: { type: 'module' },
+  });
+
   // Create asset for each module
   modules.forEach((module) => {
     const packageName = module.package;
@@ -87,19 +96,8 @@ const updateAssetRegistry = async (modules, externalModules) => {
       name: module.package,
       uri: module.uri.replace('.js', '.min.js'),
       importmap: true,
-      package: module.package,
       version: moduleOptions.version,
-      dependencies: [],
     };
-
-    // Check for known modules to be used as dependency
-    if (moduleOptions.dependencies) {
-      Object.entries(moduleOptions.dependencies).forEach(([key]) => {
-        if (externalModules.includes(key)) {
-          asset.dependencies.push(key);
-        }
-      });
-    }
 
     registry.assets.push(asset);
   });
