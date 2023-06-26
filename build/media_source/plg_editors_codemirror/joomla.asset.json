@@ -6,6 +6,17 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
+      "name": "plg_editors_codemirror",
+      "type": "style",
+      "uri": "plg_editors_codemirror/codemirror.css"
+    },
+    {
+      "name": "codemirror",
+      "type": "script",
+      "uri": "plg_editors_codemirror/codemirror-base.min.js",
+      "importmap": true
+    },
+    {
       "name": "webcomponent.editor-codemirror",
       "type": "script",
       "uri": "plg_editors_codemirror/joomla-editor-codemirror.min.js",

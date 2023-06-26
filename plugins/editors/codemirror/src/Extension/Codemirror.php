@@ -29,86 +29,6 @@ use stdClass;
 final class Codemirror extends CMSPlugin
 {
     /**
-     * Affects constructor behavior. If true, language files will be loaded automatically.
-     *
-     * @var    boolean
-     * @since  3.1.4
-     */
-    protected $autoloadLanguage = true;
-
-    /**
-     * Mapping of syntax to CodeMirror modes.
-     *
-     * @var array
-     */
-    protected $modeAlias = [];
-
-    /**
-     * Base path for editor assets.
-     *
-     * @var  string
-     *
-     * @since  4.0.0
-     */
-    protected $basePath = 'media/vendor/codemirror/';
-
-    /**
-     * Base path for editor modes.
-     *
-     * @var  string
-     *
-     * @since  4.0.0
-     */
-    protected $modePath = 'media/vendor/codemirror/mode/%N/%N';
-
-    /**
-     * Initialises the Editor.
-     *
-     * @return  void
-     */
-    public function onInit()
-    {
-        static $done = false;
-
-        // Do this only once.
-        if ($done) {
-            return;
-        }
-
-        $done = true;
-
-        // Most likely need this later
-        $doc = $this->getApplication()->getDocument();
-
-        // Codemirror shall have its own group of plugins to modify and extend its behavior
-        PluginHelper::importPlugin('editors_codemirror');
-
-        // At this point, params can be modified by a plugin before going to the layout renderer.
-        $this->getApplication()->triggerEvent('onCodeMirrorBeforeInit', [&$this->params, &$this->basePath, &$this->modePath]);
-
-        $displayData = (object) ['params' => $this->params];
-        $font        = $this->params->get('fontFamily', '0');
-        $fontInfo    = $this->getFontInfo($font);
-
-        if (isset($fontInfo)) {
-            if (isset($fontInfo->url)) {
-                $doc->addStyleSheet($fontInfo->url);
-            }
-
-            if (isset($fontInfo->css)) {
-                $displayData->fontFamily = $fontInfo->css . '!important';
-            }
-        }
-
-        // We need to do output buffering here because layouts may actually 'echo' things which we do not want.
-        ob_start();
-        LayoutHelper::render('editors.codemirror.styles', $displayData, JPATH_PLUGINS . '/editors/codemirror/layouts');
-        ob_end_clean();
-
-        $this->getApplication()->triggerEvent('onCodeMirrorAfterInit', [&$this->params, &$this->basePath, &$this->modePath]);
-    }
-
-    /**
      * Display the editor area.
      *
      * @param   string   $name     The control name.
@@ -141,14 +61,12 @@ final class Codemirror extends CMSPlugin
         // True if a CodeMirror already has autofocus. Prevent multiple autofocuses.
         static $autofocused;
 
+        $this->loadLanguage();
+
         $id = empty($id) ? $name : $id;
 
         // Must pass the field id to the buttons in this editor.
         $buttons = $this->displayButtons($id, $buttons, $asset, $author);
-
-        // Only add "px" to width and height if they are not given as a percentage.
-        $width .= is_numeric($width) ? 'px' : '';
-        $height .= is_numeric($height) ? 'px' : '';
 
         // Options for the CodeMirror constructor.
         $options   = new stdClass();
@@ -200,7 +118,7 @@ final class Codemirror extends CMSPlugin
             ? $params['syntax']
             : $this->params->get('syntax', 'html');
         $options->mode = $this->modeAlias[$syntax] ?? $syntax;
-
+/*
         // Load the theme if specified.
         if ($theme = $this->params->get('theme')) {
             $options->theme = $theme;
@@ -208,7 +126,7 @@ final class Codemirror extends CMSPlugin
             $this->getApplication()->getDocument()->getWebAssetManager()
                 ->registerAndUseStyle('codemirror.theme', $this->basePath . 'theme/' . $theme . '.css');
         }
-
+*/
         // Special options for tagged modes (xml/html).
         if (in_array($options->mode, ['xml', 'html', 'php'])) {
             // Autogenerate closing tags (html/xml only).
@@ -253,20 +171,9 @@ final class Codemirror extends CMSPlugin
             'rows'     => $row,
             'content'  => $content,
             'buttons'  => $buttons,
-            'basePath' => $this->basePath,
-            'modePath' => $this->modePath,
         ];
 
-        // At this point, displayData can be modified by a plugin before going to the layout renderer.
-        $results = $this->getApplication()->triggerEvent('onCodeMirrorBeforeDisplay', [&$displayData]);
-
-        $results[] = LayoutHelper::render('editors.codemirror.element', $displayData, JPATH_PLUGINS . '/editors/codemirror/layouts');
-
-        foreach ($this->getApplication()->triggerEvent('onCodeMirrorAfterDisplay', [&$displayData]) as $result) {
-            $results[] = $result;
-        }
-
-        return implode("\n", $results);
+        return LayoutHelper::render('editors.codemirror.element', $displayData, JPATH_PLUGINS . '/editors/codemirror/layouts');
     }
 
     /**

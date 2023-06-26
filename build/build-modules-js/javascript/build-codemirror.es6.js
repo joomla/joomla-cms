@@ -77,13 +77,11 @@ const updateAssetRegistry = async (modules, externalModules) => {
   // Get base JSON and update
   const registry = JSON.parse(readFileSync(srcPath, { encoding: 'utf8' }));
 
-  // Create a dummy codemirror asset with all dependencies
-  registry.assets.push({
-    type: 'script',
-    name: 'codemirror',
-    uri: '',
-    dependencies: externalModules,
-    attributes: { type: 'module' },
+  // Add dependencies to base codemirror asset
+  registry.assets.forEach((asset) => {
+    if (asset.name === 'codemirror' && asset.type === 'script') {
+      asset.dependencies = externalModules;
+    }
   });
 
   // Create asset for each module

@@ -191,7 +191,7 @@
 					<option value="Alt">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_ALT</option>
 				</field>
 			</fieldset>
-
+<!--
 			<fieldset
 				name="appearance"
 				label="PLG_CODEMIRROR_FIELDSET_APPEARANCE_OPTIONS_LABEL"
@@ -324,6 +324,7 @@
 				</field>
 
 			</fieldset>
+-->
 		</fields>
 	</config>
 </extension>
