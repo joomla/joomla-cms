@@ -94,8 +94,10 @@ final class PrivacyConsent extends CMSPlugin implements SubscriberInterface
         $expire = (int) $event->getArgument('params')->consentexpiration ?? 365;
         $remind = (int) $event->getArgument('params')->remind ?? 30;
 
-        if (($this->invalidateExpiredConsents($expire) === Status::OK) &&
-            ($this->remindExpiringConsents($expire, $remind) === Status::OK)) {
+        if (
+            $this->invalidateExpiredConsents($expire) === Status::OK
+            && $this->remindExpiringConsents($expire, $remind) === Status::OK
+        ) {
             return Status::OK;
         }
 
