@@ -41,7 +41,7 @@ final class Menu extends CMSPlugin
      * @param   string  $name  The name of the button to add
      *
      * @since  3.7.0
-     * @return stdClass
+     * @return Registry
      */
     public function onDisplay($name)
     {
