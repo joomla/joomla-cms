@@ -126,7 +126,7 @@ final class UpdateNotification extends CMSPlugin
             $result = false;
         }
 
-        // Abort on failure
+        // Stop on failure
         if (!$result) {
             return;
         }

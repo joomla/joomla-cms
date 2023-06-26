@@ -6624,6 +6624,9 @@ class JoomlaInstallerScript
             '/plugins/workflow/featuring/featuring.php',
             '/plugins/workflow/notification/notification.php',
             '/plugins/workflow/publishing/publishing.php',
+            // From 4.4.0-alpha1 to 4.4.0-alpha2
+            '/libraries/vendor/jfcherng/php-diff/src/languages/readme.txt',
+            '/plugins/editors-xtd/pagebreak/pagebreak.php',
         ];
 
         $folders = [
