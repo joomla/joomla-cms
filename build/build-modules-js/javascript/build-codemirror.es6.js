@@ -1,25 +1,26 @@
 /**
  * Build codemirror modules
  */
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/no-extraneous-dependencies, global-require, import/no-dynamic-require */
 
 const {
-  existsSync, readFile, writeFile, readdirSync,
+  existsSync, readFileSync, writeFile, readdirSync,
 } = require('fs-extra');
 const cliProgress = require('cli-progress');
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const { minify } = require('terser');
+const { resolvePackageFile } = require('../init/common/resolve-package-file');
 
-// Find a list of modules for given provider, eg all sub @codemirror/...
-const retrieveListOfChildModules = (provider) => {
+// Find a list of modules for given scope, eg all sub @codemirror/...
+const retrieveListOfChildModules = (scope) => {
   const cmModules = [];
 
   // Get @codemirror module roots
   const roots = [];
   module.paths.forEach((path) => {
-    const fullPath = `${path}/${provider}`;
+    const fullPath = `${path}/${scope}`;
     if (existsSync(fullPath)) {
       roots.push(fullPath);
     }
@@ -28,7 +29,7 @@ const retrieveListOfChildModules = (provider) => {
   // List of modules
   roots.forEach((rootPath) => {
     readdirSync(rootPath).forEach((subModule) => {
-      cmModules.push(`${provider}/${subModule}`);
+      cmModules.push(`${scope}/${subModule}`);
     });
   });
 
@@ -61,11 +62,54 @@ const buildModule = async (module, externalModules, destFile) => {
 const createMinified = async (filePath) => {
   const destFile = filePath.replace('.js', '.min.js');
   // Read source
-  const src = await readFile(filePath, { encoding: 'utf8' });
+  const src = readFileSync(filePath, { encoding: 'utf8' });
   // Minify
   const min = await minify(src, { sourceMap: false, format: { comments: false } });
   // Save result
   await writeFile(destFile, min.code, { encoding: 'utf8', mode: 0o644 });
+};
+
+// Update joomla.asset.json for codemirror
+const updateAssetRegistry = async (modules, externalModules) => {
+  const srcPath = 'build/media_source/plg_editors_codemirror/joomla.asset.json';
+  const destPath = 'media/plg_editors_codemirror/joomla.asset.json';
+
+  // Get base JSON and update
+  const registry = JSON.parse(readFileSync(srcPath, { encoding: 'utf8' }));
+
+  // Create asset for each module
+  modules.forEach((module) => {
+    const packageName = module.package;
+    const modulePathJson = resolvePackageFile(`${packageName}/package.json`);
+    const moduleOptions = require(modulePathJson);
+    const asset = {
+      type: 'script',
+      name: module.package,
+      uri: module.uri.replace('.js', '.min.js'),
+      importmap: true,
+      package: module.package,
+      version: moduleOptions.version,
+      dependencies: [],
+    };
+
+    // Check for known modules to be used as dependency
+    if (moduleOptions.dependencies) {
+      Object.entries(moduleOptions.dependencies).forEach(([key]) => {
+        if (externalModules.includes(key)) {
+          asset.dependencies.push(key);
+        }
+      });
+    }
+
+    registry.assets.push(asset);
+  });
+
+  // Write assets registry
+  await writeFile(
+    destPath,
+    JSON.stringify(registry, null, 2),
+    { encoding: 'utf8', mode: 0o644 },
+  );
 };
 
 module.exports.compileCodemirror = async () => {
@@ -76,6 +120,7 @@ module.exports.compileCodemirror = async () => {
   const lModules = retrieveListOfChildModules('@lezer');
   const externalModules = [...cmModules, ...lModules];
   const destBasePath = 'media/vendor/codemirror/js';
+  const assets = [];
   const tasks = [];
 
   const progressBar = new cliProgress.SingleBar({
@@ -89,6 +134,7 @@ module.exports.compileCodemirror = async () => {
   cmModules.forEach((module) => {
     const destFile = `${module.replace('@codemirror/', 'codemirror-')}.js`;
     const destPath = `${destBasePath}/${destFile}`;
+    assets.push({ package: module, uri: destPath });
 
     const task = buildModule(module, externalModules, destPath).then(() => {
       progressBar.increment();
@@ -103,6 +149,7 @@ module.exports.compileCodemirror = async () => {
   lModules.forEach((module) => {
     const destFile = `${module.replace('@lezer/', 'lezer-')}.js`;
     const destPath = `${destBasePath}/${destFile}`;
+    assets.push({ package: module, uri: destPath });
 
     const task2 = buildModule(module, externalModules, destPath).then(() => {
       progressBar.increment();
@@ -114,5 +161,8 @@ module.exports.compileCodemirror = async () => {
   });
   // console.log('compileCodemirror', cmModules, lModules, tasks);
 
-  return Promise.all(tasks);
+  return Promise.all(tasks).then(() => {
+    progressBar.stop();
+    return updateAssetRegistry(assets, externalModules);
+  });
 };

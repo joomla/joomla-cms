@@ -1,0 +1,21 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "plg_editors_codemirror",
+  "version": "5.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "webcomponent.editor-codemirror",
+      "type": "script",
+      "uri": "plg_editors_codemirror/joomla-editor-codemirror.min.js",
+      "dependencies": [
+        "core",
+        "wcpolyfill"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    }
+  ]
+}
