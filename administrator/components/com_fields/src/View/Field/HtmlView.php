@@ -46,7 +46,7 @@ class HtmlView extends BaseHtmlView
     protected $item;
 
     /**
-     * @var     CMSObject
+     * @var     \Joomla\Registry\Registry
      *
      * @since   3.7.0
      */
