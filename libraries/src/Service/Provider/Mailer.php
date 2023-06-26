@@ -21,7 +21,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * Service provider for the mailer dependency
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.4.0
  */
 class Mailer implements ServiceProviderInterface
 {
@@ -32,7 +32,7 @@ class Mailer implements ServiceProviderInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function register(Container $container)
     {

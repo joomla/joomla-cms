@@ -15,6 +15,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Controller\RequestController;
+use Joomla\Component\Templates\Administrator\View\Style\JsonView;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -91,8 +92,10 @@ class HtmlView extends BaseHtmlView
         /** @var MVCFactory $factory */
         $factory = $app->bootComponent('com_templates')->getMVCFactory();
 
+        /** @var JsonView $view */
         $view = $factory->createView('Style', 'Administrator', 'Json');
         $view->setModel($factory->createModel('Style', 'Administrator'), true);
+        $view->setLanguage($app->getLanguage());
 
         $view->document = $this->getDocument();
 

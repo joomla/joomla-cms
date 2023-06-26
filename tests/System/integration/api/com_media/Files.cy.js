@@ -6,35 +6,25 @@ describe('Test that media files API endpoint', () => {
   it('can deliver a list of files', () => {
     cy.api_get('/media/files')
       .then((response) => {
-        cy.wrap(response).its('body').its('data.0').its('attributes')
-          .its('name')
-          .should('include', 'banners');
-        cy.wrap(response).its('body').its('data.4').its('attributes')
-          .its('name')
-          .should('include', 'joomla_black.png');
+        cy.api_responseContains(response, 'name', 'banners');
+        cy.api_responseContains(response, 'name', 'joomla_black.png');
       });
   });
 
   it('can deliver a list of files in a subfolder', () => {
     cy.api_get('/media/files/sampledata/cassiopeia/')
-      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
-        .its('name')
-        .should('include', 'nasa1-1200.jpg'));
+      .then((response) => cy.api_responseContains(response, 'name', 'nasa1-1200.jpg'));
   });
 
   it('can deliver a list of files with an adapter', () => {
     cy.api_get('/media/files/local-images:/sampledata/cassiopeia/')
-      .then((response) => cy.wrap(response).its('body').its('data.0').its('attributes')
-        .its('name')
-        .should('include', 'nasa1-1200.jpg'));
+      .then((response) => cy.api_responseContains(response, 'name', 'nasa1-1200.jpg'));
   });
 
   it('can search in filenames', () => {
     cy.api_get('/media/files?filter[search]=joomla')
       .then((response) => {
-        cy.wrap(response).its('body').its('data.0').its('attributes')
-          .its('name')
-          .should('include', 'joomla_black.png');
+        cy.api_responseContains(response, 'name', 'joomla_black.png');
         cy.wrap(response).its('body').its('data').should('have.length', 1);
       });
   });
