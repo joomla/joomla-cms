@@ -28,7 +28,7 @@ if (
     }
 
     if (JPATH_ROOT === JPATH_PUBLIC) {
-        header('Location: ' . substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php')) . 'installation/index.php');
+        header('Location: ../installation/index.php');
 
         exit;
     }
