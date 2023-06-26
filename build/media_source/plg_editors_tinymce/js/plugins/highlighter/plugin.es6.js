@@ -76,4 +76,5 @@ window.tinymce.PluginManager.add('highlightPlus', (editor) => {
     onAction: showSourceEditor,
     context: 'tools',
   });
+  editor.addShortcut('Alt+U', 'Opens the code editor', showSourceEditor);
 });

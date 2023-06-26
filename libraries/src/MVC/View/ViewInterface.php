@@ -49,7 +49,7 @@ interface ViewInterface
      *
      * @return  string  The name of the view
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     public function getName();
 }

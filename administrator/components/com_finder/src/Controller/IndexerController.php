@@ -90,6 +90,12 @@ class IndexerController extends BaseController
             $state        = Indexer::getState();
             $state->start = 1;
 
+            $output = ob_get_contents();
+
+            if ($output) {
+                throw new \Exception(Text::_('COM_FINDER_AN_ERROR_HAS_OCCURRED'));
+            }
+
             // Send the response.
             static::sendResponse($state);
         } catch (\Exception $e) {
@@ -150,6 +156,22 @@ class IndexerController extends BaseController
         // Import the finder plugins.
         PluginHelper::importPlugin('finder');
 
+        /*
+         * We are going to swap out the raw document object with an HTML document
+         * in order to work around some plugins that don't do proper environment
+         * checks before trying to use HTML document functions.
+         */
+        $lang = $this->app->getLanguage();
+
+        // Get the document properties.
+        $attributes = [
+            'charset'   => 'utf-8',
+            'lineend'   => 'unix',
+            'tab'       => '  ',
+            'language'  => $lang->getTag(),
+            'direction' => $lang->isRtl() ? 'rtl' : 'ltr',
+        ];
+
         // Start the indexer.
         try {
             // Trigger the onBeforeIndex event.
@@ -168,6 +190,12 @@ class IndexerController extends BaseController
                 Log::add('Batch completed, peak memory usage: ' . number_format(memory_get_peak_usage(true)) . ' bytes', Log::INFO);
             } catch (\RuntimeException $exception) {
                 // Informational log only
+            }
+
+            $output = ob_get_contents();
+
+            if ($output) {
+                throw new \Exception(Text::_('COM_FINDER_INDEXER_ERROR_PLUGIN_FAILURE'));
             }
 
             // Send the response.
@@ -213,6 +241,12 @@ class IndexerController extends BaseController
             $state           = Indexer::getState();
             $state->start    = 0;
             $state->complete = 1;
+
+            $output = ob_get_contents();
+
+            if ($output) {
+                throw new \Exception(Text::_('COM_FINDER_AN_ERROR_HAS_OCCURRED'));
+            }
 
             // Send the response.
             static::sendResponse($state);
@@ -264,6 +298,7 @@ class IndexerController extends BaseController
             $response->buffer = ob_get_contents();
             $response->memory = memory_get_usage(true);
         }
+        ob_clean();
 
         // Send the JSON response.
         echo json_encode($response);
@@ -274,7 +309,7 @@ class IndexerController extends BaseController
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      * @internal
      */
     public function debug()
