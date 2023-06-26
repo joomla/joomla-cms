@@ -58,9 +58,6 @@ final class Codemirror extends CMSPlugin
         $author = null,
         $params = []
     ) {
-        // True if a CodeMirror already has autofocus. Prevent multiple autofocuses.
-        static $autofocused;
-
         $this->loadLanguage();
 
         $id = empty($id) ? $name : $id;
@@ -81,14 +78,9 @@ final class Codemirror extends CMSPlugin
         $options->width  = is_numeric($width) ? $width . 'px' : $width;
         $options->height = is_numeric($height) ? $height . 'px' : $height;
 
-        // Should we focus on the editor on load?
-        if (!$autofocused) {
-            $options->autofocus = isset($params['autofocus']) ? (bool) $params['autofocus'] : false;
-            $autofocused        = $options->autofocus;
-        }
-        // Set autorefresh to true - fixes issue when editor is not loaded in a focused tab
-        $options->autoRefresh = true;
-
+        $options->lineNumbers  = (bool) $this->params->get('lineNumbers', 1);
+        $options->foldGutter   = (bool) $this->params->get('codeFolding', 1);
+        //$options->markerGutter = (bool) $this->params->get('markerGutter', $this->params->get('marker-gutter', 1));
         $options->lineWrapping = (bool) $this->params->get('lineWrapping', 1);
 
         // Add styling to the active line.
@@ -102,20 +94,15 @@ final class Codemirror extends CMSPlugin
                 ];
         }
 
-        // Do we use line numbering?
-        if ($options->lineNumbers = (bool) $this->params->get('lineNumbers', 1)) {
-            $options->gutters[] = 'CodeMirror-linenumbers';
-        }
-
-        // Do we use code folding?
-        if ($options->foldGutter = (bool) $this->params->get('codeFolding', 1)) {
-            $options->gutters[] = 'CodeMirror-foldgutter';
-        }
-
-        // Do we use a marker gutter?
-        if ($options->markerGutter = (bool) $this->params->get('markerGutter', $this->params->get('marker-gutter', 1))) {
-            $options->gutters[] = 'CodeMirror-markergutter';
-        }
+//        if ($options->lineNumbers) {
+//            $options->gutters[] = 'CodeMirror-linenumbers';
+//        }
+//        if ($options->foldGutter) {
+//            $options->gutters[] = 'CodeMirror-foldgutter';
+//        }
+//        if ($options->markerGutter) {
+//            $options->gutters[] = 'CodeMirror-markergutter';
+//        }
 
         // Load the syntax mode.
         $syntax = !empty($params['syntax'])
