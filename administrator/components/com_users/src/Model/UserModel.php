@@ -20,8 +20,8 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactory;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -36,8 +36,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class UserModel extends AdminModel
+class UserModel extends AdminModel implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * An item.
      *
@@ -224,7 +226,7 @@ class UserModel extends AdminModel
     public function save($data)
     {
         $pk   = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
-        $user = User::getInstance($pk);
+        $user = $this->getUserFactory()->loadUserById($pk);
 
         $my            = $this->getCurrentUser();
         $iAmSuperAdmin = $my->authorise('core.admin');
@@ -306,7 +308,6 @@ class UserModel extends AdminModel
         $app                    = Factory::getApplication();
         $user                   = $this->getCurrentUser();
         $table                  = $this->getTable();
-        $userFactory            = Factory::getContainer()->get(UserFactory::class);
         $pks                    = (array) $pks;
         $beforeDeleteUserParams = new Registry((array) $app->input->get('beforeDeleteUser'));
 
@@ -336,7 +337,7 @@ class UserModel extends AdminModel
 
                 if ($allow) {
                     // Get users data for the users to delete.
-                    $user_to_delete = $userFactory->loadUserById($pk);
+                    $user_to_delete = $this->getUserFactory()->loadUserById($pk);
 
                     $beforeDeleteUserParams->set('userId', $user_to_delete->id);
                     $beforeDeleteUserParams->set('userName', $user_to_delete->name);
