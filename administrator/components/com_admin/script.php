@@ -1474,8 +1474,8 @@ class JoomlaInstallerScript
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
         $task  = [
-            'title'           => 'UpdateNotification',
-            'type'            => 'update.notification',
+            'title'           => 'PrivacyConsent',
+            'type'            => 'privacy.consent',
             'execution_rules' => [
                 'rule-type'      => 'interval-hours',
                 'interval-hours' => $params->get('cachetimeout', 6),
