@@ -44,9 +44,9 @@ $errorCode = $this->error->getCode();
     <div class="error">
         <div id="outline">
         <div id="errorboxoutline">
-            <?php if ($this->countModules('error-' . $errorCode)): ?>
+            <?php if ($this->countModules('error-' . $errorCode)) : ?>
                     <jdoc:include type="modules" name="error-<?php echo $errorCode; ?>" style="none" />
-            <?php else: ?>
+            <?php else : ?>
             <div id="errorboxheader"><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></div>
             <div id="errorboxbody">
             <p><strong><?php echo Text::_('JERROR_LAYOUT_NOT_ABLE_TO_VISIT'); ?></strong></p>
