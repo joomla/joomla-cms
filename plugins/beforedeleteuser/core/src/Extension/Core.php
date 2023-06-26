@@ -38,8 +38,7 @@ final class Core extends CMSPlugin implements SubscriberInterface, BeforeDeleteU
      *
      * @since   __DEPLOY_VERSION__
      */
-    public static function getSubscribedEvents()
-    : array
+    public static function getSubscribedEvents(): array
     {
         return [
             'onUserBeforeDelete' => 'onUserBeforeDelete',
@@ -82,7 +81,7 @@ final class Core extends CMSPlugin implements SubscriberInterface, BeforeDeleteU
                     'created_by',
                     'modified_by',
                 ],
-                'userName'    => [
+                'userName' => [
                     'created_by_alias',
                 ],
             ],
@@ -108,7 +107,7 @@ final class Core extends CMSPlugin implements SubscriberInterface, BeforeDeleteU
                     'created_by',
                     'modified_by',
                 ],
-                'userName'    => [
+                'userName' => [
                     'created_by_alias',
                 ],
             ],
@@ -132,7 +131,7 @@ final class Core extends CMSPlugin implements SubscriberInterface, BeforeDeleteU
                     'created_by',
                     'modified_by',
                 ],
-                'userName'    => [
+                'userName' => [
                     'created_by_alias',
                 ],
             ],
@@ -219,7 +218,7 @@ final class Core extends CMSPlugin implements SubscriberInterface, BeforeDeleteU
                     'created_by',
                     'modified_by',
                 ],
-                'userName'    => [
+                'userName' => [
                     'created_by_alias',
                 ],
             ],
@@ -253,7 +252,7 @@ final class Core extends CMSPlugin implements SubscriberInterface, BeforeDeleteU
                     'created_user_id',
                     'modified_user_id',
                 ],
-                'userName'    => [
+                'userName' => [
                     'created_by_alias',
                 ],
             ],

@@ -36,6 +36,7 @@ use Joomla\Utilities\ArrayHelper;
 class UsersController extends AdminController
 {
     use UserFactoryAwareTrait;
+
     /**
      * @var    string  The prefix to use with controller messages.
      * @since  1.6
