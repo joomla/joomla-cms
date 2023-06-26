@@ -133,15 +133,15 @@ final class Codemirror extends CMSPlugin
             //$options->matchBrackets = (bool) $this->params->get('matchBrackets', 1);
         }
 
-        $options->scrollbarStyle = $this->params->get('scrollbarStyle', 'native');
+//        $options->scrollbarStyle = $this->params->get('scrollbarStyle', 'native');
 
         // KeyMap settings.
-        $options->keyMap = $this->params->get('keyMap', false);
+        $options->keyMap = $this->params->get('keyMap', '');
 
         // Support for older settings.
-        if ($options->keyMap === false) {
-            $options->keyMap = $this->params->get('vimKeyBinding', 0) ? 'vim' : 'default';
-        }
+//        if ($options->keyMap === false) {
+//            $options->keyMap = $this->params->get('vimKeyBinding', 0) ? 'vim' : 'default';
+//        }
 
 //        if ($options->keyMap !== 'default') {
 //            $keyMapUrl = HTMLHelper::_('script', $this->basePath . 'keymap/' . $options->keyMap . '.min.js', ['relative' => false, 'pathOnly' => true]);
