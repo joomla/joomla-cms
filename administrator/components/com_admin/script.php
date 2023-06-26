@@ -331,17 +331,17 @@ class JoomlaInstallerScript
         $lastrun      = (int) $params->get('lastrun', 0);
 
         $task = [
-            'title' => 'RotateLogs',
-            'type'  => 'rotation.logs',
+            'title'           => 'RotateLogs',
+            'type'            => 'rotation.logs',
             'execution_rules' => [
-                'rule-type' => 'interval-hours',
+                'rule-type'      => 'interval-hours',
                 'interval-hours' => $cachetimeout,
-                'exec-time' => gmdate("H:i", $lastrun),
+                'exec-time'      => gmdate("H:i", $lastrun),
             ],
-            'state' => 1,
+            'state'  => 1,
             'params' => [
                 'logstokeep' => $params->get('logstokeep', 0),
-            ]
+            ],
         ];
         $model->save($task);
     }
