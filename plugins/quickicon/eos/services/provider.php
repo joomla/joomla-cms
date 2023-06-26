@@ -27,7 +27,7 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.0
      *
      * @throws Exception
      */
@@ -36,9 +36,8 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
                 $plugin     = new Eos(
-                    $dispatcher,
+                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('quickicon', 'eos')
                 );
                 $plugin->setApplication(Factory::getApplication());

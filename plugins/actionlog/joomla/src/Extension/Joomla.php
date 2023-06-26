@@ -11,11 +11,10 @@
 namespace Joomla\Plugin\Actionlog\Joomla\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\Plugin\ActionLogPlugin;
 use Joomla\Database\DatabaseAwareTrait;
@@ -37,6 +36,7 @@ use stdClass;
 final class Joomla extends ActionLogPlugin
 {
     use DatabaseAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * Array of loggable extensions.
@@ -835,7 +835,7 @@ final class Joomla extends ActionLogPlugin
             return;
         }
 
-        $loggedOutUser = User::getInstance($user['id']);
+        $loggedOutUser = $this->getUserFactory()->loadUserById($user['id']);
 
         if ($loggedOutUser->block) {
             return;

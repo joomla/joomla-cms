@@ -35,8 +35,12 @@ if (!defined('JPATH_ROOT')) {
     define('JPATH_ROOT', JPATH_BASE);
 }
 
+if (!defined('JPATH_PUBLIC')) {
+    define('JPATH_PUBLIC', JPATH_ROOT);
+}
+
 /**
- * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+ * @deprecated 4.4.0 will be removed in 6.0
  **/
 if (!defined('JPATH_PLATFORM')) {
     define('JPATH_PLATFORM', JPATH_BASE . DIRECTORY_SEPARATOR . 'libraries');

@@ -8,7 +8,8 @@
     {
       "name": "com_workflow.admin-items-workflow-buttons.es5",
       "type": "script",
-      "uri": "com_workflow/admin-items-workflow-buttons-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -22,7 +23,7 @@
       "type": "script",
       "uri": "com_workflow/admin-items-workflow-buttons.min.js",
       "dependencies": [
-        "com_workflow.admin-items-workflow-buttons.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

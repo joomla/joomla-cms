@@ -34,10 +34,7 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $config  = (array) PluginHelper::getPlugin('multifactorauth', 'webauthn');
-                $subject = $container->get(DispatcherInterface::class);
-
-                $plugin = new Webauthn($subject, $config);
+                $plugin = new Webauthn($container->get(DispatcherInterface::class), (array) PluginHelper::getPlugin('multifactorauth', 'webauthn'));
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 

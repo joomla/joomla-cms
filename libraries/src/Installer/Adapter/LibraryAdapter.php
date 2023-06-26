@@ -59,7 +59,7 @@ class LibraryAdapter extends InstallerAdapter
                 // From this point we'll consider this an update
                 $this->setRoute('update');
             } else {
-                // Abort the install, no upgrade possible
+                // Stop the install, no upgrade possible
                 throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_ALREADY_INSTALLED'));
             }
         }

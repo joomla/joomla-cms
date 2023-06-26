@@ -13,6 +13,7 @@ namespace Joomla\Tests\Unit\Plugin\Filesystem\Local\Extension;
 use InvalidArgumentException;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\User\User;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 use Joomla\Event\Dispatcher;
@@ -104,7 +105,11 @@ class LocalPluginTest extends UnitTestCase
     {
         $dispatcher = new Dispatcher();
 
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getIdentity')->willReturn(new User());
+
         $plugin   = new Local($dispatcher, ['params' => ['directories' => '[{"directory": "tests"}]']], JPATH_ROOT);
+        $plugin->setApplication($app);
         $adapters = $plugin->getAdapters();
 
         $this->assertCount(1, $adapters);

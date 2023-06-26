@@ -15,7 +15,7 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use RuntimeException;
@@ -34,6 +34,7 @@ use RuntimeException;
 final class Cookie extends CMSPlugin
 {
     use DatabaseAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * Reports the privacy related capabilities for this plugin to site administrators.
@@ -195,7 +196,7 @@ final class Cookie extends CMSPlugin
 
         if ($result) {
             // Bring this in line with the rest of the system
-            $user = User::getInstance($result->id);
+            $user = $this->getUserFactory()->loadUserById($result->id);
 
             // Set response data.
             $response->username = $result->username;
