@@ -19,7 +19,7 @@ use Joomla\CMS\Router\Route;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Messages master display controller.
+ * Messages display controller.
  *
  * @since  1.6
  */
