@@ -6,9 +6,20 @@
 // eslint-disable-next-line import/no-unresolved
 import { createFromTextarea } from 'codemirror';
 import { EditorState } from '@codemirror/state';
-import { keymap } from "@codemirror/view";
+import { keymap } from '@codemirror/view';
 
 class CodemirrorEditor extends HTMLElement {
+  constructor() {
+    super();
+
+    this.toggleFullScreen = () => {
+      this.classList.toggle('fullscreen');
+    };
+
+    this.closeFullScreen = () => {
+      this.classList.remove('fullscreen');
+    };
+  }
 
   get options() { return JSON.parse(this.getAttribute('options')); }
 
@@ -20,12 +31,10 @@ class CodemirrorEditor extends HTMLElement {
     // Configure full screen feature
     if (this.fsCombo) {
       options.customExtensions = options.customExtensions || [];
-      options.customExtensions.push(() => {
-        return keymap.of([
-          {key: this.fsCombo, run: this.toggleFullScreen},
-          {key: 'Escape', run: this.closeFullScreen},
-        ]);
-      });
+      options.customExtensions.push(() => keymap.of([
+        { key: this.fsCombo, run: this.toggleFullScreen },
+        { key: 'Escape', run: this.closeFullScreen },
+      ]));
     }
 
     // Create an editor instance
@@ -72,14 +81,6 @@ class CodemirrorEditor extends HTMLElement {
     }
     // Remove from the Joomla API
     delete Joomla.editors.instances[this.element.id];
-  }
-
-  toggleFullScreen = () => {
-    this.classList.toggle('fullscreen');
-  }
-
-  closeFullScreen = () => {
-    this.classList.remove('fullscreen');
   }
 }
 

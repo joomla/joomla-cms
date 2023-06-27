@@ -155,7 +155,6 @@ module.exports.compileCodemirror = async () => {
     });
     tasks.push(task2);
   });
-  // console.log('compileCodemirror', cmModules, lModules, tasks);
 
   return Promise.all(tasks).then(() => {
     progressBar.stop();
