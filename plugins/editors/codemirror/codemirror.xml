@@ -195,6 +195,27 @@
 					<option value="Alt">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_ALT</option>
 				</field>
 			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="customExtensions"
+					type="subform"
+					label="Custom Extensions"
+					multiple="true"
+				>
+					<form>
+						<field
+							name="package"
+							type="text"
+							label="Module file or module name"
+						/>
+						<field
+							name="method"
+							type="text"
+							label="Initialisation method(s)"
+						/>
+					</form>
+				</field>
+			</fieldset>
 <!--
 			<fieldset
 				name="appearance"
