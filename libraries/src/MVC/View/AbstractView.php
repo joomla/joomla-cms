@@ -43,7 +43,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      * @var    Document
      * @since  3.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 6.0
      *             Use $this->getDocument() instead
      */
     public $document;
@@ -245,7 +245,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      *
      * @return  Document
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      * @throws  \UnexpectedValueException May be thrown if the document has not been set.
      */
     protected function getDocument(): Document
@@ -264,7 +264,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function setDocument(Document $document): void
     {
@@ -296,7 +296,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     protected function _(string $key): string
     {

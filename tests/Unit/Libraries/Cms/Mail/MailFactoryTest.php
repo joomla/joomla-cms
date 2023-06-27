@@ -19,7 +19,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Mail
- * @since       __DEPLOY_VERSION__
+ * @since       4.4.0
  */
 class MailFactoryTest extends UnitTestCase
 {
@@ -28,7 +28,7 @@ class MailFactoryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function testMailer()
     {
@@ -44,7 +44,7 @@ class MailFactoryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function testMailerHasDefaultSettings()
     {
@@ -61,7 +61,7 @@ class MailFactoryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function testMailerHasPassedSettings()
     {
@@ -78,7 +78,7 @@ class MailFactoryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function testMailerHasInvalidFromAddress()
     {
@@ -95,7 +95,7 @@ class MailFactoryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function testMailerHasOverriddenSettings()
     {
@@ -112,7 +112,7 @@ class MailFactoryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function testMailerIsSMTP()
     {

@@ -27,7 +27,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @testdox     The PageBreak plugin
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.4.0
  */
 class PageBreakTest extends UnitTestCase
 {
@@ -36,7 +36,7 @@ class PageBreakTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function testButton()
     {
@@ -65,7 +65,7 @@ class PageBreakTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function testInvalidPermissions()
     {
@@ -89,7 +89,7 @@ class PageBreakTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function testInvalidApplication()
     {
