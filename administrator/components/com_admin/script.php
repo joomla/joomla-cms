@@ -756,8 +756,6 @@ class JoomlaInstallerScript
             '/plugins/system/webauthn/src/Hotfix/FidoU2FAttestationStatementSupport.php',
             '/plugins/system/webauthn/src/Hotfix/Server.php',
             // From 5.0.0-alpha1 to 5.0.0-alpha2
-            '/administrator/language/en-GB/plg_task_demotasks.ini',
-            '/administrator/language/en-GB/plg_task_demotasks.sys.ini',
             '/libraries/vendor/jfcherng/php-diff/src/languages/readme.txt',
             '/media/com_actionlogs/js/admin-actionlogs-default-es5.js',
             '/media/com_actionlogs/js/admin-actionlogs-default-es5.min.js',
