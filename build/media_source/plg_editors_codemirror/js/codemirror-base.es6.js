@@ -126,10 +126,16 @@ const optionsToExtensions = async (options) => {
   extensions.push(readOnly.of(EditorState.readOnly.of(!!options.readOnly)));
 
   // Check for custom extensions,
-  // in format [['module1 name or URL', ['init method2']], ['module2 name or URL', ['init method2']]]
+  // in format [['module1 name or URL', ['init method2']], ['module2 name or URL', ['init method2']], () => <return extension>]
   if (options.customExtensions && options.customExtensions.length) {
-    options.customExtensions.forEach(([module, methods]) => {
-      // Import module
+    options.customExtensions.forEach((extInfo) => {
+      // Check whether we have a callable
+      if (extInfo instanceof Function) {
+        extensions.push(extInfo());
+        return;
+      }
+      // Import the module
+      const [module, methods] = extInfo;
       q.push(import(module).then((modObject) => {
         // Call each method
         methods.forEach((method) => {
@@ -163,10 +169,10 @@ async function createFromTextarea(textarea, options) {
     view.dom.style.width = options.width;
   }
   if (options.height) {
-    view.dom.style.minHeight = options.height;
+    view.dom.style.height = options.height;
   }
 
   return view;
 }
 
-export { basicSetup, minimalSetup, createFromTextarea };
+export { basicSetup, minimalSetup, createFromTextarea, optionsToExtensions };

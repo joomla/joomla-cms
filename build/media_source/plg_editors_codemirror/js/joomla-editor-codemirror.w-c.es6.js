@@ -5,6 +5,7 @@
 // eslint-disable-next-line import/no-unresolved
 import { createFromTextarea } from 'codemirror';
 import { EditorState } from '@codemirror/state';
+import { keymap } from "@codemirror/view";
 
 class CodemirrorEditor extends HTMLElement {
   // constructor() {
@@ -28,6 +29,8 @@ class CodemirrorEditor extends HTMLElement {
 
   get options() { return JSON.parse(this.getAttribute('options')); }
 
+  get fsCombo() { return this.getAttribute('fs-combo'); }
+
   // set options(value) { this.setAttribute('options', value); }
   //
   // attributeChangedCallback(attr, oldValue, newValue) {
@@ -47,12 +50,25 @@ class CodemirrorEditor extends HTMLElement {
     // this.instance = window.CodeMirror.fromTextArea(this.element, this.options);
     // this.instance.disable = (disabled) => this.setOption('readOnly', disabled ? 'nocursor' : false);
 
+    const { options } = this;
+
+    // Configure full screen feature
+    if (this.fsCombo) {
+      options.customExtensions = options.customExtensions || [];
+      options.customExtensions.push(() => {
+        return keymap.of([
+          {key: this.fsCombo, run: this.toggleFullScreen},
+          {key: 'Escape', run: this.closeFullScreen},
+        ]);
+      });
+    }
+
+    // Configure editor instance
     this.element = this.querySelector('textarea');
-    const editor = await createFromTextarea(this.element, this.options);
+    const editor = await createFromTextarea(this.element, options);
     this.instance = editor;
 
-console.log(editor.state);
-
+    // Register Editor for Joomla api
     Joomla.editors.instances[this.element.id] = {
       id: () => this.element.id,
       element: () => this.element,
@@ -88,11 +104,23 @@ console.log(editor.state);
   }
 
   disconnectedCallback() {
+    if (this.instance) {
+      this.element.style.display = '';
+      this.instance.destroy();
+    }
     // Remove from the Joomla API
     delete Joomla.editors.instances[this.element.id];
 
     // Remove from observer
     // this.intersectionObserver.unobserve(this);
+  }
+
+  toggleFullScreen = () => {
+    this.classList.toggle('fullscreen');
+  }
+
+  closeFullScreen = () => {
+    this.classList.remove('fullscreen');
   }
 
   // refresh = (element) => {
