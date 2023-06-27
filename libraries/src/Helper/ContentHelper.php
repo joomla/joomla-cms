@@ -17,7 +17,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\MVC\Model\State;
+use Joomla\CMS\MVC\View\CanDo;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
@@ -165,8 +165,8 @@ class ContentHelper
             $assetName .= '.' . $section . '.' . (int) $id;
         }
 
-        // Return a state object to prevent any BC break, will be changed in 7.0 to Registry
-        $result = new State();
+        // Return a CanDo object to prevent any BC break, will be changed in 7.0 to Registry
+        $result = new CanDo();
 
         $user = Factory::getUser();
 

@@ -12,8 +12,6 @@ namespace Joomla\CMS\MVC\View;
 use Doctrine\Inflector\InflectorFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\MVC\Model\State;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Registry\Registry;
@@ -139,8 +137,8 @@ class ListView extends HtmlView
         }
 
         // Set default value for $canDo to avoid fatal error if child class doesn't set value for this property
-        // Return a state object to prevent any BC break, will be changed in 7.0 to Registry
-        $this->canDo = new State();
+        // Return a CanDo object to prevent any BC break, will be changed in 7.0 to Registry
+        $this->canDo = new CanDo();
     }
 
     /**
