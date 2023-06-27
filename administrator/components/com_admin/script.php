@@ -209,7 +209,7 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function uninstallExtensions()
     {
