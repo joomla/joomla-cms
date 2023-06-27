@@ -17,8 +17,10 @@ use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -1428,9 +1430,49 @@ class JoomlaInstallerScript
             return false;
         }
 
+        if (!$this->migrateDeleteActionlogsConfiguration()) {
+            return false;
+        }
+
         return true;
     }
 
+    /**
+     * Migrate Deleteactionlogs plugin configuration
+     *
+     * @return  boolean  True on success
+     *
+     * @since   5.0.0
+     */
+    private function migrateDeleteActionlogsConfiguration(): bool
+    {
+        /** @var SchedulerComponent $component */
+        $component = Factory::getApplication()->bootComponent('com_scheduler');
+
+        /** @var TaskModel $model */
+        $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
+
+        if ($plugin = PluginHelper::getPlugin('system', 'actionlogs')) {
+            $pluginParams = new Registry($plugin->params);
+            $lastrun      = (int) $pluginParams->get('lastrun', 0);
+            $task         = [
+                'title'           => 'DeleteActionLogs',
+                'type'            => 'delete.actionlogs',
+                'execution_rules' => [
+                    'rule-type'      => 'interval-hours',
+                    'interval-hours' => 24,
+                    'exec-time'      => gmdate("H:i", $lastrun),
+                ],
+                'state'  => 1,
+                'params' => [
+                    'logDeletePeriod' => $pluginParams->get('logDeletePeriod', 0),
+                ],
+            ];
+            $model->save($task);
+        }
+
+        return true;
+    }
     /**
      * Migrate TinyMCE editor plugin configuration
      *
