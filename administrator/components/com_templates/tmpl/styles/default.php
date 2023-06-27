@@ -34,9 +34,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                 <?php if ($this->total > 0) : ?>
                     <table class="table" id="styleList">
                         <caption class="visually-hidden">
-                            <?php echo Text::_('COM_TEMPLATES_STYLES_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->_('COM_TEMPLATES_STYLES_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -47,14 +47,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="w-5 text-center">
-                                    <?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
+                                    <?php echo $this->_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
                                 </th>
                                 <th scope="col" class="w-12 text-center">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_DEFAULT', 'a.home', $listDirn, $listOrder); ?>
                                 </th>
                                 <?php if ($clientId === 0) : ?>
                                     <th scope="col" class="w-12 d-none d-md-table-cell">
-                                        <?php echo Text::_('COM_TEMPLATES_HEADING_PAGES'); ?>
+                                        <?php echo $this->_('COM_TEMPLATES_HEADING_PAGES'); ?>
                                     </th>
                                 <?php endif; ?>
                                 <th scope="col" class="w-12 d-none d-md-table-cell">
@@ -77,7 +77,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 </td>
                                 <th scope="row">
                                     <?php if ($canEdit) : ?>
-                                        <a href="<?php echo Route::_('index.php?option=com_templates&task=style.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+                                        <a href="<?php echo Route::_('index.php?option=com_templates&task=style.edit&id=' . (int) $item->id); ?>" title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
                                             <?php echo $this->escape($item->title); ?></a>
                                     <?php else : ?>
                                         <?php echo $this->escape($item->title); ?>
@@ -91,7 +91,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                         <div role="tooltip" id="preview-<?php echo (int) $item->id; ?>"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_NEW_PREVIEW', $item->title); ?></div>
                                     <?php else : ?>
                                         <span class="icon-eye-slash" aria-labelledby="nopreview-<?php echo (int) $item->id; ?>" aria-hidden="true"></span>
-                                        <div role="tooltip" id="nopreview-<?php echo (int) $item->id; ?>"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></div>
+                                        <div role="tooltip" id="nopreview-<?php echo (int) $item->id; ?>"><?php echo $this->_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></div>
                                     <?php endif; ?>
                                 </td>
                                 <td class="text-center">
@@ -116,13 +116,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 <?php if ($clientId === 0) : ?>
                                 <td class="small d-none d-md-table-cell">
                                     <?php if ($item->home == '1') : ?>
-                                        <?php echo Text::_('COM_TEMPLATES_STYLES_PAGES_ALL'); ?>
+                                        <?php echo $this->_('COM_TEMPLATES_STYLES_PAGES_ALL'); ?>
                                     <?php elseif ($item->home != '0' && $item->home != '1') : ?>
                                         <?php echo Text::sprintf('COM_TEMPLATES_STYLES_PAGES_ALL_LANGUAGE', $this->escape($item->language_title)); ?>
                                     <?php elseif ($item->assigned > 0) : ?>
                                         <?php echo Text::plural('COM_TEMPLATES_STYLES_PAGES_SELECTED', $this->escape($item->assigned)); ?>
                                     <?php else : ?>
-                                        <?php echo Text::_('COM_TEMPLATES_STYLES_PAGES_NONE'); ?>
+                                        <?php echo $this->_('COM_TEMPLATES_STYLES_PAGES_NONE'); ?>
                                     <?php endif; ?>
                                 </td>
                                 <?php endif; ?>

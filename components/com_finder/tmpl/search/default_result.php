@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
@@ -96,7 +95,7 @@ if ($this->params->get('show_url', 1)) {
         <p class="result__description">
             <?php if ($this->result->start_date && $this->params->get('show_date', 1)) : ?>
                 <time class="result__date" datetime="<?php echo HTMLHelper::_('date', $this->result->start_date, 'c'); ?>">
-                    <?php echo HTMLHelper::_('date', $this->result->start_date, Text::_('DATE_FORMAT_LC3')); ?>
+                    <?php echo HTMLHelper::_('date', $this->result->start_date, $this->_('DATE_FORMAT_LC3')); ?>
                 </time>
             <?php endif; ?>
             <?php echo $description; ?>
@@ -119,8 +118,8 @@ if ($this->params->get('show_url', 1)) {
                     <?php endforeach; ?>
                     <?php if (count($taxonomy_text)) : ?>
                         <li class="result__taxonomy-item result__taxonomy--<?php echo $type; ?>">
-                            <span><?php echo Text::_(LanguageHelper::branchSingular($type)); ?>:</span>
-                            <?php echo Text::_(LanguageHelper::branchSingular(implode(',', $taxonomy_text))); ?>
+                            <span><?php echo $this->_(LanguageHelper::branchSingular($type)); ?>:</span>
+                            <?php echo $this->_(LanguageHelper::branchSingular(implode(',', $taxonomy_text))); ?>
                         </li>
                     <?php endif; ?>
                 <?php endif; ?>

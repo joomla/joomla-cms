@@ -22,7 +22,7 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 $app = Factory::getApplication();
 
 if ($app->isClient('site')) {
-    Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
+    Session::checkToken('get') or die($this->_('JINVALID_TOKEN'));
 }
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -42,15 +42,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
-                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
             </div>
         <?php else : ?>
             <table class="table" id="categoryList">
                 <caption class="visually-hidden">
-                    <?php echo Text::_('COM_CATEGORIES_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                    <?php echo $this->_('COM_CATEGORIES_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
                 <thead>
                     <tr>

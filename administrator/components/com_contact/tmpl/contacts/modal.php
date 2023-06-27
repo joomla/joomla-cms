@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
@@ -22,7 +21,7 @@ use Joomla\Component\Contact\Site\Helper\RouteHelper;
 $app = Factory::getApplication();
 
 if ($app->isClient('site')) {
-    Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
+    Session::checkToken('get') or die($this->_('JINVALID_TOKEN'));
 }
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -50,15 +49,15 @@ if (!empty($editor)) {
 
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
-                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
             </div>
         <?php else : ?>
             <table class="table table-sm">
                 <caption class="visually-hidden">
-                    <?php echo Text::_('COM_CONTACT_TABLE_CAPTION'); ?>,
-                        <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                        <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                    <?php echo $this->_('COM_CONTACT_TABLE_CAPTION'); ?>,
+                        <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                        <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
                 <thead>
                     <tr>
@@ -118,7 +117,7 @@ if (!empty($editor)) {
                                 <?php echo $this->escape($item->name); ?>
                             </a>
                             <div class="small">
-                                <?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
+                                <?php echo $this->_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
                             </div>
                         </th>
                         <td>

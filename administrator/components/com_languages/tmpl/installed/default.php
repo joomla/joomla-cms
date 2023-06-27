@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
@@ -32,15 +31,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                 <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if (empty($this->rows)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                        <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                 <table class="table">
                     <caption class="visually-hidden">
-                        <?php echo Text::_('COM_LANGUAGES_INSTALLED_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                        <?php echo $this->_('COM_LANGUAGES_INSTALLED_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                     </caption>
                     <thead>
                         <tr>
@@ -107,7 +106,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                             <?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
                             <?php // Display a Note if language pack version is not equal to Joomla version ?>
                             <?php if (strpos($row->version, $minorVersion) !== 0 || strpos($row->version, $currentShortVersion) !== 0) : ?>
-                                <span class="badge bg-warning text-dark" title="<?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $row->version; ?></span>
+                                <span class="badge bg-warning text-dark" title="<?php echo $this->_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $row->version; ?></span>
                             <?php else : ?>
                                 <span class="badge bg-success"><?php echo $row->version; ?></span>
                             <?php endif; ?>

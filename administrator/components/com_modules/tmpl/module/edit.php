@@ -52,14 +52,14 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_modules&layout=' . $layout . $tmpl . '&client_id=' . $this->form->getValue('client_id') . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" aria-label="<?php echo Text::_('COM_MODULES_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_modules&layout=' . $layout . $tmpl . '&client_id=' . $this->form->getValue('client_id') . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" aria-label="<?php echo $this->_('COM_MODULES_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
     <div class="main-card">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'general', 'recall' => true, 'breakpoint' => 768]); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_MODULES_MODULE')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', $this->_('COM_MODULES_MODULE')); ?>
 
         <div class="row">
             <div class="col-lg-9">
@@ -68,21 +68,21 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
                         <h2>
                             <?php
                             if ($this->item->xml) {
-                                echo ($text = (string) $this->item->xml->name) ? Text::_($text) : $this->item->module;
+                                echo ($text = (string) $this->item->xml->name) ? $this->_($text) : $this->item->module;
                             } else {
-                                echo Text::_('COM_MODULES_ERR_XML');
+                                echo $this->_('COM_MODULES_ERR_XML');
                             }
                             ?>
                         </h2>
                         <div class="info-labels">
                             <span class="badge bg-secondary">
-                                <?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>
+                                <?php echo $this->item->client_id == 0 ? $this->_('JSITE') : $this->_('JADMINISTRATOR'); ?>
                             </span>
                         </div>
                         <div>
                             <?php
                             $this->fieldset    = 'description';
-                            $short_description = Text::_($this->item->xml->description);
+                            $short_description = $this->_($this->item->xml->description);
                             $long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
 
                             if (!$long_description) {
@@ -102,7 +102,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
                             <?php if ($long_description) : ?>
                                 <p class="readmore">
                                     <a href="#" onclick="document.getElementById('myTab').activateTab(document.getElementById('description'));">
-                                        <?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
+                                        <?php echo $this->_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
                                     </a>
                                 </p>
                             <?php endif; ?>
@@ -110,8 +110,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
                     <?php endif; ?>
                 <?php else : ?>
                     <div class="alert alert-danger">
-                        <span class="icon-exclamation-triangle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('ERROR'); ?></span>
-                        <?php echo Text::_('COM_MODULES_ERR_XML'); ?>
+                        <span class="icon-exclamation-triangle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('ERROR'); ?></span>
+                        <?php echo $this->_('COM_MODULES_ERR_XML'); ?>
                     </div>
                 <?php endif; ?>
                 <?php
@@ -149,7 +149,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
         <?php if (isset($long_description) && $long_description != '') : ?>
-            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', $this->_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
                 <div class="card">
                     <div class="card-body">
                         <?php echo $long_description; ?>
@@ -159,9 +159,9 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
         <?php endif; ?>
 
         <?php if ($this->item->client_id == 0) : ?>
-            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'assignment', Text::_('COM_MODULES_MENU_ASSIGNMENT')); ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'assignment', $this->_('COM_MODULES_MENU_ASSIGNMENT')); ?>
             <fieldset id="fieldset-assignment" class="options-form">
-                <legend><?php echo Text::_('COM_MODULES_MENU_ASSIGNMENT'); ?></legend>
+                <legend><?php echo $this->_('COM_MODULES_MENU_ASSIGNMENT'); ?></legend>
                 <div>
                 <?php echo $this->loadTemplate('assignment'); ?>
                 </div>
@@ -176,9 +176,9 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
         ?>
 
         <?php if ($this->canDo->get('core.admin')) : ?>
-            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_MODULES_FIELDSET_RULES')); ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', $this->_('COM_MODULES_FIELDSET_RULES')); ?>
             <fieldset id="fieldset-permissions" class="options-form">
-                <legend><?php echo Text::_('COM_MODULES_FIELDSET_RULES'); ?></legend>
+                <legend><?php echo $this->_('COM_MODULES_FIELDSET_RULES'); ?></legend>
                 <div>
                 <?php echo $this->form->getInput('rules'); ?>
                 </div>

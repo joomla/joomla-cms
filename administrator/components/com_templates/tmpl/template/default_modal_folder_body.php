@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 $input = Factory::getApplication()->getInput();
@@ -47,13 +46,13 @@ $input = Factory::getApplication()->getInput();
             <div class="col-md-8">
                 <form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.createFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
                     <div class="form-group">
-                        <label for="folder_name"><?php echo Text::_('COM_TEMPLATES_FOLDER_NAME'); ?></label>
+                        <label for="folder_name"><?php echo $this->_('COM_TEMPLATES_FOLDER_NAME'); ?></label>
                         <input type="text" name="name" id="folder_name" class="form-control" required>
                         <input type="hidden" class="address" name="address">
                         <input type="hidden" name="isMedia" value="0">
                         <?php echo HTMLHelper::_('form.token'); ?>
                     </div>
-                    <button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_CREATE'); ?></button>
+                    <button type="submit" class="btn btn-primary"><?php echo $this->_('COM_TEMPLATES_BUTTON_CREATE'); ?></button>
                 </form>
             </div>
         </div>

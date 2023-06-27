@@ -33,30 +33,30 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                 <?php if ($this->total > 0) : ?>
                     <table class="table" id="templateList">
                         <caption class="visually-hidden">
-                            <?php echo Text::_('COM_TEMPLATES_TEMPLATES_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->_('COM_TEMPLATES_TEMPLATES_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
                                 <th scope="col" class="w-20 col1template d-none d-md-table-cell">
-                                    <?php echo Text::_('COM_TEMPLATES_HEADING_IMAGE'); ?>
+                                    <?php echo $this->_('COM_TEMPLATES_HEADING_IMAGE'); ?>
                                 </th>
                                 <th scope="col" class="w-30">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="w-10 d-none d-md-table-cell text-center">
-                                    <?php echo Text::_('JVERSION'); ?>
+                                    <?php echo $this->_('JVERSION'); ?>
                                 </th>
                                 <th scope="col" class="w-10 d-none d-md-table-cell text-center">
-                                    <?php echo Text::_('JDATE'); ?>
+                                    <?php echo $this->_('JDATE'); ?>
                                 </th>
                                 <th scope="col" class="w-25 d-none d-md-table-cell text-center">
-                                    <?php echo Text::_('JAUTHOR'); ?>
+                                    <?php echo $this->_('JAUTHOR'); ?>
                                 </th>
                                 <?php if ($this->pluginState) : ?>
                                     <th scope="col" class="w-10 d-none d-md-table-cell text-center">
-                                        <?php echo Text::_('COM_TEMPLATES_OVERRIDES'); ?>
+                                        <?php echo $this->_('COM_TEMPLATES_OVERRIDES'); ?>
                                     </th>
                                 <?php endif; ?>
                             </tr>
@@ -75,17 +75,17 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                         <?php if ($this->preview) : ?>
                                             <?php $client = (int) $item->client_id === 1 ? 'administrator' : 'site'; ?>
                                             <a href="<?php echo Route::link($client, 'index.php?tp=1&template=' . $item->element); ?>" target="_blank" aria-labelledby="preview-<?php echo $item->extension_id; ?>">
-                                                <?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
+                                                <?php echo $this->_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
                                             </a>
                                             <div role="tooltip" id="preview-<?php echo $item->extension_id; ?>"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_NEW_PREVIEW', $item->name); ?></div>
                                         <?php else : ?>
-                                            <?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>
+                                            <?php echo $this->_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>
                                         <?php endif; ?>
                                     </div>
                                     <?php if (isset($item->xmldata->inheritable) && $item->xmldata->inheritable) : ?>
                                         <div class="badge bg-primary">
                                             <span class="fas fa-link text-light" aria-hidden="true"></span>
-                                            <?php echo Text::_('COM_TEMPLATES_TEMPLATE_IS_PARENT'); ?>
+                                            <?php echo $this->_('COM_TEMPLATES_TEMPLATE_IS_PARENT'); ?>
                                         </div>
                                     <?php endif; ?>
                                     <?php if (isset($item->xmldata->parent) && (string) $item->xmldata->parent !== '') : ?>
@@ -121,7 +121,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                                 <span class="badge bg-warning text-dark"><?php echo Text::plural('COM_TEMPLATES_N_CONFLICT', $item->updated); ?></span>
                                             </a>
                                         <?php else : ?>
-                                            <span class="badge bg-success"><?php echo Text::_('COM_TEMPLATES_UPTODATE'); ?></span>
+                                            <span class="badge bg-success"><?php echo $this->_('COM_TEMPLATES_UPTODATE'); ?></span>
                                         <?php endif; ?>
                                     </td>
                                 <?php endif; ?>

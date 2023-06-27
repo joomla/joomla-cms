@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -42,22 +41,22 @@ $context = $this->escape($this->state->get('filter.context'));
         <div class="form-group col-md-6">
             <div class="controls">
                 <?php $options = [
-                    HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
-                    HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
+                    HTMLHelper::_('select.option', 'c', $this->_('JLIB_HTML_BATCH_COPY')),
+                    HTMLHelper::_('select.option', 'm', $this->_('JLIB_HTML_BATCH_MOVE'))
                 ];
 ?>
                 <label id="batch-choose-action-lbl" for="batch-group-id">
-                    <?php echo Text::_('COM_FIELDS_BATCH_GROUP_LABEL'); ?>
+                    <?php echo $this->_('COM_FIELDS_BATCH_GROUP_LABEL'); ?>
                 </label>
                 <div id="batch-choose-action" class="control-group">
                     <select name="batch[group_id]" class="form-select" id="batch-group-id">
-                        <option value=""><?php echo Text::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
-                        <option value="nogroup"><?php echo Text::_('COM_FIELDS_BATCH_GROUP_OPTION_NONE'); ?></option>
+                        <option value=""><?php echo $this->_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
+                        <option value="nogroup"><?php echo $this->_('COM_FIELDS_BATCH_GROUP_OPTION_NONE'); ?></option>
                         <?php echo HTMLHelper::_('select.options', $this->get('Groups'), 'value', 'text'); ?>
                     </select>
                 </div>
                 <div id="batch-copy-move">
-                    <?php echo Text::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
+                    <?php echo $this->_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
                     <?php echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
                 </div>
             </div>

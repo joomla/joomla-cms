@@ -105,13 +105,13 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
         <?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK', '&#x200E;' . $this->updateInfo['latest']); ?>
     </h2>
     <p>
-        <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXPLANATION_AND_LINK_TO_DOCS'); ?>
+        <?php echo $this->_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXPLANATION_AND_LINK_TO_DOCS'); ?>
     </p>
 
     <div class="d-flex flex-wrap flex-lg-nowrap align-items-start my-4" id="preupdatecheck">
         <div class="nav flex-column text-nowrap nav-pills me-3 mb-4" role="tablist" aria-orientation="vertical">
             <button class="nav-link d-flex justify-content-between align-items-center active" id="joomlaupdate-precheck-required-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-required-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-required-content" aria-selected="true">
-                <?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_REQUIRED_SETTINGS'); ?>
+                <?php echo $this->_('COM_JOOMLAUPDATE_PREUPDATE_REQUIRED_SETTINGS'); ?>
                 <?php $labelClass = 'success'; ?>
                 <?php foreach ($this->phpOptions as $option) : ?>
                     <?php if (!$option->state) : ?>
@@ -123,7 +123,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                 <span class="fa fa-<?php echo $labelClass == 'danger' ? 'times' : 'check'; ?> fa-fw py-1 bg-white text-<?php echo $labelClass; ?>" aria-hidden="true"></span>
             </button>
             <button class="nav-link d-flex justify-content-between align-items-center" id="joomlaupdate-precheck-recommended-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-recommended-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-recommended-content" aria-selected="false">
-                <?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_RECOMMENDED_SETTINGS'); ?>
+                <?php echo $this->_('COM_JOOMLAUPDATE_PREUPDATE_RECOMMENDED_SETTINGS'); ?>
                 <?php $labelClass = 'success'; ?>
                 <?php foreach ($this->phpSettings as $setting) : ?>
                     <?php if ($setting->state !== $setting->recommended) : ?>
@@ -134,7 +134,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                 <span class="fa fa-<?php echo $labelClass == 'warning' ? 'exclamation-triangle' : 'check'; ?> fa-fw py-1 bg-white text-<?php echo $labelClass; ?>" aria-hidden="true"></span>
             </button>
             <button class="nav-link d-flex justify-content-between align-items-center" id="joomlaupdate-precheck-extensions-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-extensions-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-extensions-content" aria-selected="false">
-                <?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_EXTENSIONS'); ?>
+                <?php echo $this->_('COM_JOOMLAUPDATE_PREUPDATE_EXTENSIONS'); ?>
                 <?php $labelClass = 'success'; ?>
                 <span class="fa fa-spinner fa-spin fa-fw py-1" aria-hidden="true"></span>
             </button>
@@ -143,20 +143,20 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
         <div class="tab-content w-100">
             <div class="tab-pane fade show active" id="joomlaupdate-precheck-required-content" role="tabpanel" aria-labelledby="joomlaupdate-precheck-required-tab">
                 <h3>
-                    <?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_REQUIRED_SETTINGS'); ?>
+                    <?php echo $this->_('COM_JOOMLAUPDATE_PREUPDATE_REQUIRED_SETTINGS'); ?>
                 </h3>
                 <div class="table-responsive">
                     <table class="table table-striped" id="preupdatecheck">
                         <caption class="visually-hidden">
-                            <?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_CAPTION'); ?>
+                            <?php echo $this->_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_CAPTION'); ?>
                         </caption>
                         <thead>
                             <tr>
                                 <th scope="col">
-                                    <?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_HEADING_REQUIREMENT'); ?>
+                                    <?php echo $this->_('COM_JOOMLAUPDATE_PREUPDATE_HEADING_REQUIREMENT'); ?>
                                 </th>
                                 <th scope="col">
-                                    <?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_HEADING_CHECKED'); ?>
+                                    <?php echo $this->_('COM_JOOMLAUPDATE_PREUPDATE_HEADING_CHECKED'); ?>
                                 </th>
                             </tr>
                         </thead>
@@ -173,7 +173,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                                 </th>
                                 <td>
                                     <span class="badge bg-<?php echo $option->state ? 'success' : 'danger'; ?>">
-                                        <?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
+                                        <?php echo $this->_($option->state ? 'JYES' : 'JNO'); ?>
                                     </span>
                                 </td>
                             </tr>
@@ -184,23 +184,23 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
             </div>
             <div class="tab-pane fade show" id="joomlaupdate-precheck-recommended-content" role="tabpanel" aria-labelledby="joomlaupdate-precheck-recommended-tab">
                 <h3>
-                    <?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_RECOMMENDED_SETTINGS'); ?>
+                    <?php echo $this->_('COM_JOOMLAUPDATE_PREUPDATE_RECOMMENDED_SETTINGS'); ?>
                 </h3>
                 <div class="table-responsive">
                     <table class="table table-striped" id="preupdatecheckphp">
                         <caption>
-                            <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_DESC'); ?>
+                            <?php echo $this->_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_DESC'); ?>
                         </caption>
                         <thead>
                             <tr>
                                 <th scope="col">
-                                    <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DIRECTIVE'); ?>
+                                    <?php echo $this->_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DIRECTIVE'); ?>
                                 </th>
                                 <th scope="col">
-                                    <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED'); ?>
+                                    <?php echo $this->_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED'); ?>
                                 </th>
                                 <th scope="col">
-                                    <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_ACTUAL'); ?>
+                                    <?php echo $this->_('COM_JOOMLAUPDATE_VIEW_DEFAULT_ACTUAL'); ?>
                                 </th>
                             </tr>
                         </thead>
@@ -211,11 +211,11 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                                         <?php echo $setting->label; ?>
                                     </th>
                                     <td>
-                                        <?php echo Text::_($setting->recommended ? 'JON' : 'JOFF'); ?>
+                                        <?php echo $this->_($setting->recommended ? 'JON' : 'JOFF'); ?>
                                     </td>
                                     <td>
                                         <span class="badge bg-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
-                                            <?php echo Text::_($setting->state ? 'JON' : 'JOFF'); ?>
+                                            <?php echo $this->_($setting->state ? 'JON' : 'JOFF'); ?>
                                         </span>
                                     </td>
                                 </tr>
@@ -226,16 +226,16 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
             </div>
             <div class="tab-pane fade show" id="joomlaupdate-precheck-extensions-content" role="tabpanel" aria-labelledby="joomlaupdate-precheck-extensions-tab">
                 <h3>
-                    <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
+                    <?php echo $this->_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
                 </h3>
                 <div id="preupdateCheckWarning">
                     <div class="alert alert-warning">
                         <h4 class="alert-heading">
-                            <?php echo Text::_('WARNING'); ?>
+                            <?php echo $this->_('WARNING'); ?>
                         </h4>
                         <div class="alert-message">
                             <div class="preupdateCheckIncomplete">
-                                <?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_NOT_COMPLETE'); ?>
+                                <?php echo $this->_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_NOT_COMPLETE'); ?>
                             </div>
                         </div>
                     </div>
@@ -244,11 +244,11 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                 <div id="preupdateCheckCompleteProblems" class="hidden">
                     <div class="alert alert-warning">
                         <h4 class="alert-heading">
-                            <?php echo Text::_('WARNING'); ?>
+                            <?php echo $this->_('WARNING'); ?>
                         </h4>
                         <div class="alert-message">
                             <div class="preupdateCheckComplete">
-                                <?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_COMPLETED_YOU_HAVE_DANGEROUS_PLUGINS'); ?>
+                                <?php echo $this->_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_COMPLETED_YOU_HAVE_DANGEROUS_PLUGINS'); ?>
                             </div>
                         </div>
                     </div>
@@ -260,10 +260,10 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                     <div class="<?php echo $data['group'] > 0 ? 'hidden' : ''; ?> compatibilityTable" id="compatibilityTable<?php echo (int) $data['group']; ?>">
                         <h4 class="text-<?php echo $data['class']; ?> align-items-center">
                             <span class="fa fa-<?php echo $data['icon']; ?> me-2"></span>
-                            <?php echo Text::_($compatibilityType); ?>
+                            <?php echo $this->_($compatibilityType); ?>
                             <?php if ($data['group'] > 0) : ?>
                                 <button type="button" class="btn btn-primary btn-sm ms-3 compatibilitytoggle" data-state="closed">
-                                    <?php echo Text::_(
+                                    <?php echo $this->_(
                                         'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION'
                                     ); ?>
                                 </button>
@@ -273,18 +273,18 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                         <div class="table-responsive mb-5">
                             <table class="table table-striped">
                                 <caption>
-                                <?php echo Text::_($data['notes']); ?>
+                                <?php echo $this->_($data['notes']); ?>
                                 </caption>
                                 <thead class="row-fluid">
                                     <tr>
                                         <th class="exname" scope="col">
-                                            <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
+                                            <?php echo $this->_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
                                         </th>
                                         <th class="extype" scope="col">
-                                            <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_TYPE'); ?>
+                                            <?php echo $this->_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_TYPE'); ?>
                                         </th>
                                         <th class="instver hidden" scope="col">
-                                            <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
+                                            <?php echo $this->_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
                                         </th>
                                         <th class="currcomp hidden" scope="col">
                                             <?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', isset($this->updateInfo['installed']) ? $this->escape($this->updateInfo['installed']) : JVERSION); ?>
@@ -303,7 +303,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                                                 <?php echo $extension->name; ?>
                                             </th>
                                             <td class="extype">
-                                                <?php echo Text::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
+                                                <?php echo $this->_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
                                             </td>
                                             <td class="instver hidden">
                                                 <?php echo $extension->version; ?>
@@ -327,8 +327,8 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                 </div>
             <?php else : ?>
                 <div class="alert alert-info">
-                    <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                    <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_NONE'); ?>
+                    <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                    <?php echo $this->_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_NONE'); ?>
                 </div>
             <?php endif; ?>
             </div>
@@ -343,7 +343,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
             <div class="form-check d-flex justify-content-center mb-3">
                 <input type="checkbox" class="form-check-input me-3" id="noncoreplugins" name="noncoreplugins" value="1" required />
                 <label class="form-check-label" for="noncoreplugins">
-                    <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_CONFIRMATION'); ?>
+                    <?php echo $this->_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_CONFIRMATION'); ?>
                 </label>
             </div>
         </div>
@@ -351,7 +351,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
 
         <button class="btn btn-lg btn-warning <?php echo $this->noVersionCheck ? '' : 'disabled' ?> submitupdate mx-auto"
                 type="submit" <?php echo $this->noVersionCheck ? '' : 'disabled' ?>>
-            <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLUPDATE'); ?>
+            <?php echo $this->_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLUPDATE'); ?>
         </button>
     </form>
     <?php endif; ?>
@@ -364,7 +364,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
     <?php if ($this->getCurrentUser()->authorise('core.admin')) : ?>
         <div class="text-center">
             <a href="<?php echo Route::_('index.php?option=com_joomlaupdate&view=upload'); ?>" class="btn btn-sm btn-outline-secondary">
-                <?php echo Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND'); ?>
+                <?php echo $this->_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND'); ?>
             </a>
         </div>
     <?php endif; ?>

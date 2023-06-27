@@ -9,7 +9,6 @@
  */
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
@@ -35,7 +34,7 @@ defined('_JEXEC') or die;
                     <?php endif; ?>
                     <?php if ($this->params->get('show_cat_items') == 1) : ?>
                         <span class="badge bg-info">
-                            <?php echo Text::_('COM_NEWSFEEDS_CAT_NUM'); ?>&nbsp;
+                            <?php echo $this->_('COM_NEWSFEEDS_CAT_NUM'); ?>&nbsp;
                             <?php echo $child->numitems; ?>
                         </span>
                     <?php endif; ?>

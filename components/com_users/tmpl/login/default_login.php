@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
@@ -61,7 +60,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
                     <div class="form-check">
                         <input class="form-check-input" id="remember" type="checkbox" name="remember" value="yes">
                         <label class="form-check-label" for="remember">
-                            <?php echo Text::_('COM_USERS_LOGIN_REMEMBER_ME'); ?>
+                            <?php echo $this->_('COM_USERS_LOGIN_REMEMBER_ME'); ?>
                         </label>
                     </div>
                 </div>
@@ -82,19 +81,19 @@ $usersConfig = ComponentHelper::getParams('com_users');
                                 <?php if ($button['onclick']) : ?>
                                 onclick="<?php echo $button['onclick'] ?>"
                                 <?php endif; ?>
-                                title="<?php echo Text::_($button['label']) ?>"
+                                title="<?php echo $this->_($button['label']) ?>"
                                 id="<?php echo $button['id'] ?>"
                         >
                             <?php if (!empty($button['icon'])) : ?>
                                 <span class="<?php echo $button['icon'] ?>"></span>
                             <?php elseif (!empty($button['image'])) : ?>
-                                <?php echo HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
+                                <?php echo HTMLHelper::_('image', $button['image'], $this->_($button['tooltip'] ?? ''), [
                                     'class' => 'icon',
                                 ], true) ?>
                             <?php elseif (!empty($button['svg'])) : ?>
                                 <?php echo $button['svg']; ?>
                             <?php endif; ?>
-                            <?php echo Text::_($button['label']) ?>
+                            <?php echo $this->_($button['label']) ?>
                         </button>
                     </div>
                 </div>
@@ -103,7 +102,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
             <div class="com-users-login__submit control-group">
                 <div class="controls">
                     <button type="submit" class="btn btn-primary">
-                        <?php echo Text::_('JLOGIN'); ?>
+                        <?php echo $this->_('JLOGIN'); ?>
                     </button>
                 </div>
             </div>
@@ -115,14 +114,14 @@ $usersConfig = ComponentHelper::getParams('com_users');
     </form>
     <div class="com-users-login__options list-group">
         <a class="com-users-login__reset list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
-            <?php echo Text::_('COM_USERS_LOGIN_RESET'); ?>
+            <?php echo $this->_('COM_USERS_LOGIN_RESET'); ?>
         </a>
         <a class="com-users-login__remind list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
-            <?php echo Text::_('COM_USERS_LOGIN_REMIND'); ?>
+            <?php echo $this->_('COM_USERS_LOGIN_REMIND'); ?>
         </a>
         <?php if ($usersConfig->get('allowUserRegistration')) : ?>
             <a class="com-users-login__register list-group-item" href="<?php echo Route::_('index.php?option=com_users&view=registration'); ?>">
-                <?php echo Text::_('COM_USERS_LOGIN_REGISTER'); ?>
+                <?php echo $this->_('COM_USERS_LOGIN_REGISTER'); ?>
             </a>
         <?php endif; ?>
     </div>

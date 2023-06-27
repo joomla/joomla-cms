@@ -22,7 +22,7 @@ $adminFormClass = count($this->extension_options) > 1 ? 'form-inline mb-3' : 'vi
     <input type="hidden" name="option" value="com_postinstall">
     <input type="hidden" name="task" value="">
     <?php echo HTMLHelper::_('form.token'); ?>
-    <label for="eid" class="me-sm-2"><?php echo Text::_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
+    <label for="eid" class="me-sm-2"><?php echo $this->_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
     <?php echo HTMLHelper::_('select.genericlist', $this->extension_options, 'eid', ['onchange' => 'this.form.submit()', 'class' => 'form-select'], 'value', 'text', $this->eid, 'eid'); ?>
 </form>
 
@@ -30,23 +30,23 @@ $adminFormClass = count($this->extension_options) > 1 ? 'form-inline mb-3' : 'vi
     <?php if ($item->enabled === 1) : ?>
         <div class="card card-outline-secondary mb-3">
             <div class="card-body">
-                <h3><?php echo Text::_($item->title_key); ?></h3>
+                <h3><?php echo $this->_($item->title_key); ?></h3>
                 <p class="small">
                     <?php echo Text::sprintf('COM_POSTINSTALL_LBL_SINCEVERSION', $item->version_introduced); ?>
                 </p>
                 <div>
-                    <?php echo Text::_($item->description_key); ?>
+                    <?php echo $this->_($item->description_key); ?>
                     <?php if ($item->type !== 'message') : ?>
                     <a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.action&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-primary">
-                        <?php echo Text::_($item->action_key); ?>
+                        <?php echo $this->_($item->action_key); ?>
                     </a>
                     <?php endif; ?>
                     <?php if (Factory::getApplication()->getIdentity()->authorise('core.edit.state', 'com_postinstall')) : ?>
                     <a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.unpublish&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-danger btn-sm">
-                        <?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?>
+                        <?php echo $this->_('COM_POSTINSTALL_BTN_HIDE'); ?>
                     </a>
                     <a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.archive&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-danger btn-sm">
-                        <?php echo Text::_('COM_POSTINSTALL_BTN_ARCHIVE'); ?>
+                        <?php echo $this->_('COM_POSTINSTALL_BTN_ARCHIVE'); ?>
                     </a>
                     <?php endif; ?>
                 </div>
@@ -55,14 +55,14 @@ $adminFormClass = count($this->extension_options) > 1 ? 'form-inline mb-3' : 'vi
     <?php elseif ($item->enabled === 2) : ?>
         <div class="card card-outline-secondary mb-3">
             <div class="card-body">
-                <h3><?php echo Text::_($item->title_key); ?></h3>
+                <h3><?php echo $this->_($item->title_key); ?></h3>
                 <div>
                     <?php if (Factory::getApplication()->getIdentity()->authorise('core.edit.state', 'com_postinstall')) : ?>
                         <a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.unpublish&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-danger btn-sm">
-                            <?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?>
+                            <?php echo $this->_('COM_POSTINSTALL_BTN_HIDE'); ?>
                         </a>
                         <a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.republish&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-success btn-sm">
-                            <?php echo Text::_('COM_POSTINSTALL_BTN_REPUBLISH'); ?>
+                            <?php echo $this->_('COM_POSTINSTALL_BTN_REPUBLISH'); ?>
                         </a>
                     <?php endif; ?>
                 </div>

@@ -46,8 +46,8 @@ $tabs = $app->triggerEvent('onInstallerAddInstallationTab', []);
                 <div id="j-main-container" class="j-main-container main-card">
                     <?php if (!$tabs) : ?>
                         <div class="alert alert-warning">
-                            <span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
-                            <?php echo Text::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'); ?>
+                            <span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('WARNING'); ?></span>
+                            <?php echo $this->_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'); ?>
                         </div>
                     <?php endif; ?>
 

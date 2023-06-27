@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 
 ?>
-<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></button>
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo $this->_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></button>

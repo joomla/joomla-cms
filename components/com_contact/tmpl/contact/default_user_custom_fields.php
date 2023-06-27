@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Language\Text;
 
 $params             = $this->item->params;
 
@@ -31,7 +30,7 @@ $userFieldGroups    = [];
 
 <?php foreach ($userFieldGroups as $groupTitle => $fields) : ?>
     <?php $id = ApplicationHelper::stringURLSafe($groupTitle); ?>
-    <?php echo '<h3>' . ($groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>
+    <?php echo '<h3>' . ($groupTitle ?: $this->_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>
 
     <div class="com-contact__user-fields contact-profile" id="user-custom-fields-<?php echo $id; ?>">
         <dl class="dl-horizontal">
@@ -41,7 +40,7 @@ $userFieldGroups    = [];
             <?php endif; ?>
 
             <?php if ($field->params->get('showlabel')) : ?>
-                <?php echo '<dt>' . Text::_($field->label) . '</dt>'; ?>
+                <?php echo '<dt>' . $this->_($field->label) . '</dt>'; ?>
             <?php endif; ?>
 
             <?php echo '<dd>' . $field->value . '</dd>'; ?>

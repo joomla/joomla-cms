@@ -34,22 +34,22 @@ $currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInf
 
 <div id="joomlaupdate-wrapper" class="main-card mt-3 p-3" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>" data-joomla-current-version="<?php echo $currentJoomlaVersion; ?>">
 <div class="alert alert-info">
-    <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+    <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
     <?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPLOAD_INTRO', 'https://downloads.joomla.org/latest'); ?>
     <?php if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof Update)) : ?>
         <br><br>
-        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
         <?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PACKAGE_INFO', $this->updateInfo['object']->downloadurl->_data); ?>
     <?php endif; ?>
 </div>
 
 <?php if (count($this->warnings)) : ?>
-    <h3><?php echo Text::_('COM_INSTALLER_SUBMENU_WARNINGS'); ?></h3>
+    <h3><?php echo $this->_('COM_INSTALLER_SUBMENU_WARNINGS'); ?></h3>
     <?php foreach ($this->warnings as $warning) : ?>
         <div class="alert alert-warning">
             <h4 class="alert-heading">
                 <span class="icon-exclamation-triangle" aria-hidden="true"></span>
-                <span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
+                <span class="visually-hidden"><?php echo $this->_('WARNING'); ?></span>
                 <?php echo $warning['message']; ?>
             </h4>
             <p class="mb-0"><?php echo $warning['description']; ?></p>
@@ -58,10 +58,10 @@ $currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInf
     <div class="alert alert-info">
         <h4 class="alert-heading">
             <span class="icon-info-circle" aria-hidden="true"></span>
-            <span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-            <?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?>
+            <span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+            <?php echo $this->_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?>
         </h4>
-        <p class="mb-0"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?></p>
+        <p class="mb-0"><?php echo $this->_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?></p>
     </div>
 <?php endif; ?>
 
@@ -69,7 +69,7 @@ $currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInf
 
     <div class="mb-3">
         <label for="install_package" class="form-label">
-            <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_PACKAGE_FILE'); ?>
+            <?php echo $this->_('COM_JOOMLAUPDATE_VIEW_UPLOAD_PACKAGE_FILE'); ?>
         </label>
 
         <input class="form-control" type="file" id="install_package" name="install_package" accept=".zip,application/zip">
@@ -79,7 +79,7 @@ $currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInf
         <div class="form-text"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?></div>
         <div class="form-text hidden" id="file_size"><?php echo Text::sprintf('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', '&#x200E;' . ''); ?></div>
         <div class="alert alert-warning hidden" id="max_upload_size_warn">
-            <?php echo Text::_('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'); ?>
+            <?php echo $this->_('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'); ?>
         </div>
     </div>
 
@@ -88,11 +88,11 @@ $currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInf
                type="checkbox" disabled value="" id="joomlaupdate-confirm-backup"
                 <?php echo $this->noBackupCheck ? 'checked' : '' ?>>
         <label class="form-check-label" for="joomlaupdate-confirm-backup">
-            <?php echo Text::_('COM_JOOMLAUPDATE_UPDATE_CONFIRM_BACKUP'); ?>
+            <?php echo $this->_('COM_JOOMLAUPDATE_UPDATE_CONFIRM_BACKUP'); ?>
         </label>
     </div>
 
-    <button id="uploadButton" class="btn btn-primary" disabled type="button"><?php echo Text::_('COM_INSTALLER_UPLOAD_AND_INSTALL'); ?></button>
+    <button id="uploadButton" class="btn btn-primary" disabled type="button"><?php echo $this->_('COM_INSTALLER_UPLOAD_AND_INSTALL'); ?></button>
 
     <input type="hidden" name="task" value="update.upload">
     <input type="hidden" name="option" value="com_joomlaupdate">

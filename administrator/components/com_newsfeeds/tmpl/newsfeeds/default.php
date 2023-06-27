@@ -41,15 +41,15 @@ if ($saveOrder && !empty($this->items)) {
                 <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                        <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                     <table class="table" id="newsfeedList">
                         <caption class="visually-hidden">
-                            <?php echo Text::_('COM_NEWSFEEDS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->_('COM_NEWSFEEDS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -110,7 +110,7 @@ if ($saveOrder && !empty($this->items)) {
                                     if (!$canChange) {
                                         $iconClass = ' inactive';
                                     } elseif (!$saveOrder) {
-                                        $iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
+                                        $iconClass = ' inactive" title="' . $this->_('JORDERINGDISABLED');
                                     }
                                     ?>
                                     <span class="sortable-handler<?php echo $iconClass ?>">
@@ -129,7 +129,7 @@ if ($saveOrder && !empty($this->items)) {
                                             <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'newsfeeds.', $canCheckin); ?>
                                         <?php endif; ?>
                                         <?php if ($canEdit || $canEditOwn) : ?>
-                                            <a href="<?php echo Route::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->name); ?>">
+                                            <a href="<?php echo Route::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id); ?>" title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($item->name); ?>">
                                                 <?php echo $this->escape($item->name); ?></a>
                                         <?php else : ?>
                                                 <?php echo $this->escape($item->name); ?>
@@ -138,7 +138,7 @@ if ($saveOrder && !empty($this->items)) {
                                             <?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
                                         </div>
                                         <div class="small">
-                                            <?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
+                                            <?php echo $this->_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
                                         </div>
                                     </div>
                                 </th>
@@ -185,7 +185,7 @@ if ($saveOrder && !empty($this->items)) {
                             'bootstrap.renderModal',
                             'collapseModal',
                             [
-                                'title'  => Text::_('COM_NEWSFEEDS_BATCH_OPTIONS'),
+                                'title'  => $this->_('COM_NEWSFEEDS_BATCH_OPTIONS'),
                                 'footer' => $this->loadTemplate('batch_footer'),
                             ],
                             $this->loadTemplate('batch_body')

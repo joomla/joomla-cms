@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
@@ -33,15 +32,15 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                        <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                 <table class="table">
                     <caption class="visually-hidden">
-                        <?php echo Text::_('COM_USERS_NOTES_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                        <?php echo $this->_('COM_USERS_NOTES_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                     </caption>
                     <thead>
                         <tr>
@@ -70,7 +69,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                         $canEdit    = $user->authorise('core.edit', 'com_users.category.' . $item->catid);
                         $canCheckin = $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
                         $canChange  = $user->authorise('core.edit.state', 'com_users.category.' . $item->catid) && $canCheckin;
-                        $subject    = $item->subject ?: Text::_('COM_USERS_EMPTY_SUBJECT');
+                        $subject    = $item->subject ?: $this->_('COM_USERS_EMPTY_SUBJECT');
                         ?>
                         <tr class="row<?php echo $i % 2; ?>">
                             <td class="text-center checklist">
@@ -83,15 +82,15 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                                 <?php if ($item->checked_out) : ?>
                                     <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'notes.', $canCheckin); ?>
                                 <?php endif; ?>
-                                <?php $subject = $item->subject ?: Text::_('COM_USERS_EMPTY_SUBJECT'); ?>
+                                <?php $subject = $item->subject ?: $this->_('COM_USERS_EMPTY_SUBJECT'); ?>
                                 <?php if ($canEdit) : ?>
-                                    <a href="<?php echo Route::_('index.php?option=com_users&task=note.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($subject); ?>">
+                                    <a href="<?php echo Route::_('index.php?option=com_users&task=note.edit&id=' . $item->id); ?>" title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($subject); ?>">
                                         <?php echo $this->escape($subject); ?></a>
                                 <?php else : ?>
                                     <?php echo $this->escape($subject); ?>
                                 <?php endif; ?>
                                 <div class="small">
-                                    <?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
+                                    <?php echo $this->_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
                                 </div>
                             </th>
                             <td class="d-none d-md-table-cell">
@@ -99,9 +98,9 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                             </td>
                             <td class="d-none d-md-table-cell">
                                 <?php if ($item->review_time !== null) : ?>
-                                    <?php echo HTMLHelper::_('date', $item->review_time, Text::_('DATE_FORMAT_LC4')); ?>
+                                    <?php echo HTMLHelper::_('date', $item->review_time, $this->_('DATE_FORMAT_LC4')); ?>
                                 <?php else : ?>
-                                    <?php echo Text::_('COM_USERS_EMPTY_REVIEW'); ?>
+                                    <?php echo $this->_('COM_USERS_EMPTY_REVIEW'); ?>
                                 <?php endif; ?>
                             </td>
                             <td class="d-none d-md-table-cell">

@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.formvalidator');
 
@@ -21,7 +20,7 @@ HTMLHelper::_('behavior.formvalidator');
         <div class="col-md-12 mb-4">
             <div class="j-install-step active">
                 <div class="j-install-step-header">
-                    <span class="icon-check" aria-hidden="true"></span> <?php echo Text::_('INSTL_PRECHECK_TITLE'); ?>
+                    <span class="icon-check" aria-hidden="true"></span> <?php echo $this->_('INSTL_PRECHECK_TITLE'); ?>
                 </div>
                 <div class="j-install-step-form">
                     <?php foreach ($this->options as $option) : ?>

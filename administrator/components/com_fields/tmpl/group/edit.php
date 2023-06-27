@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
@@ -28,11 +27,11 @@ $this->useCoreUI = true;
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_fields&context=' . $this->state->get('filter.context') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo Text::_('COM_FIELDS_GROUP_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_fields&context=' . $this->state->get('filter.context') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo $this->_('COM_FIELDS_GROUP_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
     <div class="main-card form-horizontal">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'general', 'recall' => true, 'breakpoint' => 768]); ?>
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_FIELDS_VIEW_FIELD_FIELDSET_GENERAL', true)); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', $this->_('COM_FIELDS_VIEW_FIELD_FIELDSET_GENERAL', true)); ?>
         <div class="row">
             <div class="col-lg-9">
                 <?php echo $this->form->renderField('label'); ?>
@@ -59,18 +58,18 @@ $this->useCoreUI = true;
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
         <?php $this->set('ignore_fieldsets', ['fieldparams']); ?>
         <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', $this->_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
         <fieldset id="fieldset-rules" class="options-form">
-            <legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+            <legend><?php echo $this->_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
             <div>
             <?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
             </div>
         </fieldset>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
         <?php if ($this->canDo->get('core.admin')) : ?>
-            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'rules', Text::_('JGLOBAL_ACTION_PERMISSIONS_LABEL', true)); ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'rules', $this->_('JGLOBAL_ACTION_PERMISSIONS_LABEL', true)); ?>
             <fieldset id="fieldset-rules" class="options-form">
-                <legend><?php echo Text::_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></legend>
+                <legend><?php echo $this->_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></legend>
                 <div>
                 <?php echo $this->form->getInput('rules'); ?>
                 </div>

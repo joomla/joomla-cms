@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 /** @var Joomla\Component\Users\Site\View\Profile\HtmlView $this */
@@ -46,12 +45,12 @@ $wa->useScript('keepalive')
                     <?php // If the fieldset has a label set, display it as the legend. ?>
                     <?php if (isset($fieldset->label)) : ?>
                         <legend>
-                            <?php echo Text::_($fieldset->label); ?>
+                            <?php echo $this->_($fieldset->label); ?>
                         </legend>
                     <?php endif; ?>
                     <?php if (isset($fieldset->description) && trim($fieldset->description)) : ?>
                         <p>
-                            <?php echo $this->escape(Text::_($fieldset->description)); ?>
+                            <?php echo $this->escape($this->_($fieldset->description)); ?>
                         </p>
                     <?php endif; ?>
                     <?php // Iterate through the fields in the set and display them. ?>
@@ -64,7 +63,7 @@ $wa->useScript('keepalive')
 
         <?php if ($this->mfaConfigurationUI) : ?>
             <fieldset class="com-users-profile__multifactor">
-                <legend><?php echo Text::_('COM_USERS_PROFILE_MULTIFACTOR_AUTH'); ?></legend>
+                <legend><?php echo $this->_('COM_USERS_PROFILE_MULTIFACTOR_AUTH'); ?></legend>
                 <?php echo $this->mfaConfigurationUI ?>
             </fieldset>
         <?php endif; ?>
@@ -73,11 +72,11 @@ $wa->useScript('keepalive')
             <div class="controls">
                 <button type="submit" class="btn btn-primary validate" name="task" value="profile.save">
                     <span class="icon-check" aria-hidden="true"></span>
-                    <?php echo Text::_('JSAVE'); ?>
+                    <?php echo $this->_('JSAVE'); ?>
                 </button>
                 <button type="submit" class="btn btn-danger" name="task" value="profile.cancel" formnovalidate>
                     <span class="icon-times" aria-hidden="true"></span>
-                    <?php echo Text::_('JCANCEL'); ?>
+                    <?php echo $this->_('JCANCEL'); ?>
                 </button>
                 <input type="hidden" name="option" value="com_users">
             </div>

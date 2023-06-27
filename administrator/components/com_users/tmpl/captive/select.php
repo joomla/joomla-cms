@@ -11,7 +11,6 @@
 // Prevent direct access
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Users\Administrator\View\Captive\HtmlView;
@@ -23,11 +22,11 @@ $shownMethods = [];
 ?>
 <div id="com-users-select">
     <h2 id="com-users-select-heading">
-        <?php echo Text::_('COM_USERS_MFA_SELECT_PAGE_HEAD'); ?>
+        <?php echo $this->_('COM_USERS_MFA_SELECT_PAGE_HEAD'); ?>
     </h2>
     <div id="com-users-select-information">
         <p>
-            <?php echo Text::_('COM_USERS_LBL_SELECT_INSTRUCTIONS'); ?>
+            <?php echo $this->_('COM_USERS_LBL_SELECT_INSTRUCTIONS'); ?>
         </p>
     </div>
 

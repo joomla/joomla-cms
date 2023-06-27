@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
@@ -34,31 +33,31 @@ $listDirn = $this->escape($this->state->get('list.direction'));
                 ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                        <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                     <table class="table" id="mailtemplateList">
                         <caption class="visually-hidden">
-                            <?php echo Text::_('COM_MAILS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->_('COM_MAILS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
                                 <th scope="col" class="w-20">
-                                    <?php echo Text::_('JGLOBAL_TITLE'); ?>
+                                    <?php echo $this->_('JGLOBAL_TITLE'); ?>
                                 </th>
                                 <th scope="col" class="w-15 d-none d-md-table-cell">
-                                    <?php echo Text::_('COM_MAILS_HEADING_EXTENSION'); ?>
+                                    <?php echo $this->_('COM_MAILS_HEADING_EXTENSION'); ?>
                                 </th>
                                 <?php if (count($this->languages) > 1) : ?>
                                 <th scope="col" class="w-10 text-center">
-                                    <?php echo Text::_('COM_MAILS_HEADING_EDIT_TEMPLATES'); ?>
+                                    <?php echo $this->_('COM_MAILS_HEADING_EDIT_TEMPLATES'); ?>
                                 </th>
                                 <?php endif; ?>
                                 <th scope="col" class="w-25 d-none d-md-table-cell">
-                                    <?php echo Text::_('COM_MAILS_HEADING_DESCRIPTION'); ?>
+                                    <?php echo $this->_('COM_MAILS_HEADING_DESCRIPTION'); ?>
                                 </th>
                                 <th scope="col" class="w-20 d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.template_id', $listDirn, $listOrder); ?>
@@ -73,11 +72,11 @@ $listDirn = $this->escape($this->state->get('list.direction'));
                             <tr class="row<?php echo $i % 2; ?>">
                                 <th scope="row">
                                     <a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $this->defaultLanguage->lang_code); ?>">
-                                        <?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
+                                        <?php echo $this->_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
                                     </a>
                                 </th>
                                 <td class="d-none d-md-table-cell">
-                                    <?php echo Text::_($component); ?>
+                                    <?php echo $this->_($component); ?>
                                 </td>
                                 <?php if (count($this->languages) > 1) : ?>
                                     <td>
@@ -97,7 +96,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
                                     </td>
                                 <?php endif; ?>
                                 <td class="d-none d-md-table-cell">
-                                    <?php echo Text::_($component . '_MAIL_' . $sub_id . '_DESC'); ?>
+                                    <?php echo $this->_($component . '_MAIL_' . $sub_id . '_DESC'); ?>
                                 </td>
                                 <td class="d-none d-md-table-cell text-break">
                                     <?php echo $item->template_id; ?>

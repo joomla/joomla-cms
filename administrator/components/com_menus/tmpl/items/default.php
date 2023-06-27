@@ -51,9 +51,9 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                 <?php if (!empty($this->items)) : ?>
                     <table class="table" id="menuitemList">
                         <caption class="visually-hidden">
-                            <?php echo Text::_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                         <tr>
@@ -146,7 +146,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                         if (!$canChange) {
                                             $iconClass = ' inactive';
                                         } elseif (!$saveOrder) {
-                                            $iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
+                                            $iconClass = ' inactive" title="' . $this->_('JORDERINGDISABLED');
                                         }
                                         ?>
                                         <span class="sortable-handler<?php echo $iconClass ?>">
@@ -162,7 +162,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                     <?php if ($item->type === 'component' && !$item->enabled) : ?>
                                         <span class="icon-warning" aria-hidden="true"></span>
                                         <div role="tooltip" id="warning<?php echo $item->id; ?>">
-                                            <?php echo Text::_($item->enabled === null ? 'JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND' : 'COM_MENUS_LABEL_DISABLED'); ?>
+                                            <?php echo $this->_($item->enabled === null ? 'JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND' : 'COM_MENUS_LABEL_DISABLED'); ?>
                                         </div>
                                     <?php else : ?>
                                         <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'items.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
@@ -176,7 +176,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                     <?php endif; ?>
                                     <?php if ($canEdit && !$item->protected) : ?>
                                         <a href="<?php echo Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id); ?>"
-                                           title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+                                           title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
                                             <?php echo $this->escape($item->title); ?></a>
                                     <?php else : ?>
                                         <?php echo $this->escape($item->title); ?>
@@ -206,7 +206,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                     <?php if ($item->type === 'component' && !$item->enabled) : ?>
                                         <div>
                                             <span class="badge bg-secondary">
-                                                <?php echo Text::_($item->enabled === null ? 'JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND' : 'COM_MENUS_LABEL_DISABLED'); ?>
+                                                <?php echo $this->_($item->enabled === null ? 'JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND' : 'COM_MENUS_LABEL_DISABLED'); ?>
                                             </span>
                                         </div>
                                     <?php endif; ?>
@@ -273,7 +273,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                             'bootstrap.renderModal',
                             'collapseModal',
                             [
-                                'title'  => Text::_('COM_MENUS_BATCH_OPTIONS'),
+                                'title'  => $this->_('COM_MENUS_BATCH_OPTIONS'),
                                 'footer' => $this->loadTemplate('batch_footer')
                             ],
                             $this->loadTemplate('batch_body')

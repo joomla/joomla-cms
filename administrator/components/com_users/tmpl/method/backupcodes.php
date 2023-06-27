@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Users\Administrator\View\Method\HtmlView;
 
@@ -28,16 +27,16 @@ if (!empty($this->returnURL)) {
 }
 
 if ($this->record->method != 'backupcodes') {
-    throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+    throw new RuntimeException($this->_('JERROR_ALERTNOAUTHOR'), 403);
 }
 
 ?>
 <h2>
-    <?php echo Text::_('COM_USERS_USER_BACKUPCODES') ?>
+    <?php echo $this->_('COM_USERS_USER_BACKUPCODES') ?>
 </h2>
 
 <p class="text-muted">
-    <?php echo Text::_('COM_USERS_USER_BACKUPCODES_DESC') ?>
+    <?php echo $this->_('COM_USERS_USER_BACKUPCODES_DESC') ?>
 </p>
 
 <table class="table table-striped">
@@ -63,18 +62,18 @@ if ($this->record->method != 'backupcodes') {
 
 <div class="alert alert-info">
     <span class="icon-info-circle" aria-hidden="true"></span>
-    <?php echo Text::_('COM_USERS_MFA_BACKUPCODES_RESET_INFO'); ?>
+    <?php echo $this->_('COM_USERS_MFA_BACKUPCODES_RESET_INFO'); ?>
 </div>
 
 <div class="d-sm-none">
     <a class="btn btn-danger" href="<?php echo Route::_(sprintf("index.php?option=com_users&task=method.regenerateBackupCodes&user_id=%s&%s=1%s", $this->user->id, Factory::getApplication()->getFormToken(), empty($this->returnURL) ? '' : '&returnurl=' . $this->returnURL)) ?>">
         <span class="icon icon-refresh" aria-hidden="true"></span>
-        <?php echo Text::_('COM_USERS_MFA_BACKUPCODES_RESET'); ?>
+        <?php echo $this->_('COM_USERS_MFA_BACKUPCODES_RESET'); ?>
     </a>
 
     <a href="<?php echo $cancelURL ?>"
        class="btn btn-secondary">
         <span class="icon icon-cancel-2 icon-ban-circle"></span>
-        <?php echo Text::_('JCANCEL'); ?>
+        <?php echo $this->_('JCANCEL'); ?>
     </a>
 </div>

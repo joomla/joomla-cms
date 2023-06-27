@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
@@ -39,15 +38,15 @@ if ($saveOrder && !empty($this->items)) {
                 <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                        <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                     <table class="table" id="languageList">
                         <caption class="visually-hidden">
-                            <?php echo Text::_('COM_LANGUAGES_CONTENT_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->_('COM_LANGUAGES_CONTENT_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -105,7 +104,7 @@ if ($saveOrder && !empty($this->items)) {
                                         $disabledLabel    = '';
 
                                         if (!$saveOrder) :
-                                            $disabledLabel    = Text::_('JORDERINGDISABLED');
+                                            $disabledLabel    = $this->_('JORDERINGDISABLED');
                                             $disableClassName = 'inactive';
                                         endif; ?>
                                         <span class="sortable-handler <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
@@ -123,7 +122,7 @@ if ($saveOrder && !empty($this->items)) {
                                 </td>
                                 <th scope="row">
                                     <?php if ($canEdit) : ?>
-                                        <a href="<?php echo Route::_('index.php?option=com_languages&task=language.edit&lang_id=' . (int) $item->lang_id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+                                        <a href="<?php echo Route::_('index.php?option=com_languages&task=language.edit&lang_id=' . (int) $item->lang_id); ?>" title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
                                             <?php echo $this->escape($item->title); ?></a>
                                     <?php else : ?>
                                         <?php echo $this->escape($item->title); ?>
@@ -142,14 +141,14 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php if ($item->image) : ?>
                                         <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, ['class' => 'me-1'], true); ?><?php echo $this->escape($item->image); ?>
                                     <?php else : ?>
-                                        <?php echo Text::_('JNONE'); ?>
+                                        <?php echo $this->_('JNONE'); ?>
                                     <?php endif; ?>
                                 </td>
                                 <td class="d-none d-md-table-cell text-center">
                                     <?php echo $this->escape($item->access_level); ?>
                                 </td>
                                 <td class="d-none d-md-table-cell text-center">
-                                    <?php echo ($item->home == '1') ? Text::_('JYES') : Text::_('JNO'); ?>
+                                    <?php echo ($item->home == '1') ? $this->_('JYES') : $this->_('JNO'); ?>
                                 </td>
                                 <td class="d-none d-md-table-cell text-center">
                                     <?php echo $this->escape($item->lang_id); ?>

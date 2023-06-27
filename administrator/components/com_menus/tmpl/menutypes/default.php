@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 
 $input = Factory::getApplication()->getInput();
 
@@ -39,7 +38,7 @@ $wa->useScript('com_menus.admin-item-modal');
                             <?php echo $title; ?>
                         </div>
                         <small class="text-muted">
-                            <?php echo Text::_($item->description); ?>
+                            <?php echo $this->_($item->description); ?>
                         </small>
                     </a>
                 <?php endforeach; ?>

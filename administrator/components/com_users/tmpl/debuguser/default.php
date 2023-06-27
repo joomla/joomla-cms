@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
@@ -31,8 +30,8 @@ $wa->useScript('table.columns');
         <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
-                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
             </div>
         <?php else : ?>
             <?php
@@ -53,30 +52,30 @@ $wa->useScript('table.columns');
                     if ($check === true) :
                         $class  = 'text-success icon-check';
                         $button = 'btn-success';
-                        $text   = Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');
+                        $text   = $this->_('COM_USERS_DEBUG_EXPLICIT_ALLOW');
                     elseif ($check === false) :
                         $class  = 'text-danger icon-times';
                         $button = 'btn-danger';
-                        $text   = Text::_('COM_USERS_DEBUG_EXPLICIT_DENY');
+                        $text   = $this->_('COM_USERS_DEBUG_EXPLICIT_DENY');
                     elseif ($check === null) :
                         $class  = 'text-danger icon-minus-circle';
                         $button = 'btn-warning';
-                        $text   = Text::_('COM_USERS_DEBUG_IMPLICIT_DENY');
+                        $text   = $this->_('COM_USERS_DEBUG_IMPLICIT_DENY');
                     endif;
                     ?>
                 <div class="d-inline p-2">
-                    <?php echo Text::_($action[1]); ?>
+                    <?php echo $this->_($action[1]); ?>
                     <span class="<?php echo $class; ?>" aria-hidden="true"></span>
-                    <span class="visually-hidden"><?php echo Text::_($text); ?></span>
+                    <span class="visually-hidden"><?php echo $this->_($text); ?></span>
                 </div>
                 <?php endforeach; ?>
             </div>
 
             <table class="table">
                 <caption class="visually-hidden">
-                    <?php echo Text::_('COM_USERS_DEBUG_USER_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                    <?php echo $this->_('COM_USERS_DEBUG_USER_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
                 <thead>
                     <tr>
@@ -88,7 +87,7 @@ $wa->useScript('table.columns');
                         </th>
                         <?php foreach ($actions as $key => $action) : ?>
                         <th scope="col" class="w-6 text-center">
-                            <?php echo Text::_($action[1]); ?>
+                            <?php echo $this->_($action[1]); ?>
                         </th>
                         <?php endforeach; ?>
                         <th scope="col" class="w-6">
@@ -103,7 +102,7 @@ $wa->useScript('table.columns');
                     <?php foreach ($this->items as $i => $item) :?>
                         <tr class="row0" scope="row">
                             <td>
-                                <?php echo $this->escape(Text::_($item->title)); ?>
+                                <?php echo $this->escape($this->_($item->title)); ?>
                             </td>
                             <td>
                                 <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level + 1]) . $this->escape($item->name); ?>
@@ -115,15 +114,15 @@ $wa->useScript('table.columns');
                                 if ($check === true) :
                                     $class  = 'text-success icon-check';
                                     $button = 'btn-success';
-                                    $text   = Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');
+                                    $text   = $this->_('COM_USERS_DEBUG_EXPLICIT_ALLOW');
                                 elseif ($check === false) :
                                     $class  = 'text-danger icon-times';
                                     $button = 'btn-danger';
-                                    $text   = Text::_('COM_USERS_DEBUG_EXPLICIT_DENY');
+                                    $text   = $this->_('COM_USERS_DEBUG_EXPLICIT_DENY');
                                 elseif ($check === null) :
                                     $class  = 'text-danger icon-minus-circle';
                                     $button = 'btn-warning';
-                                    $text   = Text::_('COM_USERS_DEBUG_IMPLICIT_DENY');
+                                    $text   = $this->_('COM_USERS_DEBUG_IMPLICIT_DENY');
                                 else :
                                     $class  = '';
                                     $button = '';
@@ -148,9 +147,9 @@ $wa->useScript('table.columns');
             </table>
 
             <div class="legend">
-                <span class="text-danger icon-minus-circle" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>&nbsp;
-                <span class="text-success icon-check" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
-                <span class="text-danger icon-times" aria-hidden="true">&nbsp;</span><?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
+                <span class="text-danger icon-minus-circle" aria-hidden="true"></span>&nbsp;<?php echo $this->_('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>&nbsp;
+                <span class="text-success icon-check" aria-hidden="true"></span>&nbsp;<?php echo $this->_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
+                <span class="text-danger icon-times" aria-hidden="true">&nbsp;</span><?php echo $this->_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
             </div>
 
             <?php // load the pagination. ?>

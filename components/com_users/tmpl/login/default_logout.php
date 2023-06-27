@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Users\Site\View\Login\HtmlView $this */
@@ -46,7 +45,7 @@ use Joomla\CMS\Router\Route;
             <div class="controls">
                 <button type="submit" class="btn btn-primary">
                     <span class="icon-backward-2 icon-white" aria-hidden="true"></span>
-                    <?php echo Text::_('JLOGOUT'); ?>
+                    <?php echo $this->_('JLOGOUT'); ?>
                 </button>
             </div>
         </div>

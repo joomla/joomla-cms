@@ -10,10 +10,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
-Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
+Session::checkToken('get') or die($this->_('JINVALID_TOKEN'));
 
 $version2 = $this->items[0];
 $version1 = $this->items[1];
@@ -26,18 +25,18 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
 
 ?>
 <div role="main">
-    <h1 class="mb-3"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_TITLE'); ?></h1>
+    <h1 class="mb-3"><?php echo $this->_('COM_CONTENTHISTORY_COMPARE_TITLE'); ?></h1>
 
     <table id="diff" class="table">
         <caption class="visually-hidden">
-            <?php echo Text::_('COM_CONTENTHISTORY_COMPARE_CAPTION'); ?>
+            <?php echo $this->_('COM_CONTENTHISTORY_COMPARE_CAPTION'); ?>
         </caption>
         <thead>
             <tr>
-                <th scope="col" class="w-25"><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
-                <th scope="col"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_OLD'); ?></th>
-                <th scope="col"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_NEW'); ?></th>
-                <th scope="col"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_DIFF'); ?></th>
+                <th scope="col" class="w-25"><?php echo $this->_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
+                <th scope="col"><?php echo $this->_('COM_CONTENTHISTORY_COMPARE_OLD'); ?></th>
+                <th scope="col"><?php echo $this->_('COM_CONTENTHISTORY_COMPARE_NEW'); ?></th>
+                <th scope="col"><?php echo $this->_('COM_CONTENTHISTORY_COMPARE_DIFF'); ?></th>
             </tr>
         </thead>
         <tbody>

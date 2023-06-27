@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -25,7 +24,7 @@ $wa->useScript('keepalive')
         <div class="card">
             <div class="card-body">
                 <fieldset class="options-form">
-                    <legend><?php echo Text::_('COM_MESSAGES_CONFIG_FORM'); ?></legend>
+                    <legend><?php echo $this->_('COM_MESSAGES_CONFIG_FORM'); ?></legend>
                     <?php echo $this->form->renderField('lock'); ?>
                     <?php echo $this->form->renderField('mail_on_new'); ?>
                     <?php echo $this->form->renderField('auto_purge'); ?>

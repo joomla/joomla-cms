@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 $user = $this->getCurrentUser();
@@ -50,11 +49,11 @@ $wa->useScript('keepalive')
     <div class="mb-2">
     <button type="button" class="btn btn-primary " data-submit-task="templates.apply">
         <span class="icon-check text-white" aria-hidden="true"></span>
-        <?php echo Text::_('JSAVE') ?>
+        <?php echo $this->_('JSAVE') ?>
     </button>
     <button type="button" class="btn btn-danger" data-submit-task="templates.cancel">
         <span class="icon-times text-white" aria-hidden="true"></span>
-        <?php echo Text::_('JCANCEL') ?>
+        <?php echo $this->_('JCANCEL') ?>
     </button>
 </div>
 

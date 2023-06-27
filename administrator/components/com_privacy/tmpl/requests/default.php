@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
@@ -39,23 +38,23 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
         <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
-                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
             </div>
         <?php else : ?>
             <table class="table" id="requestList">
                 <caption class="visually-hidden">
-                    <?php echo Text::_('COM_PRIVACY_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                    <?php echo $this->_('COM_PRIVACY_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
                 <thead>
                     <tr>
                         <th scope="col" class="w-5 text-center">
-                            <?php echo Text::_('COM_PRIVACY_HEADING_ACTIONS'); ?>
+                            <?php echo $this->_('COM_PRIVACY_HEADING_ACTIONS'); ?>
                         </th>
                         <th scope="col" class="w-5 text-center">
-                            <?php echo Text::_('JSTATUS'); ?>
+                            <?php echo $this->_('JSTATUS'); ?>
                         </th>
                         <th scope="col">
                             <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
@@ -80,13 +79,13 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
                             <td class="text-center">
                                 <div class="btn-group">
                                     <?php if ($item->status == 1 && $item->request_type === 'export') : ?>
-                                        <a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $item->id); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?>"><span class="icon-download" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?></span></a>
+                                        <a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $item->id); ?>" title="<?php echo $this->_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?>"><span class="icon-download" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?></span></a>
                                         <?php if ($this->sendMailEnabled) : ?>
-                                            <a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $item->id . '&' . Factory::getSession()->getFormToken() . '=1'); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?>"><span class="icon-mail" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?></span></a>
+                                            <a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $item->id . '&' . Factory::getSession()->getFormToken() . '=1'); ?>" title="<?php echo $this->_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?>"><span class="icon-mail" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?></span></a>
                                         <?php endif; ?>
                                     <?php endif; ?>
                                     <?php if ($item->status == 1 && $item->request_type === 'remove') : ?>
-                                        <a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.remove&id=' . (int) $item->id . '&' . Factory::getSession()->getFormToken() . '=1'); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?>"><span class="icon-times" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?></span></a>
+                                        <a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.remove&id=' . (int) $item->id . '&' . Factory::getSession()->getFormToken() . '=1'); ?>" title="<?php echo $this->_('COM_PRIVACY_ACTION_DELETE_DATA'); ?>"><span class="icon-times" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('COM_PRIVACY_ACTION_DELETE_DATA'); ?></span></a>
                                     <?php endif; ?>
                                 </div>
                             </td>
@@ -95,19 +94,19 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
                             </td>
                             <th scope="row">
                                 <?php if ($item->status == 1 && $urgentRequestDate >= $itemRequestedAt) : ?>
-                                    <span class="float-end badge bg-danger"><?php echo Text::_('COM_PRIVACY_BADGE_URGENT_REQUEST'); ?></span>
+                                    <span class="float-end badge bg-danger"><?php echo $this->_('COM_PRIVACY_BADGE_URGENT_REQUEST'); ?></span>
                                 <?php endif; ?>
-                                <a href="<?php echo Route::_('index.php?option=com_privacy&view=request&id=' . (int) $item->id); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_VIEW'); ?>">
+                                <a href="<?php echo Route::_('index.php?option=com_privacy&view=request&id=' . (int) $item->id); ?>" title="<?php echo $this->_('COM_PRIVACY_ACTION_VIEW'); ?>">
                                     <?php echo PunycodeHelper::emailToUTF8($this->escape($item->email)); ?>
                                 </a>
                             </th>
                             <td>
-                                <?php echo Text::_('COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_' . $item->request_type); ?>
+                                <?php echo $this->_('COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_' . $item->request_type); ?>
                             </td>
                             <td>
                                 <?php echo HTMLHelper::_('date.relative', $itemRequestedAt, null, $now); ?>
                                 <div class="small">
-                                    <?php echo HTMLHelper::_('date', $item->requested_at, Text::_('DATE_FORMAT_LC6')); ?>
+                                    <?php echo HTMLHelper::_('date', $item->requested_at, $this->_('DATE_FORMAT_LC6')); ?>
                                 </div>
                             </td>
                             <td>

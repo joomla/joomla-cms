@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
@@ -26,13 +25,13 @@ $input = Factory::getApplication()->getInput();
 
 <?php if (count($this->updatedList) === 0) : ?>
     <div class="alert alert-success">
-        <span class="icon-check-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('NOTICE'); ?></span>
-        <?php echo Text::_('COM_TEMPLATES_OVERRIDE_UPTODATE'); ?>
+        <span class="icon-check-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('NOTICE'); ?></span>
+        <?php echo $this->_('COM_TEMPLATES_OVERRIDE_UPTODATE'); ?>
     </div>
 <?php else : ?>
     <div class="alert alert-info">
-        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-        <?php echo Text::_('COM_TEMPLATES_OVERRIDE_NOT_UPTODATE'); ?>
+        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+        <?php echo $this->_('COM_TEMPLATES_OVERRIDE_NOT_UPTODATE'); ?>
     </div>
     <form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="updateForm" id="updateForm">
         <div class="row mt-2">
@@ -44,19 +43,19 @@ $input = Factory::getApplication()->getInput();
                                 <?php echo HTMLHelper::_('grid.checkall'); ?>
                             </td>
                             <th scope="col" class="w-7">
-                                <?php echo Text::_('COM_TEMPLATES_OVERRIDE_CHECKED'); ?>
+                                <?php echo $this->_('COM_TEMPLATES_OVERRIDE_CHECKED'); ?>
                             </th>
                             <th scope="col" class="w-30">
-                                <?php echo Text::_('COM_TEMPLATES_OVERRIDE_TEMPLATE_FILE'); ?>
+                                <?php echo $this->_('COM_TEMPLATES_OVERRIDE_TEMPLATE_FILE'); ?>
                             </th>
                             <th scope="col">
-                                <?php echo Text::_('COM_TEMPLATES_OVERRIDE_CREATED_DATE'); ?>
+                                <?php echo $this->_('COM_TEMPLATES_OVERRIDE_CREATED_DATE'); ?>
                             </th>
                             <th scope="col">
-                                <?php echo Text::_('COM_TEMPLATES_OVERRIDE_MODIFIED_DATE'); ?>
+                                <?php echo $this->_('COM_TEMPLATES_OVERRIDE_MODIFIED_DATE'); ?>
                             </th>
                             <th scope="col">
-                                <?php echo Text::_('COM_TEMPLATES_OVERRIDE_SOURCE'); ?>
+                                <?php echo $this->_('COM_TEMPLATES_OVERRIDE_SOURCE'); ?>
                             </th>
                         </tr>
                     </thead>
@@ -70,17 +69,17 @@ $input = Factory::getApplication()->getInput();
                                     <?php echo HTMLHelper::_('jgrid.published', $value->state, $i, 'template.', 1, 'cb', null, null, 'updateForm'); ?>
                                 </td>
                                 <td>
-                                    <a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $value->extension_id . '&file=' . $value->hash_id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?>"><?php echo base64_decode($value->hash_id); ?></a>
+                                    <a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $value->extension_id . '&file=' . $value->hash_id); ?>" title="<?php echo $this->_('JACTION_EDIT'); ?>"><?php echo base64_decode($value->hash_id); ?></a>
                                 </td>
                                 <td>
                                     <?php $created_date = $value->created_date; ?>
-                                    <?php echo $created_date > 0 ? HTMLHelper::_('date', $created_date, Text::_('DATE_FORMAT_FILTER_DATETIME')) : '-'; ?>
+                                    <?php echo $created_date > 0 ? HTMLHelper::_('date', $created_date, $this->_('DATE_FORMAT_FILTER_DATETIME')) : '-'; ?>
                                 </td>
                                 <td>
                                     <?php if (is_null($value->modified_date)) : ?>
-                                        <span class="badge bg-warning text-dark"><?php echo Text::_('COM_TEMPLATES_OVERRIDE_CORE_REMOVED'); ?></span>
+                                        <span class="badge bg-warning text-dark"><?php echo $this->_('COM_TEMPLATES_OVERRIDE_CORE_REMOVED'); ?></span>
                                     <?php else : ?>
-                                        <?php echo HTMLHelper::_('date', $value->modified_date, Text::_('DATE_FORMAT_FILTER_DATETIME')); ?>
+                                        <?php echo HTMLHelper::_('date', $value->modified_date, $this->_('DATE_FORMAT_FILTER_DATETIME')); ?>
                                     <?php endif; ?>
                                 </td>
                                 <td>

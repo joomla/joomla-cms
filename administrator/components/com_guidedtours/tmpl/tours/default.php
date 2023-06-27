@@ -68,8 +68,8 @@ if ($saveOrder && !empty($this->items)) {
             <!-- No tours -->
             <div class="alert alert-info">
                 <span class="icon-info-circle" aria-hidden="true"></span>
-                <span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                <span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
             </div>
         <?php endif; ?>
 
@@ -80,9 +80,9 @@ if ($saveOrder && !empty($this->items)) {
             <table class="table" id="toursList">
 
                 <caption class="visually-hidden">
-                    <?php echo Text::_('COM_GUIDEDTOURS_GUIDEDTOURS_TABLE_CAPTION'); ?>,
-                    <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                    <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                    <?php echo $this->_('COM_GUIDEDTOURS_GUIDEDTOURS_TABLE_CAPTION'); ?>,
+                    <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                    <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
 
                 <!-- Tours table header -->
@@ -116,13 +116,13 @@ if ($saveOrder && !empty($this->items)) {
                     </th>
 
                     <th scope="col">
-                        <?php echo Text::_('COM_GUIDEDTOURS_TITLE'); ?>
+                        <?php echo $this->_('COM_GUIDEDTOURS_TITLE'); ?>
                     </th>
                     <th scope="col" class="d-none d-md-table-cell">
-                        <?php echo Text::_('COM_GUIDEDTOURS_DESCRIPTION'); ?>
+                        <?php echo $this->_('COM_GUIDEDTOURS_DESCRIPTION'); ?>
                     </th>
                     <th scope="col" class="w-10 text-center d-none d-md-table-cell">
-                        <?php echo Text::_('COM_GUIDEDTOURS_STEPS'); ?>
+                        <?php echo $this->_('COM_GUIDEDTOURS_STEPS'); ?>
                     </th>
                     <th scope="col" class="text-center w-10 d-none d-md-table-cell">
                         <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
@@ -172,7 +172,7 @@ if ($saveOrder && !empty($this->items)) {
                             if (!$canChange) {
                                 $iconClass = ' inactive';
                             } elseif (!$saveOrder) {
-                                $iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
+                                $iconClass = ' inactive" title="' . $this->_('JORDERINGDISABLED');
                             }
                             ?>
 
@@ -202,7 +202,7 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'tours.', $canCheckin); ?>
                                 <?php endif; ?>
                                 <?php if ($canEdit || $canEditOwn) : ?>
-                                    <a href="<?php echo Route::_('index.php?option=com_guidedtours&task=tour.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+                                    <a href="<?php echo Route::_('index.php?option=com_guidedtours&task=tour.edit&id=' . $item->id); ?>" title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
                                         <?php echo $this->escape($item->title); ?>
                                     </a>
                                 <?php else : ?>

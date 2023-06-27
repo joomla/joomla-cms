@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
@@ -18,8 +17,8 @@ $wa->useScript('com_content.admin-articles-stage');
 
 ?>
 <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">
-    <?php echo Text::_('JCANCEL'); ?>
+    <?php echo $this->_('JCANCEL'); ?>
 </button>
 <button id="stage-submit-button-id" class="btn btn-success" type="button" data-submit-task="">
-    <?php echo Text::_('JGLOBAL_STAGE_PROCESS'); ?>
+    <?php echo $this->_('JGLOBAL_STAGE_PROCESS'); ?>
 </button>

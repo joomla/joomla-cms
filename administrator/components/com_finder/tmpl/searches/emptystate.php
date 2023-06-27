@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
 $displayData = [
@@ -18,8 +17,8 @@ $displayData = [
     'formURL'    => 'index.php?option=com_finder&view=searches',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help4.x:Smart_Search:_Search_Term_Analysis',
     'icon'       => 'icon-search',
-    'title'      => Text::_('COM_FINDER_MANAGER_SEARCHES'),
-    'content'    => Text::_('COM_FINDER_EMPTYSTATE_SEARCHES_CONTENT'),
+    'title'      => $this->_('COM_FINDER_MANAGER_SEARCHES'),
+    'content'    => $this->_('COM_FINDER_EMPTYSTATE_SEARCHES_CONTENT'),
 ];
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

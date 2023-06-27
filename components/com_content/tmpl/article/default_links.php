@@ -74,7 +74,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
                                 'modalWidth'  => '500',
                                 'bodyHeight'  => '500',
                                 'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
-                                    . \Joomla\CMS\Language\Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+                                    . \Joomla\CMS\Language\$this->_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
                             ]
                         );
                         break;

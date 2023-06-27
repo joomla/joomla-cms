@@ -29,7 +29,7 @@ Text::script('JHIDEPASSWORD');
 
 <div class="alert alert-warning">
     <h4 class="alert-heading">
-        <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_CAPTIVE_INTRO_HEAD'); ?>
+        <?php echo $this->_('COM_JOOMLAUPDATE_VIEW_UPLOAD_CAPTIVE_INTRO_HEAD'); ?>
     </h4>
     <p>
         <?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_CAPTIVE_INTRO_BODY', Factory::getApplication()->get('sitename')); ?>
@@ -40,15 +40,15 @@ Text::script('JHIDEPASSWORD');
 
 <form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login" class="text-center card">
     <fieldset class="loginform card-body">
-        <legend class="h2 mb-3"><?php echo Text::_('COM_JOOMLAUPDATE_CAPTIVE_HEADLINE'); ?></legend>
+        <legend class="h2 mb-3"><?php echo $this->_('COM_JOOMLAUPDATE_CAPTIVE_HEADLINE'); ?></legend>
         <div class="control-group">
             <div class="controls">
                 <div class="input-group">
-                    <input name="username" id="mod-login-username" type="text" class="form-control" required="required" autocomplete="username" placeholder="<?php echo Text::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
+                    <input name="username" id="mod-login-username" type="text" class="form-control" required="required" autocomplete="username" placeholder="<?php echo $this->_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
                     <span class="input-group-text">
                         <span class="icon-user icon-fw" aria-hidden="true"></span>
                         <label for="mod-login-username" class="visually-hidden">
-                            <?php echo Text::_('JGLOBAL_USERNAME'); ?>
+                            <?php echo $this->_('JGLOBAL_USERNAME'); ?>
                         </label>
                     </span>
                 </div>
@@ -57,10 +57,10 @@ Text::script('JHIDEPASSWORD');
         <div class="control-group">
             <div class="controls">
                 <div class="input-group">
-                    <input name="passwd" id="mod-login-password" type="password" class="form-control" required="required" autocomplete="current-password" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" size="15">
+                    <input name="passwd" id="mod-login-password" type="password" class="form-control" required="required" autocomplete="current-password" placeholder="<?php echo $this->_('JGLOBAL_PASSWORD'); ?>" size="15">
                     <button type="button" class="btn btn-secondary input-password-toggle">
                         <span class="icon-eye icon-fw" aria-hidden="true"></span>
-                        <span class="visually-hidden"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+                        <span class="visually-hidden"><?php echo $this->_('JSHOWPASSWORD'); ?></span>
                     </button>
                 </div>
             </div>
@@ -68,10 +68,10 @@ Text::script('JHIDEPASSWORD');
         <div class="control-group">
             <div class="controls">
                 <a class="btn btn-danger" href="index.php?option=com_joomlaupdate">
-                    <span class="icon-times icon-white" aria-hidden="true"></span> <?php echo Text::_('JCANCEL'); ?>
+                    <span class="icon-times icon-white" aria-hidden="true"></span> <?php echo $this->_('JCANCEL'); ?>
                 </a>
                 <button type="submit" class="btn btn-primary">
-                    <span class="icon-play icon-white" aria-hidden="true"></span> <?php echo Text::_('COM_INSTALLER_INSTALL_BUTTON'); ?>
+                    <span class="icon-play icon-white" aria-hidden="true"></span> <?php echo $this->_('COM_INSTALLER_INSTALL_BUTTON'); ?>
                 </button>
             </div>
         </div>

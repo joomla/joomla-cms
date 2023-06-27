@@ -21,7 +21,7 @@ use Joomla\CMS\Session\Session;
 $app = Factory::getApplication();
 
 if ($app->isClient('site')) {
-    Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
+    Session::checkToken('get') or die($this->_('JINVALID_TOKEN'));
 }
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -48,15 +48,15 @@ if (!empty($editor)) {
 
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
-                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
             </div>
         <?php else : ?>
             <table class="table table-sm">
                 <caption class="visually-hidden">
-                    <?php echo Text::_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                    <?php echo $this->_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
                 <thead>
                     <tr>
@@ -126,7 +126,7 @@ if (!empty($editor)) {
                             <?php if ($item->type === 'component' && !$item->enabled) : ?>
                                 <div>
                                     <span class="badge bg-secondary">
-                                        <?php echo Text::_($item->enabled === null ? 'JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND' : 'COM_MENUS_LABEL_DISABLED'); ?>
+                                        <?php echo $this->_($item->enabled === null ? 'JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND' : 'COM_MENUS_LABEL_DISABLED'); ?>
                                     </span>
                                 </div>
                             <?php endif; ?>
@@ -153,7 +153,7 @@ if (!empty($editor)) {
                         <?php if ($multilang) : ?>
                             <td class="small d-none d-md-table-cell">
                                 <?php if ($item->language == '') : ?>
-                                    <?php echo Text::_('COM_MENUS_HOME'); ?>
+                                    <?php echo $this->_('COM_MENUS_HOME'); ?>
                                 <?php elseif ($item->language == '*') : ?>
                                     <?php echo Text::alt('JALL', 'language'); ?>
                                 <?php else : ?>

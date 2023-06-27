@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Language\Text;
 
 $fieldSets = $this->form->getFieldsets('params');
 
@@ -25,10 +24,10 @@ foreach ($fieldSets as $name => $fieldSet) :
 
 
     if (isset($fieldSet->description) && trim($fieldSet->description)) :
-        echo '<p class="tip">' . $this->escape(Text::_($fieldSet->description)) . '</p>';
+        echo '<p class="tip">' . $this->escape($this->_($fieldSet->description)) . '</p>';
     endif;
     ?>
-    <?php echo HTMLHelper::_('bootstrap.addSlide', 'collapseTypes', Text::_($label), 'collapse' . ($i++)); ?>
+    <?php echo HTMLHelper::_('bootstrap.addSlide', 'collapseTypes', $this->_($label), 'collapse' . ($i++)); ?>
 
 <ul class="nav flex-column">
     <?php foreach ($this->form->getFieldset($name) as $field) : ?>

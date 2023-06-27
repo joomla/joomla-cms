@@ -10,9 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
@@ -29,15 +27,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
         <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
-                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
             </div>
         <?php else : ?>
             <table class="table">
                 <caption class="visually-hidden">
-                    <?php echo Text::_('COM_MESSAGES_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                    <?php echo $this->_('COM_MESSAGES_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
                 <thead>
                     <tr>
@@ -77,7 +75,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                             <?php echo $item->user_from; ?>
                         </td>
                         <td class="d-none d-md-table-cell">
-                            <?php echo HTMLHelper::_('date', $item->date_time, Text::_('DATE_FORMAT_LC2')); ?>
+                            <?php echo HTMLHelper::_('date', $item->date_time, $this->_('DATE_FORMAT_LC2')); ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

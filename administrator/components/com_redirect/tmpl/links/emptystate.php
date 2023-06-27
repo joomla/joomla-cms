@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
@@ -38,7 +37,7 @@ if (
         'bootstrap.renderModal',
         'collapseModal',
         [
-            'title' => Text::_('COM_REDIRECT_BATCH_OPTIONS'),
+            'title' => $this->_('COM_REDIRECT_BATCH_OPTIONS'),
             'footer' => $this->loadTemplate('batch_footer'),
         ],
         $this->loadTemplate('batch_body')
@@ -51,7 +50,7 @@ if (
         'plugin' . $this->redirectPluginId . 'Modal',
         [
             'url'         => $link,
-            'title'       => Text::_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
+            'title'       => $this->_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
             'height'      => '400px',
             'width'       => '800px',
             'bodyHeight'  => '70',
@@ -61,11 +60,11 @@ if (
             'keyboard'    => false,
             'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
                 . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
-                . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+                . $this->_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
                 . '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
-                . Text::_('JSAVE') . '</button>'
+                . $this->_('JSAVE') . '</button>'
                 . '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
-                . Text::_('JAPPLY') . '</button>'
+                . $this->_('JAPPLY') . '</button>'
         ]
     ); ?>
 <?php endif; ?>

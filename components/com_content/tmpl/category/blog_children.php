@@ -10,9 +10,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
@@ -37,7 +35,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
                     <?php echo $this->escape($child->title); ?></a>
 
                     <?php if ($this->maxLevel > 1 && count($child->getChildren()) > 0) : ?>
-                        <a href="#category-<?php echo $child->id; ?>" data-bs-toggle="collapse" class="btn btn-sm float-end" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
+                        <a href="#category-<?php echo $child->id; ?>" data-bs-toggle="collapse" class="btn btn-sm float-end" aria-label="<?php echo $this->_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
                     <?php endif; ?>
                 </h3>
                 <?php else : ?>
@@ -45,13 +43,13 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
                     <?php echo $this->escape($child->title); ?></a>
                     <?php if ($this->params->get('show_cat_num_articles', 1)) : ?>
                         <span class="badge bg-info">
-                            <?php echo Text::_('COM_CONTENT_NUM_ITEMS'); ?>&nbsp;
+                            <?php echo $this->_('COM_CONTENT_NUM_ITEMS'); ?>&nbsp;
                             <?php echo $child->getNumItems(true); ?>
                         </span>
                     <?php endif; ?>
 
                     <?php if ($this->maxLevel > 1 && count($child->getChildren()) > 0) : ?>
-                        <a href="#category-<?php echo $child->id; ?>" data-bs-toggle="collapse" class="btn btn-sm float-end" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
+                        <a href="#category-<?php echo $child->id; ?>" data-bs-toggle="collapse" class="btn btn-sm float-end" aria-label="<?php echo $this->_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
                     <?php endif; ?>
                 </h3>
                 <?php endif; ?>

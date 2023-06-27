@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
@@ -35,7 +34,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                 'plugin' . $this->redirectPluginId . 'Modal',
                 [
                     'url'         => $link,
-                    'title'       => Text::_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
+                    'title'       => $this->_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
                     'height'      => '400px',
                     'width'       => '800px',
                     'bodyHeight'  => '70',
@@ -45,26 +44,26 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     'keyboard'    => false,
                     'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
                         . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
-                        . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+                        . $this->_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
                         . '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
-                        . Text::_('JSAVE') . '</button>'
+                        . $this->_('JSAVE') . '</button>'
                         . '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
-                        . Text::_('JAPPLY') . '</button>'
+                        . $this->_('JAPPLY') . '</button>'
                 ]
             ); ?>
         <?php endif; ?>
 
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
-                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
             </div>
         <?php else : ?>
             <table class="table">
                 <caption class="visually-hidden">
-                    <?php echo Text::_('COM_REDIRECTS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                    <?php echo $this->_('COM_REDIRECTS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
                 <thead>
                     <tr>
@@ -111,7 +110,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         </td>
                         <th scope="row" class="break-word">
                             <?php if ($canEdit) : ?>
-                                <a href="<?php echo Route::_('index.php?option=com_redirect&task=link.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->old_url); ?>">
+                                <a href="<?php echo Route::_('index.php?option=com_redirect&task=link.edit&id=' . $item->id); ?>" title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($item->old_url); ?>">
                                     <?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode($item->old_url))); ?>
                                 </a>
                             <?php else : ?>
@@ -125,7 +124,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                             <?php echo $this->escape($item->referer); ?>
                         </td>
                         <td class="small d-none d-md-table-cell">
-                            <?php echo HTMLHelper::_('date', $item->created_date, Text::_('DATE_FORMAT_LC4')); ?>
+                            <?php echo HTMLHelper::_('date', $item->created_date, $this->_('DATE_FORMAT_LC4')); ?>
                         </td>
                         <td class="d-none d-md-table-cell">
                             <?php echo (int) $item->hits; ?>
@@ -160,7 +159,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     'bootstrap.renderModal',
                     'collapseModal',
                     [
-                        'title'  => Text::_('COM_REDIRECT_BATCH_OPTIONS'),
+                        'title'  => $this->_('COM_REDIRECT_BATCH_OPTIONS'),
                         'footer' => $this->loadTemplate('batch_footer'),
                     ],
                     $this->loadTemplate('batch_body')

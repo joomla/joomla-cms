@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -25,7 +24,7 @@ $wa->useScript('core');
             <fieldset>
                 <div class="form-group">
                     <div class="control-label">
-                        <?php echo Text::_('COM_MESSAGES_FIELD_USER_ID_FROM_LABEL'); ?>
+                        <?php echo $this->_('COM_MESSAGES_FIELD_USER_ID_FROM_LABEL'); ?>
                     </div>
                     <div class="p-3 bg-light border rounded">
                         <?php echo $this->item->get('from_user_name'); ?>
@@ -33,15 +32,15 @@ $wa->useScript('core');
                 </div>
                 <div class="form-group">
                     <div class="control-label">
-                        <?php echo Text::_('COM_MESSAGES_FIELD_DATE_TIME_LABEL'); ?>
+                        <?php echo $this->_('COM_MESSAGES_FIELD_DATE_TIME_LABEL'); ?>
                     </div>
                     <div class="p-3 bg-light border rounded">
-                        <?php echo HTMLHelper::_('date', $this->item->date_time, Text::_('DATE_FORMAT_LC2')); ?>
+                        <?php echo HTMLHelper::_('date', $this->item->date_time, $this->_('DATE_FORMAT_LC2')); ?>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="control-label">
-                        <?php echo Text::_('COM_MESSAGES_FIELD_SUBJECT_LABEL'); ?>
+                        <?php echo $this->_('COM_MESSAGES_FIELD_SUBJECT_LABEL'); ?>
                     </div>
                     <div class="p-3 bg-light border rounded">
                         <?php echo $this->item->subject; ?>
@@ -49,7 +48,7 @@ $wa->useScript('core');
                 </div>
                 <div class="form-group">
                     <div class="control-label">
-                        <?php echo Text::_('COM_MESSAGES_FIELD_MESSAGE_LABEL'); ?>
+                        <?php echo $this->_('COM_MESSAGES_FIELD_MESSAGE_LABEL'); ?>
                     </div>
                     <div class="p-3 bg-light border rounded">
                         <?php echo $this->item->message; ?>

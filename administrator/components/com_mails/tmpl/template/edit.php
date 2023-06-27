@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
@@ -36,19 +35,19 @@ $this->document->addScriptOptions('com_mails', ['templateData' => $this->templat
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_mails&layout=edit&template_id=' . $this->item->template_id . '&language=' . $this->item->language); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo Text::_('COM_MAILS_FORM_EDIT'); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_mails&layout=edit&template_id=' . $this->item->template_id . '&language=' . $this->item->language); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo $this->_('COM_MAILS_FORM_EDIT'); ?>" class="form-validate">
     <div class="main-card">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'general', 'recall' => true, 'breakpoint' => 768]); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_MAILS_MAIL_CONTENT')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', $this->_('COM_MAILS_MAIL_CONTENT')); ?>
         <div class="row">
             <div class="col-md-12">
-                <h1><?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?> - <?php echo $this->escape($this->item->language); ?>
+                <h1><?php echo $this->_($component . '_MAIL_' . $sub_id . '_TITLE'); ?> - <?php echo $this->escape($this->item->language); ?>
                 </h1>
                 <div class="small mb-1">
                     <span class="badge bg-secondary"><?php echo $this->escape($this->master->template_id); ?></span>
                 </div>
-                <p><?php echo Text::_($component . '_MAIL_' . $sub_id . '_DESC'); ?></p>
+                <p><?php echo $this->_($component . '_MAIL_' . $sub_id . '_DESC'); ?></p>
             </div>
         </div>
 
@@ -58,7 +57,7 @@ $this->document->addScriptOptions('com_mails', ['templateData' => $this->templat
             </div>
             <div class="col-md-3">
                 <button type="button" id="btnResetSubject" class="btn btn-secondary">
-                    <?php echo Text::_('COM_MAILS_RESET_TO_DEFAULT_SUBJECT'); ?>
+                    <?php echo $this->_('COM_MAILS_RESET_TO_DEFAULT_SUBJECT'); ?>
                 </button>
             </div>
         </div>
@@ -69,10 +68,10 @@ $this->document->addScriptOptions('com_mails', ['templateData' => $this->templat
             </div>
             <div class="col-md-3">
                 <button type="button" id="btnResetBody" class="btn btn-secondary">
-                    <?php echo Text::_('COM_MAILS_RESET_TO_DEFAULT_BODY'); ?>
+                    <?php echo $this->_('COM_MAILS_RESET_TO_DEFAULT_BODY'); ?>
                 </button>
                 <div class="tags-container-body mt-3 <?php echo $fieldBody->disabled ? 'hidden' : ''; ?>">
-                    <h2><?php echo Text::_('COM_MAILS_FIELDSET_TAGS_LABEL'); ?></h2>
+                    <h2><?php echo $this->_('COM_MAILS_FIELDSET_TAGS_LABEL'); ?></h2>
                     <?php echo MailsHelper::mailtags($this->master, 'body'); ?>
                 </div>
             </div>
@@ -86,10 +85,10 @@ $this->document->addScriptOptions('com_mails', ['templateData' => $this->templat
             </div>
             <div class="col-md-3">
                 <button type="button" id="btnResetHtmlBody" class="btn btn-secondary">
-                    <?php echo Text::_('COM_MAILS_RESET_TO_DEFAULT_HTML_BODY'); ?>
+                    <?php echo $this->_('COM_MAILS_RESET_TO_DEFAULT_HTML_BODY'); ?>
                 </button>
                 <div class="tags-container-htmlbody mt-3 <?php echo $fieldHtmlBody->disabled ? 'hidden' : ''; ?>">
-                    <h2><?php echo Text::_('COM_MAILS_FIELDSET_TAGS_LABEL'); ?></h2>
+                    <h2><?php echo $this->_('COM_MAILS_FIELDSET_TAGS_LABEL'); ?></h2>
                     <?php echo MailsHelper::mailtags($this->master, 'htmlbody'); ?>
                 </div>
             </div>

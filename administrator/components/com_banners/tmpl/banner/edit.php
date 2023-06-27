@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
@@ -25,14 +24,14 @@ $wa->useScript('keepalive')
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" aria-label="<?php echo Text::_('COM_BANNERS_BANNER_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" aria-label="<?php echo $this->_('COM_BANNERS_BANNER_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
     <div class="main-card">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_BANNERS_BANNER_DETAILS')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', $this->_('COM_BANNERS_BANNER_DETAILS')); ?>
         <div class="row">
             <div class="col-lg-9">
                 <?php echo $this->form->renderField('type'); ?>
@@ -53,20 +52,20 @@ $wa->useScript('keepalive')
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'otherparams', Text::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'otherparams', $this->_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS')); ?>
             <fieldset id="fieldset-otherparams" class="options-form">
-                <legend><?php echo Text::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS'); ?></legend>
+                <legend><?php echo $this->_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS'); ?></legend>
                 <div>
                     <?php echo $this->form->renderFieldset('otherparams'); ?>
                 </div>
             </fieldset>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', $this->_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
         <div class="row">
             <div class="col-md-6">
                 <fieldset id="fieldset-publishingdata" class="options-form">
-                    <legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+                    <legend><?php echo $this->_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
                     <div>
                         <?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
                     </div>
@@ -74,7 +73,7 @@ $wa->useScript('keepalive')
             </div>
             <div class="col-md-6">
                 <fieldset id="fieldset-metadata" class="options-form">
-                    <legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+                    <legend><?php echo $this->_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
                     <div>
                     <?php echo $this->form->renderFieldset('metadata'); ?>
                     </div>

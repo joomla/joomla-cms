@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
@@ -37,15 +36,15 @@ $wa->useScript('keepalive')
         <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
-                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
             </div>
         <?php else : ?>
             <table class="table" id="logsList">
                 <caption class="visually-hidden">
-                    <?php echo Text::_('COM_ACTIONLOGS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                    <?php echo $this->_('COM_ACTIONLOGS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
                 <thead>
                     <tr>
@@ -86,14 +85,14 @@ $wa->useScript('keepalive')
                                 <?php echo ActionlogsHelper::getHumanReadableLogMessage($item); ?>
                             </th>
                             <td class="d-none d-md-table-cell">
-                                <?php echo $this->escape(Text::_($extension)); ?>
+                                <?php echo $this->escape($this->_($extension)); ?>
                             </td>
                             <td class="d-none d-md-table-cell">
                                 <?php if ($this->dateRelative) : ?>
                                     <?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
                                     <div class="small">
                                 <?php endif; ?>
-                                    <?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC6')); ?>
+                                    <?php echo HTMLHelper::_('date', $item->log_date, $this->_('DATE_FORMAT_LC6')); ?>
                                 <?php if ($this->dateRelative) : ?>
                                     </div>
                                 <?php endif; ?>
@@ -103,7 +102,7 @@ $wa->useScript('keepalive')
                             </td>
                             <?php if ($this->showIpColumn) : ?>
                                 <td class="d-none d-md-table-cell">
-                                    <?php echo Text::_($this->escape($item->ip_address)); ?>
+                                    <?php echo $this->_($this->escape($item->ip_address)); ?>
                                 </td>
                             <?php endif;?>
                             <td class="d-none d-md-table-cell">

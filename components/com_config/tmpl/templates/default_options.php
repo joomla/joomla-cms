@@ -10,12 +10,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 
 $fieldSets = $this->form->getFieldsets('params');
 ?>
 
-<legend><?php echo Text::_('COM_CONFIG_TEMPLATE_SETTINGS'); ?></legend>
+<legend><?php echo $this->_('COM_CONFIG_TEMPLATE_SETTINGS'); ?></legend>
 
 <?php
 
@@ -28,7 +27,7 @@ if (!empty($fieldSets['com_config'])) {
         $label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CONFIG_' . $name . '_FIELDSET_LABEL';
 
         if (isset($fieldSet->description) && trim($fieldSet->description)) {
-            echo '<p class="tip">' . $this->escape(Text::_($fieldSet->description)) . '</p>';
+            echo '<p class="tip">' . $this->escape($this->_($fieldSet->description)) . '</p>';
         }
 
         echo $this->form->renderFieldset($name);

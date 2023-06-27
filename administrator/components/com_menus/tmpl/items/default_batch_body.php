@@ -13,12 +13,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
 $options = [
-    HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
-    HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
+    HTMLHelper::_('select.option', 'c', $this->_('JLIB_HTML_BATCH_COPY')),
+    HTMLHelper::_('select.option', 'm', $this->_('JLIB_HTML_BATCH_MOVE'))
 ];
 $published = (int) $this->state->get('filter.published');
 $clientId  = (int) $this->state->get('filter.client_id');
@@ -54,10 +53,10 @@ if ($clientId == 1) {
             <div class="form-group col-md-6">
                 <div class="control-group">
                     <label id="batch-choose-action-lbl" for="batch-menu-id">
-                        <?php echo Text::_('COM_MENUS_BATCH_MENU_LABEL'); ?>
+                        <?php echo $this->_('COM_MENUS_BATCH_MENU_LABEL'); ?>
                     </label>
                     <select class="form-select" name="batch[menu_id]" id="batch-menu-id">
-                        <option value=""><?php echo Text::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
+                        <option value=""><?php echo $this->_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
                         <?php
                         $opts = [
                             'published' => $this->state->get('filter.published'),
@@ -70,19 +69,19 @@ if ($clientId == 1) {
                 </div>
 
                 <div id="batch-copy-move">
-                    <?php echo Text::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
+                    <?php echo $this->_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
                     <?php echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
                 </div>
             </div>
         <?php endif; ?>
 
         <?php if ($published < 0 && $clientId == 1) : ?>
-            <p><?php echo Text::_('COM_MENUS_SELECT_MENU_FILTER_NOT_TRASHED'); ?></p>
+            <p><?php echo $this->_('COM_MENUS_SELECT_MENU_FILTER_NOT_TRASHED'); ?></p>
         <?php endif; ?>
     </div>
     <?php else : ?>
     <div class="row">
-        <p><?php echo Text::_('COM_MENUS_SELECT_MENU_FIRST'); ?></p>
+        <p><?php echo $this->_('COM_MENUS_SELECT_MENU_FIRST'); ?></p>
     </div>
     <?php endif; ?>
 </div>

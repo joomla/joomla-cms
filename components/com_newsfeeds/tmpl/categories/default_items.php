@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
@@ -26,7 +25,7 @@ use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
                     </a>
                     <?php if ($this->params->get('show_cat_items_cat') == 1) : ?>
                         <span class="badge bg-info">
-                            <?php echo Text::_('COM_NEWSFEEDS_NUM_ITEMS'); ?>&nbsp;
+                            <?php echo $this->_('COM_NEWSFEEDS_NUM_ITEMS'); ?>&nbsp;
                             <?php echo $item->numitems; ?>
                         </span>
                     <?php endif; ?>
@@ -37,7 +36,7 @@ use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
                             data-bs-target="#category-<?php echo $item->id; ?>"
                             data-bs-toggle="collapse"
                             class="btn btn-secondary btn-sm float-end"
-                            aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"
+                            aria-label="<?php echo $this->_('JGLOBAL_EXPAND_CATEGORIES'); ?>"
                         >
                             <span class="icon-plus" aria-hidden="true"></span>
                         </button>

@@ -80,15 +80,15 @@ $assoc = Associations::isEnabled();
                 ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                        <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                     <table class="table itemList" id="articleList">
                         <caption class="visually-hidden">
-                            <?php echo Text::_('COM_CONTENT_FEATURED_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->_('COM_CONTENT_FEATURED_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -104,7 +104,7 @@ $assoc = Associations::isEnabled();
                                     </th>
                                 <?php endif; ?>
                                 <th scope="col" class="w-1 text-center d-none d-md-table-cell">
-                                    <?php echo Text::_('JFEATURED'); ?>
+                                    <?php echo $this->_('JFEATURED'); ?>
                                 </th>
                                 <th scope="col" class="w-1 text-center">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
@@ -183,7 +183,7 @@ $assoc = Associations::isEnabled();
                                     if (!$canChange) {
                                         $iconClass = ' inactive';
                                     } elseif (!$saveOrder) {
-                                        $iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
+                                        $iconClass = ' inactive" title="' . $this->_('JORDERINGDISABLED');
                                     }
                                     ?>
                                     <span class="sortable-handler<?php echo $iconClass ?>">
@@ -198,8 +198,8 @@ $assoc = Associations::isEnabled();
                                     <?php
                                     $options = [
                                     'transitions' => $transitions,
-                                    'title' => Text::_($item->stage_title),
-                                    'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title)),
+                                    'title' => $this->_($item->stage_title),
+                                    'tip_content' => Text::sprintf('JWORKFLOW', $this->_($item->workflow_title)),
                                     'id' => 'workflow-' . $item->id,
                                     'task' => 'articles.runTransitions'
                                     ];
@@ -208,7 +208,7 @@ $assoc = Associations::isEnabled();
                                     ->render(0, $i);
                                     ?>
                                     <div class="small">
-                                        <?php echo Text::_($item->stage_title); ?>
+                                        <?php echo $this->_($item->stage_title); ?>
                                     </div>
                                 </td>
                                 <?php endif; ?>
@@ -242,7 +242,7 @@ $assoc = Associations::isEnabled();
                                             <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
                                         <?php endif; ?>
                                         <?php if ($canEdit) : ?>
-                                            <a href="<?php echo Route::_('index.php?option=com_content&task=article.edit&return=featured&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+                                            <a href="<?php echo Route::_('index.php?option=com_content&task=article.edit&return=featured&id=' . $item->id); ?>" title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
                                                 <?php echo $this->escape($item->title); ?></a>
                                         <?php else : ?>
                                             <span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
@@ -258,8 +258,8 @@ $assoc = Associations::isEnabled();
                                             <?php
                                             $ParentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
                                             $CurrentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content');
-                                            $EditCatTxt = Text::_('COM_CONTENT_EDIT_CATEGORY');
-                                            echo Text::_('JCATEGORY') . ': ';
+                                            $EditCatTxt = $this->_('COM_CONTENT_EDIT_CATEGORY');
+                                            echo $this->_('JCATEGORY') . ': ';
                                             if ($item->category_level != '1') :
                                                 if ($item->parent_category_level != '1') :
                                                     echo ' &#187; ';
@@ -303,7 +303,7 @@ $assoc = Associations::isEnabled();
                                                 endif;
                                             }
                                             if ($item->category_published < '1') :
-                                                echo $item->category_published == '0' ? ' (' . Text::_('JUNPUBLISHED') . ')' : ' (' . Text::_('JTRASHED') . ')';
+                                                echo $item->category_published == '0' ? ' (' . $this->_('JUNPUBLISHED') . ')' : ' (' . $this->_('JTRASHED') . ')';
                                             endif;
                                             ?>
                                         </div>
@@ -318,7 +318,7 @@ $assoc = Associations::isEnabled();
                                             <?php echo $this->escape($item->author_name); ?>
                                         </a>
                                     <?php else : ?>
-                                        <?php echo Text::_('JNONE'); ?>
+                                        <?php echo $this->_('JNONE'); ?>
                                     <?php endif; ?>
                                     <?php if ($item->created_by_alias) : ?>
                                         <div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
@@ -339,7 +339,7 @@ $assoc = Associations::isEnabled();
                                 <td class="small d-none d-md-table-cell text-center">
                                     <?php
                                     $date = $item->{$orderingColumn};
-                                    echo $date > 0 ? HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC4')) : '-';
+                                    echo $date > 0 ? HTMLHelper::_('date', $date, $this->_('DATE_FORMAT_LC4')) : '-';
                                     ?>
                                 </td>
                                 <?php if ($this->hits) : ?>
@@ -376,7 +376,7 @@ $assoc = Associations::isEnabled();
                         'bootstrap.renderModal',
                         'stageModal',
                         [
-                            'title'  => Text::_('JTOOLBAR_CHANGE_STATUS'),
+                            'title'  => $this->_('JTOOLBAR_CHANGE_STATUS'),
                             'footer' => $this->loadTemplate('stage_footer'),
                         ],
                         $this->loadTemplate('stage_body')

@@ -12,13 +12,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
 if (Factory::getApplication()->isClient('site')) {
-    Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
+    Session::checkToken('get') or die($this->_('JINVALID_TOKEN'));
 }
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -43,9 +42,9 @@ if (!empty($editor)) {
         <?php if ($this->total > 0) : ?>
         <table class="table" id="moduleList">
             <caption class="visually-hidden">
-                <?php echo Text::_('COM_MODULES_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                <?php echo $this->_('COM_MODULES_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
             </caption>
             <thead>
                 <tr>
@@ -100,7 +99,7 @@ if (!empty($editor)) {
                         <?php if ($item->position) : ?>
                         <a class="js-position-insert btn btn-sm btn-warning w-100" href="#" data-position="<?php echo $this->escape($item->position); ?>" data-editor="<?php echo $this->escape($editor); ?>"><?php echo $this->escape($item->position); ?></a>
                         <?php else : ?>
-                        <span class="btn btn-sm btn-secondary w-100"><?php echo Text::_('JNONE'); ?></span>
+                        <span class="btn btn-sm btn-secondary w-100"><?php echo $this->_('JNONE'); ?></span>
                         <?php endif; ?>
                     </td>
                     <td class="small d-none d-md-table-cell">

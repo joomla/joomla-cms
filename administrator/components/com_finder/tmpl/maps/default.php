@@ -39,15 +39,15 @@ $wa->useScript('com_finder.maps')
                 <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                        <?php echo Text::_('COM_FINDER_MAPS_NO_CONTENT'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                        <?php echo $this->_('COM_FINDER_MAPS_NO_CONTENT'); ?>
                     </div>
                 <?php else : ?>
                 <table class="table">
                     <caption class="visually-hidden">
-                        <?php echo Text::_('COM_FINDER_MAPS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                        <?php echo $this->_('COM_FINDER_MAPS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                     </caption>
                         <thead>
                         <tr>
@@ -62,16 +62,16 @@ $wa->useScript('com_finder.maps')
                             </th>
                             <?php if (!$branchFilter) : ?>
                                 <th scope="col" class="w-1 text-center">
-                                    <?php echo Text::_('COM_FINDER_HEADING_CHILDREN'); ?>
+                                    <?php echo $this->_('COM_FINDER_HEADING_CHILDREN'); ?>
                                 </th>
                             <?php endif; ?>
                             <th scope="col" class="w-1 text-center">
                                 <span class="icon-check" aria-hidden="true"></span>
-                                <span class="d-none d-md-inline"><?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
+                                <span class="d-none d-md-inline"><?php echo $this->_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
                             </th>
                             <th scope="col" class="w-1 text-center">
                                 <span class="icon-times" aria-hidden="true"></span>
-                                <span class="d-none d-md-inline"><?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
+                                <span class="d-none d-md-inline"><?php echo $this->_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
                             </th>
                             <?php if (Multilanguage::isEnabled()) : ?>
                                 <th scope="col" class="w-10 nowrap d-none d-md-table-cell">
@@ -96,14 +96,14 @@ $wa->useScript('com_finder.maps')
                                     $title = LanguageHelper::branchLanguageTitle($item->title);
                                 } else {
                                     $key = LanguageHelper::branchSingular($item->title);
-                                    $title = $lang->hasKey($key) ? Text::_($key) : $item->title;
+                                    $title = $lang->hasKey($key) ? $this->_($key) : $item->title;
                                 }
                                 ?>
                                 <?php echo str_repeat('<span class="gi">&mdash;</span>', $item->level - 1); ?>
                                 <?php echo $this->escape($title); ?>
                                 <?php if ($this->escape(trim($title, '*')) === 'Language' && Multilanguage::isEnabled()) : ?>
                                 <div class="small">
-                                    <strong><?php echo Text::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
+                                    <strong><?php echo $this->_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
                                 </div>
                                 <?php endif; ?>
                             </th>
@@ -115,7 +115,7 @@ $wa->useScript('com_finder.maps')
                                     <span class="btn btn-info"><?php echo floor(($item->rgt - $item->lft) / 2); ?></span>
                                 </a>
                                 <div role="tooltip" id="tip-map<?php echo $i; ?>">
-                                    <?php echo Text::_('COM_FINDER_HEADING_CHILDREN'); ?>
+                                    <?php echo $this->_('COM_FINDER_HEADING_CHILDREN'); ?>
                                 </div>
                                 <?php else : ?>
                                 -
@@ -130,7 +130,7 @@ $wa->useScript('com_finder.maps')
                                     <?php echo (int) $item->count_published; ?>
                                 </a>
                                 <div role="tooltip" id="tip-publish<?php echo $i; ?>">
-                                    <?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>
+                                    <?php echo $this->_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>
                                 </div>
                             <?php else : ?>
                                 -
@@ -144,7 +144,7 @@ $wa->useScript('com_finder.maps')
                                     <?php echo (int) $item->count_unpublished; ?>
                                 </a>
                                 <div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
-                                    <?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?>
+                                    <?php echo $this->_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?>
                                 </div>
                             <?php else : ?>
                                 -

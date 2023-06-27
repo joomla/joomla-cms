@@ -62,15 +62,15 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                 <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => $searchToolsOptions]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                        <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                     <table class="table" id="fieldgroupList">
                         <caption class="visually-hidden">
-                            <?php echo Text::_('COM_FIELDS_GROUPS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->_('COM_FIELDS_GROUPS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -117,7 +117,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                                         <?php if (!$canChange) : ?>
                                             <?php $iconClass = ' inactive'; ?>
                                         <?php elseif (!$saveOrder) : ?>
-                                            <?php $iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED'); ?>
+                                            <?php $iconClass = ' inactive" title="' . $this->_('JORDERINGDISABLED'); ?>
                                         <?php endif; ?>
                                         <span class="sortable-handler<?php echo $iconClass; ?>">
                                             <span class="icon-ellipsis-v" aria-hidden="true"></span>
@@ -135,7 +135,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                                                 <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'groups.', $canCheckin); ?>
                                             <?php endif; ?>
                                             <?php if ($canEdit || $canEditOwn) : ?>
-                                                <a href="<?php echo Route::_('index.php?option=com_fields&task=group.edit&id=' . $item->id . '&context=' . $context); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+                                                <a href="<?php echo Route::_('index.php?option=com_fields&task=group.edit&id=' . $item->id . '&context=' . $context); ?>" title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
                                                     <?php echo $this->escape($item->title); ?></a>
                                             <?php else : ?>
                                                 <?php echo $this->escape($item->title); ?>
@@ -177,7 +177,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                             'bootstrap.renderModal',
                             'collapseModal',
                             [
-                                    'title' => Text::_('COM_FIELDS_VIEW_GROUPS_BATCH_OPTIONS'),
+                                    'title' => $this->_('COM_FIELDS_VIEW_GROUPS_BATCH_OPTIONS'),
                                     'footer' => $this->loadTemplate('batch_footer')
                                 ],
                             $this->loadTemplate('batch_body')

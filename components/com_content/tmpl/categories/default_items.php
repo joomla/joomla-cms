@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
@@ -27,7 +26,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
                         <?php echo $this->escape($item->title); ?></a>
                         <?php if ($this->params->get('show_cat_num_articles_cat') == 1) :?>
                             <span class="badge bg-info">
-                                <?php echo Text::_('COM_CONTENT_NUM_ITEMS'); ?>&nbsp;
+                                <?php echo $this->_('COM_CONTENT_NUM_ITEMS'); ?>&nbsp;
                                 <?php echo $item->numitems; ?>
                             </span>
                         <?php endif; ?>
@@ -39,7 +38,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
                             data-category-id="<?php echo $item->id; ?>"
                             class="btn btn-secondary btn-sm"
                             aria-expanded="false"
-                            aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"
+                            aria-label="<?php echo $this->_('JGLOBAL_EXPAND_CATEGORIES'); ?>"
                         >
                             <span class="icon-plus" aria-hidden="true"></span>
                         </button>

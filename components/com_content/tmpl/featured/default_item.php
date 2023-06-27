@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
@@ -53,13 +52,13 @@ $isUnpublished     = $this->item->state == ContentComponent::CONDITION_UNPUBLISH
     <?php endif; ?>
 
     <?php if ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
-        <span class="badge bg-warning text-light"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+        <span class="badge bg-warning text-light"><?php echo $this->_('JUNPUBLISHED'); ?></span>
     <?php endif; ?>
     <?php if ($isNotPublishedYet) : ?>
-        <span class="badge bg-warning text-light"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
+        <span class="badge bg-warning text-light"><?php echo $this->_('JNOTPUBLISHEDYET'); ?></span>
     <?php endif; ?>
     <?php if ($isExpired) : ?>
-        <span class="badge bg-warning text-light"><?php echo Text::_('JEXPIRED'); ?></span>
+        <span class="badge bg-warning text-light"><?php echo $this->_('JEXPIRED'); ?></span>
     <?php endif; ?>
 
     <?php if ($canEdit) : ?>

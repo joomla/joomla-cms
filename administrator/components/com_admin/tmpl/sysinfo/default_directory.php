@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 
 /** @var \Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView $this */
 
@@ -19,15 +18,15 @@ use Joomla\CMS\Language\Text;
 <div class="sysinfo">
     <table class="table">
         <caption class="visually-hidden">
-            <?php echo Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?>
+            <?php echo $this->_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?>
         </caption>
         <thead>
             <tr>
                 <th scope="col" class="w-60">
-                    <?php echo Text::_('COM_ADMIN_DIRECTORY'); ?>
+                    <?php echo $this->_('COM_ADMIN_DIRECTORY'); ?>
                 </th>
                 <th scope="col">
-                    <?php echo Text::_('COM_ADMIN_STATUS'); ?>
+                    <?php echo $this->_('COM_ADMIN_STATUS'); ?>
                 </th>
             </tr>
         </thead>

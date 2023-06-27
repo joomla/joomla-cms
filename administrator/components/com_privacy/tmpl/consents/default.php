@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
@@ -30,9 +29,9 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 $now        = Factory::getDate();
 $stateIcons = [-1 => 'delete', 0 => 'archive', 1 => 'publish'];
 $stateMsgs  = [
-    -1 => Text::_('COM_PRIVACY_CONSENTS_STATE_INVALIDATED'),
-    0 => Text::_('COM_PRIVACY_CONSENTS_STATE_OBSOLETE'),
-    1 => Text::_('COM_PRIVACY_CONSENTS_STATE_VALID')
+    -1 => $this->_('COM_PRIVACY_CONSENTS_STATE_INVALIDATED'),
+    0 => $this->_('COM_PRIVACY_CONSENTS_STATE_OBSOLETE'),
+    1 => $this->_('COM_PRIVACY_CONSENTS_STATE_VALID')
 ];
 
 ?>
@@ -41,15 +40,15 @@ $stateMsgs  = [
         <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
-                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
             </div>
         <?php else : ?>
             <table class="table" id="consentList">
                 <caption class="visually-hidden">
-                    <?php echo Text::_('COM_PRIVACY_TABLE_CONSENTS_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                    <?php echo $this->_('COM_PRIVACY_TABLE_CONSENTS_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
                 <thead>
                     <tr>
@@ -72,7 +71,7 @@ $stateMsgs  = [
                             <?php echo HTMLHelper::_('searchtools.sort', 'COM_PRIVACY_HEADING_CONSENTS_SUBJECT', 'a.subject', $listDirn, $listOrder); ?>
                         </th>
                         <th scope="col">
-                            <?php echo Text::_('COM_PRIVACY_HEADING_CONSENTS_BODY'); ?>
+                            <?php echo $this->_('COM_PRIVACY_HEADING_CONSENTS_BODY'); ?>
                         </th>
                         <th scope="col" class="w-15">
                             <?php echo HTMLHelper::_('searchtools.sort', 'COM_PRIVACY_HEADING_CONSENTS_CREATED', 'a.created', $listDirn, $listOrder); ?>
@@ -102,7 +101,7 @@ $stateMsgs  = [
                                 <?php echo $item->user_id; ?>
                             </td>
                             <td>
-                                <?php echo Text::_($item->subject); ?>
+                                <?php echo $this->_($item->subject); ?>
                             </td>
                             <td>
                                 <?php echo $item->body; ?>
@@ -110,7 +109,7 @@ $stateMsgs  = [
                             <td class="break-word">
                                 <?php echo HTMLHelper::_('date.relative', new Date($item->created), null, $now); ?>
                                 <div class="small">
-                                    <?php echo HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC6')); ?>
+                                    <?php echo HTMLHelper::_('date', $item->created, $this->_('DATE_FORMAT_LC6')); ?>
                                 </div>
                             </td>
                             <td>

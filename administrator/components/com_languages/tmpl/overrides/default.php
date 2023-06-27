@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
@@ -21,12 +20,12 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
-$client    = $this->state->get('filter.client') == 'site' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
+$client    = $this->state->get('filter.client') == 'site' ? $this->_('JSITE') : $this->_('JADMINISTRATOR');
 $language  = $this->state->get('filter.language');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-$oppositeClient   = $this->state->get('filter.client') == 'administrator' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
+$oppositeClient   = $this->state->get('filter.client') == 'administrator' ? $this->_('JSITE') : $this->_('JADMINISTRATOR');
 $oppositeFilename = constant('JPATH_' . strtoupper($this->state->get('filter.client') === 'site' ? 'administrator' : 'site'))
     . '/language/overrides/' . $this->state->get('filter.language', 'en-GB') . '.override.ini';
 $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
@@ -40,15 +39,15 @@ $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
                 <div class="clearfix"></div>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                        <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                     <table class="table" id="overrideList">
                         <caption class="visually-hidden">
-                            <?php echo Text::_('COM_LANGUAGES_OVERRIDES_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->_('COM_LANGUAGES_OVERRIDES_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -62,10 +61,10 @@ $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="d-none d-md-table-cell">
-                                    <?php echo Text::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
+                                    <?php echo $this->_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
                                 </th>
                                 <th scope="col" class="d-none d-md-table-cell">
-                                    <?php echo Text::_('JCLIENT'); ?>
+                                    <?php echo $this->_('JCLIENT'); ?>
                                 </th>
                             </tr>
                         </thead>
@@ -79,7 +78,7 @@ $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
                                 </td>
                                 <th scope="row">
                                     <?php if ($canEdit) : ?>
-                                        <a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo Route::_('index.php?option=com_languages&task=override.edit&id=' . $key); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($key); ?>">
+                                        <a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo Route::_('index.php?option=com_languages&task=override.edit&id=' . $key); ?>" title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($key); ?>">
                                             <?php echo $this->escape($key); ?></a>
                                     <?php else : ?>
                                         <?php echo $this->escape($key); ?>

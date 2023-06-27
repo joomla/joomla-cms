@@ -25,7 +25,7 @@ $this->document->getWebAssetManager()
 
 ?>
 <div class="control-group">
-    <label id="jform_menus-lbl" class="control-label" for="jform_assignment"><?php echo Text::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
+    <label id="jform_menus-lbl" class="control-label" for="jform_assignment"><?php echo $this->_('COM_MODULES_MODULE_ASSIGN'); ?></label>
     <div id="jform_menus" class="controls">
         <select class="form-select" name="jform[assignment]" id="jform_assignment">
             <?php echo HTMLHelper::_('select.options', ModulesHelper::getAssignmentOptions($this->item->client_id), 'value', 'text', $this->item->assignment, true); ?>
@@ -33,30 +33,30 @@ $this->document->getWebAssetManager()
     </div>
 </div>
 <div id="menuselect-group" class="control-group">
-    <label id="jform_menuselect-lbl" class="control-label" for="jform_menuselect"><?php echo Text::_('JGLOBAL_MENU_SELECTION'); ?></label>
+    <label id="jform_menuselect-lbl" class="control-label" for="jform_menuselect"><?php echo $this->_('JGLOBAL_MENU_SELECTION'); ?></label>
     <div id="jform_menuselect" class="controls">
         <?php if (!empty($menuTypes)) : ?>
         <div class="card-header">
-            <section class="d-flex align-items-center flex-wrap w-100" aria-label="<?php echo Text::_('COM_MODULES_GLOBAL'); ?>">
-                <div class="d-flex align-items-center flex-fill mb-1" role="group" aria-label="<?php echo Text::_('COM_MODULES_GLOBAL_ASSIGN'); ?>"><?php echo Text::_('COM_MODULES_GLOBAL_ASSIGN'); ?>
+            <section class="d-flex align-items-center flex-wrap w-100" aria-label="<?php echo $this->_('COM_MODULES_GLOBAL'); ?>">
+                <div class="d-flex align-items-center flex-fill mb-1" role="group" aria-label="<?php echo $this->_('COM_MODULES_GLOBAL_ASSIGN'); ?>"><?php echo $this->_('COM_MODULES_GLOBAL_ASSIGN'); ?>
                     <button id="treeCheckAll" class="btn btn-secondary btn-sm mx-1" type="button">
-                        <?php echo Text::_('JALL'); ?>
+                        <?php echo $this->_('JALL'); ?>
                     </button>
                     <button id="treeUncheckAll" class="btn btn-secondary btn-sm mx-1" type="button">
-                        <?php echo Text::_('JNONE'); ?>
+                        <?php echo $this->_('JNONE'); ?>
                     </button>
                 </div>
-                <div class="d-flex align-items-center mb-1 flex-fill" role="group" aria-label="<?php echo Text::_('COM_MODULES_GLOBAL_TREE_EXPAND'); ?>"><?php echo Text::_('COM_MODULES_GLOBAL_TREE_EXPAND'); ?>
+                <div class="d-flex align-items-center mb-1 flex-fill" role="group" aria-label="<?php echo $this->_('COM_MODULES_GLOBAL_TREE_EXPAND'); ?>"><?php echo $this->_('COM_MODULES_GLOBAL_TREE_EXPAND'); ?>
                     <button id="treeExpandAll" class="btn btn-secondary btn-sm mx-1" type="button">
-                        <?php echo Text::_('JALL'); ?>
+                        <?php echo $this->_('JALL'); ?>
                     </button>
                     <button id="treeCollapseAll" class="btn btn-secondary btn-sm mx-1" type="button">
-                        <?php echo Text::_('JNONE'); ?>
+                        <?php echo $this->_('JNONE'); ?>
                     </button>
                 </div>
                 <div role="search" class="flex-grow-1">
-                    <label for="treeselectfilter" class="visually-hidden"><?php echo Text::_('COM_MODULES_SEARCH_MENUITEM'); ?></label>
-                    <input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query" autocomplete="off" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>">
+                    <label for="treeselectfilter" class="visually-hidden"><?php echo $this->_('COM_MODULES_SEARCH_MENUITEM'); ?></label>
+                    <input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query" autocomplete="off" placeholder="<?php echo $this->_('JSEARCH_FILTER'); ?>">
                 </div>
             </section>
         </div>
@@ -104,10 +104,10 @@ $this->document->getWebAssetManager()
                                             <?php endif; ?>
                                         <?php endif; ?>
                                         <?php if ($link->published == 0) : ?>
-                                            <?php echo ' <span class="badge bg-secondary">' . Text::_('JUNPUBLISHED') . '</span>'; ?>
+                                            <?php echo ' <span class="badge bg-secondary">' . $this->_('JUNPUBLISHED') . '</span>'; ?>
                                         <?php endif; ?>
                                         <?php if ($uselessMenuItem) : ?>
-                                            <?php echo ' <span class="badge bg-secondary">' . Text::_('COM_MODULES_MENU_ITEM_' . strtoupper($link->type)) . '</span>'; ?>
+                                            <?php echo ' <span class="badge bg-secondary">' . $this->_('COM_MODULES_MENU_ITEM_' . strtoupper($link->type)) . '</span>'; ?>
                                         <?php endif; ?>
                                     </label>
                                 </div>
@@ -123,7 +123,7 @@ $this->document->getWebAssetManager()
                     <?php endif; ?>
                 <?php endforeach; ?>
             </ul>
-            <joomla-alert id="noresultsfound" type="warning" style="display:none"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+            <joomla-alert id="noresultsfound" type="warning" style="display:none"><?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
             <div class="hidden" id="treeselectmenu">
                 <div class="nav-hover treeselect-menu">
                     <div class="dropdown">
@@ -132,14 +132,14 @@ $this->document->getWebAssetManager()
                             <span class="visually-hidden"><?php echo Text::sprintf('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
                         </button>
                         <div class="dropdown-menu">
-                            <h1 class="dropdown-header"><?php echo Text::_('COM_MODULES_SUBITEMS'); ?></h1>
+                            <h1 class="dropdown-header"><?php echo $this->_('COM_MODULES_SUBITEMS'); ?></h1>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item checkall" href="javascript://"><span class="icon-check-square" aria-hidden="true"></span> <?php echo Text::_('JSELECT'); ?></a>
-                            <a class="dropdown-item uncheckall" href="javascript://"><span class="icon-square" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_DESELECT'); ?></a>
+                            <a class="dropdown-item checkall" href="javascript://"><span class="icon-check-square" aria-hidden="true"></span> <?php echo $this->_('JSELECT'); ?></a>
+                            <a class="dropdown-item uncheckall" href="javascript://"><span class="icon-square" aria-hidden="true"></span> <?php echo $this->_('COM_MODULES_DESELECT'); ?></a>
                             <div class="treeselect-menu-expand">
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item expandall" href="javascript://"><span class="icon-plus" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_EXPAND'); ?></a>
-                                <a class="dropdown-item collapseall" href="javascript://"><span class="icon-minus" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_COLLAPSE'); ?></a>
+                                <a class="dropdown-item expandall" href="javascript://"><span class="icon-plus" aria-hidden="true"></span> <?php echo $this->_('COM_MODULES_EXPAND'); ?></a>
+                                <a class="dropdown-item collapseall" href="javascript://"><span class="icon-minus" aria-hidden="true"></span> <?php echo $this->_('COM_MODULES_COLLAPSE'); ?></a>
                             </div>
                         </div>
                     </div>

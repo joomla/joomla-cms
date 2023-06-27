@@ -28,7 +28,7 @@ $icon = $this->params->get('contact_icons') == 0;
     ) : ?>
         <dt>
             <?php if ($icon && !$this->params->get('marker_address')) : ?>
-                <span class="icon-address" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('COM_CONTACT_ADDRESS'); ?></span>
+                <span class="icon-address" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('COM_CONTACT_ADDRESS'); ?></span>
             <?php else : ?>
                 <span class="<?php echo $this->params->get('marker_class'); ?>">
                     <?php echo $this->params->get('marker_address'); ?>
@@ -77,7 +77,7 @@ $icon = $this->params->get('contact_icons') == 0;
 <?php if ($this->item->email_to && $this->params->get('show_email')) : ?>
     <dt>
         <?php if ($icon && !$this->params->get('marker_email')) : ?>
-            <span class="icon-envelope" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('COM_CONTACT_EMAIL_LABEL'); ?></span>
+            <span class="icon-envelope" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('COM_CONTACT_EMAIL_LABEL'); ?></span>
         <?php else : ?>
             <span class="<?php echo $this->params->get('marker_class'); ?>">
                 <?php echo $this->params->get('marker_email'); ?>
@@ -94,7 +94,7 @@ $icon = $this->params->get('contact_icons') == 0;
 <?php if ($this->item->telephone && $this->params->get('show_telephone')) : ?>
     <dt>
         <?php if ($icon && !$this->params->get('marker_telephone')) : ?>
-                <span class="icon-phone" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('COM_CONTACT_TELEPHONE'); ?></span>
+                <span class="icon-phone" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('COM_CONTACT_TELEPHONE'); ?></span>
         <?php else : ?>
             <span class="<?php echo $this->params->get('marker_class'); ?>">
                 <?php echo $this->params->get('marker_telephone'); ?>
@@ -110,7 +110,7 @@ $icon = $this->params->get('contact_icons') == 0;
 <?php if ($this->item->fax && $this->params->get('show_fax')) : ?>
     <dt>
         <?php if ($icon && !$this->params->get('marker_fax')) : ?>
-            <span class="icon-fax" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('COM_CONTACT_FAX'); ?></span>
+            <span class="icon-fax" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('COM_CONTACT_FAX'); ?></span>
         <?php else : ?>
             <span class="<?php echo $this->params->get('marker_class'); ?>">
                 <?php echo $this->params->get('marker_fax'); ?>
@@ -126,7 +126,7 @@ $icon = $this->params->get('contact_icons') == 0;
 <?php if ($this->item->mobile && $this->params->get('show_mobile')) : ?>
     <dt>
         <?php if ($icon && !$this->params->get('marker_mobile')) : ?>
-            <span class="icon-mobile" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('COM_CONTACT_MOBILE'); ?></span>
+            <span class="icon-mobile" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('COM_CONTACT_MOBILE'); ?></span>
         <?php else : ?>
             <span class="<?php echo $this->params->get('marker_class'); ?>">
                 <?php echo $this->params->get('marker_mobile'); ?>
@@ -142,7 +142,7 @@ $icon = $this->params->get('contact_icons') == 0;
 <?php if ($this->item->webpage && $this->params->get('show_webpage')) : ?>
     <dt>
         <?php if ($icon && !$this->params->get('marker_webpage')) : ?>
-            <span class="icon-home" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('COM_CONTACT_WEBPAGE'); ?></span>
+            <span class="icon-home" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('COM_CONTACT_WEBPAGE'); ?></span>
         <?php else : ?>
             <span class="<?php echo $this->params->get('marker_class'); ?>">
                 <?php echo $this->params->get('marker_webpage'); ?>

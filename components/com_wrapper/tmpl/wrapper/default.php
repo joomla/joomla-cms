@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 
 $this->document->getWebAssetManager()
     ->registerAndUseScript('com_wrapper.iframe', 'com_wrapper/iframe-height.min.js', [], ['defer' => true]);
@@ -41,6 +40,6 @@ $this->document->getWebAssetManager()
             title="<?php echo $this->escape($this->params->get('page_title')); ?>"
         <?php endif; ?>
         class="com-wrapper__iframe wrapper <?php echo $this->pageclass_sfx; ?>">
-        <?php echo Text::_('COM_WRAPPER_NO_IFRAMES'); ?>
+        <?php echo $this->_('COM_WRAPPER_NO_IFRAMES'); ?>
     </iframe>
 </div>

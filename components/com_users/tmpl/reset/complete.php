@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -32,7 +31,7 @@ $wa->useScript('keepalive')
         <?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
             <fieldset>
                 <?php if (isset($fieldset->label)) : ?>
-                    <legend><?php echo Text::_($fieldset->label); ?></legend>
+                    <legend><?php echo $this->_($fieldset->label); ?></legend>
                 <?php endif; ?>
                 <?php echo $this->form->renderFieldset($fieldset->name); ?>
             </fieldset>
@@ -40,7 +39,7 @@ $wa->useScript('keepalive')
         <div class="com-users-reset-complete__submit control-group">
             <div class="controls">
                 <button type="submit" class="btn btn-primary validate">
-                    <?php echo Text::_('JSUBMIT'); ?>
+                    <?php echo $this->_('JSUBMIT'); ?>
                 </button>
             </div>
         </div>

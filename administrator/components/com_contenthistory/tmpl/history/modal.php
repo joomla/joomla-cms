@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
-Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
+Session::checkToken('get') or die($this->_('JINVALID_TOKEN'));
 
 $hash           = $this->state->get('sha1_hash');
 $formUrl        = 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $this->state->get('item_id') . '&' . Session::getFormToken() . '=1';
@@ -45,27 +45,27 @@ $wa->useScript('multiselect')
     <form action="<?php echo Route::_($formUrl); ?>" method="post" name="adminForm" id="adminForm">
         <table class="table table-sm">
             <caption class="visually-hidden">
-                <?php echo Text::_('COM_CONTENTHISTORY_VERSION_CAPTION'); ?>
+                <?php echo $this->_('COM_CONTENTHISTORY_VERSION_CAPTION'); ?>
             </caption>
             <thead>
                 <tr>
                     <td class="w-1 text-center">
-                        <input class="form-check-input" type="checkbox" name="checkall-toggle" value="" title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)">
+                        <input class="form-check-input" type="checkbox" name="checkall-toggle" value="" title="<?php echo $this->_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)">
                     </td>
                     <th scope="col" class="w-15">
-                        <?php echo Text::_('JDATE'); ?>
+                        <?php echo $this->_('JDATE'); ?>
                     </th>
                     <th scope="col" class="w-15 d-none d-md-table-cell">
-                        <?php echo Text::_('COM_CONTENTHISTORY_VERSION_NOTE'); ?>
+                        <?php echo $this->_('COM_CONTENTHISTORY_VERSION_NOTE'); ?>
                     </th>
                     <th scope="col" class="w-10">
-                        <?php echo Text::_('COM_CONTENTHISTORY_KEEP_VERSION'); ?>
+                        <?php echo $this->_('COM_CONTENTHISTORY_KEEP_VERSION'); ?>
                     </th>
                     <th scope="col" class="w-15 d-none d-md-table-cell">
-                        <?php echo Text::_('JAUTHOR'); ?>
+                        <?php echo $this->_('JAUTHOR'); ?>
                     </th>
                     <th scope="col" class="w-10 text-end">
-                        <?php echo Text::_('COM_CONTENTHISTORY_CHARACTER_COUNT'); ?>
+                        <?php echo $this->_('COM_CONTENTHISTORY_CHARACTER_COUNT'); ?>
                     </th>
                 </tr>
             </thead>
@@ -78,10 +78,10 @@ $wa->useScript('multiselect')
                         </td>
                         <th scope="row">
                             <a href="#" class="js-link-open-window save-date" data-url="<?php echo Route::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . Session::getFormToken() . '=1&version_id=' . $item->version_id); ?>">
-                                <?php echo HTMLHelper::_('date', $item->save_date, Text::_('DATE_FORMAT_LC6')); ?>
+                                <?php echo HTMLHelper::_('date', $item->save_date, $this->_('DATE_FORMAT_LC6')); ?>
                             </a>
                             <?php if ($item->sha1_hash == $hash) : ?>
-                                <span class="icon-star" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('JCURRENT'); ?></span>
+                                <span class="icon-star" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('JCURRENT'); ?></span>
                             <?php endif; ?>
                         </th>
                         <td class="d-none d-md-table-cell">
@@ -90,12 +90,12 @@ $wa->useScript('multiselect')
                         <td>
                             <?php if ($item->keep_forever) : ?>
                                 <button type="button" class="js-grid-item-action btn btn-secondary btn-sm" data-item-id="cb<?php echo $i; ?>" data-item-task="history.keep">
-                                    <?php echo Text::_('JYES'); ?>
+                                    <?php echo $this->_('JYES'); ?>
                                     &nbsp;<span class="icon-lock" aria-hidden="true"></span>
                                 </button>
                             <?php else : ?>
                                 <button type="button" class="js-grid-item-action btn btn-secondary btn-sm" data-item-id="cb<?php echo $i; ?>" data-item-task="history.keep">
-                                    <?php echo Text::_('JNO'); ?>
+                                    <?php echo $this->_('JNO'); ?>
                                 </button>
                             <?php endif; ?>
                         </td>
@@ -103,7 +103,7 @@ $wa->useScript('multiselect')
                             <?php echo htmlspecialchars($item->editor); ?>
                         </td>
                         <td class="text-end">
-                            <?php echo number_format((int) $item->character_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')); ?>
+                            <?php echo number_format((int) $item->character_count, 0, $this->_('DECIMALS_SEPARATOR'), $this->_('THOUSANDS_SEPARATOR')); ?>
                         </td>
                     </tr>
                     <?php $i++; ?>

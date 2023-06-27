@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -20,7 +19,7 @@ $wa->useScript('keepalive')
     ->useScript('form.validate');
 
 ?>
-<form action="<?php echo Route::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="message-form" aria-label="<?php echo Text::_('COM_MESSAGES_FORM_NEW'); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="message-form" aria-label="<?php echo $this->_('COM_MESSAGES_FORM_NEW'); ?>" class="form-validate">
     <div class="adminform mt-2">
         <div class="card">
             <div class="card-body">

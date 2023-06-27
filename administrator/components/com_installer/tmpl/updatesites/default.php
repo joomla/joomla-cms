@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
@@ -34,15 +33,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                     <?php if (empty($this->items)) : ?>
                         <div class="alert alert-info">
-                            <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                            <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                            <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                            <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                         </div>
                     <?php else : ?>
                     <table class="table">
                         <caption class="visually-hidden">
-                            <?php echo Text::_('COM_INSTALLER_UPDATESITES_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->_('COM_INSTALLER_UPDATESITES_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -100,12 +99,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     <?php if ($canEdit) : ?>
                                         <a
                                             href="<?php echo Route::_('index.php?option=com_installer&task=updatesite.edit&update_site_id=' . (int) $item->update_site_id); ?>"
-                                            title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->update_site_name); ?>"
+                                            title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($item->update_site_name); ?>"
                                         >
-                                            <?php echo Text::_($item->update_site_name); ?>
+                                            <?php echo $this->_($item->update_site_name); ?>
                                         </a>
                                     <?php else : ?>
-                                        <?php echo Text::_($item->update_site_name); ?>
+                                        <?php echo $this->_($item->update_site_name); ?>
                                     <?php endif; ?>
                                     <div class="small break-word">
                                         <a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->location); ?></a>
@@ -113,15 +112,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     <div class="small break-word">
                                         <?php if ($item->downloadKey['valid']) : ?>
                                         <span class="badge bg-info">
-                                            <?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_EXTRA_QUERY_LABEL'); ?>
+                                            <?php echo $this->_('COM_INSTALLER_DOWNLOADKEY_EXTRA_QUERY_LABEL'); ?>
                                         </span>
                                         <code><?php echo $item->downloadKey['value']; ?></code>
                                         <?php elseif ($item->downloadKey['supported']) : ?>
                                         <span class="badge bg-danger" tabindex="0">
-                                            <?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?>
+                                            <?php echo $this->_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?>
                                         </span>
                                         <div role="tooltip" id="tip-missing<?php echo $i; ?>">
-                                            <?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP'); ?>
+                                            <?php echo $this->_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP'); ?>
                                         </div>
                                         <?php endif; ?>
                                     </div>

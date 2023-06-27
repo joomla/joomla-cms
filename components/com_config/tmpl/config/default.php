@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -38,7 +37,7 @@ $wa->useScript('keepalive')
     <div class="mb-2 d-flex">
         <button type="button" class="btn btn-sm btn-outline-info button-inlinehelp ms-auto">
             <span class="fa fa-question-circle" aria-hidden="true"></span>
-            <?php echo Text::_('JINLINEHELP') ?>
+            <?php echo $this->_('JINLINEHELP') ?>
         </button>
     </div>
 
@@ -52,11 +51,11 @@ $wa->useScript('keepalive')
     <div class="mb-2">
     <button type="button" class="btn btn-primary" data-submit-task="config.apply">
         <span class="icon-check" aria-hidden="true"></span>
-        <?php echo Text::_('JSAVE') ?>
+        <?php echo $this->_('JSAVE') ?>
     </button>
     <button type="button" class="btn btn-danger" data-submit-task="config.cancel">
         <span class="icon-times" aria-hidden="true"></span>
-        <?php echo Text::_('JCANCEL') ?>
+        <?php echo $this->_('JCANCEL') ?>
     </button>
     </div>
 

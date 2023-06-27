@@ -35,7 +35,7 @@ $wa->useScript('form.validate')
 
 // No access if not global SuperUser
 if (!$this->getCurrentUser()->authorise('core.admin')) {
-    Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'danger');
+    Factory::getApplication()->enqueueMessage($this->_('JERROR_ALERTNOAUTHOR'), 'danger');
 }
 
 if ($this->type == 'image') {
@@ -56,7 +56,7 @@ if ($this->type == 'font') {
 ?>
 <div class="main-card">
     <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'editor', 'recall' => true, 'breakpoint' => 768]); ?>
-    <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', Text::_('COM_TEMPLATES_TAB_EDITOR')); ?>
+    <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', $this->_('COM_TEMPLATES_TAB_EDITOR')); ?>
     <div class="row mt-2">
         <div class="col-md-8" id="conditional-section">
             <?php if ($this->type == 'file') : ?>
@@ -109,14 +109,14 @@ if ($this->type == 'font') {
         <div class="col-md-9">
             <fieldset class="options-form">
                 <?php if ($this->type == 'home') : ?>
-                    <legend><?php echo Text::_('COM_TEMPLATES_HOME_HEADING'); ?></legend>
+                    <legend><?php echo $this->_('COM_TEMPLATES_HOME_HEADING'); ?></legend>
                     <form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0)); ?>" method="post" name="adminForm" id="adminForm">
                         <input type="hidden" name="task" value="">
                         <?php echo HTMLHelper::_('form.token'); ?>
-                        <p><?php echo Text::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
+                        <p><?php echo $this->_('COM_TEMPLATES_HOME_TEXT'); ?></p>
                         <p>
                             <a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Template_Overrides" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
-                                <?php echo Text::_('COM_TEMPLATES_HOME_BUTTON'); ?>
+                                <?php echo $this->_('COM_TEMPLATES_HOME_BUTTON'); ?>
                             </a>
                         </p>
                     </form>
@@ -125,7 +125,7 @@ if ($this->type == 'font') {
                         <div class="col-md-12" id="override-pane">
                             <?php $overrideCheck = explode(DIRECTORY_SEPARATOR, $this->source->filename); ?>
                             <?php if (!empty($this->source->coreFile)) : ?>
-                                <h2><?php echo Text::_('COM_TEMPLATES_FILE_OVERRIDE_PANE'); ?></h2>
+                                <h2><?php echo $this->_('COM_TEMPLATES_FILE_OVERRIDE_PANE'); ?></h2>
                             <?php endif; ?>
                             <form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0)); ?>" method="post" name="adminForm" id="adminForm">
                                 <input type="hidden" name="isMedia" value="<?php echo $input->get('isMedia', 0); ?>">
@@ -140,7 +140,7 @@ if ($this->type == 'font') {
                         </div>
                         <?php if (!empty($this->source->coreFile)) : ?>
                             <div class="col-md-12" id="core-pane">
-                                <h2><?php echo Text::_('COM_TEMPLATES_FILE_CORE_PANE'); ?></h2>
+                                <h2><?php echo $this->_('COM_TEMPLATES_FILE_CORE_PANE'); ?></h2>
                                 <div class="editor-border">
                                     <?php echo $this->form->getInput('core'); ?>
                                 </div>
@@ -156,11 +156,11 @@ if ($this->type == 'font') {
                                     ],
                                     [
                                         'language' => [
-                                            'old_version' => Text::_('COM_TEMPLATES_DIFF_CORE'),
-                                            'new_version' => Text::_('COM_TEMPLATES_DIFF_OVERRIDE'),
-                                            'differences' => Text::_('COM_TEMPLATES_DIFF_DIFFERENCES'),
+                                            'old_version' => $this->_('COM_TEMPLATES_DIFF_CORE'),
+                                            'new_version' => $this->_('COM_TEMPLATES_DIFF_OVERRIDE'),
+                                            'differences' => $this->_('COM_TEMPLATES_DIFF_DIFFERENCES'),
                                         ],
-                                        'resultForIdenticals' => Text::_('COM_TEMPLATES_DIFF_IDENTICAL'),
+                                        'resultForIdenticals' => $this->_('COM_TEMPLATES_DIFF_IDENTICAL'),
                                         'detailLevel' => 'word',
                                         'spaceToHtmlTag' => true,
                                         'wrapperClasses' => ['diff-wrapper', 'columns-order-ignore'],
@@ -168,7 +168,7 @@ if ($this->type == 'font') {
                                 );
                             ?>
                             <div class="col-md-12" id="diff-main">
-                                <h2><?php echo Text::_('COM_TEMPLATES_FILE_COMPARE_PANE'); ?></h2>
+                                <h2><?php echo $this->_('COM_TEMPLATES_FILE_COMPARE_PANE'); ?></h2>
                                 <div class="diff-pane">
                                     <div id="diff"><?php echo $difference; ?></div>
                                 </div>
@@ -176,7 +176,7 @@ if ($this->type == 'font') {
                         <?php endif; ?>
                     </div>
                 <?php elseif ($this->type == 'archive') : ?>
-                    <legend><?php echo Text::_('COM_TEMPLATES_FILE_CONTENT_PREVIEW'); ?></legend>
+                    <legend><?php echo $this->_('COM_TEMPLATES_FILE_CONTENT_PREVIEW'); ?></legend>
                     <form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0)); ?>" method="post" name="adminForm" id="adminForm">
                         <ul class="nav flex-column well">
                             <?php foreach ($this->archive as $file) : ?>
@@ -266,11 +266,11 @@ if ($this->type == 'font') {
         </div>
     </div>
     <?php echo HTMLHelper::_('uitab.endTab'); ?>
-    <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'overrides', Text::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
+    <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'overrides', $this->_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
     <div class="row mt-2">
         <div class="col-md-3">
             <fieldset class="options-form">
-                <legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
+                <legend><?php echo $this->_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
                 <ul class="list-unstyled">
                     <?php $token = Session::getFormToken() . '=' . 1; ?>
                     <?php foreach ($this->overridesList['modules'] as $module) : ?>
@@ -289,7 +289,7 @@ if ($this->type == 'font') {
         </div>
         <div class="col-md-3">
             <fieldset class="options-form">
-                <legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_COMPONENTS'); ?></legend>
+                <legend><?php echo $this->_('COM_TEMPLATES_OVERRIDES_COMPONENTS'); ?></legend>
                 <ul class="list-unstyled">
                     <?php $token = Session::getFormToken() . '=' . 1; ?>
                     <?php foreach ($this->overridesList['components'] as $key => $value) : ?>
@@ -317,7 +317,7 @@ if ($this->type == 'font') {
         </div>
         <div class="col-md-3">
             <fieldset class="options-form">
-                <legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_PLUGINS'); ?></legend>
+                <legend><?php echo $this->_('COM_TEMPLATES_OVERRIDES_PLUGINS'); ?></legend>
                 <ul class="list-unstyled">
                     <?php $token = Session::getFormToken() . '=' . 1; ?>
                     <?php foreach ($this->overridesList['plugins'] as $key => $group) : ?>
@@ -345,7 +345,7 @@ if ($this->type == 'font') {
         </div>
         <div class="col-md-3">
             <fieldset class="options-form">
-                <legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
+                <legend><?php echo $this->_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
                 <ul class="list-unstyled">
                     <?php $token = Session::getFormToken() . '=' . 1; ?>
                     <?php foreach ($this->overridesList['layouts'] as $key => $value) : ?>
@@ -375,12 +375,12 @@ if ($this->type == 'font') {
     <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
     <?php if ($this->pluginState) : ?>
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'files', Text::_('COM_TEMPLATES_TAB_UPDATED_FILES')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'files', $this->_('COM_TEMPLATES_TAB_UPDATED_FILES')); ?>
         <?php echo $this->loadTemplate('updated_files'); ?>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
     <?php endif; ?>
 
-    <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
+    <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', $this->_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
     <div class="row mt-2">
         <div class="col-12">
             <?php echo $this->loadTemplate('description'); ?>
@@ -395,7 +395,7 @@ if ($this->type == 'font') {
     $copyModalData = [
         'selector' => $taskName . 'Modal',
         'params'   => [
-            'title'  => Text::_('COM_TEMPLATES_TEMPLATE_' . strtoupper($taskName)),
+            'title'  => $this->_('COM_TEMPLATES_TEMPLATE_' . strtoupper($taskName)),
             'footer' => $this->loadTemplate('modal_' . $taskName . '_footer')
         ],
         'body' => $this->loadTemplate('modal_' . $taskName . '_body')
@@ -426,7 +426,7 @@ if ($this->type == 'font') {
         $deleteModalData = [
             'selector' => 'deleteModal',
             'params'   => [
-                'title'  => Text::_('COM_TEMPLATES_ARE_YOU_SURE'),
+                'title'  => $this->_('COM_TEMPLATES_ARE_YOU_SURE'),
                 'footer' => $this->loadTemplate('modal_delete_footer')
             ],
             'body' => $this->loadTemplate('modal_delete_body')
@@ -438,7 +438,7 @@ if ($this->type == 'font') {
     $fileModalData = [
         'selector' => 'fileModal',
         'params'   => [
-            'title'      => Text::_('COM_TEMPLATES_NEW_FILE_HEADER'),
+            'title'      => $this->_('COM_TEMPLATES_NEW_FILE_HEADER'),
             'footer'     => $this->loadTemplate('modal_file_footer'),
             'height'     => '400px',
             'width'      => '800px',
@@ -453,7 +453,7 @@ if ($this->type == 'font') {
     $folderModalData = [
         'selector' => 'folderModal',
         'params'   => [
-            'title'      => Text::_('COM_TEMPLATES_MANAGE_FOLDERS'),
+            'title'      => $this->_('COM_TEMPLATES_MANAGE_FOLDERS'),
             'footer'     => $this->loadTemplate('modal_folder_footer'),
             'height'     => '400px',
             'width'      => '800px',
@@ -469,7 +469,7 @@ if ($this->type == 'font') {
         $resizeModalData = [
             'selector' => 'resizeModal',
             'params'   => [
-                'title'  => Text::_('COM_TEMPLATES_RESIZE_IMAGE'),
+                'title'  => $this->_('COM_TEMPLATES_RESIZE_IMAGE'),
                 'footer' => $this->loadTemplate('modal_resize_footer')
             ],
             'body' => $this->loadTemplate('modal_resize_body')

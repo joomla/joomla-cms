@@ -51,7 +51,7 @@ $n         = count($this->items);
             <?php if ($this->params->get('filter_field')) : ?>
                 <div class="com-tags-tags__filter btn-group">
                     <label class="filter-search-lbl visually-hidden" for="filter-search">
-                        <?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>
+                        <?php echo $this->_('COM_TAGS_TITLE_FILTER_LABEL'); ?>
                     </label>
                     <input
                         type="text"
@@ -59,16 +59,16 @@ $n         = count($this->items);
                         id="filter-search"
                         value="<?php echo $this->escape($this->state->get('list.filter')); ?>"
                         class="inputbox" onchange="document.adminForm.submit();"
-                        placeholder="<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>"
+                        placeholder="<?php echo $this->_('COM_TAGS_TITLE_FILTER_LABEL'); ?>"
                     >
-                    <button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
-                    <button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?></button>
+                    <button type="submit" name="filter_submit" class="btn btn-primary"><?php echo $this->_('JGLOBAL_FILTER_BUTTON'); ?></button>
+                    <button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo $this->_('JSEARCH_FILTER_CLEAR'); ?></button>
                 </div>
             <?php endif; ?>
             <?php if ($this->params->get('show_pagination_limit')) : ?>
                 <div class="btn-group float-end">
                     <label for="limit" class="visually-hidden">
-                        <?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
+                        <?php echo $this->_('JGLOBAL_DISPLAY_NUM'); ?>
                     </label>
                     <?php echo $this->pagination->getLimitBox(); ?>
                 </div>
@@ -81,8 +81,8 @@ $n         = count($this->items);
 
     <?php if ($this->items == false || $n === 0) : ?>
         <div class="alert alert-info">
-            <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-            <?php echo Text::_('COM_TAGS_NO_TAGS'); ?>
+            <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+            <?php echo $this->_('COM_TAGS_NO_TAGS'); ?>
         </div>
     <?php else : ?>
         <?php foreach ($this->items as $i => $item) : ?>

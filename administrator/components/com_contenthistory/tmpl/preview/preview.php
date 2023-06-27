@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
-Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
+Session::checkToken('get') or die($this->_('JINVALID_TOKEN'));
 
 ?>
 <div role="main">
@@ -28,12 +28,12 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
     <table class="table">
         <caption class="visually-hidden">
-            <?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_CAPTION'); ?>
+            <?php echo $this->_('COM_CONTENTHISTORY_PREVIEW_CAPTION'); ?>
         </caption>
         <thead>
             <tr>
-                <th class="w-25" scope="col"><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
-                <th scope="col"><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_VALUE'); ?></th>
+                <th class="w-25" scope="col"><?php echo $this->_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
+                <th scope="col"><?php echo $this->_('COM_CONTENTHISTORY_PREVIEW_VALUE'); ?></th>
             </tr>
         </thead>
         <tbody>

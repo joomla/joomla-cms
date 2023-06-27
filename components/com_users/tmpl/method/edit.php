@@ -12,7 +12,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Users\Site\View\Method\HtmlView;
 use Joomla\Utilities\ArrayHelper;
@@ -53,12 +52,12 @@ $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
                    target="_blank"
                 >
                     <span class="icon icon-question-sign" aria-hidden="true"></span>
-                    <span class="visually-hidden"><?php echo Text::_('JHELP') ?></span>
+                    <span class="visually-hidden"><?php echo $this->_('JHELP') ?></span>
                 </a>
             </span>
             <?php endif;?>
             <h<?php echo $headingLevel ?> id="com-users-method-edit-head">
-                <?php echo Text::_($this->title) ?>
+                <?php echo $this->_($this->title) ?>
             </h<?php echo $headingLevel ?>>
             <?php $headingLevel++ ?>
         <?php endif; ?>
@@ -66,7 +65,7 @@ $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
         <div class="row">
             <label class="col-sm-3 col-form-label"
                 for="com-users-method-edit-title">
-                <?php echo Text::_('COM_USERS_MFA_EDIT_FIELD_TITLE'); ?>
+                <?php echo $this->_('COM_USERS_MFA_EDIT_FIELD_TITLE'); ?>
             </label>
             <div class="col-sm-9">
                 <input type="text"
@@ -76,7 +75,7 @@ $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
                         value="<?php echo $this->escape($this->record->title) ?>"
                         aria-describedby="com-users-method-edit-help">
                 <p class="form-text" id="com-users-method-edit-help">
-                    <?php echo $this->escape(Text::_('COM_USERS_MFA_EDIT_FIELD_TITLE_DESC')) ?>
+                    <?php echo $this->escape($this->_('COM_USERS_MFA_EDIT_FIELD_TITLE_DESC')) ?>
                 </p>
             </div>
         </div>
@@ -86,7 +85,7 @@ $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="com-users-is-default-method" <?php echo $this->record->default ? 'checked="checked"' : ''; ?> name="default">
                     <label class="form-check-label" for="com-users-is-default-method">
-                        <?php echo Text::_('COM_USERS_MFA_EDIT_FIELD_DEFAULT'); ?>
+                        <?php echo $this->_('COM_USERS_MFA_EDIT_FIELD_DEFAULT'); ?>
                     </label>
                 </div>
             </div>
@@ -161,13 +160,13 @@ $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
             <div class="col-sm-9 offset-sm-3">
                 <button type="submit" class="btn btn-primary me-3 <?php echo $hideSubmit ? 'd-none' : '' ?> <?php echo $this->renderOptions['submit_class'] ?>">
                     <span class="<?php echo $this->renderOptions['submit_icon'] ?>" aria-hidden="true"></span>
-                    <?php echo Text::_($this->renderOptions['submit_text']); ?>
+                    <?php echo $this->_($this->renderOptions['submit_text']); ?>
                 </button>
 
                 <a href="<?php echo $cancelURL ?>"
                    class="btn btn-sm btn-danger">
                     <span class="icon icon-cancel-2" aria-hidden="true"></span>
-                    <?php echo Text::_('JCANCEL'); ?>
+                    <?php echo $this->_('JCANCEL'); ?>
                 </a>
             </div>
         </div>

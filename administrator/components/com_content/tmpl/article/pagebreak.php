@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
@@ -19,14 +18,14 @@ $wa->useScript('com_content.admin-article-pagebreak');
 
 $this->eName = Factory::getApplication()->getInput()->getCmd('e_name', '');
 $this->eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $this->eName);
-$this->document->setTitle(Text::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
+$this->document->setTitle($this->_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
 
 ?>
 <div class="container-popup">
     <form>
         <div class="control-group">
             <div class="control-label">
-                <label for="title"><?php echo Text::_('COM_CONTENT_PAGEBREAK_TITLE'); ?></label>
+                <label for="title"><?php echo $this->_('COM_CONTENT_PAGEBREAK_TITLE'); ?></label>
             </div>
             <div class="controls">
                 <input class="form-control" type="text" id="title" name="title">
@@ -34,7 +33,7 @@ $this->document->setTitle(Text::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
         </div>
         <div class="control-group">
             <div class="control-label">
-                <label for="alias"><?php echo Text::_('COM_CONTENT_PAGEBREAK_TOC'); ?></label>
+                <label for="alias"><?php echo $this->_('COM_CONTENT_PAGEBREAK_TOC'); ?></label>
             </div>
             <div class="controls">
                 <input class="form-control" type="text" id="alt" name="alt">
@@ -42,7 +41,7 @@ $this->document->setTitle(Text::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
         </div>
 
         <button onclick="insertPagebreak('<?php echo $this->eName; ?>');" class="btn btn-success">
-            <?php echo Text::_('COM_CONTENT_PAGEBREAK_INSERT_BUTTON'); ?>
+            <?php echo $this->_('COM_CONTENT_PAGEBREAK_INSERT_BUTTON'); ?>
         </button>
 
     </form>

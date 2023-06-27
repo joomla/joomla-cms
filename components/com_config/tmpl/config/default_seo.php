@@ -10,12 +10,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 
 ?>
 <fieldset>
 
-    <legend><?php echo Text::_('COM_CONFIG_SEO_SETTINGS'); ?></legend>
+    <legend><?php echo $this->_('COM_CONFIG_SEO_SETTINGS'); ?></legend>
 
     <?php foreach ($this->form->getFieldset('seo') as $field) : ?>
         <div class="mb-3">
@@ -23,7 +22,7 @@ use Joomla\CMS\Language\Text;
             <?php echo $field->input; ?>
             <?php if ($field->description) : ?>
                 <div class="form-text hide-aware-inline-help d-none" id="<?php echo $field->id ?>-desc">
-                    <?php echo Text::_($field->description) ?>
+                    <?php echo $this->_($field->description) ?>
                 </div>
             <?php endif; ?>
         </div>

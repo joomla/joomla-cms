@@ -12,7 +12,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
@@ -63,15 +62,15 @@ $userId = $user->id;
                 ?>
                 <?php if (empty($this->workflows)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                        <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                     <table class="table">
                         <caption class="visually-hidden">
-                            <?php echo Text::_('COM_WORKFLOW_WORKFLOWS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->_('COM_WORKFLOW_WORKFLOWS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -88,13 +87,13 @@ $userId = $user->id;
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 'w.title', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="w-10 text-center d-none d-md-table-cell">
-                                    <?php echo Text::_('COM_WORKFLOW_DEFAULT'); ?>
+                                    <?php echo $this->_('COM_WORKFLOW_DEFAULT'); ?>
                                 </th>
                                 <th scope="col" class="w-10 text-center d-none d-md-table-cell">
-                                    <?php echo Text::_('COM_WORKFLOW_COUNT_STAGES'); ?>
+                                    <?php echo $this->_('COM_WORKFLOW_COUNT_STAGES'); ?>
                                 </th>
                                 <th scope="col" class="w-10 text-center d-none d-md-table-cell">
-                                    <?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>
+                                    <?php echo $this->_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>
                                 </th>
                                 <th scope="col" class="w-10 d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_ID', 'w.id', $listDirn, $listOrder); ?>
@@ -116,7 +115,7 @@ $userId = $user->id;
                             ?>
                             <tr class="row<?php echo $i % 2; ?>" data-draggable-group="0">
                                 <td class="text-center d-none d-md-table-cell">
-                                    <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', Text::_($item->title)); ?>
+                                    <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $this->_($item->title)); ?>
                                 </td>
                                 <td class="text-center d-none d-md-table-cell">
                                     <?php
@@ -124,7 +123,7 @@ $userId = $user->id;
                                     if (!$canChange) {
                                         $iconClass = ' inactive';
                                     } elseif (!$saveOrder) {
-                                        $iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
+                                        $iconClass = ' inactive" title="' . $this->_('JORDERINGDISABLED');
                                     }
                                     ?>
                                     <span class="sortable-handler<?php echo $iconClass ?>">
@@ -142,12 +141,12 @@ $userId = $user->id;
                                         <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'workflows.', $canCheckin); ?>
                                     <?php endif; ?>
                                     <?php if ($canEdit || $canEditOwn) : ?>
-                                        <a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT', true); ?> <?php echo Text::_($item->title, true); ?>">
-                                            <?php echo $this->escape(Text::_($item->title)); ?>
+                                        <a href="<?php echo $edit; ?>" title="<?php echo $this->_('JACTION_EDIT', true); ?> <?php echo $this->_($item->title, true); ?>">
+                                            <?php echo $this->escape($this->_($item->title)); ?>
                                         </a>
                                         <div class="small"><?php echo $item->description; ?></div>
                                     <?php else : ?>
-                                        <?php echo $this->escape(Text::_($item->title)); ?>
+                                        <?php echo $this->escape($this->_($item->title)); ?>
                                         <div class="small"><?php echo $item->description; ?></div>
                                     <?php endif; ?>
                                 </th>
@@ -160,7 +159,7 @@ $userId = $user->id;
                                         <?php echo $item->count_states; ?>
                                     </a>
                                     <div role="tooltip" id="tip-stages<?php echo $i; ?>">
-                                        <?php echo Text::_('COM_WORKFLOW_COUNT_STAGES'); ?>
+                                        <?php echo $this->_('COM_WORKFLOW_COUNT_STAGES'); ?>
                                     </div>
                                 </td>
                                 <td class="text-center btns d-none d-md-table-cell itemnumber">
@@ -169,7 +168,7 @@ $userId = $user->id;
                                         <?php echo $item->count_transitions; ?>
                                     </a>
                                     <div role="tooltip" id="tip-transitions<?php echo $i; ?>">
-                                        <?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>
+                                        <?php echo $this->_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>
                                     </div>
                                 </td>
                                 <td class="d-none d-md-table-cell">

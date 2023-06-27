@@ -33,12 +33,12 @@ $wa->useScript('com_scheduler.admin-view-select-task-search');
     <div class="d-flex mt-2">
         <div class="m-auto">
             <label class="visually-hidden" for="comSchedulerSelectSearch">
-                <?php echo Text::_('COM_SCHEDULER_TYPE_CHOOSE'); ?>
+                <?php echo $this->_('COM_SCHEDULER_TYPE_CHOOSE'); ?>
             </label>
             <div class="input-group mb-3 me-sm-2">
                 <input type="text" value=""
                        class="form-control" id="comSchedulerSelectSearch"
-                       placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>"
+                       placeholder="<?php echo $this->_('JSEARCH_FILTER'); ?>"
                 >
                 <div class="input-group-text">
                     <span class="icon-search" aria-hidden="true"></span>
@@ -54,11 +54,11 @@ $wa->useScript('com_scheduler.admin-view-select-task-search');
         <!-- Hidden alert div -->
         <div class="tasks-alert alert alert-info d-none">
             <span class="icon-info-circle" aria-hidden="true"></span><span
-                    class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-            <?php echo Text::_('COM_SCHEDULER_MSG_MANAGE_NO_TASK_PLUGINS'); ?>
+                    class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+            <?php echo $this->_('COM_SCHEDULER_MSG_MANAGE_NO_TASK_PLUGINS'); ?>
         </div>
         <h2 class="pb-3 ms-3" id="comSchedulerSelectTypeHeader">
-            <?php echo Text::_('COM_SCHEDULER_TYPE_CHOOSE'); ?>
+            <?php echo $this->_('COM_SCHEDULER_TYPE_CHOOSE'); ?>
         </h2>
 
         <!-- Parent card -->

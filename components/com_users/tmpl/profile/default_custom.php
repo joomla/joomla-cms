@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 
 $fieldsets = $this->form->getFieldsets();
 
@@ -37,11 +36,11 @@ unset($tmp);
     <?php $fields = $this->form->getFieldset($group); ?>
     <?php if (count($fields)) : ?>
         <fieldset id="users-profile-custom-<?php echo $group; ?>" class="com-users-profile__custom users-profile-custom-<?php echo $group; ?>">
-            <?php if (isset($fieldset->label) && ($legend = trim(Text::_($fieldset->label))) !== '') : ?>
+            <?php if (isset($fieldset->label) && ($legend = trim($this->_($fieldset->label))) !== '') : ?>
                 <legend><?php echo $legend; ?></legend>
             <?php endif; ?>
             <?php if (isset($fieldset->description) && trim($fieldset->description)) : ?>
-                <p><?php echo $this->escape(Text::_($fieldset->description)); ?></p>
+                <p><?php echo $this->escape($this->_($fieldset->description)); ?></p>
             <?php endif; ?>
             <dl class="dl-horizontal">
                 <?php foreach ($fields as $field) : ?>
@@ -56,7 +55,7 @@ unset($tmp);
                         </dt>
                         <dd>
                             <?php if (array_key_exists($field->fieldname, $customFields)) : ?>
-                                <?php echo strlen($customFields[$field->fieldname]->value) ? $customFields[$field->fieldname]->value : Text::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
+                                <?php echo strlen($customFields[$field->fieldname]->value) ? $customFields[$field->fieldname]->value : $this->_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
                             <?php elseif (HTMLHelper::isRegistered('users.' . $field->id)) : ?>
                                 <?php echo HTMLHelper::_('users.' . $field->id, $field->value); ?>
                             <?php elseif (HTMLHelper::isRegistered('users.' . $field->fieldname)) : ?>

@@ -71,41 +71,41 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
             <?php if ($this->params->get('filter_field') === 'tag') : ?>
                 <span class="visually-hidden">
                     <label class="filter-search-lbl" for="filter-search">
-                        <?php echo Text::_('JOPTION_SELECT_TAG'); ?>
+                        <?php echo $this->_('JOPTION_SELECT_TAG'); ?>
                     </label>
                 </span>
                 <select name="filter_tag" id="filter-search" class="form-select" onchange="document.adminForm.submit();" >
-                    <option value=""><?php echo Text::_('JOPTION_SELECT_TAG'); ?></option>
+                    <option value=""><?php echo $this->_('JOPTION_SELECT_TAG'); ?></option>
                     <?php echo HTMLHelper::_('select.options', HTMLHelper::_('tag.options', ['filter.published' => [1], 'filter.language' => $langFilter], true), 'value', 'text', $this->state->get('filter.tag')); ?>
                 </select>
             <?php elseif ($this->params->get('filter_field') === 'month') : ?>
                 <span class="visually-hidden">
                     <label class="filter-search-lbl" for="filter-search">
-                        <?php echo Text::_('JOPTION_SELECT_MONTH'); ?>
+                        <?php echo $this->_('JOPTION_SELECT_MONTH'); ?>
                     </label>
                 </span>
                 <select name="filter-search" id="filter-search" class="form-select" onchange="document.adminForm.submit();">
-                    <option value=""><?php echo Text::_('JOPTION_SELECT_MONTH'); ?></option>
+                    <option value=""><?php echo $this->_('JOPTION_SELECT_MONTH'); ?></option>
                     <?php echo HTMLHelper::_('select.options', HTMLHelper::_('content.months', $this->state), 'value', 'text', $this->state->get('list.filter')); ?>
                 </select>
             <?php else : ?>
                 <label class="filter-search-lbl visually-hidden" for="filter-search">
-                    <?php echo Text::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>
+                    <?php echo $this->_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>
                 </label>
-                <input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" placeholder="<?php echo Text::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>">
+                <input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" placeholder="<?php echo $this->_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>">
             <?php endif; ?>
 
             <?php if ($this->params->get('filter_field') !== 'tag' && $this->params->get('filter_field') !== 'month') : ?>
-                <button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
+                <button type="submit" name="filter_submit" class="btn btn-primary"><?php echo $this->_('JGLOBAL_FILTER_BUTTON'); ?></button>
             <?php endif; ?>
-            <button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?></button>
+            <button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo $this->_('JSEARCH_FILTER_CLEAR'); ?></button>
         </div>
     <?php endif; ?>
 
     <?php if ($this->params->get('show_pagination_limit')) : ?>
         <div class="com-content-category__pagination btn-group float-end">
             <label for="limit" class="visually-hidden">
-                <?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
+                <?php echo $this->_('JGLOBAL_DISPLAY_NUM'); ?>
             </label>
             <?php echo $this->pagination->getLimitBox(); ?>
         </div>
@@ -114,14 +114,14 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
     <?php if (empty($this->items)) : ?>
         <?php if ($this->params->get('show_no_articles', 1)) : ?>
             <div class="alert alert-info">
-                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                    <?php echo Text::_('COM_CONTENT_NO_ARTICLES'); ?>
+                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                    <?php echo $this->_('COM_CONTENT_NO_ARTICLES'); ?>
             </div>
         <?php endif; ?>
     <?php else : ?>
         <table class="com-content-category__table category table table-striped table-bordered table-hover">
             <caption class="visually-hidden">
-                <?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>
+                <?php echo $this->_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>
             </caption>
             <thead<?php echo $this->params->get('show_headings', '1') ? '' : ' class="visually-hidden"'; ?>>
                 <tr>
@@ -160,7 +160,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                         </th>
                     <?php endif; ?>
                     <?php if ($isEditable) : ?>
-                        <th scope="col" id="categorylist_header_edit"><?php echo Text::_('COM_CONTENT_EDIT_ITEM'); ?></th>
+                        <th scope="col" id="categorylist_header_edit"><?php echo $this->_('COM_CONTENT_EDIT_ITEM'); ?></th>
                     <?php endif; ?>
                 </tr>
             </thead>
@@ -200,7 +200,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                         $link->setVar('return', base64_encode(RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language)));
                         ?>
                         <a href="<?php echo $link; ?>" class="register">
-                            <?php echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
+                            <?php echo $this->_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
                         </a>
                         <?php if (Associations::isEnabled() && $this->params->get('show_associations')) : ?>
                             <div class="cat-list-association">
@@ -222,21 +222,21 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                     <?php if ($article->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
                         <div>
                             <span class="list-published badge bg-warning text-light">
-                                <?php echo Text::_('JUNPUBLISHED'); ?>
+                                <?php echo $this->_('JUNPUBLISHED'); ?>
                             </span>
                         </div>
                     <?php endif; ?>
                     <?php if ($article->publish_up > $currentDate) : ?>
                         <div>
                             <span class="list-published badge bg-warning text-light">
-                                <?php echo Text::_('JNOTPUBLISHEDYET'); ?>
+                                <?php echo $this->_('JNOTPUBLISHEDYET'); ?>
                             </span>
                         </div>
                     <?php endif; ?>
                     <?php if (!is_null($article->publish_down) && $article->publish_down < $currentDate) : ?>
                         <div>
                             <span class="list-published badge bg-warning text-light">
-                                <?php echo Text::_('JEXPIRED'); ?>
+                                <?php echo $this->_('JEXPIRED'); ?>
                             </span>
                         </div>
                     <?php endif; ?>
@@ -247,7 +247,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                         echo HTMLHelper::_(
                             'date',
                             $article->displayDate,
-                            $this->escape($this->params->get('date_format', Text::_('DATE_FORMAT_LC3')))
+                            $this->escape($this->params->get('date_format', $this->_('DATE_FORMAT_LC3')))
                         ); ?>
                     </td>
                 <?php endif; ?>

@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Privacy\Site\View\Request\HtmlView $this */
@@ -35,7 +34,7 @@ $wa->useScript('keepalive')
             <?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
                 <fieldset>
                     <?php if (!empty($fieldset->label)) : ?>
-                        <legend><?php echo Text::_($fieldset->label); ?></legend>
+                        <legend><?php echo $this->_($fieldset->label); ?></legend>
                     <?php endif; ?>
                     <?php echo $this->form->renderFieldset($fieldset->name); ?>
                 </fieldset>
@@ -43,7 +42,7 @@ $wa->useScript('keepalive')
             <div class="control-group">
                 <div class="controls">
                     <button type="submit" class="btn btn-primary validate">
-                        <?php echo Text::_('JSUBMIT'); ?>
+                        <?php echo $this->_('JSUBMIT'); ?>
                     </button>
                 </div>
             </div>
@@ -51,8 +50,8 @@ $wa->useScript('keepalive')
         </form>
     <?php else : ?>
         <div class="alert alert-warning">
-            <span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
-            <?php echo Text::_('COM_PRIVACY_WARNING_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'); ?>
+            <span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('WARNING'); ?></span>
+            <?php echo $this->_('COM_PRIVACY_WARNING_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'); ?>
         </div>
     <?php endif; ?>
 </div>

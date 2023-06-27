@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
@@ -34,21 +33,21 @@ $wa->useScript('keepalive')
             <div id="j-main-container" class="j-main-container">
                 <div class="alert alert-info">
                     <span class="icon-info-circle" aria-hidden="true"></span>
-                    <span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                    <?php echo Text::_('COM_CACHE_PURGE_INSTRUCTIONS'); ?>
+                    <span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                    <?php echo $this->_('COM_CACHE_PURGE_INSTRUCTIONS'); ?>
                 </div>
                 <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if (!$this->data) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-                        <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
+                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                     <table class="table">
                         <caption class="visually-hidden">
-                            <?php echo Text::_('COM_CACHE_TABLE_CAPTION'); ?>,
-                                <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
-                                <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->_('COM_CACHE_TABLE_CAPTION'); ?>,
+                                <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
+                                <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                             <thead>
                             <tr>
