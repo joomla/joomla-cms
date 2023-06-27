@@ -1,4 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies, global-require, import/no-dynamic-require */
+
 const { access, writeFile } = require('fs').promises;
+const { createReadStream } = require('fs');
+const readline = require('readline');
 const { constants } = require('fs');
 const Autoprefixer = require('autoprefixer');
 const CssNano = require('cssnano');
@@ -50,12 +54,35 @@ const getWcMinifiedCss = async (file) => {
 module.exports.handleESMFile = async (file) => {
   const newPath = file.replace(/\.w-c\.es6\.js$/, '').replace(/\.es6\.js$/, '').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
   const minifiedCss = await getWcMinifiedCss(file);
+
+  // Check the file header for special options
+  let shouldResolveImports = true;
+  await new Promise((r) => {
+    let i = 0;
+    let closed = false;
+    const lineReader = readline.createInterface({ input: createReadStream(file) });
+    lineReader.on('line', (line) => {
+      i += 1;
+
+      if (line.indexOf('@build-no-import-resolve') !== -1) {
+        shouldResolveImports = false;
+      }
+
+      if (i >= 10 && !closed) {
+        lineReader.close();
+        closed = true;
+      }
+    });
+    lineReader.on('close', () => {
+      closed = true;
+      r();
+    });
+  });
+
   const bundle = await rollup.rollup({
     input: resolve(file),
     plugins: [
-      nodeResolve({
-        preferBuiltins: false,
-      }),
+      (shouldResolveImports ? nodeResolve({ preferBuiltins: false }) : null),
       replace({
         preventAssignment: true,
         CSS_CONTENTS_PLACEHOLDER: minifiedCss,
