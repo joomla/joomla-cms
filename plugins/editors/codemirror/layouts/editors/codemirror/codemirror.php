@@ -45,7 +45,6 @@ if ($options->height) {
     $style .= 'height:' . $options->height . ';';
 }
 
-
 // Remove the fullscreen message and option if readonly not null.
 if (isset($options->readOnly)) {
     $fsCombo = '';
@@ -64,5 +63,5 @@ $wa->useStyle('plg_editors_codemirror')
         <?php echo Text::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $fullScreenCombo); ?>
     </p>
 <?php endif; ?>
-</joomla-editor-codemirror>
 <?php echo $displayData->buttons; ?>
+</joomla-editor-codemirror>
