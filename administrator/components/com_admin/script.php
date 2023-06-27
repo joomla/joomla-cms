@@ -1215,10 +1215,6 @@ class JoomlaInstallerScript
             '/media/vendor/mediaelement/js/mediaelement-flash-video-mdash.swf',
             '/media/vendor/mediaelement/js/mediaelement-flash-video.swf',
             '/plugins/editors-xtd/pagebreak/pagebreak.php',
-            '/plugins/task/demotasks/demotasks.xml',
-            '/plugins/task/demotasks/forms/testTaskForm.xml',
-            '/plugins/task/demotasks/services/provider.php',
-            '/plugins/task/demotasks/src/Extension/DemoTasks.php',
         ];
 
         $folders = [
@@ -1289,12 +1285,6 @@ class JoomlaInstallerScript
             '/libraries/vendor/beberlei',
             '/administrator/components/com_admin/sql/others/mysql',
             '/administrator/components/com_admin/sql/others',
-            // From 5.0.0-alpha1 to 5.0.0-alpha2
-            '/plugins/task/demotasks/src/Extension',
-            '/plugins/task/demotasks/src',
-            '/plugins/task/demotasks/services',
-            '/plugins/task/demotasks/forms',
-            '/plugins/task/demotasks',
         ];
 
         $status['files_checked']   = $files;
