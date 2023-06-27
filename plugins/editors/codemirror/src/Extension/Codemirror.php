@@ -10,13 +10,10 @@
 
 namespace Joomla\Plugin\Editors\CodeMirror\Extension;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Event\Event;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -67,12 +64,11 @@ final class Codemirror extends CMSPlugin
         $buttons = $this->displayButtons($id, $buttons, $asset, $author);
 
         // Options for the CodeMirror constructor.
-        $options   = new stdClass();
-//        $keyMapUrl = '';
+        $options = new \stdClass();
 
         // Is field readonly?
         if (!empty($params['readonly'])) {
-            $options->readOnly = 'nocursor';
+            $options->readOnly = true;
         }
 
         // Only add "px" to width and height if they are not given as a percentage.
@@ -81,27 +77,9 @@ final class Codemirror extends CMSPlugin
 
         $options->lineNumbers        = (bool) $this->params->get('lineNumbers', 1);
         $options->foldGutter         = (bool) $this->params->get('codeFolding', 1);
-        //$options->markerGutter     = (bool) $this->params->get('markerGutter', $this->params->get('marker-gutter', 1));
         $options->lineWrapping       = (bool) $this->params->get('lineWrapping', 1);
         $options->activeLine         = (bool) $this->params->get('activeLine', 1);
         $options->highlightSelection = (bool) $this->params->get('selectionMatches', 0);
-
-        // Do we highlight selection matches?
-//        if ($this->params->get('selectionMatches', 1)) {
-//            $options->highlightSelectionMatches = [
-//                    'showToken'         => true,
-//                    'annotateScrollbar' => true,
-//                ];
-//        }
-//        if ($options->lineNumbers) {
-//            $options->gutters[] = 'CodeMirror-linenumbers';
-//        }
-//        if ($options->foldGutter) {
-//            $options->gutters[] = 'CodeMirror-foldgutter';
-//        }
-//        if ($options->markerGutter) {
-//            $options->gutters[] = 'CodeMirror-markergutter';
-//        }
 
         // Load the syntax mode.
         $modeAlias = [
@@ -111,50 +89,15 @@ final class Codemirror extends CMSPlugin
         ];
         $options->mode = !empty($params['syntax']) ? $params['syntax'] : $this->params->get('syntax', 'html');
         $options->mode = $modeAlias[$options->mode] ?? $options->mode;
-/*
-        // Load the theme if specified.
-        if ($theme = $this->params->get('theme')) {
-            $options->theme = $theme;
 
-            $this->getApplication()->getDocument()->getWebAssetManager()
-                ->registerAndUseStyle('codemirror.theme', $this->basePath . 'theme/' . $theme . '.css');
-        }
-*/
-/*
-        // Special options for tagged modes (xml/html).
-        if (in_array($options->mode, ['xml', 'html', 'php'])) {
-            // Autogenerate closing tags (html/xml only).
-            $options->autoCloseTags = (bool) $this->params->get('autoCloseTags', 1);
-
-            // Highlight the matching tag when the cursor is in a tag (html/xml only).
-            $options->matchTags = (bool) $this->params->get('matchTags', 1);
-        }
-*/
         // Special options for non-tagged modes.
         if (!in_array($options->mode, ['xml', 'html'])) {
             // Autogenerate closing brackets.
             $options->autoCloseBrackets = (bool) $this->params->get('autoCloseBrackets', 1);
-
-            // Highlight the matching bracket.
-            //$options->matchBrackets = (bool) $this->params->get('matchBrackets', 1);
         }
-
-//        $options->scrollbarStyle = $this->params->get('scrollbarStyle', 'native');
 
         // KeyMap settings.
         $options->keyMap = $this->params->get('keyMap', '');
-
-        // Support for older settings.
-//        if ($options->keyMap === false) {
-//            $options->keyMap = $this->params->get('vimKeyBinding', 0) ? 'vim' : 'default';
-//        }
-
-//        if ($options->keyMap !== 'default') {
-//            $keyMapUrl = HTMLHelper::_('script', $this->basePath . 'keymap/' . $options->keyMap . '.min.js', ['relative' => false, 'pathOnly' => true]);
-//            $keyMapUrl .= '?' . $this->getApplication()->getDocument()->getMediaVersion();
-//        }
-//
-//        $options->keyMapUrl = $keyMapUrl;
 
         // Check for custom extensions
         $customExtensions          = $this->params->get('customExtensions', []);
@@ -175,7 +118,7 @@ final class Codemirror extends CMSPlugin
             }
         }
 
-        $displayData = (object) [
+        $displayData = [
             'options' => $options,
             'params'  => $this->params,
             'name'    => $name,
@@ -215,23 +158,5 @@ final class Codemirror extends CMSPlugin
 
             return LayoutHelper::render('joomla.editors.buttons', $buttons);
         }
-    }
-
-    /**
-     * Gets font info from the json data file
-     *
-     * @param   string  $font  A key from the $fonts array.
-     *
-     * @return  object
-     */
-    protected function getFontInfo($font)
-    {
-        static $fonts;
-
-        if (!$fonts) {
-            $fonts = json_decode(file_get_contents(JPATH_PLUGINS . '/editors/codemirror/fonts.json'), true);
-        }
-
-        return isset($fonts[$font]) ? (object) $fonts[$font] : null;
     }
 }

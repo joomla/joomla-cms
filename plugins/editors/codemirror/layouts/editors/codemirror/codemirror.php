@@ -12,31 +12,26 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Uri\Uri;
+use Joomla\Registry\Registry;
 
-$options         = $displayData->options;
-$params          = $displayData->params;
-$name            = $displayData->name;
-$id              = $displayData->id;
-$cols            = $displayData->cols;
-$rows            = $displayData->rows;
-$content         = $displayData->content;
-$extJS           = JDEBUG ? '.js' : '.min.js';
-$modifier        = $params->get('fullScreenMod', []) ? implode(' + ', $params->get('fullScreenMod', [])) . ' + ' : '';
-//$basePath        = $displayData->basePath;
-//$modePath        = $displayData->modePath;
-//$modPath         = 'mod-path="' . Uri::root() . $modePath . $extJS . '"';
-$fskeys          = $params->get('fullScreenMod', []);
-$fskeys[]        = $params->get('fullScreen', 'F10');
-$fullScreenCombo = implode('-', $fskeys);
-$fsCombo         = ' fs-combo=' . $this->escape($fullScreenCombo);
-$option          = ' options="' . $this->escape(json_encode($options)) . '"';
-$mediaVersion    = Factory::getApplication()->getDocument()->getMediaVersion();
-//$editor          = 'editor="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/codemirror' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '?' . $mediaVersion . '"';
-//$addons          = 'addons="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/addons' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '?' . $mediaVersion . '"';
-$style           = '';
+extract($displayData);
+
+/**
+ * Layout variables
+ *
+ * @var   array    $options     JS options for editor
+ * @var   Registry $params      Plugin parameters
+ * @var   string   $id          The id of the input
+ * @var   string   $name        The name of the input
+ * @var   integer  $cols        Textarea cols attribute
+ * @var   integer  $rows        Textarea rows attribute
+ * @var   string   $content     The value
+ * @var   string   $buttons     Editor XTD buttons
+ */
+
+$option  = ' options="' . $this->escape(json_encode($options)) . '"';
+$style   = '';
 
 if ($options->width) {
     $style .= 'width:' . $options->width . ';';
@@ -45,9 +40,13 @@ if ($options->height) {
     $style .= 'height:' . $options->height . ';';
 }
 
-// Remove the fullscreen message and option if readonly not null.
-if (isset($options->readOnly)) {
-    $fsCombo = '';
+// Fullscreen combo
+$fsCombo = '';
+if (empty($options->readOnly)) {
+    $fskeys          = $params->get('fullScreenMod', []);
+    $fskeys[]        = $params->get('fullScreen', 'F10');
+    $fullScreenCombo = implode('-', $fskeys);
+    $fsCombo         = ' fs-combo=' . $this->escape($fullScreenCombo);
 }
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -63,5 +62,5 @@ $wa->useStyle('plg_editors_codemirror')
         <?php echo Text::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $fullScreenCombo); ?>
     </p>
 <?php endif; ?>
-<?php echo $displayData->buttons; ?>
+<?php echo $buttons ?? ''; ?>
 </joomla-editor-codemirror>
