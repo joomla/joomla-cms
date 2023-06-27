@@ -18,7 +18,7 @@ import {
   highlightActiveLine,
   keymap,
 } from '@codemirror/view';
-import { EditorState } from '@codemirror/state';
+import { EditorState, Compartment } from '@codemirror/state';
 import {
   foldGutter,
   indentOnInput,
@@ -117,6 +117,13 @@ const optionsToExtensions = async (options) => {
       extensions.push(keymap.of([...defaultKeymap, ...searchKeymap, ...historyKeymap]));
       break;
   }
+
+  // Configurable read only
+  const readOnly = new Compartment();
+  // Set a custom name so later one we can retrieve this Compartment from view.state.config.compartments
+  // eslint-disable-next-line no-underscore-dangle
+  readOnly._j_name = 'readOnly';
+  extensions.push(readOnly.of(EditorState.readOnly.of(!!options.readOnly)));
 
   return Promise.all(q).then(() => extensions);
 };

@@ -4,6 +4,7 @@
  */
 // eslint-disable-next-line import/no-unresolved
 import { createFromTextarea } from 'codemirror';
+import { EditorState } from '@codemirror/state';
 
 class CodemirrorEditor extends HTMLElement {
   // constructor() {
@@ -42,15 +43,45 @@ class CodemirrorEditor extends HTMLElement {
   // }
 
   async connectedCallback() {
-
     // Register Editor
     // this.instance = window.CodeMirror.fromTextArea(this.element, this.options);
     // this.instance.disable = (disabled) => this.setOption('readOnly', disabled ? 'nocursor' : false);
 
-    this.element  = this.querySelector('textarea');
-    this.instance = await createFromTextarea(this.element, this.options);
+    this.element = this.querySelector('textarea');
+    const editor = await createFromTextarea(this.element, this.options);
+    this.instance = editor;
 
-    Joomla.editors.instances[this.element.id] = this.instance;
+console.log(editor.state);
+
+    Joomla.editors.instances[this.element.id] = {
+      id: () => this.element.id,
+      element: () => this.element,
+      getValue: () => editor.state.doc.toString(),
+      setValue: (text) => {
+        editor.dispatch({
+          changes: { from: 0, to: editor.state.doc.length, insert: text },
+        });
+      },
+      getSelection: () => editor.state.sliceDoc(
+        editor.state.selection.main.from,
+        editor.state.selection.main.to,
+      ),
+      replaceSelection: (text) => {
+        const v = editor.state.replaceSelection(text);
+        editor.dispatch(v);
+      },
+      disable: (disabled) => {
+        editor.state.config.compartments.forEach((facet, compartment) => {
+          // eslint-disable-next-line no-underscore-dangle
+          if (compartment._j_name === 'readOnly') {
+            editor.dispatch({
+              effects: compartment.reconfigure(EditorState.readOnly.of(disabled)),
+            });
+          }
+        });
+      },
+      onSave: () => {},
+    };
 
     // Watch when the element in viewport, and refresh the editor
     // this.intersectionObserver.observe(this);
