@@ -91,7 +91,7 @@ class MethodModel extends BaseDatabaseModel
     public function getRenderOptions(?User $user = null): SetupRenderOptions
     {
         if (is_null($user)) {
-            $user = $this->getCurrentUser(); ?: $this->getCurrentUser();
+            $user = $this->getCurrentUser() ?: Factory::getApplication()->getIdentity();
         }
 
         $renderOptions = new SetupRenderOptions();

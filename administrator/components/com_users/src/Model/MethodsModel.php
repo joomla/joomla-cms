@@ -92,7 +92,7 @@ class MethodsModel extends BaseDatabaseModel
     {
         // Make sure we have a user object
         if (is_null($user)) {
-            $user = $this->getCurrentUser(); ?: $this->getCurrentUser();
+            $user = $this->getCurrentUser() ?: Factory::getApplication()->getIdentity();
         }
 
         // If the user object is a guest (who can't have MFA) we stop with an error
