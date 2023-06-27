@@ -3,67 +3,26 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/**
- * Based on https://github.com/codemirror/basic-setup
- */
 import {
   EditorView,
   lineNumbers,
   highlightActiveLineGutter,
   highlightSpecialChars,
   drawSelection,
-  dropCursor,
-  rectangularSelection,
-  crosshairCursor,
   highlightActiveLine,
   keymap,
 } from '@codemirror/view';
 import { EditorState, Compartment } from '@codemirror/state';
 import {
   foldGutter,
-  indentOnInput,
   syntaxHighlighting,
   defaultHighlightStyle,
-  bracketMatching,
-  foldKeymap,
 } from '@codemirror/language';
 import {
   history, defaultKeymap, historyKeymap, emacsStyleKeymap,
 } from '@codemirror/commands';
 import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
-import {
-  closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap,
-} from '@codemirror/autocomplete';
-import { lintKeymap } from '@codemirror/lint';
-
-const basicSetup = (() => [
-  lineNumbers(),
-  highlightActiveLineGutter(),
-  highlightSpecialChars(),
-  history(),
-  foldGutter(),
-  drawSelection(),
-  dropCursor(),
-  EditorState.allowMultipleSelections.of(true),
-  indentOnInput(),
-  syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
-  bracketMatching(),
-  closeBrackets(),
-  autocompletion(),
-  rectangularSelection(),
-  crosshairCursor(),
-  highlightActiveLine(),
-  highlightSelectionMatches(),
-  keymap.of([
-    ...closeBracketsKeymap,
-    ...defaultKeymap,
-    ...searchKeymap,
-    ...historyKeymap,
-    ...foldKeymap,
-    ...completionKeymap,
-    ...lintKeymap,
-  ]),
-]);
+import { closeBrackets } from '@codemirror/autocomplete';
 
 const minimalSetup = (() => [
   highlightSpecialChars(),
@@ -72,7 +31,12 @@ const minimalSetup = (() => [
   syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
 ]);
 
-// Configure extensions depend from given options
+/**
+ * Configure and return list of extensions for given options
+ *
+ * @param {Object} options
+ * @returns {Promise<[]>}
+ */
 const optionsToExtensions = async (options) => {
   const extensions = [];
   const q = [];
@@ -82,7 +46,6 @@ const optionsToExtensions = async (options) => {
     q.push(import(`@codemirror/lang-${options.mode}`).then((modeMod) => {
       extensions.push(modeMod[options.mode]());
     }).catch((error) => {
-      // eslint-disable-next-line no-console
       console.error(`Cannot creat an extension for "${options.mode}" syntax mode.`, error);
     }));
   }
@@ -151,9 +114,14 @@ const optionsToExtensions = async (options) => {
   return Promise.all(q).then(() => extensions);
 };
 
+/**
+ * Create an editor instance for given textarea
+ *
+ * @param {HTMLTextAreaElement} textarea
+ * @param {Object} options
+ * @returns {Promise<EditorView>}
+ */
 async function createFromTextarea(textarea, options) {
-  console.log(options);
-
   const extensions = [minimalSetup(), await optionsToExtensions(options)];
   const view = new EditorView({
     doc: textarea.value,
@@ -178,4 +146,4 @@ async function createFromTextarea(textarea, options) {
   return view;
 }
 
-export { basicSetup, minimalSetup, createFromTextarea, optionsToExtensions };
+export { minimalSetup, createFromTextarea, optionsToExtensions };
