@@ -71,6 +71,7 @@ $previousReleaseExclude = [
     $options['from'] . '/plugins/fields/repeatable',
     $options['from'] . '/plugins/quickicon/eos310',
     $options['from'] . '/plugins/search',
+    $options['from'] . '/plugins/task/demotasks',
 ];
 
 /**
