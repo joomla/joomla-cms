@@ -125,6 +125,20 @@ const optionsToExtensions = async (options) => {
   readOnly._j_name = 'readOnly';
   extensions.push(readOnly.of(EditorState.readOnly.of(!!options.readOnly)));
 
+  // Check for custom extensions,
+  // in format [['module1 name or URL', ['init method2']], ['module2 name or URL', ['init method2']]]
+  if (options.customExtensions && options.customExtensions.length) {
+    options.customExtensions.forEach(([module, methods]) => {
+      // Import module
+      q.push(import(module).then((modObject) => {
+        // Call each method
+        methods.forEach((method) => {
+          extensions.push(modObject[method]());
+        });
+      }));
+    });
+  }
+
   return Promise.all(q).then(() => extensions);
 };
 

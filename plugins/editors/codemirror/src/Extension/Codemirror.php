@@ -150,6 +150,25 @@ final class Codemirror extends CMSPlugin
 //
 //        $options->keyMapUrl = $keyMapUrl;
 
+        // Check for custom extensions
+        $customExtensions          = $this->params->get('customExtensions', []);
+        $options->customExtensions = [];
+
+        if ($customExtensions) {
+            foreach ($customExtensions as $item) {
+                $methods = array_filter(array_map('trim', explode(',', $item->methods ?? '')));
+
+                if (empty($item->module) || !$methods) {
+                    continue;
+                }
+
+                $options->customExtensions[] = [
+                    $item->module,
+                    $methods,
+                ];
+            }
+        }
+
         $displayData = (object) [
             'options' => $options,
             'params'  => $this->params,

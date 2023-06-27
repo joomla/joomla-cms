@@ -204,12 +204,12 @@
 				>
 					<form>
 						<field
-							name="package"
+							name="module"
 							type="text"
 							label="Module file or module name"
 						/>
 						<field
-							name="method"
+							name="methods"
 							type="text"
 							label="Initialisation method(s)"
 						/>
