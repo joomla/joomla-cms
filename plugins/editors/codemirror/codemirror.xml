@@ -207,11 +207,13 @@
 							name="module"
 							type="text"
 							label="Module file or module name"
+							description="Relative path to the module file, eg: media/my-assets/js/my-codemirror-module.js. Or module name, eg: @codemirror/language."
 						/>
 						<field
 							name="methods"
 							type="text"
 							label="Initialisation method(s)"
+							description="Method(s) name, provided by module for extension initialisation. Or multiple, separated by comma. Eg: bracketMatching (from module @codemirror/language)"
 						/>
 					</form>
 				</field>

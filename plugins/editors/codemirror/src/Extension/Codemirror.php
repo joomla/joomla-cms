@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Event\Event;
 use stdClass;
 
@@ -162,10 +163,10 @@ final class Codemirror extends CMSPlugin
                     continue;
                 }
 
-                $options->customExtensions[] = [
-                    $item->module,
-                    $methods,
-                ];
+                // Prepend root path if we have a file
+                $module = str_ends_with($item->module, '.js') ? Uri::root(true) . '/' . $item->module : $item->module;
+
+                $options->customExtensions[] = [$module, $methods];
             }
         }
 
