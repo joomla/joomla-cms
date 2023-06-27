@@ -46,6 +46,7 @@ const optionsToExtensions = async (options) => {
     q.push(import(`@codemirror/lang-${options.mode}`).then((modeMod) => {
       extensions.push(modeMod[options.mode]());
     }).catch((error) => {
+      // eslint-disable-next-line no-console
       console.error(`Cannot creat an extension for "${options.mode}" syntax mode.`, error);
     }));
   }
