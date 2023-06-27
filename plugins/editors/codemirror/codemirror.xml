@@ -157,8 +157,10 @@
 					>
 					<option value="">JDEFAULT</option>
 					<option value="emacs">PLG_CODEMIRROR_FIELD_KEYMAP_EMACS</option>
+<!--
 					<option value="sublime">PLG_CODEMIRROR_FIELD_KEYMAP_SUBLIME</option>
 					<option value="vim">PLG_CODEMIRROR_FIELD_KEYMAP_VIM</option>
+-->
 				</field>
 
 				<field

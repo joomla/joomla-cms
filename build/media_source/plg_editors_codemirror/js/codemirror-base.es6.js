@@ -27,7 +27,9 @@ import {
   bracketMatching,
   foldKeymap,
 } from '@codemirror/language';
-import { history, defaultKeymap, historyKeymap } from '@codemirror/commands';
+import {
+  history, defaultKeymap, historyKeymap, emacsStyleKeymap,
+} from '@codemirror/commands';
 import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
 import {
   closeBrackets, autocompletion, closeBracketsKeymap, completionKeymap,
@@ -68,23 +70,20 @@ const minimalSetup = (() => [
   history(),
   drawSelection(),
   syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
-  keymap.of([
-    ...defaultKeymap,
-    ...historyKeymap,
-  ])
 ]);
 
 // Configure extensions depend from given options
 const optionsToExtensions = async (options) => {
   const extensions = [];
-  let modeMod;
+  const q = [];
 
   // Load the language for syntax mode
   if (options.mode) {
-    modeMod = await import(`@codemirror/lang-${options.mode}`);
-    extensions.push(modeMod[options.mode]())
+    q.push(import(`@codemirror/lang-${options.mode}`).then((modeMod) => {
+      extensions.push(modeMod[options.mode]())
+    }));
   }
-console.log(modeMod);
+
   if (options.lineNumbers) {
     extensions.push(lineNumbers());
   }
@@ -109,15 +108,26 @@ console.log(modeMod);
     extensions.push(foldGutter());
   }
 
-  return extensions;
-}
+  // Keymaps
+  switch (options.keyMap) {
+    case 'emacs':
+      extensions.push(keymap.of([...emacsStyleKeymap, ...historyKeymap]));
+      break;
+    default:
+      extensions.push(keymap.of([...defaultKeymap, ...searchKeymap, ...historyKeymap]));
+      break;
+  }
+
+  return Promise.all(q).then(() => extensions);
+};
 
 async function createFromTextarea(textarea, options) {
   console.log(options);
 
+  const extensions = [minimalSetup(), await optionsToExtensions(options)];
   const view = new EditorView({
     doc: textarea.value,
-    extensions: [minimalSetup(), await optionsToExtensions(options)],
+    extensions,
   });
   textarea.parentNode.insertBefore(view.dom, textarea);
   textarea.style.display = 'none';
