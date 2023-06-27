@@ -199,21 +199,21 @@
 				<field
 					name="customExtensions"
 					type="subform"
-					label="Custom Extensions"
+					label="PLG_CODEMIRROR_FIELD_CUSTOM_EXTENSIONS_LABEL"
 					multiple="true"
 				>
 					<form>
 						<field
 							name="module"
 							type="text"
-							label="Module file or module name"
-							description="Relative path to the module file, eg: media/my-assets/js/my-codemirror-module.js. Or module name, eg: @codemirror/language."
+							label="PLG_CODEMIRROR_FIELD_CUSTOM_EXTENSIONS_MODULE_LABEL"
+							description="PLG_CODEMIRROR_FIELD_CUSTOM_EXTENSIONS_MODULE_DESCR"
 						/>
 						<field
 							name="methods"
 							type="text"
-							label="Initialisation method(s)"
-							description="Method(s) name, provided by module for extension initialisation. Or multiple, separated by comma. Eg: bracketMatching (from module @codemirror/language)"
+							label="PLG_CODEMIRROR_FIELD_CUSTOM_EXTENSIONS_METHOD_LABEL"
+							description="PLG_CODEMIRROR_FIELD_CUSTOM_EXTENSIONS_METHOD_DESCR"
 						/>
 					</form>
 				</field>
