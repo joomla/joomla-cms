@@ -80,7 +80,7 @@ const optionsToExtensions = async (options) => {
   // Load the language for syntax mode
   if (options.mode) {
     q.push(import(`@codemirror/lang-${options.mode}`).then((modeMod) => {
-      extensions.push(modeMod[options.mode]())
+      extensions.push(modeMod[options.mode]());
     }));
   }
 
