@@ -1,6 +1,7 @@
 const {
   lstat, readdir, readFile, writeFile,
 } = require('fs-extra');
+const { existsSync } = require('fs');
 const {
   basename, dirname, resolve, sep,
 } = require('path');
@@ -52,9 +53,9 @@ const updateAsset = async (asset, directory) => {
     }
   }
 
-  const jAssetFile = await lstat(path);
+  const jAssetFile = existsSync(path);
 
-  if (!jAssetFile.isFile()) {
+  if (!jAssetFile) {
     final[directory].push(asset);
     return;
   }
