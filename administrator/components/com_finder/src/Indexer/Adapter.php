@@ -16,6 +16,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -131,15 +132,15 @@ abstract class Adapter extends CMSPlugin
     /**
      * Method to instantiate the indexer adapter.
      *
-     * @param   object  $subject  The object to observe.
-     * @param   array   $config   An array that holds the plugin configuration.
+     * @param   DispatcherInterface  $dispatcher  The object to observe.
+     * @param   array                $config      An array that holds the plugin configuration.
      *
      * @since   2.5
      */
-    public function __construct(&$subject, $config)
+    public function __construct(DispatcherInterface $dispatcher, array $config)
     {
         // Call the parent constructor.
-        parent::__construct($subject, $config);
+        parent::__construct($dispatcher, $config);
 
         // Get the type id.
         $this->type_id = $this->getTypeId();

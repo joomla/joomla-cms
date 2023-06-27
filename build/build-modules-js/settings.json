@@ -215,7 +215,8 @@
         "name": "cropperjs",
         "js": {
           "dist/cropper.js": "js/cropper.js",
-          "dist/cropper.min.js": "js/cropper.min.js"
+          "dist/cropper.min.js": "js/cropper.min.js",
+          "dist/cropper.esm.js": "js/cropper.esm.js"
         },
         "css": {
           "dist/cropper.css": "css/cropper.css",
@@ -228,8 +229,15 @@
             "uri": "cropper.min.css"
           },
           {
+            "name": "cropper.esm",
+            "type": "script",
+            "uri": "cropper.esm.js",
+            "importmap": true
+          },
+          {
             "name": "cropperjs",
             "type": "script",
+            "deprecated": true,
             "uri": "cropper.min.js",
             "attributes": {
               "defer": true
@@ -798,7 +806,7 @@
         "text": "It looks like you are trying to run Joomla! from our git repository. To do so requires you complete a couple of extra steps first.",
         "link": "J4.x:Setting_Up_Your_Local_Environment",
         "linkText": "More Details",
-        "destFile": "/templates/system/build_incomplete.html"
+        "destFile": ["/templates/system/build_incomplete.html"]
       },
       "unsupported": {
         "title": "Joomla: unsupported PHP version",
@@ -806,7 +814,7 @@
         "text": "Your host needs to use PHP version {{phpversion}} or newer to run this version of Joomla!",
         "link": "J4.x:Unsupported_PHP_Version",
         "linkText": "Help me resolve this",
-        "destFile": "/templates/system/incompatible.html"
+        "destFile": ["/templates/system/incompatible.html", "/includes/incompatible.html"]
       },
       "noxml": {
         "title": "Joomla: Missing PHP-XML library",
@@ -814,7 +822,7 @@
         "text": "Your host needs to use PHP with support for the XML library to run this version of Joomla!",
         "link": "J4.x:Missing_XML_Library",
         "linkText": "Help me resolve this",
-        "destFile": "/media/system/html/noxml.html"
+        "destFile": ["/media/system/html/noxml.html"]
       },
       "fatal": {
         "title": "An Error Occurred: {{statusText}}",
@@ -822,7 +830,7 @@
         "text": "The server returned a \"{{statusCode_statusText}}\"",
         "link": "J4.x:FatalError",
         "linkText": "Help me resolve this",
-        "destFile": "/templates/system/fatal-error.html"
+        "destFile": ["/templates/system/fatal-error.html"]
       }
     }
   }
