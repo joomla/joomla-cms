@@ -302,25 +302,6 @@ class JoomlaInstallerScript
         /** @var TaskModel $model */
         $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
 
-        if ($plugin = PluginHelper::getPlugin('system', 'actionlogs')) {
-            $pluginParams = new Registry($plugin->params);
-            $lastrun      = (int) $pluginParams->get('lastrun', 0);
-            $task         = [
-                'title'           => 'DeleteActionLogs',
-                'type'            => 'delete.actionlogs',
-                'execution_rules' => [
-                    'rule-type'      => 'interval-hours',
-                    'interval-hours' => 24,
-                    'exec-time'      => gmdate("H:i", $lastrun),
-                ],
-                'state'  => 1,
-                'params' => [
-                    'logDeletePeriod' => $pluginParams->get('logDeletePeriod', 0),
-                ],
-            ];
-            $model->save($task);
-        }
-
         if (!$data->enabled) {
             return;
         }
