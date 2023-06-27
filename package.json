@@ -43,6 +43,7 @@
     "@codemirror/lang-css": "^6.0.0",
     "@codemirror/lang-html": "^6.0.0",
     "@codemirror/lang-javascript": "^6.0.0",
+    "@codemirror/lang-json": "^6.0.0",
     "@codemirror/lang-php": "^6.0.0",
     "@codemirror/lang-xml": "^6.0.0",
     "@codemirror/language": "^6.0.0",

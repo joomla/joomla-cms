@@ -104,8 +104,13 @@ final class Codemirror extends CMSPlugin
 //        }
 
         // Load the syntax mode.
+        $modeAlias = [
+            'scss' => 'css',
+            'sass' => 'css',
+            'less' => 'css',
+        ];
         $options->mode = !empty($params['syntax']) ? $params['syntax'] : $this->params->get('syntax', 'html');
-        //$options->mode = $this->modeAlias[$syntax] ?? $syntax;
+        $options->mode = $modeAlias[$options->mode] ?? $options->mode;
 /*
         // Load the theme if specified.
         if ($theme = $this->params->get('theme')) {
