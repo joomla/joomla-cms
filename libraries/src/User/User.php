@@ -181,7 +181,7 @@ class User
      * The type alias
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public $typeAlias = null;
 
@@ -189,7 +189,7 @@ class User
      * The otp key
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public $otpKey = null;
 
@@ -197,7 +197,7 @@ class User
      * The otp
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public $otep = null;
 
@@ -205,7 +205,7 @@ class User
      * The authentication provider
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public $authProvider = null;
 
