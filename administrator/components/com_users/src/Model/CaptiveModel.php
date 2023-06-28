@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
@@ -57,7 +56,7 @@ class CaptiveModel extends BaseDatabaseModel
      * @param   CMSApplication|null  $app  The CMS application to manipulate
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
@@ -77,7 +76,7 @@ class CaptiveModel extends BaseDatabaseModel
      * @param   bool       $includeBackupCodes  Should I include the backup codes record?
      *
      * @return  array
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
@@ -162,7 +161,7 @@ class CaptiveModel extends BaseDatabaseModel
      * @param   User|null  $user  The user for which to fetch records. Skip to use the current user.
      *
      * @return  MfaTable|null
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
@@ -338,7 +337,7 @@ class CaptiveModel extends BaseDatabaseModel
      * @param   Event  $event  The Joomla! event object
      *
      * @return  void
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
@@ -363,7 +362,7 @@ class CaptiveModel extends BaseDatabaseModel
      *
      * @return  void  The by-reference value is modified instead.
      * @since 4.2.0
-     * @throws  Exception
+     * @throws  \Exception
      */
     private function filterModules(array &$modules): void
     {
@@ -390,7 +389,7 @@ class CaptiveModel extends BaseDatabaseModel
      * Get a list of module positions we are allowed to display
      *
      * @return  array
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */

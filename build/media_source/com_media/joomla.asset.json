@@ -52,7 +52,7 @@
       "type": "script",
       "uri": "com_media/media-manager.min.js",
       "dependencies": [
-        "core"
+        "core", "messages"
       ],
       "attributes": {
         "type": "module"
