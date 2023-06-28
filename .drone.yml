@@ -84,6 +84,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
+  - name: php82-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php8.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
   - name: php72-integration
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.2
@@ -188,6 +195,8 @@ steps:
     volumes:
       - name: cypress-cache
         path: /root/.cache/Cypress
+    environment:
+      CYPRESS_VERIFY_TIMEOUT: 100000
     commands:
       - mv cypress.config.dist.js cypress.config.js
       - npx cypress install
@@ -453,6 +462,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 3457679ef0cd23bde8dd9900016aba663a279aa0c32049c8e37db56676cadd38
+hmac: 06ecea6156e9c3f4cbb17d5e5e876a8c2b256e0e98412ce6351c914b2adbda97
 
 ...

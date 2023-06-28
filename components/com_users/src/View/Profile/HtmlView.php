@@ -66,7 +66,9 @@ class HtmlView extends BaseHtmlView
      * @var    DatabaseDriver
      * @since  3.6.3
      *
-     * @deprecated  5.0 Will be removed without replacement
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement use database from the container instead
+     *              Example: Factory::getContainer()->get(DatabaseInterface::class);
      */
     protected $db;
 
@@ -177,11 +179,11 @@ class HtmlView extends BaseHtmlView
         $this->setDocumentTitle($this->params->get('page_title', ''));
 
         if ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $this->getDocument()->setDescription($this->params->get('menu-meta_description'));
         }
 
         if ($this->params->get('robots')) {
-            $this->document->setMetaData('robots', $this->params->get('robots'));
+            $this->getDocument()->setMetaData('robots', $this->params->get('robots'));
         }
     }
 }

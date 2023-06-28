@@ -27,15 +27,19 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
 
-$app       = Factory::getApplication();
-$user      = $app->getIdentity();
+$user      = Factory::getApplication()->getIdentity();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 $section   = null;
 $mode      = false;
-$tour_id   = $this->state->get('filter.tour_id');
+$tourId    = $this->state->get('filter.tour_id');
+
+$canEdit              = $user->authorise('core.edit', 'com_guidedtours');
+$canEditOwnTour       = $user->authorise('core.edit.own', 'com_guidedtours');
+$canEditStateTour     = $user->authorise('core.edit.state', 'com_guidedtours');
+$hasCheckinPermission = $user->authorise('core.manage', 'com_checkin');
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_guidedtours&task=steps.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
@@ -43,7 +47,7 @@ if ($saveOrder && !empty($this->items)) {
 }
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_guidedtours&view=steps&tour_id=' . $tour_id); ?>"
+<form action="<?php echo Route::_('index.php?option=com_guidedtours&view=steps&tour_id=' . $tourId); ?>"
       method="post" name="adminForm" id="adminForm">
     <div id="j-main-container" class="j-main-container">
         <?php
@@ -69,7 +73,7 @@ if ($saveOrder && !empty($this->items)) {
             <table class="table" id="stepsList">
 
                 <caption class="visually-hidden">
-                    <?php echo Text::_('COM_GUIDEDTOURS_TABLE_CAPTION'); ?>,
+                    <?php echo Text::_('COM_GUIDEDTOURS_STEPS_TABLE_CAPTION'); ?>,
                     <span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?></span>,
                     <span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
@@ -97,7 +101,7 @@ if ($saveOrder && !empty($this->items)) {
                     <th scope="col" class="w-1 text-center">
                         <?php echo HTMLHelper::_(
                             'searchtools.sort',
-                            'COM_GUIDEDTOURS_STATUS',
+                            'JSTATUS',
                             'a.published',
                             $listDirn,
                             $listOrder
@@ -122,7 +126,7 @@ if ($saveOrder && !empty($this->items)) {
                     <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                         <?php echo HTMLHelper::_(
                             'searchtools.sort',
-                            'COM_GUIDEDTOURS_STEP_ID',
+                            'JGRID_HEADING_ID',
                             'a.id',
                             $listDirn,
                             $listOrder
@@ -136,9 +140,9 @@ if ($saveOrder && !empty($this->items)) {
                     class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php
                        endif; ?>>
                 <?php foreach ($this->items as $i => $item) :
-                    $canEdit = $user->authorise('core.edit', 'com_guidedtours' . '.step.' . $item->id);
-                    $canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
-                    $canChange = $user->authorise('core.edit.state', 'com_guidedtours' . '.step.' . $item->id) && $canCheckin;
+                    $canEditOwn = $canEditOwnTour && $item->created_by == $userId;
+                    $canCheckin = $hasCheckinPermission || $item->checked_out == $userId || is_null($item->checked_out);
+                    $canChange  = $canEditStateTour && $canCheckin;
                     ?>
 
                     <!-- Row begins -->
@@ -186,7 +190,7 @@ if ($saveOrder && !empty($this->items)) {
                                 <?php if ($item->checked_out) : ?>
                                     <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'steps.', $canCheckin); ?>
                                 <?php endif; ?>
-                                <?php if ($canEdit) : ?>
+                                <?php if ($canEdit || $canEditOwn) : ?>
                                     <a href="<?php echo Route::_('index.php?option=com_guidedtours&task=step.edit&id=' . $item->id); ?> " title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
                                         <?php echo $this->escape($item->title); ?>
                                     </a>

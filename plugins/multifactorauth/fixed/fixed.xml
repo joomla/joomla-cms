@@ -11,8 +11,8 @@
 	<description>PLG_MULTIFACTORAUTH_FIXED_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Multifactorauth\Fixed</namespace>
 	<files>
-		<folder>services</folder>
-		<folder plugin="fixed">src</folder>
+		<folder plugin="fixed">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_multifactorauth_fixed.ini</language>

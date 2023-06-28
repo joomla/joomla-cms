@@ -32,7 +32,6 @@ class TourTable extends Table
      * @var    boolean
      * @since  4.3.0
      */
-    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
     protected $_supportNullValue = true;
 
     /**
@@ -41,7 +40,6 @@ class TourTable extends Table
      * @var    array
      * @since  4.3.0
      */
-    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
     protected $_jsonEncode = ['extensions'];
 
     /**
@@ -100,33 +98,5 @@ class TourTable extends Table
         }
 
         return parent::store($updateNulls);
-    }
-
-    /**
-     * Returns the asset name of the entry as it appears in the {@see Asset} table.
-     *
-     * @return  string  The asset name.
-     *
-     * @since   4.3.0
-     */
-    // phpcs:ignore
-    protected function _getAssetName(): string
-    {
-        $k = $this->_tbl_key;
-
-        return 'com_guidedtours.tour.' . (int) $this->$k;
-    }
-
-    /**
-     * Method to return the title to use for the asset table.
-     *
-     * @return  string  The string to use as the title in the asset table.
-     *
-     * @since   4.3.0
-     */
-    // phpcs:ignore
-    protected function _getAssetTitle()
-    {
-        return $this->title;
     }
 }

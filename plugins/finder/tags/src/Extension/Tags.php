@@ -99,7 +99,7 @@ final class Tags extends Adapter
      * @return  void
      *
      * @since   3.1
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function onFinderAfterDelete($context, $table): void
     {
@@ -125,7 +125,7 @@ final class Tags extends Adapter
      * @return  void
      *
      * @since   3.1
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function onFinderAfterSave($context, $row, $isNew): void
     {
@@ -154,7 +154,7 @@ final class Tags extends Adapter
      * @return  boolean  True on success.
      *
      * @since   3.1
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function onFinderBeforeSave($context, $row, $isNew)
     {
@@ -203,7 +203,7 @@ final class Tags extends Adapter
      * @return  void
      *
      * @since   3.1
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function index(Result $item)
     {

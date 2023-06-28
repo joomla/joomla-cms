@@ -11,8 +11,8 @@
 	<description>PLG_MULTIFACTORAUTH_YUBIKEY_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Multifactorauth\Yubikey</namespace>
 	<files>
-		<folder>services</folder>
-		<folder plugin="yubikey">src</folder>
+		<folder plugin="yubikey">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_multifactorauth_yubikey.ini</language>

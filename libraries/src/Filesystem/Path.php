@@ -22,6 +22,8 @@ if (!\defined('JPATH_ROOT')) {
  * A Path handling class
  *
  * @since  1.7.0
+ * @deprecated  4.4 will be removed in 6.0
+ *              Use Joomla\Filesystem\Path instead.
  */
 class Path
 {
@@ -33,6 +35,8 @@ class Path
      * @return  boolean  True if path can have mode changed.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Path::canChmod() instead.
      */
     public static function canChmod($path)
     {
@@ -59,6 +63,8 @@ class Path
      * @return  boolean  True if successful [one fail means the whole operation failed].
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Path::setPermissions() instead.
      */
     public static function setPermissions($path, $filemode = '0644', $foldermode = '0755')
     {
@@ -110,6 +116,9 @@ class Path
      * @return  string  Filesystem permissions.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Path::getPermissions() instead.
+     *              The framework class throws Exceptions in case of error which you have to catch.
      */
     public static function getPermissions($path)
     {
@@ -145,6 +154,8 @@ class Path
      *
      * @throws  \Exception
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Path::check() instead.
      */
     public static function check($path)
     {
@@ -183,6 +194,8 @@ class Path
      *
      * @throws  \UnexpectedValueException
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Path::clean() instead.
      */
     public static function clean($path, $ds = DIRECTORY_SEPARATOR)
     {
@@ -229,6 +242,8 @@ class Path
      * @return  boolean  True if the php script owns the path passed.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Path::isOwner() instead.
      */
     public static function isOwner($path)
     {
@@ -275,6 +290,8 @@ class Path
      * @return  mixed   The full path and file name for the target file, or boolean false if the file is not found in any of the paths.
      *
      * @since   1.7.0
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Path::find() instead.
      */
     public static function find($paths, $file)
     {
@@ -322,6 +339,8 @@ class Path
      * @return  string  The resolved path
      *
      * @since   3.9.25
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Path::resolve() instead.
      */
     public static function resolve($path)
     {
@@ -364,6 +383,8 @@ class Path
      * @return  string
      *
      * @since   3.10.7
+     * @deprecated  4.4 will be removed in 6.0
+     *              Use Joomla\Filesystem\Path::removeRoot() instead.
      */
     public static function removeRoot($message, $rootDirectory = null)
     {

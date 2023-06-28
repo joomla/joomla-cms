@@ -31,7 +31,7 @@ COMMENT ON COLUMN "#__assets"."rules" IS 'JSON encoded access control.';
 --
 
 INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "title", "rules") VALUES
-(1, 0, 0, 175, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"8":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 0, 177, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"8":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -92,8 +92,8 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (64, 56, 35, 36, 3, 'com_content.transition.7', 'Publish & Feature', '{}'),
 (65, 1, 143, 144, 1, 'com_privacy', 'com_privacy', '{}'),
 (66, 1, 145, 146, 1, 'com_actionlogs', 'com_actionlogs', '{}'),
-(67, 18, 74, 75, 2, 'com_modules.module.88', 'Latest Actions', '{}'),
-(68, 18, 76, 77, 2, 'com_modules.module.89', 'Privacy Dashboard', '{}'),
+(67, 18, 76, 77, 2, 'com_modules.module.88', 'Latest Actions', '{}'),
+(68, 18, 78, 79, 2, 'com_modules.module.89', 'Privacy Dashboard', '{}'),
 (70, 18, 88, 89, 2, 'com_modules.module.103', 'Site', '{}'),
 (71, 18, 92, 93, 2, 'com_modules.module.104', 'System', '{}'),
 (72, 18, 96, 97, 2, 'com_modules.module.91', 'System Dashboard', '{}'),
@@ -334,6 +334,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_quickicon_downloadkey', 'plugin', 'downloadkey', 'quickicon', 0, 1, 1, 0, 1, '', '', '', 4, 0),
 (0, 'plg_quickicon_privacycheck', 'plugin', 'privacycheck', 'quickicon', 0, 1, 1, 0, 1, '', '{}', '', 5, 0),
 (0, 'plg_quickicon_phpversioncheck', 'plugin', 'phpversioncheck', 'quickicon', 0, 1, 1, 0, 1, '', '', '', 6, 0),
+(0, 'plg_quickicon_eos', 'plugin', 'eos', 'quickicon', 0, 1, 1, 0, 1, '', '', '', 7, 0),
 (0, 'plg_sampledata_blog', 'plugin', 'blog', 'sampledata', 0, 1, 1, 0, 1, '', '', '', 1, 0),
 (0, 'plg_sampledata_multilang', 'plugin', 'multilang', 'sampledata', 0, 1, 1, 0, 1, '', '', '', 2, 0),
 (0, 'plg_system_accessibility', 'plugin', 'accessibility', 'system', 0, 0, 1, 0, 1, '', '{}', '', 1, 0),
@@ -1064,6 +1065,8 @@ CREATE TABLE IF NOT EXISTS "#__user_mfa" (
   "options" text NOT NULL,
   "created_on" timestamp without time zone NOT NULL,
   "last_used" timestamp without time zone,
+  "tries" bigint DEFAULT 0 NOT NULL,
+  "last_try" timestamp without time zone,
   PRIMARY KEY ("id")
 );
 
