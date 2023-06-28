@@ -20,7 +20,8 @@ use Joomla\CMS\Language\Text;
         number_format($this->data->term_count, 0, $this->text('DECIMALS_SEPARATOR'), $this->text('THOUSANDS_SEPARATOR')),
         number_format($this->data->link_count, 0, $this->text('DECIMALS_SEPARATOR'), $this->text('THOUSANDS_SEPARATOR')),
         number_format($this->data->taxonomy_node_count, 0, $this->text('DECIMALS_SEPARATOR'), $this->text('THOUSANDS_SEPARATOR')),
-        number_format($this->data->taxonomy_branch_count, 0, $this->text('DECIMALS_SEPARATOR'), $this->text('THOUSANDS_SEPARATOR'))); ?></caption>
+        number_format($this->data->taxonomy_branch_count, 0, $this->text('DECIMALS_SEPARATOR'), $this->text('THOUSANDS_SEPARATOR'))
+    ); ?></caption>
         <thead>
             <tr>
                 <th scope="col">
