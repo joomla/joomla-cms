@@ -79,7 +79,7 @@ final class Codemirror extends CMSPlugin
         $options->foldGutter         = (bool) $this->params->get('codeFolding', 1);
         $options->lineWrapping       = (bool) $this->params->get('lineWrapping', 1);
         $options->activeLine         = (bool) $this->params->get('activeLine', 1);
-        $options->highlightSelection = (bool) $this->params->get('selectionMatches', 0);
+        $options->highlightSelection = (bool) $this->params->get('selectionMatches', 1);
 
         // Load the syntax mode.
         $modeAlias = [
