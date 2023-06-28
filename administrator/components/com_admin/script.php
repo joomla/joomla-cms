@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -8835,7 +8836,7 @@ class JoomlaInstallerScript
      */
     protected function fixTemplateMode(): void
     {
-        $db = Factory::getContainer()->get('DatabaseDriver');
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         array_map(
             function ($template) use ($db) {
@@ -8867,7 +8868,7 @@ class JoomlaInstallerScript
      */
     protected function addUserAuthProviderColumn(): void
     {
-        $db = Factory::getContainer()->get('DatabaseDriver');
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
         // Check if the column already exists
         $fields = $db->getTableColumns('#__users');

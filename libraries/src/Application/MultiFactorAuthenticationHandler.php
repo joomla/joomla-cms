@@ -20,7 +20,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -345,8 +345,8 @@ trait MultiFactorAuthenticationHandler
     {
         $user       = $this->getIdentity();
         $profileKey = 'mfa.dontshow';
-        /** @var DatabaseDriver $db */
-        $db         = Factory::getContainer()->get('DatabaseDriver');
+        /** @var DatabaseInterface $db */
+        $db         = Factory::getContainer()->get(DatabaseInterface::class);
         $query      = $db->getQuery(true)
             ->select($db->quoteName('profile_value'))
             ->from($db->quoteName('#__user_profiles'))
@@ -378,8 +378,8 @@ trait MultiFactorAuthenticationHandler
             return;
         }
 
-        /** @var DatabaseDriver $db */
-        $db         = Factory::getContainer()->get('DatabaseDriver');
+        /** @var DatabaseInterface $db */
+        $db         = Factory::getContainer()->get(DatabaseInterface::class);
 
         $userTable = new UserTable($db);
 

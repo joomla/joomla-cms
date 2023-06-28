@@ -26,7 +26,7 @@ use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\MethodsModel;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Component\Users\Administrator\View\Methods\HtmlView;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -263,8 +263,8 @@ abstract class Mfa
             $userId = $user->id ?: 0;
         }
 
-        /** @var DatabaseDriver $db */
-        $db    = Factory::getContainer()->get('DatabaseDriver');
+        /** @var DatabaseInterface $db */
+        $db    = Factory::getContainer()->get(DatabaseInterface::class);
         $query = $db->getQuery(true)
             ->select($db->quoteName('id'))
             ->from($db->quoteName('#__user_mfa'))

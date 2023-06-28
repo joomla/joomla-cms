@@ -12,7 +12,7 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Event\Event;
 use Joomla\Utilities\ArrayHelper;
 
@@ -56,8 +56,8 @@ trait UserDeletion
         if ($userId) {
             Log::add("Removing WebAuthn Passwordless Login information for deleted user #{$userId}", Log::DEBUG, 'webauthn.system');
 
-            /** @var DatabaseDriver $db */
-            $db = Factory::getContainer()->get('DatabaseDriver');
+            /** @var DatabaseInterface $db */
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
 
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__webauthn_credentials'))

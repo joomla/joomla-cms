@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -129,8 +129,8 @@ class InstallerHelper
     {
         $options = [];
 
-        /** @var DatabaseDriver $db The application's database driver object */
-        $db         = Factory::getContainer()->get(DatabaseDriver::class);
+        /** @var DatabaseInterface $db The application's database driver object */
+        $db         = Factory::getContainer()->get(DatabaseInterface::class);
         $query      = $db->getQuery(true)
             ->select(
                 $db->quoteName(
