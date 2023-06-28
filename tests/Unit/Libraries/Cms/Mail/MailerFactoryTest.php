@@ -7,7 +7,7 @@
  * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Libraries\Cms\Layout;
+namespace Joomla\Tests\Unit\Libraries\Cms\Mail;
 
 use Joomla\CMS\Mail\Mail;
 use Joomla\CMS\Mail\MailerFactory;
@@ -21,7 +21,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @subpackage  Mail
  * @since       4.4.0
  */
-class MailFactoryTest extends UnitTestCase
+class MailerFactoryTest extends UnitTestCase
 {
     /**
      * @testdox  The mailer factory creates the correct object
