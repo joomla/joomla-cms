@@ -64,7 +64,7 @@ module.exports.handleESMFile = async (file) => {
     lineReader.on('line', (line) => {
       i += 1;
 
-      if (line.indexOf('@build-no-import-resolve') !== -1) {
+      if (line.indexOf('@build-disable-import-resolve') !== -1) {
         shouldResolveImports = false;
       }
 

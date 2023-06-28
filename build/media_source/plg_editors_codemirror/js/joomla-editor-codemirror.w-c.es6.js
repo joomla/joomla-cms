@@ -2,7 +2,7 @@
  * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-/* @build-no-import-resolve */
+/* @build-disable-import-resolve */
 // eslint-disable-next-line import/no-unresolved
 import { createFromTextarea } from 'codemirror';
 import { EditorState } from '@codemirror/state';
@@ -13,11 +13,18 @@ class CodemirrorEditor extends HTMLElement {
     super();
 
     this.toggleFullScreen = () => {
-      this.classList.toggle('fullscreen');
+      if (!this.classList.contains('fullscreen')) {
+        this.classList.add('fullscreen');
+        document.documentElement.scrollTop = 0;
+        document.documentElement.style.overflow = 'hidden';
+      } else {
+        this.closeFullScreen();
+      }
     };
 
     this.closeFullScreen = () => {
       this.classList.remove('fullscreen');
+      document.documentElement.style.overflow = '';
     };
   }
 
