@@ -268,7 +268,7 @@ class AbstractViewTest extends UnitTestCase
         $view = new class () extends AbstractView {
             public function translate(string $key)
             {
-                return $this->_($key);
+                return $this->text($key);
             }
 
             public function display($tpl = null)
