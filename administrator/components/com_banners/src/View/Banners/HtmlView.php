@@ -11,7 +11,6 @@
 namespace Joomla\Component\Banners\Administrator\View\Banners;
 
 use Exception;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;

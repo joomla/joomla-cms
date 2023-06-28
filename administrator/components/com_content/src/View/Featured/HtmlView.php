@@ -11,7 +11,6 @@
 namespace Joomla\Component\Content\Administrator\View\Featured;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;

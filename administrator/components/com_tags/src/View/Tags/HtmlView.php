@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Tags\Administrator\View\Tags;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;

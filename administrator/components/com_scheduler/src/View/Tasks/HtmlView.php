@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Scheduler\Administrator\View\Tasks;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;

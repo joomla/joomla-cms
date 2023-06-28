@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Workflow\Administrator\View\Workflows;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
