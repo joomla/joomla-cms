@@ -11,19 +11,17 @@
 namespace Joomla\Plugin\Multifactorauth\Webauthn\Extension;
 
 use Exception;
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\MultiFactor\Captive;
 use Joomla\CMS\Event\MultiFactor\GetMethod;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
 use Joomla\CMS\Event\MultiFactor\SaveSetup;
 use Joomla\CMS\Event\MultiFactor\Validate;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
@@ -45,6 +43,8 @@ use Webauthn\PublicKeyCredentialRequestOptions;
  */
 class Webauthn extends CMSPlugin implements SubscriberInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Auto-load the plugin's language files
      *
@@ -156,8 +156,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
             $document->addScriptOptions('com_users.pagetype', 'setup', false);
 
             // Save the WebAuthn request to the session
-            $user                    = Factory::getApplication()->getIdentity()
-                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            $user                    = $this->getApplication()->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
             $hiddenData['pkRequest'] = base64_encode(Credentials::requestAttestation($user));
 
             // Special button handling
@@ -342,9 +341,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         $wam->getRegistry()->addExtensionRegistryFile('plg_multifactorauth_webauthn');
 
         try {
-            /** @var CMSApplication $app */
-            $app = Factory::getApplication();
-            $app->getDocument()->addScriptOptions('com_users.authData', base64_encode($pkRequest), false);
+            $document->addScriptOptions('com_users.authData', base64_encode($pkRequest), false);
             $layoutPath = PluginHelper::getLayoutPath('multifactorauth', 'webauthn');
             ob_start();
             include $layoutPath;

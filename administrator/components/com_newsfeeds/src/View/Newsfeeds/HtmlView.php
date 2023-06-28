@@ -53,7 +53,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  1.6
      */
@@ -67,6 +67,20 @@ class HtmlView extends BaseHtmlView
      * @since  4.0.0
      */
     private $isEmptyState = false;
+
+    /**
+     * Form object for search filters
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    public $filterForm;
+
+    /**
+     * The active search filters
+     *
+     * @var  array
+     */
+    public $activeFilters;
 
     /**
      * Execute and display a template script.

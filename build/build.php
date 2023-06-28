@@ -239,7 +239,7 @@ $excludeZip         = isset($options['exclude-zip']);
 $excludeGzip        = isset($options['exclude-gzip']);
 $excludeBzip2       = isset($options['exclude-bzip2']);
 $excludeZstd        = !isset($options['include-zstd']);
-$buildPatchPackages = !isset($options['disable-patch-packages']);
+$buildPatchPackages = false && !isset($options['disable-patch-packages']);
 $showHelp           = isset($options['help']);
 
 // Disable the generation of extra text files
@@ -325,7 +325,7 @@ system('rm -rf node_modules');
 echo "Workspace built.\n";
 
 // Import the version class to set the version information
-define('JPATH_PLATFORM', 1);
+define('_JEXEC', 1);
 require_once $fullpath . '/libraries/src/Version.php';
 
 // Set version information for the build

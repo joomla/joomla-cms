@@ -47,7 +47,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var \Joomla\CMS\Object\CMSObject
+     * @var \Joomla\Registry\Registry
      */
     protected $state;
 
@@ -170,6 +170,6 @@ class HtmlView extends BaseHtmlView
             $toolbar->preferences('com_guidedtours');
         }
 
-        ToolbarHelper::help('Guided_Tours:_Tours');
+        ToolbarHelper::help('Guided_Tours');
     }
 }

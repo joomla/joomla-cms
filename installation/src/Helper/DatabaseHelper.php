@@ -36,7 +36,7 @@ abstract class DatabaseHelper
      * @var    string
      * @since  4.0.0
      */
-    protected static $dbMinimumMariaDb = '10.1';
+    protected static $dbMinimumMariaDb = '10.4';
 
     /**
      * The minimum database server version for MySQL databases as required by the CMS.
@@ -45,7 +45,7 @@ abstract class DatabaseHelper
      * @var    string
      * @since  4.0.0
      */
-    protected static $dbMinimumMySql = '5.6';
+    protected static $dbMinimumMySql = '8.0.13';
 
     /**
      * The minimum database server version for PostgreSQL databases as required by the CMS.
@@ -54,7 +54,7 @@ abstract class DatabaseHelper
      * @var    string
      * @since  4.0.0
      */
-    protected static $dbMinimumPostgreSql = '11.0';
+    protected static $dbMinimumPostgreSql = '12.0';
 
     /**
      * Method to get a database driver.
@@ -365,9 +365,10 @@ abstract class DatabaseHelper
 
                     // Get the path
                     $remoteDbPath = JPATH_INSTALLATION . '/' . $remoteDbFile;
+                    $emptyString  = '';
 
                     // When the path is not writable the user needs to create the file manually
-                    if (!File::write($remoteDbPath, '')) {
+                    if (!File::write($remoteDbPath, $emptyString)) {
                         // Request to create the file manually
                         Factory::getApplication()->enqueueMessage(
                             Text::sprintf(

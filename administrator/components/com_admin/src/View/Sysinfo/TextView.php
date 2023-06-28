@@ -15,6 +15,8 @@ use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Component\Admin\Administrator\Model\SysinfoModel;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -26,8 +28,10 @@ use Joomla\Component\Admin\Administrator\Model\SysinfoModel;
  *
  * @since  3.5
  */
-class TextView extends AbstractView
+class TextView extends AbstractView implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Execute and display a template script.
      *
@@ -42,7 +46,7 @@ class TextView extends AbstractView
     public function display($tpl = null): void
     {
         // Access check.
-        if (!Factory::getUser()->authorise('core.admin')) {
+        if (!$this->getCurrentUser()->authorise('core.admin')) {
             throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
@@ -146,6 +150,7 @@ class TextView extends AbstractView
                 }
 
                 if (\is_int($name) && ($name == 0 || $name == 1)) {
+                    // The term "Master" is used because it is the term used in phpinfo() and this is a text representation of that.
                     $name = ($name == 0 ? 'Local Value' : 'Master Value');
                 }
 

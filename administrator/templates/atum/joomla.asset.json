@@ -48,8 +48,9 @@
     {
       "name": "template.atum-es5",
       "description": "The file containing the javascript for this template.",
+      "deprecated": true,
       "type": "script",
-      "uri": "media/templates/administrator/atum/js/template-es5.min.js",
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -64,7 +65,7 @@
       "type": "script",
       "uri": "media/templates/administrator/atum/js/template.min.js",
       "dependencies": [
-        "template.atum-es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
