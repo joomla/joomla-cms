@@ -40,7 +40,7 @@
       "deprecated": true,
       "uri": "",
       "dependencies": [
-        "core"
+        "core", "messages"
       ],
       "attributes": {
         "nomodule": true,

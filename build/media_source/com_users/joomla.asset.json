@@ -30,30 +30,6 @@
       }
     },
     {
-      "name": "com_users.admin-users-mail.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
-      "name": "com_users.admin-users-mail",
-      "type": "script",
-      "uri": "com_users/admin-users-mail.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
       "name": "com_users.two-factor-focus.es5",
       "type": "script",
       "deprecated": true,
