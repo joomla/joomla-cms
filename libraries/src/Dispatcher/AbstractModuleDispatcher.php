@@ -11,6 +11,7 @@ namespace Joomla\CMS\Dispatcher;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
@@ -25,6 +26,8 @@ use Joomla\Registry\Registry;
  */
 abstract class AbstractModuleDispatcher extends Dispatcher
 {
+    use LanguageAwareTrait;
+
     /**
      * The module instance
      *
@@ -46,6 +49,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
     {
         parent::__construct($app, $input);
 
+        $this->setLanguage($app->getLanguage());
         $this->module = $module;
     }
 
@@ -67,27 +71,22 @@ abstract class AbstractModuleDispatcher extends Dispatcher
             return;
         }
 
-        // Execute the layout without the module context
-        $loader = static function (array $displayData) {
-            // If $displayData doesn't exist in extracted data, unset the variable.
-            if (!\array_key_exists('displayData', $displayData)) {
-                extract($displayData);
-                unset($displayData);
-            } else {
-                extract($displayData);
-            }
+        // If $displayData doesn't exist in extracted data, unset the variable.
+        if (!\array_key_exists('displayData', $displayData)) {
+            extract($displayData);
+            unset($displayData);
+        } else {
+            extract($displayData);
+        }
 
-            /**
-             * Extracted variables
-             * -----------------
-             * @var   \stdClass  $module
-             * @var   Registry   $params
-             */
+        /**
+         * Extracted variables
+         * -----------------
+         * @var   \stdClass  $module
+         * @var   Registry   $params
+         */
 
-            require ModuleHelper::getLayoutPath($module->module, $params->get('layout', 'default'));
-        };
-
-        $loader($displayData);
+        require ModuleHelper::getLayoutPath($module->module, $params->get('layout', 'default'));
     }
 
     /**
@@ -133,5 +132,19 @@ abstract class AbstractModuleDispatcher extends Dispatcher
             $language->load($this->module->module, $coreLanguageDirectory) ||
             $language->load($this->module->module, $extensionLanguageDirectory);
         }
+    }
+
+    /**
+     * Returns the string for the given key from the internal language object.
+     *
+     * @param   string  $key  The key
+     *
+     * @return  string
+     *
+     * @since   4.4.0
+     */
+    protected function text(string $key): string
+    {
+        return $this->getLanguage()->_($key);
     }
 }

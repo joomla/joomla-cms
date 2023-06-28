@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\WebAsset\WebAssetManager;
 
@@ -20,7 +19,7 @@ use Joomla\CMS\WebAsset\WebAssetManager;
     <ol class="mod-breadcrumbs breadcrumb px-3 py-2">
         <?php if ($params->get('showHere', 1)) : ?>
             <li class="mod-breadcrumbs__here float-start">
-                <?php echo Text::_('MOD_BREADCRUMBS_HERE'); ?>&#160;
+                <?php echo $this->text('MOD_BREADCRUMBS_HERE'); ?>&#160;
             </li>
         <?php else : ?>
             <li class="mod-breadcrumbs__divider float-start">
