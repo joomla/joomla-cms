@@ -139,7 +139,6 @@ JLoader::registerAlias('JSchemaChangeitem', '\\Joomla\\CMS\\Schema\\ChangeItem',
 JLoader::registerAlias('JSchemaChangeset', '\\Joomla\\CMS\\Schema\\ChangeSet', '6.0');
 JLoader::registerAlias('JSchemaChangeitemMysql', '\\Joomla\\CMS\\Schema\\ChangeItem\\MysqlChangeItem', '6.0');
 JLoader::registerAlias('JSchemaChangeitemPostgresql', '\\Joomla\\CMS\\Schema\\ChangeItem\\PostgresqlChangeItem', '6.0');
-JLoader::registerAlias('JSchemaChangeitemSqlsrv', '\\Joomla\\CMS\\Schema\\ChangeItem\\SqlsrvChangeItem', '6.0');
 
 JLoader::registerAlias('JUcm', '\\Joomla\\CMS\\UCM\\UCM', '6.0');
 JLoader::registerAlias('JUcmBase', '\\Joomla\\CMS\\UCM\\UCMBase', '6.0');

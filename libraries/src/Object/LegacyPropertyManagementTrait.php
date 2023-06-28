@@ -9,8 +9,11 @@
 
 namespace Joomla\CMS\Object;
 
+use ReflectionObject;
+use ReflectionProperty;
+
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -91,6 +94,24 @@ trait LegacyPropertyManagementTrait
             foreach ($vars as $key => $value) {
                 if ('_' == substr($key, 0, 1)) {
                     unset($vars[$key]);
+                }
+            }
+
+            // Collect all none public properties of the current class and it's parents
+            $nonePublicProperties = [];
+            $reflection           = new ReflectionObject($this);
+            do {
+                $nonePublicProperties = array_merge(
+                    $reflection->getProperties(ReflectionProperty::IS_PRIVATE | ReflectionProperty::IS_PROTECTED),
+                    $nonePublicProperties
+                );
+            } while ($reflection = $reflection->getParentClass());
+
+            // Unset all none public properties, this is needed as get_object_vars returns now all vars
+            // from the current object and not only the CMSObject and the public ones from the inheriting classes
+            foreach ($nonePublicProperties as $prop) {
+                if (array_key_exists($prop->getName(), $vars)) {
+                    unset($vars[$prop->getName()]);
                 }
             }
         }

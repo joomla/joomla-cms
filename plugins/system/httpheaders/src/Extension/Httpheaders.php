@@ -125,7 +125,7 @@ final class Httpheaders extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function __construct(DispatcherInterface $dispatcher, $config, CMSApplicationInterface $app)
+    public function __construct(DispatcherInterface $dispatcher, array $config, CMSApplicationInterface $app)
     {
         parent::__construct($dispatcher, $config);
 

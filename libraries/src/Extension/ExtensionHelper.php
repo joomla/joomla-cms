@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -309,7 +309,6 @@ class ExtensionHelper
 
         // Core plugin extensions - task scheduler
         ['plugin', 'checkfiles', 'task', 0],
-        ['plugin', 'demotasks', 'task', 0],
         ['plugin', 'requests', 'task', 0],
         ['plugin', 'sitestatus', 'task', 0],
 

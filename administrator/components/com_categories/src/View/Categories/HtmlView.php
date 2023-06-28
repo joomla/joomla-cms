@@ -146,6 +146,10 @@ class HtmlView extends BaseHtmlView
             }
         }
 
+        // If filter by category is active we need to know the extension name to filter the categories
+        $extensionName = $this->escape($this->state->get('filter.extension'));
+        $this->filterForm->setFieldAttribute('category_id', 'extension', $extensionName, 'filter');
+
         parent::display($tpl);
     }
 

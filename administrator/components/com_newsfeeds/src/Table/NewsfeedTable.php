@@ -17,6 +17,8 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\Tag\TaggableTableTrait;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Event\DispatcherInterface;
@@ -31,9 +33,10 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-class NewsfeedTable extends Table implements VersionableTableInterface, TaggableTableInterface
+class NewsfeedTable extends Table implements VersionableTableInterface, TaggableTableInterface, CurrentUserInterface
 {
     use TaggableTableTrait;
+    use CurrentUserTrait;
 
     /**
      * Indicates that columns fully support the NULL value in the database
@@ -138,7 +141,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
     public function store($updateNulls = true)
     {
         $date = Factory::getDate();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Set created date if not set.
         if (!(int) $this->created) {

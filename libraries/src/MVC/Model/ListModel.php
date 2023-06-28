@@ -20,7 +20,7 @@ use Joomla\CMS\Pagination\Pagination;
 use Joomla\Database\DatabaseQuery;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -241,7 +241,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
             foreach ($this->filter_fields as $filter) {
                 $filterName = 'filter.' . $filter;
 
-                if (property_exists($this->state, $filterName) && (!empty($this->state->{$filterName}) || is_numeric($this->state->{$filterName}))) {
+                if (!empty($this->state->get($filterName)) || is_numeric($this->state->get($filterName))) {
                     $activeFilters[$filter] = $this->state->get($filterName);
                 }
             }
@@ -288,7 +288,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      */
     protected function getListQuery()
     {
-        return $this->getDbo()->getQuery(true);
+        return $this->getDatabase()->getQuery(true);
     }
 
     /**

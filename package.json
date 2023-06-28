@@ -1,6 +1,6 @@
 {
   "name": "joomla",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "repository": {
@@ -38,7 +38,7 @@
   ],
   "dependencies": {
     "@claviska/jquery-minicolors": "^2.3.6",
-    "@fortawesome/fontawesome-free": "^5.15.4",
+    "@fortawesome/fontawesome-free": "^6.4.0",
     "@joomla/joomla-a11y-checker": "^1.0.0",
     "@popperjs/core": "^2.11.8",
     "@webcomponents/webcomponentsjs": "^2.8.0",
@@ -52,6 +52,7 @@
     "diff": "^5.1.0",
     "dotenv": "^16.3.1",
     "dragula": "^3.7.3",
+    "es-module-shims": "^1.7.3",
     "focus-visible": "^5.2.0",
     "hotkeys-js": "^3.10.2",
     "joomla-ui-custom-elements": "^0.2.0",
@@ -66,7 +67,7 @@
     "shepherd.js": "^11.1.1",
     "short-and-sweet": "^1.0.4",
     "skipto": "^4.1.7",
-    "tinymce": "^5.10.7",
+    "tinymce": "^6.5.1",
     "vue": "3.2.45",
     "vue-focus-lock": "^2.0.5",
     "vuex": "^4.1.0",

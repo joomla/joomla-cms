@@ -22,6 +22,7 @@ use Joomla\Plugin\System\Webauthn\Authentication;
 use Joomla\Plugin\System\Webauthn\CredentialRepository;
 use Joomla\Plugin\System\Webauthn\Extension\Webauthn;
 use Joomla\Plugin\System\Webauthn\MetadataRepository;
+use Joomla\Registry\Registry;
 use Webauthn\MetadataService\MetadataStatementRepository;
 use Webauthn\PublicKeyCredentialSourceRepository;
 
@@ -40,9 +41,6 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $config  = (array) PluginHelper::getPlugin('system', 'webauthn');
-                $subject = $container->get(DispatcherInterface::class);
-
                 $app     = Factory::getApplication();
                 $session = $container->has('session') ? $container->get('session') : $this->getSession($app);
 
@@ -52,7 +50,7 @@ return new class () implements ServiceProviderInterface {
                     : new CredentialRepository($db);
 
                 $metadataRepository = null;
-                $params             = new Joomla\Registry\Registry($config['params'] ?? '{}');
+                $params             = new Registry($config['params'] ?? '{}');
 
                 if ($params->get('attestationSupport', 0) == 1) {
                     $metadataRepository    = $container->has(MetadataStatementRepository::class)
@@ -64,7 +62,11 @@ return new class () implements ServiceProviderInterface {
                     ? $container->get(Authentication::class)
                     : new Authentication($app, $session, $credentialsRepository, $metadataRepository);
 
-                $plugin = new Webauthn($subject, $config, $authenticationHelper);
+                $plugin = new Webauthn(
+                    $container->get(DispatcherInterface::class),
+                    (array) PluginHelper::getPlugin('system', 'webauthn'),
+                    $authenticationHelper
+                );
                 $plugin->setApplication($app);
 
                 return $plugin;

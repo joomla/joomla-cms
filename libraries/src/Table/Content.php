@@ -15,6 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\Tag\TaggableTableTrait;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
@@ -23,7 +25,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -31,9 +33,10 @@ use Joomla\String\StringHelper;
  *
  * @since  1.5
  */
-class Content extends Table implements VersionableTableInterface, TaggableTableInterface
+class Content extends Table implements VersionableTableInterface, TaggableTableInterface, CurrentUserInterface
 {
     use TaggableTableTrait;
+    use CurrentUserTrait;
 
     /**
      * Indicates that columns fully support the NULL value in the database
@@ -316,7 +319,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
     public function store($updateNulls = true)
     {
         $date = Factory::getDate()->toSql();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Set created date if not set.
         if (!(int) $this->created) {

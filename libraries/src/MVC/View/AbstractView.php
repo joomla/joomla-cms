@@ -15,14 +15,15 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\EventInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -32,10 +33,16 @@ use Joomla\Event\EventInterface;
  *
  * @since  2.5.5
  */
-abstract class AbstractView extends CMSObject implements ViewInterface, DispatcherAwareInterface, DocumentAwareInterface, LanguageAwareInterface
+#[\AllowDynamicProperties]
+abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, DocumentAwareInterface, LanguageAwareInterface
 {
     use DispatcherAwareTrait;
     use LanguageAwareTrait;
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait {
+        get as private legacyGet;
+    }
+
 
     /**
      * The active document object
@@ -153,8 +160,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
             }
         }
 
-        // Degrade to CMSObject::get
-        return parent::get($property, $default);
+        return $this->legacyGet($property, $default);
     }
 
     /**

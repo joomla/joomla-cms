@@ -12,6 +12,8 @@ namespace Joomla\Component\Users\Administrator\Table;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Event\DispatcherInterface;
@@ -25,8 +27,10 @@ use Joomla\Event\DispatcherInterface;
  *
  * @since  2.5
  */
-class NoteTable extends Table implements VersionableTableInterface
+class NoteTable extends Table implements VersionableTableInterface, CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
@@ -63,7 +67,7 @@ class NoteTable extends Table implements VersionableTableInterface
     public function store($updateNulls = true)
     {
         $date   = Factory::getDate()->toSql();
-        $userId = Factory::getUser()->get('id');
+        $userId = $this->getCurrentUser()->get('id');
 
         if (!((int) $this->review_time)) {
             $this->review_time = null;

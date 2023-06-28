@@ -852,16 +852,6 @@ ENDDATA;
             File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/update.php');
         }
 
-        // Remove the legacy restoration.php file (when updating from Joomla 4.0.2 and earlier).
-        if (is_file(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php')) {
-            File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php');
-        }
-
-        // Remove the legacy restore_finalisation.php file used in Joomla 4.0.2 and earlier.
-        if (is_file(JPATH_COMPONENT_ADMINISTRATOR . '/restore_finalisation.php')) {
-            File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restore_finalisation.php');
-        }
-
         // Remove joomla.xml from the site's root.
         if (is_file(JPATH_ROOT . '/joomla.xml')) {
             File::delete(JPATH_ROOT . '/joomla.xml');
@@ -1061,13 +1051,6 @@ ENDDATA;
             $option->label  = Text::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
             $option->state  = strtolower(ini_get('mbstring.language')) === 'neutral';
             $option->notice = $option->state ? null : Text::_('INSTL_NOTICEMBLANGNOTDEFAULT');
-            $options[]      = $option;
-
-            // Check for MB function overload.
-            $option         = new \stdClass();
-            $option->label  = Text::_('INSTL_MB_STRING_OVERLOAD_OFF');
-            $option->state  = ini_get('mbstring.func_overload') == 0;
-            $option->notice = $option->state ? null : Text::_('INSTL_NOTICEMBSTRINGOVERLOAD');
             $options[]      = $option;
         }
 

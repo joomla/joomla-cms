@@ -18,6 +18,8 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\Tag\TaggableTableTrait;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Event\DispatcherInterface;
@@ -32,9 +34,10 @@ use Joomla\String\StringHelper;
  *
  * @since  1.0
  */
-class ContactTable extends Table implements VersionableTableInterface, TaggableTableInterface
+class ContactTable extends Table implements VersionableTableInterface, TaggableTableInterface, CurrentUserInterface
 {
     use TaggableTableTrait;
+    use CurrentUserTrait;
 
     /**
      * Indicates that columns fully support the NULL value in the database
@@ -81,7 +84,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
     public function store($updateNulls = true)
     {
         $date   = Factory::getDate()->toSql();
-        $userId = Factory::getUser()->id;
+        $userId = $this->getCurrentUser()->id;
 
         // Set created date if not set.
         if (!(int) $this->created) {

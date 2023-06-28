@@ -25,7 +25,7 @@ use Negotiation\Exception\InvalidArgument;
 use Negotiation\Negotiator;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**

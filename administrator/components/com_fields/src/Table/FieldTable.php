@@ -15,6 +15,8 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
@@ -29,8 +31,10 @@ use Joomla\String\StringHelper;
  *
  * @since  3.7.0
  */
-class FieldTable extends Table
+class FieldTable extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Indicates that columns fully support the NULL value in the database
      *
@@ -167,7 +171,7 @@ class FieldTable extends Table
         }
 
         $date = Factory::getDate()->toSql();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Set created date if not set.
         if (!(int) $this->created_time) {

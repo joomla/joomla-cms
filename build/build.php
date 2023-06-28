@@ -325,7 +325,7 @@ system('rm -rf node_modules');
 echo "Workspace built.\n";
 
 // Import the version class to set the version information
-define('JPATH_PLATFORM', 1);
+define('_JEXEC', 1);
 require_once $fullpath . '/libraries/src/Version.php';
 
 // Set version information for the build
@@ -576,12 +576,6 @@ for ($num = $release - 1; $num >= 0; $num--) {
 echo "Build full package files.\n";
 chdir($time);
 
-// The search package manifest should not be present for new installs, temporarily move it
-system('mv administrator/manifests/packages/pkg_search.xml ../pkg_search.xml');
-
-// The restore_finalisation.php should not be present for new installs, temporarily move it
-system('mv administrator/components/com_joomlaupdate/restore_finalisation.php ../restore_finalisation.php');
-
 // Create full archive packages.
 if (!$excludeBzip2) {
     $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.bz2';
@@ -624,12 +618,6 @@ system('rm -r images/headers');
 system('rm -r images/sampledata');
 system('rm images/joomla_black.png');
 system('rm images/powered_by.png');
-
-// Move the search manifest back
-system('mv ../pkg_search.xml administrator/manifests/packages/pkg_search.xml');
-
-// Move the restore_finalisation.php back
-system('mv ../restore_finalisation.php administrator/components/com_joomlaupdate/restore_finalisation.php');
 
 if (!$excludeBzip2) {
     $packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2';
