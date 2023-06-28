@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Application;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Encrypt\Aes;
@@ -23,7 +22,6 @@ use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -54,7 +52,7 @@ trait MultiFactorAuthenticationHandler
      * Handle the redirection to the Multi-factor Authentication captive login or setup page.
      *
      * @return  boolean  True if we are currently handling a Multi-factor Authentication captive page.
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     protected function isHandlingMultiFactorAuthentication(): bool
@@ -62,7 +60,7 @@ trait MultiFactorAuthenticationHandler
         // Multi-factor Authentication checks take place only for logged in users.
         try {
             $user = $this->getIdentity() ?? null;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
 
@@ -121,7 +119,7 @@ trait MultiFactorAuthenticationHandler
 
         // Prevent non-interactive (non-HTML) content from being loaded until MFA is validated.
         if ($isMFAPending && $isNonHtml) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         if ($isMFAPending && !$isMFADisallowed) {
@@ -184,7 +182,7 @@ trait MultiFactorAuthenticationHandler
      * Does the current user need to complete MFA authentication before being allowed to access the site?
      *
      * @return  boolean
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     private function isMultiFactorAuthenticationPending(): bool
@@ -258,7 +256,7 @@ trait MultiFactorAuthenticationHandler
         // Make sure we are logged in
         try {
             $user = $this->getIdentity();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // This would happen if we are in CLI or under an old Joomla! version. Either case is not supported.
             return false;
         }
@@ -359,7 +357,7 @@ trait MultiFactorAuthenticationHandler
 
         try {
             $result = $db->setQuery($query)->loadResult();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result = 1;
         }
 
@@ -494,7 +492,7 @@ trait MultiFactorAuthenticationHandler
         // Is this already decrypted?
         try {
             $decrypted = @json_decode($stringToDecrypt, true);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $decrypted = null;
         }
 
