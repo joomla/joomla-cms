@@ -21,6 +21,6 @@ $input = Factory::getApplication()->getInput();
     <input type="hidden" name="id" value="<?php echo $input->getInt('id'); ?>">
     <input type="hidden" name="file" value="<?php echo $this->file; ?>">
     <?php echo HTMLHelper::_('form.token'); ?>
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo $this->_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></button>
-    <button type="submit" class="btn btn-danger"><?php echo $this->_('COM_TEMPLATES_BUTTON_DELETE'); ?></button>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo $this->text('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></button>
+    <button type="submit" class="btn btn-danger"><?php echo $this->text('COM_TEMPLATES_BUTTON_DELETE'); ?></button>
 </form>

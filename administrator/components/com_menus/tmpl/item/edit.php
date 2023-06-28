@@ -46,7 +46,7 @@ if ($clientId === 1) {
     $this->getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR);
 }
 ?>
-<form action="<?php echo Route::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo $this->_('COM_MENUS_ITEM_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo $this->text('COM_MENUS_ITEM_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
@@ -59,7 +59,7 @@ if ($clientId === 1) {
                         <label for="menus_title_translation"><?php echo Text::sprintf('COM_MENUS_TITLE_TRANSLATION', $lang); ?></label>
                     </div>
                     <div class="controls">
-                        <input id="menus_title_translation" class="form-control" value="<?php echo $this->_($this->item->title); ?>" readonly="readonly" type="text">
+                        <input id="menus_title_translation" class="form-control" value="<?php echo $this->text($this->item->title); ?>" readonly="readonly" type="text">
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@ if ($clientId === 1) {
 
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', $this->_('COM_MENUS_ITEM_DETAILS')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', $this->text('COM_MENUS_ITEM_DETAILS')); ?>
         <div class="row">
             <div class="col-lg-9">
                 <?php
@@ -141,9 +141,9 @@ if ($clientId === 1) {
         ?>
 
         <?php if (!$isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
-            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', $this->_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', $this->text('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
             <fieldset id="fieldset-associations" class="options-form">
-            <legend><?php echo $this->_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
+            <legend><?php echo $this->text('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
             <div>
             <?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
             </div>
@@ -154,9 +154,9 @@ if ($clientId === 1) {
         <?php endif; ?>
 
         <?php if (!empty($this->modules)) : ?>
-            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'modules', $this->_('COM_MENUS_ITEM_MODULE_ASSIGNMENT')); ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'modules', $this->text('COM_MENUS_ITEM_MODULE_ASSIGNMENT')); ?>
             <fieldset id="fieldset-modules" class="options-form">
-                <legend><?php echo $this->_('COM_MENUS_ITEM_MODULE_ASSIGNMENT'); ?></legend>
+                <legend><?php echo $this->text('COM_MENUS_ITEM_MODULE_ASSIGNMENT'); ?></legend>
                 <div>
                 <?php echo $this->loadTemplate('modules'); ?>
                 </div>

@@ -24,7 +24,7 @@ $wa->useScript('keepalive')
 $comUserParams = ComponentHelper::getParams('com_users');
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_users&view=mail'); ?>" name="adminForm" method="post" id="mail-form" aria-label="<?php echo $this->_('COM_USERS_MASSMAIL_FORM_NEW'); ?>" class="main-card p-4 form-validate">
+<form action="<?php echo Route::_('index.php?option=com_users&view=mail'); ?>" name="adminForm" method="post" id="mail-form" aria-label="<?php echo $this->text('COM_USERS_MASSMAIL_FORM_NEW'); ?>" class="main-card p-4 form-validate">
     <div class="row">
         <div class="col-lg-9">
             <div class="control-group">

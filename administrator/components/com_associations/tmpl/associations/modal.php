@@ -21,7 +21,7 @@ use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 $app = Factory::getApplication();
 
 if ($app->isClient('site')) {
-    Session::checkToken('get') or die($this->_('JINVALID_TOKEN'));
+    Session::checkToken('get') or die($this->text('JINVALID_TOKEN'));
 }
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -50,15 +50,15 @@ $this->document->addScriptOptions('associations-modal', ['func' => $function]);
         <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
-                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                <?php echo $this->text('JGLOBAL_NO_MATCHING_RESULTS'); ?>
             </div>
         <?php else : ?>
             <table class="table" id="associationsList">
                 <caption class="visually-hidden">
-                    <?php echo $this->_('COM_ASSOCIATIONS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                    <?php echo $this->text('COM_ASSOCIATIONS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
             <thead>
                 <tr>
@@ -71,7 +71,7 @@ $this->document->addScriptOptions('associations-modal', ['func' => $function]);
                         <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'title', $listDirn, $listOrder); ?>
                     </th>
                     <th scope="col" class="w-15">
-                        <?php echo $this->_('JGRID_HEADING_LANGUAGE'); ?>
+                        <?php echo $this->text('JGRID_HEADING_LANGUAGE'); ?>
                     </th>
                     <th scope="col" class="w-5">
                         <?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
@@ -127,7 +127,7 @@ $this->document->addScriptOptions('associations-modal', ['func' => $function]);
                         <?php endif; ?>
                         <?php if (!empty($this->typeFields['catid'])) : ?>
                             <div class="small">
-                                <?php echo $this->_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
+                                <?php echo $this->text('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
                             </div>
                         <?php endif; ?>
                     </th>

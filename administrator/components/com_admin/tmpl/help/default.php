@@ -26,15 +26,15 @@ $wa->useScript('com_admin.admin-help');
         <div id="sidebar" class="col-md-3">
             <button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-bs-toggle="collapse" data-bs-target=".sidebar-nav" aria-controls="help-index" aria-expanded="false">
                  <span class="icon-align-justify" aria-hidden="true"></span>
-                 <?php echo $this->_('JTOGGLE_SIDEBAR_MENU'); ?>
+                 <?php echo $this->text('JTOGGLE_SIDEBAR_MENU'); ?>
             </button>
             <div class="sidebar-nav" id="help-index">
                 <ul class="nav flex-column">
-                    <li class="item"><?php echo HTMLHelper::_('link', Help::createUrl('Start_Here'), $this->_('COM_ADMIN_START_HERE'), ['target' => 'helpFrame']); ?></li>
-                    <li class="item"><?php echo HTMLHelper::_('link', 'https://help.joomla.org/proxy?keyref=Help4.x:License', $this->_('COM_ADMIN_LICENSE'), ['target' => 'helpFrame']); ?></li>
-                    <li class="item"><?php echo HTMLHelper::_('link', Help::createUrl('Glossary'), $this->_('COM_ADMIN_GLOSSARY'), ['target' => 'helpFrame']); ?></li>
+                    <li class="item"><?php echo HTMLHelper::_('link', Help::createUrl('Start_Here'), $this->text('COM_ADMIN_START_HERE'), ['target' => 'helpFrame']); ?></li>
+                    <li class="item"><?php echo HTMLHelper::_('link', 'https://help.joomla.org/proxy?keyref=Help4.x:License', $this->text('COM_ADMIN_LICENSE'), ['target' => 'helpFrame']); ?></li>
+                    <li class="item"><?php echo HTMLHelper::_('link', Help::createUrl('Glossary'), $this->text('COM_ADMIN_GLOSSARY'), ['target' => 'helpFrame']); ?></li>
                     <li class="divider"></li>
-                    <li class="nav-header"><?php echo $this->_('COM_ADMIN_ALPHABETICAL_INDEX'); ?></li>
+                    <li class="nav-header"><?php echo $this->text('COM_ADMIN_ALPHABETICAL_INDEX'); ?></li>
                     <?php foreach ($this->toc as $k => $v) : ?>
                         <li class="item">
                             <?php $url = Help::createUrl($k); ?>

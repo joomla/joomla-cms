@@ -34,7 +34,7 @@ defined('_JEXEC') or die;
                     <?php endif; ?>
                     <?php if ($this->params->get('show_cat_items') == 1) : ?>
                         <span class="badge bg-info">
-                            <?php echo $this->_('COM_NEWSFEEDS_CAT_NUM'); ?>&nbsp;
+                            <?php echo $this->text('COM_NEWSFEEDS_CAT_NUM'); ?>&nbsp;
                             <?php echo $child->numitems; ?>
                         </span>
                     <?php endif; ?>

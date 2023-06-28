@@ -35,7 +35,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
         <div class="page-header">
             <<?php echo $htag; ?>>
                 <?php if ($this->item->published == 0) : ?>
-                    <span class="badge bg-warning text-light"><?php echo $this->_('JUNPUBLISHED'); ?></span>
+                    <span class="badge bg-warning text-light"><?php echo $this->text('JUNPUBLISHED'); ?></span>
                 <?php endif; ?>
                 <span class="contact-name" itemprop="name"><?php echo $this->item->name; ?></span>
             </<?php echo $htag; ?>>
@@ -71,7 +71,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 
     <?php if ($tparams->get('show_contact_list') && count($this->contacts) > 1) : ?>
         <form action="#" method="get" name="selectForm" id="selectForm">
-            <label for="select_contact"><?php echo $this->_('COM_CONTACT_SELECT_CONTACT'); ?></label>
+            <label for="select_contact"><?php echo $this->text('COM_CONTACT_SELECT_CONTACT'); ?></label>
             <?php echo HTMLHelper::_(
                 'select.genericlist',
                 $this->contacts,
@@ -96,7 +96,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 
     <?php if ($this->params->get('show_info', 1)) : ?>
         <div class="com-contact__container">
-            <?php echo '<h3>' . $this->_('COM_CONTACT_DETAILS') . '</h3>'; ?>
+            <?php echo '<h3>' . $this->text('COM_CONTACT_DETAILS') . '</h3>'; ?>
 
             <?php if ($this->item->image && $tparams->get('show_image')) : ?>
                 <div class="com-contact__thumbnail thumbnail">
@@ -113,7 +113,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 
             <?php if ($this->item->con_position && $tparams->get('show_position')) : ?>
                 <dl class="com-contact__position contact-position dl-horizontal">
-                    <dt><?php echo $this->_('COM_CONTACT_POSITION'); ?>:</dt>
+                    <dt><?php echo $this->text('COM_CONTACT_POSITION'); ?>:</dt>
                     <dd itemprop="jobTitle">
                         <?php echo $this->item->con_position; ?>
                     </dd>
@@ -124,9 +124,9 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
                 <?php echo $this->loadTemplate('address'); ?>
 
                 <?php if ($tparams->get('allow_vcard')) : ?>
-                    <?php echo $this->_('COM_CONTACT_DOWNLOAD_INFORMATION_AS'); ?>
+                    <?php echo $this->text('COM_CONTACT_DOWNLOAD_INFORMATION_AS'); ?>
                     <a href="<?php echo Route::_('index.php?option=com_contact&view=contact&catid=' . $this->item->catslug . '&id=' . $this->item->slug . '&format=vcf'); ?>">
-                    <?php echo $this->_('COM_CONTACT_VCARD'); ?></a>
+                    <?php echo $this->text('COM_CONTACT_VCARD'); ?></a>
                 <?php endif; ?>
             </div>
         </div>
@@ -134,7 +134,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
     <?php endif; ?>
 
     <?php if ($tparams->get('show_email_form') && ($this->item->email_to || $this->item->user_id)) : ?>
-        <?php echo '<h3>' . $this->_('COM_CONTACT_EMAIL_FORM') . '</h3>'; ?>
+        <?php echo '<h3>' . $this->text('COM_CONTACT_EMAIL_FORM') . '</h3>'; ?>
 
         <?php echo $this->loadTemplate('form'); ?>
     <?php endif; ?>
@@ -144,13 +144,13 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
     <?php endif; ?>
 
     <?php if ($tparams->get('show_articles') && $this->item->user_id && $this->item->articles) : ?>
-        <?php echo '<h3>' . $this->_('JGLOBAL_ARTICLES') . '</h3>'; ?>
+        <?php echo '<h3>' . $this->text('JGLOBAL_ARTICLES') . '</h3>'; ?>
 
         <?php echo $this->loadTemplate('articles'); ?>
     <?php endif; ?>
 
     <?php if ($tparams->get('show_profile') && $this->item->user_id && PluginHelper::isEnabled('user', 'profile')) : ?>
-        <?php echo '<h3>' . $this->_('COM_CONTACT_PROFILE') . '</h3>'; ?>
+        <?php echo '<h3>' . $this->text('COM_CONTACT_PROFILE') . '</h3>'; ?>
 
         <?php echo $this->loadTemplate('profile'); ?>
     <?php endif; ?>
@@ -160,14 +160,14 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
     <?php endif; ?>
 
     <?php if ($this->item->misc && $tparams->get('show_misc')) : ?>
-        <?php echo '<h3>' . $this->_('COM_CONTACT_OTHER_INFORMATION') . '</h3>'; ?>
+        <?php echo '<h3>' . $this->text('COM_CONTACT_OTHER_INFORMATION') . '</h3>'; ?>
 
         <div class="com-contact__miscinfo contact-miscinfo">
             <dl class="dl-horizontal">
                 <dt>
                     <?php if (!$this->params->get('marker_misc')) : ?>
                         <span class="icon-info-circle" aria-hidden="true"></span>
-                        <span class="visually-hidden"><?php echo $this->_('COM_CONTACT_OTHER_INFORMATION'); ?></span>
+                        <span class="visually-hidden"><?php echo $this->text('COM_CONTACT_OTHER_INFORMATION'); ?></span>
                     <?php else : ?>
                         <span class="<?php echo $this->params->get('marker_class'); ?>">
                             <?php echo $this->params->get('marker_misc'); ?>

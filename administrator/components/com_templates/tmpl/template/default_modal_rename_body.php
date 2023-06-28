@@ -19,7 +19,7 @@ use Joomla\CMS\Filesystem\File;
             <div class="control-group">
                 <div class="control-label">
                     <label for="new_name">
-                        <?php echo $this->_('COM_TEMPLATES_NEW_FILE_NAME')?>
+                        <?php echo $this->text('COM_TEMPLATES_NEW_FILE_NAME')?>
                     </label>
                 </div>
                 <div class="controls">

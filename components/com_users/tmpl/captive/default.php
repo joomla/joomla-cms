@@ -34,7 +34,7 @@ $this->document->getWebAssetManager()
                 target="_blank"
         >
             <span class="icon icon-question-sign" aria-hidden="true"></span>
-            <span class="visually-hidden"><?php echo $this->_('JHELP') ?></span>
+            <span class="visually-hidden"><?php echo $this->text('JHELP') ?></span>
         </a>
         </span>
         <?php endif;?>
@@ -104,19 +104,19 @@ $this->document->getWebAssetManager()
                         style="<?php echo $this->renderOptions['hide_submit'] ? 'display: none' : '' ?>"
                         type="submit">
                     <span class="<?php echo $this->renderOptions['submit_icon'] ?>" aria-hidden="true"></span>
-                    <?php echo $this->_($this->renderOptions['submit_text']); ?>
+                    <?php echo $this->text($this->renderOptions['submit_text']); ?>
                 </button>
 
                 <a href="<?php echo Route::_('index.php?option=com_users&task=user.logout&' . Factory::getApplication()->getFormToken() . '=1') ?>"
                    class="btn btn-danger btn-sm" id="users-mfa-captive-button-logout">
                     <span class="icon icon-lock" aria-hidden="true"></span>
-                    <?php echo $this->_('COM_USERS_MFA_LOGOUT'); ?>
+                    <?php echo $this->text('COM_USERS_MFA_LOGOUT'); ?>
                 </a>
 
                 <?php if (count($this->records) > 1) : ?>
                     <div id="users-mfa-captive-form-choose-another" class="my-3">
                         <a href="<?php echo Route::_('index.php?option=com_users&view=captive&task=select') ?>">
-                            <?php echo $this->_('COM_USERS_MFA_USE_DIFFERENT_METHOD'); ?>
+                            <?php echo $this->text('COM_USERS_MFA_USE_DIFFERENT_METHOD'); ?>
                         </a>
                     </div>
                 <?php endif; ?>

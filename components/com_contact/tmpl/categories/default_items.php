@@ -24,7 +24,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
                     <?php echo $this->escape($item->title); ?></a>
                     <?php if ($this->params->get('show_cat_items_cat') == 1) :?>
                         <span class="badge bg-info">
-                            <?php echo $this->_('COM_CONTACT_NUM_ITEMS'); ?>&nbsp;
+                            <?php echo $this->text('COM_CONTACT_NUM_ITEMS'); ?>&nbsp;
                             <?php echo $item->numitems; ?>
                         </span>
                     <?php endif; ?>
@@ -35,7 +35,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
                             data-bs-target="#category-<?php echo $item->id; ?>"
                             data-bs-toggle="collapse"
                             class="btn btn-secondary btn-sm float-end"
-                            aria-label="<?php echo $this->_('JGLOBAL_EXPAND_CATEGORIES'); ?>"
+                            aria-label="<?php echo $this->text('JGLOBAL_EXPAND_CATEGORIES'); ?>"
                         >
                             <span class="icon-plus" aria-hidden="true"></span>
                         </button>

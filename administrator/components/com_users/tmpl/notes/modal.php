@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 <div class="unotes">
     <h1><?php echo Text::sprintf('COM_USERS_NOTES_FOR_USER', $this->user->name, $this->user->id); ?></h1>
 <?php if (empty($this->items)) : ?>
-    <?php echo $this->_('COM_USERS_NO_NOTES'); ?>
+    <?php echo $this->text('COM_USERS_NO_NOTES'); ?>
 <?php else : ?>
     <ul class="alternating">
     <?php foreach ($this->items as $item) : ?>
@@ -26,12 +26,12 @@ use Joomla\CMS\Language\Text;
                 <?php if ($item->subject) : ?>
                     <h4><?php echo Text::sprintf('COM_USERS_NOTE_N_SUBJECT', (int) $item->id, $this->escape($item->subject)); ?></h4>
                 <?php else : ?>
-                    <h4><?php echo Text::sprintf('COM_USERS_NOTE_N_SUBJECT', (int) $item->id, $this->_('COM_USERS_EMPTY_SUBJECT')); ?></h4>
+                    <h4><?php echo Text::sprintf('COM_USERS_NOTE_N_SUBJECT', (int) $item->id, $this->text('COM_USERS_EMPTY_SUBJECT')); ?></h4>
                 <?php endif; ?>
             </div>
 
             <div class="fltlft utitle">
-                <?php echo HTMLHelper::_('date', $item->created_time, $this->_('DATE_FORMAT_LC2')); ?>
+                <?php echo HTMLHelper::_('date', $item->created_time, $this->text('DATE_FORMAT_LC2')); ?>
             </div>
 
             <?php $category_image = $item->cparams->get('image'); ?>

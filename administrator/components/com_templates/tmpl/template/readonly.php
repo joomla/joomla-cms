@@ -18,7 +18,7 @@ $input = Factory::getApplication()->getInput();
 ?>
 <form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
     <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'description', 'recall' => true, 'breakpoint' => 768]); ?>
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', $this->_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', $this->text('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
         <div class="card">
             <div class="card-body">
                 <?php echo $this->loadTemplate('description'); ?>

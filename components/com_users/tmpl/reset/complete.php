@@ -31,7 +31,7 @@ $wa->useScript('keepalive')
         <?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
             <fieldset>
                 <?php if (isset($fieldset->label)) : ?>
-                    <legend><?php echo $this->_($fieldset->label); ?></legend>
+                    <legend><?php echo $this->text($fieldset->label); ?></legend>
                 <?php endif; ?>
                 <?php echo $this->form->renderFieldset($fieldset->name); ?>
             </fieldset>
@@ -39,7 +39,7 @@ $wa->useScript('keepalive')
         <div class="com-users-reset-complete__submit control-group">
             <div class="controls">
                 <button type="submit" class="btn btn-primary validate">
-                    <?php echo $this->_('JSUBMIT'); ?>
+                    <?php echo $this->text('JSUBMIT'); ?>
                 </button>
             </div>
         </div>

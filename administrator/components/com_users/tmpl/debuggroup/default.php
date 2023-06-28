@@ -28,9 +28,9 @@ $wa->useScript('table.columns');
         <div class="table-responsive">
             <table class="table">
                 <caption class="visually-hidden">
-                    <?php echo $this->_('COM_USERS_DEBUG_GROUP_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                    <?php echo $this->text('COM_USERS_DEBUG_GROUP_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
                 <thead>
                     <tr>
@@ -42,7 +42,7 @@ $wa->useScript('table.columns');
                         </th>
                         <?php foreach ($this->actions as $key => $action) : ?>
                         <th scope="col" class="w-6 text-center">
-                            <?php echo $this->_($key); ?>
+                            <?php echo $this->text($key); ?>
                         </th>
                         <?php endforeach; ?>
                         <th scope="col" class="w-6">
@@ -57,7 +57,7 @@ $wa->useScript('table.columns');
                     <?php foreach ($this->items as $i => $item) : ?>
                         <tr class="row0">
                             <th scope="row">
-                                <?php echo $this->escape($this->_($item->title)); ?>
+                                <?php echo $this->escape($this->text($item->title)); ?>
                             </th>
                             <td>
                                 <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level + 1]) . $this->escape($item->name); ?>
@@ -69,15 +69,15 @@ $wa->useScript('table.columns');
                                 if ($check === true) :
                                     $class  = 'text-success icon-check';
                                     $button = 'btn-success';
-                                    $text   = $this->_('COM_USERS_DEBUG_EXPLICIT_ALLOW');
+                                    $text   = $this->text('COM_USERS_DEBUG_EXPLICIT_ALLOW');
                                 elseif ($check === false) :
                                     $class  = 'text-danger icon-times';
                                     $button = 'btn-danger';
-                                    $text   = $this->_('COM_USERS_DEBUG_EXPLICIT_DENY');
+                                    $text   = $this->text('COM_USERS_DEBUG_EXPLICIT_DENY');
                                 elseif ($check === null) :
                                     $class  = 'text-danger icon-minus-circle';
                                     $button = 'btn-warning';
-                                    $text   = $this->_('COM_USERS_DEBUG_IMPLICIT_DENY');
+                                    $text   = $this->text('COM_USERS_DEBUG_IMPLICIT_DENY');
                                 else :
                                     $class  = '';
                                     $button = '';
@@ -101,9 +101,9 @@ $wa->useScript('table.columns');
                 </tbody>
             </table>
             <div class="legend">
-                <span class="text-danger icon-minus-circle" aria-hidden="true"></span>&nbsp;<?php echo $this->_('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>&nbsp;
-                <span class="text-success icon-check" aria-hidden="true"></span>&nbsp;<?php echo $this->_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
-                <span class="text-danger icon-times" aria-hidden="true"></span>&nbsp;<?php echo $this->_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
+                <span class="text-danger icon-minus-circle" aria-hidden="true"></span>&nbsp;<?php echo $this->text('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>&nbsp;
+                <span class="text-success icon-check" aria-hidden="true"></span>&nbsp;<?php echo $this->text('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
+                <span class="text-danger icon-times" aria-hidden="true"></span>&nbsp;<?php echo $this->text('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
             </div>
 
             <?php // load the pagination. ?>

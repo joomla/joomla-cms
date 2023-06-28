@@ -36,15 +36,15 @@ echo HTMLHelper::_(
     'bootstrap.renderModal',
     'moduleDashboardAddModal',
     [
-        'title'       => $this->_('COM_CPANEL_ADD_MODULE_MODAL_TITLE'),
+        'title'       => $this->text('COM_CPANEL_ADD_MODULE_MODAL_TITLE'),
         'backdrop'    => 'static',
         'url'         => Route::_('index.php?option=com_cpanel&task=addModule&function=jSelectModuleType&position=' . $this->escape($this->position)),
         'bodyHeight'  => '70',
         'modalWidth'  => '80',
         'footer'      => '<button type="button" class="button-cancel btn btn-danger" data-bs-dismiss="modal" data-bs-target="#closeBtn">'
-            . $this->_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+            . $this->text('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
             . '<button type="button" id="btnModalSaveAndClose" class="button-save btn btn-success hidden" data-bs-target="#saveBtn">'
-            . $this->_('JSAVE') . '</button>',
+            . $this->text('JSAVE') . '</button>',
     ]
 );
 ?>
@@ -67,7 +67,7 @@ echo HTMLHelper::_(
                         <div class="cpanel-add-module-icon">
                             <span class="icon-plus-square" aria-hidden="true"></span>
                         </div>
-                        <span><?php echo $this->_('COM_CPANEL_ADD_DASHBOARD_MODULE'); ?></span>
+                        <span><?php echo $this->text('COM_CPANEL_ADD_DASHBOARD_MODULE'); ?></span>
                     </button>
                 </div>
             </div>

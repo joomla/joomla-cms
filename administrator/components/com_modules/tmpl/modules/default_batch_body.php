@@ -21,8 +21,8 @@ $clientId  = $this->state->get('client_id');
 // Show only Module Positions of published Templates
 $published = 1;
 $positions = HTMLHelper::_('modules.positions', $clientId, $published);
-$positions['']['items'][] = ModulesHelper::createOption('nochange', $this->_('COM_MODULES_BATCH_POSITION_NOCHANGE'));
-$positions['']['items'][] = ModulesHelper::createOption('noposition', $this->_('COM_MODULES_BATCH_POSITION_NOPOSITION'));
+$positions['']['items'][] = ModulesHelper::createOption('nochange', $this->text('COM_MODULES_BATCH_POSITION_NOCHANGE'));
+$positions['']['items'][] = ModulesHelper::createOption('noposition', $this->text('COM_MODULES_BATCH_POSITION_NOPOSITION'));
 
 // Build field
 $attr = [
@@ -40,7 +40,7 @@ $this->document->getWebAssetManager()
 ?>
 
 <div class="p-3">
-    <p><?php echo $this->_('COM_MODULES_BATCH_TIP'); ?></p>
+    <p><?php echo $this->text('COM_MODULES_BATCH_TIP'); ?></p>
     <div class="row">
         <?php if ($clientId != 1) : ?>
             <div class="form-group col-md-6">
@@ -66,10 +66,10 @@ $this->document->getWebAssetManager()
             <div class="col-md-6">
                 <div class="controls">
                     <label id="batch-choose-action-lbl" for="batch-choose-action">
-                        <?php echo $this->_('COM_MODULES_BATCH_POSITION_LABEL'); ?>
+                        <?php echo $this->text('COM_MODULES_BATCH_POSITION_LABEL'); ?>
                     </label>
                     <div id="batch-choose-action">
-                        <joomla-field-fancy-select allow-custom search-placeholder="<?php echo $this->escape($this->_('COM_MODULES_TYPE_OR_SELECT_POSITION')); ?>">
+                        <joomla-field-fancy-select allow-custom search-placeholder="<?php echo $this->escape($this->text('COM_MODULES_TYPE_OR_SELECT_POSITION')); ?>">
                         <?php echo HTMLHelper::_('select.groupedlist', $positions, 'batch[position_id]', $attr); ?>
                         </joomla-field-fancy-select>
                         <div id="batch-copy-move" class="control-group radio">

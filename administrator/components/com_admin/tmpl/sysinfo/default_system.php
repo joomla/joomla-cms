@@ -18,22 +18,22 @@ use Joomla\CMS\HTML\HTMLHelper;
 <div class="sysinfo">
     <table class="table">
         <caption class="visually-hidden">
-            <?php echo $this->_('COM_ADMIN_SYSTEM_INFORMATION'); ?>
+            <?php echo $this->text('COM_ADMIN_SYSTEM_INFORMATION'); ?>
         </caption>
         <thead>
             <tr>
                 <th scope="col" class="w-30">
-                    <?php echo $this->_('COM_ADMIN_SETTING'); ?>
+                    <?php echo $this->text('COM_ADMIN_SETTING'); ?>
                 </th>
                 <th scope="col">
-                    <?php echo $this->_('COM_ADMIN_VALUE'); ?>
+                    <?php echo $this->text('COM_ADMIN_VALUE'); ?>
                 </th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_PHP_BUILT_ON'); ?>
+                    <?php echo $this->text('COM_ADMIN_PHP_BUILT_ON'); ?>
                 </th>
                 <td>
                     <?php echo $this->info['php']; ?>
@@ -41,7 +41,7 @@ use Joomla\CMS\HTML\HTMLHelper;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_DATABASE_TYPE'); ?>
+                    <?php echo $this->text('COM_ADMIN_DATABASE_TYPE'); ?>
                 </th>
                 <td>
                     <?php echo $this->info['dbserver']; ?>
@@ -49,7 +49,7 @@ use Joomla\CMS\HTML\HTMLHelper;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_DATABASE_VERSION'); ?>
+                    <?php echo $this->text('COM_ADMIN_DATABASE_VERSION'); ?>
                 </th>
                 <td>
                     <?php echo $this->info['dbversion']; ?>
@@ -57,7 +57,7 @@ use Joomla\CMS\HTML\HTMLHelper;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_DATABASE_COLLATION'); ?>
+                    <?php echo $this->text('COM_ADMIN_DATABASE_COLLATION'); ?>
                 </th>
                 <td>
                     <?php echo $this->info['dbcollation']; ?>
@@ -65,7 +65,7 @@ use Joomla\CMS\HTML\HTMLHelper;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_DATABASE_CONNECTION_COLLATION'); ?>
+                    <?php echo $this->text('COM_ADMIN_DATABASE_CONNECTION_COLLATION'); ?>
                 </th>
                 <td>
                     <?php echo $this->info['dbconnectioncollation']; ?>
@@ -73,23 +73,23 @@ use Joomla\CMS\HTML\HTMLHelper;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_DATABASE_CONNECTION_ENCRYPTION'); ?>
+                    <?php echo $this->text('COM_ADMIN_DATABASE_CONNECTION_ENCRYPTION'); ?>
                 </th>
                 <td>
-                    <?php echo $this->info['dbconnectionencryption'] ?: $this->_('JNONE'); ?>
+                    <?php echo $this->info['dbconnectionencryption'] ?: $this->text('JNONE'); ?>
                 </td>
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_DATABASE_CONNECTION_ENCRYPTION_SUPPORTED'); ?>
+                    <?php echo $this->text('COM_ADMIN_DATABASE_CONNECTION_ENCRYPTION_SUPPORTED'); ?>
                 </th>
                 <td>
-                    <?php echo $this->info['dbconnencryptsupported'] ? $this->_('JYES') : $this->_('JNO'); ?>
+                    <?php echo $this->info['dbconnencryptsupported'] ? $this->text('JYES') : $this->text('JNO'); ?>
                 </td>
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_PHP_VERSION'); ?>
+                    <?php echo $this->text('COM_ADMIN_PHP_VERSION'); ?>
                 </th>
                 <td>
                     <?php echo $this->info['phpversion']; ?>
@@ -97,7 +97,7 @@ use Joomla\CMS\HTML\HTMLHelper;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_WEB_SERVER'); ?>
+                    <?php echo $this->text('COM_ADMIN_WEB_SERVER'); ?>
                 </th>
                 <td>
                     <?php echo HTMLHelper::_('system.server', $this->info['server']); ?>
@@ -105,7 +105,7 @@ use Joomla\CMS\HTML\HTMLHelper;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_WEBSERVER_TO_PHP_INTERFACE'); ?>
+                    <?php echo $this->text('COM_ADMIN_WEBSERVER_TO_PHP_INTERFACE'); ?>
                 </th>
                 <td>
                     <?php echo $this->info['sapi_name']; ?>
@@ -113,7 +113,7 @@ use Joomla\CMS\HTML\HTMLHelper;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_JOOMLA_VERSION'); ?>
+                    <?php echo $this->text('COM_ADMIN_JOOMLA_VERSION'); ?>
                 </th>
                 <td>
                     <?php echo $this->info['version']; ?>
@@ -121,7 +121,7 @@ use Joomla\CMS\HTML\HTMLHelper;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_USER_AGENT'); ?>
+                    <?php echo $this->text('COM_ADMIN_USER_AGENT'); ?>
                 </th>
                 <td>
                     <?php echo htmlspecialchars($this->info['useragent'], ENT_COMPAT, 'UTF-8'); ?>

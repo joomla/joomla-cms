@@ -31,15 +31,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                 <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if (empty($this->rows)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                        <?php echo $this->text('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                 <table class="table">
                     <caption class="visually-hidden">
-                        <?php echo $this->_('COM_LANGUAGES_INSTALLED_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                        <?php echo $this->text('COM_LANGUAGES_INSTALLED_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                     </caption>
                     <thead>
                         <tr>
@@ -106,7 +106,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                             <?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
                             <?php // Display a Note if language pack version is not equal to Joomla version ?>
                             <?php if (strpos($row->version, $minorVersion) !== 0 || strpos($row->version, $currentShortVersion) !== 0) : ?>
-                                <span class="badge bg-warning text-dark" title="<?php echo $this->_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $row->version; ?></span>
+                                <span class="badge bg-warning text-dark" title="<?php echo $this->text('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $row->version; ?></span>
                             <?php else : ?>
                                 <span class="badge bg-success"><?php echo $row->version; ?></span>
                             <?php endif; ?>

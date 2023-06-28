@@ -49,11 +49,11 @@ $wa->useScript('keepalive')
     <div class="mb-2">
     <button type="button" class="btn btn-primary " data-submit-task="templates.apply">
         <span class="icon-check text-white" aria-hidden="true"></span>
-        <?php echo $this->_('JSAVE') ?>
+        <?php echo $this->text('JSAVE') ?>
     </button>
     <button type="button" class="btn btn-danger" data-submit-task="templates.cancel">
         <span class="icon-times text-white" aria-hidden="true"></span>
-        <?php echo $this->_('JCANCEL') ?>
+        <?php echo $this->text('JCANCEL') ?>
     </button>
 </div>
 

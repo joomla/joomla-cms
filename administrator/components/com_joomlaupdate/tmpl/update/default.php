@@ -60,10 +60,10 @@ $helpUrl = 'https://docs.joomla.org/Special:MyLanguage/J4.x:Joomla_Update_Proble
 
 <div class="px-4 py-5 my-5 text-center" id="joomlaupdate-progress">
     <span class="fa-8x mb-4 icon-loop joomlaupdate" aria-hidden="true"></span>
-    <h1 class="display-5 fw-bold"><?php echo $this->_('COM_JOOMLAUPDATE_UPDATING_HEAD') ?></h1>
+    <h1 class="display-5 fw-bold"><?php echo $this->text('COM_JOOMLAUPDATE_UPDATING_HEAD') ?></h1>
     <div class="col-lg-6 mx-auto">
         <p class="lead mb-4" id="update-title">
-            <?php echo $this->_('COM_JOOMLAUPDATE_UPDATING_INPROGRESS'); ?>
+            <?php echo $this->text('COM_JOOMLAUPDATE_UPDATING_INPROGRESS'); ?>
         </p>
         <div id="progress" class="progress my-3">
             <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated"
@@ -74,17 +74,17 @@ $helpUrl = 'https://docs.joomla.org/Special:MyLanguage/J4.x:Joomla_Update_Proble
             <div class="row">
                 <div class="col">
                     <span class="fa fa-file-archive" aria-hidden="true"></span>
-                    <span class="visually-hidden"><?php echo $this->_('COM_JOOMLAUPDATE_VIEW_UPDATE_BYTESREAD'); ?></span>
+                    <span class="visually-hidden"><?php echo $this->text('COM_JOOMLAUPDATE_VIEW_UPDATE_BYTESREAD'); ?></span>
                     <span id="extbytesin"></span>
                 </div>
                 <div class="col">
                     <span class="fa fa-hdd" aria-hidden="true"></span>
-                    <span class="visually-hidden"><?php echo $this->_('COM_JOOMLAUPDATE_VIEW_UPDATE_BYTESEXTRACTED'); ?></span>
+                    <span class="visually-hidden"><?php echo $this->text('COM_JOOMLAUPDATE_VIEW_UPDATE_BYTESEXTRACTED'); ?></span>
                     <span id="extbytesout"></span>
                 </div>
                 <div class="col">
                     <span class="fa fa-copy" aria-hidden="true"></span>
-                    <span class="visually-hidden"><?php echo $this->_('COM_JOOMLAUPDATE_VIEW_UPDATE_FILESEXTRACTED'); ?></span>
+                    <span class="visually-hidden"><?php echo $this->text('COM_JOOMLAUPDATE_VIEW_UPDATE_FILESEXTRACTED'); ?></span>
                     <span id="extfiles"></span>
                 </div>
             </div>
@@ -105,28 +105,28 @@ $helpUrl = 'https://docs.joomla.org/Special:MyLanguage/J4.x:Joomla_Update_Proble
                        target="_blank"
                        class="btn btn-info">
                         <span class="fa fa-info-circle" aria-hidden="true"></span>
-                        <?php echo $this->_('COM_JOOMLAUPDATE_ERRORMODAL_BTN_HELP') ?>
+                        <?php echo $this->text('COM_JOOMLAUPDATE_ERRORMODAL_BTN_HELP') ?>
                     </a>
                 </div>
                 <div>
                     <button type="button" id="joomlaupdate-resume"
                             class="btn btn-primary">
                         <span class="fa fa-play" aria-hidden="true"></span>
-                        <?php echo $this->_('COM_JOOMLAUPDATE_ERRORSTATE_BTN_RETRY') ?>
+                        <?php echo $this->text('COM_JOOMLAUPDATE_ERRORSTATE_BTN_RETRY') ?>
                     </button>
                 </div>
                 <div>
                     <button type="button" id="joomlaupdate-restart"
                             class="btn btn-warning">
                         <span class="fa fa-redo" aria-hidden="true"></span>
-                        <?php echo $this->_('COM_JOOMLAUPDATE_ERRORSTATE_BTN_RESTART') ?>
+                        <?php echo $this->text('COM_JOOMLAUPDATE_ERRORSTATE_BTN_RESTART') ?>
                     </button>
                 </div>
                 <div class="flex-grow-1"></div>
                 <div>
                     <a href="<?php echo Route::_('index.php?option=com_joomlaupdate') ?>"
                        class="btn btn-danger btn-sm ms-3">
-                        <?php echo $this->_('JCANCEL') ?>
+                        <?php echo $this->text('JCANCEL') ?>
                     </a>
                 </div>
             </div>

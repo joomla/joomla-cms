@@ -37,7 +37,7 @@ $wa->useScript('keepalive')
                 <fieldset>
                     <?php // If the fieldset has a label set, display it as the legend. ?>
                     <?php if (isset($fieldset->label)) : ?>
-                        <legend><?php echo $this->_($fieldset->label); ?></legend>
+                        <legend><?php echo $this->text($fieldset->label); ?></legend>
                     <?php endif; ?>
                     <?php echo $this->form->renderFieldset($fieldset->name); ?>
                 </fieldset>
@@ -49,7 +49,7 @@ $wa->useScript('keepalive')
         <div class="com-users-registration__submit control-group">
             <div class="controls">
                 <button type="submit" class="com-users-registration__register btn btn-primary validate">
-                    <?php echo $this->_('JREGISTER'); ?>
+                    <?php echo $this->text('JREGISTER'); ?>
                 </button>
                 <input type="hidden" name="option" value="com_users">
                 <input type="hidden" name="task" value="registration.register">

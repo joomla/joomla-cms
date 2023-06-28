@@ -29,7 +29,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
         <?php if ($this->params->get('filter_field')) : ?>
             <div class="com-contact-featured__filter btn-group">
                 <label class="filter-search-lbl visually-hidden" for="filter-search">
-                    <?php echo $this->_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>
+                    <?php echo $this->text('COM_CONTACT_FILTER_SEARCH_DESC'); ?>
                 </label>
                 <input
                     type="text"
@@ -37,17 +37,17 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     id="filter-search"
                     value="<?php echo $this->escape($this->state->get('list.filter')); ?>"
                     class="inputbox" onchange="document.adminForm.submit();"
-                    placeholder="<?php echo $this->_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
+                    placeholder="<?php echo $this->text('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
                 >
-                <button type="submit" name="filter_submit" class="btn btn-primary"><?php echo $this->_('JGLOBAL_FILTER_BUTTON'); ?></button>
-                <button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo $this->_('JSEARCH_FILTER_CLEAR'); ?></button>
+                <button type="submit" name="filter_submit" class="btn btn-primary"><?php echo $this->text('JGLOBAL_FILTER_BUTTON'); ?></button>
+                <button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo $this->text('JSEARCH_FILTER_CLEAR'); ?></button>
             </div>
         <?php endif; ?>
 
         <?php if ($this->params->get('show_pagination_limit')) : ?>
             <div class="com-contact-featured__pagination btn-group float-end">
                 <label for="limit" class="visually-hidden">
-                    <?php echo $this->_('JGLOBAL_DISPLAY_NUM'); ?>
+                    <?php echo $this->text('JGLOBAL_DISPLAY_NUM'); ?>
                 </label>
                 <?php echo $this->pagination->getLimitBox(); ?>
             </div>
@@ -55,13 +55,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
-                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                    <?php echo $this->_('COM_CONTACT_NO_CONTACTS'); ?>
+                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                    <?php echo $this->text('COM_CONTACT_NO_CONTACTS'); ?>
             </div>
         <?php else : ?>
         <table class="com-contact-featured__table table table-striped table-bordered table-hover">
             <caption class="visually-hidden">
-                <?php echo $this->_('COM_CONTACT_TABLE_CAPTION'); ?>,
+                <?php echo $this->text('COM_CONTACT_TABLE_CAPTION'); ?>,
             </caption>
                 <thead<?php echo $this->params->get('show_headings', '1') ? '' : ' class="visually-hidden"'; ?>>
                     <tr>
@@ -77,25 +77,25 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
                         <?php if ($this->params->get('show_email_headings')) : ?>
                         <th scope="col" class="item-email">
-                            <?php echo $this->_('JGLOBAL_EMAIL'); ?>
+                            <?php echo $this->text('JGLOBAL_EMAIL'); ?>
                         </th>
                         <?php endif; ?>
 
                         <?php if ($this->params->get('show_telephone_headings')) : ?>
                         <th scope="col" class="item-phone">
-                            <?php echo $this->_('COM_CONTACT_TELEPHONE'); ?>
+                            <?php echo $this->text('COM_CONTACT_TELEPHONE'); ?>
                         </th>
                         <?php endif; ?>
 
                         <?php if ($this->params->get('show_mobile_headings')) : ?>
                         <th scope="col" class="item-phone">
-                            <?php echo $this->_('COM_CONTACT_MOBILE'); ?>
+                            <?php echo $this->text('COM_CONTACT_MOBILE'); ?>
                         </th>
                         <?php endif; ?>
 
                         <?php if ($this->params->get('show_fax_headings')) : ?>
                         <th scope="col" class="item-phone">
-                            <?php echo $this->_('COM_CONTACT_FAX'); ?>
+                            <?php echo $this->text('COM_CONTACT_FAX'); ?>
                         </th>
                         <?php endif; ?>
 
@@ -132,7 +132,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         <?php if ($item->published == 0) : ?>
                             <div>
                                 <span class="list-published badge bg-warning text-light">
-                                    <?php echo $this->_('JUNPUBLISHED'); ?>
+                                    <?php echo $this->text('JUNPUBLISHED'); ?>
                                 </span>
                             </div>
                         <?php endif; ?>

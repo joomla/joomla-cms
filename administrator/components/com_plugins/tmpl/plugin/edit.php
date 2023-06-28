@@ -31,12 +31,12 @@ $layout   = $isModal ? 'modal' : 'edit';
 $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_plugins&view=plugin&layout=' . $layout . $tmpl . '&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" aria-label="<?php echo $this->_('COM_PLUGINS_FORM_EDIT'); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_plugins&view=plugin&layout=' . $layout . $tmpl . '&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" aria-label="<?php echo $this->text('COM_PLUGINS_FORM_EDIT'); ?>" class="form-validate">
     <div class="main-card">
 
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'general', 'recall' => true, 'breakpoint' => 768]); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', $this->_('COM_PLUGINS_PLUGIN')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', $this->text('COM_PLUGINS_PLUGIN')); ?>
 
         <div class="row mt-2">
             <div class="col-lg-9">
@@ -45,9 +45,9 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
                         <h2>
                         <?php
                         if ($this->item->xml) {
-                            echo ($text = (string) $this->item->xml->name) ? $this->_($text) : $this->item->name;
+                            echo ($text = (string) $this->item->xml->name) ? $this->text($text) : $this->item->name;
                         } else {
-                            echo $this->_('COM_PLUGINS_XML_ERR');
+                            echo $this->text('COM_PLUGINS_XML_ERR');
                         }
                         ?>
                         </h2>
@@ -62,7 +62,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
                         <div>
                             <?php
                             $this->fieldset    = 'description';
-                            $short_description = $this->_($this->item->xml->description);
+                            $short_description = $this->text($this->item->xml->description);
                             $long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
 
                             if (!$long_description) {
@@ -82,7 +82,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
                             <?php if ($long_description) : ?>
                                 <p class="readmore">
                                     <a href="#" onclick="document.querySelector('[aria-controls=description]').click();">
-                                        <?php echo $this->_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
+                                        <?php echo $this->text('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
                                     </a>
                                 </p>
                             <?php endif; ?>
@@ -90,8 +90,8 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
                     <?php endif; ?>
                 <?php else : ?>
                         <div class="alert alert-danger">
-                        <span class="icon-exclamation-triangle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('ERROR'); ?></span>
-                            <?php echo $this->_('COM_PLUGINS_XML_ERR'); ?>
+                        <span class="icon-exclamation-triangle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('ERROR'); ?></span>
+                            <?php echo $this->text('COM_PLUGINS_XML_ERR'); ?>
                         </div>
                 <?php endif; ?>
                 <?php
@@ -117,7 +117,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
         <?php if (isset($long_description) && $long_description != '') : ?>
-            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', $this->_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', $this->text('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
             <?php echo $long_description; ?>
             <?php echo HTMLHelper::_('uitab.endTab'); ?>
         <?php endif; ?>

@@ -79,8 +79,8 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
             <!-- No tasks -->
             <div class="alert alert-info">
                 <span class="icon-info-circle" aria-hidden="true"></span><span
-                        class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                <?php echo $this->text('JGLOBAL_NO_MATCHING_RESULTS'); ?>
             </div>
         <?php endif; ?>
 
@@ -90,9 +90,9 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
             <table class="table" id="categoryList">
 
                 <caption class="visually-hidden">
-                    <?php echo $this->_('COM_SCHEDULER_TABLE_CAPTION'); ?>,
-                    <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                    <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                    <?php echo $this->text('COM_SCHEDULER_TABLE_CAPTION'); ?>,
+                    <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                    <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
 
                 <!-- Tasks table header -->
@@ -132,7 +132,7 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
 
                     <!-- Test task -->
                     <th scope="col" class="d-none d-md-table-cell">
-                        <?php echo $this->_('COM_SCHEDULER_TEST_TASK'); ?>
+                        <?php echo $this->text('COM_SCHEDULER_TEST_TASK'); ?>
                     </th>
 
                     <!-- Priority -->
@@ -174,7 +174,7 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
                             if (!$canChange) {
                                 $iconClass = ' inactive';
                             } elseif (!$saveOrder) {
-                                $iconClass = ' inactive" title="' . $this->_('JORDERINGDISABLED');
+                                $iconClass = ' inactive" title="' . $this->text('JORDERINGDISABLED');
                             }
                             ?>
 
@@ -210,7 +210,7 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
                             <span class="task-title">
                                 <?php if ($canEdit) : ?>
                                     <a href="<?php echo Route::_('index.php?option=com_scheduler&task=task.edit&id=' . $item->id); ?>"
-                                        title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>"> <?php echo $this->escape($item->title); ?>
+                                        title="<?php echo $this->text('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>"> <?php echo $this->escape($item->title); ?>
                                     </a>
                                 <?php else : ?>
                                      <?php echo $this->escape($item->title); ?>
@@ -244,18 +244,18 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
                         <td class="small d-none d-md-table-cell">
                             <button type="button" class="btn btn-sm btn-warning" <?php echo $item->state < 0 ? 'disabled' : ''; ?> data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars($item->title); ?>" data-bs-toggle="modal" data-bs-backdrop="static" data-bs-target="#scheduler-test-modal">
                                 <span class="fa fa-play fa-sm me-2"></span>
-                                <?php echo $this->_('COM_SCHEDULER_TEST_RUN'); ?>
+                                <?php echo $this->text('COM_SCHEDULER_TEST_RUN'); ?>
                             </button>
                         </td>
 
                         <!-- Priority -->
                         <td class="small d-none d-lg-table-cell">
                             <?php if ($item->priority === -1) : ?>
-                                <span class="badge bg-info"><?php echo $this->_('COM_SCHEDULER_LABEL_TASK_PRIORITY_LOW'); ?></span>
+                                <span class="badge bg-info"><?php echo $this->text('COM_SCHEDULER_LABEL_TASK_PRIORITY_LOW'); ?></span>
                             <?php elseif ($item->priority === 0) : ?>
-                                <span class="badge bg-success"><?php echo $this->_('COM_SCHEDULER_LABEL_TASK_PRIORITY_NORMAL'); ?></span>
+                                <span class="badge bg-success"><?php echo $this->text('COM_SCHEDULER_LABEL_TASK_PRIORITY_NORMAL'); ?></span>
                             <?php elseif ($item->priority === 1) : ?>
-                                <span class="badge bg-danger"><?php echo $this->_('COM_SCHEDULER_LABEL_TASK_PRIORITY_HIGH'); ?></span>
+                                <span class="badge bg-danger"><?php echo $this->text('COM_SCHEDULER_LABEL_TASK_PRIORITY_HIGH'); ?></span>
                             <?php endif; ?>
                         </td>
 

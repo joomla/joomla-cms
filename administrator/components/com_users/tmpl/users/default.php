@@ -42,15 +42,15 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                 ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                        <?php echo $this->text('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                     <table class="table" id="userList">
                         <caption class="visually-hidden">
-                            <?php echo $this->_('COM_USERS_USERS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->text('COM_USERS_USERS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -71,11 +71,11 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                 </th>
                                 <?php if ($mfa) : ?>
                                 <th scope="col" class="w-5 text-center d-none d-md-table-cell">
-                                    <?php echo $this->_('COM_USERS_HEADING_MFA'); ?>
+                                    <?php echo $this->text('COM_USERS_HEADING_MFA'); ?>
                                 </th>
                                 <?php endif; ?>
                                 <th scope="col" class="w-12 d-none d-md-table-cell">
-                                    <?php echo $this->_('COM_USERS_HEADING_GROUPS'); ?>
+                                    <?php echo $this->text('COM_USERS_HEADING_GROUPS'); ?>
                                 </th>
                                 <th scope="col" class="w-12 d-none d-xl-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
@@ -121,7 +121,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                         <?php echo HTMLHelper::_('users.addNote', $item->id); ?>
                                         <?php if ($item->note_count > 0) : ?>
                                         <button type="button" class="btn btn-secondary btn-sm dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <span class="visually-hidden"><?php echo $this->_('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
+                                            <span class="visually-hidden"><?php echo $this->text('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
                                         </button>
                                         <div class="dropdown-menu">
                                             <?php echo HTMLHelper::_('users.filterNotes', $item->note_count, $item->id); ?>
@@ -131,7 +131,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                     </div>
                                     <?php echo HTMLHelper::_('users.notesModal', $item->note_count, $item->id); ?>
                                     <?php if ($item->requireReset == '1') : ?>
-                                        <span class="badge bg-warning text-dark"><?php echo $this->_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
+                                        <span class="badge bg-warning text-dark"><?php echo $this->text('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
                                     <?php endif; ?>
                                 </th>
                                 <td class="break-word d-none d-md-table-cell">
@@ -157,12 +157,12 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                     <?php if ($item->mfaRecords > 0 || !empty($item->otpKey)) : ?>
                                         <span class="icon-check" aria-hidden="true" aria-describedby="tip-mfa<?php echo $i; ?>"></span>
                                         <div role="tooltip" id="tip-mfa<?php echo $i; ?>">
-                                            <?php echo $this->_('COM_USERS_MFA_ACTIVE'); ?>
+                                            <?php echo $this->text('COM_USERS_MFA_ACTIVE'); ?>
                                         </div>
                                     <?php else : ?>
                                         <span class="icon-times" aria-hidden="true" aria-describedby="tip-mfa<?php echo $i; ?>"></span>
                                         <div role="tooltip" id="tip-mfa<?php echo $i; ?>">
-                                            <?php echo $this->_('COM_USERS_MFA_NOTACTIVE'); ?>
+                                            <?php echo $this->text('COM_USERS_MFA_NOTACTIVE'); ?>
                                         </div>
                                     <?php endif; ?>
                                     </span>
@@ -170,9 +170,9 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                 <?php endif; ?>
                                 <td class="d-none d-md-table-cell">
                                     <?php if (substr_count($item->group_names, "\n") > 1) : ?>
-                                        <span tabindex="0"><?php echo $this->_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
+                                        <span tabindex="0"><?php echo $this->text('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
                                         <div role="tooltip" id="tip<?php echo $i; ?>">
-                                            <strong><?php echo $this->_('COM_USERS_HEADING_GROUPS'); ?></strong>
+                                            <strong><?php echo $this->text('COM_USERS_HEADING_GROUPS'); ?></strong>
                                             <ul><li><?php echo str_replace("\n", '</li><li>', $item->group_names); ?></li></ul>
                                         </div>
                                     <?php else : ?>
@@ -180,7 +180,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                     <?php endif; ?>
                                     <a  class="btn btn-sm btn-secondary"
                                         href="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
-                                        <?php echo $this->_('COM_USERS_DEBUG_PERMISSIONS'); ?>
+                                        <?php echo $this->text('COM_USERS_DEBUG_PERMISSIONS'); ?>
                                     </a>
                                 </td>
                                 <td class="d-none d-xl-table-cell break-word">
@@ -188,13 +188,13 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                 </td>
                                 <td class="d-none d-xl-table-cell">
                                     <?php if ($item->lastvisitDate !== null) : ?>
-                                        <?php echo HTMLHelper::_('date', $item->lastvisitDate, $this->_('DATE_FORMAT_LC6')); ?>
+                                        <?php echo HTMLHelper::_('date', $item->lastvisitDate, $this->text('DATE_FORMAT_LC6')); ?>
                                     <?php else : ?>
-                                        <?php echo $this->_('JNEVER'); ?>
+                                        <?php echo $this->text('JNEVER'); ?>
                                     <?php endif; ?>
                                 </td>
                                 <td class="d-none d-xl-table-cell">
-                                    <?php echo HTMLHelper::_('date', $item->registerDate, $this->_('DATE_FORMAT_LC6')); ?>
+                                    <?php echo HTMLHelper::_('date', $item->registerDate, $this->text('DATE_FORMAT_LC6')); ?>
                                 </td>
                                 <td class="d-none d-md-table-cell">
                                     <?php echo (int) $item->id; ?>
@@ -218,7 +218,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                             'bootstrap.renderModal',
                             'collapseModal',
                             [
-                                'title'  => $this->_('COM_USERS_BATCH_OPTIONS'),
+                                'title'  => $this->text('COM_USERS_BATCH_OPTIONS'),
                                 'footer' => $this->loadTemplate('batch_footer'),
                             ],
                             $this->loadTemplate('batch_body')

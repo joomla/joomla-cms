@@ -25,13 +25,13 @@ $lang->load($component, JPATH_BASE)
 
 // If a component categories title string is present, let's use it.
 if ($lang->hasKey($component_title_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORIES_TITLE')) {
-    $title = $this->_($component_title_key);
+    $title = $this->text($component_title_key);
 } elseif ($lang->hasKey($component_section_key = strtoupper($component . ($section ? "_$section" : '')))) {
     // Else if the component section string exists, let's use it
-    $title = Text::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', $this->escape($this->_($component_section_key)));
+    $title = Text::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', $this->escape($this->text($component_section_key)));
 } else // Else use the base title
 {
-    $title = $this->_('COM_CATEGORIES_CATEGORIES_BASE_TITLE');
+    $title = $this->text('COM_CATEGORIES_CATEGORIES_BASE_TITLE');
 }
 
 $displayData = [

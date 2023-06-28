@@ -28,8 +28,8 @@ $wa->useScript('keepalive')
 ?>
 
 <div class="text-center">
-    <h1 id="finder-progress-header" class="m-t-2" aria-live="assertive"><?php echo $this->_('COM_FINDER_INDEXER_HEADER_INIT'); ?></h1>
-    <p id="finder-progress-message" aria-live="polite"><?php echo $this->_('COM_FINDER_INDEXER_MESSAGE_INIT'); ?></p>
+    <h1 id="finder-progress-header" class="m-t-2" aria-live="assertive"><?php echo $this->text('COM_FINDER_INDEXER_HEADER_INIT'); ?></h1>
+    <p id="finder-progress-message" aria-live="polite"><?php echo $this->text('COM_FINDER_INDEXER_MESSAGE_INIT'); ?></p>
     <div id="progress" class="progress">
         <div id="progress-bar" class="progress-bar bg-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
     </div>

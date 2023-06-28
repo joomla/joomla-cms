@@ -39,7 +39,7 @@ use Joomla\CMS\Uri\Uri;
 <?php // Display the 'no results' message and exit the template. ?>
 <?php if (($this->total === 0) || ($this->total === null)) : ?>
     <div id="search-result-empty" class="com-finder__empty">
-        <h2><?php echo $this->_('COM_FINDER_SEARCH_NO_RESULTS_HEADING'); ?></h2>
+        <h2><?php echo $this->text('COM_FINDER_SEARCH_NO_RESULTS_HEADING'); ?></h2>
         <?php $multilang = Factory::getApplication()->getLanguageFilter() ? '_MULTILANG' : ''; ?>
         <p><?php echo Text::sprintf('COM_FINDER_SEARCH_NO_RESULTS_BODY' . $multilang, $this->escape($this->query->input)); ?></p>
     </div>

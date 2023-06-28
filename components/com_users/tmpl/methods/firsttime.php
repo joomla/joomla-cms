@@ -22,16 +22,16 @@ $headingLevel = 2;
 <div id="com-users-methods-list">
     <?php if (!$this->isAdmin) : ?>
         <h<?php echo $headingLevel ?> id="com-users-methods-list-head">
-            <?php echo $this->_('COM_USERS_MFA_FIRSTTIME_PAGE_HEAD'); ?>
+            <?php echo $this->text('COM_USERS_MFA_FIRSTTIME_PAGE_HEAD'); ?>
         </h<?php echo $headingLevel++ ?>>
     <?php endif; ?>
     <div id="com-users-methods-list-instructions" class="alert alert-info">
         <h<?php echo $headingLevel ?> class="alert-heading">
             <span class="fa fa-shield-alt" aria-hidden="true"></span>
-            <?php echo $this->_('COM_USERS_MFA_FIRSTTIME_INSTRUCTIONS_HEAD'); ?>
+            <?php echo $this->text('COM_USERS_MFA_FIRSTTIME_INSTRUCTIONS_HEAD'); ?>
         </h<?php echo $headingLevel ?>>
         <p>
-            <?php echo $this->_('COM_USERS_MFA_FIRSTTIME_INSTRUCTIONS_WHATITDOES'); ?>
+            <?php echo $this->text('COM_USERS_MFA_FIRSTTIME_INSTRUCTIONS_WHATITDOES'); ?>
         </p>
         <a href="<?php echo Route::_(
             'index.php?option=com_users&task=methods.doNotShowThisAgain' .
@@ -40,7 +40,7 @@ $headingLevel = 2;
                 '&' . Factory::getApplication()->getFormToken() . '=1'
         )?>"
            class="btn btn-danger w-100">
-            <?php echo $this->_('COM_USERS_MFA_FIRSTTIME_NOTINTERESTED'); ?>
+            <?php echo $this->text('COM_USERS_MFA_FIRSTTIME_NOTINTERESTED'); ?>
         </a>
     </div>
 

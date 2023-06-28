@@ -40,9 +40,9 @@ if ($saveOrder && !empty($this->items)) {
         <?php if ($this->total > 0) : ?>
             <table class="table" id="moduleList">
                 <caption class="visually-hidden">
-                    <?php echo $this->_('COM_MODULES_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                    <?php echo $this->text('COM_MODULES_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
                 <thead>
                     <tr>
@@ -106,7 +106,7 @@ if ($saveOrder && !empty($this->items)) {
                             if (!$canChange) {
                                 $iconClass = ' inactive';
                             } elseif (!$saveOrder) {
-                                $iconClass = ' inactive" title="' . $this->_('JORDERINGDISABLED');
+                                $iconClass = ' inactive" title="' . $this->text('JORDERINGDISABLED');
                             }
                             ?>
                             <span class="sortable-handler<?php echo $iconClass; ?>">
@@ -133,7 +133,7 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'modules.', $canCheckin); ?>
                                 <?php endif; ?>
                                 <?php if ($canEdit) : ?>
-                                    <a href="<?php echo Route::_('index.php?option=com_modules&task=module.edit&id=' . (int) $item->id); ?>" title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+                                    <a href="<?php echo Route::_('index.php?option=com_modules&task=module.edit&id=' . (int) $item->id); ?>" title="<?php echo $this->text('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
                                         <?php echo $this->escape($item->title); ?></a>
                                 <?php else : ?>
                                     <?php echo $this->escape($item->title); ?>
@@ -153,7 +153,7 @@ if ($saveOrder && !empty($this->items)) {
                                 </span>
                             <?php else : ?>
                                 <span class="badge bg-secondary">
-                                    <?php echo $this->_('JNONE'); ?>
+                                    <?php echo $this->text('JNONE'); ?>
                                 </span>
                             <?php endif; ?>
                         </td>
@@ -175,7 +175,7 @@ if ($saveOrder && !empty($this->items)) {
                         <?php elseif ($clientId === 1 && ModuleHelper::isAdminMultilang()) : ?>
                             <td class="small d-none d-md-table-cell">
                                 <?php if ($item->language == '') :?>
-                                    <?php echo $this->_('JUNDEFINED'); ?>
+                                    <?php echo $this->text('JUNDEFINED'); ?>
                                 <?php elseif ($item->language == '*') :?>
                                     <?php echo Text::alt('JALL', 'language'); ?>
                                 <?php else :?>
@@ -207,7 +207,7 @@ if ($saveOrder && !empty($this->items)) {
                 'bootstrap.renderModal',
                 'collapseModal',
                 [
-                    'title'  => $this->_('COM_MODULES_BATCH_OPTIONS'),
+                    'title'  => $this->text('COM_MODULES_BATCH_OPTIONS'),
                     'footer' => $this->loadTemplate('batch_footer'),
                 ],
                 $this->loadTemplate('batch_body')

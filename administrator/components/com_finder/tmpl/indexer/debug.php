@@ -31,8 +31,8 @@ $wa->useScript('keepalive')
             <div class="card-body">
                 <fieldset class="adminform p-4">
                     <div class="alert alert-info">
-                        <h2 class="alert-heading"><?php echo $this->_('COM_FINDER_INDEXER_MSG_DEBUGGING_INDEXING'); ?></h2>
-                        <?php echo $this->_('COM_FINDER_INDEXER_MSG_DEBUGGING_INDEXING_TEXT'); ?>
+                        <h2 class="alert-heading"><?php echo $this->text('COM_FINDER_INDEXER_MSG_DEBUGGING_INDEXING'); ?></h2>
+                        <?php echo $this->text('COM_FINDER_INDEXER_MSG_DEBUGGING_INDEXING_TEXT'); ?>
                     </div>
                     <?php echo $this->form->renderField('plugin'); ?>
                     <?php echo $this->form->renderField('id'); ?>
@@ -48,7 +48,7 @@ $wa->useScript('keepalive')
     <div class="card mt-3">
         <div class="card-body">
             <fieldset class="adminform">
-                <legend><?php echo $this->_('COM_FINDER_INDEXER_OUTPUT_AREA_TITLE'); ?></legend>
+                <legend><?php echo $this->text('COM_FINDER_INDEXER_OUTPUT_AREA_TITLE'); ?></legend>
                 <div id="indexer-output" class="border p-3" style="min-height:200px;">
 
                 </div>

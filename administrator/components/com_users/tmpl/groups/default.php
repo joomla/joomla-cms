@@ -36,15 +36,15 @@ $wa->useScript('com_users.admin-users-groups')
                 <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['filterButton' => false]]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                        <?php echo $this->text('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                     <table class="table" id="groupList">
                         <caption class="visually-hidden">
-                            <?php echo $this->_('COM_USERS_GROUPS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->text('COM_USERS_GROUPS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -55,15 +55,15 @@ $wa->useScript('com_users.admin-users-groups')
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_GROUP_TITLE', 'a.title', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="w-10 text-center">
-                                    <?php echo $this->_('COM_USERS_DEBUG_PERMISSIONS'); ?>
+                                    <?php echo $this->text('COM_USERS_DEBUG_PERMISSIONS'); ?>
                                 </th>
                                 <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                     <span class="icon-check" aria-hidden="true"></span>
-                                    <?php echo $this->_('COM_USERS_COUNT_ENABLED_USERS'); ?>
+                                    <?php echo $this->text('COM_USERS_COUNT_ENABLED_USERS'); ?>
                                 </th>
                                 <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                     <span class="icon-times" aria-hidden="true"></span>
-                                    <?php echo $this->_('COM_USERS_COUNT_DISABLED_USERS'); ?>
+                                    <?php echo $this->text('COM_USERS_COUNT_DISABLED_USERS'); ?>
                                 </th>
                                 <th scope="col" class="w-5 d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -90,7 +90,7 @@ $wa->useScript('com_users.admin-users-groups')
                                 <th scope="row">
                                     <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level + 1]); ?>
                                     <?php if ($canEdit) : ?>
-                                    <a href="<?php echo Route::_('index.php?option=com_users&task=group.edit&id=' . $item->id); ?>" title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+                                    <a href="<?php echo Route::_('index.php?option=com_users&task=group.edit&id=' . $item->id); ?>" title="<?php echo $this->text('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
                                         <?php echo $this->escape($item->title); ?></a>
                                     <?php else : ?>
                                         <?php echo $this->escape($item->title); ?>
@@ -99,7 +99,7 @@ $wa->useScript('com_users.admin-users-groups')
                                 <td class="text-center btns">
                                     <a href="<?php echo Route::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id); ?>">
                                         <span class="icon-list" aria-hidden="true"></span>
-                                        <span class="visually-hidden"><?php echo $this->_('COM_USERS_DEBUG_PERMISSIONS'); ?></span>
+                                        <span class="visually-hidden"><?php echo $this->text('COM_USERS_DEBUG_PERMISSIONS'); ?></span>
                                     </a>
                                 </td>
                                 <td class="text-center btns itemnumber d-none d-md-table-cell">
@@ -109,7 +109,7 @@ $wa->useScript('com_users.admin-users-groups')
                                         <?php echo $item->count_enabled; ?>
                                     </a>
                                     <div role="tooltip" id="tip-enabled<?php echo $i; ?>">
-                                        <?php echo $this->_('COM_USERS_COUNT_ENABLED_USERS'); ?>
+                                        <?php echo $this->text('COM_USERS_COUNT_ENABLED_USERS'); ?>
                                     </div>
                                 </td>
                                 <td class="text-center btns itemnumber d-none d-md-table-cell">
@@ -119,7 +119,7 @@ $wa->useScript('com_users.admin-users-groups')
                                         <?php echo $item->count_disabled; ?>
                                     </a>
                                     <div role="tooltip" id="tip-blocked<?php echo $i; ?>">
-                                        <?php echo $this->_('COM_USERS_COUNT_DISABLED_USERS'); ?>
+                                        <?php echo $this->text('COM_USERS_COUNT_DISABLED_USERS'); ?>
                                     </div>
                                 </td>
                                 <td class="d-none d-md-table-cell">

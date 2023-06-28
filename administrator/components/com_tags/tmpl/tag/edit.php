@@ -25,14 +25,14 @@ $this->useCoreUI = true;
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_tags&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo $this->_('COM_TAGS_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_tags&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo $this->text('COM_TAGS_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
     <div class="main-card">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', $this->_('COM_TAGS_FIELDSET_DETAILS')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', $this->text('COM_TAGS_FIELDSET_DETAILS')); ?>
         <div class="row">
             <div class="col-lg-9">
                 <div class="form-vertical">
@@ -48,11 +48,11 @@ $this->useCoreUI = true;
 
         <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', $this->_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', $this->text('JGLOBAL_FIELDSET_PUBLISHING')); ?>
         <div class="row">
             <div class="col-12 col-lg-6">
                 <fieldset id="fieldset-publishingdata" class="options-form">
-                    <legend><?php echo $this->_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+                    <legend><?php echo $this->text('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
                     <div>
                     <?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
                     </div>
@@ -60,7 +60,7 @@ $this->useCoreUI = true;
             </div>
             <div class="col-12 col-lg-6">
                 <fieldset id="fieldset-metadata" class="options-form">
-                    <legend><?php echo $this->_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+                    <legend><?php echo $this->text('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
                     <div>
                     <?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
                     </div>

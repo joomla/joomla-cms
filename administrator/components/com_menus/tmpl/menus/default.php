@@ -45,15 +45,15 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                 <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['filterButton' => false]]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                        <?php echo $this->text('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                     <table class="table" id="menuList">
                         <caption class="visually-hidden">
-                            <?php echo $this->_('COM_MENUS_MENUS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->text('COM_MENUS_MENUS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -64,23 +64,23 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="w-5 text-center">
-                                    <?php echo $this->_('COM_MENUS_MENUS'); ?>
+                                    <?php echo $this->text('COM_MENUS_MENUS'); ?>
                                 </th>
                                 <th scope="col" class="w-10 text-center  d-none d-md-table-cell">
                                     <span class="icon-check" aria-hidden="true"></span>
-                                    <span class="d-none d-md-inline"><?php echo $this->_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
+                                    <span class="d-none d-md-inline"><?php echo $this->text('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
                                 </th>
                                 <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                     <span class="icon-times" aria-hidden="true"></span>
-                                    <span class="d-none d-md-inline"><?php echo $this->_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
+                                    <span class="d-none d-md-inline"><?php echo $this->text('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
                                 </th>
                                 <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                     <span class="icon-trash" aria-hidden="true"></span>
-                                    <span class="d-none d-md-inline"><?php echo $this->_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
+                                    <span class="d-none d-md-inline"><?php echo $this->text('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
                                 </th>
                                 <th scope="col" class="w-10 text-center d-none d-lg-table-cell">
                                     <span class="icon-cube" aria-hidden="true"></span>
-                                    <span class="d-none d-md-inline"><?php echo $this->_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
+                                    <span class="d-none d-md-inline"><?php echo $this->text('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
                                 </th>
                                 <th scope="col" class="w-5 d-none d-lg-table-cell text-center">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -100,7 +100,7 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                     <div class="name break-word">
                                         <?php if ($canEdit) : ?>
                                             <a href="<?php echo Route::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id); ?>">
-                                                <span class="visually-hidden"><?php echo $this->_('COM_MENUS_EDIT_MENU'); ?></span><?php echo $this->escape($item->title); ?>
+                                                <span class="visually-hidden"><?php echo $this->text('COM_MENUS_EDIT_MENU'); ?></span><?php echo $this->escape($item->title); ?>
                                             </a>
                                         <?php else : ?>
                                             <?php echo $this->escape($item->title); ?>
@@ -115,7 +115,7 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                 <td class="text-center btns">
                                     <?php if ($canManageItems) : ?>
                                         <a href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>">
-                                            <span class="icon-list" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('COM_MENUS_MENUS'); ?></span>
+                                            <span class="icon-list" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('COM_MENUS_MENUS'); ?></span>
                                         </a>
                                     <?php endif; ?>
                                 </td>
@@ -133,7 +133,7 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                         </span>
                                     <?php endif; ?>
                                     <div role="tooltip" id="tip-publish<?php echo $i; ?>">
-                                        <?php echo $this->_('COM_MENUS_COUNT_PUBLISHED_ITEMS'); ?>
+                                        <?php echo $this->text('COM_MENUS_COUNT_PUBLISHED_ITEMS'); ?>
                                     </div>
                                 </td>
                                 <td class="text-center btns d-none d-md-table-cell itemnumber">
@@ -150,7 +150,7 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                         </span>
                                     <?php endif; ?>
                                     <div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
-                                        <?php echo $this->_('COM_MENUS_COUNT_UNPUBLISHED_ITEMS'); ?>
+                                        <?php echo $this->text('COM_MENUS_COUNT_UNPUBLISHED_ITEMS'); ?>
                                     </div>
                                 </td>
                                 <td class="text-center btns d-none d-md-table-cell itemnumber">
@@ -167,21 +167,21 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                         </span>
                                     <?php endif; ?>
                                     <div role="tooltip" id="tip-trash<?php echo $i; ?>">
-                                        <?php echo $this->_('COM_MENUS_COUNT_TRASHED_ITEMS'); ?>
+                                        <?php echo $this->text('COM_MENUS_COUNT_TRASHED_ITEMS'); ?>
                                     </div>
                                 </td>
                                 <td class="text-center d-none d-lg-table-cell itemnumber">
                                     <?php if (isset($this->modules[$item->menutype])) : ?>
                                         <div class="dropdown">
                                             <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
-                                                <?php echo $this->_('COM_MENUS_MODULES'); ?>
+                                                <?php echo $this->text('COM_MENUS_MODULES'); ?>
                                                 <span class="caret"></span>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-end">
                                                 <?php foreach ($this->modules[$item->menutype] as &$module) : ?>
                                                     <?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
                                                         <?php $link = Route::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
-                                                        <button type="button" class="dropdown-item" data-bs-target="#moduleEdit<?php echo $module->id; ?>Modal" data-bs-toggle="modal" title="<?php echo $this->_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
+                                                        <button type="button" class="dropdown-item" data-bs-target="#moduleEdit<?php echo $module->id; ?>Modal" data-bs-toggle="modal" title="<?php echo $this->text('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
                                                             <?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></button>
                                                     <?php else : ?>
                                                         <span class="dropdown-item"><?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
@@ -196,7 +196,7 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                                     'bootstrap.renderModal',
                                                     'moduleEdit' . $module->id . 'Modal',
                                                     [
-                                                            'title'       => $this->_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+                                                            'title'       => $this->text('COM_MENUS_EDIT_MODULE_SETTINGS'),
                                                             'backdrop'    => 'static',
                                                             'keyboard'    => false,
                                                             'closeButton' => false,
@@ -207,25 +207,25 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                                             'modalWidth'  => 80,
                                                             'footer'      => '<button type="button" class="btn btn-danger" data-bs-dismiss="modal"'
                                                                     . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#closeBtn\'})">'
-                                                                    . $this->_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+                                                                    . $this->text('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
                                                                     . '<button type="button" class="btn btn-success"'
                                                                     . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#saveBtn\'})">'
-                                                                    . $this->_('JSAVE') . '</button>'
+                                                                    . $this->text('JSAVE') . '</button>'
                                                                     . '<button type="button" class="btn btn-success"'
                                                                     . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#applyBtn\'})">'
-                                                                    . $this->_('JAPPLY') . '</button>',
+                                                                    . $this->text('JAPPLY') . '</button>',
                                                         ]
                                                 ); ?>
                                             <?php endif; ?>
                                         <?php endforeach; ?>
                                     <?php elseif ($modMenuId) : ?>
                                         <?php $link = Route::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype . '&tmpl=component&layout=modal'); ?>
-                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#moduleAddModal"><?php echo $this->_('COM_MENUS_ADD_MENU_MODULE'); ?></button>
+                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#moduleAddModal"><?php echo $this->text('COM_MENUS_ADD_MENU_MODULE'); ?></button>
                                         <?php echo HTMLHelper::_(
                                             'bootstrap.renderModal',
                                             'moduleAddModal',
                                             [
-                                                    'title'       => $this->_('COM_MENUS_ADD_MENU_MODULE'),
+                                                    'title'       => $this->text('COM_MENUS_ADD_MENU_MODULE'),
                                                     'backdrop'    => 'static',
                                                     'keyboard'    => false,
                                                     'closeButton' => false,
@@ -236,13 +236,13 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                                     'modalWidth'  => 80,
                                                     'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
                                                             . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#closeBtn\'})">'
-                                                            . $this->_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+                                                            . $this->text('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
                                                             . '<button type="button" class="btn btn-primary"'
                                                             . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#saveBtn\'})">'
-                                                            . $this->_('JSAVE') . '</button>'
+                                                            . $this->text('JSAVE') . '</button>'
                                                             . '<button type="button" class="btn btn-success"'
                                                             . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#applyBtn\'})">'
-                                                            . $this->_('JAPPLY') . '</button>',
+                                                            . $this->text('JAPPLY') . '</button>',
                                                 ]
                                         ); ?>
                                     <?php endif; ?>

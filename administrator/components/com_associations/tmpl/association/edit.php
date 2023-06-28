@@ -30,15 +30,15 @@ $options = [
 ];
 ?>
 <button id="toggle-left-panel" class="btn btn-sm btn-secondary"
-        data-show-reference="<?php echo $this->_('COM_ASSOCIATIONS_EDIT_SHOW_REFERENCE'); ?>"
-        data-hide-reference="<?php echo $this->_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>"><?php echo $this->_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>
+        data-show-reference="<?php echo $this->text('COM_ASSOCIATIONS_EDIT_SHOW_REFERENCE'); ?>"
+        data-hide-reference="<?php echo $this->text('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>"><?php echo $this->text('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>
 </button>
 
 <form action="<?php echo Route::_('index.php?option=com_associations&view=association&' . http_build_query($options)); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" data-associatedview="<?php echo $this->typeName; ?>">
     <div class="sidebyside">
         <div class="outer-panel" id="left-panel">
             <div class="inner-panel">
-                <h3><?php echo $this->_('COM_ASSOCIATIONS_REFERENCE_ITEM'); ?></h3>
+                <h3><?php echo $this->text('COM_ASSOCIATIONS_REFERENCE_ITEM'); ?></h3>
                 <iframe id="reference-association" name="reference-association" title="reference-association"
                     src="<?php echo Route::_($this->editUri . '&task=' . $this->typeName . '.edit&id=' . (int) $this->referenceId); ?>"
                     height="400" width="400"
@@ -56,7 +56,7 @@ $options = [
             <div class="inner-panel">
                 <div class="language-selector">
                     <div class="clearfix">
-                        <h3 class="target-text"><?php echo $this->_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
+                        <h3 class="target-text"><?php echo $this->text('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
                     </div>
                     <div class="langtarget">
                         <div class="visually-hidden">

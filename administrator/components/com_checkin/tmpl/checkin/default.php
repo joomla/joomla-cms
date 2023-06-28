@@ -30,9 +30,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                 <?php if ($this->total > 0) : ?>
                     <table id="global-checkin" class="table">
                         <caption class="visually-hidden">
-                            <?php echo $this->_('COM_CHECKIN_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->text('COM_CHECKIN_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                             <thead>
                             <tr>

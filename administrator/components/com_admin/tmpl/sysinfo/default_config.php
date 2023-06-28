@@ -17,15 +17,15 @@ use Joomla\CMS\HTML\HTMLHelper;
 <div class="sysinfo">
     <table class="table">
         <caption class="visually-hidden">
-            <?php echo $this->_('COM_ADMIN_CONFIGURATION_FILE'); ?>
+            <?php echo $this->text('COM_ADMIN_CONFIGURATION_FILE'); ?>
         </caption>
         <thead>
             <tr>
                 <th scope="col" class="w-30">
-                    <?php echo $this->_('COM_ADMIN_SETTING'); ?>
+                    <?php echo $this->text('COM_ADMIN_SETTING'); ?>
                 </th>
                 <th scope="col">
-                    <?php echo $this->_('COM_ADMIN_VALUE'); ?>
+                    <?php echo $this->text('COM_ADMIN_VALUE'); ?>
                 </th>
             </tr>
         </thead>

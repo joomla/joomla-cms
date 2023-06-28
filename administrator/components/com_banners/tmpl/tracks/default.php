@@ -30,15 +30,15 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                 <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                        <?php echo $this->text('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                     <table class="table">
                         <caption class="visually-hidden">
-                            <?php echo $this->_('COM_BANNERS_TRACKS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->text('COM_BANNERS_TRACKS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -65,20 +65,20 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                                     <th scope="row">
                                         <?php echo $item->banner_name; ?>
                                         <div class="small">
-                                            <?php echo $this->_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
+                                            <?php echo $this->text('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
                                         </div>
                                     </th>
                                     <td>
                                         <?php echo $item->client_name; ?>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
-                                        <?php echo $item->track_type == 1 ? $this->_('COM_BANNERS_IMPRESSION') : $this->_('COM_BANNERS_CLICK'); ?>
+                                        <?php echo $item->track_type == 1 ? $this->text('COM_BANNERS_IMPRESSION') : $this->text('COM_BANNERS_CLICK'); ?>
                                     </td>
                                     <td class="d-none d-md-table-cell">
                                         <?php echo $item->count; ?>
                                     </td>
                                     <td class="d-none d-md-table-cell">
-                                        <?php echo HTMLHelper::_('date', $item->track_date, $this->_('DATE_FORMAT_LC5')); ?>
+                                        <?php echo HTMLHelper::_('date', $item->track_date, $this->text('DATE_FORMAT_LC5')); ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

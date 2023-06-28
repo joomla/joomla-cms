@@ -53,7 +53,7 @@ endforeach;
 
 <form action="<?php echo Route::_('index.php?option=com_scheduler&view=task&layout=edit&id=' . (int) $this->item->id); ?>"
       method="post" name="adminForm" id="task-form"
-      aria-label="<?php echo $this->_('COM_SCHEDULER_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>"
+      aria-label="<?php echo $this->text('COM_SCHEDULER_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>"
       class="form-validate">
 
     <!-- The task title field -->
@@ -69,7 +69,7 @@ endforeach;
             'uitab.addTab',
             'myTab',
             'general',
-            empty($this->item->id) ? $this->_('COM_SCHEDULER_NEW_TASK') : $this->_('COM_SCHEDULER_EDIT_TASK')
+            empty($this->item->id) ? $this->text('COM_SCHEDULER_NEW_TASK') : $this->text('COM_SCHEDULER_EDIT_TASK')
         );
         ?>
         <div class="row">
@@ -104,25 +104,25 @@ endforeach;
                         <?php if ($long_description) : ?>
                             <p class="readmore">
                                 <a href="#" onclick="document.getElementById('myTab').activateTab(document.getElementById('description'));">
-                                    <?php echo $this->_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
+                                    <?php echo $this->text('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
                                 </a>
                             </p>
                         <?php endif; ?>
                     </div>
                     <!-- If TaskOption does not exist -->
                 <?php else :
-                    $app->enqueueMessage($this->_('COM_SCHEDULER_WARNING_EXISTING_TASK_TYPE_NOT_FOUND'), 'warning');
+                    $app->enqueueMessage($this->text('COM_SCHEDULER_WARNING_EXISTING_TASK_TYPE_NOT_FOUND'), 'warning');
                     ?>
                 <?php endif; ?>
                 <fieldset class="options-form">
-                    <legend><?php echo $this->_('COM_SCHEDULER_FIELDSET_BASIC'); ?></legend>
+                    <legend><?php echo $this->text('COM_SCHEDULER_FIELDSET_BASIC'); ?></legend>
                     <?php echo $this->form->renderFieldset('basic'); ?>
                 </fieldset>
 
                 <fieldset class="options-form match-custom"
                           data-showon='[{"field":"jform[execution_rules][rule-type]","values":["cron-expression"],"sign":"=","op":""}]'
                 >
-                    <legend><?php echo $this->_('COM_SCHEDULER_FIELDSET_CRON_OPTIONS'); ?></legend>
+                    <legend><?php echo $this->text('COM_SCHEDULER_FIELDSET_CRON_OPTIONS'); ?></legend>
                     <?php echo $this->form->renderFieldset('custom-cron-rules'); ?>
                 </fieldset>
                 <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
@@ -134,7 +134,7 @@ endforeach;
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
         <?php if (isset($long_description) && $long_description != '') : ?>
-            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', $this->_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', $this->text('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
                 <div class="card">
                     <div class="card-body">
                         <?php echo $long_description; ?>
@@ -143,16 +143,16 @@ endforeach;
             <?php echo HTMLHelper::_('uitab.endTab'); ?>
         <?php endif; ?>
         <!-- Tab for advanced options -->
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'advanced', $this->_('JGLOBAL_FIELDSET_ADVANCED')) ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'advanced', $this->text('JGLOBAL_FIELDSET_ADVANCED')) ?>
         <div class="row">
             <div class="col-lg-9">
             <fieldset class="options-form">
-                <legend><?php echo $this->_('COM_SCHEDULER_FIELDSET_PRIORITY') ?></legend>
+                <legend><?php echo $this->text('COM_SCHEDULER_FIELDSET_PRIORITY') ?></legend>
                 <?php echo $this->form->renderFieldset('priority') ?>
             </fieldset>
             <?php foreach ($advancedFieldsets as $fieldset) : ?>
                 <fieldset class="options-form">
-                    <legend><?php echo $this->_($fieldset->label ?: 'COM_SCHEDULER_FIELDSET_' . $fieldset->name) ?></legend>
+                    <legend><?php echo $this->text($fieldset->label ?: 'COM_SCHEDULER_FIELDSET_' . $fieldset->name) ?></legend>
                     <?php echo $this->form->renderFieldset($fieldset->name) ?>
                 </fieldset>
             <?php endforeach; ?>
@@ -161,11 +161,11 @@ endforeach;
         <?php echo HTMLHelper::_('uitab.endTab') ?>
 
         <!-- Tab to show execution history -->
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'exec_hist', $this->_('COM_SCHEDULER_FIELDSET_EXEC_HIST')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'exec_hist', $this->text('COM_SCHEDULER_FIELDSET_EXEC_HIST')); ?>
         <div class="row">
             <div class="col-lg-9">
                 <fieldset class="options-form">
-                    <legend><?php echo $this->_('COM_SCHEDULER_FIELDSET_EXEC_HIST'); ?></legend>
+                    <legend><?php echo $this->text('COM_SCHEDULER_FIELDSET_EXEC_HIST'); ?></legend>
                     <?php echo $this->form->renderFieldset('exec_hist'); ?>
                 </fieldset>
             </div>
@@ -173,11 +173,11 @@ endforeach;
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
         <!-- Tab to show creation details-->
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', $this->_('JDETAILS')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', $this->text('JDETAILS')); ?>
         <div class="row">
             <div class="col-lg-9">
                 <fieldset class="options-form">
-                    <legend><?php echo $this->_('JDETAILS'); ?></legend>
+                    <legend><?php echo $this->text('JDETAILS'); ?></legend>
                     <?php echo $this->form->renderFieldset('details'); ?>
                 </fieldset>
             </div>
@@ -186,9 +186,9 @@ endforeach;
 
         <!-- Item permissions tab, if user has admin privileges -->
         <?php if ($this->canDo->get('core.admin')) : ?>
-            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', $this->_('JCONFIG_PERMISSIONS_LABEL')); ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', $this->text('JCONFIG_PERMISSIONS_LABEL')); ?>
             <fieldset id="fieldset-permissions" class="options-form">
-                <legend><?php echo $this->_('JCONFIG_PERMISSIONS_LABEL'); ?></legend>
+                <legend><?php echo $this->text('JCONFIG_PERMISSIONS_LABEL'); ?></legend>
                 <div>
                     <?php echo $this->form->getInput('rules'); ?>
                 </div>

@@ -38,7 +38,7 @@ $wa->useScript('com_menus.admin-item-modal');
                             <?php echo $title; ?>
                         </div>
                         <small class="text-muted">
-                            <?php echo $this->_($item->description); ?>
+                            <?php echo $this->text($item->description); ?>
                         </small>
                     </a>
                 <?php endforeach; ?>

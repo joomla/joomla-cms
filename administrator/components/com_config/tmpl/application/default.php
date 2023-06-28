@@ -29,9 +29,9 @@ Text::script('MESSAGE');
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="main-card form-validate">
     <div class="row main-card-columns">
         <div id="sidebar" class="col-md-3">
-            <button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-bs-toggle="collapse" data-bs-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="<?php echo $this->_('JTOGGLE_SIDEBAR_MENU'); ?>">
+            <button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-bs-toggle="collapse" data-bs-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="<?php echo $this->text('JTOGGLE_SIDEBAR_MENU'); ?>">
                 <span class="icon-align-justify" aria-hidden="true"></span>
-                <?php echo $this->_('JTOGGLE_SIDEBAR_MENU'); ?>
+                <?php echo $this->text('JTOGGLE_SIDEBAR_MENU'); ?>
             </button>
             <div id="sidebar-nav" class="sidebar-nav">
                 <?php echo $this->loadTemplate('navigation'); ?>
@@ -39,20 +39,20 @@ Text::script('MESSAGE');
         </div>
         <div class="col-md-9">
             <?php echo HTMLHelper::_('uitab.startTabSet', 'configTabs', ['active' => 'page-site', 'recall' => true, 'breakpoint' => 768]); ?>
-                <?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-site', $this->_('JSITE')); ?>
+                <?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-site', $this->text('JSITE')); ?>
                     <?php echo $this->loadTemplate('site'); ?>
                     <?php echo $this->loadTemplate('metadata'); ?>
                     <?php echo $this->loadTemplate('seo'); ?>
                     <?php echo $this->loadTemplate('cookie'); ?>
                 <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-                <?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-system', $this->_('COM_CONFIG_SYSTEM')); ?>
+                <?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-system', $this->text('COM_CONFIG_SYSTEM')); ?>
                     <?php echo $this->loadTemplate('debug'); ?>
                     <?php echo $this->loadTemplate('cache'); ?>
                     <?php echo $this->loadTemplate('session'); ?>
                 <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-                <?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-server', $this->_('COM_CONFIG_SERVER')); ?>
+                <?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-server', $this->text('COM_CONFIG_SERVER')); ?>
                     <?php echo $this->loadTemplate('server'); ?>
                     <?php echo $this->loadTemplate('locale'); ?>
                     <?php echo $this->loadTemplate('webservices'); ?>
@@ -61,16 +61,16 @@ Text::script('MESSAGE');
                     <?php echo $this->loadTemplate('mail'); ?>
                 <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-                <?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-logging', $this->_('COM_CONFIG_LOGGING')); ?>
+                <?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-logging', $this->text('COM_CONFIG_LOGGING')); ?>
                     <?php echo $this->loadTemplate('logging'); ?>
                     <?php echo $this->loadTemplate('logging_custom'); ?>
                 <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-                <?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-filters', $this->_('COM_CONFIG_TEXT_FILTERS')); ?>
+                <?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-filters', $this->text('COM_CONFIG_TEXT_FILTERS')); ?>
                     <?php echo $this->loadTemplate('filters'); ?>
                 <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-                <?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-permissions', $this->_('COM_CONFIG_PERMISSIONS')); ?>
+                <?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-permissions', $this->text('COM_CONFIG_PERMISSIONS')); ?>
                     <?php echo $this->loadTemplate('permissions'); ?>
                 <?php echo HTMLHelper::_('uitab.endTab'); ?>
             <?php echo HTMLHelper::_('uitab.endTabSet'); ?>

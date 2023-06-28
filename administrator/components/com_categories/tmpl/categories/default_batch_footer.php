@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 
 ?>
 <button type="button" class="btn btn-secondary" onclick="document.getElementById('batch-category-id').value='';document.getElementById('batch-access').value='';document.getElementById('batch-language-id').value=''" data-bs-dismiss="modal">
-    <?php echo $this->_('JCANCEL'); ?>
+    <?php echo $this->text('JCANCEL'); ?>
 </button>
 <button type="submit" class="btn btn-success" onclick="Joomla.submitbutton('category.batch');return false;">
-    <?php echo $this->_('JGLOBAL_BATCH_PROCESS'); ?>
+    <?php echo $this->text('JGLOBAL_BATCH_PROCESS'); ?>
 </button>

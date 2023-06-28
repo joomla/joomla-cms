@@ -31,14 +31,14 @@ $wa->useScript('keepalive')
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_finder&view=filter&layout=edit&filter_id=' . (int) $this->item->filter_id); ?>" method="post" name="adminForm" id="adminForm" aria-label="<?php echo $this->_('COM_FINDER_FILTER_FORM_TITLE_' . ((int) $this->item->filter_id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_finder&view=filter&layout=edit&filter_id=' . (int) $this->item->filter_id); ?>" method="post" name="adminForm" id="adminForm" aria-label="<?php echo $this->text('COM_FINDER_FILTER_FORM_TITLE_' . ((int) $this->item->filter_id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
     <div class="main-card">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', $this->_('COM_FINDER_EDIT_FILTER')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', $this->text('COM_FINDER_EDIT_FILTER')); ?>
         <div class="row">
             <div class="col-lg-9">
                 <?php if ($this->total > 0) : ?>
@@ -46,9 +46,9 @@ $wa->useScript('keepalive')
                         <?php echo $this->form->renderField('map_count'); ?>
                     </div>
                     <button class="btn btn-secondary filter-toggle-all" type="button">
-                        <span class="icon-square" aria-hidden="true"></span> <?php echo $this->_('JGLOBAL_SELECTION_INVERT'); ?></button>
+                        <span class="icon-square" aria-hidden="true"></span> <?php echo $this->text('JGLOBAL_SELECTION_INVERT'); ?></button>
 
-                    <button class="btn btn-secondary float-end" type="button" id="expandAccordion"><?php echo $this->_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
+                    <button class="btn btn-secondary float-end" type="button" id="expandAccordion"><?php echo $this->text('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
                     <hr>
                 <?php endif; ?>
 
@@ -60,11 +60,11 @@ $wa->useScript('keepalive')
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', $this->_('JGLOBAL_FIELDSET_OPTIONS')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', $this->text('JGLOBAL_FIELDSET_OPTIONS')); ?>
         <div class="row">
             <div class="col-md-6">
                 <fieldset id="fieldset-publishingdata" class="options-form">
-                    <legend><?php echo $this->_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+                    <legend><?php echo $this->text('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
                     <div>
                     <?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
                     </div>
@@ -72,7 +72,7 @@ $wa->useScript('keepalive')
             </div>
             <div class="col-md-6">
                 <fieldset id="fieldset-filter" class="options-form">
-                    <legend><?php echo $this->_('COM_FINDER_FILTER_FIELDSET_PARAMS'); ?></legend>
+                    <legend><?php echo $this->text('COM_FINDER_FILTER_FIELDSET_PARAMS'); ?></legend>
                     <div>
                     <?php echo $this->form->renderFieldset('jbasic'); ?>
                     </div>

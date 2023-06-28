@@ -43,13 +43,13 @@ if (Multilanguage::isEnabled()) {
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="modules-form" class="form-validate">
     <div class="row">
         <div class="col-md-12">
-            <legend><?php echo $this->_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
+            <legend><?php echo $this->text('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
 
             <div>
-                <?php echo $this->_('COM_CONFIG_MODULES_MODULE_NAME'); ?>
+                <?php echo $this->text('COM_CONFIG_MODULES_MODULE_NAME'); ?>
                 <span class="badge bg-secondary"><?php echo $this->item['title']; ?></span>
                 &nbsp;&nbsp;
-                <?php echo $this->_('COM_CONFIG_MODULES_MODULE_TYPE'); ?>
+                <?php echo $this->text('COM_CONFIG_MODULES_MODULE_TYPE'); ?>
                 <span class="badge bg-secondary"><?php echo $this->item['module']; ?></span>
             </div>
             <hr>
@@ -170,15 +170,15 @@ if (Multilanguage::isEnabled()) {
             <div class="mb-2">
             <button type="button" class="btn btn-primary" data-submit-task="modules.apply">
                 <span class="icon-check" aria-hidden="true"></span>
-                <?php echo $this->_('JAPPLY'); ?>
+                <?php echo $this->text('JAPPLY'); ?>
             </button>
             <button type="button" class="btn btn-primary" data-submit-task="modules.save">
                 <span class="icon-check" aria-hidden="true"></span>
-                <?php echo $this->_('JSAVE'); ?>
+                <?php echo $this->text('JSAVE'); ?>
             </button>
             <button type="button" class="btn btn-danger" data-submit-task="modules.cancel">
                 <span class="icon-times" aria-hidden="true"></span>
-                <?php echo $this->_('JCANCEL'); ?>
+                <?php echo $this->text('JCANCEL'); ?>
             </button>
             </div>
         </div>

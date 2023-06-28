@@ -40,6 +40,6 @@ $this->document->getWebAssetManager()
             title="<?php echo $this->escape($this->params->get('page_title')); ?>"
         <?php endif; ?>
         class="com-wrapper__iframe wrapper <?php echo $this->pageclass_sfx; ?>">
-        <?php echo $this->_('COM_WRAPPER_NO_IFRAMES'); ?>
+        <?php echo $this->text('COM_WRAPPER_NO_IFRAMES'); ?>
     </iframe>
 </div>

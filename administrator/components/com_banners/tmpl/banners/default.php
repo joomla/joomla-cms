@@ -45,15 +45,15 @@ if ($saveOrder && !empty($this->items)) {
                 ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                        <?php echo $this->text('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                     <table class="table" id="bannerList">
                         <caption class="visually-hidden">
-                            <?php echo $this->_('COM_BANNERS_BANNERS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->text('COM_BANNERS_BANNERS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -113,7 +113,7 @@ if ($saveOrder && !empty($this->items)) {
                                         if (!$canChange) {
                                             $iconClass = ' inactive';
                                         } elseif (!$saveOrder) {
-                                            $iconClass = ' inactive" title="' . $this->_('JORDERINGDISABLED');
+                                            $iconClass = ' inactive" title="' . $this->text('JORDERINGDISABLED');
                                         }
                                         ?>
                                         <span class="sortable-handler <?php echo $iconClass ?>">
@@ -133,7 +133,7 @@ if ($saveOrder && !empty($this->items)) {
                                                 <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'banners.', $canCheckin); ?>
                                             <?php endif; ?>
                                             <?php if ($canEdit) : ?>
-                                                <a href="<?php echo Route::_('index.php?option=com_banners&task=banner.edit&id=' . (int) $item->id); ?>" title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($item->name); ?>">
+                                                <a href="<?php echo Route::_('index.php?option=com_banners&task=banner.edit&id=' . (int) $item->id); ?>" title="<?php echo $this->text('JACTION_EDIT'); ?> <?php echo $this->escape($item->name); ?>">
                                                     <?php echo $this->escape($item->name); ?></a>
                                             <?php else : ?>
                                                 <?php echo $this->escape($item->name); ?>
@@ -142,7 +142,7 @@ if ($saveOrder && !empty($this->items)) {
                                                 <?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
                                             </div>
                                             <div class="small">
-                                                <?php echo $this->_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
+                                                <?php echo $this->text('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
                                             </div>
                                         </div>
                                     </th>
@@ -153,7 +153,7 @@ if ($saveOrder && !empty($this->items)) {
                                         <?php echo $item->client_name; ?>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
-                                        <?php echo Text::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ?: $this->_('COM_BANNERS_UNLIMITED')); ?>
+                                        <?php echo Text::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ?: $this->text('COM_BANNERS_UNLIMITED')); ?>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
                                         <?php echo $item->clicks; ?> -
@@ -186,7 +186,7 @@ if ($saveOrder && !empty($this->items)) {
                             'bootstrap.renderModal',
                             'collapseModal',
                             [
-                                'title' => $this->_('COM_BANNERS_BATCH_OPTIONS'),
+                                'title' => $this->text('COM_BANNERS_BATCH_OPTIONS'),
                                 'footer' => $this->loadTemplate('batch_footer')
                             ],
                             $this->loadTemplate('batch_body')

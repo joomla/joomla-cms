@@ -34,15 +34,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                     <?php if (empty($this->items)) : ?>
                         <div class="alert alert-info">
-                            <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                            <?php echo $this->_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?>
+                            <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                            <?php echo $this->text('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?>
                         </div>
                     <?php else : ?>
                         <table class="table">
                             <caption class="visually-hidden">
-                                <?php echo $this->_('COM_INSTALLER_UPDATE_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                                <?php echo $this->text('COM_INSTALLER_UPDATE_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                             </caption>
                             <thead>
                             <tr>
@@ -59,19 +59,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col">
-                                    <?php echo $this->_('COM_INSTALLER_CURRENT_VERSION'); ?>
+                                    <?php echo $this->text('COM_INSTALLER_CURRENT_VERSION'); ?>
                                 </th>
                                 <th scope="col">
-                                    <?php echo $this->_('COM_INSTALLER_NEW_VERSION'); ?>
+                                    <?php echo $this->text('COM_INSTALLER_NEW_VERSION'); ?>
                                 </th>
                                 <th scope="col" class="d-none d-md-table-cell">
-                                    <?php echo $this->_('COM_INSTALLER_CHANGELOG'); ?>
+                                    <?php echo $this->text('COM_INSTALLER_CHANGELOG'); ?>
                                 </th>
                                 <th class="d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="d-none d-md-table-cell">
-                                    <?php echo $this->_('COM_INSTALLER_HEADING_INSTALLTYPE'); ?>
+                                    <?php echo $this->text('COM_INSTALLER_HEADING_INSTALLTYPE'); ?>
                                 </th>
                             </tr>
                             </thead>
@@ -100,7 +100,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                         </div>
                                         <?php if ($item->isMissingDownloadKey) : ?>
                                             <?php $url = 'index.php?option=com_installer&task=updatesite.edit&update_site_id=' . (int) $item->update_site_id; ?>
-                                            <a class="btn btn-danger btn-sm text-decoration-none" href="<?php echo Route::_($url); ?>"><?php echo $this->_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?></a>
+                                            <a class="btn btn-danger btn-sm text-decoration-none" href="<?php echo Route::_($url); ?>"><?php echo $this->text('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?></a>
                                         <?php endif; ?>
                                     </th>
                                     <td class="d-none d-md-table-cell">
@@ -118,7 +118,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     <td class="d-none d-md-table-cell text-center">
                                         <?php if (!empty($item->changelogurl)) : ?>
                                         <a href="#changelogModal<?php echo $item->extension_id; ?>" class="btn btn-info btn-sm changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="update" data-bs-toggle="modal">
-                                            <?php echo $this->_('COM_INSTALLER_CHANGELOG'); ?>
+                                            <?php echo $this->text('COM_INSTALLER_CHANGELOG'); ?>
                                         </a>
                                             <?php
                                             echo HTMLHelper::_(
@@ -132,7 +132,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                             ?>
                                         <?php else :?>
                                         <span>
-                                            <?php echo $this->_('COM_INSTALLER_TYPE_NONAPPLICABLE')?>
+                                            <?php echo $this->text('COM_INSTALLER_TYPE_NONAPPLICABLE')?>
                                         </span>
 
                                         <?php endif; ?>

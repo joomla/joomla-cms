@@ -33,21 +33,21 @@ $wa->useScript('keepalive')
             <div id="j-main-container" class="j-main-container">
                 <div class="alert alert-info">
                     <span class="icon-info-circle" aria-hidden="true"></span>
-                    <span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                    <?php echo $this->_('COM_CACHE_PURGE_INSTRUCTIONS'); ?>
+                    <span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                    <?php echo $this->text('COM_CACHE_PURGE_INSTRUCTIONS'); ?>
                 </div>
                 <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if (!$this->data) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                        <?php echo $this->text('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                     <table class="table">
                         <caption class="visually-hidden">
-                            <?php echo $this->_('COM_CACHE_TABLE_CAPTION'); ?>,
-                                <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                                <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->text('COM_CACHE_TABLE_CAPTION'); ?>,
+                                <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                                <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                             <thead>
                             <tr>

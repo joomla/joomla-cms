@@ -16,7 +16,7 @@ $this->fieldset = 'jbasic';
 ?>
 
 <fieldset id="fieldset-display" class="options-form">
-    <legend><?php echo $this->_('JGLOBAL_FIELDSET_DISPLAY_OPTIONS'); ?></legend>
+    <legend><?php echo $this->text('JGLOBAL_FIELDSET_DISPLAY_OPTIONS'); ?></legend>
     <div>
     <?php echo LayoutHelper::render('joomla.edit.fieldset', $this); ?>
     </div>

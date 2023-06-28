@@ -17,8 +17,8 @@ $wa->useScript('com_content.admin-articles-stage');
 
 ?>
 <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">
-    <?php echo $this->_('JCANCEL'); ?>
+    <?php echo $this->text('JCANCEL'); ?>
 </button>
 <button id="stage-submit-button-id" class="btn btn-success" type="button" data-submit-task="">
-    <?php echo $this->_('JGLOBAL_STAGE_PROCESS'); ?>
+    <?php echo $this->text('JGLOBAL_STAGE_PROCESS'); ?>
 </button>

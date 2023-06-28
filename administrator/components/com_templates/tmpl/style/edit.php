@@ -24,27 +24,27 @@ $this->useCoreUI = true;
 $user = $this->getCurrentUser();
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_templates&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="style-form" aria-label="<?php echo $this->_('COM_TEMPLATES_STYLE_FORM_EDIT'); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_templates&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="style-form" aria-label="<?php echo $this->text('COM_TEMPLATES_STYLE_FORM_EDIT'); ?>" class="form-validate">
 
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
     <div class="main-card">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', $this->_('JDETAILS')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', $this->text('JDETAILS')); ?>
 
         <div class="row">
             <div class="col-lg-9">
                 <h2>
-                    <?php echo $this->_($this->item->template); ?>
+                    <?php echo $this->text($this->item->template); ?>
                 </h2>
                 <div class="info-labels">
                     <span class="badge bg-secondary">
-                        <?php echo $this->item->client_id == 0 ? $this->_('JSITE') : $this->_('JADMINISTRATOR'); ?>
+                        <?php echo $this->item->client_id == 0 ? $this->text('JSITE') : $this->text('JADMINISTRATOR'); ?>
                     </span>
                 </div>
                 <div>
-                    <p><?php echo $this->_($this->item->xml->description); ?></p>
+                    <p><?php echo $this->text($this->item->xml->description); ?></p>
                     <?php
                     $this->fieldset = 'description';
                     $description = LayoutHelper::render('joomla.edit.fieldset', $this);
@@ -52,7 +52,7 @@ $user = $this->getCurrentUser();
                     <?php if ($description) : ?>
                         <p class="readmore">
                             <a href="#" onclick="document.querySelector('#tab-description').click();">
-                                <?php echo $this->_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
+                                <?php echo $this->text('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
                             </a>
                         </p>
                     <?php endif; ?>
@@ -80,9 +80,9 @@ $user = $this->getCurrentUser();
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
         <?php if ($description) : ?>
-            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', $this->_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', $this->text('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
             <fieldset id="fieldset-description" class="options-form">
-                <legend><?php echo $this->_('JGLOBAL_FIELDSET_DESCRIPTION'); ?></legend>
+                <legend><?php echo $this->text('JGLOBAL_FIELDSET_DESCRIPTION'); ?></legend>
                 <div>
                 <?php echo $description; ?>
                 </div>
@@ -97,9 +97,9 @@ $user = $this->getCurrentUser();
         ?>
 
         <?php if ($user->authorise('core.edit', 'com_menus') && $this->item->client_id == 0 && $this->canDo->get('core.edit.state')) : ?>
-            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'assignment', $this->_('COM_TEMPLATES_MENUS_ASSIGNMENT')); ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'assignment', $this->text('COM_TEMPLATES_MENUS_ASSIGNMENT')); ?>
             <fieldset id="fieldset-assignment" class="options-form">
-                <legend><?php echo $this->_('COM_TEMPLATES_MENUS_ASSIGNMENT'); ?></legend>
+                <legend><?php echo $this->text('COM_TEMPLATES_MENUS_ASSIGNMENT'); ?></legend>
                 <div>
                 <?php echo $this->loadTemplate('assignment'); ?>
                 </div>

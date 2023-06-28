@@ -38,7 +38,7 @@ if (isset($this->updateInfo['object']) && isset($this->updateInfo['object']->get
     $displayData['content'] .= '<br>' . HTMLHelper::_(
         'link',
         $this->updateInfo['object']->get('infourl')->_data,
-        $this->_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'),
+        $this->text('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'),
         [
             'target' => '_blank',
             'rel'    => 'noopener noreferrer',
@@ -48,7 +48,7 @@ if (isset($this->updateInfo['object']) && isset($this->updateInfo['object']->get
 endif;
 
 if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_joomlaupdate')) :
-    $displayData['formAppend'] = '<div class="text-center"><a href="' . $uploadLink . '" class="btn btn-sm btn-outline-secondary">' . $this->_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND') . '</a></div>';
+    $displayData['formAppend'] = '<div class="text-center"><a href="' . $uploadLink . '" class="btn btn-sm btn-outline-secondary">' . $this->text('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND') . '</a></div>';
 endif;
 
 echo '<div id="joomlaupdate-wrapper">';

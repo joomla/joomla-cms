@@ -36,15 +36,15 @@ $multilang = Multilanguage::isEnabled();
 
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
-                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                <?php echo $this->text('JGLOBAL_NO_MATCHING_RESULTS'); ?>
             </div>
         <?php else : ?>
             <table class="table table-sm">
                 <caption class="visually-hidden">
-                    <?php echo $this->_('COM_NEWSFEEDS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                    <?php echo $this->text('COM_NEWSFEEDS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
                 <thead>
                     <tr>
@@ -100,7 +100,7 @@ $multilang = Multilanguage::isEnabled();
                             <a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(RouteHelper::getNewsfeedRoute($item->id, $item->catid, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
                             <?php echo $this->escape($item->name); ?></a>
                             <div class="small">
-                                <?php echo $this->_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
+                                <?php echo $this->text('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
                             </div>
                         </th>
                         <td class="small d-none d-md-table-cell">

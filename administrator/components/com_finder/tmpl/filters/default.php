@@ -36,15 +36,15 @@ $wa->useScript('com_finder.filters')
                 <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                        <?php echo $this->_('COM_FINDER_NO_RESULTS_OR_FILTERS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                        <?php echo $this->text('COM_FINDER_NO_RESULTS_OR_FILTERS'); ?>
                     </div>
                 <?php else : ?>
                 <table class="table">
                     <caption class="visually-hidden">
-                        <?php echo $this->_('COM_FINDER_FILTERS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                        <?php echo $this->text('COM_FINDER_FILTERS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                     </caption>
                     <thead>
                         <tr>
@@ -105,7 +105,7 @@ $wa->useScript('com_finder.filters')
                                 <?php echo $item->created_by_alias ?: $item->user_name; ?>
                             </td>
                             <td class="d-none d-md-table-cell">
-                                <?php echo HTMLHelper::_('date', $item->created, $this->_('DATE_FORMAT_LC4')); ?>
+                                <?php echo HTMLHelper::_('date', $item->created, $this->text('DATE_FORMAT_LC4')); ?>
                             </td>
                             <td class="d-none d-md-table-cell">
                                 <?php echo $item->map_count; ?>

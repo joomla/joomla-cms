@@ -47,15 +47,15 @@ $params     = $this->state->params ?? new CMSObject();
                 ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                        <?php echo $this->text('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                     <table class="table">
                         <caption class="visually-hidden">
-                            <?php echo $this->_('COM_BANNERS_CLIENTS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->text('COM_BANNERS_CLIENTS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -72,20 +72,20 @@ $params     = $this->state->params ?? new CMSObject();
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_CONTACT', 'a.contact', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="w-3 text-center d-none d-md-table-cell">
-                                    <span class="icon-check" aria-hidden="true" title="<?php echo $this->_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>"></span>
-                                    <span class="visually-hidden"><?php echo $this->_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?></span>
+                                    <span class="icon-check" aria-hidden="true" title="<?php echo $this->text('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>"></span>
+                                    <span class="visually-hidden"><?php echo $this->text('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?></span>
                                 </th>
                                 <th scope="col" class="w-3 text-center d-none d-md-table-cell">
-                                    <span class="icon-times" aria-hidden="true" title="<?php echo $this->_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>"></span>
-                                    <span class="visually-hidden"><?php echo $this->_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
+                                    <span class="icon-times" aria-hidden="true" title="<?php echo $this->text('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>"></span>
+                                    <span class="visually-hidden"><?php echo $this->text('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
                                 </th>
                                 <th scope="col" class="w-3 text-center d-none d-md-table-cell">
-                                    <span class="icon-folder icon-fw" aria-hidden="true" title="<?php echo $this->_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>"></span>
-                                    <span class="visually-hidden"><?php echo $this->_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span>
+                                    <span class="icon-folder icon-fw" aria-hidden="true" title="<?php echo $this->text('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>"></span>
+                                    <span class="visually-hidden"><?php echo $this->text('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?></span>
                                 </th>
                                 <th scope="col" class="w-3 text-center d-none d-md-table-cell">
-                                    <span class="icon-trash" aria-hidden="true" title="<?php echo $this->_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>"></span>
-                                    <span class="visually-hidden"><?php echo $this->_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span>
+                                    <span class="icon-trash" aria-hidden="true" title="<?php echo $this->text('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>"></span>
+                                    <span class="visually-hidden"><?php echo $this->text('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span>
                                 </th>
                                 <th scope="col" class="w-10 d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_PURCHASETYPE', 'a.purchase_type', $listDirn, $listOrder); ?>
@@ -115,7 +115,7 @@ $params     = $this->state->params ?? new CMSObject();
                                                 <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'clients.', $canCheckin); ?>
                                             <?php endif; ?>
                                             <?php if ($canEdit) : ?>
-                                                <a href="<?php echo Route::_('index.php?option=com_banners&task=client.edit&id=' . (int) $item->id); ?>" title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($item->name); ?>">
+                                                <a href="<?php echo Route::_('index.php?option=com_banners&task=client.edit&id=' . (int) $item->id); ?>" title="<?php echo $this->text('JACTION_EDIT'); ?> <?php echo $this->escape($item->name); ?>">
                                                     <?php echo $this->escape($item->name); ?></a>
                                             <?php else : ?>
                                                 <?php echo $this->escape($item->name); ?>
@@ -131,7 +131,7 @@ $params     = $this->state->params ?? new CMSObject();
                                             <?php echo $item->count_published; ?>
                                         </a>
                                         <div role="tooltip" id="tip-publish<?php echo $i; ?>">
-                                            <?php echo $this->_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>
+                                            <?php echo $this->text('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>
                                         </div>
                                     </td>
                                     <td class="text-center btns d-none d-md-table-cell itemnumber">
@@ -140,7 +140,7 @@ $params     = $this->state->params ?? new CMSObject();
                                             <?php echo $item->count_unpublished; ?>
                                         </a>
                                         <div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
-                                            <?php echo $this->_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>
+                                            <?php echo $this->text('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>
                                         </div>
                                     </td>
                                     <td class="text-center btns d-none d-md-table-cell itemnumber">
@@ -149,7 +149,7 @@ $params     = $this->state->params ?? new CMSObject();
                                             <?php echo $item->count_archived; ?>
                                         </a>
                                         <div role="tooltip" id="tip-archived<?php echo $i; ?>">
-                                            <?php echo $this->_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>
+                                            <?php echo $this->text('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>
                                         </div>
                                     </td>
                                     <td class="text-center btns d-none d-md-table-cell itemnumber">
@@ -158,14 +158,14 @@ $params     = $this->state->params ?? new CMSObject();
                                             <?php echo $item->count_trashed; ?>
                                         </a>
                                         <div role="tooltip" id="tip-trashed<?php echo $i; ?>">
-                                            <?php echo $this->_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>
+                                            <?php echo $this->text('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>
                                         </div>
                                     </td>
                                     <td class="small d-none d-md-table-cell">
                                         <?php if ($item->purchase_type < 0) : ?>
-                                            <?php echo Text::sprintf('COM_BANNERS_DEFAULT', $this->_('COM_BANNERS_FIELD_VALUE_' . $purchaseTypes[$params->get('purchase_type')])); ?>
+                                            <?php echo Text::sprintf('COM_BANNERS_DEFAULT', $this->text('COM_BANNERS_FIELD_VALUE_' . $purchaseTypes[$params->get('purchase_type')])); ?>
                                         <?php else : ?>
-                                            <?php echo $this->_('COM_BANNERS_FIELD_VALUE_' . $purchaseTypes[$item->purchase_type]); ?>
+                                            <?php echo $this->text('COM_BANNERS_FIELD_VALUE_' . $purchaseTypes[$item->purchase_type]); ?>
                                         <?php endif; ?>
                                     </td>
                                     <td class="d-none d-md-table-cell">

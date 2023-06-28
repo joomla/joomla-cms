@@ -18,9 +18,9 @@ $displayData = [
     'formURL'    => 'index.php?option=com_finder&view=filters',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Smart_Search_quickstart_guide',
     'icon'       => 'icon-search-plus finder',
-    'btnadd'     => $this->_('COM_FINDER_FILTERS_EMPTYSTATE_BUTTON_ADD'),
-    'content'    => $this->_('COM_FINDER_FILTERS_EMPTYSTATE_CONTENT'),
-    'title'      => $this->_('COM_FINDER_FILTERS_TOOLBAR_TITLE'),
+    'btnadd'     => $this->text('COM_FINDER_FILTERS_EMPTYSTATE_BUTTON_ADD'),
+    'content'    => $this->text('COM_FINDER_FILTERS_EMPTYSTATE_CONTENT'),
+    'title'      => $this->text('COM_FINDER_FILTERS_TOOLBAR_TITLE'),
 ];
 
 if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_finder')) {

@@ -24,7 +24,7 @@ use Joomla\CMS\Router\Route;
                             <div class="alert alert-warning">
                                 <h4 class="alert-heading">
                                     <span class="icon-exclamation-triangle" aria-hidden="true"></span>
-                                    <span class="visually-hidden"><?php echo $this->_('WARNING'); ?></span>
+                                    <span class="visually-hidden"><?php echo $this->text('WARNING'); ?></span>
                                     <?php echo $message['message']; ?>
                                 </h4>
                                 <p class="mb-0"><?php echo $message['description']; ?></p>
@@ -33,16 +33,16 @@ use Joomla\CMS\Router\Route;
                         <div class="alert alert-info">
                             <h4 class="alert-heading">
                                 <span class="icon-info-circle" aria-hidden="true"></span>
-                                <span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                                <?php echo $this->_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?>
+                                <span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                                <?php echo $this->text('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?>
                             </h4>
-                            <p class="mb-0"><?php echo $this->_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?></p>
+                            <p class="mb-0"><?php echo $this->text('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?></p>
                         </div>
                     <?php else : ?>
                         <div class="alert alert-info">
                             <span class="icon-info-circle" aria-hidden="true"></span>
-                            <span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                            <?php echo $this->_('COM_INSTALLER_MSG_WARNINGS_NONE'); ?>
+                            <span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                            <?php echo $this->text('COM_INSTALLER_MSG_WARNINGS_NONE'); ?>
                         </div>
                     <?php endif; ?>
                     <div>

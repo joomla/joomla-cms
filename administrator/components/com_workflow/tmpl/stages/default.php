@@ -54,15 +54,15 @@ if ($saveOrder) {
                 ?>
                 <?php if (empty($this->stages)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                        <?php echo $this->text('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                     <table class="table">
                         <caption class="visually-hidden">
-                            <?php echo $this->_('COM_WORKFLOW_STAGES_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->text('COM_WORKFLOW_STAGES_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -76,7 +76,7 @@ if ($saveOrder) {
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 's.published', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="w-1 text-center">
-                                    <?php echo $this->_('COM_WORKFLOW_DEFAULT'); ?>
+                                    <?php echo $this->text('COM_WORKFLOW_DEFAULT'); ?>
                                 </th>
                                 <th scope="col">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 's.title', $listDirn, $listOrder); ?>
@@ -97,7 +97,7 @@ if ($saveOrder) {
                                 ?>
                                 <tr class="row<?php echo $i % 2; ?>">
                                     <td class="text-center d-none d-md-table-cell">
-                                        <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $this->_($item->title)); ?>
+                                        <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $this->text($item->title)); ?>
                                     </td>
                                     <td class="text-center d-none d-md-table-cell">
                                         <?php
@@ -105,7 +105,7 @@ if ($saveOrder) {
                                         if (!$canChange) {
                                             $iconClass = ' inactive';
                                         } elseif (!$saveOrder) {
-                                            $iconClass = ' inactive" title="' . $this->_('JORDERINGDISABLED');
+                                            $iconClass = ' inactive" title="' . $this->text('JORDERINGDISABLED');
                                         }
                                         ?>
                                         <span class="sortable-handler<?php echo $iconClass ?>">
@@ -126,13 +126,13 @@ if ($saveOrder) {
                                             <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'stages.', $canCheckin); ?>
                                         <?php endif; ?>
                                         <?php if ($canEdit) : ?>
-                                            <a href="<?php echo $edit; ?>" title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($this->_($item->title)); ?>">
-                                                <?php echo $this->escape($this->_($item->title)); ?>
+                                            <a href="<?php echo $edit; ?>" title="<?php echo $this->text('JACTION_EDIT'); ?> <?php echo $this->escape($this->text($item->title)); ?>">
+                                                <?php echo $this->escape($this->text($item->title)); ?>
                                             </a>
-                                            <div class="small"><?php echo $this->escape($this->_($item->description)); ?></div>
+                                            <div class="small"><?php echo $this->escape($this->text($item->description)); ?></div>
                                         <?php else : ?>
-                                            <?php echo $this->escape($this->_($item->title)); ?>
-                                            <div class="small"><?php echo $this->escape($this->_($item->description)); ?></div>
+                                            <?php echo $this->escape($this->text($item->title)); ?>
+                                            <div class="small"><?php echo $this->escape($this->text($item->description)); ?></div>
                                         <?php endif; ?>
                                     </th>
                                     <td class="d-none d-md-table-cell">

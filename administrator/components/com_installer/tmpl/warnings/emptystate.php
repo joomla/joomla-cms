@@ -15,7 +15,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 $displayData = [
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help4.x:Information:_Warnings',
     'icon'       => 'icon-puzzle-piece install',
-    'title'      => $this->_('COM_INSTALLER_MSG_WARNINGS_NONE'),
+    'title'      => $this->text('COM_INSTALLER_MSG_WARNINGS_NONE'),
     'content'    => '',
 ];
 

@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 <div class="accordion d-none d-sm-block" id="accordion1">
     <div class="accordion-heading pb-3">
         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#batch" aria-expanded="false" aria-controls="batch">
-            <?php echo $this->_('COM_REDIRECT_BATCH_UPDATE_WITH_NEW_URL'); ?>
+            <?php echo $this->text('COM_REDIRECT_BATCH_UPDATE_WITH_NEW_URL'); ?>
         </button>
     </div>
     <div class="collapse card" id="batch">
@@ -25,20 +25,20 @@ defined('_JEXEC') or die;
                 <div class="control-group">
                     <div class="control-label">
                         <label id="new_url-lbl" for="new_url">
-                            <?php echo $this->_('COM_REDIRECT_FIELD_NEW_URL_LABEL'); ?>
+                            <?php echo $this->text('COM_REDIRECT_FIELD_NEW_URL_LABEL'); ?>
                         </label>
                     </div>
                     <div class="controls">
                         <input class="form-control" type="text" name="new_url" id="new_url" value="" size="50">
                         <small id="new_url-desc" class="form-text">
-                            <?php echo $this->_('COM_REDIRECT_FIELD_NEW_URL_DESC'); ?>
+                            <?php echo $this->text('COM_REDIRECT_FIELD_NEW_URL_DESC'); ?>
                         </small>
                     </div>
                 </div>
                 <div class="control-group">
                     <div class="control-label">
                         <label id="comment-lbl" for="comment">
-                            <?php echo $this->_('COM_REDIRECT_FIELD_COMMENT_LABEL'); ?>
+                            <?php echo $this->text('COM_REDIRECT_FIELD_COMMENT_LABEL'); ?>
                         </label>
                     </div>
                     <div class="controls">
@@ -46,7 +46,7 @@ defined('_JEXEC') or die;
                     </div>
                 </div>
                 <button class="btn btn-primary" type="button" onclick="this.form.task.value='links.duplicateUrls';this.form.submit();">
-                    <?php echo $this->_('COM_REDIRECT_BUTTON_UPDATE_LINKS'); ?>
+                    <?php echo $this->text('COM_REDIRECT_BUTTON_UPDATE_LINKS'); ?>
                 </button>
             </fieldset>
         </div>

@@ -45,7 +45,7 @@ $lang = $this->getLanguage()->getTag();
     <div class="main-card">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', empty($this->item->id) ? $this->_('COM_GUIDEDTOURS_STEP_NEW_STEP') : $this->_('COM_GUIDEDTOURS_STEP_EDIT_STEP')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', empty($this->item->id) ? $this->text('COM_GUIDEDTOURS_STEP_NEW_STEP') : $this->text('COM_GUIDEDTOURS_STEP_EDIT_STEP')); ?>
         <div class="row">
             <div class="col-lg-9">
                 <?php echo $this->form->renderField('description'); ?>
@@ -79,11 +79,11 @@ $lang = $this->getLanguage()->getTag();
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', $this->_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', $this->text('JGLOBAL_FIELDSET_PUBLISHING')); ?>
         <div class="row">
             <div class="col-12 col-lg-8">
                 <fieldset id="fieldset-publishingdata" class="options-form">
-                    <legend><?php echo $this->_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+                    <legend><?php echo $this->text('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
                     <div>
                         <?php
                             $this->fields = [];

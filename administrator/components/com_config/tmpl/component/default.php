@@ -42,7 +42,7 @@ $xml = $this->form->getXml();
         <div class="col-md-3" id="sidebar">
             <button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-bs-toggle="collapse" data-bs-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false">
                  <span class="icon-align-justify" aria-hidden="true"></span>
-                 <?php echo $this->_('JTOGGLE_SIDEBAR_MENU'); ?>
+                 <?php echo $this->text('JTOGGLE_SIDEBAR_MENU'); ?>
             </button>
             <div id="sidebar-nav" class="sidebar-nav">
                 <?php echo $this->loadTemplate('navigation'); ?>
@@ -73,7 +73,7 @@ $xml = $this->form->getXml();
 
                     <?php if (!$isGrandchild && $hasParent) : ?>
                         <fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-menu options-form">
-                            <legend><?php echo $this->_($fieldSet->label); ?></legend>
+                            <legend><?php echo $this->text($fieldSet->label); ?></legend>
                             <div class="form-grid">
                     <?php elseif (!$hasParent) : ?>
                         <?php if ($opentab) : ?>
@@ -86,13 +86,13 @@ $xml = $this->form->getXml();
 
                         <?php endif; ?>
 
-                        <?php echo HTMLHelper::_('uitab.addTab', 'configTabs', $name, $this->_($label)); ?>
+                        <?php echo HTMLHelper::_('uitab.addTab', 'configTabs', $name, $this->text($label)); ?>
 
                         <?php $opentab = 1; ?>
 
                         <?php if (!$hasChildren) : ?>
                         <fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-menu options-form">
-                            <legend><?php echo $this->_($fieldSet->label); ?></legend>
+                            <legend><?php echo $this->text($fieldSet->label); ?></legend>
                             <div class="form-grid">
                             <?php $opentab = 2; ?>
                         <?php endif; ?>
@@ -100,8 +100,8 @@ $xml = $this->form->getXml();
 
                     <?php if (!empty($fieldSet->description)) : ?>
                         <div class="tab-description alert alert-info">
-                            <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                            <?php echo $this->_($fieldSet->description); ?>
+                            <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                            <?php echo $this->text($fieldSet->description); ?>
                         </div>
                     <?php endif; ?>
 
@@ -127,8 +127,8 @@ $xml = $this->form->getXml();
 
             <?php else : ?>
                 <div class="alert alert-info">
-                    <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                    <?php echo $this->_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?>
+                    <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                    <?php echo $this->text('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?>
                 </div>
             <?php endif; ?>
         </div>

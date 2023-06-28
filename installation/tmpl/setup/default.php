@@ -21,7 +21,7 @@ HTMLHelper::_('behavior.formvalidator');
     <form action="index.php" method="post" id="languageForm" class="lang-select">
         <fieldset class="j-install-step active">
             <legend class="j-install-step-header">
-                <span class="icon-language" aria-hidden="true"></span> <?php echo $this->_('INSTL_SELECT_INSTALL_LANG'); ?>
+                <span class="icon-language" aria-hidden="true"></span> <?php echo $this->text('INSTL_SELECT_INSTALL_LANG'); ?>
             </legend>
             <div class="j-install-step-form">
                 <div class="mb-3">
@@ -36,20 +36,20 @@ HTMLHelper::_('behavior.formvalidator');
     <form action="index.php" method="post" id="adminForm" class="form-validate">
         <fieldset id="installStep1" class="j-install-step active">
             <legend class="j-install-step-header">
-                <span class="icon-cog" aria-hidden="true"></span> <?php echo $this->_('INSTL_SETUP_SITE_NAME'); ?>
+                <span class="icon-cog" aria-hidden="true"></span> <?php echo $this->text('INSTL_SETUP_SITE_NAME'); ?>
             </legend>
             <div class="j-install-step-form">
                 <div class="mb-3">
                     <?php echo $this->form->renderField('site_name'); ?>
                 </div>
                 <div class="mt-4 mb-3">
-                    <button id="step1" class="btn btn-primary w-100"><?php echo $this->_('INSTL_SETUP_LOGIN_DATA'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
+                    <button id="step1" class="btn btn-primary w-100"><?php echo $this->text('INSTL_SETUP_LOGIN_DATA'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
                 </div>
             </div>
         </fieldset>
         <fieldset id="installStep2" class="j-install-step">
             <legend class="j-install-step-header">
-                <span class="icon-lock" aria-hidden="true"></span> <?php echo $this->_('INSTL_LOGIN_DATA'); ?>
+                <span class="icon-lock" aria-hidden="true"></span> <?php echo $this->text('INSTL_LOGIN_DATA'); ?>
             </legend>
             <div class="j-install-step-form">
                 <div class="mb-3">
@@ -65,13 +65,13 @@ HTMLHelper::_('behavior.formvalidator');
                     <?php echo $this->form->renderField('admin_email'); ?>
                 </div>
                 <div class="mt-4 mb-3">
-                    <button id="step2" class="btn btn-primary w-100"><?php echo $this->_('INSTL_CONNECT_DB'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
+                    <button id="step2" class="btn btn-primary w-100"><?php echo $this->text('INSTL_CONNECT_DB'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
                 </div>
             </div>
         </fieldset>
         <fieldset id="installStep3" class="j-install-step" >
             <legend class="j-install-step-header">
-                <span class="icon-database" aria-hidden="true"></span> <?php echo $this->_('INSTL_DATABASE'); ?>
+                <span class="icon-database" aria-hidden="true"></span> <?php echo $this->text('INSTL_DATABASE'); ?>
             </legend>
             <div class="j-install-step-form">
                 <div class="mb-3">
@@ -115,7 +115,7 @@ HTMLHelper::_('behavior.formvalidator');
                     <?php echo $this->form->getInput('db_old'); ?>
                 </div>
                 <div class="mt-4 mb-3">
-                    <button id="setupButton" class="btn btn-primary w-100"><?php echo $this->_('INSTL_INSTALL_JOOMLA'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
+                    <button id="setupButton" class="btn btn-primary w-100"><?php echo $this->text('INSTL_INSTALL_JOOMLA'); ?> <span class="icon-chevron-right" aria-hidden="true"></span></button>
                 </div>
             </div>
         </fieldset>

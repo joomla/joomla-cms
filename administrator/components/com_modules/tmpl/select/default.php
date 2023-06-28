@@ -33,12 +33,12 @@ endif;
     <div class="d-flex mt-2">
         <div class="m-auto">
             <label class="visually-hidden" for="comModulesSelectSearch">
-                <?php echo $this->_('COM_MODULES_TYPE_CHOOSE'); ?>
+                <?php echo $this->text('COM_MODULES_TYPE_CHOOSE'); ?>
             </label>
             <div class="input-group mb-3 me-sm-2">
                 <input type="text" value=""
                     class="form-control" id="comModulesSelectSearch"
-                    placeholder="<?php echo $this->_('JSEARCH_FILTER'); ?>"
+                    placeholder="<?php echo $this->text('JSEARCH_FILTER'); ?>"
                 >
                 <div class="input-group-text">
                     <span class="icon-search" aria-hidden="true"></span>
@@ -51,11 +51,11 @@ endif;
 <div id="new-modules-list">
     <div class="new-modules">
         <div class="modules-alert alert alert-info d-none">
-            <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-            <?php echo $this->_('COM_MODULES_MSG_MANAGE_NO_MODULES'); ?>
+            <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+            <?php echo $this->text('COM_MODULES_MSG_MANAGE_NO_MODULES'); ?>
         </div>
         <h2 class="pb-3 ms-3" id="comModulesSelectTypeHeader">
-            <?php echo $this->_('COM_MODULES_TYPE_CHOOSE'); ?>
+            <?php echo $this->text('COM_MODULES_TYPE_CHOOSE'); ?>
         </h2>
         <div class="main-card card-columns p-4" id="comModulesSelectResultsContainer">
             <?php foreach ($this->items as &$item) : ?>

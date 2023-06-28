@@ -36,7 +36,7 @@ $groups = $user->getAuthorisedViewLevels();
                     <?php echo $this->escape($child->title); ?></a>
 
                     <?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
-                        <a href="#category-<?php echo $child->id; ?>" data-bs-toggle="collapse" class="btn btn-sm float-end" aria-label="<?php echo $this->_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
+                        <a href="#category-<?php echo $child->id; ?>" data-bs-toggle="collapse" class="btn btn-sm float-end" aria-label="<?php echo $this->text('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
                     <?php endif; ?>
                 </h3>
                 <?php else : ?>
@@ -49,7 +49,7 @@ $groups = $user->getAuthorisedViewLevels();
                     <?php endif; ?>
 
                     <?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
-                        <a href="#category-<?php echo $child->id; ?>" data-bs-toggle="collapse" class="btn btn-sm float-end" aria-label="<?php echo $this->_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
+                        <a href="#category-<?php echo $child->id; ?>" data-bs-toggle="collapse" class="btn btn-sm float-end" aria-label="<?php echo $this->text('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
                     <?php endif; ?>
                 </h3>
                 <?php endif; ?>

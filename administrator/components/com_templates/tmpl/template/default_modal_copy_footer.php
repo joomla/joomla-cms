@@ -12,5 +12,5 @@ defined('_JEXEC') or die;
 
 
 ?>
-<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo $this->_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></button>
-<button type="submit" class="btn btn-primary"><?php echo $this->_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo $this->text('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></button>
+<button type="submit" class="btn btn-primary"><?php echo $this->text('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>

@@ -12,7 +12,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 defined('_JEXEC') or die;
 
-$this->name = $this->_('COM_CONFIG_SERVER_SETTINGS');
+$this->name = $this->text('COM_CONFIG_SERVER_SETTINGS');
 $this->fieldsname = 'server';
 $this->formclass = 'options-form';
 

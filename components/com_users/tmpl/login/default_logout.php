@@ -45,7 +45,7 @@ use Joomla\CMS\Router\Route;
             <div class="controls">
                 <button type="submit" class="btn btn-primary">
                     <span class="icon-backward-2 icon-white" aria-hidden="true"></span>
-                    <?php echo $this->_('JLOGOUT'); ?>
+                    <?php echo $this->text('JLOGOUT'); ?>
                 </button>
             </div>
         </div>

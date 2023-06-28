@@ -19,22 +19,22 @@ use Joomla\CMS\Language\Text;
 <div class="sysinfo">
     <table class="table">
         <caption class="visually-hidden">
-            <?php echo $this->_('COM_ADMIN_PHP_SETTINGS'); ?>
+            <?php echo $this->text('COM_ADMIN_PHP_SETTINGS'); ?>
         </caption>
         <thead>
             <tr>
                 <th scope="col" class="w-30">
-                    <?php echo $this->_('COM_ADMIN_SETTING'); ?>
+                    <?php echo $this->text('COM_ADMIN_SETTING'); ?>
                 </th>
                 <th scope="col">
-                    <?php echo $this->_('COM_ADMIN_VALUE'); ?>
+                    <?php echo $this->text('COM_ADMIN_VALUE'); ?>
                 </th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_UPLOAD_MAX_FILESIZE'); ?>
+                    <?php echo $this->text('COM_ADMIN_UPLOAD_MAX_FILESIZE'); ?>
                 </th>
                 <td>
                     <?php echo HTMLHelper::_('phpsetting.string', $this->phpSettings['upload_max_filesize']); ?>
@@ -42,7 +42,7 @@ use Joomla\CMS\Language\Text;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_POST_MAX_SIZE'); ?>
+                    <?php echo $this->text('COM_ADMIN_POST_MAX_SIZE'); ?>
                 </th>
                 <td>
                     <?php echo HTMLHelper::_('phpsetting.string', $this->phpSettings['post_max_size']); ?>
@@ -50,7 +50,7 @@ use Joomla\CMS\Language\Text;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_MEMORY_LIMIT'); ?>
+                    <?php echo $this->text('COM_ADMIN_MEMORY_LIMIT'); ?>
                 </th>
                 <td>
                     <?php echo HTMLHelper::_('phpsetting.string', $this->phpSettings['memory_limit']); ?>
@@ -58,7 +58,7 @@ use Joomla\CMS\Language\Text;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_OPEN_BASEDIR'); ?>
+                    <?php echo $this->text('COM_ADMIN_OPEN_BASEDIR'); ?>
                 </th>
                 <td>
                     <?php echo HTMLHelper::_('phpsetting.string', $this->phpSettings['open_basedir']); ?>
@@ -66,7 +66,7 @@ use Joomla\CMS\Language\Text;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_DISPLAY_ERRORS'); ?>
+                    <?php echo $this->text('COM_ADMIN_DISPLAY_ERRORS'); ?>
                 </th>
                 <td>
                     <?php echo HTMLHelper::_('phpsetting.boolean', $this->phpSettings['display_errors']); ?>
@@ -74,7 +74,7 @@ use Joomla\CMS\Language\Text;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_SHORT_OPEN_TAGS'); ?>
+                    <?php echo $this->text('COM_ADMIN_SHORT_OPEN_TAGS'); ?>
                 </th>
                 <td>
                     <?php echo HTMLHelper::_('phpsetting.boolean', $this->phpSettings['short_open_tag']); ?>
@@ -82,7 +82,7 @@ use Joomla\CMS\Language\Text;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_FILE_UPLOADS'); ?>
+                    <?php echo $this->text('COM_ADMIN_FILE_UPLOADS'); ?>
                 </th>
                 <td>
                     <?php echo HTMLHelper::_('phpsetting.boolean', $this->phpSettings['file_uploads']); ?>
@@ -90,7 +90,7 @@ use Joomla\CMS\Language\Text;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_OUTPUT_BUFFERING'); ?>
+                    <?php echo $this->text('COM_ADMIN_OUTPUT_BUFFERING'); ?>
                 </th>
                 <td>
                     <?php echo HTMLHelper::_('phpsetting.boolean', $this->phpSettings['output_buffering']); ?>
@@ -98,7 +98,7 @@ use Joomla\CMS\Language\Text;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_SESSION_SAVE_PATH'); ?>
+                    <?php echo $this->text('COM_ADMIN_SESSION_SAVE_PATH'); ?>
                 </th>
                 <td>
                     <?php echo HTMLHelper::_('phpsetting.string', $this->phpSettings['session.save_path']); ?>
@@ -106,7 +106,7 @@ use Joomla\CMS\Language\Text;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_SESSION_AUTO_START'); ?>
+                    <?php echo $this->text('COM_ADMIN_SESSION_AUTO_START'); ?>
                 </th>
                 <td>
                     <?php echo (int) $this->phpSettings['session.auto_start']; ?>
@@ -114,7 +114,7 @@ use Joomla\CMS\Language\Text;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_XML_ENABLED'); ?>
+                    <?php echo $this->text('COM_ADMIN_XML_ENABLED'); ?>
                 </th>
                 <td>
                     <?php echo HTMLHelper::_('phpsetting.set', $this->phpSettings['xml']); ?>
@@ -122,7 +122,7 @@ use Joomla\CMS\Language\Text;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_ZLIB_ENABLED'); ?>
+                    <?php echo $this->text('COM_ADMIN_ZLIB_ENABLED'); ?>
                 </th>
                 <td>
                     <?php echo HTMLHelper::_('phpsetting.set', $this->phpSettings['zlib']); ?>
@@ -130,7 +130,7 @@ use Joomla\CMS\Language\Text;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_ZIP_ENABLED'); ?>
+                    <?php echo $this->text('COM_ADMIN_ZIP_ENABLED'); ?>
                 </th>
                 <td>
                     <?php echo HTMLHelper::_('phpsetting.set', $this->phpSettings['zip']); ?>
@@ -138,7 +138,7 @@ use Joomla\CMS\Language\Text;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_DISABLED_FUNCTIONS'); ?>
+                    <?php echo $this->text('COM_ADMIN_DISABLED_FUNCTIONS'); ?>
                 </th>
                 <td class="break-word">
                     <?php echo HTMLHelper::_('phpsetting.string', $this->phpSettings['disable_functions']); ?>
@@ -154,7 +154,7 @@ use Joomla\CMS\Language\Text;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_MBSTRING_ENABLED'); ?>
+                    <?php echo $this->text('COM_ADMIN_MBSTRING_ENABLED'); ?>
                 </th>
                 <td>
                     <?php echo HTMLHelper::_('phpsetting.set', $this->phpSettings['mbstring']); ?>
@@ -186,7 +186,7 @@ use Joomla\CMS\Language\Text;
             </tr>
             <tr>
                 <th scope="row">
-                    <?php echo $this->_('COM_ADMIN_MAX_INPUT_VARS'); ?>
+                    <?php echo $this->text('COM_ADMIN_MAX_INPUT_VARS'); ?>
                 </th>
                 <td>
                     <?php echo (int) $this->phpSettings['max_input_vars']; ?>

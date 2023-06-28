@@ -20,7 +20,7 @@ $adminFormClass = count($this->extension_options) > 1 ? 'form-inline mb-3' : 'vi
     <input type="hidden" name="option" value="com_postinstall">
     <input type="hidden" name="task" value="">
     <?php echo HTMLHelper::_('form.token'); ?>
-    <label for="eid" class="me-sm-2"><?php echo $this->_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
+    <label for="eid" class="me-sm-2"><?php echo $this->text('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
     <?php echo HTMLHelper::_('select.genericlist', $this->extension_options, 'eid', ['onchange' => 'this.form.submit()', 'class' => 'form-select'], 'value', 'text', $this->eid, 'eid'); ?>
 </form>
 

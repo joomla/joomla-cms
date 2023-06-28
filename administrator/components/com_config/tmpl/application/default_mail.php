@@ -35,7 +35,7 @@ Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 // Ajax request data.
 $ajaxUri = Route::_('index.php?option=com_config&task=application.sendtestmail&format=json');
 
-$this->name = $this->_('COM_CONFIG_MAIL_SETTINGS');
+$this->name = $this->text('COM_CONFIG_MAIL_SETTINGS');
 $this->fieldsname = 'mail';
 $this->formclass = 'options-form';
 
@@ -45,6 +45,6 @@ $this->formclass = 'options-form';
     <?php echo LayoutHelper::render('joomla.content.options_default', $this); ?>
 
     <button class="btn btn-primary" type="button" id="sendtestmail">
-        <span><?php echo $this->_('COM_CONFIG_SENDMAIL_ACTION_BUTTON'); ?></span>
+        <span><?php echo $this->text('COM_CONFIG_SENDMAIL_ACTION_BUTTON'); ?></span>
     </button>
 </joomla-field-send-test-mail>

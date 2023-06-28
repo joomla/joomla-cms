@@ -52,7 +52,7 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
                         </span>
                         <?php if ($this->defaultMethod == $methodName) : ?>
                             <span id="com-users-methods-list-method-default-tag" class="badge bg-info me-1 fs-6">
-                                <?php echo $this->_('COM_USERS_MFA_LIST_DEFAULTTAG') ?>
+                                <?php echo $this->text('COM_USERS_MFA_LIST_DEFAULTTAG') ?>
                             </span>
                         <?php endif; ?>
                     </h2>
@@ -80,9 +80,9 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
                                             <?php if ($record->default) : ?>
                                                 <span id="com-users-methods-list-method-default-badge-small"
                                                       class="text-warning me-1 hasTooltip"
-                                                      title="<?php echo $this->escape($this->_('COM_USERS_MFA_LIST_DEFAULTTAG')) ?>">
+                                                      title="<?php echo $this->escape($this->text('COM_USERS_MFA_LIST_DEFAULTTAG')) ?>">
                                                     <span class="icon icon-star" aria-hidden="true"></span>
-                                                    <span class="visually-hidden"><?php echo $this->escape($this->_('COM_USERS_MFA_LIST_DEFAULTTAG')) ?></span>
+                                                    <span class="visually-hidden"><?php echo $this->escape($this->text('COM_USERS_MFA_LIST_DEFAULTTAG')) ?></span>
                                                 </span>
                                             <?php endif; ?>
                                             <span class="com-users-methods-list-method-record-title fw-bold">
@@ -107,18 +107,18 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
                                     <?php if ($canAddEdit) : ?>
                                     <a class="com-users-methods-list-method-record-edit btn btn-secondary btn-sm mx-1 hasTooltip"
                                        href="<?php echo Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
-                                       title="<?php echo $this->_('JACTION_EDIT') ?> <?php echo $this->escape($record->title); ?>">
+                                       title="<?php echo $this->text('JACTION_EDIT') ?> <?php echo $this->escape($record->title); ?>">
                                         <span class="icon icon-pencil" aria-hidden="true"></span>
-                                        <span class="visually-hidden"><?php echo $this->_('JACTION_EDIT') ?> <?php echo $this->escape($record->title); ?></span>
+                                        <span class="visually-hidden"><?php echo $this->text('JACTION_EDIT') ?> <?php echo $this->escape($record->title); ?></span>
                                     </a>
                                     <?php endif ?>
 
                                     <?php if ($method['canDisable'] && $canDelete) : ?>
                                     <a class="com-users-methods-list-method-record-delete btn btn-danger btn-sm mx-1 hasTooltip"
                                        href="<?php echo Route::_('index.php?option=com_users&task=method.delete&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id . '&' . Factory::getApplication()->getFormToken() . '=1')?>"
-                                       title="<?php echo $this->_('JACTION_DELETE') ?> <?php echo $this->escape($record->title); ?>">
+                                       title="<?php echo $this->text('JACTION_DELETE') ?> <?php echo $this->escape($record->title); ?>">
                                         <span class="icon icon-trash" aria-hidden="true"></span>
-                                        <span class="visually-hidden"><?php echo $this->_('JACTION_DELETE') ?> <?php echo $this->escape($record->title); ?></span>
+                                        <span class="visually-hidden"><?php echo $this->text('JACTION_DELETE') ?> <?php echo $this->escape($record->title); ?></span>
                                     </a>
                                     <?php endif; ?>
                                 </div>

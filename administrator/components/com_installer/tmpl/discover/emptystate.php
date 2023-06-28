@@ -19,9 +19,9 @@ $displayData = [
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help4.x:Extensions:_Discover',
     'icon'       => 'icon-puzzle-piece install',
     'createURL'  => 'index.php?option=com_installer&task=discover.refresh&' . Session::getFormToken() . '=1',
-    'content'    => $this->_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'),
-    'title'      => $this->_('COM_INSTALLER_EMPTYSTATE_DISCOVER_TITLE'),
-    'btnadd'     => $this->_('COM_INSTALLER_EMPTYSTATE_DISCOVER_BUTTON_ADD'),
+    'content'    => $this->text('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'),
+    'title'      => $this->text('COM_INSTALLER_EMPTYSTATE_DISCOVER_TITLE'),
+    'btnadd'     => $this->text('COM_INSTALLER_EMPTYSTATE_DISCOVER_BUTTON_ADD'),
 ];
 
 /** @var \Joomla\Component\Installer\Administrator\View\Discover\HtmlView $this */

@@ -31,22 +31,22 @@ $wa->useScript('joomla.treeselectmenu')
             <?php $id = 'jform_params_hideitems'; ?>
 
         <div class="form-inline">
-            <span class="small me-2"><?php echo $this->_('COM_MENUS_ACTION_EXPAND'); ?>:
-                <a id="treeExpandAll" href="javascript://"><?php echo $this->_('JALL'); ?></a>,
-                <a id="treeCollapseAll" href="javascript://"><?php echo $this->_('JNONE'); ?></a> |
-                <?php echo $this->_('JSHOW'); ?>:
-                <a id="treeUncheckAll" href="javascript://"><?php echo $this->_('JALL'); ?></a>,
-                <a id="treeCheckAll" href="javascript://"><?php echo $this->_('JNONE'); ?></a>
+            <span class="small me-2"><?php echo $this->text('COM_MENUS_ACTION_EXPAND'); ?>:
+                <a id="treeExpandAll" href="javascript://"><?php echo $this->text('JALL'); ?></a>,
+                <a id="treeCollapseAll" href="javascript://"><?php echo $this->text('JNONE'); ?></a> |
+                <?php echo $this->text('JSHOW'); ?>:
+                <a id="treeUncheckAll" href="javascript://"><?php echo $this->text('JALL'); ?></a>,
+                <a id="treeCheckAll" href="javascript://"><?php echo $this->text('JNONE'); ?></a>
             </span>
             <input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query"
-                autocomplete="off" placeholder="<?php echo $this->_('JSEARCH_FILTER'); ?>"
-                aria-invalid="false" aria-label="<?php echo $this->_('JSEARCH_FILTER'); ?>">
+                autocomplete="off" placeholder="<?php echo $this->text('JSEARCH_FILTER'); ?>"
+                aria-invalid="false" aria-label="<?php echo $this->text('JSEARCH_FILTER'); ?>">
         </div>
 
         <hr>
         <div class="alert alert-info">
-            <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-            <?php echo $this->_('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC'); ?>
+            <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+            <?php echo $this->text('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC'); ?>
         </div>
             <?php if (count($menuLinks)) : ?>
                 <ul class="treeselect">
@@ -80,11 +80,11 @@ $wa->useScript('joomla.treeselectmenu')
                                         <?php echo $selected ? ' checked="checked"' : ''; ?>>
 
                                     <?php if ($link->value == 1) : ?>
-                                        <label for="<?php echo $id . $link->value; ?>" class="btn btn-sm btn-info"><?php echo $this->_('JALL') ?></label>
+                                        <label for="<?php echo $id . $link->value; ?>" class="btn btn-sm btn-info"><?php echo $this->text('JALL') ?></label>
                                     <?php else : ?>
-                                        <label for="<?php echo $id . $link->value; ?>" class="btn btn-sm btn-danger btn-hide"><?php echo $this->_('JHIDE') ?></label>
-                                        <label for="<?php echo $id . $link->value; ?>" class="btn btn-sm btn-success btn-show"><?php echo $this->_('JSHOW') ?></label>
-                                        <label for="<?php echo $id . $link->value; ?>"><?php echo $this->_($link->text); ?></label>
+                                        <label for="<?php echo $id . $link->value; ?>" class="btn btn-sm btn-danger btn-hide"><?php echo $this->text('JHIDE') ?></label>
+                                        <label for="<?php echo $id . $link->value; ?>" class="btn btn-sm btn-success btn-show"><?php echo $this->text('JSHOW') ?></label>
+                                        <label for="<?php echo $id . $link->value; ?>"><?php echo $this->text($link->text); ?></label>
                                     <?php endif; ?>
                                 </div>
                         <?php
@@ -98,7 +98,7 @@ $wa->useScript('joomla.treeselectmenu')
                     </li>
                 </ul>
             <?php endif; ?>
-        <joomla-alert id="noresultsfound" type="warning" style="display:none"><?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+        <joomla-alert id="noresultsfound" type="warning" style="display:none"><?php echo $this->text('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
         <?php endif; ?>
     </div>
 </div>

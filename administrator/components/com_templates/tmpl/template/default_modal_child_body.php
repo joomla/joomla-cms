@@ -60,26 +60,26 @@ $fancySelectData = [
             <div class="control-group">
                 <div class="control-label">
                     <label for="new_name">
-                        <?php echo $this->_('COM_TEMPLATES_TEMPLATE_CHILD_NAME_LABEL'); ?>
+                        <?php echo $this->text('COM_TEMPLATES_TEMPLATE_CHILD_NAME_LABEL'); ?>
                     </label>
                 </div>
                 <div class="controls">
                     <input class="form-control" type="text" id="new_name" name="new_name" required>
                     <small class="form-text">
-                        <?php echo $this->_('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>
+                        <?php echo $this->text('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>
                     </small>
                 </div>
             </div>
             <div class="control-group">
                 <div class="control-label">
                     <label for="style_ids">
-                        <?php echo $this->_('COM_TEMPLATES_TEMPLATE_CHILD_STYLE_LABEL'); ?>
+                        <?php echo $this->text('COM_TEMPLATES_TEMPLATE_CHILD_STYLE_LABEL'); ?>
                     </label>
                 </div>
                 <div class="controls">
                     <?php echo LayoutHelper::render('joomla.form.field.list-fancy-select', $fancySelectData); ?>
                     <small class="form-text">
-                        <?php echo $this->_('COM_TEMPLATES_TEMPLATE_NEW_STYLE_DESC'); ?>
+                        <?php echo $this->text('COM_TEMPLATES_TEMPLATE_NEW_STYLE_DESC'); ?>
                     </small>
                 </div>
             </div>

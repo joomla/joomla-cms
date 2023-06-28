@@ -61,8 +61,8 @@ if ($saveOrder && !empty($this->items)) {
             <!-- No steps -->
             <div class="alert alert-info">
                 <span class="icon-info-circle" aria-hidden="true"></span>
-                <span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                <span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                <?php echo $this->text('JGLOBAL_NO_MATCHING_RESULTS'); ?>
             </div>
         <?php endif; ?>
 
@@ -73,9 +73,9 @@ if ($saveOrder && !empty($this->items)) {
             <table class="table" id="stepsList">
 
                 <caption class="visually-hidden">
-                    <?php echo $this->_('COM_GUIDEDTOURS_STEPS_TABLE_CAPTION'); ?>,
-                    <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?></span>,
-                    <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                    <?php echo $this->text('COM_GUIDEDTOURS_STEPS_TABLE_CAPTION'); ?>,
+                    <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?></span>,
+                    <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                 </caption>
 
                 <!-- Steps table header -->
@@ -108,10 +108,10 @@ if ($saveOrder && !empty($this->items)) {
                         ); ?>
                     </th>
                     <th scope="col">
-                        <?php echo $this->_('COM_GUIDEDTOURS_STEP_TITLE'); ?>
+                        <?php echo $this->text('COM_GUIDEDTOURS_STEP_TITLE'); ?>
                     </th>
                     <th scope="col" class="d-none d-md-table-cell">
-                        <?php echo $this->_('COM_GUIDEDTOURS_DESCRIPTION'); ?>
+                        <?php echo $this->text('COM_GUIDEDTOURS_DESCRIPTION'); ?>
                     </th>
                     <th scope="col" class="d-none d-md-table-cell">
                         <?php echo HTMLHelper::_(
@@ -160,7 +160,7 @@ if ($saveOrder && !empty($this->items)) {
                             if (!$canChange) {
                                 $iconClass = ' inactive';
                             } elseif (!$saveOrder) {
-                                $iconClass = ' inactive" title="' . $this->_('JORDERINGDISABLED');
+                                $iconClass = ' inactive" title="' . $this->text('JORDERINGDISABLED');
                             }
                             ?>
 
@@ -191,7 +191,7 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'steps.', $canCheckin); ?>
                                 <?php endif; ?>
                                 <?php if ($canEdit || $canEditOwn) : ?>
-                                    <a href="<?php echo Route::_('index.php?option=com_guidedtours&task=step.edit&id=' . $item->id); ?> " title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+                                    <a href="<?php echo Route::_('index.php?option=com_guidedtours&task=step.edit&id=' . $item->id); ?> " title="<?php echo $this->text('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
                                         <?php echo $this->escape($item->title); ?>
                                     </a>
                                 <?php else : ?>
@@ -210,7 +210,7 @@ if ($saveOrder && !empty($this->items)) {
 
                         <!-- Step Type -->
                         <td class="d-none d-md-table-cell">
-                            <?php echo $this->_(GuidedtoursComponent::STEP_TYPE_NAMES[$item->type]) ?>
+                            <?php echo $this->text(GuidedtoursComponent::STEP_TYPE_NAMES[$item->type]) ?>
                         </td>
 
                         <!-- Step ID -->

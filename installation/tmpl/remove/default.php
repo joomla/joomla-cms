@@ -21,13 +21,13 @@ HTMLHelper::_('behavior.formvalidator');
 
     <fieldset id="installCongrat" class="j-install-step active">
         <legend class="j-install-step-header">
-            <span class="icon-trophy" aria-hidden="true"></span> <?php echo $this->_('INSTL_COMPLETE_CONGRAT'); ?>
+            <span class="icon-trophy" aria-hidden="true"></span> <?php echo $this->text('INSTL_COMPLETE_CONGRAT'); ?>
         </legend>
         <div id="customInstallation" class="j-install-step-form">
-            <h2><?php echo $this->_('INSTL_COMPLETE_TITLE'); ?></h2>
+            <h2><?php echo $this->text('INSTL_COMPLETE_TITLE'); ?></h2>
             <div class="mt-4 mb-3">
                 <button id="installAddFeatures" class="btn btn-primary w-100">
-                    <?php echo $this->_('INSTL_COMPLETE_ADD_EXTRA_LANGUAGE'); ?> <span class="icon-chevron-right" aria-hidden="true"></span>
+                    <?php echo $this->text('INSTL_COMPLETE_ADD_EXTRA_LANGUAGE'); ?> <span class="icon-chevron-right" aria-hidden="true"></span>
                 </button>
             </div>
         </div>
@@ -41,18 +41,18 @@ HTMLHelper::_('behavior.formvalidator');
                     class="j-install-step-form flex-column d-none"
                 >
         <?php endif; ?>
-        <p><?php echo $this->_('INSTL_DEFAULTLANGUAGE_DESC'); ?></p>
+        <p><?php echo $this->text('INSTL_DEFAULTLANGUAGE_DESC'); ?></p>
         <table class="table table-sm">
             <thead>
             <tr>
                 <th>
-                    <?php echo $this->_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_SELECT'); ?>
+                    <?php echo $this->text('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_SELECT'); ?>
                 </th>
                 <th>
-                    <?php echo $this->_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_LANGUAGE'); ?>
+                    <?php echo $this->text('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_LANGUAGE'); ?>
                 </th>
                 <th>
-                    <?php echo $this->_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_TAG'); ?>
+                    <?php echo $this->text('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_TAG'); ?>
                 </th>
             </tr>
             </thead>
@@ -83,18 +83,18 @@ HTMLHelper::_('behavior.formvalidator');
             <?php endforeach; ?>
             </tbody>
         </table>
-        <p><?php echo $this->_('INSTL_DEFAULTLANGUAGE_DESC_FRONTEND'); ?></p>
+        <p><?php echo $this->text('INSTL_DEFAULTLANGUAGE_DESC_FRONTEND'); ?></p>
         <table class="table table-sm">
             <thead>
             <tr>
                 <th>
-                    <?php echo $this->_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_SELECT'); ?>
+                    <?php echo $this->text('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_SELECT'); ?>
                 </th>
                 <th>
-                    <?php echo $this->_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_LANGUAGE'); ?>
+                    <?php echo $this->text('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_LANGUAGE'); ?>
                 </th>
                 <th>
-                    <?php echo $this->_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_TAG'); ?>
+                    <?php echo $this->text('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_TAG'); ?>
                 </th>
             </tr>
             </thead>
@@ -126,7 +126,7 @@ HTMLHelper::_('behavior.formvalidator');
             </tbody>
         </table>
         <button id="defaultLanguagesButton" class="btn btn-primary mt-2 mb-3 w-100">
-            <?php echo $this->_('INSTL_DEFAULTLANGUAGE_SET_DEFAULT_LANGUAGE'); ?> <span class="icon-chevron-right" aria-hidden="true"></span>
+            <?php echo $this->text('INSTL_DEFAULTLANGUAGE_SET_DEFAULT_LANGUAGE'); ?> <span class="icon-chevron-right" aria-hidden="true"></span>
         </button>
         <?php echo HTMLHelper::_('form.token'); ?>
         </div>
@@ -144,18 +144,18 @@ HTMLHelper::_('behavior.formvalidator');
             if ($displayTable) : ?>
                 <table class="table table-sm">
                     <caption>
-                        <?php echo $this->_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?>
+                        <?php echo $this->text('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?>
                     </caption>
                     <thead>
                         <tr>
                             <th scope="col">
-                                <?php echo $this->_('INSTL_PRECHECK_DIRECTIVE'); ?>
+                                <?php echo $this->text('INSTL_PRECHECK_DIRECTIVE'); ?>
                             </th>
                             <th scope="col">
-                                <?php echo $this->_('INSTL_PRECHECK_RECOMMENDED'); ?>
+                                <?php echo $this->text('INSTL_PRECHECK_RECOMMENDED'); ?>
                             </th>
                             <th scope="col">
-                                <?php echo $this->_('INSTL_PRECHECK_ACTUAL'); ?>
+                                <?php echo $this->text('INSTL_PRECHECK_ACTUAL'); ?>
                             </th>
                         </tr>
                     </thead>
@@ -168,12 +168,12 @@ HTMLHelper::_('behavior.formvalidator');
                                 </th>
                                 <td>
                                     <span class="badge bg-success disabled">
-                                        <?php echo $this->_($setting->recommended ? 'JON' : 'JOFF'); ?>
+                                        <?php echo $this->text($setting->recommended ? 'JON' : 'JOFF'); ?>
                                     </span>
                                 </td>
                                 <td>
                                     <span class="badge bg-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
-                                        <?php echo $this->_($setting->state ? 'JON' : 'JOFF'); ?>
+                                        <?php echo $this->text($setting->state ? 'JON' : 'JOFF'); ?>
                                     </span>
                                 </td>
                             </tr>
@@ -185,7 +185,7 @@ HTMLHelper::_('behavior.formvalidator');
             <?php endif; ?>
                 <?php if ($this->development) : ?>
                     <div id="removeInstallationTab" class="flex-column">
-                        <p><?php echo $this->_('INSTL_SITE_DEVMODE_LABEL'); ?></p>
+                        <p><?php echo $this->text('INSTL_SITE_DEVMODE_LABEL'); ?></p>
                         <button id="removeInstallationFolder" class="btn btn-danger w-100"><?php echo Text::sprintf('INSTL_COMPLETE_REMOVE_FOLDER', 'installation'); ?></button>
                     </div>
                 <?php endif; ?>
@@ -196,13 +196,13 @@ HTMLHelper::_('behavior.formvalidator');
                        data-href="<?php echo Uri::root(); ?>" <?php if ($this->development) :
                             ?>data-development<?php
                                   endif; ?>>
-                        <span class="icon-eye" aria-hidden="true"></span> <?php echo $this->_('INSTL_COMPLETE_SITE_BTN'); ?>
+                        <span class="icon-eye" aria-hidden="true"></span> <?php echo $this->text('INSTL_COMPLETE_SITE_BTN'); ?>
                     </button>
                     <button type="button" class="complete-installation btn btn-primary w-100"
                        data-href="<?php echo Uri::root(); ?>administrator/" <?php if ($this->development) :
                             ?>data-development<?php
                                   endif; ?>>
-                        <span class="icon-lock" aria-hidden="true"></span> <?php echo $this->_('INSTL_COMPLETE_ADMIN_BTN'); ?>
+                        <span class="icon-lock" aria-hidden="true"></span> <?php echo $this->text('INSTL_COMPLETE_ADMIN_BTN'); ?>
                     </button>
                 </div>
             </div>
@@ -210,41 +210,41 @@ HTMLHelper::_('behavior.formvalidator');
 
         <fieldset id="installLanguages" class="j-install-step">
             <legend class="j-install-step-header">
-                <span class="icon-comment-dots" aria-hidden="true"></span> <?php echo $this->_('INSTL_LANGUAGES'); ?>
+                <span class="icon-comment-dots" aria-hidden="true"></span> <?php echo $this->text('INSTL_LANGUAGES'); ?>
             </legend>
             <div class="j-install-step-form">
             <?php if (!$this->items) : ?>
-                <p><?php echo $this->_('INSTL_LANGUAGES_WARNING_NO_INTERNET'); ?></p>
+                <p><?php echo $this->text('INSTL_LANGUAGES_WARNING_NO_INTERNET'); ?></p>
                 <p>
                     <a href="#"
                             class="btn btn-primary w-100"
                             onclick="return Joomla.goToPage('remove');">
                         <span class="icon-arrow-left icon-white" aria-hidden="true"></span>
-                        <?php echo $this->_('INSTL_LANGUAGES_WARNING_BACK_BUTTON'); ?>
+                        <?php echo $this->text('INSTL_LANGUAGES_WARNING_BACK_BUTTON'); ?>
                     </a>
                 </p>
-                <p><?php echo $this->_('INSTL_LANGUAGES_WARNING_NO_INTERNET2'); ?></p>
+                <p><?php echo $this->text('INSTL_LANGUAGES_WARNING_NO_INTERNET2'); ?></p>
             <?php else : ?>
             <form action="index.php" method="post" id="languagesForm" class="form-validate">
                 <div id="wait_installing" class="hidden">
-                    <?php echo $this->_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT'); ?><br>
+                    <?php echo $this->text('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT'); ?><br>
                     <div id="wait_installing_spinner" class="spinner spinner-img hidden"></div>
                 </div>
                 <table class="table table-sm">
-                <caption id="install_languages_desc"><?php echo $this->_('INSTL_LANGUAGES_DESC'); ?></caption>
+                <caption id="install_languages_desc"><?php echo $this->text('INSTL_LANGUAGES_DESC'); ?></caption>
                     <thead>
                     <tr>
                         <th scope="col">
-                            <span class="visually-hidden"><?php echo $this->_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE_SELECT'); ?></span>
+                            <span class="visually-hidden"><?php echo $this->text('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE_SELECT'); ?></span>
                         </th>
                         <th scope="col">
-                            <?php echo $this->_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE'); ?>
+                            <?php echo $this->text('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE'); ?>
                         </th>
                         <th scope="col">
-                            <?php echo $this->_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE_TAG'); ?>
+                            <?php echo $this->text('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE_TAG'); ?>
                         </th>
                         <th scope="col" class="text-center">
-                            <?php echo $this->_('INSTL_LANGUAGES_COLUMN_HEADER_VERSION'); ?>
+                            <?php echo $this->text('INSTL_LANGUAGES_COLUMN_HEADER_VERSION'); ?>
                         </th>
                     </tr>
                     </thead>
@@ -268,7 +268,7 @@ HTMLHelper::_('behavior.formvalidator');
                             <td class="text-center">
                                 <?php // Display a Note if language pack version is not equal to Joomla version ?>
                                 <?php if (substr($language->version, 0, 3) != $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION || substr($language->version, 0, 5) != $currentShortVersion) : ?>
-                                    <span class="badge bg-warning hasTooltip" title="<?php echo $this->_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
+                                    <span class="badge bg-warning hasTooltip" title="<?php echo $this->text('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
                                 <?php else : ?>
                                     <span class="badge bg-success"><?php echo $language->version; ?></span>
                                 <?php endif; ?>
@@ -281,10 +281,10 @@ HTMLHelper::_('behavior.formvalidator');
             <?php endif; ?>
                 <div class="form-group d-grid gap-2 mt-4 mb-3">
                     <button id="installLanguagesButton" class="btn btn-primary w-100">
-                        <?php echo $this->_('INSTL_LANGUAGES_SELECTED'); ?>
+                        <?php echo $this->text('INSTL_LANGUAGES_SELECTED'); ?>
                     </button>
                     <button id="skipLanguages" class="btn btn-secondary w-100">
-                    <?php echo $this->_('JSKIP'); ?>
+                    <?php echo $this->text('JSKIP'); ?>
                     </button>
                 </div>
             </form>
@@ -293,10 +293,10 @@ HTMLHelper::_('behavior.formvalidator');
 
         <fieldset id="installFinal" class="j-install-step">
             <legend class="j-install-step-header">
-                <span class="icon-joomla" aria-hidden="true"></span> <?php echo $this->_('INSTL_COMPLETE_FINAL'); ?>
+                <span class="icon-joomla" aria-hidden="true"></span> <?php echo $this->text('INSTL_COMPLETE_FINAL'); ?>
             </legend>
             <div class="j-install-step-form">
-                <p><?php echo $this->_('INSTL_COMPLETE_FINAL_DESC'); ?></p>
+                <p><?php echo $this->text('INSTL_COMPLETE_FINAL_DESC'); ?></p>
             </div>
         </fieldset>
 

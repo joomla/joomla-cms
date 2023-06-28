@@ -37,7 +37,7 @@ if (
         'bootstrap.renderModal',
         'collapseModal',
         [
-            'title' => $this->_('COM_REDIRECT_BATCH_OPTIONS'),
+            'title' => $this->text('COM_REDIRECT_BATCH_OPTIONS'),
             'footer' => $this->loadTemplate('batch_footer'),
         ],
         $this->loadTemplate('batch_body')
@@ -50,7 +50,7 @@ if (
         'plugin' . $this->redirectPluginId . 'Modal',
         [
             'url'         => $link,
-            'title'       => $this->_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
+            'title'       => $this->text('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
             'height'      => '400px',
             'width'       => '800px',
             'bodyHeight'  => '70',
@@ -60,11 +60,11 @@ if (
             'keyboard'    => false,
             'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
                 . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
-                . $this->_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+                . $this->text('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
                 . '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
-                . $this->_('JSAVE') . '</button>'
+                . $this->text('JSAVE') . '</button>'
                 . '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
-                . $this->_('JAPPLY') . '</button>'
+                . $this->text('JAPPLY') . '</button>'
         ]
     ); ?>
 <?php endif; ?>

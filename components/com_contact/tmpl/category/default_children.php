@@ -26,7 +26,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
             </a>
 
             <?php if ($this->params->get('show_cat_items') == 1) : ?>
-                <span class="badge bg-info float-end" title="<?php echo $this->_('COM_CONTACT_CAT_NUM'); ?>"><?php echo $child->numitems; ?></span>
+                <span class="badge bg-info float-end" title="<?php echo $this->text('COM_CONTACT_CAT_NUM'); ?>"><?php echo $child->numitems; ?></span>
             <?php endif; ?>
         </h4>
 

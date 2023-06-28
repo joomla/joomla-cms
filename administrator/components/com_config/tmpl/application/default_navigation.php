@@ -12,16 +12,16 @@ defined('_JEXEC') or die;
 ?>
 <ul class="nav flex-column">
     <?php if ($this->userIsSuperAdmin) : ?>
-        <li class="nav-header"><?php echo $this->_('COM_CONFIG_SYSTEM'); ?></li>
+        <li class="nav-header"><?php echo $this->text('COM_CONFIG_SYSTEM'); ?></li>
         <li class="item active">
-            <a href="index.php?option=com_config"><?php echo $this->_('COM_CONFIG_GLOBAL_CONFIGURATION'); ?></a>
+            <a href="index.php?option=com_config"><?php echo $this->text('COM_CONFIG_GLOBAL_CONFIGURATION'); ?></a>
         </li>
         <li class="divider"></li>
     <?php endif; ?>
-    <li class="nav-header"><?php echo $this->_('COM_CONFIG_COMPONENT_FIELDSET_LABEL'); ?></li>
+    <li class="nav-header"><?php echo $this->text('COM_CONFIG_COMPONENT_FIELDSET_LABEL'); ?></li>
     <?php foreach ($this->components as $component) : ?>
         <li class="item">
-            <a href="index.php?option=com_config&view=component&component=<?php echo $component; ?>"><?php echo $this->_($component); ?></a>
+            <a href="index.php?option=com_config&view=component&component=<?php echo $component; ?>"><?php echo $this->text($component); ?></a>
         </li>
     <?php endforeach; ?>
 </ul>

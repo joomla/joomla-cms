@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
             <div class="control-group">
                 <div class="control-label">
                     <label for="height">
-                        <?php echo $this->_('COM_TEMPLATES_IMAGE_HEIGHT')?>
+                        <?php echo $this->text('COM_TEMPLATES_IMAGE_HEIGHT')?>
                     </label>
                 </div>
                 <div class="controls">
@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
             <div class="control-group">
                 <div class="control-label">
                     <label for="width">
-                        <?php echo $this->_('COM_TEMPLATES_IMAGE_WIDTH')?>
+                        <?php echo $this->text('COM_TEMPLATES_IMAGE_WIDTH')?>
                     </label>
                 </div>
                 <div class="controls">

@@ -18,15 +18,15 @@ use Joomla\CMS\HTML\HTMLHelper;
 <div class="sysinfo">
     <table class="table">
         <caption class="visually-hidden">
-            <?php echo $this->_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?>
+            <?php echo $this->text('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?>
         </caption>
         <thead>
             <tr>
                 <th scope="col" class="w-60">
-                    <?php echo $this->_('COM_ADMIN_DIRECTORY'); ?>
+                    <?php echo $this->text('COM_ADMIN_DIRECTORY'); ?>
                 </th>
                 <th scope="col">
-                    <?php echo $this->_('COM_ADMIN_STATUS'); ?>
+                    <?php echo $this->text('COM_ADMIN_STATUS'); ?>
                 </th>
             </tr>
         </thead>

@@ -28,14 +28,14 @@ $displayData = [
 ];
 
 if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_joomlaupdate')) {
-    $displayData['formAppend'] = '<div class="text-center"><a href="' . $uploadLink . '" class="btn btn-sm btn-outline-secondary">' . $this->_($displayData['textPrefix'] . '_EMPTYSTATE_APPEND') . '</a></div>';
+    $displayData['formAppend'] = '<div class="text-center"><a href="' . $uploadLink . '" class="btn btn-sm btn-outline-secondary">' . $this->text($displayData['textPrefix'] . '_EMPTYSTATE_APPEND') . '</a></div>';
 }
 
 if (isset($this->updateInfo['object']) && isset($this->updateInfo['object']->get('infourl')->_data)) :
     $displayData['content'] .= '<br>' . HTMLHelper::_(
         'link',
         $this->updateInfo['object']->get('infourl')->_data,
-        $this->_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'),
+        $this->text('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'),
         [
             'target' => '_blank',
             'rel'    => 'noopener noreferrer',

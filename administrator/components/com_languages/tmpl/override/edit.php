@@ -24,11 +24,11 @@ $wa->useScript('keepalive')
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" aria-label="<?php echo $this->_('COM_LANGUAGES_VIEW_OVERRIDE_FORM_' . ((int) $this->item->key === 0 ? 'NEW' : 'EDIT'), true); ?>" class="main-card form-validate p-4 mt-4">
+<form action="<?php echo Route::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" aria-label="<?php echo $this->text('COM_LANGUAGES_VIEW_OVERRIDE_FORM_' . ((int) $this->item->key === 0 ? 'NEW' : 'EDIT'), true); ?>" class="main-card form-validate p-4 mt-4">
     <div class="row">
         <div class="col-md-6">
             <fieldset id="fieldset-override" class="options-form">
-                <legend><?php echo empty($this->item->key) ? $this->_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_NEW_OVERRIDE_LEGEND') : $this->_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_EDIT_OVERRIDE_LEGEND'); ?></legend>
+                <legend><?php echo empty($this->item->key) ? $this->text('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_NEW_OVERRIDE_LEGEND') : $this->text('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_EDIT_OVERRIDE_LEGEND'); ?></legend>
                 <div>
                 <?php echo $this->form->renderField('language'); ?>
                 <?php echo $this->form->renderField('client'); ?>
@@ -42,11 +42,11 @@ $wa->useScript('keepalive')
 
         <div class="col-md-6">
             <fieldset id="fieldset-override-search" class="options-form">
-                <legend><?php echo $this->_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_LEGEND'); ?></legend>
+                <legend><?php echo $this->text('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_LEGEND'); ?></legend>
                 <div>
                 <div class="alert alert-info">
-                    <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                    <?php echo $this->_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?>
+                    <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                    <?php echo $this->text('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?>
                 </div>
                 <?php echo $this->form->renderField('searchtype'); ?>
                 <div class="control-group">
@@ -57,11 +57,11 @@ $wa->useScript('keepalive')
                         <div class="input-group">
                             <?php echo $this->form->getInput('searchstring'); ?>
                             <button type="submit" class="btn btn-primary" onclick="Joomla.overrider.searchStrings();return false;" formnovalidate>
-                                <?php echo $this->_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
+                                <?php echo $this->text('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
                             </button>
                             <span id="refresh-status" class="form-text">
                                 <span class="icon-sync icon-spin" aria-hidden="true"></span>
-                                <?php echo $this->_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?>
+                                <?php echo $this->text('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?>
                             </span>
                         </div>
                     </div>
@@ -70,12 +70,12 @@ $wa->useScript('keepalive')
             </fieldset>
 
             <fieldset id="results-container" class="adminform">
-                <legend><?php echo $this->_('COM_LANGUAGES_VIEW_OVERRIDE_RESULTS_LEGEND'); ?></legend>
+                <legend><?php echo $this->text('COM_LANGUAGES_VIEW_OVERRIDE_RESULTS_LEGEND'); ?></legend>
                 <div id="overrider-spinner" class="overrider-spinner text-center" data-search-string-expired="<?php echo $expired; ?>"><span class="icon-spinner icon-spin" aria-hidden="true"></span></div>
                 <span id="more-results" class="mt-2">
                     <button type="button" id="more-results-button" class="btn btn-secondary" disabled>
                         <span id="overrider-spinner-btn" class="overrider-spinner-btn icon-spinner icon-spin" aria-hidden="true"></span>
-                        <?php echo $this->_('COM_LANGUAGES_VIEW_OVERRIDE_MORE_RESULTS'); ?>
+                        <?php echo $this->text('COM_LANGUAGES_VIEW_OVERRIDE_MORE_RESULTS'); ?>
                     </button>
                 </span>
             </fieldset>

@@ -52,7 +52,7 @@ $htag = $this->params->get('show_page_heading') ? 'h2' : 'h1';
     <?php if ($this->maxLevel != 0 && !empty($this->children[$this->category->id])) : ?>
         <div class="com-newsfeeds-category__children cat-children">
             <h3>
-                <?php echo $this->_('JGLOBAL_SUBCATEGORIES'); ?>
+                <?php echo $this->text('JGLOBAL_SUBCATEGORIES'); ?>
             </h3>
             <?php echo $this->loadTemplate('children'); ?>
         </div>

@@ -35,15 +35,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                     <?php if (empty($this->items)) : ?>
                         <div class="alert alert-info">
-                            <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                            <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                            <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                            <?php echo $this->text('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                         </div>
                     <?php else : ?>
                     <table class="table" id="manageList">
                         <caption class="visually-hidden">
-                            <?php echo $this->_('COM_INSTALLER_MANAGE_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->text('COM_INSTALLER_MANAGE_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -63,19 +63,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="w-10 d-none d-md-table-cell">
-                                    <?php echo $this->_('JVERSION'); ?>
+                                    <?php echo $this->text('JVERSION'); ?>
                                 </th>
                                 <th scope="col" class="w-10 d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JDATE', 'creationDate', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="w-10 d-none d-md-table-cell">
-                                    <?php echo $this->_('JAUTHOR'); ?>
+                                    <?php echo $this->text('JAUTHOR'); ?>
                                 </th>
                                 <th scope="col" class="w-5 d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="w-1 d-none d-md-table-cell">
-                                    <?php echo $this->_('COM_INSTALLER_HEADING_LOCKED'); ?>
+                                    <?php echo $this->text('COM_INSTALLER_HEADING_LOCKED'); ?>
                                 </th>
                                 <th scope="col" class="d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_PACKAGE_ID', 'package_id', $listDirn, $listOrder); ?>
@@ -86,7 +86,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                             </tr>
                         </thead>
                         <tbody>
-                        <?php $createdDateFormat = $this->_('DATE_FORMAT_LC4'); ?>
+                        <?php $createdDateFormat = $this->text('DATE_FORMAT_LC4'); ?>
                         <?php foreach ($this->items as $i => $item) : ?>
                             <tr class="row<?php echo $i % 2;
                             if ($item->status == 2) {
@@ -157,7 +157,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     <?php echo $item->folder_translated; ?>
                                 </td>
                                 <td class="d-none d-md-table-cell">
-                                    <?php echo $item->locked ? $this->_('JYES') : $this->_('JNO'); ?>
+                                    <?php echo $item->locked ? $this->text('JYES') : $this->text('JNO'); ?>
                                 </td>
                                 <td class="d-none d-md-table-cell">
                                     <?php echo $item->package_id ?: '&#160;'; ?>

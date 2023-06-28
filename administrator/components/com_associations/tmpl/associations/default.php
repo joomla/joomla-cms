@@ -43,20 +43,20 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
                 <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if ($this->state->get('itemtype') == '' || $this->state->get('language') == '') : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                        <?php echo $this->_('COM_ASSOCIATIONS_NOTICE_NO_SELECTORS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                        <?php echo $this->text('COM_ASSOCIATIONS_NOTICE_NO_SELECTORS'); ?>
                     </div>
                 <?php elseif (empty($this->items)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                        <?php echo $this->text('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                     <table class="table" id="associationsList">
                         <caption class="visually-hidden">
-                            <?php echo $this->_('COM_ASSOCIATIONS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->text('COM_ASSOCIATIONS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -69,13 +69,13 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'title', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="w-15">
-                                    <?php echo $this->_('JGRID_HEADING_LANGUAGE'); ?>
+                                    <?php echo $this->text('JGRID_HEADING_LANGUAGE'); ?>
                                 </th>
                                 <th scope="col" class="w-15">
-                                    <?php echo $this->_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
+                                    <?php echo $this->text('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
                                 </th>
                                 <th scope="col" class="w-15">
-                                    <?php echo $this->_('COM_ASSOCIATIONS_HEADING_NO_ASSOCIATION'); ?>
+                                    <?php echo $this->text('COM_ASSOCIATIONS_HEADING_NO_ASSOCIATION'); ?>
                                 </th>
                                 <?php if (!empty($this->typeFields['menutype'])) : ?>
                                     <th scope="col" class="w-10">
@@ -114,7 +114,7 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
                                             <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
                                         <?php endif; ?>
                                         <?php if ($canEdit) : ?>
-                                            <a class="hasTooltip" href="<?php echo Route::_($this->editUri . '&id=' . (int) $item->id); ?>" title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
+                                            <a class="hasTooltip" href="<?php echo Route::_($this->editUri . '&id=' . (int) $item->id); ?>" title="<?php echo $this->text('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
                                                 <?php echo $this->escape($item->title); ?></a>
                                         <?php else : ?>
                                             <span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
@@ -126,7 +126,7 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
                                         <?php endif; ?>
                                         <?php if (!empty($this->typeFields['catid'])) : ?>
                                             <div class="small">
-                                                <?php echo $this->_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
+                                                <?php echo $this->text('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
                                             </div>
                                         <?php endif; ?>
                                     </div>

@@ -53,7 +53,7 @@ $params = $this->params;
             <div class="com-content-archive__info article-info text-muted">
                 <dl class="article-info">
                 <dt class="article-info-term">
-                    <?php echo $this->_('COM_CONTENT_ARTICLE_INFO'); ?>
+                    <?php echo $this->text('COM_CONTENT_ARTICLE_INFO'); ?>
                 </dt>
 
                 <?php if ($params->get('show_parent_category') && !empty($item->parent_id)) : ?>
@@ -94,7 +94,7 @@ $params = $this->params;
                         <div class="published">
                             <span class="icon-calendar-alt" aria-hidden="true"></span>
                             <time datetime="<?php echo HTMLHelper::_('date', $item->publish_up, 'c'); ?>" itemprop="datePublished">
-                                <?php echo Text::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', HTMLHelper::_('date', $item->publish_up, $this->_('DATE_FORMAT_LC3'))); ?>
+                                <?php echo Text::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', HTMLHelper::_('date', $item->publish_up, $this->text('DATE_FORMAT_LC3'))); ?>
                             </time>
                         </div>
                     </dd>
@@ -106,7 +106,7 @@ $params = $this->params;
                             <div class="modified">
                                 <span class="icon-calendar-alt" aria-hidden="true"></span>
                                 <time datetime="<?php echo HTMLHelper::_('date', $item->modified, 'c'); ?>" itemprop="dateModified">
-                                    <?php echo Text::sprintf('COM_CONTENT_LAST_UPDATED', HTMLHelper::_('date', $item->modified, $this->_('DATE_FORMAT_LC3'))); ?>
+                                    <?php echo Text::sprintf('COM_CONTENT_LAST_UPDATED', HTMLHelper::_('date', $item->modified, $this->text('DATE_FORMAT_LC3'))); ?>
                                 </time>
                             </div>
                         </dd>
@@ -116,7 +116,7 @@ $params = $this->params;
                             <div class="create">
                                 <span class="icon-calendar-alt" aria-hidden="true"></span>
                                 <time datetime="<?php echo HTMLHelper::_('date', $item->created, 'c'); ?>" itemprop="dateCreated">
-                                    <?php echo Text::sprintf('COM_CONTENT_CREATED_DATE_ON', HTMLHelper::_('date', $item->created, $this->_('DATE_FORMAT_LC3'))); ?>
+                                    <?php echo Text::sprintf('COM_CONTENT_CREATED_DATE_ON', HTMLHelper::_('date', $item->created, $this->text('DATE_FORMAT_LC3'))); ?>
                                 </time>
                             </div>
                         </dd>
@@ -145,7 +145,7 @@ $params = $this->params;
         <?php if ($useDefList && ($info == 1 || $info == 2)) : ?>
             <div class="article-info text-muted">
                 <dl class="article-info">
-                <dt class="article-info-term"><?php echo $this->_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
+                <dt class="article-info-term"><?php echo $this->text('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 
                 <?php if ($info == 1) : ?>
                     <?php if ($params->get('show_parent_category') && !empty($item->parent_id)) : ?>
@@ -185,7 +185,7 @@ $params = $this->params;
                             <div class="published">
                                 <span class="icon-calendar-alt" aria-hidden="true"></span>
                                 <time datetime="<?php echo HTMLHelper::_('date', $item->publish_up, 'c'); ?>" itemprop="datePublished">
-                                    <?php echo Text::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', HTMLHelper::_('date', $item->publish_up, $this->_('DATE_FORMAT_LC3'))); ?>
+                                    <?php echo Text::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', HTMLHelper::_('date', $item->publish_up, $this->text('DATE_FORMAT_LC3'))); ?>
                                 </time>
                             </div>
                         </dd>
@@ -197,7 +197,7 @@ $params = $this->params;
                         <div class="create">
                             <span class="icon-calendar-alt" aria-hidden="true"></span>
                             <time datetime="<?php echo HTMLHelper::_('date', $item->created, 'c'); ?>" itemprop="dateCreated">
-                                <?php echo Text::sprintf('COM_CONTENT_CREATED_DATE_ON', HTMLHelper::_('date', $item->modified, $this->_('DATE_FORMAT_LC3'))); ?>
+                                <?php echo Text::sprintf('COM_CONTENT_CREATED_DATE_ON', HTMLHelper::_('date', $item->modified, $this->text('DATE_FORMAT_LC3'))); ?>
                             </time>
                         </div>
                     </dd>
@@ -207,7 +207,7 @@ $params = $this->params;
                         <div class="modified">
                             <span class="icon-calendar-alt" aria-hidden="true"></span>
                             <time datetime="<?php echo HTMLHelper::_('date', $item->modified, 'c'); ?>" itemprop="dateModified">
-                                <?php echo Text::sprintf('COM_CONTENT_LAST_UPDATED', HTMLHelper::_('date', $item->modified, $this->_('DATE_FORMAT_LC3'))); ?>
+                                <?php echo Text::sprintf('COM_CONTENT_LAST_UPDATED', HTMLHelper::_('date', $item->modified, $this->text('DATE_FORMAT_LC3'))); ?>
                             </time>
                         </div>
                     </dd>

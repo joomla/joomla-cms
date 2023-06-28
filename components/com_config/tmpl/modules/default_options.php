@@ -24,10 +24,10 @@ foreach ($fieldSets as $name => $fieldSet) :
 
 
     if (isset($fieldSet->description) && trim($fieldSet->description)) :
-        echo '<p class="tip">' . $this->escape($this->_($fieldSet->description)) . '</p>';
+        echo '<p class="tip">' . $this->escape($this->text($fieldSet->description)) . '</p>';
     endif;
     ?>
-    <?php echo HTMLHelper::_('bootstrap.addSlide', 'collapseTypes', $this->_($label), 'collapse' . ($i++)); ?>
+    <?php echo HTMLHelper::_('bootstrap.addSlide', 'collapseTypes', $this->text($label), 'collapse' . ($i++)); ?>
 
 <ul class="nav flex-column">
     <?php foreach ($this->form->getFieldset($name) as $field) : ?>

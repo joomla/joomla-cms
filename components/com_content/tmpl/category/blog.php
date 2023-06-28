@@ -74,8 +74,8 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
     <?php if (empty($this->lead_items) && empty($this->link_items) && empty($this->intro_items)) : ?>
         <?php if ($this->params->get('show_no_articles', 1)) : ?>
             <div class="alert alert-info">
-                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                    <?php echo $this->_('COM_CONTENT_NO_ARTICLES'); ?>
+                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                    <?php echo $this->text('COM_CONTENT_NO_ARTICLES'); ?>
             </div>
         <?php endif; ?>
     <?php endif; ?>
@@ -121,7 +121,7 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
     <?php if ($this->maxLevel != 0 && !empty($this->children[$this->category->id])) : ?>
         <div class="com-content-category-blog__children cat-children">
             <?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
-                <h3> <?php echo $this->_('JGLOBAL_SUBCATEGORIES'); ?> </h3>
+                <h3> <?php echo $this->text('JGLOBAL_SUBCATEGORIES'); ?> </h3>
             <?php endif; ?>
             <?php echo $this->loadTemplate('children'); ?> </div>
     <?php endif; ?>

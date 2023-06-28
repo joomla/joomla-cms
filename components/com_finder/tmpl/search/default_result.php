@@ -95,7 +95,7 @@ if ($this->params->get('show_url', 1)) {
         <p class="result__description">
             <?php if ($this->result->start_date && $this->params->get('show_date', 1)) : ?>
                 <time class="result__date" datetime="<?php echo HTMLHelper::_('date', $this->result->start_date, 'c'); ?>">
-                    <?php echo HTMLHelper::_('date', $this->result->start_date, $this->_('DATE_FORMAT_LC3')); ?>
+                    <?php echo HTMLHelper::_('date', $this->result->start_date, $this->text('DATE_FORMAT_LC3')); ?>
                 </time>
             <?php endif; ?>
             <?php echo $description; ?>
@@ -118,8 +118,8 @@ if ($this->params->get('show_url', 1)) {
                     <?php endforeach; ?>
                     <?php if (count($taxonomy_text)) : ?>
                         <li class="result__taxonomy-item result__taxonomy--<?php echo $type; ?>">
-                            <span><?php echo $this->_(LanguageHelper::branchSingular($type)); ?>:</span>
-                            <?php echo $this->_(LanguageHelper::branchSingular(implode(',', $taxonomy_text))); ?>
+                            <span><?php echo $this->text(LanguageHelper::branchSingular($type)); ?>:</span>
+                            <?php echo $this->text(LanguageHelper::branchSingular(implode(',', $taxonomy_text))); ?>
                         </li>
                     <?php endif; ?>
                 <?php endif; ?>

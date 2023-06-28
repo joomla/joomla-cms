@@ -17,17 +17,17 @@ use Joomla\CMS\Language\Text;
     <table class="table table-sm">
     <caption class="caption-top"><?php echo Text::sprintf(
         'COM_FINDER_STATISTICS_STATS_DESCRIPTION',
-        number_format($this->data->term_count, 0, $this->_('DECIMALS_SEPARATOR'), $this->_('THOUSANDS_SEPARATOR')),
-        number_format($this->data->link_count, 0, $this->_('DECIMALS_SEPARATOR'), $this->_('THOUSANDS_SEPARATOR')),
-        number_format($this->data->taxonomy_node_count, 0, $this->_('DECIMALS_SEPARATOR'), $this->_('THOUSANDS_SEPARATOR')),
-        number_format($this->data->taxonomy_branch_count, 0, $this->_('DECIMALS_SEPARATOR'), $this->_('THOUSANDS_SEPARATOR'))); ?></caption>
+        number_format($this->data->term_count, 0, $this->text('DECIMALS_SEPARATOR'), $this->text('THOUSANDS_SEPARATOR')),
+        number_format($this->data->link_count, 0, $this->text('DECIMALS_SEPARATOR'), $this->text('THOUSANDS_SEPARATOR')),
+        number_format($this->data->taxonomy_node_count, 0, $this->text('DECIMALS_SEPARATOR'), $this->text('THOUSANDS_SEPARATOR')),
+        number_format($this->data->taxonomy_branch_count, 0, $this->text('DECIMALS_SEPARATOR'), $this->text('THOUSANDS_SEPARATOR'))); ?></caption>
         <thead>
             <tr>
                 <th scope="col">
-                    <?php echo $this->_('COM_FINDER_STATISTICS_LINK_TYPE_HEADING'); ?>
+                    <?php echo $this->text('COM_FINDER_STATISTICS_LINK_TYPE_HEADING'); ?>
                 </th>
                 <th scope="col">
-                    <?php echo $this->_('COM_FINDER_STATISTICS_LINK_TYPE_COUNT'); ?>
+                    <?php echo $this->text('COM_FINDER_STATISTICS_LINK_TYPE_COUNT'); ?>
                 </th>
             </tr>
         </thead>
@@ -37,21 +37,21 @@ use Joomla\CMS\Language\Text;
                 <th scope="row">
                     <?php
                     $lang_key    = 'PLG_FINDER_STATISTICS_' . str_replace(' ', '_', $type->type_title);
-                    $lang_string = $this->_($lang_key);
+                    $lang_string = $this->text($lang_key);
                     echo $lang_string === $lang_key ? $type->type_title : $lang_string;
                     ?>
                 </th>
                 <td>
-                    <span class="badge bg-info"><?php echo number_format($type->link_count, 0, $this->_('DECIMALS_SEPARATOR'), $this->_('THOUSANDS_SEPARATOR')); ?></span>
+                    <span class="badge bg-info"><?php echo number_format($type->link_count, 0, $this->text('DECIMALS_SEPARATOR'), $this->text('THOUSANDS_SEPARATOR')); ?></span>
                 </td>
             </tr>
             <?php endforeach; ?>
             <tr>
                 <td>
-                    <strong><?php echo $this->_('COM_FINDER_STATISTICS_LINK_TYPE_TOTAL'); ?></strong>
+                    <strong><?php echo $this->text('COM_FINDER_STATISTICS_LINK_TYPE_TOTAL'); ?></strong>
                 </td>
                 <td>
-                    <span class="badge bg-info"><?php echo number_format($this->data->link_count, 0, $this->_('DECIMALS_SEPARATOR'), $this->_('THOUSANDS_SEPARATOR')); ?></span>
+                    <span class="badge bg-info"><?php echo number_format($this->data->link_count, 0, $this->text('DECIMALS_SEPARATOR'), $this->text('THOUSANDS_SEPARATOR')); ?></span>
                 </td>
             </tr>
         </tbody>

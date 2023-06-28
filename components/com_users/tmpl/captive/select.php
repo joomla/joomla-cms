@@ -22,11 +22,11 @@ $shownMethods = [];
 ?>
 <div id="com-users-select">
     <h2 id="com-users-select-heading">
-        <?php echo $this->_('COM_USERS_MFA_SELECT_PAGE_HEAD'); ?>
+        <?php echo $this->text('COM_USERS_MFA_SELECT_PAGE_HEAD'); ?>
     </h2>
     <div id="com-users-select-information">
         <p>
-            <?php echo $this->_('COM_USERS_LBL_SELECT_INSTRUCTIONS'); ?>
+            <?php echo $this->text('COM_USERS_LBL_SELECT_INSTRUCTIONS'); ?>
         </p>
     </div>
 

@@ -38,7 +38,7 @@ $wa->useScript('multiselect')
                         'plugin' . $this->finderPluginId . 'Modal',
                         [
                             'url'         => $link,
-                            'title'       => $this->_('COM_FINDER_EDIT_PLUGIN_SETTINGS'),
+                            'title'       => $this->text('COM_FINDER_EDIT_PLUGIN_SETTINGS'),
                             'height'      => '400px',
                             'width'       => '800px',
                             'bodyHeight'  => '70',
@@ -48,25 +48,25 @@ $wa->useScript('multiselect')
                             'keyboard'    => false,
                             'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
                                 . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
-                                . $this->_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+                                . $this->text('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
                                 . '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
-                                . $this->_("JSAVE") . '</button>'
+                                . $this->text("JSAVE") . '</button>'
                                 . '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
-                                . $this->_("JAPPLY") . '</button>'
+                                . $this->text("JAPPLY") . '</button>'
                         ]
                     ); ?>
                 <?php endif; ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                        <?php echo $this->text('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                     <table class="table">
                         <caption class="visually-hidden">
-                            <?php echo $this->_('COM_FINDER_INDEX_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->text('COM_FINDER_INDEX_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -91,7 +91,7 @@ $wa->useScript('multiselect')
                                     </th>
                                 <?php endif; ?>
                                 <th scope="col" class="w-15 d-none d-md-table-cell text-center">
-                                    <?php echo $this->_('COM_FINDER_INDEX_HEADING_DETAILS'); ?>
+                                    <?php echo $this->text('COM_FINDER_INDEX_HEADING_DETAILS'); ?>
                                 </th>
                                 <th scope="col" class="w-30 d-none d-md-table-cell">
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_LINK_URL', 'l.url', $listDirn, $listOrder); ?>
@@ -120,11 +120,11 @@ $wa->useScript('multiselect')
                                 <td class="small d-none d-md-table-cell">
                                     <?php
                                     $key = LanguageHelper::branchSingular($item->t_title);
-                                    echo $lang->hasKey($key) ? $this->_($key) : $item->t_title;
+                                    echo $lang->hasKey($key) ? $this->text($key) : $item->t_title;
                                     ?>
                                 </td>
                                 <td class="small d-none d-md-table-cell text-center">
-                                    <?php echo HTMLHelper::_('date', $item->indexdate, $this->_('DATE_FORMAT_LC4')); ?>
+                                    <?php echo HTMLHelper::_('date', $item->indexdate, $this->text('DATE_FORMAT_LC4')); ?>
                                 </td>
                                 <?php if (Multilanguage::isEnabled()) : ?>
                                     <td class="small d-none d-md-table-cell">
@@ -135,14 +135,14 @@ $wa->useScript('multiselect')
                                 <?php if ((int) $item->publish_start_date or (int) $item->publish_end_date or (int) $item->start_date or (int) $item->end_date) : ?>
                                     <span tabindex="0">
                                         <span class="icon-calendar" aria-hidden="true"></span>
-                                        <span class="visually-hidden"><?php echo $this->_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?></span>
+                                        <span class="visually-hidden"><?php echo $this->text('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?></span>
                                     </span>
                                     <div role="tooltip" id="tip<?php echo $i; ?>">
                                         <?php
-                                            $publishStartDate = $item->publish_start_date !== null ? HTMLHelper::_('date', $item->publish_start_date, $this->_('DATE_FORMAT_LC5'), 'UTC') : '';
-                                            $publishEndDate   = $item->publish_end_date !== null ? HTMLHelper::_('date', $item->publish_end_date, $this->_('DATE_FORMAT_LC5'), 'UTC') : '';
-                                            $startDate        = $item->start_date !== null ? HTMLHelper::_('date', $item->start_date, $this->_('DATE_FORMAT_LC5'), 'UTC') : '';
-                                            $endDate          = $item->end_date !== null ? HTMLHelper::_('date', $item->end_date, $this->_('DATE_FORMAT_LC5'), 'UTC') : '';
+                                            $publishStartDate = $item->publish_start_date !== null ? HTMLHelper::_('date', $item->publish_start_date, $this->text('DATE_FORMAT_LC5'), 'UTC') : '';
+                                            $publishEndDate   = $item->publish_end_date !== null ? HTMLHelper::_('date', $item->publish_end_date, $this->text('DATE_FORMAT_LC5'), 'UTC') : '';
+                                            $startDate        = $item->start_date !== null ? HTMLHelper::_('date', $item->start_date, $this->text('DATE_FORMAT_LC5'), 'UTC') : '';
+                                            $endDate          = $item->end_date !== null ? HTMLHelper::_('date', $item->end_date, $this->text('DATE_FORMAT_LC5'), 'UTC') : '';
                                         ?>
                                         <?php echo Text::sprintf('COM_FINDER_INDEX_DATE_INFO', $publishStartDate, $publishEndDate, $startDate, $endDate); ?>
                                     </div>

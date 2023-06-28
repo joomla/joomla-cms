@@ -24,7 +24,7 @@ $wa->useScript('keepalive')
         <div class="card">
             <div class="card-body">
                 <fieldset class="options-form">
-                    <legend><?php echo $this->_('COM_MESSAGES_CONFIG_FORM'); ?></legend>
+                    <legend><?php echo $this->text('COM_MESSAGES_CONFIG_FORM'); ?></legend>
                     <?php echo $this->form->renderField('lock'); ?>
                     <?php echo $this->form->renderField('mail_on_new'); ?>
                     <?php echo $this->form->renderField('auto_purge'); ?>

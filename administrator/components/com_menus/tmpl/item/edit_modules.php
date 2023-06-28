@@ -28,18 +28,18 @@ echo HTMLHelper::_(
     'bootstrap.renderModal',
     'moduleEditModal',
     [
-        'title'       => $this->_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+        'title'       => $this->text('COM_MENUS_EDIT_MODULE_SETTINGS'),
         'backdrop'    => 'static',
         'keyboard'    => false,
         'closeButton' => false,
         'bodyHeight'  => '70',
         'modalWidth'  => '80',
         'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-target="#closeBtn">'
-                . $this->_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+                . $this->text('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
                 . '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-target="#saveBtn">'
-                . $this->_('JSAVE') . '</button>'
+                . $this->text('JSAVE') . '</button>'
                 . '<button type="button" class="btn btn-success" data-bs-target="#applyBtn">'
-                . $this->_('JAPPLY') . '</button>',
+                . $this->text('JAPPLY') . '</button>',
     ]
 );
 
@@ -52,24 +52,24 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 
 <table class="table" id="modules_assigned">
     <caption class="visually-hidden">
-        <?php echo $this->_('COM_MENUS_MODULES_TABLE_CAPTION'); ?>
+        <?php echo $this->text('COM_MENUS_MODULES_TABLE_CAPTION'); ?>
     </caption>
     <thead>
         <tr>
             <th scope="col" class="w-40">
-                <?php echo $this->_('COM_MENUS_HEADING_ASSIGN_MODULE'); ?>
+                <?php echo $this->text('COM_MENUS_HEADING_ASSIGN_MODULE'); ?>
             </th>
             <th scope="col" class="w-15">
-                <?php echo $this->_('COM_MENUS_HEADING_LEVELS'); ?>
+                <?php echo $this->text('COM_MENUS_HEADING_LEVELS'); ?>
             </th>
             <th scope="col" class="w-15">
-                <?php echo $this->_('COM_MENUS_HEADING_POSITION'); ?>
+                <?php echo $this->text('COM_MENUS_HEADING_POSITION'); ?>
             </th>
             <th scope="col">
-                <?php echo $this->_('COM_MENUS_HEADING_DISPLAY'); ?>
+                <?php echo $this->text('COM_MENUS_HEADING_DISPLAY'); ?>
             </th>
             <th scope="col">
-                <?php echo $this->_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?>
+                <?php echo $this->text('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?>
             </th>
         </tr>
     </thead>
@@ -94,7 +94,7 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
                 <button type="button"
                     data-bs-target="#moduleEditModal"
                     class="btn btn-link module-edit-link"
-                    title="<?php echo $this->_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>"
+                    title="<?php echo $this->text('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>"
                     id="title-<?php echo $module->id; ?>"
                     data-module-id="<?php echo $module->id; ?>">
                     <?php echo $this->escape($module->title); ?></button>
@@ -109,35 +109,35 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
                 <?php if (is_null($module->menuid)) : ?>
                     <?php if ($module->except) : ?>
                         <span class="badge bg-success">
-                            <?php echo $this->_('JYES'); ?>
+                            <?php echo $this->text('JYES'); ?>
                         </span>
                     <?php else : ?>
                         <span class="badge bg-danger">
-                            <?php echo $this->_('JNO'); ?>
+                            <?php echo $this->text('JNO'); ?>
                         </span>
                     <?php endif; ?>
                 <?php elseif ($module->menuid > 0) : ?>
                     <span class="badge bg-success">
-                        <?php echo $this->_('JYES'); ?>
+                        <?php echo $this->text('JYES'); ?>
                     </span>
                 <?php elseif ($module->menuid < 0) : ?>
                     <span class="badge bg-danger">
-                        <?php echo $this->_('JNO'); ?>
+                        <?php echo $this->text('JNO'); ?>
                     </span>
                 <?php else : ?>
                     <span class="badge bg-info">
-                        <?php echo $this->_('JALL'); ?>
+                        <?php echo $this->text('JALL'); ?>
                     </span>
                 <?php endif; ?>
             </td>
             <td id="status-<?php echo $module->id; ?>">
                 <?php if ($module->published) : ?>
                     <span class="badge bg-success">
-                        <?php echo $this->_('JYES'); ?>
+                        <?php echo $this->text('JYES'); ?>
                     </span>
                 <?php else : ?>
                     <span class="badge bg-danger">
-                        <?php echo $this->_('JNO'); ?>
+                        <?php echo $this->text('JNO'); ?>
                     </span>
                 <?php endif; ?>
             </td>

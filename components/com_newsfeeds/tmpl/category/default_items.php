@@ -23,7 +23,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <div class="com-newsfeeds-category__items">
     <?php if (empty($this->items)) : ?>
-        <p><?php echo $this->_('COM_NEWSFEEDS_NO_ARTICLES'); ?></p>
+        <p><?php echo $this->text('COM_NEWSFEEDS_NO_ARTICLES'); ?></p>
     <?php else : ?>
         <form action="<?php echo htmlspecialchars(Uri::getInstance()->toString(), ENT_COMPAT, 'UTF-8'); ?>" method="post" name="adminForm" id="adminForm">
             <?php if ($this->params->get('filter_field') !== 'hide' || $this->params->get('show_pagination_limit')) : ?>
@@ -31,15 +31,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     <?php if ($this->params->get('filter_field') !== 'hide' && $this->params->get('filter_field') == '1') : ?>
                         <div class="btn-group">
                             <label class="filter-search-lbl visually-hidden" for="filter-search">
-                                <?php echo $this->_('COM_NEWSFEEDS_FILTER_LABEL') . '&#160;'; ?>
+                                <?php echo $this->text('COM_NEWSFEEDS_FILTER_LABEL') . '&#160;'; ?>
                             </label>
-                            <input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" placeholder="<?php echo $this->_('COM_NEWSFEEDS_FILTER_SEARCH_DESC'); ?>">
+                            <input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" placeholder="<?php echo $this->text('COM_NEWSFEEDS_FILTER_SEARCH_DESC'); ?>">
                         </div>
                     <?php endif; ?>
                     <?php if ($this->params->get('show_pagination_limit')) : ?>
                         <div class="btn-group float-end">
                             <label for="limit" class="visually-hidden">
-                                <?php echo $this->_('JGLOBAL_DISPLAY_NUM'); ?>
+                                <?php echo $this->text('JGLOBAL_DISPLAY_NUM'); ?>
                             </label>
                             <?php echo $this->pagination->getLimitBox(); ?>
                         </div>
@@ -63,7 +63,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     </span>
                     <?php if ($item->published == 0) : ?>
                         <span class="badge bg-warning text-light">
-                            <?php echo $this->_('JUNPUBLISHED'); ?>
+                            <?php echo $this->text('JUNPUBLISHED'); ?>
                         </span>
                     <?php endif; ?>
                     <br>

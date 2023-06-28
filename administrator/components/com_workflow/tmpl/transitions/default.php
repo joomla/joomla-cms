@@ -53,15 +53,15 @@ if ($saveOrder) {
                 ?>
                 <?php if (empty($this->transitions)) : ?>
                     <div class="alert alert-info">
-                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                        <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                        <?php echo $this->text('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                     </div>
                 <?php else : ?>
                     <table class="table">
                         <caption class="visually-hidden">
-                            <?php echo $this->_('COM_WORKFLOW_TRANSITIONS_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->text('COM_WORKFLOW_TRANSITIONS_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -98,7 +98,7 @@ if ($saveOrder) {
                                 ?>
                                 <tr class="row<?php echo $i % 2; ?>">
                                     <td class="text-center d-none d-md-table-cell">
-                                        <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $this->_($item->title)); ?>
+                                        <?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $this->text($item->title)); ?>
                                     </td>
                                     <td class="text-center d-none d-md-table-cell">
                                         <?php
@@ -106,7 +106,7 @@ if ($saveOrder) {
                                         if (!$canChange) {
                                             $iconClass = ' inactive';
                                         } elseif (!$saveOrder) {
-                                            $iconClass = ' inactive" title="' . $this->_('JORDERINGDISABLED');
+                                            $iconClass = ' inactive" title="' . $this->text('JORDERINGDISABLED');
                                         }
                                         ?>
                                         <span class="sortable-handler<?php echo $iconClass ?>">
@@ -124,24 +124,24 @@ if ($saveOrder) {
                                             <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'transitions.', $canCheckin); ?>
                                         <?php endif; ?>
                                         <?php if ($canEdit) : ?>
-                                            <a href="<?php echo $edit; ?>" title="<?php echo $this->_('JACTION_EDIT'); ?> <?php echo $this->escape($this->_($item->title)); ?>">
-                                                <?php echo $this->escape($this->_($item->title)); ?>
+                                            <a href="<?php echo $edit; ?>" title="<?php echo $this->text('JACTION_EDIT'); ?> <?php echo $this->escape($this->text($item->title)); ?>">
+                                                <?php echo $this->escape($this->text($item->title)); ?>
                                             </a>
-                                            <div class="small"><?php echo $this->escape($this->_($item->description)); ?></div>
+                                            <div class="small"><?php echo $this->escape($this->text($item->description)); ?></div>
                                         <?php else : ?>
-                                            <?php echo $this->escape($this->_($item->title)); ?>
-                                            <div class="small"><?php echo $this->escape($this->_($item->description)); ?></div>
+                                            <?php echo $this->escape($this->text($item->title)); ?>
+                                            <div class="small"><?php echo $this->escape($this->text($item->description)); ?></div>
                                         <?php endif; ?>
                                     </th>
                                     <td class="nowrap">
                                         <?php if ($item->from_stage_id < 0) : ?>
-                                            <?php echo $this->_('JALL'); ?>
+                                            <?php echo $this->text('JALL'); ?>
                                         <?php else : ?>
-                                            <?php echo ' ' . $this->escape($this->_($item->from_stage)); ?>
+                                            <?php echo ' ' . $this->escape($this->text($item->from_stage)); ?>
                                         <?php endif; ?>
                                     </td>
                                     <td class="nowrap">
-                                        <?php echo ' ' . $this->escape($this->_($item->to_stage)); ?>
+                                        <?php echo ' ' . $this->escape($this->text($item->to_stage)); ?>
                                     </td>
                                     <td class="d-none d-md-table-cell">
                                         <?php echo (int) $item->id; ?>

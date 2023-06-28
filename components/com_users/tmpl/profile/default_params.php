@@ -16,7 +16,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 <?php $fields = $this->form->getFieldset('params'); ?>
 <?php if (count($fields)) : ?>
     <fieldset id="users-profile-custom" class="com-users-profile__params">
-        <legend><?php echo $this->_('COM_USERS_SETTINGS_FIELDSET_LABEL'); ?></legend>
+        <legend><?php echo $this->text('COM_USERS_SETTINGS_FIELDSET_LABEL'); ?></legend>
         <dl class="dl-horizontal">
             <?php foreach ($fields as $field) : ?>
                 <?php if (!$field->hidden) : ?>

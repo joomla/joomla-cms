@@ -23,7 +23,7 @@ $wa->useScript('keepalive');
 
 <div class="alert warning">
     <h4 class="alert-heading">
-        <?php echo $this->_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_HEAD'); ?>
+        <?php echo $this->text('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_HEAD'); ?>
     </h4>
     <p>
         <?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_HEAD_DESC', Factory::getApplication()->get('sitename')); ?>
@@ -34,15 +34,15 @@ $wa->useScript('keepalive');
 
 <form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login" class="d-flex justify-content-center text-center">
     <fieldset class="loginform">
-        <legend><?php echo $this->_('COM_JOOMLAUPDATE_CONFIRM'); ?></legend>
+        <legend><?php echo $this->text('COM_JOOMLAUPDATE_CONFIRM'); ?></legend>
         <div class="control-group">
             <div class="controls">
                 <div class="input-group">
-                    <input name="username" id="mod-login-username" type="text" class="form-control" required="required" autocomplete="username" placeholder="<?php echo $this->_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
+                    <input name="username" id="mod-login-username" type="text" class="form-control" required="required" autocomplete="username" placeholder="<?php echo $this->text('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
                     <span class="input-group-text">
                         <span class="icon-user" aria-hidden="true"></span>
                         <label for="mod-login-username" class="visually-hidden">
-                            <?php echo $this->_('JGLOBAL_USERNAME'); ?>
+                            <?php echo $this->text('JGLOBAL_USERNAME'); ?>
                         </label>
                     </span>
                 </div>
@@ -51,11 +51,11 @@ $wa->useScript('keepalive');
         <div class="control-group">
             <div class="controls">
                 <div class="input-group">
-                    <input name="passwd" id="mod-login-password" type="password" class="form-control" required="required" autocomplete="current-password" placeholder="<?php echo $this->_('JGLOBAL_PASSWORD'); ?>" size="15">
+                    <input name="passwd" id="mod-login-password" type="password" class="form-control" required="required" autocomplete="current-password" placeholder="<?php echo $this->text('JGLOBAL_PASSWORD'); ?>" size="15">
                     <span class="input-group-text">
                         <span class="icon-lock" aria-hidden="true"></span>
                         <label for="mod-login-password" class="visually-hidden">
-                            <?php echo $this->_('JGLOBAL_PASSWORD'); ?>
+                            <?php echo $this->text('JGLOBAL_PASSWORD'); ?>
                         </label>
                     </span>
                 </div>
@@ -65,10 +65,10 @@ $wa->useScript('keepalive');
             <div class="controls">
                 <div class="btn-group">
                     <a class="btn btn-danger" href="index.php?option=com_joomlaupdate">
-                        <span class="icon-times" aria-hidden="true"></span> <?php echo $this->_('JCANCEL'); ?>
+                        <span class="icon-times" aria-hidden="true"></span> <?php echo $this->text('JCANCEL'); ?>
                     </a>
                     <button type="submit" class="btn btn-primary">
-                        <span class="icon-play" aria-hidden="true"></span> <?php echo $this->_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_CONFIRM_AND_CONTINUE'); ?>
+                        <span class="icon-play" aria-hidden="true"></span> <?php echo $this->text('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_CONFIRM_AND_CONTINUE'); ?>
                     </button>
                 </div>
             </div>

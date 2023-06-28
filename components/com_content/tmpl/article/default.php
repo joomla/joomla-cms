@@ -55,13 +55,13 @@ $isExpired         = !is_null($this->item->publish_down) && $this->item->publish
             <?php echo $this->escape($this->item->title); ?>
         </<?php echo $htag; ?>>
         <?php if ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
-            <span class="badge bg-warning text-light"><?php echo $this->_('JUNPUBLISHED'); ?></span>
+            <span class="badge bg-warning text-light"><?php echo $this->text('JUNPUBLISHED'); ?></span>
         <?php endif; ?>
         <?php if ($isNotPublishedYet) : ?>
-            <span class="badge bg-warning text-light"><?php echo $this->_('JNOTPUBLISHEDYET'); ?></span>
+            <span class="badge bg-warning text-light"><?php echo $this->text('JNOTPUBLISHEDYET'); ?></span>
         <?php endif; ?>
         <?php if ($isExpired) : ?>
-            <span class="badge bg-warning text-light"><?php echo $this->_('JEXPIRED'); ?></span>
+            <span class="badge bg-warning text-light"><?php echo $this->text('JEXPIRED'); ?></span>
         <?php endif; ?>
     </div>
     <?php endif; ?>

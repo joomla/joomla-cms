@@ -19,7 +19,7 @@ $displayData = [
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Module',
     'icon'       => 'icon-cube module',
     // Although it is (almost) impossible to get to this page with no created Administrator Modules, we add this for completeness.
-    'title'      => $this->_('COM_MODULES_EMPTYSTATE_TITLE_' . ($this->clientId ? 'ADMINISTRATOR' : 'SITE')),
+    'title'      => $this->text('COM_MODULES_EMPTYSTATE_TITLE_' . ($this->clientId ? 'ADMINISTRATOR' : 'SITE')),
 ];
 
 if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_modules')) {

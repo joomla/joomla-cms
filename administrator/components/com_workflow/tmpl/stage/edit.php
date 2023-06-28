@@ -34,7 +34,7 @@ $lang     = $this->getLanguage()->getTag();
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_workflow&view=stage&workflow_id=' . $input->getCmd('workflow_id') . '&extension=' . $input->getCmd('extension') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" aria-label="<?php echo $this->_('COM_WORKFLOW_STAGE_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_workflow&view=stage&workflow_id=' . $input->getCmd('workflow_id') . '&extension=' . $input->getCmd('extension') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" aria-label="<?php echo $this->text('COM_WORKFLOW_STAGE_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
@@ -47,7 +47,7 @@ $lang     = $this->getLanguage()->getTag();
                         <label for="stage_title_translation"><?php echo Text::sprintf('COM_WORKFLOW_TITLE_TRANSLATION', $lang); ?></label>
                     </div>
                     <div class="controls">
-                        <input id="stage_title_translation" class="form-control" value="<?php echo $this->_($this->item->title); ?>" readonly="readonly" type="text">
+                        <input id="stage_title_translation" class="form-control" value="<?php echo $this->text($this->item->title); ?>" readonly="readonly" type="text">
                     </div>
                 </div>
             </div>
@@ -57,7 +57,7 @@ $lang     = $this->getLanguage()->getTag();
     <div class="main-card">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', $this->_('COM_WORKFLOW_DESCRIPTION')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', $this->text('COM_WORKFLOW_DESCRIPTION')); ?>
         <div class="row">
             <div class="col-lg-9">
                 <?php echo $this->form->renderField('description'); ?>
@@ -72,9 +72,9 @@ $lang     = $this->getLanguage()->getTag();
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
         <?php if ($user->authorise('core.admin', $this->extension)) : ?>
-            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', $this->_('COM_WORKFLOW_RULES_TAB')); ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', $this->text('COM_WORKFLOW_RULES_TAB')); ?>
             <fieldset id="fieldset-rules" class="options-form">
-                <legend><?php echo $this->_('COM_WORKFLOW_RULES_TAB'); ?></legend>
+                <legend><?php echo $this->text('COM_WORKFLOW_RULES_TAB'); ?></legend>
                 <?php echo $this->form->getInput('rules'); ?>
             </fieldset>
             <?php echo HTMLHelper::_('uitab.endTab'); ?>

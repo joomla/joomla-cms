@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 
 $this->getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR);
 
-$forumId   = (int) $this->_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE');
+$forumId   = (int) $this->text('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE');
 
 if (empty($forumId)) {
     $forumId = 511;

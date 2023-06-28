@@ -28,7 +28,7 @@ $wa->useScript('keepalive')
             <?php $fields = $this->form->getFieldset($fieldset->name); ?>
             <?php if (count($fields)) : ?>
                 <fieldset class="m-0">
-                    <?php if (isset($fieldset->label) && ($legend = trim($this->_($fieldset->label))) !== '') : ?>
+                    <?php if (isset($fieldset->label) && ($legend = trim($this->text($fieldset->label))) !== '') : ?>
                         <legend><?php echo $legend; ?></legend>
                     <?php endif; ?>
                     <?php foreach ($fields as $field) : ?>
@@ -42,7 +42,7 @@ $wa->useScript('keepalive')
         <?php endif; ?>
         <div class="control-group">
             <div class="controls">
-                <button class="btn btn-primary validate" type="submit"><?php echo $this->_('COM_CONTACT_CONTACT_SEND'); ?></button>
+                <button class="btn btn-primary validate" type="submit"><?php echo $this->text('COM_CONTACT_CONTACT_SEND'); ?></button>
                 <input type="hidden" name="option" value="com_contact">
                 <input type="hidden" name="task" value="contact.submit">
                 <input type="hidden" name="return" value="<?php echo $this->return_page; ?>">

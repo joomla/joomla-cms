@@ -53,7 +53,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
         <div class="form-group col-md-6">
             <div class="controls">
                 <label id="flip-ordering-id-lbl" for="flip-ordering-id" class="control-label">
-                    <?php echo $this->_('JLIB_HTML_BATCH_FLIPORDERING_LABEL'); ?>
+                    <?php echo $this->text('JLIB_HTML_BATCH_FLIPORDERING_LABEL'); ?>
                 </label>
                 <fieldset id="flip-ordering-id">
                     <?php echo HTMLHelper::_('select.booleanlist', 'batch[flip_ordering]', [], 0, 'JYES', 'JNO', 'flip-ordering-id'); ?>

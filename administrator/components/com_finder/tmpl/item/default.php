@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <div role="main">
     <h1 class="mb-3"><?php echo $this->item->title; ?></h1>
     <div class="card mb-3">
-        <div class="card-header"><h2><?php echo $this->_('COM_FINDER_ITEM_FIELDSET_ITEM_TITLE'); ?></h2></div>
+        <div class="card-header"><h2><?php echo $this->text('COM_FINDER_ITEM_FIELDSET_ITEM_TITLE'); ?></h2></div>
         <div class="card-body">
             <dl class="row">
                 <?php foreach ($this->item as $key => $value) : ?>
@@ -25,11 +25,11 @@ defined('_JEXEC') or die;
         </div>
     </div>
     <div class="card mb-3">
-        <div class="card-header"><h2><?php echo $this->_('COM_FINDER_ITEM_FIELDSET_TERMS_TITLE'); ?></h2></div>
+        <div class="card-header"><h2><?php echo $this->text('COM_FINDER_ITEM_FIELDSET_TERMS_TITLE'); ?></h2></div>
         <div class="card-body">
             <table class="table">
                 <caption class="visually-hidden">
-                    <?php echo $this->_('COM_FINDER_ITEM_TERMS_TABLE_CAPTION'); ?>,
+                    <?php echo $this->text('COM_FINDER_ITEM_TERMS_TABLE_CAPTION'); ?>,
                 </caption>
                 <thead>
                 <tr>
@@ -61,11 +61,11 @@ defined('_JEXEC') or die;
         </div>
     </div>
     <div class="card mb-3">
-        <div class="card-header"><h2><?php echo $this->_('COM_FINDER_ITEM_FIELDSET_TAXONOMIES_TITLE'); ?></h2></div>
+        <div class="card-header"><h2><?php echo $this->text('COM_FINDER_ITEM_FIELDSET_TAXONOMIES_TITLE'); ?></h2></div>
         <div class="card-body">
             <table class="table">
                 <caption class="visually-hidden">
-                    <?php echo $this->_('COM_FINDER_ITEM_TAXONOMIES_TABLE_CAPTION'); ?>,
+                    <?php echo $this->text('COM_FINDER_ITEM_TAXONOMIES_TABLE_CAPTION'); ?>,
                 </caption>
                 <thead>
                     <tr>

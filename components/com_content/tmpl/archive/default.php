@@ -27,8 +27,8 @@ use Joomla\CMS\Router\Route;
     <div class="filter-search form-inline">
         <?php if ($this->params->get('filter_field') !== 'hide') : ?>
         <div class="me-2">
-            <label class="filter-search-lbl visually-hidden" for="filter-search"><?php echo $this->_('COM_CONTENT_TITLE_FILTER_LABEL') . '&#160;'; ?></label>
-            <input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->filter); ?>" class="inputbox col-md-2" onchange="document.getElementById('adminForm').submit();" placeholder="<?php echo $this->_('COM_CONTENT_TITLE_FILTER_LABEL'); ?>">
+            <label class="filter-search-lbl visually-hidden" for="filter-search"><?php echo $this->text('COM_CONTENT_TITLE_FILTER_LABEL') . '&#160;'; ?></label>
+            <input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->filter); ?>" class="inputbox col-md-2" onchange="document.getElementById('adminForm').submit();" placeholder="<?php echo $this->text('COM_CONTENT_TITLE_FILTER_LABEL'); ?>">
         </div>
         <?php endif; ?>
 
@@ -42,7 +42,7 @@ use Joomla\CMS\Router\Route;
         <?php echo $this->form->limitField; ?>
         </span>
 
-        <button type="submit" class="btn btn-primary" style="vertical-align: top;"><?php echo $this->_('JGLOBAL_FILTER_BUTTON'); ?></button>
+        <button type="submit" class="btn btn-primary" style="vertical-align: top;"><?php echo $this->text('JGLOBAL_FILTER_BUTTON'); ?></button>
         <input type="hidden" name="view" value="archive">
         <input type="hidden" name="option" value="com_content">
         <input type="hidden" name="limitstart" value="0">

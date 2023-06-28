@@ -46,7 +46,7 @@ if (!$params->exists('show_publishing_options')) {
         <fieldset>
             <?php echo HTMLHelper::_('uitab.startTabSet', $this->tab_name, ['active' => 'editor', 'recall' => true, 'breakpoint' => 768]); ?>
 
-            <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'editor', $this->_('COM_CONTENT_ARTICLE_CONTENT')); ?>
+            <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'editor', $this->text('COM_CONTENT_ARTICLE_CONTENT')); ?>
                 <?php echo $this->form->renderField('title'); ?>
 
                 <?php if (is_null($this->item->id)) : ?>
@@ -61,7 +61,7 @@ if (!$params->exists('show_publishing_options')) {
             <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
             <?php if ($params->get('show_urls_images_frontend')) : ?>
-                <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'images', $this->_('COM_CONTENT_IMAGES_AND_URLS')); ?>
+                <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'images', $this->text('COM_CONTENT_IMAGES_AND_URLS')); ?>
                 <?php echo $this->form->renderField('image_intro', 'images'); ?>
                 <?php echo $this->form->renderField('image_intro_alt', 'images'); ?>
                 <?php echo $this->form->renderField('image_intro_alt_empty', 'images'); ?>
@@ -98,7 +98,7 @@ if (!$params->exists('show_publishing_options')) {
 
             <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
-            <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'publishing', $this->_('COM_CONTENT_PUBLISHING')); ?>
+            <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'publishing', $this->text('COM_CONTENT_PUBLISHING')); ?>
 
                 <?php echo $this->form->renderField('transition'); ?>
                 <?php echo $this->form->renderField('state'); ?>
@@ -126,14 +126,14 @@ if (!$params->exists('show_publishing_options')) {
                         <div class="control-label">
                         </div>
                         <div class="controls">
-                            <?php echo $this->_('COM_CONTENT_ORDERING'); ?>
+                            <?php echo $this->text('COM_CONTENT_ORDERING'); ?>
                         </div>
                     </div>
                 <?php endif; ?>
             <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
             <?php if (Multilanguage::isEnabled()) : ?>
-                <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'language', $this->_('JFIELD_LANGUAGE_LABEL')); ?>
+                <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'language', $this->text('JFIELD_LANGUAGE_LABEL')); ?>
                     <?php echo $this->form->renderField('language'); ?>
                 <?php echo HTMLHelper::_('uitab.endTab'); ?>
             <?php else : ?>
@@ -141,7 +141,7 @@ if (!$params->exists('show_publishing_options')) {
             <?php endif; ?>
 
             <?php if ($params->get('show_publishing_options', 1) == 1) : ?>
-                <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'metadata', $this->_('COM_CONTENT_METADATA')); ?>
+                <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'metadata', $this->text('COM_CONTENT_METADATA')); ?>
                     <?php echo $this->form->renderField('metadesc'); ?>
                     <?php echo $this->form->renderField('metakey'); ?>
                 <?php echo HTMLHelper::_('uitab.endTab'); ?>
@@ -156,21 +156,21 @@ if (!$params->exists('show_publishing_options')) {
         <div class="mb-2">
             <button type="button" class="btn btn-primary" data-submit-task="article.apply">
                 <span class="icon-check" aria-hidden="true"></span>
-                <?php echo $this->_('JSAVE'); ?>
+                <?php echo $this->text('JSAVE'); ?>
             </button>
             <button type="button" class="btn btn-primary" data-submit-task="article.save">
                 <span class="icon-check" aria-hidden="true"></span>
-                <?php echo $this->_('JSAVEANDCLOSE'); ?>
+                <?php echo $this->text('JSAVEANDCLOSE'); ?>
             </button>
             <?php if ($this->showSaveAsCopy) : ?>
                 <button type="button" class="btn btn-primary" data-submit-task="article.save2copy">
                     <span class="icon-copy" aria-hidden="true"></span>
-                    <?php echo $this->_('JSAVEASCOPY'); ?>
+                    <?php echo $this->text('JSAVEASCOPY'); ?>
                 </button>
             <?php endif; ?>
             <button type="button" class="btn btn-danger" data-submit-task="article.cancel">
                 <span class="icon-times" aria-hidden="true"></span>
-                <?php echo $this->_('JCANCEL'); ?>
+                <?php echo $this->text('JCANCEL'); ?>
             </button>
             <?php if ($params->get('save_history', 0) && $this->item->id) : ?>
                 <?php echo $this->form->getInput('contenthistory'); ?>

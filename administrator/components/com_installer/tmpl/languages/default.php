@@ -32,15 +32,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['filterButton' => false]]); ?>
                     <?php if (empty($this->items)) : ?>
                         <div class="alert alert-info">
-                            <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                            <?php echo $this->_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                            <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                            <?php echo $this->text('JGLOBAL_NO_MATCHING_RESULTS'); ?>
                         </div>
                     <?php else : ?>
                     <table class="table">
                         <caption class="visually-hidden">
-                            <?php echo $this->_('COM_INSTALLER_LANGUAGES_TABLE_CAPTION'); ?>,
-                            <span id="orderedBy"><?php echo $this->_('JGLOBAL_SORTED_BY'); ?> </span>,
-                            <span id="filteredBy"><?php echo $this->_('JGLOBAL_FILTERED_BY'); ?></span>
+                            <?php echo $this->text('COM_INSTALLER_LANGUAGES_TABLE_CAPTION'); ?>,
+                            <span id="orderedBy"><?php echo $this->text('JGLOBAL_SORTED_BY'); ?> </span>,
+                            <span id="filteredBy"><?php echo $this->text('JGLOBAL_FILTERED_BY'); ?></span>
                         </caption>
                         <thead>
                             <tr>
@@ -52,10 +52,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     <?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGE_TAG', 'element', $listDirn, $listOrder); ?>
                                 </th>
                                 <th scope="col" class="w-15 d-none d-md-table-cell">
-                                    <?php echo $this->_('JVERSION'); ?>
+                                    <?php echo $this->text('JVERSION'); ?>
                                 </th>
                                 <th scope="col" class="w-35 d-none d-md-table-cell">
-                                    <?php echo $this->_('COM_INSTALLER_HEADING_DETAILS_URL'); ?>
+                                    <?php echo $this->text('COM_INSTALLER_HEADING_DETAILS_URL'); ?>
                                 </th>
                             </tr>
                         </thead>
@@ -75,7 +75,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     <?php $onclick = 'document.getElementById(\'install_url\').value = \'' . $language->detailsurl . '\'; Joomla.submitbutton(\'install.install\');'; ?>
                                     <input type="button"
                                         class="<?php echo $buttonClass; ?>"
-                                        value="<?php echo $this->_('COM_INSTALLER_' . $buttonText . '_BUTTON'); ?>"
+                                        value="<?php echo $this->text('COM_INSTALLER_' . $buttonText . '_BUTTON'); ?>"
                                         aria-label="<?php echo Text::sprintf('COM_INSTALLER_' . $buttonText . '_ARIA', $language->name); ?>"
                                         onclick="<?php echo $onclick; ?>"
                                     >
@@ -93,7 +93,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                             <span class="badge bg-warning text-dark"><?php echo $language->version; ?></span>
                                             <span class="icon-info-circle" aria-hidden="true" tabindex="0"></span>
                                             <div role="tooltip" class="text-start" id="tip<?php echo $language->code; ?>">
-                                            <?php echo $this->_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>
+                                            <?php echo $this->text('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>
                                             </div>
                                         <?php else : ?>
                                             <span class="badge bg-success"><?php echo $language->version; ?></span>

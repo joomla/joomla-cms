@@ -48,7 +48,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
         <?php if ($this->params->get('filter_field')) : ?>
             <div class="com-contact-category__filter btn-group">
                 <label class="filter-search-lbl visually-hidden" for="filter-search">
-                    <?php echo $this->_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>
+                    <?php echo $this->text('COM_CONTACT_FILTER_SEARCH_DESC'); ?>
                 </label>
                 <input
                     type="text"
@@ -56,17 +56,17 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                     id="filter-search"
                     value="<?php echo $this->escape($this->state->get('list.filter')); ?>"
                     class="inputbox" onchange="document.adminForm.submit();"
-                    placeholder="<?php echo $this->_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
+                    placeholder="<?php echo $this->text('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
                 >
-                <button type="submit" name="filter_submit" class="btn btn-primary"><?php echo $this->_('JGLOBAL_FILTER_BUTTON'); ?></button>
-                <button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo $this->_('JSEARCH_FILTER_CLEAR'); ?></button>
+                <button type="submit" name="filter_submit" class="btn btn-primary"><?php echo $this->text('JGLOBAL_FILTER_BUTTON'); ?></button>
+                <button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo $this->text('JSEARCH_FILTER_CLEAR'); ?></button>
             </div>
         <?php endif; ?>
 
         <?php if ($this->params->get('show_pagination_limit')) : ?>
             <div class="com-contact-category__pagination btn-group float-end">
                 <label for="limit" class="visually-hidden">
-                    <?php echo $this->_('JGLOBAL_DISPLAY_NUM'); ?>
+                    <?php echo $this->text('JGLOBAL_DISPLAY_NUM'); ?>
                 </label>
                 <?php echo $this->pagination->getLimitBox(); ?>
             </div>
@@ -75,15 +75,15 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
         <?php if (empty($this->items)) : ?>
             <?php if ($this->params->get('show_no_contacts', 1)) : ?>
                 <div class="alert alert-info">
-                    <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                    <?php echo $this->_('COM_CONTACT_NO_CONTACTS'); ?>
+                    <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                    <?php echo $this->text('COM_CONTACT_NO_CONTACTS'); ?>
                 </div>
             <?php endif; ?>
 
         <?php else : ?>
             <table class="com-content-category__table category table table-striped table-bordered table-hover" id="contactList">
                 <caption class="visually-hidden">
-                    <?php echo $this->_('COM_CONTACT_TABLE_CAPTION'); ?>,
+                    <?php echo $this->text('COM_CONTACT_TABLE_CAPTION'); ?>,
                 </caption>
                 <thead<?php echo $this->params->get('show_headings', '1') ? '' : ' class="visually-hidden"'; ?>>
                     <tr>
@@ -91,11 +91,11 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                             <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder, null, 'asc', '', 'adminForm'); ?>
                         </th>
                         <th scope="col">
-                            <?php echo $this->_('COM_CONTACT_CONTACT_DETAILS'); ?>
+                            <?php echo $this->text('COM_CONTACT_CONTACT_DETAILS'); ?>
                         </th>
                         <?php if ($showEditColumn) : ?>
                             <th scope="col">
-                                <?php echo $this->_('COM_CONTACT_EDIT_CONTACT'); ?>
+                                <?php echo $this->text('COM_CONTACT_EDIT_CONTACT'); ?>
                             </th>
                         <?php endif; ?>
                     </tr>
@@ -126,28 +126,28 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                             <?php if ($item->published == 0) : ?>
                                 <div>
                                     <span class="list-published badge bg-warning text-light">
-                                        <?php echo $this->_('JUNPUBLISHED'); ?>
+                                        <?php echo $this->text('JUNPUBLISHED'); ?>
                                     </span>
                                 </div>
                             <?php endif; ?>
                             <?php if ($item->publish_up && strtotime($item->publish_up) > strtotime(Factory::getDate())) : ?>
                                 <div>
                                     <span class="list-published badge bg-warning text-light">
-                                        <?php echo $this->_('JNOTPUBLISHEDYET'); ?>
+                                        <?php echo $this->text('JNOTPUBLISHEDYET'); ?>
                                     </span>
                                 </div>
                             <?php endif; ?>
                             <?php if (!is_null($item->publish_down) && strtotime($item->publish_down) < strtotime(Factory::getDate())) : ?>
                                 <div>
                                     <span class="list-published badge bg-warning text-light">
-                                        <?php echo $this->_('JEXPIRED'); ?>
+                                        <?php echo $this->text('JEXPIRED'); ?>
                                     </span>
                                 </div>
                             <?php endif; ?>
                             <?php if ($item->published == -2) : ?>
                                 <div>
                                     <span class="badge bg-warning text-light">
-                                        <?php echo $this->_('JTRASHED'); ?>
+                                        <?php echo $this->text('JTRASHED'); ?>
                                     </span>
                                 </div>
                             <?php endif; ?>

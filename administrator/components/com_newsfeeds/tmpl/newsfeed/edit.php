@@ -36,14 +36,14 @@ $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_newsfeeds&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="newsfeed-form" aria-label="<?php echo $this->_('COM_NEWSFEEDS_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_newsfeeds&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="newsfeed-form" aria-label="<?php echo $this->text('COM_NEWSFEEDS_FORM_TITLE_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
     <div class="main-card">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', empty($this->item->id) ? $this->_('COM_NEWSFEEDS_NEW_NEWSFEED') : $this->_('COM_NEWSFEEDS_EDIT_NEWSFEED')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', empty($this->item->id) ? $this->text('COM_NEWSFEEDS_NEW_NEWSFEED') : $this->text('COM_NEWSFEEDS_EDIT_NEWSFEED')); ?>
         <div class="row">
             <div class="col-lg-9">
                 <div class="form-vertical">
@@ -57,11 +57,11 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'images', $this->_('JGLOBAL_FIELDSET_OPTIONS')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'images', $this->text('JGLOBAL_FIELDSET_OPTIONS')); ?>
         <div class="row">
             <div class="col-md-6">
                 <fieldset id="fieldset-image" class="options-form">
-                    <legend><?php echo $this->_('JGLOBAL_FIELDSET_IMAGE_OPTIONS'); ?></legend>
+                    <legend><?php echo $this->text('JGLOBAL_FIELDSET_IMAGE_OPTIONS'); ?></legend>
                     <div>
                     <?php foreach ($this->form->getGroup('images') as $field) : ?>
                         <?php echo $field->renderField(); ?>
@@ -77,11 +77,11 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
         <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
-        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', $this->_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
+        <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', $this->text('JGLOBAL_FIELDSET_PUBLISHING')); ?>
         <div class="row">
             <div class="col-md-6">
                 <fieldset id="fieldset-publishingdata" class="options-form">
-                    <legend><?php echo $this->_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+                    <legend><?php echo $this->text('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
                     <div>
                     <?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
                     </div>
@@ -89,7 +89,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
             </div>
             <div class="col-md-6">
                 <fieldset id="fieldset-metadata" class="options-form">
-                    <legend><?php echo $this->_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+                    <legend><?php echo $this->text('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
                     <div>
                     <?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
                     </div>
@@ -99,9 +99,9 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
         <?php if (!$isModal && $assoc) : ?>
-            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', $this->_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', $this->text('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
             <fieldset id="fieldset-associations" class="options-form">
-            <legend><?php echo $this->_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
+            <legend><?php echo $this->text('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
             <div>
             <?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
             </div>

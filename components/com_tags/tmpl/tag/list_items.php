@@ -26,7 +26,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
         <?php if ($this->params->get('filter_field')) : ?>
             <div class="com-tags-tag__filter btn-group">
                 <label class="filter-search-lbl visually-hidden" for="filter-search">
-                    <?php echo $this->_('COM_TAGS_TITLE_FILTER_LABEL'); ?>
+                    <?php echo $this->text('COM_TAGS_TITLE_FILTER_LABEL'); ?>
                 </label>
                 <input
                     type="text"
@@ -34,16 +34,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     id="filter-search"
                     value="<?php echo $this->escape($this->state->get('list.filter')); ?>"
                     class="inputbox" onchange="document.adminForm.submit();"
-                    placeholder="<?php echo $this->_('COM_TAGS_TITLE_FILTER_LABEL'); ?>"
+                    placeholder="<?php echo $this->text('COM_TAGS_TITLE_FILTER_LABEL'); ?>"
                 >
-                <button type="submit" name="filter_submit" class="btn btn-primary"><?php echo $this->_('JGLOBAL_FILTER_BUTTON'); ?></button>
-                <button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo $this->_('JSEARCH_FILTER_CLEAR'); ?></button>
+                <button type="submit" name="filter_submit" class="btn btn-primary"><?php echo $this->text('JGLOBAL_FILTER_BUTTON'); ?></button>
+                <button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo $this->text('JSEARCH_FILTER_CLEAR'); ?></button>
             </div>
         <?php endif; ?>
         <?php if ($this->params->get('show_pagination_limit')) : ?>
             <div class="btn-group float-end">
                 <label for="limit" class="visually-hidden">
-                    <?php echo $this->_('JGLOBAL_DISPLAY_NUM'); ?>
+                    <?php echo $this->text('JGLOBAL_DISPLAY_NUM'); ?>
                 </label>
                 <?php echo $this->pagination->getLimitBox(); ?>
             </div>
@@ -51,8 +51,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
-                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->_('INFO'); ?></span>
-                    <?php echo $this->_('COM_TAGS_NO_ITEMS'); ?>
+                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo $this->text('INFO'); ?></span>
+                    <?php echo $this->text('COM_TAGS_NO_ITEMS'); ?>
             </div>
         <?php else : ?>
             <table class="com-tags-tag-list__category category table table-striped table-bordered table-hover">
@@ -91,7 +91,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 <?php endif; ?>
                                 <?php if ($item->core_state == 0) : ?>
                                     <span class="list-published badge bg-warning text-light">
-                                        <?php echo $this->_('JUNPUBLISHED'); ?>
+                                        <?php echo $this->text('JUNPUBLISHED'); ?>
                                     </span>
                                 <?php endif; ?>
                             </th>
@@ -101,7 +101,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                     echo HTMLHelper::_(
                                         'date',
                                         $item->displayDate,
-                                        $this->escape($this->params->get('date_format', $this->_('DATE_FORMAT_LC3')))
+                                        $this->escape($this->params->get('date_format', $this->text('DATE_FORMAT_LC3')))
                                     ); ?>
                                 </td>
                             <?php endif; ?>

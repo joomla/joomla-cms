@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 
 ?>
-<?php echo '<h3>' . $this->_('COM_CONTACT_LINKS') . '</h3>'; ?>
+<?php echo '<h3>' . $this->text('COM_CONTACT_LINKS') . '</h3>'; ?>
 
 <div class="com-contact__links contact-links">
     <ul class="list-unstyled">

@@ -23,17 +23,17 @@ $wa->useScript('core')
 
 Text::script('ERROR');
 ?>
-<form action="<?php echo Route::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo $this->_('COM_MENUS_MENU_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo $this->text('COM_MENUS_MENU_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
     <div class="main-card">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
 
-            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', $this->_('COM_MENUS_MENU_DETAILS')); ?>
+            <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', $this->text('COM_MENUS_MENU_DETAILS')); ?>
 
             <fieldset id="fieldset-details" class="options-form">
-                <legend><?php echo $this->_('COM_MENUS_MENU_DETAILS'); ?></legend>
+                <legend><?php echo $this->text('COM_MENUS_MENU_DETAILS'); ?></legend>
 
                 <div>
                     <div>
@@ -53,9 +53,9 @@ Text::script('ERROR');
             <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
             <?php if ($this->canDo->get('core.admin')) : ?>
-                <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', $this->_('COM_MENUS_FIELDSET_RULES')); ?>
+                <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', $this->text('COM_MENUS_FIELDSET_RULES')); ?>
                 <fieldset id="fieldset-rules" class="options-form">
-                    <legend><?php echo $this->_('COM_MENUS_FIELDSET_RULES'); ?></legend>
+                    <legend><?php echo $this->text('COM_MENUS_FIELDSET_RULES'); ?></legend>
                     <div>
                     <?php echo $this->form->getInput('rules'); ?>
                     </div>
