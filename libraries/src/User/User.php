@@ -12,7 +12,6 @@ namespace Joomla\CMS\User;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -182,7 +181,7 @@ class User
      * The type alias
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public $typeAlias = null;
 
@@ -190,7 +189,7 @@ class User
      * The otp key
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public $otpKey = null;
 
@@ -198,7 +197,7 @@ class User
      * The otp
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public $otep = null;
 
@@ -206,7 +205,7 @@ class User
      * The authentication provider
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public $authProvider = null;
 

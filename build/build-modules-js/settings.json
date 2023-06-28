@@ -229,7 +229,7 @@
             "uri": "cropper.min.css"
           },
           {
-            "name": "cropper.esm",
+            "name": "cropper-module",
             "type": "script",
             "uri": "cropper.esm.js",
             "importmap": true
