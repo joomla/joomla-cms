@@ -19,7 +19,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Plugin\System\Webauthn\Extension\Webauthn;
 use Joomla\Registry\Registry;
@@ -66,7 +65,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      */
     public function findOneByCredentialId(string $publicKeyCredentialId): ?PublicKeyCredentialSource
     {
-        /** @var DatabaseDriver $db */
+        /** @var DatabaseInterface $db */
         $db           = $this->getDatabase();
         $credentialId = base64_encode($publicKeyCredentialId);
         $query        = $db->getQuery(true)
@@ -102,7 +101,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      */
     public function findAllForUserEntity(PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity): array
     {
-        /** @var DatabaseDriver $db */
+        /** @var DatabaseInterface $db */
         $db         = $this->getDatabase();
         $userHandle = $publicKeyCredentialUserEntity->getId();
         $query      = $db->getQuery(true)
@@ -201,8 +200,8 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         ];
         $update              = false;
 
-        /** @var DatabaseDriver $db */
-        $db     = $this->getDatabase();
+        /** @var DatabaseInterface $db */
+        $db = $this->getDatabase();
 
         // Try to find an existing record
         try {
@@ -263,7 +262,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      */
     public function getAll(int $userId): array
     {
-        /** @var DatabaseDriver $db */
+        /** @var DatabaseInterface $db */
         $db         = $this->getDatabase();
         $userHandle = $this->getHandleFromUserId($userId);
         $query      = $db->getQuery(true)
@@ -331,7 +330,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      */
     public function has(string $credentialId): bool
     {
-        /** @var DatabaseDriver $db */
+        /** @var DatabaseInterface $db */
         $db           = $this->getDatabase();
         $credentialId = base64_encode($credentialId);
         $query        = $db->getQuery(true)
@@ -361,7 +360,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      */
     public function setLabel(string $credentialId, string $label): void
     {
-        /** @var DatabaseDriver $db */
+        /** @var DatabaseInterface $db */
         $db           = $this->getDatabase();
         $credentialId = base64_encode($credentialId);
         $o            = (object) [
@@ -387,7 +386,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             return;
         }
 
-        /** @var DatabaseDriver $db */
+        /** @var DatabaseInterface $db */
         $db           = $this->getDatabase();
         $credentialId = base64_encode($credentialId);
         $query        = $db->getQuery(true)
@@ -468,7 +467,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             return null;
         }
 
-        /** @var DatabaseDriver $db */
+        /** @var DatabaseInterface $db */
         $db = $this->getDatabase();
 
         // Check that the userHandle does exist in the database
