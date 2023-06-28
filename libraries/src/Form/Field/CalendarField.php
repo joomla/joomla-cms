@@ -398,7 +398,7 @@ class CalendarField extends FormField
         }
 
         if ($this->filterFormat) {
-            $value = DateTime::createFromFormat($this->filterFormat, $value)->format('Y-m-d H:i:s');
+            $value = \DateTime::createFromFormat($this->filterFormat, $value)->format('Y-m-d H:i:s');
         }
 
         $app = Factory::getApplication();

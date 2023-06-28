@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn;
 
-use Exception;
-use InvalidArgumentException;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Encrypt\Aes;
 use Joomla\CMS\Factory;
@@ -22,9 +20,6 @@ use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Plugin\System\Webauthn\Extension\Webauthn;
 use Joomla\Registry\Registry;
-use JsonException;
-use RuntimeException;
-use Throwable;
 use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
@@ -84,7 +79,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
 
         try {
             return PublicKeyCredentialSource::createFromArray(json_decode($json, true));
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             return null;
         }
     }
@@ -112,7 +107,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
 
         try {
             $records = $db->setQuery($query)->loadAssocList();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [];
         }
 
@@ -131,7 +126,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             try {
                 $json = $this->decryptCredential($record['credential']);
                 $data = json_decode($json, true);
-            } catch (JsonException $e) {
+            } catch (\JsonException $e) {
                 return null;
             }
 
@@ -141,7 +136,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
 
             try {
                 return PublicKeyCredentialSource::createFromArray($data);
-            } catch (InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException $e) {
                 return null;
             }
         };
@@ -175,7 +170,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      *
      * @return  void
      *
-     * @throws Exception
+     * @throws \Exception
      * @since   4.0.0
      */
     public function saveCredentialSource(PublicKeyCredentialSource $publicKeyCredentialSource): void
@@ -213,7 +208,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             $oldRecord = $db->setQuery($query)->loadObject();
 
             if (\is_null($oldRecord)) {
-                throw new Exception('This is a new record');
+                throw new \Exception('This is a new record');
             }
 
             /**
@@ -221,13 +216,13 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
              * save. Otherwise something fishy is going on.
              */
             if ($oldRecord->user_id != $publicKeyCredentialSource->getUserHandle()) {
-                throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREDENTIAL_ID_ALREADY_IN_USE'));
+                throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREDENTIAL_ID_ALREADY_IN_USE'));
             }
 
             $o->user_id = $oldRecord->user_id;
             $o->label   = $oldRecord->label;
             $update     = true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
 
         $o->credential = $this->encryptCredential($o->credential);
@@ -245,7 +240,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
          * the check below.
          */
         if ((\is_null($user) || $user->guest)) {
-            throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CANT_STORE_FOR_GUEST'));
+            throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CANT_STORE_FOR_GUEST'));
         }
 
         $db->insertObject('#__webauthn_credentials', $o);
@@ -273,7 +268,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
 
         try {
             $results = $db->setQuery($query)->loadAssocList();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [];
         }
 
@@ -293,7 +288,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             try {
                 $json = $this->decryptCredential($record['credential']);
                 $data = json_decode($json, true);
-            } catch (JsonException $e) {
+            } catch (\JsonException $e) {
                 $record['credential'] = null;
 
                 return $record;
@@ -309,7 +304,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
                 $record['credential'] = PublicKeyCredentialSource::createFromArray($data);
 
                 return $record;
-            } catch (InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException $e) {
                 $record['credential'] = null;
 
                 return $record;
@@ -343,7 +338,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             $count = $db->setQuery($query)->loadResult();
 
             return $count > 0;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
@@ -478,7 +473,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
 
         try {
             $numRecords = $db->setQuery($query)->loadResult();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return null;
         }
 
@@ -506,7 +501,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
         while (true) {
             try {
                 $ids = $db->setQuery($query, $start, $limit)->loadColumn();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 return null;
             }
 
@@ -590,7 +585,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
             /** @var Registry $config */
             $config = $app->getConfig();
             $secret = $config->get('secret', '');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $secret = '';
         }
 

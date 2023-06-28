@@ -65,7 +65,7 @@ abstract class Mfa
      * @param   User  $user  The user we are going to show the configuration UI for.
      *
      * @return  string|null  The HTML of the UI; null if we cannot / must not show it.
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public static function getConfigurationInterface(User $user): ?string
@@ -190,7 +190,7 @@ abstract class Mfa
      * @param   User|null  $user  The user you want to know if we're allowed to edit
      *
      * @return  boolean
-     * @throws  Exception
+     * @throws  \Exception
      * @since 4.2.0
      */
     public static function canAddEditMethod(?User $user = null): bool
@@ -229,7 +229,7 @@ abstract class Mfa
      * @param   User|null  $user  The user being queried.
      *
      * @return  boolean
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.2.0
      */
     public static function canDeleteMethod(?User $user = null): bool
@@ -252,7 +252,7 @@ abstract class Mfa
      * @param   int|null  $userId  User ID. NULL for currently logged in user.
      *
      * @return  MfaTable[]
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since 4.2.0
      */
@@ -273,7 +273,7 @@ abstract class Mfa
 
         try {
             $ids = $db->setQuery($query)->loadColumn() ?: [];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $ids = [];
         }
 
@@ -326,7 +326,7 @@ abstract class Mfa
      * @param   User|null  $user  The user to be configured
      *
      * @return  boolean
-     * @throws  Exception
+     * @throws  \Exception
      * @since 4.2.0
      */
     public static function canShowConfigurationInterface(?User $user = null): bool

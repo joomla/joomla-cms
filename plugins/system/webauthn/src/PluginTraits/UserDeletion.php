@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\Database\DatabaseInterface;
@@ -67,7 +66,7 @@ trait UserDeletion
 
             try {
                 $db->setQuery($query)->execute();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // Don't worry if this fails
             }
 

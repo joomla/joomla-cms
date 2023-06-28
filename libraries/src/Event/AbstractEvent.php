@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Event;
 
-use BadMethodCallException;
 use Joomla\Event\Event;
 use Joomla\Event\Event as BaseEvent;
 use Joomla\String\Normalise;
@@ -54,7 +53,7 @@ abstract class AbstractEvent extends BaseEvent
      * @return  static
      *
      * @since   4.0.0
-     * @throws  BadMethodCallException  If you do not provide a subject argument
+     * @throws  \BadMethodCallException  If you do not provide a subject argument
      */
     public static function create(string $eventName, array $arguments = [])
     {
@@ -81,7 +80,7 @@ abstract class AbstractEvent extends BaseEvent
 
         // Make sure a non-empty subject argument exists and that it is an object
         if (!isset($arguments['subject']) || empty($arguments['subject']) || !\is_object($arguments['subject'])) {
-            throw new BadMethodCallException("No subject given for the $eventName event");
+            throw new \BadMethodCallException("No subject given for the $eventName event");
         }
 
         // Create and return the event object
