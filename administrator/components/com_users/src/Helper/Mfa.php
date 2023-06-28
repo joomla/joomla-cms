@@ -114,6 +114,7 @@ abstract class Mfa
         $view->returnURL = base64_encode(Uri::getInstance()->toString());
         $view->user      = $user;
         $view->set('forHMVC', true);
+        $view->setLanguage($app->getLanguage());
 
         @ob_start();
 

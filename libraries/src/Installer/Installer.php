@@ -12,7 +12,6 @@ namespace Joomla\CMS\Installer;
 use Joomla\CMS\Adapter\Adapter;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
@@ -26,6 +25,7 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\DI\ContainerAwareInterface;
+use Joomla\Filesystem\File;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;

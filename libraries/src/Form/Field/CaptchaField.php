@@ -51,7 +51,7 @@ class CaptchaField extends FormField
     /**
      * The captcha base instance of our type.
      *
-     * @var Captcha
+     * @var ?Captcha
      */
     protected $_captcha;
 

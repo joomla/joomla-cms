@@ -27,6 +27,7 @@ use Joomla\CMS\Console\TasksListCommand;
 use Joomla\CMS\Console\TasksRunCommand;
 use Joomla\CMS\Console\TasksStateCommand;
 use Joomla\CMS\Console\UpdateCoreCommand;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Database\Command\ExportCommand;
 use Joomla\Database\Command\ImportCommand;
@@ -194,7 +195,13 @@ class Console implements ServiceProviderInterface
         $container->share(
             FinderIndexCommand::class,
             function (Container $container) {
-                return new FinderIndexCommand($container->get(DatabaseInterface::class));
+                $command = new FinderIndexCommand($container->get(DatabaseInterface::class));
+                $command->setLanguage($container->get(LanguageFactoryInterface::class)->createLanguage(
+                    $container->get('config')->get('language'),
+                    $container->get('config')->get('debug_lang')
+                ));
+
+                return $command;
             },
             true
         );
