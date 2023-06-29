@@ -155,16 +155,12 @@ if (cliOptions.prepare) {
     .then(() => cleanVendors())
     .then(() => localisePackages(options))
     .then(() => patchPackages(options))
-    .then(() => Promise.all(
-      [
-        minifyVendor(),
-        createErrorPages(options),
-        stylesheets(options, Program.args[0]),
-        scripts(options, Program.args[0]),
-        bootstrapJs(),
-        mediaManager(true),
-      ],
-    ))
+    .then(() => minifyVendor())
+    .then(() => createErrorPages(options))
+    .then(() => stylesheets(options, Program.args[0]))
+    .then(() => scripts(options, Program.args[0]))
+    .then(() => mediaManager())
+    .then(() => bootstrapJs())
     .then(() => bench.stop('Build'))
     .then(() => { process.exit(0); })
     .catch((err) => {

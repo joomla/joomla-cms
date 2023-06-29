@@ -8,7 +8,8 @@
     {
       "name": "plg_system_guidedtours.guidedtours.es5",
       "type": "script",
-      "uri": "plg_system_guidedtours/guidedtours-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -22,8 +23,7 @@
       "type": "script",
       "uri": "plg_system_guidedtours/guidedtours.min.js",
       "dependencies": [
-        "core",
-        "plg_system_guidedtours.guidedtours.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
