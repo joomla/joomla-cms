@@ -2,7 +2,6 @@
  * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-/* @build-disable-import-resolve */
 import {
   EditorView,
   lineNumbers,
@@ -11,18 +10,18 @@ import {
   drawSelection,
   highlightActiveLine,
   keymap,
-} from '@codemirror/view';
-import { EditorState, Compartment } from '@codemirror/state';
+} from 'external:@codemirror/view';
+import { EditorState, Compartment } from 'external:@codemirror/state';
 import {
   foldGutter,
   syntaxHighlighting,
   defaultHighlightStyle,
-} from '@codemirror/language';
+} from 'external:@codemirror/language';
 import {
   history, defaultKeymap, historyKeymap, emacsStyleKeymap,
-} from '@codemirror/commands';
-import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
-import { closeBrackets } from '@codemirror/autocomplete';
+} from 'external:@codemirror/commands';
+import { highlightSelectionMatches, searchKeymap } from 'external:@codemirror/search';
+import { closeBrackets } from 'external:@codemirror/autocomplete';
 
 const minimalSetup = (() => [
   highlightSpecialChars(),

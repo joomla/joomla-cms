@@ -2,11 +2,10 @@
  * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-/* @build-disable-import-resolve */
 // eslint-disable-next-line import/no-unresolved
-import { createFromTextarea } from 'codemirror';
-import { EditorState } from '@codemirror/state';
-import { keymap } from '@codemirror/view';
+import { createFromTextarea } from 'external:codemirror';
+import { EditorState } from 'external:@codemirror/state';
+import { keymap } from 'external:@codemirror/view';
 
 class CodemirrorEditor extends HTMLElement {
   constructor() {
