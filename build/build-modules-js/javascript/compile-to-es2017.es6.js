@@ -46,7 +46,7 @@ const getWcMinifiedCss = async (file) => {
   return '';
 };
 
-// Check for external imports with by specific prefixes
+// Check for external imports by specific prefixes
 const externalImportChecker = () => {
   // Module with these scopes works natively, and therefore they should be ignored by resolver
   const prefixes = [
