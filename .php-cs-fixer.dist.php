@@ -78,6 +78,10 @@ $config
             'binary_operator_spaces'         => ['operators' => ['=>' => 'align_single_space_minimal', '=' => 'align']],
             // The "No break" comment in switch statements
             'no_break_comment'               => ['comment_text' => 'No break'],
+            // Remove unused imports
+            'no_unused_imports'              => true,
+            // Classes from the global namespace should not be imported
+            'global_namespace_import'        => ['import_classes' => false, 'import_constants' => false, 'import_functions' => false],
         ]
     )
     ->setFinder($finder);

@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\User\Joomla\Extension;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryInterface;
@@ -19,12 +18,12 @@ use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -38,6 +37,7 @@ use RuntimeException;
 final class Joomla extends CMSPlugin
 {
     use DatabaseAwareTrait;
+    use UserFactoryAwareTrait;
 
     /**
      * Set as required the passwords fields when mail to user is set to No
@@ -125,7 +125,7 @@ final class Joomla extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Do nothing
         }
 
@@ -137,7 +137,7 @@ final class Joomla extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Do nothing
         }
     }
@@ -260,7 +260,7 @@ final class Joomla extends CMSPlugin
         $instance = $this->getUser($user, $options);
 
         // If getUser returned an error, then pass it back.
-        if ($instance instanceof Exception) {
+        if ($instance instanceof \Exception) {
             return false;
         }
 
@@ -317,7 +317,7 @@ final class Joomla extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             // The old session is already invalidated, don't let this block logging in
         }
 
@@ -467,14 +467,13 @@ final class Joomla extends CMSPlugin
      */
     private function getUser($user, $options = [])
     {
-        $instance = User::getInstance();
-        $id       = (int) UserHelper::getUserId($user['username']);
+        $instance = $this->getUserFactory()->loadUserByUsername($user['username']);
 
-        if ($id) {
-            $instance->load($id);
-
+        if ($instance && $instance->id) {
             return $instance;
         }
+
+        $instance = $this->getUserFactory()->loadUserById(0);
 
         // @todo : move this out of the plugin
         $params = ComponentHelper::getParams('com_users');

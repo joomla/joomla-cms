@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Workflow\Publishing\Extension;
 
-use Exception;
 use Joomla\CMS\Event\Table\BeforeStoreEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
@@ -349,7 +348,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
      *
      * @return boolean
      *
-     * @throws Exception
+     * @throws \Exception
      * @since   4.0.0
      */
     public function onContentBeforeChangeState(EventInterface $event)
@@ -367,7 +366,7 @@ final class Publishing extends CMSPlugin implements SubscriberInterface
             return true;
         }
 
-        throw new Exception($this->getApplication()->getLanguage()->_('PLG_WORKFLOW_PUBLISHING_CHANGE_STATE_NOT_ALLOWED'));
+        throw new \Exception($this->getApplication()->getLanguage()->_('PLG_WORKFLOW_PUBLISHING_CHANGE_STATE_NOT_ALLOWED'));
     }
 
     /**

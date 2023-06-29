@@ -16,7 +16,7 @@ namespace Joomla\CMS\Document;
 /**
  * Interface to be implemented by classes depending on a document.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.4.0
  */
 interface DocumentAwareInterface
 {
@@ -27,7 +27,7 @@ interface DocumentAwareInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function setDocument(Document $document): void;
 }

@@ -16,7 +16,7 @@ namespace Joomla\CMS\Document;
 /**
  * Defines the trait for a document aware class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.4.0
  */
 trait DocumentAwareTrait
 {
@@ -24,7 +24,7 @@ trait DocumentAwareTrait
      * Document
      *
      * @var    Document
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.0
      */
     private $document;
 
@@ -33,7 +33,7 @@ trait DocumentAwareTrait
      *
      * @return  Document
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      * @throws  \UnexpectedValueException May be thrown if the document has not been set.
      */
     protected function getDocument(): Document
@@ -52,7 +52,7 @@ trait DocumentAwareTrait
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function setDocument(Document $document): void
     {
