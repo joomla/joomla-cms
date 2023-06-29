@@ -35,7 +35,7 @@ $user       = $this->getCurrentUser();
 $userId     = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
-$params     = $this->state->get('params', new Registry());
+$params     = $this->state->get('params') ?? new Registry();
 ?>
 <form action="<?php echo Route::_('index.php?option=com_banners&view=clients'); ?>" method="post" name="adminForm" id="adminForm">
     <div class="row">
