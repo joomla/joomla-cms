@@ -10,18 +10,18 @@ import {
   drawSelection,
   highlightActiveLine,
   keymap,
-} from 'external:@codemirror/view';
-import { EditorState, Compartment } from 'external:@codemirror/state';
+} from '@codemirror/view';
+import { EditorState, Compartment } from '@codemirror/state';
 import {
   foldGutter,
   syntaxHighlighting,
   defaultHighlightStyle,
-} from 'external:@codemirror/language';
+} from '@codemirror/language';
 import {
   history, defaultKeymap, historyKeymap, emacsStyleKeymap,
-} from 'external:@codemirror/commands';
-import { highlightSelectionMatches, searchKeymap } from 'external:@codemirror/search';
-import { closeBrackets } from 'external:@codemirror/autocomplete';
+} from '@codemirror/commands';
+import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
+import { closeBrackets } from '@codemirror/autocomplete';
 
 const minimalSetup = (() => [
   highlightSpecialChars(),

@@ -46,15 +46,21 @@ const getWcMinifiedCss = async (file) => {
   return '';
 };
 
-// Check for imports with prefix external:
+// Check for external imports with by specific prefixes
 const externalImportChecker = () => {
-  const prefix = 'external:';
+  // Module with these scopes works natively, and therefore they should be ignored by resolver
+  const prefixes = [
+    'codemirror',
+    '@codemirror/',
+    '@lezer/',
+  ];
+  const regexp = new RegExp(`^${prefixes.join('|^')}`);
 
   return {
     name: 'external-import-checker',
     resolveId(source) {
-      if (source.startsWith(prefix)) {
-        return { id: source.substring(prefix.length), external: true };
+      if (regexp.test(source)) {
+        return { id: source, external: true };
       }
 
       return null;
