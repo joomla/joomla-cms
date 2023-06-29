@@ -95,7 +95,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
                     'name'               => $this->mfaMethodName,
                     'display'            => Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_DISPLAYEDAS'),
                     'shortinfo'          => Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_SHORTINFO'),
-                    'image'              => 'media/plg_multifactorauth_webauthn/images/webauthn.svg',
+                    'image'              => 'media/plg_multifactorauth_webauthn/images/passkey.svg',
                     'allowMultiple'      => true,
                     'allowEntryBatching' => true,
                 ]
