@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\SampleData\MultiLanguage\Extension;
 
-use Exception;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
@@ -26,8 +25,6 @@ use Joomla\CMS\Workflow\Workflow;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
-use RuntimeException;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -68,7 +65,7 @@ final class MultiLanguage extends CMSPlugin
     /**
      * Get an overview of the proposed sampledata.
      *
-     * @return  stdClass|void  Will be converted into the JSON response to the module.
+     * @return  \stdClass|void  Will be converted into the JSON response to the module.
      *
      * @since   4.0.0
      */
@@ -78,7 +75,7 @@ final class MultiLanguage extends CMSPlugin
             return;
         }
 
-        $data              = new stdClass();
+        $data              = new \stdClass();
         $data->name        = $this->_name;
         $data->title       = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_MULTILANG_OVERVIEW_TITLE');
         $data->description = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_MULTILANG_OVERVIEW_DESC');
@@ -587,7 +584,7 @@ final class MultiLanguage extends CMSPlugin
     /**
      * Add Module Menu.
      *
-     * @param   stdClass  $itemLanguage  Language Object.
+     * @param   \stdClass  $itemLanguage  Language Object.
      *
      * @return  boolean
      *
@@ -637,7 +634,7 @@ final class MultiLanguage extends CMSPlugin
     /**
      * Add Menu Group.
      *
-     * @param   stdClass  $itemLanguage  Language Object.
+     * @param   \stdClass  $itemLanguage  Language Object.
      *
      * @return  boolean
      *
@@ -676,7 +673,7 @@ final class MultiLanguage extends CMSPlugin
     /**
      * Add List All Categories Menu Item for new router.
      *
-     * @param   stdClass  $itemLanguage  Language Object.
+     * @param   \stdClass  $itemLanguage  Language Object.
      *
      * @return  Table|boolean Menu Item Object. False otherwise.
      *
@@ -750,7 +747,7 @@ final class MultiLanguage extends CMSPlugin
     /**
      * Add Blog Menu Item.
      *
-     * @param   stdClass  $itemLanguage  Language Object.
+     * @param   \stdClass  $itemLanguage  Language Object.
      * @param   integer   $categoryId    The id of the category displayed by the blog.
      *
      * @return  Table|boolean Menu Item Object. False otherwise.
@@ -896,7 +893,7 @@ final class MultiLanguage extends CMSPlugin
 
         try {
             $db->execute();
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             return false;
         }
 
@@ -906,7 +903,7 @@ final class MultiLanguage extends CMSPlugin
     /**
      * Method to create a category for a specific language.
      *
-     * @param   stdClass  $itemLanguage  Language Object.
+     * @param   \stdClass  $itemLanguage  Language Object.
      *
      * @return  Table|boolean Category Object. False otherwise.
      *
@@ -976,7 +973,7 @@ final class MultiLanguage extends CMSPlugin
     /**
      * Create an article in a specific language.
      *
-     * @param   stdClass  $itemLanguage  Language Object.
+     * @param   \stdClass  $itemLanguage  Language Object.
      * @param   integer   $categoryId    The id of the category where we want to add the article.
      *
      * @return  Table|boolean Article Object. False otherwise.
@@ -1154,7 +1151,7 @@ final class MultiLanguage extends CMSPlugin
             }
 
             $info          = Installer::parseXMLInstallFile($file);
-            $row           = new stdClass();
+            $row           = new \stdClass();
             $row->language = $lang;
 
             if (!is_array($info)) {
@@ -1300,7 +1297,7 @@ final class MultiLanguage extends CMSPlugin
         $db->setQuery($query);
         $id = $db->loadResult();
 
-        if (!$id || $id instanceof Exception) {
+        if (!$id || $id instanceof \Exception) {
             return false;
         }
 

@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
-use UnexpectedValueException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -372,7 +371,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
         try {
             // Load the language file for the template
             $lang = $this->getLanguage();
-        } catch (UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException $e) {
             $lang = Factory::getApplication()->getLanguage();
         }
 
