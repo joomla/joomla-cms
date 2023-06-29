@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\User\Joomla\Extension;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryInterface;
@@ -25,7 +24,6 @@ use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -127,7 +125,7 @@ final class Joomla extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Do nothing
         }
 
@@ -139,7 +137,7 @@ final class Joomla extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Do nothing
         }
     }
@@ -262,7 +260,7 @@ final class Joomla extends CMSPlugin
         $instance = $this->getUser($user, $options);
 
         // If getUser returned an error, then pass it back.
-        if ($instance instanceof Exception) {
+        if ($instance instanceof \Exception) {
             return false;
         }
 
@@ -319,7 +317,7 @@ final class Joomla extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             // The old session is already invalidated, don't let this block logging in
         }
 

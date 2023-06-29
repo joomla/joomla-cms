@@ -18,7 +18,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -115,7 +114,7 @@ final class Cookie extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             // We aren't concerned with errors from this query, carry on
         }
 
@@ -131,7 +130,7 @@ final class Cookie extends CMSPlugin
 
         try {
             $results = $db->setQuery($query)->loadObjectList();
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             $response->status = Authentication::STATUS_FAILURE;
 
             return false;
@@ -159,7 +158,7 @@ final class Cookie extends CMSPlugin
 
             try {
                 $db->setQuery($query)->execute();
-            } catch (RuntimeException $e) {
+            } catch (\RuntimeException $e) {
                 // Log an alert for the site admin
                 Log::add(
                     sprintf('Failed to delete cookie token for user %s with the following error: %s', $results[0]->user_id, $e->getMessage()),
@@ -188,7 +187,7 @@ final class Cookie extends CMSPlugin
 
         try {
             $result = $db->setQuery($query)->loadObject();
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             $response->status = Authentication::STATUS_FAILURE;
 
             return false;
@@ -278,7 +277,7 @@ final class Cookie extends CMSPlugin
                     if ($results === null) {
                         $unique = true;
                     }
-                } catch (RuntimeException $e) {
+                } catch (\RuntimeException $e) {
                     $errorCount++;
 
                     // We'll let this query fail up to 5 times before giving up, there's probably a bigger issue at this point
@@ -345,7 +344,7 @@ final class Cookie extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             return false;
         }
 
@@ -393,7 +392,7 @@ final class Cookie extends CMSPlugin
 
         try {
             $db->setQuery($query)->execute();
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             // We aren't concerned with errors from this query, carry on
         }
 

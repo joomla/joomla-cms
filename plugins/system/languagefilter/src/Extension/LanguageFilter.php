@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\LanguageFilter\Extension;
 
-use JLoader;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
@@ -729,7 +728,7 @@ final class LanguageFilter extends CMSPlugin
                 $cassociations = $component->getAssociationsExtension()->getAssociationsForItem();
             } else {
                 $cName = ucfirst(substr($option, 4)) . 'HelperAssociation';
-                JLoader::register($cName, Path::clean(JPATH_SITE . '/components/' . $option . '/helpers/association.php'));
+                \JLoader::register($cName, Path::clean(JPATH_SITE . '/components/' . $option . '/helpers/association.php'));
 
                 if (class_exists($cName) && is_callable([$cName, 'getAssociations'])) {
                     $cassociations = call_user_func([$cName, 'getAssociations']);
