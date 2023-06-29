@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Controller;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Language\Text;
@@ -23,7 +22,6 @@ use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\MethodsModel;
 use Joomla\Input\Input;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -80,7 +78,7 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
         $user   = $user ?? $this->getUserFactory()->loadUserById(0);
 
         if (!MfaHelper::canDeleteMethod($user)) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         // Delete all MFA Methods for the user
@@ -94,7 +92,7 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
 
         try {
             $model->deleteAll($user);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $message = $e->getMessage();
             $type    = 'error';
         }
@@ -132,7 +130,7 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
         $user   = $user ?? $this->getUserFactory()->loadUserById(0);
 
         if (!MfaHelper::canShowConfigurationInterface($user)) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         $returnURL  = $this->input->getBase64('returnurl');
@@ -176,7 +174,7 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
         $user   = $user ?? $this->getUserFactory()->loadUserById(0);
 
         if (!MfaHelper::canAddEditMethod($user)) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         $event = new NotifyActionLog('onComUsersControllerMethodsBeforeDoNotShowThisAgain', [$user]);
@@ -208,7 +206,7 @@ class MethodsController extends BaseController implements UserFactoryAwareInterf
         $user = $this->app->getIdentity() ?: $this->getUserFactory()->loadUserById(0);
 
         if ($user->guest) {
-            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
     }
 }

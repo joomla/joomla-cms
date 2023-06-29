@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\System\PrivacyConsent\Extension;
 
-use Exception;
-use InvalidArgumentException;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
@@ -32,7 +30,6 @@ use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -107,7 +104,7 @@ final class PrivacyConsent extends CMSPlugin
      * @return  boolean
      *
      * @since   3.9.0
-     * @throws  InvalidArgumentException on missing required data.
+     * @throws  \InvalidArgumentException on missing required data.
      */
     public function onUserBeforeSave($user, $isNew, $data)
     {
@@ -133,7 +130,7 @@ final class PrivacyConsent extends CMSPlugin
             $option == 'com_users' && in_array($task, ['registration.register', 'profile.save'])
             && empty($form['privacyconsent']['privacy'])
         ) {
-            throw new InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_SYSTEM_PRIVACYCONSENT_FIELD_ERROR'));
+            throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_SYSTEM_PRIVACYCONSENT_FIELD_ERROR'));
         }
 
         return true;
@@ -194,7 +191,7 @@ final class PrivacyConsent extends CMSPlugin
 
             try {
                 $this->getDatabase()->insertObject('#__privacy_consents', $userNote);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // Do nothing if the save fails
             }
 
@@ -489,7 +486,7 @@ final class PrivacyConsent extends CMSPlugin
         try {
             // Lock the tables to prevent multiple plugin executions causing a race condition
             $db->lockTable('#__extensions');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // If we can't lock the tables it's too risky to continue execution
             return;
         }
@@ -498,7 +495,7 @@ final class PrivacyConsent extends CMSPlugin
             // Update the plugin parameters
             $result = $db->setQuery($query)->execute();
             $this->clearCacheGroups(['com_plugins'], [0, 1]);
-        } catch (Exception $exc) {
+        } catch (\Exception $exc) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
@@ -507,12 +504,12 @@ final class PrivacyConsent extends CMSPlugin
         try {
             // Unlock the tables after writing
             $db->unlockTables();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }
 
-        // Abort on failure
+        // Stop on failure
         if (!$result) {
             return;
         }
@@ -595,7 +592,7 @@ final class PrivacyConsent extends CMSPlugin
 
                 try {
                     $db->execute();
-                } catch (RuntimeException $e) {
+                } catch (\RuntimeException $e) {
                     return false;
                 }
             } catch (MailDisabledException | phpmailerException $exception) {
@@ -630,7 +627,7 @@ final class PrivacyConsent extends CMSPlugin
 
         try {
             $users = $db->loadObjectList();
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             return false;
         }
 
@@ -654,7 +651,7 @@ final class PrivacyConsent extends CMSPlugin
 
             try {
                 $db->execute();
-            } catch (RuntimeException $e) {
+            } catch (\RuntimeException $e) {
                 return false;
             }
 
@@ -689,7 +686,7 @@ final class PrivacyConsent extends CMSPlugin
 
                     $cache = Cache::getInstance('callback', $options);
                     $cache->clean();
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     // Ignore it
                 }
             }
