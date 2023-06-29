@@ -9,9 +9,6 @@
 
 namespace Joomla\CMS\Object;
 
-use ReflectionObject;
-use ReflectionProperty;
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -99,10 +96,10 @@ trait LegacyPropertyManagementTrait
 
             // Collect all none public properties of the current class and it's parents
             $nonePublicProperties = [];
-            $reflection           = new ReflectionObject($this);
+            $reflection           = new \ReflectionObject($this);
             do {
                 $nonePublicProperties = array_merge(
-                    $reflection->getProperties(ReflectionProperty::IS_PRIVATE | ReflectionProperty::IS_PROTECTED),
+                    $reflection->getProperties(\ReflectionProperty::IS_PRIVATE | \ReflectionProperty::IS_PROTECTED),
                     $nonePublicProperties
                 );
             } while ($reflection = $reflection->getParentClass());

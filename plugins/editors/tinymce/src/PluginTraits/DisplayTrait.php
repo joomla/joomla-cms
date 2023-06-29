@@ -18,7 +18,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -81,7 +80,7 @@ trait DisplayTrait
         $csrf            = Session::getFormToken();
 
         // Data object for the layout
-        $textarea           = new stdClass();
+        $textarea           = new \stdClass();
         $textarea->name     = $name;
         $textarea->id       = $id;
         $textarea->class    = 'mce_editable joomla-editor-tinymce';
@@ -137,8 +136,8 @@ trait DisplayTrait
 
         // Prepare the parameters
         $levelParams      = new Registry();
-        $extraOptions     = new stdClass();
-        $toolbarParams    = new stdClass();
+        $extraOptions     = new \stdClass();
+        $toolbarParams    = new \stdClass();
         $extraOptionsAll  = (array) $this->params->get('configuration.setoptions', []);
         $toolbarParamsAll = (array) $this->params->get('configuration.toolbars', []);
 
