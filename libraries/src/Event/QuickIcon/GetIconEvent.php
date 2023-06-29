@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event\QuickIcon;
 
-use BadMethodCallException;
-use DomainException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\ReshapeArgumentsAware;
 use Joomla\CMS\Event\Result\ResultAware;
@@ -39,7 +37,7 @@ class GetIconEvent extends AbstractImmutableEvent implements ResultAwareInterfac
      * @param   array   $arguments  The event arguments.
      *
      * @since   4.2.0
-     * @throws  BadMethodCallException
+     * @throws  \BadMethodCallException
      */
     public function __construct(string $name, array $arguments = [])
     {
@@ -60,7 +58,7 @@ class GetIconEvent extends AbstractImmutableEvent implements ResultAwareInterfac
     public function setContext(string $value)
     {
         if (empty($value)) {
-            throw new DomainException(sprintf("Argument 'context' of event %s must be a non-empty string.", $this->name));
+            throw new \DomainException(sprintf("Argument 'context' of event %s must be a non-empty string.", $this->name));
         }
     }
 }

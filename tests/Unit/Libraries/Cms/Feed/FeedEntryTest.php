@@ -10,7 +10,6 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Feed;
 
-use InvalidArgumentException;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Feed\FeedEntry;
 use Joomla\CMS\Feed\FeedLink;
@@ -148,7 +147,7 @@ class FeedEntryTest extends UnitTestCase
      */
     public function testSetAuthorWithInvalidAuthor()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->feedEntry->author = 'Jack Sprat';
     }
 
@@ -161,7 +160,7 @@ class FeedEntryTest extends UnitTestCase
      */
     public function testSetSourceWithInvalidSource()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->feedEntry->source = 'Outer Space';
     }
 
@@ -174,7 +173,7 @@ class FeedEntryTest extends UnitTestCase
      */
     public function testSetCategoriesWithInvalidProperty()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->feedEntry->categories = 'Can\'t touch this';
     }
 
