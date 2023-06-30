@@ -1,8 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies, global-require, import/no-dynamic-require */
 
 const { access, writeFile } = require('fs').promises;
-const { createReadStream } = require('fs');
-const readline = require('readline');
 const { constants } = require('fs');
 const Autoprefixer = require('autoprefixer');
 const CssNano = require('cssnano');
