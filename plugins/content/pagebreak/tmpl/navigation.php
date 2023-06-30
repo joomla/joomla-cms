@@ -24,7 +24,7 @@ $lang = $this->getApplication()->getLanguage();
     <li class="previous page-item">
         <?php if ($links['previous']) :
             $direction = $lang->isRtl() ? 'right' : 'left';
-            $title = htmlspecialchars($this->list[$page]->title, ENT_QUOTES, 'UTF-8');
+            $title     = htmlspecialchars($this->list[$page]->title, ENT_QUOTES, 'UTF-8');
             $ariaLabel = $this->text('JPREVIOUS') . ': ' . $title . ' (' . Text::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $page, $n) . ')';
             ?>
         <a class="page-link" href="<?php echo Route::_($links['previous']); ?>" title="<?php echo $title; ?>" aria-label="<?php echo $ariaLabel; ?>" rel="prev">
@@ -35,7 +35,7 @@ $lang = $this->getApplication()->getLanguage();
     <li class="next page-item">
         <?php if ($links['next']) :
             $direction = $lang->isRtl() ? 'left' : 'right';
-            $title = htmlspecialchars($this->list[$page + 2]->title, ENT_QUOTES, 'UTF-8');
+            $title     = htmlspecialchars($this->list[$page + 2]->title, ENT_QUOTES, 'UTF-8');
             $ariaLabel = $this->text('JNEXT') . ': ' . $title . ' (' . Text::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', ($page + 2), $n) . ')';
             ?>
         <a class="page-link" href="<?php echo Route::_($links['next']); ?>" title="<?php echo $title; ?>" aria-label="<?php echo $ariaLabel; ?>" rel="next">

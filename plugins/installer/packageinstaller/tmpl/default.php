@@ -33,9 +33,9 @@ $this->getApplication()->getDocument()->getWebAssetManager()
         ['core']
     );
 
-$return = $this->getApplication()->getInput()->getBase64('return');
+$return       = $this->getApplication()->getInput()->getBase64('return');
 $maxSizeBytes = FilesystemHelper::fileUploadMaxSize(false);
-$maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
+$maxSize      = HTMLHelper::_('number.bytes', $maxSizeBytes);
 ?>
 <legend><?php echo $this->text('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
 

@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\Editors\TinyMCE\Extension;
 
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Database\DatabaseAwareTrait;

@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\Plugin\Installer\Url\Extension\UrlInstaller;
 
 /** @var UrlInstaller $this */

@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\Extension\Joomla\Extension;
 
 use Joomla\CMS\Installer\Installer;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;

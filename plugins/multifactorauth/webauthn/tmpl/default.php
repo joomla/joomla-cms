@@ -11,7 +11,6 @@
 // Prevent direct access
 defined('_JEXEC') || die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
 // This method is only available on HTTPS

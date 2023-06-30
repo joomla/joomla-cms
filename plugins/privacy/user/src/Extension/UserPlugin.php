@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Privacy\User\Extension;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\User as TableUser;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
