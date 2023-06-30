@@ -19,7 +19,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -43,7 +43,7 @@ abstract class UpdateAdapter extends AdapterInstance
      * @var    array
      * @since  3.0.0
      */
-    protected $stack = array('base');
+    protected $stack = ['base'];
 
     /**
      * ID of update site
@@ -59,7 +59,7 @@ abstract class UpdateAdapter extends AdapterInstance
      * @var    array
      * @since  3.0.0
      */
-    protected $updatecols = array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL', 'CHANGELOGURL', 'EXTRA_QUERY');
+    protected $updatecols = ['NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL', 'CHANGELOGURL', 'EXTRA_QUERY'];
 
     /**
      * Should we try appending a .xml extension to the update site's URL?
@@ -124,7 +124,7 @@ abstract class UpdateAdapter extends AdapterInstance
     /**
      * Finds an update
      *
-     * @param array $options Options to use: update_site_id: the unique ID of the update site to look at
+     * @param   array  $options  Options to use: update_site_id: the unique ID of the update site to look at
      *
      * @return  array  Update_sites and updates discovered
      *
@@ -137,21 +137,21 @@ abstract class UpdateAdapter extends AdapterInstance
      * from their URL and enabled afterwards. If the URL fetch fails with a PHP fatal error (e.g. timeout) the faulty
      * update site will remain disabled the next time we attempt to load the update information.
      *
-     * @param int $updateSiteId The numeric ID of the update site to enable/disable
-     * @param bool $enabled Enable the site when true, disable it when false
+     * @param   int   $updateSiteId  The numeric ID of the update site to enable/disable
+     * @param   bool  $enabled       Enable the site when true, disable it when false
      *
      * @return  void
      */
     protected function toggleUpdateSite($updateSiteId, $enabled = true)
     {
-        $updateSiteId = (int)$updateSiteId;
-        $enabled = (bool)$enabled ? 1 : 0;
+        $updateSiteId = (int) $updateSiteId;
+        $enabled      = (bool) $enabled ? 1 : 0;
 
         if (empty($updateSiteId)) {
             return;
         }
 
-        $db = $this->parent->getDbo();
+        $db    = $this->parent->getDbo();
         $query = $db->getQuery(true)
             ->update($db->quoteName('#__update_sites'))
             ->set($db->quoteName('enabled') . ' = :enabled')
@@ -170,19 +170,19 @@ abstract class UpdateAdapter extends AdapterInstance
     /**
      * Get the name of an update site. This is used in logging.
      *
-     * @param int $updateSiteId The numeric ID of the update site
+     * @param   int  $updateSiteId  The numeric ID of the update site
      *
      * @return  string  The name of the update site or an empty string if it's not found
      */
     protected function getUpdateSiteName($updateSiteId)
     {
-        $updateSiteId = (int)$updateSiteId;
+        $updateSiteId = (int) $updateSiteId;
 
         if (empty($updateSiteId)) {
             return '';
         }
 
-        $db = $this->parent->getDbo();
+        $db    = $this->parent->getDbo();
         $query = $db->getQuery(true)
             ->select($db->quoteName('name'))
             ->from($db->quoteName('#__update_sites'))
@@ -204,23 +204,23 @@ abstract class UpdateAdapter extends AdapterInstance
     /**
      * Try to get the raw HTTP response from the update site, hopefully containing the update XML.
      *
-     * @param array $options The update options, see findUpdate() in children classes
+     * @param   array  $options  The update options, see findUpdate() in children classes
      *
      * @return  \Joomla\CMS\Http\Response|bool  False if we can't connect to the site, HTTP Response object otherwise
      *
      * @throws  \Exception
      */
-    protected function getUpdateSiteResponse($options = array())
+    protected function getUpdateSiteResponse($options = [])
     {
-        $url = trim($options['location']);
-        $this->_url = &$url;
+        $url                = trim($options['location']);
+        $this->_url         = &$url;
         $this->updateSiteId = $options['update_site_id'];
 
         if (!isset($options['update_site_name'])) {
             $options['update_site_name'] = $this->getUpdateSiteName($this->updateSiteId);
         }
 
-        $this->updateSiteName = $options['update_site_name'];
+        $this->updateSiteName  = $options['update_site_name'];
         $this->appendExtension = false;
 
         if (\array_key_exists('append_extension', $options)) {
@@ -241,14 +241,14 @@ abstract class UpdateAdapter extends AdapterInstance
 
         $startTime = microtime(true);
 
-        $version = new Version();
+        $version    = new Version();
         $httpOption = new Registry();
         $httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
 
         // JHttp transport throws an exception when there's no response.
         try {
-            $http = HttpFactory::getHttp($httpOption);
-            $response = $http->get($url, array(), 20);
+            $http     = HttpFactory::getHttp($httpOption);
+            $response = $http->get($url, [], 20);
         } catch (\RuntimeException $e) {
             $response = null;
         }
@@ -257,7 +257,7 @@ abstract class UpdateAdapter extends AdapterInstance
         $this->toggleUpdateSite($this->updateSiteId, true);
 
         // Log the time it took to load this update site's information
-        $endTime = microtime(true);
+        $endTime    = microtime(true);
         $timeToLoad = sprintf('%0.2f', $endTime - $startTime);
         Log::add(
             "Loading information from update site #{$this->updateSiteId} with name " .

@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\FileLayout;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -35,7 +35,7 @@ abstract class Links
      */
     public static function linksgroups($groupsOfLinks)
     {
-        $html = array();
+        $html = [];
 
         if (count($groupsOfLinks) > 0) {
             $layout = new FileLayout('joomla.links.groupsopen');
@@ -47,7 +47,7 @@ abstract class Links
                     $html[] = $layout->render($title);
                 }
 
-                $layout = new FileLayout('joomla.links.groupopen');
+                $layout     = new FileLayout('joomla.links.groupopen');
                 $htmlHeader = $layout->render($title);
 
                 $htmlLinks  = HTMLHelper::_('links.links', $links);
@@ -79,7 +79,7 @@ abstract class Links
      */
     public static function links($links)
     {
-        $html = array();
+        $html = [];
 
         foreach ($links as $link) {
             $html[] = HTMLHelper::_('links.link', $link);

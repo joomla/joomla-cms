@@ -13,7 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -42,7 +42,7 @@ class MenuitemField extends GroupedlistField
     /**
      * The client id.
      *
-     * @var    string
+     * @var    int
      * @since  3.2
      */
     protected $clientId;
@@ -50,7 +50,7 @@ class MenuitemField extends GroupedlistField
     /**
      * The language.
      *
-     * @var    array
+     * @var    string[]
      * @since  3.2
      */
     protected $language;
@@ -58,7 +58,7 @@ class MenuitemField extends GroupedlistField
     /**
      * The published status.
      *
-     * @var    array
+     * @var    string[]
      * @since  3.2
      */
     protected $published;
@@ -66,7 +66,7 @@ class MenuitemField extends GroupedlistField
     /**
      * The disabled status.
      *
-     * @var    array
+     * @var    string[]
      * @since  3.2
      */
     protected $disable;
@@ -118,8 +118,8 @@ class MenuitemField extends GroupedlistField
             case 'language':
             case 'published':
             case 'disable':
-                $value = (string) $value;
-                $this->$name = $value ? explode(',', $value) : array();
+                $value       = (string) $value;
+                $this->$name = $value ? explode(',', $value) : [];
                 break;
 
             default:
@@ -148,9 +148,9 @@ class MenuitemField extends GroupedlistField
         if ($result === true) {
             $this->menuType  = (string) $this->element['menu_type'];
             $this->clientId  = (int) $this->element['client_id'];
-            $this->published = $this->element['published'] ? explode(',', (string) $this->element['published']) : array();
-            $this->disable   = $this->element['disable'] ? explode(',', (string) $this->element['disable']) : array();
-            $this->language  = $this->element['language'] ? explode(',', (string) $this->element['language']) : array();
+            $this->published = $this->element['published'] ? explode(',', (string) $this->element['published']) : [];
+            $this->disable   = $this->element['disable'] ? explode(',', (string) $this->element['disable']) : [];
+            $this->language  = $this->element['language'] ? explode(',', (string) $this->element['language']) : [];
         }
 
         return $result;
@@ -159,13 +159,13 @@ class MenuitemField extends GroupedlistField
     /**
      * Method to get the field option groups.
      *
-     * @return  array  The field option objects as a nested array in groups.
+     * @return  array[]  The field option objects as a nested array in groups.
      *
      * @since   1.6
      */
     protected function getGroups()
     {
-        $groups = array();
+        $groups = [];
 
         $menuType = $this->menuType;
 
@@ -190,7 +190,7 @@ class MenuitemField extends GroupedlistField
             }
 
             // Initialize the group.
-            $groups[$menuTitle] = array();
+            $groups[$menuTitle] = [];
 
             // Build the options array.
             foreach ($items as $link) {
@@ -217,7 +217,7 @@ class MenuitemField extends GroupedlistField
             // Build the groups arrays.
             foreach ($items as $menu) {
                 // Initialize the group.
-                $groups[$menu->title] = array();
+                $groups[$menu->title] = [];
 
                 // Build the options array.
                 foreach ($menu->links as $link) {

@@ -79,7 +79,7 @@ class CategoryeditField extends ListField
         $return = parent::setup($element, $value, $group);
 
         if ($return) {
-            $this->allowAdd = isset($this->element['allowAdd']) ? (bool) $this->element['allowAdd'] : false;
+            $this->allowAdd     = isset($this->element['allowAdd']) ? (bool) $this->element['allowAdd'] : false;
             $this->customPrefix = (string) $this->element['customPrefix'];
         }
 
@@ -123,7 +123,7 @@ class CategoryeditField extends ListField
 
         switch ($name) {
             case 'allowAdd':
-                $value = (string) $value;
+                $value       = (string) $value;
                 $this->$name = ($value === 'true' || $value === $name || $value === '1');
                 break;
             case 'customPrefix':
@@ -145,23 +145,22 @@ class CategoryeditField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
-        $published = $this->element['published'] ? explode(',', (string) $this->element['published']) : array(0, 1);
-        $name = (string) $this->element['name'];
+        $options   = [];
+        $published = $this->element['published'] ? explode(',', (string) $this->element['published']) : [0, 1];
+        $name      = (string) $this->element['name'];
 
         // Let's get the id for the current item, either category or content item.
-        $jinput = Factory::getApplication()->input;
+        $jinput = Factory::getApplication()->getInput();
 
         // Load the category options for a given extension.
 
         // For categories the old category is the category id or 0 for new category.
         if ($this->element['parent'] || $jinput->get('option') == 'com_categories') {
-            $oldCat = $jinput->get('id', 0);
+            $oldCat    = $jinput->get('id', 0);
             $oldParent = $this->form->getValue($name, 0);
             $extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('extension', 'com_content');
-        } else // For items the old category is the category they are in when opened or 0 if new.
-        {
-            $oldCat = $this->form->getValue($name, 0);
+        } else { // For items the old category is the category they are in when opened or 0 if new.
+            $oldCat    = $this->form->getValue($name, 0);
             $extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('option', 'com_content');
         }
 
@@ -171,7 +170,7 @@ class CategoryeditField extends ListField
             : (int) $oldCat;
 
         $db   = $this->getDatabase();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $query = $db->getQuery(true)
             ->select(
@@ -332,7 +331,7 @@ class CategoryeditField extends ListField
             $row = $db->loadObject();
 
             if ($row->parent_id == '1') {
-                $parent = new \stdClass();
+                $parent       = new \stdClass();
                 $parent->text = Text::_('JGLOBAL_ROOT_PARENT');
                 array_unshift($options, $parent);
             }

@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -22,7 +21,7 @@ use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 $tparams = $this->item->params;
 $canDo   = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
-$canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by === Factory::getUser()->id);
+$canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by === $this->getCurrentUser()->id);
 $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 ?>
 
@@ -127,7 +126,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 
                 <?php if ($tparams->get('allow_vcard')) : ?>
                     <?php echo Text::_('COM_CONTACT_DOWNLOAD_INFORMATION_AS'); ?>
-                    <a href="<?php echo Route::_('index.php?option=com_contact&amp;view=contact&amp;id=' . $this->item->id . '&amp;format=vcf'); ?>">
+                    <a href="<?php echo Route::_('index.php?option=com_contact&view=contact&catid=' . $this->item->catslug . '&id=' . $this->item->slug . '&format=vcf'); ?>">
                     <?php echo Text::_('COM_CONTACT_VCARD'); ?></a>
                 <?php endif; ?>
             </div>

@@ -1,16 +1,15 @@
 <?php
 
 /**
- * @package         Joomla.Plugin
- * @subpackage      System.Webauthn
+ * @package     Joomla.Plugin
+ * @subpackage  System.Webauthn
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\GenericEvent;
@@ -27,7 +26,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Event\Event;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -52,12 +50,12 @@ trait AjaxHandler
      *
      * @return  void
      *
-     * @throws  Exception
+     * @throws  \Exception
      * @since   4.0.0
      */
     public function onAjaxWebauthn(Ajax $event): void
     {
-        $input = $this->getApplication()->input;
+        $input = $this->getApplication()->getInput();
 
         // Get the return URL from the session
         $returnURL = $this->getApplication()->getSession()->get('plg_system_webauthn.returnUrl', Uri::base());
@@ -75,12 +73,12 @@ trait AjaxHandler
             $akaction = $input->getCmd('akaction');
 
             if (!$this->getApplication()->checkToken('request')) {
-                throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'));
+                throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'));
             }
 
             // Empty action? No bueno.
             if (empty($akaction)) {
-                throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_AJAX_INVALIDACTION'));
+                throw new \RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_AJAX_INVALIDACTION'));
             }
 
             // Call the plugin event onAjaxWebauthnSomething where Something is the akaction param.
@@ -131,7 +129,7 @@ trait AjaxHandler
                 },
                 null
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             Log::add("Callback failure, redirecting to $returnURL.", Log::DEBUG, 'webauthn.system');
             $this->getApplication()->getSession()->set('plg_system_webauthn.returnUrl', null);
             $this->getApplication()->enqueueMessage($e->getMessage(), 'error');

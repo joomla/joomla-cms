@@ -10,6 +10,7 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\MVC\View;
 
+use Joomla\CMS\Language\Language;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\Event\DispatcherInterface;
@@ -38,8 +39,7 @@ class AbstractViewTest extends UnitTestCase
      */
     public function testGetInjectedName()
     {
-        $view = new class (['name' => 'unit test']) extends AbstractView
-        {
+        $view = new class (['name' => 'unit test']) extends AbstractView {
             public function display($tpl = null)
             {
             }
@@ -57,8 +57,7 @@ class AbstractViewTest extends UnitTestCase
      */
     public function testGetCompiledName()
     {
-        $view = new class extends AbstractView
-        {
+        $view = new class () extends AbstractView {
             public function display($tpl = null)
             {
             }
@@ -76,8 +75,7 @@ class AbstractViewTest extends UnitTestCase
      */
     public function testInjectedOption()
     {
-        $view = new class (['option' => 'unit test']) extends AbstractView
-        {
+        $view = new class (['option' => 'unit test']) extends AbstractView {
             public function getOption()
             {
                 return $this->option;
@@ -100,12 +98,10 @@ class AbstractViewTest extends UnitTestCase
      */
     public function testSetGetModel()
     {
-        $model = new class (['name' => 'unit test']) extends BaseModel
-        {
+        $model = new class (['name' => 'unit test']) extends BaseModel {
         };
 
-        $view = new class extends AbstractView
-        {
+        $view = new class () extends AbstractView {
             public function display($tpl = null)
             {
             }
@@ -124,12 +120,10 @@ class AbstractViewTest extends UnitTestCase
      */
     public function testSetGetDefaultModel()
     {
-        $model = new class (['name' => 'unit']) extends BaseModel
-        {
+        $model = new class (['name' => 'unit']) extends BaseModel {
         };
 
-        $view = new class extends AbstractView
-        {
+        $view = new class () extends AbstractView {
             public function display($tpl = null)
             {
             }
@@ -148,8 +142,7 @@ class AbstractViewTest extends UnitTestCase
      */
     public function testGetData()
     {
-        $view = new class extends AbstractView
-        {
+        $view = new class () extends AbstractView {
             public function display($tpl = null)
             {
             }
@@ -168,8 +161,7 @@ class AbstractViewTest extends UnitTestCase
      */
     public function testGetDefaultData()
     {
-        $view = new class extends AbstractView
-        {
+        $view = new class () extends AbstractView {
             public function display($tpl = null)
             {
             }
@@ -187,16 +179,14 @@ class AbstractViewTest extends UnitTestCase
      */
     public function testGetDataFromModel()
     {
-        $model = new class (['name' => 'test']) extends BaseModel
-        {
+        $model = new class (['name' => 'test']) extends BaseModel {
             public function getUnit()
             {
                 return 'test';
             }
         };
 
-        $view = new class extends AbstractView
-        {
+        $view = new class () extends AbstractView {
             public function display($tpl = null)
             {
             }
@@ -215,16 +205,14 @@ class AbstractViewTest extends UnitTestCase
      */
     public function testGetDataFromDefaultModel()
     {
-        $model = new class (['name' => 'test']) extends BaseModel
-        {
+        $model = new class (['name' => 'test']) extends BaseModel {
             public function getUnit()
             {
                 return 'test';
             }
         };
 
-        $view = new class extends AbstractView
-        {
+        $view = new class () extends AbstractView {
             public function display($tpl = null)
             {
             }
@@ -247,8 +235,7 @@ class AbstractViewTest extends UnitTestCase
         $dispatcher = $this->createMock(DispatcherInterface::class);
         $dispatcher->expects($this->once())->method('dispatch')->with($this->equalTo('test'), $this->equalTo($event));
 
-        $view = new class extends AbstractView
-        {
+        $view = new class () extends AbstractView {
             public function dispatchEvent(EventInterface $event)
             {
                 parent::dispatchEvent($event);
@@ -260,5 +247,36 @@ class AbstractViewTest extends UnitTestCase
         };
         $view->setDispatcher($dispatcher);
         $view->dispatchEvent($event);
+    }
+
+    /**
+     * @testdox  can dispatch an event
+     *
+     * @return  void
+     *
+     * @since   4.4.0
+     */
+    public function testTranslate()
+    {
+        $language = new class () extends Language {
+            public function _($string, $jsSafe = false, $interpretBackSlashes = true)
+            {
+                return $string;
+            }
+        };
+
+        $view = new class () extends AbstractView {
+            public function translate(string $key)
+            {
+                return $this->text($key);
+            }
+
+            public function display($tpl = null)
+            {
+            }
+        };
+        $view->setLanguage($language);
+
+        $this->assertEquals('test', $view->translate('test'));
     }
 }

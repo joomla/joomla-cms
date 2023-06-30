@@ -10,8 +10,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-
 $value = $field->value;
 
 if ($value == '') {
@@ -19,14 +17,14 @@ if ($value == '') {
 }
 
 $value = (array) $value;
-$texts = array();
+$texts = [];
 
 foreach ($value as $userId) {
     if (!$userId) {
         continue;
     }
 
-    $user = Factory::getUser($userId);
+    $user = $this->getUserFactory()->loadUserById($userId);
 
     if ($user) {
         // Use the Username

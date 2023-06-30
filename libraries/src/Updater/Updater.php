@@ -15,7 +15,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -76,9 +76,9 @@ class Updater extends Adapter
     /**
      * Constructor
      *
-     * @param string $basepath Base Path of the adapters
-     * @param string $classprefix Class prefix of adapters
-     * @param string $adapterfolder Name of folder to append to base path
+     * @param   string  $basepath       Base Path of the adapters
+     * @param   string  $classprefix    Class prefix of adapters
+     * @param   string  $adapterfolder  Name of folder to append to base path
      *
      * @since   3.1
      */
@@ -107,13 +107,13 @@ class Updater extends Adapter
     /**
      * Finds the update for an extension. Any discovered updates are stored in the #__updates table.
      *
-     * @param int|array $eid Extension Identifier or list of Extension Identifiers; if zero use all
+     * @param   int|array  $eid               Extension Identifier or list of Extension Identifiers; if zero use all
      *                                        sites
-     * @param integer $cacheTimeout How many seconds to cache update information; if zero, force reload the
+     * @param   integer    $cacheTimeout      How many seconds to cache update information; if zero, force reload the
      *                                        update information
-     * @param integer $minimumStability Minimum stability for the updates; 0=dev, 1=alpha, 2=beta, 3=rc,
+     * @param   integer    $minimumStability  Minimum stability for the updates; 0=dev, 1=alpha, 2=beta, 3=rc,
      *                                        4=stable
-     * @param boolean $includeCurrent Should I include the current version in the results?
+     * @param   boolean    $includeCurrent    Should I include the current version in the results?
      *
      * @return  boolean True if there are updates
      *
@@ -129,9 +129,9 @@ class Updater extends Adapter
             return $retval;
         }
 
-        $now = time();
-        $earliestTime = $now - $cacheTimeout;
-        $sitesWithUpdates = array();
+        $now              = time();
+        $earliestTime     = $now - $cacheTimeout;
+        $sitesWithUpdates = [];
 
         if ($cacheTimeout > 0) {
             $sitesWithUpdates = $this->getSitesWithUpdates($earliestTime);
@@ -154,7 +154,7 @@ class Updater extends Adapter
             }
 
             // Make sure there is no update left over in the database.
-            $db = $this->getDbo();
+            $db    = $this->getDbo();
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__updates'))
                 ->where($db->quoteName('update_site_id') . ' = :id')
@@ -185,7 +185,7 @@ class Updater extends Adapter
      * Returns the update site records for an extension with ID $eid. If $eid is zero all enabled update sites records
      * will be returned.
      *
-     * @param int $eid The extension ID to fetch.
+     * @param   int  $eid  The extension ID to fetch.
      *
      * @return  array
      *
@@ -193,7 +193,7 @@ class Updater extends Adapter
      */
     private function getUpdateSites($eid = 0)
     {
-        $db = $this->getDbo();
+        $db    = $this->getDbo();
         $query = $db->getQuery(true);
 
         $query->select(
@@ -217,7 +217,7 @@ class Updater extends Adapter
 
             if (\is_array($eid)) {
                 $query->whereIn($db->quoteName('b.extension_id'), $eid);
-            } elseif ($eid = (int)$eid) {
+            } elseif ($eid = (int) $eid) {
                 $query->where($db->quoteName('b.extension_id') . ' = :eid')
                     ->bind(':eid', $eid, ParameterType::INTEGER);
             }
@@ -228,7 +228,7 @@ class Updater extends Adapter
         $result = $db->loadAssocList();
 
         if (!\is_array($result)) {
-            return array();
+            return [];
         }
 
         return $result;
@@ -237,9 +237,9 @@ class Updater extends Adapter
     /**
      * Loads the contents of an update site record $updateSite and returns the update objects
      *
-     * @param array $updateSite The update site record to process
-     * @param int $minimumStability Minimum stability for the returned update records
-     * @param bool $includeCurrent Should I also include the current version?
+     * @param   array  $updateSite        The update site record to process
+     * @param   int    $minimumStability  Minimum stability for the returned update records
+     * @param   bool   $includeCurrent    Should I also include the current version?
      *
      * @return  array  The update records. Empty array if no updates are found.
      *
@@ -247,7 +247,7 @@ class Updater extends Adapter
      */
     private function getUpdateObjectsForSite($updateSite, $minimumStability = self::STABILITY_STABLE, $includeCurrent = false)
     {
-        $retVal = array();
+        $retVal = [];
 
         $this->setAdapter($updateSite['type']);
 
@@ -260,7 +260,7 @@ class Updater extends Adapter
 
         // Get the update information from the remote update XML document
         /** @var UpdateAdapter $adapter */
-        $adapter = $this->_adapters[$updateSite['type']];
+        $adapter       = $this->_adapters[ $updateSite['type']];
         $update_result = $adapter->findUpdate($updateSite);
 
         // Version comparison operator.
@@ -270,11 +270,11 @@ class Updater extends Adapter
             // If we have additional update sites in the remote (collection) update XML document, parse them
             if (\array_key_exists('update_sites', $update_result) && \count($update_result['update_sites'])) {
                 $thisUrl = trim($updateSite['location']);
-                $thisId = (int)$updateSite['update_site_id'];
+                $thisId  = (int) $updateSite['update_site_id'];
 
                 foreach ($update_result['update_sites'] as $extraUpdateSite) {
                     $extraUrl = trim($extraUpdateSite['location']);
-                    $extraId = (int)$extraUpdateSite['update_site_id'];
+                    $extraId  = (int) $extraUpdateSite['update_site_id'];
 
                     // Do not try to fetch the same update site twice
                     if (($thisId == $extraId) || ($thisUrl == $extraUrl)) {
@@ -302,22 +302,22 @@ class Updater extends Adapter
 
                     $uid = $update
                         ->find(
-                            array(
-                                'element' => $current_update->get('element'),
-                                'type' => $current_update->get('type'),
+                            [
+                                'element'   => $current_update->get('element'),
+                                'type'      => $current_update->get('type'),
                                 'client_id' => $current_update->get('client_id'),
-                                'folder' => $current_update->get('folder'),
-                            )
+                                'folder'    => $current_update->get('folder'),
+                            ]
                         );
 
                     $eid = $extension
                         ->find(
-                            array(
-                                'element' => $current_update->get('element'),
-                                'type' => $current_update->get('type'),
+                            [
+                                'element'   => $current_update->get('element'),
+                                'type'      => $current_update->get('type'),
                                 'client_id' => $current_update->get('client_id'),
-                                'folder' => $current_update->get('folder'),
-                            )
+                                'folder'    => $current_update->get('folder'),
+                            ]
                         );
 
                     if (!$uid) {
@@ -329,7 +329,7 @@ class Updater extends Adapter
 
                             if (version_compare($current_update->version, $data['version'], $operator) == 1) {
                                 $current_update->extension_id = $eid;
-                                $retVal[] = $current_update;
+                                $retVal[]                     = $current_update;
                             }
                         } else {
                             // A potentially new extension to be installed
@@ -339,7 +339,7 @@ class Updater extends Adapter
                         $update->load($uid);
 
                         // We already have an update in the database lets check whether it has an extension_id
-                        if ((int)$update->extension_id === 0 && $eid) {
+                        if ((int) $update->extension_id === 0 && $eid) {
                             // The current update does not have an extension_id but we found one. Let's use it.
                             $current_update->extension_id = $eid;
                         }
@@ -359,7 +359,7 @@ class Updater extends Adapter
     /**
      * Returns the IDs of the update sites with cached updates
      *
-     * @param int $timestamp Optional. If set, only update sites checked before $timestamp will be taken into
+     * @param   int  $timestamp  Optional. If set, only update sites checked before $timestamp will be taken into
      *                           account.
      *
      * @return  array  The IDs of the update sites with cached updates
@@ -368,8 +368,8 @@ class Updater extends Adapter
      */
     private function getSitesWithUpdates($timestamp = 0)
     {
-        $db = Factory::getDbo();
-        $timestamp = (int)$timestamp;
+        $db        = Factory::getDbo();
+        $timestamp = (int) $timestamp;
 
         $query = $db->getQuery(true)
             ->select('DISTINCT ' . $db->quoteName('update_site_id'))
@@ -394,7 +394,7 @@ class Updater extends Adapter
         $retVal = $db->setQuery($query)->loadColumn(0);
 
         if (empty($retVal)) {
-            return array();
+            return [];
         }
 
         return $retVal;
@@ -403,7 +403,7 @@ class Updater extends Adapter
     /**
      * Update the last check timestamp of an update site
      *
-     * @param int $updateSiteId The update site ID to mark as just checked
+     * @param   int  $updateSiteId  The update site ID to mark as just checked
      *
      * @return  void
      *
@@ -411,9 +411,9 @@ class Updater extends Adapter
      */
     private function updateLastCheckTimestamp($updateSiteId)
     {
-        $timestamp = time();
-        $db = Factory::getDbo();
-        $updateSiteId = (int)$updateSiteId;
+        $timestamp    = time();
+        $db           = Factory::getDbo();
+        $updateSiteId = (int) $updateSiteId;
 
         $query = $db->getQuery(true)
             ->update($db->quoteName('#__update_sites'))

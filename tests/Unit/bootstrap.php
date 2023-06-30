@@ -35,16 +35,19 @@ if (!defined('JPATH_ROOT')) {
     define('JPATH_ROOT', JPATH_BASE);
 }
 
+if (!defined('JPATH_PUBLIC')) {
+    define('JPATH_PUBLIC', JPATH_ROOT);
+}
+
+/**
+ * @deprecated 4.4.0 will be removed in 6.0
+ **/
 if (!defined('JPATH_PLATFORM')) {
-    define('JPATH_PLATFORM', JPATH_BASE . '/libraries');
+    define('JPATH_PLATFORM', JPATH_BASE . DIRECTORY_SEPARATOR . 'libraries');
 }
 
 if (!defined('JPATH_LIBRARIES')) {
-    define('JPATH_LIBRARIES', JPATH_BASE . '/libraries');
-}
-
-if (!defined('JPATH_CACHE')) {
-    define('JPATH_CACHE', JPATH_BASE . '/cache');
+    define('JPATH_LIBRARIES', JPATH_BASE . DIRECTORY_SEPARATOR . 'libraries');
 }
 
 if (!defined('JPATH_CONFIGURATION')) {
@@ -56,27 +59,31 @@ if (!defined('JPATH_SITE')) {
 }
 
 if (!defined('JPATH_ADMINISTRATOR')) {
-    define('JPATH_ADMINISTRATOR', JPATH_ROOT . '/administrator');
+    define('JPATH_ADMINISTRATOR', JPATH_ROOT . DIRECTORY_SEPARATOR . 'administrator');
+}
+
+if (!defined('JPATH_CACHE')) {
+    define('JPATH_CACHE', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'cache');
 }
 
 if (!defined('JPATH_API')) {
-    define('JPATH_API', JPATH_ROOT . '/api');
+    define('JPATH_API', JPATH_ROOT . DIRECTORY_SEPARATOR . 'api');
 }
 
 if (!defined('JPATH_INSTALLATION')) {
-    define('JPATH_INSTALLATION', JPATH_ROOT . '/installation');
+    define('JPATH_INSTALLATION', JPATH_ROOT . DIRECTORY_SEPARATOR . 'installation');
 }
 
 if (!defined('JPATH_MANIFESTS')) {
-    define('JPATH_MANIFESTS', JPATH_ADMINISTRATOR . '/manifests');
+    define('JPATH_MANIFESTS', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'manifests');
 }
 
 if (!defined('JPATH_PLUGINS')) {
-    define('JPATH_PLUGINS', JPATH_BASE . '/plugins');
+    define('JPATH_PLUGINS', JPATH_BASE . DIRECTORY_SEPARATOR . 'plugins');
 }
 
 if (!defined('JPATH_THEMES')) {
-    define('JPATH_THEMES', JPATH_BASE . '/templates');
+    define('JPATH_THEMES', JPATH_BASE . DIRECTORY_SEPARATOR . 'templates');
 }
 
 if (!defined('JDEBUG')) {
@@ -85,7 +92,7 @@ if (!defined('JDEBUG')) {
 
 // Import the library loader if necessary.
 if (!class_exists('JLoader')) {
-    require_once JPATH_PLATFORM . '/loader.php';
+    require_once JPATH_LIBRARIES . '/loader.php';
 
     // If JLoader still does not exist panic.
     if (!class_exists('JLoader')) {

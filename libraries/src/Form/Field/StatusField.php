@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Form\Field;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -31,14 +31,14 @@ class StatusField extends PredefinedlistField
     /**
      * Available statuses
      *
-     * @var  array
+     * @var  string[]
      * @since  3.2
      */
-    protected $predefinedOptions = array(
+    protected $predefinedOptions = [
         -2  => 'JTRASHED',
         0   => 'JUNPUBLISHED',
         1   => 'JPUBLISHED',
         2   => 'JARCHIVED',
         '*' => 'JALL',
-    );
+    ];
 }

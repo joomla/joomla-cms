@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,11 +15,13 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Updater\DownloadSource;
 use Joomla\CMS\Updater\Updater;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -28,8 +30,147 @@ use Joomla\Registry\Registry;
  *
  * @since  1.7.0
  */
-class XmlUpdate extends AbstractUpdate
+class XmlUpdate
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
+    /**
+     * Update manifest `<name>` element
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $name;
+
+    /**
+     * Update manifest `<description>` element
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $description;
+
+    /**
+     * Update manifest `<element>` element
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $element;
+
+    /**
+     * Update manifest `<type>` element
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $type;
+
+    /**
+     * Update manifest `<version>` element
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $version;
+
+    /**
+     * Update manifest `<infourl>` element
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $infourl;
+
+    /**
+     * Update manifest `<client>` element
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $client;
+
+    /**
+     * Update manifest `<group>` element
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $group;
+
+    /**
+     * Update manifest `<downloads>` element
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $downloads;
+
+    /**
+     * Update manifest `<downloadsource>` elements
+     *
+     * @var    DownloadSource[]
+     * @since  3.8.3
+     */
+    protected $downloadSources = [];
+
+    /**
+     * Update manifest `<tags>` element
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $tags;
+
+    /**
+     * Update manifest `<maintainer>` element
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $maintainer;
+
+    /**
+     * Update manifest `<maintainerurl>` element
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $maintainerurl;
+
+    /**
+     * Update manifest `<category>` element
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $category;
+
+    /**
+     * Update manifest `<relationships>` element
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $relationships;
+
+    /**
+     * Update manifest `<targetplatform>` element
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $targetplatform;
+
+    /**
+     * Extra query for download URLs
+     *
+     * @var    string
+     * @since  3.2.0
+     */
+    protected $extra_query;
+
     /**
      * Resource handle for the XML Parser
      *
@@ -44,7 +185,7 @@ class XmlUpdate extends AbstractUpdate
      * @var    array
      * @since  3.0.0
      */
-    protected $stack = array('base');
+    protected $stack = ['base'];
 
     /**
      * Unused state array
@@ -52,7 +193,7 @@ class XmlUpdate extends AbstractUpdate
      * @var    array
      * @since  3.0.0
      */
-    protected $stateStore = array();
+    protected $stateStore = [];
 
     /**
      * Object containing the current update data
@@ -91,7 +232,7 @@ class XmlUpdate extends AbstractUpdate
      * @var    array
      * @since  3.10.2
      */
-    protected $compatibleVersions = array();
+    protected $compatibleVersions = [];
 
     /**
      * Gets the reference to the current direct parent
@@ -120,19 +261,19 @@ class XmlUpdate extends AbstractUpdate
     /**
      * XML Start Element callback
      *
-     * @param object $parser Parser object
-     * @param string $name Name of the tag found
-     * @param array $attrs Attributes of the tag
+     * @param   object  $parser  Parser object
+     * @param   string  $name    Name of the tag found
+     * @param   array   $attrs   Attributes of the tag
      *
      * @return  void
      *
      * @note    This is public because it is called externally
      * @since   1.7.0
      */
-    public function _startElement($parser, $name, $attrs = array())
+    public function _startElement($parser, $name, $attrs = [])
     {
         $this->stack[] = $name;
-        $tag = $this->_getStackLocation();
+        $tag           = $this->_getStackLocation();
 
         // Reset the data
         if (isset($this->$tag)) {
@@ -142,15 +283,15 @@ class XmlUpdate extends AbstractUpdate
         switch ($name) {
             // This is a new update; create a current update
             case 'UPDATE':
-                $this->currentUpdate = new \stdClass;
+                $this->currentUpdate = new \stdClass();
                 break;
 
             // Handle the array of download sources
             case 'DOWNLOADSOURCE':
-                $source = new DownloadSource;
+                $source = new DownloadSource();
 
                 foreach ($attrs as $key => $data) {
-                    $key = strtolower($key);
+                    $key          = strtolower($key);
                     $source->$key = $data;
                 }
 
@@ -167,13 +308,13 @@ class XmlUpdate extends AbstractUpdate
                 $name = strtolower($name);
 
                 if (!isset($this->currentUpdate->$name)) {
-                    $this->currentUpdate->$name = new \stdClass;
+                    $this->currentUpdate->$name = new \stdClass();
                 }
 
                 $this->currentUpdate->$name->_data = '';
 
                 foreach ($attrs as $key => $data) {
-                    $key = strtolower($key);
+                    $key                              = strtolower($key);
                     $this->currentUpdate->$name->$key = $data;
                 }
                 break;
@@ -183,8 +324,8 @@ class XmlUpdate extends AbstractUpdate
     /**
      * Callback for closing the element
      *
-     * @param object $parser Parser object
-     * @param string $name Name of element that was closed
+     * @param   object  $parser  Parser object
+     * @param   string  $name    Name of element that was closed
      *
      * @return  void
      *
@@ -201,9 +342,11 @@ class XmlUpdate extends AbstractUpdate
                 $product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
 
                 // Check that the product matches and that the version matches (optionally a regexp)
-                if (isset($this->currentUpdate->targetplatform->name)
+                if (
+                    isset($this->currentUpdate->targetplatform->name)
                     && $product == $this->currentUpdate->targetplatform->name
-                    && preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->get('jversion.full', JVERSION))) {
+                    && preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->get('jversion.full', JVERSION))
+                ) {
                     $phpMatch = false;
 
                     // Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
@@ -215,9 +358,9 @@ class XmlUpdate extends AbstractUpdate
 
                     // Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
                     if (isset($this->currentUpdate->supported_databases)) {
-                        $db = Factory::getDbo();
-                        $dbType = strtolower($db->getServerType());
-                        $dbVersion = $db->getVersion();
+                        $db           = Factory::getDbo();
+                        $dbType       = strtolower($db->getServerType());
+                        $dbVersion    = $db->getVersion();
                         $supportedDbs = $this->currentUpdate->supported_databases;
 
                         // MySQL and MariaDB use the same database driver but not the same version numbers
@@ -226,14 +369,14 @@ class XmlUpdate extends AbstractUpdate
                             if (stripos($dbVersion, 'mariadb') !== false) {
                                 // MariaDB: Strip off any leading '5.5.5-', if present
                                 $dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
-                                $dbType = 'mariadb';
+                                $dbType    = 'mariadb';
                             }
                         }
 
                         // Do we have an entry for the database?
                         if (isset($supportedDbs->$dbType)) {
                             $minimumVersion = $supportedDbs->$dbType;
-                            $dbMatch = version_compare($dbVersion, $minimumVersion, '>=');
+                            $dbMatch        = version_compare($dbVersion, $minimumVersion, '>=');
                         }
                     } else {
                         // Set to true if the <supported_databases> tag is not set
@@ -252,8 +395,10 @@ class XmlUpdate extends AbstractUpdate
                             $this->compatibleVersions[] = $this->currentUpdate->version->_data;
                         }
 
-                        if (!isset($this->latest)
-                            || version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>')) {
+                        if (
+                            !isset($this->latest)
+                            || version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>')
+                        ) {
                             $this->latest = $this->currentUpdate;
                         }
                     }
@@ -262,6 +407,9 @@ class XmlUpdate extends AbstractUpdate
             case 'UPDATES':
                 // If the latest item is set then we transfer it to where we want to
                 if (isset($this->latest)) {
+                    // This is an optional tag and therefore we need to be sure that this is gone and only used when set by the update itself
+                    unset($this->downloadSources);
+
                     foreach (get_object_vars($this->latest) as $key => $val) {
                         $this->$key = $val;
                     }
@@ -279,8 +427,8 @@ class XmlUpdate extends AbstractUpdate
     /**
      * Character Parser Function
      *
-     * @param object $parser Parser object.
-     * @param object $data The data.
+     * @param   object  $parser  Parser object.
+     * @param   object  $data    The data.
      *
      * @return  void
      *
@@ -295,14 +443,14 @@ class XmlUpdate extends AbstractUpdate
         $tag = strtolower($tag);
 
         if ($tag === 'tag') {
-            $this->currentUpdate->stability = $this->stabilityTagToInteger((string)$data);
+            $this->currentUpdate->stability = $this->stabilityTagToInteger((string) $data);
 
             return;
         }
 
         if ($tag === 'downloadsource') {
             // Grab the last source so we can append the URL
-            $source = end($this->downloadSources);
+            $source      = end($this->downloadSources);
             $source->url = $data;
 
             return;
@@ -316,8 +464,8 @@ class XmlUpdate extends AbstractUpdate
     /**
      * Loads an XML file from a URL.
      *
-     * @param string $url The URL.
-     * @param int $minimumStability The minimum stability required for updating the extension {@see Updater}
+     * @param   string  $url               The URL.
+     * @param   int     $minimumStability  The minimum stability required for updating the extension {@see Updater}
      *
      * @return  boolean  True on success
      *
@@ -325,12 +473,12 @@ class XmlUpdate extends AbstractUpdate
      */
     public function loadFromXml($url, $minimumStability = Updater::STABILITY_STABLE)
     {
-        $version = new Version;
-        $httpOption = new Registry;
+        $version    = new Version();
+        $httpOption = new Registry();
         $httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
 
         try {
-            $http = HttpFactory::getHttp($httpOption);
+            $http     = HttpFactory::getHttp($httpOption);
             $response = $http->get($url);
         } catch (\RuntimeException $e) {
             $response = null;
@@ -353,10 +501,12 @@ class XmlUpdate extends AbstractUpdate
         if (!xml_parse($this->xmlParser, $response->body)) {
             Log::add(
                 sprintf(
-                    'XML error: %s at line %d', xml_error_string(xml_get_error_code($this->xmlParser)),
+                    'XML error: %s at line %d',
+                    xml_error_string(xml_get_error_code($this->xmlParser)),
                     xml_get_current_line_number($this->xmlParser)
                 ),
-                Log::WARNING, 'updater'
+                Log::WARNING,
+                'updater'
             );
 
             return false;
@@ -371,7 +521,7 @@ class XmlUpdate extends AbstractUpdate
      * Converts a tag to numeric stability representation. If the tag doesn't represent a known stability level (one of
      * dev, alpha, beta, rc, stable) it is ignored.
      *
-     * @param string $tag The tag string, e.g. dev, alpha, beta, rc, stable
+     * @param   string  $tag  The tag string, e.g. dev, alpha, beta, rc, stable
      *
      * @return  integer
      *

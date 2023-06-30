@@ -29,88 +29,61 @@
  *        ./libraries/vendor/bin/php-cs-fixer fix administrator/index.php
  */
 
-// Only index the files in /libraries and no deeper, to prevent /libraries/vendor being indexed
-$topFilesFinder = PhpCsFixer\Finder::create()
-	->in(
-		[
-			__DIR__ . '/libraries'
-		]
-	)
-	->files()
-	->depth(0);
-
-// Add all the core Joomla folders and append to this list the files indexed above from /libraries
-$mainFinder = PhpCsFixer\Finder::create()
-	->in(
-		[
-			__DIR__ . '/administrator',
-			__DIR__ . '/api',
-			__DIR__ . '/build',
-			__DIR__ . '/cache',
-			__DIR__ . '/cli',
-			__DIR__ . '/components',
-			__DIR__ . '/includes',
-			__DIR__ . '/installation',
-			__DIR__ . '/language',
-			__DIR__ . '/libraries/src',
-			__DIR__ . '/modules',
-			__DIR__ . '/plugins',
-			__DIR__ . '/templates',
-			__DIR__ . '/tests',
-			__DIR__ . '/layouts',
-		]
-	)
-	->append($topFilesFinder);
+// Add all the core Joomla folders
+$finder = PhpCsFixer\Finder::create()
+    ->in(
+        [
+            __DIR__ . '/administrator',
+            __DIR__ . '/api',
+            __DIR__ . '/build',
+            __DIR__ . '/cache',
+            __DIR__ . '/cli',
+            __DIR__ . '/components',
+            __DIR__ . '/includes',
+            __DIR__ . '/installation',
+            __DIR__ . '/language',
+            __DIR__ . '/libraries/src',
+            __DIR__ . '/modules',
+            __DIR__ . '/plugins',
+            __DIR__ . '/templates',
+            __DIR__ . '/tests',
+        ]
+    )
+    // Ignore template files as PHP CS fixer can't handle them properly
+    // https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/3702#issuecomment-396717120
+    ->notPath('/tmpl/')
+    ->notPath('/layouts/')
+    ->notPath('/cassiopeia/')
+    ->notPath('/atum/')
+    // Ignore psr12 scripts because they contain invalid syntax
+    ->notPath('/psr12/')
+    ->notName('github_rebase.php');
 
 $config = new PhpCsFixer\Config();
 $config
-	->setRiskyAllowed(true)
-	->setIndent("\t")
-	->setRules(
-		[
-			// psr-1
-			'encoding'                              => true,
-			// psr-2
-			'elseif'                                => true,
-			'single_blank_line_at_eof'              => true,
-			'no_spaces_after_function_name'         => true,
-			'blank_line_after_namespace'            => true,
-			'line_ending'                           => true,
-			'constant_case'                         => ['case' => 'lower'],
-			'lowercase_keywords'                    => true,
-			'method_argument_space'                 => true,
-			'single_import_per_statement'           => true,
-			'no_spaces_inside_parenthesis'          => true,
-			'single_line_after_imports'             => true,
-			'no_trailing_whitespace'                => true,
-			// symfony
-			'no_whitespace_before_comma_in_array'   => true,
-			'whitespace_after_comma_in_array'       => true,
-			'no_empty_statement'                    => true,
-			'simplified_null_return'                => true,
-			'no_extra_blank_lines'                  => true,
-			'function_typehint_space'               => true,
-			'include'                               => true,
-			'no_alias_functions'                    => true,
-			'no_trailing_comma_in_list_call'        => true,
-			'trailing_comma_in_multiline'           => ['elements' => ['arrays']],
-			'no_blank_lines_after_class_opening'    => true,
-			'phpdoc_trim'                           => true,
-			'blank_line_before_statement'           => ['statements' => ['return']],
-			'no_trailing_comma_in_singleline_array' => true,
-			'single_blank_line_before_namespace'    => true,
-			'cast_spaces'                           => true,
-			'no_unused_imports'                     => true,
-			'no_whitespace_in_blank_line'           => true,
-			// contrib
-			'concat_space'                          => ['spacing' => 'one'],
-			/**
-			 * PHP 7+ zend_try_compile_special_func compiles certain PHP Functions to opcode which is faster
-			 * @see https://github.com/php/php-src/blob/9dc947522186766db4a7e2d603703a2250797577/Zend/zend_compile.c#L4192
-			 */
-			'native_function_invocation' => ['include' => ['@compiler_optimized'], 'scope' => 'namespaced', 'strict' => true],
-		]
-	)
-	->setFinder($mainFinder);
+    ->setRiskyAllowed(true)
+    ->setHideProgress(false)
+    ->setUsingCache(false)
+    ->setRules(
+        [
+            // Basic ruleset is PSR 12
+            '@PSR12'                         => true,
+            // Short array syntax
+            'array_syntax'                   => ['syntax' => 'short'],
+            // Lists should not have a trailing comma like list($foo, $bar,) = ...
+            'no_trailing_comma_in_list_call' => true,
+            // Arrays on multiline should have a trailing comma
+            'trailing_comma_in_multiline'    => ['elements' => ['arrays']],
+            // Align elements in multiline array and variable declarations on new lines below each other
+            'binary_operator_spaces'         => ['operators' => ['=>' => 'align_single_space_minimal', '=' => 'align']],
+            // The "No break" comment in switch statements
+            'no_break_comment'               => ['comment_text' => 'No break'],
+            // Remove unused imports
+            'no_unused_imports'              => true,
+            // Classes from the global namespace should not be imported
+            'global_namespace_import'        => ['import_classes' => false, 'import_constants' => false, 'import_functions' => false],
+        ]
+    )
+    ->setFinder($finder);
 
 return $config;

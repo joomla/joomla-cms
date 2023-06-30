@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -104,7 +104,7 @@ class ExceptionHandler
             if (Factory::$document) {
                 $format = Factory::$document->getType();
             } else {
-                $format = $app->input->getString('format', 'html');
+                $format = $app->getInput()->getString('format', 'html');
             }
 
             try {

@@ -17,7 +17,7 @@ use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -394,9 +394,9 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 
             $item['type'] = strtolower($item['type']);
 
-            $name    = $item['name'];
-            $uri     = $item['uri'] ?? '';
-            $options = $item;
+            $name                   = $item['name'];
+            $uri                    = $item['uri'] ?? '';
+            $options                = $item;
             $options['assetSource'] = $assetSource;
 
             unset($options['uri'], $options['name']);

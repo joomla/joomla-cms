@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -84,6 +85,14 @@ class HtmlView extends BaseHtmlView
     private $isEmptyState = false;
 
     /**
+     * The ordering list for the categories
+     *
+     * @var    array
+     * @since  4.4.0
+     */
+    protected $ordering = [];
+
+    /**
      * Display the view
      *
      * @param   string|null  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -127,7 +136,7 @@ class HtmlView extends BaseHtmlView
             }
         } else {
             // In article associations modal we need to remove language filter if forcing a language.
-            if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD')) {
+            if ($forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'CMD')) {
                 // If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
                 $languageXml = new \SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
                 $this->filterForm->setField($languageXml, 'filter', true);
@@ -136,6 +145,10 @@ class HtmlView extends BaseHtmlView
                 unset($this->activeFilters['language']);
             }
         }
+
+        // If filter by category is active we need to know the extension name to filter the categories
+        $extensionName = $this->escape($this->state->get('filter.extension'));
+        $this->filterForm->setFieldAttribute('category_id', 'extension', $extensionName, 'filter');
 
         parent::display($tpl);
     }
@@ -155,9 +168,7 @@ class HtmlView extends BaseHtmlView
         $section    = $this->state->get('filter.section');
         $canDo      = ContentHelper::getActions($component, 'category', $categoryId);
         $user       = Factory::getApplication()->getIdentity();
-
-        // Get the toolbar object instance
-        $toolbar = Toolbar::getInstance('toolbar');
+        $toolbar    = Toolbar::getInstance();
 
         // Avoid nonsense situation.
         if ($component == 'com_categories') {
@@ -165,7 +176,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Need to load the menu language file as mod_menu hasn't been loaded yet.
-        $lang = Factory::getLanguage();
+        $lang = $this->getLanguage();
         $lang->load($component, JPATH_BASE)
         || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
 
@@ -173,16 +184,15 @@ class HtmlView extends BaseHtmlView
         if ($lang->hasKey($component_title_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORIES_TITLE')) {
             $title = Text::_($component_title_key);
         } elseif ($lang->hasKey($component_section_key = strtoupper($component . ($section ? "_$section" : '')))) {
-        // Else if the component section string exists, let's use it.
+            // Else if the component section string exists, let's use it.
             $title = Text::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', $this->escape(Text::_($component_section_key)));
-        } else // Else use the base title
-        {
+        } else { // Else use the base title
             $title = Text::_('COM_CATEGORIES_CATEGORIES_BASE_TITLE');
         }
 
         // Load specific css component
         /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-        $wa = $this->document->getWebAssetManager();
+        $wa = $this->getDocument()->getWebAssetManager();
         $wa->getRegistry()->addExtensionRegistryFile($component);
 
         if ($wa->assetExists('style', $component . '.admin-categories')) {
@@ -199,8 +209,8 @@ class HtmlView extends BaseHtmlView
         }
 
         if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $user->authorise('core.admin'))) {
-            $dropdown = $toolbar->dropdownButton('status-group')
-                ->text('JTOOLBAR_CHANGE_STATUS')
+            /** @var  DropdownButton $dropdown */
+            $dropdown = $toolbar->dropdownButton('status-group', 'JTOOLBAR_CHANGE_STATUS')
                 ->toggleSplit(false)
                 ->icon('icon-ellipsis-h')
                 ->buttonClass('btn btn-action')
@@ -217,7 +227,7 @@ class HtmlView extends BaseHtmlView
             }
 
             if ($user->authorise('core.admin')) {
-                $childBar->checkin('categories.checkin')->listCheck(true);
+                $childBar->checkin('categories.checkin');
             }
 
             if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2) {
@@ -230,22 +240,19 @@ class HtmlView extends BaseHtmlView
                 && $canDo->get('core.edit')
                 && $canDo->get('core.edit.state')
             ) {
-                $childBar->popupButton('batch')
-                    ->text('JTOOLBAR_BATCH')
+                $childBar->popupButton('batch', 'JTOOLBAR_BATCH')
                     ->selector('collapseModal')
                     ->listCheck(true);
             }
         }
 
         if (!$this->isEmptyState && $canDo->get('core.admin')) {
-            $toolbar->standardButton('refresh')
-                ->text('JTOOLBAR_REBUILD')
+            $toolbar->standardButton('refresh', 'JTOOLBAR_REBUILD')
                 ->task('categories.rebuild');
         }
 
         if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component)) {
-            $toolbar->delete('categories.delete')
-                ->text('JTOOLBAR_EMPTY_TRASH')
+            $toolbar->delete('categories.delete', 'JTOOLBAR_EMPTY_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
                 ->listCheck(true);
         }
@@ -308,6 +315,6 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        ToolbarHelper::help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
+        $toolbar->help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
     }
 }

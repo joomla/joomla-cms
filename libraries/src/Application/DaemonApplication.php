@@ -16,7 +16,7 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -33,7 +33,7 @@ abstract class DaemonApplication extends CliApplication
      * @link   https://www.php.net/manual/pcntl.constants.php
      * @since  1.7.0
      */
-    protected static $signals = array(
+    protected static $signals = [
         'SIGHUP',
         'SIGINT',
         'SIGQUIT',
@@ -70,7 +70,7 @@ abstract class DaemonApplication extends CliApplication
         'SIG_BLOCK',
         'SIG_UNBLOCK',
         'SIG_SETMASK',
-    );
+    ];
 
     /**
      * @var    boolean  True if the daemon is in the process of exiting.
@@ -163,7 +163,7 @@ abstract class DaemonApplication extends CliApplication
         }
 
         // Fire the onReceiveSignal event.
-        static::$instance->triggerEvent('onReceiveSignal', array($signal));
+        static::$instance->triggerEvent('onReceiveSignal', [$signal]);
 
         switch ($signal) {
             case SIGINT:
@@ -218,7 +218,7 @@ abstract class DaemonApplication extends CliApplication
         }
 
         // Read the contents of the process id file as an integer.
-        $fp = fopen($pidFile, 'r');
+        $fp  = fopen($pidFile, 'r');
         $pid = fread($fp, filesize($pidFile));
         $pid = (int) $pid;
         fclose($fp);
@@ -288,7 +288,7 @@ abstract class DaemonApplication extends CliApplication
 
         // The pid file location.  This defaults to a path inside the /tmp directory.
         $name = $this->config->get('application_name');
-        $tmp = (string) $this->config->get('application_pid_file', strtolower('/tmp/' . $name . '/' . $name . '.pid'));
+        $tmp  = (string) $this->config->get('application_pid_file', strtolower('/tmp/' . $name . '/' . $name . '.pid'));
         $this->config->set('application_pid_file', $tmp);
 
         /*
@@ -298,13 +298,13 @@ abstract class DaemonApplication extends CliApplication
          */
 
         // The user id under which to run the daemon.
-        $tmp = (int) $this->config->get('application_uid', 0);
-        $options = array('options' => array('min_range' => 0, 'max_range' => 65000));
+        $tmp     = (int) $this->config->get('application_uid', 0);
+        $options = ['options' => ['min_range' => 0, 'max_range' => 65000]];
         $this->config->set('application_uid', filter_var($tmp, FILTER_VALIDATE_INT, $options));
 
         // The group id under which to run the daemon.
-        $tmp = (int) $this->config->get('application_gid', 0);
-        $options = array('options' => array('min_range' => 0, 'max_range' => 65000));
+        $tmp     = (int) $this->config->get('application_gid', 0);
+        $options = ['options' => ['min_range' => 0, 'max_range' => 65000]];
         $this->config->set('application_gid', filter_var($tmp, FILTER_VALIDATE_INT, $options));
 
         // Option to kill the daemon if it cannot switch to the chosen identity.
@@ -455,7 +455,7 @@ abstract class DaemonApplication extends CliApplication
         }
 
         // Get the user and group information based on uid and gid.
-        $user = posix_getpwuid($uid);
+        $user  = posix_getpwuid($uid);
         $group = posix_getgrgid($gid);
 
         Log::add('Changed daemon identity to ' . $user['name'] . ':' . $group['name'], Log::INFO);
@@ -481,9 +481,8 @@ abstract class DaemonApplication extends CliApplication
         }
 
         // Reset Process Information
-        $this->safeMode = !!@ ini_get('safe_mode');
         $this->processId = 0;
-        $this->running = false;
+        $this->running   = false;
 
         // Detach process!
         try {
@@ -498,7 +497,7 @@ abstract class DaemonApplication extends CliApplication
 
                 // Set the process id.
                 $this->processId = (int) posix_getpid();
-                $this->parentId = $this->processId;
+                $this->parentId  = $this->processId;
             }
         } catch (\RuntimeException $e) {
             Log::add('Unable to fork.', Log::EMERGENCY);
@@ -651,7 +650,7 @@ abstract class DaemonApplication extends CliApplication
             }
 
             // Attach the signal handler for the signal.
-            if (!$this->pcntlSignal(\constant($signal), array('DaemonApplication', 'signal'))) {
+            if (!$this->pcntlSignal(\constant($signal), ['DaemonApplication', 'signal'])) {
                 Log::add(sprintf('Unable to reroute signal handler: %s', $signal), Log::EMERGENCY);
 
                 return false;
@@ -689,7 +688,7 @@ abstract class DaemonApplication extends CliApplication
         // Only read the pid for the parent file.
         if ($this->parentId == $this->processId) {
             // Read the contents of the process id file as an integer.
-            $fp = fopen($this->config->get('application_pid_file'), 'r');
+            $fp  = fopen($this->config->get('application_pid_file'), 'r');
             $pid = fread($fp, filesize($this->config->get('application_pid_file')));
             $pid = (int) $pid;
             fclose($fp);

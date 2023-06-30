@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
@@ -46,7 +47,7 @@ class HtmlView extends BaseHtmlView
     protected $item;
 
     /**
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  3.7.0
      */
@@ -61,15 +62,12 @@ class HtmlView extends BaseHtmlView
      */
     protected $canDo;
 
-
     /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
      * @return  void
-     *
-     * @see     JViewLegacy::loadTemplate()
      *
      * @since   3.7.0
      */
@@ -93,8 +91,6 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        Factory::getApplication()->input->set('hidemainmenu', true);
-
         $this->addToolbar();
 
         parent::display($tpl);
@@ -109,8 +105,11 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
+
         $component = '';
         $parts     = FieldsHelper::extract($this->state->get('filter.context'));
+        $toolbar   = Toolbar::getInstance();
 
         if ($parts) {
             $component = $parts[0];
@@ -128,7 +127,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Load component language file
-        $lang = Factory::getLanguage();
+        $lang = $this->getLanguage();
         $lang->load($component, JPATH_ADMINISTRATOR)
         || $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
@@ -145,48 +144,48 @@ class HtmlView extends BaseHtmlView
 
         // For new records, check the create permission.
         if ($isNew) {
-            ToolbarHelper::apply('group.apply');
+            $toolbar->apply('group.apply');
+            $saveGroup = $toolbar->dropdownButton('save-group');
 
-            ToolbarHelper::saveGroup(
-                [
-                    ['save', 'group.save'],
-                    ['save2new', 'group.save2new']
-                ],
-                'btn-success'
+            $saveGroup->configure(
+                function (Toolbar $childBar) {
+                    $childBar->save('group.save');
+                    $childBar->save2new('group.save2new');
+                }
             );
 
-            ToolbarHelper::cancel('group.cancel');
+            $toolbar->cancel('group.cancel');
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
-            $toolbarButtons = [];
-
             // Can't save the record if it's checked out and editable
             if (!$checkedOut && $itemEditable) {
-                ToolbarHelper::apply('group.apply');
+                $toolbar->apply('group.apply');
+            }
 
-                $toolbarButtons[] = ['save', 'group.save'];
+            $saveGroup = $toolbar->dropdownButton('save-group');
+            $saveGroup->configure(
+                function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo) {
+                    if (!$checkedOut && $itemEditable) {
+                        $childBar->save('group.save');
 
-                // We can save this record, but check the create permission to see if we can return to make a new one.
-                if ($canDo->get('core.create')) {
-                    $toolbarButtons[] = ['save2new', 'group.save2new'];
+                        // We can save this record, but check the create permission to see if we can return to make a new one.
+                        if ($canDo->get('core.create')) {
+                            $childBar->save2new('group.save2new');
+                        }
+                    }
+
+                    // If an existing item, can save to a copy.
+                    if ($canDo->get('core.create')) {
+                        $childBar->save2copy('group.save2copy');
+                    }
                 }
-            }
-
-            // If an existing item, can save to a copy.
-            if ($canDo->get('core.create')) {
-                $toolbarButtons[] = ['save2copy', 'group.save2copy'];
-            }
-
-            ToolbarHelper::saveGroup(
-                $toolbarButtons,
-                'btn-success'
             );
 
-            ToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('group.cancel');
         }
 
-        ToolbarHelper::help('Component:_New_or_Edit_Field_Group');
+        $toolbar->help('Field_Groups:_Edit');
     }
 }

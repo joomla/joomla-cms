@@ -16,7 +16,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
-$hideLinks = $app->input->getBool('hidemainmenu');
+$hideLinks = $app->getInput()->getBool('hidemainmenu');
 
 if ($hideLinks) {
     return;
