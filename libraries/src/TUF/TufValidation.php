@@ -20,6 +20,7 @@ use Tuf\Exception\Attack\FreezeAttackException;
 use Tuf\Exception\Attack\RollbackAttackException;
 use Tuf\Exception\Attack\SignatureThresholdException;
 use Tuf\Exception\MetadataException;
+use Tuf\Loader\SizeCheckingLoader;
 
 \defined('JPATH_PLATFORM') or die;
 
@@ -102,13 +103,13 @@ class TufValidation
     {
         $db = Factory::getContainer()->get(DatabaseDriver::class);
 
-        $fileFetcher = HttpFileFetcher::createFromUri($this->params['url_prefix'], $this->params['metadata_path'], $this->params['targets_path']);
+        $httpLoader = new HttpLoader();
+        $sizeCheckingLoader = new SizeCheckingLoader($httpLoader);
 
         $storage = new DatabaseStorage($db, $this->extensionId);
 
         $updater = new Updater(
-            $fileFetcher,
-            $this->params['mirrors'],
+            $sizeCheckingLoader,
             $storage
         );
 

@@ -10,15 +10,15 @@ namespace Joomla\CMS\TUF;
 
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Tuf;
-use Joomla\CMS\TUF\Exception\RoleNotFoundException;
 use Joomla\Database\DatabaseDriver;
+use Tuf\Metadata\StorageBase;
 
 \defined('JPATH_PLATFORM') or die;
 
 /**
  * @since  __DEPLOY_VERSION__
  */
-class DatabaseStorage implements \ArrayAccess
+class DatabaseStorage extends StorageBase
 {
     /**
      * The Tuf table object
@@ -38,104 +38,29 @@ class DatabaseStorage implements \ArrayAccess
         $this->table = new Tuf($db);
 
         $this->table->load(['extension_id' => $extensionId]);
-    }
 
-    /**
-     * Check if an offset/table column exists
-     *
-     * @param mixed $offset The offset/database column to check for
-     *
-     * @return boolean
-     */
-    public function offsetExists($offset): bool
-    {
-        $column = $this->getCleanColumn($offset);
+        foreach (["root_json", "targets_json", "snapshot_json", "timestamp_json", "mirrors_json"] as $column) {
+            if ($this->table->$column === null) {
+                continue;
+            }
 
-        return substr($column, -5) === '_json' && $this->table->hasField($column) && !is_null($this->table->$column);
-    }
-
-    /**
-     * Check if an offset/table column exists
-     *
-     * @param mixed $offset The offset/database column to check for
-     *
-     * @return boolean
-     */
-    public function tableColumnExists($offset): bool
-    {
-        $column = $this->getCleanColumn($offset);
-
-        return substr($column, -5) === '_json' && $this->table->hasField($column);
-    }
-
-    /**
-     * Get the value of a table column
-     *
-     * @param mixed $offset The column name to get the value for
-     *
-     * @return  mixed
-     */
-    public function offsetGet($offset)
-    {
-        if (!$this->offsetExists($offset)) {
-            throw new RoleNotFoundException();
+            $this->write(explode("_", $column, 2)[0], $this->table->$column);
         }
-
-        $column = $this->getCleanColumn($offset);
-
-        return $this->table->$column;
     }
 
-    /**
-     * Set a value in a column
-     *
-     * @param   [type] $offset  The table column to set the value
-     * @param   [type] $value   The value to set
-     *
-     * @return void
-     */
-    public function offsetSet($offset, $value)
+
+    public function read(string $name): ?string
     {
-        if (!$this->tableColumnExists($offset)) {
-            throw new RoleNotFoundException();
-        }
-
-        $column = $this->getCleanColumn($offset);
-
-        $this->table->$column = $value;
-
-        $this->table->store();
+        return $this->container[$name] ?? null;
     }
 
-    /**
-     * Reset the value to a
-     *
-     * @param mixed $offset The table column to reset the value to null
-     *
-     * @return void
-     */
-    public function offsetUnset($offset): void
+    public function write(string $name, string $data): void
     {
-        if (!$this->offsetExists($offset)) {
-            throw new RoleNotFoundException();
-        }
-
-        $column = $this->getCleanColumn($offset);
-
-        $this->table->$column = null;
-
-        $this->table->store(true);
+        $this->container[$name] = $data;
     }
 
-    /**
-     * Convert file names to table columns
-     *
-     * @param string $name The original file name
-     *
-     * @return string
-     */
-    protected function getCleanColumn($name): string
+    public function delete(string $name): void
     {
-        return str_replace('.', '_', $name);
+        unset($this->container[$name]);
     }
 }
