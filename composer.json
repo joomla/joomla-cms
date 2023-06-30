@@ -33,7 +33,7 @@
         },
         {
             "type": "vcs",
-            "url": "https://github.com/joomla-projects/php-tuf.git",
+            "url": "https://github.com/php-tuf/php-tuf.git",
             "no-api": true
         }
     ],
@@ -106,7 +106,7 @@
         "phpseclib/bcmath_compat": "^2.0.1",
         "jfcherng/php-diff": "^6.15.3",
         "voku/portable-utf8": "^6.0.13",
-        "php-tuf/php-tuf": "dev-joomla-tuf-combined"
+        "php-tuf/php-tuf": "dev-main"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.6.9",
