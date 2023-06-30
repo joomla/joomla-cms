@@ -31,6 +31,10 @@ $wa->useScript('keepalive')
     (int) $this->item->id); ?>" method="post" name="adminForm" id="guidedtours-form" class="form-validate">
 
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
+	<div class="col-3">
+        <?php $this->form->setFieldAttribute('title_translation', 'label', Text::sprintf('COM_GUIDEDTOURS_TITLE_TRANSLATION', $lang)); ?>
+        <?php echo $this->form->renderField('title_translation'); ?>
+	</div>
 
     <?php if ($this->item->id != 0 && strpos($this->item->title, 'GUIDEDTOUR') !== false) : ?>
         <div class="row title-alias form-vertical mb-3">

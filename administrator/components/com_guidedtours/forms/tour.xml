@@ -27,6 +27,14 @@
 	/>
 
 	<field
+			name="alias"
+			type="text"
+			label="COM_GUIDEDTOURS_TOUR_ALIAS"
+			description="COM_GUIDEDTOURS_TOUR_ALIAS_DESC"
+			required="false"
+	/>
+
+	<field
 		name="description"
 		type="editor"
 		label="JGLOBAL_DESCRIPTION"

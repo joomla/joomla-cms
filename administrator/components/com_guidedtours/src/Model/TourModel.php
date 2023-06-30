@@ -10,12 +10,15 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Model;
 
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -76,6 +79,20 @@ class TourModel extends AdminModel
         $lang = $data['language'];
 
         $this->setStepsLanguage($id, $lang);
+
+        if (empty($data['alias'])) {
+            $app        = Factory::getApplication();
+            $uri        = Uri::getInstance();
+            $host       = $uri->toString(['host']);
+            $aliasTitle = $host . " " . str_replace("COM_GUIDEDTOURS_TOUR_", "", $data['title']);
+            if ($app->get('unicodeslugs') == 1) {
+                $data['alias'] = OutputFilter::stringUrlUnicodeSlug($aliasTitle);
+            } else {
+                $data['alias'] = OutputFilter::stringURLSafe($aliasTitle);
+            }
+        }
+
+        $data['alias'] = ApplicationHelper::stringURLSafe($data['alias']);
 
         $result = parent::save($data);
 
@@ -219,6 +236,18 @@ class TourModel extends AdminModel
         if (!empty($result->id)) {
             $result->title_translation       = Text::_($result->title);
             $result->description_translation = Text::_($result->description);
+        }
+
+        if (empty($result->alias)) {
+            $app        = Factory::getApplication();
+            $uri        = Uri::getInstance();
+            $host       = $uri->toString(['host']);
+            $aliasTitle = $host . " " . str_replace("COM_GUIDEDTOURS_TOUR_", "", $result->title);
+            if ($app->get('unicodeslugs') == 1) {
+                $result->alias = OutputFilter::stringUrlUnicodeSlug($aliasTitle);
+            } else {
+                $result->alias = OutputFilter::stringURLSafe($aliasTitle);
+            }
         }
 
         return $result;
