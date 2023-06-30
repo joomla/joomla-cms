@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Table;
 
-use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
