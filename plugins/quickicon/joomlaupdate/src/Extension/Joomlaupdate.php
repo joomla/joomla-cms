@@ -130,7 +130,7 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
                 'link'  => 'index.php?option=com_joomlaupdate',
                 'image' => 'icon-joomla',
                 'icon'  => '',
-                'text'  => Text::_('PLG_QUICKICON_JOOMLAUPDATE_CHECKING'),
+                'text'  => $this->text('PLG_QUICKICON_JOOMLAUPDATE_CHECKING'),
                 'id'    => 'plg_quickicon_joomlaupdate',
                 'group' => 'MOD_QUICKICON_MAINTENANCE',
             ],

@@ -482,7 +482,7 @@ trait DisplayTrait
 
         $scriptOptions['style_formats'] = [
             [
-                'title' => Text::_('PLG_TINY_MENU_CONTAINER'),
+                'title' => $this->text('PLG_TINY_MENU_CONTAINER'),
                 'items' => [
                     ['title' => 'article', 'block' => 'article', 'wrapper' => true, 'merge_siblings' => false],
                     ['title' => 'aside', 'block' => 'aside', 'wrapper' => true, 'merge_siblings' => false],

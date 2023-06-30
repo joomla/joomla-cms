@@ -81,7 +81,7 @@ final class Downloadkey extends CMSPlugin implements SubscriberInterface
             'link'  => 'index.php?option=com_installer&view=updatesites&filter[supported]=1',
             'image' => 'icon-key',
             'icon'  => '',
-            'text'  => Text::_('PLG_QUICKICON_DOWNLOADKEY_OK'),
+            'text'  => $this->text('PLG_QUICKICON_DOWNLOADKEY_OK'),
             'class' => 'success',
             'id'    => 'plg_quickicon_downloadkey',
             'group' => 'MOD_QUICKICON_MAINTENANCE',

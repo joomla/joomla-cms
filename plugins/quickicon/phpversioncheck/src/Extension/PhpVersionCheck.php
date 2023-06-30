@@ -177,7 +177,7 @@ final class PhpVersionCheck extends CMSPlugin implements SubscriberInterface
                             'PLG_QUICKICON_PHPVERSIONCHECK_UNSUPPORTED',
                             $phpVersion,
                             $version,
-                            $versionEndOfSupport->format(Text::_('DATE_FORMAT_LC4'))
+                            $versionEndOfSupport->format($this->text('DATE_FORMAT_LC4'))
                         );
 
                         return $supportStatus;
@@ -203,7 +203,7 @@ final class PhpVersionCheck extends CMSPlugin implements SubscriberInterface
                 $supportStatus['message'] = Text::sprintf(
                     'PLG_QUICKICON_PHPVERSIONCHECK_SECURITY_ONLY',
                     $phpVersion,
-                    $phpEndOfSupport->format(Text::_('DATE_FORMAT_LC4'))
+                    $phpEndOfSupport->format($this->text('DATE_FORMAT_LC4'))
                 );
             }
         }

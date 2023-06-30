@@ -18,11 +18,11 @@ use Joomla\Plugin\Installer\Url\Extension\UrlInstaller;
 $this->getApplication()->getDocument()->getWebAssetManager()
     ->registerAndUseScript('plg_installer_urlinstaller.urlinstaller', 'plg_installer_urlinstaller/urlinstaller.js', [], ['defer' => true], ['core']);
 ?>
-<legend><?php echo Text::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?></legend>
+<legend><?php echo $this->text('PLG_INSTALLER_URLINSTALLER_TEXT'); ?></legend>
 
 <div class="control-group">
     <label for="install_url" class="control-label">
-        <?php echo Text::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?>
+        <?php echo $this->text('PLG_INSTALLER_URLINSTALLER_TEXT'); ?>
     </label>
     <div class="controls">
         <input type="text" id="install_url" name="install_url" class="form-control" placeholder="https://">
@@ -31,7 +31,7 @@ $this->getApplication()->getDocument()->getWebAssetManager()
 <div class="control-group">
     <div class="controls">
         <button type="button" class="btn btn-primary" id="installbutton_url" onclick="Joomla.submitbuttonurl()">
-            <?php echo Text::_('PLG_INSTALLER_URLINSTALLER_BUTTON'); ?>
+            <?php echo $this->text('PLG_INSTALLER_URLINSTALLER_BUTTON'); ?>
         </button>
     </div>
 </div>

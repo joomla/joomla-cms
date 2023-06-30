@@ -24,7 +24,7 @@ $options = $this->getOptionsFromField($field);
 
 foreach ($options as $optionValue => $optionText) {
     if (in_array((string) $optionValue, $value)) {
-        $texts[] = Text::_($optionText);
+        $texts[] = $this->text($optionText);
     }
 }
 

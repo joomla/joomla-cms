@@ -93,8 +93,8 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
             new MethodDescriptor(
                 [
                     'name'               => $this->mfaMethodName,
-                    'display'            => Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_DISPLAYEDAS'),
-                    'shortinfo'          => Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_SHORTINFO'),
+                    'display'            => $this->text('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_DISPLAYEDAS'),
+                    'shortinfo'          => $this->text('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_SHORTINFO'),
                     'image'              => 'media/plg_multifactorauth_webauthn/images/webauthn.svg',
                     'allowMultiple'      => true,
                     'allowEntryBatching' => true,
@@ -130,7 +130,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         $submitClass = '';
         $submitIcon  = 'icon icon-ok';
         $submitText  = 'JSAVE';
-        $preMessage  = Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_CONFIGURED');
+        $preMessage  = $this->text('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_CONFIGURED');
         $type        = 'input';
         $html        = '';
         $hiddenData  = [];
@@ -167,14 +167,14 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
             // Message to display
             $preMessage = Text::sprintf(
                 'PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_INSTRUCTIONS',
-                Text::_($submitText)
+                $this->text($submitText)
             );
         }
 
         $event->addResult(
             new SetupRenderOptions(
                 [
-                    'default_title' => Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_DISPLAYEDAS'),
+                    'default_title' => $this->text('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_DISPLAYEDAS'),
                     'pre_message'   => $preMessage,
                     'hidden_data'   => $hiddenData,
                     'field_type'    => $type,
@@ -227,7 +227,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 
         // If there was no registration request BUT there is a registration response throw an error
         if (empty($registrationRequest) && !empty($code)) {
-            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException($this->text('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         // If there is no registration request (and there isn't a registration response) we are just saving the title.
@@ -361,7 +361,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
                 [
                     'pre_message' => Text::sprintf(
                         'PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_INSTRUCTIONS',
-                        Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_VALIDATEKEY')
+                        $this->text('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_VALIDATEKEY')
                     ),
                     'field_type'         => 'custom',
                     'input_type'         => 'hidden',

@@ -110,8 +110,8 @@ class Totp extends CMSPlugin implements SubscriberInterface
             new MethodDescriptor(
                 [
                     'name'      => $this->mfaMethodName,
-                    'display'   => Text::_('PLG_MULTIFACTORAUTH_TOTP_METHOD_TITLE'),
-                    'shortinfo' => Text::_('PLG_MULTIFACTORAUTH_TOTP_SHORTINFO'),
+                    'display'   => $this->text('PLG_MULTIFACTORAUTH_TOTP_METHOD_TITLE'),
+                    'shortinfo' => $this->text('PLG_MULTIFACTORAUTH_TOTP_SHORTINFO'),
                     'image'     => 'media/plg_multifactorauth_totp/images/totp.svg',
                 ]
             )
@@ -143,7 +143,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
             new CaptiveRenderOptions(
                 [
                     // Custom HTML to display above the MFA form
-                    'pre_message' => Text::_('PLG_MULTIFACTORAUTH_TOTP_CAPTIVE_PROMPT'),
+                    'pre_message' => $this->text('PLG_MULTIFACTORAUTH_TOTP_CAPTIVE_PROMPT'),
                     // How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
                     'field_type' => 'input',
                     // The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
@@ -155,7 +155,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
                     // Placeholder text for the HTML input box. Leave empty if you don't need it.
                     'placeholder' => '',
                     // Label to show above the HTML input box. Leave empty if you don't need it.
-                    'label' => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_LABEL'),
+                    'label' => $this->text('PLG_MULTIFACTORAUTH_TOTP_LBL_LABEL'),
                     // Custom HTML. Only used when field_type = custom.
                     'html' => '',
                     // Custom HTML to display below the MFA form
@@ -223,16 +223,16 @@ class Totp extends CMSPlugin implements SubscriberInterface
         $event->addResult(
             new SetupRenderOptions(
                 [
-                    'default_title' => Text::_('PLG_MULTIFACTORAUTH_TOTP_METHOD_TITLE'),
-                    'pre_message'   => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_INSTRUCTIONS'),
-                    'table_heading' => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_HEADING'),
+                    'default_title' => $this->text('PLG_MULTIFACTORAUTH_TOTP_METHOD_TITLE'),
+                    'pre_message'   => $this->text('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_INSTRUCTIONS'),
+                    'table_heading' => $this->text('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_HEADING'),
                     'tabular_data'  => [
-                        ''                                                      => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_SUBHEAD'),
-                        Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_KEY') => $key,
-                        Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_QR')  => "<span id=\"users-mfa-totp-qrcode\" />",
-                        Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_LINK')
+                        ''                                                      => $this->text('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_SUBHEAD'),
+                        $this->text('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_KEY') => $key,
+                        $this->text('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_QR')  => "<span id=\"users-mfa-totp-qrcode\" />",
+                        $this->text('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_LINK')
                         => Text::sprintf('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_LINK_TEXT', $otpURL) .
-                            '<br/><small>' . Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_LINK_NOTE') . '</small>',
+                            '<br/><small>' . $this->text('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_LINK_NOTE') . '</small>',
                     ],
                     'hidden_data' => [
                         'key' => $key,
@@ -242,8 +242,8 @@ class Totp extends CMSPlugin implements SubscriberInterface
                         'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric",
                     ],
                     'input_value' => '',
-                    'placeholder' => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_PLACEHOLDER'),
-                    'label'       => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_LABEL'),
+                    'placeholder' => $this->text('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_PLACEHOLDER'),
+                    'label'       => $this->text('PLG_MULTIFACTORAUTH_TOTP_LBL_LABEL'),
                 ]
             )
         );
@@ -287,7 +287,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 
         // If there is still no key in the options throw an error
         if (empty($key)) {
-            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException($this->text('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         /**
@@ -307,7 +307,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
         $isValid = $totp->checkCode($key, $code);
 
         if (!$isValid) {
-            throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_TOTP_ERR_VALIDATIONFAILED'), 500);
+            throw new \RuntimeException($this->text('PLG_MULTIFACTORAUTH_TOTP_ERR_VALIDATIONFAILED'), 500);
         }
 
         // The code is valid. Unset the key from the session.

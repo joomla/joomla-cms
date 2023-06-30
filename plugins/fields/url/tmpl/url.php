@@ -23,9 +23,9 @@ $attributes = '';
 
 if (!Uri::isInternal($value)) {
     $attributes = ' rel="nofollow noopener noreferrer" target="_blank"';
-    $text       = Text::_('JVISIT_WEBSITE');
+    $text       = $this->text('JVISIT_WEBSITE');
 } else {
-    $text       = Text::_('JVISIT_LINK');
+    $text       = $this->text('JVISIT_LINK');
 }
 
 if ($fieldParams->get('show_url', 0)) {

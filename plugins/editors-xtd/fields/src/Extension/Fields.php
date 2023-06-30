@@ -66,7 +66,7 @@ final class Fields extends CMSPlugin
         $button          = new CMSObject();
         $button->modal   = true;
         $button->link    = $link;
-        $button->text    = Text::_('PLG_EDITORS-XTD_FIELDS_BUTTON_FIELD');
+        $button->text    = $this->text('PLG_EDITORS-XTD_FIELDS_BUTTON_FIELD');
         $button->name    = $this->_type . '_' . $this->_name;
         $button->icon    = 'puzzle';
         $button->iconSVG = '<svg viewBox="0 0 576 512" width="24" height="24"><path d="M519.442 288.651c-41.519 0-59.5 31.593-82.058 31.593C377.'

@@ -50,6 +50,6 @@ extract($displayData);
  */
 ?>
 <?php if (count($statsData)) : ?>
-    <a href="#" id="js-pstats-data-details-toggler"><?php echo Text::_('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?></a>
+    <a href="#" id="js-pstats-data-details-toggler"><?php echo $this->text('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?></a>
     <?php echo $field->render('stats', compact('statsData')); ?>
 <?php endif; ?>

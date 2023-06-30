@@ -109,8 +109,8 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
             new MethodDescriptor(
                 [
                     'name'               => $this->mfaMethodName,
-                    'display'            => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_METHOD_TITLE'),
-                    'shortinfo'          => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_SHORTINFO'),
+                    'display'            => $this->text('PLG_MULTIFACTORAUTH_YUBIKEY_METHOD_TITLE'),
+                    'shortinfo'          => $this->text('PLG_MULTIFACTORAUTH_YUBIKEY_SHORTINFO'),
                     'image'              => 'media/plg_multifactorauth_yubikey/images/yubikey.svg',
                     'allowEntryBatching' => true,
                 ]
@@ -143,7 +143,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
             new CaptiveRenderOptions(
                 [
                     // Custom HTML to display above the MFA form
-                    'pre_message' => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_CAPTIVE_PROMPT'),
+                    'pre_message' => $this->text('PLG_MULTIFACTORAUTH_YUBIKEY_CAPTIVE_PROMPT'),
                     // How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
                     'field_type' => 'input',
                     // The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
@@ -151,7 +151,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
                     // Placeholder text for the HTML input box. Leave empty if you don't need it.
                     'placeholder' => '',
                     // Label to show above the HTML input box. Leave empty if you don't need it.
-                    'label' => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_CODE_LABEL'),
+                    'label' => $this->text('PLG_MULTIFACTORAUTH_YUBIKEY_CODE_LABEL'),
                     // Custom HTML. Only used when field_type = custom.
                     'html' => '',
                     // Custom HTML to display below the MFA form
@@ -193,13 +193,13 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
             $event->addResult(
                 new SetupRenderOptions(
                     [
-                        'default_title' => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_METHOD_TITLE'),
-                        'pre_message'   => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_LBL_SETUP_INSTRUCTIONS'),
+                        'default_title' => $this->text('PLG_MULTIFACTORAUTH_YUBIKEY_METHOD_TITLE'),
+                        'pre_message'   => $this->text('PLG_MULTIFACTORAUTH_YUBIKEY_LBL_SETUP_INSTRUCTIONS'),
                         'field_type'    => 'input',
                         'input_type'    => 'text',
                         'input_value'   => $keyID,
-                        'placeholder'   => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_LBL_SETUP_PLACEHOLDER'),
-                        'label'         => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_LBL_SETUP_LABEL'),
+                        'placeholder'   => $this->text('PLG_MULTIFACTORAUTH_YUBIKEY_LBL_SETUP_PLACEHOLDER'),
+                        'label'         => $this->text('PLG_MULTIFACTORAUTH_YUBIKEY_LBL_SETUP_LABEL'),
                     ]
                 )
             );
@@ -207,7 +207,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
             $event->addResult(
                 new SetupRenderOptions(
                     [
-                        'default_title' => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_METHOD_TITLE'),
+                        'default_title' => $this->text('PLG_MULTIFACTORAUTH_YUBIKEY_METHOD_TITLE'),
                         'pre_message'   => Text::sprintf('PLG_MULTIFACTORAUTH_YUBIKEY_LBL_AFTERSETUP_INSTRUCTIONS', $keyID),
                         'input_type'    => 'hidden',
                     ]
@@ -261,14 +261,14 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 
         // If an empty code or something other than 44 characters was submitted I'm not having any of this!
         if (empty($code) || (strlen($code) != 44)) {
-            throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 500);
+            throw new \RuntimeException($this->text('PLG_MULTIFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 500);
         }
 
         // Validate the code
         $isValid = $this->validateYubikeyOtp($code);
 
         if (!$isValid) {
-            throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 500);
+            throw new \RuntimeException($this->text('PLG_MULTIFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 500);
         }
 
         // The code is valid. Keep the Yubikey ID (first twelve characters)

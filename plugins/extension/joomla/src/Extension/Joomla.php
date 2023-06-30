@@ -286,7 +286,7 @@ final class Joomla extends CMSPlugin
 
             if ($data !== '') {
                 // We have a single entry in the update server line, let us presume this is an extension line
-                $this->addUpdateSite(Text::_('PLG_EXTENSION_JOOMLA_UNKNOWN_SITE'), 'extension', $data, true);
+                $this->addUpdateSite($this->text('PLG_EXTENSION_JOOMLA_UNKNOWN_SITE'), 'extension', $data, true);
             }
         }
     }

@@ -60,7 +60,7 @@ final class Menu extends CMSPlugin
             $button          = new CMSObject();
             $button->modal   = true;
             $button->link    = $link;
-            $button->text    = Text::_('PLG_EDITORS-XTD_MENU_BUTTON_MENU');
+            $button->text    = $this->text('PLG_EDITORS-XTD_MENU_BUTTON_MENU');
             $button->name    = $this->_type . '_' . $this->_name;
             $button->icon    = 'list';
             $button->iconSVG = '<svg viewBox="0 0 512 512"  width="24" height="24"><path d="M80 368H16a16 16 0 0 0-16 16v64a16 16 0 0 0 16 16h64a16 1'

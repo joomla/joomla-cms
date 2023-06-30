@@ -150,7 +150,7 @@ final class Image extends CMSPlugin
             $button          = new CMSObject();
             $button->modal   = true;
             $button->link    = $link;
-            $button->text    = Text::_('PLG_IMAGE_BUTTON_IMAGE');
+            $button->text    = $this->text('PLG_IMAGE_BUTTON_IMAGE');
             $button->name    = $this->_type . '_' . $this->_name;
             $button->icon    = 'pictures';
             $button->iconSVG = '<svg width="24" height="24" viewBox="0 0 512 512"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48'
@@ -165,7 +165,7 @@ final class Image extends CMSPlugin
                 'modalWidth'      => '80',
                 'tinyPath'        => $link,
                 'confirmCallback' => 'Joomla.getImage(Joomla.selectedMediaFile, \'' . $name . '\', this)',
-                'confirmText'     => Text::_('PLG_IMAGE_BUTTON_INSERT'),
+                'confirmText'     => $this->text('PLG_IMAGE_BUTTON_INSERT'),
             ];
 
             return $button;

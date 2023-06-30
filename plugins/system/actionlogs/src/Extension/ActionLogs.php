@@ -452,7 +452,7 @@ final class ActionLogs extends CMSPlugin
      */
     public static function renderActionlogsNotify($value)
     {
-        return Text::_($value ? 'JYES' : 'JNO');
+        return $this->text($value ? 'JYES' : 'JNO');
     }
 
     /**
@@ -468,13 +468,13 @@ final class ActionLogs extends CMSPlugin
     {
         // No extensions selected.
         if (!$extensions) {
-            return Text::_('JNONE');
+            return $this->text('JNONE');
         }
 
         foreach ($extensions as &$extension) {
             // Load extension language files and translate extension name.
             ActionlogsHelper::loadTranslationFiles($extension);
-            $extension = Text::_($extension);
+            $extension = $this->text($extension);
         }
 
         return implode(', ', $extensions);

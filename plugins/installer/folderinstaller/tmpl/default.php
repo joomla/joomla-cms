@@ -26,11 +26,11 @@ $this->getApplication()->getDocument()->getWebAssetManager()
     );
 
 ?>
-<legend><?php echo Text::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></legend>
+<legend><?php echo $this->text('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></legend>
 
 <div class="control-group">
     <label for="install_directory" class="control-label">
-        <?php echo Text::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?>
+        <?php echo $this->text('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?>
     </label>
     <div class="controls">
         <input type="text" id="install_directory" name="install_directory" class="form-control"
@@ -40,7 +40,7 @@ $this->getApplication()->getDocument()->getWebAssetManager()
 <div class="control-group">
     <div class="controls">
         <button type="button" class="btn btn-primary" id="installbutton_directory" onclick="Joomla.submitbuttonfolder()">
-            <?php echo Text::_('PLG_INSTALLER_FOLDERINSTALLER_BUTTON'); ?>
+            <?php echo $this->text('PLG_INSTALLER_FOLDERINSTALLER_BUTTON'); ?>
         </button>
     </div>
 </div>

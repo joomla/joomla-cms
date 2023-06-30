@@ -53,7 +53,7 @@ final class UserPlugin extends PrivacyPlugin
 
         if ($user->authorise('core.admin')) {
             $status->canRemove = false;
-            $status->reason    = Text::_('PLG_PRIVACY_USER_ERROR_CANNOT_REMOVE_SUPER_USER');
+            $status->reason    = $this->text('PLG_PRIVACY_USER_ERROR_CANNOT_REMOVE_SUPER_USER');
         }
 
         return $status;

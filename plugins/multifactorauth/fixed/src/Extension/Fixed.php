@@ -111,8 +111,8 @@ class Fixed extends CMSPlugin implements SubscriberInterface
             new MethodDescriptor(
                 [
                     'name'      => $this->mfaMethodName,
-                    'display'   => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_DISPLAYEDAS'),
-                    'shortinfo' => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_SHORTINFO'),
+                    'display'   => $this->text('PLG_MULTIFACTORAUTH_FIXED_LBL_DISPLAYEDAS'),
+                    'shortinfo' => $this->text('PLG_MULTIFACTORAUTH_FIXED_LBL_SHORTINFO'),
                     'image'     => 'media/plg_multifactorauth_fixed/images/fixed.svg',
                 ]
             )
@@ -144,19 +144,19 @@ class Fixed extends CMSPlugin implements SubscriberInterface
             new CaptiveRenderOptions(
                 [
                     // Custom HTML to display above the MFA form
-                    'pre_message' => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_PREMESSAGE'),
+                    'pre_message' => $this->text('PLG_MULTIFACTORAUTH_FIXED_LBL_PREMESSAGE'),
                     // How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
                     'field_type' => 'input',
                     // The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
                     'input_type' => 'password',
                     // Placeholder text for the HTML input box. Leave empty if you don't need it.
-                    'placeholder' => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_PLACEHOLDER'),
+                    'placeholder' => $this->text('PLG_MULTIFACTORAUTH_FIXED_LBL_PLACEHOLDER'),
                     // Label to show above the HTML input box. Leave empty if you don't need it.
-                    'label' => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_LABEL'),
+                    'label' => $this->text('PLG_MULTIFACTORAUTH_FIXED_LBL_LABEL'),
                     // Custom HTML. Only used when field_type = custom.
                     'html' => '',
                     // Custom HTML to display below the MFA form
-                    'post_message' => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_POSTMESSAGE'),
+                    'post_message' => $this->text('PLG_MULTIFACTORAUTH_FIXED_LBL_POSTMESSAGE'),
                 ]
             )
         );
@@ -199,14 +199,14 @@ class Fixed extends CMSPlugin implements SubscriberInterface
         $event->addResult(
             new SetupRenderOptions(
                 [
-                    'default_title' => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_DEFAULTTITLE'),
-                    'pre_message'   => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_SETUP_PREMESSAGE'),
+                    'default_title' => $this->text('PLG_MULTIFACTORAUTH_FIXED_LBL_DEFAULTTITLE'),
+                    'pre_message'   => $this->text('PLG_MULTIFACTORAUTH_FIXED_LBL_SETUP_PREMESSAGE'),
                     'field_type'    => 'input',
                     'input_type'    => 'password',
                     'input_value'   => $options->fixed_code,
-                    'placeholder'   => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_PLACEHOLDER'),
-                    'label'         => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_LABEL'),
-                    'post_message'  => Text::_('PLG_MULTIFACTORAUTH_FIXED_LBL_SETUP_POSTMESSAGE'),
+                    'placeholder'   => $this->text('PLG_MULTIFACTORAUTH_FIXED_LBL_PLACEHOLDER'),
+                    'label'         => $this->text('PLG_MULTIFACTORAUTH_FIXED_LBL_LABEL'),
+                    'post_message'  => $this->text('PLG_MULTIFACTORAUTH_FIXED_LBL_SETUP_POSTMESSAGE'),
                 ]
             )
         );
@@ -245,7 +245,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 
         // Make sure the code is not empty
         if (empty($code)) {
-            throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_FIXED_ERR_EMPTYCODE'));
+            throw new \RuntimeException($this->text('PLG_MULTIFACTORAUTH_FIXED_ERR_EMPTYCODE'));
         }
 
         // Return the configuration to be serialized

@@ -177,7 +177,7 @@ final class Profile extends CMSPlugin
             return '';
         }
 
-        return HTMLHelper::_('date', $value, Text::_('DATE_FORMAT_LC1'), false);
+        return HTMLHelper::_('date', $value, $this->text('DATE_FORMAT_LC1'), false);
     }
 
     /**
@@ -190,9 +190,9 @@ final class Profile extends CMSPlugin
     public static function tos($value)
     {
         if ($value) {
-            return Text::_('JYES');
+            return $this->text('JYES');
         } else {
-            return Text::_('JNO');
+            return $this->text('JNO');
         }
     }
 

@@ -61,7 +61,7 @@ final class Module extends CMSPlugin
             $button          = new CMSObject();
             $button->modal   = true;
             $button->link    = $link;
-            $button->text    = Text::_('PLG_MODULE_BUTTON_MODULE');
+            $button->text    = $this->text('PLG_MODULE_BUTTON_MODULE');
             $button->name    = $this->_type . '_' . $this->_name;
             $button->icon    = 'cube';
             $button->iconSVG = '<svg viewBox="0 0 512 512" width="24" height="24"><path d="M239.1 6.3l-208 78c-18.7 7-31.1 '

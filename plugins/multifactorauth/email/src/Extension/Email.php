@@ -137,8 +137,8 @@ class Email extends CMSPlugin implements SubscriberInterface
             new MethodDescriptor(
                 [
                     'name'      => $this->mfaMethodName,
-                    'display'   => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_DISPLAYEDAS'),
-                    'shortinfo' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_SHORTINFO'),
+                    'display'   => $this->text('PLG_MULTIFACTORAUTH_EMAIL_LBL_DISPLAYEDAS'),
+                    'shortinfo' => $this->text('PLG_MULTIFACTORAUTH_EMAIL_LBL_SHORTINFO'),
                     'image'     => 'media/plg_multifactorauth_email/images/email.svg',
                 ]
             )
@@ -183,7 +183,7 @@ class Email extends CMSPlugin implements SubscriberInterface
             new CaptiveRenderOptions(
                 [
                     // Custom HTML to display above the MFA form
-                    'pre_message' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_PRE_MESSAGE'),
+                    'pre_message' => $this->text('PLG_MULTIFACTORAUTH_EMAIL_LBL_PRE_MESSAGE'),
                     // How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
                     'field_type' => 'input',
                     // The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
@@ -193,9 +193,9 @@ class Email extends CMSPlugin implements SubscriberInterface
                         'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric",
                     ],
                     // Placeholder text for the HTML input box. Leave empty if you don't need it.
-                    'placeholder' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),
+                    'placeholder' => $this->text('PLG_MULTIFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),
                     // Label to show above the HTML input box. Leave empty if you don't need it.
-                    'label' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_LABEL'),
+                    'label' => $this->text('PLG_MULTIFACTORAUTH_EMAIL_LBL_LABEL'),
                     // Custom HTML. Only used when field_type = custom.
                     'html' => '',
                     // Custom HTML to display below the MFA form
@@ -257,7 +257,7 @@ class Email extends CMSPlugin implements SubscriberInterface
             $event->addResult(
                 new SetupRenderOptions(
                     [
-                        'default_title' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_DISPLAYEDAS'),
+                        'default_title' => $this->text('PLG_MULTIFACTORAUTH_EMAIL_LBL_DISPLAYEDAS'),
                         'hidden_data'   => [
                             'key' => $key,
                         ],
@@ -267,9 +267,9 @@ class Email extends CMSPlugin implements SubscriberInterface
                             'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric",
                         ],
                         'input_value' => '',
-                        'placeholder' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),
-                        'pre_message' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_PRE_MESSAGE'),
-                        'label'       => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_LABEL'),
+                        'placeholder' => $this->text('PLG_MULTIFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),
+                        'pre_message' => $this->text('PLG_MULTIFACTORAUTH_EMAIL_LBL_PRE_MESSAGE'),
+                        'label'       => $this->text('PLG_MULTIFACTORAUTH_EMAIL_LBL_LABEL'),
                     ]
                 )
             );
@@ -277,7 +277,7 @@ class Email extends CMSPlugin implements SubscriberInterface
             $event->addResult(
                 new SetupRenderOptions(
                     [
-                        'default_title' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_DISPLAYEDAS'),
+                        'default_title' => $this->text('PLG_MULTIFACTORAUTH_EMAIL_LBL_DISPLAYEDAS'),
                         'input_type'    => 'hidden',
                         'html'          => '',
                     ]
@@ -324,7 +324,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 
         // If there is still no key in the options throw an error
         if (empty($key)) {
-            throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \RuntimeException($this->text('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         /**
@@ -345,7 +345,7 @@ class Email extends CMSPlugin implements SubscriberInterface
         $isValid  = $totp->checkCode((string) $key, (string) $code);
 
         if (!$isValid) {
-            throw new \RuntimeException(Text::_('PLG_MULTIFACTORAUTH_EMAIL_ERR_INVALID_CODE'), 500);
+            throw new \RuntimeException($this->text('PLG_MULTIFACTORAUTH_EMAIL_ERR_INVALID_CODE'), 500);
         }
 
         // The code is valid. Unset the key from the session.
@@ -470,7 +470,7 @@ class Email extends CMSPlugin implements SubscriberInterface
             $record->save(
                 [
                     'method'  => 'email',
-                    'title'   => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_DISPLAYEDAS'),
+                    'title'   => $this->text('PLG_MULTIFACTORAUTH_EMAIL_LBL_DISPLAYEDAS'),
                     'options' => [
                         'key' => ($totp)->generateSecret(),
                     ],
@@ -556,17 +556,17 @@ class Email extends CMSPlugin implements SubscriberInterface
             $didSend = $mailer->send();
         } catch (MailDisabledException | phpMailerException $exception) {
             try {
-                Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+                Log::add($this->text($exception->getMessage()), Log::WARNING, 'jerror');
             } catch (\RuntimeException $exception) {
-                $this->getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                $this->getApplication()->enqueueMessage($this->text($exception->errorMessage()), 'warning');
             }
         }
 
         try {
             // The user somehow managed to not install the mail template. I'll send the email the traditional way.
             if (isset($didSend) && !$didSend) {
-                $subject = Text::_('PLG_MULTIFACTORAUTH_EMAIL_EMAIL_SUBJECT');
-                $body    = Text::_('PLG_MULTIFACTORAUTH_EMAIL_EMAIL_BODY');
+                $subject = $this->text('PLG_MULTIFACTORAUTH_EMAIL_EMAIL_SUBJECT');
+                $body    = $this->text('PLG_MULTIFACTORAUTH_EMAIL_EMAIL_BODY');
 
                 foreach ($replacements as $key => $value) {
                     $subject = str_replace('{' . strtoupper($key) . '}', $value, $subject);
@@ -582,9 +582,9 @@ class Email extends CMSPlugin implements SubscriberInterface
             }
         } catch (MailDisabledException | phpMailerException $exception) {
             try {
-                Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+                Log::add($this->text($exception->getMessage()), Log::WARNING, 'jerror');
             } catch (\RuntimeException $exception) {
-                $this->getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+                $this->getApplication()->enqueueMessage($this->text($exception->errorMessage()), 'warning');
             }
         }
     }

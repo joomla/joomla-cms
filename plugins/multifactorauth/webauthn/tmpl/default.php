@@ -20,10 +20,10 @@ if (Uri::getInstance()->getScheme() !== 'https') : ?>
         <div class="alert alert-danger">
             <h2 class="alert-heading">
                 <span class="icon-cancel-circle" aria-hidden="true"></span>
-                <?php echo Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTHTTPS_HEAD'); ?>
+                <?php echo $this->text('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTHTTPS_HEAD'); ?>
             </h2>
             <p>
-                <?php echo Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTHTTPS_BODY'); ?>
+                <?php echo $this->text('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTHTTPS_BODY'); ?>
             </p>
         </div>
     </div>
@@ -38,10 +38,10 @@ $this->getApplication()->getDocument()->getWebAssetManager()->useScript('plg_mul
     <div class="alert alert-danger">
         <h2 class="alert-heading">
             <span class="icon-cancel-circle" aria-hidden="true"></span>
-            <?php echo Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'); ?>
+            <?php echo $this->text('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'); ?>
         </h2>
         <p>
-            <?php echo Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_BODY'); ?>
+            <?php echo $this->text('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_BODY'); ?>
         </p>
     </div>
 </div>

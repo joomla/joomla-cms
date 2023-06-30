@@ -76,8 +76,8 @@ final class TinyMCE extends CMSPlugin
             }
 
             $templates[] = (object) [
-                'title'       => $language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE') ? Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE') : $filename,
-                'description' => $language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC') ? Text::_('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC') : ' ',
+                'title'       => $language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE') ? $this->text('PLG_TINY_TEMPLATE_' . $title_upper . '_TITLE') : $filename,
+                'description' => $language->hasKey('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC') ? $this->text('PLG_TINY_TEMPLATE_' . $title_upper . '_DESC') : ' ',
                 'content'     => file_get_contents($filepath),
             ];
         }
