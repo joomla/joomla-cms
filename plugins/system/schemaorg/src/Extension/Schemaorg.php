@@ -92,7 +92,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         //Check if the form already has some data
         if ($itemId > 0) {
-
             $db = $this->getDatabase();
 
             $query = $db->getQuery(true)
@@ -209,27 +208,76 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $table    = $event->getArgument('1');
         $isNew    = $event->getArgument('2');
         $data     = $event->getArgument('3');
-        $registry = new Registry($data);
 
-        if (!$this->isSupported($context)) {
+        $app = $this->getApplication();
+        $db  = $this->getDatabase();
+
+        if (!$app->isClient('administrator') || !$this->isSupported($context)) {
             return true;
         }
 
-        $dispatcher = Factory::getApplication()->getDispatcher();
+        $itemId = (int) $table->id;
+
+        if (empty($data['schema']) || empty($data['schema']['schemaType']) || $data['schema']['schemaType'] === 'None') {
+
+            $query = $db->getQuery(true);
+
+            $query->delete($db->quoteName('#__schemaorg'))
+                ->where($db->quoteName('itemId') . '= :itemId')
+                ->bind(':itemId', $itemId, ParameterType::INTEGER)
+                ->where($db->quoteName('context') . '= :context')
+                ->bind(':context', $context, ParameterType::STRING);
+
+            $db->setQuery($query)->execute();
+
+            return true;
+        }
+
+        $query = $db->getQuery(true);
+
+        $query->select('*')
+            ->from($db->quoteName('#__schemaorg'))
+            ->where($db->quoteName('itemId') . '= :itemId')
+            ->bind(':itemId', $itemId, ParameterType::INTEGER)
+            ->where($db->quoteName('context') . '= :context')
+            ->bind(':context', $context, ParameterType::STRING);
+
+        $entry = $db->setQuery($query)->loadObject();
+
+        if (empty($entry->id)) {
+            $entry = new \stdClass();
+        }
+
+        $entry->itemId     = (int) $table->getId();
+        $entry->context    = $context;
+
+        PluginHelper::importPlugin('schemaorg');
+
+        $dispatcher = $app->getDispatcher();
 
         $event   = AbstractEvent::create(
-            'onSchemaAfterSave',
+            'onSchemaPrepareSave',
             [
-                'subject'   => $this,
-                'extension' => $context,
+                'subject'   => $entry,
+                'context' => $context,
                 'table'     => $table,
                 'isNew'     => $isNew,
-                'data'      => $registry,
+                'schema'    => $data['schema'],
             ]
         );
 
-        PluginHelper::importPlugin('schemaorg');
-        $eventResult = $dispatcher->dispatch('onSchemaAfterSave', $event);
+        $eventResult = $dispatcher->dispatch('onSchemaPrepareSave', $event);
+
+        print_r($entry);exit;
+
+        if (isset($entry->schemaType)) {
+            if (!empty($entry->id)) {
+                $db->updateObject('#__schemaorg', $entry, 'id');
+            }
+            else {
+                $db->insertObject('#__schemaorg', $entry, 'id');
+            }
+        }
 
         return true;
     }

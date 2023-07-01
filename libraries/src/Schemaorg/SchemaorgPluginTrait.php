@@ -15,6 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Event\EventInterface;
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Trait for component schemaorg plugins.
@@ -23,6 +24,15 @@ use Joomla\Registry\Registry;
  */
 trait SchemaorgPluginTrait
 {
+    /**
+     * Define all fields which are media type to clean them
+     *
+     * @var array
+     */
+    protected $imageFields = [
+        'image'
+    ];
+
     /**
      * Returns an array of events this subscriber will listen to.
      *
@@ -34,7 +44,7 @@ trait SchemaorgPluginTrait
     {
         return [
             'onSchemaPrepareForm' => 'onSchemaPrepareForm',
-            'onSchemaAfterSave'   => 'onSchemaAfterSave',
+            'onSchemaPrepareSave' => 'onSchemaPrepareSave',
         ];
     }
 
@@ -66,73 +76,9 @@ trait SchemaorgPluginTrait
     }
 
     /**
-     * Saves unfiltered and filtered JSON data of the form fields in database
-     *
-     * @param   EventInterface $event Must have 'extension, 'table', 'isNew' and 'data'
-     *
-     * @return  boolean
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function storeSchemaToStandardLocation(EventInterface $event)
-    {
-        $context     = $event->getArgument('extension');
-        $table       = $event->getArgument('table');
-        $isNew       = $event->getArgument('isNew');
-        $registry    = $event->getArgument('data');
-
-        $data = $registry->toArray();
-
-        //Check if $data has the form data
-        if (!isset($data['schema']) || !count($data['schema'])) {
-            return false;
-        } else {
-            $db = $this->db;
-
-            //Delete the existing row to add updated data
-            if (!$isNew) {
-                $res = $db->getQuery(true)
-                    ->delete($db->quoteName('#__schemaorg'))
-                    ->where($db->quoteName('itemId') . '= :itemId')
-                    ->bind(':itemId', $table->id, ParameterType::INTEGER)
-                    ->where($db->quoteName('context') . '= :context')
-                    ->bind(':context', $context, ParameterType::STRING);
-
-                $db->setQuery($res)->execute();
-            }
-
-            //Create object to insert data into database
-            $query             = new \stdClass();
-            $query->itemId     = $table->id;
-            $query->context    = $context;
-            $query->schemaType = $data['schema']['schemaType'];
-            $form              = $data['schema']['schemaType'];
-
-            if (!empty($data['schema'][$form])) {
-                $schema = new \stdClass();
-
-                foreach ($data['schema'][$form] as $k => $v) {
-                    $schema->$k = $v;
-                }
-
-                $query->schemaForm = json_encode($schema);
-                $newSchema         = new Registry($schema);
-                $query->schema     = json_encode($this->cleanupSchema($newSchema));
-            } else {
-                $query->schemaForm = false;
-                $query->schema     = false;
-            }
-
-            $result = $db->insertObject('#__schemaorg', $query);
-        }
-
-        return true;
-    }
-
-    /**
      *  Add a new option to the schema type in the item editing page
      *
-     *  @param   Form  $form  The form to be altered.
+     *  @param   EventInterface  $event  The form to be altered.
      *
      *  @return  boolean
      */
@@ -156,150 +102,153 @@ trait SchemaorgPluginTrait
     }
 
     /**
-     *  Saves the schema to the database
+     *  Add content to the object
      *
-     *  @param   EventInterface $event
+     *  @param   EventInterface  $event  The form to be altered.
      *
      *  @return  boolean
      */
-    public function onSchemaAfterSave(EventInterface $event)
+    public function onSchemaPrepareSave(EventInterface $event)
     {
-        $data = $event->getArgument('data')->toArray();
-        $form = $data['schema']['schemaType'];
-
-        if ($form != $this->pluginName) {
-            return false;
-        }
-
-        $this->storeSchemaToStandardLocation($event);
-
-        return true;
-    }
-
-    /**
-     * Call update schema function only if the plugin is not listed in allowed or forbidden
-     *
-     * @param   EventInterface $event
-     *
-     * @return  boolean
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function isSchemaSupported(EventInterface $event)
-    {
-        $data    = $event->getArgument('subject');
+        $entry   = $event->getArgument('subject');
         $context = $event->getArgument('context');
+        $schema  = $event->getArgument('schema');
 
-        if (!is_object($data)) {
-            return false;
-        } else {
-            $itemId = $data->id ?? 0;
-
-            if (!isset($data->schema) && $itemId > 0) {
-                $db = $this->db;
-
-                $query = $db->getQuery(true)
-                    ->select('*')
-                    ->from($db->quoteName('#__schemaorg'))
-                    ->where($db->quoteName('itemId') . '= :itemId')
-                    ->bind(':itemId', $itemId, ParameterType::INTEGER)
-                    ->where($db->quoteName('context') . '= :context')
-                    ->bind(':context', $context, ParameterType::STRING);
-
-                $results = $db->setQuery($query)->loadAssoc();
-
-                if (empty($results)) {
-                    return false;
-                }
-
-                $schemaType = $results['schemaType'];
-
-                if ($this->pluginName != $schemaType) {
-                    return false;
-                }
-            }
+        if (!$this->isSupported($context) || empty($schema['schemaType']) || $schema['schemaType'] !== $this->pluginName) {
+            return true;
         }
 
-        return true;
+        $mySchema = $schema[$this->pluginName];
+
+        $entry->schemaType = $this->pluginName;
+        $entry->schemaForm = (new Registry($mySchema))->toString();
+
+        $schema        = $this->cleanupSchema($mySchema);
+        $entry->schema = (new Registry($schema))->toString();
     }
 
     /**
      * Removes empty fields and changes time duration to ISO format in schema form
      *
-     * @param   Registry $data JSON object of the data stored in schema form
+     * @param   array $data JSON object of the data stored in schema form
      *
-     * @return  Registry
+     * @return  array
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function cleanupSchema(Registry $data)
+    protected function cleanupSchema(array $data)
     {
-        if (is_object($data)) {
-            //Create object to insert data into database
-            $newSchema = new Registry();
+        // Let plugins implement their own cleanup
+        $data = $this->customCleanup($data);
 
-            $schema = new Registry($this->cleanupIndividualSchema($data));
-            if (is_object($schema)) {
-                foreach ($schema as $key => $val) {
-                    if (is_array($val) && !empty($val['@type'])) {
-                        $tmp = $this->cleanupJSON($val);
-                        if (!empty($tmp)) {
-                            $newSchema->set($key, $tmp);
-                        }
-                    } elseif (is_array($val) && $key == 'genericField') {
-                        foreach ($val as $field) {
-                            $newSchema->set($field['genericTitle'], $field['genericValue']);
-                        }
-                    } elseif (!empty($val)) {
-                        $newSchema->set($key, $val);
+        $schema = [];
+
+        foreach ($data as $key => $value) {
+            // Subtypes need special handling
+            if (is_array($value) && !empty($value['@type'])) {
+                $value = $this->cleanupSchema($value);
+
+                if ($value['@type'] === 'ImageObject') {
+
+                    if (!empty($value['url'])) {
+                        $value['url'] = $this->cleanupImage($value['url']);
+                    }
+
+                    if (empty($value['url'])) {
+                        $value = [];
                     }
                 }
+
+                // We don't save when the array contains only the @type
+                if (count($value) <= 1) {
+                    $value = null;
+                }
+            }
+            // Custom generic fields
+            elseif (is_array($value) && $key == 'genericField') {
+                foreach ($value as $field) {
+                    $schema[$field['genericTitle']] = $field['genericValue'];
+                }
+
+                continue;
             }
 
-            $image = $schema->get('image');
-
-            if (!empty($image)) {
-                $img = HTMLHelper::_('cleanImageURL', $image);
-                $newSchema->set('image', $img->url);
+            // No data, no pary
+            if (empty($val)) {
+                continue;
             }
 
-            return $newSchema;
+            if (in_array($key, $this->imageFields)) {
+                $val = $this->cleanupImage($val);
+            }
+
+            $schema[$key] = $val;
         }
+
+        return $schema;
+    }
+
+    /**
+     * Cleanup media image files
+     *
+     * @param string|array $image
+     *
+     * @return string|null
+     */
+    protected function cleanupImage($image)
+    {
+        if (is_array($image)) {
+            $newImages = [];
+
+            foreach ($image as $img) {
+                $newImages[] = $this->cleanupImage($img);
+            }
+
+            return $newImages;
+        }
+
+        $img = HTMLHelper::_('cleanupImageURL', $image);
+
+        return $img->url ?? null;
     }
 
     /**
      *  To normalize duration to ISO format
      *
-     *  @param   Registry $schema Schema form
-     *  @param   Array $durationKeys Keys with duration fields
+     *  @param   array $schema Schema form
+     *  @param   array $durationKeys Keys with duration fields
      *
-     *  @return  boolean
+     *  @return  array
      */
-    protected function normalizeDurationsToISO(Registry $schema, array $durationKeys)
+    protected function normalizeDurationsToISO(array $schema, array $durationKeys)
     {
         foreach ($durationKeys as $durationKey) {
-            $duration = $schema->get($durationKey, []);
-            if (is_object($duration)) {
-                $registry = new Registry($duration);
-                $min      = $registry->get('min');
-                $hour     = $registry->get('hour');
+            $duration = $schema[$durationKey] ?? [];
 
-                if ($hour && $min && $min < 60) {
-                    $newDuration = "PT" . $hour . "H" . $min . "M";
-                } elseif ($hour) {
-                    $newDuration = "PT" . $hour . "H";
-                } elseif ($min && $min < 60) {
-                    $newDuration = "PT" . $min . "M";
-                } else {
-                    $newDuration = false;
-                }
-
-                if ($newDuration) {
-                    $schema->set($durationKey, $newDuration);
-                } else {
-                    $schema->remove($durationKey);
-                }
+            if (empty($duration)) {
+                continue;
             }
+
+            $min  = $duration['min'] ?? 0;
+            $hour = $duration['hour'] ?? 0;
+
+            $newDuration = false;
+
+            if ($hour && $min && $min < 60) {
+                $newDuration = "PT" . $hour . "H" . $min . "M";
+            } elseif ($hour) {
+                $newDuration = "PT" . $hour . "H";
+            } elseif ($min && $min < 60) {
+                $newDuration = "PT" . $min . "M";
+            }
+
+            if ($newDuration === false) {
+                unset($schema[$durationKey]);
+
+                continue;
+            }
+
+            $schema[$durationKey] = $newDuration;
         }
 
         return $schema;
@@ -308,35 +257,42 @@ trait SchemaorgPluginTrait
     /**
      *  To create an array from repeatable text field data
      *
-     *  @param   Registry $schema Schema form
-     *  @param   Array $repeatableFields Names of all the Repeatable fields
+     *  @param   array $schema Schema form
+     *  @param   array $repeatableFields Names of all the Repeatable fields
      *
      *  @return  array
      */
-    protected function convertToArray(Registry $schema, array $repeatableFields)
+    protected function convertToArray(array $schema, array $repeatableFields)
     {
         foreach ($repeatableFields as $repeatableField) {
-            $field = new Registry($schema->get($repeatableField, []));
-            $arr   = [];
-            if (is_object($field)) {
-                foreach ($field as $i => $j) {
-                    if (is_object($j)) {
-                        foreach ($j as $k => $m) {
-                            if (!empty($m)) {
-                                array_push($arr, $m);
-                            }
-                        }
-                    } else {
-                        array_push($arr, $j);
+            $field = $schema[$repeatableField] ?? [];
+
+            if (empty($field)) {
+                continue;
+            }
+
+            $result = [];
+
+            foreach ($field as $key => $value) {
+
+                if (is_array($value)) {
+                    foreach ($value as $k => $v) {
+                        $result[] = $v;
                     }
+
+                    continue;
                 }
 
-                if (!empty($arr)) {
-                    $schema->set($repeatableField, $arr);
-                } else {
-                    $schema->remove($repeatableField);
-                }
+                $result[] = $value;
             }
+
+            if (empty($result)) {
+                unset($schema[$repeatableField]);
+
+                continue;
+            }
+
+            $schema[$repeatableField] = $result;
         }
 
         return $schema;
@@ -345,71 +301,35 @@ trait SchemaorgPluginTrait
     /**
      *  To clean up the date fields in
      *
-     *  @param   Registry $schema Schema form
-     *  @param   Array $dateKeys Keys with date fields
+     *  @param   array $schema Schema form
+     *  @param   array $dateKeys Keys with date fields
      *
      *  @return  boolean
      */
-    protected function cleanupDate(Registry $schema, array $dateKeys)
+    protected function cleanupDate(array $schema, array $dateKeys)
     {
         foreach ($dateKeys as $dateKey) {
-            $date = $schema->get($dateKey);
 
-            if (!empty($date)) {
-                $date = Factory::getDate($date)->format('Y-m-d');
-                $schema->set($dateKey, $date);
+            $date = $schema[$dateKey] ?? [];
+
+            if (empty($date)) {
+                continue;
             }
+
+            $schema[$dateKey] = $date = Factory::getDate($date)->format('Y-m-d');
         }
 
         return $schema;
     }
 
     /**
-     *  To cleanup sub-JSON with @type attribute eg: NutritionInformation
-     *
-     *  @param   Array $schema
-     *
-     *  @return  object
-     */
-    protected function cleanupJSON(array $schema)
-    {
-        $arr  = [];
-        $emty = true;
-
-        foreach ($schema as $k => $v) {
-            if (is_array($v) && !empty($v['@type'])) {
-                $tmp = $this->cleanupJSON($v);
-
-                if (!empty($tmp)) {
-                    $arr[$k] = $tmp;
-                }
-            } elseif ($v != '') {
-                $arr[$k] = $v;
-
-                if ($k != '@type') {
-                    $emty = false;
-                }
-            }
-        }
-
-        if ($arr['@type'] == 'ImageObject' && !empty($arr['url'])) {
-            $img        = HTMLHelper::_('cleanImageURL', $arr['url']);
-            $arr['url'] = $img->url;
-        }
-
-        if (!$emty) {
-            return $arr;
-        }
-    }
-
-    /**
      *  To add plugin specific functions
      *
-     *  @param   Registry $schema Schema form
+     *  @param   array $schema Schema form
      *
-     *  @return  Registry
+     *  @return  array
      */
-    protected function cleanupIndividualSchema(Registry $schema)
+    protected function customCleanup(array $schema)
     {
         //Write your code for extra filteration
         return $schema;

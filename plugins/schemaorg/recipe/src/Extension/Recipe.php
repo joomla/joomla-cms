@@ -63,23 +63,17 @@ final class Recipe extends CMSPlugin implements SubscriberInterface
     /**
      *  To add plugin specific functions
      *
-     *  @param   Registry $schema Schema form
+     *  @param   array $schema Schema form
      *
-     *  @return  Registry $schema Updated schema form
+     *  @return  array Updated schema form
      */
-    public function cleanupIndividualSchema(Registry $schema)
+    public function customCleanup(array $schema)
     {
-        if (is_object($schema)) {
-            $schema = $this->normalizeDurationsToISO($schema, ['cookTime', 'prepTime']);
-        }
+        $schema = $this->normalizeDurationsToISO($schema, ['cookTime', 'prepTime']);
 
-        if (is_object($schema)) {
-            $schema = $this->convertToArray($schema, ['recipeIngredient']);
-        }
+        $schema = $this->convertToArray($schema, ['recipeIngredient']);
 
-        if (is_object($schema)) {
-            $schema = $this->cleanupDate($schema, ['datePublished']);
-        }
+        $schema = $this->cleanupDate($schema, ['datePublished']);
 
         return $schema;
     }

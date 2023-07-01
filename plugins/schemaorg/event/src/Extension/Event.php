@@ -65,16 +65,12 @@ final class Event extends CMSPlugin implements SubscriberInterface
     /**
      *  To add plugin specific functions
      *
-     *  @param   Registry $schema Schema form
+     *  @param   array $schema Schema form
      *
-     *  @return  Registry $schema Updated schema form
+     *  @return  array Updated schema form
      */
-    public function cleanupIndividualSchema(Registry $schema)
+    public function customCleanup(array $schema)
     {
-        if (is_object($schema)) {
-            $schema = $this->cleanupDate($schema, ['startDate']);
-        }
-
-        return $schema;
+        return $this->cleanupDate($schema, ['startDate']);
     }
 }
