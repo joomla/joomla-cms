@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event\Table;
 
-use BadMethodCallException;
-
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -33,16 +31,16 @@ class BeforeBindEvent extends AbstractEvent
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.
      *
-     * @throws  BadMethodCallException
+     * @throws  \BadMethodCallException
      */
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('src', $arguments)) {
-            throw new BadMethodCallException("Argument 'src' is required for event $name");
+            throw new \BadMethodCallException("Argument 'src' is required for event $name");
         }
 
         if (!\array_key_exists('ignore', $arguments)) {
-            throw new BadMethodCallException("Argument 'ignore' is required for event $name");
+            throw new \BadMethodCallException("Argument 'ignore' is required for event $name");
         }
 
         parent::__construct($name, $arguments);
@@ -55,12 +53,12 @@ class BeforeBindEvent extends AbstractEvent
      *
      * @return  mixed
      *
-     * @throws  BadMethodCallException  if the argument is not of the expected type
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
      */
     protected function setSrc($value)
     {
         if (!empty($value) && !\is_object($value) && !\is_array($value)) {
-            throw new BadMethodCallException("Argument 'src' of event {$this->name} must be empty, object or array");
+            throw new \BadMethodCallException("Argument 'src' of event {$this->name} must be empty, object or array");
         }
 
         return $value;
@@ -73,12 +71,12 @@ class BeforeBindEvent extends AbstractEvent
      *
      * @return  mixed
      *
-     * @throws  BadMethodCallException  if the argument is not of the expected type
+     * @throws  \BadMethodCallException  if the argument is not of the expected type
      */
     protected function setIgnore($value)
     {
         if (!empty($value) && !\is_array($value)) {
-            throw new BadMethodCallException("Argument 'ignore' of event {$this->name} must be empty or array");
+            throw new \BadMethodCallException("Argument 'ignore' of event {$this->name} must be empty or array");
         }
 
         return $value;

@@ -30,7 +30,7 @@ describe('Test that banners API endpoint', () => {
 
   it('can update a banner', () => {
     cy.db_createBanner({ name: 'automated test banner' })
-      .then((id) => cy.api_patch(`/banners/${id}`, { name: 'updated automated test banner' }))
+      .then((banner) => cy.api_patch(`/banners/${banner.id}`, { name: 'updated automated test banner' }))
       .then((response) => cy.wrap(response).its('body').its('data').its('attributes')
         .its('name')
         .should('include', 'updated automated test banner'));
@@ -38,6 +38,6 @@ describe('Test that banners API endpoint', () => {
 
   it('can delete a banner', () => {
     cy.db_createBanner({ name: 'automated test banner', state: -2 })
-      .then((id) => cy.api_delete(`/banners/${id}`));
+      .then((banner) => cy.api_delete(`/banners/${banner.id}`));
   });
 });

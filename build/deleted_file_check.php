@@ -59,9 +59,11 @@ if (empty($options['to'])) {
     exit(1);
 }
 
-// Directories to skip for the check (needs to include anything from J3 we want to keep)
+// Directories and files to skip for the check (needs to include anything from J3 we want to keep)
 $previousReleaseExclude = [
     $options['from'] . '/administrator/components/com_search',
+    $options['from'] . '/administrator/language/en-GB/plg_task_demotasks.ini',
+    $options['from'] . '/administrator/language/en-GB/plg_task_demotasks.sys.ini',
     $options['from'] . '/components/com_search',
     $options['from'] . '/images/sampledata',
     $options['from'] . '/installation',
@@ -71,6 +73,7 @@ $previousReleaseExclude = [
     $options['from'] . '/plugins/fields/repeatable',
     $options['from'] . '/plugins/quickicon/eos310',
     $options['from'] . '/plugins/search',
+    $options['from'] . '/plugins/task/demotasks',
 ];
 
 /**

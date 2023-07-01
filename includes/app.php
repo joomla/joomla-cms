@@ -22,9 +22,13 @@ if (!defined('_JDEFINES')) {
     require_once JPATH_BASE . '/includes/defines.php';
 }
 
+if (!defined('JPATH_PUBLIC')) {
+    define('JPATH_PUBLIC', JPATH_ROOT);
+}
+
 // Check for presence of vendor dependencies not included in the git repository
-if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT . '/media/vendor')) {
-    echo file_get_contents(JPATH_ROOT . '/templates/system/build_incomplete.html');
+if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_PUBLIC . '/media/vendor')) {
+    echo file_get_contents(JPATH_BASE . '/templates/system/build_incomplete.html');
 
     exit;
 }
