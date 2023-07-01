@@ -161,6 +161,7 @@ trait SchemaorgPluginTrait
                     $value = null;
                 }
             }
+
             // Custom generic fields
             elseif (is_array($value) && $key == 'genericField') {
                 foreach ($value as $field) {
