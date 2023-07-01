@@ -3,9 +3,7 @@
  */
 /* eslint-disable import/no-extraneous-dependencies, global-require, import/no-dynamic-require */
 
-const {
-  existsSync, readFileSync, writeFile, readdirSync,
-} = require('fs-extra');
+const { readFileSync, writeFile } = require('fs-extra');
 const cliProgress = require('cli-progress');
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
