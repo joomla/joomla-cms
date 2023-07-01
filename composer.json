@@ -133,7 +133,8 @@
     "composer-exit-on-patch-failure": true,
     "patches": {
       "php-tuf/php-tuf": {
-        "Patch level optional on TUF signed metadata": "./build/composer_patches/5.0.0-2023-07-01_php-tuf_meta.patch"
+        "Patch level optional on TUF signed metadata": "./build/composer_patches/5.0.0-2023-07-01_php-tuf_meta.patch",
+        "Sort canonical json": "./build/composer_patches/5.0.0-2023-07-01_php-tuf_sort-canonical-json.patch"
       }
     }
   },
