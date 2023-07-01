@@ -23,6 +23,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactory;
 use Joomla\Database\DatabaseAwareTrait;
@@ -57,7 +58,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since   4.0.0
+     * @since   __DEPLOY_VERSION__
      */
     public static function getSubscribedEvents(): array
     {
@@ -74,7 +75,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      *
      * @param   EventInterface  $event  The event
      *
-     * @since   4.0.0
+     * @since   __DEPLOY_VERSION__
      *
      */
     public function onContentPrepareData(EventInterface $event)
@@ -84,7 +85,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         $app = $this->getApplication();
 
-        if ($app->isClient('site') || (false && !$this->isSupported($context))) {
+        if ($app->isClient('site') || !$this->isSupported($context)) {
             return true;
         }
 
@@ -109,7 +110,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      *
      * @param   EventInterface  $event  The event
      *
-     * @since   4.0.0
+     * @since   __DEPLOY_VERSION__
      */
     public function onContentPrepareForm(EventInterface $event)
     {
@@ -121,13 +122,14 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         $app = $this->getApplication();
 
-        if (!$app->isClient('administrator') || (false && !$this->isSupported($context))) {
+        if (!$app->isClient('administrator') || !$this->isSupported($context)) {
             return true;
         }
 
         //Load the form fields
         $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/schemaorg.xml');
 
+        // The user should configurate the plugin first
         if (!$this->params->get('baseType')) {
 
             $form->removeField('schemaType', 'schema');
@@ -138,6 +140,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
             $infoText = Text::_('PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_DESCRIPTION_NOT_CONFIGURATED');
 
+            // If edit permission are available, offer a link
             if ($user->authorise('core.edit', 'com_plugins')) {
 
                 $infoText = Text::sprintf('PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_DESCRIPTION_NOT_CONFIGURATED_ADMIN', (int) $plugin->id);
@@ -170,6 +173,8 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      *
      * @return  boolean
      *
+     * @since   __DEPLOY_VERSION__
+     *
      */
     public function onContentAfterSave(EventInterface $event)
     {
@@ -178,6 +183,11 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $isNew    = $event->getArgument('2');
         $data     = $event->getArgument('3');
         $registry = new Registry($data);
+
+        if (!$this->isSupported($context)) {
+
+            return true;
+        }
 
         $dispatcher = Factory::getApplication()->getDispatcher();
 
@@ -202,23 +212,23 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
     /**
      * This event is triggered before the framework creates the Head section of the Document
      *
-     * @since   4.0.0
+     * @since   __DEPLOY_VERSION__
      */
     public function onBeforeCompileHead()
     {
         $app = $this->getApplication();
         $baseType = $this->params->get('baseType');
 
-        // We need the plugin configurated at least once to add structured data
-        if (!$app->isClient('site') || !in_array($baseType, ['organization', 'person'])) {
-
-            return;
-        }
-
         $itemId  = (int) $app->getInput()->getInt('id');
         $option  = $app->getInput()->get('option');
         $view    = $app->getInput()->get('view');
         $context = $option . '.' . $view;
+
+        // We need the plugin configurated at least once to add structured data
+        if (!$app->isClient('site') || !in_array($baseType, ['organization', 'person']) || !$this->isSupported($context)) {
+
+            return;
+        }
 
         $domain = Uri::root();
         $url    = htmlspecialchars(Uri::getInstance()->toString());
@@ -378,5 +388,28 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             $wa = $this->getApplication()->getDocument()->getWebAssetManager();
             $wa->addInlineScript($schemaString,  ['position' => 'after'], ['type' => 'application/ld+json']);
         }
+    }
+
+    /**
+     * Check if the current plugin should execute schemaorg related activities
+     *
+     * @param   string  $context
+     *
+     * @return boolean
+     *
+     * @since   _DEPLOY_VERSION__
+     */
+    protected function isSupported($context)
+    {
+        $parts = explode('.', $context);
+
+        // We need at least the extension + view for loading the table fields
+        if (count($parts) < 2) {
+            return false;
+        }
+
+        $component = $this->getApplication()->bootComponent($parts[0]);
+
+        return $component instanceof SchemaorgServiceInterface;
     }
 }
