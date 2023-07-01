@@ -160,10 +160,7 @@ trait SchemaorgPluginTrait
                 if (count($value) <= 1) {
                     $value = null;
                 }
-            }
-
-            // Custom generic fields
-            elseif (is_array($value) && $key == 'genericField') {
+            } elseif (is_array($value) && $key == 'genericField') {
                 foreach ($value as $field) {
                     $schema[$field['genericTitle']] = $field['genericValue'];
                 }
