@@ -10,6 +10,8 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
+use Joomla\CMS\Language\Text;
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -34,7 +36,7 @@ trait KnownButtons
     {
         return [
             // General buttons
-            '|' => ['label' => $this->text('PLG_TINY_TOOLBAR_BUTTON_SEPARATOR'), 'text' => '|'],
+            '|' => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_SEPARATOR'), 'text' => '|'],
 
             'undo' => ['label' => 'Undo'],
             'redo' => ['label' => 'Redo'],
@@ -43,10 +45,10 @@ trait KnownButtons
             'italic'        => ['label' => 'Italic'],
             'underline'     => ['label' => 'Underline'],
             'strikethrough' => ['label' => 'Strikethrough'],
-            'styles'        => ['label' => $this->text('PLG_TINY_TOOLBAR_BUTTON_STYLESELECT'), 'text' => 'Formats'],
-            'blocks'        => ['label' => $this->text('PLG_TINY_TOOLBAR_BUTTON_FORMATSELECT'), 'text' => 'Paragraph'],
-            'fontfamily'    => ['label' => $this->text('PLG_TINY_TOOLBAR_BUTTON_FONTSELECT'), 'text' => 'Font Family'],
-            'fontsize'      => ['label' => $this->text('PLG_TINY_TOOLBAR_BUTTON_FONTSIZESELECT'), 'text' => 'Font Sizes'],
+            'styles'        => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_STYLESELECT'), 'text' => 'Formats'],
+            'blocks'        => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_FORMATSELECT'), 'text' => 'Paragraph'],
+            'fontfamily'    => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_FONTSELECT'), 'text' => 'Font Family'],
+            'fontsize'      => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_FONTSIZESELECT'), 'text' => 'Font Sizes'],
 
             'alignleft'    => ['label' => 'Align left'],
             'aligncenter'  => ['label' => 'Align center'],

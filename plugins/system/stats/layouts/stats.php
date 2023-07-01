@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
@@ -23,22 +24,22 @@ $versionFields = ['php_version', 'db_version', 'cms_version'];
 ?>
 <table class="table mb-3 d-none" id="js-pstats-data-details">
     <caption class="visually-hidden">
-        <?php echo $this->text('PLG_SYSTEM_STATS_STATISTICS'); ?>
+        <?php echo Text::_('PLG_SYSTEM_STATS_STATISTICS'); ?>
     </caption>
     <thead>
         <tr>
             <th scope="col" class="w-15">
-                <?php echo $this->text('PLG_SYSTEM_STATS_SETTING'); ?>
+                <?php echo Text::_('PLG_SYSTEM_STATS_SETTING'); ?>
             </th>
             <th scope="col">
-                <?php echo $this->text('PLG_SYSTEM_STATS_VALUE'); ?>
+                <?php echo Text::_('PLG_SYSTEM_STATS_VALUE'); ?>
             </th>
         </tr>
     </thead>
     <tbody>
     <?php foreach ($statsData as $key => $value) : ?>
         <tr>
-            <th scope="row"><?php echo $this->text('PLG_SYSTEM_STATS_LABEL_' . strtoupper($key)); ?></th>
+            <th scope="row"><?php echo Text::_('PLG_SYSTEM_STATS_LABEL_' . strtoupper($key)); ?></th>
             <td><?php echo in_array($key, $versionFields) ? (preg_match('/\d+(?:\.\d+)+/', $value, $matches) ? $matches[0] : $value) : $value; ?></td>
         </tr>
     <?php endforeach; ?>
