@@ -64,7 +64,7 @@ class HtmlView extends BaseHtmlView
     protected $pagination;
 
     /**
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      *
      * @since  3.7.0
      */
@@ -137,7 +137,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Load component language file
-        $lang = Factory::getLanguage();
+        $lang = $this->getLanguage();
         $lang->load($component, JPATH_ADMINISTRATOR)
         || $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
@@ -192,6 +192,6 @@ class HtmlView extends BaseHtmlView
             $toolbar->preferences($component);
         }
 
-        $toolbar->help('Component:_Field_Groups');
+        $toolbar->help('Field_Groups');
     }
 }

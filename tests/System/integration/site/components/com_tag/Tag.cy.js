@@ -1,5 +1,5 @@
-describe('Test that the tag view ', () => {
-  it('can display a list of tags in menu item', () => {
+describe('Test in frontend that the tags tag view', () => {
+  it('can display a list of tags in a menu item', () => {
     cy.db_createTag({ title: 'automated test tag 1' })
       .then(() => cy.db_createTag({ title: 'automated test tag 2' }))
       .then(() => cy.db_createTag({ title: 'automated test tag 3' }))
@@ -16,13 +16,13 @@ describe('Test that the tag view ', () => {
       });
   });
 
-  it('can display a list of tags without menu item', () => {
+  it('can display a list of tags without a menu item', () => {
     cy.db_createTag({ title: 'automated test tag 1' })
       .then(() => cy.db_createTag({ title: 'automated test tag 2' }))
       .then(() => cy.db_createTag({ title: 'automated test tag 3' }))
       .then(() => cy.db_createTag({ title: 'automated test tag 4' }))
       .then(() => {
-        cy.visit('index.php?option=com_tags&view=tags');
+        cy.visit('/index.php?option=com_tags&view=tags');
 
         cy.contains('automated test tag 1');
         cy.contains('automated test tag 2');

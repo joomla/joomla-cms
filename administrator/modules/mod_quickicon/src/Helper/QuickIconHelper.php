@@ -11,6 +11,7 @@
 namespace Joomla\Module\Quickicon\Administrator\Helper;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -115,7 +116,7 @@ class QuickIconHelper
                 $this->buttons[$key][] = $tmp;
             }
 
-            if ($params->get('show_tags')) {
+            if (ComponentHelper::isEnabled('com_tags') && $params->get('show_tags')) {
                 $tmp = [
                     'image'   => 'icon-tag',
                     'link'    => Route::_('index.php?option=com_tags&view=tags'),
@@ -281,7 +282,7 @@ class QuickIconHelper
                 ];
             }
 
-            if ($params->get('show_banners')) {
+            if (ComponentHelper::isEnabled('com_banners') && $params->get('show_banners')) {
                 $tmp = [
                     'image'   => 'icon-bookmark banners',
                     'link'    => Route::_('index.php?option=com_banners&view=banners'),
@@ -298,7 +299,7 @@ class QuickIconHelper
                 $this->buttons[$key][] = $tmp;
             }
 
-            if ($params->get('show_contact')) {
+            if (ComponentHelper::isEnabled('com_contacts') && $params->get('show_contact')) {
                 $tmp = [
                     'image'   => 'icon-address-book contact',
                     'link'    => Route::_('index.php?option=com_contact&view=contacts'),
@@ -315,7 +316,7 @@ class QuickIconHelper
                 $this->buttons[$key][] = $tmp;
             }
 
-            if ($params->get('show_newsfeeds')) {
+            if (ComponentHelper::isEnabled('com_newsfeeds') && $params->get('show_newsfeeds')) {
                 $tmp = [
                     'image'   => 'icon-rss newsfeeds',
                     'link'    => Route::_('index.php?option=com_newsfeeds&view=newsfeeds'),
@@ -332,7 +333,7 @@ class QuickIconHelper
                 $this->buttons[$key][] = $tmp;
             }
 
-            if ($params->get('show_redirect')) {
+            if (ComponentHelper::isEnabled('com_redirect') && $params->get('show_redirect')) {
                 $this->buttons[$key][] = [
                     'image'   => 'icon-map-signs redirect',
                     'link'    => Route::_('index.php?option=com_redirect&view=links'),
@@ -343,7 +344,7 @@ class QuickIconHelper
                 ];
             }
 
-            if ($params->get('show_associations')) {
+            if (ComponentHelper::isEnabled('com_associations') && $params->get('show_associations')) {
                 $this->buttons[$key][] = [
                     'image'  => 'icon-language',
                     'link'   => Route::_('index.php?option=com_associations&view=associations'),
@@ -353,7 +354,7 @@ class QuickIconHelper
                 ];
             }
 
-            if ($params->get('show_finder')) {
+            if (ComponentHelper::isEnabled('com_finder') && $params->get('show_finder')) {
                 $this->buttons[$key][] = [
                     'image'  => 'icon-search-plus finder',
                     'link'   => Route::_('index.php?option=com_finder&view=index'),
@@ -366,7 +367,7 @@ class QuickIconHelper
             if ($params->get('show_languages')) {
                 $tmp = [
                     'image'   => 'icon-comments langmanager',
-                    'link'    => Route::_('index.php?option=com_languages&view=installed'),
+                    'link'    => Route::_('index.php?option=com_languages&view=languages'),
                     'linkadd' => Route::_('index.php?option=com_installer&view=languages'),
                     'name'    => 'MOD_QUICKICON_LANGUAGES_MANAGER',
                     'access'  => ['core.manage', 'com_languages'],

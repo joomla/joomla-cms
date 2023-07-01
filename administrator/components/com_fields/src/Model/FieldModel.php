@@ -115,6 +115,15 @@ class FieldModel extends AdminModel
             $field = $this->getItem($data['id']);
         }
 
+        if (
+            isset($data['params']['searchindex'])
+            && ((is_null($field) && $data['params']['searchindex'] > 0)
+                || ($field->params['searchindex'] != $data['params']['searchindex'])
+                || ($data['params']['searchindex'] > 0 && ($field->state != $data['state'] || $field->access != $data['access'])))
+        ) {
+            Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
+        }
+
         if (!isset($data['label']) && isset($data['params']['label'])) {
             $data['label'] = $data['params']['label'];
 
@@ -861,6 +870,31 @@ class FieldModel extends AdminModel
     }
 
     /**
+     * Method to change the published state of one or more records.
+     *
+     * @param   array    &$pks   A list of the primary keys to change.
+     * @param   integer  $value  The value of the published state.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   5.0.0
+     */
+    public function publish(&$pks, $value = 1)
+    {
+        foreach ($pks as $pk) {
+            $item = $this->getItem($pk);
+
+            if (isset($item->params['searchindex']) && $item->params['searchindex'] > 0) {
+                Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
+
+                break;
+            }
+        }
+
+        return parent::publish($pks, $value);
+    }
+
+    /**
      * A protected method to get a set of ordering conditions.
      *
      * @param   Table  $table  A Table object.
@@ -1077,7 +1111,8 @@ class FieldModel extends AdminModel
      * Clean the cache
      *
      * @param   string   $group     The cache group
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *

@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
@@ -20,7 +19,7 @@ use Joomla\CMS\Pagination\Pagination;
 use Joomla\Database\DatabaseQuery;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -95,7 +94,8 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      *
      * @var        array
      * @since      3.4.5
-     * @deprecated 4.0.0 use $filterForbiddenList instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use $filterForbiddenList instead
      */
     protected $filterBlacklist = [];
 
@@ -112,7 +112,8 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      *
      * @var        array
      * @since      3.4.5
-     * @deprecated 4.0.0 use $listForbiddenList instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use $listForbiddenList instead
      */
     protected $listBlacklist = ['select'];
 
@@ -131,7 +132,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   1.6
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
@@ -147,12 +148,18 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
             $this->context = strtolower($this->option . '.' . $this->getName());
         }
 
-        // @deprecated in 4.0 remove in Joomla 5.0
+        /**
+         * @deprecated  4.0 will be removed in 6.0
+         *              Use $this->filterForbiddenList instead
+         */
         if (!empty($this->filterBlacklist)) {
             $this->filterForbiddenList = array_merge($this->filterBlacklist, $this->filterForbiddenList);
         }
 
-        // @deprecated in 4.0 remove in Joomla 5.0
+        /**
+         * @deprecated  4.0 will be removed in 6.0
+         *              Use $this->listForbiddenList instead
+         */
         if (!empty($this->listBlacklist)) {
             $this->listForbiddenList = array_merge($this->listBlacklist, $this->listForbiddenList);
         }
@@ -186,7 +193,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      *
      * @return boolean
      *
-     * @throws Exception
+     * @throws \Exception
      *
      * @since 4.0.0
      */
@@ -233,7 +240,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
             foreach ($this->filter_fields as $filter) {
                 $filterName = 'filter.' . $filter;
 
-                if (property_exists($this->state, $filterName) && (!empty($this->state->{$filterName}) || is_numeric($this->state->{$filterName}))) {
+                if (!empty($this->state->get($filterName)) || is_numeric($this->state->get($filterName))) {
                     $activeFilters[$filter] = $this->state->get($filterName);
                 }
             }
@@ -280,7 +287,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      */
     protected function getListQuery()
     {
-        return $this->getDbo()->getQuery(true);
+        return $this->getDatabase()->getQuery(true);
     }
 
     /**

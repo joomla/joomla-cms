@@ -14,36 +14,23 @@ const cmPath = `${rootPath}/media/vendor/codemirror`;
 
 // CodeMirror settings
 let CMsettings = {
-  indentOnInit: true,
-  config: {
-    mode: 'htmlmixed',
-    theme: 'default',
-    lineNumbers: true,
-    lineWrapping: true,
-    indentUnit: 2,
-    tabSize: 2,
-    indentWithTabs: true,
-    matchBrackets: true,
-    saveCursorPosition: true,
-    styleActiveLine: true,
-  },
   jsFiles: [
     // Default JS files
-    `${cmPath}/lib/codemirror.min.js`,
-    `${cmPath}/addon/edit/matchbrackets.min.js`,
-    `${cmPath}/mode/xml/xml.min.js`,
-    `${cmPath}/mode/javascript/javascript.min.js`,
-    `${cmPath}/mode/css/css.min.js`,
-    `${cmPath}/mode/htmlmixed/htmlmixed.min.js`,
-    `${cmPath}/addon/dialog/dialog.min.js`,
-    `${cmPath}/addon/search/searchcursor.min.js`,
-    `${cmPath}/addon/search/search.min.js`,
-    `${cmPath}/addon/selection/active-line.min.js`,
+    'lib/codemirror.min.js',
+    'addon/edit/matchbrackets.min.js',
+    'mode/xml/xml.min.js',
+    'mode/javascript/javascript.min.js',
+    'mode/css/css.min.js',
+    'mode/htmlmixed/htmlmixed.min.js',
+    'addon/dialog/dialog.min.js',
+    'addon/search/searchcursor.min.js',
+    'addon/search/search.min.js',
+    'addon/selection/active-line.min.js',
   ],
   cssFiles: [
     // Default CSS files
-    `${cmPath}/lib/codemirror.css`,
-    `${cmPath}/addon/dialog/dialog.css`,
+    'lib/codemirror.css',
+    'addon/dialog/dialog.css',
   ],
 };
 
@@ -55,7 +42,7 @@ const chr = 0; // Unused utf-8 character, placeholder for cursor
 const isMac = /macintosh|mac os/i.test(navigator.userAgent);
 
 // Utility function to load CodeMirror script files
-const loadScript = (url) => new Promise((resolve, reject) => {
+const loadScript = async (url) => new Promise((resolve, reject) => {
   const script = document.createElement('script');
   script.src = url;
   script.onload = () => resolve();
@@ -210,7 +197,7 @@ const start = () => {
     }
 
     // Indent all code, if so requested:
-    if (editor.settings.codemirror.indentOnInit) {
+    if (editor.options.get('codemirror').indentOnInit) {
       const last = inst.lineCount();
       inst.operation(() => {
         // eslint-disable-next-line no-plusplus
@@ -240,11 +227,11 @@ if (!tinymce) {
 }
 
 editor = tinymce.activeEditor;
-const userSettings = editor.settings.codemirror;
+const userSettings = editor.options.get('codemirror');
 
 if (userSettings.fullscreen) {
-  CMsettings.jsFiles.push(`${cmPath}/addon/display/fullscreen.min.js`);
-  CMsettings.cssFiles.push(`${cmPath}/addon/display/fullscreen.css`);
+  CMsettings.jsFiles.push('addon/display/fullscreen.min.js');
+  CMsettings.cssFiles.push('addon/display/fullscreen.css');
 }
 
 // Merge config
@@ -254,7 +241,7 @@ CMsettings = { ...CMsettings, ...userSettings };
 CMsettings.cssFiles.forEach((css) => {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = css;
+  link.href = `${cmPath}/${css}`;
   document.head.appendChild(link);
 });
 
@@ -262,7 +249,7 @@ CMsettings.cssFiles.forEach((css) => {
  * Append javascript files ensuring the order of execution.
  * Then execute the start function.
  */
-CMsettings.jsFiles.reduce((p, item) => p.then(() => loadScript(item)), Promise.resolve(true)).then(() => {
+CMsettings.jsFiles.reduce((p, item) => p.then(() => loadScript(`${cmPath}/${item}`)), Promise.resolve(true)).then(() => {
   // Borrowed from codemirror.js themeChanged function. Sets the theme's class names to the html element.
   // Without this, the background color outside of the codemirror wrapper element remains white.
   // [TMP] commented temporary, cause JS error: Uncaught TypeError: Cannot read property 'replace' of undefined

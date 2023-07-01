@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -142,16 +142,10 @@ abstract class Select
         // If the selectbox contains "form-select-color-state" then load the JS file
         if (strpos($attribs, 'form-select-color-state') !== false) {
             Factory::getDocument()->getWebAssetManager()
-                ->registerScript(
-                    'webcomponent.select-colour-es5',
-                    'system/fields/select-colour-es5.min.js',
-                    ['dependencies' => ['wcpolyfill']],
-                    ['defer'        => true, 'nomodule' => true]
-                )
                 ->registerAndUseScript(
                     'webcomponent.select-colour',
                     'system/fields/select-colour.min.js',
-                    ['dependencies' => ['webcomponent.select-colour-es5']],
+                    ['dependencies' => ['wcpolyfill']],
                     ['type'         => 'module']
                 );
         }

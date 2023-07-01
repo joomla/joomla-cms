@@ -21,6 +21,7 @@ use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
@@ -37,6 +38,8 @@ use Joomla\Filesystem\Path;
  */
 class LocalAdapter implements AdapterInterface
 {
+    use CurrentUserTrait;
+
     /**
      * The root path to gather file information from.
      *
@@ -430,7 +433,7 @@ class LocalAdapter implements AdapterInterface
         $dateObj = Factory::getDate($date);
 
         $timezone = Factory::getApplication()->get('offset');
-        $user     = Factory::getUser();
+        $user     = $this->getCurrentUser();
 
         if ($user->id) {
             $userTimezone = $user->getParam('timezone');

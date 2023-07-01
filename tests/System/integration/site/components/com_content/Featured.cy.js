@@ -1,4 +1,4 @@
-describe('Test that the featured articles menu item type', () => {
+describe('Test in frontend that the content featured view', () => {
   it('can display an article', () => {
     cy.db_createArticle({ title: 'automated test article', featured: 1 }).then(() => {
       cy.visit('/');
@@ -7,7 +7,7 @@ describe('Test that the featured articles menu item type', () => {
     });
   });
 
-  it('can not display not featured articles article', () => {
+  it('can not display not featured articles', () => {
     cy.db_createArticle({ title: 'automated test article', featured: 0 }).then(() => {
       cy.visit('/');
 

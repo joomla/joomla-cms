@@ -11,8 +11,10 @@ namespace Joomla\CMS\MVC\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
+use Joomla\CMS\Document\DocumentAwareInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
@@ -29,7 +31,7 @@ use Joomla\Filesystem\Path;
 use Joomla\Input\Input;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -189,7 +191,9 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      * @return  void
      *
      * @since   3.0
-     * @deprecated  5.0 See \Joomla\CMS\MVC\Model\LegacyModelLoaderTrait::getInstance
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement. Get the model through the MVCFactory instead
      */
     public static function addModelPath($path, $prefix = '')
     {
@@ -248,7 +252,11 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      * @return  static
      *
      * @since       3.0
-     * @deprecated  5.0 Get the controller through the MVCFactory instead
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Get the controller through the MVCFactory instead
+     *              Example: Factory::getApplication()->bootComponent($option)->getMVCFactory()->createController(...);
+     *
      * @throws      \Exception if the controller cannot be loaded.
      */
     public static function getInstance($prefix, $config = [])
@@ -575,6 +583,10 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
             $view->setCurrentUser($this->app->getIdentity());
         }
 
+        if ($view instanceof LanguageAwareInterface && $this->app->getLanguage()) {
+            $view->setLanguage($this->app->getLanguage());
+        }
+
         return $view;
     }
 
@@ -601,13 +613,18 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 
         $view = $this->getView($viewName, $viewType, '', ['base_path' => $this->basePath, 'layout' => $viewLayout]);
 
-        // Get/Create the model
-        if ($model = $this->getModel($viewName, '', ['base_path' => $this->basePath])) {
-            // Push the model into the view (as default)
-            $view->setModel($model, true);
-        }
+        // Set models for the View
+        $this->prepareViewModel($view);
 
-        $view->document = $document;
+        if ($view instanceof DocumentAwareInterface && $document) {
+            $view->setDocument($this->app->getDocument());
+        } else {
+            @trigger_error(
+                'View should implement document aware interface.',
+                E_USER_DEPRECATED
+            );
+            $view->document = $document;
+        }
 
         // Display the view
         if ($cachable && $viewType !== 'feed' && $this->app->get('caching') >= 1) {
@@ -811,7 +828,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 
         if (empty(self::$views[$name][$type][$prefix])) {
             if ($view = $this->createView($name, $prefix, $type, $config)) {
-                self::$views[$name][$type][$prefix] = & $view;
+                self::$views[$name][$type][$prefix] = &$view;
             } else {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), 404);
             }
@@ -1060,5 +1077,34 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Method to set the View Models
+     *
+     * This function is provided as a default implementation,
+     * and only set one Model in the view (that with the same prefix/sufix than the view).
+     * In case you want to set several Models for your view,
+     * you will need to override it in your DisplayController controller.
+     *
+     * @param   ViewInterface  $view  The view Object
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    protected function prepareViewModel(ViewInterface $view)
+    {
+        if (!method_exists($view, 'setModel')) {
+            return;
+        }
+
+        $viewName = $view->getName();
+
+        // Get/Create the model
+        if ($model = $this->getModel($viewName, '', ['base_path' => $this->basePath])) {
+            // Push the model into the view (as default)
+            $view->setModel($model, true);
+        }
     }
 }

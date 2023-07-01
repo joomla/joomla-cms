@@ -1879,7 +1879,6 @@ if ($enabled) {
     $engine->setFilename($sourceFile);
     $engine->setAddPath($destDir);
     $skipFiles = [
-        'administrator/components/com_joomlaupdate/restoration.php',
         'administrator/components/com_joomlaupdate/update.php',
     ];
 

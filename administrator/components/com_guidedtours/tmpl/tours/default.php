@@ -19,7 +19,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\View\Tours\HtmlView;
-use Joomla\String\Inflector;
 
 /** @var  HtmlView  $this */
 
@@ -109,7 +108,7 @@ if ($saveOrder && !empty($this->items)) {
                     <th scope="col" class="w-1 text-center">
                         <?php echo HTMLHelper::_(
                             'searchtools.sort',
-                            'COM_GUIDEDTOURS_STATUS',
+                            'JSTATUS',
                             'a.published',
                             $listDirn,
                             $listOrder
@@ -139,7 +138,7 @@ if ($saveOrder && !empty($this->items)) {
                     <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                         <?php echo HTMLHelper::_(
                             'searchtools.sort',
-                            'COM_GUIDEDTOURS_TOUR_ID',
+                            'JGRID_HEADING_ID',
                             'a.id',
                             $listDirn,
                             $listOrder

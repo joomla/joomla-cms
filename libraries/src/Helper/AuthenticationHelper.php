@@ -9,13 +9,12 @@
 
 namespace Joomla\CMS\Helper;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -31,7 +30,9 @@ abstract class AuthenticationHelper
      * @return  array  Always empty
      *
      * @since   3.6.3
-     * @deprecated 4.2.0 Will be removed in 5.0.
+     *
+     * @deprecated  4.2 will be removed in 6.0
+     *              Will be removed without replacement
      */
     public static function getTwoFactorMethods()
     {
@@ -95,7 +96,7 @@ abstract class AuthenticationHelper
         try {
             /** @var CMSApplication $app */
             $app = Factory::getApplication();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [];
         }
 
