@@ -129,7 +129,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         //Load the form fields
         $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/schemaorg.xml');
 
-        if (!$this->params->get('basetype')) {
+        if (!$this->params->get('baseType')) {
 
             $form->removeField('schemaType', 'schema');
 
