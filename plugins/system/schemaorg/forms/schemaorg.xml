@@ -25,7 +25,7 @@
 				label="PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_TYPE_LABEL"
 				default="None"
 				>
-				<option value="None">PLG_SYSTEM_SCHEMAORG_FIELD_NONE_LABEL</option>
+				<option value="None">JNONE</option>
 			</field>
 
 		</fieldset>

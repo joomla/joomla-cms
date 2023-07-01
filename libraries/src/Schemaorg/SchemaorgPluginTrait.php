@@ -35,7 +35,6 @@ trait SchemaorgPluginTrait
             'onSchemaPrepareData'       => 'onSchemaPrepareData',
             'onSchemaPrepareForm'       => 'onSchemaPrepareForm',
             'onSchemaAfterSave'         => 'onSchemaAfterSave',
-            'onSchemaBeforeCompileHead' => 'pushSchema',
         ];
     }
 
@@ -326,7 +325,6 @@ trait SchemaorgPluginTrait
         if (is_object($data)) {
             //Create object to insert data into database
             $newSchema = new Registry();
-            $newSchema->set('@context', 'https://schema.org');
 
             $schema = new Registry($this->cleanupIndividualSchema($data));
             if (is_object($schema)) {
@@ -355,51 +353,6 @@ trait SchemaorgPluginTrait
 
             return $newSchema;
         }
-    }
-
-    /**
-     * Push the schema to the head tag in the frontend
-     *
-     * @param   $schema JSON Schema
-     *
-     * @return  boolean
-     *
-     * @since   _DEPLOY_VERSION__
-     */
-    public function pushSchema()
-    {
-        $itemId  = (int) $this->app->getInput()->getInt('id');
-        $option  = $this->app->getInput()->get('option');
-        $view    = $this->app->getInput()->get('view');
-        $context = $option . '.' . $view;
-
-        if ($itemId > 0) {
-            // Load the table data from the database
-            $db    = $this->db;
-            $query = $db->getQuery(true)
-                ->select('*')
-                ->from($db->quoteName('#__schemaorg'))
-                ->where($db->quoteName('itemId') . '= :itemId')
-                ->bind(':itemId', $itemId, ParameterType::INTEGER)
-                ->where($db->quoteName('context') . '= :context')
-                ->bind(':context', $context, ParameterType::STRING);
-
-            $db->setQuery($query);
-            $results = $db->loadAssoc();
-
-            if (!$results || !$this->isSupported($context) || $results['schemaType'] != $this->pluginName) {
-                return false;
-            }
-
-            $schema = $results['schema'];
-
-            if (!empty($schema)) {
-                $wa = $this->app->getDocument()->getWebAssetManager();
-                $wa->addInlineScript($schema, ['position' => 'after'], ['type' => 'application/ld+json']);
-            }
-        }
-
-        return true;
     }
 
     /**

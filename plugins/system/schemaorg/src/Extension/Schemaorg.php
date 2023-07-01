@@ -20,7 +20,12 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\UserFactory;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
+use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -33,13 +38,8 @@ use Joomla\Registry\Registry;
  */
 final class Schemaorg extends CMSPlugin implements SubscriberInterface
 {
-    use SchemaorgPluginTrait;
-
-    /**
-     * @var    \Joomla\Database\DatabaseDriver
-     *
-     */
-    protected $db;
+    // use SchemaorgPluginTrait;
+    use DatabaseAwareTrait;
 
     /**
      * Load the language file on instantiation.
@@ -48,14 +48,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      * @since  4.0.0
      */
     protected $autoloadLanguage = true;
-
-    /**
-     * Loads the CMS Application for direct access
-     *
-     * @var   CMSApplicationInterface
-     * @since 4.0.0
-     */
-    protected $app;
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -87,11 +79,13 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $context = $event->getArgument('0');
         $data    = $event->getArgument('1');
 
-        if ($this->app->isClient('site') || !$this->isSupported($context)) {
+        $app = $this->getApplication();
+
+        if ($app->isClient('site') || (false && !$this->isSupported($context))) {
             return true;
         }
 
-        $dispatcher = $this->app->getDispatcher();
+        $dispatcher = $app->getDispatcher();
 
         $event   = AbstractEvent::create(
             'onSchemaPrepareData',
@@ -122,7 +116,9 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $form    = $event->getArgument('0');
         $context = $form->getName();
 
-        if ($this->app->isClient('site') || !$this->isSupported($context)) {
+        $app = $this->getApplication();
+
+        if (!$app->isClient('administrator') || (false && !$this->isSupported($context))) {
             return true;
         }
 
@@ -207,16 +203,130 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      */
     public function onBeforeCompileHead()
     {
-        $dispatcher = Factory::getApplication()->getDispatcher();
+        $app = $this->getApplication();
+        $baseType = $this->params->get('baseType');
 
-        $event   = AbstractEvent::create(
+        // We need the plugin configurated at least once to add structured data
+        if (!$app->isClient('site') || !in_array($baseType, ['organization', 'person'])) {
+
+            return;
+        }
+
+        $itemId  = (int) $app->getInput()->getInt('id');
+        $option  = $app->getInput()->get('option');
+        $view    = $app->getInput()->get('view');
+        $context = $option . '.' . $view;
+
+        $domain = Uri::root();
+        $url    = Uri::getInstance()->toString();
+
+        $isPerson = $baseType === 'person';
+
+        $schema = new Registry();
+
+        $baseSchema = [];
+
+        $baseSchema['@context'] = 'https://schema.org';
+        $baseSchema['@graph']   = [];
+
+        // Add base tag Person/Organization
+        $baseId = $domain . '#/schema/' . ucfirst($baseType) . '/base';
+
+        $siteSchema = [];
+
+        $siteSchema['@type'] = ucfirst($this->params->get('baseType'));
+        $siteSchema['@id']   = $baseId;
+
+        $name = $this->params->get('name');
+
+        if ($isPerson && $this->params->get('userId') > 0) {
+
+            $user = Factory::getContainer()->get(UserFactory::class)->loadUserById($this->params->get('userId'));
+
+            $name = $user ? $user->name : '';
+        }
+
+        if ($name) {
+            $siteSchema['name'] = $name;
+        }
+
+        $siteSchema['url'] = $domain;
+
+        $baseSchema['@graph'][] = $siteSchema;
+
+        // Add WebSite
+        $webSiteId = $domain . '#/schema/WebSite/base';
+
+        $webSiteSchema = [];
+
+        $webSiteSchema['@type']      = 'WebSite';
+        $webSiteSchema['@id']        = $webSiteId;
+        $webSiteSchema['url']        = $domain;
+        $webSiteSchema['name']       = $app->get('sitename');
+        $webSiteSchema['publisher']  = ['@id' => $baseId];
+
+        $baseSchema['@graph'][] = $webSiteSchema;
+
+        // Add WebPage
+        $webPageId = $domain . '#/schema/WebPage/base';
+
+        $webPageSchema = [];
+
+        $webPageSchema['@type']       = 'WebSite';
+        $webPageSchema['@id']         = $webPageId;
+        $webPageSchema['url']         = $url;
+        $webPageSchema['name']        = $app->getDocument()->getTitle();
+        $webPageSchema['description'] = $app->getDocument()->getDescription();
+        $webPageSchema['isPartOf'] = ['@id' => $webSiteId];
+
+        $baseSchema['@graph'][] = $webPageSchema;
+
+        if ($itemId > 0) {
+            // Load the table data from the database
+            $db    = $this->getDatabase();
+            $query = $db->getQuery(true)
+                ->select('*')
+                ->from($db->quoteName('#__schemaorg'))
+                ->where($db->quoteName('itemId') . ' = :itemId')
+                ->bind(':itemId', $itemId, ParameterType::INTEGER)
+                ->where($db->quoteName('context') . ' = :context')
+                ->bind(':context', $context, ParameterType::STRING);
+
+            $result = $db->setQuery($query)->loadObject();
+
+            if ($result) {
+
+                $localSchema = new Registry($result->schema);
+
+                $localSchema->set('@id', $domain . '#/schema/' . ucfirst($result->schemaType) . '/' . (int) $result->itemId);
+                $localSchema->set('@isPartOf', ['@id' => $webPageId]);
+
+                $baseSchema['@graph'][] = $localSchema->toArray();
+
+            }
+        }
+
+        $schema->loadArray($baseSchema);
+
+        $event = AbstractEvent::create(
             'onSchemaBeforeCompileHead',
             [
                     'subject' => $this,
+                    'schema'  => $schema
                 ]
         );
 
+        print_r($schema->toString());
+
         PluginHelper::importPlugin('schemaorg');
-        $eventResult = $dispatcher->dispatch('onSchemaBeforeCompileHead', $event);
+        $eventResult = $app->getDispatcher()->dispatch('onSchemaBeforeCompileHead', $event);
+
+        $schemaString = $schema->toString();
+
+        if ($schemaString !== '{}') {
+
+            $wa = $this->getApplication()->getDocument()->getWebAssetManager();
+            $wa->addInlineScript($schemaString,  ['position' => 'after'], ['type' => 'application/ld+json']);
+        }
     }
 }
