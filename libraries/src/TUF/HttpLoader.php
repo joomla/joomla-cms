@@ -9,14 +9,13 @@
 namespace Joomla\CMS\TUF;
 
 use Joomla\Http\HttpFactory;
-use Joomla\Http\Http;
 use Psr\Http\Message\StreamInterface;
 use Tuf\Exception\RepoFileNotFound;
 use Tuf\Loader\LoaderInterface;
 
 class HttpLoader implements LoaderInterface
 {
-    public function __construct(public string $basePath)
+    public function __construct(private readonly string $repositoryPath)
     {
     }
 
@@ -24,9 +23,9 @@ class HttpLoader implements LoaderInterface
     {
         $httpFactory = new HttpFactory();
 
-        /** @var Http $client */
+        // Get client instance
         $client = $httpFactory->getHttp([], 'curl');
-        $response = $client->get($this->basePath . $locator);
+        $response = $client->get($this->repositoryPath . $locator);
 
         if ($response->code === 404) {
             throw new RepoFileNotFound();
@@ -35,6 +34,7 @@ class HttpLoader implements LoaderInterface
         // Rewind to start
         $response->getBody()->rewind();
 
+        // Return reponse
         return $response->getBody();
     }
 }

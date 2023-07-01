@@ -10,7 +10,6 @@ namespace Joomla\CMS\TUF;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\TUF\HttpFileFetcher;
 use Joomla\Database\DatabaseDriver;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
@@ -19,6 +18,7 @@ use Tuf\Client\Updater;
 use Tuf\Exception\Attack\FreezeAttackException;
 use Tuf\Exception\Attack\RollbackAttackException;
 use Tuf\Exception\Attack\SignatureThresholdException;
+use Tuf\Exception\DownloadSizeException;
 use Tuf\Exception\MetadataException;
 use Tuf\Loader\SizeCheckingLoader;
 
@@ -119,6 +119,10 @@ class TufValidation
             $updater->refresh();
 
             return $storage['targets.json'];
+        } catch (DownloadSizeException $e) {
+            $this->rollBackTufMetadata();
+            Factory::getApplication()->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_DOWNLOAD_SIZE'), 'error');
+            return null;
         } catch (MetadataException $e) {
             $this->rollBackTufMetadata();
             Factory::getApplication()->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_INVALID_METADATA'), 'error');
