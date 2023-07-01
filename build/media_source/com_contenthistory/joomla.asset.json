@@ -8,7 +8,8 @@
     {
       "name": "com_contenthistory.admin-compare-compare.es5",
       "type": "script",
-      "uri": "com_contenthistory/admin-compare-compare-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core",
         "diff"
@@ -23,7 +24,7 @@
       "type": "script",
       "uri": "com_contenthistory/admin-compare-compare.min.js",
       "dependencies": [
-        "com_contenthistory.admin-compare-compare.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -32,7 +33,8 @@
     {
       "name": "com_contenthistory.admin-history-modal.es5",
       "type": "script",
-      "uri": "com_contenthistory/admin-history-modal-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -46,7 +48,7 @@
       "type": "script",
       "uri": "com_contenthistory/admin-history-modal.min.js",
       "dependencies": [
-        "com_contenthistory.admin-history-modal.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -55,7 +57,8 @@
     {
       "name": "com_contenthistory.admin-history-versions.es5",
       "type": "script",
-      "uri": "com_contenthistory/admin-history-versions-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -69,7 +72,7 @@
       "type": "script",
       "uri": "com_contenthistory/admin-history-versions.min.js",
       "dependencies": [
-        "com_contenthistory.admin-history-versions.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

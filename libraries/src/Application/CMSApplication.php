@@ -12,7 +12,6 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\SessionAwareWebApplicationTrait;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
@@ -20,7 +19,7 @@ use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
-use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Menu\AbstractMenu;
@@ -40,7 +39,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -270,7 +269,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $input->set($systemVariable, null);
         }
 
-        // Abort when there are invalid variables
+        // Stop when there are invalid variables
         if ($invalidInputVariables) {
             throw new \RuntimeException('Invalid input, aborting application.');
         }
@@ -417,7 +416,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @return  mixed  The user state.
      *
      * @since   3.2
-     * @deprecated  5.0  Use get() instead
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use get() instead
+     *              Example: Factory::getApplication()->get($varname, $default);
      */
     public function getCfg($varname, $default = null)
     {
@@ -459,7 +461,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since       3.2
      * @throws      \RuntimeException
-     * @deprecated  5.0 Use \Joomla\CMS\Factory::getContainer()->get($name) instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the application service from the DI container instead
+     *              Example: Factory::getContainer()->get($name);
      */
     public static function getInstance($name = null, $prefix = '\JApplication', Container $container = null)
     {
@@ -601,7 +605,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since      3.2
      *
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     * @deprecated  4.3 will be removed in 6.0
+     *              Inject the router or load it from the dependency injection container
+     *              Example: Factory::getContainer()->get($name);
      */
     public static function getRouter($name = null, array $options = [])
     {
@@ -706,7 +712,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         // Build our language object
-        $lang = Language::getInstance($this->get('language'), $this->get('debug_lang'));
+        $lang = $this->getContainer()->get(LanguageFactoryInterface::class)->createLanguage($this->get('language'), $this->get('debug_lang'));
 
         // Load the language to the API
         $this->loadLanguage($lang);
@@ -1040,7 +1046,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since      3.2
      *
-     * @deprecated 5.0 Implement the route functionality in the extending class, this here will be removed without replacement
+     * @deprecated  4.0 will be removed in 6.0
+     *              Implement the route functionality in the extending class, this here will be removed without replacement
      */
     protected function route()
     {
@@ -1101,7 +1108,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @param   string  $key    The path of the state.
      * @param   mixed   $value  The value of the variable.
      *
-     * @return  mixed|void  The previous state, if one existed.
+     * @return  mixed  The previous state, if one existed. Null otherwise.
      *
      * @since   3.2
      */
@@ -1113,6 +1120,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         if ($registry !== null) {
             return $registry->set($key, $value);
         }
+
+        return null;
     }
 
     /**
@@ -1184,7 +1193,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @return  boolean
      *
      * @since       4.0.0
-     * @deprecated  5.0  Will be removed without replacements
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacements
      */
     public function isCli()
     {
@@ -1199,7 +1210,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @since   4.0.0
      *
      * @throws \Exception
-     * @deprecated 4.2.0  Will be removed in 5.0 without replacement.
+     *
+     * @deprecated  4.2 will be removed in 6.0
+     *              Will be removed without replacements
      */
     protected function isTwoFactorAuthenticationRequired(): bool
     {
@@ -1214,7 +1227,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @since   4.0.0
      *
      * @throws \Exception
-     * @deprecated 4.2.0  Will be removed in 5.0 without replacement.
+     *
+     * @deprecated  4.2 will be removed in 6.0
+     *              Will be removed without replacements
      */
     private function hasUserConfiguredTwoFactorAuthentication(): bool
     {

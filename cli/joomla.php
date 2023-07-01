@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 /**
@@ -11,7 +12,7 @@
 const _JEXEC = 1;
 
 // Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
-const JOOMLA_MINIMUM_PHP = '7.2.5';
+const JOOMLA_MINIMUM_PHP = '8.1.0';
 
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
     echo 'Sorry, your PHP version is not supported.' . PHP_EOL;
@@ -40,6 +41,10 @@ if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT
     echo 'Please see https://docs.joomla.org/Special:MyLanguage/J4.x:Setting_Up_Your_Local_Environment for further details.' . PHP_EOL;
 
     exit;
+}
+
+if (!defined('JPATH_PUBLIC')) {
+    define('JPATH_PUBLIC', JPATH_ROOT);
 }
 
 // Check if installed

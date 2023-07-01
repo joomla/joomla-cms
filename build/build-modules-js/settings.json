@@ -76,7 +76,8 @@
           {
             "name": "bootstrap.es5",
             "type": "script",
-            "uri": "bootstrap-es5.min.js",
+            "deprecated": true,
+            "uri": "",
             "dependencies": [
               "core"
             ],
@@ -90,7 +91,7 @@
             "type": "script",
             "uri": "alert.min.js",
             "dependencies": [
-              "bootstrap.es5"
+              "core"
             ],
             "attributes": {
               "type": "module"
@@ -101,7 +102,7 @@
             "type": "script",
             "uri": "button.min.js",
             "dependencies": [
-              "bootstrap.es5"
+              "core"
             ],
             "attributes": {
               "type": "module"
@@ -112,7 +113,7 @@
             "type": "script",
             "uri": "carousel.min.js",
             "dependencies": [
-              "bootstrap.es5"
+              "core"
             ],
             "attributes": {
               "type": "module"
@@ -123,7 +124,7 @@
             "type": "script",
             "uri": "collapse.min.js",
             "dependencies": [
-              "bootstrap.es5"
+              "core"
             ],
             "attributes": {
               "type": "module"
@@ -134,7 +135,7 @@
             "type": "script",
             "uri": "dropdown.min.js",
             "dependencies": [
-              "bootstrap.es5"
+              "core"
             ],
             "attributes": {
               "type": "module"
@@ -145,7 +146,7 @@
             "type": "script",
             "uri": "modal.min.js",
             "dependencies": [
-              "bootstrap.es5"
+              "core"
             ],
             "attributes": {
               "type": "module"
@@ -156,7 +157,7 @@
             "type": "script",
             "uri": "offcanvas.min.js",
             "dependencies": [
-              "bootstrap.es5"
+              "core"
             ],
             "attributes": {
               "type": "module"
@@ -167,7 +168,7 @@
             "type": "script",
             "uri": "popover.min.js",
             "dependencies": [
-              "bootstrap.es5"
+              "core"
             ],
             "attributes": {
               "type": "module"
@@ -178,7 +179,7 @@
             "type": "script",
             "uri": "scrollspy.min.js",
             "dependencies": [
-              "bootstrap.es5"
+              "core"
             ],
             "attributes": {
               "type": "module"
@@ -189,7 +190,7 @@
             "type": "script",
             "uri": "tab.min.js",
             "dependencies": [
-              "bootstrap.es5"
+              "core"
             ],
             "attributes": {
               "type": "module"
@@ -200,7 +201,7 @@
             "type": "script",
             "uri": "toast.min.js",
             "dependencies": [
-              "bootstrap.es5"
+              "core"
             ],
             "attributes": {
               "type": "module"
@@ -214,7 +215,8 @@
         "name": "cropperjs",
         "js": {
           "dist/cropper.js": "js/cropper.js",
-          "dist/cropper.min.js": "js/cropper.min.js"
+          "dist/cropper.min.js": "js/cropper.min.js",
+          "dist/cropper.esm.js": "js/cropper.esm.js"
         },
         "css": {
           "dist/cropper.css": "css/cropper.css",
@@ -227,8 +229,15 @@
             "uri": "cropper.min.css"
           },
           {
+            "name": "cropper-module",
+            "type": "script",
+            "uri": "cropper.esm.js",
+            "importmap": true
+          },
+          {
             "name": "cropperjs",
             "type": "script",
+            "deprecated": true,
             "uri": "cropper.min.js",
             "attributes": {
               "defer": true
@@ -339,6 +348,24 @@
         ],
         "dependencies": [],
         "licenseFilename": "license"
+      },
+      "es-module-shims": {
+        "name": "es-module-shims",
+        "js": {
+          "dist/es-module-shims.js": "js/es-module-shims.js"
+        },
+        "provideAssets": [
+          {
+            "name": "es-module-shims",
+            "type": "script",
+            "uri": "es-module-shims.min.js",
+            "attributes": {
+              "async": true
+            }
+          }
+        ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE"
       },
       "focus-visible": {
         "name": "focus-visible",
@@ -453,12 +480,8 @@
         "js": {
           "dist/js/joomla-alert.js": "js/joomla-alert.js",
           "dist/js/joomla-alert.min.js": "js/joomla-alert.min.js",
-          "dist/js/joomla-alert-es5.js": "js/joomla-alert-es5.js",
-          "dist/js/joomla-alert-es5.min.js": "js/joomla-alert-es5.min.js",
           "dist/js/joomla-tab.js": "js/joomla-tab.js",
-          "dist/js/joomla-tab.min.js": "js/joomla-tab.min.js",
-          "dist/js/joomla-tab-es5.js": "js/joomla-tab-es5.js",
-          "dist/js/joomla-tab-es5.min.js": "js/joomla-tab-es5.min.js"
+          "dist/js/joomla-tab.min.js": "js/joomla-tab.min.js"
         },
         "css": {
           "dist/css/joomla-alert.css": "css/joomla-alert.css",
@@ -475,7 +498,7 @@
           {
             "name": "webcomponent.joomla-alert-legacy",
             "type": "script",
-            "uri": "joomla-alert-es5.min.js",
+            "uri": "",
             "attributes": {
               "nomodule": true,
               "defer": true
@@ -492,7 +515,7 @@
               "type": "module"
             },
             "dependencies": [
-              "webcomponent.joomla-alert-legacy"
+              "wcpolyfill"
             ]
           },
           {
@@ -503,7 +526,7 @@
           {
             "name": "webcomponent.joomla-tab-legacy",
             "type": "script",
-            "uri": "joomla-tab-es5.min.js",
+            "uri": "",
             "attributes": {
               "nomodule": true,
               "defer": true
@@ -520,7 +543,7 @@
               "type": "module"
             },
             "dependencies": [
-              "webcomponent.joomla-tab-legacy"
+              "wcpolyfill"
             ]
           }
         ],
@@ -542,11 +565,6 @@
           "build/mediaelementplayer-legacy.css": "css/mediaelementplayer-legacy.css"
         },
         "filesExtra": {
-          "build/mediaelement-flash-audio-ogg.swf": "js/mediaelement-flash-audio-ogg.swf",
-          "build/mediaelement-flash-audio.swf": "js/mediaelement-flash-audio.swf",
-          "build/mediaelement-flash-video-hls.swf": "js/mediaelement-flash-video-hls.swf",
-          "build/mediaelement-flash-video-mdash.swf": "js/mediaelement-flash-video-mdash.swf",
-          "build/mediaelement-flash-video.swf": "js/mediaelement-flash-video.swf",
           "build/mejs-controls.svg": "css/mejs-controls.svg"
         },
         "dependencies": [],
@@ -700,6 +718,10 @@
           }
         ]
       },
+      "shepherd.js": {
+        "name": "shepherdjs",
+        "licenseFilename": "LICENSE"
+      },
       "short-and-sweet": {
         "name": "short-and-sweet",
         "licenseFilename": "LICENSE",
@@ -784,7 +806,7 @@
         "text": "It looks like you are trying to run Joomla! from our git repository. To do so requires you complete a couple of extra steps first.",
         "link": "J4.x:Setting_Up_Your_Local_Environment",
         "linkText": "More Details",
-        "destFile": "/templates/system/build_incomplete.html"
+        "destFile": ["/templates/system/build_incomplete.html"]
       },
       "unsupported": {
         "title": "Joomla: unsupported PHP version",
@@ -792,7 +814,7 @@
         "text": "Your host needs to use PHP version {{phpversion}} or newer to run this version of Joomla!",
         "link": "J4.x:Unsupported_PHP_Version",
         "linkText": "Help me resolve this",
-        "destFile": "/templates/system/incompatible.html"
+        "destFile": ["/templates/system/incompatible.html", "/includes/incompatible.html"]
       },
       "noxml": {
         "title": "Joomla: Missing PHP-XML library",
@@ -800,7 +822,7 @@
         "text": "Your host needs to use PHP with support for the XML library to run this version of Joomla!",
         "link": "J4.x:Missing_XML_Library",
         "linkText": "Help me resolve this",
-        "destFile": "/media/system/html/noxml.html"
+        "destFile": ["/media/system/html/noxml.html"]
       },
       "fatal": {
         "title": "An Error Occurred: {{statusText}}",
@@ -808,7 +830,7 @@
         "text": "The server returned a \"{{statusCode_statusText}}\"",
         "link": "J4.x:FatalError",
         "linkText": "Help me resolve this",
-        "destFile": "/templates/system/fatal-error.html"
+        "destFile": ["/templates/system/fatal-error.html"]
       }
     }
   }

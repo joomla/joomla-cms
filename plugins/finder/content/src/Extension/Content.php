@@ -124,7 +124,7 @@ final class Content extends Adapter
      * @return  void
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function onFinderAfterDelete($context, $table): void
     {
@@ -153,7 +153,7 @@ final class Content extends Adapter
      * @return  void
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function onFinderAfterSave($context, $row, $isNew): void
     {
@@ -189,7 +189,7 @@ final class Content extends Adapter
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function onFinderBeforeSave($context, $row, $isNew)
     {
@@ -246,7 +246,7 @@ final class Content extends Adapter
      * @return  void
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function index(Result $item)
     {
@@ -305,11 +305,16 @@ final class Content extends Adapter
         // Translate the state. Articles should only be published if the category is published.
         $item->state = $this->translateState($item->state, $item->cat_state);
 
+        // Get taxonomies to display
+        $taxonomies = $this->params->get('taxonomies', ['type', 'author', 'category', 'language']);
+
         // Add the type taxonomy data.
-        $item->addTaxonomy('Type', 'Article');
+        if (in_array('type', $taxonomies)) {
+            $item->addTaxonomy('Type', 'Article');
+        }
 
         // Add the author taxonomy data.
-        if (!empty($item->author) || !empty($item->created_by_alias)) {
+        if (in_array('author', $taxonomies) && (!empty($item->author) || !empty($item->created_by_alias))) {
             $item->addTaxonomy('Author', !empty($item->created_by_alias) ? $item->created_by_alias : $item->author, $item->state);
         }
 
@@ -317,18 +322,23 @@ final class Content extends Adapter
         $categories = $this->getApplication()->bootComponent('com_content')->getCategory(['published' => false, 'access' => false]);
         $category   = $categories->get($item->catid);
 
-        // Category does not exist, stop here
         if (!$category) {
             return;
         }
 
-        $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
+        // Add the category taxonomy data.
+        if (in_array('category', $taxonomies)) {
+            $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
+        }
 
         // Add the language taxonomy data.
-        $item->addTaxonomy('Language', $item->language);
+        if (in_array('language', $taxonomies)) {
+            $item->addTaxonomy('Language', $item->language);
+        }
 
         // Get content extras.
         Helper::getContentExtras($item);
+        Helper::addCustomFields($item, 'com_content.article');
 
         // Index the item.
         $this->indexer->index($item);

@@ -12,15 +12,15 @@ namespace Joomla\CMS\User;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -28,8 +28,11 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.7.0
  */
-class User extends CMSObject
+class User
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
     /**
      * A cached switch for if this user has root access rights.
      *
@@ -175,6 +178,38 @@ class User extends CMSObject
     public $requireReset = null;
 
     /**
+     * The type alias
+     *
+     * @var    string
+     * @since  5.0.0
+     */
+    public $typeAlias = null;
+
+    /**
+     * The otp key
+     *
+     * @var    string
+     * @since  5.0.0
+     */
+    public $otpKey = null;
+
+    /**
+     * The otp
+     *
+     * @var    string
+     * @since  5.0.0
+     */
+    public $otep = null;
+
+    /**
+     * The authentication provider
+     *
+     * @var    string
+     * @since  5.0.0
+     */
+    public $authProvider = null;
+
+    /**
      * User parameters
      *
      * @var    Registry
@@ -225,6 +260,8 @@ class User extends CMSObject
      *
      * @var    integer
      * @since  4.3.0
+     *
+     * @deprecated 4.4.0 will be removed in 6.0 as this property is not used anymore
      */
     public $aid = null;
 
@@ -260,7 +297,9 @@ class User extends CMSObject
      * @return  User  The User object.
      *
      * @since       1.7.0
-     * @deprecated  5.0  Load the user service from the dependency injection container or via $app->getIdentity()
+     * @deprecated  4.3 will be removed in 6.0
+     *              Load the user service from the dependency injection container or via $app->getIdentity()
+     *              Example: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($id)
      */
     public static function getInstance($identifier = 0)
     {
@@ -815,8 +854,6 @@ class User extends CMSObject
         if (!$table->load($id)) {
             // Reset to guest user
             $this->guest = 1;
-
-            Log::add(Text::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), Log::WARNING, 'jerror');
 
             return false;
         }
