@@ -1,0 +1,15 @@
+# php-tuf/php-tuf - patch 20230701
+# TUF signed metadata should use semantic versioning 1.xx.xx while used TUF GO client drops patch level and uses
+# 1.xx - therefor make patch level optional
+#
+--- a/src/Metadata/MetadataBase.php
++++ b/src/Metadata/MetadataBase.php	(date 1688199141423)
+@@ -179,7 +179,7 @@
+                 'spec_version' => [
+                     new NotBlank(),
+                     new Type('string'),
+-                    new Regex('/^1\.[0-9]+\.[0-9]+$/'),
++                    new Regex('/^1\.[0-9]+(\.[0-9]+)?$/'),
+                 ],
+             ] + static::getVersionConstraints(),
+             'allowExtraFields' => true,

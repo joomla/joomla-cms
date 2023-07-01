@@ -16,7 +16,8 @@
         "vendor-dir": "libraries/vendor",
         "github-protocols": ["https"],
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "cweagans/composer-patches": true
         }
     },
     "support": {
@@ -106,7 +107,8 @@
         "phpseclib/bcmath_compat": "^2.0.1",
         "jfcherng/php-diff": "^6.15.3",
         "voku/portable-utf8": "^6.0.13",
-        "php-tuf/php-tuf": "dev-main"
+        "php-tuf/php-tuf": "dev-main",
+        "cweagans/composer-patches": "^1.7"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.6.9",
@@ -127,6 +129,14 @@
         "symfony/polyfill-php80": "*",
         "symfony/polyfill-php81": "*"
     },
+  "extra": {
+    "composer-exit-on-patch-failure": true,
+    "patches": {
+      "php-tuf/php-tuf": {
+        "Patch level optional on TUF signed metadata": "./build/composer_patches/5.0.0-2023-07-01_php-tuf_meta.patch"
+      }
+    }
+  },
     "scripts": {
       "post-install-cmd": [
         "php build/update_fido_cache.php"
