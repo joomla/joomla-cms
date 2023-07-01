@@ -29,6 +29,8 @@ class DatabaseStorage extends StorageBase
      */
     protected $table;
 
+    protected $container = array();
+
     /**
      * Initialize the DatabaseStorage class
      *
@@ -71,6 +73,10 @@ class DatabaseStorage extends StorageBase
         $data = [];
 
         foreach (self::METADATA_COLUMNS as $column) {
+            if (!array_key_exists($column, $this->container)) {
+                continue;
+            }
+
             $data[$column] = $this->container[$column];
         }
 
