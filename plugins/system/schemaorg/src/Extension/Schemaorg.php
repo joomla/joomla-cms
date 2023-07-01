@@ -18,8 +18,10 @@ use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactory;
 use Joomla\Database\DatabaseAwareTrait;
@@ -218,7 +220,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $context = $option . '.' . $view;
 
         $domain = Uri::root();
-        $url    = Uri::getInstance()->toString();
+        $url    = htmlspecialchars(Uri::getInstance()->toString());
 
         $isPerson = $baseType === 'person';
 
@@ -265,6 +267,17 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $webSiteSchema['name']       = $app->get('sitename');
         $webSiteSchema['publisher']  = ['@id' => $baseId];
 
+        // We support Finder actions
+        $finder = ModuleHelper::getModule('mod_finder');
+
+        if (!empty($finder->id)) {
+            $webSiteSchema['potentialAction'] = [
+                '@type'       => 'SearchAction',
+                'target'      => Route::_('index.php?option=com_finder&view=search&q={search_term_string}', true, Route::TLS_IGNORE, true),
+                'query-input' => 'required name=search_term_string'
+            ];
+        }
+
         $baseSchema['@graph'][] = $webSiteSchema;
 
         // Add WebPage
@@ -277,7 +290,16 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $webPageSchema['url']         = $url;
         $webPageSchema['name']        = $app->getDocument()->getTitle();
         $webPageSchema['description'] = $app->getDocument()->getDescription();
-        $webPageSchema['isPartOf'] = ['@id' => $webSiteId];
+        $webPageSchema['isPartOf']    = ['@id' => $webSiteId];
+        $webPageSchema['about']       = ['@id' => $baseId];
+        $webPageSchema['inLanguage']  = $app->getLanguage()->getTag();
+
+        // We support Breadcrumb linking
+        $breadcrumbs = ModuleHelper::getModule('mod_breadcrumbs');
+
+        if (!empty($breadcrumbs->id)) {
+            $webPageSchema['breadcrumb'] = ['@id' => $domain . '#/schema/BreadcrumbList/' . (int) $breadcrumbs->id];
+        }
 
         $baseSchema['@graph'][] = $webPageSchema;
 
