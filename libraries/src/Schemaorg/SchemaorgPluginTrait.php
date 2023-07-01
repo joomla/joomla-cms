@@ -32,9 +32,9 @@ trait SchemaorgPluginTrait
     public static function getSubscribedEvents(): array
     {
         return [
-            'onSchemaPrepareData'       => 'onSchemaPrepareData',
-            'onSchemaPrepareForm'       => 'onSchemaPrepareForm',
-            'onSchemaAfterSave'         => 'onSchemaAfterSave',
+            'onSchemaPrepareData' => 'onSchemaPrepareData',
+            'onSchemaPrepareForm' => 'onSchemaPrepareForm',
+            'onSchemaAfterSave'     => 'onSchemaAfterSave',
         ];
     }
 

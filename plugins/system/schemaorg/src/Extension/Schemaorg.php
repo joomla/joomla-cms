@@ -10,12 +10,10 @@
 
 namespace Joomla\Plugin\System\Schemaorg\Extension;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\CMS\Event\AbstractEvent;
-use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
@@ -29,7 +27,6 @@ use Joomla\CMS\User\UserFactory;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -185,7 +182,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $registry = new Registry($data);
 
         if (!$this->isSupported($context)) {
-
             return true;
         }
 
@@ -216,7 +212,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      */
     public function onBeforeCompileHead()
     {
-        $app = $this->getApplication();
+        $app      = $this->getApplication();
         $baseType = $this->params->get('baseType');
 
         $itemId  = (int) $app->getInput()->getInt('id');
@@ -253,7 +249,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $name = $this->params->get('name');
 
         if ($isPerson && $this->params->get('userId') > 0) {
-
             $user = Factory::getContainer()->get(UserFactory::class)->loadUserById($this->params->get('userId'));
 
             $name = $user ? $user->name : '';
@@ -286,12 +281,10 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $socialMedia = (array) $this->params->get('socialmedia', []);
 
         if (!empty($socialMedia)) {
-
             $siteSchema['sameAs'] = [];
         }
 
         foreach ($socialMedia as $social) {
-
             $siteSchema['sameAs'][] = $social->url;
         }
 
