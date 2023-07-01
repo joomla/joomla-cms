@@ -186,7 +186,6 @@ Joomla.Update = window.Joomla.Update || {
         window.setTimeout(() => {
           window.location = Joomla.Update.return_url;
         }, 1000);
-
       },
       onError: Joomla.Update.handleErrorResponse,
     });
