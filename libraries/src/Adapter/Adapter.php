@@ -123,6 +123,10 @@ class Adapter
             return $this->_adapters[$name];
         }
 
+        if ($this->setAdapter($name, $options)) {
+            return $this->_adapters[$name];
+        }
+
         return false;
     }
 
