@@ -17,6 +17,8 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 
@@ -114,6 +116,9 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      */
     public function onContentPrepareForm(EventInterface $event)
     {
+        /**
+         * @var Form
+         */
         $form    = $event->getArgument('0');
         $context = $form->getName();
 
@@ -123,6 +128,26 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         //Load the form fields
         $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/schemaorg.xml');
+
+        if (!$this->params->get('basetype')) {
+
+            $form->removeField('schemaType', 'schema');
+
+            $plugin = PluginHelper::getPlugin('system', 'schemaorg');
+
+            $user = $this->getApplication()->getIdentity();
+
+            $infoText = Text::_('PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_DESCRIPTION_NOT_CONFIGURATED');
+
+            if ($user->authorise('core.edit', 'com_plugins')) {
+
+                $infoText = Text::sprintf('PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_DESCRIPTION_NOT_CONFIGURATED_ADMIN', (int) $plugin->id);
+            }
+
+            $form->setFieldAttribute('schemainfo', 'description', $infoText, 'schema');
+
+            return true;
+        }
 
         $dispatcher = Factory::getApplication()->getDispatcher();
 

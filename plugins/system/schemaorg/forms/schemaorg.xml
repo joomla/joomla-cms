@@ -4,8 +4,13 @@
 		<fieldset
 			name="schema"
 			label="PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_LABEL"
-			description="PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_DESCRIPTION"
 		>
+			<field
+				name="schemainfo"
+				type="note"
+				class="alert alert-info d-block w-100"
+				description="PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_DESCRIPTION"
+			/>
 			<field
 				name="itemId"
 				type="hidden"
