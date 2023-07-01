@@ -64,6 +64,10 @@ class DataUpdate extends AbstractUpdate
             $this->downloadSources[] = $source;
         }
 
+        foreach ($dataJson->hashes as $hashAlgorithm => $hashSum) {
+            $this->$hashAlgorithm = $hashSum;
+        }
+
         $this->currentUpdate = new \stdClass();
         $this->downloadurl = new \stdClass();
         $this->downloadurl->_data = $this->downloadSources[0]->url;
