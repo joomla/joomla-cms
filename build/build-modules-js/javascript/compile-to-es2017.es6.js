@@ -51,10 +51,14 @@ const collectExternals = () => {
   if (externalModules.length) {
     return;
   }
-  // Joomla modules
-  externalModules.push('cropper-module', 'codemirror');
 
-  // COdemirror modules
+  // Joomla modules
+  externalModules.push(
+    'cropper-module',
+    'codemirror',
+  );
+
+  // Codemirror modules
   const cmModules = getPackagesUnderScope('@codemirror');
   if (cmModules) {
     externalModules.push(...cmModules);
