@@ -8,7 +8,8 @@
     {
     "name": "com_cache.admin-cache.es5",
     "type": "script",
-    "uri": "com_cache/admin-cache-default-es5.min.js",
+    "deprecated": true,
+    "uri": "",
     "dependencies": [
       "core"
     ],
@@ -22,7 +23,7 @@
       "type": "script",
       "uri": "com_cache/admin-cache-default.min.js",
       "dependencies": [
-        "com_cache.admin-cache.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

@@ -52,7 +52,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state of the newsfeed
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var   \Joomla\Registry\Registry
      *
      * @since  1.6
      */
