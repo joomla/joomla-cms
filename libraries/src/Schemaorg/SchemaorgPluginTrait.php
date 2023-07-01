@@ -34,7 +34,7 @@ trait SchemaorgPluginTrait
         return [
             'onSchemaPrepareData' => 'onSchemaPrepareData',
             'onSchemaPrepareForm' => 'onSchemaPrepareForm',
-            'onSchemaAfterSave'     => 'onSchemaAfterSave',
+            'onSchemaAfterSave'   => 'onSchemaAfterSave',
         ];
     }
 

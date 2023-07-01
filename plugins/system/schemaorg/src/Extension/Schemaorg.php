@@ -128,7 +128,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         // The user should configurate the plugin first
         if (!$this->params->get('baseType')) {
-
             $form->removeField('schemaType', 'schema');
 
             $plugin = PluginHelper::getPlugin('system', 'schemaorg');
@@ -139,7 +138,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
             // If edit permission are available, offer a link
             if ($user->authorise('core.edit', 'com_plugins')) {
-
                 $infoText = Text::sprintf('PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_DESCRIPTION_NOT_CONFIGURATED_ADMIN', (int) $plugin->id);
             }
 
@@ -222,7 +220,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         // We need the plugin configurated at least once to add structured data
         if (!$app->isClient('site') || !in_array($baseType, ['organization', 'person']) || !$this->isSupported($context)) {
-
             return;
         }
 
@@ -264,7 +261,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $image = $this->params->get('image') ? HTMLHelper::_('cleanimageUrl', $this->params->get('image')) : false;
 
         if ($image !== false) {
-
             $siteSchema['logo'] = [
                 '@type'      => 'ImageObject',
                 '@id'        => $domain . '#/schema/ImageObject/logo',
@@ -308,7 +304,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             $webSiteSchema['potentialAction'] = [
                 '@type'       => 'SearchAction',
                 'target'      => Route::_('index.php?option=com_finder&view=search&q={search_term_string}', true, Route::TLS_IGNORE, true),
-                'query-input' => 'required name=search_term_string'
+                'query-input' => 'required name=search_term_string',
             ];
         }
 
@@ -351,7 +347,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             $result = $db->setQuery($query)->loadObject();
 
             if ($result) {
-
                 $localSchema = new Registry($result->schema);
 
                 $localSchema->set('@id', $domain . '#/schema/' . ucfirst($result->schemaType) . '/' . (int) $result->itemId);
@@ -367,7 +362,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             'onSchemaBeforeCompileHead',
             [
                 'subject' => $this,
-                'schema'  => $schema
+                'schema'  => $schema,
             ]
         );
 
@@ -377,7 +372,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $schemaString = $schema->toString();
 
         if ($schemaString !== '{}') {
-
             $wa = $this->getApplication()->getDocument()->getWebAssetManager();
             $wa->addInlineScript($schemaString,  ['position' => 'after'], ['type' => 'application/ld+json']);
         }
