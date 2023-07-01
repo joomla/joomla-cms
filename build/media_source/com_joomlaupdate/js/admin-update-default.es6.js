@@ -178,6 +178,7 @@ Joomla.Update = window.Joomla.Update || {
 
         progressDiv.classList.add('bg-success');
         progressDiv.style.width = '100%';
+        progressDiv.innerText = '100%';
         progressDiv.setAttribute('aria-valuenow', 100);
         titleDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_UPDATING_COMPLETE');
 
