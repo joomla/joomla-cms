@@ -14,7 +14,6 @@ namespace Joomla\Plugin\Schemaorg\Recipe\Extension;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
-use Joomla\Registry\Registry;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects

@@ -122,8 +122,8 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $event = AbstractEvent::create(
             'onSchemaPrepareData',
             [
-                'subject'  => $data,
-                'context'  => $context
+                'subject' => $data,
+                'context' => $context
             ]
         );
 
@@ -258,11 +258,11 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $event   = AbstractEvent::create(
             'onSchemaPrepareSave',
             [
-                'subject'   => $entry,
+                'subject' => $entry,
                 'context' => $context,
-                'table'     => $table,
-                'isNew'     => $isNew,
-                'schema'    => $data['schema'],
+                'table'   => $table,
+                'isNew'   => $isNew,
+                'schema'  => $data['schema'],
             ]
         );
 
@@ -271,8 +271,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         if (isset($entry->schemaType)) {
             if (!empty($entry->id)) {
                 $db->updateObject('#__schemaorg', $entry, 'id');
-            }
-            else {
+            } else {
                 $db->insertObject('#__schemaorg', $entry, 'id');
             }
         }

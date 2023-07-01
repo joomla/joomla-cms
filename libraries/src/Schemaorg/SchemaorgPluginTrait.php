@@ -12,10 +12,8 @@ namespace Joomla\CMS\Schemaorg;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\Database\ParameterType;
 use Joomla\Event\EventInterface;
 use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Trait for component schemaorg plugins.
@@ -30,7 +28,7 @@ trait SchemaorgPluginTrait
      * @var array
      */
     protected $imageFields = [
-        'image'
+        'image',
     ];
 
     /**
@@ -147,7 +145,6 @@ trait SchemaorgPluginTrait
             // Subtypes need special handling
             if (is_array($value) && !empty($value['@type'])) {
                 if ($value['@type'] === 'ImageObject') {
-
                     if (!empty($value['url'])) {
                         $value['url'] = $this->cleanupImage($value['url']);
                     }
@@ -274,7 +271,6 @@ trait SchemaorgPluginTrait
             $result = [];
 
             foreach ($field as $key => $value) {
-
                 if (is_array($value)) {
                     foreach ($value as $k => $v) {
                         $result[] = $v;
@@ -309,7 +305,6 @@ trait SchemaorgPluginTrait
     protected function cleanupDate(array $schema, array $dateKeys)
     {
         foreach ($dateKeys as $dateKey) {
-
             $date = $schema[$dateKey] ?? [];
 
             if (empty($date)) {
