@@ -103,7 +103,7 @@ class TufValidation
     {
         $db = Factory::getContainer()->get(DatabaseDriver::class);
 
-        $httpLoader = new HttpLoader("https://raw.githubusercontent.com/joomla/updates/test8/repository/");
+        $httpLoader = new HttpLoader("https://raw.githubusercontent.com/joomla/updates/beta-target/repository/");
         $sizeCheckingLoader = new SizeCheckingLoader($httpLoader);
 
         $storage = new DatabaseStorage($db, $this->extensionId);
@@ -114,19 +114,22 @@ class TufValidation
         );
 
         try {
-	        try
-	        {
-				// Refresh the data if needed, it will be written inside the DB, then we fetch it afterwards and return it to
-		        // the caller
-		        $updater->refresh();
+            try
+            {
+                // Refresh the data if needed, it will be written inside the DB, then we fetch it afterwards and return it to
+                // the caller
+                $updater->refresh();
 
-		        return $storage['targets.json'];
-	        } catch (\Exception $e) {
-		        if (JDEBUG && $message = $e->getMessage()) {
-			        Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_TUF_DEBUG_MESSAGE', $message), 'error');
-		        }
-		        throw $e;
-	        }
+                // Persist the data as it was correctly fetched and verified
+                $storage->persist();
+
+                return $storage->read('targets');
+            } catch (\Exception $e) {
+                if (JDEBUG && $message = $e->getMessage()) {
+                    Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_TUF_DEBUG_MESSAGE', $message), 'error');
+                }
+                throw $e;
+            }
         } catch (DownloadSizeException $e) {
             $this->rollBackTufMetadata();
             Factory::getApplication()->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_DOWNLOAD_SIZE'), 'error');

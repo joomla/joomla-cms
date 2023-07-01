@@ -20,6 +20,8 @@ use Tuf\Metadata\StorageBase;
  */
 class DatabaseStorage extends StorageBase
 {
+    const METADATA_COLUMNS = ["root", "targets", "snapshot", "timestamp", "mirrors"];
+
     /**
      * The Tuf table object
      *
@@ -39,12 +41,12 @@ class DatabaseStorage extends StorageBase
 
         $this->table->load(['extension_id' => $extensionId]);
 
-        foreach (["root_json", "targets_json", "snapshot_json", "timestamp_json", "mirrors_json"] as $column) {
+        foreach (self::METADATA_COLUMNS as $column) {
             if ($this->table->$column === null) {
                 continue;
             }
 
-            $this->write(explode("_", $column, 2)[0], $this->table->$column);
+            $this->write($column, $this->table->$column);
         }
     }
 
@@ -62,5 +64,16 @@ class DatabaseStorage extends StorageBase
     public function delete(string $name): void
     {
         unset($this->container[$name]);
+    }
+
+    public function persist(): bool
+    {
+        $data = [];
+
+        foreach (self::METADATA_COLUMNS as $column) {
+            $data[$column] = $this->container[$column];
+        }
+
+        return $this->table->save($data);
     }
 }
