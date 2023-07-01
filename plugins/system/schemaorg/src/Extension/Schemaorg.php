@@ -123,7 +123,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             'onSchemaPrepareData',
             [
                 'subject' => $data,
-                'context' => $context
+                'context' => $context,
             ]
         );
 
@@ -219,7 +219,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $itemId = (int) $table->id;
 
         if (empty($data['schema']) || empty($data['schema']['schemaType']) || $data['schema']['schemaType'] === 'None') {
-
             $query = $db->getQuery(true);
 
             $query->delete($db->quoteName('#__schemaorg'))
