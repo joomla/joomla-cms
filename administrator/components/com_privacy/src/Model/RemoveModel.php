@@ -16,7 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\Component\Privacy\Administrator\Removal\Status;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
@@ -30,8 +31,10 @@ use Joomla\Component\Privacy\Administrator\Table\RequestTable;
  *
  * @since  3.9.0
  */
-class RemoveModel extends BaseDatabaseModel
+class RemoveModel extends BaseDatabaseModel implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Remove the user data.
      *
@@ -84,7 +87,7 @@ class RemoveModel extends BaseDatabaseModel
                 ->setLimit(1)
         )->loadResult();
 
-        $user = $userId ? User::getInstance($userId) : null;
+        $user = $userId ? $this->getUserFactory()->loadUserById($userId) : null;
 
         $canRemove = true;
 

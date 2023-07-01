@@ -18,7 +18,7 @@ use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Menu\AbstractMenu;
@@ -269,7 +269,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $input->set($systemVariable, null);
         }
 
-        // Abort when there are invalid variables
+        // Stop when there are invalid variables
         if ($invalidInputVariables) {
             throw new \RuntimeException('Invalid input, aborting application.');
         }
@@ -712,7 +712,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         // Build our language object
-        $lang = Language::getInstance($this->get('language'), $this->get('debug_lang'));
+        $lang = $this->getContainer()->get(LanguageFactoryInterface::class)->createLanguage($this->get('language'), $this->get('debug_lang'));
 
         // Load the language to the API
         $this->loadLanguage($lang);

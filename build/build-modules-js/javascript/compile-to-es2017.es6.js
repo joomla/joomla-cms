@@ -10,7 +10,6 @@ const { babel } = require('@rollup/plugin-babel');
 const Postcss = require('postcss');
 const { renderSync } = require('sass-embedded');
 const { minifyJsCode } = require('./minify.es6.js');
-const { handleESMToLegacy } = require('./compile-to-es5.es6.js');
 
 const getWcMinifiedCss = async (file) => {
   let scssFileExists = false;
@@ -73,8 +72,12 @@ module.exports.handleESMFile = async (file) => {
               targets: {
                 browsers: [
                   '> 1%',
-                  'not ie 11',
                   'not op_mini all',
+                  /** https://caniuse.com/es6-module */
+                  'chrome >= 61',
+                  'safari >= 11',
+                  'edge >= 16',
+                  'Firefox >= 60',
                 ],
               },
               bugfixes: true,
@@ -99,7 +102,6 @@ module.exports.handleESMFile = async (file) => {
 
       return writeFile(resolve(`${newPath}.min.js`), content.code, { encoding: 'utf8', mode: 0o644 });
     })
-    .then(() => handleESMToLegacy(resolve(`${newPath}.js`)))
     .catch((error) => {
       // eslint-disable-next-line no-console
       console.error(error);

@@ -22,6 +22,10 @@ if (!defined('_JDEFINES')) {
     require_once JPATH_BASE . '/includes/defines.php';
 }
 
+if (!defined('JPATH_PUBLIC')) {
+    define('JPATH_PUBLIC', JPATH_ROOT);
+}
+
 require_once JPATH_BASE . '/includes/framework.php';
 
 // Set profiler start time and memory usage and mark afterLoad in the profiler.
