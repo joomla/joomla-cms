@@ -1,0 +1,68 @@
+# php-tuf/php-tuf - patch 20230701
+# Canonical json needs to be sorted in proper way
+#
+--- a/src/CanonicalJsonTrait.php
++++ b/src/CanonicalJsonTrait.php	(date 1688219259891)
+@@ -55,8 +55,14 @@
+      */
+     private static function sortKeys(array &$data): void
+     {
++        // Apply recursively on potential subarrays
++        foreach ($data as $key => $value) {
++            if (is_array($value)) {
++                static::sortKeys($data[$key]);
++            }
++        }
+         // If $data is numerically indexed, the keys are already sorted, by
+-        // definition.
++        // definition, no key sorting on this level necessary
+         if (array_is_list($data)) {
+             return;
+         }
+@@ -65,10 +71,5 @@
+             throw new \RuntimeException("Failure sorting keys. Canonicalization is not possible.");
+         }
+
+-        foreach ($data as $key => $value) {
+-            if (is_array($value)) {
+-                static::sortKeys($data[$key]);
+-            }
+-        }
+     }
+ }
+
+--- a/tests/Unit/CanonicalJsonTraitTest.php
++++ b/tests/Unit/CanonicalJsonTraitTest.php	(date 1688219312679)
+@@ -55,6 +55,32 @@
+         $this->assertSame([2, 3], array_keys($data['c']));
+     }
+
++    public function testSortForListArrays(): void
++    {
++        // Indexed arrays should not be sorted in alphabetical order, at any
++        // level.
++        $data = [
++            // Use an associative nested array
++            0 => [
++                'b' => 'Hey',
++                'a' => 'Ho',
++            ],
++            // This should be sorted too, because PHP doesn't consider it a list.
++            1 => [
++                3 => 'Hey',
++                2 => 'Ho',
++            ],
++        ];
++
++        static::sortKeys($data);
++
++        // The associative keys should be in canonical order now, and the
++        // nested, indexed array should be unchanged.
++        $this->assertSame([0,1], array_keys($data));
++        $this->assertSame(['a', 'b'], array_keys($data['0']));
++        $this->assertSame([2,3], array_keys($data[1]));
++    }
++
+     /**
+      * @covers ::encodeJson
+      */
