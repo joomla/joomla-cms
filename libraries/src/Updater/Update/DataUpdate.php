@@ -65,7 +65,7 @@ class DataUpdate extends AbstractUpdate
         }
 
         foreach ($dataJson->hashes as $hashAlgorithm => $hashSum) {
-            $this->$hashAlgorithm = $hashSum;
+            $this->$hashAlgorithm = (object) ["_data" => $hashSum];
         }
 
         $this->currentUpdate = new \stdClass();
