@@ -46,7 +46,8 @@ class FilterModel extends AdminModel
      * Custom clean cache method.
      *
      * @param   string   $group     The component name. [optional]
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *
@@ -137,7 +138,7 @@ class FilterModel extends AdminModel
     /**
      * Method to get the total indexed items
      *
-     * @return  number the number of indexed items
+     * @return  integer  The count of indexed items
      *
      * @since  3.5
      */

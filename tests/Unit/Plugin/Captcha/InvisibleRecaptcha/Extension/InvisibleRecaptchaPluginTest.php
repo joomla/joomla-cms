@@ -23,8 +23,6 @@ use Joomla\Plugin\Captcha\InvisibleReCaptcha\Provider\InvisibleReCaptchaProvider
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
 use ReCaptcha\RequestMethod;
-use RuntimeException;
-use SimpleXMLElement;
 
 /**
  * Test class for InvisibleReCaptcha plugin
@@ -139,7 +137,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $params  = new Registry(['public_key' => '']);
         $captcha = new InvisibleReCaptchaProvider($params, $app);
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $captcha->display();
     }
@@ -188,7 +186,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $params  = new Registry(['private_key' => '']);
         $captcha = new InvisibleReCaptchaProvider($params, $app);
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $captcha->checkAnswer('test');
     }
@@ -212,7 +210,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $params  = new Registry(['private_key' => 'test']);
         $captcha = new InvisibleReCaptchaProvider($params, $app, $this->createStub(RequestMethod::class));
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $captcha->checkAnswer();
     }
@@ -239,7 +237,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $params  = new Registry(['private_key' => 'test']);
         $captcha = new InvisibleReCaptchaProvider($params, $app, $method);
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
 
         $captcha->checkAnswer();
         $captcha->checkAnswer('test');
@@ -257,7 +255,7 @@ class InvisibleRecaptchaPluginTest extends UnitTestCase
         $params  = new Registry(['private_key' => 'test']);
         $captcha = new InvisibleReCaptchaProvider($params, $this->createStub(CMSWebApplicationInterface::class));
 
-        $fieldXml = new SimpleXMLElement('<test/>');
+        $fieldXml = new \SimpleXMLElement('<test/>');
         $captcha->setupField(new CaptchaField(), $fieldXml);
 
         $this->assertEquals('true', (string) $fieldXml['hiddenLabel'], 'setupField() method should set correct attribute.');
