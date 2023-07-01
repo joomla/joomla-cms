@@ -13,7 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -145,7 +145,7 @@ class ContentType extends Table
                 $class = $tableInfo->special->class ?? 'Joomla\\CMS\\Table\\Table';
 
                 if (!class_implements($class, 'Joomla\\CMS\\Table\\TableInterface')) {
-                    // This isn't an instance of TableInterface. Abort.
+                    // This isn't an instance of TableInterface. Stop.
                     throw new \RuntimeException('Class must be an instance of Joomla\\CMS\\Table\\TableInterface');
                 }
 

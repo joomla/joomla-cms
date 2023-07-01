@@ -10,9 +10,10 @@
 namespace Joomla\CMS\WebAsset;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Uri\Uri;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -175,6 +176,10 @@ class WebAssetItem implements WebAssetItemInterface
                     $path = $this->resolvePath($path, 'stylesheet');
                     break;
                 default:
+                    // Asset for the ES modules may give us a folder for ESM import map
+                    if (str_ends_with($path, '/') && !str_starts_with($path, '.')) {
+                        $path = Uri::root(true) . '/' . $path;
+                    }
                     break;
             }
         }
@@ -338,6 +343,6 @@ class WebAssetItem implements WebAssetItemInterface
     protected function isPathAbsolute(string $path): bool
     {
         // We have a full path or not
-        return is_file(JPATH_ROOT . '/' . $path);
+        return strpos($path, '/') !== false && is_file(JPATH_ROOT . '/' . $path);
     }
 }

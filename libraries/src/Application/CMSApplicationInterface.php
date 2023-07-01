@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application;
@@ -177,7 +177,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
     /**
      * Allows the application to load a custom or default identity.
      *
-     * @param   User  $identity  An optional identity object. If omitted, the factory user is created.
+     * @param   ?User  $identity  An optional identity object. If omitted, the factory user is created.
      *
      * @return  $this
      *

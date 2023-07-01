@@ -14,7 +14,8 @@ use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Event\DispatcherAwareInterface;
@@ -23,7 +24,7 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -34,9 +35,12 @@ use Joomla\String\StringHelper;
  * @since  1.7.0
  */
 #[\AllowDynamicProperties]
-abstract class Table extends CMSObject implements TableInterface, DispatcherAwareInterface
+abstract class Table implements TableInterface, DispatcherAwareInterface
 {
     use DispatcherAwareTrait;
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
 
     /**
      * Include paths for searching for Table classes.
@@ -164,8 +168,6 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      */
     public function __construct($table, $key, DatabaseDriver $db, DispatcherInterface $dispatcher = null)
     {
-        parent::__construct();
-
         // Set internal variables.
         $this->_tbl = $table;
 
