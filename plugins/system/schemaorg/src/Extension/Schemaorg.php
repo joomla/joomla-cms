@@ -373,7 +373,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         if ($schemaString !== '{}') {
             $wa = $this->getApplication()->getDocument()->getWebAssetManager();
-            $wa->addInlineScript($schemaString,  ['position' => 'after'], ['type' => 'application/ld+json']);
+            $wa->addInlineScript($schemaString, ['position' => 'after'], ['type' => 'application/ld+json']);
         }
     }
 
