@@ -12,10 +12,8 @@
 namespace Joomla\Plugin\Schemaorg\Book\Extension;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
-use Joomla\CMS\Event\AbstractEvent;
 use Joomla\Registry\Registry;
 use Joomla\Event\SubscriberInterface;
 
