@@ -10,8 +10,12 @@
 namespace Joomla\CMS\Captcha;
 
 use Joomla\CMS\Form\FormField;
-use SimpleXMLElement;
 
+/**
+ * Captcha Provider Interface
+ *
+ * @since   __DEPLOY_VERSION__
+ */
 interface CaptchaProviderInterface
 {
     /**
@@ -53,8 +57,8 @@ interface CaptchaProviderInterface
      * Method to react on the setup of a captcha field. Gives the possibility
      * to change the field and/or the XML element for the field.
      *
-     * @param   FormField         $field    Captcha field instance
-     * @param   SimpleXMLElement  $element  XML form definition
+     * @param   FormField          $field    Captcha field instance
+     * @param   \SimpleXMLElement  $element  XML form definition
      *
      * @return void
      *
@@ -62,5 +66,5 @@ interface CaptchaProviderInterface
      *
      * @throws  \RuntimeException
      */
-    public function setupField(FormField $field, SimpleXMLElement $element): void;
+    public function setupField(FormField $field, \SimpleXMLElement $element): void;
 }

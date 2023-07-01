@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Event\Captcha;
 
-use BadMethodCallException;
 use Joomla\CMS\Captcha\CaptchaRegistry;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
@@ -26,14 +25,14 @@ class CaptchaSetupEvent extends AbstractImmutableEvent
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.
      *
-     * @throws  BadMethodCallException
+     * @throws  \BadMethodCallException
      *
      * @since   __DEPLOY_VERSION__
      */
     public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('subject', $arguments)) {
-            throw new BadMethodCallException("Argument 'subject' of event {$this->name} is required but has not been provided");
+            throw new \BadMethodCallException("Argument 'subject' of event {$name} is required but has not been provided");
         }
 
         parent::__construct($name, $arguments);
