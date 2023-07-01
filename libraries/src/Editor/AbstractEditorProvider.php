@@ -11,12 +11,9 @@ namespace Joomla\CMS\Editor;
 
 use Joomla\CMS\Editor\Button\ButtonInterface;
 use Joomla\CMS\Editor\Button\ButtonsRegistry;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
-use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
