@@ -146,8 +146,6 @@ trait SchemaorgPluginTrait
         foreach ($data as $key => $value) {
             // Subtypes need special handling
             if (is_array($value) && !empty($value['@type'])) {
-                $value = $this->cleanupSchema($value);
-
                 if ($value['@type'] === 'ImageObject') {
 
                     if (!empty($value['url'])) {
@@ -158,6 +156,8 @@ trait SchemaorgPluginTrait
                         $value = [];
                     }
                 }
+
+                $value = $this->cleanupSchema($value);
 
                 // We don't save when the array contains only the @type
                 if (count($value) <= 1) {
@@ -174,15 +174,15 @@ trait SchemaorgPluginTrait
             }
 
             // No data, no pary
-            if (empty($val)) {
+            if (empty($value)) {
                 continue;
             }
 
             if (in_array($key, $this->imageFields)) {
-                $val = $this->cleanupImage($val);
+                $value = $this->cleanupImage($value);
             }
 
-            $schema[$key] = $val;
+            $schema[$key] = $value;
         }
 
         return $schema;
@@ -207,7 +207,7 @@ trait SchemaorgPluginTrait
             return $newImages;
         }
 
-        $img = HTMLHelper::_('cleanupImageURL', $image);
+        $img = HTMLHelper::_('cleanImageUrl', $image);
 
         return $img->url ?? null;
     }

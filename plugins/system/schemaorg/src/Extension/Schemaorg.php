@@ -268,8 +268,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         $eventResult = $dispatcher->dispatch('onSchemaPrepareSave', $event);
 
-        print_r($entry);exit;
-
         if (isset($entry->schemaType)) {
             if (!empty($entry->id)) {
                 $db->updateObject('#__schemaorg', $entry, 'id');
