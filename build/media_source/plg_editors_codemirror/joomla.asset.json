@@ -13,7 +13,7 @@
     {
       "name": "codemirror",
       "type": "script",
-      "uri": "plg_editors_codemirror/codemirror-base.min.js",
+      "uri": "plg_editors_codemirror/codemirror.min.js",
       "importmap": true
     },
     {

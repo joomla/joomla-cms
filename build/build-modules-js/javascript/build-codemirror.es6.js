@@ -11,30 +11,7 @@ const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const { minify } = require('terser');
-const { resolvePackageFile } = require('../init/common/resolve-package-file');
-
-// Find a list of modules for given scope, eg all sub @codemirror/...
-const retrieveListOfChildModules = (scope) => {
-  const cmModules = [];
-
-  // Get @codemirror module roots
-  const roots = [];
-  module.paths.forEach((path) => {
-    const fullPath = `${path}/${scope}`;
-    if (existsSync(fullPath)) {
-      roots.push(fullPath);
-    }
-  });
-
-  // List of modules
-  roots.forEach((rootPath) => {
-    readdirSync(rootPath).forEach((subModule) => {
-      cmModules.push(`${scope}/${subModule}`);
-    });
-  });
-
-  return cmModules;
-};
+const { resolvePackageFile, getPackagesUnderScope } = require('../init/common/resolve-package.es6.js');
 
 // Build the module
 const buildModule = async (module, externalModules, destFile) => {
@@ -112,8 +89,8 @@ module.exports.compileCodemirror = async () => {
   // eslint-disable-next-line no-console
   console.log('Building Codemirror Components...');
 
-  const cmModules = retrieveListOfChildModules('@codemirror');
-  const lModules = retrieveListOfChildModules('@lezer');
+  const cmModules = getPackagesUnderScope('@codemirror');
+  const lModules = getPackagesUnderScope('@lezer');
   const externalModules = [...cmModules, ...lModules];
   const destBasePath = 'media/vendor/codemirror/js';
   const assets = [];

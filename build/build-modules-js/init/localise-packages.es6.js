@@ -3,7 +3,7 @@ const {
 } = require('fs-extra');
 const { dirname, join } = require('path');
 const { tinyMCE } = require('./exemptions/tinymce.es6.js');
-const { resolvePackageFile } = require('./common/resolve-package-file');
+const { resolvePackageFile } = require('./common/resolve-package.es6.js');
 
 const RootPath = process.cwd();
 

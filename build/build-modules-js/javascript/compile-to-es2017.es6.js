@@ -12,6 +12,7 @@ const { babel } = require('@rollup/plugin-babel');
 const Postcss = require('postcss');
 const { renderSync } = require('sass-embedded');
 const { minifyJsCode } = require('./minify.es6.js');
+const { getPackagesUnderScope } = require('../init/common/resolve-package.es6.js');
 
 const getWcMinifiedCss = async (file) => {
   let scssFileExists = false;
@@ -44,26 +45,24 @@ const getWcMinifiedCss = async (file) => {
   return '';
 };
 
-// Check for external imports by specific prefixes
-const externalImportChecker = () => {
-  // Module with these scopes works natively, and therefore they should be ignored by resolver
-  const prefixes = [
-    'codemirror',
-    '@codemirror/',
-    '@lezer/',
-  ];
-  const regexp = new RegExp(`^${prefixes.join('|^')}`);
+// List of external modules that should not be resolved be rollup
+const externalModules = [];
+const collectExternals = () => {
+  if (externalModules.length) {
+    return;
+  }
+  // Joomla modules
+  externalModules.push('cropper-module', 'codemirror');
 
-  return {
-    name: 'external-import-checker',
-    resolveId(source) {
-      if (regexp.test(source)) {
-        return { id: source, external: true };
-      }
-
-      return null;
-    },
-  };
+  // COdemirror modules
+  const cmModules = getPackagesUnderScope('@codemirror');
+  if (cmModules) {
+    externalModules.push(...cmModules);
+  }
+  const lezerModules = getPackagesUnderScope('@lezer');
+  if (lezerModules) {
+    externalModules.push(...lezerModules);
+  }
 };
 
 /**
@@ -74,10 +73,13 @@ const externalImportChecker = () => {
 module.exports.handleESMFile = async (file) => {
   const newPath = file.replace(/\.w-c\.es6\.js$/, '').replace(/\.es6\.js$/, '').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
   const minifiedCss = await getWcMinifiedCss(file);
+
+  // Make sure externals is collected
+  collectExternals();
+
   const bundle = await rollup.rollup({
     input: resolve(file),
     plugins: [
-      externalImportChecker(),
       nodeResolve({ preferBuiltins: false }),
       replace({
         preventAssignment: true,
@@ -110,7 +112,7 @@ module.exports.handleESMFile = async (file) => {
         ],
       }),
     ],
-    external: [],
+    external: externalModules,
   });
 
   bundle.write({
