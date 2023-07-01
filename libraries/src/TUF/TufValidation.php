@@ -10,7 +10,6 @@ namespace Joomla\CMS\TUF;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\TUF\HttpFileFetcher;
 use Joomla\Database\DatabaseDriver;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
@@ -19,7 +18,9 @@ use Tuf\Client\Updater;
 use Tuf\Exception\Attack\FreezeAttackException;
 use Tuf\Exception\Attack\RollbackAttackException;
 use Tuf\Exception\Attack\SignatureThresholdException;
+use Tuf\Exception\DownloadSizeException;
 use Tuf\Exception\MetadataException;
+use Tuf\Loader\SizeCheckingLoader;
 
 \defined('JPATH_PLATFORM') or die;
 
@@ -102,22 +103,34 @@ class TufValidation
     {
         $db = Factory::getContainer()->get(DatabaseDriver::class);
 
-        $fileFetcher = HttpFileFetcher::createFromUri($this->params['url_prefix'], $this->params['metadata_path'], $this->params['targets_path']);
+        $httpLoader = new HttpLoader("https://raw.githubusercontent.com/joomla/updates/test8/repository/");
+        $sizeCheckingLoader = new SizeCheckingLoader($httpLoader);
 
         $storage = new DatabaseStorage($db, $this->extensionId);
 
         $updater = new Updater(
-            $fileFetcher,
-            $this->params['mirrors'],
+            $sizeCheckingLoader,
             $storage
         );
 
         try {
-            // Refresh the data if needed, it will be written inside the DB, then we fetch it afterwards and return it to
-            // the caller
-            $updater->refresh();
+	        try
+	        {
+				// Refresh the data if needed, it will be written inside the DB, then we fetch it afterwards and return it to
+		        // the caller
+		        $updater->refresh();
 
-            return $storage['targets.json'];
+		        return $storage['targets.json'];
+	        } catch (\Exception $e) {
+		        if (JDEBUG && $message = $e->getMessage()) {
+			        Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_TUF_DEBUG_MESSAGE', $message), 'error');
+		        }
+		        throw $e;
+	        }
+        } catch (DownloadSizeException $e) {
+            $this->rollBackTufMetadata();
+            Factory::getApplication()->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_DOWNLOAD_SIZE'), 'error');
+            return null;
         } catch (MetadataException $e) {
             $this->rollBackTufMetadata();
             Factory::getApplication()->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_INVALID_METADATA'), 'error');
