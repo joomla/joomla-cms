@@ -19,6 +19,7 @@ use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -253,6 +254,36 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         }
 
         $siteSchema['url'] = $domain;
+
+        // Image
+        $image = $this->params->get('image') ? HTMLHelper::_('cleanimageUrl', $this->params->get('image')) : false;
+
+        if ($image !== false) {
+
+            $siteSchema['logo'] = [
+                '@type'      => 'ImageObject',
+                '@id'        => $domain . '#/schema/ImageObject/logo',
+                'url'        => $image->url,
+                'contentUrl' => $image->url,
+                'width'      => $image->attributes['width'] ?? 0,
+                'height'     => $image->attributes['height'] ?? 0,
+            ];
+
+            $siteSchema['image'] = ['@id' => $siteSchema['logo']['@id']];
+        }
+
+        // Social media accounts
+        $socialMedia = (array) $this->params->get('socialmedia', []);
+
+        if (!empty($socialMedia)) {
+
+            $siteSchema['sameAs'] = [];
+        }
+
+        foreach ($socialMedia as $social) {
+
+            $siteSchema['sameAs'][] = $social->url;
+        }
 
         $baseSchema['@graph'][] = $siteSchema;
 

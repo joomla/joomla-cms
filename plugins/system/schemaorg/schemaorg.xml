@@ -47,6 +47,29 @@
 					label="PLG_SYSTEM_SCHEMAORG_NAME_LABEL"
 					showon="baseType:organization[OR]user:0"
 				/>
+
+				<field
+					name="image"
+					type="media"
+					label="PLG_SYSTEM_SCHEMAORG_IMAGE_LABEL"
+				/>
+				<field
+					name="socialmedia"
+					type="subform"
+					label="PLG_SYSTEM_SCHEMAORG_SOCIALMEDIA_LABEL"
+					multiple="true"
+				>
+					<form>
+						<field
+							name="url"
+							type="url"
+							required="true"
+							label="PLG_SYSTEM_SCHEMAORG_SOCIALMEDIA_URL_LABEL"
+							hint="https://"
+							validate="url"
+						/>
+					</form>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
