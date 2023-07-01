@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Schemaorg;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Event\EventInterface;
@@ -32,7 +33,6 @@ trait SchemaorgPluginTrait
     public static function getSubscribedEvents(): array
     {
         return [
-            'onSchemaPrepareData' => 'onSchemaPrepareData',
             'onSchemaPrepareForm' => 'onSchemaPrepareForm',
             'onSchemaAfterSave'   => 'onSchemaAfterSave',
         ];
@@ -57,7 +57,10 @@ trait SchemaorgPluginTrait
         }
 
         $schemaType = $form->getField('schemaType', 'schema');
-        $schemaType->addOption($name, ['value' => $name]);
+
+        if ($schemaType instanceof ListField) {
+            $schemaType->addOption($name, ['value' => $name]);
+        }
 
         return true;
     }
@@ -127,79 +130,6 @@ trait SchemaorgPluginTrait
     }
 
     /**
-     * Add data to form fields from existing data in the database
-     *
-     * @param   $data
-     *
-     * @return  boolean
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function updateSchemaForm(EventInterface $event)
-    {
-        $data    = $event->getArgument('subject');
-        $context = $event->getArgument('context');
-
-        if (!is_object($data)) {
-            return false;
-        } else {
-            $itemId = $data->id ?? 0;
-
-            //Check if the form already has some data
-            if (!isset($data->schema) && $itemId > 0) {
-                $db = $this->db;
-
-                $query = $db->getQuery(true)
-                    ->select('*')
-                    ->from($db->quoteName('#__schemaorg'))
-                    ->where($db->quoteName('itemId') . '= :itemId')
-                    ->bind(':itemId', $itemId, ParameterType::INTEGER)
-                    ->where($db->quoteName('context') . '= :context')
-                    ->bind(':context', $context, ParameterType::STRING);
-
-                $results = $db->setQuery($query)->loadAssoc();
-
-                if (empty($results)) {
-                    return false;
-                }
-
-                $schemaType                 = $results['schemaType'];
-                $data->schema['schemaType'] = $schemaType;
-                $data->schema['schema']     = json_encode(json_decode($results['schema']), JSON_PRETTY_PRINT);
-
-                $form = json_decode($results['schemaForm'], true);
-
-                if ($form) {
-                    // Insert existing data into form fields
-                    foreach ($form as $key => $val) {
-                        if (is_array($val)) {
-                            foreach ($val as $i => $j) {
-                                if (is_array($j)) {
-                                    foreach ($j as $l => $m) {
-                                        $data->schema[$schemaType][$key][$i][$l] = $m;
-                                    }
-                                } else {
-                                    $data->schema[$schemaType][$key][$i] = $j;
-                                }
-                            }
-                        } else {
-                            $data->schema[$schemaType][$key] = $val;
-                        }
-                    }
-                } else {
-                    //Insert article id as it is a hidden field
-                    $data->schema['itemId'] = $itemId;
-                }
-            } else {
-                //Insert article id as it is a hidden field
-                $data->schema['itemId'] = $itemId;
-            }
-        }
-
-        return true;
-    }
-
-    /**
      *  Add a new option to the schema type in the item editing page
      *
      *  @param   Form  $form  The form to be altered.
@@ -218,27 +148,9 @@ trait SchemaorgPluginTrait
         $this->addSchemaType($event);
 
         //Load the form fields
-        $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/schemaorg.xml');
-
-        return true;
-    }
-
-    /**
-     *  Update existing schema form with data from database
-     *
-     *  @param   $data  The form to be altered.
-     *
-     *  @return  boolean
-     */
-    public function onSchemaPrepareData(EventInterface $event)
-    {
-        $context = $event->getArgument('context');
-
-        if (!$this->isSupported($context) || !$this->isSchemaSupported($event)) {
-            return false;
+        if (is_file(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/schemaorg.xml')) {
+            $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/schemaorg.xml');
         }
-
-        $this->updateSchemaForm($event);
 
         return true;
     }

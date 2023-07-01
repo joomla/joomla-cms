@@ -86,13 +86,45 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             return true;
         }
 
-        $dispatcher = $app->getDispatcher();
+        $data = (object) $data;
 
-        $event   = AbstractEvent::create(
+        $itemId = $data->id ?? 0;
+
+        //Check if the form already has some data
+        if ($itemId > 0) {
+
+            $db = $this->getDatabase();
+
+            $query = $db->getQuery(true)
+                ->select('*')
+                ->from($db->quoteName('#__schemaorg'))
+                ->where($db->quoteName('itemId') . '= :itemId')
+                ->bind(':itemId', $itemId, ParameterType::INTEGER)
+                ->where($db->quoteName('context') . '= :context')
+                ->bind(':context', $context, ParameterType::STRING);
+
+            $results = $db->setQuery($query)->loadAssoc();
+
+            if (empty($results)) {
+                return false;
+            }
+
+            $schemaType                 = $results['schemaType'];
+            $data->schema['schemaType'] = $schemaType;
+            $data->schema['schema']     = json_encode((new Registry($results['schema']))->toArray(), JSON_PRETTY_PRINT);
+
+            $schemaForm = new Registry($results['schemaForm']);
+
+            $data->schema[$schemaType] = $schemaForm->toArray();
+        }
+
+        $dispatcher = Factory::getApplication()->getDispatcher();
+
+        $event = AbstractEvent::create(
             'onSchemaPrepareData',
             [
-                'subject' => $data,
-                'context' => $context,
+                'subject'  => $data,
+                'context'  => $context
             ]
         );
 

@@ -12,14 +12,6 @@
 				description="PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_DESCRIPTION"
 			/>
 			<field
-				name="itemId"
-				type="hidden"
-				filter="string"
-				size="30"
-				required="0"
-			/>
-
-			<field
 				name="schemaType"
 				type="list"
 				label="PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_TYPE_LABEL"
