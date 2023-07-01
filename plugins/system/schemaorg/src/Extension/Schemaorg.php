@@ -181,12 +181,12 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $event   = AbstractEvent::create(
             'onSchemaAfterSave',
             [
-                    'subject'   => $this,
-                    'extension' => $context,
-                    'table'     => $table,
-                    'isNew'     => $isNew,
-                    'data'      => $registry,
-                ]
+                'subject'   => $this,
+                'extension' => $context,
+                'table'     => $table,
+                'isNew'     => $isNew,
+                'data'      => $registry,
+            ]
         );
 
         PluginHelper::importPlugin('schemaorg');
@@ -302,7 +302,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
                 $localSchema->set('@isPartOf', ['@id' => $webPageId]);
 
                 $baseSchema['@graph'][] = $localSchema->toArray();
-
             }
         }
 
@@ -311,12 +310,10 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $event = AbstractEvent::create(
             'onSchemaBeforeCompileHead',
             [
-                    'subject' => $this,
-                    'schema'  => $schema
-                ]
+                'subject' => $this,
+                'schema'  => $schema
+            ]
         );
-
-        print_r($schema->toString());
 
         PluginHelper::importPlugin('schemaorg');
         $eventResult = $app->getDispatcher()->dispatch('onSchemaBeforeCompileHead', $event);
