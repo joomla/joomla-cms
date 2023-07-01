@@ -146,4 +146,11 @@ async function createFromTextarea(textarea, options) {
   return view;
 }
 
-export { minimalSetup, createFromTextarea, optionsToExtensions };
+export {
+  minimalSetup,
+  createFromTextarea,
+  optionsToExtensions,
+  EditorState,
+  EditorView,
+  keymap,
+};

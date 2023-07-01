@@ -3,9 +3,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // eslint-disable-next-line import/no-unresolved
-import { createFromTextarea } from 'codemirror';
-import { EditorState } from '@codemirror/state';
-import { keymap } from '@codemirror/view';
+import { createFromTextarea, EditorState, keymap } from 'codemirror';
 
 class CodemirrorEditor extends HTMLElement {
   constructor() {
