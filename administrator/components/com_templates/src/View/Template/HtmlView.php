@@ -16,7 +16,6 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -37,7 +36,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The Model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 

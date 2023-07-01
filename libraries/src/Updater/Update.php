@@ -14,7 +14,8 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 
@@ -28,8 +29,11 @@ use Joomla\Registry\Registry;
  *
  * @since  1.7.0
  */
-class Update extends CMSObject
+class Update
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
     /**
      * Update manifest `<name>` element
      *

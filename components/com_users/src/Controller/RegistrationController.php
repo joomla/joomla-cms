@@ -11,10 +11,11 @@
 namespace Joomla\Component\Users\Site\Controller;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -25,8 +26,10 @@ use Joomla\CMS\Router\Route;
  *
  * @since  1.6
  */
-class RegistrationController extends BaseController
+class RegistrationController extends BaseController implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * Method to activate a user.
      *
@@ -73,7 +76,7 @@ class RegistrationController extends BaseController
         }
 
         // Get the user we want to activate
-        $userToActivate = Factory::getUser($userIdToActivate);
+        $userToActivate = $this->getUserFactory()->loadUserById($userIdToActivate);
 
         // Admin activation is on and admin is activating the account
         if (($uParams->get('useractivation') == 2) && $userToActivate->getParam('activate', 0)) {

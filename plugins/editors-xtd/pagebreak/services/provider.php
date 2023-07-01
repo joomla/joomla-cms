@@ -2,9 +2,9 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Task.DemoTasks
+ * @subpackage  Editors-xtd.pagebreak
  *
- * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\Task\DemoTasks\Extension\DemoTasks;
+use Joomla\Plugin\EditorsXtd\PageBreak\Extension\PageBreak;
 
 return new class () implements ServiceProviderInterface {
     /**
@@ -26,18 +26,16 @@ return new class () implements ServiceProviderInterface {
      *
      * @return  void
      *
-     * @since   4.2.0
+     * @since   4.4.0
      */
     public function register(Container $container)
     {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
-
-                $plugin = new DemoTasks(
-                    $dispatcher,
-                    (array) PluginHelper::getPlugin('task', 'demotasks')
+                $plugin     = new PageBreak(
+                    $container->get(DispatcherInterface::class),
+                    (array) PluginHelper::getPlugin('editors-xtd', 'pagebreak')
                 );
                 $plugin->setApplication(Factory::getApplication());
 
