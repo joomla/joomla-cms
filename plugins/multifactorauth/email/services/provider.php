@@ -34,10 +34,7 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $config  = (array) PluginHelper::getPlugin('multifactorauth', 'email');
-                $subject = $container->get(DispatcherInterface::class);
-
-                $plugin = new Email($subject, $config);
+                $plugin = new Email($container->get(DispatcherInterface::class), (array) PluginHelper::getPlugin('multifactorauth', 'email'));
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 

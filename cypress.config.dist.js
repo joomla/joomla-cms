@@ -33,6 +33,7 @@ module.exports = defineConfig({
     password: 'joomla-17082005',
     db_type: 'MySQLi',
     db_host: 'localhost',
+    db_port: '',
     db_name: 'test_joomla',
     db_user: 'root',
     db_password: '',

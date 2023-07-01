@@ -9,8 +9,7 @@
 
 namespace Joomla\CMS\Event;
 
-use BadMethodCallException;
-use Joomla\Event\Event as BaseEvent;
+use Joomla\Event\Event;
 use Joomla\String\Normalise;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -37,7 +36,7 @@ use Joomla\String\Normalise;
  *
  * @since  4.0.0
  */
-abstract class AbstractEvent extends BaseEvent
+abstract class AbstractEvent extends Event
 {
     use CoreEventAware;
 
@@ -53,13 +52,13 @@ abstract class AbstractEvent extends BaseEvent
      * @return  static
      *
      * @since   4.0.0
-     * @throws  BadMethodCallException  If you do not provide a subject argument
+     * @throws  \BadMethodCallException  If you do not provide a subject argument
      */
     public static function create(string $eventName, array $arguments = [])
     {
         // Make sure a non-empty subject argument exists and that it is an object
         if (empty($arguments['subject']) || !\is_object($arguments['subject'])) {
-            throw new BadMethodCallException("No subject given for the $eventName event");
+            throw new \BadMethodCallException("No subject given for the $eventName event");
         }
 
         // Get the class name from the arguments, if specified
@@ -75,7 +74,7 @@ abstract class AbstractEvent extends BaseEvent
             // Look for known class name.
             $eventClassName = self::getEventClassByEventName($eventName);
 
-            if ($eventClassName === BaseEvent::class) {
+            if ($eventClassName === Event::class) {
                 $eventClassName = '';
             }
         }
