@@ -18,4 +18,20 @@
 		<language tag="en-GB">language/en-GB/plg_finder_categories.ini</language>
 		<language tag="en-GB">language/en-GB/plg_finder_categories.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Finder\Administrator\Field">
+				<field
+					name="taxonomies"
+					type="taxonomytypes"
+					label="PLG_FINDER_CATEGORIES_TAXONOMIES_LABEL"
+					default="type,language"
+					multiple="true"
+					>
+					<option value="language">PLG_FINDER_CATEGORIES_TAXONOMIES_LANGUAGE</option>
+					<option value="type">PLG_FINDER_CATEGORIES_TAXONOMIES_TYPE</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

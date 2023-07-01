@@ -430,7 +430,7 @@ class TemplateModel extends FormModel
             }
         }
 
-        return $result;
+        return !empty($result) ? $result : ['.'];
     }
 
     /**
@@ -1774,10 +1774,10 @@ class TemplateModel extends FormModel
     {
         if (!isset($this->allowedFormats)) {
             $params       = ComponentHelper::getParams('com_templates');
-            $imageTypes   = explode(',', $params->get('image_formats'));
-            $sourceTypes  = explode(',', $params->get('source_formats'));
-            $fontTypes    = explode(',', $params->get('font_formats'));
-            $archiveTypes = explode(',', $params->get('compressed_formats'));
+            $imageTypes   = explode(',', $params->get('image_formats', 'gif,bmp,jpg,jpeg,png,webp'));
+            $sourceTypes  = explode(',', $params->get('source_formats', 'txt,less,ini,xml,js,php,css,scss,sass,json'));
+            $fontTypes    = explode(',', $params->get('font_formats', 'woff,woff2,ttf,otf'));
+            $archiveTypes = explode(',', $params->get('compressed_formats', 'zip'));
 
             $this->allowedFormats = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
             $this->allowedFormats = array_map('strtolower', $this->allowedFormats);

@@ -254,7 +254,7 @@ class RequestsPluginTest extends UnitTestCase
         $transport = new class () implements TransportInterface {
             public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
             {
-                throw new Exception('test');
+                throw new \Exception('test');
             }
 
             public static function isSupported()

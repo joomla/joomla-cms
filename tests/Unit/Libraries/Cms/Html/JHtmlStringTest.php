@@ -431,7 +431,7 @@ class JHtmlStringTest extends UnitTestCase
      */
     public function testAbridge($text, $length, $intro, $expected)
     {
-        $this->assertEquals($expected, JHtmlString::abridge($text, $length, $intro));
+        $this->assertEquals($expected, \JHtmlString::abridge($text, $length, $intro));
     }
 
     /**
@@ -450,7 +450,7 @@ class JHtmlStringTest extends UnitTestCase
      */
     public function testTruncate($text, $length, $noSplit, $allowedHtml, $expected)
     {
-        $this->assertEquals($expected, JHtmlString::truncate($text, $length, $noSplit, $allowedHtml));
+        $this->assertEquals($expected, \JHtmlString::truncate($text, $length, $noSplit, $allowedHtml));
     }
 
     /**
@@ -468,6 +468,6 @@ class JHtmlStringTest extends UnitTestCase
      */
     public function testTruncateComplex($html, $maxLength, $noSplit, $expected)
     {
-        $this->assertEquals($expected, JHtmlString::truncateComplex($html, $maxLength, $noSplit));
+        $this->assertEquals($expected, \JHtmlString::truncateComplex($html, $maxLength, $noSplit));
     }
 }
