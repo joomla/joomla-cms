@@ -30,6 +30,8 @@ if ($this->direction === 'rtl') {
 // Set page title
 $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'));
 
+// Get the error code
+$errorCode = $this->error->getCode();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -42,6 +44,9 @@ $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error-
     <div class="error">
         <div id="outline">
         <div id="errorboxoutline">
+            <?php if ($this->countModules('error-' . $errorCode)) : ?>
+                    <jdoc:include type="modules" name="error-<?php echo $errorCode; ?>" style="none" />
+            <?php else : ?>
             <div id="errorboxheader"><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></div>
             <div id="errorboxbody">
             <p><strong><?php echo Text::_('JERROR_LAYOUT_NOT_ABLE_TO_VISIT'); ?></strong></p>
@@ -58,6 +63,7 @@ $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error-
                 <li><a href="<?php echo Uri::root(true); ?>/index.php"><?php echo Text::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></li>
             </ul>
             <p><?php echo Text::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></p>
+            <?php endif; ?>
             <div id="techinfo">
             <p>
                 <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
@@ -93,7 +99,6 @@ $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error-
         </div>
         </div>
     </div>
-
     <jdoc:include type="modules" name="debug" style="none" />
 </body>
 </html>

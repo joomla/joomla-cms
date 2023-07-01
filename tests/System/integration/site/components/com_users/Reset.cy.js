@@ -54,4 +54,10 @@ describe('Test in frontend that the users reset view', () => {
       cy.wrap(mails).should('have.lengthOf', 0);
     });
   });
+
+  it('can show the profile page when logged in', () => {
+    cy.doFrontendLogin();
+    cy.visit('/index.php?option=com_users&view=reset');
+    cy.get('#users-profile-core').should('contain.text', 'Profile');
+  });
 });

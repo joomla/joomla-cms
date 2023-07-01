@@ -78,7 +78,7 @@ class ApiController extends BaseController
     /**
      * The model state to inject
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $modelState;
 

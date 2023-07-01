@@ -56,6 +56,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
+  - name: php82-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php8.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
   - name: php81-integration
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.1
@@ -365,6 +372,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 196d557a538facffb7cb93151c1fd98e4d80b97a5f30c96affa692965e079c11
+hmac: d6f79fc0f1a20c4814825b6922713566626f4f37105625063787317c7f2f7e65
 
 ...

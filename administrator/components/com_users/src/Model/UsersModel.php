@@ -235,7 +235,7 @@ class UsersModel extends ListModel
                 return false;
             }
 
-            // Second pass: collect the group counts into the master items array.
+            // Second pass: collect the group counts into the main items array.
             foreach ($items as &$item) {
                 if (isset($userGroups[$item->id])) {
                     $item->group_count = $userGroups[$item->id]->group_count;
