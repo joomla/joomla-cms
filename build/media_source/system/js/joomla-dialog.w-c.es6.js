@@ -673,5 +673,3 @@ document.addEventListener('click', (event) => {
   Joomla.Modal.setCurrent(popup);
   popup.show();
 });
-
-export default JoomlaDialog;
