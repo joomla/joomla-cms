@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\System\PrivacyConsent\Extension;
 
-use Exception;
-use InvalidArgumentException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
@@ -23,7 +21,6 @@ use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -99,7 +96,7 @@ final class PrivacyConsent extends CMSPlugin
      * @return  boolean
      *
      * @since   3.9.0
-     * @throws  InvalidArgumentException on missing required data.
+     * @throws  \InvalidArgumentException on missing required data.
      */
     public function onUserBeforeSave($user, $isNew, $data)
     {
@@ -125,7 +122,7 @@ final class PrivacyConsent extends CMSPlugin
             $option == 'com_users' && in_array($task, ['registration.register', 'profile.save'])
             && empty($form['privacyconsent']['privacy'])
         ) {
-            throw new InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_SYSTEM_PRIVACYCONSENT_FIELD_ERROR'));
+            throw new \InvalidArgumentException($this->getApplication()->getLanguage()->_('PLG_SYSTEM_PRIVACYCONSENT_FIELD_ERROR'));
         }
 
         return true;
@@ -186,7 +183,7 @@ final class PrivacyConsent extends CMSPlugin
 
             try {
                 $this->getDatabase()->insertObject('#__privacy_consents', $userNote);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // Do nothing if the save fails
             }
 
