@@ -52,6 +52,12 @@ foreach ($fields as $field) {
         continue;
     }
 
+    // Check conditions on fields
+    $showOn = $field->params->get('showon', '');
+    if (!empty($showOn) && !FieldsHelper::matchShowon($showOn, $fields)) {
+        continue;
+    }
+
     $class = $field->name . ' ' . $field->params->get('render_class');
     $layout = $field->params->get('layout', 'render');
     $content = FieldsHelper::render($context, 'field.' . $layout, ['field' => $field]);
