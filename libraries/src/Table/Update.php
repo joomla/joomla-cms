@@ -34,7 +34,7 @@ class Update extends Table
     /**
      * Constructor
      *
-     * @param DatabaseDriver $db Database driver object.
+     * @param   DatabaseDriver  $db  Database driver object.
      *
      * @since   1.7.0
      */
@@ -83,7 +83,7 @@ class Update extends Table
     /**
      * Method to create and execute a SELECT WHERE query.
      *
-     * @param array $options Array of options
+     * @param   array  $options  Array of options
      *
      * @return  string  Results of query
      *
