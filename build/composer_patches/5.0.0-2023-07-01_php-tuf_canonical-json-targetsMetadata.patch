@@ -1,0 +1,92 @@
+#
+#
+--- a/src/Metadata/MetadataBase.php	
++++ b/src/Metadata/MetadataBase.php	(date 1688224003871)
+@@ -51,19 +51,6 @@
+     {
+     }
+ 
+-    /**
+-     * Returns a normalized array version of this object for JSON encoding.
+-     *
+-     * @see ::toCanonicalJson()
+-     *
+-     * @return array
+-     *   A normalized array representation of this object.
+-     */
+-    protected function toNormalizedArray(): array
+-    {
+-        return $this->getSigned();
+-    }
+-
+     /**
+      * Returns a canonical JSON representation of this metadata object.
+      *
+@@ -72,7 +59,7 @@
+      */
+     public function toCanonicalJson(): string
+     {
+-        return static::encodeJson($this->toNormalizedArray());
++        return static::encodeJson($this->getSigned());
+     }
+ 
+     /**
+
+
+--- a/src/Metadata/TargetsMetadata.php	
++++ b/src/Metadata/TargetsMetadata.php	(date 1688224236309)
+@@ -67,26 +67,32 @@
+ 
+     /**
+      * {@inheritDoc}
++     * Returns a canonical JSON representation of this metadata object.
++     *
++     * @return string
++     *   The canonical JSON representation of this object.
+      */
+-    protected function toNormalizedArray(): array
++    public function toCanonicalJson(): string
+     {
+-        $normalized = parent::toNormalizedArray();
++        $metadata = $this->getSigned();
+ 
+-        foreach ($normalized['targets'] as $path => $target) {
++        // Apply sorting
++        self::sortKeys($metadata);
++
++        foreach ($metadata['targets'] as $path => $target) {
+             // Custom target info should always encode to an object, even if
+             // it's empty.
+             if (array_key_exists('custom', $target)) {
+-                $normalized['targets'][$path]['custom'] = (object) $target['custom'];
++                $metadata['targets'][$path]['custom'] = (object) $target['custom'];
+             }
+         }
+ 
+         // Ensure that these will encode as objects even if they're empty.
+-        $normalized['targets'] = (object) $normalized['targets'];
+-        if (array_key_exists('delegations', $normalized)) {
+-            $normalized['delegations']['keys'] = (object) $normalized['delegations']['keys'];
++        $metadata['targets'] = (object) $metadata['targets'];
++        if (array_key_exists('delegations', $metadata)) {
++            $metadata['delegations']['keys'] = (object)$metadata['delegations']['keys'];
+         }
+-
+-        return $normalized;
++        return static::encodeJson($metadata);
+     }
+ 
+     /**
+
+
+--- a/src/CanonicalJsonTrait.php	
++++ b/src/CanonicalJsonTrait.php	(date 1688223879893)
+@@ -53,7 +53,7 @@
+      * @throws \RuntimeException
+      *     Thrown if sorting the array fails.
+      */
+-    private static function sortKeys(array &$data): void
++    protected static function sortKeys(array &$data): void
+     {
+         // If $data is numerically indexed, the keys are already sorted, by
+         // definition.
