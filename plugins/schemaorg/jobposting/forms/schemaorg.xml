@@ -127,23 +127,9 @@
 						</form>
 					</field>
 
-
-			<field
-				name="jobLocation"
-				label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBLOCATION_LABEL"
-				type="subform"
-			>
-				<form>
-
 					<field
-						name="@type"
-						type="hidden"
-						default="Place"
-					/>
-
-					<field
-						name="address"
-						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESS_LABEL"
+						name="jobLocation"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBLOCATION_LABEL"
 						type="subform"
 					>
 						<form>
@@ -151,46 +137,60 @@
 							<field
 								name="@type"
 								type="hidden"
-								default="PostalAddress"
+								default="Place"
 							/>
 
 							<field
-								name="streetAddress"
-								type="text"
-								filter="string"
-								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_STREETADDRESS_LABEL"
-							/>
+								name="address"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESS_LABEL"
+								type="subform"
+							>
+								<form>
 
-							<field
-								name="addressLocality"
-								type="text"
-								filter="string"
-								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESSLOCALITY_LABEL"
-							/>
+									<field
+										name="@type"
+										type="hidden"
+										default="PostalAddress"
+									/>
 
-							<field
-								name="addressRegion"
-								type="text"
-								filter="string"
-								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESSREGION_LABEL"
-							/>
+									<field
+										name="streetAddress"
+										type="text"
+										filter="string"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_STREETADDRESS_LABEL"
+									/>
 
-							<field
-								name="postalCode"
-								type="text"
-								filter="string"
-								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_POSTALCODE_LABEL"
-							/>
+									<field
+										name="addressLocality"
+										type="text"
+										filter="string"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESSLOCALITY_LABEL"
+									/>
 
-							<field
-								name="addressCountry"
-								type="text"
-								filter="string"
-								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESSCOUNTRY_LABEL"
-							/>
+									<field
+										name="addressRegion"
+										type="text"
+										filter="string"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESSREGION_LABEL"
+									/>
+
+									<field
+										name="postalCode"
+										type="text"
+										filter="string"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_POSTALCODE_LABEL"
+									/>
+
+									<field
+										name="addressCountry"
+										type="text"
+										filter="string"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESSCOUNTRY_LABEL"
+									/>
+								</form>
+							</field>
 						</form>
 					</field>
-
 					<field
 						name="baseSalary"
 						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_BASESALARY_LABEL"
@@ -243,8 +243,6 @@
 
 						</form>
 					</field>
-				</form>
-			</field>
 				</form>
 			</field>
 		</fieldset>
