@@ -391,7 +391,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         $webPageSchema = [];
 
-        $webPageSchema['@type']       = 'WebSite';
+        $webPageSchema['@type']       = 'WebPage';
         $webPageSchema['@id']         = $webPageId;
         $webPageSchema['url']         = $url;
         $webPageSchema['name']        = $app->getDocument()->getTitle();
