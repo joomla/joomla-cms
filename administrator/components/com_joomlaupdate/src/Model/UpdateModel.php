@@ -65,19 +65,41 @@ class UpdateModel extends BaseDatabaseModel
         // Determine the intended update URL.
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
-        if ($params->get('updatesource', 'nochange') == 'custom') {
-            $paramsURL = $params->get('customurl', '');
-            if (trim($paramsURL) != '') {
-                $updateURL = trim($paramsURL);
+        switch ($params->get('updatesource', 'nochange')) {
+                // "Testing"
+            case 'testing':
+                $updateURL = 'https://update.joomla.org/core/test/list_test.xml';
+                break;
+
+                // "Custom"
+                // @todo: check if the customurl is valid and not just "not empty".
+            case 'custom':
+                if (trim($params->get('customurl', '')) != '') {
+                    $updateURL = trim($params->get('customurl', ''));
             } else {
                 Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
 
                 return;
             }
+                break;
+
+                /**
+                 * "Minor & Patch Release for Current version (recommended and default)".
+                 * The commented "case" below are for documenting where 'default' and legacy options falls
+                 * case 'default':
+                 * case 'next':
+                 * case 'lts':
+                 * case 'sts': (It's shown as "Default" because that option does not exist any more)
+                 * case 'nochange':
+                 */
+            default:
+                $updateURL = 'https://raw.githubusercontent.com/joomla/updates/beta-target/repository/';
         }
 
+        $updateType = (pathinfo($updateURL, PATHINFO_EXTENSION) === 'xml') ? 'collection' : 'tuf';
+
         $id    = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
-        $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName('us') . '.*')
             ->from($db->quoteName('#__update_sites_extensions', 'map'))
@@ -91,10 +113,11 @@ class UpdateModel extends BaseDatabaseModel
         $db->setQuery($query);
         $update_site = $db->loadObject();
 
-        if ($update_site->location != $updateURL) {
+        if ($update_site->location != $updateURL || $update_site->type != $updateType) {
             // Modify the database record.
             $update_site->last_check_timestamp = 0;
             $update_site->location             = $updateURL;
+            $update_site->type                 = $updateType;
             $db->updateObject('#__update_sites', $update_site, 'update_site_id');
 
             // Remove cached updates.
@@ -155,7 +178,7 @@ class UpdateModel extends BaseDatabaseModel
      */
     public function getCheckForSelfUpdate()
     {
-        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db = $this->getDatabase();
 
         $query = $db->getQuery(true)
             ->select($db->quoteName('extension_id'))
@@ -226,7 +249,7 @@ class UpdateModel extends BaseDatabaseModel
 
         // Fetch the update information from the database.
         $id    = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
-        $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->quoteName('#__updates'))
@@ -287,7 +310,7 @@ class UpdateModel extends BaseDatabaseModel
      */
     public function purge()
     {
-        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db = $this->getDatabase();
 
         // Modify the database record
         $update_site                       = new \stdClass();
@@ -461,7 +484,7 @@ class UpdateModel extends BaseDatabaseModel
         }
 
 	    // Make sure the target does not exist.
-	    if (file_exists($target)) {
+        if (is_file($target)) {
 		    File::delete($target);
 	    }
 
@@ -477,7 +500,11 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Write the file to disk
-        File::write($target, $result->body);
+        $result = File::write($target, $result->body);
+
+        if (!$result) {
+            return false;
+        }
 
         return basename($target);
     }
@@ -558,24 +585,14 @@ ENDDATA;
         $configpath = JPATH_COMPONENT_ADMINISTRATOR . '/update.php';
 
         if (is_file($configpath)) {
-            if (!File::delete($configpath)) {
-                File::invalidateFileCache($configpath);
-                @unlink($configpath);
-            }
+            File::delete($configpath);
         }
 
         // Write new file. First try with File.
         $result = File::write($configpath, $data);
 
-        // In case File used FTP but direct access could help.
+        // In case File failed but direct access could help.
         if (!$result) {
-            if (function_exists('file_put_contents')) {
-                $result = @file_put_contents($configpath, $data);
-
-                if ($result !== false) {
-                    $result = true;
-                }
-            } else {
                 $fp = @fopen($configpath, 'wt');
 
                 if ($fp !== false) {
@@ -588,7 +605,6 @@ ENDDATA;
                     @fclose($fp);
                 }
             }
-        }
 
         return $result;
     }
@@ -995,6 +1011,8 @@ ENDDATA;
      * Gets PHP options.
      * @todo: Outsource, build common code base for pre install and pre update check
      *
+     * @return array Array of PHP config options
+     *
      * @since   3.10.0
      */
     public function getPhpOptions()
@@ -1299,7 +1317,7 @@ ENDDATA;
      */
     public function getNonCoreExtensions()
     {
-        $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->select(
@@ -1349,7 +1367,7 @@ ENDDATA;
      */
     public function getNonCorePlugins($folderFilter = ['system', 'user', 'authentication', 'actionlog', 'multifactorauth'])
     {
-        $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->select(
@@ -1450,7 +1468,7 @@ ENDDATA;
     private function getUpdateSitesInfo($extensionID)
     {
         $id    = (int) $extensionID;
-        $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->select(
@@ -1635,7 +1653,7 @@ ENDDATA;
      */
     public function isTemplateActive($template)
     {
-        $db    = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->select(
