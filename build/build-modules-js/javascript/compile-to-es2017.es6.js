@@ -87,7 +87,10 @@ module.exports.handleESMFile = async (file) => {
         ],
       }),
     ],
-    external: [],
+    external: [
+      'editor-api',
+      'editor-decorator',
+    ],
   });
 
   bundle.write({
