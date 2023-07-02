@@ -18,7 +18,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
-use SimpleXMLElement;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -157,7 +156,7 @@ final class WebInstaller extends CMSPlugin
         if ($this->installfrom === null) {
             $installfrom = base64_decode($this->getApplication()->getInput()->getBase64('installfrom', ''));
 
-            $field = new SimpleXMLElement('<field></field>');
+            $field = new \SimpleXMLElement('<field></field>');
 
             if ((new UrlRule())->test($field, $installfrom) && preg_match('/\.xml\s*$/', $installfrom)) {
                 $update = new Update();

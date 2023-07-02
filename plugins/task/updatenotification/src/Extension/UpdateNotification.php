@@ -12,7 +12,6 @@ namespace Joomla\Plugin\Task\UpdateNotification\Extension;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;

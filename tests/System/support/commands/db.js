@@ -170,6 +170,25 @@ Cypress.Commands.add('db_createBanner', (bannerData) => {
 });
 
 /**
+ * Creates a banner client in the database with the given data. The banner client contains some default values when
+ * not all required fields are passed in the given data. The id of the inserted banner client is returned.
+ *
+ * @param {Object} bannerClientData The banner data to insert
+ *
+ * @returns Object
+ */
+Cypress.Commands.add('db_createBannerClient', (bannerClientData) => {
+  const defaultBannerOptions = {
+    name: 'test banner client',
+    contact: 'test banner client',
+    state: 0,
+    extrainfo: '',
+  };
+
+  return cy.task('queryDB', createInsertQuery('banner_clients', { ...defaultBannerOptions, ...bannerClientData })).then(async (info) => info.insertId);
+});
+
+/**
  * Creates a newsfeed in the database with the given data. The newsfeed contains some default values when
  * not all required fields are passed in the given data. The id of the inserted newsfeed is returned.
  *

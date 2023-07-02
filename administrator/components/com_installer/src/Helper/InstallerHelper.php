@@ -10,14 +10,12 @@
 
 namespace Joomla\Component\Installer\Administrator\Helper;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
-use SimpleXMLElement;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -131,8 +129,8 @@ class InstallerHelper
     {
         $options = [];
 
-        /** @var DatabaseDriver $db The application's database driver object */
-        $db         = Factory::getContainer()->get(DatabaseDriver::class);
+        /** @var DatabaseInterface $db The application's database driver object */
+        $db         = Factory::getContainer()->get(DatabaseInterface::class);
         $query      = $db->getQuery(true)
             ->select(
                 $db->quoteName(
@@ -185,7 +183,7 @@ class InstallerHelper
      * @param   integer  $clientId  client_id of an extension
      * @param   string   $folder    folder of an extension
      *
-     * @return  SimpleXMLElement
+     * @return  \SimpleXMLElement
      *
      * @since   4.0.0
      */
@@ -194,7 +192,7 @@ class InstallerHelper
         string $type,
         int $clientId = 1,
         ?string $folder = null
-    ): ?SimpleXMLElement {
+    ): ?\SimpleXMLElement {
         $path = [0 => JPATH_SITE, 1 => JPATH_ADMINISTRATOR, 3 => JPATH_API][$clientId] ?? JPATH_SITE;
 
         switch ($type) {
@@ -304,7 +302,7 @@ class InstallerHelper
         // Get the database driver. If it fails we cannot report whether the extension supports download keys.
         try {
             $db = Factory::getDbo();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [
                 'supported' => false,
                 'valid'     => false,
@@ -326,7 +324,7 @@ class InstallerHelper
 
         try {
             $extension = new CMSObject($db->setQuery($query)->loadAssoc());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [
                 'supported' => false,
                 'valid'     => false,
@@ -425,7 +423,7 @@ class InstallerHelper
     {
         try {
             $db = Factory::getDbo();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [];
         }
 
@@ -483,7 +481,7 @@ class InstallerHelper
             }
 
             return $items;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [];
         }
     }
