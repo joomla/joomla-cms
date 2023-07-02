@@ -6,7 +6,7 @@
 // eslint-disable-next-line import/no-unresolved
 import { JoomlaEditor, JoomlaEditorButton, JoomlaEditorDecorator } from 'editor-api';
 
-/* global tinymce */
+/* global tinymce, tinyMCE */
 
 // Debounce ReInit per editor ID
 const reInitQueue = {};
