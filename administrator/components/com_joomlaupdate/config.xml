@@ -30,7 +30,6 @@
 			label="COM_JOOMLAUPDATE_MINIMUM_STABILITY_LABEL"
 			description="COM_JOOMLAUPDATE_MINIMUM_STABILITY_DESC"
 			default="4"
-			showon="updatesource:testing[OR]updatesource:custom"
 			validate="options"
 			>
 			<option value="0">COM_JOOMLAUPDATE_MINIMUM_STABILITY_DEV</option>

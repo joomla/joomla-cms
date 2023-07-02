@@ -8,6 +8,7 @@
 
 namespace Joomla\CMS\Updater\Update;
 
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\HttpFactory;
@@ -30,7 +31,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.7.0
  */
-class XmlUpdate
+class Update
 {
     use LegacyErrorHandlingTrait;
     use LegacyPropertyManagementTrait;
@@ -227,6 +228,14 @@ class XmlUpdate
     protected $minimum_stability = Updater::STABILITY_STABLE;
 
     /**
+     * Current release channel
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $channel;
+
+    /**
      * Array with compatible versions used by the pre-update check
      *
      * @var    array
@@ -354,6 +363,13 @@ class XmlUpdate
                         $phpMatch = true;
                     }
 
+                    $channelMatch = false;
+
+                    // Check if the release channel matches, assume true if tag isn't present
+                    if (!$this->channel || !isset($this->currentUpdate->channel) || preg_match('/' . $this->channel . '/', $this->currentUpdate->channel->_data)) {
+                        $channelMatch = true;
+                    }
+
                     $dbMatch = false;
 
                     // Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
@@ -390,7 +406,7 @@ class XmlUpdate
                         $stabilityMatch = false;
                     }
 
-                    if ($phpMatch && $stabilityMatch && $dbMatch) {
+                    if ($phpMatch && $stabilityMatch && $dbMatch && $channelMatch) {
                         if (!empty($this->currentUpdate->downloadurl) && !empty($this->currentUpdate->downloadurl->_data)) {
                             $this->compatibleVersions[] = $this->currentUpdate->version->_data;
                         }
@@ -464,6 +480,78 @@ class XmlUpdate
     /**
      * Loads an XML file from a URL.
      *
+     * @param mixed $updateObject The object of the update containing all information.
+     * @param int $minimumStability The minimum stability required for updating the extension {@see Updater}
+     *
+     * @return  boolean  True on success
+     *
+     * @since   1.7.0
+     */
+    public function loadFromRow(object $updateObject, $minimumStability = Updater::STABILITY_STABLE, $channel = null)
+    {
+        // decode data information
+        $data = json_decode($updateObject->data, true, 512, JSON_THROW_ON_ERROR);
+
+        // Check channel
+        $channelMatch = false;
+
+        // Check if the release channel matches, assume true if tag isn't present
+        if (!$channel || !isset($data["channel"]) || preg_match('/' . $channel . '/', $data["channel"])) {
+            $channelMatch = true;
+        }
+
+        // Check minimum stability
+        $stabilityMatch = true;
+
+        if (isset($data["stability"]) && ($this->stabilityTagToInteger((string) $data["stability"]) < $minimumStability)) {
+            $stabilityMatch = false;
+        }
+
+        // Compatibility mismatch, return here before properties are written
+        if (!$stabilityMatch || !$channelMatch) {
+            return false;
+        }
+
+        foreach ($updateObject as $key => $value) {
+            $this->$key = $updateObject->$key;
+        }
+
+        if (isset($data["targetplatform"])) {
+            $this->targetplatform = $data["targetplatform"];
+        }
+
+        if (isset($data["downloads"])) {
+            foreach ($data["downloads"] as $download) {
+                $source = new DownloadSource;
+
+                foreach ($download as $key => $data) {
+                    $key = strtolower($key);
+                    $source->$key = $data;
+                }
+
+                $this->downloadSources[] = $source;
+            }
+        }
+
+        if (isset($data["hashes"])) {
+            foreach ($data["hashes"] as $hashAlgorithm => $hashSum) {
+                $this->$hashAlgorithm = (object) ["_data" => $hashSum];
+            }
+        }
+
+        $this->client = ApplicationHelper::getClientInfo($updateObject->client_id);
+
+        $this->downloadurl = new \stdClass();
+        $this->downloadurl->_data = $this->downloadSources[0]->url;
+        $this->downloadurl->format = $this->downloadSources[0]->format;
+        $this->downloadurl->type = $this->downloadSources[0]->type;
+
+        return true;
+    }
+
+    /**
+     * Loads an XML file from a URL.
+     *
      * @param   string  $url               The URL.
      * @param   int     $minimumStability  The minimum stability required for updating the extension {@see Updater}
      *
@@ -471,7 +559,7 @@ class XmlUpdate
      *
      * @since   1.7.0
      */
-    public function loadFromXml($url, $minimumStability = Updater::STABILITY_STABLE)
+    public function loadFromXml($url, $minimumStability = Updater::STABILITY_STABLE, $channel = null)
     {
         $version    = new Version();
         $httpOption = new Registry();
@@ -492,6 +580,7 @@ class XmlUpdate
         }
 
         $this->minimum_stability = $minimumStability;
+        $this->channel = $channel;
 
         $this->xmlParser = xml_parser_create('');
         xml_set_object($this->xmlParser, $this);

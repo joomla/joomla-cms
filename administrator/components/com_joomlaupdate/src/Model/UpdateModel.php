@@ -23,8 +23,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Updater\Update\DataUpdate;
-use Joomla\CMS\Updater\Update\XmlUpdate;
+use Joomla\CMS\Updater\Update\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
@@ -150,12 +149,8 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         $updater               = Updater::getInstance();
-        $minimumStability      = Updater::STABILITY_STABLE;
         $comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
-
-        if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), ['testing', 'custom'])) {
-            $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
-        }
+        $minimumStability      = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
 
         $reflection       = new \ReflectionObject($updater);
         $reflectionMethod = $reflection->getMethod('findUpdates');
@@ -273,20 +268,19 @@ class UpdateModel extends BaseDatabaseModel
             return $this->updateInformation;
         }
 
-        $minimumStability      = Updater::STABILITY_STABLE;
         $comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
+        $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
+        $channel = $comJoomlaupdateParams->get('updatesource', 'default');
 
-        if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), ['testing', 'custom'])) {
-            $minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
-        }
+        $update = new Update();
 
-        // Fetch the full update details from the update details URL.
-        if (empty($updateObject->data)) {
-            $update = new XmlUpdate();
-            $update->loadFromXml($updateObject->detailsurl, $minimumStability);
+        // Check if we have a local JSON string with update metadata
+        if (!empty($updateObject->data)) {
+            // Local data is available, read and parse
+            $update->loadFromRow($updateObject, $minimumStability, $channel);
         } else {
-            $update = new DataUpdate();
-            $update->loadFromData($updateObject, $minimumStability);
+            // No local data, fetch the full update details from the update details URL.
+            $update->loadFromXml($updateObject->detailsurl, $minimumStability, $channel);
         }
 
         // Make sure we use the current information we got from the detailsurl

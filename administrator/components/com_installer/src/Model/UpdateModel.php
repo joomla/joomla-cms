@@ -348,13 +348,14 @@ class UpdateModel extends ListModel
             $db->setQuery($query);
             $updateSiteType = (string) $db->loadObject();
 
+            // Tuf is currently only supported for Joomla core
             if ($updateSiteType == 'tuf') {
                 $app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_NOT_AVAILABLE'), 'error');
 
                 return;
-            } else {
-                $update->loadFromXml($instance->detailsurl, $minimumStability);
             }
+
+            $update->loadFromXml($instance->detailsurl, $minimumStability);
 
             // Find and use extra_query from update_site if available
             $updateSiteInstance = new \Joomla\CMS\Table\UpdateSite($this->getDatabase());

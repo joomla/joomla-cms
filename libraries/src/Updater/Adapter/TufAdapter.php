@@ -135,6 +135,7 @@ class TufAdapter extends UpdateAdapter
 
                 $values['data'] = [
                     'downloads' => $values['downloads'],
+                    'channel' => $values['channel'],
                     'targetplatform' => $values['targetplatform'],
                     'supported_databases' => $values['supported_databases'],
                     'hashes' => $target->hashes
@@ -184,6 +185,7 @@ class TufAdapter extends UpdateAdapter
                 'downloads' => [],
                 'targetplatform' => new \StdClass(),
                 'php_minimum' => null,
+                'channel' => null,
                 'supported_databases' => new \StdClass(),
                 'stability' => ''
             ]
@@ -200,6 +202,7 @@ class TufAdapter extends UpdateAdapter
             ->setAllowedTypes('downloads', 'array')
             ->setAllowedTypes('targetplatform', 'object')
             ->setAllowedTypes('php_minimum', 'string')
+            ->setAllowedTypes('channel', 'string')
             ->setAllowedTypes('supported_databases', 'object')
             ->setAllowedTypes('stability', 'string')
             ->setRequired(['version']);
