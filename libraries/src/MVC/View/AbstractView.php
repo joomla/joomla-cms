@@ -11,12 +11,12 @@ namespace Joomla\CMS\MVC\View;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\DocumentAwareInterface;
-use Joomla\CMS\Document\DocumentAwareTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
@@ -33,10 +33,16 @@ use Joomla\Event\EventInterface;
  *
  * @since  2.5.5
  */
-abstract class AbstractView extends CMSObject implements ViewInterface, DispatcherAwareInterface, DocumentAwareInterface, LanguageAwareInterface
+#[\AllowDynamicProperties]
+abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, DocumentAwareInterface, LanguageAwareInterface
 {
     use DispatcherAwareTrait;
     use LanguageAwareTrait;
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait {
+        get as private legacyGet;
+    }
+
 
     /**
      * The active document object
@@ -44,7 +50,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      * @var    Document
      * @since  3.0
      *
-     * @deprecated __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated 4.4.0 will be removed in 6.0
      *             Use $this->getDocument() instead
      */
     public $document;
@@ -154,8 +160,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
             }
         }
 
-        // Degrade to CMSObject::get
-        return parent::get($property, $default);
+        return $this->legacyGet($property, $default);
     }
 
     /**
@@ -234,7 +239,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
             }
 
             if (empty($this->_name)) {
-                throw new \Exception(sprintf($this->_('JLIB_APPLICATION_ERROR_GET_NAME'), __METHOD__), 500);
+                throw new \Exception(sprintf($this->text('JLIB_APPLICATION_ERROR_GET_NAME'), __METHOD__), 500);
             }
         }
 
@@ -246,7 +251,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      *
      * @return  Document
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      * @throws  \UnexpectedValueException May be thrown if the document has not been set.
      */
     protected function getDocument(): Document
@@ -265,7 +270,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function setDocument(Document $document): void
     {
@@ -297,9 +302,9 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
-    protected function _(string $key): string
+    protected function text(string $key): string
     {
         try {
             return $this->getLanguage()->_($key);

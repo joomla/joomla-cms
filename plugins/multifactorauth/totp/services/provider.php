@@ -34,10 +34,7 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $config  = (array) PluginHelper::getPlugin('multifactorauth', 'totp');
-                $subject = $container->get(DispatcherInterface::class);
-
-                $plugin = new Totp($subject, $config);
+                $plugin = new Totp($container->get(DispatcherInterface::class), (array) PluginHelper::getPlugin('multifactorauth', 'totp'));
                 $plugin->setApplication(Factory::getApplication());
                 $plugin->setUserFactory($container->get(UserFactoryInterface::class));
 

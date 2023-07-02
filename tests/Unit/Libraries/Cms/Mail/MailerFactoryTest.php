@@ -7,9 +7,8 @@
  * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Libraries\Cms\Layout;
+namespace Joomla\Tests\Unit\Libraries\Cms\Mail;
 
-use Joomla\CMS\Layout\BaseLayout;
 use Joomla\CMS\Mail\Mail;
 use Joomla\CMS\Mail\MailerFactory;
 use Joomla\Registry\Registry;
@@ -20,16 +19,16 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Mail
- * @since       __DEPLOY_VERSION__
+ * @since       4.4.0
  */
-class MailFactoryTest extends UnitTestCase
+class MailerFactoryTest extends UnitTestCase
 {
     /**
      * @testdox  The mailer factory creates the correct object
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function testMailer()
     {
@@ -45,7 +44,7 @@ class MailFactoryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function testMailerHasDefaultSettings()
     {
@@ -62,7 +61,7 @@ class MailFactoryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function testMailerHasPassedSettings()
     {
@@ -79,7 +78,7 @@ class MailFactoryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function testMailerHasInvalidFromAddress()
     {
@@ -96,7 +95,7 @@ class MailFactoryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function testMailerHasOverriddenSettings()
     {
@@ -113,7 +112,7 @@ class MailFactoryTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function testMailerIsSMTP()
     {
