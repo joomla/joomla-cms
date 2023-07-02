@@ -17,7 +17,6 @@ use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
