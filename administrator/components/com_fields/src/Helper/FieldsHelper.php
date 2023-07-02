@@ -725,8 +725,6 @@ class FieldsHelper
                     $fieldName = rtrim($fieldName, '!');
                     $notEqual = true;
 
-                    var_dump('not equal');
-
                 }
                 $foundMatch = self::matchFieldValues($fieldName, explode(',', $fieldValues), $fields);
 
@@ -778,9 +776,6 @@ class FieldsHelper
     public static function matchFieldValues($fieldName, $valuesToMatch, $fields)
     {
         $foundMatch = false;
-
-        var_dump($fieldName);
-        var_dump($valuesToMatch);
 
         foreach ($valuesToMatch as $valueToMatch) {
             foreach ($fields as $field) {
