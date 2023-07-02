@@ -76,11 +76,11 @@ class UpdateModel extends BaseDatabaseModel
             case 'custom':
                 if (trim($params->get('customurl', '')) != '') {
                     $updateURL = trim($params->get('customurl', ''));
-            } else {
-                Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
+                } else {
+                    Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
 
-                return;
-            }
+                    return;
+                }
                 break;
 
                 /**
@@ -483,10 +483,10 @@ class UpdateModel extends BaseDatabaseModel
             // Informational log only
         }
 
-	    // Make sure the target does not exist.
+        // Make sure the target does not exist.
         if (is_file($target)) {
-		    File::delete($target);
-	    }
+            File::delete($target);
+        }
 
         // Download the package
         try {
@@ -593,18 +593,18 @@ ENDDATA;
 
         // In case File failed but direct access could help.
         if (!$result) {
-                $fp = @fopen($configpath, 'wt');
+            $fp = @fopen($configpath, 'wt');
 
-                if ($fp !== false) {
-                    $result = @fwrite($fp, $data);
+            if ($fp !== false) {
+                $result = @fwrite($fp, $data);
 
-                    if ($result !== false) {
-                        $result = true;
-                    }
-
-                    @fclose($fp);
+                if ($result !== false) {
+                    $result = true;
                 }
+
+                @fclose($fp);
             }
+        }
 
         return $result;
     }
