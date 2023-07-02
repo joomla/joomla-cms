@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-use Exception;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
@@ -163,7 +162,7 @@ abstract class DebugAdapter extends CMSPlugin
      * @return  void
      *
      * @since   5.0.0
-     * @throws  Exception on error.
+     * @throws  \Exception on error.
      */
     public function onStartIndex()
     {
@@ -191,7 +190,7 @@ abstract class DebugAdapter extends CMSPlugin
      * @return  boolean  True on success.
      *
      * @since   5.0.0
-     * @throws  Exception on error.
+     * @throws  \Exception on error.
      */
     public function onBeforeIndex()
     {
@@ -217,7 +216,7 @@ abstract class DebugAdapter extends CMSPlugin
      * @return  boolean  True on success.
      *
      * @since   5.0.0
-     * @throws  Exception on error.
+     * @throws  \Exception on error.
      */
     public function onBuildIndex()
     {
@@ -299,7 +298,7 @@ abstract class DebugAdapter extends CMSPlugin
      * @return  boolean  True on success.
      *
      * @since   5.0.0
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function change($id, $property, $value)
     {
@@ -330,7 +329,7 @@ abstract class DebugAdapter extends CMSPlugin
      * @return  boolean  True on success.
      *
      * @since   5.0.0
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     abstract protected function index(Result $item);
 
@@ -342,7 +341,7 @@ abstract class DebugAdapter extends CMSPlugin
      * @return  void
      *
      * @since   5.0.0
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function reindex($id)
     {
@@ -370,7 +369,7 @@ abstract class DebugAdapter extends CMSPlugin
      * @return  boolean  True on success.
      *
      * @since   5.0.0
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function remove($id, $removeTaxonomies = true)
     {
@@ -406,7 +405,7 @@ abstract class DebugAdapter extends CMSPlugin
      * @return  boolean  True on success, false on failure.
      *
      * @since   5.0.0
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     abstract protected function setup();
 
@@ -522,7 +521,7 @@ abstract class DebugAdapter extends CMSPlugin
      * @return  integer  The number of content items available to index.
      *
      * @since   5.0.0
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function getContentCount()
     {
@@ -558,7 +557,7 @@ abstract class DebugAdapter extends CMSPlugin
      * @return  Result  A Result object.
      *
      * @since   5.0.0
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function getItem($id)
     {
@@ -592,7 +591,7 @@ abstract class DebugAdapter extends CMSPlugin
      * @return  Result[]  An array of Result objects.
      *
      * @since   5.0.0
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function getItems($offset, $limit, $query = null)
     {
@@ -720,7 +719,7 @@ abstract class DebugAdapter extends CMSPlugin
      * @return  integer  The numeric type id for the content.
      *
      * @since   5.0.0
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function getTypeId()
     {
@@ -760,7 +759,7 @@ abstract class DebugAdapter extends CMSPlugin
      * @return  mixed  The title on success, null if not found.
      *
      * @since   5.0.0
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function getItemMenuTitle($url)
     {

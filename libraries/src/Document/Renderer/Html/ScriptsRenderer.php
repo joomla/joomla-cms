@@ -331,7 +331,7 @@ class ScriptsRenderer extends DocumentRenderer
      *
      * @return  string  The attributes string
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     private function renderImportmap(array &$assets)
     {

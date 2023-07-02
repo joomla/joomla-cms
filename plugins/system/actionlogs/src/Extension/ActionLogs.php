@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\ActionLogs\Extension;
 
-use Exception;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -22,8 +21,6 @@ use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
-use RuntimeException;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -78,7 +75,7 @@ final class ActionLogs extends CMSPlugin
      *
      * @since   3.9.0
      *
-     * @throws  Exception
+     * @throws  \Exception
      */
     public function onContentPrepareForm(Form $form, $data)
     {
@@ -178,7 +175,7 @@ final class ActionLogs extends CMSPlugin
             return true;
         }
 
-        $data->actionlogs                       = new stdClass();
+        $data->actionlogs                       = new \stdClass();
         $data->actionlogs->actionlogsNotify     = $values->notify;
         $data->actionlogs->actionlogsExtensions = $values->extensions;
 
