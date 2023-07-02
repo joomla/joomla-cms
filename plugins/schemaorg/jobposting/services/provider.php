@@ -16,7 +16,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\Schemaorg\Recipe\Extension\Recipe;
+use Joomla\Plugin\Schemaorg\JobPosting\Extension\JobPosting;
 
 return new class () implements ServiceProviderInterface {
     /**
@@ -34,9 +34,9 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $dispatcher = $container->get(DispatcherInterface::class);
-                $plugin     = new Recipe(
+                $plugin     = new JobPosting(
                     $dispatcher,
-                    (array) PluginHelper::getPlugin('schemaorg', 'recipe')
+                    (array) PluginHelper::getPlugin('schemaorg', 'jobposting')
                 );
 
                 $plugin->setApplication(Factory::getApplication());
