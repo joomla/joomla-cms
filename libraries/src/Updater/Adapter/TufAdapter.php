@@ -11,8 +11,9 @@ namespace Joomla\CMS\Updater\Adapter;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\TUF\TufValidation;
+use Joomla\CMS\TUF\TufFetcher;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Updater\ConstraintChecker;
 use Joomla\Database\ParameterType;
@@ -25,19 +26,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class TufAdapter extends UpdateAdapter
 {
-    /**
-     * The client ID mapping array
-     *
-     * @var  array
-     */
-    private $clientId = [
-        'site' => 0,
-        'administrator' => 1,
-        'installation' => 2,
-        'api' => 3,
-        'cli' => 4
-    ];
-
     /**
      * Finds an update.
      *
@@ -110,34 +98,10 @@ class TufAdapter extends UpdateAdapter
             ->bind(':id', $options['update_site_id'], ParameterType::INTEGER);
         $db->setQuery($query);
 
-        try {
-            $params_string = $db->loadResult();
-            $params_mirrors = explode('|', $params_string);
-            $params = [
-                'url_prefix' => '',
-                'metadata_path' => '',
-                'targets_path' => '',
-                'mirrors' => []
-            ];
-            for ($i = 0; $i < count($params_mirrors); $i++) {
-                if ($i == 0) {
-                    $params['url_prefix'] = $params_mirrors[$i];
-                } else {
-                    $mirror = [
-                        'url_prefix' => $params_mirrors[$i],
-                        'metadata_path' => '',
-                        'targets_path' => '',
-                        'confined_target_dirs' => []
-                    ];
-                    array_push($params['mirrors'], $mirror);
-                }
-            }
-        } catch (\RuntimeException $e) {
-            // Do nothing
-        }
+        $params = ["location" => $db->loadResult()];
 
-        $TufValidation = new TufValidation($extension_id, $params);
-        $metaData = $TufValidation->getValidUpdate();
+        $tufFetcher = new TufFetcher($extension_id, $params);
+        $metaData = $tufFetcher->getValidUpdate();
 
         $metaData = json_decode($metaData);
 
@@ -151,11 +115,12 @@ class TufAdapter extends UpdateAdapter
                     }
                 }
 
-                if (
-                    isset($values['client']) && is_string($values['client'])
-                    && key_exists(strtolower($values['client']), $this->clientId)
-                ) {
-                    $values['client'] = $this->clientId[strtolower($values['client'])];
+                if (isset($values['client']) && is_string($values['client'])) {
+                    $client = ApplicationHelper::getClientInfo($values['client'], true);
+
+                    if (is_object($client)) {
+                        $values['client'] = $client->id;
+                    }
                 }
 
                 if (isset($values['infourl']) && isset($values['infourl']->url)) {

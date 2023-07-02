@@ -27,7 +27,7 @@ use Tuf\Loader\SizeCheckingLoader;
 /**
  * @since  __DEPLOY_VERSION__
  */
-class TufValidation
+class TufFetcher
 {
     /**
      * The id of the extension to be updated
@@ -81,16 +81,10 @@ class TufValidation
     {
         $resolver->setDefaults(
             [
-                'url_prefix' => '',
-                'metadata_path' => '',
-                'targets_path' => '',
-                'mirrors' => [],
+                'location' => ''
             ]
         )
-            ->setAllowedTypes('url_prefix', 'string')
-            ->setAllowedTypes('metadata_path', 'string')
-            ->setAllowedTypes('targets_path', 'string')
-            ->setAllowedTypes('mirrors', 'array');
+            ->setAllowedTypes('location', 'string');
     }
 
     /**
@@ -103,7 +97,7 @@ class TufValidation
     {
         $db = Factory::getContainer()->get(DatabaseDriver::class);
 
-        $httpLoader = new HttpLoader($this->params["url_prefix"]);
+        $httpLoader = new HttpLoader($this->params["location"]);
         $sizeCheckingLoader = new SizeCheckingLoader($httpLoader);
 
         $storage = new DatabaseStorage($db, $this->extensionId);
