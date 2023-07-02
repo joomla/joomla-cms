@@ -77,32 +77,32 @@ final class Cache extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor
      *
-     * @param   DispatcherInterface              $subject                 The object to observe
-     * @param   array                            $config                  An optional associative
-     *                                                                    array of configuration
-     *                                                                    settings. Recognized key
-     *                                                                    values include 'name',
-     *                                                                    'group', 'params',
-     *                                                                    'language'
-     *                                                                    (this list is not meant
-     *                                                                    to be comprehensive).
-     * @param   DocumentFactoryInterface         $documentFactory         The application's
-     *                                                                    document factory
-     * @param   CacheControllerFactoryInterface  $cacheControllerFactory  Cache controller factory
-     * @param   Profiler|null                    $profiler                The application profiler
-     * @param   SiteRouter|null                  $router                  The frontend router
+     * @param   DispatcherInterface              $dispatcher                 The object to observe
+     * @param   array                            $config                     An optional associative
+     *                                                                       array of configuration
+     *                                                                       settings. Recognized key
+     *                                                                       values include 'name',
+     *                                                                       'group', 'params',
+     *                                                                       'language'
+     *                                                                       (this list is not meant
+     *                                                                       to be comprehensive).
+     * @param   DocumentFactoryInterface         $documentFactory            The application's
+     *                                                                       document factory
+     * @param   CacheControllerFactoryInterface  $cacheControllerFactory     Cache controller factory
+     * @param   Profiler|null                    $profiler                   The application profiler
+     * @param   SiteRouter|null                  $router                     The frontend router
      *
      * @since   4.2.0
      */
     public function __construct(
-        &$subject,
-        $config,
+        DispatcherInterface $dispatcher,
+        array $config,
         DocumentFactoryInterface $documentFactory,
         CacheControllerFactoryInterface $cacheControllerFactory,
         ?Profiler $profiler,
         ?SiteRouter $router
     ) {
-        parent::__construct($subject, $config);
+        parent::__construct($dispatcher, $config);
 
         $this->documentFactory        = $documentFactory;
         $this->cacheControllerFactory = $cacheControllerFactory;

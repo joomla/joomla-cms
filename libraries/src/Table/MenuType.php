@@ -10,13 +10,14 @@
 namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -24,8 +25,10 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class MenuType extends Table
+class MenuType extends Table implements CurrentUserInterface
 {
+    use CurrentUserTrait;
+
     /**
      * Constructor
      *
@@ -106,7 +109,7 @@ class MenuType extends Table
     {
         if ($this->id) {
             // Get the user id
-            $userId = (int) Factory::getUser()->id;
+            $userId = (int) $this->getCurrentUser()->id;
             $notIn  = [0, $userId];
 
             // Get the old value of the table
@@ -197,7 +200,7 @@ class MenuType extends Table
         // If no primary key is given, return false.
         if ($pk !== null) {
             // Get the user id
-            $userId = (int) Factory::getUser()->id;
+            $userId = (int) $this->getCurrentUser()->id;
             $notIn  = [0, $userId];
             $star   = '*';
 

@@ -11,6 +11,7 @@ const folders = [
   'media/vendor/codemirror',
   'media/vendor/debugbar',
   'media/vendor/diff/js',
+  'media/vendor/es-module-shims/js',
   'media/vendor/qrcode/js',
   'media/vendor/short-and-sweet/js',
   'media/vendor/webcomponentsjs/js',

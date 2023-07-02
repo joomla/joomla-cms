@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @package         Joomla.Plugin
- * @subpackage      System.Webauthn
+ * @package     Joomla.Plugin
+ * @subpackage  System.Webauthn
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\Extension;
@@ -104,18 +104,18 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
     /**
      * Constructor. Loads the language files as well.
      *
-     * @param   DispatcherInterface  $subject    The object to observe
-     * @param   array                $config     An optional associative array of configuration
-     *                                           settings. Recognized key values include 'name',
-     *                                           'group', 'params', 'language (this list is not meant
-     *                                           to be comprehensive).
-     * @param   Authentication|null  $authHelper The WebAuthn helper object
+     * @param   DispatcherInterface  $dispatcher    The object to observe
+     * @param   array                $config        An optional associative array of configuration
+     *                                              settings. Recognized key values include 'name',
+     *                                              'group', 'params', 'language (this list is not meant
+     *                                              to be comprehensive).
+     * @param   Authentication|null  $authHelper    The WebAuthn helper object
      *
      * @since  4.0.0
      */
-    public function __construct(&$subject, array $config = [], Authentication $authHelper = null)
+    public function __construct(DispatcherInterface $dispatcher, array $config = [], Authentication $authHelper = null)
     {
-        parent::__construct($subject, $config);
+        parent::__construct($dispatcher, $config);
 
         /**
          * Note: Do NOT try to load the language in the constructor. This is called before Joomla initializes the

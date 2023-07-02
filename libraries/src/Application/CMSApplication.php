@@ -19,7 +19,7 @@ use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
-use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Menu\AbstractMenu;
@@ -39,7 +39,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -154,16 +154,16 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     /**
      * Class constructor.
      *
-     * @param   Input      $input      An optional argument to provide dependency injection for the application's input
-     *                                 object.  If the argument is a JInput object that object will become the
-     *                                 application's input object, otherwise a default input object is created.
-     * @param   Registry   $config     An optional argument to provide dependency injection for the application's config
-     *                                 object.  If the argument is a Registry object that object will become the
-     *                                 application's config object, otherwise a default config object is created.
-     * @param   WebClient  $client     An optional argument to provide dependency injection for the application's client
-     *                                 object.  If the argument is a WebClient object that object will become the
-     *                                 application's client object, otherwise a default client object is created.
-     * @param   Container  $container  Dependency injection container.
+     * @param   ?Input      $input      An optional argument to provide dependency injection for the application's input
+     *                                  object.  If the argument is a JInput object that object will become the
+     *                                  application's input object, otherwise a default input object is created.
+     * @param   ?Registry   $config     An optional argument to provide dependency injection for the application's config
+     *                                  object.  If the argument is a Registry object that object will become the
+     *                                  application's config object, otherwise a default config object is created.
+     * @param   ?WebClient  $client     An optional argument to provide dependency injection for the application's client
+     *                                  object.  If the argument is a WebClient object that object will become the
+     *                                  application's client object, otherwise a default client object is created.
+     * @param   ?Container  $container  Dependency injection container.
      *
      * @since   3.2
      */
@@ -269,7 +269,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $input->set($systemVariable, null);
         }
 
-        // Abort when there are invalid variables
+        // Stop when there are invalid variables
         if ($invalidInputVariables) {
             throw new \RuntimeException('Invalid input, aborting application.');
         }
@@ -453,9 +453,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * This method must be invoked as: $web = CmsApplication::getInstance();
      *
-     * @param   string     $name       The name (optional) of the CmsApplication class to instantiate.
-     * @param   string     $prefix     The class name prefix of the object.
-     * @param   Container  $container  An optional dependency injection container to inject into the application.
+     * @param   string      $name       The name (optional) of the CmsApplication class to instantiate.
+     * @param   string      $prefix     The class name prefix of the object.
+     * @param   ?Container  $container  An optional dependency injection container to inject into the application.
      *
      * @return  CmsApplication
      *
@@ -712,7 +712,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         // Build our language object
-        $lang = Language::getInstance($this->get('language'), $this->get('debug_lang'));
+        $lang = $this->getContainer()->get(LanguageFactoryInterface::class)->createLanguage($this->get('language'), $this->get('debug_lang'));
 
         // Load the language to the API
         $this->loadLanguage($lang);

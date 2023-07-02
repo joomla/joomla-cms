@@ -17,7 +17,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\UCM\UCMType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -40,7 +40,7 @@ class CategoryFeedView extends HtmlView
     public function display($tpl = null)
     {
         $app      = Factory::getApplication();
-        $document = Factory::getDocument();
+        $document = $this->getDocument();
 
         $extension      = $app->getInput()->getString('option');
         $contentType    = $extension . '.' . $this->viewName;
@@ -86,7 +86,7 @@ class CategoryFeedView extends HtmlView
             // Strip html from feed item title
             if ($titleField) {
                 $title = $this->escape($item->$titleField);
-                $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
+                $title = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
             } else {
                 $title = '';
             }

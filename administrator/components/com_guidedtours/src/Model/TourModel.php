@@ -57,7 +57,7 @@ class TourModel extends AdminModel
      */
     public function save($data)
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Language keys must include GUIDEDTOUR to prevent save issues
         if (strpos($data['description'], 'GUIDEDTOUR') !== false) {

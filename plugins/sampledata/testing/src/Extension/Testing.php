@@ -10,14 +10,12 @@
 
 namespace Joomla\Plugin\SampleData\Testing\Extension;
 
-use Exception;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\Database\DatabaseAwareTrait;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -68,7 +66,7 @@ final class Testing extends CMSPlugin
      */
     public function onSampledataGetOverview()
     {
-        $data              = new stdClass();
+        $data              = new \stdClass();
         $data->name        = $this->_name;
         $data->title       = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_OVERVIEW_TITLE');
         $data->description = $this->getApplication()->getLanguage()->_('PLG_SAMPLEDATA_TESTING_OVERVIEW_DESC');
@@ -123,9 +121,9 @@ final class Testing extends CMSPlugin
             try {
                 if (!$model->save($tag)) {
                     $this->getApplication()->getLanguage()->load('com_tags');
-                    throw new Exception($this->getApplication()->getLanguage()->_($model->getError()));
+                    throw new \Exception($this->getApplication()->getLanguage()->_($model->getError()));
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response            = [];
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 1, $e->getMessage());
@@ -153,9 +151,9 @@ final class Testing extends CMSPlugin
         try {
             if (!$model->save($tag)) {
                 $this->getApplication()->getLanguage()->load('com_tags');
-                throw new Exception($this->getApplication()->getLanguage()->_($model->getError()));
+                throw new \Exception($this->getApplication()->getLanguage()->_($model->getError()));
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 1, $e->getMessage());
@@ -215,7 +213,7 @@ final class Testing extends CMSPlugin
 
         try {
             $catIds = $this->addCategories($categories, 'com_banners', 1);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 2, $e->getMessage());
@@ -262,9 +260,9 @@ final class Testing extends CMSPlugin
             try {
                 if (!$clientModel->save($client)) {
                     $this->getApplication()->getLanguage()->load('com_banners');
-                    throw new Exception($this->getApplication()->getLanguage()->_($clientModel->getError()));
+                    throw new \Exception($this->getApplication()->getLanguage()->_($clientModel->getError()));
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response            = [];
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 2, $e->getMessage());
@@ -321,9 +319,9 @@ final class Testing extends CMSPlugin
             try {
                 if (!$bannerModel->save($banner)) {
                     $this->getApplication()->getLanguage()->load('com_banners');
-                    throw new Exception($this->getApplication()->getLanguage()->_($bannerModel->getError()));
+                    throw new \Exception($this->getApplication()->getLanguage()->_($bannerModel->getError()));
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response            = [];
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 2, $e->getMessage());
@@ -369,7 +367,7 @@ final class Testing extends CMSPlugin
 
         try {
             $catIdsLevel1 = $this->addCategories($categories, 'com_content', 1);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage());
@@ -395,7 +393,7 @@ final class Testing extends CMSPlugin
 
         try {
             $catIdsLevel2 = $this->addCategories($categories, 'com_content', 2);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage());
@@ -436,7 +434,7 @@ final class Testing extends CMSPlugin
 
         try {
             $catIdsLevel3 = $this->addCategories($categories, 'com_content', 3);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage());
@@ -484,7 +482,7 @@ final class Testing extends CMSPlugin
 
         try {
             $catIdsLevel4 = $this->addCategories($categories, 'com_content', 4);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage());
@@ -537,7 +535,7 @@ final class Testing extends CMSPlugin
 
         try {
             $catIdsLevel5 = $this->addCategories($categories, 'com_content', 5);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 3, $e->getMessage());
@@ -949,7 +947,7 @@ final class Testing extends CMSPlugin
 
         try {
             $ids = $this->addArticles($articles);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 4, $e->getMessage());
@@ -1001,7 +999,7 @@ final class Testing extends CMSPlugin
 
         try {
             $catIdsLevel1 = $this->addCategories($categories, 'com_contact', 1);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
@@ -1022,7 +1020,7 @@ final class Testing extends CMSPlugin
 
         try {
             $catIdsLevel2 = $this->addCategories($categories, 'com_contact', 2);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
@@ -1045,7 +1043,7 @@ final class Testing extends CMSPlugin
 
         try {
             $catIdsLevel3 = $this->addCategories($categories, 'com_contact', 3);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
@@ -1066,7 +1064,7 @@ final class Testing extends CMSPlugin
 
         try {
             $catIdsLevel4 = $this->addCategories($categories, 'com_contact', 4);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
@@ -1266,9 +1264,9 @@ final class Testing extends CMSPlugin
             try {
                 if (!$model->save($contact)) {
                     $this->getApplication()->getLanguage()->load('com_contact');
-                    throw new Exception($this->getApplication()->getLanguage()->_($model->getError()));
+                    throw new \Exception($this->getApplication()->getLanguage()->_($model->getError()));
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response            = [];
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
@@ -1329,7 +1327,7 @@ final class Testing extends CMSPlugin
 
         try {
             $catIdsLevel1 = $this->addCategories($categories, 'com_newsfeeds', 1);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, $e->getMessage());
@@ -1387,9 +1385,9 @@ final class Testing extends CMSPlugin
             try {
                 if (!$model->save($newsfeed)) {
                     $this->getApplication()->getLanguage()->load('com_newsfeeds');
-                    throw new Exception($this->getApplication()->getLanguage()->_($model->getError()));
+                    throw new \Exception($this->getApplication()->getLanguage()->_($model->getError()));
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response            = [];
                 $response['success'] = false;
                 $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 6, $e->getMessage());
@@ -1451,7 +1449,7 @@ final class Testing extends CMSPlugin
 
             try {
                 $model->save($menu);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->getApplication()->getLanguage()->load('com_menus');
                 $response            = [];
                 $response['success'] = false;
@@ -2548,7 +2546,7 @@ final class Testing extends CMSPlugin
 
         try {
             $menuIdsLevel1 = $this->addMenuItems($menuItems, 1);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
@@ -2604,7 +2602,7 @@ final class Testing extends CMSPlugin
 
         try {
             $menuIdsLevel1Alias = $this->addMenuItems($menuItems, 1);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
@@ -2706,7 +2704,7 @@ final class Testing extends CMSPlugin
 
         try {
             $menuIdsLevel2 = $this->addMenuItems($menuItems, 2);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
@@ -2742,7 +2740,7 @@ final class Testing extends CMSPlugin
 
         try {
             $menuIdsLevel2Alias = $this->addMenuItems($menuItems, 2);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
@@ -2831,7 +2829,7 @@ final class Testing extends CMSPlugin
 
         try {
             $menuIdsLevel3 = $this->addMenuItems($menuItems, 3);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
@@ -2970,7 +2968,7 @@ final class Testing extends CMSPlugin
 
         try {
             $menuIdsLevel4 = $this->addMenuItems($menuItems, 4);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
@@ -3076,7 +3074,7 @@ final class Testing extends CMSPlugin
 
         try {
             $menuIdsLevel5 = $this->addMenuItems($menuItems, 5);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response            = [];
             $response['success'] = false;
             $response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
@@ -4414,7 +4412,7 @@ final class Testing extends CMSPlugin
      *
      * @return  array  IDs of the inserted categories.
      *
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since  3.8.0
      */
@@ -4453,7 +4451,7 @@ final class Testing extends CMSPlugin
             }
 
             if (!$this->categoryModel->save($category)) {
-                throw new Exception($this->categoryModel->getError());
+                throw new \Exception($this->categoryModel->getError());
             }
 
             // Get ID from category we just added
@@ -4470,7 +4468,7 @@ final class Testing extends CMSPlugin
      *
      * @return  array  IDs of the inserted categories.
      *
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since  3.8.0
      */
@@ -4522,7 +4520,7 @@ final class Testing extends CMSPlugin
 
             if (!$model->save($article)) {
                 $this->getApplication()->getLanguage()->load('com_content');
-                throw new Exception($this->getApplication()->getLanguage()->_($model->getError()));
+                throw new \Exception($this->getApplication()->getLanguage()->_($model->getError()));
             }
 
             // Get ID from category we just added
@@ -4540,7 +4538,7 @@ final class Testing extends CMSPlugin
      *
      * @return  array  IDs of the inserted menuitems.
      *
-     * @throws  Exception
+     * @throws  \Exception
      *
      * @since  3.8.0
      */
@@ -4606,7 +4604,7 @@ final class Testing extends CMSPlugin
                     $menuItem['alias'] = substr_replace($menuItem['alias'], '2', -1);
 
                     if (!$this->menuItemModel->save($menuItem)) {
-                        throw new Exception($menuItem['title'] . ' => ' . $menuItem['alias'] . ' : ' . $this->menuItemModel->getError());
+                        throw new \Exception($menuItem['title'] . ' => ' . $menuItem['alias'] . ' : ' . $this->menuItemModel->getError());
                     }
                 }
             }
