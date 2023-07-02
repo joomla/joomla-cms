@@ -103,7 +103,7 @@ class TufValidation
     {
         $db = Factory::getContainer()->get(DatabaseDriver::class);
 
-        $httpLoader = new HttpLoader("https://raw.githubusercontent.com/joomla/updates/beta-target/repository/");
+        $httpLoader = new HttpLoader($this->params["url_prefix"]);
         $sizeCheckingLoader = new SizeCheckingLoader($httpLoader);
 
         $storage = new DatabaseStorage($db, $this->extensionId);

@@ -65,7 +65,6 @@ class UpdateModel extends BaseDatabaseModel
         // Determine the intended update URL.
         $params = ComponentHelper::getParams('com_joomlaupdate');
 
-        $updateURL = 'https://raw.githubusercontent.com/joomla/updates/test8/repository/';
         if ($params->get('updatesource', 'nochange') == 'custom') {
             $paramsURL = $params->get('customurl', '');
             if (trim($paramsURL) != '') {
