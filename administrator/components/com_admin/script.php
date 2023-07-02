@@ -211,7 +211,7 @@ class JoomlaInstallerScript
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   5.0.0
      */
     protected function uninstallExtensions()
     {
@@ -801,8 +801,6 @@ class JoomlaInstallerScript
             '/plugins/system/webauthn/src/Hotfix/FidoU2FAttestationStatementSupport.php',
             '/plugins/system/webauthn/src/Hotfix/Server.php',
             // From 5.0.0-alpha1 to 5.0.0-alpha2
-            '/administrator/language/en-GB/plg_task_demotasks.ini',
-            '/administrator/language/en-GB/plg_task_demotasks.sys.ini',
             '/libraries/vendor/jfcherng/php-diff/src/languages/readme.txt',
             '/media/com_actionlogs/js/admin-actionlogs-default-es5.js',
             '/media/com_actionlogs/js/admin-actionlogs-default-es5.min.js',
@@ -1260,10 +1258,6 @@ class JoomlaInstallerScript
             '/media/vendor/mediaelement/js/mediaelement-flash-video-mdash.swf',
             '/media/vendor/mediaelement/js/mediaelement-flash-video.swf',
             '/plugins/editors-xtd/pagebreak/pagebreak.php',
-            '/plugins/task/demotasks/demotasks.xml',
-            '/plugins/task/demotasks/forms/testTaskForm.xml',
-            '/plugins/task/demotasks/services/provider.php',
-            '/plugins/task/demotasks/src/Extension/DemoTasks.php',
         ];
 
         $folders = [
@@ -1334,12 +1328,6 @@ class JoomlaInstallerScript
             '/libraries/vendor/beberlei',
             '/administrator/components/com_admin/sql/others/mysql',
             '/administrator/components/com_admin/sql/others',
-            // From 5.0.0-alpha1 to 5.0.0-alpha2
-            '/plugins/task/demotasks/src/Extension',
-            '/plugins/task/demotasks/src',
-            '/plugins/task/demotasks/services',
-            '/plugins/task/demotasks/forms',
-            '/plugins/task/demotasks',
         ];
 
         $status['files_checked']   = $files;

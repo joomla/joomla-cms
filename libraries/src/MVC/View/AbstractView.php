@@ -11,7 +11,6 @@ namespace Joomla\CMS\MVC\View;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\DocumentAwareInterface;
-use Joomla\CMS\Document\DocumentAwareTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\LanguageAwareTrait;
@@ -240,7 +239,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
             }
 
             if (empty($this->_name)) {
-                throw new \Exception(sprintf($this->_('JLIB_APPLICATION_ERROR_GET_NAME'), __METHOD__), 500);
+                throw new \Exception(sprintf($this->text('JLIB_APPLICATION_ERROR_GET_NAME'), __METHOD__), 500);
             }
         }
 
@@ -305,7 +304,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
      *
      * @since   4.4.0
      */
-    protected function _(string $key): string
+    protected function text(string $key): string
     {
         try {
             return $this->getLanguage()->_($key);

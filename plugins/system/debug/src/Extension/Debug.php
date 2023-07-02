@@ -14,8 +14,6 @@ use DebugBar\DataCollector\MemoryCollector;
 use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
-use Exception;
-use JLoader;
 use Joomla\Application\ApplicationEvents;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Document\HtmlDocument;
@@ -212,7 +210,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
 
         // Log deprecated class aliases
         if ($this->showLogs && $this->getApplication()->get('log_deprecated')) {
-            foreach (JLoader::getDeprecatedAliases() as $deprecation) {
+            foreach (\JLoader::getDeprecatedAliases() as $deprecation) {
                 Log::add(
                     sprintf(
                         '%1$s has been aliased to %2$s and the former class name is deprecated. The alias will be removed in %3$s.',
@@ -470,7 +468,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
                 } else {
                     $this->sqlShowProfileEach[0] = [['Error' => 'MySql have_profiling = off']];
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->sqlShowProfileEach[0] = [['Error' => $e->getMessage()]];
             }
         }
@@ -499,7 +497,7 @@ final class Debug extends CMSPlugin implements SubscriberInterface
                         }
 
                         $this->explains[$k] = $db->setQuery($queryInstance)->loadAssocList();
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         $this->explains[$k] = [['error' => $e->getMessage()]];
                     }
                 }

@@ -11,7 +11,6 @@ namespace Joomla\CMS\Workflow;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Object\CMSObject;
-use ReflectionClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -45,7 +44,7 @@ trait WorkflowPluginTrait
         }
 
         // Load XML file from "parent" plugin
-        $path = dirname((new ReflectionClass(static::class))->getFileName());
+        $path = dirname((new \ReflectionClass(static::class))->getFileName());
 
         if (!is_file($path . '/forms/action.xml')) {
             $path = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name;

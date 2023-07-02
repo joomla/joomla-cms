@@ -12,7 +12,6 @@ namespace Joomla\CMS\User;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -182,7 +181,7 @@ class User
      * The type alias
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public $typeAlias = null;
 
@@ -190,7 +189,7 @@ class User
      * The otp key
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public $otpKey = null;
 
@@ -198,7 +197,7 @@ class User
      * The otp
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public $otep = null;
 
@@ -206,7 +205,7 @@ class User
      * The authentication provider
      *
      * @var    string
-     * @since  __DEPLOY_VERSION__
+     * @since  5.0.0
      */
     public $authProvider = null;
 
@@ -257,16 +256,6 @@ class User
     protected static $instances = [];
 
     /**
-     * The access level id
-     *
-     * @var    integer
-     * @since  4.3.0
-     *
-     * @deprecated 4.4.0 will be removed in 6.0 as this property is not used anymore
-     */
-    public $aid = null;
-
-    /**
      * Constructor activating the default information of the language
      *
      * @param   integer  $identifier  The primary key of the user to load (optional).
@@ -285,7 +274,6 @@ class User
             // Initialise
             $this->id        = 0;
             $this->sendEmail = 0;
-            $this->aid       = 0;
             $this->guest     = 1;
         }
     }
@@ -914,7 +902,6 @@ class User
             // Initialise
             $this->id        = 0;
             $this->sendEmail = 0;
-            $this->aid       = 0;
             $this->guest     = 1;
         }
     }
