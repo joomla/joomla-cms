@@ -60,7 +60,7 @@ final class Version
 	 * @var    string
 	 * @since  3.8.0
 	 */
-	const EXTRA_VERSION = 'dev';
+	const EXTRA_VERSION = 'rc1';
 
 	/**
 	 * Release version.
@@ -78,7 +78,7 @@ final class Version
 	 * @since  3.5
 	 * @deprecated  4.0  Use separated version constants instead
 	 */
-	const DEV_LEVEL = '12-dev';
+	const DEV_LEVEL = '12-rc1';
 
 	/**
 	 * Development status.
@@ -86,7 +86,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_STATUS = 'Development';
+	const DEV_STATUS = 'Release Candidate';
 
 	/**
 	 * Build number.
@@ -111,7 +111,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '14-August-2022';
+	const RELDATE = '2-July-2023';
 
 	/**
 	 * Release time.
@@ -119,7 +119,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '14:36';
+	const RELTIME = '15:16';
 
 	/**
 	 * Release timezone.
