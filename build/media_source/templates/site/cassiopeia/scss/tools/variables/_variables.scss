@@ -1,3 +1,5 @@
+$enable-dark-mode: false;
+
 // Global
 $cassiopeia-container-main-bg:        hsl(0, 0%, 95%) !default;
 $cassiopeia-border-color:             hsl(210, 14%, 89%) !default;
@@ -136,8 +138,8 @@ $cassiopeia-colors: (
 ) !default;
 
 // Links
-$link-color:                          var(--cassiopeia-color-link) !default;
-$link-hover-color:                    var(--cassiopeia-color-hover) !default;
+$link-color:                          $standard-color-link !default;
+$link-hover-color:                    $standard-color-hover !default;
 
 // Breadcrumbs
 $breadcrumb-active-color:             $gray-700 !default;

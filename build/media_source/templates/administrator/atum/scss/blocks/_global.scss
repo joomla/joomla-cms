@@ -232,7 +232,7 @@ details {
   border-radius: $border-radius;
 
   summary {
-    color: var(--template-link-color);
+    color: var(--#{$prefix}link-color);
 
     ~ * {
       margin-top: 1rem;

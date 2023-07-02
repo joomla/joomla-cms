@@ -63,7 +63,7 @@ joomla-tab {
           left: 0;
           height: 3px;
           content: "";
-          background-color: var(--template-link-color);
+          background-color: var(--#{$prefix}link-color);
           opacity: .8;
         }
 
@@ -89,7 +89,7 @@ joomla-tab {
     padding: .7rem;
     color: var(--template-text-light);
     text-align: start;
-    background-color: var(--template-link-color);
+    background-color: var(--#{$prefix}link-color);
     border: 1px solid var(--template-text-light);
     border-top: 0;
 

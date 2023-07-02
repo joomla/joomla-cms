@@ -28,7 +28,7 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 		--template-bg-light: ' . $this->params->get('bg-light', '--template-bg-light') . ';
 		--template-text-dark: ' . $this->params->get('text-dark', '--template-text-dark') . ';
 		--template-text-light: ' . $this->params->get('text-light', '--template-text-light') . ';
-		--template-link-color: ' . $this->params->get('link-color', '--template-link-color') . ';
+		--link-color: ' . $this->params->get('link-color', '--link-color') . ';
 		--template-special-color: ' . $this->params->get('special-color', '--template-special-color') . ';
 	}');
 

@@ -1,3 +1,5 @@
+$enable-dark-mode:                 false;
+
 // Variables
 $white:                            #fff;
 $whiteoffset:                      #fefefe;
@@ -57,8 +59,6 @@ $atum-colors: (
   template-bg-light:               #f0f4fb, //light background color, frontend dashboard background
   template-text-light:             $white,
   template-special-color:          $dark-blue,
-  template-link-color:             $light-blue,
-  template-link-hover-color:       darken($light-blue, 20%),
   template-contrast:               $light-blue,
   template-bg-dark:                hsl(var(--hue), 40%, 20%),
   template-bg-dark-3:              hsl(var(--hue), 40%, 97%),
@@ -269,8 +269,8 @@ $grid-gutter-width-s:              15px;
 $breadcrumb-bg:                    var(--white);
 
 // Links
-$link-color:                       var(--template-link-color);
-$link-hover-color:                 var(--template-link-hover-color);
+$link-color:                       $light-blue;
+$link-hover-color:                 darken($light-blue, 20%);
 $link-decoration:                  none;
 
 // Z-Index list

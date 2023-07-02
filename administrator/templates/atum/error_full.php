@@ -63,7 +63,7 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
 			--template-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
 			--template-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
 			--template-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
-			--template-link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
+			--link-color: ' . $this->params->get('link-color', '#2a69b8') . ';
 			--template-special-color: ' . $this->params->get('special-color', '#001B4C') . ';
 		}');
 
