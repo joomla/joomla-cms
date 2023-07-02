@@ -27,6 +27,7 @@ use Joomla\Event\SubscriberInterface;
 final class Recipe extends CMSPlugin implements SubscriberInterface
 {
     use SchemaorgPluginTrait;
+
     /**
      * Load the language file on instantiation.
      *
