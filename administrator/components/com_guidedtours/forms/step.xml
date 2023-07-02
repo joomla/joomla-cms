@@ -195,13 +195,14 @@
 
 		<fieldset name="options">
 
-			<fieldset name="advanced" label="COM_GUIDEDTOURS_FIELD_ADVANCED_LABEL">
+			<fieldset name="advanced" label="COM_GUIDEDTOURS_FIELD_REQUIRED_TARGET_VALUE_LABEL">
 				<field
 						name="required"
-						type="list"
+						type="radio"
 						label="COM_GUIDEDTOURS_TYPE_INPUT_REQUIRED_LABEL"
 						description="COM_GUIDEDTOURS_TYPE_INPUT_REQUIRED_DESC"
 						showon=".type:2[AND].interactive_type:2,5,6"
+						layout="joomla.form.field.radio.switcher"
 						filter="integer"
 						validate="options"
 						default="1"
