@@ -35,7 +35,6 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
-use Joomla\Filter\OutputFilter;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -714,7 +713,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         // Build our language object
         $lang = $this->getContainer()->get(LanguageFactoryInterface::class)->createLanguage($this->get('language'), $this->get('debug_lang'));
-        OutputFilter::setLanguage($lang);
 
         // Load the language to the API
         $this->loadLanguage($lang);
