@@ -28,13 +28,6 @@ use Joomla\Event\SubscriberInterface;
 final class Recipe extends CMSPlugin implements SubscriberInterface
 {
     use SchemaorgPluginTrait;
-
-    /**
-     * @var    \Joomla\Database\DatabaseDriver
-     *
-     */
-    protected $db;
-
     /**
      * Load the language file on instantiation.
      *
@@ -42,14 +35,6 @@ final class Recipe extends CMSPlugin implements SubscriberInterface
      * @since  _DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
-
-    /**
-     * Loads the CMS Application for direct access
-     *
-     * @var   CMSApplicationInterface
-     * @since _DEPLOY_VERSION__
-     */
-    protected $app;
 
     /**
      * The name of the schema form
