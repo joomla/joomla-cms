@@ -11,7 +11,6 @@
 
 namespace Joomla\Plugin\Schemaorg\Blogposting\Extension;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
 use Joomla\Event\SubscriberInterface;

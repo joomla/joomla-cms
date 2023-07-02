@@ -11,7 +11,6 @@
 
 namespace Joomla\Plugin\Schemaorg\Recipe\Extension;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
 use Joomla\Event\SubscriberInterface;
@@ -28,6 +27,7 @@ use Joomla\Event\SubscriberInterface;
 final class Recipe extends CMSPlugin implements SubscriberInterface
 {
     use SchemaorgPluginTrait;
+
     /**
      * Load the language file on instantiation.
      *
