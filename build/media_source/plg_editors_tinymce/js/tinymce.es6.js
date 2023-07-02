@@ -3,10 +3,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// eslint-disable-next-line import/no-unresolved,max-classes-per-file
-import JoomlaEditorDecorator from 'editor-decorator';
 // eslint-disable-next-line import/no-unresolved
-import { JoomlaEditor, JoomlaEditorButton } from 'editor-api';
+import { JoomlaEditor, JoomlaEditorButton, JoomlaEditorDecorator } from 'editor-api';
 
 /* global tinymce */
 

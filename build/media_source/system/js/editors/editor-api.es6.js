@@ -189,4 +189,4 @@ const JoomlaEditorButton = {
   },
 };
 
-export { JoomlaEditor, JoomlaEditorButton };
+export { JoomlaEditor, JoomlaEditorButton, JoomlaEditorDecorator };

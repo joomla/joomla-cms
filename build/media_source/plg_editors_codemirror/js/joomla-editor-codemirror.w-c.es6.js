@@ -3,10 +3,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// eslint-disable-next-line import/no-unresolved,max-classes-per-file
-import JoomlaEditorDecorator from 'editor-decorator';
-// eslint-disable-next-line import/no-unresolved
-import { JoomlaEditor } from 'editor-api';
+// eslint-disable-next-line import/no-unresolved, max-classes-per-file
+import { JoomlaEditor, JoomlaEditorDecorator } from 'editor-api';
 
 /* global CodeMirror */
 

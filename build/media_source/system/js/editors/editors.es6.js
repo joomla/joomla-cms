@@ -4,9 +4,7 @@
  */
 
 // eslint-disable-next-line import/no-unresolved
-import JoomlaEditorDecorator from 'editor-decorator';
-// eslint-disable-next-line import/no-unresolved
-import { JoomlaEditorButton } from 'editor-api';
+import { JoomlaEditorButton, JoomlaEditorDecorator } from 'editor-api';
 
 /* global JoomlaDialog */
 
