@@ -711,7 +711,15 @@ class FieldsHelper
             $allAndConditionsAreMet = true;
 
             foreach ($andConditions as $andCondition) {
-                [$fieldName, $fieldValues] = explode(':', $andCondition);
+                $condition = explode(':', $andCondition);
+
+                // Prevent bad entries
+                if (count($condition) !== 2) {
+                    break;
+                }
+
+                $fieldName   = $condition[0];
+                $fieldValues = $condition[1];
 
                 // The field name can contain ! in the end, 'does not equal'
                 $notEqual = false;
