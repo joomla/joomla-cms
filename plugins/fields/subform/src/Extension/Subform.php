@@ -230,7 +230,6 @@ final class Subform extends FieldsPlugin
             // Done here to make sure all fields have a raw value
 
             foreach ($row_subfields as $key => $subfield) {
-
                 $showOn = $subfield->params->get('showon', '');
 
                 if (empty($showOn)) {
