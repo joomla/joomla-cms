@@ -195,7 +195,7 @@
 
 		<fieldset name="options">
 
-			<fieldset name="advanced" label="COM_GUIDEDTOURS_FIELD_REQUIRED_TARGET_VALUE_LABEL">
+			<fieldset name="requiredvalues" label="COM_GUIDEDTOURS_FIELD_REQUIRED_TARGET_VALUE_LABEL">
 				<field
 						name="required"
 						type="radio"
