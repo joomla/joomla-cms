@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -331,7 +332,7 @@ abstract class Table implements TableInterface, DispatcherAwareInterface
         }
 
         // If a database object was passed in the configuration array use it, otherwise get the global one from Factory.
-        $db = $config['dbo'] ?? Factory::getContainer()->get('DatabaseDriver');
+        $db = $config['dbo'] ?? Factory::getContainer()->get(DatabaseInterface::class);
 
         // Check for a possible service from the container otherwise manually instantiate the class
         if (Factory::getContainer()->has($tableClass)) {
