@@ -889,6 +889,9 @@ CREATE INDEX "#__scheduler_tasks_idx_priority" ON "#__scheduler_tasks" ("priorit
 CREATE INDEX "#__scheduler_tasks_idx_cli_exclusive" ON "#__scheduler_tasks" ("cli_exclusive");
 CREATE INDEX "#__scheduler_tasks_idx_checked_out" ON "#__scheduler_tasks" ("checked_out");
 
+INSERT INTO "test_scheduler_tasks"("asset_id", "title", "type", "execution_rules", "cron_rules", "state", "last_exit_code", "params", "created")
+VALUES (97,'UpdateNotification','update.notification', CONCAT('{"rule-type":"interval-hours","interval-hours":"24","exec-day":"01","exec-time":"', TO_CHAR(CURRENT_TIMESTAMP, 'HH24:00'), '"}'), '"}'), '{"type":"interval","exp":"PT24H"}', 1, 0, '{}', CURRENT_TIMESTAMP);
+
 -- --------------------------------------------------------
 
 --
