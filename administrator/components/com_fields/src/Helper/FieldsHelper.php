@@ -698,7 +698,7 @@ class FieldsHelper
      */
     public static function matchShowon($showOn, $fields)
     {
-        $show = false;
+        $isAMatch = false;
 
         // Separate the conditions if there is a [OR] value
         $orConditions = explode('[OR]', $showOn);
@@ -747,12 +747,12 @@ class FieldsHelper
 
             if ($allAndConditionsAreMet) {
                 // One condition is met, no need to continue looking in [OR]
-                $show = true;
+                $isAMatch = true;
                 break;
             }
         }
 
-        return $show;
+        return $isAMatch;
     }
 
     /**
