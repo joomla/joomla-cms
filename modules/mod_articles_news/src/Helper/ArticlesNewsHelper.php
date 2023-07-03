@@ -134,7 +134,9 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
                 $item->linkText = Text::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
             }
 
-            $item->introtext = HTMLHelper::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
+            if ($params->get('show_introtext', 1)) {
+                $item->introtext = HTMLHelper::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
+            }
 
             // Remove any images belongs to the text
             if (!$params->get('image')) {
