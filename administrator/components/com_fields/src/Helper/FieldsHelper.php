@@ -701,51 +701,46 @@ class FieldsHelper
         $show = false;
 
         // Separate the conditions if there is a [OR] value
-
         $orConditions = explode('[OR]', $showOn);
 
         foreach ($orConditions as $orCondition) {
-
             // Separate all [AND] conditions
-
             $andConditions = explode('[AND]', $orCondition);
 
             // All AND conditions must be met for the field to show
-
             $allAndConditionsAreMet = true;
 
             foreach ($andConditions as $andCondition) {
                 [$fieldName, $fieldValues] = explode(':', $andCondition);
 
                 // The field name can contain ! in the end, 'does not equal'
-
                 $notEqual = false;
                 if (strpos($fieldName, '!') !== false) {
                     $fieldName = rtrim($fieldName, '!');
                     $notEqual  = true;
                 }
+
+                // Check if a match can be found between values set and the showon condition
                 $foundMatch = self::matchFieldValues($fieldName, explode(',', $fieldValues), $fields);
 
                 if (!$notEqual) {
-
                     // The possible values to have
                     // field:3,7 => we can have a value of 3 or 7
 
                     if (!$foundMatch) {
+                        // Did not find a value the field should, no need to continue looking in the [AND]
                         $allAndConditionsAreMet = false;
                         break;
-                        // Did not find a value the field should, no need to continue looking in the [AND]
                     }
                 } else {
-
                     // The possible values NOT to have
                     // field!:3,7 => we cannot have a value of 3 nor a value of 7
                     // field!:    => we cannot have an empty value
 
                     if ($foundMatch) {
+                        // Found a value the field should not have, no need to continue looking in the [AND]
                         $allAndConditionsAreMet = false;
                         break;
-                        // Found a value the field should not have, no need to continue looking in the [AND]
                     }
                 }
             }
