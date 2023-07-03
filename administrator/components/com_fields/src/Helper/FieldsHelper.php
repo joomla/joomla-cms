@@ -715,7 +715,6 @@ class FieldsHelper
             $allAndConditionsAreMet = true;
 
             foreach ($andConditions as $andCondition) {
-
                 [$fieldName, $fieldValues] = explode(':', $andCondition);
 
                 // The field name can contain ! in the end, 'does not equal'
@@ -723,8 +722,7 @@ class FieldsHelper
                 $notEqual = false;
                 if (strpos($fieldName, '!') !== false) {
                     $fieldName = rtrim($fieldName, '!');
-                    $notEqual = true;
-
+                    $notEqual  = true;
                 }
                 $foundMatch = self::matchFieldValues($fieldName, explode(',', $fieldValues), $fields);
 
