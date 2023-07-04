@@ -291,10 +291,7 @@ class FtpClient
     {
         $errno = null;
         $err   = null;
-
-// var_dump($this->_conn);
-// die("dfg");
-
+        
         // If already connected, return
         if ($this->_conn) {
             return true;
