@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="system" method="upgrade">
-	<name>plg_system_combat</name>
+	<name>plg_system_compat</name>
 	<author>Joomla! Project</author>
 	<creationDate>2023-03</creationDate>
 	<copyright>(C) 2023 Open Source Matters, Inc.</copyright>
