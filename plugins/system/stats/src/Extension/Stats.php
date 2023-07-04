@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\Stats\Extension;
 
-use Exception;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Layout\FileLayout;
@@ -18,8 +17,6 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseAwareTrait;
-use RuntimeException;
-use UnexpectedValueException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -143,19 +140,19 @@ final class Stats extends CMSPlugin
      *
      * @since   3.5
      *
-     * @throws  Exception         If user is not allowed.
-     * @throws  RuntimeException  If there is an error saving the params or sending the data.
+     * @throws  \Exception         If user is not allowed.
+     * @throws  \RuntimeException  If there is an error saving the params or sending the data.
      */
     public function onAjaxSendAlways()
     {
         if (!$this->isAllowedUser() || !$this->isAjaxRequest()) {
-            throw new Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
+            throw new \Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
         }
 
         $this->params->set('mode', static::MODE_ALLOW_ALWAYS);
 
         if (!$this->saveParams()) {
-            throw new RuntimeException('Unable to save plugin settings', 500);
+            throw new \RuntimeException('Unable to save plugin settings', 500);
         }
 
         echo json_encode(['sent' => (int) $this->sendStats()]);
@@ -168,23 +165,23 @@ final class Stats extends CMSPlugin
      *
      * @since   3.5
      *
-     * @throws  Exception         If user is not allowed.
-     * @throws  RuntimeException  If there is an error saving the params.
+     * @throws  \Exception         If user is not allowed.
+     * @throws  \RuntimeException  If there is an error saving the params.
      */
     public function onAjaxSendNever()
     {
         if (!$this->isAllowedUser() || !$this->isAjaxRequest()) {
-            throw new Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
+            throw new \Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
         }
 
         $this->params->set('mode', static::MODE_ALLOW_NEVER);
 
         if (!$this->saveParams()) {
-            throw new RuntimeException('Unable to save plugin settings', 500);
+            throw new \RuntimeException('Unable to save plugin settings', 500);
         }
 
         if (!$this->disablePlugin()) {
-            throw new RuntimeException('Unable to disable the statistics plugin', 500);
+            throw new \RuntimeException('Unable to disable the statistics plugin', 500);
         }
 
         echo json_encode(['sent' => 0]);
@@ -198,13 +195,13 @@ final class Stats extends CMSPlugin
      *
      * @since   3.5
      *
-     * @throws  Exception         If user is not allowed.
-     * @throws  RuntimeException  If there is an error saving the params, disabling the plugin or sending the data.
+     * @throws  \Exception         If user is not allowed.
+     * @throws  \RuntimeException  If there is an error saving the params, disabling the plugin or sending the data.
      */
     public function onAjaxSendStats()
     {
         if (!$this->isAllowedUser() || !$this->isAjaxRequest()) {
-            throw new Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
+            throw new \Exception($this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
         }
 
         // User has not selected the mode. Show message.
@@ -220,7 +217,7 @@ final class Stats extends CMSPlugin
         }
 
         if (!$this->saveParams()) {
-            throw new RuntimeException('Unable to save plugin settings', 500);
+            throw new \RuntimeException('Unable to save plugin settings', 500);
         }
 
         echo json_encode(['sent' => (int) $this->sendStats()]);
@@ -457,7 +454,7 @@ final class Stats extends CMSPlugin
         try {
             // Lock the tables to prevent multiple plugin executions causing a race condition
             $db->lockTable('#__extensions');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // If we can't lock the tables it's too risky to continue execution
             return false;
         }
@@ -467,7 +464,7 @@ final class Stats extends CMSPlugin
             $result = $db->setQuery($query)->execute();
 
             $this->clearCacheGroups(['com_plugins']);
-        } catch (Exception $exc) {
+        } catch (\Exception $exc) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
@@ -476,7 +473,7 @@ final class Stats extends CMSPlugin
         try {
             // Unlock the tables after writing
             $db->unlockTables();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }
@@ -491,7 +488,7 @@ final class Stats extends CMSPlugin
      *
      * @since   3.5
      *
-     * @throws  RuntimeException  If there is an error sending the data and debug mode enabled.
+     * @throws  \RuntimeException  If there is an error sending the data and debug mode enabled.
      */
     private function sendStats()
     {
@@ -508,13 +505,13 @@ final class Stats extends CMSPlugin
 
                 $error = 'Could not send site statistics to remote server: ' . $data->message;
             }
-        } catch (UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException $e) {
             // There was an error sending stats. Should we do anything?
             $error = 'Could not send site statistics to remote server: ' . $e->getMessage();
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             // There was an error connecting to the server or in the post request
             $error = 'Could not connect to statistics server: ' . $e->getMessage();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // An unexpected error in processing; don't let this failure kill the site
             $error = 'Unexpected error connecting to statistics server: ' . $e->getMessage();
         }
@@ -525,7 +522,7 @@ final class Stats extends CMSPlugin
 
             // If Stats debug mode enabled, or Global Debug mode enabled, show error to the user.
             if ($this->isDebugEnabled() || $this->getApplication()->get('debug')) {
-                throw new RuntimeException($error, 500);
+                throw new \RuntimeException($error, 500);
             }
 
             return false;
@@ -554,7 +551,7 @@ final class Stats extends CMSPlugin
 
                 $cache = Cache::getInstance('callback', $options);
                 $cache->clean();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // Ignore it
             }
         }
@@ -582,7 +579,7 @@ final class Stats extends CMSPlugin
         try {
             // Lock the tables to prevent multiple plugin executions causing a race condition
             $db->lockTable('#__extensions');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // If we can't lock the tables it's too risky to continue execution
             return false;
         }
@@ -592,7 +589,7 @@ final class Stats extends CMSPlugin
             $result = $db->setQuery($query)->execute();
 
             $this->clearCacheGroups(['com_plugins']);
-        } catch (Exception $exc) {
+        } catch (\Exception $exc) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
@@ -601,7 +598,7 @@ final class Stats extends CMSPlugin
         try {
             // Unlock the tables after writing
             $db->unlockTables();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }

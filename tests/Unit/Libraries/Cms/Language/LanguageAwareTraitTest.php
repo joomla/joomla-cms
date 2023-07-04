@@ -13,14 +13,13 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Language;
 use Joomla\CMS\Language\LanguageAwareTrait;
 use Joomla\CMS\Language\Language;
 use Joomla\Tests\Unit\UnitTestCase;
-use UnexpectedValueException;
 
 /**
  * Test class for \Joomla\CMS\Language\LanguageAwareTrait
  *
  * @package     Joomla.UnitTest
  * @subpackage  MVC
- * @since       __DEPLOY_VERSION__
+ * @since       4.4.0
  */
 class LanguageAwareTraitTest extends UnitTestCase
 {
@@ -29,7 +28,7 @@ class LanguageAwareTraitTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function testGetSetLanguage()
     {
@@ -53,11 +52,11 @@ class LanguageAwareTraitTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function testGetLanguageThrowsException()
     {
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
 
         $trait = new class () {
             use LanguageAwareTrait;

@@ -8,7 +8,8 @@
     {
       "name": "com_config.config.es5",
       "type": "script",
-      "uri": "com_config/config-default-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -22,7 +23,7 @@
       "type": "script",
       "uri": "com_config/config-default.min.js",
       "dependencies": [
-        "com_config.config.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -31,7 +32,8 @@
     {
       "name": "com_config.modules.es5",
       "type": "script",
-      "uri": "com_config/modules-default-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -45,7 +47,7 @@
       "type": "script",
       "uri": "com_config/modules-default.min.js",
       "dependencies": [
-        "com_config.modules.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -54,7 +56,8 @@
     {
       "name": "com_config.templates.es5",
       "type": "script",
-      "uri": "com_config/templates-default-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -68,7 +71,7 @@
       "type": "script",
       "uri": "com_config/templates-default.min.js",
       "dependencies": [
-        "com_config.templates.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -77,7 +80,8 @@
     {
       "name": "com_config.filters.es5",
       "type": "script",
-      "uri": "com_config/config-filters-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -91,7 +95,7 @@
       "type": "script",
       "uri": "com_config/config-filters.min.js",
       "dependencies": [
-        "com_config.filters.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

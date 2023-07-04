@@ -33,9 +33,8 @@ return new class () implements ServiceProviderInterface {
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
                 $plugin     = new FolderInstaller(
-                    $dispatcher,
+                    $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('installer', 'folderinstaller')
                 );
                 $plugin->setApplication(Factory::getApplication());

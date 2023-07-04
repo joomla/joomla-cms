@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Console;
 
-use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\LanguageAwareTrait;
@@ -24,7 +23,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use UnexpectedValueException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -247,7 +245,7 @@ EOF;
 
         try {
             $language = $this->getLanguage();
-        } catch (UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException $e) {
             @trigger_error(sprintf('Language must be set in 6.0 in %s', __METHOD__), E_USER_DEPRECATED);
             $language = Factory::getLanguage();
         }
@@ -329,7 +327,7 @@ EOF;
         // Attempt to purge the index.
         $return = $model->purge();
 
-        // If unsuccessful then abort.
+        // If unsuccessful then stop.
         if (!$return) {
             $message = Text::_('FINDER_CLI_INDEX_PURGE_FAILED', $model->getError());
             $this->ioStyle->error($message);
@@ -437,7 +435,7 @@ EOF;
                     // End of Pausing Section
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Display the error
             $this->ioStyle->error($e->getMessage());
 

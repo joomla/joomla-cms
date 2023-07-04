@@ -15,7 +15,6 @@ use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\User\User;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -46,7 +45,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  CMSObject
+     * @var  \Joomla\Registry\Registry
      */
     protected $state;
 

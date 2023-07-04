@@ -15,14 +15,13 @@ use Joomla\CMS\Mail\MailerFactoryInterface;
 use Joomla\CMS\Mail\MailerInterface;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
-use UnexpectedValueException;
 
 /**
  * Test class for \Joomla\CMS\Mail\MailerFactoryAwareTrait
  *
  * @package     Joomla.UnitTest
  * @subpackage  Mail
- * @since       __DEPLOY_VERSION__
+ * @since       4.4.0
  */
 class MailerFactoryAwareTraitTest extends UnitTestCase
 {
@@ -31,7 +30,7 @@ class MailerFactoryAwareTraitTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function testGetSetMailerFactory()
     {
@@ -97,11 +96,11 @@ class MailerFactoryAwareTraitTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function testGetMailerFactoryThrowsException()
     {
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(\UnexpectedValueException::class);
 
         $trait = new class () {
             use MailerFactoryAwareTrait;

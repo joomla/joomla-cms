@@ -12,11 +12,11 @@ namespace Joomla\CMS\MVC\View;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -368,8 +368,13 @@ class HtmlView extends AbstractView implements CurrentUserInterface
         $file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
         $tpl  = isset($tpl) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
 
-        // Load the language file for the template
-        $lang = $this->getLanguage();
+        try {
+            // Load the language file for the template
+            $lang = $this->getLanguage();
+        } catch (\UnexpectedValueException $e) {
+            $lang = Factory::getApplication()->getLanguage();
+        }
+
         $lang->load('tpl_' . $template->template, JPATH_BASE)
             || $lang->load('tpl_' . $template->parent, JPATH_THEMES . '/' . $template->parent)
             || $lang->load('tpl_' . $template->template, JPATH_THEMES . '/' . $template->template);

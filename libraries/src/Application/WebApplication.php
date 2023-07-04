@@ -19,6 +19,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Version;
+use Joomla\Filter\OutputFilter;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 use Psr\Http\Message\ResponseInterface;
@@ -82,19 +83,19 @@ abstract class WebApplication extends AbstractWebApplication
     /**
      * Class constructor.
      *
-     * @param   Input              $input     An optional argument to provide dependency injection for the application's
-     *                                        input object.  If the argument is a JInput object that object will become
-     *                                        the application's input object, otherwise a default input object is created.
-     * @param   Registry           $config    An optional argument to provide dependency injection for the application's
-     *                                        config object.  If the argument is a Registry object that object will become
-     *                                        the application's config object, otherwise a default config object is created.
-     * @param   WebClient          $client    An optional argument to provide dependency injection for the application's
-     *                                        client object.  If the argument is a WebClient object that object will become
-     *                                        the application's client object, otherwise a default client object is created.
-     * @param   ResponseInterface  $response  An optional argument to provide dependency injection for the application's
-     *                                        response object.  If the argument is a ResponseInterface object that object
-     *                                        will become the application's response object, otherwise a default response
-     *                                        object is created.
+     * @param   ?Input              $input     An optional argument to provide dependency injection for the application's
+     *                                         input object.  If the argument is a JInput object that object will become
+     *                                         the application's input object, otherwise a default input object is created.
+     * @param   ?Registry           $config    An optional argument to provide dependency injection for the application's
+     *                                         config object.  If the argument is a Registry object that object will become
+     *                                         the application's config object, otherwise a default config object is created.
+     * @param   ?WebClient          $client    An optional argument to provide dependency injection for the application's
+     *                                         client object.  If the argument is a WebClient object that object will become
+     *                                         the application's client object, otherwise a default client object is created.
+     * @param   ?ResponseInterface  $response  An optional argument to provide dependency injection for the application's
+     *                                         response object.  If the argument is a ResponseInterface object that object
+     *                                         will become the application's response object, otherwise a default response
+     *                                         object is created.
      *
      * @since   1.7.3
      */
@@ -267,7 +268,7 @@ abstract class WebApplication extends AbstractWebApplication
      * but for many applications it will make sense to override this method and create a document,
      * if required, based on more specific needs.
      *
-     * @param   Document  $document  An optional document object. If omitted, the factory document is created.
+     * @param   ?Document  $document  An optional document object. If omitted, the factory document is created.
      *
      * @return  WebApplication This method is chainable.
      *
@@ -287,7 +288,7 @@ abstract class WebApplication extends AbstractWebApplication
      * but for many applications it will make sense to override this method and create a language,
      * if required, based on more specific needs.
      *
-     * @param   Language  $language  An optional language object. If omitted, the factory language is created.
+     * @param   ?Language  $language  An optional language object. If omitted, the factory language is created.
      *
      * @return  WebApplication This method is chainable.
      *
@@ -296,6 +297,7 @@ abstract class WebApplication extends AbstractWebApplication
     public function loadLanguage(Language $language = null)
     {
         $this->language = $language ?? Factory::getLanguage();
+        OutputFilter::setLanguage($language);
 
         return $this;
     }
@@ -307,7 +309,7 @@ abstract class WebApplication extends AbstractWebApplication
      * but for many applications it will make sense to override this method and create a session,
      * if required, based on more specific needs.
      *
-     * @param   Session  $session  An optional session object. If omitted, the session is created.
+     * @param   ?Session  $session  An optional session object. If omitted, the session is created.
      *
      * @return  WebApplication This method is chainable.
      *

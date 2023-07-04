@@ -11,7 +11,6 @@
 namespace Joomla\Component\Fields\Administrator\View\Group;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -20,6 +19,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -47,7 +47,7 @@ class HtmlView extends BaseHtmlView
     protected $item;
 
     /**
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      *
      * @since  3.7.0
      */

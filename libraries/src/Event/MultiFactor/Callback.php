@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Event\MultiFactor;
 
-use DomainException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -41,13 +40,13 @@ class Callback extends AbstractImmutableEvent
      * @param   string|null  $value  The value to validate
      *
      * @return  string
-     * @throws  DomainException
+     * @throws  \DomainException
      * @since   4.2.0
      */
     public function setMethod(string $value): string
     {
         if (empty($value)) {
-            throw new DomainException(sprintf("Argument 'method' of event %s must be a non-empty string.", $this->name));
+            throw new \DomainException(sprintf("Argument 'method' of event %s must be a non-empty string.", $this->name));
         }
 
         return $value;

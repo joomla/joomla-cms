@@ -35,6 +35,10 @@ if (!defined('JPATH_ROOT')) {
     define('JPATH_ROOT', JPATH_BASE);
 }
 
+if (!defined('JPATH_PUBLIC')) {
+    define('JPATH_PUBLIC', JPATH_ROOT);
+}
+
 /**
  * @deprecated 4.4.0 will be removed in 6.0
  **/
