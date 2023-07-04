@@ -11,10 +11,8 @@
 
 namespace Joomla\Plugin\Schemaorg\Recipe\Extension;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
-use Joomla\Registry\Registry;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -31,26 +29,12 @@ final class Recipe extends CMSPlugin implements SubscriberInterface
     use SchemaorgPluginTrait;
 
     /**
-     * @var    \Joomla\Database\DatabaseDriver
-     *
-     */
-    protected $db;
-
-    /**
      * Load the language file on instantiation.
      *
      * @var    boolean
      * @since  _DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
-
-    /**
-     * Loads the CMS Application for direct access
-     *
-     * @var   CMSApplicationInterface
-     * @since _DEPLOY_VERSION__
-     */
-    protected $app;
 
     /**
      * The name of the schema form
@@ -63,23 +47,17 @@ final class Recipe extends CMSPlugin implements SubscriberInterface
     /**
      *  To add plugin specific functions
      *
-     *  @param   Registry $schema Schema form
+     *  @param   array $schema Schema form
      *
-     *  @return  Registry $schema Updated schema form
+     *  @return  array Updated schema form
      */
-    public function cleanupIndividualSchema(Registry $schema)
+    public function customCleanup(array $schema)
     {
-        if (is_object($schema)) {
-            $schema = $this->normalizeDurationsToISO($schema, ['cookTime', 'prepTime']);
-        }
+        $schema = $this->normalizeDurationsToISO($schema, ['cookTime', 'prepTime']);
 
-        if (is_object($schema)) {
-            $schema = $this->convertToArray($schema, ['recipeIngredient']);
-        }
+        $schema = $this->convertToArray($schema, ['recipeIngredient']);
 
-        if (is_object($schema)) {
-            $schema = $this->cleanupDate($schema, ['datePublished']);
-        }
+        $schema = $this->cleanupDate($schema, ['datePublished']);
 
         return $schema;
     }

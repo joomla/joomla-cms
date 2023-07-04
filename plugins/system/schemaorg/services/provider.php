@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
@@ -34,11 +35,14 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $dispatcher = $container->get(DispatcherInterface::class);
-                $plugin     = new Schemaorg(
+
+                $plugin = new Schemaorg(
                     $dispatcher,
                     (array) PluginHelper::getPlugin('system', 'schemaorg')
                 );
+
                 $plugin->setApplication(Factory::getApplication());
+                $plugin->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
 
                 return $plugin;
             }

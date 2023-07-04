@@ -18,4 +18,59 @@
 		<language tag="en-GB">language/en-GB/plg_system_schemaorg.ini</language>
 		<language tag="en-GB">language/en-GB/plg_system_schemaorg.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="baseType"
+					type="list"
+					label="PLG_SYSTEM_SCHEMAORG_BASETYPE_LABEL"
+					description="PLG_SYSTEM_SCHEMAORG_BASETYPE_DESCRIPTION"
+					validate="options"
+					required="true"
+				>
+					<option value="organization">PLG_SYSTEM_SCHEMAORG_BASETYPE_OPTION_ORGANIZATION</option>
+					<option value="person">PLG_SYSTEM_SCHEMAORG_BASETYPE_OPTION_PERSON</option>
+				</field>
+
+				<field
+					name="user"
+					type="user"
+					label="PLG_SYSTEM_SCHEMAORG_USER_LABEL"
+					showon="baseType:person"
+					default="0"
+				/>
+
+				<field
+					name="name"
+					type="text"
+					label="PLG_SYSTEM_SCHEMAORG_NAME_LABEL"
+					showon="baseType:organization[OR]user:0"
+				/>
+
+				<field
+					name="image"
+					type="media"
+					label="PLG_SYSTEM_SCHEMAORG_IMAGE_LABEL"
+				/>
+				<field
+					name="socialmedia"
+					type="subform"
+					label="PLG_SYSTEM_SCHEMAORG_SOCIALMEDIA_LABEL"
+					multiple="true"
+				>
+					<form>
+						<field
+							name="url"
+							type="url"
+							required="true"
+							label="PLG_SYSTEM_SCHEMAORG_SOCIALMEDIA_URL_LABEL"
+							hint="https://"
+							validate="url"
+						/>
+					</form>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
 </extension>
