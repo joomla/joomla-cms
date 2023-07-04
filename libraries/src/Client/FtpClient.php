@@ -208,7 +208,7 @@ class FtpClient
      */
     public function __destruct()
     {
-        if (\is_resource($this->_conn)) {
+        if ($this->_conn) {
             $this->quit();
         }
     }
@@ -292,8 +292,11 @@ class FtpClient
         $errno = null;
         $err   = null;
 
+// var_dump($this->_conn);
+// die("dfg");
+
         // If already connected, return
-        if (\is_resource($this->_conn)) {
+        if ($this->_conn) {
             return true;
         }
 
@@ -323,7 +326,7 @@ class FtpClient
         }
 
         // Set the timeout for this connection
-        socket_set_timeout($this->_conn, $this->_timeout, 0);
+        stream_set_timeout($this->_conn, $this->_timeout, 0);
 
         // Check for welcome response code
         if (!$this->_verifyResponse(220)) {
@@ -344,7 +347,7 @@ class FtpClient
      */
     public function isConnected()
     {
-        return \is_resource($this->_conn);
+        return ($this->_conn);
     }
 
     /**
@@ -1580,7 +1583,7 @@ class FtpClient
     protected function _putCmd($cmd, $expectedResponse)
     {
         // Make sure we have a connection to the server
-        if (!\is_resource($this->_conn)) {
+        if ($this->_conn === false) {
             Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_PUTCMD_UNCONNECTED', __METHOD__), Log::WARNING, 'jerror');
 
             return false;
@@ -1659,7 +1662,7 @@ class FtpClient
         $err   = null;
 
         // Make sure we have a connection to the server
-        if (!\is_resource($this->_conn)) {
+        if ($this->_conn === false) {
             Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_NO_CONNECT', __METHOD__), Log::WARNING, 'jerror');
 
             return false;
@@ -1718,7 +1721,7 @@ class FtpClient
         }
 
         // Set the timeout for this connection
-        socket_set_timeout($this->_conn, $this->_timeout, 0);
+        stream_set_timeout($this->_conn, $this->_timeout, 0);
 
         return true;
     }
