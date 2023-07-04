@@ -346,7 +346,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
         }
 
         // Verify that the alias is unique
-        $table = Table::getInstance('Content', 'JTable', ['dbo' => $this->getDbo()]);
+        $table = Table::getInstance('Content', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
 
         if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
             // Is the existing article trashed?

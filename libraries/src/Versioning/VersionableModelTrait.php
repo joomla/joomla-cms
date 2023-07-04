@@ -42,7 +42,7 @@ trait VersionableModelTrait
         }
 
         // Get an instance of the row to checkout.
-        $historyTable = Table::getInstance('Contenthistory');
+        $historyTable = Table::getInstance('ContentHistory');
 
         if (!$historyTable->load($versionId)) {
             $this->setError($historyTable->getError());

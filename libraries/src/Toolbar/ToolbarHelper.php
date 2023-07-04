@@ -675,7 +675,7 @@ abstract class ToolbarHelper
         $lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 
         /** @var \Joomla\CMS\Table\ContentType $contentTypeTable */
-        $contentTypeTable = Table::getInstance('Contenttype');
+        $contentTypeTable = Table::getInstance('ContentType', '\\Joomla\\CMS\\Table\\');
         $typeId           = $contentTypeTable->getTypeId($typeAlias);
 
         // Options array for Layout
