@@ -65,10 +65,8 @@
 								filter="string"
 								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_VALUE_LABEL"
 							/>
-
 						</form>
 					</field>
-
 					<field
 						name="datePosted"
 						type="calendar"
@@ -121,6 +119,7 @@
 								<option value="text">PLG_SCHEMAORG_JOBPOSTING_FIELD_TEXT_LABEL</option>
 								<option value="date">PLG_SCHEMAORG_JOBPOSTING_FIELD_DATE_LABEL</option>
 							</field>
+
 							<field
 								name="jobStartDate"
 								type="calendar"
@@ -132,6 +131,7 @@
 								format="%Y-%m-%d"
 								showon="@type:date"
 							/>
+
 							<field
 								name="text"
 								type="text"
@@ -196,7 +196,6 @@
 
 								</form>
 							</field>
-
 							<field
 								name="email"
 								type="email"
@@ -327,6 +326,7 @@
 								<option value="MonetaryAmount">PLG_SCHEMAORG_JOBPOSTING_FIELD_MONETARYAMOUNT_LABEL</option>
 								<option value="Number">PLG_SCHEMAORG_JOBPOSTING_FIELD_NUMBER_LABEL</option>
 							</field>
+
 							<field
 								name="number"
 								type="text"
@@ -334,6 +334,7 @@
 								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_VALUE_LABEL"
 								showon="@type:Number"
 							/>
+							
 							<field
 								name="currency"
 								type="text"
