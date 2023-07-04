@@ -10,17 +10,17 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Html;
 
-use JHtmlString;
+use Joomla\CMS\HTML\Helpers\StringHelper as HtmlString;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
- * Tests for JHtmlString.
+ * Tests for HtmlString.
  *
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  * @since       3.1
  */
-class JHtmlStringTest extends UnitTestCase
+class HtmlStringTest extends UnitTestCase
 {
     /**
      * Test cases for truncate.
@@ -417,7 +417,7 @@ class JHtmlStringTest extends UnitTestCase
     }
 
     /**
-     * Tests the JHtmlString::abridge method.
+     * Tests the HtmlString::abridge method.
      *
      * @param   string   $text      The text to truncate.
      * @param   integer  $length    The maximum length of the text.
@@ -431,11 +431,11 @@ class JHtmlStringTest extends UnitTestCase
      */
     public function testAbridge($text, $length, $intro, $expected)
     {
-        $this->assertEquals($expected, \JHtmlString::abridge($text, $length, $intro));
+        $this->assertEquals($expected, HtmlString::abridge($text, $length, $intro));
     }
 
     /**
-     * Tests the JHtmlString::truncate method.
+     * Tests the HtmlString::truncate method.
      *
      * @param   string   $text         The text to truncate.
      * @param   integer  $length       The maximum length of the text.
@@ -450,11 +450,11 @@ class JHtmlStringTest extends UnitTestCase
      */
     public function testTruncate($text, $length, $noSplit, $allowedHtml, $expected)
     {
-        $this->assertEquals($expected, \JHtmlString::truncate($text, $length, $noSplit, $allowedHtml));
+        $this->assertEquals($expected, HtmlString::truncate($text, $length, $noSplit, $allowedHtml));
     }
 
     /**
-     * Tests the JHtmlString::truncateComplex method.
+     * Tests the HtmlString::truncateComplex method.
      *
      * @param   string   $html       The text to truncate.
      * @param   integer  $maxLength  The maximum length of the text.
@@ -468,6 +468,6 @@ class JHtmlStringTest extends UnitTestCase
      */
     public function testTruncateComplex($html, $maxLength, $noSplit, $expected)
     {
-        $this->assertEquals($expected, \JHtmlString::truncateComplex($html, $maxLength, $noSplit));
+        $this->assertEquals($expected, HtmlString::truncateComplex($html, $maxLength, $noSplit));
     }
 }
