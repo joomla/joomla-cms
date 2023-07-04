@@ -19,6 +19,13 @@
 					/>
 
 					<field
+						name="noteJobPost"
+						type="note"
+						description="PLG_SCHEMAORG_JOBPOSTING_DESCRIPTION_LABEL"
+						class="alert alert-info w-100"
+					/>
+
+					<field
 						name="title"
 						type="text"
 						filter="string"
@@ -85,12 +92,56 @@
 					/>
 
 					<field
+						name="jobLocationType"
+						type="text"
+						filter="string"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBLOCATIONTYPE_LABEL"
+					/>
+
+					<field
 						name="employmentType"
 						type="text"
 						filter="string"
 						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_EMPLOYMENTTYPE_LABEL"
 					/>
 
+					<field
+						name="jobStartDate"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBSTARTDATE_LABEL"
+						type="subform"
+					>
+						<form>
+
+							<field
+								name="@type"
+								type="list"
+								label="Type"
+								default="text"
+							>
+								<option value="text">PLG_SCHEMAORG_JOBPOSTING_FIELD_TEXT_LABEL</option>
+								<option value="date">PLG_SCHEMAORG_JOBPOSTING_FIELD_DATE_LABEL</option>
+							</field>
+							<field
+								name="jobStartDate"
+								type="calendar"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBSTARTDATE_DATE_LABEL"
+								class="input-small"
+								filter="user_utc"
+								showtime="false"
+								todaybutton="true"
+								format="%Y-%m-%d"
+								showon="@type:date"
+							/>
+							<field
+								name="text"
+								type="text"
+								filter="string"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBSTARTDATE_TEXT_LABEL"
+								default="ASAP"
+								showon="@type:text"
+							/>
+						</form>
+					</field>
 					<field
 						name="hiringOrganization"
 						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_HIRINGORGANIZATION_LABEL"
@@ -100,9 +151,13 @@
 
 							<field
 								name="@type"
-								type="hidden"
-								default="Organization"
-							/>
+								type="list"
+								label="Type"
+								default="organization"
+							>
+								<option value="person">PLG_SCHEMAORG_JOBPOSTING_FIELD_PERSON_LABEL</option>
+								<option value="organization">PLG_SCHEMAORG_JOBPOSTING_FIELD_ORGANIZATION_LABEL</option>
+							</field>
 
 							<field
 								name="name"
@@ -112,18 +167,76 @@
 							/>
 
 							<field
-								name="sameAs"
-								type="text"
-								filter="string"
-								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_SAMEAS_LABEL"
+								name="url"
+								type="url"
+								filter="url"
+								validate="url"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_URL_LABEL"
 							/>
 
 							<field
-								name="image"
-								type="media"
-								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_IMAGE_LABEL"
+								name="logo"
+								type="subform"
+								label="logo"
+								showon="@type:organization"
+							>
+								<form>
+
+									<field
+										name="@type"
+										type="hidden"
+										default="ImageObject"
+									/>
+
+									<field
+										name="url"
+										type="media"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_URL_LABEL"
+									/>
+
+								</form>
+							</field>
+
+							<field
+								name="email"
+								type="email"
+								validate="email"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_EMAIL_LABEL"
 							/>
 
+							<field
+								name="address"
+								type="subform"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESS_LABEL"
+							>
+								<form>
+
+									<field
+										name="@type"
+										type="hidden"
+										default="PostalAddress"
+									/>
+
+									<field
+										name="addressLocality"
+										type="text"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_LOCALITY_LABEL"
+									/>
+
+									<field
+										name="postalCode"
+										type="text"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_POSTAL_CODE_LABEL"
+									/>
+
+									<field
+										name="streetAddress"
+										type="text"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_STREET_ADDRESS_LABEL"
+									/>
+
+								</form>
+							</field>
 						</form>
 					</field>
 
@@ -157,40 +270,47 @@
 										name="streetAddress"
 										type="text"
 										filter="string"
-										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_STREETADDRESS_LABEL"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_STREET_ADDRESS_LABEL"
 									/>
 
 									<field
 										name="addressLocality"
 										type="text"
 										filter="string"
-										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESSLOCALITY_LABEL"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_LOCALITY_LABEL"
 									/>
 
 									<field
 										name="addressRegion"
 										type="text"
 										filter="string"
-										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESSREGION_LABEL"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESS_REGION_LABEL"
 									/>
 
 									<field
 										name="postalCode"
 										type="text"
 										filter="string"
-										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_POSTALCODE_LABEL"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_POSTAL_CODE_LABEL"
 									/>
 
 									<field
 										name="addressCountry"
 										type="text"
 										filter="string"
-										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESSCOUNTRY_LABEL"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESS_COUNTRY_LABEL"
 									/>
 								</form>
 							</field>
 						</form>
 					</field>
+					<field
+						name="salaryCurrency"
+						type="text"
+						filter="string"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_SALARYCURRENCY_LABEL"
+					/>
+
 					<field
 						name="baseSalary"
 						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_BASESALARY_LABEL"
@@ -200,21 +320,33 @@
 
 							<field
 								name="@type"
-								type="hidden"
+								type="list"
+								label="Type"
 								default="MonetaryAmount"
+							>
+								<option value="MonetaryAmount">PLG_SCHEMAORG_JOBPOSTING_FIELD_MONETARYAMOUNT_LABEL</option>
+								<option value="Number">PLG_SCHEMAORG_JOBPOSTING_FIELD_NUMBER_LABEL</option>
+							</field>
+							<field
+								name="number"
+								type="text"
+								filter="string"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_VALUE_LABEL"
+								showon="@type:Number"
 							/>
-
 							<field
 								name="currency"
 								type="text"
 								filter="string"
 								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_CURRENCY_LABEL"
+								showon="@type:MonetaryAmount"
 							/>
 
 							<field
-								name="value"
-								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_VALUE_LABEL"
+								name="QuantitativeValue"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_QUANTITATIVEVALUE_LABEL"
 								type="subform"
+								showon="@type:MonetaryAmount"
 							>
 								<form>
 
@@ -222,6 +354,20 @@
 										name="@type"
 										type="hidden"
 										default="QuantitativeValue"
+									/>
+
+									<field
+										name="maxValue"
+										type="text"
+										filter="string"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_MAXVALUE_LABEL"
+									/>
+
+									<field
+										name="minValue"
+										type="text"
+										filter="string"
+										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_MINVALUE_LABEL"
 									/>
 
 									<field
@@ -233,14 +379,18 @@
 
 									<field
 										name="unitText"
-										type="text"
-										filter="string"
+										type="list"
 										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_UNITTEXT_LABEL"
-									/>
-
+										default="MONTH"
+									>
+										<option value="HOUR">HOUR</option>
+										<option value="DAY">DAY</option>
+										<option value="WEEK">WEEK</option>
+										<option value="MONTH">MONTH</option>
+										<option value="YEAR">YEAR</option>
+									</field>
 								</form>
 							</field>
-
 						</form>
 					</field>
 				</form>
