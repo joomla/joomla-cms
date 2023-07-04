@@ -14,7 +14,7 @@ namespace Joomla\CMS\Event\Table;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onAfterReorder event
+ * Event class for \Joomla\CMS\Table\Table onAfterReorder event
  *
  * @since  4.0.0
  */
@@ -24,9 +24,9 @@ class AfterReorderEvent extends AbstractEvent
      * Constructor.
      *
      * Mandatory arguments:
-     * subject      JTableInterface The table we are operating on
-     * rows         stdClass[]|null The primary keys and ordering values for the selection.
-     * where        string          WHERE clause which was used for limiting the selection of rows to compact the ordering values.
+     * subject      \Joomla\CMS\Table\TableInterface The table we are operating on
+     * rows         ?stdClass[]                      The primary keys and ordering values for the selection.
+     * where        string                           WHERE clause which was used for limiting the selection of rows to compact the ordering values.
      *
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.

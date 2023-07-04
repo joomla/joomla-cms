@@ -323,7 +323,7 @@ class ContactsModel extends ListModel
         // Case: Using both categories filter and by level filter
         if (count($categoryId)) {
             $categoryId       = ArrayHelper::toInteger($categoryId);
-            $categoryTable    = Table::getInstance('Category', 'JTable');
+            $categoryTable    = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\');
             $subCatItemsWhere = [];
 
             // @todo: Convert to prepared statement
