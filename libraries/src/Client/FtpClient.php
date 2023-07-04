@@ -301,7 +301,7 @@ class FtpClient
         if (FTP_NATIVE) {
             $this->_conn = @ftp_connect($host, $port, $this->_timeout);
 
-            if ($this->_conn === false) {
+            if (!$this->_conn) {
                 Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_NO_CONNECT', __METHOD__, $host, $port), Log::WARNING, 'jerror');
 
                 return false;
@@ -1580,7 +1580,7 @@ class FtpClient
     protected function _putCmd($cmd, $expectedResponse)
     {
         // Make sure we have a connection to the server
-        if ($this->_conn === false) {
+        if (!$this->_conn) {
             Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_PUTCMD_UNCONNECTED', __METHOD__), Log::WARNING, 'jerror');
 
             return false;
@@ -1659,7 +1659,7 @@ class FtpClient
         $err   = null;
 
         // Make sure we have a connection to the server
-        if ($this->_conn === false) {
+        if (!$this->_conn) {
             Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_NO_CONNECT', __METHOD__), Log::WARNING, 'jerror');
 
             return false;
