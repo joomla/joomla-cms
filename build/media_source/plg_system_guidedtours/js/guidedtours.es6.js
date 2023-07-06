@@ -272,6 +272,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
           const gtShowStep = new CustomEvent('guided-tour-show-step', {
             detail: {
               stepObj,
+              tour,
             },
             bubbles: true,
             tourId: sessionStorage.getItem('tourId'),
@@ -288,14 +289,14 @@ function addStepToTourButton(tour, stepObj, buttons) {
 
             const onDisplayEvents = stepObj.params.ondisplayevents || {};
 
-            Object.values(onDisplayEvents).forEach((displayEvent) => {
+            Object.keys(onDisplayEvents).forEach((displayEvent) => {
               let eventElement = onDisplayEvents[displayEvent].ondisplayeventelement;
               const eventsToTrigger = onDisplayEvents[displayEvent].ondisplayevent;
               if (eventElement !== '' && eventsToTrigger.length > 0) {
                 eventElement = document.querySelector(eventElement);
                 if (eventElement) {
                   eventsToTrigger.forEach((eventName) => {
-                    // console.log(`firing event ${eventName}`);
+                    console.log(`firing event ${eventName}`);
                     const event = new MouseEvent(eventName, {
                       view: window,
                       bubbles: true,
@@ -310,12 +311,13 @@ function addStepToTourButton(tour, stepObj, buttons) {
             const gtFocusStep = new CustomEvent('guided-tour-step-focussed', {
               detail: {
                 stepObj,
+                tour,
               },
               bubbles: true,
               tourId: sessionStorage.getItem('tourId'),
             });
             focusTarget.dispatchEvent(gtFocusStep);
-          }, 350);
+          }, 320);
         } else if (this.options.attachTo.type === 'next') {
           // Still need to fire the onDisplayEvents
           setTimeout(() => {
@@ -326,7 +328,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
             }
 
             const onDisplayEvents = stepObj.params.ondisplayevents || {};
-            Object.values(onDisplayEvents).forEach((displayEvent) => {
+            Object.keys(onDisplayEvents).forEach((displayEvent) => {
               let eventElement = onDisplayEvents[displayEvent].ondisplayeventelement;
               const eventsToTrigger = onDisplayEvents[displayEvent].ondisplayevent;
               if (eventElement !== '' && eventsToTrigger.length > 0) {
@@ -344,7 +346,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
                 }
               }
             });
-          }, 350);
+          }, 20);
         }
       },
     },
@@ -385,7 +387,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
     () => {
       const preDisplayEvents = stepObj.params.predisplayevents || {};
 
-      Object.values(preDisplayEvents).forEach((displayEvent) => {
+      Object.keys(preDisplayEvents).forEach((displayEvent) => {
         let eventElement = preDisplayEvents[displayEvent].predisplayeventelement;
         const eventsToTrigger = preDisplayEvents[displayEvent].predisplayevent;
         if (eventElement !== '' && eventsToTrigger.length > 0) {
@@ -407,6 +409,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
       const gtBeforeStep = new CustomEvent('guided-tour-before-show-step', {
         detail: {
           stepObj,
+          tour,
         },
         bubbles: true,
         tourId: sessionStorage.getItem('tourId'),
@@ -633,7 +636,11 @@ function startTour(obj) {
               break;
 
             case 'button':
-              tour.next();
+              ele.addEventListener('click', () => {
+                // the button may submit a form so record the currentStepId in the session storage
+                sessionStorage.setItem('currentStepId', obj.steps[index].id + 1);
+                tour.next();
+              });
               break;
 
             case 'other':
