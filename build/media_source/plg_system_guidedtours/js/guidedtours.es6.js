@@ -308,15 +308,16 @@ function addStepToTourButton(tour, stepObj, buttons) {
               }
             });
 
-            const gtFocusStep = new CustomEvent('guided-tour-step-focussed', {
+            const gtDisplayStep = new CustomEvent('guided-tour-step-display', {
               detail: {
                 stepObj,
-                tour,
+                tour
               },
               bubbles: true,
-              tourId: sessionStorage.getItem('tourId'),
+              tourId: sessionStorage.getItem('tourId')
             });
-            focusTarget.dispatchEvent(gtFocusStep);
+            focusTarget.dispatchEvent(gtDisplayStep);
+
           }, 320);
         } else if (this.options.attachTo.type === 'next') {
           // Still need to fire the onDisplayEvents
@@ -346,6 +347,16 @@ function addStepToTourButton(tour, stepObj, buttons) {
                 }
               }
             });
+            const gtDisplayStep = new CustomEvent('guided-tour-step-display', {
+              detail: {
+                stepObj,
+                tour
+              },
+              bubbles: true,
+              tourId: sessionStorage.getItem('tourId')
+            });
+            document.dispatchEvent(gtDisplayStep);
+
           }, 20);
         }
       },
