@@ -227,7 +227,123 @@
 				</field>
 
 			</fieldset>
+
+		<fieldset name="speciaactions" label="COM_GUIDEDTOURS_FIELD_SPECIAL_ACTIONS_LABEL">
+
+			<field
+					name="setfocus"
+					type="radio"
+					label="COM_GUIDEDTOURS_SET_FOCUS_LABEL"
+					description="COM_GUIDEDTOURS_SET_FOCUS_DESC"
+					showon=".type:0,2"
+					layout="joomla.form.field.radio.switcher"
+					filter="integer"
+					validate="options"
+					default="1"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+					name="customfocustarget"
+					type="radio"
+					label="COM_GUIDEDTOURS_CUSTOM_FOCUS_TARGET_LABEL"
+					description="COM_GUIDEDTOURS_CUSTOM_FOCUS_TARGET_DESC"
+					showon=".type:0,2[AND]setfocus:1"
+					layout="joomla.form.field.radio.switcher"
+					filter="integer"
+					validate="options"
+					default="0"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field
+					name="focustarget"
+					type="text"
+					label="COM_GUIDEDTOURS_FOCUS_TARGET_LABEL"
+					description="COM_GUIDEDTOURS_FOCUS_TARGET_DESC"
+					showon=".type:0,2[AND]customfocustarget:1[AND]setfocus:1"
+					default=""
+			/>
+
+			<field
+					name="predisplayevents"
+					type="subform"
+					label="COM_GUIDEDTOURS_PRE_DISPLAY_EVENTS_LABEL"
+					description="COM_GUIDEDTOURS_PRE_DISPLAY_EVENTS_DESC"
+					showon=".type:0,2"
+					multiple="true"
+					layout="joomla.form.field.subform.repeatable-table"
+			>
+				<form>
+					<field
+							name="predisplayeventelement"
+							type="test"
+							label="COM_GUIDEDTOURS_PRE_DISPLAY_EVENT_ELEMENT_LABEL"
+							description="COM_GUIDEDTOURS_PRE_DISPLAY_EVENT_ELEMENT_DESC"
+							default=""
+							required="true"
+					/>
+					<field
+							name="predisplayevent"
+							type="list"
+							label="COM_GUIDEDTOURS_PRE_DISPLAY_EVENT_LABEL"
+							description="COM_GUIDEDTOURS_PRE_DISPLAY_EVENT_DESC"
+							multiple="true"
+							required="true"
+							layout="joomla.form.field.list-fancy-select"
+							default=""
+							showon="predisplayeventelement!:"
+					>
+						<option value="click">COM_GUIDEDTOURS_CLICK</option>
+						<option value="dblclick">COM_GUIDEDTOURS_DOUBLE_CLICK</option>
+						<option value="pointerenter">COM_GUIDEDTOURS_POINTERENTER</option>
+						<option value="mouseover">COM_GUIDEDTOURS_MOUSEOVER</option>
+					</field>
+				</form>
+			</field>
+
+			<field
+					name="ondisplayevents"
+					type="subform"
+					label="COM_GUIDEDTOURS_ON_DISPLAY_EVENTS_LABEL"
+					description="COM_GUIDEDTOURS_ON_DISPLAY_EVENTS_DESC"
+					showon=".type:0,2"
+					multiple="true"
+					layout="joomla.form.field.subform.repeatable-table"
+			>
+				<form>
+					<field
+							name="ondisplayeventelement"
+							type="test"
+							label="COM_GUIDEDTOURS_ON_DISPLAY_EVENT_ELEMENT_LABEL"
+							description="COM_GUIDEDTOURS_ON_DISPLAY_EVENT_ELEMENT_DESC"
+							default=""
+							required="true"
+					/>
+					<field
+							name="ondisplayevent"
+							type="list"
+							label="COM_GUIDEDTOURS_ON_DISPLAY_EVENT_LABEL"
+							description="COM_GUIDEDTOURS_ON_DISPLAY_EVENT_DESC"
+							multiple="true"
+							required="true"
+							layout="joomla.form.field.list-fancy-select"
+							default=""
+							showon="ondisplayeventelement!:"
+					>
+						<option value="click">COM_GUIDEDTOURS_CLICK</option>
+						<option value="dblclick">COM_GUIDEDTOURS_DOUBLE_CLICK</option>
+						<option value="pointerenter">COM_GUIDEDTOURS_POINTERENTER</option>
+						<option value="mouseover">COM_GUIDEDTOURS_MOUSEOVER</option>
+					</field>
+				</form>
+			</field>
+
 		</fieldset>
+	</fieldset>
 	</fields>
 
 </form>

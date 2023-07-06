@@ -238,7 +238,7 @@ class TourModel extends AdminModel
             $result->description_translation = Text::_($result->description);
         }
 
-        if (empty($result->alias)) {
+        if (empty($result->alias) && (int) $pk > 0) {
             $app        = Factory::getApplication();
             $uri        = Uri::getInstance();
             $host       = $uri->toString(['host']);

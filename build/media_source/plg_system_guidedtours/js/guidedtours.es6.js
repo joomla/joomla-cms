@@ -148,7 +148,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
           const secondaryButton = element.querySelector('.shepherd-button-secondary');
 
           // Check to see if the 'next' button should be enabled before showing the step based on being required or
-          // matcching the required value
+          // matching the required value
           switch (this.options.attachTo.interactive_type) {
             case 'text':
               if (
@@ -227,6 +227,9 @@ function addStepToTourButton(tour, stepObj, buttons) {
           if (target.tagName.toLowerCase() === 'iframe') {
             // Give blur to the content of the iframe, as iframes don't have blur events
             target.contentWindow.document.body.addEventListener('blur', (event) => {
+              if (!sessionStorage.getItem('tourId')) {
+                return;
+              }
               setTimeout(() => {
                 setFocus(primaryButton, secondaryButton, cancelButton);
               }, 1);
@@ -234,20 +237,114 @@ function addStepToTourButton(tour, stepObj, buttons) {
             });
           } else if (target.tagName.toLowerCase() === 'joomla-field-fancy-select') {
             target.querySelector('.choices input').addEventListener('blur', (event) => {
+              if (!sessionStorage.getItem('tourId')) {
+                return;
+              }
               setFocus(primaryButton, secondaryButton, cancelButton);
               event.preventDefault();
             });
           } else if (target.parentElement.tagName.toLowerCase() === 'joomla-field-fancy-select') {
             target.querySelector('input').addEventListener('blur', (event) => {
+              if (!sessionStorage.getItem('tourId')) {
+                return;
+              }
               setFocus(primaryButton, secondaryButton, cancelButton);
               event.preventDefault();
             });
           } else {
             target.addEventListener('blur', (event) => {
+              if (!sessionStorage.getItem('tourId')) {
+                return;
+              }
               setFocus(primaryButton, secondaryButton, cancelButton);
               event.preventDefault();
             });
           }
+
+          let focusTarget = target;
+          if (
+            ((this.options.params.customfocustarget || 0) === 1)
+            && ((this.options.params.focustarget || '') !== '')
+          ) {
+            focusTarget = document.querySelector(this.options.params.focustarget);
+          }
+
+          const gtShowStep = new CustomEvent('guided-tour-show-step', {
+            detail: {
+              stepObj,
+            },
+            bubbles: true,
+            tourId: sessionStorage.getItem('tourId'),
+          });
+          focusTarget.dispatchEvent(gtShowStep);
+
+          // Set focus on input box after the tour step has finished rendering and positioning
+          // Timeout has to be more than 300 since the setPosition method has a 300 millisecond delay
+          setTimeout(() => {
+            // eslint-disable-next-line no-constant-condition
+            if (this.options.params.setfocus || 1) {
+              focusTarget.focus();
+            }
+
+            const onDisplayEvents = stepObj.params.ondisplayevents || {};
+
+            Object.values(onDisplayEvents).forEach((displayEvent) => {
+              let eventElement = onDisplayEvents[displayEvent].ondisplayeventelement;
+              const eventsToTrigger = onDisplayEvents[displayEvent].ondisplayevent;
+              if (eventElement !== '' && eventsToTrigger.length > 0) {
+                eventElement = document.querySelector(eventElement);
+                if (eventElement) {
+                  eventsToTrigger.forEach((eventName) => {
+                    // console.log(`firing event ${eventName}`);
+                    const event = new MouseEvent(eventName, {
+                      view: window,
+                      bubbles: true,
+                      cancelable: true,
+                    });
+                    eventElement.dispatchEvent(event);
+                  });
+                }
+              }
+            });
+
+            const gtFocusStep = new CustomEvent('guided-tour-step-focussed', {
+              detail: {
+                stepObj,
+              },
+              bubbles: true,
+              tourId: sessionStorage.getItem('tourId'),
+            });
+            focusTarget.dispatchEvent(gtFocusStep);
+          }, 350);
+        } else if (this.options.attachTo.type === 'next') {
+          // Still need to fire the onDisplayEvents
+          setTimeout(() => {
+            if (typeof stepObj.params === 'string' && stepObj.params !== '') {
+              stepObj.params = JSON.parse(stepObj.params);
+            } else {
+              stepObj.params = [];
+            }
+
+            const onDisplayEvents = stepObj.params.ondisplayevents || {};
+            Object.values(onDisplayEvents).forEach((displayEvent) => {
+              let eventElement = onDisplayEvents[displayEvent].ondisplayeventelement;
+              const eventsToTrigger = onDisplayEvents[displayEvent].ondisplayevent;
+              if (eventElement !== '' && eventsToTrigger.length > 0) {
+                eventElement = document.querySelector(eventElement);
+                if (eventElement) {
+                  eventsToTrigger.forEach((eventName) => {
+                    // console.log(`firing event ${eventName}`);
+                    const event = new MouseEvent(eventName, {
+                      view: window,
+                      bubbles: true,
+                      cancelable: true,
+                    });
+                    eventElement.dispatchEvent(event);
+                  });
+                }
+              }
+            });
+          }, 350);
         }
       },
     },
@@ -282,6 +379,41 @@ function addStepToTourButton(tour, stepObj, buttons) {
       sessionStorage.removeItem(storageKey);
     }
   }
+
+  step.on(
+    'before-show',
+    () => {
+      const preDisplayEvents = stepObj.params.predisplayevents || {};
+
+      Object.values(preDisplayEvents).forEach((displayEvent) => {
+        let eventElement = preDisplayEvents[displayEvent].predisplayeventelement;
+        const eventsToTrigger = preDisplayEvents[displayEvent].predisplayevent;
+        if (eventElement !== '' && eventsToTrigger.length > 0) {
+          eventElement = document.querySelector(eventElement);
+          if (eventElement) {
+            eventsToTrigger.forEach((eventName) => {
+              // console.log(`firing event ${eventName}`);
+              const event = new MouseEvent(eventName, {
+                view: window,
+                bubbles: true,
+                cancelable: true,
+              });
+              eventElement.dispatchEvent(event);
+            });
+          }
+        }
+      });
+
+      const gtBeforeStep = new CustomEvent('guided-tour-before-show-step', {
+        detail: {
+          stepObj,
+        },
+        bubbles: true,
+        tourId: sessionStorage.getItem('tourId'),
+      });
+      document.dispatchEvent(gtBeforeStep);
+    },
+  );
 
   tour.addStep(step);
 }
@@ -420,6 +552,9 @@ function startTour(obj) {
           switch (obj.steps[index].interactive_type) {
             case 'submit':
               ele.addEventListener('click', () => {
+                if (!sessionStorage.getItem('tourId')) {
+                  return;
+                }
                 sessionStorage.setItem('currentStepId', obj.steps[index].id + 1);
               });
               break;
@@ -434,6 +569,9 @@ function startTour(obj) {
                 )
               ) {
                 ['input', 'focus'].forEach((eventName) => ele.addEventListener(eventName, (event) => {
+                  if (!sessionStorage.getItem('tourId')) {
+                    return;
+                  }
                   if ((obj.steps[index].params.requiredvalue || '') !== '') {
                     if (event.target.value.trim() === obj.steps[index].params.requiredvalue) {
                       enableButton(event);
@@ -457,6 +595,9 @@ function startTour(obj) {
                 && ['checkbox', 'radio'].includes(ele.type)
               ) {
                 ['click'].forEach((eventName) => ele.addEventListener(eventName, (event) => {
+                  if (!sessionStorage.getItem('tourId')) {
+                    return;
+                  }
                   if (event.target.checked) {
                     enableButton(event);
                   } else {
@@ -473,6 +614,9 @@ function startTour(obj) {
                 && (ele.hasAttribute('required') || (obj.steps[index].params.required || 0))
               ) {
                 ['change'].forEach((eventName) => ele.addEventListener(eventName, (event) => {
+                  if (!sessionStorage.getItem('tourId')) {
+                    return;
+                  }
                   if ((obj.steps[index].params.requiredvalue || '') !== '') {
                     if (event.target.value.trim() === obj.steps[index].params.requiredvalue) {
                       enableButton(event);

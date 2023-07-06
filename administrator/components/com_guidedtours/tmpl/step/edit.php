@@ -20,7 +20,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
    ->useScript('form.validate')
-    ->useScript('com_guidedtours.tour-edit');
+   ->useScript('com_guidedtours.tour-edit');
 
 if (empty($this->item->tour_id)) {
     throw new GenericDataException("\nThe Tour id was not set!\n", 500);

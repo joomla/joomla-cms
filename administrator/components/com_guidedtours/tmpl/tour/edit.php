@@ -24,7 +24,10 @@ $lang  = $this->getLanguage()->getTag();
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
-    ->useScript('form.validate');
+    ->useScript('form.validate')
+    ->useScript('com_guidedtours.tour-edit');
+
+$this->useCoreUI = true;
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_guidedtours&view=tour&layout=edit&id=' .
@@ -75,6 +78,8 @@ $wa->useScript('keepalive')
             </div>
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
+
+        <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
         <div class="row">

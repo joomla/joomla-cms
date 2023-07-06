@@ -15,7 +15,13 @@
           return;
         }
         const visibleChildren = fieldset.querySelectorAll(':scope .control-group:not(.hidden)');
-        if (visibleChildren.length) {
+        let countVisible = 0;
+        visibleChildren.forEach((visibleChild) => {
+          if (!visibleChild.closest('.control-group.hidden')) {
+            countVisible += 1;
+          }
+        });
+        if (countVisible) {
           fieldset.classList.remove('hidden');
         } else {
           fieldset.classList.add('hidden');
@@ -25,7 +31,13 @@
         const tabLabel = document.querySelector(`button[aria-controls="${tabelement.id}"]`);
         if (tabLabel) {
           const visibleChildren = tabelement.querySelectorAll(':scope .control-group:not(.hidden)');
-          if (visibleChildren.length) {
+          let countVisible = 0;
+          visibleChildren.forEach((visibleChild) => {
+            if (!visibleChild.closest('.control-group.hidden')) {
+              countVisible += 1;
+            }
+          });
+          if (countVisible) {
             tabLabel.removeAttribute('hidden');
           } else {
             tabLabel.setAttribute('hidden', 'hidden');

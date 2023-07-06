@@ -27,11 +27,12 @@
 	/>
 
 	<field
-			name="alias"
-			type="text"
-			label="COM_GUIDEDTOURS_TOUR_ALIAS"
-			description="COM_GUIDEDTOURS_TOUR_ALIAS_DESC"
-			required="false"
+		name="alias"
+		type="text"
+		label="COM_GUIDEDTOURS_TOUR_ALIAS_LABEL"
+		description="COM_GUIDEDTOURS_TOUR_ALIAS_DESC"
+		hint="COM_GUIDEDTOURS_TOUR_ALIAS_HINT"
+		required="false"
 	/>
 
 	<field
@@ -159,4 +160,50 @@
 		>
 		<option value="*">JALL</option>
 	</field>
+<!--
+	<fields name="params">
+
+		<fieldset name="options">
+
+			<fieldset name="requiredvalues" label="COM_GUIDEDTOURS_CONTEXT_SENSITIVE_FILTERING_LABEL">
+
+				<field
+					name="matchingcriteria_note"
+					type="note"
+					label="COM_GUIDEDTOURS_MATCHING_CRITERIA_NOTE_LABEL"
+					description="COM_GUIDEDTOURS_MATCHING_CRITERIA_NOTE_DESC"
+				/>
+
+				<field
+					name="matchingcriteria"
+					type="subform"
+					label="COM_GUIDEDTOURS_MATCHING_CRITERIA_LABEL"
+					description="COM_GUIDEDTOURS_MATCHING_CRITERIA_DESC"
+					multiple="true"
+					layout="joomla.form.field.subform.repeatable-table"
+				>
+					<form>
+						<field
+							name="key"
+							type="text"
+							size="20"
+							filter="safehtml"
+							label="COM_GUIDEDTOURS_MATCHING_CRITERIA_GET_OR_POST_KEY_LABEL"
+							description="COM_GUIDEDTOURS_MATCHING_CRITERIA_GET_OR_POST_KEY_DESC"
+							validate="options"
+						/>
+						<field
+							name="value"
+							type="text"
+							size="20"
+							filter="safehtml"
+							label="COM_GUIDEDTOURS_MATCHING_CRITERIA_GET_OR_POST_VALUE_LABEL"
+							description="COM_GUIDEDTOURS_MATCHING_CRITERIA_GET_OR_POST_VALUE_DESC"
+						/>
+					</form>
+				</field>
+			</fieldset>
+		</fieldset>
+	</fields>
+-->
 </form>

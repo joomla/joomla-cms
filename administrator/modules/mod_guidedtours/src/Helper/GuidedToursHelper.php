@@ -52,6 +52,11 @@ class GuidedToursHelper
             $tourModel->setState('filter.language', ['*', $app->getLanguage()->getTag()]);
         }
 
+        $hideLinks = $app->getInput()->getBool('hidemainmenu');
+        if ($hideLinks) {
+            $tourModel->setState('filter.contextspecific', 1);
+        }
+        
         $items = $tourModel->getItems();
 
         foreach ($items as $key => $item) {

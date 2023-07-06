@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -81,6 +82,9 @@ class ToursModel extends ListModel
         $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
         $this->setState('filter.extension', $extension);
+
+        // By default we don't constrain tours by context
+        $this->setState('filter.contextspecific', 0);
 
         parent::populateState($ordering, $direction);
     }
@@ -166,11 +170,13 @@ class ToursModel extends ListModel
 
         // Filter by extension
         if ($extensionfilter = $this->getState('filter.extensionfilter')) {
+            //$query->where(':extensions MEMBER OF(' . $db->quoteName('a.extensions') . ')')->bind([':extensions'], $extensionfilter);
             $extension = '%' . $extensionfilter . '%';
             $query->where(
                 $db->quoteName('a.extensions') . ' LIKE :extensions'
             )
                   ->bind([':extensions'], $extension);
+
         } elseif ($extension = $this->getState('filter.extension')) {
             $extension = '%' . $extension . '%';
             $all       = '%*%';
@@ -212,6 +218,17 @@ class ToursModel extends ListModel
             $query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
         }
 
+        // Filter by context
+        /*
+        $contextspecific = $this->getState('filter.contextspecific');
+        if ($contextspecific) {
+            $uri = Uri::getInstance();
+            $url = trim($uri->toString(['path', 'query']), '/');
+            $url = "administrator/index.php?option=com_content&view=articles";
+            $query->where($db->quoteName('a.url') . ' = :context')
+                ->bind(':context', $url, ParameterType::STRING);
+        }
+        */
         // Filter by search in title.
         $search = $this->getState('filter.search');
 
