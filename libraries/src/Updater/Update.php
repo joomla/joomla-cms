@@ -233,6 +233,13 @@ class Update
      */
     protected $compatibleVersions = [];
 
+    protected $latest;
+    protected $downloadurl;
+    protected $tag;
+    protected $stability;
+    protected $supported_databases;
+    protected $php_minimum;
+
     /**
      * Gets the reference to the current direct parent
      *
