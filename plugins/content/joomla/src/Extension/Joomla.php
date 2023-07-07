@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Content\Joomla\Extension;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
@@ -23,7 +22,6 @@ use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
-use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -87,7 +85,7 @@ final class Joomla extends CMSPlugin
      * Method is called right after the content is saved
      *
      * @param   string   $context  The context of the content passed to the plugin (added in 1.6)
-     * @param   object   $article  A JTableContent object
+     * @param   object   $article  A \Joomla\CMS\Table\Table object
      * @param   boolean  $isNew    If the content is just about to be created
      *
      * @return  void
@@ -300,7 +298,7 @@ final class Joomla extends CMSPlugin
         }
 
         if ($table->default) {
-            throw new Exception($this->getApplication()->getLanguage()->_('COM_WORKFLOW_MSG_DELETE_IS_DEFAULT'));
+            throw new \Exception($this->getApplication()->getLanguage()->_('COM_WORKFLOW_MSG_DELETE_IS_DEFAULT'));
         }
 
         $parts = explode('.', $table->extension);
@@ -333,7 +331,7 @@ final class Joomla extends CMSPlugin
 
         // Return false if db error
         if ($result > 0) {
-            throw new Exception($this->getApplication()->getLanguage()->_('COM_WORKFLOW_MSG_DELETE_WORKFLOW_IS_ASSIGNED'));
+            throw new \Exception($this->getApplication()->getLanguage()->_('COM_WORKFLOW_MSG_DELETE_WORKFLOW_IS_ASSIGNED'));
         }
 
         return true;
@@ -360,7 +358,7 @@ final class Joomla extends CMSPlugin
 
         // Check if this stage is the default stage
         if ($table->default) {
-            throw new Exception($this->getApplication()->getLanguage()->_('COM_WORKFLOW_MSG_DELETE_IS_DEFAULT'));
+            throw new \Exception($this->getApplication()->getLanguage()->_('COM_WORKFLOW_MSG_DELETE_IS_DEFAULT'));
         }
 
         $workflow = new WorkflowTable($this->getDatabase());
@@ -386,7 +384,7 @@ final class Joomla extends CMSPlugin
 
         // Return false if db error
         if ($result > 0) {
-            throw new Exception($this->getApplication()->getLanguage()->_('COM_WORKFLOW_MSG_DELETE_STAGE_IS_ASSIGNED'));
+            throw new \Exception($this->getApplication()->getLanguage()->_('COM_WORKFLOW_MSG_DELETE_STAGE_IS_ASSIGNED'));
         }
 
         return true;
@@ -416,7 +414,7 @@ final class Joomla extends CMSPlugin
 
         try {
             $count = $db->loadResult();
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             $this->getApplication()->enqueueMessage($e->getMessage(), 'error');
 
             return false;
@@ -470,7 +468,7 @@ final class Joomla extends CMSPlugin
 
         try {
             return (int) $db->setQuery($query)->loadResult();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->getApplication()->enqueueMessage($e->getMessage(), 'error');
         }
 
@@ -514,7 +512,7 @@ final class Joomla extends CMSPlugin
 
             try {
                 $count = $db->loadResult();
-            } catch (RuntimeException $e) {
+            } catch (\RuntimeException $e) {
                 $this->getApplication()->enqueueMessage($e->getMessage(), 'error');
 
                 return false;

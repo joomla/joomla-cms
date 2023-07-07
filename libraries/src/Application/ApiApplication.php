@@ -54,16 +54,16 @@ final class ApiApplication extends CMSApplication
     /**
      * Class constructor.
      *
-     * @param   JInputJson  $input      An optional argument to provide dependency injection for the application's input
-     *                                  object.  If the argument is a JInput object that object will become the
-     *                                  application's input object, otherwise a default input object is created.
-     * @param   Registry    $config     An optional argument to provide dependency injection for the application's config
-     *                                  object.  If the argument is a Registry object that object will become the
-     *                                  application's config object, otherwise a default config object is created.
-     * @param   WebClient   $client     An optional argument to provide dependency injection for the application's client
-     *                                  object.  If the argument is a WebClient object that object will become the
-     *                                  application's client object, otherwise a default client object is created.
-     * @param   Container   $container  Dependency injection container.
+     * @param   ?JInputJson  $input      An optional argument to provide dependency injection for the application's input
+     *                                   object.  If the argument is a JInput object that object will become the
+     *                                   application's input object, otherwise a default input object is created.
+     * @param   ?Registry    $config     An optional argument to provide dependency injection for the application's config
+     *                                   object.  If the argument is a Registry object that object will become the
+     *                                   application's config object, otherwise a default config object is created.
+     * @param   ?WebClient   $client     An optional argument to provide dependency injection for the application's client
+     *                                   object.  If the argument is a WebClient object that object will become the
+     *                                   application's client object, otherwise a default client object is created.
+     * @param   ?Container   $container  Dependency injection container.
      *
      * @since   4.0.0
      */
@@ -263,7 +263,7 @@ final class ApiApplication extends CMSApplication
             throw new Exception\NotAcceptable('Could not match accept header', 406);
         }
 
-        /** @var $mediaType Accept */
+        /** @var Accept $mediaType */
         $format = $mediaType->getValue();
 
         if (\array_key_exists($mediaType->getValue(), $this->formatMapper)) {
@@ -412,11 +412,8 @@ final class ApiApplication extends CMSApplication
         // Set up the params
         $document = Factory::getDocument();
 
-        // Register the document object with Factory
-        Factory::$document = $document;
-
         $contents = ComponentHelper::renderComponent($component);
-        $document->setBuffer($contents, 'component');
+        $document->setBuffer($contents, ['type' => 'component']);
 
         // Trigger the onAfterDispatch event.
         PluginHelper::importPlugin('system');

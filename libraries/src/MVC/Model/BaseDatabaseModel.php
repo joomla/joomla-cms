@@ -221,7 +221,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @return  Table|boolean  Table object or boolean false if failed
      *
      * @since   3.0
-     * @see     \JTable::getInstance()
+     * @see     Table::getInstance()
      */
     protected function _createTable($name, $prefix = 'Table', $config = [])
     {

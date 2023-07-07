@@ -256,16 +256,6 @@ class User
     protected static $instances = [];
 
     /**
-     * The access level id
-     *
-     * @var    integer
-     * @since  4.3.0
-     *
-     * @deprecated 4.4.0 will be removed in 6.0 as this property is not used anymore
-     */
-    public $aid = null;
-
-    /**
      * Constructor activating the default information of the language
      *
      * @param   integer  $identifier  The primary key of the user to load (optional).
@@ -284,7 +274,6 @@ class User
             // Initialise
             $this->id        = 0;
             $this->sendEmail = 0;
-            $this->aid       = 0;
             $this->guest     = 1;
         }
     }
@@ -582,14 +571,14 @@ class User
      * @note    At 4.0 this method will no longer be static
      * @since   1.7.0
      */
-    public static function getTable($type = null, $prefix = 'JTable')
+    public static function getTable($type = null, $prefix = '\\Joomla\\CMS\\Table\\')
     {
         static $tabletype;
 
         // Set the default tabletype;
         if (!isset($tabletype)) {
             $tabletype['name']   = 'user';
-            $tabletype['prefix'] = 'JTable';
+            $tabletype['prefix'] = '\\Joomla\\CMS\\Table\\';
         }
 
         // Set a custom table type is defined
@@ -913,7 +902,6 @@ class User
             // Initialise
             $this->id        = 0;
             $this->sendEmail = 0;
-            $this->aid       = 0;
             $this->guest     = 1;
         }
     }
