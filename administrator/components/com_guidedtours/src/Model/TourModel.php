@@ -254,6 +254,51 @@ class TourModel extends AdminModel
     }
 
     /**
+     * Method to get a single record by alias
+     *
+     * @param   string  $alias  The alias of the tour.
+     *
+     * @return  CMSObject|boolean  Object on success, false on failure.
+     *
+     * @since   5.0.0
+     */
+    public function getItemByAlias($alias = "")
+    {
+        Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
+
+        $db     = $this->getDatabase();
+        $query = $db->getQuery(true)
+        ->select($db->quoteName('id'))
+        ->from($db->quoteName('#__guidedtours'))
+        ->where($db->quoteName('alias') . ' = :alias')
+        ->bind(':alias', $alias, ParameterType::STRING);
+
+        $db->setQuery($query);
+        $pk = (int) $db->loadResult();
+
+        $result = parent::getItem($pk);
+
+        if (!empty($result->id)) {
+            $result->title_translation       = Text::_($result->title);
+            $result->description_translation = Text::_($result->description);
+        }
+
+        if (empty($result->alias) && (int) $pk > 0) {
+            $app        = Factory::getApplication();
+            $uri        = Uri::getInstance();
+            $host       = $uri->toString(['host']);
+            $aliasTitle = $host . " " . str_replace("COM_GUIDEDTOURS_TOUR_", "", $result->title);
+            if ($app->get('unicodeslugs') == 1) {
+                $result->alias = OutputFilter::stringUrlUnicodeSlug($aliasTitle);
+            } else {
+                $result->alias = OutputFilter::stringURLSafe($aliasTitle);
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Delete all steps if a tour is deleted
      *
      * @param   object  $pks  The primary key related to the tours.

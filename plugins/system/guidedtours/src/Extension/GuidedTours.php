@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\System\GuidedTours\Extension;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
@@ -107,12 +108,21 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     public function startTour(Event $event)
     {
         $tourId = (int) $this->getApplication()->getInput()->getInt('id');
+        $tourAlias = $this->getApplication()->getInput()->getString('alias');
+        $tourAlias = $tourAlias !== "" ? @urldecode($tourAlias) : $tourAlias;
 
-        $activeTourId = null;
-        $tour         = null;
+        $activeTourId    = null;
+        $activeTourAlias = null;
+        $tour            = null;
 
         if ($tourId > 0) {
             $tour = $this->getTour($tourId);
+
+            if (!empty($tour->id)) {
+                $activeTourId = $tour->id;
+            }
+        } else if ($tourAlias !== "") {
+            $tour = $this->getTourByAlias($tourAlias);
 
             if (!empty($tour->id)) {
                 $activeTourId = $tour->id;
@@ -164,21 +174,62 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.3.0
      */
-    private function getTour(int $tourId)
-    {
+    private function getTour(int $tourId) {
         $app = $this->getApplication();
 
-        $user = $app->getIdentity();
-
-        $factory = $app->bootComponent('com_guidedtours')->getMVCFactory();
+        $factory = $app->bootComponent( 'com_guidedtours' )->getMVCFactory();
 
         $tourModel = $factory->createModel(
             'Tour',
             'Administrator',
-            ['ignore_request' => true]
+            [ 'ignore_request' => true ]
         );
 
-        $item = $tourModel->getItem($tourId);
+        $item = $tourModel->getItem( $tourId );
+
+        return $this->processTour($item);
+    }
+
+    /**
+     * Get a tour and its steps or null if not found
+     *
+     * @param   integer  $tourId  The ID of the tour to load
+     *
+     * @return null|object
+     *
+     * @since   4.3.0
+     */
+    private function getTourByAlias(string $tourAlias) {
+        $app = $this->getApplication();
+
+        $factory = $app->bootComponent( 'com_guidedtours' )->getMVCFactory();
+
+        $tourModel = $factory->createModel(
+            'Tour',
+            'Administrator',
+            [ 'ignore_request' => true ]
+        );
+
+        $item = $tourModel->getItemByAlias( $tourAlias );
+
+        return $this->processTour($item);
+    }
+
+    /**
+     * Return  a tour and its steps or null if not found
+     *
+     * @param   TODO integer  $tourId  The ID of the tour to load
+     *
+     * @return null|object
+     *
+     * @since   5.0.0
+     */
+    private function processTour($item)
+    {
+        $app = $this->getApplication();
+
+        $user = $app->getIdentity();
+        $factory = $app->bootComponent( 'com_guidedtours' )->getMVCFactory();
 
         if (empty($item->id) || $item->published < 1 || !in_array($item->access, $user->getAuthorisedViewLevels())) {
             return null;
@@ -237,4 +288,23 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
 
         return $tour;
     }
+
+    /**
+     * Display the extended editor button.
+     *
+     * @param   string   $name    The name of the button to display.
+     * @param   string   $asset   The name of the asset being edited.
+     * @param   integer  $author  The id of the author owning the asset being edited.
+     *
+     * @return  CMSObject|false
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onDisplay($name, $asset, $author) {
+        $doc       = $this->getApplication()->getDocument();
+        $user      = $this->getApplication()->getIdentity();
+        $extension = $this->getApplication()->getInput()->get('option');
+
+    }
+
 }
