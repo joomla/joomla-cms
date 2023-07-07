@@ -66,6 +66,7 @@ $validate     = $validate ? ' data-validate="' . $validate . '"' : '';
 $disabled     = $disabled ? ' disabled' : '';
 $readonly     = $readonly ? ' readonly' : '';
 $hint         = strlen($hint) ? ' placeholder="' . $this->escape($hint) . '"' : ' placeholder="' . $placeholder . '"';
+$onchange     = $onchange ? ' onchange="' . $onchange . '"' : '';
 $required     = $required ? ' required' : '';
 $autocomplete = !empty($autocomplete) ? ' autocomplete="' . $autocomplete . '"' : '';
 
