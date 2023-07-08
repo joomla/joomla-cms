@@ -494,8 +494,11 @@ class UpdateModel extends BaseDatabaseModel
             return false;
         }
 
+        // Fix Indirect Modification of Overloaded Property
+        $body = $response->body;
+
         // Write the file to disk
-        File::write($target, $result->body);
+        File::write($target, $body);
 
         return basename($target);
     }
