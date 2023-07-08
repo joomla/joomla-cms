@@ -479,7 +479,9 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Make sure the target does not exist.
-        File::delete($target);
+        if (is_file($target)) {
+            File::delete($target);
+        }
 
         // Download the package
         try {
