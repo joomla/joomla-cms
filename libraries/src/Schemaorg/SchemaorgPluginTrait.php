@@ -160,6 +160,14 @@ trait SchemaorgPluginTrait
                     if (empty($value['url'])) {
                         $value = [];
                     }
+                } elseif ($value['@type'] === 'Date') {
+                    if (!empty($value['value'])) {
+                        $value['value'] = Factory::getDate($value['value'])->format('Y-m-d');
+                    }
+
+                    if (empty($value['value'])) {
+                        $value = [];
+                    }
                 }
 
                 $value = $this->cleanupSchema($value);

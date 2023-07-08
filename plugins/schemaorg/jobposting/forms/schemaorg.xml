@@ -84,17 +84,47 @@
 						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_VALIDTHROUGH_LABEL"
 						class="input-small"
 						filter="user_utc"
-						showtime="true"
+						showtime="false"
 						todaybutton="true"
-						format="%Y-%m-%dT%H:%i"
+						format="%Y-%m-%d"
 					/>
 
 					<field
 						name="jobLocationType"
-						type="text"
-						filter="string"
+						type="list"
+						default="0"
 						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBLOCATIONTYPE_LABEL"
-					/>
+					>
+						<option value=""></option>
+						<option value="Telecommute">PLG_SCHEMAORG_JOBPOSTING_FIELD_TELECOMMUTE_LABEL</option>
+						<option value="Onsite">PLG_SCHEMAORG_JOBPOSTING_FIELD_ONSITE_LABEL</option>
+						<option value="Hybrid">PLG_SCHEMAORG_JOBPOSTING_FIELD_HYBRID_LABEL</option>
+					</field>
+
+					<field
+						name="applicantLocationRequirements"
+						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_APPLICANT_LOCATION_REQUIREMENT_LABEL"
+						showon="jobLocationType:Telecommute"
+						type="subform"
+					>
+						<form>
+
+							<field
+								name="@type"
+								type="hidden"
+								default="Country"
+							/>
+
+							<field
+								name="name"
+								type="text"
+								filter="string"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_APPLICANT_LOCATION_REQUIREMENT_COUNTRY_LABEL"
+							/>
+
+						</form>
+
+					</field>
 
 					<field
 						name="employmentType"
@@ -117,11 +147,11 @@
 								default="text"
 							>
 								<option value="text">PLG_SCHEMAORG_JOBPOSTING_FIELD_TEXT_LABEL</option>
-								<option value="date">PLG_SCHEMAORG_JOBPOSTING_FIELD_DATE_LABEL</option>
+								<option value="Date">PLG_SCHEMAORG_JOBPOSTING_FIELD_DATE_LABEL</option>
 							</field>
 
 							<field
-								name="jobStartDate"
+								name="value"
 								type="calendar"
 								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBSTARTDATE_DATE_LABEL"
 								class="input-small"
@@ -129,7 +159,7 @@
 								showtime="false"
 								todaybutton="true"
 								format="%Y-%m-%d"
-								showon="@type:date"
+								showon="@type:Date"
 							/>
 
 							<field
@@ -137,7 +167,7 @@
 								type="text"
 								filter="string"
 								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_JOBSTARTDATE_TEXT_LABEL"
-								default="ASAP"
+								hint="ASAP"
 								showon="@type:text"
 							/>
 						</form>
@@ -303,12 +333,6 @@
 							</field>
 						</form>
 					</field>
-					<field
-						name="salaryCurrency"
-						type="text"
-						filter="string"
-						label="PLG_SCHEMAORG_JOBPOSTING_FIELD_SALARYCURRENCY_LABEL"
-					/>
 
 					<field
 						name="baseSalary"
@@ -319,38 +343,25 @@
 
 							<field
 								name="@type"
-								type="list"
-								label="Type"
+								type="hidden"
 								default="MonetaryAmount"
-							>
-								<option value="MonetaryAmount">PLG_SCHEMAORG_JOBPOSTING_FIELD_MONETARYAMOUNT_LABEL</option>
-								<option value="Number">PLG_SCHEMAORG_JOBPOSTING_FIELD_NUMBER_LABEL</option>
-							</field>
-
-							<field
-								name="number"
-								type="text"
-								filter="string"
-								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_VALUE_LABEL"
-								showon="@type:Number"
 							/>
-							
+
 							<field
 								name="currency"
 								type="text"
 								filter="string"
 								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_CURRENCY_LABEL"
-								showon="@type:MonetaryAmount"
 							/>
 
 							<field
-								name="QuantitativeValue"
-								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_QUANTITATIVEVALUE_LABEL"
+								name="value"
 								type="subform"
-								showon="@type:MonetaryAmount"
+								label="PLG_SCHEMAORG_JOBPOSTING_FIELD_SALARY_VALUE_LABEL"
 							>
-								<form>
 
+							<form>
+								
 									<field
 										name="@type"
 										type="hidden"
@@ -381,16 +392,19 @@
 									<field
 										name="unitText"
 										type="list"
+										default="0"
 										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_UNITTEXT_LABEL"
-										default="MONTH"
 									>
+										<option value=""></option>
 										<option value="HOUR">HOUR</option>
 										<option value="DAY">DAY</option>
 										<option value="WEEK">WEEK</option>
 										<option value="MONTH">MONTH</option>
 										<option value="YEAR">YEAR</option>
 									</field>
-								</form>
+
+							</form>
+
 							</field>
 						</form>
 					</field>

@@ -53,11 +53,7 @@ final class JobPosting extends CMSPlugin implements SubscriberInterface
      */
     public function customCleanup(array $schema)
     {
-        $schema = $this->normalizeDurationsToISO($schema, ['cookTime', 'prepTime']);
-
-        $schema = $this->convertToArray($schema, ['recipeIngredient']);
-
-        $schema = $this->cleanupDate($schema, ['datePublished']);
+        $schema = $this->cleanupDate($schema, ['datePosted', 'validThrough']);
 
         return $schema;
     }
