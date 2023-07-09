@@ -232,8 +232,6 @@ class Update
      * @since  3.10.2
      */
     protected $compatibleVersions = [];
-
-    protected $latest;
     protected $downloadurl;
     protected $tag;
     protected $stability;
