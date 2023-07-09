@@ -15,7 +15,6 @@
 define('_JEXEC', 1);
 
 // Maximise error reporting.
-ini_set('zend.ze1_compatibility_mode', '0');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 

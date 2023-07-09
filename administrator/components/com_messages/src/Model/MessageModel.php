@@ -27,6 +27,10 @@ use Joomla\CMS\User\User;
 use Joomla\Database\ParameterType;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Private Message model.
  *
@@ -58,7 +62,7 @@ class MessageModel extends AdminModel
     {
         parent::populateState();
 
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         $user  = $this->getCurrentUser();
         $this->setState('user.id', $user->get('id'));
@@ -198,10 +202,10 @@ class MessageModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_messages.message', 'message', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_messages.message', 'message', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -220,7 +224,7 @@ class MessageModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_messages.edit.message.data', array());
+        $data = Factory::getApplication()->getUserState('com_messages.edit.message.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -371,15 +375,15 @@ class MessageModel extends AdminModel
 
             // Send the email
             $mailer = new MailTemplate('com_messages.new_message', $lang->getTag());
-            $data = [
-                'subject' => $subject,
-                'message' => $message,
-                'fromname' => $fromName,
-                'sitename' => $sitename,
-                'siteurl' => $siteURL,
+            $data   = [
+                'subject'   => $subject,
+                'message'   => $message,
+                'fromname'  => $fromName,
+                'sitename'  => $sitename,
+                'siteurl'   => $siteURL,
                 'fromemail' => $fromUser->email,
-                'toname' => $toUser->name,
-                'toemail' => $toUser->email
+                'toname'    => $toUser->name,
+                'toemail'   => $toUser->email,
             ];
             $mailer->addTemplateData($data);
             $mailer->setReplyTo($fromUser->email, $fromUser->name);
@@ -436,7 +440,7 @@ class MessageModel extends AdminModel
                 return false;
             }
 
-            $groups = array();
+            $groups = [];
 
             foreach ($rawGroups as $g => $enabled) {
                 if ($enabled) {

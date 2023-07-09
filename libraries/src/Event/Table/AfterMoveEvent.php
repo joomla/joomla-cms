@@ -12,6 +12,10 @@ namespace Joomla\CMS\Event\Table;
 use BadMethodCallException;
 use stdClass;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event class for JTable's onAfterMove event
  *
@@ -33,7 +37,7 @@ class AfterMoveEvent extends AbstractEvent
      *
      * @throws  BadMethodCallException
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('row', $arguments)) {
             throw new BadMethodCallException("Argument 'row' is required for event $name");

@@ -25,4 +25,9 @@ $displayData = [
     'btnadd'     => Text::_('COM_INSTALLER_EMPTYSTATE_DISCOVER_BUTTON_ADD'),
 ];
 
+/** @var \Joomla\Component\Installer\Administrator\View\Discover\HtmlView $this */
+if ($this->showMessage) {
+    echo $this->loadTemplate('message');
+}
+
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

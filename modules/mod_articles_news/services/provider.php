@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package     Joomla.Administrator
+ * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
@@ -21,8 +21,7 @@ use Joomla\DI\ServiceProviderInterface;
  *
  * @since  4.2.0
  */
-return new class implements ServiceProviderInterface
-{
+return new class () implements ServiceProviderInterface {
     /**
      * Registers the service provider with a DI container.
      *

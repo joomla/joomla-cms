@@ -14,6 +14,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\ApiRouter;
 use Joomla\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Web Services adapter for com_modules.
  *
@@ -40,7 +44,7 @@ class PlgWebservicesModules extends CMSPlugin
      */
     public function onBeforeApiRoute(&$router)
     {
-        $routes = array(
+        $routes = [
             new Route(
                 ['GET'],
                 'v1/modules/types/site',
@@ -55,7 +59,7 @@ class PlgWebservicesModules extends CMSPlugin
                 [],
                 ['public' => false, 'component' => 'com_modules', 'client_id' => 1]
             ),
-        );
+        ];
 
         $router->addRoutes($routes);
 

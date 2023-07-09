@@ -28,6 +28,10 @@ use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Input\Input;
 use RuntimeException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Multi-factor Authentication method controller
  *
@@ -225,7 +229,7 @@ class MethodController extends BaseControllerAlias
         $this->checkToken($this->input->getMethod());
 
         // Make sure I am allowed to edit the specified user
-        $userId = $this->input->getInt('user_id', null);
+        $userId  = $this->input->getInt('user_id', null);
         $user    = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
         $this->assertCanDelete($user);
 
@@ -305,7 +309,7 @@ class MethodController extends BaseControllerAlias
 
         // Ask the plugin to validate the input by calling onUserMultifactorSaveSetup
         $result = [];
-        $input  = $this->app->input;
+        $input  = $this->app->getInput();
 
         $event = new NotifyActionLog('onComUsersControllerMethodBeforeSave', [$id, $user]);
         $this->app->getDispatcher()->dispatch($event->getName(), $event);

@@ -12,6 +12,10 @@ namespace Joomla\Component\Plugins\Api\View\Plugins;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The plugins view
  *

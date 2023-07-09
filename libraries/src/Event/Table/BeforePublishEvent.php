@@ -11,6 +11,10 @@ namespace Joomla\CMS\Event\Table;
 
 use BadMethodCallException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event class for JTable's onBeforePublish event
  *
@@ -32,7 +36,7 @@ class BeforePublishEvent extends AbstractEvent
      *
      * @throws  BadMethodCallException
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('pks', $arguments)) {
             throw new BadMethodCallException("Argument 'pks' is required for event $name");

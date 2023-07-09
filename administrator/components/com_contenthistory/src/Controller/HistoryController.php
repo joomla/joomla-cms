@@ -15,6 +15,10 @@ use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Contenthistory list controller class.
  *
@@ -33,7 +37,7 @@ class HistoryController extends AdminController
      *
      * @since   3.2
      */
-    public function getModel($name = 'History', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'History', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -50,7 +54,7 @@ class HistoryController extends AdminController
         $this->checkToken();
 
         // Get items to toggle keep forever from the request.
-        $cid = (array) $this->input->get('cid', array(), 'int');
+        $cid = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);

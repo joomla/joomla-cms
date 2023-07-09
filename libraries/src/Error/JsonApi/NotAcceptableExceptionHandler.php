@@ -14,6 +14,10 @@ use Joomla\CMS\Application\Exception\NotAcceptable;
 use Tobscure\JsonApi\Exception\Handler\ExceptionHandlerInterface;
 use Tobscure\JsonApi\Exception\Handler\ResponseBag;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Handler for routing errors that should give a 406
  *
@@ -48,7 +52,7 @@ class NotAcceptableExceptionHandler implements ExceptionHandlerInterface
     public function handle(Exception $e)
     {
         $status = 406;
-        $error = ['title' => 'Not Acceptable'];
+        $error  = ['title' => 'Not Acceptable'];
 
         $code = $e->getCode();
 

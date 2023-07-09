@@ -10,6 +10,10 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The ToolbarPresets trait holds the default presets for the toolbar.
  *
@@ -60,7 +64,7 @@ trait ToolbarPresets
                     'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
                     'lineheight', '|',
                     'styleselect', '|',
-                    'formatselect', 'fontselect', 'fontsizeselect', '|',
+                    'formatselect', 'fontfamily', 'fontsizeselect', '|',
                     'searchreplace', '|',
                     'bullist', 'numlist', '|',
                     'outdent', 'indent', '|',
@@ -78,7 +82,7 @@ trait ToolbarPresets
                     'language',
                 ],
                 'toolbar2' => [],
-            ]
+            ],
         ];
     }
 }

@@ -14,6 +14,10 @@ use Joomla\CMS\MVC\Controller\Exception\Save;
 use Tobscure\JsonApi\Exception\Handler\ExceptionHandlerInterface;
 use Tobscure\JsonApi\Exception\Handler\ResponseBag;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Handler for invalid checkin/checkout exceptions
  *
@@ -55,7 +59,7 @@ class SaveExceptionHandler implements ExceptionHandlerInterface
 
         $error = [
             'title' => $e->getMessage(),
-            'code' => $status,
+            'code'  => $status,
         ];
 
         return new ResponseBag($status, [$error]);

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
 	<layout title="COM_CONTENT_CATEGORY_VIEW_BLOG_TITLE" option="COM_CONTENT_CATEGORY_VIEW_BLOG_OPTION">
 		<help key = "Menu_Item:_Category_Blog" />

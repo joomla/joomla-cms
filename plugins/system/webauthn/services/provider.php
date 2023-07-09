@@ -25,8 +25,7 @@ use Joomla\Plugin\System\Webauthn\MetadataRepository;
 use Webauthn\MetadataService\MetadataStatementRepository;
 use Webauthn\PublicKeyCredentialSourceRepository;
 
-return new class implements ServiceProviderInterface
-{
+return new class () implements ServiceProviderInterface {
     /**
      * Registers the service provider with a DI container.
      *
@@ -55,7 +54,7 @@ return new class implements ServiceProviderInterface
                 $metadataRepository = null;
                 $params             = new Joomla\Registry\Registry($config['params'] ?? '{}');
 
-                if ($params->get('attestationSupport', 1) == 1) {
+                if ($params->get('attestationSupport', 0) == 1) {
                     $metadataRepository    = $container->has(MetadataStatementRepository::class)
                         ? $container->get(MetadataStatementRepository::class)
                         : new MetadataRepository();

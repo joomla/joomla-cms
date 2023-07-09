@@ -17,8 +17,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\WebAuthn\Server;
 use Joomla\Plugin\Multifactorauth\Webauthn\CredentialRepository;
-use Joomla\Plugin\Multifactorauth\Webauthn\Hotfix\Server;
 use Joomla\Session\SessionInterface;
 use Laminas\Diactoros\ServerRequestFactory;
 use ReflectionClass;
@@ -32,6 +32,10 @@ use Webauthn\PublicKeyCredentialRequestOptions;
 use Webauthn\PublicKeyCredentialRpEntity;
 use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialUserEntity;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper class to aid in credentials creation (link an authenticator to a user account)

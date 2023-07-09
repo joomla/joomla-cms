@@ -11,7 +11,9 @@
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * en-GB localise class.
@@ -32,11 +34,11 @@ abstract class En_GBLocalise
     public static function getPluralSuffixes($count)
     {
         if ($count == 0) {
-            return array('0');
+            return ['0'];
         } elseif ($count == 1) {
-            return array('ONE', '1');
+            return ['ONE', '1'];
         } else {
-            return array('OTHER', 'MORE');
+            return ['OTHER', 'MORE'];
         }
     }
 }

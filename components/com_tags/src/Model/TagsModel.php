@@ -14,7 +14,13 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * This models supports retrieving a list of tags.
@@ -48,13 +54,13 @@ class TagsModel extends ListModel
         $app = Factory::getApplication();
 
         // Load state from the request.
-        $pid = $app->input->getInt('parent_id');
+        $pid = $app->getInput()->getInt('parent_id');
         $this->setState('tag.parent_id', $pid);
 
-        $language = $app->input->getString('tag_list_language_filter');
+        $language = $app->getInput()->getString('tag_list_language_filter');
         $this->setState('tag.language', $language);
 
-        $offset = $app->input->get('limitstart', 0, 'uint');
+        $offset = $app->getInput()->get('limitstart', 0, 'uint');
         $this->setState('list.offset', $offset);
         $app = Factory::getApplication();
 
@@ -68,12 +74,12 @@ class TagsModel extends ListModel
 
         $user = $this->getCurrentUser();
 
-        if ((!$user->authorise('core.edit.state', 'com_tags')) &&  (!$user->authorise('core.edit', 'com_tags'))) {
+        if ((!$user->authorise('core.edit.state', 'com_tags')) && (!$user->authorise('core.edit', 'com_tags'))) {
             $this->setState('filter.published', 1);
         }
 
         // Optional filter text
-        $itemid = $pid . ':' . $app->input->getInt('Itemid', 0);
+        $itemid       = $pid . ':' . $app->getInput()->getInt('Itemid', 0);
         $filterSearch = $app->getUserStateFromRequest('com_tags.tags.list.' . $itemid . '.filter_search', 'filter-search', '', 'string');
         $this->setState('list.filter', $filterSearch);
     }
@@ -81,7 +87,7 @@ class TagsModel extends ListModel
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return  string  An SQL query
+     * @return  DatabaseQuery  An SQL query
      *
      * @since   1.6
      */
@@ -128,7 +134,7 @@ class TagsModel extends ListModel
         }
 
         // List state information
-        $format = $app->input->getWord('format');
+        $format = $app->getInput()->getWord('format');
 
         if ($format === 'feed') {
             $limit = $app->get('feed_limit');
@@ -142,7 +148,7 @@ class TagsModel extends ListModel
 
         $this->setState('list.limit', $limit);
 
-        $offset = $app->input->get('limitstart', 0, 'uint');
+        $offset = $app->getInput()->get('limitstart', 0, 'uint');
         $this->setState('list.start', $offset);
 
         // Optionally filter on entered value

@@ -11,6 +11,10 @@ namespace Joomla\CMS\Event\Result;
 
 use InvalidArgumentException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This Trait partially implements the ResultAwareInterface for type checking.
  *
@@ -35,7 +39,8 @@ trait ResultTypeNumericAware
      * @var    boolean
      * @since  4.2.0
      *
-     * @deprecated 5.0 You should use nullable values or exceptions instead of returning boolean false results.
+     * @deprecated  4.3 will be removed in 6.0
+     *              You should use nullable values or exceptions instead of returning boolean false results.
      */
     protected $resultIsFalseable = false;
 

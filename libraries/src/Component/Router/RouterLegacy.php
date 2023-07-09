@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Component\Router;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Default routing class for missing or legacy component routers
  *
@@ -74,7 +78,7 @@ class RouterLegacy implements RouterInterface
             return $segments;
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -100,6 +104,6 @@ class RouterLegacy implements RouterInterface
             return $function($segments);
         }
 
-        return array();
+        return [];
     }
 }

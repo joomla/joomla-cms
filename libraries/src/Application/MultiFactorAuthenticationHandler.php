@@ -25,6 +25,10 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use RuntimeException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Implements the code required for integrating with Joomla's Multi-factor Authentication.
  *
@@ -165,7 +169,7 @@ trait MultiFactorAuthenticationHandler
 
         if (
             !$isMFAPending && !$isMFADisallowed && ($userOptions->get('mfaredirectonlogin', 0) == 1)
-            && !$user->guest  && !$hasRejectedMultiFactorAuthenticationSetup && !empty(MfaHelper::getMfaMethods())
+            && !$user->guest && !$hasRejectedMultiFactorAuthenticationSetup && !empty(MfaHelper::getMfaMethods())
         ) {
             $this->redirect(
                 $userOptions->get('mfaredirecturl', '') ?:
@@ -386,11 +390,11 @@ trait MultiFactorAuthenticationHandler
         }
 
         [$otpMethod, $otpKey] = explode(':', $userTable->otpKey, 2);
-        $secret       = $this->get('secret');
-        $otpKey       = $this->decryptLegacyTFAString($secret, $otpKey);
-        $otep         = $this->decryptLegacyTFAString($secret, $userTable->otep);
-        $config       = @json_decode($otpKey, true);
-        $hasConverted = true;
+        $secret               = $this->get('secret');
+        $otpKey               = $this->decryptLegacyTFAString($secret, $otpKey);
+        $otep                 = $this->decryptLegacyTFAString($secret, $userTable->otep);
+        $config               = @json_decode($otpKey, true);
+        $hasConverted         = true;
 
         if (!empty($config)) {
             switch ($otpMethod) {
@@ -438,9 +442,9 @@ trait MultiFactorAuthenticationHandler
             $method = 'emergencycodes';
             $userId = $user->id;
             $query  = $db->getQuery(true)
-                ->delete($db->qn('#__user_mfa'))
-                ->where($db->qn('user_id') . ' = :user_id')
-                ->where($db->qn('method') . ' = :method')
+                ->delete($db->quoteName('#__user_mfa'))
+                ->where($db->quoteName('user_id') . ' = :user_id')
+                ->where($db->quoteName('method') . ' = :method')
                 ->bind(':user_id', $userId, ParameterType::INTEGER)
                 ->bind(':method', $method);
             $db->setQuery($query)->execute();

@@ -20,6 +20,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 // Uncomment the following line to enable debug mode for testing purposes. Note: statistics will be sent on every page load
 // define('PLG_SYSTEM_STATS_DEBUG', 1);
 
@@ -415,7 +419,7 @@ class PlgSystemStats extends CMSPlugin
      */
     private function isAjaxRequest()
     {
-        return strtolower($this->app->input->server->get('HTTP_X_REQUESTED_WITH', '')) === 'xmlhttprequest';
+        return strtolower($this->app->getInput()->server->get('HTTP_X_REQUESTED_WITH', '')) === 'xmlhttprequest';
     }
 
     /**

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields name="filter">
 		<field
@@ -14,7 +14,7 @@
 			name="state"
 			type="list"
 			label="COM_PRIVACY_CONSENTS_FILTER_STATE"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			validate="options"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -33,7 +33,7 @@
 			sql_order="subject ASC"
 			key_field="subject"
 			translate="true"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">COM_PRIVACY_CONSENTS_SUBJECT_DEFAULT</option>
 		</field>
@@ -44,7 +44,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			default="a.id DESC"
 			validate="options"
 			>
@@ -68,9 +68,8 @@
 			name="limit"
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
-			class="input-mini"
 			default="25"
-			onchange="this.form.submit();"
+			class="input-mini js-select-submit-on-change"
 		/>
 	</fields>
 </form>

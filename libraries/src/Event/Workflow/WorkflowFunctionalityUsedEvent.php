@@ -11,6 +11,10 @@ namespace Joomla\CMS\Event\Workflow;
 
 use BadMethodCallException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event class for Workflow Functionality Used events
  *
@@ -28,7 +32,7 @@ class WorkflowFunctionalityUsedEvent extends AbstractEvent
      *
      * @since   4.0.0
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         $arguments['used'] = false;
 

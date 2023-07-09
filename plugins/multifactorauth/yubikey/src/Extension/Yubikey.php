@@ -30,6 +30,10 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
 use RuntimeException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Multi-factor Authentication using Yubikey Plugin
  *
@@ -54,12 +58,21 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
     private $mfaMethodName = 'yubikey';
 
     /**
-     * Should I try to detect and register legacy event listeners?
+     * Should I try to detect and register legacy event listeners, i.e. methods which accept unwrapped arguments? While
+     * this maintains a great degree of backwards compatibility to Joomla! 3.x-style plugins it is much slower. You are
+     * advised to implement your plugins using proper Listeners, methods accepting an AbstractEvent as their sole
+     * parameter, for best performance. Also bear in mind that Joomla! 5.x onwards will only allow proper listeners,
+     * removing support for legacy Listeners.
      *
-     * @var   boolean
-     * @since 4.2.0
+     * @var    boolean
+     * @since  4.2.0
      *
-     * @deprecated
+     * @deprecated  4.3 will be removed in 6.0
+     *              Implement your plugin methods accepting an AbstractEvent object
+     *              Example:
+     *              onEventTriggerName(AbstractEvent $event) {
+     *                  $context = $event->getArgument(...);
+     *              }
      */
     protected $allowLegacyListeners = false;
 
@@ -130,19 +143,19 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
             new CaptiveRenderOptions(
                 [
                     // Custom HTML to display above the MFA form
-                    'pre_message'        => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_CAPTIVE_PROMPT'),
+                    'pre_message' => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_CAPTIVE_PROMPT'),
                     // How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
-                    'field_type'         => 'input',
+                    'field_type' => 'input',
                     // The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
-                    'input_type'         => 'text',
+                    'input_type' => 'text',
                     // Placeholder text for the HTML input box. Leave empty if you don't need it.
-                    'placeholder'        => '',
+                    'placeholder' => '',
                     // Label to show above the HTML input box. Leave empty if you don't need it.
-                    'label'              => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_CODE_LABEL'),
+                    'label' => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_CODE_LABEL'),
                     // Custom HTML. Only used when field_type = custom.
-                    'html'               => '',
+                    'html' => '',
                     // Custom HTML to display below the MFA form
-                    'post_message'       => '',
+                    'post_message' => '',
                     // Allow authentication against all entries of this MFA Method.
                     'allowEntryBatching' => 1,
                 ]

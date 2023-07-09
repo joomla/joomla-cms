@@ -12,6 +12,10 @@ namespace Joomla\CMS\Feed;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Feed factory class.
  *
@@ -23,7 +27,7 @@ class FeedFactory
      * @var    array  The list of registered parser classes for feeds.
      * @since  3.1.4
      */
-    protected $parsers = array('rss' => 'Joomla\\CMS\\Feed\\Parser\\RssParser', 'feed' => 'Joomla\\CMS\\Feed\\Parser\\AtomParser');
+    protected $parsers = ['rss' => 'Joomla\\CMS\\Feed\\Parser\\RssParser', 'feed' => 'Joomla\\CMS\\Feed\\Parser\\AtomParser'];
 
     /**
      * Method to load a URI into the feed reader for parsing.

@@ -15,12 +15,16 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\User\User;
 use Joomla\Input\Input;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Interface defining a Joomla! CMS Application class
  *
  * @since  4.0.0
  * @note   In Joomla 5 this interface will no longer extend EventAwareInterface
- * @property-read   Input  $input  {@deprecated 5.0} The Joomla Input property. Deprecated in favour of getInput()
+ * @property-read   Input  $input  {@deprecated 4.0 will be removed in 6.0} The Joomla Input property. Deprecated in favour of getInput()
  */
 interface CMSApplicationInterface extends ExtensionManagerInterface, ConfigurationAwareApplicationInterface, EventAwareInterface
 {
@@ -128,7 +132,9 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      * @return  boolean
      *
      * @since       4.0.0
-     * @deprecated  5.0  Will be removed without replacements
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacement. CLI will be handled by the joomla/console package instead
      */
     public function isCli();
 

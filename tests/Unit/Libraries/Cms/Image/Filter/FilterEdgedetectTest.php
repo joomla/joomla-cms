@@ -62,7 +62,7 @@ class FilterEdgedetectTest extends UnitTestCase
         $imageHandle = imagecreatetruecolor(100, 100);
 
         // Define red.
-        $dark = imagecolorallocate($imageHandle, 90, 90, 90);
+        $dark  = imagecolorallocate($imageHandle, 90, 90, 90);
         $light = imagecolorallocate($imageHandle, 120, 120, 120);
 
         imagefilledrectangle($imageHandle, 0, 0, 50, 99, $dark);
@@ -70,7 +70,7 @@ class FilterEdgedetectTest extends UnitTestCase
 
         $filter = new FilterEdgedetect($imageHandle);
 
-        $filter->execute(array());
+        $filter->execute([]);
 
         $this->assertEquals(
             187,

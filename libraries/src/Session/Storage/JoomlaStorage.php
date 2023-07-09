@@ -13,6 +13,10 @@ use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\Storage\NativeStorage;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Service provider for the application's session dependency
  *
@@ -85,7 +89,7 @@ class JoomlaStorage extends NativeStorage
         $this->setHandler($handler);
         $this->setCookieParams();
 
-        $this->data = new Registry();
+        $this->data  = new Registry();
         $this->input = $input;
 
         // Register our function as shutdown method, so we can manipulate it

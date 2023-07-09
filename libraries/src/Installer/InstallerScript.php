@@ -10,11 +10,15 @@
 namespace Joomla\CMS\Installer;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Base install script for use by extensions providing helper methods for common behaviours.
@@ -53,7 +57,7 @@ class InstallerScript
      * @var    array
      * @since  3.6
      */
-    protected $deleteFiles = array();
+    protected $deleteFiles = [];
 
     /**
      * A list of folders to be deleted
@@ -61,7 +65,7 @@ class InstallerScript
      * @var    array
      * @since  3.6
      */
-    protected $deleteFolders = array();
+    protected $deleteFolders = [];
 
     /**
      * A list of CLI script files to be copied to the cli directory
@@ -69,7 +73,7 @@ class InstallerScript
      * @var    array
      * @since  3.6
      */
-    protected $cliScriptFiles = array();
+    protected $cliScriptFiles = [];
 
     /**
      * Minimum PHP version required to install the extension
@@ -169,7 +173,7 @@ class InstallerScript
     {
         $extension = $this->extension;
 
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true);
 
         // Select the item(s) and retrieve the id
@@ -253,7 +257,7 @@ class InstallerScript
         // Store the combined new and existing values back as a JSON string
         $paramsString = json_encode($params);
 
-        $db = Factory::getDbo();
+        $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->update($db->quoteName($this->paramTable))
             ->set('params = :params')
@@ -360,7 +364,7 @@ class InstallerScript
     public function addDashboardMenu(string $dashboard, string $preset)
     {
         $model  = Factory::getApplication()->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
-        $module = array(
+        $module = [
             'id'         => 0,
             'asset_id'   => 0,
             'language'   => '*',
@@ -372,7 +376,7 @@ class InstallerScript
             'content'    => '',
             'module'     => 'mod_submenu',
             'position'   => 'cpanel-' . $dashboard,
-        );
+        ];
 
         // Try to get a translated module title, otherwise fall back to a fixed string.
         $titleKey         = strtoupper('COM_' . $this->extension . '_DASHBOARD_' . $dashboard . '_TITLE');
@@ -380,11 +384,11 @@ class InstallerScript
         $module['title']  = ($title === $titleKey) ? ucfirst($dashboard) . ' Dashboard' : $title;
 
         $module['access'] = (int) Factory::getApplication()->get('access', 1);
-        $module['params'] = array(
+        $module['params'] = [
             'menutype' => '*',
             'preset'   => $preset,
             'style'    => 'System-none',
-        );
+        ];
 
         if (!$model->save($module)) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DASHBOARD', $model->getError()));

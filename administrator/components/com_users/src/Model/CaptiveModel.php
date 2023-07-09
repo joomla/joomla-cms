@@ -18,11 +18,14 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\Event;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Captive Multi-factor Authentication page's model
@@ -80,8 +83,7 @@ class CaptiveModel extends BaseDatabaseModel
     public function getRecords(User $user = null, bool $includeBackupCodes = false): array
     {
         if (is_null($user)) {
-            $user = Factory::getApplication()->getIdentity()
-                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            $user = $this->getCurrentUser();
         }
 
         // Get the user's MFA records
@@ -172,8 +174,7 @@ class CaptiveModel extends BaseDatabaseModel
         }
 
         if (is_null($user)) {
-            $user = Factory::getApplication()->getIdentity()
-                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            $user = $this->getCurrentUser();
         }
 
         /** @var MfaTable $record */
@@ -225,8 +226,8 @@ class CaptiveModel extends BaseDatabaseModel
                 return $renderOptions->merge(
                     [
                         'pre_message' => Text::_('COM_USERS_USER_BACKUPCODES_CAPTIVE_PROMPT'),
-                        'input_type' => 'number',
-                        'label' => Text::_('COM_USERS_USER_BACKUPCODE'),
+                        'input_type'  => 'number',
+                        'label'       => Text::_('COM_USERS_USER_BACKUPCODE'),
                     ]
                 );
             }

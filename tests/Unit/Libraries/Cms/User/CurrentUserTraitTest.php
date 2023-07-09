@@ -34,8 +34,7 @@ class CurrentUserTraitTest extends UnitTestCase
     {
         $user = new User();
 
-        $trait = new class
-        {
+        $trait = new class () {
             use CurrentUserTrait;
 
             public function getUser(): User

@@ -15,6 +15,10 @@ use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Event\Result\ResultTypeObjectAware;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Concrete Event class for the onUserMultifactorGetMethod event
  *

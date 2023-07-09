@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Image\Exception;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Exception thrown when an image has no known properties.
  *

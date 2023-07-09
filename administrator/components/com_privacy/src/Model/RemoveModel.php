@@ -21,6 +21,10 @@ use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\Component\Privacy\Administrator\Removal\Status;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Remove model class.
  *
@@ -190,7 +194,7 @@ class RemoveModel extends BaseDatabaseModel
     protected function populateState()
     {
         // Get the pk of the record from the request.
-        $this->setState($this->getName() . '.request_id', Factory::getApplication()->input->getUint('id'));
+        $this->setState($this->getName() . '.request_id', Factory::getApplication()->getInput()->getUint('id'));
 
         // Load the parameters.
         $this->setState('params', ComponentHelper::getParams('com_privacy'));

@@ -15,6 +15,10 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Statistics model class for Finder.
  *
@@ -32,9 +36,9 @@ class StatisticsModel extends BaseDatabaseModel
     public function getData()
     {
         // Initialise
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $data = new CMSObject();
+        $data  = new CMSObject();
 
         $query->select('COUNT(term_id)')
             ->from($db->quoteName('#__finder_terms'));
@@ -70,7 +74,7 @@ class StatisticsModel extends BaseDatabaseModel
         $db->setQuery($query);
         $data->type_list = $db->loadObjectList();
 
-        $lang  = Factory::getLanguage();
+        $lang    = Factory::getLanguage();
         $plugins = PluginHelper::getPlugin('finder');
 
         foreach ($plugins as $plugin) {

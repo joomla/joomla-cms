@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Version;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Update's Default View
  *
@@ -169,7 +173,7 @@ class HtmlView extends BaseHtmlView
 
         $this->state = $this->get('State');
 
-        $hasUpdate = !empty($this->updateInfo['hasUpdate']);
+        $hasUpdate   = !empty($this->updateInfo['hasUpdate']);
         $hasDownload = isset($this->updateInfo['object']->downloadurl->_data);
 
         // Fresh update, show it

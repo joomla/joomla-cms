@@ -19,6 +19,10 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Module model.
  *
@@ -84,7 +88,7 @@ class SelectModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields from the table.
@@ -124,7 +128,7 @@ class SelectModel extends ListModel
         $items = parent::getItems();
 
         $client = ApplicationHelper::getClientInfo($this->getState('client_id', 0));
-        $lang = Factory::getLanguage();
+        $lang   = Factory::getLanguage();
 
         // Loop through the results to add the XML metadata,
         // and load language support.

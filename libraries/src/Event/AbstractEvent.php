@@ -14,6 +14,10 @@ use Joomla\Event\Event;
 use Joomla\Event\Event as BaseEvent;
 use Joomla\String\Normalise;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This class implements the base Event object used system-wide to offer orthogonality. Core objects such as Models,
  * Controllers, etc create such events on-the-fly and dispatch them through the application's Dispatcher (colloquially
@@ -68,8 +72,8 @@ abstract class AbstractEvent extends BaseEvent
          * the onTableBeforeLoad event name.
          */
         if (empty($eventClassName) || !class_exists($eventClassName, true)) {
-            $bareName = strpos($eventName, 'on') === 0 ? substr($eventName, 2) : $eventName;
-            $parts = Normalise::fromCamelCase($bareName, true);
+            $bareName       = strpos($eventName, 'on') === 0 ? substr($eventName, 2) : $eventName;
+            $parts          = Normalise::fromCamelCase($bareName, true);
             $eventClassName = __NAMESPACE__ . '\\' . ucfirst(array_shift($parts)) . '\\';
             $eventClassName .= implode('', $parts);
             $eventClassName .= 'Event';

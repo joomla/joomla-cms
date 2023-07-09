@@ -134,12 +134,12 @@ $doc->addScriptOptions(
                         }
 
                         // Take existing values
-                        $valMenu = empty($value['toolbars'][$num]['menu'])     ? array() : $value['toolbars'][$num]['menu'];
-                        $valBar1 = empty($value['toolbars'][$num]['toolbar1']) ? array() : $value['toolbars'][$num]['toolbar1'];
-                        $valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? array() : $value['toolbars'][$num]['toolbar2'];
+                        $valMenu = empty($value['toolbars'][$num]['menu'])     ? [] : $value['toolbars'][$num]['menu'];
+                        $valBar1 = empty($value['toolbars'][$num]['toolbar1']) ? [] : $value['toolbars'][$num]['toolbar1'];
+                        $valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? [] : $value['toolbars'][$num]['toolbar2'];
 
                         ?>
-                    <?php echo $this->sublayout('setaccess', array('form' => $setsForms[$num])); ?>
+                    <?php echo $this->sublayout('setaccess', ['form' => $setsForms[$num]]); ?>
                     <div class="btn-toolbar float-end mt-3">
                         <div class="btn-group btn-group-sm">
 
@@ -179,7 +179,7 @@ $doc->addScriptOptions(
                     </div>
 
                     <?php // Render the form for extra options ?>
-                    <?php echo $this->sublayout('setoptions', array('form' => $setsForms[$num])); ?>
+                    <?php echo $this->sublayout('setoptions', ['form' => $setsForms[$num]]); ?>
             </joomla-tab-element>
         <?php endforeach; ?>
     </joomla-tab>

@@ -20,6 +20,10 @@ use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Categories Component Categories Model
  *
@@ -43,10 +47,10 @@ class CategoriesModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 'a.id',
                 'title', 'a.title',
                 'alias', 'a.alias',
@@ -62,7 +66,7 @@ class CategoriesModel extends ListModel
                 'level', 'a.level',
                 'path', 'a.path',
                 'tag',
-            );
+            ];
         }
 
         if (Associations::isEnabled()) {
@@ -88,10 +92,10 @@ class CategoriesModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        $forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
+        $forcedLanguage = $app->getInput()->get('forcedLanguage', '', 'cmd');
 
         // Adjust the context to support modal layouts.
-        if ($layout = $app->input->get('layout')) {
+        if ($layout = $app->getInput()->get('layout')) {
             $this->context .= '.' . $layout;
         }
 
@@ -157,9 +161,9 @@ class CategoriesModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user = $this->getCurrentUser();
+        $user  = $this->getCurrentUser();
 
         // Select the required fields from the table.
         $query->select(
@@ -341,7 +345,7 @@ class CategoriesModel extends ListModel
 
         // Add the list ordering clause
         $listOrdering = $this->getState('list.ordering', 'a.lft');
-        $listDirn = $db->escape($this->getState('list.direction', 'ASC'));
+        $listDirn     = $db->escape($this->getState('list.direction', 'ASC'));
 
         if ($listOrdering == 'a.access') {
             $query->order('a.access ' . $listDirn . ', a.lft ' . $listDirn);
@@ -390,9 +394,9 @@ class CategoriesModel extends ListModel
         $extension = $this->getState('filter.extension');
 
         $this->hasAssociation = Associations::isEnabled();
-        $extension = explode('.', $extension);
-        $component = array_shift($extension);
-        $cname = str_replace('com_', '', $component);
+        $extension            = explode('.', $extension);
+        $component            = array_shift($extension);
+        $cname                = str_replace('com_', '', $component);
 
         if (!$this->hasAssociation || !$component || !$cname) {
             $this->hasAssociation = false;

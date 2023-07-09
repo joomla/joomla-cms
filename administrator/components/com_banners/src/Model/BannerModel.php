@@ -18,6 +18,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Banner model.
  *
@@ -55,10 +59,10 @@ class BannerModel extends AdminModel
      *
      * @var  array
      */
-    protected $batch_commands = array(
+    protected $batch_commands = [
         'client_id'   => 'batchClient',
-        'language_id' => 'batchLanguage'
-    );
+        'language_id' => 'batchLanguage',
+    ];
 
     /**
      * Batch client changes for a group of banners.
@@ -139,8 +143,8 @@ class BannerModel extends AdminModel
     public function generateTitle($categoryId, $table)
     {
         // Alter the title & alias
-        $data = $this->generateNewTitle($categoryId, $table->alias, $table->name);
-        $table->name = $data['0'];
+        $data         = $this->generateNewTitle($categoryId, $table->alias, $table->name);
+        $table->name  = $data['0'];
         $table->alias = $data['1'];
     }
 
@@ -174,10 +178,10 @@ class BannerModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_banners.banner', 'banner', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_banners.banner', 'banner', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -220,7 +224,7 @@ class BannerModel extends AdminModel
     {
         // Check the session for previously entered form data.
         $app  = Factory::getApplication();
-        $data = $app->getUserState('com_banners.edit.banner.data', array());
+        $data = $app->getUserState('com_banners.edit.banner.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -230,7 +234,7 @@ class BannerModel extends AdminModel
                 $filters     = (array) $app->getUserState('com_banners.banners.filter');
                 $filterCatId = $filters['category_id'] ?? null;
 
-                $data->set('catid', $app->input->getInt('catid', $filterCatId));
+                $data->set('catid', $app->getInput()->getInt('catid', $filterCatId));
             }
         }
 
@@ -316,7 +320,7 @@ class BannerModel extends AdminModel
 
             // Set ordering to the last item if not set
             if (empty($table->ordering)) {
-                $db = $this->getDatabase();
+                $db    = $this->getDatabase();
                 $query = $db->getQuery(true)
                     ->select('MAX(' . $db->quoteName('ordering') . ')')
                     ->from($db->quoteName('#__banners'));
@@ -370,7 +374,7 @@ class BannerModel extends AdminModel
      */
     public function save($data)
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Create new category, if needed.
         $createCategory = true;

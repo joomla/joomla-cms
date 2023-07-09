@@ -13,6 +13,10 @@ use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Factory;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class for error page renderers
  *

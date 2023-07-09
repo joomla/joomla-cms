@@ -17,6 +17,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\Component\Admin\Administrator\Model\SysinfoModel;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Sysinfo View class for the Admin component
  *
@@ -71,7 +75,7 @@ class JsonView extends AbstractView
             'config'      => $model->getSafeData('config'),
             'directories' => $model->getSafeData('directory', true),
             'phpInfo'     => $model->getSafeData('phpInfoArray'),
-            'extensions'  => $model->getSafeData('extensions')
+            'extensions'  => $model->getSafeData('extensions'),
         ];
     }
 }

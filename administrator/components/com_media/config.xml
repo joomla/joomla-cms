@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <config>
+	<help key="Media:_Options"/>
 	<inlinehelp button="show"/>
 	<fieldset
 		name="component"
@@ -116,15 +117,6 @@
 			label="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_DESC"
 			default="image/jpeg,image/gif,image/png,image/bmp,image/webp,audio/ogg,audio/mpeg,audio/mp4,video/mp4,video/mpeg,video/quicktime,video/webm,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
-			showon="restrict_uploads:1"
-		/>
-
-		<field
-			name="upload_mime_illegal"
-			type="text"
-			label="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_LABEL"
-			description="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_DESC"
-			default="text/html"
 			showon="restrict_uploads:1"
 		/>
 	</fieldset>

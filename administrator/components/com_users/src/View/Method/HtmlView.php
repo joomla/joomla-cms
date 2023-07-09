@@ -18,8 +18,11 @@ use Joomla\CMS\Toolbar\Button\LinkButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Model\MethodModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View for Multi-factor Authentication method add/edit page
@@ -108,8 +111,7 @@ class HtmlView extends BaseHtmlView
         $app = Factory::getApplication();
 
         if (empty($this->user)) {
-            $this->user = Factory::getApplication()->getIdentity()
-                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            $this->user = $this->getCurrentUser();
         }
 
         /** @var MethodModel $model */
@@ -119,6 +121,7 @@ class HtmlView extends BaseHtmlView
         $this->record        = $model->getRecord($this->user);
         $this->title         = $model->getPageTitle();
         $this->isAdmin       = $app->isClient('administrator');
+        $toolbar             = Toolbar::getInstance();
 
         // Backup codes are a special case, rendered with a special layout
         if ($this->record->method == 'backupcodes') {
@@ -158,7 +161,7 @@ class HtmlView extends BaseHtmlView
             $helpUrl = $this->renderOptions['help_url'];
 
             if (!empty($helpUrl)) {
-                ToolbarHelper::help('', false, $helpUrl);
+                $toolbar->help('', false, $helpUrl);
             }
 
             $this->title = '';
@@ -168,36 +171,30 @@ class HtmlView extends BaseHtmlView
         $returnUrl = $returnUrl ?: Route::_('index.php?option=com_users&task=methods.display&user_id=' . $this->user->id);
 
         if ($this->isAdmin && $this->getLayout() === 'edit') {
-            $bar = Toolbar::getInstance();
             $button = (new BasicButton('user-mfa-edit-save'))
                 ->text($this->renderOptions['submit_text'])
                 ->icon($this->renderOptions['submit_icon'])
                 ->onclick('document.getElementById(\'user-mfa-edit-save\').click()');
 
             if ($this->renderOptions['show_submit'] || $this->isEditExisting) {
-                $bar->appendButton($button);
+                $toolbar->appendButton($button);
             }
 
             $button = (new LinkButton('user-mfa-edit-cancel'))
+                ->url($returnUrl)
                 ->text('JCANCEL')
                 ->buttonClass('btn btn-danger')
-                ->icon('icon-cancel-2')
-                ->url($returnUrl);
-            $bar->appendButton($button);
+                ->icon('icon-cancel-2');
+            $toolbar->appendButton($button);
         } elseif ($this->isAdmin && $this->getLayout() === 'backupcodes') {
-            $bar = Toolbar::getInstance();
-
             $arrow  = Factory::getApplication()->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
             $button = (new LinkButton('user-mfa-edit-cancel'))
+                ->url($returnUrl)
                 ->text('JTOOLBAR_BACK')
-                ->icon('icon-' . $arrow)
-                ->url($returnUrl);
-            $bar->appendButton($button);
+                ->icon('icon-' . $arrow);
+            $toolbar->appendButton($button);
 
             $button = (new LinkButton('user-mfa-edit-cancel'))
-                ->text('COM_USERS_MFA_BACKUPCODES_RESET')
-                ->buttonClass('btn btn-danger')
-                ->icon('icon-refresh')
                 ->url(
                     Route::_(
                         sprintf(
@@ -207,8 +204,11 @@ class HtmlView extends BaseHtmlView
                             base64_encode($returnUrl)
                         )
                     )
-                );
-            $bar->appendButton($button);
+                )
+                ->text('COM_USERS_MFA_BACKUPCODES_RESET')
+                ->buttonClass('btn btn-danger')
+                ->icon('icon-refresh');
+            $toolbar->appendButton($button);
         }
 
         // Display the view

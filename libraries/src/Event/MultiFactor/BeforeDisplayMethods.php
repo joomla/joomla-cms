@@ -14,6 +14,10 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\Result\ResultAware;
 use Joomla\CMS\User\User;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Concrete Event class for the onUserMultifactorBeforeDisplayMethods event
  *

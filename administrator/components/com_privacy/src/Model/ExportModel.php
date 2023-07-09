@@ -26,6 +26,10 @@ use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Export model class.
  *
@@ -198,7 +202,7 @@ class ExportModel extends BaseDatabaseModel
 
         // The mailer can be set to either throw Exceptions or return boolean false, account for both
         try {
-            $app = Factory::getApplication();
+            $app    = Factory::getApplication();
             $mailer = new MailTemplate('com_privacy.userdataexport', $app->getLanguage()->getTag());
 
             $templateData = [
@@ -301,7 +305,7 @@ class ExportModel extends BaseDatabaseModel
     protected function populateState()
     {
         // Get the pk of the record from the request.
-        $this->setState($this->getName() . '.request_id', Factory::getApplication()->input->getUint('id'));
+        $this->setState($this->getName() . '.request_id', Factory::getApplication()->getInput()->getUint('id'));
 
         // Load the parameters.
         $this->setState('params', ComponentHelper::getParams('com_privacy'));

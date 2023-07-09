@@ -12,6 +12,10 @@ namespace Joomla\Module\ArticlesCategories\Site\Helper;
 
 use Joomla\CMS\Categories\Categories;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_articles_categories
  *

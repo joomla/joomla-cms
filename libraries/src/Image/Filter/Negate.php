@@ -11,6 +11,10 @@ namespace Joomla\CMS\Image\Filter;
 
 use Joomla\CMS\Image\ImageFilter;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Image Filter class to negate the colors of an image.
  *
