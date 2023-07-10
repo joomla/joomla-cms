@@ -233,6 +233,10 @@ class TourModel extends AdminModel
 
         $result = parent::getItem($pk);
 
+        if (!empty($result->alias)) {
+            Factory::getLanguage()->load("com_guidedtours_" . str_replace("-", "_", $result->alias), JPATH_ADMINISTRATOR);
+        }
+
         if (!empty($result->id)) {
             $result->title_translation       = Text::_($result->title);
             $result->description_translation = Text::_($result->description);
@@ -277,6 +281,10 @@ class TourModel extends AdminModel
         $pk = (int) $db->loadResult();
 
         $result = parent::getItem($pk);
+
+        if (!empty($result->alias)) {
+            Factory::getLanguage()->load("com_guidedtours_" . str_replace("-", "_", $result->alias), JPATH_ADMINISTRATOR);
+        }
 
         if (!empty($result->id)) {
             $result->title_translation       = Text::_($result->title);

@@ -231,7 +231,24 @@ class StepsModel extends ListModel
 
         Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
+        $tourLanguageLoaded = false;
         foreach ($items as $item) {
+            if (!$tourLanguageLoaded) {
+                $app    = Factory::getApplication();
+                $tourId = $item->tour_id;
+
+                /** @var \Joomla\Component\Guidedtours\Administrator\Model\TourModel $tourModel */
+                $tourModel = $app->bootComponent('com_guidedtours')
+                                 ->getMVCFactory()->createModel('Tour', 'Administrator', [ 'ignore_request' => true ]);
+
+                $tour = $tourModel->getItem($tourId);
+
+                if (!empty($tour->alias)) {
+                    Factory::getLanguage()->load("com_guidedtours_" . str_replace("-", "_", $tour->alias), JPATH_ADMINISTRATOR);
+                }
+                $tourLanguageLoaded = true;
+            }
+
             $item->title       = Text::_($item->title);
             $item->description = Text::_($item->description);
 

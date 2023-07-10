@@ -176,7 +176,6 @@ class ToursModel extends ListModel
                 $db->quoteName('a.extensions') . ' LIKE :extensions'
             )
                   ->bind([':extensions'], $extension);
-
         } elseif ($extension = $this->getState('filter.extension')) {
             $extension = '%' . $extension . '%';
             $all       = '%*%';
@@ -275,6 +274,9 @@ class ToursModel extends ListModel
         Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
         foreach ($items as $item) {
+            if (!empty($item->alias)) {
+                Factory::getLanguage()->load("com_guidedtours_" . str_replace("-", "_", $item->alias), JPATH_ADMINISTRATOR);
+            }
             $item->title       = Text::_($item->title);
             $item->description = Text::_($item->description);
             $item->extensions  = (new Registry($item->extensions))->toArray();
