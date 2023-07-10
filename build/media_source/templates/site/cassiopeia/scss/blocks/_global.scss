@@ -123,6 +123,44 @@ th dd {
   text-align: left;
 }
 
+.contact-articles {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 0;
+  margin-right: -($cassiopeia-grid-gutter * .5);
+  margin-bottom: $cassiopeia-grid-gutter;
+  margin-left: -($cassiopeia-grid-gutter * .5);
+}
+
+@supports (display: grid) {
+  .contact-articles {
+    display: grid;
+    margin: 0 0 $cassiopeia-grid-gutter;
+    grid-auto-flow: row;
+    grid-template-columns: 1fr;
+    grid-gap: $cassiopeia-grid-gutter;
+  }
+}
+
+.contact-article {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  @include media-breakpoint-up(lg) {
+    flex-direction: row;
+    .contact-article__image {
+      flex: 1 0 40%;
+      padding-right: 2em;
+    }
+    .contact-article__content {
+      flex: 1 0 60%;
+      margin-bottom: 2em;
+    }
+  }
+}
+
 @include media-breakpoint-up(xl) {
   dl.dl-horizontal {
     display: grid;
