@@ -627,6 +627,30 @@
 			</field>
 
 			<field
+				name="show_articles_introimage"
+				type="list"
+				label="COM_CONTACT_FIELD_ARTICLES_INTROIMAGE_SHOW_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_articles_introtext"
+				type="list"
+				label="COM_CONTACT_FIELD_ARTICLES_INTROTEXT_SHOW_LABEL"
+				useglobal="true"
+				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
 				name="articles_display_num"
 				type="list"
 				label="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_LABEL"
