@@ -449,7 +449,7 @@ trait DisplayTrait
                 'branding'  => false,
                 'promotion' => false,
 
-                // Specify the atributes to be used when previewing a style. This prevents white text on a white background making the preview invisible.
+                // Specify the attributes to be used when previewing a style. This prevents white text on a white background making the preview invisible.
                 'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform background-color border border-radius outline text-shadow',
             ]
         );
