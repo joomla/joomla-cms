@@ -18,16 +18,16 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 ?>
 <?php if ($this->params->get('show_articles')) : ?>
 <div class="com-contact__articles contact-articles">
-    <?php if ($this->params->get('show_articles_introimage') || $this->params->get('show_articles_introtext')) :
-        foreach ($this->item->articles as $article) :
-            if ($this->params->get('show_articles_introimage')) :
+    <?php if ($this->params->get('show_articles_introimage') || $this->params->get('show_articles_introtext')) : ?>
+        <?php foreach ($this->item->articles as $article) : ?>
+            <?php if ($this->params->get('show_articles_introimage')) {
                 $images     = json_decode($article->images);
                 $layoutAttr = [
                     'src' => $images->image_intro,
                     'alt' => empty($images->image_intro_alt) && empty($images->image_intro_alt_empty) ? false : $images->image_intro_alt,
                 ];
-            endif;
-        ?>
+            }
+            ?>
             <article class="contact-article" itemscope itemtype="https://schema.org/BlogPosting">
                 <?php if ($this->params->get('show_articles_introimage') && !empty($images->image_intro)) : ?>
                     <figure class="contact-article__image">
