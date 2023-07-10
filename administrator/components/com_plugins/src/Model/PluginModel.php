@@ -207,7 +207,7 @@ class PluginModel extends AdminModel
      *
      * @return  Table   A database object
      */
-    public function getTable($type = 'Extension', $prefix = 'JTable', $config = [])
+    public function getTable($type = 'Extension', $prefix = '\\Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }

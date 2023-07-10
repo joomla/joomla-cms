@@ -751,7 +751,7 @@ class ModuleModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'Module', $prefix = 'JTable', $config = [])
+    public function getTable($type = 'Module', $prefix = '\\Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
