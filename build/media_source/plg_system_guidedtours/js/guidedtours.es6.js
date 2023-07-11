@@ -273,6 +273,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
             detail: {
               stepObj,
               tour,
+              element,
             },
             bubbles: true,
             tourId: sessionStorage.getItem('tourId'),
@@ -312,6 +313,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
               detail: {
                 stepObj,
                 tour,
+                element,
               },
               bubbles: true,
               tourId: sessionStorage.getItem('tourId'),
@@ -350,6 +352,7 @@ function addStepToTourButton(tour, stepObj, buttons) {
               detail: {
                 stepObj,
                 tour,
+                element,
               },
               bubbles: true,
               tourId: sessionStorage.getItem('tourId'),
