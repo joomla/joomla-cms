@@ -151,84 +151,85 @@
 
 							<field
 								name="calories"
-								type="number"
+								type="text"
+								filter="string"
 								label="PLG_SCHEMAORG_RECIPE_FIELD_CALORIES_LABEL"
 							/>
 
 							<field
 								name="carbohydrateContent"
-								type="number"
-								hint="grams"
+								type="text"
+								filter="string"
 								label="PLG_SCHEMAORG_RECIPE_FIELD_CARBOHYDRATE_LABEL"
 							/>
 
 							<field
 								name="cholesterolContent"
-								type="number"
-								hint="grams"
+								type="text"
+								filter="string"
 								label="PLG_SCHEMAORG_RECIPE_FIELD_CHOLESTROL_CONTENT_LABEL"
 							/>
 
 							<field
 								name="fatContent"
-								type="number"
-								hint="grams"
+								type="text"
+								filter="string"
 								label="PLG_SCHEMAORG_RECIPE_FIELD_FAT_LABEL"
 							/>
 
 							<field
 								name="fiberContent"
-								type="number"
-								hint="grams"
+								type="text"
+								filter="string"
 								label="PLG_SCHEMAORG_RECIPE_FIELD_FIBER_LABEL"
 							/>
 
 							<field
 								name="proteinContent"
-								type="number"
-								hint="grams"
+								type="text"
+								filter="string"
 								label="PLG_SCHEMAORG_RECIPE_FIELD_PROTEIN_LABEL"
 							/>
 
 							<field
 								name="saturatedFatContent"
-								type="number"
-								hint="grams"
+								type="text"
+								filter="string"
 								label="PLG_SCHEMAORG_RECIPE_FIELD_SATURATED_FAT_LABEL"
 							/>
 
 							<field
 								name="sodiumContent"
-								type="number"
-								hint="grams"
+								type="text"
+								filter="string"
 								label="PLG_SCHEMAORG_RECIPE_FIELD_SODIUM_LABEL"
 							/>
 
 							<field
 								name="sugarContent"
-								type="number"
-								hint="grams"
+								type="text"
+								filter="string"
 								label="PLG_SCHEMAORG_RECIPE_FIELD_SUGAR_LABEL"
 							/>
 
 							<field
 								name="transFatContent"
-								type="number"
-								hint="grams"
+								type="text"
+								filter="string"
 								label="PLG_SCHEMAORG_RECIPE_FIELD_TRANS_FAT_LABEL"
 							/>
 
 							<field
 								name="unsaturatedFatContent"
-								type="number"
-								hint="grams"
+								type="text"
+								filter="string"
 								label="PLG_SCHEMAORG_RECIPE_FIELD_UNSATURATED_FAT_LABEL"
 							/>
 
 							<field
 								name="servingSize"
-								type="number"
-								hint="grams"
+								type="text"
+								filter="string"
 								label="PLG_SCHEMAORG_RECIPE_FIELD_SERVING_SIZE_LABEL"
 							/>
 						</form>
