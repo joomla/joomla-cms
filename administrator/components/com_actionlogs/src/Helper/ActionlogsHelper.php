@@ -10,13 +10,12 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\Helper;
 
-use Generator;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
+use Joomla\Filesystem\Path;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -44,13 +43,13 @@ class ActionlogsHelper
      *
      * @param   array|\Traversable  $data  The logs data objects to be exported
      *
-     * @return  Generator
+     * @return  \Generator
      *
      * @since   3.9.0
      *
      * @throws  \InvalidArgumentException
      */
-    public static function getCsvData($data): Generator
+    public static function getCsvData($data): \Generator
     {
         if (!is_iterable($data)) {
             throw new \InvalidArgumentException(

@@ -155,7 +155,7 @@ class CoreContent extends Table implements CurrentUserInterface
     }
 
     /**
-     * Override JTable delete method to include deleting corresponding row from #__ucm_base.
+     * Override \Joomla\CMS\Table\Table delete method to include deleting corresponding row from #__ucm_base.
      *
      * @param   integer  $pk  primary key value to delete. Must be set or throws an exception.
      *

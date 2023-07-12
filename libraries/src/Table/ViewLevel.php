@@ -19,7 +19,7 @@ use Joomla\Event\DispatcherInterface;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Viewlevels table class.
+ * ViewLevel table class.
  *
  * @since  1.7.0
  */

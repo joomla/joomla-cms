@@ -59,11 +59,11 @@ class FieldTable extends Table implements CurrentUserInterface
     }
 
     /**
-     * Method to bind an associative array or object to the JTable instance.This
+     * Method to bind an associative array or object to the \Joomla\CMS\Table\Table instance.This
      * method only binds properties that are publicly accessible and optionally
      * takes an array of properties to ignore when binding.
      *
-     * @param   mixed  $src     An associative array or object to bind to the JTable instance.
+     * @param   mixed  $src     An associative array or object to bind to the \Joomla\CMS\Table\Table instance.
      * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
      *
      * @return  boolean  True on success.
@@ -120,7 +120,7 @@ class FieldTable extends Table implements CurrentUserInterface
     }
 
     /**
-     * Method to perform sanity checks on the JTable instance properties to ensure
+     * Method to perform sanity checks on the \Joomla\CMS\Table\Table instance properties to ensure
      * they are safe to store in the database.  Child classes should override this
      * method to make sure the data they are storing in the database is safe and
      * as expected before storage.

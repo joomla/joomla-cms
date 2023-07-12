@@ -92,10 +92,10 @@ class Versioning
      */
     public static function store($typeAlias, $id, $data, $note = '')
     {
-        $typeTable = Table::getInstance('Contenttype', 'JTable');
+        $typeTable = Table::getInstance('ContentType', '\\Joomla\\CMS\\Table\\');
         $typeTable->load(['type_alias' => $typeAlias]);
 
-        $historyTable          = Table::getInstance('Contenthistory', 'JTable');
+        $historyTable          = Table::getInstance('ContentHistory', '\\Joomla\\CMS\\Table\\');
         $historyTable->item_id = $typeAlias . '.' . $id;
 
         $aliasParts = explode('.', $typeAlias);

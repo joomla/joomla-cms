@@ -21,8 +21,6 @@ use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Utilities\ArrayHelper;
-use RuntimeException;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -97,7 +95,7 @@ final class Joomla extends ActionLogPlugin
      * Method is called right after the content is saved
      *
      * @param   string   $context  The context of the content passed to the plugin
-     * @param   object   $article  A JTableContent object
+     * @param   object   $article  A \Joomla\CMS\Table\Table object
      * @param   boolean  $isNew    If the content is just about to be created
      *
      * @return  void
@@ -155,7 +153,7 @@ final class Joomla extends ActionLogPlugin
      * Method is called right after the content is deleted
      *
      * @param   string  $context  The context of the content passed to the plugin
-     * @param   object  $article  A JTableContent object
+     * @param   object  $article  A \Joomla\CMS\Table\Table object
      *
      * @return  void
      *
@@ -267,7 +265,7 @@ final class Joomla extends ActionLogPlugin
 
         try {
             $items = $db->loadObjectList($params->id_holder);
-        } catch (RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             $items = [];
         }
 
@@ -1109,11 +1107,11 @@ final class Joomla extends ActionLogPlugin
      *
      * @param   string  $context  The context of the action log
      *
-     * @return  stdClass  The params
+     * @return  \stdClass  The params
      *
      * @since   4.2.0
      */
-    private function getActionLogParams($context): ?stdClass
+    private function getActionLogParams($context): ?\stdClass
     {
         $component = $this->getApplication()->bootComponent('actionlogs');
 

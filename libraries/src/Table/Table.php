@@ -12,15 +12,16 @@ namespace Joomla\CMS\Table;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Filesystem\Path;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -278,21 +279,44 @@ abstract class Table implements TableInterface, DispatcherAwareInterface
      */
     public static function getInstance($type, $prefix = 'JTable', $config = [])
     {
+        /**
+         * For B/C reasons we don't change the $prefix to \\Joomla\\CMS\\Table\\ since extensions which
+         * use JTable as table prefix instead of an own prefix and not adding 'JTable' as prefix will
+         * fail to load the table. We can't detect this situation.
+         * Example:
+         * class JTableMytable {}
+         * JTable::getInstance('Mytable');
+         * This will fail when we change the function default $prefix from JTable to \\Joomla\\CMS\\Table\\
+         *
+         * In case of $prefix is 'JTable' we make an additional check for '\\Joomla\\CMS\\Table\\' $type
+         *
+         */
+
         // Sanitize and prepare the table class name.
         $type       = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-        $tableClass = $prefix . ucfirst($type);
+
+        $tableClass       = $prefix . ucfirst($type);
+        $tableClassLegacy = $tableClass;
+
+        if ($prefix === 'JTable') {
+            $tableClass = '\\Joomla\\CMS\\Table\\' . ucfirst($type);
+        }
 
         // Only try to load the class if it doesn't already exist.
-        if (!class_exists($tableClass)) {
+        if (!class_exists($tableClass) && !class_exists($tableClassLegacy)) {
             // Search for the class file in the JTable include paths.
             $paths     = self::addIncludePath();
             $pathIndex = 0;
 
-            while (!class_exists($tableClass) && $pathIndex < \count($paths)) {
+            while (!class_exists($tableClass) && !class_exists($tableClassLegacy) && $pathIndex < \count($paths)) {
                 if ($tryThis = Path::find($paths[$pathIndex++], strtolower($type) . '.php')) {
                     // Import the class file.
                     include_once $tryThis;
                 }
+            }
+
+            if (!class_exists($tableClass) && class_exists($tableClassLegacy)) {
+                $tableClass = $tableClassLegacy;
             }
 
             if (!class_exists($tableClass)) {
@@ -308,7 +332,7 @@ abstract class Table implements TableInterface, DispatcherAwareInterface
         }
 
         // If a database object was passed in the configuration array use it, otherwise get the global one from Factory.
-        $db = $config['dbo'] ?? Factory::getDbo();
+        $db = $config['dbo'] ?? Factory::getContainer()->get(DatabaseInterface::class);
 
         // Check for a possible service from the container otherwise manually instantiate the class
         if (Factory::getContainer()->has($tableClass)) {

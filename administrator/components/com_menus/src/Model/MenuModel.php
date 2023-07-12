@@ -85,7 +85,7 @@ class MenuModel extends FormModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'MenuType', $prefix = '\JTable', $config = [])
+    public function getTable($type = 'MenuType', $prefix = '\\Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
