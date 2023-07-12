@@ -8,7 +8,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>5.0.0</version>
-	<description>PLG_GUIDEDTOUR_XML_DESCRIPTION</description>
+	<description>PLG_EDITORS-XTD_GUIDEDTOUR_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\EditorsXtd\Guidedtour</namespace>
 	<files>
 		<folder plugin="guidedtour">services</folder>

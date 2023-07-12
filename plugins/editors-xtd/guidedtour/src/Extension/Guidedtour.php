@@ -10,11 +10,10 @@
 
 namespace Joomla\Plugin\EditorsXtd\Guidedtour\Extension;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Session\Session;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,7 +22,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Editor Guidedtour button
  *
- * @since  1.5
+ * @since  __DEPLOY_VERSION__
  */
 final class Guidedtour extends CMSPlugin
 {
@@ -31,7 +30,7 @@ final class Guidedtour extends CMSPlugin
      * Load the language file on instantiation.
      *
      * @var    boolean
-     * @since  3.1
+     * @since  __DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
 
@@ -44,19 +43,47 @@ final class Guidedtour extends CMSPlugin
      *
      * @return  CMSObject|false
      *
-     * @since   1.5
+     * @since  __DEPLOY_VERSION__
      */
     public function onDisplay($name)
     {
+        $user  = $this->getApplication()->getIdentity();
+
+        // Can create guided tours
+        $canCreateRecords = $user->authorise('core.create', 'com_guidedtours');
+
+        // Instead of checking edit on all records, we can use **same** check as the form editing view
+        $values           = (array) $this->getApplication()->getUserState('com_guidedtours.edit.tour.id');
+        $isEditingRecords = count($values);
+
+        // This ACL check is probably a double-check (form view already performed checks)
+        $hasAccess = $canCreateRecords || $isEditingRecords;
+        if (!$hasAccess) {
+            return;
+        }
+
+        $link = 'index.php?option=com_guidedtours&amp;view=tours&amp;layout=modal&amp;tmpl=component&amp;'
+                . Session::getFormToken() . '=1&amp;editor=' . $name;
 
         $button          = new CMSObject();
-        $button->modal   = false;
-        $button->onclick = 'Joomla.editors.instances[\'' . $name . '\'].replaceSelection(\'<hr id="system-readmore">\');return false;';
-        $button->text    = Text::_('PLG_READMORE_BUTTON_READMORE');
+        $button->modal   = true;
+        $button->link    = $link;
+        $button->text    = Text::_('PLG_EDITORS-XTD_GUIDEDTOUR_BUTTON_TOUR');
         $button->name    = $this->_type . '_' . $this->_name;
-        $button->icon    = 'arrow-down';
-        $button->iconSVG = '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M32 12l-6-6-10 10-10-10-6 6 16 16z"></path></svg>';
-        $button->link    = '#';
+        $button->icon    = 'icon-map-signs';
+        $button->iconSVG = '<svg viewBox="0 0 512 512" width="24" height="24" focusable="false">'
+. '<path d="M224 32H64C46.3 32 32 46.3 32 64v6'
+. '4c0 17.7 14.3 32 32 32H441.4c4.2 0 8.3-1.7 11.3-4.7l48-48c6.2-6.2 6.2-16.4 0-22'
+. '.6l-48-48c-3-3-7.1-4.7-11.3-4.7H288c0-17.7-14.3-32-32-32s-32 14.3-32 32zM480 25'
+. '6c0-17.7-14.3-32-32-32H288V192H224v32H70.6c-4.2 0-8.3 1.7-11.3 4.7l-48 48c-6.2 '
+. '6.2-6.2 16.4 0 22.6l48 48c3 3 7.1 4.7 11.3 4.7H448c17.7 0 32-14.3 32-32V256zM28'
+. '8 480V384H224v96c0 17.7 14.3 32 32 32s32-14.3 32-32z"/></svg>';
+        $button->options = [
+            'height'     => '300px',
+            'width'      => '800px',
+            'bodyHeight' => '70',
+            'modalWidth' => '80',
+        ];
 
         return $button;
     }
