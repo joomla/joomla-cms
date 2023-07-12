@@ -13,7 +13,6 @@ namespace Joomla\Component\Templates\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -23,10 +22,10 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use stdClass;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -697,11 +696,11 @@ class StyleModel extends AdminModel
      *
      * @param   int  $styleId  The style id
      *
-     * @return  stdClass
+     * @return  \stdClass
      *
      * @since   4.2.0
      */
-    public function getAdminTemplate(int $styleId): stdClass
+    public function getAdminTemplate(int $styleId): \stdClass
     {
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)

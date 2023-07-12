@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
@@ -187,7 +186,7 @@ class Indexer
                      */
                     $memory_table_limit = (int) ($heapsize->Value / 800);
                     $data->options->set('memory_table_limit', $memory_table_limit);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     // Something failed. We fall back to a reasonable guess.
                     $data->options->set('memory_table_limit', 7500);
                 }
@@ -459,6 +458,10 @@ class Indexer
                     $nodeId = Taxonomy::addNode($branch, $node->title, $node->state, $node->access, $node->language);
                 }
 
+                if (!$nodeId) {
+                    continue;
+                }
+
                 // Add the link => node map.
                 Taxonomy::addMap($linkId, $nodeId);
                 $node->id = $nodeId;
@@ -643,7 +646,7 @@ class Indexer
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function remove($linkId, $removeTaxonomies = true)
     {
@@ -701,7 +704,7 @@ class Indexer
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function optimize()
     {
@@ -962,7 +965,7 @@ class Indexer
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function toggleTables($memory)
     {

@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -398,7 +398,7 @@ class CalendarField extends FormField
         }
 
         if ($this->filterFormat) {
-            $value = DateTime::createFromFormat($this->filterFormat, $value)->format('Y-m-d H:i:s');
+            $value = \DateTime::createFromFormat($this->filterFormat, $value)->format('Y-m-d H:i:s');
         }
 
         $app = Factory::getApplication();

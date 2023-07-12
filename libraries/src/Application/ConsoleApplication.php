@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Application;
 
-use InvalidArgumentException;
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
@@ -36,7 +35,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -483,7 +482,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
     public static function getRouter($name = null, array $options = [])
     {
         if (empty($name)) {
-            throw new InvalidArgumentException('A router name must be set in console application.');
+            throw new \InvalidArgumentException('A router name must be set in console application.');
         }
 
         $options['mode'] = Factory::getApplication()->get('sef');

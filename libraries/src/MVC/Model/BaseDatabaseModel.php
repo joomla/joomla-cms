@@ -24,7 +24,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
-use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\DatabaseQuery;
@@ -36,7 +35,7 @@ use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -222,7 +221,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @return  Table|boolean  Table object or boolean false if failed
      *
      * @since   3.0
-     * @see     \JTable::getInstance()
+     * @see     Table::getInstance()
      */
     protected function _createTable($name, $prefix = 'Table', $config = [])
     {

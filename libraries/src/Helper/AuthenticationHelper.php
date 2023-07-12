@@ -9,13 +9,12 @@
 
 namespace Joomla\CMS\Helper;
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -97,7 +96,7 @@ abstract class AuthenticationHelper
         try {
             /** @var CMSApplication $app */
             $app = Factory::getApplication();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [];
         }
 

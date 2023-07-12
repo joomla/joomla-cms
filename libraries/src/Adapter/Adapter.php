@@ -10,11 +10,12 @@
 namespace Joomla\CMS\Adapter;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\Database\DatabaseAwareInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -26,8 +27,11 @@ use Joomla\Database\DatabaseAwareInterface;
  * @deprecated  4.3 will be removed in 6.0
  *              Will be removed without replacement
  */
-class Adapter extends CMSObject
+class Adapter
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
     /**
      * Associative array of adapters
      *

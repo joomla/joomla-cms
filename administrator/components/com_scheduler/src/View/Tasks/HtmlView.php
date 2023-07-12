@@ -16,7 +16,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -53,7 +52,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state.
      *
-     * @var    CMSObject
+     * @var    \Joomla\Registry\Registry
      * @since  4.1.0
      */
     protected $state;

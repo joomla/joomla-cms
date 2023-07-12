@@ -14,7 +14,6 @@ use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
@@ -27,6 +26,7 @@ use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -113,6 +113,15 @@ class FieldModel extends AdminModel
 
         if (isset($data['id']) && $data['id']) {
             $field = $this->getItem($data['id']);
+        }
+
+        if (
+            isset($data['params']['searchindex'])
+            && ((is_null($field) && $data['params']['searchindex'] > 0)
+                || ($field->params['searchindex'] != $data['params']['searchindex'])
+                || ($data['params']['searchindex'] > 0 && ($field->state != $data['state'] || $field->access != $data['access'])))
+        ) {
+            Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
         }
 
         if (!isset($data['label']) && isset($data['params']['label'])) {
@@ -858,6 +867,31 @@ class FieldModel extends AdminModel
         // Load the parameters.
         $params = ComponentHelper::getParams('com_fields');
         $this->setState('params', $params);
+    }
+
+    /**
+     * Method to change the published state of one or more records.
+     *
+     * @param   array    &$pks   A list of the primary keys to change.
+     * @param   integer  $value  The value of the published state.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   5.0.0
+     */
+    public function publish(&$pks, $value = 1)
+    {
+        foreach ($pks as $pk) {
+            $item = $this->getItem($pk);
+
+            if (isset($item->params['searchindex']) && $item->params['searchindex'] > 0) {
+                Factory::getApplication()->enqueueMessage(Text::_('COM_FIELDS_SEARCHINDEX_MIGHT_REQUIRE_REINDEXING'), 'notice');
+
+                break;
+            }
+        }
+
+        return parent::publish($pks, $value);
     }
 
     /**
