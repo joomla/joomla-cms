@@ -83,7 +83,7 @@ class ContentHistory extends Table implements CurrentUserInterface
     public function store($updateNulls = false)
     {
         $this->set('character_count', \strlen($this->get('version_data')));
-        $typeTable = Table::getInstance('ContentType', 'JTable', ['dbo' => $this->getDbo()]);
+        $typeTable = Table::getInstance('ContentType', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
         $typeAlias = explode('.', $this->item_id);
         array_pop($typeAlias);
         $typeTable->load(['type_alias' => implode('.', $typeAlias)]);
