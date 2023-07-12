@@ -612,6 +612,7 @@ abstract class Factory
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form())
+            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Input())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Logger())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Language())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Mailer())
