@@ -11,7 +11,7 @@ describe('Test that group field contact API endpoint', () => {
 
   it.only('can create a group field', () => {
     cy.api_post('/fields/groups/contacts/contact', {
-      title: 'automated test field group',
+      title: 'automated test group field',
       access: 1,
       context: 'com_contact.contact',
       default_value: '',
