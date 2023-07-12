@@ -46,7 +46,7 @@ if (!empty($editor)) {
 ?>
 <div class="container-popup">
 
-    <form action="<?php echo Route::_('index.php?option=com_guidedtours&view=toures&layout=modal&tmpl=component&function=' . $function . '&' . Session::getFormToken() . '=1&editor=' . $editor); ?>" method="post" name="adminForm" id="adminForm">
+    <form action="<?php echo Route::_('index.php?option=com_guidedtours&view=tours&layout=modal&tmpl=component&function=' . $function . '&' . Session::getFormToken() . '=1&editor=' . $editor); ?>" method="post" name="adminForm" id="adminForm">
 
 	    <div id="j-main-container" class="j-main-container">
             <?php
