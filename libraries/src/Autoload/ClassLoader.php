@@ -11,6 +11,10 @@ namespace Joomla\CMS\Autoload;
 
 use Composer\Autoload\ClassLoader as ComposerClassLoader;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Decorate Composer ClassLoader for Joomla!
  *

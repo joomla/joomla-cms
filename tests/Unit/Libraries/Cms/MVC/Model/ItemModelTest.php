@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Base
@@ -26,95 +27,95 @@ use Joomla\Tests\Unit\UnitTestCase;
  */
 class ItemModelTest extends UnitTestCase
 {
-	/**
-	 * @testdox  store id is not empty
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function testGetStoreId()
-	{
-		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel
-		{
-			public function getStoreId($id = '')
-			{
-				return parent::getStoreId($id);
-			}
+    /**
+     * @testdox  store id is not empty
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testGetStoreId()
+    {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel {
+            public function getStoreId($id = '')
+            {
+                return parent::getStoreId($id);
+            }
 
-			public function getItem($pk = null)
-			{}
-		};
+            public function getItem($pk = null)
+            {
+            }
+        };
 
-		$this->assertNotEmpty($model->getStoreId(1));
-	}
+        $this->assertNotEmpty($model->getStoreId(1));
+    }
 
-	/**
-	 * @testdox  store id is not empty on an empty id
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function testGetEmptyStoreId()
-	{
-		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel
-		{
-			public function getStoreId($id = '')
-			{
-				return parent::getStoreId($id);
-			}
+    /**
+     * @testdox  store id is not empty on an empty id
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testGetEmptyStoreId()
+    {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel {
+            public function getStoreId($id = '')
+            {
+                return parent::getStoreId($id);
+            }
 
-			public function getItem($pk = null)
-			{}
-		};
+            public function getItem($pk = null)
+            {
+            }
+        };
 
-		$this->assertNotEmpty($model->getStoreId());
-	}
+        $this->assertNotEmpty($model->getStoreId());
+    }
 
-	/**
-	 * @testdox  store id is different with different ids
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function testStoreIdWithDifferentIds()
-	{
-		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel
-		{
-			public function getStoreId($id = '')
-			{
-				return parent::getStoreId($id);
-			}
+    /**
+     * @testdox  store id is different with different ids
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testStoreIdWithDifferentIds()
+    {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel {
+            public function getStoreId($id = '')
+            {
+                return parent::getStoreId($id);
+            }
 
-			public function getItem($pk = null)
-			{}
-		};
+            public function getItem($pk = null)
+            {
+            }
+        };
 
-		$this->assertNotEquals($model->getStoreId(1), $model->getStoreId(2));
-	}
+        $this->assertNotEquals($model->getStoreId(1), $model->getStoreId(2));
+    }
 
-	/**
-	 * @testdox  store id is the same with same ids
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function testStoreIdWithSameIds()
-	{
-		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel
-		{
-			public function getStoreId($id = '')
-			{
-				return parent::getStoreId($id);
-			}
+    /**
+     * @testdox  store id is the same with same ids
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function testStoreIdWithSameIds()
+    {
+        $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends ItemModel {
+            public function getStoreId($id = '')
+            {
+                return parent::getStoreId($id);
+            }
 
-			public function getItem($pk = null)
-			{}
-		};
+            public function getItem($pk = null)
+            {
+            }
+        };
 
-		$this->assertSame($model->getStoreId(1), $model->getStoreId(1));
-	}
+        $this->assertSame($model->getStoreId(1), $model->getStoreId(1));
+    }
 }

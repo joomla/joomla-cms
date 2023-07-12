@@ -9,13 +9,16 @@
 
 namespace Joomla\CMS\Console;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Updater\Updater;
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Console command for checking if there are pending extension updates
@@ -48,13 +51,8 @@ class CheckUpdatesCommand extends AbstractCommand
 
         $symfonyStyle->title('Fetching Extension Updates');
 
-        // Get the update cache time
-        $component = ComponentHelper::getComponent('com_installer');
-
-        $cache_timeout = 3600 * (int) $component->getParams()->get('cachetimeout', 6);
-
         // Find all updates
-        $ret = Updater::getInstance()->findUpdates(0, $cache_timeout);
+        $ret = Updater::getInstance()->findUpdates();
 
         if ($ret) {
             $symfonyStyle->note('There are available updates to apply');

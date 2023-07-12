@@ -11,9 +11,10 @@ namespace Joomla\CMS\MVC\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
+use Joomla\CMS\Document\DocumentAwareInterface;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\LanguageAwareInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
@@ -26,7 +27,12 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Filesystem\Path;
 use Joomla\Input\Input;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Base class for a Joomla Controller
@@ -91,7 +97,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
     /**
      * The name of the controller
      *
-     * @var    array
+     * @var    string
      * @since  3.0
      */
     protected $name;
@@ -185,7 +191,9 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      * @return  void
      *
      * @since   3.0
-     * @deprecated  5.0 See \Joomla\CMS\MVC\Model\LegacyModelLoaderTrait::getInstance
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement. Get the model through the MVCFactory instead
      */
     public static function addModelPath($path, $prefix = '')
     {
@@ -202,7 +210,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      *
      * @since   3.0
      */
-    public static function createFileName($type, $parts = array())
+    public static function createFileName($type, $parts = [])
     {
         $filename = '';
 
@@ -244,10 +252,14 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      * @return  static
      *
      * @since       3.0
-     * @deprecated  5.0 Get the controller through the MVCFactory instead
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Get the controller through the MVCFactory instead
+     *              Example: Factory::getApplication()->bootComponent($option)->getMVCFactory()->createController(...);
+     *
      * @throws      \Exception if the controller cannot be loaded.
      */
-    public static function getInstance($prefix, $config = array())
+    public static function getInstance($prefix, $config = [])
     {
         if (\is_object(self::$instance)) {
             return self::$instance;
@@ -262,7 +274,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
         );
 
         $app   = Factory::getApplication();
-        $input = $app->input;
+        $input = $app->getInput();
 
         // Get the environment configuration.
         $basePath = \array_key_exists('base_path', $config) ? $config['base_path'] : JPATH_COMPONENT;
@@ -273,7 +285,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
         $filter = InputFilter::getInstance();
 
         if (\is_array($command)) {
-            $keys = array_keys($command);
+            $keys    = array_keys($command);
             $command = $filter->clean(array_pop($keys), 'cmd');
         } else {
             $command = $filter->clean($command, 'cmd');
@@ -282,11 +294,11 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
         // Check for a controller.task command.
         if (strpos($command, '.') !== false) {
             // Explode the controller.task command.
-            list ($type, $task) = explode('.', $command);
+            list($type, $task) = explode('.', $command);
 
             // Define the controller filename and path.
-            $file = self::createFileName('controller', array('name' => $type, 'format' => $format));
-            $path = $basePath . '/controllers/' . $file;
+            $file       = self::createFileName('controller', ['name' => $type, 'format' => $format]);
+            $path       = $basePath . '/controllers/' . $file;
             $backuppath = $basePath . '/controller/' . $file;
 
             // Reset the task without the controller context.
@@ -296,9 +308,9 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
             $type = '';
 
             // Define the controller filename and path.
-            $file       = self::createFileName('controller', array('name' => 'controller', 'format' => $format));
+            $file       = self::createFileName('controller', ['name' => 'controller', 'format' => $format]);
             $path       = $basePath . '/' . $file;
-            $backupfile = self::createFileName('controller', array('name' => 'controller'));
+            $backupfile = self::createFileName('controller', ['name' => 'controller']);
             $backuppath = $basePath . '/' . $backupfile;
         }
 
@@ -335,36 +347,36 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
     /**
      * Constructor.
      *
-     * @param   array                $config   An optional associative array of configuration settings.
-     *                                         Recognized key values include 'name', 'default_task', 'model_path', and
-     *                                         'view_path' (this list is not meant to be comprehensive).
-     * @param   MVCFactoryInterface  $factory  The factory.
-     * @param   CMSApplication       $app      The Application for the dispatcher
-     * @param   Input                $input    Input
+     * @param   array                 $config   An optional associative array of configuration settings.
+     *                                          Recognized key values include 'name', 'default_task', 'model_path', and
+     *                                          'view_path' (this list is not meant to be comprehensive).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
+     * @param   ?CMSApplication       $app      The Application for the dispatcher
+     * @param   ?Input                $input    Input
      *
      * @since   3.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
     {
-        $this->methods = array();
-        $this->message = null;
+        $this->methods     = [];
+        $this->message     = null;
         $this->messageType = 'message';
-        $this->paths = array();
-        $this->redirect = null;
-        $this->taskMap = array();
+        $this->paths       = [];
+        $this->redirect    = null;
+        $this->taskMap     = [];
 
         $this->app   = $app ?: Factory::getApplication();
-        $this->input = $input ?: $this->app->input;
+        $this->input = $input ?: $this->app->getInput();
 
         if (\defined('JDEBUG') && JDEBUG) {
-            Log::addLogger(array('text_file' => 'jcontroller.log.php'), Log::ALL, array('controller'));
+            Log::addLogger(['text_file' => 'jcontroller.log.php'], Log::ALL, ['controller']);
         }
 
         // Determine the methods to exclude from the base class.
         $xMethods = get_class_methods('\\Joomla\\CMS\\MVC\\Controller\\BaseController');
 
         // Get the public methods in this class using reflection.
-        $r = new \ReflectionClass($this);
+        $r        = new \ReflectionClass($this);
         $rMethods = $r->getMethods(\ReflectionMethod::IS_PUBLIC);
 
         foreach ($rMethods as $rMethod) {
@@ -435,7 +447,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
             $this->default_view = $this->getName();
         }
 
-        $this->factory = $factory ? : new LegacyFactory();
+        $this->factory = $factory ?: new LegacyFactory();
     }
 
     /**
@@ -451,7 +463,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
     protected function addPath($type, $path)
     {
         if (!isset($this->paths[$type])) {
-            $this->paths[$type] = array();
+            $this->paths[$type] = [];
         }
 
         // Loop through the path directories
@@ -506,7 +518,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
                         (int) $result,
                         str_replace("\n", ' ', print_r($values, 1))
                     ),
-                    array('category' => 'controller')
+                    ['category' => 'controller']
                 );
             }
 
@@ -528,7 +540,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      *
      * @since   3.0
      */
-    protected function createModel($name, $prefix = '', $config = array())
+    protected function createModel($name, $prefix = '', $config = [])
     {
         $model = $this->factory->createModel($name, $prefix, $config);
 
@@ -561,7 +573,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      * @since   3.0
      * @throws  \Exception
      */
-    protected function createView($name, $prefix = '', $type = '', $config = array())
+    protected function createView($name, $prefix = '', $type = '', $config = [])
     {
         $config['paths'] = $this->paths['view'];
 
@@ -569,6 +581,10 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 
         if ($view instanceof CurrentUserInterface && $this->app->getIdentity()) {
             $view->setCurrentUser($this->app->getIdentity());
+        }
+
+        if ($view instanceof LanguageAwareInterface && $this->app->getLanguage()) {
+            $view->setLanguage($this->app->getLanguage());
         }
 
         return $view;
@@ -588,22 +604,27 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      * @since   3.0
      * @throws  \Exception
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
-        $document = $this->app->getDocument();
-        $viewType = $document->getType();
-        $viewName = $this->input->get('view', $this->default_view);
+        $document   = $this->app->getDocument();
+        $viewType   = $document->getType();
+        $viewName   = $this->input->get('view', $this->default_view);
         $viewLayout = $this->input->get('layout', 'default', 'string');
 
-        $view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath, 'layout' => $viewLayout));
+        $view = $this->getView($viewName, $viewType, '', ['base_path' => $this->basePath, 'layout' => $viewLayout]);
 
-        // Get/Create the model
-        if ($model = $this->getModel($viewName, '', array('base_path' => $this->basePath))) {
-            // Push the model into the view (as default)
-            $view->setModel($model, true);
+        // Set models for the View
+        $this->prepareViewModel($view);
+
+        if ($view instanceof DocumentAwareInterface && $document) {
+            $view->setDocument($this->app->getDocument());
+        } else {
+            @trigger_error(
+                'View should implement document aware interface.',
+                E_USER_DEPRECATED
+            );
+            $view->document = $document;
         }
-
-        $view->document = $document;
 
         // Display the view
         if ($cachable && $viewType !== 'feed' && $this->app->get('caching') >= 1) {
@@ -679,7 +700,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      *
      * @since   3.0
      */
-    public function getModel($name = '', $prefix = '', $config = array())
+    public function getModel($name = '', $prefix = '', $config = [])
     {
         if (empty($name)) {
             $name = $this->getName();
@@ -783,11 +804,11 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      * @since   3.0
      * @throws  \Exception
      */
-    public function getView($name = '', $type = '', $prefix = '', $config = array())
+    public function getView($name = '', $type = '', $prefix = '', $config = [])
     {
         // @note We use self so we only access stuff in this class rather than in all classes.
         if (!isset(self::$views)) {
-            self::$views = array();
+            self::$views = [];
         }
 
         if (empty($name)) {
@@ -807,7 +828,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 
         if (empty(self::$views[$name][$type][$prefix])) {
             if ($view = $this->createView($name, $prefix, $type, $config)) {
-                self::$views[$name][$type][$prefix] = & $view;
+                self::$views[$name][$type][$prefix] = &$view;
             } else {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), 404);
             }
@@ -844,7 +865,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
                         $id,
                         str_replace("\n", ' ', print_r($values, 1))
                     ),
-                    array('category' => 'controller')
+                    ['category' => 'controller']
                 );
             }
         }
@@ -950,7 +971,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
                         $id,
                         str_replace("\n", ' ', print_r($values, 1))
                     ),
-                    array('category' => 'controller')
+                    ['category' => 'controller']
                 );
             }
         }
@@ -968,8 +989,8 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      */
     public function setMessage($text, $type = 'message')
     {
-        $previous = $this->message;
-        $this->message = $text;
+        $previous          = $this->message;
+        $this->message     = $text;
         $this->messageType = $type;
 
         return $previous;
@@ -988,7 +1009,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
     protected function setPath($type, $path)
     {
         // Clear out the prior search dirs
-        $this->paths[$type] = array();
+        $this->paths[$type] = [];
 
         // Actually add the user-specified directories
         $this->addPath($type, $path);
@@ -1056,5 +1077,34 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Method to set the View Models
+     *
+     * This function is provided as a default implementation,
+     * and only set one Model in the view (that with the same prefix/sufix than the view).
+     * In case you want to set several Models for your view,
+     * you will need to override it in your DisplayController controller.
+     *
+     * @param   ViewInterface  $view  The view Object
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    protected function prepareViewModel(ViewInterface $view)
+    {
+        if (!method_exists($view, 'setModel')) {
+            return;
+        }
+
+        $viewName = $view->getName();
+
+        // Get/Create the model
+        if ($model = $this->getModel($viewName, '', ['base_path' => $this->basePath])) {
+            // Push the model into the view (as default)
+            $view->setModel($model, true);
+        }
     }
 }

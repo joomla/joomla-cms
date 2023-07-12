@@ -12,20 +12,27 @@ namespace Joomla\CMS\User;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * User class.  Handles all application interaction with a user
  *
  * @since  1.7.0
  */
-class User extends CMSObject
+class User
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
     /**
      * A cached switch for if this user has root access rights.
      *
@@ -136,7 +143,7 @@ class User extends CMSObject
      * @var    array
      * @since  1.7.0
      */
-    public $groups = array();
+    public $groups = [];
 
     /**
      * Guest status
@@ -169,6 +176,38 @@ class User extends CMSObject
      * @since  3.2
      */
     public $requireReset = null;
+
+    /**
+     * The type alias
+     *
+     * @var    string
+     * @since  5.0.0
+     */
+    public $typeAlias = null;
+
+    /**
+     * The otp key
+     *
+     * @var    string
+     * @since  5.0.0
+     */
+    public $otpKey = null;
+
+    /**
+     * The otp
+     *
+     * @var    string
+     * @since  5.0.0
+     */
+    public $otep = null;
+
+    /**
+     * The authentication provider
+     *
+     * @var    string
+     * @since  5.0.0
+     */
+    public $authProvider = null;
 
     /**
      * User parameters
@@ -214,7 +253,7 @@ class User extends CMSObject
      * @var    array  User instances container.
      * @since  1.7.3
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Constructor activating the default information of the language
@@ -233,10 +272,9 @@ class User extends CMSObject
             $this->load($identifier);
         } else {
             // Initialise
-            $this->id = 0;
+            $this->id        = 0;
             $this->sendEmail = 0;
-            $this->aid = 0;
-            $this->guest = 1;
+            $this->guest     = 1;
         }
     }
 
@@ -248,7 +286,9 @@ class User extends CMSObject
      * @return  User  The User object.
      *
      * @since       1.7.0
-     * @deprecated  5.0  Load the user service from the dependency injection container or via $app->getIdentity()
+     * @deprecated  4.3 will be removed in 6.0
+     *              Load the user service from the dependency injection container or via $app->getIdentity()
+     *              Example: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($id)
      */
     public static function getInstance($identifier = 0)
     {
@@ -400,8 +440,8 @@ class User extends CMSObject
             ->join('INNER', $db->quoteName('#__assets', 'a'), $db->quoteName('c.asset_id') . ' = ' . $db->quoteName('a.id'))
             ->bind(':component', $component);
         $db->setQuery($query);
-        $allCategories = $db->loadObjectList('id');
-        $allowedCategories = array();
+        $allCategories     = $db->loadObjectList('id');
+        $allowedCategories = [];
 
         foreach ($allCategories as $category) {
             if ($this->authorise($action, $category->name)) {
@@ -422,7 +462,7 @@ class User extends CMSObject
     public function getAuthorisedViewLevels()
     {
         if ($this->_authLevels === null) {
-            $this->_authLevels = array();
+            $this->_authLevels = [];
         }
 
         if (empty($this->_authLevels)) {
@@ -442,7 +482,7 @@ class User extends CMSObject
     public function getAuthorisedGroups()
     {
         if ($this->_authGroups === null) {
-            $this->_authGroups = array();
+            $this->_authGroups = [];
         }
 
         if (empty($this->_authGroups)) {
@@ -463,7 +503,7 @@ class User extends CMSObject
     {
         $this->_authLevels = null;
         $this->_authGroups = null;
-        $this->isRoot = null;
+        $this->isRoot      = null;
         Access::clearStatics();
     }
 
@@ -531,19 +571,19 @@ class User extends CMSObject
      * @note    At 4.0 this method will no longer be static
      * @since   1.7.0
      */
-    public static function getTable($type = null, $prefix = 'JTable')
+    public static function getTable($type = null, $prefix = '\\Joomla\\CMS\\Table\\')
     {
         static $tabletype;
 
         // Set the default tabletype;
         if (!isset($tabletype)) {
-            $tabletype['name'] = 'user';
-            $tabletype['prefix'] = 'JTable';
+            $tabletype['name']   = 'user';
+            $tabletype['prefix'] = '\\Joomla\\CMS\\Table\\';
         }
 
         // Set a custom table type is defined
         if (isset($type)) {
-            $tabletype['name'] = $type;
+            $tabletype['name']   = $type;
             $tabletype['prefix'] = $prefix;
         }
 
@@ -656,7 +696,7 @@ class User extends CMSObject
     public function save($updateOnly = false)
     {
         // Create the user table object
-        $table = $this->getTable();
+        $table        = $this->getTable();
         $this->params = (string) $this->_params;
         $table->bind($this->getProperties());
 
@@ -727,7 +767,7 @@ class User extends CMSObject
             // Fire the onUserBeforeSave event.
             PluginHelper::importPlugin('user');
 
-            $result = Factory::getApplication()->triggerEvent('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
+            $result = Factory::getApplication()->triggerEvent('onUserBeforeSave', [$oldUser->getProperties(), $isNew, $this->getProperties()]);
 
             if (\in_array(false, $result, true)) {
                 // Plugin will have to raise its own error or throw an exception.
@@ -748,7 +788,7 @@ class User extends CMSObject
             }
 
             // Fire the onUserAfterSave event
-            Factory::getApplication()->triggerEvent('onUserAfterSave', array($this->getProperties(), $isNew, $result, $this->getError()));
+            Factory::getApplication()->triggerEvent('onUserAfterSave', [$this->getProperties(), $isNew, $result, $this->getError()]);
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
 
@@ -770,7 +810,7 @@ class User extends CMSObject
         PluginHelper::importPlugin('user');
 
         // Trigger the onUserBeforeDelete event
-        Factory::getApplication()->triggerEvent('onUserBeforeDelete', array($this->getProperties()));
+        Factory::getApplication()->triggerEvent('onUserBeforeDelete', [$this->getProperties()]);
 
         // Create the user table object
         $table = $this->getTable();
@@ -780,7 +820,7 @@ class User extends CMSObject
         }
 
         // Trigger the onUserAfterDelete event
-        Factory::getApplication()->triggerEvent('onUserAfterDelete', array($this->getProperties(), $result, $this->getError()));
+        Factory::getApplication()->triggerEvent('onUserAfterDelete', [$this->getProperties(), $result, $this->getError()]);
 
         return $result;
     }
@@ -803,8 +843,6 @@ class User extends CMSObject
         if (!$table->load($id)) {
             // Reset to guest user
             $this->guest = 1;
-
-            Log::add(Text::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), Log::WARNING, 'jerror');
 
             return false;
         }
@@ -841,7 +879,7 @@ class User extends CMSObject
      */
     public function __sleep()
     {
-        return array('id');
+        return ['id'];
     }
 
     /**
@@ -862,10 +900,9 @@ class User extends CMSObject
             self::$instances[$this->id] = $this;
         } else {
             // Initialise
-            $this->id = 0;
+            $this->id        = 0;
             $this->sendEmail = 0;
-            $this->aid = 0;
-            $this->guest = 1;
+            $this->guest     = 1;
         }
     }
 }

@@ -39,6 +39,7 @@
       "description": "A file where a user can add their own css.",
       "type": "style",
       "uri": "user.css",
+      "weight": 500,
       "dependencies": [
         "template.active",
         "template.active.language"
@@ -47,8 +48,9 @@
     {
       "name": "template.atum-es5",
       "description": "The file containing the javascript for this template.",
+      "deprecated": true,
       "type": "script",
-      "uri": "media/templates/administrator/atum/js/template-es5.min.js",
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -63,7 +65,7 @@
       "type": "script",
       "uri": "media/templates/administrator/atum/js/template.min.js",
       "dependencies": [
-        "template.atum-es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

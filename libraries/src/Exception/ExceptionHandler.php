@@ -14,6 +14,10 @@ use Joomla\CMS\Error\AbstractRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Displays the custom error page when an uncaught exception occurs.
  *
@@ -38,7 +42,7 @@ class ExceptionHandler
         // We only want to handle user deprecation messages, these will be triggered in code
         if ($errorNumber === E_USER_DEPRECATED) {
             try {
-                Log::add($errorMessage, Log::WARNING, 'deprecated');
+                Log::add("$errorMessage - $errorFile - Line $errorLine", Log::WARNING, 'deprecated');
             } catch (\Exception $e) {
                 // Silence
             }
@@ -100,7 +104,7 @@ class ExceptionHandler
             if (Factory::$document) {
                 $format = Factory::$document->getType();
             } else {
-                $format = $app->input->getString('format', 'html');
+                $format = $app->getInput()->getString('format', 'html');
             }
 
             try {

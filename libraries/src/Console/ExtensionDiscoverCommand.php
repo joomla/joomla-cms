@@ -15,6 +15,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command for discovering extensions
  *
@@ -63,7 +67,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
     private function configureIO(InputInterface $input, OutputInterface $output): void
     {
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
+        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 
     /**
@@ -138,7 +142,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
         $this->configureIO($input, $output);
 
         $count = $this->processDiscover();
-
+        $this->ioStyle->title('Discover Extensions');
         $this->ioStyle->note($this->getNote($count));
 
         return Command::SUCCESS;

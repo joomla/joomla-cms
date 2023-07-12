@@ -15,6 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * LanguageFilesDataCollector
  *
@@ -47,7 +51,7 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
      */
     public function collect(): array
     {
-        $paths = Factory::getLanguage()->getPaths();
+        $paths  = Factory::getLanguage()->getPaths();
         $loaded = [];
 
         foreach ($paths as $extension => $files) {
@@ -63,10 +67,10 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
         }
 
         return [
-            'loaded' => $loaded,
+            'loaded'     => $loaded,
             'xdebugLink' => $this->getXdebugLinkTemplate(),
-            'jroot' => JPATH_ROOT,
-            'count' => $this->count,
+            'jroot'      => JPATH_ROOT,
+            'count'      => $this->count,
         ];
     }
 
@@ -94,9 +98,9 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
     {
         return [
             'loaded' => [
-                'icon' => 'language',
-                'widget' => 'PhpDebugBar.Widgets.languageFilesWidget',
-                'map' => $this->name,
+                'icon'    => 'language',
+                'widget'  => 'PhpDebugBar.Widgets.languageFilesWidget',
+                'map'     => $this->name,
                 'default' => '[]',
             ],
             'loaded:badge' => [
@@ -119,7 +123,7 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
     public function getAssets(): array
     {
         return [
-            'js' => Uri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.js',
+            'js'  => Uri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.js',
             'css' => Uri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.css',
         ];
     }

@@ -11,6 +11,10 @@ namespace Joomla\CMS\Utility;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * JUtility is a utility functions class
  *
@@ -29,8 +33,8 @@ class Utility
      */
     public static function parseAttributes($string)
     {
-        $attr = array();
-        $retarray = array();
+        $attr     = [];
+        $retarray = [];
 
         // Let's grab all the key/value pairs using a regular expression
         preg_match_all('/([\w:-]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr);
@@ -57,6 +61,8 @@ class Utility
      */
     public static function getMaxUploadSize($custom = null)
     {
+        $sizes = [];
+
         if ($custom) {
             $custom = HTMLHelper::_('number.bytes', $custom, '');
 

@@ -15,6 +15,10 @@ use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Index controller class for Finder.
  *
@@ -33,7 +37,7 @@ class IndexController extends AdminController
      *
      * @since   2.5
      */
-    public function getModel($name = 'Index', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Index', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

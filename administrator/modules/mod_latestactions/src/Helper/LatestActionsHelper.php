@@ -15,6 +15,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_latestactions
  *
@@ -23,7 +27,7 @@ use Joomla\Registry\Registry;
 abstract class LatestActionsHelper
 {
     /**
-     * Get a list of articles.
+     * Get a list of logged actions.
      *
      * @param   Registry  &$params  The module parameters.
      *

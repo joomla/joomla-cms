@@ -10,8 +10,9 @@
 
 namespace Joomla\Component\Users\Administrator\DataShape;
 
-use InvalidArgumentException;
-use Joomla\Database\ParameterType;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Data shape for Method Setup Render Options
@@ -60,8 +61,7 @@ class SetupRenderOptions extends DataShapeObject
      * @var   string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $default_title = '';
+    protected $default_title = '';
 
     /**
      * Custom HTML to display above the MFA setup form parameters etc
@@ -69,8 +69,7 @@ class SetupRenderOptions extends DataShapeObject
      * @var   string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $pre_message = '';
+    protected $pre_message = '';
 
     /**
      * Heading for displayed tabular data. Typically used to display a list of fixed MFA codes, TOTP setup
@@ -78,8 +77,7 @@ class SetupRenderOptions extends DataShapeObject
      * @var   string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $table_heading = '';
+    protected $table_heading = '';
 
     /**
      * Any tabular data to display (label => custom HTML). See above
@@ -87,8 +85,7 @@ class SetupRenderOptions extends DataShapeObject
      * @var   array
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $tabular_data = [];
+    protected $tabular_data = [];
 
     /**
      * Hidden fields to include in the form (name => value)
@@ -96,8 +93,7 @@ class SetupRenderOptions extends DataShapeObject
      * @var   array
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $hidden_data = [];
+    protected $hidden_data = [];
 
     /**
      * How to render the MFA setup code field. "input" (HTML input element) or "custom" (custom HTML)
@@ -105,8 +101,7 @@ class SetupRenderOptions extends DataShapeObject
      * @var   string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $field_type = 'input';
+    protected $field_type = 'input';
 
     /**
      * The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
@@ -114,8 +109,7 @@ class SetupRenderOptions extends DataShapeObject
      * @var   string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $input_type = 'text';
+    protected $input_type = 'text';
 
     /**
      * Attributes other than type and id which will be added to the HTML input box.
@@ -123,8 +117,7 @@ class SetupRenderOptions extends DataShapeObject
      * @var    array
      * @@since 4.2.0
      */
-	// phpcs:ignore
-	protected $input_attributes = [];
+    protected $input_attributes = [];
 
     /**
      * Pre-filled value for the HTML input box. Typically used for fixed codes, the fixed YubiKey ID etc.
@@ -132,8 +125,7 @@ class SetupRenderOptions extends DataShapeObject
      * @var   string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $input_value = '';
+    protected $input_value = '';
 
     /**
      * Placeholder text for the HTML input box. Leave empty if you don't need it.
@@ -165,8 +157,7 @@ class SetupRenderOptions extends DataShapeObject
      * @var   boolean
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $show_submit = true;
+    protected $show_submit = true;
 
     /**
      * Additional CSS classes for the submit button (apply the MFA setup)
@@ -174,8 +165,7 @@ class SetupRenderOptions extends DataShapeObject
      * @var   string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $submit_class = '';
+    protected $submit_class = '';
 
     /**
      * Icon class to use for the submit button
@@ -183,8 +173,7 @@ class SetupRenderOptions extends DataShapeObject
      * @var    string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $submit_icon = 'icon icon-ok';
+    protected $submit_icon = 'icon icon-ok';
 
     /**
      * Language key to use for the text on the submit button
@@ -192,8 +181,7 @@ class SetupRenderOptions extends DataShapeObject
      * @var    string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $submit_text = 'JSAVE';
+    protected $submit_text = 'JSAVE';
 
     /**
      * Custom HTML to display below the MFA setup form
@@ -201,8 +189,7 @@ class SetupRenderOptions extends DataShapeObject
      * @var   string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $post_message = '';
+    protected $post_message = '';
 
     /**
      * A URL with help content for this Method to display to the user
@@ -210,8 +197,7 @@ class SetupRenderOptions extends DataShapeObject
      * @var   string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $help_url = '';
+    protected $help_url = '';
 
     /**
      * Setter for the field_type property
@@ -219,17 +205,16 @@ class SetupRenderOptions extends DataShapeObject
      * @param   string  $value  One of self::FIELD_INPUT, self::FIELD_CUSTOM
      *
      * @since   4.2.0
-     * @throws  InvalidArgumentException
+     * @throws  \InvalidArgumentException
      */
-	// phpcs:ignore
-	protected function setField_type($value)
+    // phpcs:ignore
+    protected function setField_type($value)
     {
         if (!in_array($value, [self::FIELD_INPUT, self::FIELD_CUSTOM])) {
-            throw new InvalidArgumentException('Invalid value for property field_type.');
+            throw new \InvalidArgumentException('Invalid value for property field_type.');
         }
 
-		// phpcs:ignore
-		$this->field_type = $value;
+        $this->field_type = $value;
     }
 
     /**
@@ -238,10 +223,10 @@ class SetupRenderOptions extends DataShapeObject
      * @param   array  $value  The value to set
      *
      * @return  void
-     * @@since  4.2.0
+     * @since  4.2.0
      */
-	// phpcs:ignore
-	protected function setInput_attributes(array $value)
+    // phpcs:ignore
+    protected function setInput_attributes(array $value)
     {
         $forbiddenAttributes = ['id', 'type', 'name', 'value'];
 
@@ -251,7 +236,6 @@ class SetupRenderOptions extends DataShapeObject
             }
         }
 
-		// phpcs:ignore
-		$this->input_attributes = $value;
+        $this->input_attributes = $value;
     }
 }

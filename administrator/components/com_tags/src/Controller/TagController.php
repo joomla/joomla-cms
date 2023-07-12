@@ -13,6 +13,10 @@ namespace Joomla\Component\Tags\Administrator\Controller;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The Tag Controller
  *
@@ -31,7 +35,7 @@ class TagController extends FormController
      *
      * @since   3.1
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         return $this->app->getIdentity()->authorise('core.create', 'com_tags');
     }
@@ -46,7 +50,7 @@ class TagController extends FormController
      *
      * @since   3.1
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         // Since there is no asset tracking and no categories, revert to the component permissions.
         return parent::allowEdit($data, $key);

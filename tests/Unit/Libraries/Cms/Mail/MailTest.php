@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Mail
@@ -23,306 +24,306 @@ use PHPMailer\PHPMailer\PHPMailer;
  */
 class MailTest extends UnitTestCase
 {
-	/**
-	 * @var Mail
-	 *
-	 * @since   4.0.0
-	 */
-	protected $mail;
+    /**
+     * @var Mail
+     *
+     * @since   4.0.0
+     */
+    protected $mail;
 
-	/**
-	 * This method is called before a test is executed.
-	 *
-	 * @return void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function setUp():void
-	{
-		parent::setUp();
+    /**
+     * This method is called before a test is executed.
+     *
+     * @return void
+     *
+     * @since   4.0.0
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
 
-		$this->mail = new Mail;
-	}
+        $this->mail = new Mail();
+    }
 
-	/**
-	 * This method is called after a test is executed.
-	 *
-	 * @return void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function tearDown():void
-	{
-		unset($this->mail);
+    /**
+     * This method is called after a test is executed.
+     *
+     * @return void
+     *
+     * @since   4.0.0
+     */
+    protected function tearDown(): void
+    {
+        unset($this->mail);
 
-		parent::tearDown();
-	}
+        parent::tearDown();
+    }
 
-	/**
-	 * Provides test data for request format detection.
-	 *
-	 * @return array
-	 *
-	 * @since   4.0.0
-	 */
-	public function seedTestAdd(): array
-	{
-		// Recipient, name, $expected
-		return [
-			// Single emails and name
-			['test@example.com', 'test_name',
-				[
-					['test@example.com', 'test_name']
-				]
-			],
-			// Multiple emails with same name
-			[
-				['test_1@example.com', 'test_2@example.com'], 'test_name',
-				[
-					['test_1@example.com', 'test_name'], ['test_2@example.com', 'test_name']
-				]
-			],
-			// Multiple emails with individual names
-			[
-				['test_1@example.com', 'test_2@example.com'],
-				['test_name1', 'test_name2'],
-				[
-					['test_1@example.com', 'test_name1'],
-					['test_2@example.com', 'test_name2']
-				]
-			]
-		];
-	}
+    /**
+     * Provides test data for request format detection.
+     *
+     * @return array
+     *
+     * @since   4.0.0
+     */
+    public function seedTestAdd(): array
+    {
+        // Recipient, name, $expected
+        return [
+            // Single emails and name
+            ['test@example.com', 'test_name',
+                [
+                    ['test@example.com', 'test_name'],
+                ],
+            ],
+            // Multiple emails with same name
+            [
+                ['test_1@example.com', 'test_2@example.com'], 'test_name',
+                [
+                    ['test_1@example.com', 'test_name'], ['test_2@example.com', 'test_name'],
+                ],
+            ],
+            // Multiple emails with individual names
+            [
+                ['test_1@example.com', 'test_2@example.com'],
+                ['test_name1', 'test_name2'],
+                [
+                    ['test_1@example.com', 'test_name1'],
+                    ['test_2@example.com', 'test_name2'],
+                ],
+            ],
+        ];
+    }
 
-	/**
-	 * Tests the addRecipient method.
-	 *
-	 * @covers        Mail::addRecipient
-	 *
-	 * @dataProvider  seedTestAdd
-	 *
-	 * @param   string  $recipient  Recipient
-	 * @param   string  $name       Name
-	 * @param   string  $expected   Expected
-	 *
-	 * @return void
-	 * @since         4.0.0
-	 * @throws \PHPMailer\PHPMailer\Exception
-	 */
-	public function testAddRecipient($recipient, $name, $expected)
-	{
-		$this->mail->addRecipient($recipient, $name);
+    /**
+     * Tests the addRecipient method.
+     *
+     * @covers        Mail::addRecipient
+     *
+     * @dataProvider  seedTestAdd
+     *
+     * @param   string  $recipient  Recipient
+     * @param   string  $name       Name
+     * @param   string  $expected   Expected
+     *
+     * @return void
+     * @since         4.0.0
+     * @throws \PHPMailer\PHPMailer\Exception
+     */
+    public function testAddRecipient($recipient, $name, $expected)
+    {
+        $this->mail->addRecipient($recipient, $name);
 
-		$this->assertEquals($expected, $this->mail->getToAddresses());
-	}
+        $this->assertEquals($expected, $this->mail->getToAddresses());
+    }
 
-	/**
-	 * Tests the addCC method.
-	 *
-	 * @covers        Mail::addCc
-	 *
-	 * @dataProvider  seedTestAdd
-	 *
-	 * @param   string  $recipient  Recipient
-	 * @param   string  $name       Name
-	 * @param   string  $expected   Expected
-	 *
-	 * @return void
-	 * @since         4.0.0
-	 * @throws \PHPMailer\PHPMailer\Exception
-	 */
-	public function testAddCc($recipient, $name, $expected)
-	{
-		$this->mail->addCc($recipient, $name);
+    /**
+     * Tests the addCC method.
+     *
+     * @covers        Mail::addCc
+     *
+     * @dataProvider  seedTestAdd
+     *
+     * @param   string  $recipient  Recipient
+     * @param   string  $name       Name
+     * @param   string  $expected   Expected
+     *
+     * @return void
+     * @since         4.0.0
+     * @throws \PHPMailer\PHPMailer\Exception
+     */
+    public function testAddCc($recipient, $name, $expected)
+    {
+        $this->mail->addCc($recipient, $name);
 
-		$this->assertEquals($expected, $this->mail->getCcAddresses());
-	}
+        $this->assertEquals($expected, $this->mail->getCcAddresses());
+    }
 
-	/**
-	 * Tests the addBCC method.
-	 *
-	 * @covers        Mail::addBcc
-	 *
-	 * @param   string  $recipient  Recipient
-	 * @param   string  $name       Name
-	 * @param   string  $expected   Expected
-	 *
-	 * @return void
-	 * @since         4.0.0
-	 * @throws \PHPMailer\PHPMailer\Exception
-	 * @dataProvider  seedTestAdd
-	 */
-	public function testAddBcc($recipient, $name, $expected)
-	{
-		$this->mail->addBcc($recipient, $name);
+    /**
+     * Tests the addBCC method.
+     *
+     * @covers        Mail::addBcc
+     *
+     * @param   string  $recipient  Recipient
+     * @param   string  $name       Name
+     * @param   string  $expected   Expected
+     *
+     * @return void
+     * @since         4.0.0
+     * @throws \PHPMailer\PHPMailer\Exception
+     * @dataProvider  seedTestAdd
+     */
+    public function testAddBcc($recipient, $name, $expected)
+    {
+        $this->mail->addBcc($recipient, $name);
 
-		$this->assertEquals($expected, $this->mail->getBccAddresses());
-	}
+        $this->assertEquals($expected, $this->mail->getBccAddresses());
+    }
 
-	/**
-	 * Provides test data for request format detection.
-	 *
-	 * @return array
-	 *
-	 * @since   4.0.0
-	 */
-	public function seedTestAddReplyTo(): array
-	{
-		// Recipient, name, $expected
-		return [
-			// Single emails and name
-			['test@example.com', 'test_name',
-				['test@example.com' => ['test@example.com', 'test_name']]
-			],
-			// Multiple emails with same name
-			[
-				['test_1@example.com', 'test_2@example.com'], 'test_name',
-				[
-					'test_1@example.com' => ['test_1@example.com', 'test_name'],
-					'test_2@example.com' => ['test_2@example.com', 'test_name']
-				]
-			],
-			// Multiple emails with individual names
-			[
-				['test_1@example.com', 'test_2@example.com'],
-				['test_name1', 'test_name2'],
-				[
-					'test_1@example.com' => ['test_1@example.com', 'test_name1'],
-					'test_2@example.com' => ['test_2@example.com', 'test_name2']
-				]
-			]
-		];
-	}
+    /**
+     * Provides test data for request format detection.
+     *
+     * @return array
+     *
+     * @since   4.0.0
+     */
+    public function seedTestAddReplyTo(): array
+    {
+        // Recipient, name, $expected
+        return [
+            // Single emails and name
+            ['test@example.com', 'test_name',
+                ['test@example.com' => ['test@example.com', 'test_name']],
+            ],
+            // Multiple emails with same name
+            [
+                ['test_1@example.com', 'test_2@example.com'], 'test_name',
+                [
+                    'test_1@example.com' => ['test_1@example.com', 'test_name'],
+                    'test_2@example.com' => ['test_2@example.com', 'test_name'],
+                ],
+            ],
+            // Multiple emails with individual names
+            [
+                ['test_1@example.com', 'test_2@example.com'],
+                ['test_name1', 'test_name2'],
+                [
+                    'test_1@example.com' => ['test_1@example.com', 'test_name1'],
+                    'test_2@example.com' => ['test_2@example.com', 'test_name2'],
+                ],
+            ],
+        ];
+    }
 
-	/**
-	 * Tests the addReplyTo method.
-	 *
-	 * @covers        JMail::addReplyTo
-	 *
-	 * @dataProvider  seedTestAddReplyTo
-	 *
-	 * @param   string  $recipient  Recipient
-	 * @param   string  $name       Name
-	 * @param   string  $expected   Expected
-	 *
-	 * @return void
-	 * @since         4.0.0
-	 * @throws \PHPMailer\PHPMailer\Exception
-	 */
-	public function testAddReplyTo($recipient, $name, $expected)
-	{
-		$this->mail->addReplyTo($recipient, $name);
+    /**
+     * Tests the addReplyTo method.
+     *
+     * @covers        JMail::addReplyTo
+     *
+     * @dataProvider  seedTestAddReplyTo
+     *
+     * @param   string  $recipient  Recipient
+     * @param   string  $name       Name
+     * @param   string  $expected   Expected
+     *
+     * @return void
+     * @since         4.0.0
+     * @throws \PHPMailer\PHPMailer\Exception
+     */
+    public function testAddReplyTo($recipient, $name, $expected)
+    {
+        $this->mail->addReplyTo($recipient, $name);
 
-		$this->assertEquals($expected, $this->mail->getReplyToAddresses());
-	}
+        $this->assertEquals($expected, $this->mail->getReplyToAddresses());
+    }
 
-	/**
-	 * Test the addAttachment method
-	 *
-	 * @return void
-	 *
-	 * @since   4.0.0
-	 * @throws \PHPMailer\PHPMailer\Exception
-	 */
-	public function testAddAttachment()
-	{
-		$path = __FILE__;
-		$name = basename(__FILE__);
+    /**
+     * Test the addAttachment method
+     *
+     * @return void
+     *
+     * @since   4.0.0
+     * @throws \PHPMailer\PHPMailer\Exception
+     */
+    public function testAddAttachment()
+    {
+        $path = __FILE__;
+        $name = basename(__FILE__);
 
-		$this->mail->addAttachment($path, $name);
+        $this->mail->addAttachment($path, $name);
 
-		$mailAttachments = $this->mail->getAttachments();
+        $mailAttachments = $this->mail->getAttachments();
 
-		$this->assertCount(1, $mailAttachments);
-		$this->assertEquals($path, $mailAttachments[0][0]);
-		$this->assertEquals($name, $mailAttachments[0][2]);
-	}
+        $this->assertCount(1, $mailAttachments);
+        $this->assertEquals($path, $mailAttachments[0][0]);
+        $this->assertEquals($name, $mailAttachments[0][2]);
+    }
 
-	/**
-	 * Tests the IsHTML method.
-	 *
-	 * @covers  JMail::IsHTML
-	 *
-	 * @return void
-	 *
-	 * @since   4.0.0
-	 */
-	public function testIsHtmlTrue()
-	{
-		$this->mail->isHtml(true);
+    /**
+     * Tests the IsHTML method.
+     *
+     * @covers  JMail::IsHTML
+     *
+     * @return void
+     *
+     * @since   4.0.0
+     */
+    public function testIsHtmlTrue()
+    {
+        $this->mail->isHtml(true);
 
-		$this->assertEquals(PHPMailer::CONTENT_TYPE_TEXT_HTML, $this->mail->ContentType);
-	}
+        $this->assertEquals(PHPMailer::CONTENT_TYPE_TEXT_HTML, $this->mail->ContentType);
+    }
 
-	/**
-	 * Tests the IsHTML method.
-	 *
-	 * @covers  JMail::IsHTML
-	 *
-	 * @return void
-	 *
-	 * @since   4.0.0
-	 */
-	public function testIsHtmlFalse()
-	{
-		$this->mail->isHtml(false);
+    /**
+     * Tests the IsHTML method.
+     *
+     * @covers  JMail::IsHTML
+     *
+     * @return void
+     *
+     * @since   4.0.0
+     */
+    public function testIsHtmlFalse()
+    {
+        $this->mail->isHtml(false);
 
-		$this->assertEquals(PHPMailer::CONTENT_TYPE_PLAINTEXT, $this->mail->ContentType);
-	}
+        $this->assertEquals(PHPMailer::CONTENT_TYPE_PLAINTEXT, $this->mail->ContentType);
+    }
 
-	/**
-	 * Test data for testUseSMTP method
-	 *
-	 * @return  array
-	 *
-	 * @since   3.0.0
-	 */
-	public function dataUseSmtp(): array
-	{
-		return [
-			'SMTP without Authentication' => [
-				null,
-				'example.com',
-				null,
-				null,
-				false,
-				null,
-				[
-					'called' => 'IsSMTP',
-					'return' => true
-				]
-			]
-		];
-	}
+    /**
+     * Test data for testUseSMTP method
+     *
+     * @return  array
+     *
+     * @since   3.0.0
+     */
+    public function dataUseSmtp(): array
+    {
+        return [
+            'SMTP without Authentication' => [
+                null,
+                'example.com',
+                null,
+                null,
+                false,
+                null,
+                [
+                    'called' => 'IsSMTP',
+                    'return' => true,
+                ],
+            ],
+        ];
+    }
 
-	/**
-	 * Test for the JMail::useSMTP method.
-	 *
-	 * @param   string   $auth      SMTP Authentication
-	 * @param   string   $host      SMTP Host
-	 * @param   string   $user      SMTP Username
-	 * @param   string   $pass      SMTP Password
-	 * @param   string   $secure    Use secure methods
-	 * @param   integer  $port      The SMTP port
-	 * @param   string   $expected  The expected result
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0.0
-	 *
-	 * @dataProvider  dataUseSMTP
-	 */
-	public function testUseSmtp($auth, $host, $user, $pass, $secure, $port, $expected)
-	{
-		// Build an partial mock object.
-		$mailMock = $this->getMockBuilder(Mail::class)
-			->setMethods(['SetLanguage', 'IsSMTP', 'IsMail'])
-			->getMock();
+    /**
+     * Test for the JMail::useSMTP method.
+     *
+     * @param   string   $auth      SMTP Authentication
+     * @param   string   $host      SMTP Host
+     * @param   string   $user      SMTP Username
+     * @param   string   $pass      SMTP Password
+     * @param   string   $secure    Use secure methods
+     * @param   integer  $port      The SMTP port
+     * @param   string   $expected  The expected result
+     *
+     * @return  void
+     *
+     * @since   3.0.0
+     *
+     * @dataProvider  dataUseSMTP
+     */
+    public function testUseSmtp($auth, $host, $user, $pass, $secure, $port, $expected)
+    {
+        // Build a partial mock object.
+        $mailMock = $this->getMockBuilder(Mail::class)
+            ->setMethods(['SetLanguage', 'IsSMTP', 'IsMail'])
+            ->getMock();
 
-		$mailMock
-			->expects($this->once())
-			->method($expected['called']);
+        $mailMock
+            ->expects($this->once())
+            ->method($expected['called']);
 
-		$this->assertEquals($expected['return'], $mailMock->useSmtp($auth, $host, $user, $pass, $secure, $port));
-	}
+        $this->assertEquals($expected['return'], $mailMock->useSmtp($auth, $host, $user, $pass, $secure, $port));
+    }
 }

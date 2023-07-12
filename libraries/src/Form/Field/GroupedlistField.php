@@ -13,6 +13,10 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Provides a grouped list select field.
@@ -40,15 +44,15 @@ class GroupedlistField extends FormField
     /**
      * Method to get the field option groups.
      *
-     * @return  array  The field option objects as a nested array in groups.
+     * @return  array[]  The field option objects as a nested array in groups.
      *
      * @since   1.7.0
      * @throws  \UnexpectedValueException
      */
     protected function getGroups()
     {
-        $groups = array();
-        $label = 0;
+        $groups = [];
+        $label  = 0;
 
         foreach ($this->element->children() as $element) {
             switch ($element->getName()) {
@@ -56,7 +60,7 @@ class GroupedlistField extends FormField
                 case 'option':
                     // Initialize the group if necessary.
                     if (!isset($groups[$label])) {
-                        $groups[$label] = array();
+                        $groups[$label] = [];
                     }
 
                     $disabled = (string) $element['disabled'];
@@ -91,7 +95,7 @@ class GroupedlistField extends FormField
 
                     // Initialize the group if necessary.
                     if (!isset($groups[$label])) {
-                        $groups[$label] = array();
+                        $groups[$label] = [];
                     }
 
                     // Iterate through the children and build an array of options.

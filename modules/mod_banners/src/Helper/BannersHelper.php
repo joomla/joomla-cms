@@ -16,6 +16,10 @@ use Joomla\CMS\Environment\Browser;
 use Joomla\Component\Banners\Site\Model\BannersModel;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_banners
  *
@@ -38,7 +42,7 @@ class BannersHelper
         $config   = ComponentHelper::getParams('com_banners');
 
         $model->setState('filter.client_id', (int) $params->get('cid'));
-        $model->setState('filter.category_id', $params->get('catid', array()));
+        $model->setState('filter.category_id', $params->get('catid', []));
         $model->setState('list.limit', (int) $params->get('count', 1));
         $model->setState('list.start', 0);
         $model->setState('filter.ordering', $params->get('ordering'));

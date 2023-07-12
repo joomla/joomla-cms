@@ -12,6 +12,10 @@ namespace Joomla\Component\Contenthistory\Administrator\Controller;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Contenthistory list controller class.
  *
@@ -30,7 +34,7 @@ class PreviewController extends BaseController
      *
      * @since   3.2
      */
-    public function getModel($name = 'Preview', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Preview', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

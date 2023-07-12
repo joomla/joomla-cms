@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="user" method="upgrade">
 	<name>plg_user_token</name>
 	<author>Joomla! Project</author>
@@ -11,8 +11,8 @@
 	<description>PLG_USER_TOKEN_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\User\Token</namespace>
 	<files>
-		<filename plugin="token">token.php</filename>
 		<folder>forms</folder>
+		<folder plugin="token">services</folder>
 		<folder>src</folder>
 	</files>
 	<languages>

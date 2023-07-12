@@ -13,6 +13,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command for list discovered extensions
  *
@@ -82,9 +86,10 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
+        $this->ioStyle->title('Discovered Extensions');
 
         $extensions = $this->getExtensions();
-        $state = -1;
+        $state      = -1;
 
         $discovered_extensions = $this->filterExtensionsBasedOnState($extensions, $state);
 
@@ -96,8 +101,7 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
 
         $discovered_extensions = $this->getExtensionsNameAndId($discovered_extensions);
 
-        $this->ioStyle->title('Discovered extensions.');
-        $this->ioStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Active'], $discovered_extensions);
+        $this->ioStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Enabled'], $discovered_extensions);
 
         return Command::SUCCESS;
     }

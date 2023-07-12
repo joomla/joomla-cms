@@ -8,7 +8,8 @@
     {
       "name": "com_content.admin-article-pagebreak.es5",
       "type": "script",
-      "uri": "com_content/admin-article-pagebreak-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -22,7 +23,7 @@
       "type": "script",
       "uri": "com_content/admin-article-pagebreak.min.js",
       "dependencies": [
-        "com_content.admin-article-pagebreak.es5"
+        "core"
       ],
       "attributes": {
         "type": "module",
@@ -32,7 +33,8 @@
     {
       "name": "com_content.admin-article-readmore.es5",
       "type": "script",
-      "uri": "com_content/admin-article-readmore-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -46,7 +48,7 @@
       "type": "script",
       "uri": "com_content/admin-article-readmore.min.js",
       "dependencies": [
-        "com_content.admin-article-readmore.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -55,7 +57,8 @@
     {
       "name": "com_content.admin-articles-batch.es5",
       "type": "script",
-      "uri": "com_content/admin-articles-default-batch-footer-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -69,7 +72,7 @@
       "type": "script",
       "uri": "com_content/admin-articles-default-batch-footer.min.js",
       "dependencies": [
-        "com_content.admin-articles-batch.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -78,7 +81,8 @@
     {
       "name": "com_content.admin-articles-stage.es5",
       "type": "script",
-      "uri": "com_content/admin-articles-default-stage-footer-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -92,7 +96,7 @@
       "type": "script",
       "uri": "com_content/admin-articles-default-stage-footer.min.js",
       "dependencies": [
-        "com_content.admin-articles-stage.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -101,7 +105,8 @@
     {
       "name": "com_content.admin-articles-modal.es5",
       "type": "script",
-      "uri": "com_content/admin-articles-modal-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -115,7 +120,7 @@
       "type": "script",
       "uri": "com_content/admin-articles-modal.min.js",
       "dependencies": [
-        "com_content.admin-articles-modal.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -124,7 +129,8 @@
     {
       "name": "com_content.form-edit.es5",
       "type": "script",
-      "uri": "com_content/form-edit-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -138,7 +144,7 @@
       "type": "script",
       "uri": "com_content/form-edit.min.js",
       "dependencies": [
-        "com_content.form-edit.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -147,7 +153,8 @@
     {
       "name": "com_content.articles-list.es5",
       "type": "script",
-      "uri": "com_content/articles-list-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -161,7 +168,31 @@
       "type": "script",
       "uri": "com_content/articles-list.min.js",
       "dependencies": [
-        "com_content.articles-list.es5"
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_content.articles-status.es5",
+      "type": "script",
+      "deprecated": true,
+      "uri": "",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_content.articles-status",
+      "type": "script",
+      "uri": "com_content/articles-status.min.js",
+      "dependencies": [
+        "core"
       ],
       "attributes": {
         "type": "module"

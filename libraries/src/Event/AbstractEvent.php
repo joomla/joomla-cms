@@ -4,15 +4,18 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Event;
 
-use BadMethodCallException;
 use Joomla\Event\Event;
 use Joomla\Event\Event as BaseEvent;
 use Joomla\String\Normalise;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * This class implements the base Event object used system-wide to offer orthogonality. Core objects such as Models,
@@ -50,7 +53,7 @@ abstract class AbstractEvent extends BaseEvent
      * @return  static
      *
      * @since   4.0.0
-     * @throws  BadMethodCallException  If you do not provide a subject argument
+     * @throws  \BadMethodCallException  If you do not provide a subject argument
      */
     public static function create(string $eventName, array $arguments = [])
     {
@@ -68,8 +71,8 @@ abstract class AbstractEvent extends BaseEvent
          * the onTableBeforeLoad event name.
          */
         if (empty($eventClassName) || !class_exists($eventClassName, true)) {
-            $bareName = strpos($eventName, 'on') === 0 ? substr($eventName, 2) : $eventName;
-            $parts = Normalise::fromCamelCase($bareName, true);
+            $bareName       = strpos($eventName, 'on') === 0 ? substr($eventName, 2) : $eventName;
+            $parts          = Normalise::fromCamelCase($bareName, true);
             $eventClassName = __NAMESPACE__ . '\\' . ucfirst(array_shift($parts)) . '\\';
             $eventClassName .= implode('', $parts);
             $eventClassName .= 'Event';
@@ -77,7 +80,7 @@ abstract class AbstractEvent extends BaseEvent
 
         // Make sure a non-empty subject argument exists and that it is an object
         if (!isset($arguments['subject']) || empty($arguments['subject']) || !\is_object($arguments['subject'])) {
-            throw new BadMethodCallException("No subject given for the $eventName event");
+            throw new \BadMethodCallException("No subject given for the $eventName event");
         }
 
         // Create and return the event object

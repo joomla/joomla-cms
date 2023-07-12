@@ -12,6 +12,10 @@ namespace Joomla\Component\Messages\Administrator\Controller;
 
 use Joomla\CMS\MVC\Controller\AdminController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Messages list controller class.
  *
@@ -30,7 +34,7 @@ class MessagesController extends AdminController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Message', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Message', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

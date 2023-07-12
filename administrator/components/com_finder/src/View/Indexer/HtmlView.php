@@ -10,7 +10,17 @@
 
 namespace Joomla\Component\Finder\Administrator\View\Indexer;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Indexer view class for Finder.
@@ -19,4 +29,55 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
  */
 class HtmlView extends BaseHtmlView
 {
+    /**
+     * @var   Form  $form
+     *
+     * @since  5.0.0
+     */
+    public $form;
+
+    /**
+     * Method to display the view.
+     *
+     * @param   string  $tpl  A template file to load. [optional]
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    public function display($tpl = null)
+    {
+        if ($this->getLayout() == 'debug') {
+            $this->form = $this->get('Form');
+            $this->addToolbar();
+        }
+
+        parent::display($tpl);
+    }
+
+    /**
+     * Method to configure the toolbar for this view.
+     *
+     * @return  void
+     *
+     * @since   5.0.0
+     */
+    protected function addToolbar()
+    {
+        $toolbar = Toolbar::getInstance('toolbar');
+
+        ToolbarHelper::title(Text::_('COM_FINDER_INDEXER_TOOLBAR_TITLE'), 'search-plus finder');
+
+        $arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+
+        ToolbarHelper::link(
+            Route::_('index.php?option=com_finder&view=index'),
+            'JTOOLBAR_BACK',
+            $arrow
+        );
+
+        $toolbar->standardButton('index', 'COM_FINDER_INDEX')
+            ->icon('icon-play')
+            ->onclick('Joomla.debugIndexing();');
+    }
 }

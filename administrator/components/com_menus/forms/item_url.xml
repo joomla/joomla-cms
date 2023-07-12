@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields name="params">
 		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
@@ -35,8 +35,10 @@
 				<option value="alternate"/>
 				<option value="author"/>
 				<option value="bookmark"/>
+				<option value="external"/>
 				<option value="help"/>
 				<option value="license"/>
+				<option value="me"/>
 				<option value="next"/>
 				<option value="nofollow"/>
 				<option value="noopener"/>

@@ -19,6 +19,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\QueryTypeAlreadyDefinedException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Table class for tasks scheduled through `com_scheduler`.
  * The type alias for Task table entries is `com_scheduler.task`.
@@ -169,7 +173,7 @@ class TaskTable extends Table
      *
      * @since   4.1.0
      */
-    public function bind($src, $ignore = array()): bool
+    public function bind($src, $ignore = []): bool
     {
         $fields = ['next_execution'];
 
@@ -213,7 +217,7 @@ class TaskTable extends Table
         if (!empty($pks)) {
             foreach ($pks as $key => $pk) {
                 if (!\is_array($pk)) {
-                    $pks[$key] = array($this->_tbl_key => $pk);
+                    $pks[$key] = [$this->_tbl_key => $pk];
                 }
             }
         }

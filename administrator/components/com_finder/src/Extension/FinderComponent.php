@@ -21,6 +21,10 @@ use Joomla\Component\Finder\Administrator\Service\HTML\Query;
 use Joomla\Database\DatabaseInterface;
 use Psr\Container\ContainerInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Component class for com_finder
  *

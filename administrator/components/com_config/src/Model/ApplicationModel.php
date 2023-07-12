@@ -16,14 +16,13 @@ use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailerFactoryAwareInterface;
+use Joomla\CMS\Mail\MailerFactoryAwareTrait;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Table\Asset;
@@ -32,24 +31,33 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
+use Joomla\Filter\OutputFilter;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Model for the global configuration
  *
  * @since  3.2
  */
-class ApplicationModel extends FormModel
+class ApplicationModel extends FormModel implements MailerFactoryAwareInterface
 {
+    use MailerFactoryAwareTrait;
+
     /**
      * Array of protected password fields from the configuration.php
      *
      * @var    array
      * @since  3.9.23
      */
-    private $protectedConfigurationFields = array('password', 'secret', 'smtppass', 'redis_server_auth', 'session_redis_server_auth');
+    private $protectedConfigurationFields = ['password', 'secret', 'smtppass', 'redis_server_auth', 'session_redis_server_auth'];
 
     /**
      * Method to get a form object.
@@ -61,10 +69,10 @@ class ApplicationModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_config.application', 'application', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_config.application', 'application', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -102,7 +110,7 @@ class ApplicationModel extends FormModel
 
         // If no filter data found, get from com_content (update of 1.6/1.7 site)
         if (empty($data['filters'])) {
-            $contentParams = ComponentHelper::getParams('com_content');
+            $contentParams   = ComponentHelper::getParams('com_content');
             $data['filters'] = ArrayHelper::fromObject($contentParams->get('filters'));
         }
 
@@ -183,7 +191,7 @@ class ApplicationModel extends FormModel
                     return false;
                 }
 
-                if (!File::exists(Path::clean($data['dbsslca']))) {
+                if (!is_file(Path::clean($data['dbsslca']))) {
                     Factory::getApplication()->enqueueMessage(
                         Text::sprintf(
                             'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
@@ -215,7 +223,7 @@ class ApplicationModel extends FormModel
                     return false;
                 }
 
-                if (!File::exists(Path::clean($data['dbsslkey']))) {
+                if (!is_file(Path::clean($data['dbsslkey']))) {
                     Factory::getApplication()->enqueueMessage(
                         Text::sprintf(
                             'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
@@ -239,7 +247,7 @@ class ApplicationModel extends FormModel
                     return false;
                 }
 
-                if (!File::exists(Path::clean($data['dbsslcert']))) {
+                if (!is_file(Path::clean($data['dbsslcert']))) {
                     Factory::getApplication()->enqueueMessage(
                         Text::sprintf(
                             'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
@@ -286,14 +294,14 @@ class ApplicationModel extends FormModel
         }
 
         // Check that we aren't setting wrong database configuration
-        $options = array(
+        $options = [
             'driver'   => $data['dbtype'],
             'host'     => $data['host'],
             'user'     => $data['user'],
             'password' => $data['password'],
             'database' => $data['db'],
             'prefix'   => $data['dbprefix'],
-        );
+        ];
 
         if ((int) $data['dbencryption'] !== 0) {
             $options['ssl'] = [
@@ -340,17 +348,17 @@ class ApplicationModel extends FormModel
                 // Do not check for valid server certificate here, leave this to the user, moreover disable using a proxy if any is configured.
                 $options->set(
                     'transport.curl',
-                    array(
+                    [
                         CURLOPT_SSL_VERIFYPEER => false,
                         CURLOPT_SSL_VERIFYHOST => false,
-                        CURLOPT_PROXY => null,
-                        CURLOPT_PROXYUSERPWD => null,
-                    )
+                        CURLOPT_PROXY          => null,
+                        CURLOPT_PROXYUSERPWD   => null,
+                    ]
                 );
-                $response = HttpFactory::getHttp($options)->get('https://' . $host . Uri::root(true) . '/', array('Host' => $host), 10);
+                $response = HttpFactory::getHttp($options)->get('https://' . $host . Uri::root(true) . '/', ['Host' => $host], 10);
 
                 // If available in HTTPS check also the status code.
-                if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401), true)) {
+                if (!in_array($response->code, [200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401], true)) {
                     throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE_HTTP_CODE'));
                 }
             } catch (\RuntimeException $e) {
@@ -370,7 +378,7 @@ class ApplicationModel extends FormModel
 
             // Check that we aren't removing our Super User permission
             // Need to get groups from database, since they might have changed
-            $myGroups      = Access::getGroupsByUser(Factory::getUser()->get('id'));
+            $myGroups      = Access::getGroupsByUser($this->getCurrentUser()->get('id'));
             $myRules       = $rules->getData();
             $hasSuperAdmin = $myRules['core.admin']->allow($myGroups);
 
@@ -401,12 +409,12 @@ class ApplicationModel extends FormModel
 
         // Save the text filters
         if (isset($data['filters'])) {
-            $registry = new Registry(array('filters' => $data['filters']));
+            $registry = new Registry(['filters' => $data['filters']]);
 
             $extension = Table::getInstance('extension');
 
             // Get extension_id
-            $extensionId = $extension->find(array('name' => 'com_config'));
+            $extensionId = $extension->find(['name' => 'com_config']);
 
             if ($extension->load((int) $extensionId)) {
                 $extension->params = (string) $registry;
@@ -711,7 +719,7 @@ class ApplicationModel extends FormModel
                     );
                 }
 
-                $error = false;
+                $error            = false;
                 $data['log_path'] = $defaultLogPath;
             }
 
@@ -736,7 +744,7 @@ class ApplicationModel extends FormModel
         // Clear cache of com_config component.
         $this->cleanCache('_system');
 
-        $result = $app->triggerEvent('onApplicationBeforeSave', array($config));
+        $result = $app->triggerEvent('onApplicationBeforeSave', [$config]);
 
         // Store the data.
         if (in_array(false, $result, true)) {
@@ -747,7 +755,7 @@ class ApplicationModel extends FormModel
         $result = $this->writeConfigFile($config);
 
         // Trigger the after save event.
-        $app->triggerEvent('onApplicationAfterSave', array($config));
+        $app->triggerEvent('onApplicationAfterSave', [$config]);
 
         return $result;
     }
@@ -774,7 +782,7 @@ class ApplicationModel extends FormModel
         unset($prev['root_user']);
         $config = new Registry($prev);
 
-        $result = $app->triggerEvent('onApplicationBeforeSave', array($config));
+        $result = $app->triggerEvent('onApplicationBeforeSave', [$config]);
 
         // Store the data.
         if (in_array(false, $result, true)) {
@@ -785,7 +793,7 @@ class ApplicationModel extends FormModel
         $result = $this->writeConfigFile($config);
 
         // Trigger the after save event.
-        $app->triggerEvent('onApplicationAfterSave', array($config));
+        $app->triggerEvent('onApplicationAfterSave', [$config]);
 
         return $result;
     }
@@ -813,7 +821,7 @@ class ApplicationModel extends FormModel
         }
 
         // Attempt to write the configuration file as a PHP class named JConfig.
-        $configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+        $configuration = $config->toString('PHP', ['class' => 'JConfig', 'closingtag' => false]);
 
         if (!File::write($file, $configuration)) {
             throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'));
@@ -841,18 +849,19 @@ class ApplicationModel extends FormModel
      */
     public function storePermissions($permission = null)
     {
-        $app  = Factory::getApplication();
-        $user = Factory::getUser();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
+        $user  = $this->getCurrentUser();
 
         if (is_null($permission)) {
             // Get data from input.
-            $permission = array(
-                'component' => $app->input->Json->get('comp'),
-                'action'    => $app->input->Json->get('action'),
-                'rule'      => $app->input->Json->get('rule'),
-                'value'     => $app->input->Json->get('value'),
-                'title'     => $app->input->Json->get('title', '', 'RAW')
-            );
+            $permission = [
+                'component' => $input->json->get('comp'),
+                'action'    => $input->json->get('action'),
+                'rule'      => $input->json->get('rule'),
+                'value'     => $input->json->get('value'),
+                'title'     => $input->json->get('title', '', 'RAW'),
+            ];
         }
 
         // We are creating a new item so we don't have an item id so don't allow.
@@ -920,7 +929,7 @@ class ApplicationModel extends FormModel
             $result = $asset->loadByName($permission['component']);
 
             if ($result === false) {
-                $data = array($permission['action'] => array($permission['rule'] => $permission['value']));
+                $data = [$permission['action'] => [$permission['rule'] => $permission['value']]];
 
                 $rules        = new Rules($data);
                 $asset->rules = (string) $rules;
@@ -957,12 +966,12 @@ class ApplicationModel extends FormModel
                 if (isset($permission['value'])) {
                     // Check if we already have an action entry.
                     if (!isset($temp[$permission['action']])) {
-                        $temp[$permission['action']] = array();
+                        $temp[$permission['action']] = [];
                     }
 
                     // Check if we already have a rule entry.
                     if (!isset($temp[$permission['action']][$permission['rule']])) {
-                        $temp[$permission['action']][$permission['rule']] = array();
+                        $temp[$permission['action']][$permission['rule']] = [];
                     }
 
                     // Set the new permission.
@@ -997,11 +1006,11 @@ class ApplicationModel extends FormModel
         }
 
         // All checks done.
-        $result = array(
-            'text'    => '',
-            'class'   => '',
-            'result'  => true,
-        );
+        $result = [
+            'text'   => '',
+            'class'  => '',
+            'result' => true,
+        ];
 
         // Show the current effective calculated permission considering current group, path and cascade.
 
@@ -1095,7 +1104,7 @@ class ApplicationModel extends FormModel
         // Current group is a Super User group, so calculated setting is "Allowed (Super User)".
         if ($isSuperUserGroupAfter) {
             $result['class'] = 'badge bg-success';
-            $result['text'] = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
+            $result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
         } else {
             // Not super user.
             // First get the real recursive calculated setting and add (Inherited) to it.
@@ -1168,35 +1177,36 @@ class ApplicationModel extends FormModel
     public function sendTestMail()
     {
         // Set the new values to test with the current settings
-        $app = Factory::getApplication();
-        $user = Factory::getUser();
-        $input = $app->input->json;
+        $app      = Factory::getApplication();
+        $user     = $this->getCurrentUser();
+        $input    = $app->getInput()->json;
         $smtppass = $input->get('smtppass', null, 'RAW');
 
-        $app->set('smtpauth', $input->get('smtpauth'));
-        $app->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
-        $app->set('smtphost', $input->get('smtphost'));
-        $app->set('smtpsecure', $input->get('smtpsecure'));
-        $app->set('smtpport', $input->get('smtpport'));
-        $app->set('mailfrom', $input->get('mailfrom', '', 'STRING'));
-        $app->set('fromname', $input->get('fromname', '', 'STRING'));
-        $app->set('mailer', $input->get('mailer'));
-        $app->set('mailonline', $input->get('mailonline'));
+        $config = new Registry();
+        $config->set('smtpauth', $input->get('smtpauth'));
+        $config->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
+        $config->set('smtphost', $input->get('smtphost'));
+        $config->set('smtpsecure', $input->get('smtpsecure'));
+        $config->set('smtpport', $input->get('smtpport'));
+        $config->set('mailfrom', $input->get('mailfrom', '', 'STRING'));
+        $config->set('fromname', $input->get('fromname', '', 'STRING'));
+        $config->set('mailer', $input->get('mailer'));
+        $config->set('mailonline', $input->get('mailonline'));
 
         // Use smtppass only if it was submitted
         if ($smtppass !== null) {
-            $app->set('smtppass', $smtppass);
+            $config->set('smtppass', $smtppass);
         }
 
-        $mail = Factory::getMailer();
+        $mail = $this->getMailerFactory()->createMailer($config);
 
         // Prepare email and try to send it
         $mailer = new MailTemplate('com_config.test_mail', $user->getParam('language', $app->get('language')), $mail);
         $mailer->addTemplateData(
-            array(
+            [
                 'sitename' => $app->get('sitename'),
-                'method' => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer))
-            )
+                'method'   => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)),
+            ]
         );
         $mailer->addRecipient($app->get('mailfrom'), $app->get('fromname'));
 

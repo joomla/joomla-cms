@@ -15,6 +15,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Information field.
  *
@@ -53,7 +57,7 @@ class PlugininfoField extends FormField
             'link',
             Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $result),
             Text::_('PLG_SYSTEM_ACTIONLOGS_JOOMLA_ACTIONLOG_DISABLED'),
-            array('class' => 'alert-link')
+            ['class' => 'alert-link']
         );
 
         return '<div class="alert alert-info">'

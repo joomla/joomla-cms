@@ -21,6 +21,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command for removing extensions
  *
@@ -120,8 +124,8 @@ class ExtensionRemoveCommand extends AbstractCommand
     private function configureIO(InputInterface $input, OutputInterface $output): void
     {
         $this->cliInput = $input;
-        $this->ioStyle = new SymfonyStyle($input, $output);
-        $language = Factory::getLanguage();
+        $this->ioStyle  = new SymfonyStyle($input, $output);
+        $language       = Factory::getLanguage();
         $language->load('', JPATH_ADMINISTRATOR, null, false, false) ||
         $language->load('', JPATH_ADMINISTRATOR, null, true);
         $language->load('com_installer', JPATH_ADMINISTRATOR, null, false, false) ||
@@ -165,6 +169,8 @@ class ExtensionRemoveCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
+        $this->ioStyle->title('Remove Extension');
+
         $extensionId = $this->cliInput->getArgument('extensionId');
 
         $response = $this->ioStyle->ask('Are you sure you want to remove this extension?', 'yes/no');

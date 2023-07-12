@@ -17,6 +17,10 @@ use Joomla\Component\Installer\Administrator\Service\HTML\Manage;
 use Joomla\Component\Installer\Administrator\Service\HTML\Updatesites;
 use Psr\Container\ContainerInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Component class for com_installer
  *

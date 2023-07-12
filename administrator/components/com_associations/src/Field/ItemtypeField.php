@@ -14,6 +14,10 @@ use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * A drop down containing all component item types that implement associations.
  *
@@ -41,13 +45,13 @@ class ItemtypeField extends GroupedlistField
      */
     protected function getGroups()
     {
-        $options    = array();
+        $options    = [];
         $extensions = AssociationsHelper::getSupportedExtensions();
 
         foreach ($extensions as $extension) {
             if ($extension->get('associationssupport') === true) {
                 foreach ($extension->get('types') as $type) {
-                    $context = $extension->get('component') . '.' . $type->get('name');
+                    $context                             = $extension->get('component') . '.' . $type->get('name');
                     $options[$extension->get('title')][] = HTMLHelper::_('select.option', $context, $type->get('title'));
                 }
             }
