@@ -576,6 +576,7 @@ CREATE TABLE IF NOT EXISTS "#__menu_types" (
   "title" varchar(48) NOT NULL,
   "description" varchar(255) DEFAULT '' NOT NULL,
   "client_id" int DEFAULT 0 NOT NULL,
+	"ordering" int NOT NULL DEFAULT 0,
   PRIMARY KEY ("id"),
   CONSTRAINT "#__menu_types_idx_menutype" UNIQUE ("menutype")
 );
