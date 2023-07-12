@@ -16,6 +16,17 @@
         "type": "module",
         "defer": true
       }
+    },
+    {
+      "name": "com_guidedtours.admin-tours-modal",
+      "type": "script",
+      "uri": "com_guidedtours/admin-tours-modal.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
     }
   ]
 }

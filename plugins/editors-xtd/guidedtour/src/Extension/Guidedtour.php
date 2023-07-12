@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Form\Form;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -59,7 +60,30 @@ final class Guidedtour extends CMSPlugin
         // This ACL check is probably a double-check (form view already performed checks)
         $hasAccess = $canCreateRecords || $isEditingRecords;
         if (!$hasAccess) {
-            return;
+            return false;
+        }
+
+        $itemId = $this->getApplication()->getInput()->getInt('id',0);
+        if ($itemId > 0)
+        {
+            $model = $this->getApplication()->bootComponent('com_modules')
+                          ->getMVCFactory()->createModel('Module', 'Administrator');
+
+            $item     = $model->getItem();
+            if (!$item)
+            {
+                return false;
+            }
+            $clientId = $item->client_id;
+        } else
+        {
+            $clientId = $this->getApplication()->getInput()->getInt( 'client_id', 0 );
+        }
+
+        // administrator modules only
+        if ($clientId === 0)
+        {
+            return false;
         }
 
         $link = 'index.php?option=com_guidedtours&amp;view=tours&amp;layout=modal&amp;tmpl=component&amp;'

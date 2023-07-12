@@ -34,12 +34,13 @@ return new class () implements ServiceProviderInterface {
             PluginInterface::class,
             function (Container $container) {
                 $app        = Factory::getApplication();
+                $extension = $app->getInput()->get('option');
 
                 $plugin     = new Guidedtour(
                     $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('editors-xtd', 'guidedtour'),
-                    // Only in administrator until frontend tours are available
-                    $app->isClient('administrator')
+                    // Only in administrator until frontend tours are available and only in custom admin modules
+                    $app->isClient('administrator') && $extension == "com_modules"
                 );
                 $plugin->setApplication(Factory::getApplication());
 

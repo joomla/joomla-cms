@@ -18,7 +18,6 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\Component\Guidedtours\Administrator\View\Tours\HtmlView;
 
 $app = Factory::getApplication();
 
@@ -29,8 +28,8 @@ if ($app->isClient('site')) {
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
-    ->useScript('multiselect');
-    //->useScript('com_guidedtours.admin-tours-modal');
+    ->useScript('multiselect')
+    ->useScript('com_guidedtours.admin-tours-modal');
 
 $function  = $app->getInput()->getCmd('function', 'jSelectTour');
 $editor    = $app->getInput()->getCmd('editor', '');
@@ -111,13 +110,28 @@ if (!empty($editor)) {
 				    </thead>
 
 				    <!-- Table body begins -->
-				    <tbody <?php if ($saveOrder) : ?>
-					    class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php
-                    endif; ?>>
+				    <tbody>
                     <?php foreach ($this->items as $i => $item) :
-                        $canEditOwn = $canEditOwnTour && $item->created_by == $userId;
-                        $canCheckin = $hasCheckinPermission || $item->checked_out == $userId || is_null($item->checked_out);
-                        $canChange  = $canEditStateTour && $canCheckin;
+                        if ( $item->language && $multilang )
+                        {
+                            $tag = strlen( $item->language );
+                            if ( $tag == 5 )
+                            {
+                                $lang = substr( $item->language, 0, 2 );
+                            }
+		                    elseif ( $tag == 6 )
+                            {
+                                $lang = substr( $item->language, 0, 3 );
+                            }
+                            else
+                            {
+                                $lang = '';
+                            }
+                        }
+	                    elseif ( ! $multilang )
+                        {
+                            $lang = '';
+                        }
                         ?>
 
 					    <!-- Row begins -->
@@ -127,7 +141,9 @@ if (!empty($editor)) {
                                 <?php $attribs = 'data-function="' . $this->escape($onclick) . '"'
                                                  . ' data-id="' . $item->id . '"'
                                                  . ' data-title="' . $this->escape($item->title) . '"'
-                                                 . ' data-alias="' . $this->escape($item->alias) . '"';
+                                                 . ' data-alias="' . $this->escape($item->alias) . '"'
+                                                 . ' data-language="' . $this->escape($lang) . '"';
+
                                 ?>
 							    <a class="select-link" href="javascript:void(0)" <?php echo $attribs; ?>>
                                     <?php echo $this->escape($item->title); ?>
