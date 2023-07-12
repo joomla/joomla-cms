@@ -211,7 +211,7 @@ class MenusModel extends ListModel
      *
      * @since   1.6
      */
-    protected function populateState($ordering = 'a.title', $direction = 'asc')
+    protected function populateState($ordering = 'a.ordering', $direction = 'asc')
     {
         $search   = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
         $this->setState('filter.search', $search);
