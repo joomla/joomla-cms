@@ -12,8 +12,6 @@ namespace Joomla\Component\Guidedtours\Administrator\Table;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Tag\TaggableTableInterface;
-use Joomla\CMS\Tag\TaggableTableTrait;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
@@ -28,10 +26,9 @@ use Joomla\Registry\Registry;
  *
  * @since 4.3.0
  */
-class TourTable extends Table implements CurrentUserInterface, TaggableTableInterface
+class TourTable extends Table implements CurrentUserInterface
 {
     use CurrentUserTrait;
-    use TaggableTableTrait;
 
     /**
      * Indicates that columns fully support the NULL value in the database

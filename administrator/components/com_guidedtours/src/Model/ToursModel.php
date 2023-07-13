@@ -54,7 +54,6 @@ class ToursModel extends ListModel
                 'modified', 'a.modified',
                 'modified_by', 'a.modified_by',
                 'note', 'a.note',
-                'tag', 'a.tag',
             ];
         }
 
@@ -83,8 +82,6 @@ class ToursModel extends ListModel
         $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
         $this->setState('filter.extension', $extension);
-
-        $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
 
         parent::populateState($ordering, $direction);
     }
@@ -215,47 +212,6 @@ class ToursModel extends ListModel
             $language = (array) $language;
 
             $query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
-        }
-
-        // Filter by a single or group of tags.
-        $tag = $this->getState('filter.tag');
-
-        // Run simplified query when filtering by one tag.
-        if (\is_array($tag) && \count($tag) === 1) {
-            $tag = $tag[0];
-        }
-
-        if ($tag && \is_array($tag)) {
-            $tag = ArrayHelper::toInteger($tag);
-
-            $subQuery = $db->getQuery(true)
-                           ->select('DISTINCT ' . $db->quoteName('content_item_id'))
-                           ->from($db->quoteName('#__contentitem_tag_map'))
-                           ->where(
-                               [
-                                   $db->quoteName('tag_id') . ' IN (' . implode(',', $query->bindArray($tag)) . ')',
-                                   $db->quoteName('type_alias') . ' = ' . $db->quote('com_guidedtours.tour'),
-                               ]
-                           );
-
-            $query->join(
-                'INNER',
-                '(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
-                $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-            );
-        } elseif ($tag = (int) $tag) {
-            $query->join(
-                'INNER',
-                $db->quoteName('#__contentitem_tag_map', 'tagmap'),
-                $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-            )
-                  ->where(
-                      [
-                          $db->quoteName('tagmap.tag_id') . ' = :tag',
-                          $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_guidedtours.tour'),
-                      ]
-                  )
-                  ->bind(':tag', $tag, ParameterType::INTEGER);
         }
 
         // Filter by search in title.

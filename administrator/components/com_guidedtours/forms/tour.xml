@@ -159,16 +159,8 @@
 		default="*"
 		>
 		<option value="*">JALL</option>
-
-		<field
-				name="tags"
-				type="tag"
-				label="JTAG"
-				multiple="true"
-				allowcustom="true"
-		/>
-
 	</field>
+
 	<fields name="params">
 
 		<fieldset name="options">
