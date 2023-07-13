@@ -41,7 +41,7 @@ final class Person extends CMSPlugin implements SubscriberInterface
      * The name of the schema form
      *
      * @var   string
-     * @since _DEPLOY_VERSION__
+     * @since __DEPLOY_VERSION__
      */
     protected $pluginName = 'Person';
 }
