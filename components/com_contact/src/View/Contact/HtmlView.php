@@ -18,6 +18,8 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\User\UserFactoryAwareInterface;
+use Joomla\CMS\User\UserFactoryAwareTrait;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -29,8 +31,10 @@ use Joomla\Component\Contact\Site\Helper\RouteHelper;
  *
  * @since  1.5
  */
-class HtmlView extends BaseHtmlView
+class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
 {
+    use UserFactoryAwareTrait;
+
     /**
      * The item model state
      *
@@ -348,7 +352,7 @@ class HtmlView extends BaseHtmlView
 
         $contactUser = null;
 
-        if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = Factory::getUser($item->user_id)) {
+        if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = $this->getUserFactory()->loadUserById($item->user_id)) {
             $contactUser->text = '';
             $app->triggerEvent('onContentPrepare', ['com_users.user', &$contactUser, &$item->params, 0]);
 

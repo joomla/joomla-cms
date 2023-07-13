@@ -118,7 +118,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
             $this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
         }
 
-        if (is_null($this->hits)) {
+        if (!$this->hits) {
             $this->hits = 0;
         }
 
@@ -126,7 +126,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
     }
 
     /**
-     * Overridden \JTable::store to set modified data.
+     * Overridden \Joomla\CMS\Table\Table::store to set modified data.
      *
      * @param   boolean  $updateNulls  True to update fields even if they are null.
      *

@@ -16,7 +16,7 @@ namespace Joomla\CMS\Language;
 /**
  * Defines the trait for a language aware class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.4.0
  */
 trait LanguageAwareTrait
 {
@@ -24,7 +24,7 @@ trait LanguageAwareTrait
      * Language
      *
      * @var    Language
-     * @since  __DEPLOY_VERSION__
+     * @since  4.4.0
      */
     private $language;
 
@@ -33,7 +33,7 @@ trait LanguageAwareTrait
      *
      * @return  Language
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      * @throws  \UnexpectedValueException May be thrown if the language has not been set.
      */
     protected function getLanguage(): Language
@@ -52,7 +52,7 @@ trait LanguageAwareTrait
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function setLanguage(Language $language): void
     {

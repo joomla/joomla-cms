@@ -10,7 +10,6 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Toolbar;
 
-use InvalidArgumentException;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarButton;
 use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
@@ -195,7 +194,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
         $toolbarFactoryMock
             ->expects($this->once())
             ->method('createButton')
-            ->willThrowException(new InvalidArgumentException());
+            ->willThrowException(new \InvalidArgumentException());
 
         $toolbar = new Toolbar('my-toolbar', $toolbarFactoryMock);
 
@@ -236,7 +235,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
         $toolbarFactoryMock
             ->expects($this->once())
             ->method('createButton')
-            ->willThrowException(new InvalidArgumentException());
+            ->willThrowException(new \InvalidArgumentException());
 
         $toolbar = new Toolbar('my-toolbar', $toolbarFactoryMock);
 

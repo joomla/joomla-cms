@@ -228,8 +228,8 @@ abstract class Factory
      *   notify developers of changes needed in their code
      *
      * This method is not suggested for use as a one-for-one replacement of static calls, such as
-     * replacing calls to `Factory::getDbo()` with calls to `Factory::getContainer()->get('db')`, code
-     * should be refactored to support dependency injection instead of making this change.
+     * replacing calls to `Factory::getDbo()` with calls to `Factory::getContainer()->get(DatabaseInterface::class)`,
+     * code should be refactored to support dependency injection instead of making this change.
      *
      * @return  Container
      *
@@ -459,8 +459,8 @@ abstract class Factory
         );
 
         if (!self::$database) {
-            if (self::getContainer()->has('DatabaseDriver')) {
-                self::$database = self::getContainer()->get('DatabaseDriver');
+            if (self::getContainer()->has(DatabaseInterface::class)) {
+                self::$database = self::getContainer()->get(DatabaseInterface::class);
             } else {
                 self::$database = self::createDbo();
             }
@@ -479,7 +479,7 @@ abstract class Factory
      * @see     Mail
      * @since   1.7.0
      *
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated  4.4.0 will be removed in 6.0
      *              Use the mailer service in the DI container and create a mailer from there
      *              Example:
      *              Factory::getContainer()->get(MailerFactoryInterface::class)->createMailer();
@@ -612,6 +612,7 @@ abstract class Factory
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form())
+            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Input())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Logger())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Language())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Mailer())
@@ -698,7 +699,7 @@ abstract class Factory
      * @see     Mail
      * @since   1.7.0
      *
-     * @deprecated  __DEPLOY_VERSION__ will be removed in 6.0
+     * @deprecated  4.4.0 will be removed in 6.0
      *              Use the mailer service in the DI container and create a mailer from there
      *              Example:
      *              Factory::getContainer()->get(MailerFactoryInterface::class)->createMailer();

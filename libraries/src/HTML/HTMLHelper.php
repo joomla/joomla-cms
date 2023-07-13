@@ -12,10 +12,10 @@ namespace Joomla\CMS\HTML;
 use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Filesystem\Path;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -95,9 +95,13 @@ abstract class HTMLHelper
             );
         }
 
-        $prefix = \count($parts) === 3 ? array_shift($parts) : 'JHtml';
+        $prefix = \count($parts) === 3 ? array_shift($parts) : 'Joomla\\CMS\\HTML\\HTMLHelper';
         $file   = \count($parts) === 2 ? array_shift($parts) : '';
         $func   = array_shift($parts);
+
+        if (strtolower($prefix) === 'jhtml') {
+            $prefix = 'Joomla\\CMS\\HTML\\HTMLHelper';
+        }
 
         return [strtolower($prefix . '.' . $file . '.' . $func), $prefix, $file, $func];
     }
@@ -132,7 +136,7 @@ abstract class HTMLHelper
          * Support fetching services from the registry if a custom class prefix was not given (a three segment key),
          * the service comes from a class other than this one, and a service has been registered for the file.
          */
-        if ($prefix === 'JHtml' && $file !== '' && static::getServiceRegistry()->hasService($file)) {
+        if ($prefix === 'Joomla\\CMS\\HTML\\HTMLHelper' && $file !== '' && static::getServiceRegistry()->hasService($file)) {
             $service = static::getServiceRegistry()->getService($file);
 
             $toCall = [$service, $func];
@@ -401,7 +405,7 @@ abstract class HTMLHelper
 
                 if ($template->inheritable || !empty($template->parent)) {
                     $client     = $app->isClient('administrator') === true ? 'administrator' : 'site';
-                    $templaPath = JPATH_ROOT . "/media/templates/$client";
+                    $templaPath = JPATH_PUBLIC . "/media/templates/$client";
                 }
 
                 // For each potential files
@@ -441,7 +445,7 @@ abstract class HTMLHelper
                                     list($element, $file) = explode('/', $file, 2);
 
                                     // Try to deal with plugins group in the media folder
-                                    $found = static::addFileToBuffer(JPATH_ROOT . "/media/$extension/$element/$folder/$file", $ext, $debugMode);
+                                    $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/$extension/$element/$folder/$file", $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
@@ -450,7 +454,7 @@ abstract class HTMLHelper
                                     }
 
                                     // Try to deal with classical file in a media subfolder called element
-                                    $found = static::addFileToBuffer(JPATH_ROOT . "/media/$extension/$folder/$element/$file", $ext, $debugMode);
+                                    $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/$extension/$folder/$element/$file", $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
@@ -477,7 +481,7 @@ abstract class HTMLHelper
                                         }
                                     } else {
                                         // Try to deal with system files in the media folder
-                                        $found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$element/$file", $ext, $debugMode);
+                                        $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/system/$folder/$element/$file", $ext, $debugMode);
 
                                         if (!empty($found)) {
                                             $includes[] = $found;
@@ -487,7 +491,7 @@ abstract class HTMLHelper
                                     }
                                 } else {
                                     // Try to deal with files in the extension's media folder
-                                    $found = static::addFileToBuffer(JPATH_ROOT . "/media/$extension/$folder/$file", $ext, $debugMode);
+                                    $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/$extension/$folder/$file", $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
@@ -524,7 +528,7 @@ abstract class HTMLHelper
                                     }
 
                                     // Try to deal with system files in the media folder
-                                    $found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$file", $ext, $debugMode);
+                                    $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/system/$folder/$file", $ext, $debugMode);
 
                                     if (!empty($found)) {
                                         $includes[] = $found;
@@ -534,7 +538,7 @@ abstract class HTMLHelper
                                 }
                             } else {
                                 // Try to deal with system files in the media folder
-                                $found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$file", $ext, $debugMode);
+                                $found = static::addFileToBuffer(JPATH_PUBLIC . "/media/system/$folder/$file", $ext, $debugMode);
 
                                 if (!empty($found)) {
                                     $includes[] = $found;
@@ -558,7 +562,7 @@ abstract class HTMLHelper
                      * This MD5SUM file must represent the signature of the folder content
                      */
                     foreach ($files as $file) {
-                        $path = JPATH_ROOT . "/$file";
+                        $path = JPATH_PUBLIC . '/' . $file;
 
                         $found = static::addFileToBuffer($path, $ext, $debugMode);
 
@@ -1209,7 +1213,7 @@ abstract class HTMLHelper
      */
     protected static function convertToRelativePath($path)
     {
-        $relativeFilePath = Uri::root(true) . str_replace(JPATH_ROOT, '', $path);
+        $relativeFilePath = Uri::root(true) . str_replace(JPATH_PUBLIC, '', $path);
 
         // On windows devices we need to replace "\" with "/" otherwise some browsers will not load the asset
         return str_replace(DIRECTORY_SEPARATOR, '/', $relativeFilePath);

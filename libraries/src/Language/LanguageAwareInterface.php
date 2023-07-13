@@ -16,7 +16,7 @@ namespace Joomla\CMS\Language;
 /**
  * Interface to be implemented by classes depending on a language.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.4.0
  */
 interface LanguageAwareInterface
 {
@@ -27,7 +27,7 @@ interface LanguageAwareInterface
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.4.0
      */
     public function setLanguage(Language $language): void;
 }

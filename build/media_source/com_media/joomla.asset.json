@@ -8,7 +8,8 @@
     {
       "name": "com_media.edit-images.es5",
       "type": "script",
-      "uri": "com_media/edit-images-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -22,7 +23,7 @@
       "type": "script",
       "uri": "com_media/edit-images.min.js",
       "dependencies": [
-        "com_media.edit-images.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -36,9 +37,10 @@
     {
       "name": "com_media.mediamanager.es5",
       "type": "script",
-      "uri": "com_media/media-manager-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
-        "core"
+        "core", "messages"
       ],
       "attributes": {
         "nomodule": true,
@@ -50,7 +52,7 @@
       "type": "script",
       "uri": "com_media/media-manager.min.js",
       "dependencies": [
-        "com_media.mediamanager.es5"
+        "core", "messages"
       ],
       "attributes": {
         "type": "module"

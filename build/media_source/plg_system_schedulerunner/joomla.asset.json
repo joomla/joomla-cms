@@ -8,7 +8,8 @@
     {
       "name": "plg_system_schedulerunner.run-schedule.es5",
       "type": "script",
-      "uri": "plg_system_schedulerunner/run-schedule-es5.min.js",
+      "deprecated": true,
+      "uri": "",
       "dependencies": [
         "core"
       ],
@@ -22,7 +23,6 @@
       "type": "script",
       "uri": "plg_system_schedulerunner/run-schedule.min.js",
       "dependencies": [
-        "plg_system_schedulerunner.run-schedule.es5",
         "core"
       ],
       "attributes": {

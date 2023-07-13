@@ -1907,7 +1907,7 @@ if ($enabled) {
                 $retArray['files']    = $engine->filesProcessed;
                 $retArray['bytesIn']  = $engine->compressedTotal;
                 $retArray['bytesOut'] = $engine->uncompressedTotal;
-                $retArray['percent']  = 100;
+                $retArray['percent']  = 80;
                 $retArray['status']   = true;
                 $retArray['done']     = true;
 
@@ -1916,7 +1916,7 @@ if ($enabled) {
                 $retArray['files']    = $engine->filesProcessed;
                 $retArray['bytesIn']  = $engine->compressedTotal;
                 $retArray['bytesOut'] = $engine->uncompressedTotal;
-                $retArray['percent']  = ($engine->totalSize > 0) ? (100 * $engine->compressedTotal / $engine->totalSize) : 0;
+                $retArray['percent']  = ($engine->totalSize > 0) ? (80 * $engine->compressedTotal / $engine->totalSize) : 0;
                 $retArray['status']   = true;
                 $retArray['done']     = false;
                 $retArray['instance'] = ZIPExtraction::getSerialised();
