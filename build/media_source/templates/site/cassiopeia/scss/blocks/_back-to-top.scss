@@ -22,7 +22,7 @@
 
   &:hover,
   &:focus {
-    color: var(--white, $white);
+    color: var(--white, $white) !important;
     background-color: var(--cassiopeia-color-hover);
     border-color: var(--white, $white);
   }
