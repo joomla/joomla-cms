@@ -143,14 +143,7 @@
       width: 2rem;
       font-family: "Font Awesome 5 Free";
       font-weight: 900;
-
-      [dir="ltr"] & {
-        content: "\f054";
-      }
-
-      [dir="rtl"] & {
-        content: "\f053";
-      }
+      content: "\f054" #{"/*!rtl:\"\f053\"*/"};
     }
   }
 
@@ -255,11 +248,6 @@
     bottom: 0;
     z-index: $zindex-mobile-toggle;
     padding: 10px 15px;
-
-    [dir="rtl"] & {
-      right: auto;
-      left: 0;
-    }
 
     &:focus {
       box-shadow: none;

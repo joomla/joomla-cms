@@ -55,11 +55,11 @@ class ContenthistoryField extends FormField
         $link = 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;field='
             . $this->id . '&amp;item_id=' . $itemId . '&amp;' . Session::getFormToken() . '=1';
 
-        $extraData = array(
-            'item' => $itemId,
+        $extraData = [
+            'item'  => $itemId,
             'label' => $label,
-            'link' => $link,
-        );
+            'link'  => $link,
+        ];
 
         return array_merge($data, $extraData);
     }

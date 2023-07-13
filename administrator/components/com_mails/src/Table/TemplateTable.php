@@ -41,6 +41,6 @@ class TemplateTable extends Table
      */
     public function __construct(DatabaseDriver $db)
     {
-        parent::__construct('#__mail_templates', array('template_id', 'language'), $db);
+        parent::__construct('#__mail_templates', ['template_id', 'language'], $db);
     }
 }

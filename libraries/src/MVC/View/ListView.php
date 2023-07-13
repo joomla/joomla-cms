@@ -173,14 +173,14 @@ class ListView extends HtmlView
     protected function initializeView()
     {
         $componentName = substr($this->option, 4);
-        $helperClass = ucfirst($componentName . 'Helper');
+        $helperClass   = ucfirst($componentName . 'Helper');
 
         // Include the component helpers.
         \JLoader::register($helperClass, JPATH_COMPONENT . '/helpers/' . $componentName . '.php');
 
         if ($this->getLayout() !== 'modal') {
             if (\is_callable($helperClass . '::addSubmenu')) {
-                \call_user_func(array($helperClass, 'addSubmenu'), $this->getName());
+                \call_user_func([$helperClass, 'addSubmenu'], $this->getName());
             }
 
             $this->sidebar = \JHtmlSidebar::render();
@@ -208,7 +208,7 @@ class ListView extends HtmlView
         // Get the toolbar object instance
         $bar = Toolbar::getInstance('toolbar');
 
-        $viewName = $this->getName();
+        $viewName         = $this->getName();
         $singularViewName = \Joomla\String\Inflector::getInstance()->toSingular($viewName);
 
         ToolbarHelper::title(Text::_($this->toolbarTitle), $this->toolbarIcon);
@@ -245,7 +245,7 @@ class ListView extends HtmlView
             // Instantiate a new LayoutFile instance and render the popup button
             $layout = new FileLayout('joomla.toolbar.popup');
 
-            $dhtml = $layout->render(array('title' => $title));
+            $dhtml = $layout->render(['title' => $title]);
             $bar->appendButton('Custom', $dhtml, 'batch');
         }
 

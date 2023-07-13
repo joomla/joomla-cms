@@ -54,16 +54,16 @@ class BannerCest
         $I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
         $testBanner = [
-            'name' => 'My Custom Advert',
-            'catid' => 3,
-            'description' => '',
+            'name'             => 'My Custom Advert',
+            'catid'            => 3,
+            'description'      => '',
             'custombannercode' => '',
-            'metakey' => '',
-            'params' => [
+            'metakey'          => '',
+            'params'           => [
                 'imageurl' => '',
-                'width' => '',
-                'height' => '',
-                'alt' => ''
+                'width'    => '',
+                'height'   => '',
+                'alt'      => '',
             ],
         ];
 
@@ -109,8 +109,8 @@ class BannerCest
         $I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
         $testarticle = [
-            'title' => 'A test category',
-            'parent_id' => 3
+            'title'     => 'A test category',
+            'parent_id' => 3,
         ];
 
         $I->sendPOST('/banners/categories', $testarticle);

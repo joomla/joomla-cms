@@ -36,7 +36,7 @@ $highlightMatchColor = 'rgba(' . $r . ', ' . $g . ', ' . $b . ', .5)';
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->registerAndUseStyle('plg_editors_codemirror', 'plg_editors_codemirror/codemirror.css');
 $wa->addInlineStyle(
-<<<CSS
+    <<<CSS
 		.CodeMirror {
 			font-family: $fontFamily;
 			font-size: $fontSize;

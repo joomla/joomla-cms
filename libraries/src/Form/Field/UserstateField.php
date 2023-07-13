@@ -34,8 +34,8 @@ class UserstateField extends PredefinedlistField
      * @var  array
      * @since  3.2
      */
-    protected $predefinedOptions = array(
-        '0'  => 'JENABLED',
-        '1'  => 'JDISABLED',
-    );
+    protected $predefinedOptions = [
+        '0' => 'JENABLED',
+        '1' => 'JDISABLED',
+    ];
 }

@@ -47,7 +47,9 @@ use Webauthn\TrustPath\CertificateTrustPath;
  *
  * @since   4.2.0
  *
- * @deprecated 5.0 We will upgrade the WebAuthn library to version 3 or later and this will go away.
+ * @deprecated  4.2 will be removed in 6.0
+ *              Will be removed without replacement
+ *              We will upgrade the WebAuthn library to version 3 or later and this will go away.
  */
 final class FidoU2FAttestationStatementSupport implements AttestationStatementSupport
 {
@@ -84,7 +86,7 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
             );
         }
 
-        $this->decoder = $decoder ?? new Decoder(new TagObjectManager(), new OtherObjectManager());
+        $this->decoder                     = $decoder ?? new Decoder(new TagObjectManager(), new OtherObjectManager());
         $this->metadataStatementRepository = $metadataStatementRepository;
     }
 
@@ -177,13 +179,13 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
         Assertion::notNull($publicKey, 'The attested credential data does not contain a valid public key.');
 
         $publicKeyStream = new StringStream($publicKey);
-        $coseKey = $this->decoder->decode($publicKeyStream);
+        $coseKey         = $this->decoder->decode($publicKeyStream);
         Assertion::true($publicKeyStream->isEOF(), 'Invalid public key. Presence of extra bytes.');
         $publicKeyStream->close();
         Assertion::isInstanceOf($coseKey, MapObject::class, 'The attested credential data does not contain a valid public key.');
 
         $coseKey = $coseKey->getNormalizedData();
-        $ec2Key = new Ec2Key($coseKey + [Ec2Key::TYPE => 2, Ec2Key::DATA_CURVE => Ec2Key::CURVE_P256]);
+        $ec2Key  = new Ec2Key($coseKey + [Ec2Key::TYPE => 2, Ec2Key::DATA_CURVE => Ec2Key::CURVE_P256]);
 
         return "\x04" . $ec2Key->x() . $ec2Key->y();
     }

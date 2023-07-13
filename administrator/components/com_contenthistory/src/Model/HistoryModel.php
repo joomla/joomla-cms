@@ -43,10 +43,10 @@ class HistoryModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'version_id',
                 'h.version_id',
                 'version_note',
@@ -55,7 +55,7 @@ class HistoryModel extends ListModel
                 'h.save_date',
                 'editor_user_id',
                 'h.editor_user_id',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);
@@ -80,7 +80,7 @@ class HistoryModel extends ListModel
          * Make sure user has edit privileges for this content item. Note that we use edit permissions
          * for the content item, not delete permissions for the content history row.
          */
-        $user   = Factory::getUser();
+        $user   = $this->getCurrentUser();
 
         if ($user->authorise('core.edit', $record->item_id)) {
             return true;
@@ -91,11 +91,11 @@ class HistoryModel extends ListModel
         $contentTypeTable = $this->getTable('ContentType');
 
         $typeAlias        = explode('.', $record->item_id);
-        $id = array_pop($typeAlias);
+        $id               = array_pop($typeAlias);
         $typeAlias        = implode('.', $typeAlias);
-        $contentTypeTable->load(array('type_alias' => $typeAlias));
+        $contentTypeTable->load(['type_alias' => $typeAlias]);
         $typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
-        $result = in_array((int) $id, $typeEditables);
+        $result        = in_array((int) $id, $typeEditables);
 
         return $result;
     }
@@ -126,7 +126,7 @@ class HistoryModel extends ListModel
      */
     public function delete(&$pks)
     {
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
         $table = $this->getTable();
 
         // Iterate the items to delete each one.
@@ -191,7 +191,7 @@ class HistoryModel extends ListModel
     public function getItems()
     {
         $items = parent::getItems();
-        $user = Factory::getUser();
+        $user  = $this->getCurrentUser();
 
         if ($items === false) {
             return false;
@@ -221,7 +221,7 @@ class HistoryModel extends ListModel
      *
      * @since   3.2
      */
-    public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
+    public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
@@ -236,7 +236,7 @@ class HistoryModel extends ListModel
      */
     public function keep(&$pks)
     {
-        $pks = (array) $pks;
+        $pks   = (array) $pks;
         $table = $this->getTable();
 
         // Iterate the items to delete each one.
@@ -300,7 +300,7 @@ class HistoryModel extends ListModel
      */
     protected function populateState($ordering = 'h.save_date', $direction = 'DESC')
     {
-        $input = Factory::getApplication()->input;
+        $input  = Factory::getApplication()->getInput();
         $itemId = $input->get('item_id', '', 'string');
 
         $this->setState('item_id', $itemId);
@@ -358,7 +358,7 @@ class HistoryModel extends ListModel
             );
 
         // Add the list ordering clause.
-        $orderCol = $this->state->get('list.ordering');
+        $orderCol  = $this->state->get('list.ordering');
         $orderDirn = $this->state->get('list.direction');
         $query->order($db->quoteName($orderCol) . $orderDirn);
 
@@ -375,7 +375,7 @@ class HistoryModel extends ListModel
     protected function getSha1Hash()
     {
         $result    = false;
-        $item_id   = Factory::getApplication()->input->getCmd('item_id', '');
+        $item_id   = Factory::getApplication()->getInput()->getCmd('item_id', '');
         $typeAlias = explode('.', $item_id);
         Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $typeAlias[0] . '/tables');
         $typeTable = $this->getTable('ContentType');
@@ -386,7 +386,7 @@ class HistoryModel extends ListModel
             $helper = new CMSHelper();
 
             $dataObject = $helper->getDataObject($contentTable);
-            $result = $this->getTable('ContentHistory')->getSha1(json_encode($dataObject), $typeTable);
+            $result     = $this->getTable('ContentHistory')->getSha1(json_encode($dataObject), $typeTable);
         }
 
         return $result;

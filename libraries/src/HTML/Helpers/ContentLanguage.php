@@ -68,7 +68,7 @@ abstract class ContentLanguage
         }
 
         if ($all) {
-            $all_option = array(new CMSObject(array('value' => '*', 'text' => $translate ? Text::alt('JALL', 'language') : 'JALL_LANGUAGE')));
+            $all_option = [new CMSObject(['value' => '*', 'text' => $translate ? Text::alt('JALL', 'language') : 'JALL_LANGUAGE'])];
 
             return array_merge($all_option, static::$items);
         } else {

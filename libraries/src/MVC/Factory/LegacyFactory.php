@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Factory;
@@ -95,7 +95,7 @@ class LegacyFactory implements MVCFactoryInterface
         $viewClass = $classPrefix . $viewName;
 
         if (!class_exists($viewClass)) {
-            $path = Path::find($config['paths'], BaseController::createFileName('view', array('name' => $viewName, 'type' => $viewType)));
+            $path = Path::find($config['paths'], BaseController::createFileName('view', ['name' => $viewName, 'type' => $viewType]));
 
             if (!$path) {
                 return null;

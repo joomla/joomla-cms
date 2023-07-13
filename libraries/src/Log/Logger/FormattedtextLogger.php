@@ -47,7 +47,7 @@ class FormattedtextLogger extends Logger
      * @var    array
      * @since  1.7.0
      */
-    protected $fields = array();
+    protected $fields = [];
 
     /**
      * The full filesystem path for the log file.
@@ -72,7 +72,7 @@ class FormattedtextLogger extends Logger
      * @var    array
      * @since  3.9.0
      */
-    protected $deferredEntries = array();
+    protected $deferredEntries = [];
 
     /**
      * Constructor.
@@ -134,7 +134,7 @@ class FormattedtextLogger extends Logger
         $this->initFile();
 
         // Format all lines and write to file.
-        $lines = array_map(array($this, 'formatLine'), $this->deferredEntries);
+        $lines = array_map([$this, 'formatLine'], $this->deferredEntries);
 
         if (!File::append($this->path, implode("\n", $lines) . "\n")) {
             throw new \RuntimeException('Cannot write to log file.');
@@ -195,8 +195,8 @@ class FormattedtextLogger extends Logger
         if ((\strlen($entry->date) != 10) || !isset($entry->time)) {
             // Get the date and time strings in GMT.
             $entry->datetime = $entry->date->toISO8601();
-            $entry->time = $entry->date->format('H:i:s', false);
-            $entry->date = $entry->date->format('Y-m-d', false);
+            $entry->time     = $entry->date->format('H:i:s', false);
+            $entry->date     = $entry->date->format('Y-m-d', false);
         }
 
         // Get a list of all the entry keys and make sure they are upper case.
@@ -224,7 +224,7 @@ class FormattedtextLogger extends Logger
      */
     protected function generateFileHeader()
     {
-        $head = array();
+        $head = [];
 
         // Build the log file header.
 
@@ -283,8 +283,8 @@ class FormattedtextLogger extends Logger
      */
     protected function parseFields()
     {
-        $this->fields = array();
-        $matches = array();
+        $this->fields = [];
+        $matches      = [];
 
         // Get all of the available fields in the format string.
         preg_match_all('/{(.*?)}/i', $this->format, $matches);

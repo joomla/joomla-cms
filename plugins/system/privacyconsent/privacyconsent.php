@@ -134,12 +134,13 @@ class PlgSystemPrivacyconsent extends CMSPlugin
         }
 
         // Check that the privacy is checked if required ie only in registration from frontend.
-        $option = $this->app->input->get('option');
-        $task   = $this->app->input->post->get('task');
-        $form   = $this->app->input->post->get('jform', [], 'array');
+        $input  = $this->app->getInput();
+        $option = $input->get('option');
+        $task   = $input->post->get('task');
+        $form   = $input->post->get('jform', [], 'array');
 
         if (
-            $option == 'com_users' && in_array($task, array('registration.register', 'profile.save'))
+            $option == 'com_users' && in_array($task, ['registration.register', 'profile.save'])
             && empty($form['privacyconsent']['privacy'])
         ) {
             throw new InvalidArgumentException(Text::_('PLG_SYSTEM_PRIVACYCONSENT_FIELD_ERROR'));
@@ -175,9 +176,10 @@ class PlgSystemPrivacyconsent extends CMSPlugin
             return;
         }
 
-        $option = $this->app->input->get('option');
-        $task   = $this->app->input->post->get('task');
-        $form   = $this->app->input->post->get('jform', [], 'array');
+        $input  = $this->app->getInput();
+        $option = $input->get('option');
+        $task   = $input->post->get('task');
+        $form   = $input->post->get('jform', [], 'array');
 
         if (
             $option == 'com_users'
@@ -187,10 +189,10 @@ class PlgSystemPrivacyconsent extends CMSPlugin
             $userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
             // Get the user's IP address
-            $ip = $this->app->input->server->get('REMOTE_ADDR', '', 'string');
+            $ip = $input->server->get('REMOTE_ADDR', '', 'string');
 
             // Get the user agent string
-            $userAgent = $this->app->input->server->get('HTTP_USER_AGENT', '', 'string');
+            $userAgent = $input->server->get('HTTP_USER_AGENT', '', 'string');
 
             // Create the user note
             $userNote = (object) [
@@ -284,11 +286,12 @@ class PlgSystemPrivacyconsent extends CMSPlugin
                 return;
             }
 
-            $option = $this->app->input->getCmd('option');
-            $task   = $this->app->input->get('task');
-            $view   = $this->app->input->getString('view', '');
-            $layout = $this->app->input->getString('layout', '');
-            $id     = $this->app->input->getInt('id');
+            $input  = $this->app->getInput();
+            $option = $input->getCmd('option');
+            $task   = $input->get('task', '');
+            $view   = $input->getString('view', '');
+            $layout = $input->getString('layout', '');
+            $id     = $input->getInt('id');
 
             $privacyArticleId = $this->getPrivacyArticleId();
 
@@ -298,7 +301,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
              */
             $allowedUserTasks = [
                 'profile.save', 'profile.apply', 'user.logout', 'user.menulogout',
-                'method', 'methods', 'captive', 'callback'
+                'method', 'methods', 'captive', 'callback',
             ];
             $isAllowedUserTask = in_array($task, $allowedUserTasks)
                 || substr($task, 0, 8) === 'captive.'
@@ -425,7 +428,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 
         if ($privacyArticleId > 0 && Associations::isEnabled()) {
             $privacyAssociated = Associations::getAssociations('com_content', '#__content', 'com_content.item', $privacyArticleId);
-            $currentLang = Factory::getLanguage()->getTag();
+            $currentLang       = Factory::getLanguage()->getTag();
 
             if (isset($privacyAssociated[$currentLang])) {
                 $privacyArticleId = $privacyAssociated[$currentLang]->id;
@@ -449,7 +452,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 
         if ($itemId > 0 && Associations::isEnabled()) {
             $privacyAssociated = Associations::getAssociations('com_menus', '#__menu', 'com_menus.item', $itemId, 'id', '', '');
-            $currentLang = Factory::getLanguage()->getTag();
+            $currentLang       = Factory::getLanguage()->getTag();
 
             if (isset($privacyAssociated[$currentLang])) {
                 $itemId = $privacyAssociated[$currentLang]->id;
@@ -523,7 +526,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
             $result = false;
         }
 
-        // Abort on failure
+        // Stop on failure
         if (!$result) {
             return;
         }
@@ -656,7 +659,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 
         foreach ($users as $user) {
             $userId = (int) $user->id;
-            $query = $db->getQuery(true)
+            $query  = $db->getQuery(true)
                 ->update($db->quoteName('#__privacy_consents'))
                 ->set($db->quoteName('state') . ' = 0')
                 ->where($db->quoteName('id') . ' = :userid')

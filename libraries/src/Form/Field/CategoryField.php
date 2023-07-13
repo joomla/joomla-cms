@@ -46,7 +46,7 @@ class CategoryField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options   = [];
         $extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $this->element['scope'];
         $published = (string) $this->element['published'];
         $language  = (string) $this->element['language'];
@@ -54,7 +54,7 @@ class CategoryField extends ListField
         // Load the category options for a given extension.
         if (!empty($extension)) {
             // Filter over published state or not depending upon if it is present.
-            $filters = array();
+            $filters = [];
 
             if ($published) {
                 $filters['filter.published'] = explode(',', $published);
@@ -65,7 +65,7 @@ class CategoryField extends ListField
                 $filters['filter.language'] = explode(',', $language);
             }
 
-            if ($filters === array()) {
+            if ($filters === []) {
                 $options = HTMLHelper::_('category.options', $extension);
             } else {
                 $options = HTMLHelper::_('category.options', $extension, $filters);

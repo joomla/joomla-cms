@@ -58,7 +58,10 @@ class PasswordRule extends FormRule
 
         // In the installer we don't have any access to the
         // database yet so use the hard coded default settings
-        if (!Factory::getApplication()->isClient('installation')) {
+        if (
+            !Factory::getApplication()->isClient('installation')
+            && !Factory::getApplication()->isClient('cli_installation')
+        ) {
             // If we have parameters from com_users, use those instead.
             // Some of these may be empty for legacy reasons.
             $params = ComponentHelper::getParams('com_users');
@@ -72,13 +75,13 @@ class PasswordRule extends FormRule
                 $meterp            = $params->get('meter');
                 $thresholdp        = $params->get('threshold', 66);
 
-                empty($minimumLengthp) ? : $minimumLength = (int) $minimumLengthp;
-                empty($minimumIntegersp) ? : $minimumIntegers = (int) $minimumIntegersp;
-                empty($minimumSymbolsp) ? : $minimumSymbols = (int) $minimumSymbolsp;
-                empty($minimumUppercasep) ? : $minimumUppercase = (int) $minimumUppercasep;
-                empty($minimumLowercasep) ? : $minimumLowercase = (int) $minimumLowercasep;
-                empty($meterp) ? : $meter = $meterp;
-                empty($thresholdp) ? : $threshold = $thresholdp;
+                empty($minimumLengthp) ?: $minimumLength       = (int) $minimumLengthp;
+                empty($minimumIntegersp) ?: $minimumIntegers   = (int) $minimumIntegersp;
+                empty($minimumSymbolsp) ?: $minimumSymbols     = (int) $minimumSymbolsp;
+                empty($minimumUppercasep) ?: $minimumUppercase = (int) $minimumUppercasep;
+                empty($minimumLowercasep) ?: $minimumLowercase = (int) $minimumLowercasep;
+                empty($meterp) ?: $meter                       = $meterp;
+                empty($thresholdp) ?: $threshold               = $thresholdp;
             }
         }
 

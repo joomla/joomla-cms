@@ -42,7 +42,7 @@ class SessionhandlerField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         // Get the options from the session object.
         foreach (Session::getHandlers() as $store) {

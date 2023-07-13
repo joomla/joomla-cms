@@ -50,7 +50,7 @@ class IntarrayFilter implements FormFilterInterface
             $value = get_object_vars($value);
         }
 
-        $value = \is_array($value) ? $value : array($value);
+        $value = \is_array($value) ? $value : [$value];
 
         $value = ArrayHelper::toInteger($value);
 
