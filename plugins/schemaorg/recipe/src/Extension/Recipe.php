@@ -22,7 +22,7 @@ use Joomla\Event\SubscriberInterface;
 /**
  * Schemaorg Plugin
  *
- * @since  _DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 final class Recipe extends CMSPlugin implements SubscriberInterface
 {
