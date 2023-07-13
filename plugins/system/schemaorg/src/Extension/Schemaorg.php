@@ -46,7 +46,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
      * Load the language file on instantiation.
      *
      * @var    boolean
-     * @since  4.0.0
+     * @since  __DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
 
