@@ -33,7 +33,7 @@ final class Person extends CMSPlugin implements SubscriberInterface
      * Load the language file on instantiation.
      *
      * @var    boolean
-     * @since  _DEPLOY_VERSION__
+     * @since  __DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
 
