@@ -40,11 +40,11 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
      * @since 4.1.0
      */
     protected const TASKS_MAP = [
-        'plg_task_toggle_offline'             => [
+        'plg_task_toggle_offline' => [
             'langConstPrefix' => 'PLG_TASK_SITE_STATUS',
             'toggle'          => true,
         ],
-        'plg_task_toggle_offline_set_online'  => [
+        'plg_task_toggle_offline_set_online' => [
             'langConstPrefix' => 'PLG_TASK_SITE_STATUS_SET_ONLINE',
             'toggle'          => false,
             'offline'         => false,

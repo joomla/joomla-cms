@@ -379,11 +379,11 @@ final class InstallationApplication extends CMSApplication
     public function getTemplate($params = false)
     {
         if ($params) {
-            $template = new \stdClass();
-            $template->template = 'template';
-            $template->params = new Registry();
+            $template              = new \stdClass();
+            $template->template    = 'template';
+            $template->params      = new Registry();
             $template->inheritable = 0;
-            $template->parent = '';
+            $template->parent      = '';
 
             return $template;
         }
@@ -515,7 +515,7 @@ final class InstallationApplication extends CMSApplication
                 'file'             => $file . '.php',
                 'directory'        => JPATH_THEMES,
                 'params'           => '{}',
-                "templateInherits" => ''
+                "templateInherits" => '',
             ];
         }
 

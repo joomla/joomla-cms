@@ -62,7 +62,7 @@ class InstallerModel extends ListModel
      * @param   int            $limitstart  Offset
      * @param   int            $limit       The number of records
      *
-     * @return  array
+     * @return  object[]
      */
     protected function _getList($query, $limitstart = 0, $limit = 0)
     {
@@ -118,7 +118,7 @@ class InstallerModel extends ListModel
             $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, false, true);
 
             // Process pagination.
-            $total = count($result);
+            $total                                      = count($result);
             $this->cache[$this->getStoreId('getTotal')] = $total;
 
             if ($total <= $limitstart) {
@@ -171,7 +171,7 @@ class InstallerModel extends ListModel
             switch ($item->type) {
                 case 'component':
                     $extension = $item->element;
-                    $source = JPATH_ADMINISTRATOR . '/components/' . $extension;
+                    $source    = JPATH_ADMINISTRATOR . '/components/' . $extension;
                     $lang->load("$extension.sys", JPATH_ADMINISTRATOR) || $lang->load("$extension.sys", $source);
                     break;
                 case 'file':
@@ -179,8 +179,8 @@ class InstallerModel extends ListModel
                         $lang->load("$extension.sys", JPATH_SITE);
                     break;
                 case 'library':
-                    $parts = explode('/', $item->element);
-                    $vendor = (isset($parts[1]) ? $parts[0] : null);
+                    $parts     = explode('/', $item->element);
+                    $vendor    = (isset($parts[1]) ? $parts[0] : null);
                     $extension = 'lib_' . ($vendor ? implode('_', $parts) : $item->element);
 
                     if (!$lang->load("$extension.sys", $path)) {
@@ -190,17 +190,17 @@ class InstallerModel extends ListModel
                     break;
                 case 'module':
                     $extension = $item->element;
-                    $source = $path . '/modules/' . $extension;
+                    $source    = $path . '/modules/' . $extension;
                     $lang->load("$extension.sys", $path) || $lang->load("$extension.sys", $source);
                     break;
                 case 'plugin':
                     $extension = 'plg_' . $item->folder . '_' . $item->element;
-                    $source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
+                    $source    = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
                     $lang->load("$extension.sys", JPATH_ADMINISTRATOR) || $lang->load("$extension.sys", $source);
                     break;
                 case 'template':
                     $extension = 'tpl_' . $item->element;
-                    $source = $path . '/templates/' . $item->element;
+                    $source    = $path . '/templates/' . $item->element;
                     $lang->load("$extension.sys", $path) || $lang->load("$extension.sys", $source);
                     break;
                 case 'package':

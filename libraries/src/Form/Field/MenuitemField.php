@@ -118,7 +118,7 @@ class MenuitemField extends GroupedlistField
             case 'language':
             case 'published':
             case 'disable':
-                $value = (string) $value;
+                $value       = (string) $value;
                 $this->$name = $value ? explode(',', $value) : [];
                 break;
 

@@ -37,7 +37,7 @@ class DisplayController extends BaseController
      */
     public function display($cachable = false, $urlparams = [])
     {
-        $input = $this->app->input;
+        $input    = $this->app->getInput();
         $cachable = true;
 
         // Load plugin language files.
@@ -54,7 +54,7 @@ class DisplayController extends BaseController
 
         $safeurlparams = [
             'f'    => 'INT',
-            'lang' => 'CMD'
+            'lang' => 'CMD',
         ];
 
         return parent::display($cachable, $safeurlparams);

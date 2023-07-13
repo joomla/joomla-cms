@@ -82,7 +82,7 @@ class ModulesModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        $layout = $app->input->get('layout', '', 'cmd');
+        $layout = $app->getInput()->get('layout', '', 'cmd');
 
         // Adjust the context to support modal layouts.
         if ($layout) {
@@ -90,7 +90,7 @@ class ModulesModel extends ListModel
         }
 
         // Make context client aware
-        $this->context .= '.' . $app->input->get->getInt('client_id', 0);
+        $this->context .= '.' . $app->getInput()->get->getInt('client_id', 0);
 
         // Load the filter state.
         $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
@@ -187,7 +187,7 @@ class ModulesModel extends ListModel
             $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, true, true);
 
             // Process pagination.
-            $total = count($result);
+            $total                                      = count($result);
             $this->cache[$this->getStoreId('getTotal')] = $total;
 
             if ($total < $limitstart) {
@@ -227,12 +227,12 @@ class ModulesModel extends ListModel
      */
     protected function translate(&$items)
     {
-        $lang = Factory::getLanguage();
+        $lang       = Factory::getLanguage();
         $clientPath = $this->getState('client_id') ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
         foreach ($items as $item) {
             $extension = $item->module;
-            $source = $clientPath . "/modules/$extension";
+            $source    = $clientPath . "/modules/$extension";
             $lang->load("$extension.sys", $clientPath)
                 || $lang->load("$extension.sys", $source);
             $item->name = Text::_($item->name);
@@ -257,7 +257,7 @@ class ModulesModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select the required fields.
@@ -308,7 +308,7 @@ class ModulesModel extends ListModel
             ->bind(':eclientid', $clientId, ParameterType::INTEGER);
 
         // Filter by current user access level.
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Get the current user for authorisation checks
         if ($user->authorise('core.admin') !== true) {

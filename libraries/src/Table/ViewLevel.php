@@ -85,7 +85,7 @@ class ViewLevel extends Table
         $id = (int) $this->id;
 
         // Check for a duplicate title.
-        $db = $this->_db;
+        $db    = $this->_db;
         $query = $db->getQuery(true)
             ->select('COUNT(' . $db->quoteName('title') . ')')
             ->from($db->quoteName('#__viewlevels'))

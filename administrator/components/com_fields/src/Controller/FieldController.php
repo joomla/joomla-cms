@@ -65,8 +65,8 @@ class FieldController extends FormController
         parent::__construct($config, $factory, $app, $input);
 
         $this->internalContext = $this->app->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD');
-        $parts = FieldsHelper::extract($this->internalContext);
-        $this->component = $parts ? $parts[0] : null;
+        $parts                 = FieldsHelper::extract($this->internalContext);
+        $this->component       = $parts ? $parts[0] : null;
     }
 
     /**

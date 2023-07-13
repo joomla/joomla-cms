@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Redirect\Administrator\Service\HTML;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
@@ -39,6 +40,8 @@ class Redirect
      */
     public function published($value = 0, $i = null, $canChange = true)
     {
+        Factory::getDocument()->getWebAssetManager()->useScript('list-view');
+
         // Note: $i is required but has to be an optional argument in the function call due to argument order
         if (null === $i) {
             throw new \InvalidArgumentException('$i is a required argument in JHtmlRedirect::published');
@@ -56,8 +59,10 @@ class Redirect
         $icon  = $state[0];
 
         if ($canChange) {
-            $html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon' . ($value == 1 ? ' active' : '')
-                . '" aria-labelledby="cb' . $state[0] . $i . '-desc"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>'
+            $html = '<a href="#" class="js-grid-item-action tbody-icon' . ($value == 1 ? ' active' : '')
+                . '" aria-labelledby="cb' . $state[0] . $i . '-desc"'
+                . ' data-item-id="cb' . $i . '" data-item-task="' . $state[1] . '"'
+                . '><span class="icon-' . $icon . '" aria-hidden="true"></span></a>'
                 . '<div role="tooltip" id="cb' . $state[0] . $i . '-desc">' . Text::_($state[3]) . '</div>';
         }
 

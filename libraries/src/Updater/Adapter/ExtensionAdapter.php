@@ -52,12 +52,12 @@ class ExtensionAdapter extends UpdateAdapter
 
         switch ($name) {
             case 'UPDATE':
-                $this->currentUpdate = Table::getInstance('update');
+                $this->currentUpdate                 = Table::getInstance('update');
                 $this->currentUpdate->update_site_id = $this->updateSiteId;
-                $this->currentUpdate->detailsurl = $this->_url;
-                $this->currentUpdate->folder = '';
-                $this->currentUpdate->client_id = 1;
-                $this->currentUpdate->infourl = '';
+                $this->currentUpdate->detailsurl     = $this->_url;
+                $this->currentUpdate->folder         = '';
+                $this->currentUpdate->client_id      = 1;
+                $this->currentUpdate->infourl        = '';
                 break;
 
             // Don't do anything
@@ -66,7 +66,7 @@ class ExtensionAdapter extends UpdateAdapter
 
             default:
                 if (\in_array($name, $this->updatecols)) {
-                    $name = strtolower($name);
+                    $name                       = strtolower($name);
                     $this->currentUpdate->$name = '';
                 }
 

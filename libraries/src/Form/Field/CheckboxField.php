@@ -81,7 +81,7 @@ class CheckboxField extends FormField
     public function __set($name, $value)
     {
         if ($name === 'checked') {
-            $value = (string) $value;
+            $value         = (string) $value;
             $this->checked = ($value === 'true' || $value == $name || $value === '1');
 
             return;
@@ -118,7 +118,7 @@ class CheckboxField extends FormField
         $return = parent::setup($element, $value, $group);
 
         if ($return) {
-            $checked = (string) $this->element['checked'];
+            $checked       = (string) $this->element['checked'];
             $this->checked = ($checked === 'true' || $checked === 'checked' || $checked === '1');
 
             empty($this->value) || $this->checked ? null : $this->checked = true;

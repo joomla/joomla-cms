@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Fields\Administrator\Model;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
@@ -127,9 +126,9 @@ class GroupsModel extends ListModel
     protected function getListQuery()
     {
         // Create a new query object.
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user = Factory::getUser();
+        $user  = $this->getCurrentUser();
 
         // Select the required fields from the table.
         $query->select($this->getState('list.select', 'a.*'));
@@ -207,7 +206,7 @@ class GroupsModel extends ListModel
 
         // Add the list ordering clause
         $listOrdering = $this->getState('list.ordering', 'a.ordering');
-        $listDirn = $db->escape($this->getState('list.direction', 'ASC'));
+        $listDirn     = $db->escape($this->getState('list.direction', 'ASC'));
 
         $query->order($db->escape($listOrdering) . ' ' . $listDirn);
 

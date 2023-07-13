@@ -61,7 +61,7 @@ class InstallationController extends JSONController
         $this->checkValidToken();
 
         // Redirect to the page.
-        $r = new \stdClass();
+        $r       = new \stdClass();
         $r->view = 'setup';
 
         // Check the form
@@ -131,17 +131,17 @@ class InstallationController extends JSONController
         /** @var \Joomla\CMS\Installation\Model\DatabaseModel $model */
         $model = $this->getModel('Database');
 
-        $r = new \stdClass();
-        $db = $model->initialise();
+        $r     = new \stdClass();
+        $db    = $model->initialise();
         $files = [
             'populate1' => 'base',
             'populate2' => 'supports',
             'populate3' => 'extensions',
-            'custom1' => 'localise',
-            'custom2' => 'custom'
+            'custom1'   => 'localise',
+            'custom2'   => 'custom',
         ];
 
-        $schema = $files[$step];
+        $schema     = $files[$step];
         $serverType = $db->getServerType();
 
         if (in_array($step, ['custom1', 'custom2']) && !is_file('sql/' . $serverType . '/' . $schema . '.sql')) {
@@ -181,7 +181,7 @@ class InstallationController extends JSONController
         // Get the options from the session
         $options = $setUpModel->getOptions();
 
-        $r = new \stdClass();
+        $r       = new \stdClass();
         $r->view = 'remove';
 
         /** @var \Joomla\CMS\Installation\Model\ConfigurationModel $configurationModel */
@@ -225,7 +225,7 @@ class InstallationController extends JSONController
         }
 
         // Redirect to the page.
-        $r = new \stdClass();
+        $r       = new \stdClass();
         $r->view = 'remove';
 
         $this->sendJsonResponse($r);
@@ -250,14 +250,14 @@ class InstallationController extends JSONController
             $error = [
                 'token' => Session::getFormToken(true),
                 'error' => true,
-                'data' => [
-                    'view' => 'remove'
+                'data'  => [
+                    'view' => 'remove',
                 ],
                 'messages' => [
                     'warning' => [
-                        Text::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation')
-                    ]
-                ]
+                        Text::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation'),
+                    ],
+                ],
             ];
 
             echo json_encode($error);

@@ -80,7 +80,7 @@ class StyleModel extends AdminModel
                 'event_after_delete'  => 'onExtensionAfterDelete',
                 'event_before_save'   => 'onExtensionBeforeSave',
                 'event_after_save'    => 'onExtensionAfterSave',
-                'events_map'          => ['delete' => 'extension', 'save' => 'extension']
+                'events_map'          => ['delete' => 'extension', 'save' => 'extension'],
             ],
             $config
         );
@@ -102,7 +102,7 @@ class StyleModel extends AdminModel
         $app = Factory::getApplication();
 
         // Load the User state.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
         $this->setState('style.id', $pk);
 
         // Load the parameters.
@@ -123,7 +123,7 @@ class StyleModel extends AdminModel
     public function delete(&$pks)
     {
         $pks        = (array) $pks;
-        $user       = Factory::getUser();
+        $user       = $this->getCurrentUser();
         $table      = $this->getTable();
         $context    = $this->option . '.' . $this->name;
 
@@ -179,7 +179,7 @@ class StyleModel extends AdminModel
      */
     public function duplicate(&$pks)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Access checks.
         if (!$user->authorise('core.create', 'com_templates')) {
@@ -202,7 +202,7 @@ class StyleModel extends AdminModel
                 $table->home = 0;
 
                 // Alter the title.
-                $m = null;
+                $m            = null;
                 $table->title = $this->generateNewTitle(null, null, $table->title);
 
                 if (!$table->check()) {
@@ -353,7 +353,7 @@ class StyleModel extends AdminModel
             $this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
 
             // Convert the params field to an array.
-            $registry = new Registry($table->params);
+            $registry                  = new Registry($table->params);
             $this->_cache[$pk]->params = $registry->toArray();
 
             // Get the template XML.
@@ -397,9 +397,9 @@ class StyleModel extends AdminModel
 
         // Load the core and/or local language file(s).
         $lang->load('tpl_' . $template, $client->path)
-        ||  (!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path))
-        ||  (!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent))
-        ||  $lang->load('tpl_' . $template, $client->path . '/templates/' . $template);
+            || (!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path))
+            || (!empty($data->parent) && $lang->load('tpl_' . $data->parent, $client->path . '/templates/' . $data->parent))
+            || $lang->load('tpl_' . $template, $client->path . '/templates/' . $template);
 
         if (file_exists($formFile)) {
             // Get the template form.
@@ -474,7 +474,7 @@ class StyleModel extends AdminModel
             $isNew = false;
         }
 
-        if ($app->input->get('task') == 'save2copy') {
+        if ($app->getInput()->get('task') == 'save2copy') {
             $data['title']    = $this->generateNewTitle(null, null, $data['title']);
             $data['home']     = 0;
             $data['assigned'] = '';
@@ -507,12 +507,12 @@ class StyleModel extends AdminModel
             return false;
         }
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if ($user->authorise('core.edit', 'com_menus') && $table->client_id == 0) {
             $n       = 0;
             $db      = $this->getDatabase();
-            $user    = Factory::getUser();
+            $user    = $this->getCurrentUser();
             $tableId = (int) $table->id;
             $userId  = (int) $user->id;
 
@@ -580,7 +580,7 @@ class StyleModel extends AdminModel
      */
     public function setHome($id = 0)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
         $db   = $this->getDatabase();
 
         // Access checks.
@@ -640,7 +640,7 @@ class StyleModel extends AdminModel
      */
     public function unsetHome($id = 0)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
         $db   = $this->getDatabase();
 
         // Access checks.
@@ -775,7 +775,8 @@ class StyleModel extends AdminModel
      * Custom clean cache method
      *
      * @param   string   $group     The cache group
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *

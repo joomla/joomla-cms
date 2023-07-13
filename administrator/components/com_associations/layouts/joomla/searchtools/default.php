@@ -83,7 +83,7 @@ HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['optio
 <div class="js-stools" role="search">
     <?php // Add the itemtype and language selectors before the form filters. Do not display in modal. ?>
     <?php $app = Factory::getApplication(); ?>
-    <?php if ($app->input->get('forcedItemType', '', 'string') == '') : ?>
+    <?php if ($app->getInput()->get('forcedItemType', '', 'string') == '') : ?>
         <?php $itemTypeField = $data['view']->filterForm->getField('itemtype'); ?>
         <div class="js-stools-container-selector">
             <div class="js-stools-field-selector js-stools-itemtype">
@@ -92,7 +92,7 @@ HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['optio
             </div>
         </div>
     <?php endif; ?>
-    <?php if ($app->input->get('forcedLanguage', '', 'cmd') == '') : ?>
+    <?php if ($app->getInput()->get('forcedLanguage', '', 'cmd') == '') : ?>
         <?php $languageField = $data['view']->filterForm->getField('language'); ?>
         <div class="js-stools-container-selector">
             <div class="js-stools-field-selector js-stools-language">

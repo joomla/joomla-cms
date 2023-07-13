@@ -44,7 +44,7 @@ class ModuletagField extends ListField
 
         // Create one new option object for each tag
         foreach ($tags as $tag) {
-            $tmp = HTMLHelper::_('select.option', $tag, $tag);
+            $tmp       = HTMLHelper::_('select.option', $tag, $tag);
             $options[] = $tmp;
         }
 

@@ -214,7 +214,7 @@ class TagField extends ListField
                 }
 
                 // Limit the main query to the missing amount of tags
-                $count = count($options);
+                $count        = count($options);
                 $prefillLimit = $prefillLimit - $count;
                 $query->setLimit($prefillLimit);
 
@@ -274,7 +274,7 @@ class TagField extends ListField
     {
         if ($options) {
             foreach ($options as &$option) {
-                $repeat = (isset($option->level) && $option->level - 1 >= 0) ? $option->level - 1 : 0;
+                $repeat       = (isset($option->level) && $option->level - 1 >= 0) ? $option->level - 1 : 0;
                 $option->text = str_repeat('- ', $repeat) . $option->text;
             }
         }

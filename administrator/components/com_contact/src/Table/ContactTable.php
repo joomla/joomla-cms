@@ -195,7 +195,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
         // Clean up description -- eliminate quotes and <> brackets
         if (!empty($this->metadesc)) {
             // Only process if not empty
-            $badCharacters = ["\"", '<', '>'];
+            $badCharacters  = ["\"", '<', '>'];
             $this->metadesc = StringHelper::str_ireplace($badCharacters, '', $this->metadesc);
         } else {
             $this->metadesc = '';

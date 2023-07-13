@@ -21,7 +21,7 @@ use Joomla\CMS\Router\Route;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Users master display controller.
+ * Users display controller.
  *
  * @since  1.6
  */

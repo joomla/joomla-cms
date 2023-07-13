@@ -58,8 +58,8 @@ class SpacerField extends FormField
      */
     protected function getLabel()
     {
-        $html = [];
-        $class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
+        $html   = [];
+        $class  = !empty($this->class) ? ' class="' . $this->class . '"' : '';
         $html[] = '<span class="spacer">';
         $html[] = '<span class="before"></span>';
         $html[] = '<span' . $class . '>';

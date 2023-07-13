@@ -56,7 +56,7 @@ class ComponentController extends ApiController
      */
     public function displayList()
     {
-        $viewType = $this->app->getDocument()->getType();
+        $viewType   = $this->app->getDocument()->getType();
         $viewLayout = $this->input->get('layout', 'default', 'string');
 
         try {

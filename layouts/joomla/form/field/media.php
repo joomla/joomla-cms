@@ -119,6 +119,7 @@ $doc = Factory::getDocument();
 $wam = $doc->getWebAssetManager();
 
 $wam->useScript('webcomponent.media-select');
+$doc->addScriptOptions('media-picker-api', ['apiBaseUrl' => Uri::base() . 'index.php?option=com_media&format=json']);
 
 Text::script('JFIELD_MEDIA_LAZY_LABEL');
 Text::script('JFIELD_MEDIA_ALT_LABEL');

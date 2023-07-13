@@ -53,7 +53,7 @@ final class FetchMediaItemUrlEvent extends AbstractImmutableEvent
 
         // Check for required arguments
         if (!\array_key_exists('url', $arguments) || !is_string($arguments['url'])) {
-                throw new \BadMethodCallException("Argument 'url' of event $name is not of the expected type");
+            throw new \BadMethodCallException("Argument 'url' of event $name is not of the expected type");
         }
 
         parent::__construct($name, $arguments);

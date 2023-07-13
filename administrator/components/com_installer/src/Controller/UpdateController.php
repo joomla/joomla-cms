@@ -52,7 +52,7 @@ class UpdateController extends BaseController
         $uid = array_filter($uid);
 
         // Get the minimum stability.
-        $params        = ComponentHelper::getComponent('com_installer')->getParams();
+        $params            = ComponentHelper::getComponent('com_installer')->getParams();
         $minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
 
         $model->update($uid, $minimum_stability);

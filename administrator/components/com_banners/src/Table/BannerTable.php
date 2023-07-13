@@ -231,19 +231,19 @@ class BannerTable extends Table implements VersionableTableInterface
                     $this->reset = null;
                     break;
                 case 2:
-                    $date = Factory::getDate('+1 year ' . date('Y-m-d'));
+                    $date        = Factory::getDate('+1 year ' . date('Y-m-d'));
                     $this->reset = $date->toSql();
                     break;
                 case 3:
-                    $date = Factory::getDate('+1 month ' . date('Y-m-d'));
+                    $date        = Factory::getDate('+1 month ' . date('Y-m-d'));
                     $this->reset = $date->toSql();
                     break;
                 case 4:
-                    $date = Factory::getDate('+7 day ' . date('Y-m-d'));
+                    $date        = Factory::getDate('+7 day ' . date('Y-m-d'));
                     $this->reset = $date->toSql();
                     break;
                 case 5:
-                    $date = Factory::getDate('+1 day ' . date('Y-m-d'));
+                    $date        = Factory::getDate('+1 day ' . date('Y-m-d'));
                     $this->reset = $date->toSql();
                     break;
             }
@@ -330,8 +330,8 @@ class BannerTable extends Table implements VersionableTableInterface
             // Verify checkout
             if (\is_null($table->checked_out) || $table->checked_out == $userId) {
                 // Change the state
-                $table->sticky = $state;
-                $table->checked_out = null;
+                $table->sticky           = $state;
+                $table->checked_out      = null;
                 $table->checked_out_time = null;
 
                 // Check the row

@@ -286,7 +286,7 @@ class Update extends CMSObject
                 $source = new DownloadSource();
 
                 foreach ($attrs as $key => $data) {
-                    $key = strtolower($key);
+                    $key          = strtolower($key);
                     $source->$key = $data;
                 }
 
@@ -309,7 +309,7 @@ class Update extends CMSObject
                 $this->currentUpdate->$name->_data = '';
 
                 foreach ($attrs as $key => $data) {
-                    $key = strtolower($key);
+                    $key                              = strtolower($key);
                     $this->currentUpdate->$name->$key = $data;
                 }
                 break;
@@ -445,7 +445,7 @@ class Update extends CMSObject
 
         if ($tag === 'downloadsource') {
             // Grab the last source so we can append the URL
-            $source = end($this->downloadSources);
+            $source      = end($this->downloadSources);
             $source->url = $data;
 
             return;
@@ -473,7 +473,7 @@ class Update extends CMSObject
         $httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
 
         try {
-            $http = HttpFactory::getHttp($httpOption);
+            $http     = HttpFactory::getHttp($httpOption);
             $response = $http->get($url);
         } catch (\RuntimeException $e) {
             $response = null;

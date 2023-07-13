@@ -12,9 +12,12 @@ namespace Joomla\CMS\Installation\Service\Provider;
 
 use Joomla\CMS\Error\Renderer\JsonRenderer;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Installation\Application\CliInstallationApplication;
 use Joomla\CMS\Installation\Application\InstallationApplication;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Session\SessionInterface;
 use Psr\Log\LoggerInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -52,6 +55,27 @@ class Application implements ServiceProviderInterface
                 $app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
                 $app->setLogger($container->get(LoggerInterface::class));
                 $app->setSession($container->get('Joomla\Session\SessionInterface'));
+
+                return $app;
+            },
+            true
+        );
+
+        $container->share(
+            CliInstallationApplication::class,
+            function (Container $container) {
+                $lang = $container->get(LanguageFactoryInterface::class)->createLanguage('en-GB', false);
+
+                $app = new CliInstallationApplication(null, null, $container->get('config'), $lang);
+
+                // The session service provider needs Factory::$application, set it if still null
+                if (Factory::$application === null) {
+                    Factory::$application = $app;
+                }
+
+                $app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+                $app->setLogger($container->get(LoggerInterface::class));
+                $app->setSession($container->get(SessionInterface::class));
 
                 return $app;
             },

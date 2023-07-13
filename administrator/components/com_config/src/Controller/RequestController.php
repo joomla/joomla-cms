@@ -88,7 +88,7 @@ class RequestController extends BaseController
             'debug_lang'          => null,
             'error_reporting'     => null,
             'mailfrom'            => null,
-            'fromname'            => null
+            'fromname'            => null,
         ];
 
         $data = array_intersect_key($data, $requiredData);

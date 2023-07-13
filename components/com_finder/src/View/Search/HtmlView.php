@@ -134,7 +134,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
      */
     public function display($tpl = null)
     {
-        $app = Factory::getApplication();
+        $app          = Factory::getApplication();
         $this->params = $app->getParams();
 
         // Get view data.
@@ -143,6 +143,8 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderQuery') : null;
         $this->results = $this->get('Items');
         \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderResults') : null;
+        $this->sortOrderFields = $this->get('sortOrderFields');
+        \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderSortOrderFields') : null;
         $this->total = $this->get('Total');
         \JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderTotal') : null;
         $this->pagination = $this->get('Pagination');
@@ -319,12 +321,12 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         // Add feed link to the document head.
         if ($this->params->get('show_feed_link', 1) == 1) {
             // Add the RSS link.
-            $props = ['type' => 'application/rss+xml', 'title' => 'RSS 2.0'];
+            $props = ['type' => 'application/rss+xml', 'title' => htmlspecialchars($this->document->getTitle())];
             $route = Route::_($this->query->toUri() . '&format=feed&type=rss');
             $this->document->addHeadLink($route, 'alternate', 'rel', $props);
 
             // Add the ATOM link.
-            $props = ['type' => 'application/atom+xml', 'title' => 'Atom 1.0'];
+            $props = ['type' => 'application/atom+xml', 'title' => htmlspecialchars($this->document->getTitle())];
             $route = Route::_($this->query->toUri() . '&format=feed&type=atom');
             $this->document->addHeadLink($route, 'alternate', 'rel', $props);
         }

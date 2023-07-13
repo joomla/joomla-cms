@@ -195,8 +195,8 @@ class FormattedtextLogger extends Logger
         if ((\strlen($entry->date) != 10) || !isset($entry->time)) {
             // Get the date and time strings in GMT.
             $entry->datetime = $entry->date->toISO8601();
-            $entry->time = $entry->date->format('H:i:s', false);
-            $entry->date = $entry->date->format('Y-m-d', false);
+            $entry->time     = $entry->date->format('H:i:s', false);
+            $entry->date     = $entry->date->format('Y-m-d', false);
         }
 
         // Get a list of all the entry keys and make sure they are upper case.
@@ -284,7 +284,7 @@ class FormattedtextLogger extends Logger
     protected function parseFields()
     {
         $this->fields = [];
-        $matches = [];
+        $matches      = [];
 
         // Get all of the available fields in the format string.
         preg_match_all('/{(.*?)}/i', $this->format, $matches);

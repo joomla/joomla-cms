@@ -53,7 +53,7 @@ class MenuOrderingField extends ListField
             return false;
         }
 
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select(
                 [

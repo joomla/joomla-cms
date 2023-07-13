@@ -63,8 +63,8 @@ class RangeField extends NumberField
 
         // Initialize some field attributes.
         $extraData = [
-            'max' => $this->max,
-            'min' => $this->min,
+            'max'  => $this->max,
+            'min'  => $this->min,
             'step' => $this->step,
         ];
 

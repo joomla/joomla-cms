@@ -43,7 +43,7 @@ class FiltersModel extends ListModel
                 'state', 'a.state',
                 'created_by_alias', 'a.created_by_alias',
                 'created', 'a.created',
-                'map_count', 'a.map_count'
+                'map_count', 'a.map_count',
             ];
         }
 
@@ -59,7 +59,7 @@ class FiltersModel extends ListModel
      */
     protected function getListQuery()
     {
-        $db = $this->getDatabase();
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         // Select all fields from the table.

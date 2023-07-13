@@ -50,7 +50,7 @@ abstract class ArticlesCategoryHelper
         $articles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
 
         // Set application parameters in model
-        $input     = $app->input;
+        $input     = $app->getInput();
         $appParams = $app->getParams();
         $articles->setState('params', $appParams);
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -10,7 +11,6 @@
 defined('_JEXEC') or die;
 
 extract($displayData);
-
 
 $form = $forms[0];
 

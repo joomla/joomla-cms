@@ -135,9 +135,9 @@ class UserField extends FormField
         }
 
         $extraData = [
-            'userName'  => $name,
-            'groups'    => $this->getGroups(),
-            'excluded'  => $this->getExcluded(),
+            'userName' => $name,
+            'groups'   => $this->getGroups(),
+            'excluded' => $this->getExcluded(),
         ];
 
         return array_merge($data, $extraData);

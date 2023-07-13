@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <form addfieldprefix="Joomla\Component\Fields\Administrator\Field">
 	<fieldset>
 		<field
@@ -245,6 +245,13 @@
 					<option value="2">COM_FIELDS_FIELD_EDITABLE_IN_ADMIN</option>
 					<option value="">COM_FIELDS_FIELD_EDITABLE_IN_BOTH</option>
 				</field>
+
+				<field
+					name="showon"
+					type="text"
+					label="COM_FIELDS_FIELD_SHOWON_LABEL"
+					description="COM_FIELDS_FIELD_SHOWON_DESC"
+				/>
 
 			</fieldset>
 			<fieldset name="renderoptions" label="COM_FIELDS_FIELD_RENDEROPTIONS_HEADING">

@@ -58,7 +58,11 @@ class Pathway
      *
      * @since       1.5
      * @throws      \RuntimeException
-     * @deprecated  5.0 Get the instance from the application, eg. $application->getPathway()
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Get the instance from the application
+     *              Example:
+     *              $app->getPathway()
      */
     public static function getInstance($client)
     {
@@ -166,7 +170,7 @@ class Pathway
 
         if (isset($this->pathway[$id])) {
             $this->pathway[$id]->name = $name;
-            $ret = true;
+            $ret                      = true;
         }
 
         return $ret;
@@ -184,7 +188,7 @@ class Pathway
      */
     protected function makeItem($name, $link)
     {
-        $item = new \stdClass();
+        $item       = new \stdClass();
         $item->name = html_entity_decode($name, ENT_COMPAT, 'UTF-8');
         $item->link = $link;
 

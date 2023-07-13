@@ -83,10 +83,10 @@ class OverridesModel extends ListModel
         $search = $this->getState('filter.search');
 
         if ($search != '') {
-            $search = preg_quote($search, '~');
+            $search    = preg_quote($search, '~');
             $matchvals = preg_grep('~' . $search . '~i', $strings);
             $matchkeys = array_intersect_key($strings, array_flip(preg_grep('~' . $search . '~i', array_keys($strings))));
-            $strings = array_merge($matchvals, $matchkeys);
+            $strings   = array_merge($matchvals, $matchkeys);
         }
 
         // Consider the ordering
@@ -193,7 +193,7 @@ class OverridesModel extends ListModel
     public function delete($cids)
     {
         // Check permissions first.
-        if (!Factory::getUser()->authorise('core.delete', 'com_languages')) {
+        if (!$this->getCurrentUser()->authorise('core.delete', 'com_languages')) {
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
             return false;
@@ -202,11 +202,11 @@ class OverridesModel extends ListModel
         $app = Factory::getApplication();
 
         if ($app->isClient('api')) {
-            $cids = (array) $cids;
+            $cids   = (array) $cids;
             $client = $this->getState('filter.client');
         } else {
             $filterclient = Factory::getApplication()->getUserState('com_languages.overrides.filter.client');
-            $client = $filterclient == 0 ? 'site' : 'administrator';
+            $client       = $filterclient == 0 ? 'site' : 'administrator';
         }
 
         // Parse the override.ini file in order to get the keys and strings.

@@ -103,7 +103,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep1()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -116,7 +116,7 @@ class PlgSampledataTesting extends CMSPlugin
         }
 
         /** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
-        $model = $this->app->bootComponent('com_tags')->getMVCFactory()->createModel('Tag', 'Administrator', ['ignore_request' => true]);
+        $model  = $this->app->bootComponent('com_tags')->getMVCFactory()->createModel('Tag', 'Administrator', ['ignore_request' => true]);
         $access = (int) $this->app->get('access', 1);
         $user   = Factory::getUser();
         $tagIds = [];
@@ -200,7 +200,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep2()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -364,7 +364,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep3()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -583,7 +583,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep4()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -602,7 +602,7 @@ class PlgSampledataTesting extends CMSPlugin
         $catIdsLevel3 = $this->app->getUserState('sampledata.testing.articles.catids3');
         $catIdsLevel4 = $this->app->getUserState('sampledata.testing.articles.catids4');
         $catIdsLevel5 = $this->app->getUserState('sampledata.testing.articles.catids5');
-        $tagIds = $this->app->getUserState('sampledata.testing.tags', []);
+        $tagIds       = $this->app->getUserState('sampledata.testing.tags', []);
 
         $articles = [
             // Articles 0 - 9
@@ -649,8 +649,8 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             // Articles 10 - 19
             [
-                'catid'    => $catIdsLevel4[6],
-                'images'   => [
+                'catid'  => $catIdsLevel4[6],
+                'images' => [
                     'image_intro'            => 'images/sampledata/parks/landscape/250px_cradle_mountain_seen_from_barn_bluff.jpg',
                     'image_intro_alt'        => 'Cradle Mountain',
                     'image_fulltext'         => 'images/sampledata/parks/landscape/250px_cradle_mountain_seen_from_barn_bluff.jpg',
@@ -716,8 +716,8 @@ class PlgSampledataTesting extends CMSPlugin
                 'featured' => 1,
             ],
             [
-                'catid'    => $catIdsLevel5[4],
-                'images'   => [
+                'catid'  => $catIdsLevel5[4],
+                'images' => [
                     'image_intro'            => 'images/sampledata/parks/animals/180px_koala_ag1.jpg',
                     'image_intro_alt'        => 'Koala Thumbnail',
                     'image_fulltext'         => 'images/sampledata/parks/animals/800px_koala_ag1.jpg',
@@ -757,8 +757,8 @@ class PlgSampledataTesting extends CMSPlugin
                 'ordering' => 10,
             ],
             [
-                'catid'    => $catIdsLevel5[4],
-                'images'   => [
+                'catid'  => $catIdsLevel5[4],
+                'images' => [
                     'image_intro'            => 'images/sampledata/parks/animals/200px_phyllopteryx_taeniolatus1.jpg',
                     'image_intro_alt'        => 'Phyllopteryx',
                     'image_fulltext'         => 'images/sampledata/parks/animals/800px_phyllopteryx_taeniolatus1.jpg',
@@ -769,8 +769,8 @@ class PlgSampledataTesting extends CMSPlugin
                 'ordering' => 3,
             ],
             [
-                'catid'    => $catIdsLevel4[6],
-                'images'   => [
+                'catid'  => $catIdsLevel4[6],
+                'images' => [
                     'image_intro'            => 'images/sampledata/parks/landscape/120px_pinnacles_western_australia.jpg',
                     'image_intro_alt'        => 'Kings Canyon',
                     'image_fulltext'         => 'images/sampledata/parks/landscape/800px_pinnacles_western_australia.jpg',
@@ -815,8 +815,8 @@ class PlgSampledataTesting extends CMSPlugin
                 'ordering' => 1,
             ],
             [
-                'catid'    => $catIdsLevel5[4],
-                'images'   => [
+                'catid'  => $catIdsLevel5[4],
+                'images' => [
                     'image_intro'            => 'images/sampledata/parks/animals/220px_spottedquoll_2005_seanmcclean.jpg',
                     'image_intro_alt'        => 'Spotted Quoll',
                     'image_fulltext'         => 'images/sampledata/parks/animals/789px_spottedquoll_2005_seanmcclean.jpg',
@@ -873,8 +873,8 @@ class PlgSampledataTesting extends CMSPlugin
                 'ordering' => 1,
             ],
             [
-                'catid'    => $catIdsLevel5[4],
-                'images'   => [
+                'catid'  => $catIdsLevel5[4],
+                'images' => [
                     'image_intro'            => 'images/sampledata/parks/animals/180px_wobbegong.jpg',
                     'image_intro_alt'        => 'Wobbegon',
                     'image_fulltext'         => 'images/sampledata/parks/animals/800px_wobbegong.jpg',
@@ -906,8 +906,8 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             // Articles 60 - 68
             [
-                'catid'    => $catIdsLevel4[6],
-                'images'   => [
+                'catid'  => $catIdsLevel4[6],
+                'images' => [
                     'image_intro'            => 'images/sampledata/parks/landscape/120px_rainforest_bluemountainsnsw.jpg',
                     'float_intro'            => 'none',
                     'image_intro_alt'        => 'Rain Forest Blue Mountains',
@@ -919,8 +919,8 @@ class PlgSampledataTesting extends CMSPlugin
                 'ordering' => 2,
             ],
             [
-                'catid'    => $catIdsLevel4[6],
-                'images'   => [
+                'catid'  => $catIdsLevel4[6],
+                'images' => [
                     'image_intro'            => 'images/sampledata/parks/landscape/180px_ormiston_pound.jpg',
                     'float_intro'            => 'none',
                     'image_intro_alt'        => 'Ormiston Pound',
@@ -936,9 +936,9 @@ class PlgSampledataTesting extends CMSPlugin
                 'ordering' => 3,
             ],
             [
-                'catid'      => $catIdsLevel2[0],
-                'state'  => 2,
-                'ordering'   => 0,
+                'catid'    => $catIdsLevel2[0],
+                'state'    => 2,
+                'ordering' => 0,
             ],
             [
                 'catid'    => $catIdsLevel4[4],
@@ -992,7 +992,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep5()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -1243,8 +1243,8 @@ class PlgSampledataTesting extends CMSPlugin
                 'misc', 'sortname1', 'sortname2', 'sortname3', 'email_to', 'image', ];
 
             // Temporary, they are waiting for PR #14112
-            $fields[] = 'metakey';
-            $fields[] = 'metadesc';
+            $fields[]            = 'metakey';
+            $fields[]            = 'metadesc';
             $contact['metadata'] = '{}';
 
             foreach ($fields as $field) {
@@ -1319,7 +1319,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep6()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -1437,7 +1437,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep7()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -1450,8 +1450,8 @@ class PlgSampledataTesting extends CMSPlugin
         }
 
         /** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
-        $factory = $this->app->bootComponent('com_menus')->getMVCFactory();
-        $model = $factory->createModel('Menu', 'Administrator', ['ignore_request' => true]);
+        $factory   = $this->app->bootComponent('com_menus')->getMVCFactory();
+        $model     = $factory->createModel('Menu', 'Administrator', ['ignore_request' => true]);
         $modelItem = $factory->createModel('Item', 'Administrator', ['ignore_request' => true]);
         $menuTypes = [];
 
@@ -1500,7 +1500,7 @@ class PlgSampledataTesting extends CMSPlugin
         $menuItemTable = $modelItem->getTable();
         $menuItemTable->load(
             [
-                'home' => 1,
+                'home'     => 1,
                 'language' => '*',
             ]
         );
@@ -2331,7 +2331,7 @@ class PlgSampledataTesting extends CMSPlugin
                     'show_page_heading'    => 0,
                     'secure'               => 0,
                 ],
-                'home'         => 1,
+                'home' => 1,
             ],
             [
                 'menutype'     => $menuTypes[2],
@@ -3122,7 +3122,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep8()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -3134,7 +3134,7 @@ class PlgSampledataTesting extends CMSPlugin
             return $response;
         }
 
-        $model = $this->app->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
+        $model  = $this->app->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
         $access = (int) $this->app->get('access', 1);
 
         // Get previously entered Data from UserStates
@@ -3209,7 +3209,7 @@ class PlgSampledataTesting extends CMSPlugin
                     $menuIdsLevel2[1],
                     $menuIdsLevel2[2],
                 ],
-                'params'     => [
+                'params' => [
                     'menutype'        => $menuTypes[0],
                     'startLevel'      => 1,
                     'endLevel'        => 0,
@@ -3253,7 +3253,7 @@ class PlgSampledataTesting extends CMSPlugin
                     $menuIdsLevel2[1],
                     $menuIdsLevel2[2],
                 ],
-                'params'     => [
+                'params' => [
                     'menutype'        => $menuTypes[3],
                     'startLevel'      => 1,
                     'endLevel'        => 0,
@@ -3287,7 +3287,7 @@ class PlgSampledataTesting extends CMSPlugin
                     $menuIdsLevel2[1],
                     $menuIdsLevel2[2],
                 ],
-                'params'     => [
+                'params' => [
                     'menutype'        => $menuTypes[2],
                     'startLevel'      => 1,
                     'endLevel'        => 0,
@@ -3341,7 +3341,7 @@ class PlgSampledataTesting extends CMSPlugin
                     $menuIdsLevel2[1],
                     $menuIdsLevel2[2],
                 ],
-                'params'     => [
+                'params' => [
                     'menutype'        => $menuTypes[4],
                     'startLevel'      => 1,
                     'endLevel'        => 1,
@@ -3361,7 +3361,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[42],
                 ],
-                'params'     => [
+                'params' => [
                     'count'      => '10',
                     'cache'      => 1,
                     'cache_time' => 900,
@@ -3377,7 +3377,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[37],
                 ],
-                'params'     => [
+                'params' => [
                     'catid'      => [$articleCatids2[0]],
                     'count'      => 5,
                     'ordering'   => 'c_dsc',
@@ -3396,7 +3396,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[30],
                 ],
-                'params'     => [
+                'params' => [
                     'catid'      => [$articleCatids2[1], $articleCatids2[2]],
                     'count'      => 5,
                     'show_front' => 1,
@@ -3414,7 +3414,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[50],
                 ],
-                'params'     => [
+                'params' => [
                     'rssurl'      => 'https://community.joomla.org/blogs/community.feed?type=rss',
                     'rssrtl'      => 0,
                     'rsstitle'    => 1,
@@ -3436,7 +3436,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[36],
                 ],
-                'params'     => [
+                'params' => [
                     'catid'             => [$articleCatids2[0]],
                     'image'             => 0,
                     'item_title'        => 0,
@@ -3459,7 +3459,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[35],
                 ],
-                'params'     => [
+                'params' => [
                     'type'   => 'jpg',
                     'folder' => 'images/sampledata/parks/animals',
                     'width'  => 180,
@@ -3475,7 +3475,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[43],
                 ],
-                'params'     => [
+                'params' => [
                     'showDate' => 0,
                     'owncache' => 1,
                 ],
@@ -3489,7 +3489,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[34],
                 ],
-                'params'     => [
+                'params' => [
                     'width'      => '20',
                     'button_pos' => 'right',
                     'opensearch' => 1,
@@ -3507,7 +3507,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[32],
                 ],
-                'params'     => [
+                'params' => [
                     'serverinfo' => 1,
                     'siteinfo'   => 1,
                     'counter'    => 1,
@@ -3527,7 +3527,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[38],
                 ],
-                'params'     => [
+                'params' => [
                     'text'   => 'Feed Entries',
                     'format' => 'rss',
                     'cache'  => 0,
@@ -3542,7 +3542,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[28],
                 ],
-                'params'     => [
+                'params' => [
                     'shownumber' => 5,
                     'linknames'  => 0,
                     'cache'      => 0,
@@ -3559,7 +3559,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[29],
                 ],
-                'params'     => [
+                'params' => [
                     'showmode'  => 2,
                     'linknames' => 0,
                     'cache'     => 0,
@@ -3574,7 +3574,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[40],
                 ],
-                'params'     => [
+                'params' => [
                     'url'         => 'https://www.youtube.com/embed/vb2eObvmvdI',
                     'add'         => 1,
                     'scrolling'   => 'auto',
@@ -3595,7 +3595,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[41],
                 ],
-                'params'     => [
+                'params' => [
                     'cache'      => 1,
                     'cache_time' => 900,
                     'cachemode'  => 'static',
@@ -3610,7 +3610,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[39],
                 ],
-                'params'     => [
+                'params' => [
                     'login'     => 280,
                     'logout'    => 280,
                     'greeting'  => 1,
@@ -3628,7 +3628,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[31],
                 ],
-                'params'     => [
+                'params' => [
                     'menutype'        => $menuTypes[4],
                     'startLevel'      => 1,
                     'endLevel'        => 0,
@@ -3653,7 +3653,7 @@ class PlgSampledataTesting extends CMSPlugin
                     $menuIdsLevel2[1],
                     $menuIdsLevel2[2],
                 ],
-                'params'     => [
+                'params' => [
                     'catid'      => [$articleCatids3[1]],
                     'count'      => 5,
                     'ordering'   => 'c_dsc',
@@ -3672,7 +3672,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned' => [
                     $menuIdsLevel1[54],
                 ],
-                'params'   => [
+                'params' => [
                     'prepare_content' => 1,
                     'cache'           => 1,
                     'cache_time'      => 900,
@@ -3687,7 +3687,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned' => [
                     $menuIdsLevel1[53],
                 ],
-                'params'   => [
+                'params' => [
                     'showHere'   => 1,
                     'showHome'   => 1,
                     'homeText'   => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_26_HOMETEXT'),
@@ -3705,7 +3705,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned' => [
                     $menuIdsLevel1[33],
                 ],
-                'params'   => [
+                'params' => [
                     'target'     => 1,
                     'count'      => 1,
                     'cid'        => 1,
@@ -3734,7 +3734,7 @@ class PlgSampledataTesting extends CMSPlugin
                     $menuIdsLevel1[69],
                     $menuIdsLevel1[70],
                 ],
-                'params'     => [
+                'params' => [
                     'menutype'        => $menuTypes[5],
                     'startLevel'      => 1,
                     'endLevel'        => 0,
@@ -3762,7 +3762,7 @@ class PlgSampledataTesting extends CMSPlugin
                     $menuIdsLevel1[69],
                     $menuIdsLevel1[70],
                 ],
-                'params'     => [
+                'params' => [
                     'prepare_content' => 1,
                     'cache'           => 1,
                     'cache_time'      => 900,
@@ -3778,7 +3778,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[63],
                 ],
-                'params'     => [
+                'params' => [
                     'parent'           => 29,
                     'show_description' => 0,
                     'show_children'    => 0,
@@ -3805,7 +3805,7 @@ class PlgSampledataTesting extends CMSPlugin
                     $menuIdsLevel2[1],
                     $menuIdsLevel2[2],
                 ],
-                'params'     => [
+                'params' => [
                     'image'      => 1,
                     'cache'      => 1,
                     'cache_time' => 900,
@@ -3838,7 +3838,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[64],
                 ],
-                'params'     => [
+                'params' => [
                     'image'      => 1,
                     'cache'      => 1,
                     'cache_time' => 900,
@@ -3862,7 +3862,7 @@ class PlgSampledataTesting extends CMSPlugin
                     $menuIdsLevel1[69],
                     $menuIdsLevel1[70],
                 ],
-                'params'     => [
+                'params' => [
                     'prepare_content' => 1,
                     'cache'           => 1,
                     'cache_time'      => 900,
@@ -3899,7 +3899,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[7],
                 ],
-                'params'     => [
+                'params' => [
                     'prepare_content' => 1,
                     'cache'           => 1,
                     'cache_time'      => 900,
@@ -3915,7 +3915,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[69],
                 ],
-                'params'     => [
+                'params' => [
                     'mode'                         => 'normal',
                     'show_on_article_page'         => 1,
                     'show_front'                   => 'show',
@@ -3965,7 +3965,7 @@ class PlgSampledataTesting extends CMSPlugin
                     $menuIdsLevel5[0],
                     $menuIdsLevel5[1],
                 ],
-                'params'     => [
+                'params' => [
                     'width'      => 20,
                     'button_pos' => 'right',
                     'cache'      => 1,
@@ -3985,7 +3985,7 @@ class PlgSampledataTesting extends CMSPlugin
                     $menuIdsLevel5[0],
                     $menuIdsLevel5[1],
                 ],
-                'params'     => [
+                'params' => [
                     'menutype'        => $menuTypes[2],
                     'startLevel'      => 1,
                     'endLevel'        => 0,
@@ -4008,7 +4008,7 @@ class PlgSampledataTesting extends CMSPlugin
                     $menuIdsLevel5[0],
                     $menuIdsLevel5[1],
                 ],
-                'params'     => [
+                'params' => [
                     'prepare_content' => 1,
                     'cache'           => 1,
                     'cache_time'      => 900,
@@ -4028,7 +4028,7 @@ class PlgSampledataTesting extends CMSPlugin
                     $menuIdsLevel5[0],
                     $menuIdsLevel5[1],
                 ],
-                'params'     => [
+                'params' => [
                     'prepare_content' => 1,
                     'cache'           => 1,
                     'cache_time'      => 900,
@@ -4048,7 +4048,7 @@ class PlgSampledataTesting extends CMSPlugin
                     $menuIdsLevel5[0],
                     $menuIdsLevel5[1],
                 ],
-                'params'     => [
+                'params' => [
                     'prepare_content' => 1,
                     'cache'           => 1,
                     'cache_time'      => 900,
@@ -4068,7 +4068,7 @@ class PlgSampledataTesting extends CMSPlugin
                     $menuIdsLevel5[0],
                     $menuIdsLevel5[1],
                 ],
-                'params'     => [
+                'params' => [
                     'prepare_content' => 1,
                     'cache'           => 1,
                     'cache_time'      => 900,
@@ -4087,7 +4087,7 @@ class PlgSampledataTesting extends CMSPlugin
                     $menuIdsLevel5[0],
                     $menuIdsLevel5[1],
                 ],
-                'params'     => [
+                'params' => [
                     'greeting'  => 1,
                     'name'      => 0,
                     'usesecure' => 0,
@@ -4141,7 +4141,7 @@ class PlgSampledataTesting extends CMSPlugin
                 'assigned'   => [
                     $menuIdsLevel1[72],
                 ],
-                'params'     => [
+                'params' => [
                     'show_autosuggest' => 1,
                     'show_advanced'    => 0,
                     'field_size'       => [20],
@@ -4202,7 +4202,7 @@ class PlgSampledataTesting extends CMSPlugin
                     $menuIdsLevel1[69],
                     $menuIdsLevel1[70],
                 ],
-                'params'     => [
+                'params' => [
                     'menutype'        => $menuTypes[5],
                     'startLevel'      => 1,
                     'endLevel'        => 0,
@@ -4267,13 +4267,13 @@ class PlgSampledataTesting extends CMSPlugin
             ],
             // Admin modules
             [
-                'title'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_55_TITLE'),
-                'content'   => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_55_CONTENT'),
-                'ordering'  => 5,
-                'position'  => 'cpanel',
-                'module'    => 'mod_custom',
-                'access'    => $access,
-                'params'    => [
+                'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_55_TITLE'),
+                'content'  => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_55_CONTENT'),
+                'ordering' => 5,
+                'position' => 'cpanel',
+                'module'   => 'mod_custom',
+                'access'   => $access,
+                'params'   => [
                     'prepare_content' => 1,
                     'cache'           => 1,
                     'cache_time'      => 900,
@@ -4304,12 +4304,12 @@ class PlgSampledataTesting extends CMSPlugin
                 'client_id' => 1,
             ],
             [
-                'title'     => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_57_TITLE'),
-                'ordering'  => 3,
-                'position'  => 'cpanel',
-                'module'    => 'mod_stats_admin',
-                'access'    => $access,
-                'params'    => [
+                'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_57_TITLE'),
+                'ordering' => 3,
+                'position' => 'cpanel',
+                'module'   => 'mod_stats_admin',
+                'access'   => $access,
+                'params'   => [
                     'serverinfo'     => 1,
                     'siteinfo'       => 1,
                     'counter'        => 1,
@@ -4494,8 +4494,8 @@ class PlgSampledataTesting extends CMSPlugin
     {
         $ids = [];
 
-        $access = (int) $this->app->get('access', 1);
-        $user   = Factory::getUser();
+        $access     = (int) $this->app->get('access', 1);
+        $user       = Factory::getUser();
         $mvcFactory = $this->app->bootComponent('com_content')->getMVCFactory();
 
         foreach ($articles as $i => $article) {

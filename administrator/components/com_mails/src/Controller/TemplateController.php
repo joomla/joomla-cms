@@ -85,7 +85,7 @@ class TemplateController extends FormController
 
         // Get the previous record id (if any) and the current record id.
         $template_id = $this->input->getCmd('template_id');
-        $language = $this->input->getCmd('language');
+        $language    = $this->input->getCmd('language');
 
         // Access check.
         if (!$this->allowEdit(['template_id' => $template_id, 'language' => $language], $template_id)) {
@@ -131,7 +131,7 @@ class TemplateController extends FormController
     protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
     {
         $language = array_pop($recordId);
-        $return = parent::getRedirectToItemAppend(array_pop($recordId), $urlVar);
+        $return   = parent::getRedirectToItemAppend(array_pop($recordId), $urlVar);
         $return .= '&language=' . $language;
 
         return $return;
@@ -153,17 +153,17 @@ class TemplateController extends FormController
         $this->checkToken();
 
         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
-        $model = $this->getModel();
-        $data  = $this->input->post->get('jform', [], 'array');
+        $model   = $this->getModel();
+        $data    = $this->input->post->get('jform', [], 'array');
         $context = "$this->option.edit.$this->context";
-        $task = $this->getTask();
+        $task    = $this->getTask();
 
         $recordId = $this->input->getCmd('template_id');
         $language = $this->input->getCmd('language');
 
         // Populate the row id from the session.
         $data['template_id'] = $recordId;
-        $data['language'] = $language;
+        $data['language']    = $language;
 
         // Access check.
         if (!$this->allowSave($data, 'template_id')) {
