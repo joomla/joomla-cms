@@ -11,4 +11,4 @@ UPDATE `#__guidedtours` SET `alias` = 'joomla_banners_title' WHERE `title` = 'CO
 UPDATE `#__guidedtours` SET `alias` = 'joomla_contacts_title' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_CONTACTS_TITLE';
 UPDATE `#__guidedtours` SET `alias` = 'joomla_newsfeeds_title' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_NEWSFEEDS_TITLE';
 UPDATE `#__guidedtours` SET `alias` = 'joomla_smartsearch_title' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_SMARTSEARCH_TITLE';
-UPDATE `#__guidedtours` SET `alias` = 'joomla_users_title WHERE `title` = ''COM_GUIDEDTOURS_TOUR_USERS_TITLE'''
+UPDATE `#__guidedtours` SET `alias` = 'joomla_users_title' WHERE `title` = 'COM_GUIDEDTOURS_TOUR_USERS_TITLE';
