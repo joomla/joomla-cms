@@ -10,15 +10,13 @@
 
 namespace Joomla\Plugin\System\Schemaorg\Extension;
 
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Event\EventInterface;
-use Joomla\Event\SubscriberInterface;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
@@ -26,6 +24,8 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactory;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Event\EventInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
