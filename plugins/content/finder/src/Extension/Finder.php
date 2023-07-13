@@ -30,7 +30,7 @@ final class Finder extends CMSPlugin
      * Method is called right after the content is saved.
      *
      * @param   string  $context  The context of the content passed to the plugin (added in 1.6)
-     * @param   object  $article  A JTableContent object
+     * @param   object  $article  A \Joomla\CMS\Table\Table\ object
      * @param   bool    $isNew    If the content has just been created
      *
      * @return  void
@@ -50,7 +50,7 @@ final class Finder extends CMSPlugin
      * Content is passed by reference. Method is called before the content is saved.
      *
      * @param   string  $context  The context of the content passed to the plugin (added in 1.6).
-     * @param   object  $article  A JTableContent object.
+     * @param   object  $article  A \Joomla\CMS\Table\Table\ object.
      * @param   bool    $isNew    If the content is just about to be created.
      *
      * @return  void
@@ -70,7 +70,7 @@ final class Finder extends CMSPlugin
      * Content is passed by reference, but after the deletion.
      *
      * @param   string  $context  The context of the content passed to the plugin (added in 1.6).
-     * @param   object  $article  A JTableContent object.
+     * @param   object  $article  A \Joomla\CMS\Table\Table object.
      *
      * @return  void
      *
