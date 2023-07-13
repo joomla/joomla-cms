@@ -30,7 +30,7 @@ class SchemaorgComponentSectionsField extends ComponentsField
          *
          * @return  array  An array of JHtml options.
          *
-         * @since   4.0.0
+         * @since   __DEPLOY_VERSION__
          */
     protected function getOptions()
     {
