@@ -90,7 +90,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         $itemId = $data->id ?? 0;
 
-        //Check if the form already has some data
+        // Check if the form already has some data
         if ($itemId > 0) {
             $db = $this->getDatabase();
 
