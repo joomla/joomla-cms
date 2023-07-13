@@ -154,7 +154,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
             return true;
         }
 
-        //Load the form fields
+        // Load the form fields
         $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/schemaorg.xml');
 
         // The user should configurate the plugin first
