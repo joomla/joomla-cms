@@ -162,7 +162,7 @@
 			sql_select="title, menutype"
 			sql_from="#__menu_types"
 			sql_where="client_id = 1"
-			sql_order="id DESC"
+			sql_order="ordering ASC"
 			>
 			<menuitem
 				title="{sql:title}"
