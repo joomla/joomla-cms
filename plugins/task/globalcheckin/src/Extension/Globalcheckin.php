@@ -73,7 +73,7 @@ class Globalcheckin extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Standard routine method for the checkin routine.
+     * Standard method for the checkin routine.
      *
      * @param   ExecuteTaskEvent  $event  The onExecuteTask event
      *
