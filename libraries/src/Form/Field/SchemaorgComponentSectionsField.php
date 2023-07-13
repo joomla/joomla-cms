@@ -14,7 +14,7 @@ use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
 /**
  * Form Field class for the Joomla Framework.
  *
- * @since  4.0.0
+     * @since  __DEPLOY_VERSION__
  */
 class SchemaorgComponentSectionsField extends ComponentsField
 {
