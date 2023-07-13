@@ -326,8 +326,8 @@
 									<field
 										name="addressCountry"
 										type="text"
-										filter="string"
 										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_ADDRESS_COUNTRY_LABEL"
+										filter="string"
 									/>
 								</form>
 							</field>
