@@ -3,7 +3,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-@import "../../../../node_modules/shepherd.js/dist/css/shepherd";
+@import "../../../../node_modules/shepherd.js/dist/css/shepherd.css";
 
 .shepherd-content img {
   max-width: 100%;
@@ -60,4 +60,8 @@
 #modGuidedTours-modal a {
   font-weight: 500;
   text-decoration: underline;
+}
+
+.shepherd-header.tour-step-viewed .shepherd-title {
+  background-color:red;
 }

@@ -72,6 +72,7 @@ $this->useCoreUI = true;
                         'language',
                         'extensions',
                         'note',
+                        'tags',
                     ];
 
                     echo LayoutHelper::render('joomla.edit.global', $this); ?>

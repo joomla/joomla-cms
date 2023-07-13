@@ -949,6 +949,7 @@ CREATE TABLE IF NOT EXISTS `#__guidedtours` (
   `language` varchar(7) NOT NULL,
   `note` varchar(255) NOT NULL DEFAULT '',
   `access` int unsigned NOT NULL DEFAULT 0,
+  `params` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_access` (`access`),
   KEY `idx_state` (`published`),
@@ -1132,3 +1133,18 @@ INSERT INTO `#__guidedtour_steps` (`id`, `tour_id`, `title`, `published`, `descr
 (109, 11, 'COM_GUIDEDTOURS_TOUR_USERS_STEP_PASSWORDRESET_TITLE', 1, 'COM_GUIDEDTOURS_TOUR_USERS_STEP_PASSWORDRESET_DESCRIPTION', 109, 'top', '#jform_requireReset0', 2, 3, 'administrator/index.php?option=com_users&view=user&layout=edit', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, '*'),
 (110, 11, 'COM_GUIDEDTOURS_TOUR_USERS_STEP_SAVECLOSE_TITLE', 1, 'COM_GUIDEDTOURS_TOUR_USERS_STEP_SAVECLOSE_DESCRIPTION', 110, 'bottom', '#save-group-children-save .button-save', 2, 1, 'administrator/index.php?option=com_users&view=user&layout=edit', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, '*'),
 (111, 11, 'COM_GUIDEDTOURS_TOUR_USERS_STEP_CONGRATULATIONS_TITLE', 1, 'COM_GUIDEDTOURS_TOUR_USERS_STEP_CONGRATULATIONS_DESCRIPTION', 111, 'bottom', '', 0, 1, 'administrator/index.php?option=com_users&view=user&layout=edit', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, '*');
+
+--
+-- Table structure for table `#__guidedtour_user_steps`
+--
+
+CREATE TABLE IF NOT EXISTS `#__guidedtour_user_steps` (
+     `tour_id` int NOT NULL DEFAULT 0,
+     `step_id` int NOT NULL DEFAULT 0,
+     `user_id` int NOT NULL DEFAULT 0,
+     `viewed` datetime NOT NULL,
+     KEY `idx_tour` (`tour_id`),
+     KEY `idx_step` (`step_id`),
+     KEY `idx_user` (`user_id`),
+     KEY `idx_viewed` (`viewed`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;

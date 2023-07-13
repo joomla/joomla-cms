@@ -221,14 +221,11 @@
 						cols="80"
 						rows="3"
 						default=""
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
+					/>
 
 			</fieldset>
 
-		<fieldset name="speciaactions" label="COM_GUIDEDTOURS_FIELD_SPECIAL_ACTIONS_LABEL">
+		<fieldset name="specialactions" label="COM_GUIDEDTOURS_FIELD_SPECIAL_ACTIONS_LABEL">
 
 			<field
 					name="setfocus"

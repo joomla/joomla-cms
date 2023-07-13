@@ -10,6 +10,8 @@
 
 namespace Joomla\Plugin\System\GuidedTours\Extension;
 
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -18,6 +20,7 @@ use Joomla\Component\Guidedtours\Administrator\Extension\GuidedtoursComponent;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -93,9 +96,94 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return self::$enabled ? [
-            'onAjaxGuidedtours'   => 'startTour',
+            'onAjaxGuidedtours'   => 'processAjax',
             'onBeforeCompileHead' => 'onBeforeCompileHead',
         ] : [];
+    }
+
+    /**
+     * Decide which ajax response is appropriate
+     *
+     * @return null|object
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function processAjax(Event $event) {
+        if ((int) $this->getApplication()->getInput()->getInt('step_id') > 0)
+        {
+            return $this->recordStep($event);
+        } else {
+            return $this->startTour($event);
+        }
+    }
+
+    /**
+     * Record that a step has been viewed
+     *
+     * @return null
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function recordStep(Event $event)
+    {
+        if (!Session::checkToken('get'))
+        {
+            return;
+        }
+
+        $app  = $this->getApplication();
+        $user = $app->getIdentity();
+
+        $step_id = (int) $app->getInput()->getInt('step_id');
+        $tour_id = (int) $app->getInput()->getInt('tour_id');
+        if ($step_id === 0 || $tour_id === 0 || $user->id === 0)
+        {
+            return;
+        }
+
+        try
+        {
+            $tour = $this->getTour( $tour_id );
+        }
+        catch (\Throwable $exception)
+        {
+            return;
+        }
+
+        if (!$tour)
+        {
+            return;
+        }
+
+        if (!isset($tour->params["tourhistory"]) || (int) $tour->params["tourhistory"] === 0)
+        {
+            return;
+        }
+
+        $date    = new Date('now');
+        $viewed = $date->toSql();
+
+        $db = Factory::getDbo();
+        $query = $db->getQuery(true);
+        $query->insert($db->quoteName('#__guidedtour_user_steps'))
+              ->columns($db->quoteName(['tour_id', 'step_id', 'user_id', 'viewed']))
+                ->values(':tour_id, :step_id, :user_id, :viewed');
+
+        $query->bind(':tour_id', $tour_id, ParameterType::INTEGER);
+        $query->bind(':step_id', $step_id, ParameterType::INTEGER);
+        $query->bind(':user_id', $user->id, ParameterType::INTEGER);
+        $query->bind(':viewed',  $viewed, ParameterType::STRING);
+
+        try {
+            $db->setQuery($query);
+            $db->execute();
+        } catch (\Exception $ex) {
+
+        }
+
+        $event->setArgument('result', new \stdClass());
+
+        return $tour;
     }
 
     /**
@@ -279,6 +367,8 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
             $temp->interactive_type = $this->stepInteractiveType[$step->interactive_type];
             $temp->params           = $step->params;
             $temp->url              = $step->url;
+            $temp->tour_id          = $step->tour_id;
+            $temp->step_id          = $step->id;
 
             // Replace 'images/' to '../images/' when using an image from /images in backend.
             $temp->description = preg_replace('*src\=\"(?!administrator\/)images/*', 'src="../images/', $temp->description);
@@ -286,25 +376,8 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
             $tour->steps[] = $temp;
         }
 
+        $tour->params = $item->params;
         return $tour;
-    }
-
-    /**
-     * Display the extended editor button.
-     *
-     * @param   string   $name    The name of the button to display.
-     * @param   string   $asset   The name of the asset being edited.
-     * @param   integer  $author  The id of the author owning the asset being edited.
-     *
-     * @return  CMSObject|false
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function onDisplay($name, $asset, $author) {
-        $doc       = $this->getApplication()->getDocument();
-        $user      = $this->getApplication()->getIdentity();
-        $extension = $this->getApplication()->getInput()->get('option');
-
     }
 
 }

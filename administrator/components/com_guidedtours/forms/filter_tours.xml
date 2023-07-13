@@ -36,6 +36,16 @@
 			<option value="*">JALL</option>
 		</field>
 		<field
+				name="tag"
+				type="tag"
+				multiple="true"
+				label="JTAG"
+				hint="JOPTION_SELECT_TAG"
+				mode="nested"
+				custom="false"
+				class="js-select-submit-on-change"
+		/>
+		<field
 			name="language"
 			type="contentlanguage"
 			label="JGRID_HEADING_LANGUAGE"

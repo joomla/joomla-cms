@@ -13,6 +13,7 @@ namespace Joomla\Component\Guidedtours\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -20,6 +21,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -240,6 +242,9 @@ class TourModel extends AdminModel
         if (!empty($result->id)) {
             $result->title_translation       = Text::_($result->title);
             $result->description_translation = Text::_($result->description);
+
+            $result->tags = new TagsHelper();
+            $result->tags->getTagIds($result->id, 'com_guidedtours.tour');
         }
 
         if (empty($result->alias) && (int) $pk > 0) {
@@ -289,6 +294,9 @@ class TourModel extends AdminModel
         if (!empty($result->id)) {
             $result->title_translation       = Text::_($result->title);
             $result->description_translation = Text::_($result->description);
+
+            $result->tags = new TagsHelper();
+            $result->tags->getTagIds($result->id, 'com_guidedtours.tour');
         }
 
         if (empty($result->alias) && (int) $pk > 0) {

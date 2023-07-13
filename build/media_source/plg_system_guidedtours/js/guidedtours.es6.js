@@ -56,6 +56,11 @@ function addProgressIndicator(stepElement, index, total) {
   header.insertBefore(progress, stepElement.querySelector('.shepherd-cancel-icon'));
 }
 
+function markStepViewed(stepElement) {
+  const header = stepElement.querySelector('.shepherd-header');
+  header.classList.add('tour-step-viewed');
+}
+
 function setFocus(primaryButton, secondaryButton, cancelButton) {
   if (primaryButton && !primaryButton.disabled) {
     primaryButton.focus();
@@ -141,6 +146,11 @@ function addStepToTourButton(tour, stepObj, buttons) {
 
         sessionStorage.setItem('currentStepId', this.id);
         addProgressIndicator(element, this.id + 1, sessionStorage.getItem('stepCount'));
+
+        const stepsViewed = JSON.parse(sessionStorage.getItem('stepsViewed') || '[]');
+        if (stepsViewed.includes(stepObj.step_id)) {
+          markStepViewed(element);
+        }
 
         if (target && this.options.attachTo.type === 'interactive') {
           const cancelButton = element.querySelector('.shepherd-cancel-icon');
@@ -518,6 +528,12 @@ function startTour(obj) {
   // Start tour building
   const tour = getTourInstance();
 
+  if (typeof obj.params !== 'undefined') {
+    tour.tourParams = obj.params;
+  } else {
+    tour.tourParams = {};
+  }
+
   // No step found, let's start from the beginning
   if (ind < 0) {
     // First check for redirect
@@ -745,3 +761,31 @@ if ((Number.parseInt(tourId, 10) > 0 || tourId !== '') && sessionStorage.getItem
 } else {
   emptyStorage();
 }
+
+document.addEventListener('guided-tour-step-display', (event) => {
+  const stepsViewed = JSON.parse(sessionStorage.getItem('stepsViewed') || '[]');
+  stepsViewed.push(event.detail.stepObj.step_id);
+  sessionStorage.setItem('stepsViewed', JSON.stringify(stepsViewed));
+
+  try {
+    if (event.detail.tour && typeof event.detail.tour.tourParams.tourhistory !== 'undefined' && event.detail.tour.tourParams.tourhistory) {
+      let url = `${Joomla.getOptions('system.paths').rootFull}administrator/index.php?option=com_ajax&plugin=guidedtours&group=system&format=json&${Joomla.getOptions('csrf.token')}=1`;
+      url += `&step_id=${event.detail.stepObj.step_id}`;
+      url += `&tour_id=${event.detail.stepObj.tour_id}`;
+
+      fetch(url)
+        .then((response) => response.json())
+        .then((result) => {
+          if (!result.success) {
+            if (result.messages) {
+              Joomla.renderMessages(result.messages);
+            }
+          }
+          console.log('recorded progress');
+        })
+        .catch(() => {
+          console.log('failed to record progress');
+        });
+    }
+  } catch (error) {}
+});
