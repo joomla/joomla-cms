@@ -552,7 +552,7 @@ CREATE TABLE IF NOT EXISTS `#__menu_types` (
   `title` varchar(48) NOT NULL,
   `description` varchar(255) NOT NULL DEFAULT '',
   `client_id` int NOT NULL DEFAULT 0,
-  `ordering` int NOT NULL AUTO_INCREMENT,
+  `ordering` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_menutype` (`menutype`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
