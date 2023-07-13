@@ -35,7 +35,7 @@ use Joomla\Registry\Registry;
 /**
  * Schemaorg System Plugin
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 final class Schemaorg extends CMSPlugin implements SubscriberInterface
 {
