@@ -319,8 +319,8 @@
 									<field
 										name="postalCode"
 										type="text"
-										filter="string"
 										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_POSTAL_CODE_LABEL"
+										filter="string"
 									/>
 
 									<field
