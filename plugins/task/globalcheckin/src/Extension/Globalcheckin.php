@@ -21,7 +21,7 @@ use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Event\SubscriberInterface;
 
 /**
- * Task plugin with routines to check in check out item.
+ * Task plugin with routines to check in a checked out item.
  *
  * @since  __DEPLOY_VERSION__
  */
