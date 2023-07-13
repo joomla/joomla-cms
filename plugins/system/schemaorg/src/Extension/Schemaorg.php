@@ -294,7 +294,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         $view    = $app->getInput()->get('view');
         $context = $option . '.' . $view;
 
-        // We need the plugin configurated at least once to add structured data
+        // We need the plugin configured at least once to add structured data
         if (!$app->isClient('site') || !in_array($baseType, ['organization', 'person']) || !$this->isSupported($context)) {
             return;
         }
