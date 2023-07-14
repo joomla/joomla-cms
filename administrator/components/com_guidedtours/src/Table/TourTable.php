@@ -15,7 +15,6 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -55,31 +54,7 @@ class TourTable extends Table implements CurrentUserInterface
      */
     public function __construct(DatabaseDriver $db)
     {
-        $this->typeAlias = 'com_guidedtours.tour';
-
         parent::__construct('#__guidedtours', 'id', $db);
-    }
-
-    /**
-     * Overloaded bind function.
-     *
-     * @param   array   $array   named array
-     * @param   string  $ignore  An optional array or space separated list of properties
-     *                           to ignore while binding.
-     *
-     * @return  mixed   Null if operation was satisfactory, otherwise returns an error
-     *
-     * @see     Table::bind()
-     * @since   __DEPLOY_VERSION__
-     */
-    public function bind($array, $ignore = '')
-    {
-        if (isset($array['params']) && \is_array($array['params'])) {
-            $registry        = new Registry($array['params']);
-            $array['params'] = (string) $registry;
-        }
-
-        return parent::bind($array, $ignore);
     }
 
     /**
@@ -125,17 +100,5 @@ class TourTable extends Table implements CurrentUserInterface
         }
 
         return parent::store($updateNulls);
-    }
-
-    /**
-     * Get the type alias for UCM features
-     *
-     * @return  string  The alias as described above
-     *
-     * @since   4.0.0
-     */
-    public function getTypeAlias()
-    {
-        return $this->typeAlias;
     }
 }

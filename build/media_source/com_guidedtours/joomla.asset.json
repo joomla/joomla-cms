@@ -6,18 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_guidedtours.tour-edit",
-      "type": "script",
-      "uri": "com_guidedtours/tour-edit.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module",
-        "defer": true
-      }
-    },
-    {
       "name": "com_guidedtours.admin-tours-modal",
       "type": "script",
       "uri": "com_guidedtours/admin-tours-modal.min.js",

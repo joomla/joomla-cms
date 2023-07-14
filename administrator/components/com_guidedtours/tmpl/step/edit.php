@@ -19,16 +19,13 @@ use Joomla\CMS\MVC\View\GenericDataException;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
-   ->useScript('form.validate')
-   ->useScript('com_guidedtours.tour-edit');
+    ->useScript('form.validate');
 
 if (empty($this->item->tour_id)) {
     throw new GenericDataException("\nThe Tour id was not set!\n", 500);
 }
 
 $lang = $this->getLanguage()->getTag();
-
-$this->useCoreUI = true;
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_guidedtours&view=step&layout=edit&id=' .
@@ -82,8 +79,6 @@ $this->useCoreUI = true;
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-        <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
-
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
         <div class="row">
             <div class="col-12 col-lg-8">
@@ -91,7 +86,7 @@ $this->useCoreUI = true;
                     <legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
                     <div>
                         <?php
-                            $this->fields        = [];
+                            $this->fields = [];
                             $this->hidden_fields = [];
                             echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
                     </div>

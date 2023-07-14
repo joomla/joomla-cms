@@ -24,20 +24,13 @@ $lang  = $this->getLanguage()->getTag();
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
-    ->useScript('form.validate')
-    ->useScript('com_guidedtours.tour-edit');
-
-$this->useCoreUI = true;
+    ->useScript('form.validate');
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_guidedtours&view=tour&layout=edit&id=' .
     (int) $this->item->id); ?>" method="post" name="adminForm" id="guidedtours-form" class="form-validate">
 
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
-	<div class="col-3">
-        <?php $this->form->setFieldAttribute('title_translation', 'label', Text::sprintf('COM_GUIDEDTOURS_TITLE_TRANSLATION', $lang)); ?>
-        <?php echo $this->form->renderField('title_translation'); ?>
-	</div>
 
     <?php if ($this->item->id != 0 && strpos($this->item->title, 'GUIDEDTOUR') !== false) : ?>
         <div class="row title-alias form-vertical mb-3">
@@ -78,8 +71,6 @@ $this->useCoreUI = true;
             </div>
         </div>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
-
-        <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
         <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
         <div class="row">

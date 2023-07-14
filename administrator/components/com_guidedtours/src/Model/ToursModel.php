@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -46,8 +45,7 @@ class ToursModel extends ListModel
                 'access', 'a.access', 'access_level',
                 'description', 'a.description',
                 'published', 'a.published',
-                'published', 'a.published',
-                'extensionfilter', 'a.extensionfilter',
+                'language', 'a.language',
                 'ordering', 'a.ordering',
                 'extensions', 'a.extensions',
                 'created_by', 'a.created_by',
