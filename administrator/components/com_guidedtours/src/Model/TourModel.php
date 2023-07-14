@@ -93,11 +93,11 @@ class TourModel extends AdminModel
                 $data['alias'] = OutputFilter::stringURLSafe($aliasTitle);
             }
         } else {
-            $data['alias'] = ApplicationHelper::stringURLSafe( $data['alias'] );
+            $data['alias'] = ApplicationHelper::stringURLSafe($data['alias']);
         }
 
         // make sure the alias is unique
-        $data['alias'] = $this->generateNewAlias(  $data['alias'], $id );
+        $data['alias'] = $this->generateNewAlias($data['alias'], $id );
 
         $result = parent::save($data);
 
@@ -276,7 +276,7 @@ class TourModel extends AdminModel
         Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
         $db     = $this->getDatabase();
-        $query = $db->getQuery(true)
+        $query  = $db->getQuery(true)
         ->select($db->quoteName('id'))
         ->from($db->quoteName('#__guidedtours'))
         ->where($db->quoteName('alias') . ' = :alias')
