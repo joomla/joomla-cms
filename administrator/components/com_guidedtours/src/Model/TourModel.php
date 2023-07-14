@@ -97,7 +97,7 @@ class TourModel extends AdminModel
         }
 
         // make sure the alias is unique
-        $data['alias'] = $this->generateNewAlias($data['alias'], $id );
+        $data['alias'] = $this->generateNewAlias($data['alias'], $id);
 
         $result = parent::save($data);
 
