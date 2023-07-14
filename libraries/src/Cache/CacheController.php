@@ -104,7 +104,14 @@ class CacheController
             return Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
         } catch (\RuntimeException $e) {
             $type  = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
-            $class = 'JCacheController' . ucfirst($type);
+
+
+        /** @var CacheController $class */
+        $class = __NAMESPACE__ . '\\Controller\\' . ucfirst($type) . 'Controller';
+
+            if (!class_exists($class)) {
+                $class = 'JCacheController' . ucfirst($type);
+            }
 
             if (!class_exists($class)) {
                 // Search for the class file in the Cache include paths.
