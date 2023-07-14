@@ -160,6 +160,9 @@ function addStepToTourButton(tour, stepObj, buttons) {
           if (target.tagName.toLowerCase() === 'iframe') {
             // Give blur to the content of the iframe, as iframes don't have blur events
             target.contentWindow.document.body.addEventListener('blur', (event) => {
+              if (!sessionStorage.getItem('tourId')) {
+                return;
+              }
               setTimeout(() => {
                 setFocus(primaryButton, secondaryButton, cancelButton);
               }, 1);
@@ -167,16 +170,25 @@ function addStepToTourButton(tour, stepObj, buttons) {
             });
           } else if (target.tagName.toLowerCase() === 'joomla-field-fancy-select') {
             target.querySelector('.choices input').addEventListener('blur', (event) => {
+              if (!sessionStorage.getItem('tourId')) {
+                return;
+              }
               setFocus(primaryButton, secondaryButton, cancelButton);
               event.preventDefault();
             });
           } else if (target.parentElement.tagName.toLowerCase() === 'joomla-field-fancy-select') {
             target.querySelector('input').addEventListener('blur', (event) => {
+              if (!sessionStorage.getItem('tourId')) {
+                return;
+              }
               setFocus(primaryButton, secondaryButton, cancelButton);
               event.preventDefault();
             });
           } else {
             target.addEventListener('blur', (event) => {
+              if (!sessionStorage.getItem('tourId')) {
+                return;
+              }
               setFocus(primaryButton, secondaryButton, cancelButton);
               event.preventDefault();
             });
