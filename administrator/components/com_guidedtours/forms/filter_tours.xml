@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form> name="params"
+<form>
 	<fields name="filter">
 		<field
 			name="search"
