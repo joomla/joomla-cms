@@ -21,6 +21,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -91,9 +92,12 @@ class TourModel extends AdminModel
             } else {
                 $data['alias'] = OutputFilter::stringURLSafe($aliasTitle);
             }
+        } else {
+            $data['alias'] = ApplicationHelper::stringURLSafe( $data['alias'] );
         }
 
-        $data['alias'] = ApplicationHelper::stringURLSafe($data['alias']);
+        // make sure the alias is unique
+        $data['alias'] = $this->generateNewAlias(  $data['alias'], $id );
 
         $result = parent::save($data);
 
@@ -565,4 +569,31 @@ class TourModel extends AdminModel
         return $db->setQuery($query)
             ->execute();
     }
+
+    /**
+     * Method to change the alias when not unique.
+     *
+     * @param   string   $alias           The alias.
+     * @param   integer  $currentItemId   The id of the current tour.
+     *
+     * @return  string $alias  Contains the modified alias.
+     *
+     * @since   __VERSION_DEPLOY__
+     */
+    protected function generateNewAlias($alias, $currentItemId)
+    {
+        $unique = false;
+        // Alter the title & alias
+        while (!$unique) {
+            $aliasItem = $this->getItemByAlias($alias);
+            if ($aliasItem->id > 0 && $aliasItem->id != $currentItemId) {
+                $alias = StringHelper::increment($alias, 'dash');
+            } else {
+                $unique = true;
+            }
+        }
+
+        return $alias;
+    }
+
 }
