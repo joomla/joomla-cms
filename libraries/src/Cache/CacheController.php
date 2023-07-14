@@ -105,8 +105,8 @@ class CacheController
         } catch (\RuntimeException $e) {
             $type  = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
 
-        /** @var CacheController $class */
-        $class = __NAMESPACE__ . '\\Controller\\' . ucfirst($type) . 'Controller';
+            /** @var CacheController $class */
+            $class = __NAMESPACE__ . '\\Controller\\' . ucfirst($type) . 'Controller';
 
             if (!class_exists($class)) {
                 $class = 'JCacheController' . ucfirst($type);
