@@ -913,7 +913,6 @@ CREATE TABLE IF NOT EXISTS "#__guidedtours" (
   "language" varchar(7) DEFAULT '' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
   "access" bigint NOT NULL DEFAULT 0,
-  "params" text NOT NULL,
   PRIMARY KEY ("id")
 );
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form> name="params"
-	<fields name="filter" addfieldprefix="Joomla\Component\Guidedtours\Administrator\Field">
+	<fields name="filter">
 		<field
 			name="search"
 			type="text"
@@ -24,16 +24,6 @@
 			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
-		</field>
-		<field
-				name="extensionfilter"
-				type="tourextension"
-				label="COM_GUIDEDTOURS_FILTER_EXTENSION_LABEL"
-				description="COM_GUIDEDTOURS_FILTER_EXTENSION_DESC"
-				class="js-select-submit-on-change"
-		>
-			<option value="">COM_GUIDEDTOURS_FILTER_SELECT_TOUR_COMPONENT</option>
-			<option value="*">JALL</option>
 		</field>
 		<field
 			name="language"

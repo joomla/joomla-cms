@@ -165,14 +165,7 @@ class ToursModel extends ListModel
             ->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'));
 
         // Filter by extension
-        if ($extensionfilter = $this->getState('filter.extensionfilter')) {
-            //$query->where(':extensions MEMBER OF(' . $db->quoteName('a.extensions') . ')')->bind([':extensions'], $extensionfilter);
-            $extension = '%' . $extensionfilter . '%';
-            $query->where(
-                $db->quoteName('a.extensions') . ' LIKE :extensions'
-            )
-                  ->bind([':extensions'], $extension);
-        } elseif ($extension = $this->getState('filter.extension')) {
+        if ($extension = $this->getState('filter.extension')) {
             $extension = '%' . $extension . '%';
             $all       = '%*%';
             $query->where(
