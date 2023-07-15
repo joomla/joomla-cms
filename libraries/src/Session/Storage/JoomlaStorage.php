@@ -41,7 +41,7 @@ class JoomlaStorage extends NativeStorage
     private $forceSSL = false;
 
     /**
-     * The path that domain for the session cookie
+     * The domain to set in the session cookie
      *
      * @var    string
      * @since  __DEPLOY_VERSION__
