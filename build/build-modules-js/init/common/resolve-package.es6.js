@@ -29,7 +29,7 @@ module.exports.resolvePackageFile = (relativePath) => {
 module.exports.getPackagesUnderScope = (scope) => {
   const cmModules = [];
 
-  // Get @codemirror module roots
+  // Get the scope roots
   const roots = [];
   module.paths.forEach((path) => {
     const fullPath = `${path}/${scope}`;
