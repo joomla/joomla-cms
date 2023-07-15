@@ -20,7 +20,6 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
-use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
@@ -595,5 +594,4 @@ class TourModel extends AdminModel
 
         return $alias;
     }
-
 }
