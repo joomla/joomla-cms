@@ -360,8 +360,8 @@ class ModuleAdapter extends InstallerAdapter
 
             if ($extension) {
                 $clientPath = ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE);
-                $source = $path ?: $clientPath . '/modules/' . $extension;
-                $folder = (string) $this->getManifest()->files->attributes()->folder;
+                $source     = $path ?: $clientPath . '/modules/' . $extension;
+                $folder     = (string) $this->getManifest()->files->attributes()->folder;
 
                 if ($folder && file_exists($path . '/' . $folder)) {
                     $source = $path . '/' . $folder;
