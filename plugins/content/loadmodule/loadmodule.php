@@ -64,10 +64,9 @@ class PlgContentLoadmodule extends CMSPlugin
 
         // Expression to search for(id)
         $regexmodid = '/{loadmoduleid\s([1-9][0-9]*)}/i';
-        // Remove macros and don't run this plugin when the content is being indexed
 
+        // Remove macros and don't run this plugin when the content is being indexed
         if ($context === 'com_finder.indexer') {
-            //Remove macros if any
             if (str_contains($article->text, 'loadposition')) {
                 $article->text = preg_replace($regex, '', $article->text);
             }
