@@ -107,7 +107,7 @@ trait ProviderManagerHelperTrait
     protected function resolveAdapterAndPath(string $path): array
     {
         $result = [];
-        $parts = explode(':', $path, 2);
+        $parts  = explode(':', $path, 2);
 
         // If we have 2 parts, we have both an adapter name and a file path
         if (\count($parts) === 2) {

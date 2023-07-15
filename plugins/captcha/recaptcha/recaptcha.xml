@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="captcha" method="upgrade">
 	<name>plg_captcha_recaptcha</name>
 	<version>3.4.0</version>
@@ -9,8 +9,10 @@
 	<copyright>(C) 2011 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>PLG_CAPTCHA_RECAPTCHA_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Captcha\ReCaptcha</namespace>
 	<files>
-		<filename plugin="recaptcha">recaptcha.php</filename>
+		<folder plugin="recaptcha">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_captcha_recaptcha.ini</language>

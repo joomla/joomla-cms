@@ -37,7 +37,7 @@ abstract class FormModel extends BaseForm
      * @var    array
      * @since  3.2
      */
-    protected $forms = array();
+    protected $forms = [];
 
     /**
      * Method to checkin a row.
@@ -53,7 +53,7 @@ abstract class FormModel extends BaseForm
     {
         // Only attempt to check the row in if it exists.
         if ($pk) {
-            $user = Factory::getUser();
+            $user = $this->getCurrentUser();
 
             // Get an instance of the row to checkin.
             $table = $this->getTable();
@@ -89,7 +89,7 @@ abstract class FormModel extends BaseForm
     {
         // Only attempt to check the row in if it exists.
         if ($pk) {
-            $user = Factory::getUser();
+            $user = $this->getCurrentUser();
 
             // Get an instance of the row to checkout.
             $table = $this->getTable();
@@ -126,7 +126,7 @@ abstract class FormModel extends BaseForm
      * @see     JForm
      * @since   3.2
      */
-    protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
+    protected function loadForm($name, $source = null, $options = [], $clear = false, $xpath = false)
     {
         // Handle the optional arguments.
         $options['control'] = ArrayHelper::getValue($options, 'control', false);
@@ -151,7 +151,7 @@ abstract class FormModel extends BaseForm
                 // Get the data for the form.
                 $data = $this->loadFormData();
             } else {
-                $data = array();
+                $data = [];
             }
 
             // Allow for additional modification of the form, and events to be triggered.
@@ -181,7 +181,7 @@ abstract class FormModel extends BaseForm
      */
     protected function loadFormData()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -201,7 +201,7 @@ abstract class FormModel extends BaseForm
         PluginHelper::importPlugin('content');
 
         // Trigger the data preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareData', array($context, $data));
+        Factory::getApplication()->triggerEvent('onContentPrepareData', [$context, $data]);
     }
 
     /**
@@ -223,7 +223,7 @@ abstract class FormModel extends BaseForm
         PluginHelper::importPlugin($group);
 
         // Trigger the form preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
+        Factory::getApplication()->triggerEvent('onContentPrepareForm', [$form, $data]);
     }
 
     /**

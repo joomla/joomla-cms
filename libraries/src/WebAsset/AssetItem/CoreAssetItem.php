@@ -42,9 +42,9 @@ class CoreAssetItem extends WebAssetItem implements WebAssetAttachBehaviorInterf
         $doc->addScriptOptions(
             'system.paths',
             [
-                'root' => Uri::root(true),
+                'root'     => Uri::root(true),
                 'rootFull' => Uri::root(),
-                'base' => Uri::base(true),
+                'base'     => Uri::base(true),
                 'baseFull' => Uri::base(),
             ]
         );

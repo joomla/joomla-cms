@@ -75,7 +75,7 @@ class JsonView extends AbstractView
             'config'      => $model->getSafeData('config'),
             'directories' => $model->getSafeData('directory', true),
             'phpInfo'     => $model->getSafeData('phpInfoArray'),
-            'extensions'  => $model->getSafeData('extensions')
+            'extensions'  => $model->getSafeData('extensions'),
         ];
     }
 }

@@ -18,6 +18,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Banners\Administrator\Model\BannerModel;
 
@@ -95,51 +96,55 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar(): void
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $user       = $this->getCurrentUser();
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(\is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $toolbar    = Toolbar::getInstance();
 
         // Since we don't track these assets at the item level, use the category id.
         $canDo = ContentHelper::getActions('com_banners', 'category', $this->item->catid);
 
         ToolbarHelper::title($isNew ? Text::_('COM_BANNERS_MANAGER_BANNER_NEW') : Text::_('COM_BANNERS_MANAGER_BANNER_EDIT'), 'bookmark banners');
 
-        $toolbarButtons = [];
-
         // If not checked out, can save the item.
         if (!$checkedOut && ($canDo->get('core.edit') || \count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)) {
-            ToolbarHelper::apply('banner.apply');
-            $toolbarButtons[] = ['save', 'banner.save'];
+            $toolbar->apply('banner.apply');
+        }
 
-            if ($canDo->get('core.create')) {
-                $toolbarButtons[] = ['save2new', 'banner.save2new'];
+        $saveGroup = $toolbar->dropdownButton('save-group');
+
+        $saveGroup->configure(
+            function (Toolbar $childBar) use ($checkedOut, $canDo, $user, $isNew) {
+                // If not checked out, can save the item.
+                if (!$checkedOut && ($canDo->get('core.edit') || \count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)) {
+                    $childBar->save('banner.save');
+
+                    if ($canDo->get('core.create')) {
+                        $childBar->save2new('banner.save2new');
+                    }
+                }
+
+                // If an existing item, can save to a copy.
+                if (!$isNew && $canDo->get('core.create')) {
+                    $childBar->save2copy('banner.save2copy');
+                }
             }
-        }
-
-        // If an existing item, can save to a copy.
-        if (!$isNew && $canDo->get('core.create')) {
-            $toolbarButtons[] = ['save2copy', 'banner.save2copy'];
-        }
-
-        ToolbarHelper::saveGroup(
-            $toolbarButtons,
-            'btn-success'
         );
 
         if (empty($this->item->id)) {
-            ToolbarHelper::cancel('banner.cancel');
+            $toolbar->cancel('banner.cancel', 'JTOOLBAR_CANCEL');
         } else {
-            ToolbarHelper::cancel('banner.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('banner.cancel');
 
             if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit')) {
-                ToolbarHelper::versions('com_banners.banner', $this->item->id);
+                $toolbar->versions('com_banners.banner', $this->item->id);
             }
         }
 
-        ToolbarHelper::divider();
-        ToolbarHelper::help('Banners:_Edit');
+        $toolbar->divider();
+        $toolbar->help('Banners:_Edit');
     }
 }

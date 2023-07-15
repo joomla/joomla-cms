@@ -14,11 +14,11 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Uri\Uri;
@@ -160,7 +160,7 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         $app               = Factory::getApplication();
-        $this->file        = $app->input->get('file', '');
+        $this->file        = $app->getInput()->get('file', '');
         $this->fileName    = InputFilter::getInstance()->clean(base64_decode($this->file), 'string');
         $explodeArray      = explode('.', $this->fileName);
         $ext               = end($explodeArray);
@@ -175,10 +175,10 @@ class HtmlView extends BaseHtmlView
         $this->stylesHTML  = '';
 
         $params       = ComponentHelper::getParams('com_templates');
-        $imageTypes   = explode(',', $params->get('image_formats'));
-        $sourceTypes  = explode(',', $params->get('source_formats'));
-        $fontTypes    = explode(',', $params->get('font_formats'));
-        $archiveTypes = explode(',', $params->get('compressed_formats'));
+        $imageTypes   = explode(',', $params->get('image_formats', 'gif,bmp,jpg,jpeg,png,webp'));
+        $sourceTypes  = explode(',', $params->get('source_formats', 'txt,less,ini,xml,js,php,css,scss,sass,json'));
+        $fontTypes    = explode(',', $params->get('font_formats', 'woff,woff2,ttf,otf'));
+        $archiveTypes = explode(',', $params->get('compressed_formats', 'zip'));
 
         if (in_array($ext, $sourceTypes)) {
             $this->form   = $this->get('Form');
@@ -231,17 +231,15 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $app   = Factory::getApplication();
-        $user  = $this->getCurrentUser();
-        $app->input->set('hidemainmenu', true);
+        $app     = Factory::getApplication();
+        $user    = $this->getCurrentUser();
+        $toolbar = Toolbar::getInstance('toolbar');
+        $app->getInput()->set('hidemainmenu', true);
 
         // User is global SuperUser
-        $isSuperUser = $user->authorise('core.admin');
-
-        // Get the toolbar object instance
-        $bar = Toolbar::getInstance('toolbar');
+        $isSuperUser  = $user->authorise('core.admin');
         $explodeArray = explode('.', $this->fileName);
-        $ext = end($explodeArray);
+        $ext          = end($explodeArray);
 
         ToolbarHelper::title(Text::sprintf('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE', ucfirst($this->template->name)), 'icon-code thememanager');
 
@@ -249,20 +247,25 @@ class HtmlView extends BaseHtmlView
         if ($isSuperUser) {
             // Add an Apply and save button
             if ($this->type === 'file') {
-                ToolbarHelper::apply('template.apply');
-                ToolbarHelper::save('template.save');
+                $toolbar->apply('template.apply');
+                $toolbar->save('template.save');
             } elseif ($this->type === 'image') {
                 // Add a Crop and Resize button
-                ToolbarHelper::custom('template.cropImage', 'icon-crop', '', 'COM_TEMPLATES_BUTTON_CROP', false);
+                $toolbar->standardButton('crop', 'COM_TEMPLATES_BUTTON_CROP', 'template.cropImage')
+                    ->listCheck(false)
+                    ->icon('icon-crop');
                 ToolbarHelper::modal('resizeModal', 'icon-expand', 'COM_TEMPLATES_BUTTON_RESIZE');
             } elseif ($this->type === 'archive') {
                 // Add an extract button
-                ToolbarHelper::custom('template.extractArchive', 'chevron-down', '', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false);
+                $toolbar->standardButton('extract', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', 'template.extractArchive')
+                    ->listCheck(false)
+                    ->icon('icon-chevron-down');
             } elseif ($this->type === 'home') {
                 // Add a copy/child template button
                 if (isset($this->template->xmldata->inheritable) && (string) $this->template->xmldata->inheritable === '1') {
                     ToolbarHelper::modal('childModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_TEMPLATE_CHILD', false);
-                } elseif (!isset($this->template->xmldata->parent) || $this->template->xmldata->parent == '') {
+                } elseif (empty($this->template->xmldata->parent) && empty($this->template->xmldata->namespace)) {
+                    // We can't copy parent templates nor namespaced templates
                     ToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE', false);
                 }
             }
@@ -271,10 +274,9 @@ class HtmlView extends BaseHtmlView
         // Add a Template preview button
         if ($this->type === 'home') {
             $client = (int) $this->preview->client_id === 1 ? 'administrator/' : '';
-            $bar->linkButton('preview')
-                ->icon('icon-image')
-                ->text('COM_TEMPLATES_BUTTON_PREVIEW')
+            $toolbar->linkButton('preview', 'COM_TEMPLATES_BUTTON_PREVIEW')
                 ->url(Uri::root() . $client . 'index.php?tp=1&templateStyle=' . $this->preview->id)
+                ->icon('icon-image')
                 ->attributes(['target' => '_new']);
         }
 
@@ -295,9 +297,9 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        if (count($this->updatedList) !== 0 && $this->pluginState) {
-            $dropdown = $bar->dropdownButton('override-group')
-                ->text('COM_TEMPLATES_BUTTON_CHECK')
+        if (count($this->updatedList) !== 0 && $this->pluginState && $this->type === 'home') {
+            /** @var DropdownButton $dropdown */
+            $dropdown = $toolbar->dropdownButton('override-group', 'COM_TEMPLATES_BUTTON_CHECK')
                 ->toggleSplit(false)
                 ->icon('icon-ellipsis-h')
                 ->buttonClass('btn btn-action')
@@ -321,13 +323,13 @@ class HtmlView extends BaseHtmlView
         }
 
         if ($this->type === 'home') {
-            ToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('template.cancel');
         } else {
-            ToolbarHelper::cancel('template.close', 'COM_TEMPLATES_BUTTON_CLOSE_FILE');
+            $toolbar->cancel('template.close', 'COM_TEMPLATES_BUTTON_CLOSE_FILE');
         }
 
-        ToolbarHelper::divider();
-        ToolbarHelper::help('Templates:_Customise');
+        $toolbar->divider();
+        $toolbar->help('Templates:_Customise');
     }
 
     /**

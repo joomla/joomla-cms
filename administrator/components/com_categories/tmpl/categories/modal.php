@@ -25,10 +25,12 @@ if ($app->isClient('site')) {
     Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-HTMLHelper::_('behavior.core');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('core');
 
 $extension = $this->escape($this->state->get('filter.extension'));
-$function  = $app->input->getCmd('function', 'jSelectCategory');
+$function  = $app->getInput()->getCmd('function', 'jSelectCategory');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
@@ -36,7 +38,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
     <form action="<?php echo Route::_('index.php?option=com_categories&view=categories&layout=modal&tmpl=component&function=' . $function . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
 
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
 
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
@@ -71,12 +73,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                 </thead>
                 <tbody>
                     <?php
-                    $iconStates = array(
+                    $iconStates = [
                         -2 => 'icon-trash',
                         0  => 'icon-times',
                         1  => 'icon-check',
                         2  => 'icon-folder',
-                    );
+                    ];
                     ?>
                     <?php foreach ($this->items as $i => $item) : ?>
                         <?php if ($item->language && Multilanguage::isEnabled()) {
@@ -99,7 +101,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 </span>
                             </td>
                             <th scope="row">
-                                <?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+                                <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
                                 <a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', null, '<?php echo $this->escape(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
                                     <?php echo $this->escape($item->title); ?></a>
                                 <div class="small" title="<?php echo $this->escape($item->path); ?>">
@@ -132,7 +134,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
         <input type="hidden" name="extension" value="<?php echo $extension; ?>">
         <input type="hidden" name="task" value="">
         <input type="hidden" name="boxchecked" value="0">
-        <input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'CMD'); ?>">
+        <input type="hidden" name="forcedLanguage" value="<?php echo $app->getInput()->get('forcedLanguage', '', 'CMD'); ?>">
         <?php echo HTMLHelper::_('form.token'); ?>
 
     </form>

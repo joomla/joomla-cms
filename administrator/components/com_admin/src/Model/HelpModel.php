@@ -78,7 +78,7 @@ class HelpModel extends BaseDatabaseModel
     public function &getHelpSearch()
     {
         if (\is_null($this->help_search)) {
-            $this->help_search = Factory::getApplication()->input->getString('helpsearch');
+            $this->help_search = Factory::getApplication()->getInput()->getString('helpsearch');
         }
 
         return $this->help_search;
@@ -94,7 +94,7 @@ class HelpModel extends BaseDatabaseModel
     public function &getPage()
     {
         if (\is_null($this->page)) {
-            $this->page = Help::createUrl(Factory::getApplication()->input->get('page', 'Start_Here'));
+            $this->page = Help::createUrl(Factory::getApplication()->getInput()->get('page', 'Start_Here'));
         }
 
         return $this->page;
@@ -152,8 +152,8 @@ class HelpModel extends BaseDatabaseModel
         }
 
         // Get Help files
-        $files = Folder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
-        $this->toc = array();
+        $files     = Folder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
+        $this->toc = [];
 
         foreach ($files as $file) {
             $buffer = file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/' . $file);

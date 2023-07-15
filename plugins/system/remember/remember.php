@@ -63,7 +63,7 @@ class PlgSystemRemember extends CMSPlugin
             $cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
 
             // Check for the cookie
-            if ($this->app->input->cookie->get($cookieName)) {
+            if ($this->app->getInput()->cookie->get($cookieName)) {
                 $this->app->login(['username' => ''], ['silent' => true]);
             }
         }
@@ -87,7 +87,7 @@ class PlgSystemRemember extends CMSPlugin
         $cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
 
         // Check for the cookie
-        if ($this->app->input->cookie->get($cookieName)) {
+        if ($this->app->getInput()->cookie->get($cookieName)) {
             // Make sure authentication group is loaded to process onUserAfterLogout event
             PluginHelper::importPlugin('authentication');
         }

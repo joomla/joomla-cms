@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
 
@@ -84,14 +85,17 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $app = Factory::getApplication();
+        $app     = Factory::getApplication();
+        $toolbar = Toolbar::getInstance();
 
         if ($this->getLayout() == 'edit') {
-            $app->input->set('hidemainmenu', true);
+            $app->getInput()->set('hidemainmenu', true);
             ToolbarHelper::title(Text::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'envelope-open-text new-privatemessage');
-            ToolbarHelper::custom('message.save', 'envelope', '', 'COM_MESSAGES_TOOLBAR_SEND', false);
-            ToolbarHelper::cancel('message.cancel');
-            ToolbarHelper::help('Private_Messages:_Write');
+            $toolbar->standardButton('save', 'COM_MESSAGES_TOOLBAR_SEND', 'message.save')
+                ->icon('icon-envelope')
+                ->listCheck(false);
+            $toolbar->cancel('message.cancel');
+            $toolbar->help('Private_Messages:_Write');
         } else {
             ToolbarHelper::title(Text::_('COM_MESSAGES_VIEW_PRIVATE_MESSAGE'), 'envelope inbox');
             $sender = User::getInstance($this->item->user_id_from);
@@ -101,11 +105,13 @@ class HtmlView extends BaseHtmlView
                 || $sender->authorise('core.manage', 'com_messages') && $sender->authorise('core.login.admin'))
                 && $app->getIdentity()->authorise('core.manage', 'com_users')
             ) {
-                ToolbarHelper::custom('message.reply', 'redo', '', 'COM_MESSAGES_TOOLBAR_REPLY', false);
+                $toolbar->standardButton('reply', 'COM_MESSAGES_TOOLBAR_REPLY', 'message.reply')
+                    ->icon('icon-redo')
+                    ->listCheck(false);
             }
 
-            ToolbarHelper::cancel('message.cancel');
-            ToolbarHelper::help('Private_Messages:_Read');
+            $toolbar->cancel('message.cancel');
+            $toolbar->help('Private_Messages:_Read');
         }
     }
 }

@@ -71,7 +71,7 @@ class HtmlView extends BaseHtmlView
         $name = $this->getLayout();
 
         // Check that the name is valid - has an associated model.
-        if (!in_array($name, array('confirm', 'complete'))) {
+        if (!in_array($name, ['confirm', 'complete'])) {
             $name = 'default';
         }
 

@@ -99,7 +99,7 @@ class Extension extends Table
      *
      * @since   1.7.0
      */
-    public function find($options = array())
+    public function find($options = [])
     {
         // Get the DatabaseQuery object
         $query = $this->_db->getQuery(true);

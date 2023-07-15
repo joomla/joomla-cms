@@ -59,6 +59,14 @@ class SqlField extends ListField
     protected $translate = false;
 
     /**
+     * The header.
+     *
+     * @var    mixed
+     * @since  4.3.0
+     */
+    protected $header;
+
+    /**
      * The query.
      *
      * @var    string
@@ -81,6 +89,7 @@ class SqlField extends ListField
             case 'keyField':
             case 'valueField':
             case 'translate':
+            case 'header':
             case 'query':
                 return $this->$name;
         }
@@ -104,6 +113,7 @@ class SqlField extends ListField
             case 'keyField':
             case 'valueField':
             case 'translate':
+            case 'header':
             case 'query':
                 $this->$name = (string) $value;
                 break;
@@ -137,8 +147,8 @@ class SqlField extends ListField
 
             if (empty($this->query)) {
                 // Get the query from the form
-                $query    = array();
-                $defaults = array();
+                $query    = [];
+                $defaults = [];
 
                 $sql_select = (string) $this->element['sql_select'];
                 $sql_from   = (string) $this->element['sql_from'];
@@ -222,7 +232,7 @@ class SqlField extends ListField
 
         // Process the filters
         if (\is_array($filters)) {
-            $html_filters = Factory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array');
+            $html_filters = Factory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', [], 'array');
 
             foreach ($filters as $k => $value) {
                 if (!empty($html_filters[$value])) {
@@ -255,11 +265,11 @@ class SqlField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         // Initialize some field attributes.
-        $key   = $this->keyField;
-        $value = $this->valueField;
+        $key    = $this->keyField;
+        $value  = $this->valueField;
         $header = $this->header;
 
         if ($this->query) {
@@ -279,7 +289,7 @@ class SqlField extends ListField
         // Add header.
         if (!empty($header)) {
             $header_title = Text::_($header);
-            $options[] = HTMLHelper::_('select.option', '', $header_title);
+            $options[]    = HTMLHelper::_('select.option', '', $header_title);
         }
 
         // Build the field options.

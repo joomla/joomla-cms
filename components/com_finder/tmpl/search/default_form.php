@@ -19,7 +19,10 @@ use Joomla\CMS\Router\Route;
 */
 if ($this->params->get('show_autosuggest', 1)) {
     $this->document->getWebAssetManager()->usePreset('awesomplete');
-    $this->document->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false), 'listLabel' => Text::_('COM_FINDER_SEARCH_FORM_LIST_LABEL')));
+    $this->document->addScriptOptions('finder-search', ['url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false), 'listLabel' => Text::_('COM_FINDER_SEARCH_FORM_LIST_LABEL')]);
+
+    Text::script('JLIB_JS_AJAX_ERROR_OTHER');
+    Text::script('JLIB_JS_AJAX_ERROR_PARSE');
 }
 
 ?>

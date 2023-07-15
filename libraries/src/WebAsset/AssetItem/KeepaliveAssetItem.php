@@ -58,6 +58,6 @@ class KeepaliveAssetItem extends WebAssetItem implements WebAssetAttachBehaviorI
         $uri = 'index.php' . ($app->isClient('site') || !Factory::getUser()->guest ? '?option=com_ajax&format=json' : '');
 
         // Add keepalive script options.
-        $doc->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => Route::_($uri)));
+        $doc->addScriptOptions('system.keepalive', ['interval' => $refreshTime * 1000, 'uri' => Route::_($uri)]);
     }
 }

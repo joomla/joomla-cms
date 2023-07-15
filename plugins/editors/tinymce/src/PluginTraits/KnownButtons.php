@@ -36,10 +36,10 @@ trait KnownButtons
     {
         return [
             // General buttons
-            '|'              => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_SEPARATOR'), 'text' => '|'],
+            '|' => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_SEPARATOR'), 'text' => '|'],
 
-            'undo'           => ['label' => 'Undo'],
-            'redo'           => ['label' => 'Redo'],
+            'undo' => ['label' => 'Undo'],
+            'redo' => ['label' => 'Redo'],
 
             'bold'           => ['label' => 'Bold'],
             'italic'         => ['label' => 'Italic'],
@@ -50,35 +50,35 @@ trait KnownButtons
             'fontselect'     => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_FONTSELECT'), 'text' => 'Font Family'],
             'fontsizeselect' => ['label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_FONTSIZESELECT'), 'text' => 'Font Sizes'],
 
-            'alignleft'      => ['label' => 'Align left'],
-            'aligncenter'    => ['label' => 'Align center'],
-            'alignright'     => ['label' => 'Align right'],
-            'alignjustify'   => ['label' => 'Justify'],
-            'lineheight'     => ['label' => 'Line height'],
+            'alignleft'    => ['label' => 'Align left'],
+            'aligncenter'  => ['label' => 'Align center'],
+            'alignright'   => ['label' => 'Align right'],
+            'alignjustify' => ['label' => 'Justify'],
+            'lineheight'   => ['label' => 'Line height'],
 
-            'outdent'        => ['label' => 'Decrease indent'],
-            'indent'         => ['label' => 'Increase indent'],
+            'outdent' => ['label' => 'Decrease indent'],
+            'indent'  => ['label' => 'Increase indent'],
 
-            'forecolor'      => ['label' => 'Text colour'],
-            'backcolor'      => ['label' => 'Background text colour'],
+            'forecolor' => ['label' => 'Text colour'],
+            'backcolor' => ['label' => 'Background text colour'],
 
-            'bullist'        => ['label' => 'Bullet list'],
-            'numlist'        => ['label' => 'Numbered list'],
+            'bullist' => ['label' => 'Bullet list'],
+            'numlist' => ['label' => 'Numbered list'],
 
-            'link'           => ['label' => 'Insert/edit link', 'plugin' => 'link'],
-            'unlink'         => ['label' => 'Remove link', 'plugin' => 'link'],
+            'link'   => ['label' => 'Insert/edit link', 'plugin' => 'link'],
+            'unlink' => ['label' => 'Remove link', 'plugin' => 'link'],
 
-            'subscript'      => ['label' => 'Subscript'],
-            'superscript'    => ['label' => 'Superscript'],
-            'blockquote'     => ['label' => 'Blockquote'],
+            'subscript'   => ['label' => 'Subscript'],
+            'superscript' => ['label' => 'Superscript'],
+            'blockquote'  => ['label' => 'Blockquote'],
 
-            'cut'            => ['label' => 'Cut'],
-            'copy'           => ['label' => 'Copy'],
-            'paste'          => ['label' => 'Paste', 'plugin' => 'paste'],
-            'pastetext'      => ['label' => 'Paste as text', 'plugin' => 'paste'],
-            'removeformat'   => ['label' => 'Clear formatting'],
+            'cut'          => ['label' => 'Cut'],
+            'copy'         => ['label' => 'Copy'],
+            'paste'        => ['label' => 'Paste', 'plugin' => 'paste'],
+            'pastetext'    => ['label' => 'Paste as text', 'plugin' => 'paste'],
+            'removeformat' => ['label' => 'Clear formatting'],
 
-            'language'       => ['label' => 'Language'],
+            'language' => ['label' => 'Language'],
 
             // Buttons from the plugins
             'anchor'         => ['label' => 'Anchor', 'plugin' => 'anchor'],

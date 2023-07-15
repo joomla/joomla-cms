@@ -23,6 +23,14 @@ use Joomla\CMS\Language\Text;
 abstract class Manifest
 {
     /**
+     * The error messages
+     *
+     * @var    array
+     * @since  4.3.0
+     */
+    public $_errors;
+
+    /**
      * Path to the manifest file
      *
      * @var    string
@@ -84,7 +92,7 @@ abstract class Manifest
      * @var    array
      * @since  3.1
      */
-    public $filelist = array();
+    public $filelist = [];
 
     /**
      * Constructor

@@ -51,7 +51,7 @@ if ($saveOrder) {
             <div id="j-main-container" class="j-main-container">
                 <?php
                     // Search tools bar
-                    echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+                    echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
                 ?>
                 <?php if (empty($this->transitions)) : ?>
                     <div class="alert alert-info">

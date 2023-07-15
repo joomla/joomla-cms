@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<form>
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldprefix="Joomla\Component\Menus\Administrator\Field">
 	<field
 		name="client_id"
 		type="list"
 		label="JSITEADMIN"
 		filtermode="selector"
-		onchange="Joomla.resetFilters(this)"
+		class="js-select-reset-on-change"
 		validate="options"
 		>
 		<option value="0">JSITE</option>
@@ -20,7 +20,7 @@
 		clientid=""
 		showAll="false"
 		filtermode="selector"
-		onchange="this.form.submit();"
+		class="js-select-submit-on-change"
 		>
 		<option value="">COM_MENUS_SELECT_MENU</option>
 	</field>
@@ -39,7 +39,7 @@
 			type="status"
 			label="JSTATUS"
 			optionsFilter="*,0,1,-2"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
@@ -51,9 +51,18 @@
 			last="10"
 			step="1"
 			languages="*"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			>
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
+		</field>
+		<field
+			name="parent_id"
+			type="MenuItemByType"
+			label="COM_MENUS_FILTER_PARENT_MENU_ITEM_LABEL"
+			client_id="1"
+			class="js-select-submit-on-change"
+			>
+			<option value="">COM_MENUS_FILTER_SELECT_PARENT_MENU_ITEM</option>
 		</field>
 	</fields>
 	<fields name="list">
@@ -62,7 +71,7 @@
 			type="list"
 			label="JGLOBAL_SORT_BY"
 			statuses="*,0,1,2,-2"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 			default="a.lft ASC"
 			validate="options"
 			>
@@ -83,7 +92,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIST_LIMIT"
 			default="25"
-			onchange="this.form.submit();"
+			class="js-select-submit-on-change"
 		/>
 	</fields>
 </form>
