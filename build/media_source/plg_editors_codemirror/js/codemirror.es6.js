@@ -101,8 +101,7 @@ const optionsToExtensions = async (options) => {
   // Configurable read only
   const readOnly = new Compartment();
   // Set a custom name so later on we can retrieve this Compartment from view.state.config.compartments
-  // eslint-disable-next-line no-underscore-dangle
-  readOnly._j_name = 'readOnly';
+  readOnly.$j_name = 'readOnly';
   extensions.push(readOnly.of(EditorState.readOnly.of(!!options.readOnly)));
 
   // Check for custom extensions,

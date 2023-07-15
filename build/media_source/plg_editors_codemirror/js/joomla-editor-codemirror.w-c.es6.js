@@ -66,8 +66,7 @@ class CodemirrorEditor extends HTMLElement {
       },
       disable: (disabled) => {
         editor.state.config.compartments.forEach((facet, compartment) => {
-          // eslint-disable-next-line no-underscore-dangle
-          if (compartment._j_name === 'readOnly') {
+          if (compartment.$j_name === 'readOnly') {
             editor.dispatch({
               effects: compartment.reconfigure(EditorState.readOnly.of(disabled)),
             });
