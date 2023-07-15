@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metafile client="installation">
 	<name>Italiano (it-IT)</name>
-	<version>4.3.0</version>
-	<creationDate>2023-04</creationDate>
-	<author>Progetto Joomla!</author>
+	<version>4.3.3</version>
+	<creationDate>2023-07</creationDate>
+	<author>Joomla! Project (Italian Translation Team)</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
