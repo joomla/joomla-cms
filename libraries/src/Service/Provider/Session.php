@@ -292,7 +292,7 @@ class Session implements ServiceProviderInterface
      *
      * @param   Registry  $config       The application configuration.
      * @param   string    $seedDefault  The default seed for the secret if there isn't a session name configured
-     *                                  globally. This is the relevent application's classname
+     *                                  globally. This is the relevant application's classname
      *
      * @return  string
      *
