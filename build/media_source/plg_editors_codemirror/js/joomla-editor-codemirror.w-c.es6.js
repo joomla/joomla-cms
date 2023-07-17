@@ -74,6 +74,7 @@ class CodemirrorEditor extends HTMLElement {
         });
       },
       onSave: () => {},
+      refresh: () => {},
     };
   }
 
