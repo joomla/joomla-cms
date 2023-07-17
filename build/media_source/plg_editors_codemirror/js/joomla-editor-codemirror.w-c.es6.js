@@ -39,6 +39,12 @@ class CodemirrorEditor extends HTMLElement {
         { key: this.fsCombo, run: this.toggleFullScreen },
         { key: 'Escape', run: this.closeFullScreen },
       ]));
+
+      // Relocate BS modals, to resolve z-index issue in full screen
+      this.bsModals = this.querySelectorAll('.joomla-modal.modal');
+      this.bsModals.forEach((modal) => {
+        document.body.appendChild(modal);
+      });
     }
 
     // Create an editor instance
@@ -85,6 +91,13 @@ class CodemirrorEditor extends HTMLElement {
     }
     // Remove from the Joomla API
     delete Joomla.editors.instances[this.element.id];
+
+    // Restore modals
+    if (this.bsModals && this.bsModals.length) {
+      this.bsModals.forEach((modal) => {
+        this.appendChild(modal);
+      });
+    }
   }
 }
 
