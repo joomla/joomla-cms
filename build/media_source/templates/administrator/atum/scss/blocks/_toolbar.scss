@@ -75,7 +75,7 @@
     }
 
     &.btn-primary {
-      --subhead-btn-accent: var(--#{$prefix}link-color);
+      --subhead-btn-accent: var(--template-link-color);
     }
 
     &.btn-secondary {

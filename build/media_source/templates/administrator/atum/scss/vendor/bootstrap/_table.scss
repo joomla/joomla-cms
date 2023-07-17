@@ -20,7 +20,7 @@
     }
 
     a {
-      color: var(--#{$prefix}link-color);
+      color: var(--template-link-color);
 
       &#sorted {
         font-weight: $medium-weight;
