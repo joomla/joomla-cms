@@ -45,7 +45,7 @@ const getWcMinifiedCss = async (file) => {
   return '';
 };
 
-// List of external modules that should not be resolved be rollup
+// List of external modules that should not be resolved by rollup
 const externalModules = [];
 const collectExternals = () => {
   if (externalModules.length) {
@@ -78,7 +78,7 @@ module.exports.handleESMFile = async (file) => {
   const newPath = file.replace(/\.w-c\.es6\.js$/, '').replace(/\.es6\.js$/, '').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
   const minifiedCss = await getWcMinifiedCss(file);
 
-  // Make sure externals is collected
+  // Make sure externals are collected
   collectExternals();
 
   const bundle = await rollup.rollup({

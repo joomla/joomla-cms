@@ -69,7 +69,7 @@ Program
   .option('--compile-js, --compile-js path', 'Handles ES6, ES5 and web component scripts')
   .option('--compile-css, --compile-css path', 'Compiles all the scss files to css')
   .option('--compile-bs', 'Compiles all the Bootstrap component scripts.')
-  .option('--compile-codemirror', 'Compiles all the codemirror component.')
+  .option('--compile-codemirror', 'Compiles all the codemirror modules.')
   .option('--watch', 'Watch file changes and re-compile (ATM only works for the js in the media_source).')
   .option('--com-media', 'Compile the Media Manager client side App.')
   .option('--watch-com-media', 'Watch and Compile the Media Manager client side App.')
