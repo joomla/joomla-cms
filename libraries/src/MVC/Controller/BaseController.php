@@ -597,7 +597,8 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      * you will need to override it in your own controllers.
      *
      * @param   boolean  $cachable   If true, the view output will be cached
-     * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link InputFilter::clean()}.
+     * @param   array    $urlparams  An array of safe url parameters and their variable types.
+     * @see     \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static  A \JControllerLegacy object to support chaining.
      *
