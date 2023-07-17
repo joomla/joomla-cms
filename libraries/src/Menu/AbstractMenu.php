@@ -100,7 +100,7 @@ abstract class AbstractMenu
          * user object is not updated, the menu will render incorrectly, not complying with
          * menu items access levels.
          *
-         * @see https://github.com/joomla/joomla-cms/issues/11541
+         * @link https://github.com/joomla/joomla-cms/issues/11541
          */
         $this->storedUser = isset($options['user']) && $options['user'] instanceof User ? $options['user'] : null;
     }

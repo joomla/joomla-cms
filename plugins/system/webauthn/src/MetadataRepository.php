@@ -25,7 +25,7 @@ use Webauthn\MetadataService\Statement\MetadataStatement;
  * This repository contains the metadata of all FIDO authenticators as published by the FIDO
  * Alliance in their MDS version 3.0.
  *
- * @see   https://fidoalliance.org/metadata/
+ * @link  https://fidoalliance.org/metadata/
  * @since 4.2.0
  */
 final class MetadataRepository implements MetadataStatementRepository

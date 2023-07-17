@@ -267,7 +267,7 @@ class JoomlaStorage extends NativeStorage
      *
      * @return  $this
      *
-     * @see     http://php.net/session.configuration
+     * @link    http://php.net/session.configuration
      * @since   4.0.0
      */
     public function setOptions(array $options): NativeStorage
