@@ -266,7 +266,7 @@ class Date extends \DateTime
     /**
      * Gets the date as a formatted string in a local calendar.
      *
-     * @param   string   $format     The date format specification string (see {@link https://www.php.net/manual/en/function.date.php})
+     * @param   string   $format     The date format specification string (see {@link PHP_MANUAL#date})
      * @param   boolean  $local      True to return the date string in the local time zone, false to return it in GMT.
      * @param   boolean  $translate  True to translate localised strings
      *
@@ -282,7 +282,7 @@ class Date extends \DateTime
     /**
      * Gets the date as a formatted string.
      *
-     * @param   string   $format     The date format specification string (see {@link https://www.php.net/manual/en/function.date.php})
+     * @param   string   $format     The date format specification string (see {@link PHP_MANUAL#date})
      * @param   boolean  $local      True to return the date string in the local time zone, false to return it in GMT.
      * @param   boolean  $translate  True to translate localised strings
      *
