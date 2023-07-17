@@ -59,33 +59,33 @@ foreach ($tours as $tour) :
 endforeach;
 
 ?>
-	<div class="header-item-content dropdown header-tours d-none d-sm-block">
-		<button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button"
-		        title="<?php echo Text::_('MOD_GUIDEDTOURS_MENU'); ?>">
-			<div class="header-item-icon">
-				<span class="icon-map-signs" aria-hidden="true"></span>
-			</div>
-			<div class="header-item-text">
-                <?php echo Text::_('MOD_GUIDEDTOURS_MENU'); ?>
-			</div>
-			<span class="icon-angle-down" aria-hidden="true"></span>
-		</button>
-		<div class="dropdown-menu dropdown-menu-end">
-            <?php foreach ($listTours as $i => $tour) : ?>
-                <?php if ($i >= $params->get('tourscount', 7)) : ?>
-                    <?php break; ?>
-                <?php endif; ?>
-				<button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
-					<span class="icon-map-signs" aria-hidden="true"></span>
-                    <?php echo $tour->title; ?>
-				</button>
-            <?php endforeach; ?>
-			<button type="button" class="dropdown-item text-center" data-bs-toggle="modal"
-			        data-bs-target="#modGuidedTours-modal">
-                <?php echo Text::_('MOD_GUIDEDTOURS_SHOW_ALL'); ?>
-			</button>
-		</div>
-	</div>
+<div class="header-item-content dropdown header-tours d-none d-sm-block">
+    <button class="dropdown-toggle d-flex align-items-center ps-0 py-0" data-bs-toggle="dropdown" type="button"
+            title="<?php echo Text::_('MOD_GUIDEDTOURS_MENU'); ?>">
+        <div class="header-item-icon">
+            <span class="icon-map-signs" aria-hidden="true"></span>
+        </div>
+        <div class="header-item-text">
+            <?php echo Text::_('MOD_GUIDEDTOURS_MENU'); ?>
+        </div>
+        <span class="icon-angle-down" aria-hidden="true"></span>
+    </button>
+    <div class="dropdown-menu dropdown-menu-end">
+        <?php foreach ($listTours as $i => $tour) : ?>
+            <?php if ($i >= $params->get('tourscount', 7)) : ?>
+                <?php break; ?>
+            <?php endif; ?>
+            <button type="button" class="button-start-guidedtour dropdown-item" data-id="<?php echo $tour->id ?>">
+                <span class="icon-map-signs" aria-hidden="true"></span>
+                <?php echo $tour->title; ?>
+            </button>
+        <?php endforeach; ?>
+        <button type="button" class="dropdown-item text-center" data-bs-toggle="modal"
+                data-bs-target="#modGuidedTours-modal">
+            <?php echo Text::_('MOD_GUIDEDTOURS_SHOW_ALL'); ?>
+        </button>
+    </div>
+</div>
 <?php
 
 $modalParams = [
