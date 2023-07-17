@@ -233,12 +233,14 @@ class TourModel extends AdminModel
      */
     public function getItem($pk = null)
     {
-        Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
+        $lang = Factory::getLanguage();
+        $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
         $result = parent::getItem($pk);
 
         if (!empty($result->alias)) {
-            Factory::getLanguage()->load("com_guidedtours_" . str_replace("-", "_", $result->alias), JPATH_ADMINISTRATOR);
+            $lang->load("com_guidedtours_" . str_replace("-", "_", $result->alias), JPATH_ADMINISTRATOR);
+            $lang->load("com_guidedtours_" . str_replace("-", "_", $result->alias) . ".steps", JPATH_ADMINISTRATOR);
         }
 
         if (!empty($result->id)) {

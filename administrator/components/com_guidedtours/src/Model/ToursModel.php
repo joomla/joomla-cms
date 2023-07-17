@@ -249,13 +249,14 @@ class ToursModel extends ListModel
     {
         $items = parent::getItems();
 
-        Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
+        $lang = Factory::getLanguage();
+        $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
         foreach ($items as $item) {
             if (!empty($item->alias)) {
-                Factory::getLanguage()->load("com_guidedtours_" . str_replace("-", "_", $item->alias), JPATH_ADMINISTRATOR);
+                $lang->load("com_guidedtours_" . str_replace("-", "_", $item->alias), JPATH_ADMINISTRATOR);
             } elseif ($item->id < 12 && str_starts_with($item->title, 'COM_GUIDEDTOURS_TOUR_')) {
-                // We have an orphan tour with no alias so we set it now for official Joomla tours
+                // We have an orphan tour with no alias, so we set it now for official Joomla tours
                 $tourItem = $this->getTable('Tour');
                 $tourItem->load($item->id);
                 $app        = Factory::getApplication();

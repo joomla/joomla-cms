@@ -32,8 +32,6 @@ $extension = $app->getInput()->get('option');
 $listTours = [];
 $allTours  = [];
 
-$lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
-
 foreach ($tours as $tour) :
     if (count(array_intersect(['*', $extension], $tour->extensions))) :
         $listTours[] = $tour;
@@ -43,10 +41,6 @@ foreach ($tours as $tour) :
 
     // We assume the url is the starting point
     $key = $uri->getVar('option') ?? Text::_('MOD_GUIDEDTOURS_GENERIC_TOUR');
-
-    if (empty($tour->alias)) :
-        $lang->load('com_guidedtours_' . str_replace('-', '_', $tour->alias), JPATH_ADMINISTRATOR);
-    endif;
 
     if (! isset($allTours[$key])) :
         $lang->load("$key.sys", JPATH_ADMINISTRATOR)

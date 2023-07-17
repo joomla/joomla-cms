@@ -237,7 +237,8 @@ class StepModel extends AdminModel
      */
     public function getItem($pk = null)
     {
-        Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
+        $lang = Factory::getLanguage();
+        $lang->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
         if ($result = parent::getItem($pk)) {
             if (!empty($result->id)) {
@@ -253,6 +254,11 @@ class StepModel extends AdminModel
 
                 $tour         = $tourModel->getItem($tourId);
                 $tourLanguage = !empty($tour->language) ? $tour->language : '*';
+
+                if (!empty($tour->alias)) {
+                    $lang->load("com_guidedtours_" . str_replace("-", "_", $tour->alias), JPATH_ADMINISTRATOR);
+                    $lang->load("com_guidedtours_" . str_replace("-", "_", $tour->alias) . ".steps", JPATH_ADMINISTRATOR);
+                }
 
                 // Sets step language to parent tour language
                 $result->language = $tourLanguage;
