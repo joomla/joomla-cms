@@ -484,7 +484,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
      * @return  void
      * @since   4.2.0
      *
-     * @see     https://developers.yubico.com/yubikey-val/Validation_Protocol_V2.0.html
+     * @link    https://developers.yubico.com/yubikey-val/Validation_Protocol_V2.0.html
      */
     private function signRequest(Uri $uri, string $secret): void
     {
