@@ -1254,8 +1254,7 @@ abstract class AdminModel extends FormModel
                 return false;
             }
 
-            if ($context == 'com_plugins.plugin')
-            {
+            if ($context === 'com_plugins.plugin') {
                 PluginHelper::importPlugin($data['folder'], $data['element']);
             }
 
