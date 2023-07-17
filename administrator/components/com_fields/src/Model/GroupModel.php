@@ -276,8 +276,8 @@ class GroupModel extends AdminModel
      *
      * @return  array|boolean  Array of filtered data if valid, false otherwise.
      *
-     * @see     JFormRule
-     * @see     JFilterInput
+     * @see     \Joomla\CMS\Form\FormRule
+     * @see     \Joomla\CMS\Filter\InputFilter
      * @since   3.9.23
      */
     public function validate($form, $data, $group = null)
