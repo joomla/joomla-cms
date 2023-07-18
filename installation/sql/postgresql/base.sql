@@ -576,6 +576,7 @@ CREATE TABLE IF NOT EXISTS "#__menu_types" (
   "title" varchar(48) NOT NULL,
   "description" varchar(255) DEFAULT '' NOT NULL,
   "client_id" int DEFAULT 0 NOT NULL,
+  "ordering" int NOT NULL DEFAULT 0,
   PRIMARY KEY ("id"),
   CONSTRAINT "#__menu_types_idx_menutype" UNIQUE ("menutype")
 );
@@ -584,8 +585,8 @@ CREATE TABLE IF NOT EXISTS "#__menu_types" (
 -- Dumping data for table `#__menu_types`
 --
 
-INSERT INTO "#__menu_types" ("id", "asset_id", "menutype", "title", "description", "client_id") VALUES
-(1, 0, 'mainmenu', 'Main Menu', 'The main menu for the site', 0);
+INSERT INTO "#__menu_types" ("id", "asset_id", "menutype", "title", "description", "client_id", "ordering") VALUES
+(1, 0, 'mainmenu', 'Main Menu', 'The main menu for the site', 0, 1);
 
 SELECT setval('#__menu_types_id_seq', 2, false);
 
