@@ -29,7 +29,7 @@ class MenusController extends AdminController
      *
      * @param   boolean  $cachable   If true, the view output will be cached.
      * @param   array    $urlparams  An array of safe URL parameters and their variable types.
-     * @see     \Joomla\CMS\Filter\InputFilter::clean() for valid values.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  void
      *

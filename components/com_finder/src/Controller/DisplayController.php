@@ -29,7 +29,7 @@ class DisplayController extends BaseController
      *
      * @param   boolean  $cachable   If true, the view output will be cached. [optional]
      * @param   array    $urlparams  An array of safe URL parameters and their variable types. Optional.
-     * @see     \Joomla\CMS\Filter\InputFilter::clean() for valid values.
+     *                   @see        \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  static  This object is to support chaining.
      *

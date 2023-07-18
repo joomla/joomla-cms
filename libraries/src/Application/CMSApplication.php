@@ -675,7 +675,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @param   string  $request  The name of the variable passed in a request.
      * @param   string  $default  The default value for the variable if not found. Optional.
      * @param   string  $type     Filter for the variable. Optional.
-     * @see     \Joomla\CMS\Filter\InputFilter::clean() for valid values.
+     *                  @see      \Joomla\CMS\Filter\InputFilter::clean() for valid values.
      *
      * @return  mixed  The request user state.
      *
