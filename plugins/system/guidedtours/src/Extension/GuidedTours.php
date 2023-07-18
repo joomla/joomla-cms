@@ -106,7 +106,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
     {
         $tourId    = (int) $this->getApplication()->getInput()->getInt('id');
         $tourAlias = $this->getApplication()->getInput()->getString('alias');
-        $tourAlias = $tourAlias !== "" ? @urldecode($tourAlias) : $tourAlias;
+        $tourAlias = $tourAlias !== '' ? @urldecode($tourAlias) : $tourAlias;
 
         $activeTourId    = null;
         $activeTourAlias = null;
@@ -118,7 +118,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
             if (!empty($tour->id)) {
                 $activeTourId = $tour->id;
             }
-        } elseif ($tourAlias !== "") {
+        } elseif ($tourAlias !== '') {
             $tour = $this->getTourByAlias($tourAlias);
 
             if (!empty($tour->id)) {
@@ -180,7 +180,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $tourModel = $factory->createModel(
             'Tour',
             'Administrator',
-            [ 'ignore_request' => true ]
+            ['ignore_request' => true]
         );
 
         $item = $tourModel->getItem($tourId);
@@ -206,7 +206,7 @@ final class GuidedTours extends CMSPlugin implements SubscriberInterface
         $tourModel = $factory->createModel(
             'Tour',
             'Administrator',
-            [ 'ignore_request' => true ]
+            ['ignore_request' => true]
         );
 
         $item = $tourModel->getItemByAlias($tourAlias);

@@ -102,7 +102,7 @@ class HtmlView extends BaseHtmlView
             // This arises when you are logged out and return to the steps view after logging back in
             // We redirect back to the tour lists view
             $app = Factory::getApplication();
-            $app->enqueueMessage(Text::_("COM_GUIDEDTOURS_STEPS_UNKNOWN_TOUR"), 'notice');
+            $app->enqueueMessage(Text::_('COM_GUIDEDTOURS_STEPS_UNKNOWN_TOUR'), 'notice');
             $app->redirect(Route::_('index.php?option=com_guidedtours&view=tours', false), 300);
             return;
         }

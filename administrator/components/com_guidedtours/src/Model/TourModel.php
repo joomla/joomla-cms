@@ -85,7 +85,7 @@ class TourModel extends AdminModel
             $app        = Factory::getApplication();
             $uri        = Uri::getInstance();
             $host       = $uri->toString(['host']);
-            $aliasTitle = $host . " " . str_replace("COM_GUIDEDTOURS_TOUR_", "", $data['title']);
+            $aliasTitle = $host . " " . str_replace('COM_GUIDEDTOURS_TOUR_', '', $data['title']);
             if ($app->get('unicodeslugs') == 1) {
                 $data['alias'] = OutputFilter::stringUrlUnicodeSlug($aliasTitle);
             } else {
@@ -239,8 +239,8 @@ class TourModel extends AdminModel
         $result = parent::getItem($pk);
 
         if (!empty($result->alias)) {
-            $lang->load("com_guidedtours_" . str_replace("-", "_", $result->alias), JPATH_ADMINISTRATOR);
-            $lang->load("com_guidedtours_" . str_replace("-", "_", $result->alias) . ".steps", JPATH_ADMINISTRATOR);
+            $lang->load('com_guidedtours_' . str_replace('-', '_', $result->alias), JPATH_ADMINISTRATOR);
+            $lang->load('com_guidedtours_' . str_replace('-', '_', $result->alias) . ".steps", JPATH_ADMINISTRATOR);
         }
 
         if (!empty($result->id)) {
@@ -252,7 +252,7 @@ class TourModel extends AdminModel
             $app        = Factory::getApplication();
             $uri        = Uri::getInstance();
             $host       = $uri->toString(['host']);
-            $aliasTitle = $host . " " . str_replace("COM_GUIDEDTOURS_TOUR_", "", $result->title);
+            $aliasTitle = $host . " " . str_replace('COM_GUIDEDTOURS_TOUR_', '', $result->title);
             if ($app->get('unicodeslugs') == 1) {
                 $result->alias = OutputFilter::stringUrlUnicodeSlug($aliasTitle);
             } else {
@@ -272,7 +272,7 @@ class TourModel extends AdminModel
      *
      * @since   5.0.0
      */
-    public function getItemByAlias($alias = "")
+    public function getItemByAlias($alias = '')
     {
         Factory::getLanguage()->load('com_guidedtours.sys', JPATH_ADMINISTRATOR);
 
@@ -289,7 +289,7 @@ class TourModel extends AdminModel
         $result = parent::getItem($pk);
 
         if (!empty($result->alias)) {
-            Factory::getLanguage()->load("com_guidedtours_" . str_replace("-", "_", $result->alias), JPATH_ADMINISTRATOR);
+            Factory::getLanguage()->load('com_guidedtours_' . str_replace('-', '_', $result->alias), JPATH_ADMINISTRATOR);
         }
 
         if (!empty($result->id)) {
@@ -301,7 +301,7 @@ class TourModel extends AdminModel
             $app        = Factory::getApplication();
             $uri        = Uri::getInstance();
             $host       = $uri->toString(['host']);
-            $aliasTitle = $host . " " . str_replace("COM_GUIDEDTOURS_TOUR_", "", $result->title);
+            $aliasTitle = $host . " " . str_replace('COM_GUIDEDTOURS_TOUR_', '', $result->title);
             if ($app->get('unicodeslugs') == 1) {
                 $result->alias = OutputFilter::stringUrlUnicodeSlug($aliasTitle);
             } else {
@@ -579,7 +579,7 @@ class TourModel extends AdminModel
      *
      * @return  string $alias  Contains the modified alias.
      *
-     * @since   __VERSION_DEPLOY__
+     * @since   __DEPLOY_VERSION__
      */
     protected function generateNewAlias($alias, $currentItemId)
     {

@@ -42,10 +42,7 @@ foreach ($tours as $tour) :
     // We assume the url is the starting point
     $key = $uri->getVar('option') ?? Text::_('MOD_GUIDEDTOURS_GENERIC_TOUR');
 
-    if (! isset($allTours[$key])) :
-        $lang->load("$key.sys", JPATH_ADMINISTRATOR)
-        || $lang->load("$key.sys", JPATH_ADMINISTRATOR . '/components/' . $key);
-
+    if (!isset($allTours[$key])) :
         $allTours[$key] = [];
     endif;
 
