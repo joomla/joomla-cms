@@ -617,7 +617,7 @@
         ],
         "licenseFilename": "LICENSE.md"
       },
-      "codemirror": {
+      "@codemirror/view": {
         "name": "codemirror",
         "licenseFilename": "LICENSE"
       },

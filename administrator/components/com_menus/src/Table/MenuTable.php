@@ -58,7 +58,7 @@ class MenuTable extends Menu
      *
      * @return  boolean  True on success, false on failure
      *
-     * @see     JTable::check
+     * @see     \Joomla\CMS\Table\Table::check
      * @since   4.0.0
      */
     public function check()

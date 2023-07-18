@@ -155,7 +155,7 @@ class TagTable extends Nested implements VersionableTableInterface, CurrentUserI
     }
 
     /**
-     * Overridden \JTable::store to set modified data and user id.
+     * Overridden \Joomla\CMS\Table\Table::store to set modified data and user id.
      *
      * @param   boolean  $updateNulls  True to update fields even if they are null.
      *
