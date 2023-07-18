@@ -47,9 +47,9 @@ final class Media extends FieldsPlugin
         $fieldNode->setAttribute('type', 'accessiblemedia');
 
         // if the field is already set to disabled, respect it
-		if ($this->getApplication()->getIdentity()->authorise('core.create', 'com_media') && $fieldNode->getAttribute('disabled') !== 'true') {
-			$fieldNode->setAttribute('disabled', 'false');
-		}
+        if ($this->getApplication()->getIdentity()->authorise('core.create', 'com_media') && $fieldNode->getAttribute('disabled') !== 'true') {
+            $fieldNode->setAttribute('disabled', 'false');
+        }
 
         return $fieldNode;
     }
