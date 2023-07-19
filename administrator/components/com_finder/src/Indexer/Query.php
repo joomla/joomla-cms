@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -203,7 +202,7 @@ class Query
      * @param   array  $options  An array of query options.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     public function __construct($options, DatabaseInterface $db = null)
     {
@@ -494,7 +493,7 @@ class Query
      * @return  boolean  True on success, false on failure.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function processStaticTaxonomy($filterId)
     {
@@ -585,7 +584,7 @@ class Query
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function processDynamicTaxonomy($filters)
     {
@@ -729,7 +728,7 @@ class Query
      * @return  boolean  True on success.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function processString($input, $lang, $mode)
     {
@@ -1232,7 +1231,7 @@ class Query
      * @return  Token  A Token object.
      *
      * @since   2.5
-     * @throws  Exception on database error.
+     * @throws  \Exception on database error.
      */
     protected function getTokenData($token)
     {

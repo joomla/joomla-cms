@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\System\ScheduleRunner\Extension;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -60,7 +59,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
      *
      * @since 4.1.0
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public static function getSubscribedEvents(): array
     {
@@ -143,7 +142,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
      *
      * @since 4.1.0
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function runLazyCron(EventInterface $e)
     {
@@ -164,7 +163,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
         // Suppress all errors to avoid any output
         try {
             $this->runScheduler();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
 
         ob_end_clean();
@@ -187,7 +186,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
      *
      * @since 4.1.0
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function runWebCron(Event $event)
     {
@@ -196,11 +195,11 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
 
         if (!$config->get('webcron.enabled', false)) {
             Log::add($this->getApplication()->getLanguage()->_('PLG_SYSTEM_SCHEDULE_RUNNER_WEBCRON_DISABLED'));
-            throw new Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         if (!strlen($hash) || $hash !== $this->getApplication()->getInput()->get('hash')) {
-            throw new Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+            throw new \Exception($this->getApplication()->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
         $id = (int) $this->getApplication()->getInput()->getInt('id', 0);
@@ -223,7 +222,7 @@ final class ScheduleRunner extends CMSPlugin implements SubscriberInterface
      *
      * @since 4.1.0
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function runTestCron(Event $event)
     {
