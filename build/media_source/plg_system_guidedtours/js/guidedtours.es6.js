@@ -392,7 +392,11 @@ function startTour(obj) {
               break;
 
             case 'button':
-              tour.next();
+              ele.addEventListener('click', () => {
+                // the button may submit a form so record the currentStepId in the session storage
+                sessionStorage.setItem('currentStepId', obj.steps[index].id + 1);
+                tour.next();
+              });
               break;
 
             case 'other':
