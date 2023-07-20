@@ -99,7 +99,7 @@ $htag2   = $tparams->get('show_page_heading') ? 'h3' : 'h2';
 
     <?php if ($this->params->get('show_info', 1)) : ?>
         <div class="com-contact__container">
-            <<?php echo $htag2; ?>><?php echo Text::_('COM_CONTACT_DETAILS'); ?></<?php echo $htag2; ?>>
+            <?php echo '<' . $htag2 . '>' . Text::_('COM_CONTACT_DETAILS') . '</' . $htag2 . '>'; ?>
 
             <?php if ($this->item->image && $tparams->get('show_image')) : ?>
                 <div class="com-contact__thumbnail thumbnail">
@@ -137,23 +137,25 @@ $htag2   = $tparams->get('show_page_heading') ? 'h3' : 'h2';
     <?php endif; ?>
 
     <?php if ($tparams->get('show_email_form') && ($this->item->email_to || $this->item->user_id)) : ?>
-        <<?php echo $htag2; ?>><?php echo Text::_('COM_CONTACT_EMAIL_FORM'); ?></<?php echo $htag2; ?>>
+        <?php echo '<' . $htag2 . '>' . Text::_('COM_CONTACT_EMAIL_FORM') . '</' . $htag2 . '>'; ?>
 
         <?php echo $this->loadTemplate('form'); ?>
     <?php endif; ?>
 
     <?php if ($tparams->get('show_links')) : ?>
+        <?php echo '<' . $htag2 . '>' . Text::_('COM_CONTACT_LINKS') . '</' . $htag2 . '>'; ?>
+
         <?php echo $this->loadTemplate('links'); ?>
     <?php endif; ?>
 
     <?php if ($tparams->get('show_articles') && $this->item->user_id && $this->item->articles) : ?>
-        <<?php echo $htag2; ?>><?php echo Text::_('JGLOBAL_ARTICLES'); ?></<?php echo $htag2; ?>>
+        <?php echo '<' . $htag2 . '>' . Text::_('JGLOBAL_ARTICLES') . '</' . $htag2 . '>'; ?>
 
         <?php echo $this->loadTemplate('articles'); ?>
     <?php endif; ?>
 
     <?php if ($tparams->get('show_profile') && $this->item->user_id && PluginHelper::isEnabled('user', 'profile')) : ?>
-        <<?php echo $htag2; ?>><?php echo Text::_('COM_CONTACT_PROFILE'); ?></<?php echo $htag2; ?>>
+        <?php echo '<' . $htag2 . '>' . Text::_('COM_CONTACT_PROFILE') . '</' . $htag2 . '>'; ?>
 
         <?php echo $this->loadTemplate('profile'); ?>
     <?php endif; ?>
@@ -163,7 +165,7 @@ $htag2   = $tparams->get('show_page_heading') ? 'h3' : 'h2';
     <?php endif; ?>
 
     <?php if ($this->item->misc && $tparams->get('show_misc')) : ?>
-        <<?php echo $htag2; ?>><?php echo Text::_('COM_CONTACT_OTHER_INFORMATION'); ?></<?php echo $htag2; ?>>
+        <?php echo '<' . $htag2 . '>' . Text::_('COM_CONTACT_OTHER_INFORMATION') . '</' . $htag2 . '>'; ?>
 
         <div class="com-contact__miscinfo contact-miscinfo">
             <dl class="dl-horizontal">
