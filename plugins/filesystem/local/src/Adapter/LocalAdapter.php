@@ -14,7 +14,6 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Image\Exception\UnparsableImageException;
@@ -22,9 +21,11 @@ use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
+use Joomla\Filesystem\Path;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -37,6 +38,8 @@ use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
  */
 class LocalAdapter implements AdapterInterface
 {
+    use CurrentUserTrait;
+
     /**
      * The root path to gather file information from.
      *
@@ -288,7 +291,7 @@ class LocalAdapter implements AdapterInterface
     {
         $localPath = $this->getLocalPath($path . '/' . $name);
 
-        if (!File::exists($localPath)) {
+        if (!is_file($localPath)) {
             throw new FileNotFoundException();
         }
 
@@ -324,10 +327,6 @@ class LocalAdapter implements AdapterInterface
         $thumbnailPaths = $this->getLocalThumbnailPaths($localPath);
 
         if (is_file($localPath)) {
-            if (!File::exists($localPath)) {
-                throw new FileNotFoundException();
-            }
-
             if ($this->thumbnails && !empty($thumbnailPaths['fs']) && is_file($thumbnailPaths['fs'])) {
                 File::delete($thumbnailPaths['fs']);
             }
@@ -434,7 +433,7 @@ class LocalAdapter implements AdapterInterface
         $dateObj = Factory::getDate($date);
 
         $timezone = Factory::getApplication()->get('offset');
-        $user     = Factory::getUser();
+        $user     = $this->getCurrentUser();
 
         if ($user->id) {
             $userTimezone = $user->getParam('timezone');

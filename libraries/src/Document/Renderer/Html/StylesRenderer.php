@@ -13,7 +13,7 @@ use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\WebAsset\WebAssetItemInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -150,6 +150,13 @@ class StylesRenderer extends DocumentRenderer
 
                 if ($asset->getDependencies()) {
                     $attribs['data-asset-dependencies'] = implode(',', $asset->getDependencies());
+                }
+
+                if ($asset->getOption('deprecated')) {
+                    @trigger_error(
+                        sprintf('Web Asset style [%s] is deprecated. %s', $asset->getName(), $asset->getOption('deprecatedMsg', '')),
+                        E_USER_DEPRECATED
+                    );
                 }
             }
         } else {

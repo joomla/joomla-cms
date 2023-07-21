@@ -15,13 +15,15 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\Tag\TaggableTableTrait;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -29,9 +31,10 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-class Category extends Nested implements VersionableTableInterface, TaggableTableInterface
+class Category extends Nested implements VersionableTableInterface, TaggableTableInterface, CurrentUserInterface
 {
     use TaggableTableTrait;
+    use CurrentUserTrait;
 
     /**
      * Indicates that columns fully support the NULL value in the database
@@ -227,7 +230,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
     public function store($updateNulls = true)
     {
         $date = Factory::getDate()->toSql();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Set created date if not set.
         if (!(int) $this->created_time) {
@@ -254,7 +257,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
         }
 
         // Verify that the alias is unique
-        $table = Table::getInstance('Category', 'JTable', ['dbo' => $this->getDbo()]);
+        $table = Table::getInstance('Category', '\\Joomla\\CMS\\Table\\', ['dbo' => $this->getDbo()]);
 
         if (
             $table->load(['alias' => $this->alias, 'parent_id' => (int) $this->parent_id, 'extension' => $this->extension])

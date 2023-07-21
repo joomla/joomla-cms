@@ -12,15 +12,15 @@ namespace Joomla\CMS\User;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
+use Joomla\CMS\Object\LegacyPropertyManagementTrait;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -28,8 +28,11 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.7.0
  */
-class User extends CMSObject
+class User
 {
+    use LegacyErrorHandlingTrait;
+    use LegacyPropertyManagementTrait;
+
     /**
      * A cached switch for if this user has root access rights.
      *
@@ -175,6 +178,38 @@ class User extends CMSObject
     public $requireReset = null;
 
     /**
+     * The type alias
+     *
+     * @var    string
+     * @since  5.0.0
+     */
+    public $typeAlias = null;
+
+    /**
+     * The otp key
+     *
+     * @var    string
+     * @since  5.0.0
+     */
+    public $otpKey = null;
+
+    /**
+     * The otp
+     *
+     * @var    string
+     * @since  5.0.0
+     */
+    public $otep = null;
+
+    /**
+     * The authentication provider
+     *
+     * @var    string
+     * @since  5.0.0
+     */
+    public $authProvider = null;
+
+    /**
      * User parameters
      *
      * @var    Registry
@@ -221,14 +256,6 @@ class User extends CMSObject
     protected static $instances = [];
 
     /**
-     * The access level id
-     *
-     * @var    integer
-     * @since  4.3.0
-     */
-    public $aid = null;
-
-    /**
      * Constructor activating the default information of the language
      *
      * @param   integer  $identifier  The primary key of the user to load (optional).
@@ -247,7 +274,6 @@ class User extends CMSObject
             // Initialise
             $this->id        = 0;
             $this->sendEmail = 0;
-            $this->aid       = 0;
             $this->guest     = 1;
         }
     }
@@ -545,14 +571,14 @@ class User extends CMSObject
      * @note    At 4.0 this method will no longer be static
      * @since   1.7.0
      */
-    public static function getTable($type = null, $prefix = 'JTable')
+    public static function getTable($type = null, $prefix = '\\Joomla\\CMS\\Table\\')
     {
         static $tabletype;
 
         // Set the default tabletype;
         if (!isset($tabletype)) {
             $tabletype['name']   = 'user';
-            $tabletype['prefix'] = 'JTable';
+            $tabletype['prefix'] = '\\Joomla\\CMS\\Table\\';
         }
 
         // Set a custom table type is defined
@@ -818,8 +844,6 @@ class User extends CMSObject
             // Reset to guest user
             $this->guest = 1;
 
-            Log::add(Text::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), Log::WARNING, 'jerror');
-
             return false;
         }
 
@@ -878,7 +902,6 @@ class User extends CMSObject
             // Initialise
             $this->id        = 0;
             $this->sendEmail = 0;
-            $this->aid       = 0;
             $this->guest     = 1;
         }
     }

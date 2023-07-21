@@ -19,7 +19,7 @@ use Joomla\CMS\Table\TableInterface;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -128,7 +128,7 @@ class CMSHelper
 
         foreach ($fields as $field) {
             $fieldName              = $field->Field;
-            $dataObject->$fieldName = $table->get($fieldName);
+            $dataObject->$fieldName = $table->$fieldName ?? null;
         }
 
         return $dataObject;

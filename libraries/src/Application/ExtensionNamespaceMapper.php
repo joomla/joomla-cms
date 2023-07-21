@@ -9,10 +9,8 @@
 
 namespace Joomla\CMS\Application;
 
-use JLoader;
-
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -31,7 +29,7 @@ trait ExtensionNamespaceMapper
      */
     public function createExtensionNamespaceMap()
     {
-        JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
+        \JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
         $extensionPsr4Loader = new \JNamespacePsr4Map();
         $extensionPsr4Loader->load();
     }

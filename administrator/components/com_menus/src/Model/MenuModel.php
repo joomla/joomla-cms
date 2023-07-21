@@ -13,7 +13,7 @@ namespace Joomla\Component\Menus\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
@@ -29,7 +29,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class MenuModel extends FormModel
+class MenuModel extends AdminModel
 {
     /**
      * The prefix to use with controller messages.
@@ -85,7 +85,7 @@ class MenuModel extends FormModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'MenuType', $prefix = '\JTable', $config = [])
+    public function getTable($type = 'MenuType', $prefix = '\\Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
@@ -295,10 +295,10 @@ class MenuModel extends FormModel
      *
      * @since   1.6
      */
-    public function delete($itemIds)
+    public function delete(&$pks)
     {
         // Sanitize the ids.
-        $itemIds = ArrayHelper::toInteger((array) $itemIds);
+        $itemIds = ArrayHelper::toInteger((array) $pks);
 
         // Get a group row instance.
         $table = $this->getTable();

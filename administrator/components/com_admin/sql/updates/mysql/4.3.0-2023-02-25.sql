@@ -1,1 +1,0 @@
-ALTER TABLE `#__banners` MODIFY `clickurl` VARCHAR(2048) NOT NULL DEFAULT '';
