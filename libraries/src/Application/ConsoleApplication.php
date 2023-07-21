@@ -252,8 +252,8 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
         $this->populateHttpHost();
 
         // Import CMS plugin groups to be able to subscribe to events
-        PluginHelper::importPlugin('system');
-        PluginHelper::importPlugin('console');
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        PluginHelper::importPlugin('console', null, true, $this->getDispatcher());
 
         parent::execute();
     }
