@@ -1,12 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <metafile client="installation">
 	<name>German (Switzerland)</name>
-	<version>4.2.9</version>
-	<creationDate>2023-03</creationDate>
+	<version>4.3.2</version>
+	<creationDate>2023-05</creationDate>
 	<author>J!German</author>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
+		<filename>joomla.cli.ini</filename>
 		<filename>joomla.ini</filename>
 	</files>
 	<metadata>

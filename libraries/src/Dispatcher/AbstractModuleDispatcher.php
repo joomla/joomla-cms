@@ -4,7 +4,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Dispatcher;
@@ -62,7 +62,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 
         $displayData = $this->getLayoutData();
 
-        // Abort when display data is false
+        // Stop when display data is false
         if ($displayData === false) {
             return;
         }
@@ -94,7 +94,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
      * Returns the layout data. This function can be overridden by subclasses to add more
      * attributes for the layout.
      *
-     * If false is returned, then it means that the dispatch process should be aborted.
+     * If false is returned, then it means that the dispatch process should be stopped.
      *
      * @return  array|false
      *
