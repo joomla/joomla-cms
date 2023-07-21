@@ -13,6 +13,7 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Access\Exception\AuthenticationFailed;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterApiRouteEvent;
+use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Event\Application\AfterDispatchEvent;
 use Joomla\CMS\Event\Application\BeforeApiRouteEvent;
 use Joomla\CMS\Factory;
@@ -422,11 +423,17 @@ final class ApiApplication extends CMSApplication
         // Set up the params
         $document = Factory::getDocument();
 
+        // Trigger the onAfterInitialiseDocument event.
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        $this->dispatchEvent(
+            'onAfterInitialiseDocument',
+            new AfterInitialiseDocumentEvent('onAfterInitialiseDocument', ['subject' => $this, 'document' => $document])
+        );
+
         $contents = ComponentHelper::renderComponent($component);
         $document->setBuffer($contents, ['type' => 'component']);
 
         // Trigger the onAfterDispatch event.
-        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onAfterDispatch',
             new AfterDispatchEvent('onAfterDispatch', ['subject' => $this])

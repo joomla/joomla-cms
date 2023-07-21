@@ -505,7 +505,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      *
      * @return  void
      * @since   4.2.1
-     * @see     https://github.com/joomla/joomla-cms/issues/38518
+     * @link    https://github.com/joomla/joomla-cms/issues/38518
      */
     protected function populateHttpHost()
     {

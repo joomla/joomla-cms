@@ -14,6 +14,7 @@ use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Application\AfterDispatchEvent;
+use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Event\Application\AfterRouteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -207,11 +208,17 @@ final class SiteApplication extends CMSApplication
             $document->setGenerator('Joomla! - Open Source Content Management');
         }
 
+        // Trigger the onAfterInitialiseDocument event.
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        $this->dispatchEvent(
+            'onAfterInitialiseDocument',
+            new AfterInitialiseDocumentEvent('onAfterInitialiseDocument', ['subject' => $this, 'document' => $document])
+        );
+
         $contents = ComponentHelper::renderComponent($component);
         $document->setBuffer($contents, ['type' => 'component']);
 
         // Trigger the onAfterDispatch event.
-        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
         $this->dispatchEvent(
             'onAfterDispatch',
             new AfterDispatchEvent('onAfterDispatch', ['subject' => $this])

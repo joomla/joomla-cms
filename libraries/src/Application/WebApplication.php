@@ -25,6 +25,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Version;
+use Joomla\Filter\OutputFilter;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 use Psr\Http\Message\ResponseInterface;
@@ -320,6 +321,7 @@ abstract class WebApplication extends AbstractWebApplication
     public function loadLanguage(Language $language = null)
     {
         $this->language = $language ?? Factory::getLanguage();
+        OutputFilter::setLanguage($language);
 
         return $this;
     }

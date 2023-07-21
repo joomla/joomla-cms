@@ -16,7 +16,7 @@ use stdClass;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's onAfterMove event
+ * Event class for \Joomla\CMS\Table\Table onAfterMove event
  *
  * @since  4.0.0
  */
@@ -26,10 +26,10 @@ class AfterMoveEvent extends AbstractEvent
      * Constructor.
      *
      * Mandatory arguments:
-     * subject      JTableInterface The table we are operating on
-     * row          stdClass|null   The primary keys and ordering value for the selection.
-     * delta        int             The direction and magnitude to move the row in the ordering sequence.
-     * where        string          WHERE clause which was used for limiting the selection of rows to compact the ordering values.
+     * subject      \Joomla\CMS\Table\TableInterface The table we are operating on
+     * row          stdClass|null                    The primary keys and ordering value for the selection.
+     * delta        int                              The direction and magnitude to move the row in the ordering sequence.
+     * where        string                           WHERE clause which was used for limiting the selection of rows to compact the ordering values.
      *
      * @param   string  $name       The event name.
      * @param   array   $arguments  The event arguments.
