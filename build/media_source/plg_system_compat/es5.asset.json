@@ -540,6 +540,33 @@
       }
     },
     {
+      "name": "com_joomlaupdate.admin-update-es5",
+      "type": "script",
+      "deprecated": true,
+      "uri": "",
+      "dependencies": [
+        "core",
+        "bootstrap.modal"
+      ],
+      "attributes": {
+        "defer": true,
+        "nomodule": true
+      }
+    },
+    {
+      "name": "com_joomlaupdate.default-es5",
+      "type": "script",
+      "deprecated": true,
+      "uri": "",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true,
+        "nomodule": true
+      }
+    },
+    {
       "name": "com_languages.admin-language-edit-change-flag.es5",
       "type": "script",
       "deprecated": true,
@@ -995,9 +1022,36 @@
       }
     },
     {
+      "name": "plg_system_jooa11y.jooa11y-es5",
+      "type": "script",
+      "deprecated": true,
+      "uri": "",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true,
+        "nomodule": true
+      }
+    },
+    {
       "name": "plg_system_schedulerunner.run-schedule.es5",
       "type": "script",
       "deprecated": true,
+      "uri": "",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "template.atum-es5",
+      "description": "The file containing the javascript for this template.",
+      "deprecated": true,
+      "type": "script",
       "uri": "",
       "dependencies": [
         "core"
