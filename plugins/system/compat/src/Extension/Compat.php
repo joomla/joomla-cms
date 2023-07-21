@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\Compat\Extension;
 
+use Joomla\CMS\Event\Application\AfterInitialiseDocumentEvent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
@@ -42,7 +43,7 @@ final class Compat extends CMSPlugin implements SubscriberInterface
          * might be needed by other plugins
          */
         return [
-            'onAfterInitialise' => ['eventAfterInitialise', Priority::HIGH],
+            'onAfterInitialiseDocument' => ['onAfterInitialiseDocument', Priority::HIGH],
         ];
     }
 
@@ -84,8 +85,18 @@ final class Compat extends CMSPlugin implements SubscriberInterface
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function eventAfterInitialise(Event $event)
+    public function onAfterInitialiseDocument(AfterInitialiseDocumentEvent $event)
     {
-
+        /**
+         * Load the es5 assets stubs, they are needed if an extension
+         * directly use a core es5 asset which has no function in Joomla 5+
+         * and only provides an empty asset to not throw an exception
+         */
+        if ($this->params->get('es5_assets')) {
+            $event->getDocument()
+                ->getWebAssetManager()
+                ->getRegistry()
+                ->addRegistryFile('media/plg_system_compat/es5.asset.json');
+        }
     }
 }

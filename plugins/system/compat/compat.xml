@@ -33,6 +33,18 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+				<field
+					name="es5_assets"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="PLG_COMPAT_FIELD_ES5_ASSETS_LABEL"
+					description="PLG_COMPAT_FIELD_ES5_ASSETS_DESCRIPTION"
+					default="1"
+					filter="integer"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
