@@ -89,7 +89,7 @@ final class Compat extends CMSPlugin implements SubscriberInterface
     {
         /**
          * Load the es5 assets stubs, they are needed if an extension
-         * directly use a core es5 asset which has no function in Joomla 5+
+         * directly uses a core es5 asset which has no function in Joomla 5+
          * and only provides an empty asset to not throw an exception
          */
         if ($this->params->get('es5_assets')) {
