@@ -11,6 +11,7 @@
 namespace Joomla\Plugin\System\Compat\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
@@ -46,6 +47,36 @@ final class Compat extends CMSPlugin implements SubscriberInterface
     }
 
     /**
+     * Constructor
+     *
+     * @param   DispatcherInterface  $dispatcher  The event dispatcher
+     * @param   array                $config      An optional associative array of configuration settings.
+     *                                            Recognized key values include 'name', 'group', 'params', 'language'
+     *                                            (this list is not meant to be comprehensive).
+     *
+     * @since   1.5
+     */
+    public function __construct(DispatcherInterface $dispatcher, array $config = [])
+    {
+        parent::__construct($dispatcher, $config);
+
+        /**
+         * Normally we should never use the constructor to execute any logic which would
+         * affect other parts of the cms, but since we need to load class aliases as
+         * early as possible we load the class aliases in the constructor so system plugins
+         * which depend on the JPlugin alias for example still are working
+         */
+
+        /**
+         * Load class names which are deprecated in joomla 4.0 and which will
+         * likely be removed in Joomla 6.0
+         */
+        if ($this->params->get('classes_aliases')) {
+            require_once dirname(__DIR__) . '/classmap/classmap.php';
+        }
+    }
+
+    /**
      * We run as early as possible, this should be the first event
      *
      * @param Event $event
@@ -55,13 +86,6 @@ final class Compat extends CMSPlugin implements SubscriberInterface
      */
     public function eventAfterInitialise(Event $event)
     {
-        /**
-         * Load class names which are deprecated in joomla 4.0 and which will
-         * likely be removed in Joomla 6.0
-         */
 
-        if ($this->params->get('classes_aliases')) {
-            require_once dirname(__DIR__) . '/classmap/classmap.php';
-        }
     }
 }
