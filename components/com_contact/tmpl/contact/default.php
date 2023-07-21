@@ -23,7 +23,7 @@ $tparams = $this->item->params;
 $canDo   = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
 $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by === $this->getCurrentUser()->id);
 $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
-$htag2   = $tparams->get('show_page_heading') ? 'h3' : 'h2';
+$htag2   = ($tparams->get('show_page_heading') && $tparams->get('show_name')) ? 'h3' : 'h2';
 
 ?>
 
