@@ -343,7 +343,34 @@ class PluginModel extends AdminModel
         // Setup type.
         $data['type'] = 'plugin';
 
-        return parent::save($data);
+        // Make sure onExtensionBeforeSave(), if it exists, gets executed.
+        // Note it is the responsibility of the plugin to only respond to relevent event triggers.
+        // E.G. for system plugins onExtensionBeforeSave() and onExtensionAfterSave() get executed everywhere they exist.
+        $pluginBeingSaved = PluginHelper::importPlugin($data['folder'], $data['element']);
+
+        if ($result = parent::save($data)) {
+
+            if (empty($pluginBeingSaved)) {
+
+                if (!empty($data['enabled'])) {
+                    // Plugin was previously disabled
+                    $plugin = Factory::getApplication()->bootPlugin($data['element'], $data['folder']);
+
+                    // Execute onExtensionAfterSave(), if it exists, for this plugin ONLY.
+	                if (method_exists($plugin, 'onExtensionAfterSave'))
+	                {
+						$table = null;
+						$isNew = false;
+		                $plugin->onExtensionAfterSave('com_plugins.plugin', $table, $isNew, $data);
+	                }
+                }
+            }
+            else {
+                // Nothing to do as onExtensionAfterSave(), if it exists, has already been executed
+            }
+        }
+
+        return $result;
     }
 
     /**
