@@ -1254,10 +1254,6 @@ abstract class AdminModel extends FormModel
                 return false;
             }
 
-            if ($context === 'com_plugins.plugin') {
-                PluginHelper::importPlugin($data['folder'], $data['element']);
-            }
-
             // Trigger the before save event.
             $result = $app->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
 
