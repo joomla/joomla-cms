@@ -1,3 +1,7 @@
+// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
+$prefix: "";
+
+// Disable dark mode in J4.4 - it's going to cause major b/c breaks to introduce. We will enable it in 5.0
 $enable-dark-mode: false;
 
 // Global
