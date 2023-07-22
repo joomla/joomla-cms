@@ -6,19 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_fields.admin-field-changecontext.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_fields.admin-field-changecontext",
       "type": "script",
       "uri": "com_fields/admin-field-changecontext.min.js",
@@ -27,19 +14,6 @@
       ],
       "attributes": {
         "type": "module"
-      }
-    },
-    {
-      "name": "com_fields.admin-field-edit.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
       }
     },
     {
@@ -54,19 +28,6 @@
       }
     },
     {
-      "name": "com_fields.admin-field-typehaschanged.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_fields.admin-field-typehaschanged",
       "type": "script",
       "uri": "com_fields/admin-field-typehaschanged.min.js",
@@ -78,19 +39,6 @@
       }
     },
     {
-      "name": "com_fields.admin-fields-batch.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_fields.admin-fields-batch",
       "type": "script",
       "uri": "com_fields/admin-fields-default-batch.min.js",
@@ -99,19 +47,6 @@
       ],
       "attributes": {
         "type": "module"
-      }
-    },
-    {
-      "name": "com_fields.admin-fields-modal.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
       }
     },
     {
