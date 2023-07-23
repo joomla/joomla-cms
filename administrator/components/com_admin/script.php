@@ -1216,10 +1216,6 @@ class JoomlaInstallerScript
             // From 5.0.0-alpha2 to 5.0.0-alpha3
             '/libraries/classmap.php',
             '/libraries/extensions.classmap.php',
-            '/media/vendor/bootstrap/scss/helpers/_focus-ring.scss',
-            '/media/vendor/bootstrap/scss/helpers/_icon-link.scss',
-            '/media/vendor/bootstrap/scss/mixins/_color-mode.scss',
-            '/media/vendor/bootstrap/scss/_variables-dark.scss',
             '/media/vendor/codemirror/addon/comment/comment.js',
             '/media/vendor/codemirror/addon/comment/comment.min.js',
             '/media/vendor/codemirror/addon/comment/comment.min.js.gz',
