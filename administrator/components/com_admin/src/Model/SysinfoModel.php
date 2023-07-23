@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 
@@ -321,6 +322,7 @@ class SysinfoModel extends BaseDatabaseModel
             'server'                 => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
             'sapi_name'              => PHP_SAPI,
             'version'                => (new Version())->getLongVersion(),
+            'compatpluginenabled'    => PluginHelper::isEnabled('system', 'compat'),
             'useragent'              => $_SERVER['HTTP_USER_AGENT'] ?? '',
         ];
 
