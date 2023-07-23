@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -77,7 +78,7 @@ class FeaturedModel extends ListModel
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return  string    An SQL query
+     * @return  DatabaseQuery    An SQL query
      *
      * @since   1.6
      */

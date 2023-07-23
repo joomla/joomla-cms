@@ -206,7 +206,7 @@ class UpdateModel extends ListModel
      * @param   int            $limitstart  Offset
      * @param   int            $limit       The number of records
      *
-     * @return  array
+     * @return  object[]
      *
      * @since   3.5
      */

@@ -10,14 +10,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Jfcherng\Diff\DiffHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Jfcherng\Diff\DiffHelper;
 
 HTMLHelper::_('behavior.multiselect', 'updateForm');
 HTMLHelper::_('bootstrap.modal');
@@ -149,8 +149,11 @@ if ($this->type == 'font') {
                                 $difference = DiffHelper::calculateFiles(
                                     $this->source->coreFile,
                                     $this->source->filePath,
-                                    ComponentHelper::getParams('com_templates')->get('difference', 'SideByside'),
-                                    ['context' => 1],
+                                    ComponentHelper::getParams('com_templates')->get('difference', 'SideBySide'),
+                                    [
+                                        'context' => 1,
+                                        'ignoreLineEnding' => true,
+                                    ],
                                     [
                                         'language' => [
                                             'old_version' => Text::_('COM_TEMPLATES_DIFF_CORE'),

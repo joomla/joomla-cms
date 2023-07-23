@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use RuntimeException;
 

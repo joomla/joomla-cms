@@ -191,13 +191,10 @@ class TagTable extends Nested implements VersionableTableInterface
         // Verify that the alias is unique
         $table = new static($this->getDbo());
 
-        if (
-            $table->load(['alias' => $this->alias, 'parent_id' => (int) $this->parent_id])
-            && ($table->id != $this->id || $this->id == 0)
-        ) {
-            // Is the existing tag trashed?
+        if ($table->load(['alias' => $this->alias]) && ($table->id != $this->id || $this->id == 0)) {
             $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
 
+            // Is the existing tag trashed?
             if ($table->published === -2) {
                 $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS_TRASHED'));
             }

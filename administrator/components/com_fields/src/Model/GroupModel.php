@@ -240,29 +240,30 @@ class GroupModel extends AdminModel
 
         $parts = FieldsHelper::extract($this->state->get('filter.context'));
 
+        // If we don't have a valid context then return early
+        if (!$parts) {
+            return;
+        }
+
         // Extract the component name
         $component = $parts[0];
 
-        // Extract the optional section name
-        $section = (count($parts) > 1) ? $parts[1] : null;
+        // Extract the section name
+        $section = $parts[1];
 
-        if ($parts) {
-            // Set the access control rules field component value.
-            $form->setFieldAttribute('rules', 'component', $component);
-        }
+        // Set the access control rules field component value.
+        $form->setFieldAttribute('rules', 'component', $component);
 
-        if ($section !== null) {
-            // Looking first in the component models/forms folder
-            $path = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
+        // Looking first in the component models/forms folder
+        $path = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
 
-            if (file_exists($path)) {
-                $lang = Factory::getLanguage();
-                $lang->load($component, JPATH_BASE);
-                $lang->load($component, JPATH_BASE . '/components/' . $component);
+        if (file_exists($path)) {
+            $lang = Factory::getLanguage();
+            $lang->load($component, JPATH_BASE);
+            $lang->load($component, JPATH_BASE . '/components/' . $component);
 
-                if (!$form->loadFile($path, false)) {
-                    throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
-                }
+            if (!$form->loadFile($path, false)) {
+                throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
             }
         }
     }
@@ -363,7 +364,8 @@ class GroupModel extends AdminModel
      * Clean the cache
      *
      * @param   string   $group     The cache group
-     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *

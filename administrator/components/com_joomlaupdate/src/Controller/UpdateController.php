@@ -60,7 +60,7 @@ class UpdateController extends BaseController
         $message     = null;
         $messageType = null;
 
-        // The validation was not successful so abort.
+        // The validation was not successful so stop.
         if ($result['check'] === false) {
             $message     = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
             $messageType = 'error';
@@ -436,7 +436,10 @@ class UpdateController extends BaseController
      * Called from JS.
      *
      * @since       3.10.0
-     * @deprecated  5.0  Use batchextensioncompatibility instead.
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use batchextensioncompatibility instead.
+     *              Example: $updateController->batchextensioncompatibility();
      *
      * @return void
      */

@@ -15,7 +15,6 @@ use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Feed\FeedParser;
 use Joomla\Tests\Unit\UnitTestCase;
 use ReflectionClass;
-use XMLReader;
 
 /**
  * Test class for FeedFactory.

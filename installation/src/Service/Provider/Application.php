@@ -14,7 +14,6 @@ use Joomla\CMS\Error\Renderer\JsonRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Application\CliInstallationApplication;
 use Joomla\CMS\Installation\Application\InstallationApplication;
-use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;

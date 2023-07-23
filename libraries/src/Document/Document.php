@@ -144,7 +144,8 @@ class Document
      * @var    array
      * @since  1.7.0
      *
-     * @deprecated 5.0  Use WebAssetManager
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use WebAssetManager
      */
     public $_scripts = [];
 
@@ -154,7 +155,8 @@ class Document
      * @var    array
      * @since  1.7.0
      *
-     * @deprecated 5.0  Use WebAssetManager
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use WebAssetManager
      */
     public $_script = [];
 
@@ -171,7 +173,8 @@ class Document
      * @var    array
      * @since  1.7.0
      *
-     * @deprecated 5.0  Use WebAssetManager
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use WebAssetManager
      */
     public $_styleSheets = [];
 
@@ -181,7 +184,8 @@ class Document
      * @var    array
      * @since  1.7.0
      *
-     * @deprecated 5.0  Use WebAssetManager
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use WebAssetManager
      */
     public $_style = [];
 
@@ -337,7 +341,10 @@ class Document
      * @return  static  The document object.
      *
      * @since       1.7.0
-     * @deprecated  5.0 Use the \Joomla\CMS\Document\FactoryInterface instead
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the \Joomla\CMS\Document\FactoryInterface instead
+     *              Example: Factory::getApplication()->getDocument();
      */
     public static function getInstance($type = 'html', $attributes = [])
     {
@@ -496,7 +503,9 @@ class Document
      *
      * @since   1.7.0
      *
-     * @deprecated 5.0  Use WebAssetManager
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use WebAssetManager
+     *              Example: $wa->registerAndUseScript(...);
      */
     public function addScript($url, $options = [], $attribs = [])
     {
@@ -521,7 +530,9 @@ class Document
      *
      * @since   1.7.0
      *
-     * @deprecated 5.0  Use WebAssetManager
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use WebAssetManager
+     *              Example: $wa->addInlineScript(...);
      */
     public function addScriptDeclaration($content, $type = 'text/javascript')
     {
@@ -591,7 +602,9 @@ class Document
      *
      * @since   1.7.0
      *
-     * @deprecated 5.0  Use WebAssetManager
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use WebAssetManager
+     *              Example: $wa->registerAndUseStyle(...);
      */
     public function addStyleSheet($url, $options = [], $attribs = [])
     {
@@ -621,7 +634,9 @@ class Document
      *
      * @since   1.7.0
      *
-     * @deprecated 5.0  Use WebAssetManager
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use WebAssetManager
+     *              Example: $wa->addInlineStyle(...);
      */
     public function addStyleDeclaration($content, $type = 'text/css')
     {

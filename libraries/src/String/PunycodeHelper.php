@@ -9,9 +9,9 @@
 
 namespace Joomla\CMS\String;
 
+use Algo26\IdnaConvert\Exception\AlreadyPunycodeException;
 use Algo26\IdnaConvert\ToIdn;
 use Algo26\IdnaConvert\ToUnicode;
-use Algo26\IdnaConvert\Exception\AlreadyPunycodeException;
 use Joomla\Uri\UriHelper;
 
 // phpcs:disable PSR1.Files.SideEffects

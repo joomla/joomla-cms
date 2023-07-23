@@ -62,7 +62,7 @@ class InstallerModel extends ListModel
      * @param   int            $limitstart  Offset
      * @param   int            $limit       The number of records
      *
-     * @return  array
+     * @return  object[]
      */
     protected function _getList($query, $limitstart = 0, $limit = 0)
     {

@@ -47,7 +47,7 @@ abstract class HTMLHelper
      *
      * @var    string[]
      * @since  1.5
-     * @deprecated  5.0
+     * @deprecated  4.0 will be removed in 6.0
      */
     protected static $includePaths = [];
 
@@ -56,7 +56,7 @@ abstract class HTMLHelper
      *
      * @var    callable[]
      * @since  1.6
-     * @deprecated  5.0
+     * @deprecated  4.0 will be removed in 6.0
      */
     protected static $registry = [];
 
@@ -77,7 +77,9 @@ abstract class HTMLHelper
      * @return  array  Contains lowercase key, prefix, file, function.
      *
      * @since       1.6
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the service registry instead
+     *              HTMLHelper::getServiceRegistry()->getService($file);
      */
     protected static function extract($key)
     {
@@ -187,7 +189,9 @@ abstract class HTMLHelper
      * @return  boolean  True if the function is callable
      *
      * @since       1.6
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the service registry instead
+     *              HTMLHelper::getServiceRegistry()->register($key, $function);
      */
     public static function register($key, callable $function)
     {
@@ -211,7 +215,8 @@ abstract class HTMLHelper
      * @return  boolean  True if a set key is unset
      *
      * @since       1.6
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the service registry instead
      */
     public static function unregister($key)
     {
@@ -1073,17 +1078,31 @@ abstract class HTMLHelper
         if ($value && $value !== Factory::getDbo()->getNullDate() && strtotime($value) !== false) {
             $tz = date_default_timezone_get();
             date_default_timezone_set('UTC');
-            $inputvalue = strftime($format, strtotime($value));
+
+            /**
+             * Try to convert strftime format to date format, if success, use DateTimeImmutable to format
+             * the passed datetime to avoid deprecated warnings on PHP 8.1. We only support converting most
+             * common used format here.
+             */
+            $dateFormat = self::strftimeFormatToDateFormat($format);
+
+            if ($dateFormat !== false) {
+                $date       = \DateTimeImmutable::createFromFormat('U', strtotime($value));
+                $inputValue = $date->format($dateFormat);
+            } else {
+                $inputValue = strftime($format, strtotime($value));
+            }
+
             date_default_timezone_set($tz);
         } else {
-            $inputvalue = '';
+            $inputValue = '';
         }
 
         $data = [
             'id'             => $id,
             'name'           => $name,
             'class'          => $class,
-            'value'          => $inputvalue,
+            'value'          => $inputValue,
             'format'         => $format,
             'filter'         => $filter,
             'required'       => $required,
@@ -1123,7 +1142,8 @@ abstract class HTMLHelper
      * @return  array  An array with directory elements
      *
      * @since       1.5
-     * @deprecated  5.0 Use the service registry instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the service registry instead
      */
     public static function addIncludePath($path = '')
     {
@@ -1216,5 +1236,48 @@ abstract class HTMLHelper
         }
 
         return '';
+    }
+
+    /**
+     * Convert most popular strftime format to php date format as strftime is deprecated and we have
+     * to be able to provide same backward compatibility with existing format strings.
+     *
+     * @param   $strftimeformat   string The format compatible with strftime.
+     *
+     * @return  mixed The format compatible with PHP's Date functions if success, false otherwise
+     *
+     * @since   4.2.9
+     */
+    public static function strftimeFormatToDateFormat(string $strftimeformat)
+    {
+        $format = str_replace(
+            [
+                '%Y',
+                '%m',
+                '%d',
+                '%H',
+                '%M',
+                '%S',
+            ],
+            [
+                'Y',
+                'm',
+                'd',
+                'H',
+                'i',
+                's',
+            ],
+            $strftimeformat
+        );
+
+        /**
+         * If there is % character left after replacing, that mean one of unsupported format is used
+         * the conversion false
+         */
+        if (strpos($format, '%') !== false) {
+            return false;
+        }
+
+        return $format;
     }
 }

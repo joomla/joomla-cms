@@ -10,12 +10,10 @@
 
 namespace Joomla\Reports;
 
-use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Files\File;
 
 use function array_keys;
 use function array_merge;
-use function array_values;
 use function file_exists;
 use function file_get_contents;
 use function file_put_contents;
