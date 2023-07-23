@@ -479,7 +479,9 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Make sure the target does not exist.
-        File::delete($target);
+        if (is_file($target)) {
+            File::delete($target);
+        }
 
         // Download the package
         try {
@@ -492,8 +494,11 @@ class UpdateModel extends BaseDatabaseModel
             return false;
         }
 
+        // Fix Indirect Modification of Overloaded Property
+        $body = $result->body;
+
         // Write the file to disk
-        File::write($target, $result->body);
+        File::write($target, $body);
 
         return basename($target);
     }
