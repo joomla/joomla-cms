@@ -46,20 +46,6 @@
       ]
     },
     {
-      "name": "template.atum-es5",
-      "description": "The file containing the javascript for this template.",
-      "deprecated": true,
-      "type": "script",
-      "uri": "",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "template.atum",
       "description": "The file containing the javascript for this template.",
       "type": "script",

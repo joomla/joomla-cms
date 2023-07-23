@@ -384,4 +384,22 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface, L
             $this->setLanguage($application->getLanguage());
         }
     }
+
+    /**
+     * Returns the string for the given key from the internal language object.
+     *
+     * @param   string  $key  The key
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function text(string $key): string
+    {
+        try {
+            return $this->getLanguage()->_($key);
+        } catch (\UnexpectedValueException $e) {
+            return $this->getApplication()->getLanguage()->_($key);
+        }
+    }
 }
