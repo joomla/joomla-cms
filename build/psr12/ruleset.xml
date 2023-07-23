@@ -258,7 +258,6 @@
         <exclude-pattern type="relative">index\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/index\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_joomlaupdate/extract\.php</exclude-pattern>
-        <exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore_finalisation\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/includes/app\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/includes/defines\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/includes/framework\.php</exclude-pattern>

@@ -13,8 +13,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Filesystem\FilesystemHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Plugin\Installer\Package\Extension\PackageInstaller;
 
-/** @var PlgInstallerPackageInstaller $this */
+/** @var PackageInstaller $this */
 
 HTMLHelper::_('form.csrf');
 
@@ -23,7 +24,7 @@ Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
 Text::script('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG');
 
-$this->app->getDocument()->getWebAssetManager()
+$this->getApplication()->getDocument()->getWebAssetManager()
     ->registerAndUseScript(
         'plg_installer_packageinstaller.packageinstaller',
         'plg_installer_packageinstaller/packageinstaller.js',
@@ -32,11 +33,11 @@ $this->app->getDocument()->getWebAssetManager()
         ['core']
     );
 
-$return = $this->app->getInput()->getBase64('return');
+$return = $this->getApplication()->getInput()->getBase64('return');
 $maxSizeBytes = FilesystemHelper::fileUploadMaxSize(false);
 $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
 ?>
-<legend><?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
+<legend><?php echo $this->text('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
 
 <div id="uploader-wrapper">
     <div id="dragarea" data-state="pending">
@@ -56,7 +57,7 @@ $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
                 </div>
                 <p class="lead">
                     <span class="uploading-text">
-                        <?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOADING'); ?>
+                        <?php echo $this->text('PLG_INSTALLER_PACKAGEINSTALLER_UPLOADING'); ?>
                     </span>
                     <span class="uploading-number">0</span><span class="uploading-symbol">%</span>
                 </p>
@@ -67,18 +68,18 @@ $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
                 </div>
                 <p class="lead">
                     <span class="installing-text">
-                        <?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_INSTALLING'); ?>
+                        <?php echo $this->text('PLG_INSTALLER_PACKAGEINSTALLER_INSTALLING'); ?>
                     </span>
                 </p>
             </div>
             <div class="upload-actions">
                 <p class="lead">
-                    <?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_DRAG_FILE_HERE'); ?>
+                    <?php echo $this->text('PLG_INSTALLER_PACKAGEINSTALLER_DRAG_FILE_HERE'); ?>
                 </p>
                 <p>
                     <button id="select-file-button" type="button" class="btn btn-success">
                         <span class="icon-copy" aria-hidden="true"></span>
-                        <?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_SELECT_FILE'); ?>
+                        <?php echo $this->text('PLG_INSTALLER_PACKAGEINSTALLER_SELECT_FILE'); ?>
                     </button>
                 </p>
                 <p>
@@ -91,7 +92,7 @@ $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
 
 <div id="legacy-uploader" class="hidden">
     <div class="control-group">
-        <label for="install_package" class="control-label"><?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
+        <label for="install_package" class="control-label"><?php echo $this->text('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
         <div class="controls">
             <input class="form-control-file" id="install_package" name="install_package" type="file">
             <input id="max_upload_size" name="max_upload_size" type="hidden" value="<?php echo $maxSizeBytes; ?>" />
@@ -100,7 +101,7 @@ $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
     </div>
     <div class="form-actions">
         <button class="btn btn-primary" type="button" id="installbutton_package">
-            <?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_AND_INSTALL'); ?>
+            <?php echo $this->text('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_AND_INSTALL'); ?>
         </button>
     </div>
 

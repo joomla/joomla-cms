@@ -62,7 +62,7 @@ class InstallerModel extends ListModel
      * @param   int            $limitstart  Offset
      * @param   int            $limit       The number of records
      *
-     * @return  array
+     * @return  object[]
      */
     protected function _getList($query, $limitstart = 0, $limit = 0)
     {
@@ -142,7 +142,7 @@ class InstallerModel extends ListModel
      *
      * @param   array  $items  The array of objects
      *
-     * @return  array The array of translated objects
+     * @return  void
      */
     protected function translate(&$items)
     {

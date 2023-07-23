@@ -15,8 +15,8 @@
  * default configuration. Command line arguments will be applied
  * after this file is read.
  *
- * @see https://github.com/phan/phan/wiki/Phan-Config-Settings for all configurable options
- * @see https://github.com/phan/phan/tree/v4/src/Phan/Config.php
+ * @link https://github.com/phan/phan/wiki/Phan-Config-Settings for all configurable options
+ * @link https://github.com/phan/phan/tree/v4/src/Phan/Config.php
  *
  * A Note About Paths
  * ==================

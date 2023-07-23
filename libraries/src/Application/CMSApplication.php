@@ -12,15 +12,20 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\SessionAwareWebApplicationTrait;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\Application\AfterCompressEvent;
+use Joomla\CMS\Event\Application\AfterInitialiseEvent;
+use Joomla\CMS\Event\Application\AfterRenderEvent;
+use Joomla\CMS\Event\Application\AfterRespondEvent;
+use Joomla\CMS\Event\Application\AfterRouteEvent;
+use Joomla\CMS\Event\Application\BeforeRenderEvent;
+use Joomla\CMS\Event\Application\BeforeRespondEvent;
 use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
-use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Menu\AbstractMenu;
@@ -40,7 +45,7 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -155,16 +160,16 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     /**
      * Class constructor.
      *
-     * @param   Input      $input      An optional argument to provide dependency injection for the application's input
-     *                                 object.  If the argument is a JInput object that object will become the
-     *                                 application's input object, otherwise a default input object is created.
-     * @param   Registry   $config     An optional argument to provide dependency injection for the application's config
-     *                                 object.  If the argument is a Registry object that object will become the
-     *                                 application's config object, otherwise a default config object is created.
-     * @param   WebClient  $client     An optional argument to provide dependency injection for the application's client
-     *                                 object.  If the argument is a WebClient object that object will become the
-     *                                 application's client object, otherwise a default client object is created.
-     * @param   Container  $container  Dependency injection container.
+     * @param   ?Input      $input      An optional argument to provide dependency injection for the application's input
+     *                                  object.  If the argument is a JInput object that object will become the
+     *                                  application's input object, otherwise a default input object is created.
+     * @param   ?Registry   $config     An optional argument to provide dependency injection for the application's config
+     *                                  object.  If the argument is a Registry object that object will become the
+     *                                  application's config object, otherwise a default config object is created.
+     * @param   ?WebClient  $client     An optional argument to provide dependency injection for the application's client
+     *                                  object.  If the argument is a WebClient object that object will become the
+     *                                  application's client object, otherwise a default client object is created.
+     * @param   ?Container  $container  Dependency injection container.
      *
      * @since   3.2
      */
@@ -270,7 +275,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $input->set($systemVariable, null);
         }
 
-        // Abort when there are invalid variables
+        // Stop when there are invalid variables
         if ($invalidInputVariables) {
             throw new \RuntimeException('Invalid input, aborting application.');
         }
@@ -304,33 +309,40 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 $this->compress();
 
                 // Trigger the onAfterCompress event.
-                $this->triggerEvent('onAfterCompress');
+                $this->dispatchEvent(
+                    'onAfterCompress',
+                    new AfterCompressEvent('onAfterCompress', ['subject' => $this])
+                );
             }
         } catch (\Throwable $throwable) {
-            /** @var ErrorEvent $event */
-            $event = AbstractEvent::create(
+            $event = new ErrorEvent(
                 'onError',
                 [
                     'subject'     => $throwable,
-                    'eventClass'  => ErrorEvent::class,
                     'application' => $this,
                 ]
             );
 
             // Trigger the onError event.
-            $this->triggerEvent('onError', $event);
+            $this->dispatchEvent('onError', $event);
 
             ExceptionHandler::handleException($event->getError());
         }
 
         // Trigger the onBeforeRespond event.
-        $this->getDispatcher()->dispatch('onBeforeRespond');
+        $this->dispatchEvent(
+            'onBeforeRespond',
+            new BeforeRespondEvent('onBeforeRespond', ['subject' => $this])
+        );
 
         // Send the application response.
         $this->respond();
 
         // Trigger the onAfterRespond event.
-        $this->getDispatcher()->dispatch('onAfterRespond');
+        $this->dispatchEvent(
+            'onAfterRespond',
+            new AfterRespondEvent('onAfterRespond', ['subject' => $this])
+        );
     }
 
     /**
@@ -417,7 +429,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @return  mixed  The user state.
      *
      * @since   3.2
-     * @deprecated  5.0  Use get() instead
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use get() instead
+     *              Example: Factory::getApplication()->get($varname, $default);
      */
     public function getCfg($varname, $default = null)
     {
@@ -451,15 +466,17 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * This method must be invoked as: $web = CmsApplication::getInstance();
      *
-     * @param   string     $name       The name (optional) of the CmsApplication class to instantiate.
-     * @param   string     $prefix     The class name prefix of the object.
-     * @param   Container  $container  An optional dependency injection container to inject into the application.
+     * @param   string      $name       The name (optional) of the CmsApplication class to instantiate.
+     * @param   string      $prefix     The class name prefix of the object.
+     * @param   ?Container  $container  An optional dependency injection container to inject into the application.
      *
      * @return  CmsApplication
      *
      * @since       3.2
      * @throws      \RuntimeException
-     * @deprecated  5.0 Use \Joomla\CMS\Factory::getContainer()->get($name) instead
+     * @deprecated  4.0 will be removed in 6.0
+     *              Use the application service from the DI container instead
+     *              Example: Factory::getContainer()->get($name);
      */
     public static function getInstance($name = null, $prefix = '\JApplication', Container $container = null)
     {
@@ -601,7 +618,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since      3.2
      *
-     * @deprecated 5.0 Inject the router or load it from the dependency injection container
+     * @deprecated  4.3 will be removed in 6.0
+     *              Inject the router or load it from the dependency injection container
+     *              Example: Factory::getContainer()->get($name);
      */
     public static function getRouter($name = null, array $options = [])
     {
@@ -706,7 +725,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         // Build our language object
-        $lang = Language::getInstance($this->get('language'), $this->get('debug_lang'));
+        $lang = $this->getContainer()->get(LanguageFactoryInterface::class)->createLanguage($this->get('language'), $this->get('debug_lang'));
 
         // Load the language to the API
         $this->loadLanguage($lang);
@@ -732,11 +751,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $this->set('editor', $editor);
 
         // Load the behaviour plugins
-        PluginHelper::importPlugin('behaviour');
+        PluginHelper::importPlugin('behaviour', null, true, $this->getDispatcher());
 
         // Trigger the onAfterInitialise event.
-        PluginHelper::importPlugin('system');
-        $this->triggerEvent('onAfterInitialise');
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        $this->dispatchEvent(
+            'onAfterInitialise',
+            new AfterInitialiseEvent('onAfterInitialise', ['subject' => $this])
+        );
     }
 
     /**
@@ -816,7 +838,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $response     = $authenticate->authenticate($credentials, $options);
 
         // Import the user plugin group.
-        PluginHelper::importPlugin('user');
+        PluginHelper::importPlugin('user', null, true, $this->getDispatcher());
 
         if ($response->status === Authentication::STATUS_SUCCESS) {
             /*
@@ -933,7 +955,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         // Import the user plugin group.
-        PluginHelper::importPlugin('user');
+        PluginHelper::importPlugin('user', null, true, $this->getDispatcher());
 
         // OK, the credentials are built. Lets fire the onLogout event.
         $results = $this->triggerEvent('onUserLogout', [$parameters, $options]);
@@ -1006,8 +1028,11 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $this->document->parse($this->docOptions);
 
         // Trigger the onBeforeRender event.
-        PluginHelper::importPlugin('system');
-        $this->triggerEvent('onBeforeRender');
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        $this->dispatchEvent(
+            'onBeforeRender',
+            new BeforeRenderEvent('onBeforeRender', ['subject' => $this])
+        );
 
         $caching = false;
 
@@ -1022,7 +1047,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $this->setBody($data);
 
         // Trigger the onAfterRender event.
-        $this->triggerEvent('onAfterRender');
+        $this->dispatchEvent(
+            'onAfterRender',
+            new AfterRenderEvent('onAfterRender', ['subject' => $this])
+        );
 
         // Mark afterRender in the profiler.
         JDEBUG ? $this->profiler->mark('afterRender') : null;
@@ -1040,7 +1068,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since      3.2
      *
-     * @deprecated 5.0 Implement the route functionality in the extending class, this here will be removed without replacement
+     * @deprecated  4.0 will be removed in 6.0
+     *              Implement the route functionality in the extending class, this here will be removed without replacement
      */
     protected function route()
     {
@@ -1091,8 +1120,11 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         }
 
         // Trigger the onAfterRoute event.
-        PluginHelper::importPlugin('system');
-        $this->triggerEvent('onAfterRoute');
+        PluginHelper::importPlugin('system', null, true, $this->getDispatcher());
+        $this->dispatchEvent(
+            'onAfterRoute',
+            new AfterRouteEvent('onAfterRoute', ['subject' => $this])
+        );
     }
 
     /**
@@ -1101,7 +1133,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @param   string  $key    The path of the state.
      * @param   mixed   $value  The value of the variable.
      *
-     * @return  mixed|void  The previous state, if one existed.
+     * @return  mixed  The previous state, if one existed. Null otherwise.
      *
      * @since   3.2
      */
@@ -1113,6 +1145,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         if ($registry !== null) {
             return $registry->set($key, $value);
         }
+
+        return null;
     }
 
     /**
@@ -1184,7 +1218,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @return  boolean
      *
      * @since       4.0.0
-     * @deprecated  5.0  Will be removed without replacements
+     *
+     * @deprecated  4.0 will be removed in 6.0
+     *              Will be removed without replacements
      */
     public function isCli()
     {
@@ -1199,7 +1235,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @since   4.0.0
      *
      * @throws \Exception
-     * @deprecated 4.2.0  Will be removed in 5.0 without replacement.
+     *
+     * @deprecated  4.2 will be removed in 6.0
+     *              Will be removed without replacements
      */
     protected function isTwoFactorAuthenticationRequired(): bool
     {
@@ -1214,7 +1252,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @since   4.0.0
      *
      * @throws \Exception
-     * @deprecated 4.2.0  Will be removed in 5.0 without replacement.
+     *
+     * @deprecated  4.2 will be removed in 6.0
+     *              Will be removed without replacements
      */
     private function hasUserConfiguredTwoFactorAuthentication(): bool
     {

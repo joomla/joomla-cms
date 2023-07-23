@@ -13,15 +13,13 @@ use Joomla\CMS\Factory;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Extension Helper class.
  *
  * @since       3.7.4
- *
- * @deprecated  4.0  Replace class with a non static methods for better testing
  */
 class ExtensionHelper
 {
@@ -68,6 +66,7 @@ class ExtensionHelper
         ['component', 'com_cpanel', '', 1],
         ['component', 'com_fields', '', 1],
         ['component', 'com_finder', '', 1],
+        ['component', 'com_guidedtours', '', 1],
         ['component', 'com_installer', '', 1],
         ['component', 'com_joomlaupdate', '', 1],
         ['component', 'com_languages', '', 1],
@@ -109,6 +108,7 @@ class ExtensionHelper
         ['module', 'mod_custom', '', 1],
         ['module', 'mod_feed', '', 1],
         ['module', 'mod_frontend', '', 1],
+        ['module', 'mod_guidedtours', '', 1],
         ['module', 'mod_latest', '', 1],
         ['module', 'mod_latestactions', '', 1],
         ['module', 'mod_logged', '', 1],
@@ -274,6 +274,7 @@ class ExtensionHelper
         ['plugin', 'overridecheck', 'quickicon', 0],
         ['plugin', 'phpversioncheck', 'quickicon', 0],
         ['plugin', 'privacycheck', 'quickicon', 0],
+        ['plugin', 'eos', 'quickicon', 0],
 
         // Core plugin extensions - sample data
         ['plugin', 'blog', 'sampledata', 0],
@@ -283,8 +284,10 @@ class ExtensionHelper
         ['plugin', 'accessibility', 'system', 0],
         ['plugin', 'actionlogs', 'system', 0],
         ['plugin', 'cache', 'system', 0],
+        ['plugin', 'compat', 'system', 0],
         ['plugin', 'debug', 'system', 0],
         ['plugin', 'fields', 'system', 0],
+        ['plugin', 'guidedtours', 'system', 0],
         ['plugin', 'highlight', 'system', 0],
         ['plugin', 'httpheaders', 'system', 0],
         ['plugin', 'jooa11y', 'system', 0],
@@ -308,7 +311,6 @@ class ExtensionHelper
 
         // Core plugin extensions - task scheduler
         ['plugin', 'checkfiles', 'task', 0],
-        ['plugin', 'demotasks', 'task', 0],
         ['plugin', 'requests', 'task', 0],
         ['plugin', 'sitestatus', 'task', 0],
 

@@ -11,7 +11,8 @@
 	<description>MOD_FOOTER_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Footer</namespace>
 	<files>
-		<filename module="mod_footer">mod_footer.php</filename>
+		<folder module="mod_footer">services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

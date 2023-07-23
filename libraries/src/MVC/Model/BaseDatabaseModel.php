@@ -24,7 +24,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
-use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\DatabaseQuery;
@@ -36,7 +35,7 @@ use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
-\defined('JPATH_PLATFORM') or die;
+\defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
@@ -50,8 +49,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
     DatabaseModelInterface,
     DispatcherAwareInterface,
     CurrentUserInterface,
-    CacheControllerFactoryAwareInterface,
-    DatabaseAwareInterface
+    CacheControllerFactoryAwareInterface
 {
     use DatabaseAwareTrait;
     use MVCFactoryAwareTrait;
@@ -78,8 +76,8 @@ abstract class BaseDatabaseModel extends BaseModel implements
     /**
      * Constructor
      *
-     * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   array                 $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   ?MVCFactoryInterface  $factory  The factory.
      *
      * @since   3.0
      * @throws  \Exception
@@ -100,13 +98,14 @@ abstract class BaseDatabaseModel extends BaseModel implements
         }
 
         /**
-         * @deprecated 5.0 Database instance is injected through the setter function,
-         *                 subclasses should not use the db instance in constructor anymore
+         * @deprecated  4.3 will be Removed in 6.0
+         *              Database instance is injected through the setter function,
+         *              subclasses should not use the db instance in constructor anymore
          */
         $db = \array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo();
 
         if ($db) {
-            @trigger_error(sprintf('Database is not available in constructor in 5.0.'), E_USER_DEPRECATED);
+            @trigger_error(sprintf('Database is not available in constructor in 6.0.'), E_USER_DEPRECATED);
             $this->setDatabase($db);
 
             // Is needed, when models use the deprecated MVC DatabaseAwareTrait, as the trait is overriding the local functions
@@ -144,9 +143,9 @@ abstract class BaseDatabaseModel extends BaseModel implements
     /**
      * Gets an array of objects from the results of database query.
      *
-     * @param   string   $query       The query.
-     * @param   integer  $limitstart  Offset.
-     * @param   integer  $limit       The number of records.
+     * @param   DatabaseQuery|string   $query       The query.
+     * @param   integer                $limitstart  Offset.
+     * @param   integer                $limit       The number of records.
      *
      * @return  object[]  An array of results.
      *
@@ -156,13 +155,13 @@ abstract class BaseDatabaseModel extends BaseModel implements
     protected function _getList($query, $limitstart = 0, $limit = 0)
     {
         if (\is_string($query)) {
-            $query = $this->getDbo()->getQuery(true)->setQuery($query);
+            $query = $this->getDatabase()->getQuery(true)->setQuery($query);
         }
 
         $query->setLimit($limit, $limitstart);
-        $this->getDbo()->setQuery($query);
+        $this->getDatabase()->setQuery($query);
 
-        return $this->getDbo()->loadObjectList();
+        return $this->getDatabase()->loadObjectList();
     }
 
     /**
@@ -193,9 +192,9 @@ abstract class BaseDatabaseModel extends BaseModel implements
             $query = clone $query;
             $query->clear('select')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
 
-            $this->getDbo()->setQuery($query);
+            $this->getDatabase()->setQuery($query);
 
-            return (int) $this->getDbo()->loadResult();
+            return (int) $this->getDatabase()->loadResult();
         }
 
         // Otherwise fall back to inefficient way of counting all results.
@@ -206,10 +205,10 @@ abstract class BaseDatabaseModel extends BaseModel implements
             $query->clear('limit')->clear('offset')->clear('order');
         }
 
-        $this->getDbo()->setQuery($query);
-        $this->getDbo()->execute();
+        $this->getDatabase()->setQuery($query);
+        $this->getDatabase()->execute();
 
-        return (int) $this->getDbo()->getNumRows();
+        return (int) $this->getDatabase()->getNumRows();
     }
 
     /**
@@ -222,13 +221,13 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @return  Table|boolean  Table object or boolean false if failed
      *
      * @since   3.0
-     * @see     \JTable::getInstance()
+     * @see     Table::getInstance()
      */
     protected function _createTable($name, $prefix = 'Table', $config = [])
     {
         // Make sure we are returning a DBO object
         if (!\array_key_exists('dbo', $config)) {
-            $config['dbo'] = $this->getDbo();
+            $config['dbo'] = $this->getDatabase();
         }
 
         $table = $this->getMVCFactory()->createTable($name, $prefix, $config);
@@ -360,7 +359,9 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since   4.2.0
      * @throws  \UnexpectedValueException
      *
-     * @deprecated  5.0 Use getDatabase() instead
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use getDatabase() instead
+     *              Example: $model->getDatabase();
      */
     public function getDbo()
     {
@@ -374,13 +375,15 @@ abstract class BaseDatabaseModel extends BaseModel implements
     /**
      * Set the database driver.
      *
-     * @param   DatabaseInterface  $db  The database driver.
+     * @param   ?DatabaseInterface  $db  The database driver.
      *
      * @return  void
      *
      * @since   4.2.0
      *
-     * @deprecated  5.0 Use setDatabase() instead
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use setDatabase() instead
+     *              Example: $model->setDatabase($db);
      */
     public function setDbo(DatabaseInterface $db = null)
     {
@@ -400,12 +403,13 @@ abstract class BaseDatabaseModel extends BaseModel implements
      *
      * @since   4.2.0
      *
-     * @deprecated  5.0 Use getDatabase() instead of directly accessing _db
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use getDatabase() instead of directly accessing _db
      */
     public function __get($name)
     {
         if ($name === '_db') {
-            return $this->getDbo();
+            return $this->getDatabase();
         }
 
         // Default the variable
