@@ -344,9 +344,9 @@ class IndexerController extends BaseController
         try {
             // Import the finder plugins.
             class_alias(DebugAdapter::class, Adapter::class);
-            $plugin = Factory::getApplication()->bootPlugin($this->app->input->get('plugin'), 'finder');
+            $plugin = Factory::getApplication()->bootPlugin($this->app->getInput()->get('plugin'), 'finder');
             $plugin->setIndexer(new DebugIndexer());
-            $plugin->debug($this->app->input->get('id'));
+            $plugin->debug($this->app->getInput()->get('id'));
 
             $output = '';
 
