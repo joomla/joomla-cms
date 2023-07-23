@@ -125,7 +125,7 @@ use Joomla\CMS\Language\Text;
                     <?php echo Text::_('COM_ADMIN_JOOMLA_COMPAT_PLUGIN'); ?>
                 </th>
                 <td>
-                    <?php echo $this->info['compatpluginenabled'] ? Text::_('JENABLED') : Text::_('JDISABLED'); ?>
+                    <?php echo $this->info['compatpluginenabled'] ? Text::_('JENABLED') . ' (' . $this->info['compatpluginparameters'] . ')' : Text::_('JDISABLED'); ?>
                 </td>
             </tr>
             <tr>

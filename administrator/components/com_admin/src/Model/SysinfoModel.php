@@ -11,6 +11,7 @@
 namespace Joomla\Component\Admin\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -18,6 +19,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -323,10 +325,24 @@ class SysinfoModel extends BaseDatabaseModel
             'sapi_name'              => PHP_SAPI,
             'version'                => (new Version())->getLongVersion(),
             'compatpluginenabled'    => PluginHelper::isEnabled('system', 'compat'),
+            'compatpluginparameters' => $this->getCompatPluginParameters(),
             'useragent'              => $_SERVER['HTTP_USER_AGENT'] ?? '',
         ];
 
         return $this->info;
+    }
+
+    private function getCompatPluginParameters()
+    {
+        $record = ExtensionHelper::getExtensionRecord('compat', 'plugin', 0, 'system');
+
+        if ($record) {
+            $params = new Registry($record->params);
+
+            return ArrayHelper::toString($params->toArray(),':',', ');
+        }
+
+        return '';
     }
 
     /**
