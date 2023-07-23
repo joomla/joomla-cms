@@ -26,7 +26,7 @@ class RedirectStatusField extends PredefinedlistField
      * @var    string
      * @since  3.8.0
      */
-    public $type = 'Redirect_Status';
+    public $type = 'RedirectStatus';
 
     /**
      * Available statuses
