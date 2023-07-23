@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Application;
 
+use Joomla\CMS\Event\Application\AfterExecuteEvent;
+use Joomla\CMS\Event\Application\BeforeExecuteEvent;
+use Joomla\CMS\Event\Application\DeamonForkEvent;
+use Joomla\CMS\Event\Application\DeamonReceiveSignalEvent;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Log\Log;
@@ -163,7 +167,13 @@ abstract class DaemonApplication extends CliApplication
         }
 
         // Fire the onReceiveSignal event.
-        static::$instance->triggerEvent('onReceiveSignal', [$signal]);
+        static::$instance->getDispatcher()->dispatch(
+            'onReceiveSignal',
+            new DeamonReceiveSignalEvent('onReceiveSignal', [
+                'signal'  => $signal,
+                'subject' => static::$instance,
+            ])
+        );
 
         switch ($signal) {
             case SIGINT:
@@ -345,7 +355,10 @@ abstract class DaemonApplication extends CliApplication
     public function execute()
     {
         // Trigger the onBeforeExecute event
-        $this->triggerEvent('onBeforeExecute');
+        $this->dispatchEvent(
+            'onBeforeExecute',
+            new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
+        );
 
         // Enable basic garbage collection.
         gc_enable();
@@ -375,7 +388,10 @@ abstract class DaemonApplication extends CliApplication
         }
 
         // Trigger the onAfterExecute event.
-        $this->triggerEvent('onAfterExecute');
+        $this->dispatchEvent(
+            'onAfterExecute',
+            new AfterExecuteEvent('onAfterExecute', ['subject' => $this])
+        );
     }
 
     /**
@@ -768,7 +784,10 @@ abstract class DaemonApplication extends CliApplication
     protected function postFork()
     {
         // Trigger the onFork event.
-        $this->triggerEvent('onFork');
+        $this->dispatchEvent(
+            'onFork',
+            new DeamonForkEvent('onFork', ['subject' => $this])
+        );
     }
 
     /**

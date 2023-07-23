@@ -16,20 +16,6 @@
       "attributes": {
         "type": "module"
       }
-    },
-    {
-      "name": "plg_multifactorauth_totp.setup.es5",
-      "type": "script",
-      "deprecated": true,
-      "uri": "",
-      "dependencies": [
-        "qrcode",
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
     }
   ]
 }
