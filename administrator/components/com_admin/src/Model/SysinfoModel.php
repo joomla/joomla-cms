@@ -339,7 +339,7 @@ class SysinfoModel extends BaseDatabaseModel
         if ($record) {
             $params = new Registry($record->params);
 
-            return ArrayHelper::toString($params->toArray(),':',', ');
+            return ArrayHelper::toString($params->toArray(), ':',', ');
         }
 
         return '';
