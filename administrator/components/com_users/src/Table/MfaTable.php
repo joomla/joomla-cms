@@ -43,6 +43,8 @@ use Throwable;
  * @property array  $options     Configuration options for the MFA Method.
  * @property string $created_on  Date and time the record was created.
  * @property string $last_used   Date and time the record was last used successfully.
+ * @property int    $tries       Counter for unsuccessful tries
+ * @property string $last_try    Date and time of the last unsuccessful try
  *
  * @since 4.2.0
  */
