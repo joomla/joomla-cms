@@ -12,6 +12,8 @@ namespace Joomla\Component\Finder\Administrator\View\Item;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
@@ -78,7 +80,16 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
+        $toolbar = Toolbar::getInstance('toolbar');
+
         ToolbarHelper::title(Text::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'search-plus finder');
-        ToolbarHelper::back('JTOOLBAR_BACK', 'index.php?option=com_finder&view=index');
+
+        $arrow = $this->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+
+        $toolbar->link(
+            'JTOOLBAR_BACK',
+            Route::_('index.php?option=com_finder&view=index'),
+        )
+            ->icon('icon-' . $arrow);
     }
 }
