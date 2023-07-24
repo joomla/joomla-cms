@@ -118,8 +118,11 @@ abstract class InstallerHelper
             $target = $tmpPath . '/' . basename($target);
         }
 
+        // Fix Indirect Modification of Overloaded Property
+        $body = $response->body;
+
         // Write buffer to file
-        File::write($target, $response->body);
+        File::write($target, $body);
 
         // Restore error tracking to what it was before
         ini_set('track_errors', $track_errors);
