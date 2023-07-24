@@ -1135,7 +1135,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onUserAfterResetRequest($user)
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -1168,7 +1168,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onUserAfterResetComplete($user)
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
