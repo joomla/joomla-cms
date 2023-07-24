@@ -56,6 +56,7 @@ $cyan:                                hsl(207, 49%, 37%) !default;
 
 $colors: (
   "blue":                             $blue,
+  "black":                            $black,
   "indigo":                           $indigo,
   "purple":                           $purple,
   "pink":                             $pink,
@@ -203,7 +204,7 @@ $form-select-multiple-padding-y:    .3rem !default;
 
 $form-range-thumb-active-bg:        tint-color($standard-color-primary, 70%) !default;
 
-// Z-index master list
+// Z-index source list
 $zindex-negative:                     -1 !default;
 $zindex-actions:                      auto !default;
 $zindex-toolbar:                      1000 !default;
@@ -265,6 +266,7 @@ $state-danger-bg:                     $danger !default;
 $state-danger-border:                 scale-color($danger, $lightness: -5%) !default;
 
 // Mark element
+$mark-padding: .1875em 0;
 $mark-bg: #fbeea8 !default;
 
 // scss-docs-start border-radius-variables

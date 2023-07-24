@@ -161,7 +161,10 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
         $data['script']        = $this->_script;
         $data['custom']        = $this->_custom;
 
-        // @deprecated 5.0  This property is for backwards compatibility. Pass text through script options in the future
+        /**
+         * @deprecated  4.0 will be removed in 6.0
+         *              This property is for backwards compatibility. Pass text through script options in the future
+         */
         $data['scriptText']    = Text::getScriptStrings();
 
         $data['scriptOptions'] = $this->scriptOptions;
@@ -446,7 +449,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      *
      * @since   1.7.0
      */
-    public function addFavicon($href, $type = 'image/vnd.microsoft.icon', $relation = 'shortcut icon')
+    public function addFavicon($href, $type = 'image/vnd.microsoft.icon', $relation = 'icon')
     {
         $href = str_replace('\\', '/', $href);
         $this->addHeadLink($href, $relation, 'rel', ['type' => $type]);
@@ -587,7 +590,11 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
             $options['title'] = $args[3] ?? null;
         }
 
-        parent::$_buffer[$options['type']][$options['name']][$options['title']] = $content;
+        $type  = $options['type'] ?? '';
+        $name  = $options['name'] ?? '';
+        $title = $options['title'] ?? '';
+
+        parent::$_buffer[$type][$name][$title] = $content;
 
         return $this;
     }

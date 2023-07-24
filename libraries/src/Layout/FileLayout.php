@@ -21,7 +21,7 @@ use Joomla\CMS\Version;
 
 /**
  * Base class for rendering a display layout
- * loaded from from a layout file
+ * loaded from a layout file
  *
  * @link   https://docs.joomla.org/Special:MyLanguage/Sharing_layouts_across_views_or_extensions_with_JLayout
  * @since  3.0
@@ -421,11 +421,11 @@ class FileLayout extends BaseLayout
     }
 
     /**
-     * Method to change the component where search for layouts
+     * Change the component for the search paths for layouts
      *
      * @param   string  $option  URL Option of the component. Example: com_content
      *
-     * @return  mixed  Component option string | null for none
+     * @return  void
      *
      * @since   3.2
      */

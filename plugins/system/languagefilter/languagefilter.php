@@ -11,7 +11,6 @@
  */
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
@@ -450,7 +449,6 @@ class PlgSystemLanguageFilter extends CMSPlugin
         }
 
         // We have found our language and now need to set the cookie and the language value in our system
-        $array              = ['lang' => $lang_code];
         $this->current_lang = $lang_code;
 
         // Set the request var.
@@ -482,8 +480,6 @@ class PlgSystemLanguageFilter extends CMSPlugin
         if ($this->getLanguageCookie() !== $lang_code) {
             $this->setLanguageCookie($lang_code);
         }
-
-        return $array;
     }
 
     /**
@@ -575,7 +571,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
      * @param   array  $user     Holds the user data.
      * @param   array  $options  Array holding options (remember, autoregister, group).
      *
-     * @return  boolean  True on success.
+     * @return  null
      *
      * @since   1.5
      */
@@ -807,11 +803,13 @@ class PlgSystemLanguageFilter extends CMSPlugin
             $this->app->getInput()->cookie->set(
                 ApplicationHelper::getHash('language'),
                 $languageCode,
-                time() + 365 * 86400,
-                $this->app->get('cookie_path', '/'),
-                $this->app->get('cookie_domain', ''),
-                $this->app->isHttpsForced(),
-                true
+                [
+                    'expires'  => time() + 365 * 86400,
+                    'path'     => $this->app->get('cookie_path', '/'),
+                    'domain'   => $this->app->get('cookie_domain', ''),
+                    'secure'   => $this->app->isHttpsForced(),
+                    'httponly' => true,
+                ]
             );
         } else {
             // If not, set the user language in the session (that is already saved in a cookie).

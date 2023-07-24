@@ -130,7 +130,7 @@ class Language
     /**
      * Name of the transliterator function for this language.
      *
-     * @var    string
+     * @var    callable
      * @since  1.7.0
      */
     protected $transliterator = null;
@@ -282,7 +282,10 @@ class Language
      * @return  Language  The Language object.
      *
      * @since       1.7.0
-     * @deprecated  5.0 Use the language factory instead
+     *
+     * @deprecated  4.3 will be removed in 6.0
+     *              Use the language factory instead
+     *              Example: Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($lang, $debug);
      */
     public static function getInstance($lang, $debug = false)
     {
@@ -907,17 +910,17 @@ class Language
 
         while ($continue && next($backtrace)) {
             $step  = current($backtrace);
-            $class = @ $step['class'];
+            $class = @$step['class'];
 
             // We're looking for something outside of language.php
             if ($class != self::class && $class != Text::class) {
-                $info['function'] = @ $step['function'];
+                $info['function'] = @$step['function'];
                 $info['class']    = $class;
                 $info['step']     = prev($backtrace);
 
                 // Determine the file and name of the file
-                $info['file'] = @ $step['file'];
-                $info['line'] = @ $step['line'];
+                $info['file'] = @$step['file'];
+                $info['line'] = @$step['line'];
 
                 $continue = false;
             }

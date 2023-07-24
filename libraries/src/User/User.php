@@ -260,7 +260,9 @@ class User extends CMSObject
      * @return  User  The User object.
      *
      * @since       1.7.0
-     * @deprecated  5.0  Load the user service from the dependency injection container or via $app->getIdentity()
+     * @deprecated  4.3 will be removed in 6.0
+     *              Load the user service from the dependency injection container or via $app->getIdentity()
+     *              Example: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($id)
      */
     public static function getInstance($identifier = 0)
     {

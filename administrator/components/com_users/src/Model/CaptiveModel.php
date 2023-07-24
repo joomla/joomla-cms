@@ -13,6 +13,7 @@ namespace Joomla\Component\Users\Administrator\Model;
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\MultiFactor\Captive;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -408,5 +409,44 @@ class CaptiveModel extends BaseDatabaseModel
         }
 
         return $res;
+    }
+
+    /**
+     * Method to check if the mfa method in question has reached it's usage limit
+     *
+     * @param   MfaTable  $method  Mfa method record
+     *
+     * @return  boolean true if user can use the method, false if not
+     *
+     * @since    4.3.2
+     * @throws  \Exception
+     */
+    public function checkTryLimit(MfaTable $method)
+    {
+        $params     = ComponentHelper::getParams('com_users');
+        $jNow       = Date::getInstance();
+        $maxTries   = (int) $params->get('mfatrycount', 10);
+        $blockHours = (int) $params->get('mfatrytime', 1);
+
+        $lastTryTime       = strtotime($method->last_try) ?: 0;
+        $hoursSinceLastTry = (strtotime(Factory::getDate()->toSql()) - $lastTryTime) / 3600;
+
+        if ($method->last_try !== null && $hoursSinceLastTry > $blockHours) {
+            // If it's been long enough, start a new reset count
+            $method->last_try = null;
+            $method->tries    = 0;
+        } elseif ($method->tries < $maxTries) {
+            // If we are under the max count, just increment the counter
+            ++$method->tries;
+            $method->last_try = $jNow->toSql();
+        } else {
+            // At this point, we know we have exceeded the maximum resets for the time period
+            return false;
+        }
+
+        // Store changes to try counter and/or the timestamp
+        $method->store();
+
+        return true;
     }
 }

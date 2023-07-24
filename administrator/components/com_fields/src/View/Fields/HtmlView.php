@@ -190,6 +190,6 @@ class HtmlView extends BaseHtmlView
             $toolbar->preferences($component);
         }
 
-        $toolbar->help('Component:_Fields');
+        $toolbar->help('Fields');
     }
 }
