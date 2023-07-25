@@ -16,6 +16,7 @@ use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Utilities\ArrayHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -168,7 +169,11 @@ trait FormBehaviorTrait
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
-        $dispatcher = Factory::getApplication()->getDispatcher();
+        if ($this instanceof DispatcherAwareInterface) {
+            $dispatcher = $this->getDispatcher();
+        } else {
+            $dispatcher = Factory::getApplication()->getDispatcher();
+        }
 
         // Import the appropriate plugin group.
         PluginHelper::importPlugin($group, null, true, $dispatcher);
