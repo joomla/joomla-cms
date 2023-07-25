@@ -237,7 +237,7 @@ final class Joomla extends CMSPlugin
         if ($extension === 'com_content' && $this->params->get('schema_content', 1)) {
             $this->injectContentSchema($context, $schema);
         } elseif ($extension === 'com_contact' && $this->params->get('schema_contact', 1)) {
-            $this->injectContactSchema($schema);
+            $this->injectContactSchema($context, $schema);
         }
     }
 
@@ -286,7 +286,6 @@ final class Joomla extends CMSPlugin
 
         // Add article data
         if ($view == 'article' && $id > 0) {
-
             $additionalSchema = $cache->get(function ($id) use ($component, $baseId) {
                 $model = $component->createModel('Article', 'Site');
 
@@ -328,7 +327,6 @@ final class Joomla extends CMSPlugin
                 $articleIds = ArrayHelper::getColumn($articles, 'id');
 
                 if (!empty($articleIds)) {
-
                     $db = $this->getDatabase();
 
                     $query = $db->getQuery(true);
@@ -375,20 +373,6 @@ final class Joomla extends CMSPlugin
         }
 
         $schema->set('@graph', $mySchema['@graph']);
-    }
-
-    /**
-     * Inject com_contact schemas if needed
-     *
-     * @param   string    $context  The com_contact context like com_contact.contact.5
-     * @param   Registry  $schema   The overall schema object to manipulate
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    private function injectContactSchema(string $context, Registry $schema)
-    {
     }
 
     /**
@@ -471,6 +455,136 @@ final class Joomla extends CMSPlugin
             $counter['userInteractionCount'] = $article->hits;
 
             $schema['interactionStatistic'] = $counter;
+        }
+
+        return $schema;
+    }
+
+    /**
+     * Inject com_contact schemas if needed
+     *
+     * @param   string    $context  The com_contact context like com_contact.contact.5
+     * @param   Registry  $schema   The overall schema object to manipulate
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function injectContactSchema(string $context, Registry $schema)
+    {
+        $app = $this->getApplication();
+        $db = $this->getDatabase();
+
+        list($extension, $view, $id) = explode('.', $context);
+
+        // Check if there is alrady a schema for the item, then skip it
+        $mySchema = $schema->toArray();
+
+        if (!isset($mySchema['@graph']) || !is_array($mySchema['@graph'])) {
+            return;
+        }
+
+        $baseId = Uri::root() . '#/schema/';
+        $schemaId = $baseId . str_replace('.', '/', $context);
+
+        foreach ($mySchema['@graph'] as $entry) {
+            // Someone added our context already, no need to add automated data
+            if (isset($entry['@id']) && $entry['@id'] == $schemaId) {
+                return;
+            }
+        }
+
+        $additionalSchema = [];
+
+        $component = $this->getApplication()->bootComponent('com_contact')->getMVCFactory();
+
+        $enableCache = $this->params->get('schema_cache', 1);
+
+        $cache = Factory::getContainer()->get(CacheControllerFactory::class)
+            ->createCacheController('Callback', ['lifetime' => $app->get('cachetime'), 'caching' => $enableCache, 'defaultgroup' => 'schemaorg']);
+
+        // Add article data
+        if ($view == 'contact' && $id > 0) {
+            $additionalSchema = $cache->get(function ($id) use ($component, $baseId) {
+                $model = $component->createModel('Contact', 'Site');
+
+                $contact = $model->getItem($id);
+
+                if (empty($contact->id)) {
+                    return;
+                }
+
+                $contactSchema = $this->createContactSchema($contact);
+
+                $contactSchema['isPartOf'] = ['@id' => $baseId . 'WebPage/base'];
+
+                return $contactSchema;
+            }, [$id]);
+        }
+    }
+
+    /**
+     * Returns a finished Person schema type based on a given joomla contact
+     *
+     * @param object $contact  A contact to extract schema data from
+     *
+     * @return array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function createContactSchema(object $contact)
+    {
+        $baseId = Uri::root() . '#/schema/';
+        $schemaId = $baseId . 'com_contact/contact/' . (int) $contact->id;
+
+        $schema = [];
+
+        $schema['@type']       = 'Person';
+        $schema['@id']         = $schemaId;
+        $schema['name']        = $contact->name;
+
+        if ($contact->image && $contact->params->get('show_image')) {
+            $schema['image'] = HTMLHelper::_('cleanImageUrl', $contact->image)->url;
+        }
+
+        if ($contact->con_position && $contact->params->get('show_position')) {
+            $schema['jobTitle'] = $contact->con_position;
+        }
+
+        $schema['address'] = [];
+
+        if ($contact->params->get('show_street_address') && $contact->address) {
+            $schema['address']['streetAddress'] = $contact->address;
+        }
+
+        if ($contact->params->get('show_suburb') && $contact->suburb) {
+            $schema['address']['addressLocality'] = $contact->suburb;
+        }
+
+        if ($contact->params->get('show_state') && $contact->state) {
+            $schema['address']['addressRegion'] = $contact->state;
+        }
+
+        if ($contact->params->get('show_postcode') && $contact->postcode) {
+            $schema['address']['postalCode'] = $contact->postcode;
+        }
+
+        if ($contact->params->get('show_country') && $contact->country) {
+            $schema['address']['addressCountry'] = $contact->country;
+        }
+
+        if ($contact->params->get('show_telephone') && $contact->telephone) {
+            $schema['address']['telephone'] = $contact->telephone;
+        } elseif ($contact->params->get('show_mobile') && $contact->mobile) {
+            $schema['address']['telephone'] = $contact->mobile;
+        }
+
+        if ($contact->params->get('show_fax') && $contact->fax) {
+            $schema['address']['faxNumber'] = $contact->fax;
+        }
+
+        if ($contact->params->get('show_webpage') && $contact->webpage) {
+            $schema['address']['url'] = $contact->webpage;
         }
 
         return $schema;
