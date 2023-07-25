@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="plugin" group="schemaorg" method="upgrade">
 	<name>plg_schemaorg_event</name>
 	<author>Joomla! Project</author>
@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>5.0.0</version>
 	<description>PLG_SCHEMAORG_EVENT_XML_DESCRIPTION</description>
- 	<namespace path="src">Joomla\Plugin\Schemaorg\Event</namespace>
+	<namespace path="src">Joomla\Plugin\Schemaorg\Event</namespace>
 	<files>
 		<folder plugin="event">services</folder>
 		<folder>src</folder>
