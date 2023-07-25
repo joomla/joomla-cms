@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 /**
  * Trait for component schemaorg service.
  *
- * @since  _DEPLOY_VERSION__
+ * @since  5.0.0
  */
 trait SchemaorgServiceTrait
 {
