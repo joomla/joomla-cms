@@ -327,8 +327,6 @@ final class Joomla extends CMSPlugin
                 $articleIds = ArrayHelper::getColumn($articles, 'id');
 
                 if (!empty($articleIds)) {
-                    $query = $db->getQuery(true);
-
                     $aContext = 'com_content.article';
 
                     // Load the schema data from the database
@@ -363,6 +361,8 @@ final class Joomla extends CMSPlugin
                         $additionalSchema['blogPost'][] = $articleSchema;
                     }
                 }
+
+                return $additionalSchema;
             }, [$view, $id]);
         }
 
