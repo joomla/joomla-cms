@@ -7,7 +7,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
- namespace Joomla\CMS\Schemaorg;
+namespace Joomla\CMS\Schemaorg;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
