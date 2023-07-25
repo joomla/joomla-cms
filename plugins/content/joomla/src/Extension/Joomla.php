@@ -254,7 +254,7 @@ final class Joomla extends CMSPlugin
     private function injectContentSchema(string $context, Registry $schema)
     {
         $app = $this->getApplication();
-        $db = $this->getDatabase();
+        $db  = $this->getDatabase();
 
         list($extension, $view, $id) = explode('.', $context);
 
@@ -304,7 +304,7 @@ final class Joomla extends CMSPlugin
                 return $articleSchema;
             }, [$id]);
         } elseif (in_array($view, ['category', 'featured', 'archive'])) {
-            $additionalSchema = $cache->get(function ($view, $id) use ($component, $baseId, $app) {
+            $additionalSchema = $cache->get(function ($view, $id) use ($component, $baseId, $app, $db) {
                 $menu = $app->getMenu()->getActive();
                 $schemaId = $baseId . 'com_content/' . $view . ($view == 'category' ? '/' . $id : '');
 
@@ -327,8 +327,6 @@ final class Joomla extends CMSPlugin
                 $articleIds = ArrayHelper::getColumn($articles, 'id');
 
                 if (!empty($articleIds)) {
-                    $db = $this->getDatabase();
-
                     $query = $db->getQuery(true);
 
                     $aContext = 'com_content.article';
