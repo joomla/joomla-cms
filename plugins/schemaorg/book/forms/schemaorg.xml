@@ -11,7 +11,7 @@
 				showon="schemaType:Book"
 			>
 				<form>
-					
+
 					<field
 						name="@type"
 						type="hidden"
@@ -47,7 +47,7 @@
 						label="PLG_SCHEMAORG_BOOK_FIELD_DATE_PUBLISHED_LABEL"
 						class="input-small"
 						filter="user_utc"
-						showtime="false" 
+						showtime="false"
 						todaybutton="true"
 						format="%Y-%m-%d"
 					/>
@@ -58,7 +58,6 @@
 						label="PLG_SCHEMAORG_BOOK_FIELD_ABRIDGED_LABEL"
 						default="0"
 						>
-
 						<option>None</option>
 						<option name="true">True</option>
 						<option name="false">False</option>
@@ -78,10 +77,8 @@
 						label="PLG_SCHEMAORG_BOOK_FIELD_BOOK_FORMAT_LABEL"
 						default="0"
 						>
-
 						<option>None</option>
 						<option name="AudiobookFormat">PLG_SCHEMAORG_BOOK_FIELD_AUDIOBOOK_LABEL</option>
-
 						<option name="EBook">PLG_SCHEMAORG_BOOK_FIELD_E_BOOK_LABEL</option>
 						<option name="GraphicNovel">PLG_SCHEMAORG_BOOK_FIELD_GRAPHIC_NOVEL</option>
 						<option name="Hardcover">PLG_SCHEMAORG_BOOK_FIELD_HARDCOVER_LABEL</option>
@@ -93,7 +90,6 @@
 						type="subform"
 						label="PLG_SCHEMAORG_BOOK_FIELD_ILLUSTRATOR_LABEL"
 					>
-
 						<form>
 
 							<field
@@ -107,7 +103,6 @@
 								type="text"
 								label="PLG_SCHEMAORG_BOOK_FIELD_NAME_LABEL"
 								filter="string"
-
 							/>
 
 							<field
@@ -116,7 +111,6 @@
 								label="PLG_SCHEMAORG_BOOK_FIELD_URL_LABEL"
 								filter="url"
 								validate="url"
-
 							/>
 
 							<field
@@ -124,7 +118,6 @@
 								type="email"
 								label="PLG_SCHEMAORG_BOOK_FIELD_EMAIL_LABEL"
 								validate="email"
-
 							/>
 
 							<field
@@ -133,7 +126,7 @@
 								label="PLG_SCHEMAORG_BOOK_FIELD_ADDRESS_LABEL"
 							>
 								<form>
-									
+
 									<field
 										name="@type"
 										type="hidden"
@@ -159,7 +152,7 @@
 									/>
 
 								</form>
-								
+
 							</field>
 
 						</form>
@@ -172,7 +165,6 @@
 						label="PLG_SCHEMAORG_BOOK_FIELD_ISBN_LABEL"
 						filter="string"
 						size="30"
-
 					/>
 
 					<field
@@ -194,7 +186,6 @@
 								label="PLG_SCHEMAORG_BOOK_FIELD_GENERIC_TITLE_LABEL"
 								filter="string"
 								size="30"
-
 							/>
 							<field
 								name="genericValue"
@@ -202,12 +193,11 @@
 								label="PLG_SCHEMAORG_BOOK_FIELD_GENERIC_VALUE_LABEL"
 								filter="string"
 								size="30"
-
 							/>
 						</form>
-					
+
 					</field>
-					
+
 				</form>
 			</field>
 		</fieldset>

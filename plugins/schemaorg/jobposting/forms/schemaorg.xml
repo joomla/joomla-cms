@@ -361,7 +361,7 @@
 							>
 
 							<form>
-								
+
 									<field
 										name="@type"
 										type="hidden"
@@ -394,7 +394,7 @@
 										type="list"
 										default="0"
 										label="PLG_SCHEMAORG_JOBPOSTING_FIELD_UNITTEXT_LABEL"
-									>
+										>
 										<option value=""></option>
 										<option value="HOUR">HOUR</option>
 										<option value="DAY">DAY</option>
@@ -431,9 +431,9 @@
 								label="PLG_SCHEMAORG_BOOK_FIELD_GENERIC_VALUE_LABEL"
 							/>
 						</form>
-					
+
 					</field>
-					
+
 				</form>
 			</field>
 		</fieldset>
