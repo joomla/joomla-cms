@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\Event\Content;
 
-use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\ReshapeArgumentsAware;
 
