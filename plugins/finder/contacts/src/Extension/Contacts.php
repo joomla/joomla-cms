@@ -270,6 +270,12 @@ final class Contacts extends Adapter
             $item->title = $title;
         }
 
+        // Add the image.
+        if ($item->image) {
+            $item->imageUrl = $item->image;
+            $item->imageAlt = $item->title ?? '';
+        }
+
         /*
          * Add the metadata processing instructions based on the contact
          * configuration parameters.
@@ -401,7 +407,7 @@ final class Contacts extends Adapter
             ->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')
             ->select('a.suburb AS city, a.state AS region, a.country, a.postcode AS zip')
             ->select('a.telephone, a.fax, a.misc AS summary, a.email_to AS email, a.mobile')
-            ->select('a.webpage, a.access, a.published AS state, a.ordering, a.params, a.catid')
+            ->select('a.image, a.webpage, a.access, a.published AS state, a.ordering, a.params, a.catid')
             ->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
 
         // Handle the alias CASE WHEN portion of the query
