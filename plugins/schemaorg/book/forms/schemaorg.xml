@@ -31,7 +31,6 @@
 						label="PLG_SCHEMAORG_BOOK_FIELD_NAME_LABEL"
 						filter="string"
 						size="30"
-
 					/>
 
 					<field
@@ -40,7 +39,6 @@
 						label="PLG_SCHEMAORG_BOOK_FIELD_AUTHOR_LABEL"
 						filter="string"
 						size="30"
-
 					/>
 
 					<field
@@ -72,7 +70,6 @@
 						label="PLG_SCHEMAORG_BOOK_FIELD_BOOK_EDITION_LABEL"
 						filter="string"
 						size="30"
-
 					/>
 
 					<field
